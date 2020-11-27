@@ -1,5 +1,4 @@
-global class DPicklistCMPwithRTAndMSPCalloutMock implements HttpCalloutMock{
-
+global class DPicklistCMPwithRTAndMSPCalloutMock implements HttpCalloutMock {
     global HttpResponse respond(HttpRequest req) {
         HttpResponse res = new HttpResponse();
         res.setHeader('Content-Type', 'application/json');

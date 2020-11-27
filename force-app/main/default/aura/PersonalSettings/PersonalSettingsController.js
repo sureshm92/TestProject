@@ -1,8 +1,8 @@
 ({
     doInit: function (component, event, helper) {
-        if(!communityService.isInitialized()) return;
+        if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             var mode = communityService.getUserMode();
             component.set('v.isDelegate', communityService.isDelegate());
             var tabId = communityService.getUrlParameter('tab');

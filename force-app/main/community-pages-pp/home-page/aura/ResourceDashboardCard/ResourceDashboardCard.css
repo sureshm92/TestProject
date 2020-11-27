@@ -12,27 +12,36 @@
     margin: 16px;
 }
 
-.THIS .rr-link{
-    color: #297DFD;
+.THIS .rr-link {
+    color: #297dfd;
     padding: 4px 8px;
     align-items: center;
     border-radius: 4px;
-    margin-right:1.2%;
+    margin-right: 1.2%;
 }
 
-.THIS .change-pref{
-    color: #297DFD;
+.THIS .change-pref {
+    color: #297dfd;
     padding: 4px 8px;
     align-items: center;
     border-radius: 4px;
     margin-top: -32px;
     font-weight: 600;
-    float:right;
-    margin-right:7px;
+    float: right;
+    margin-right: 7px;
 }
 
+.THIS .change-prefRTL {
+    color: #297dfd;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    margin-top: -44px;
+    font-weight: 600;
+    float: left;
+}
 
-.THIS.rtl .resource-card-title{
+.THIS.rtl .resource-card-title {
     direction: rtl;
 }
 
@@ -45,7 +54,7 @@
     width: 35px;
     top: 50px;
     right: calc(50% - 20px);
-    opacity: .3;
+    opacity: 0.3;
 }
 
 .THIS .resource-content > .slds-wrap > .slds-col:nth-child(2) .resource-error-message:after {
@@ -57,7 +66,7 @@
     width: 35px;
     top: 50px;
     right: calc(50% - 20px);
-    opacity: .3;
+    opacity: 0.3;
 }
 
 .THIS .resource-footer {
@@ -76,7 +85,6 @@
     position: relative;
     font-size: 1rem;
 }
-
 
 .THIS .resource-footer .cRRLink.rr-link:after {
     content: '';

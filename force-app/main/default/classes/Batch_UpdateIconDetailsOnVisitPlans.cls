@@ -2,9 +2,7 @@
  * Created by Nargiz Mamedova on 4/7/2020.
  */
 
-public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Database.Batchable<SObject>, Database.Stateful,
-        Database.AllowsCallouts {
-
+public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Database.Batchable<SObject>, Database.Stateful, Database.AllowsCallouts {
     public List<String> iconIds;
 
     public Database.QueryLocator start(Database.BatchableContext param1) {
@@ -21,7 +19,9 @@ public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Databas
                 }
             }
         }
-        return Database.getQueryLocator([SELECT Id, Name, (SELECT Name FROM Icons_Details__r) FROM Visit_Plan__c]);
+        return Database.getQueryLocator(
+            [SELECT Id, Name, (SELECT Name FROM Icons_Details__r) FROM Visit_Plan__c]
+        );
     }
 
     public void execute(Database.BatchableContext param1, List<Visit_Plan__c> visitPlans) {
@@ -35,7 +35,9 @@ public with sharing class Batch_UpdateIconDetailsOnVisitPlans implements Databas
 
                 for (String iconD : iconIds) {
                     if (!iconDetailsListForVP.contains(iconD)) {
-                        newIcons.add(new Icon_Details__c(Visit_Plan__c = visitPlan.Id, Name = iconD));
+                        newIcons.add(
+                            new Icon_Details__c(Visit_Plan__c = visitPlan.Id, Name = iconD)
+                        );
                     }
                 }
             }

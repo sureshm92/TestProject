@@ -4,7 +4,6 @@
 
 @IsTest
 public with sharing class Test_PatientDelegateTriggerHandler {
-
     @TestSetup
     static void init() {
         Test.startTest();
@@ -14,7 +13,9 @@ public with sharing class Test_PatientDelegateTriggerHandler {
 
     @IsTest
     public static void testPatientDelegateStatus() {
-        TriggerHandlerExecutor.bypassHandler(TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class
+        );
 
         TestData testData = new TestData();
 
@@ -26,13 +27,27 @@ public with sharing class Test_PatientDelegateTriggerHandler {
         ptDelegateRef.Contact__c = cnt.Id;
         insert ptDelegateRef;
 
-        ptDelegateRef = [SELECT Id, Contact__c, Status__c, Participant__c FROM Patient_Delegate__c WHERE Id = :ptDelegateRef.Id];
-        system.assertEquals(PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS, ptDelegateRef.Status__c);
+        ptDelegateRef = [
+            SELECT Id, Contact__c, Status__c, Participant__c
+            FROM Patient_Delegate__c
+            WHERE Id = :ptDelegateRef.Id
+        ];
+        system.assertEquals(
+            PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS,
+            ptDelegateRef.Status__c
+        );
 
         ptDelegateRef.Status__c = PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS;
         update ptDelegateRef;
 
-        ptDelegateRef = [SELECT Id, Contact__c, Status__c, Participant__c FROM Patient_Delegate__c WHERE Id = :ptDelegateRef.Id];
-        system.assertEquals(PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS, ptDelegateRef.Status__c);
+        ptDelegateRef = [
+            SELECT Id, Contact__c, Status__c, Participant__c
+            FROM Patient_Delegate__c
+            WHERE Id = :ptDelegateRef.Id
+        ];
+        system.assertEquals(
+            PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS,
+            ptDelegateRef.Status__c
+        );
     }
 }

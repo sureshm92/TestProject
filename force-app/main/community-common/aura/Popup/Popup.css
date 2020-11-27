@@ -1,10 +1,14 @@
 .THIS #backdrop {
-    background-color: rgba(0,0,0,0.7);
+    background-color: rgba(0, 0, 0, 0.7);
 }
 
-.THIS #p-modal.transition-show .p-container{
+.THIS #p-modal.transition-show .p-container {
     opacity: 1;
     visibility: visible;
+}
+
+.THIS .btnRTL {
+    right: 87% !important;
 }
 
 .THIS #p-modal .p-container {
@@ -13,20 +17,20 @@
     z-index: 10000;
     top: 50%;
     left: 50%;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
     border-radius: 0 0 4px 4px;
-    border: 1px solid #B5B5B5;
+    border: 1px solid #b5b5b5;
     opacity: 0;
     visibility: hidden;
-    transition: opacity .4s linear;
+    transition: opacity 0.4s linear;
 }
 
 .THIS #p-modal .p-container:before {
     content: '';
     width: 100.1%;
-    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
+    background: linear-gradient(306deg, #0076ae 0%, #250056 100%);
     height: 4px;
     display: block;
 }
@@ -66,8 +70,6 @@
     text-align: left;
 }
 
-
-
 .THIS .p-header h2 {
     font-size: 24px;
     font-weight: 500;
@@ -79,19 +81,19 @@
 }
 
 .THIS .p-header.success {
-    background: #00C221;
+    background: #00c221;
 }
 
 .THIS .p-header.warning {
-    background: #FFE200;
+    background: #ffe200;
     color: #000000;
 }
 
 .THIS .p-header.error {
-    background: #FF0031;
+    background: #ff0031;
 }
 
-.THIS .p-container .p-content{
+.THIS .p-container .p-content {
     max-height: 60vh;
     padding: 30px 16px;
     color: #444;
@@ -117,7 +119,7 @@
 
 .THIS .p-container .p-footer {
     max-height: 20vh;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     border-radius: 0 0 4px 4px;
     text-align: left;
     white-space: initial;
@@ -125,11 +127,11 @@
     overflow: hidden;
 }
 
-.THIS .p-buttons-container .opt-in-popup-button+.opt-in-popup-button {
+.THIS .p-buttons-container .opt-in-popup-button + .opt-in-popup-button {
     margin-left: 10px;
 }
 
-.THIS #p-modal .p-container{
+.THIS #p-modal .p-container {
     width: calc(100% - 30px);
     max-height: 100%;
 }
@@ -155,13 +157,14 @@
     line-height: 1.75;
 }
 
-.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link[tabindex="0"]:focus {
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link[tabindex='0']:focus {
     text-decoration: none;
 }
 
-
 .THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item.slds-is-active::after,
-.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item.slds-is-active:hover::after{
+.THIS.cAction_ParticipantInformation
+    .p-container
+    .slds-tabs_default__item.slds-is-active:hover::after {
     background-color: #297dfd;
     border-radius: 3px;
     bottom: -2px;
@@ -169,7 +172,9 @@
     margin-left: 8%;
 }
 
-.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item:not(.slds-is-active):hover::after {
+.THIS.cAction_ParticipantInformation
+    .p-container
+    .slds-tabs_default__item:not(.slds-is-active):hover::after {
     background-color: #297dfd;
     height: 2px;
     transition: none;
@@ -183,7 +188,7 @@
 
 .THIS.cAction_ParticipantInformation .p-container .p-footer {
     position: absolute;
-    right: .5rem;
+    right: 0.5rem;
     bottom: -3px;
     padding: 15px 15px 15px 24px;
     width: 98%;
@@ -193,8 +198,7 @@
 .THIS.cAction_ParticipantInformation .p-container .p-header + div {
     height: 89%;
 }
-@media screen and (max-width: 768px){
-
+@media screen and (max-width: 768px) {
     .THIS .cPopup .p-container .p-content {
         max-height: 90vh;
     }
@@ -203,18 +207,31 @@
         height: 90vh;
     }
 
-     .THIS.cAction_ParticipantInformation .p-container .p-header {
-		max-height: 30vh;
+    .THIS.cAction_ParticipantInformation .p-container .p-header {
+        max-height: 30vh;
     }
 
-	.THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) {
+    .THIS.cAction_ParticipantInformation
+        .p-container
+        .p-header
+        .invite-patient-container
+        > div:nth-of-type(1) {
         max-width: 65%;
     }
 
-    .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(1) .slds-size--10-of-12 {
+    .THIS.cAction_ParticipantInformation
+        .p-container
+        .p-header
+        .invite-patient-container
+        > div:nth-of-type(1)
+        .slds-size--10-of-12 {
         max-width: 85%;
     }
-     .THIS.cAction_ParticipantInformation .p-container .p-header .invite-patient-container > div:nth-of-type(2) {
+    .THIS.cAction_ParticipantInformation
+        .p-container
+        .p-header
+        .invite-patient-container
+        > div:nth-of-type(2) {
         max-width: 35%;
     }
 
@@ -223,36 +240,36 @@
     }
 }
 
-@media all and (max-width: 767px){
-     .THIS.cAction_ParticipantInformation .p-container .p-header {
-		max-height: 30vh;
+@media all and (max-width: 767px) {
+    .THIS.cAction_ParticipantInformation .p-container .p-header {
+        max-height: 30vh;
     }
 }
-@media all and (min-width: 480px){
+@media all and (min-width: 480px) {
     .THIS #p-modal .p-container.small {
         width: 400px;
     }
 }
 
-@media all and (min-width: 768px){
+@media all and (min-width: 768px) {
     .THIS #p-modal .p-container.medium {
         width: 600px;
     }
 }
 
-@media all and (min-width: 1024px){
+@media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 800px;
     }
 }
 @media all and (max-width: 500px) {
     .THIS #p-modal .p-container {
-     /*   height: 95%; */
+        /*   height: 95%; */
         max-height: 95%;
         top: 50%;
     }
 
-     .THIS.cAction_ParticipantInformation .p-container .p-footer {
+    .THIS.cAction_ParticipantInformation .p-container .p-footer {
         right: 0;
         bottom: 15px;
         padding: 15px;
@@ -260,9 +277,8 @@
         width: 100%;
         border-top: 1px solid #efefef;
     }
-
 }
-@media all and (orientation:landscape){
+@media all and (orientation: landscape) {
     .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
         min-height: auto;
         overflow: hidden;
@@ -273,8 +289,7 @@
     }
 }
 
-
-@media all and (orientation:landscape) and (max-height: 450px) {
+@media all and (orientation: landscape) and (max-height: 450px) {
     .THIS.cAction_ParticipantInformation .p-container .p-footer {
         bottom: 35px;
     }

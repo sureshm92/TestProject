@@ -12,24 +12,32 @@
         var status = component.get('v.status');
         var reason = component.get('v.reason');
         var notes = component.get('v.notes');
-        communityService.executeAction(component, 'updatePE', {
-            pe: JSON.stringify(pe),
-            status: status,
-            reason: reason,
-            notes: notes
-        }, function(returnValue){
-            var res = JSON.parse(returnValue);
-            if(component.get('v.callback')) component.get('v.callback')(res.enrollment, res.steps);
-            
-            $A.get('e.force:refreshView').fire();
-        }, null, function () {
-            helper.cancel(component);
-        });
+        communityService.executeAction(
+            component,
+            'updatePE',
+            {
+                pe: JSON.stringify(pe),
+                status: status,
+                reason: reason,
+                notes: notes
+            },
+            function (returnValue) {
+                var res = JSON.parse(returnValue);
+                if (component.get('v.callback'))
+                    component.get('v.callback')(res.enrollment, res.steps);
+
+                $A.get('e.force:refreshView').fire();
+            },
+            null,
+            function () {
+                helper.cancel(component);
+            }
+        );
     },
 
     cancel: function (component) {
         component.find('selectReferralDeclineReasonDialog').cancel();
-        if(component.get('v.cancelCallback')) component.get('v.cancelCallback')();
+        if (component.get('v.cancelCallback')) component.get('v.cancelCallback')();
         component.find('spinner').hide();
     }
-})
+});

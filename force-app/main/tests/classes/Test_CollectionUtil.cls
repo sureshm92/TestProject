@@ -4,31 +4,36 @@
 
 @IsTest
 public with sharing class Test_CollectionUtil {
-
     @TestSetup
     static void testSetup() {
         List<Contact> contacts = new List<Contact>();
-        contacts.add (new Contact(
+        contacts.add(
+            new Contact(
                 FirstName = 'Contact 1',
                 LastName = 'Contact 1',
                 AssistantName = 'Assistant 1',
                 Trials_in_Last_12_Months__c = 10,
                 Birthdate = Date.today().addDays(1).addYears(-50)
-        ));
-        contacts.add (new Contact(
+            )
+        );
+        contacts.add(
+            new Contact(
                 FirstName = 'Contact 3',
                 LastName = 'Contact 3',
                 AssistantName = 'Assistant 3',
                 Trials_in_Last_12_Months__c = 30,
                 Birthdate = Date.today().addDays(3).addYears(-50)
-        ));
-        contacts.add (new Contact(
+            )
+        );
+        contacts.add(
+            new Contact(
                 FirstName = 'Contact 2',
                 LastName = 'Contact 2',
                 AssistantName = 'Assistant 2',
                 Trials_in_Last_12_Months__c = 20,
                 Birthdate = Date.today().addDays(2).addYears(-50)
-        ));
+            )
+        );
         insert contacts;
     }
 
@@ -40,10 +45,7 @@ public with sharing class Test_CollectionUtil {
 
     @IsTest
     static void getObjectIdsTest() {
-        List<Contact> contacts = [
-                SELECT Id
-                FROM Contact
-        ];
+        List<Contact> contacts = [SELECT Id FROM Contact];
 
         List<Id> sobjectsIds = CollectionUtil.getObjectIds(contacts);
         System.assertEquals(sobjectsIds.size(), contacts.size());
@@ -51,23 +53,19 @@ public with sharing class Test_CollectionUtil {
 
     @IsTest
     static void getSObjectMapTest() {
-        List<Contact> contacts = [
-                SELECT Id
-                FROM Contact
-        ];
-        Map<String, SObject> mapAccountIds = (Map<String, SObject>) CollectionUtil.getSObjectMap(contacts, 'Id');
+        List<Contact> contacts = [SELECT Id FROM Contact];
+        Map<String, SObject> mapAccountIds = (Map<String, SObject>) CollectionUtil.getSObjectMap(
+            contacts,
+            'Id'
+        );
         System.assertEquals(mapAccountIds.keySet().size(), contacts.size());
     }
 
     @IsTest
     static void sortByFieldTest() {
         List<Contact> contacts = [
-                SELECT Id,
-                        FirstName,
-                        Trials_in_Last_12_Months__c,
-                        Birthdate,
-                        AssistantName
-                FROM Contact
+            SELECT Id, FirstName, Trials_in_Last_12_Months__c, Birthdate, AssistantName
+            FROM Contact
         ];
 
         CollectionUtil.sortByField(contacts, 'Trials_in_Last_12_Months__c', true);
@@ -75,5 +73,4 @@ public with sharing class Test_CollectionUtil {
         CollectionUtil.sortByField(contacts, 'Birthdate', true);
         System.assertEquals('Contact 1', contacts.get(2).FirstName);
     }
-
 }

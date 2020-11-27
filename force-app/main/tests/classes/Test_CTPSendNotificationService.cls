@@ -5,5 +5,6 @@
 @IsTest(IsParallel=true)
 private class Test_CTPSendNotificationService {
     @IsTest
-    static void runWorkflow_test() {}
+    static void runWorkflow_test() {
+    }
 }

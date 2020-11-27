@@ -2,48 +2,63 @@
  * Created by Leonid Bartenev
  */
 ({
-    doSearchEnrollment: function(component, event, helper){
+    doSearchEnrollment: function (component, event, helper) {
         component.find('mainSpinner').show();
         var searchData = component.get('v.searchData');
-        if(component.get('v.hcpeId')) {
-            communityService.executeAction(component, 'createParticipantEnrollmentHcpe', {
-                trialId: component.get('v.trialId'),
-                hcpeId: component.get('v.hcpeId'),
-                participantId: searchData.participantId,
-                firstName: searchData.firstName,
-                lastName: searchData.lastName,
-                delegateId: communityService.getDelegateId()
-            }, function (returnValue) {
-                var searchResult = JSON.parse(returnValue);
-                component.set("v.searchResult", searchResult);
-                if (searchResult.result === 'New' && searchResult.pe.Medical_Record_Review_Status__c === 'Not Required') {
-                    searchResult.result = 'Start Pre-Screening';
-                    component.set('v.mrrResult', 'Start Pre-Screening');
+        if (component.get('v.hcpeId')) {
+            communityService.executeAction(
+                component,
+                'createParticipantEnrollmentHcpe',
+                {
+                    trialId: component.get('v.trialId'),
+                    hcpeId: component.get('v.hcpeId'),
+                    participantId: searchData.participantId,
+                    firstName: searchData.firstName,
+                    lastName: searchData.lastName,
+                    delegateId: communityService.getDelegateId()
+                },
+                function (returnValue) {
+                    var searchResult = JSON.parse(returnValue);
+                    component.set('v.searchResult', searchResult);
+                    if (
+                        searchResult.result === 'New' &&
+                        searchResult.pe.Medical_Record_Review_Status__c === 'Not Required'
+                    ) {
+                        searchResult.result = 'Start Pre-Screening';
+                        component.set('v.mrrResult', 'Start Pre-Screening');
+                    }
+                    if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending')
+                        component.set('v.showSpinner', false);
+                    helper.addEventListener(component, helper);
                 }
-                if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending') component.set('v.showSpinner', false);
-                helper.addEventListener(component, helper);
-
-            });
+            );
         } else {
-            communityService.executeAction(component, 'createParticipantEnrollment', {
-                trialId: component.get('v.trialId'),
-                participantId: searchData.participantId,
-                firstName: searchData.firstName,
-                lastName: searchData.lastName,
-                delegateId: communityService.getDelegateId()
-            }, function (returnValue) {
-                var searchResult = JSON.parse(returnValue);
-                component.set("v.searchResult", searchResult);
-                if (searchResult.result === 'New' && searchResult.pe.Medical_Record_Review_Status__c === 'Not Required') {
-                    searchResult.result = 'Start Pre-Screening';
-                    component.set('v.mrrResult', 'Start Pre-Screening');
+            communityService.executeAction(
+                component,
+                'createParticipantEnrollment',
+                {
+                    trialId: component.get('v.trialId'),
+                    participantId: searchData.participantId,
+                    firstName: searchData.firstName,
+                    lastName: searchData.lastName,
+                    delegateId: communityService.getDelegateId()
+                },
+                function (returnValue) {
+                    var searchResult = JSON.parse(returnValue);
+                    component.set('v.searchResult', searchResult);
+                    if (
+                        searchResult.result === 'New' &&
+                        searchResult.pe.Medical_Record_Review_Status__c === 'Not Required'
+                    ) {
+                        searchResult.result = 'Start Pre-Screening';
+                        component.set('v.mrrResult', 'Start Pre-Screening');
+                    }
+                    if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending')
+                        component.set('v.showSpinner', false);
+                    helper.addEventListener(component, helper);
                 }
-                if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending') component.set('v.showSpinner', false);
-                helper.addEventListener(component, helper);
-
-            });
+            );
         }
-
     },
 
     doFrameLoaded: function (component, event, helper) {
@@ -53,20 +68,24 @@
     doClearForm: function (component) {
         component.set('v.searchResult', undefined);
         component.set('v.searchData', {
-            participantId : ''
+            participantId: ''
         });
         component.set('v.mrrResult', 'Pending');
     },
 
     doReferPatient: function (component) {
-        communityService.navigateToPage('referring?id=' + component.get('v.trialId') + '&peid=' + component.get('v.searchResult').pe.Id);
+        communityService.navigateToPage(
+            'referring?id=' +
+                component.get('v.trialId') +
+                '&peid=' +
+                component.get('v.searchResult').pe.Id
+        );
     },
 
     doCheckPatientId: function (component) {
         var patientId = component.get('v.searchData').participantId;
         var isEmptyId = true;
-        if(patientId && patientId.trim().length > 0 ) isEmptyId = false;
+        if (patientId && patientId.trim().length > 0) isEmptyId = false;
         component.set('v.isEmptiId', isEmptyId);
     }
-
-})
+});

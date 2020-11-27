@@ -4,7 +4,6 @@
 
 @IsTest
 private class Test_EmailTemplateDelegatePartController {
-
     @TestSetup
     static void setup() {
         Test.startTest();
@@ -21,15 +20,23 @@ private class Test_EmailTemplateDelegatePartController {
         Test.startTest();
         Id delegateContactId = [SELECT ContactId FROM User WHERE Id = :delegate.Id].ContactId;
         Patient_Delegate__c patientDelegate = [
-                SELECT Id, Participant__c, Contact__c
-                FROM Patient_Delegate__c
-                WHERE Contact__c = :delegateContactId
+            SELECT Id, Participant__c, Contact__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :delegateContactId
         ];
         patientDelegate.Status__c = 'Active';
         update patientDelegate;
 
-        EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'Default', delegate.Id, '','');
+        EmailTemplateProviderService.setProviderType(
+            '',
+            delegate.Id,
+            delegate.Name,
+            'en_US',
+            'Default',
+            delegate.Id,
+            '',
+            ''
+        );
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         controller.getBottomText();
         Test.stopTest();
@@ -46,15 +53,23 @@ private class Test_EmailTemplateDelegatePartController {
         Test.startTest();
         Id delegateContactId = [SELECT ContactId FROM User WHERE Id = :delegate.Id].ContactId;
         Patient_Delegate__c patientDelegate = [
-                SELECT Id, Participant__c, Contact__c
-                FROM Patient_Delegate__c
-                WHERE Contact__c = :delegateContactId
+            SELECT Id, Participant__c, Contact__c
+            FROM Patient_Delegate__c
+            WHERE Contact__c = :delegateContactId
         ];
         patientDelegate.Status__c = 'Active';
         update patientDelegate;
 
-        EmailTemplateProviderService.setProviderType('', delegate.Id, delegate.Name,
-                'en_US', 'Default', delegate.Id, 'HTML','');
+        EmailTemplateProviderService.setProviderType(
+            '',
+            delegate.Id,
+            delegate.Name,
+            'en_US',
+            'Default',
+            delegate.Id,
+            'HTML',
+            ''
+        );
         EmailTemplateDelegatePartController controller = new EmailTemplateDelegatePartController();
         controller.sourceIdValue = td.pe.Id;
         Test.stopTest();

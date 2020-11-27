@@ -2,17 +2,16 @@
   - Created by Dmytro Pokutnii
   -->
 <aura:component description="VisitResultsItem">
-
     <!-- ATTRIBUTES -->
-    <aura:attribute name="displayedValue" type="String"/>
-    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper"/>
-    <aura:attribute name="visitResultType" type="String" default="Vitals"/>
+    <aura:attribute name="displayedValue" type="String" />
+    <aura:attribute name="wrapper" type="VisitResultsService.VisitResultWrapper" />
+    <aura:attribute name="visitResultType" type="String" default="Vitals" />
 
-    <aura:attribute name="expectedRange" type="String" default="-" access="private"/>
-    <aura:attribute name="showExpectedRange" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="expectedRange" type="String" default="-" access="private" />
+    <aura:attribute name="showExpectedRange" type="Boolean" default="true" access="private" />
 
     <!-- HANDLERS -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
     <!-- COMPONENT BODY -->
     <div class="visit-result-item-panel">
@@ -20,15 +19,22 @@
             <div class="visit-result-name-container">
                 <div class="visit-result-name">{!v.wrapper.name}</div>
                 <div>
-                    <lightning:helptext content="{!v.wrapper.description}" class="visit-result-item-description"/>
+                    <lightning:helptext
+                        content="{!v.wrapper.description}"
+                        class="visit-result-item-description"
+                    />
                 </div>
             </div>
             <div class="{!v.showExpectedRange ? 'visit-result-expected' : 'hidden'}">
                 {!$Label.c.Visit_Results_Tab_Expected_Range + ': ' + v.expectedRange}
             </div>
             <div class="visit-result-slider">
-                <c:RRTrack showPercentage="{!and(v.visitResultType != 'Biomarkers', v.showExpectedRange)}"
-                           wrapper="{!v.wrapper}" value="{!v.displayedValue}" />
+                <c:RRTrack
+                    showPercentage="{!and(v.visitResultType != 'Biomarkers', v.showExpectedRange)}"
+                    wrapper="{!v.wrapper}"
+                    value="{!v.displayedValue}"
+                    resultType="{!v.visitResultType}"
+                />
             </div>
         </div>
     </div>

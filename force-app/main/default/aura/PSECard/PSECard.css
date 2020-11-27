@@ -7,50 +7,61 @@
     border-bottom: none;
 }
 
-.THIS .vpi-path-panel{
+.THIS .vpi-path-panel {
     background-color: #f8f9fb;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
 }
 
-.THIS .vpi-path-panel .collapse-section.opened{
+.THIS .vpi-path-panel .collapse-section.opened {
     background-color: white;
 }
 
-.THIS .vpi-status-btns button{
+.THIS .vpi-status-btns button {
     margin-top: 15px;
 }
 
-
 @media all and (min-width: 1024px) {
-    .THIS .vri-state-label{
+    .THIS .vri-state-label {
         display: block;
     }
-    .THIS .width-basis{
+    .THIS .width-basis {
         flex-basis: 0;
     }
 
-    .THIS .state-ico-wrapper{
+    .THIS .state-ico-wrapper {
         width: 28px;
         height: 28px;
         top: -15px;
         left: -14px;
     }
 
-    .THIS .state-ico-wrapper .rr-icon-default{
+    .THIS .state-ico-wrapper .rr-icon-default {
+        width: 18px;
+        height: 20px;
+    }
+    .THIS .state-ico-wrapperRTL .rr-icon-default {
         width: 18px;
         height: 20px;
     }
 
-    .THIS .state.missed .state-ico-wrapper .rr-icon-default{
+    .THIS .state.missed .state-ico-wrapper .rr-icon-default {
+        width: 24px;
+        padding: 1px;
+    }
+    .THIS .state.missed .state-ico-wrapperRTL .rr-icon-default {
         width: 24px;
         padding: 1px;
     }
 }
 
 @media screen and (max-width: 500px) {
-        
     .THIS.rr-white-panel {
         padding: 1rem;
+    }
+
+    .THIS .vpi-title {
+        width: 50%;
+        line-height: 1.25;
     }
 }

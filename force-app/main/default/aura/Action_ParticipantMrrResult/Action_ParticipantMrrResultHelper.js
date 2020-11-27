@@ -1,19 +1,25 @@
 ({
     updateMRRStatus: function (component, status, gizmoData) {
         var pe = component.get('v.pe');
-        communityService.executeAction(component, 'setMRRStatus', {
-            peJSON: JSON.stringify(pe),
-            status: status,
-            surveyGizmoData: gizmoData
-        }, function (returnValue) {
-            component.set("v.mrrResult", status);
-            //component.find('dialog').scrollTop();
-            component.get('v.callback')(pe);
-            ;
-        }, null, function () {
-            communityService.logErrorFromResponse(response);
-            communityService.showErrorToastFromResponse(response);
-        });
+        communityService.executeAction(
+            component,
+            'setMRRStatus',
+            {
+                peJSON: JSON.stringify(pe),
+                status: status,
+                surveyGizmoData: gizmoData
+            },
+            function (returnValue) {
+                component.set('v.mrrResult', status);
+                //component.find('dialog').scrollTop();
+                component.get('v.callback')(pe);
+            },
+            null,
+            function () {
+                communityService.logErrorFromResponse(response);
+                communityService.showErrorToastFromResponse(response);
+            }
+        );
     },
 
     addEventListener: function (component, helper) {
@@ -31,7 +37,7 @@
                             helper.updateMRRStatus(component, 'Fail', gizmoData);
                         }
                     } else if (e.data.messageType === 'SurveyGizmoHeight') {
-                        component.set('v.frameHeight', (e.data.value + 30) + 'px');
+                        component.set('v.frameHeight', e.data.value + 30 + 'px');
                     }
                 }
             });

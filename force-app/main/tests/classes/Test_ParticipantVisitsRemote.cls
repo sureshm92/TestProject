@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_ParticipantVisitsRemote {
-
     @TestSetup
     static void setup() {
         TestData.loadTestData();
@@ -15,11 +14,11 @@ private class Test_ParticipantVisitsRemote {
         vp = [SELECT Id FROM Visit_Plan__c];
 
         Visit__c visit = new Visit__c(
-                Name = 'TestVisit' + 1,
-                Visit_Schedule__c = 'Week ' + 1,
-                Icons__c = 'Test_icon',
-                Order__c = 1,
-                Visit_Plan__c = vp.Id
+            Name = 'TestVisit' + 1,
+            Visit_Schedule__c = 'Week ' + 1,
+            Icons__c = 'Test_icon',
+            Order__c = 1,
+            Visit_Plan__c = vp.Id
         );
         insert visit;
 
@@ -30,10 +29,18 @@ private class Test_ParticipantVisitsRemote {
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update testData.pe;
 
-        Patient_Visit__c patientVisit = PatientVisitService.createPatientVisit(visit, testData.pe.Id);
+        Patient_Visit__c patientVisit = PatientVisitService.createPatientVisit(
+            visit,
+            testData.pe.Id
+        );
         insert patientVisit;
 
-        Icon_Details__c icon = new Icon_Details__c(Name = 'ICON', Label__c = 'icon label', Description__c = 'This is icon!', Visit_Plan__c = vp.Id);
+        Icon_Details__c icon = new Icon_Details__c(
+            Name = 'ICON',
+            Label__c = 'icon label',
+            Description__c = 'This is icon!',
+            Visit_Plan__c = vp.Id
+        );
         insert icon;
     }
 
@@ -42,13 +49,21 @@ private class Test_ParticipantVisitsRemote {
         TestData testData = new TestData();
 
         Test.startTest();
+        Boolean ssHasVisit;
+        List<PatientVisitService.VisitWrapper> visitsPreview;
+        List<PatientVisitService.VisitWrapper> participantVisits;
+        List<Patient_Visit__c> cardPatientVisits;
         System.runAs(testData.participantUser) {
-            ParticipantVisitsRemote.isStudySiteHasVisits();
-            ParticipantVisitsRemote.getVisitsPreview();
-            ParticipantVisitsRemote.getParticipantVisits('Current');
-            ParticipantVisitsRemote.getCardPatientVisits();
+            ssHasVisit = ParticipantVisitsRemote.isStudySiteHasVisits();
+            visitsPreview = ParticipantVisitsRemote.getVisitsPreview();
+            participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+            cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
+        System.assert(ssHasVisit);
+        System.assertEquals('Pending', visitsPreview[0].visitStatus);
+        System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
+        System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
     }
 
     @IsTest
@@ -57,11 +72,14 @@ private class Test_ParticipantVisitsRemote {
 
         Test.startTest();
         Patient_Visit__c patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
+        Date newPlannedDate = Date.newInstance(2020, 3, 17);
         System.runAs(testData.participantUser) {
-            patientVisit.Planned_Date__c = Date.newInstance(2020, 3, 17);
+            patientVisit.Planned_Date__c = newPlannedDate;
             ParticipantVisitsRemote.updatePatientVisit(JSON.serialize(patientVisit));
         }
         Test.stopTest();
+        patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
+        System.assertEquals(newPlannedDate, patientVisit.Planned_Date__c);
     }
 
     @IsTest
@@ -74,7 +92,10 @@ private class Test_ParticipantVisitsRemote {
             legend = ParticipantVisitsRemote.getVisitsLegend('ICON');
         }
         Test.stopTest();
-        System.assertEquals('[{"iconLegend":"This is icon!","iconLabel":"icon label","iconId":"ICON"}]', legend);
+        System.assertEquals(
+            '[{"iconLegend":"This is icon!","iconLabel":"icon label","iconId":"ICON"}]',
+            legend
+        );
     }
 
     @IsTest

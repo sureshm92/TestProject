@@ -6,9 +6,9 @@ public class Test_NoteSection {
             Name = 'Study Site Account',
             BillingCountry = 'United States'
         );
-        
+
         insert studySiteAccount;
-        
+
         Contact piContact = new Contact(
             FirstName = 'PITD',
             LastName = 'PITD',
@@ -17,7 +17,7 @@ public class Test_NoteSection {
             AccountId = studySiteAccount.Id
         );
         insert piContact;
-       
+
         Clinical_Trial_Profile__c testStudy = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -28,7 +28,7 @@ public class Test_NoteSection {
             Suppress_Participant_Emails__c = false
         );
         insert testStudy;
-        
+
         Study_Site__c studySite = new Study_Site__c(
             Name = 'Test',
             Principal_Investigator__c = piContact.Id,
@@ -64,10 +64,12 @@ public class Test_NoteSection {
         Test.startTest();
         try {
             GetNotes.UpdateNotes(MO_inprogress.ID, MediaoutreachNotes);
-        } catch (exception e) {}
+        } catch (exception e) {
+        }
         try {
             GetNotes.getNotesdata(MO_inprogress.ID);
-        } catch (exception e) {}
+        } catch (exception e) {
+        }
         Test.stopTest();
     }
 }

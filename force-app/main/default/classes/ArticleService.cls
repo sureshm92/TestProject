@@ -9,68 +9,116 @@ public with sharing class ArticleService {
 
     public void calculateExpirationDate(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
-            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
+            if (
+                ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(
+                    resource.Content_Class__c
+                )
+            ) {
                 this.calculateExpirationDate(resource);
             }
         }
     }
 
-    public void calculateExpirationDate(List<Resource__c> resourcesNew, Map<Id, Resource__c> oldResMap) {
+    public void calculateExpirationDate(
+        List<Resource__c> resourcesNew,
+        Map<Id, Resource__c> oldResMap
+    ) {
         for (Resource__c resource : resourcesNew) {
-            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)) {
+            if (
+                ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(
+                    resource.Content_Class__c
+                )
+            ) {
                 this.calculateExpirationDate(resource, oldResMap.get(resource.Id));
             }
         }
     }
 
     public void assignTherapeuticAreas(List<Resource__c> resources) {
-
-        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
-        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
+        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(
+            TherapeuticAreaService.class
+        );
+        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(
+            TherapeuticAreaAssignmentService.class
+        );
         Set<String> tANames = new Set<String>();
         List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : resources) {
             if (String.isNotBlank(singleResource.Content_Class__c)) {
-                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                if (
+                    ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(
+                        singleResource.Content_Class__c
+                    )
+                ) {
                     tANames.addAll(tAService.getTANamesOnResource(singleResource));
                     resourcesToProcess.add(singleResource);
                 }
             }
         }
         if (!tANames.isEmpty()) {
-            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+            List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(
+                tANames,
+                true
+            );
             tAAService.createTAAsForResources(therapeuticAreas, resourcesToProcess);
         }
     }
 
-    public void assignTherapeuticAreas(List<Resource__c> newResources, Map<Id, Resource__c> oldResourcesByIds) {
-
-        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(TherapeuticAreaService.class);
-        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(TherapeuticAreaAssignmentService.class);
+    public void assignTherapeuticAreas(
+        List<Resource__c> newResources,
+        Map<Id, Resource__c> oldResourcesByIds
+    ) {
+        TherapeuticAreaService tAService = (TherapeuticAreaService) ClassFactory.newInstance(
+            TherapeuticAreaService.class
+        );
+        TherapeuticAreaAssignmentService tAAService = (TherapeuticAreaAssignmentService) ClassFactory.newInstance(
+            TherapeuticAreaAssignmentService.class
+        );
         Set<String> tANames = new Set<String>();
         List<Resource__c> resourcesToProcess = new List<Resource__c>();
         for (Resource__c singleResource : newResources) {
             if (String.isNotBlank(singleResource.Content_Class__c)) {
-                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(singleResource.Content_Class__c)) {
+                if (
+                    ResourceService.RESOURCE_SOURCE_THIRD_PARTY.containsIgnoreCase(
+                        singleResource.Content_Class__c
+                    )
+                ) {
                     tANames.addAll(tAService.getTANamesOnResource(singleResource));
                     resourcesToProcess.add(singleResource);
                 }
             }
         }
-        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(tANames, true);
+        List<Therapeutic_Area__c> therapeuticAreas = tAService.getThirdPartyCOIsByNames(
+            tANames,
+            true
+        );
         tAAService.createDeleteTAAs(resourcesToProcess, oldResourcesByIds, therapeuticAreas);
     }
 
     public void addDefaultImage(List<Resource__c> resources) {
         for (Resource__c resource : resources) {
             if (String.isBlank(resource.Image__c)) {
-                if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
-                        && !ResourceService.X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(resource.X3rd_Party_Source__c) &&
-                        !String.isBlank(resource.X3rd_Party_Source__c)) {
-                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_HEALTH_DAY)) {
+                if (
+                    ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(
+                        resource.Content_Class__c
+                    ) &&
+                    !ResourceService.X3_RD_PARTY_NOT_SOURCE.equalsIgnoreCase(
+                        resource.X3rd_Party_Source__c
+                    ) &&
+                    !String.isBlank(resource.X3rd_Party_Source__c)
+                ) {
+                    if (
+                        resource.X3rd_Party_Source__c.equalsIgnoreCase(
+                            ResourceService.X_3PARTY_HEALTH_DAY
+                        )
+                    ) {
                         resource.Image__c = this.getStaticUrlImage(HEALTH_DAY_NAME_LOGO);
                     }
-                    if (resource.X3rd_Party_Source__c.equalsIgnoreCase(ResourceService.X_3PARTY_IQVIA)) {
+                    if (
+                        resource.X3rd_Party_Source__c.equalsIgnoreCase(
+                            ResourceService.X_3PARTY_IQVIA
+                        )
+                    ) {
                         resource.Image__c = this.getStaticUrlImage(IQVIA_NAME_LOGO);
                     }
                 }
@@ -85,7 +133,6 @@ public with sharing class ArticleService {
                     resource.Updated_Date__c = null;
                 }
             }
-
         }
     }
 
@@ -97,18 +144,17 @@ public with sharing class ArticleService {
         }
     }
     public void syncContentType(List<Resource__c> resources) {
-
         for (Resource__c resource : resources) {
             if (!String.isBlank(resource.Content_Type__c)) {
                 Id recordtypeId = SchemaUtil.getRecordTypeIdByName(
-                        resource.Content_Type__c,
-                        Resource__c.getSObjectType()
+                    resource.Content_Type__c,
+                    Resource__c.getSObjectType()
                 );
                 resource.RecordTypeId = recordtypeId;
             } else {
                 String recordTypeName = SchemaUtil.getRecordTypeDeveloperNameById(
-                        resource.RecordTypeId
-                        , resource.getSObjectType()
+                    resource.RecordTypeId,
+                    resource.getSObjectType()
                 );
                 resource.Content_Type__c = recordTypeName;
             }
@@ -127,10 +173,19 @@ public with sharing class ArticleService {
     public void getUrlVideoFromBody(List<Resource__c> resources) {
         String regex = this.getRegex(REGEX_PARSE_IFRAME);
         for (Resource__c resource : resources) {
-            if (ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(resource.Content_Class__c)
-                    && (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) || SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_TYPE_VIDEO, Resource__c.getSObjectType()).equals((resource.RecordTypeId)))
-                    && String.isNotBlank(resource.Body__c)
-                    && resource.Body__c.indexOf('<iframe') > -1) {
+            if (
+                ResourceService.RESOURCE_SOURCE_THIRD_PARTY.equalsIgnoreCase(
+                    resource.Content_Class__c
+                ) &&
+                (ResourceService.RESOURCE_TYPE_VIDEO.equalsIgnoreCase(resource.Content_Type__c) ||
+                SchemaUtil.getRecordTypeIdByName(
+                        ResourceService.RESOURCE_TYPE_VIDEO,
+                        Resource__c.getSObjectType()
+                    )
+                    .equals((resource.RecordTypeId))) &&
+                String.isNotBlank(resource.Body__c) &&
+                resource.Body__c.indexOf('<iframe') > -1
+            ) {
                 this.parseBody(resource, regex);
             }
         }
@@ -154,25 +209,25 @@ public with sharing class ArticleService {
     }
 
     private String getRegex(String regName) {
-        return [
-                SELECT Id,
-                        Regular_Expression__c
-                FROM Regex__mdt
-                WHERE Label = :regName
-        ][0].Regular_Expression__c;
+        return [SELECT Id, Regular_Expression__c FROM Regex__mdt WHERE Label = :regName][0]
+        .Regular_Expression__c;
     }
 
     private String getStaticUrlImage(String imageName) {
         List<StaticResource> resourceList = [
-                SELECT Name,
-                        NamespacePrefix,
-                        SystemModstamp
-                FROM StaticResource
-                WHERE Name = :PH_FOLDER_LOGO
+            SELECT Name, NamespacePrefix, SystemModstamp
+            FROM StaticResource
+            WHERE Name = :PH_FOLDER_LOGO
         ];
         if (resourceList.size() == 1) {
             String namespace = resourceList[0].NamespacePrefix;
-            return '/resource/' + resourceList[0].SystemModstamp.getTime() + '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + PH_FOLDER_LOGO + '/' + imageName;
+            return '/resource/' +
+                resourceList[0].SystemModstamp.getTime() +
+                '/' +
+                (namespace != null && namespace != '' ? namespace + '__' : '') +
+                PH_FOLDER_LOGO +
+                '/' +
+                imageName;
         } else {
             return '';
         }
@@ -193,8 +248,10 @@ public with sharing class ArticleService {
     }
 
     private void calculateExpirationDate(Resource__c newResource, Resource__c oldResource) {
-        if (newResource.Posting_Date__c != oldResource.Posting_Date__c
-                || newResource.Expiration_Date__c != oldResource.Expiration_Date__c) {
+        if (
+            newResource.Posting_Date__c != oldResource.Posting_Date__c ||
+            newResource.Expiration_Date__c != oldResource.Expiration_Date__c
+        ) {
             this.calculateExpirationDate(newResource);
         }
     }

@@ -1,44 +1,51 @@
 <!--
  - Created by Sumit Surve.
+ - Modified by Sabir on 20-oct-20. 
  -->
 
 <aura:component description="DB_LeaderboardSelectedSSDetails" controller="DashboardRemoteNew">
-
     <!-- attributes:-->
-    <aura:attribute name="pe" type="Object" description="Participant enrollment item"/>
-    <aura:attribute name="userMode" type="String"/>
-    <aura:attribute name="dashboardTitle" type="String"/>
-    <aura:attribute name="parent" type="Aura.Component"/>
-    <aura:attribute name="currentPi" type="String"/>
-    <aura:attribute name="currentStudy" type="String"/>
-    <aura:attribute name="piData" type="Object"/>
-    <aura:attribute name="totalSSCount" type="Integer"/>
-    <aura:attribute name="childLoad" type="String"/> 
-    <aura:attribute name="siteRankWrapper" type="list"/> 
-    <aura:attribute name="recordChanged" type="String" default="" access="public"/>	
-    
-    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doinit}"/>
-    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doinit}"/>
-    
+    <aura:attribute name="pe" type="Object" description="Participant enrollment item" />
+    <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="dashboardTitle" type="String" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="currentPi" type="String" />
+    <aura:attribute name="currentStudy" type="String" />
+    <aura:attribute name="piData" type="Object" />
+    <aura:attribute name="totalSSCount" type="Integer" />
+    <aura:attribute name="childLoad" type="String" />
+    <aura:attribute name="siteRankWrapper" type="object" />
+    <aura:attribute name="recordChanged" type="String" default="" access="public" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+
+    <!-- handler -->
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
+
     <!-- component body -->
     <div class="rr-white-panel">
-        <div class="slds-clearfix ">
+        <div class="slds-clearfix">
             <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title">
                 {!v.dashboardTitle}
-            </span>   
+            </span>
+            <!--aura:if isTrue="{!v.show}"-->
             <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount">
                 {!$Label.c.Dashboard_Total_Sites}: {!v.totalSSCount}
             </span>
+            <!--/aura:if-->
         </div>
-
+        <div class="exampleHolder" style="position: relative; padding: 0%; z-index: 1">
+            <aura:if isTrue="{! v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
         <div class="slds-p-top_small slds-p-left_medium slds-p-right_medium">
             <div class="slds-float_left">
-                <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}"/>
+                <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}" />
             </div>
             <div class="slds-float_right">
                 <c:DB_LeaderboardSSRankDisplay pIStudySiteRank="{!v.siteRankWrapper}" />
             </div>
         </div>
     </div>
-
 </aura:component>

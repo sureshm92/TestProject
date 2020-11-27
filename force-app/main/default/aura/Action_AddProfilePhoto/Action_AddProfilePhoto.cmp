@@ -10,54 +10,100 @@
   1.0    6/1/2020   ChangeMeIn@UserSettingsUnder.SFDoc     Initial Version
 -->
 
-<aura:component controller="ProfilePictureController"
-                implements="flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes">
-    
+<aura:component
+    controller="ProfilePictureController"
+    implements="flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+>
     <!-- Id of the Record the page hosting this component is showing -->
-    <aura:attribute name="recordId" type="Id"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
+    <aura:attribute name="recordId" type="Id" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+    <aura:attribute name="toggleButton" type="Boolean" default="false" />
+
     <aura:attribute name="username" type="String" />
-    <aura:attribute name="pictureSrc" type="String"/>
-    <aura:attribute name="isDelegate" type="Boolean" default="false"/>
-    <aura:attribute name="hasProfilePic" type="Boolean"/>
+    <aura:attribute name="pictureSrc" type="String" />
+    <aura:attribute name="isDelegate" type="Boolean" default="false" />
+    <aura:attribute name="hasProfilePic" type="Boolean" />
+    <aura:attribute name="isRTLLanguage" type="Boolean" default="false" />
 
-    <aura:attribute name="message" type="String" default="Drag profile picture here"/>
-    
+    <aura:attribute name="message" type="String" default="Drag profile picture here" />
+
     <aura:handler name="init" value="{!this}" action="{!c.onInit}" />
-    
-    <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
-    <aura:registerEvent name="appEvent" type="c:RefreshProfile"/>
 
-    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true"/>
-    
+    <aura:handler name="change" value="{!v.pictureSrc}" action="{!c.onInit}" />
+    <aura:registerEvent name="appEvent" type="c:RefreshProfile" />
+
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
+
     <div class="slds-grid">
         <div class="{!if(v.hasProfilePic,'noAvatar-icon','avatar-icon')}">
             <aura:if isTrue="{!v.hasProfilePic}">
                 <!--<img src="{!v.pictureSrc}"  class="slds-avatar slds-avatar_circle slds-avatar_large" />-->
 
-               <lightning:avatar src="{!v.pictureSrc}" variant="circle" size="medium"  fallbackIconName="standard:avatar"/>
-                        <aura:set attribute="else">
-                            <c:RRIcon color="white" class="single-avatar"
-                                      iconName="single-neutral"/>
-                        </aura:set>
-                </aura:if>   
-                </div>     
+                <lightning:avatar
+                    src="{!v.pictureSrc}"
+                    variant="circle"
+                    size="medium"
+                    fallbackIconName="standard:avatar"
+                />
+                <aura:set attribute="else">
+                    <c:RRIcon color="white" class="single-avatar" iconName="single-neutral" />
+                </aura:set>
+            </aura:if>
+        </div>
 
-        <div class="photo-label">
+        <div class="{!v.isRTLLanguage?'photo-label-rtl':'photo-label'}">
             <p class="username">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
                 <label for="file-upload" class="custom-file-upload">
-                    <span  class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+                    <aura:if isTrue="{!v.hasProfilePic}">
+                        <span class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
+
+                        <aura:set attribute="else">
+                            <span class="profileLabel">{!$Label.c.PP_EditProfilePhoto}</span>
+                        </aura:set>
+                    </aura:if>
                 </label>
+                <span class="divider-vertical-standard-line"> | </span>
+                <aura:if isTrue="{!v.hasProfilePic}">
+                    <span class="remove" onclick="{!c.removePhoto}"
+                        >{!$Label.c.PP_Remove_Photo}</span
+                    >
+                    <aura:set attribute="else">
+                        <span class="remove-photo-disabled"> {!$Label.c.PP_Remove_Photo} </span>
+                    </aura:set>
+                </aura:if>
+
+                <!--  <div aura:id="dropdown" class="dropdown">
+  <div class="edit" onclick="{!c.myFunction}"><button class="dropbtn" >{!$Label.c.PP_AddProfilePhoto}<lightning:icon iconName="utility:down" size="small"/>
+      </button></div>
+  <div id="myDropdown" class="dropdown-content" aura:id="myDropdown">
+     <label for="file-upload" class="custom-file-upload">
+                    <span  class="{!v.isRTLLanguage?'profileLabel profileLabel-rtl':'profileLabel profileLabel-ltr'}">{!$Label.c.PP_Upload_Photo}</span>
+                </label>
+            <aura:if isTrue="{!v.hasProfilePic}">
+                <span class="remove" onclick="{!c.removePhoto}">{!$Label.c.PP_Remove_Photo}</span>
+                <aura:set attribute="else">
+                  <span class="noProfile">{!$Label.c.PP_Remove_Photo}</span>
+
+                </aura:set>
+
+      </aura:if>
+  </div>
+</div>-->
             </aura:if>
 
             <div class="prfile-btn-container">
                 <div class="btn-upload-photo">
-                    <input id="file-upload" type="file" aura:id="file" onchange="{!c.onDrop}" class="inputFile"/>
+                    <input
+                        id="file-upload"
+                        type="file"
+                        aura:id="file"
+                        onchange="{!c.onDrop}"
+                        class="inputFile"
+                    />
                 </div>
             </div>
         </div>
     </div>
-
-    
 </aura:component>

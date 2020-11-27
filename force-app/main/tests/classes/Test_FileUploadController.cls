@@ -4,15 +4,16 @@
 
 @IsTest
 private class Test_FileUploadController {
-
     @IsTest
     static void test_createFilesWrapper() {
         Id accountId = getAccountId();
         Id documentId = createDocumentLinkAndGetId(accountId);
+        FileUploadController.FilesWrapper filesWrapper;
 
         Test.startTest();
-        FileUploadController.getResourceFiles(accountId);
+        filesWrapper = FileUploadController.getResourceFiles(accountId);
         Test.stopTest();
+        System.assertEquals('Penguins', filesWrapper.listOfFiles[0].fileName);
     }
 
     @IsTest
@@ -24,9 +25,18 @@ private class Test_FileUploadController {
         FileUploadController.updateContentDocument(documentId, 'Code Value', accountId);
         Test.stopTest();
 
-        ContentDocument updatedDocument = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument WHERE Id = :documentId];
-       // System.assertEquals('Code Value', updatedDocument.Title);
-    } 
+        ContentDocument updatedDocument = [
+            SELECT Id, Title, LatestPublishedVersionId
+            FROM ContentDocument
+            WHERE Id = :documentId
+        ];
+        ContentVersion conversion = [
+            SELECT Id, LanguageCode__c
+            FROM ContentVersion
+            WHERE Id = :updatedDocument.LatestPublishedVersionId
+        ];
+        System.assertEquals('Code Value', conversion.LanguageCode__c);
+    }
 
     @IsTest
     static void test_deleteContentDocument() {
@@ -34,17 +44,20 @@ private class Test_FileUploadController {
         Id documentId = createDocumentLinkAndGetId(accountId);
 
         Test.startTest();
-         FileUploadController.deleteContentDocument(documentId,'testDocumentAttach', accountId);
+        FileUploadController.deleteContentDocument(documentId, 'testDocumentAttach', accountId);
         Test.stopTest();
 
-        List<ContentDocument> deletedDocument = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument];
+        List<ContentDocument> deletedDocument = [
+            SELECT Id, Title, LatestPublishedVersionId
+            FROM ContentDocument
+        ];
         System.assert(deletedDocument.isEmpty());
     }
 
     // ---------------------------------------------------------------------------------------------------------
 
-    static Id getAccountId () {
-        Account account = new Account(Name='TEST_ACCT');
+    static Id getAccountId() {
+        Account account = new Account(Name = 'TEST_ACCT');
         insert account;
 
         createContentVersion();
@@ -52,7 +65,11 @@ private class Test_FileUploadController {
     }
 
     static Id createDocumentLinkAndGetId(Id accountId) {
-        ContentDocument document = [SELECT Id, Title, LatestPublishedVersionId FROM ContentDocument LIMIT 1];
+        ContentDocument document = [
+            SELECT Id, Title, LatestPublishedVersionId
+            FROM ContentDocument
+            LIMIT 1
+        ];
 
         ContentDocumentLink cdl = new ContentDocumentLink();
         cdl.LinkedEntityId = accountId;
@@ -64,10 +81,10 @@ private class Test_FileUploadController {
 
     static void createContentVersion() {
         ContentVersion contentVersion = new ContentVersion(
-                Title = 'Penguins',
-                PathOnClient = 'Penguins.jpg',
-                VersionData = Blob.valueOf('Test Content'),
-                IsMajorVersion = true
+            Title = 'Penguins',
+            PathOnClient = 'Penguins.jpg',
+            VersionData = Blob.valueOf('Test Content'),
+            IsMajorVersion = true
         );
         insert contentVersion;
     }

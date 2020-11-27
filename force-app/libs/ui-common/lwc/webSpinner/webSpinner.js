@@ -2,10 +2,9 @@
  * Created by Igor Malyuta on 18.11.2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 
 export default class WebSpinner extends LightningElement {
-
     //Attributes--------------------------------------------------------------------------------------------------------
     @api alternativeText = 'Processing...';
     @api fixed = false;

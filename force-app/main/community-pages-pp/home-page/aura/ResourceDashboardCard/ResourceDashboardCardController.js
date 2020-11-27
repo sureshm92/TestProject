@@ -4,7 +4,9 @@
         if (communityService.isInitialized()) {
             communityService.executeAction(component, 'getTrialId', {}, function (returnValue) {
                 component.set('v.trialId', returnValue);
-                communityService.executeAction(component, 'getNoTAMessage', {}, function (returnValue) {
+                communityService.executeAction(component, 'getNoTAMessage', {}, function (
+                    returnValue
+                ) {
                     component.set('v.noTAMessage', returnValue);
                     component.set('v.initialized', true);
                     let spinner = component.find('mainSpinner');
@@ -15,8 +17,7 @@
             });
         }
     },
-    navigateToCoi: function(component, event, helper){
-    communityService.navigateToPage('account-settings?changePref');
-}
-   
-})
+    navigateToCoi: function (component, event, helper) {
+        communityService.navigateToPage('account-settings?changePref');
+    }
+});

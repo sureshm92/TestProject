@@ -7,7 +7,7 @@
         communityService.executeAction(component, 'getInitData', null, function (initData) {
             component.set('v.countriesLVList', initData.countriesLVList);
             component.set('v.statesByCountryMap', initData.statesByCountryMap);
-        })
+        });
     },
 
     doExecute: function (component, event, helper) {
@@ -48,16 +48,21 @@
     doCheckAddress: function (component, event, helper) {
         component.set('v.showAddressValidationSpinner', true);
         var currentAccount = component.get('v.account');
-        communityService.executeAction(component, 'createTmpAccountForLocationCheck', {
-            account: JSON.stringify(currentAccount)
-        }, function (createdAccountId) {
-            helper.waitAccountCheckResult(component, createdAccountId, 0);
-        });
+        communityService.executeAction(
+            component,
+            'createTmpAccountForLocationCheck',
+            {
+                account: JSON.stringify(currentAccount)
+            },
+            function (createdAccountId) {
+                helper.waitAccountCheckResult(component, createdAccountId, 0);
+            }
+        );
     },
 
     doCheckFields: function (component, event, helper) {
         var account = component.get('v.account');
-        if(account.BillingStateCode) {
+        if (account.BillingStateCode) {
             var statesLVList = component.get('v.statesLVList');
             /*for (let i = 0; i < statesLVList.length; i++) {
                 if (account.BillingStateCode == statesLVList[i].value) {
@@ -66,7 +71,7 @@
                 }
             }*/
         }
-        component.set('v.account' , account);
+        component.set('v.account', account);
         helper.checkAccountModified(component);
     },
 
@@ -101,14 +106,21 @@
         var account = component.get('v.account');
         component.find('spinner').show();
         console.log('account>>>', JSON.parse(JSON.stringify(account)));
-        communityService.executeAction(component, 'upsertAccount', {
-            accountJSON: JSON.stringify(account),
-            ssId: component.get('v.ssId')
-        }, function (returnedAccount) {
-            component.find('editLocation').hide();
-            component.get('v.callback')(returnedAccount);
-        }, null, function () {
-            component.find('spinner').hide();
-        });
-    },
+        communityService.executeAction(
+            component,
+            'upsertAccount',
+            {
+                accountJSON: JSON.stringify(account),
+                ssId: component.get('v.ssId')
+            },
+            function (returnedAccount) {
+                component.find('editLocation').hide();
+                component.get('v.callback')(returnedAccount);
+            },
+            null,
+            function () {
+                component.find('spinner').hide();
+            }
+        );
+    }
 });

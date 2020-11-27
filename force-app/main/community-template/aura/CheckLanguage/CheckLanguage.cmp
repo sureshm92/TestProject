@@ -2,13 +2,20 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="CheckLanguage" abstract="true" extensible="true" controller="CommunityFacadeRemote">
+<aura:component
+    description="CheckLanguage"
+    abstract="true"
+    extensible="true"
+    controller="CommunityFacadeRemote"
+>
     <!-- css and js: -->
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!-- attributes: -->
-    <aura:attribute name="languageChecked" type="Boolean" default="false"/>
-
+    <aura:attribute name="languageChecked" type="Boolean" default="false" />
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     {!v.body}
-
 </aura:component>

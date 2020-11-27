@@ -7,7 +7,8 @@
         setTimeout(
             $A.getCallback(function () {
                 component.set('v.hideForm', false);
-            }), 100
+            }),
+            100
         );
     }
-})
+});

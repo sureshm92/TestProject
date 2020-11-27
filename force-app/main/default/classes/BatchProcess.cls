@@ -11,7 +11,6 @@ global class BatchProcess implements Database.Batchable<SObject>, Database.State
         this.query = query;
         this.handler = handler;
         this.isFinished = false;
-
     }
 
     global Database.QueryLocator start(Database.BatchableContext BC) {
@@ -25,14 +24,10 @@ global class BatchProcess implements Database.Batchable<SObject>, Database.State
     global void execute(Database.BatchableContext BC, List<SObject> scope) {
         handler.handle(scope);
         handler.processScopeResult();
-
     }
 
-
     global void finish(Database.BatchableContext BC) {
-
         handler.processResult();
         isFinished = true;
-
     }
 }

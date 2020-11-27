@@ -3,14 +3,12 @@
  */
 
 @IsTest
-private class Test_Batch_CreateParticipants  {
-
+private class Test_Batch_CreateParticipants {
     @IsTest
     static void testDataDoesNotExist() {
         string post = 'Done';
         Test.startTest();
-        Batch_CreateParticipants.run(1,post,1);
+        Batch_CreateParticipants.run(1, post, 1);
         Test.stopTest();
     }
-
 }

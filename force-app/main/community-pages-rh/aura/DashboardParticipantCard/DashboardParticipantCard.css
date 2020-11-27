@@ -2,31 +2,31 @@
  * Created by Andrii Kryvolap.
  */
 .THIS.db-participant-card {
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
     margin-top: 16px;
     border-radius: 4px;
     padding: 10px 7px 14px 14px;
     font-size: 16px;
 }
 
-.THIS .db-participant-card-title{
+.THIS .db-participant-card-title {
     display: flex;
     justify-content: space-between;
 }
-.THIS .accept-btn{
+.THIS .accept-btn {
     overflow-x: visible;
 }
-.THIS .accept-btn .menu-popup-panel{
+.THIS .accept-btn .menu-popup-panel {
     left: -130px;
 }
 
-@media screen and (max-width: 550px){
+@media screen and (max-width: 550px) {
     .THIS .db-participant-card-title {
         margin-bottom: 15px;
         display: flex;
-        flex-direction: column;          
+        flex-direction: column;
     }
-    
+
     .THIS .db-participant-card-title .accept-btn {
         margin: 15px 0;
     }
@@ -36,4 +36,3 @@
 /*    margin-top: 16px;*/
 /*    border-radius: 4px;*/
 /*}*/
-

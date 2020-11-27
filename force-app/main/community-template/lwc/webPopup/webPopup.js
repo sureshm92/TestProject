@@ -2,16 +2,16 @@
  * Created by Igor Malyuta on 28.11.2019.
  */
 
-import {LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 export default class WebPopup extends LightningElement {
-
     //Attributes--------------------------------------------------------------------------------------------------------
     @api title;
-    @api headerText;//text before popup body
-    @api footerText;//text under popup body
-    @api variant = 'normal';//normal;success;warning;error
-    @api size = 'small';//small;large;medium
+    @api headerText; //text before popup body
+    @api footerText; //text under popup body
+    @api variant = 'normal'; //normal;success;warning;error
+    @api size = 'small'; //small;large;medium
 
     @api primaryButtonLabel = 'Ok';
     @api secondaryButtonLabel = 'Cancel';
@@ -25,6 +25,7 @@ export default class WebPopup extends LightningElement {
     @api closeCallback;
 
     @track showModal = false;
+    @track isRTL;
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
@@ -39,6 +40,16 @@ export default class WebPopup extends LightningElement {
         this.doCancel();
     }
 
+    connectedCallback() {
+        let context = this;
+        getisRTL()
+            .then(function (data) {
+                context.isRTL = data;
+            })
+            .catch(function (error) {
+                console.error('Error: ' + JSON.stringify(error));
+            });
+    }
     //Inner methods-----------------------------------------------------------------------------------------------------
     clickedPrimary() {
         this.hide();
@@ -55,7 +66,7 @@ export default class WebPopup extends LightningElement {
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
     get modalClass() {
-        return (this.showModal ? 'transition-show' : '');
+        return this.showModal ? 'transition-show' : '';
     }
 
     get containerSizeClass() {
@@ -63,9 +74,11 @@ export default class WebPopup extends LightningElement {
     }
 
     get iconButtonClass() {
-        return 'slds-button slds-modal__close slds-button--icon-inverse' +
+        return (
+            'slds-button slds-modal__close slds-button--icon-inverse' +
             (this.showClose ? '' : ' slds-hide') +
-            (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '');
+            (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '')
+        );
     }
 
     get divHeaderClass() {

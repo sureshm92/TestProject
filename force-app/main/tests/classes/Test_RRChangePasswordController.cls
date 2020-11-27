@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_RRChangePasswordController {
-
     @IsTest(SeeAllData=true)
     public static void testChangePasswordController() {
         TestData.loadTestData();
@@ -12,13 +11,13 @@ private class Test_RRChangePasswordController {
         //run test:
         Test.startTest();
         HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
-                Study_Site__c = testData.ss.Id,
-                HCP_Contact__c = testData.participant.Contact__c,
-                Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
+            Study_Site__c = testData.ss.Id,
+            HCP_Contact__c = testData.participant.Contact__c,
+            Status__c = HCPEnrollmentService.HCP_S_ON_HOLD_ACTIVATION
         );
         insert hcpEnrollment;
 
-        System.runAs(testData.participantUser){
+        System.runAs(testData.participantUser) {
             // Instantiate a new controller with all parameters in the page
             RRChangePasswordController controller = new RRChangePasswordController();
             controller.oldPassword = '123456';
@@ -31,7 +30,7 @@ private class Test_RRChangePasswordController {
             controller.newPassword = 'NewPas1234';
             controller.verifyNewPassword = 'NewPas1234';
             controller.browserLanguage = '["en_US","ru-ru",""]';
-            controller.changePassword();
+            System.assertEquals(null, controller.changePassword());
 
             controller.updateBrowserLanguageAction();
             controller.updateLanguageAction();
@@ -39,15 +38,20 @@ private class Test_RRChangePasswordController {
 
             controller.notEnrollNow = false;
             controller.states = new List<SelectOption>{
-                    new SelectOption('CA', 'CA'),
-                    new SelectOption('TX', 'TX')
+                new SelectOption('CA', 'CA'),
+                new SelectOption('TX', 'TX')
             };
 
             /* Check with empty fields */
             controller.contact.LastName = null;
             controller.account.Name = null;
-            controller.checkPasswords();
-
+            Boolean checkPasswordSuccess = true;
+            try {
+                controller.checkPasswords();
+            } catch (Exception e) {
+                checkPasswordSuccess = false;
+            }
+            System.assertEquals(true, checkPasswordSuccess);
             Test.clearApexPageMessages();
 
             /* Check with full fields */
@@ -60,7 +64,12 @@ private class Test_RRChangePasswordController {
             controller.contact.MailingPostalCode = '123000';
             controller.contact.Phone = '(999)555-0000';
             controller.account.Name = 'TestAccountName';
-            controller.checkPasswords();
+            try {
+                controller.checkPasswords();
+            } catch (Exception e) {
+                checkPasswordSuccess = false;
+            }
+            System.assertEquals(true, checkPasswordSuccess);
 
             controller.translateFieldsAction();
             controller.updateStatesAction();

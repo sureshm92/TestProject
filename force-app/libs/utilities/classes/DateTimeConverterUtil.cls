@@ -3,47 +3,48 @@
  */
 
 public without sharing class DateTimeConverterUtil {
-
     public static final Integer MS_IN_HOUR = 3600000;
 
-    public class DateTimeException extends Exception{}
+    public class DateTimeException extends Exception {
+    }
 
     public static Map<Id, TimeZone> getUsersTimezoneMap(Set<Id> contactIds) {
         List<User> users = [
-                SELECT Id, TimeZoneSidKey
-                FROM User
-                WHERE ContactId IN:contactIds
-                AND IsActive = TRUE
+            SELECT Id, TimeZoneSidKey
+            FROM User
+            WHERE ContactId IN :contactIds AND IsActive = TRUE
         ];
         Map<Id, TimeZone> userMap = new Map<Id, TimeZone>();
-        for (User u : users) userMap.put(u.Id, TimeZone.getTimeZone(u.TimeZoneSidKey));
+        for (User u : users)
+            userMap.put(u.Id, TimeZone.getTimeZone(u.TimeZoneSidKey));
 
         return userMap;
     }
 
     public static Map<Id, TimeZone> getContactsTimezoneMap(Set<Id> contactIds) {
         List<User> users = [
-                SELECT Id, ContactId, TimeZoneSidKey
-                FROM User
-                WHERE ContactId IN:contactIds
-                AND IsActive = TRUE
+            SELECT Id, ContactId, TimeZoneSidKey
+            FROM User
+            WHERE ContactId IN :contactIds AND IsActive = TRUE
         ];
         Map<Id, TimeZone> contactMap = new Map<Id, TimeZone>();
-        for (User u : users) contactMap.put(u.ContactId, TimeZone.getTimeZone(u.TimeZoneSidKey));
+        for (User u : users)
+            contactMap.put(u.ContactId, TimeZone.getTimeZone(u.TimeZoneSidKey));
 
         return contactMap;
     }
 
     public static TimeZone getUserTimeZone(Id contactId) {
-        Map<Id, TimeZone> timeZonesByIds = getUsersTimezoneMap(new Set<Id>{contactId});
-        if(timeZonesByIds.values().isEmpty()) throw new DateTimeException('Contact has no user!');
+        Map<Id, TimeZone> timeZonesByIds = getUsersTimezoneMap(new Set<Id>{ contactId });
+        if (timeZonesByIds.values().isEmpty())
+            throw new DateTimeException('Contact has no user!');
 
         return timeZonesByIds.values().get(0);
     }
 
     public static Datetime convertUserDatetimeToGMT(Datetime moment, TimeZone tz) {
         Integer offset = tz.getOffset(Datetime.now()) / MS_IN_HOUR;
-        Datetime momentInGMT = moment.addHours( -offset );
+        Datetime momentInGMT = moment.addHours(-offset);
 
         return momentInGMT;
     }
@@ -64,8 +65,14 @@ public without sharing class DateTimeConverterUtil {
         return addDaysInUserTimeZone(moment, getUserTimeZone(contactId), days);
     }
 
-    public static Boolean isSameMoment(Datetime firstDT, TimeZone firstTZ, Datetime secondDT, TimeZone secondTZ) {
-        return convertUserDatetimeToGMT(firstDT, firstTZ) == convertUserDatetimeToGMT(secondDT, secondTZ);
+    public static Boolean isSameMoment(
+        Datetime firstDT,
+        TimeZone firstTZ,
+        Datetime secondDT,
+        TimeZone secondTZ
+    ) {
+        return convertUserDatetimeToGMT(firstDT, firstTZ) ==
+            convertUserDatetimeToGMT(secondDT, secondTZ);
     }
 
     public static Datetime getUserDT(Date d, Time t, TimeZone tz) {

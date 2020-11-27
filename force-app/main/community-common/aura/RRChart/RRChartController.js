@@ -8,7 +8,10 @@
 
         component.resize = $A.getCallback(function () {
             if (component.isValid()) {
-                component.set('v.fontSize', helper.determineFontSize(component.get('v.containerWidth')));
+                component.set(
+                    'v.fontSize',
+                    helper.determineFontSize(component.get('v.containerWidth'))
+                );
                 component.set('v.chartRendered', false);
                 component.set('v.triggerRedraw', !component.get('v.triggerRedraw'));
             } else {
@@ -23,5 +26,4 @@
         component.find('mainSpinner').show();
         component.set('v.chartRendered', false);
     }
-
-})
+});

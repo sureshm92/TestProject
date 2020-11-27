@@ -1,60 +1,59 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS .vpi-title{
+.THIS .vpi-title {
     font-size: 18px;
     font-weight: 600;
 }
 
-.THIS .width-basis{
+.THIS .width-basis {
     flex-basis: auto;
 }
 
-.THIS .vpi-state{
-    padding-left: 0!important;
-    padding-right: 0!important;
+.THIS .vpi-state {
+    padding-left: 0 !important;
+    padding-right: 0 !important;
 }
 
-.THIS .vri-state-label{
+.THIS .vri-state-label {
     text-align: center;
     font-size: 1rem;
     line-height: 1;
 }
 
-.THIS .slds-grid .vpi-state.current .vri-state-label:last-child{
+.THIS .slds-grid .vpi-state.current .vri-state-label:last-child {
     font-weight: 400;
 }
 
-
-.THIS .vpi-line-div{
+.THIS .vpi-line-div {
     height: 22px;
     border-top: 3px solid;
     padding-right: 0;
     padding-left: 0;
 }
 
-.THIS .vpi-line-div.neutral{
+.THIS .vpi-line-div.neutral {
     border-top-color: #b5b5b5;
 }
 
-.THIS .vpi-line-div.success{
+.THIS .vpi-line-div.success {
     border-top-color: #00c221;
 }
 
-.THIS .vpi-path{
+.THIS .vpi-path {
     margin: 30px 0 5px;
     padding: 0 15px;
 }
 
-.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child{
+.THIS .vpi-path .vpi-state:first-child .vpi-line-div:first-child {
     border-top-color: transparent;
 }
 
-.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child{
+.THIS .vpi-path .vpi-state:last-child .vpi-line-div:last-child {
     border-top-color: transparent;
 }
 
-.THIS .state-ico-wrapper{
+.THIS .state-ico-wrapper {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -66,59 +65,102 @@
     align-items: center;
     justify-content: center;
 }
+.THIS .state-ico-wrapperRTL {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: 56px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
-.THIS .state-ico-wrapper .rr-icon-default{
+.THIS .state-ico-wrapper .rr-icon-default {
     width: 14px;
     height: 14px;
     padding: 0;
-    fill: white!important;
+    fill: white !important;
+}
+.THIS .state-ico-wrapperRTL .rr-icon-default {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white !important;
 }
 
-.THIS .vpi-state.current .state-ico-wrapper{
+.THIS .vpi-state.current .state-ico-wrapper {
     width: 28px;
     height: 28px;
     top: -15px;
     left: -14px;
 }
+.THIS .vpi-state.current .state-ico-wrapperRTL {
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 45px;
+}
 
-.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default{
+.THIS .vpi-state.current .state-ico-wrapper .rr-icon-default {
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+.THIS .vpi-state.current .state-ico-wrapperRTL .rr-icon-default {
     width: 24px;
     height: 24px;
     padding: 1px;
 }
 
-.THIS .vpi-state.neutral .state-ico-wrapper{
-    background-color: #b5b5b5!important;
+.THIS .vpi-state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
 }
 
-
-.THIS .vpi-state.success .state-ico-wrapper{
-    background-color: #00c221!important;
+.THIS .vpi-state.success .state-ico-wrapper {
+    background-color: #00c221 !important;
 }
 
-.THIS .vpi-state.in_progress .state-ico-wrapper{
-    background-color: #005ff1!important;
+.THIS .vpi-state.in_progress .state-ico-wrapper {
+    background-color: #005ff1 !important;
 }
 
-.THIS .vpi-state.failure .state-ico-wrapper{
-    background-color: #E20000!important;
+.THIS .vpi-state.failure .state-ico-wrapper {
+    background-color: #e20000 !important;
+}
+.THIS .vpi-state.neutral .state-ico-wrapperRTL {
+    background-color: #b5b5b5 !important;
+}
+
+.THIS .vpi-state.success .state-ico-wrapperRTL {
+    background-color: #00c221 !important;
+}
+
+.THIS .vpi-state.in_progress .state-ico-wrapperRTL {
+    background-color: #005ff1 !important;
+}
+
+.THIS .vpi-state.failure .state-ico-wrapperRTL {
+    background-color: #e20000 !important;
 }
 
 /* status names */
 
-.THIS .vpi-state.neutral .vri-state-label{
+.THIS .vpi-state.neutral .vri-state-label {
     color: #999;
 }
 
-.THIS .vpi-state.success .vri-state-label{
+.THIS .vpi-state.success .vri-state-label {
     color: #000;
 }
 
-.THIS .vpi-state.in_progress .vri-state-label{
+.THIS .vpi-state.in_progress .vri-state-label {
     color: #000;
 }
 
-.THIS .vpi-state.failure .vri-state-label{
+.THIS .vpi-state.failure .vri-state-label {
     color: #000;
 }
 
@@ -126,39 +168,36 @@
     .THIS .vri-state-label {
         display: none;
     }
-    .THIS .vpi-state.neutral .cRRIcon{
+    .THIS .vpi-state.neutral .cRRIcon {
         display: none;
     }
-
 }
 
-
-.THIS .vpi-state.current .vri-state-label{
+.THIS .vpi-state.current .vri-state-label {
     display: block;
     font-weight: 600;
 }
 
-
-.THIS .vpi-path-panel .path-section{
+.THIS .vpi-path-panel .path-section {
     padding: 0 0 10px;
 }
 
 @media all and (min-width: 1024px) {
-    .THIS .vri-state-label{
+    .THIS .vri-state-label {
         display: block;
     }
-    .THIS .width-basis{
+    .THIS .width-basis {
         flex-basis: 0;
     }
 
-    .THIS .state-ico-wrapper{
+    .THIS .state-ico-wrapper {
         width: 28px;
         height: 28px;
         top: -15px;
         left: -14px;
     }
 
-    .THIS .state-ico-wrapper .rr-icon-default{
+    .THIS .state-ico-wrapper .rr-icon-default {
         width: 24px;
         height: 24px;
         padding: 1px;

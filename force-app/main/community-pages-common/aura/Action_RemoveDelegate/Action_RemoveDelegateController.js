@@ -22,4 +22,4 @@
     doNo: function (component, event, helper) {
         component.find('deleteDelegateDialog').hide();
     }
-})
+});

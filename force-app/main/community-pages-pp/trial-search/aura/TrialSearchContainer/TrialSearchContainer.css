@@ -4,8 +4,16 @@
 .THIS {
 }
 
+.THIS.arabic {
+    direction: rtl !important;
+}
 .THIS .filter-side {
     padding-left: 4%;
+    padding-top: 70px;
+    position: fixed;
+}
+.THIS .filter-sideRTL {
+    padding-right: 4%;
     padding-top: 70px;
     position: fixed;
 }
@@ -15,14 +23,20 @@
     margin: -30px 0 0 0;
     height: 100%;
     min-height: 800px;
-
 }
-.THIS .trials-container{
+.THIS .trials-container {
     padding-top: 20px;
 }
 
-.THIS .trials-side{
+.THIS .trials-side {
     border-right: 1px solid #d9d9d9;
+}
+.THIS .trials-sideRTL {
+    border-left: 1px solid #d9d9d9;
+}
+
+.THIS > .slds-grid {
+    flex-wrap: wrap;
 }
 
 @media (max-width: 1020px) {
@@ -30,22 +44,22 @@
         display: block;
         height: auto;
     }
-    .THIS .trials-container{
+    .THIS .trials-container {
         padding-left: 4%;
         margin: 5% 0 0 0 !important;
     }
-    .THIS .filter-side{
+    .THIS .filter-side {
         padding-left: 4%;
         padding-top: 20px;
         margin: 5% 0 0 0 !important;
         position: relative;
     }
-    .THIS .trials-side{
+    .THIS .trials-side {
         border-right: 0;
     }
 }
 
-.THIS .sdv-top-bar{
+.THIS .sdv-top-bar {
     /*background-color: white;*/
     /*box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);*/
     padding-top: 30px;
@@ -53,63 +67,62 @@
     position: relative;
 }
 
-.THIS .sdv-top-bar.sticky{
+.THIS .sdv-top-bar.sticky {
     box-shadow: none;
 }
 
-.THIS .sdv-top-bar.sticky .sticky-bar{
+.THIS .sdv-top-bar.sticky .sticky-bar {
     position: fixed;
     z-index: 2000;
-    box-shadow: 0px 20px 30px -10px rgba(0,0,0,0.15);
+    box-shadow: 0px 20px 30px -10px rgba(0, 0, 0, 0.15);
 }
 
-
-.THIS .sdv-top-bar .navigation{
+.THIS .sdv-top-bar .navigation {
     font-size: 13px;
     font-weight: 500;
     line-height: 16px;
 }
 
-.THIS .sdv-top-bar .title{
+.THIS .sdv-top-bar .title {
     font-size: 30px;
     font-weight: 600;
     line-height: 36px;
     padding-bottom: 10px;
 }
 
-.THIS .sdv-top-bar .tabs{
-    border-top: 1px solid #F2F2F2;
-    border-bottom: 1px solid #F2F2F2;
+.THIS .sdv-top-bar .tabs {
+    border-top: 1px solid #f2f2f2;
+    border-bottom: 1px solid #f2f2f2;
 }
 
-.THIS .sdv-top-bar .links{
+.THIS .sdv-top-bar .links {
     transition: 0.4s;
     overflow: hidden;
 }
 
-.THIS .sdv-top-bar .links.collapsed{
+.THIS .sdv-top-bar .links.collapsed {
     padding-top: 0;
     padding-bottom: 0;
     height: 0;
 }
 
-.THIS .sdv-top-bar .links.collapsed button{
+.THIS .sdv-top-bar .links.collapsed button {
     opacity: 0;
     transition: 0.4s;
 }
 
-.THIS .sdv-top-bar .sticky-bar{
+.THIS .sdv-top-bar .sticky-bar {
     background-color: white;
 }
 
-.THIS .sdv-top-bar .sticky-bar.sticky{
-    box-shadow: 0 20px 30px -10px rgba(0,0,0,0.15);
+.THIS .sdv-top-bar .sticky-bar.sticky {
+    box-shadow: 0 20px 30px -10px rgba(0, 0, 0, 0.15);
 }
 
-.THIS .sdv-top-bar .height-stub{
+.THIS .sdv-top-bar .height-stub {
     display: none;
 }
 
-.THIS .sdv-top-bar.sticky .height-stub{
+.THIS .sdv-top-bar.sticky .height-stub {
     display: block;
 }

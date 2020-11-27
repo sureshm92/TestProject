@@ -6,15 +6,20 @@
         let spinner = component.find('mainSpinner');
         spinner.show();
         let pe = component.get('v.searchResult').pe;
-        communityService.executeAction(component, 'setMRRStatus', {
-            peJSON: JSON.stringify(pe),
-            status: status
-        }, function (retrunValue) {
-            searchResult.pe = JSON.parse(response.getReturnValue());
-            component.set('v.searchResult', searchResult);
-            component.set('v.mrrResult', status);
-            spinner.hide();
-        });
+        communityService.executeAction(
+            component,
+            'setMRRStatus',
+            {
+                peJSON: JSON.stringify(pe),
+                status: status
+            },
+            function (retrunValue) {
+                searchResult.pe = JSON.parse(response.getReturnValue());
+                component.set('v.searchResult', searchResult);
+                component.set('v.mrrResult', status);
+                spinner.hide();
+            }
+        );
     },
 
     addEventListener: function (component, helper) {

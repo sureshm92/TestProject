@@ -3,10 +3,10 @@
  -->
 
 <aura:component description="DashboardHCP">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <!-- attributes: -->
-    <aura:attribute name="hcpData" type="Object"/>
+    <aura:attribute name="hcpData" type="Object" />
 
     <!-- component body: -->
     <div class="rr-white-panel padding first-panel">
@@ -49,13 +49,20 @@
             <!--</div>-->
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
                 <div style="height: 30px" class="rr-large-up-hide"></div>
-                <div class="db-header centered">{!$Label.c.PG_DBPI_L_My_Patients_Referring_Status}</div>
+                <div class="db-header centered">
+                    {!$Label.c.PG_DBPI_L_My_Patients_Referring_Status}
+                </div>
                 <div class="db-hcp-chart">
-                    <c:Donut dataList="{!v.hcpData.referringStatus}" type="HCP"
-                             segmentLabel="{!$Label.c.PG_DB_L_category}"
-                             valueLabel="{!$Label.c.PG_DB_L_patients}"
-                             totalLabel="{!$Label.c.PG_DB_L_patients}" maxDonutWidth="257px"
-                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    <c:Donut
+                        dataList="{!v.hcpData.referringStatus}"
+                        type="HCP"
+                        segmentLabel="{!$Label.c.PG_DB_L_category}"
+                        valueLabel="{!$Label.c.PG_DB_L_patients}"
+                        totalLabel="{!$Label.c.PG_DB_L_patients}"
+                        maxDonutWidth="257px"
+                        linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}"
+                        linkPage="my-patients?"
+                    >
                     </c:Donut>
                 </div>
             </div>
@@ -65,26 +72,40 @@
             <!--<div class="slds-grid slds-wrap db-section2">-->
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
                 <!--<div class="rr-white-panel padding">-->
-                <div class="db-header centered">{!$Label.c.PG_DBPI_My_Patients_Acceptance_Status}</div>
+                <div class="db-header centered">
+                    {!$Label.c.PG_DBPI_My_Patients_Acceptance_Status}
+                </div>
                 <div class="db-hcp-chart">
-                    <c:Donut dataList="{!v.hcpData.acceptenceStatus}" type="HCP"
-                             segmentLabel="{!$Label.c.PG_DB_L_category}"
-                             valueLabel="{!$Label.c.PG_DB_L_patients}"
-                             totalLabel="{!$Label.c.PG_DB_L_patients_pre_qualified}" maxDonutWidth="257px"
-                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    <c:Donut
+                        dataList="{!v.hcpData.acceptenceStatus}"
+                        type="HCP"
+                        segmentLabel="{!$Label.c.PG_DB_L_category}"
+                        valueLabel="{!$Label.c.PG_DB_L_patients}"
+                        totalLabel="{!$Label.c.PG_DB_L_patients_pre_qualified}"
+                        maxDonutWidth="257px"
+                        linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}"
+                        linkPage="my-patients?"
+                    >
                     </c:Donut>
                 </div>
                 <!--</div>-->
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-large-size_1-of-3">
                 <!--<div class="rr-white-panel padding">-->
-                <div class="db-header centered">{!$Label.c.PG_DBPI_My_Patients_Enrollment_Status}</div>
+                <div class="db-header centered">
+                    {!$Label.c.PG_DBPI_My_Patients_Enrollment_Status}
+                </div>
                 <div class="db-hcp-chart">
-                    <c:Donut dataList="{!v.hcpData.enrollmentStatus}" type="HCP"
-                             segmentLabel="{!$Label.c.PG_DB_L_category}"
-                             valueLabel="{!$Label.c.PG_DB_L_patients}"
-                             totalLabel="{!$Label.c.PG_DB_L_patients_accepted}" maxDonutWidth="257px"
-                             linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}" linkPage="my-patients?">
+                    <c:Donut
+                        dataList="{!v.hcpData.enrollmentStatus}"
+                        type="HCP"
+                        segmentLabel="{!$Label.c.PG_DB_L_category}"
+                        valueLabel="{!$Label.c.PG_DB_L_patients}"
+                        totalLabel="{!$Label.c.PG_DB_L_patients_accepted}"
+                        maxDonutWidth="257px"
+                        linkTitle="{!$Label.c.PG_DB_L_Track_your_patients_status}"
+                        linkPage="my-patients?"
+                    >
                     </c:Donut>
                 </div>
                 <!--</div>-->

@@ -3,7 +3,6 @@
  */
 
 public without sharing class SurveyResponseTriggerHandler {
-
     public static final String SURVEY_RESPONSE_STATUS_COMPLETED = 'Completed';
     public static final String SURVEY_RESPONSE_STATUS_PAUSED = 'Paused';
 
@@ -33,14 +32,16 @@ public without sharing class SurveyResponseTriggerHandler {
 
     @TestVisible
     public static void taskStatusChanger(Map<Id, List<Id>> invitationSubmitter, Boolean forFinish) {
-        Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>([
+        Map<Id, SurveyInvitation> invitationMap = new Map<Id, SurveyInvitation>(
+            [
                 SELECT
-                        ExpireDateTime__c,
-                        InviteExpiryDateTime,
-                        Participant_Enrollment__r.Participant_Contact__c
+                    ExpireDateTime__c,
+                    InviteExpiryDateTime,
+                    Participant_Enrollment__r.Participant_Contact__c
                 FROM SurveyInvitation
-                WHERE Id IN:invitationSubmitter.keySet()
-        ]);
+                WHERE Id IN :invitationSubmitter.keySet()
+            ]
+        );
         Set<Id> contactsIds = new Set<Id>();
         for (SurveyInvitation si : invitationMap.values()) {
             contactsIds.add(si.Participant_Enrollment__r.Participant_Contact__c);
@@ -48,16 +49,12 @@ public without sharing class SurveyResponseTriggerHandler {
         }
 
         List<Task> tasks = [
-                SELECT
-                        Id,
-                        Status,
-                        Survey_Invitation__c,
-                        Visible_For__c,
-                        WhoId
-                FROM Task
-                WHERE WhoId IN:contactsIds
+            SELECT Id, Status, Survey_Invitation__c, Visible_For__c, WhoId
+            FROM Task
+            WHERE
+                WhoId IN :contactsIds
                 AND Task_Type__c = :TaskService.TASK_TYPE_SURVEY
-                AND Survey_Invitation__c IN:invitationMap.keySet()
+                AND Survey_Invitation__c IN :invitationMap.keySet()
         ];
         for (Task t : tasks) {
             SurveyInvitation invitation = invitationMap.get(t.Survey_Invitation__c);
@@ -67,7 +64,8 @@ public without sharing class SurveyResponseTriggerHandler {
                         TaskService.getInstance().completeTask(t);
                         if (t.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                             invitation.ExpireDateTime__c = System.now();
-                            if (invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
+                            if (invitation.InviteExpiryDateTime != null)
+                                invitation.InviteExpiryDateTime = null;
                         }
                     } else if (t.Status != TaskService.TASK_STATUS_COMPLETED) {
                         t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
@@ -78,7 +76,8 @@ public without sharing class SurveyResponseTriggerHandler {
                         if (forFinish) {
                             TaskService.getInstance().completeTask(t);
                             invitation.ExpireDateTime__c = System.now();
-                            if (invitation.InviteExpiryDateTime != null) invitation.InviteExpiryDateTime = null;
+                            if (invitation.InviteExpiryDateTime != null)
+                                invitation.InviteExpiryDateTime = null;
                         } else if (t.Status != TaskService.TASK_STATUS_COMPLETED) {
                             t.Status = TaskService.TASK_STATUS_IN_PROGRESS;
                         }
@@ -87,7 +86,8 @@ public without sharing class SurveyResponseTriggerHandler {
                 }
             }
         }
-        if (forFinish) update invitationMap.values();
+        if (forFinish)
+            update invitationMap.values();
 
         System.debug('FOR ' + (forFinish ? 'COMPLETE' : 'PAUSE') + ' SIZE: ' + tasks.size());
         update tasks;

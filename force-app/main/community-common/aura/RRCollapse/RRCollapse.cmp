@@ -2,12 +2,21 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRCollapse">
-    <aura:attribute name="isCollapsed" type="Boolean" default="true"/>
-    <aura:attribute name="label" type="String"/>
+<aura:component description="RRCollapse" extends="c:CommunityContext">
+    <aura:attribute name="isCollapsed" type="Boolean" default="true" />
+    <aura:attribute name="label" type="String" />
     <div class="{!'rr-collapse-panel ' + if(v.isCollapsed, ' collapsed', '')}">
         <div class="label-block">
-            <div class="label" onclick="{!c.doSwitch}"><c:RRIcon iconName="icon-chevron-right"/> {!v.label}</div>
+            <aura:if isTrue="{!v.isRTL}">
+                <div class="label" onclick="{!c.doSwitch}">
+                    {!v.label}<c:RRIcon iconName="icon-chevron-left" />
+                </div>
+                <aura:set attribute="else">
+                    <div class="label" onclick="{!c.doSwitch}">
+                        <c:RRIcon iconName="icon-chevron-right" /> {!v.label}
+                    </div>
+                </aura:set>
+            </aura:if>
         </div>
         <div class="body">{!v.body}</div>
     </div>

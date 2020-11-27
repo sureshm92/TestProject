@@ -4,18 +4,16 @@
 
 <aura:component description="Action_SaveDelegateLevelChanges" controller="MyTeamRemote">
     <!-- attributes: -->
-    <aura:attribute name="delegate" type="Object"/>
-    <aura:attribute name="refreshSource" type="Aura.Component"/>
-    <aura:attribute name="userMode" type="String" default="" required="true"/>
+    <aura:attribute name="delegate" type="Object" />
+    <aura:attribute name="refreshSource" type="Aura.Component" />
+    <aura:attribute name="userMode" type="String" default="" required="true" />
 
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
-        <aura:attribute name="delegate" type="Object"/>
-        <aura:attribute name="refreshSource" type="Aura.Component"/>
-        <aura:attribute name="isCreate" type="Boolean"/>
+        <aura:attribute name="delegate" type="Object" />
+        <aura:attribute name="refreshSource" type="Aura.Component" />
+        <aura:attribute name="isCreate" type="Boolean" />
     </aura:method>
 
     <!-- component body -->
-
-
 </aura:component>

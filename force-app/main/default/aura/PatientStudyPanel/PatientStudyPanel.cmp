@@ -3,9 +3,6 @@
  -->
 
 <aura:component description="PatientStudyPanel">
-
     <!-- component body: -->
-    <div>
-
-    </div>
+    <div></div>
 </aura:component>

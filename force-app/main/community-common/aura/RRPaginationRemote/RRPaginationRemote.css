@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- .THIS.rrp-container {
+.THIS.rrp-container {
     text-align: center;
     padding-top: 20px;
 }
@@ -13,12 +13,12 @@
     margin: 0;
     border-radius: 0;
     border-collapse: collapse;
-    border: 0.5px solid #B5B5B5;
-    background-color: #FFFFFF;
+    border: 0.5px solid #b5b5b5;
+    background-color: #ffffff;
     line-height: 0;
 }
 .THIS .previous-btn.disabled,
-.THIS .next-btn.disabled{
+.THIS .next-btn.disabled {
     opacity: 0.6;
     pointer-events: none;
 }
@@ -36,7 +36,7 @@
     border-top-right-radius: 4px;
 }
 
-.THIS.rrp-container .info{
+.THIS.rrp-container .info {
     color: #000000;
     font-size: 14px;
     line-height: 22px;

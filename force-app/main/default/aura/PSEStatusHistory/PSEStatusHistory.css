@@ -7,7 +7,7 @@
     margin-bottom: -30px;
 }
 
-.THIS .state-ico-wrapper{
+.THIS .state-ico-wrapper {
     width: 18px;
     height: 18px;
     border-radius: 50%;
@@ -16,15 +16,23 @@
     top: -10px;
     left: -9px;
     line-height: 1;
-
+}
+.THIS .state-ico-wrapperRTL {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    border: 2px solid;
+    position: absolute;
+    top: -10px;
+    line-height: 1;
 }
 
-.THIS .path-item-detail-panel{
+.THIS .path-item-detail-panel {
     margin-bottom: 20px;
     padding: 0;
 }
 
-.THIS .line-div{
+.THIS .line-div {
     flex: 0 0 30px;
     border-left: 2px solid;
     position: relative;
@@ -32,31 +40,44 @@
     padding: 0;
 }
 
-.THIS .line-div .state-ico-wrapper{
+.THIS .line-div .state-ico-wrapper {
     position: relative;
     width: 28px;
     height: 28px;
     top: -15px;
     left: -14px;
 }
+.THIS .line-div .state-ico-wrapperRTL {
+    position: relative;
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 7px;
+}
 
-.THIS .line-div .state-ico-wrapper .rr-icon-default{
+.THIS .line-div .state-ico-wrapper .rr-icon-default {
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+    fill: white;
+}
+.THIS .line-div .state-ico-wrapperRTL .rr-icon-default {
     width: 24px;
     height: 24px;
     padding: 1px;
     fill: white;
 }
 
-.THIS .pe-state-row:last-child .line-div{
+.THIS .pe-state-row:last-child .line-div {
     border: none;
 }
 
-.THIS .slds-grid_vertical, 
+.THIS .slds-grid_vertical,
 .THIS .slds-grid--vertical {
     margin-left: 30px;
 }
 
-.THIS .line-div.neutral{
+.THIS .line-div.neutral {
     border-left-color: #999999;
 }
 /*
@@ -73,31 +94,50 @@
     border-left-color: #E20000;
 }
 */
-.THIS .state-ico-wrapper.neutral{
+.THIS .state-ico-wrapper.neutral {
     background-color: white;
     border-color: #999999;
 }
 
-.THIS .state-ico-wrapper.success{
+.THIS .state-ico-wrapper.success {
     background-color: #00c221;
     border-color: #00c221;
 }
 
-.THIS .state-ico-wrapper.in_progress{
+.THIS .state-ico-wrapper.in_progress {
     background-color: #00c221;
-    border-color:#00c221;
+    border-color: #00c221;
 }
 
-.THIS .state-ico-wrapper.failure{
-    background-color: #E20000;
-    border-color: #E20000;
+.THIS .state-ico-wrapper.failure {
+    background-color: #e20000;
+    border-color: #e20000;
+}
+.THIS .state-ico-wrapperRTL.neutral {
+    background-color: white;
+    border-color: #999999;
 }
 
-.THIS .path-item-detail-panel{
+.THIS .state-ico-wrapperRTL.success {
+    background-color: #00c221;
+    border-color: #00c221;
+}
+
+.THIS .state-ico-wrapperRTL.in_progress {
+    background-color: #00c221;
+    border-color: #00c221;
+}
+
+.THIS .state-ico-wrapperRTL.failure {
+    background-color: #e20000;
+    border-color: #e20000;
+}
+
+.THIS .path-item-detail-panel {
     min-height: 80px;
 }
 
-.THIS .path-item-detail-panel .title{
+.THIS .path-item-detail-panel .title {
     font-size: 17px;
     font-weight: 500;
     line-height: 20px;
@@ -115,17 +155,16 @@
     color: #FF9300;
 }
 */
-.THIS .path-item-detail-panel.neutral .title{
+.THIS .path-item-detail-panel.neutral .title {
     color: #999999;
 }
 
-
-.THIS .pe-history{
-    margin-top: 20px
+.THIS .pe-history {
+    margin-top: 20px;
 }
 
-.THIS .pe-history > .title{
-    color: #7F888D!important;
+.THIS .pe-history > .title {
+    color: #7f888d !important;
     font-size: 10px;
     font-weight: bold;
     line-height: 14px;
@@ -133,22 +172,22 @@
     margin-bottom: 5px;
 }
 
-.THIS .pe-history .info{
+.THIS .pe-history .info {
     font-size: 14px;
     line-height: 18px;
 }
 
-.THIS .pe-history .info.first{
+.THIS .pe-history .info.first {
     font-weight: 600;
 }
 
-.THIS .pe-history > .date{
+.THIS .pe-history > .date {
     color: #666666;
     font-size: 13px;
     line-height: 16px;
 }
 
-.THIS .pe-history .history-item + .history-item{
+.THIS .pe-history .history-item + .history-item {
     margin-top: 2px;
 }
 /*

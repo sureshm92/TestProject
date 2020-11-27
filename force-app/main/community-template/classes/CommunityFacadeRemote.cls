@@ -3,17 +3,22 @@
  */
 
 public without sharing class CommunityFacadeRemote {
-    public static String COOKIE_FIELD_MARK = 'AllowedCookie__c';
+    public static final String COOKIE_FIELD_MARK = 'AllowedCookie__c';
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
-        return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = :UserInfo.getUserId()].Contact.Is_First_Logon__c;
+        return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = :UserInfo.getUserId()]
+        .Contact.Is_First_Logon__c;
     }
 
     @AuraEnabled
     public static void acceptTerms() {
         try {
-            User user = [SELECT Id, Contact.Is_First_Logon__c, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
+            User user = [
+                SELECT Id, Contact.Is_First_Logon__c, ContactId
+                FROM User
+                WHERE Id = :UserInfo.getUserId()
+            ];
             Contact cont = [SELECT Id FROM Contact WHERE Id = :user.ContactId];
             cont.Is_First_Logon__c = false;
             update cont;
@@ -60,15 +65,16 @@ public without sharing class CommunityFacadeRemote {
      * Class, that contains all community user visibility. Please add your new visibility here
      */
     public class CommunityUserVisibility {
-        @AuraEnabled public Boolean messagesVisible;
-        @AuraEnabled public Boolean trialMatchVisible;
+        @AuraEnabled
+        public Boolean messagesVisible;
+        @AuraEnabled
+        public Boolean trialMatchVisible;
     }
-@AuraEnabled
-	public static String getCommunityUrl() {
-         return site.getMasterLabel();
-        
+    @AuraEnabled
+    public static String getCommunityUrl() {
+        return site.getMasterLabel();
     }
-    
+
     @AuraEnabled
     public static String getCommunityData() {
         try {
@@ -77,7 +83,9 @@ public without sharing class CommunityFacadeRemote {
             if (!cd.isDummy) {
                 Contact userContact = CommunityService.getUserContact();
                 cd.communityMode = userContact.userCommunityMode__c;
-                cd.communityDelegateId = userContact.userCommunityDelegateId__c != null ? userContact.userCommunityDelegateId__c : '';
+                cd.communityDelegateId = userContact.userCommunityDelegateId__c != null
+                    ? userContact.userCommunityDelegateId__c
+                    : '';
                 cd.isDelegate = userContact.UserCommunityIsDelegate__c;
                 cd.allUserModes = UserContext.getAllUserModes();
                 cd.state = ParticipantService.getParticipantState().value.name();
@@ -117,15 +125,21 @@ public without sharing class CommunityFacadeRemote {
         String sponsorName = UserContext.getCurrentCommunityTemplate().templateName;
         String query = 'SELECT Id, Messages_Are_Available__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE  (Principal_Investigator__c =: id OR Id IN :idDel) AND ';
         if (sponsorName == CommunityTemplateService.TEMPLATE_JANSSEN) {
-            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c = \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
-
+            query +=
+                'Clinical_Trial_Profile__r.CommunityTemplate__c = \'' +
+                CommunityTemplateService.TEMPLATE_JANSSEN +
+                '\' ';
         } else {
-            query += 'Clinical_Trial_Profile__r.CommunityTemplate__c != \'' + CommunityTemplateService.TEMPLATE_JANSSEN + '\' ';
+            query +=
+                'Clinical_Trial_Profile__r.CommunityTemplate__c != \'' +
+                CommunityTemplateService.TEMPLATE_JANSSEN +
+                '\' ';
         }
         List<Study_Site__c> studies = new List<Study_Site__c>();
         studies = Database.query(query);
-        for (Study_Site__c study: studies) {
-            if (study.Messages_Are_Available__c) return true;
+        for (Study_Site__c study : studies) {
+            if (study.Messages_Are_Available__c)
+                return true;
         }
         return false;
 
@@ -167,21 +181,21 @@ public without sharing class CommunityFacadeRemote {
     }
 
     private static List<String> getPreventedCookies(Id contactId) {
-       List<String> preventedCookies = new List<String>();
+        List<String> preventedCookies = new List<String>();
 
         List<String> cookieFields = new List<String>();
         String commUrl = getCommunityUrl();
         //Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
-       
-            if(commUrl!=null) 
-            if(commUrl.contains('Janssen Community')) {
+
+        if (commUrl != null)
+            if (commUrl.contains('Janssen Community')) {
                 cookieFields.add('RRJanssenCookiesAllowedCookie__c');
                 cookieFields.add('RRJanssenLanguageAllowedCookie__c');
-                } else {
+            } else {
                 cookieFields.add('RRCookiesAllowedCookie__c');
                 cookieFields.add('RRLanguageAllowedCookie__c');
-           }
-      /*  for (String currField : fields.keySet()) {
+            }
+        /*  for (String currField : fields.keySet()) {
             String fieldName = fields.get(currField).getDescribe().getName();
             if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
                 cookieFields.add(fieldName);
@@ -189,7 +203,12 @@ public without sharing class CommunityFacadeRemote {
         } */
 
         if (!cookieFields.isEmpty()) {
-            String query = 'SELECT ' + String.join(cookieFields, ', ') + ' FROM Contact WHERE Id = \'' + contactId + '\'';
+            String query =
+                'SELECT ' +
+                String.join(cookieFields, ', ') +
+                ' FROM Contact WHERE Id = \'' +
+                contactId +
+                '\'';
             List<Contact> currContacts = Database.query(query);
             if (!currContacts.isEmpty()) {
                 Contact currContact = currContacts[0];
@@ -219,7 +238,8 @@ public without sharing class CommunityFacadeRemote {
 
     public static Boolean isTCAccepted() {
         Terms_And_Conditions__c portalTC = TermsAndConditions.getPortalTC(false);
-        if (portalTC != null) return TermsAndConditions.isTCAccepted(portalTC.Id);
+        if (portalTC != null)
+            return TermsAndConditions.isTCAccepted(portalTC.Id);
         return true;
     }
 
@@ -231,42 +251,54 @@ public without sharing class CommunityFacadeRemote {
         List<Id> peIds = new List<Id>();
         CommunityMode communityMode = UserContext.getCurrentUserMode();
 
-        if (communityMode.currentPE != null) peIds.add(communityMode.currentPE);
+        if (communityMode.currentPE != null)
+            peIds.add(communityMode.currentPE);
         if (communityMode.hasPastStudies) {
             Id currentContactId = userContact.Id;
             if (communityMode.isDelegate) {
-                currentContactId = PatientDelegateService.getParticipantByDelegateContactId(currentContactId).Contact__c;
+                currentContactId = PatientDelegateService.getParticipantByDelegateContactId(
+                        currentContactId
+                    )
+                    .Contact__c;
             }
             List<Id> pastPEs = PatientDelegateService.getPastPEIdsForContact(currentContactId);
-            if (pastPEs != null) peIds.addAll(pastPEs);
+            if (pastPEs != null)
+                peIds.addAll(pastPEs);
         }
 
         if (!peIds.isEmpty()) {
-            conversations = [SELECT Id FROM Conversation__c WHERE Participant_Enrollment__c IN:peIds];
+            conversations = [
+                SELECT Id
+                FROM Conversation__c
+                WHERE Participant_Enrollment__c IN :peIds
+            ];
 
             peWithAvailableMessages = [
-                    SELECT Id
-                    FROM Participant_Enrollment__c
-                    WHERE Id IN:peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
+                SELECT Id
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
             ];
         }
 
-        if (conversations.isEmpty() && peWithAvailableMessages.isEmpty()) return false;
+        if (conversations.isEmpty() && peWithAvailableMessages.isEmpty())
+            return false;
         return true;
     }
 
     private static Boolean getTrialMatchVisibility() {
         if (ParticipantContext.getCurrentPEId() != null) {
-            return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Trial_Match_Is_Available__c
-                    && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
+            return ParticipantContext.getCurrentPE()
+                    .Clinical_Trial_Profile__r.Trial_Match_Is_Available__c &&
+                ParticipantService.getParticipantState().value ==
+                ParticipantService.ParticipantStates.PARTICIPANT;
         }
         return false;
     }
 
-    private static String getSponsorName(String communityName){
+    private static String getSponsorName(String communityName) {
         String sponsorName = null;
         Map<String, String> rhSponsorsByCommunity = CommunityModeService.rhSponsorsByCommunity;
-        if(rhSponsorsByCommunity.containsKey(communityName)) {
+        if (rhSponsorsByCommunity.containsKey(communityName)) {
             sponsorName = rhSponsorsByCommunity.get(communityName);
         }
         return sponsorName;
@@ -278,8 +310,10 @@ public without sharing class CommunityFacadeRemote {
             Contact userContact = CommunityService.getUserContact();
             userContact.userCommunityMode__c = mode;
             userContact.userCommunityDelegateId__c = delegateId;
-            if (mode == CommunityService.USER_MODE_PARTICIPANT) userContact.Current_Participant_Enrollment__c = peId;
-            if (mode == CommunityService.USER_MODE_PI) userContact.Current_Sponsor_Name__c = communityName;
+            if (mode == CommunityService.USER_MODE_PARTICIPANT)
+                userContact.Current_Participant_Enrollment__c = peId;
+            if (mode == CommunityService.USER_MODE_PI)
+                userContact.Current_Sponsor_Name__c = communityName;
             update userContact;
             return userContact;
         } catch (Exception e) {
@@ -290,8 +324,11 @@ public without sharing class CommunityFacadeRemote {
     @AuraEnabled
     public static String getPreferredLanguageCode(String browserLanguages) {
         try {
-            if(UserInfo.getUserType() != 'Guest') return 'Skip';
-            return TranslateHelper.convertBrowserLanguage((List<String>) JSON.deserialize(browserLanguages, List<String>.class));
+            if (UserInfo.getUserType() != 'Guest')
+                return 'Skip';
+            return TranslateHelper.convertBrowserLanguage(
+                (List<String>) JSON.deserialize(browserLanguages, List<String>.class)
+            );
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -310,12 +347,12 @@ public without sharing class CommunityFacadeRemote {
             return url2;
         }
         return defaultURL;
-
     }
 
     public static Boolean urlExists(String url) {
         try {
-            if (Test.isRunningTest()) return true;
+            if (Test.isRunningTest())
+                return true;
             HttpRequest req = new HttpRequest();
             req.setEndpoint(url);
             req.setMethod('GET');
@@ -328,30 +365,40 @@ public without sharing class CommunityFacadeRemote {
     }
 
     @AuraEnabled
-    public static Boolean isCurrentSessionMobileApp(){
+    public static Boolean isCurrentSessionMobileApp() {
         Boolean isMobileApp = false;
         List<AuthSession> sessions = [
-                SELECT Id, IsCurrent, LoginHistory.Browser, LoginHistory.Application, LastModifiedDate
-                FROM AuthSession
-                WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
-                ORDER BY LastModifiedDate DESC LIMIT 1
+            SELECT Id, IsCurrent, LoginHistory.Browser, LoginHistory.Application, LastModifiedDate
+            FROM AuthSession
+            WHERE UsersId = :UserContext.getUserId() AND IsCurrent = TRUE
+            ORDER BY LastModifiedDate DESC
+            LIMIT 1
         ];
         if (!sessions.isEmpty() && sessions[0].LoginHistory != null) {
             LoginHistory history = sessions[0].LoginHistory;
-            if (history.Browser != null && history.Application != null){
-                isMobileApp = (!history.Application.equals('Browser') 
-                        || history.Browser.equals('Unknown Mobile Browser')
-                        || history.Browser.equals('Unknown Webkit Mobile'));
+            if (history.Browser != null && history.Application != null) {
+                isMobileApp = (!history.Application.equals('Browser') ||
+                history.Browser.equals('Unknown Mobile Browser') ||
+                history.Browser.equals('Unknown Webkit Mobile'));
             }
         }
         return isMobileApp;
     }
 
-    private static Boolean getHasIQVIAStudiesPI(){
+    private static Boolean getHasIQVIAStudiesPI() {
         if (CommunityService.getUserContact() == null) {
             return false;
         }
         List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
-        return [SELECT Id FROM Study_Site__c WHERE Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT AND (Id IN :delegatedSites OR Principal_Investigator__c = :UserContext.getUserContactId()) ].size() > 0;
+        return [
+                SELECT Id
+                FROM Study_Site__c
+                WHERE
+                    (Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT
+                    OR Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_GSK)
+                    AND (Id IN :delegatedSites
+                    OR Principal_Investigator__c = :UserContext.getUserContactId())
+            ]
+            .size() > 0;
     }
 }

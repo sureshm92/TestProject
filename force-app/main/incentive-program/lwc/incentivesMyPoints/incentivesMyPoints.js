@@ -2,31 +2,29 @@
  * Created by Andrii Kryvolap.
  */
 
-import {LightningElement, track} from 'lwc';
+import { LightningElement, track } from 'lwc';
 import getIncentiveHistory from '@salesforce/apex/IncentiveProgramRemote.getIncentiveHistory';
 
 export default class IncentivesMyPoints extends LightningElement {
-
-
     @track totalPoints;
     @track completedTasks;
-    @track initialized=false;
+    @track initialized = false;
 
     connectedCallback() {
         getIncentiveHistory()
-            .then(data => {
+            .then((data) => {
                 this.totalPoints = data.totalPoints;
                 this.completedTasks = data.completedTasks;
                 this.initialized = true;
                 this.spinner.hide();
             })
-            .catch(error => {
+            .catch((error) => {
                 console.error('Error in getIncentiveHistory():' + JSON.stringify(error));
             });
     }
-    renderedCallback(){
+    renderedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
-        if (!this.initialized){
+        if (!this.initialized) {
             this.spinner.show();
         }
     }

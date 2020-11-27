@@ -2,10 +2,9 @@
  * Created by Igor Malyuta on 08.01.2020.
  */
 
-import {LightningElement, api} from 'lwc';
+import { LightningElement, api } from 'lwc';
 
 export default class WebLimitTextByLines extends LightningElement {
-
     @api title;
     @api classCss;
     @api maxLines;
@@ -23,10 +22,9 @@ export default class WebLimitTextByLines extends LightningElement {
     renderedCallback() {
         if (!this.blockWithTxt) this.blockWithTxt = this.template.querySelector('.block-with-text');
 
-        this.blockWithTxt.style.lineHeight = (this.lineHeight + this.unitsType);
-        this.blockWithTxt.style.maxHeight = (this.lineHeight * this.maxLines) + this.unitsType;
-        this.blockWithTxt.style.background = (this.background ? this.background : 'white');
-
+        this.blockWithTxt.style.lineHeight = this.lineHeight + this.unitsType;
+        this.blockWithTxt.style.maxHeight = this.lineHeight * this.maxLines + this.unitsType;
+        this.blockWithTxt.style.background = this.background ? this.background : 'white';
     }
 
     get cssClass() {

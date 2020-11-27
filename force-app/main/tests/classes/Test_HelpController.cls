@@ -4,22 +4,54 @@
 
 @IsTest
 public class Test_HelpController {
+    private class HelpInitData {
+        HelpController.UserContact userContact;
+        List<Participant_Enrollment__c> participantEnrollList;
+        List<LabelValueItem> participantEnrollOptions;
+        List<Study_Site__c> siteList;
+        List<LabelValueItem> siteOptions;
+        List<HelpTopicWrapper> helpTopicSettings;
+        List<LabelValueItem> helpTopicOptions;
+    }
+
+    private class HelpTopicWrapper {
+        Boolean userDescriptionRequired;
+        String knowledgeArticleLink;
+        String type;
+        String subject;
+        String priority;
+        String reason;
+        String description;
+        String userTypes;
+        Integer order;
+        String displayName;
+        String displaySolution;
+        String descriptionPlaceholder;
+        Boolean submitRequired;
+        Boolean escalated;
+    }
 
     @IsTest
     public static void runTest() {
         TestData.loadTestData();
         TestData testDataInstance = new TestData();
-    
+
+        HelpInitData initDataPart;
+        String initExceptionMessage;
+        String fileExceptionMessage;
+
         Test.startTest();
-    
         try {
             HelpController.getHelpInitData('PI');
         } catch (Exception e) {
-            // expected Exception
+            initExceptionMessage = e.getMessage();
         }
-        
+
         System.runAs(testDataInstance.participantUser) {
-            HelpController.getHelpInitData('PI');
+            initDataPart = (HelpInitData) JSON.deserialize(
+                HelpController.getHelpInitData('PI'),
+                HelpInitData.class
+            );
         }
 
         List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
@@ -29,14 +61,43 @@ public class Test_HelpController {
         file.fileName = 'some.txt';
         file.contentType = 'text/plain';
         files.add(file);
-        HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', JSON.serialize(files), false, false);
+        HelpController.createCase(
+            'Some case',
+            'Seme Description',
+            'Question',
+            'Low',
+            'Some Reason',
+            JSON.serialize(files),
+            false,
+            false
+        );
 
         try {
-            HelpController.createCase('Some case','Seme Description', 'Question', 'Low', 'Some Reason', 'wrong', false, false);
+            HelpController.createCase(
+                'Some case',
+                'Seme Description',
+                'Question',
+                'Low',
+                'Some Reason',
+                'wrong',
+                false,
+                false
+            );
         } catch (Exception e) {
-            // expected Exception
+            fileExceptionMessage = e.getMessage();
         }
-        
-        Test.StopTest();
+        Test.stopTest();
+
+        System.assert(initExceptionMessage.contains('Attempt to de-reference a null object'));
+        System.assert(initDataPart.helpTopicSettings[0].userTypes.contains('PI'));
+
+        Case testCase = [SELECT Id FROM Case WHERE Subject = 'Some case'];
+        ContentDocumentLink testFile = [
+            SELECT Id, ContentDocument.Title
+            FROM ContentDocumentLink
+            WHERE LinkedEntityId = :testCase.Id
+        ];
+        System.assertEquals(file.fileName, testFile.ContentDocument.Title);
+        System.assert(fileExceptionMessage.contains('Unexpected character'));
     }
 }

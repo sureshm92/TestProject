@@ -2,11 +2,10 @@
  * Created by Igor Malyuta on 18.11.2019.
  */
 
-import {LightningElement, api, track, wire} from 'lwc';
+import { LightningElement, api, track, wire } from 'lwc';
 import { NavigationMixin } from 'lightning/navigation';
 
 export default class UiLink extends NavigationMixin(LightningElement) {
-
     @api label;
     @api page;
     @api classCss = '';
@@ -23,7 +22,7 @@ export default class UiLink extends NavigationMixin(LightningElement) {
 
         this.pageState = {};
         let query = pagePart[1].split('&');
-        for(let pq in query){
+        for (let pq in query) {
             let param = query[pq].split('=');
             this.pageState[param[0]] = param[1];
         }
@@ -41,9 +40,12 @@ export default class UiLink extends NavigationMixin(LightningElement) {
 
     //Expressions for html attributes-----------------------------------------------------------------------------------
     get cssClass() {
-        return this.classCss + ' rr-link ' +
+        return (
+            this.classCss +
+            ' rr-link ' +
             (this.maxWidth !== undefined ? 'limit-width' : '') +
-            (this.label !== undefined ? ' only-text' : '');
+            (this.label !== undefined ? ' only-text' : '')
+        );
     }
 
     get cssStyle() {

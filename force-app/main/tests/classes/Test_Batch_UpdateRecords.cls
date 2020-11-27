@@ -16,13 +16,16 @@ private class Test_Batch_UpdateRecords {
         Test.stopTest();
 
         List<Clinical_Trial_Profile__c> resCTPs = [
-                SELECT Id, Study_Code_Name__c
-                FROM Clinical_Trial_Profile__c
-                WHERE Id =: td.ctp.Id
+            SELECT Id, Study_Code_Name__c
+            FROM Clinical_Trial_Profile__c
+            WHERE Id = :td.ctp.Id
         ];
         System.assertEquals(
-                td.ctp.Study_Title__c.mid(0, Clinical_Trial_Profile__c.Study_Code_Name__c.getDescribe().getLength()),
-                resCTPs[0].Study_Code_Name__c
+            td.ctp.Study_Title__c.mid(
+                0,
+                Clinical_Trial_Profile__c.Study_Code_Name__c.getDescribe().getLength()
+            ),
+            resCTPs[0].Study_Code_Name__c
         );
     }
 }

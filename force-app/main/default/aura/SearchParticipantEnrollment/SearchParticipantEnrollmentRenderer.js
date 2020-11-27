@@ -2,8 +2,9 @@
  * Created by Leonid Bartenev
  */
 ({
-    unrender : function(component){
+    unrender: function (component) {
         this.superUnrender();
-        if(!component.serveyGizmoResultHandler) window.removeEventListener('message', component.serveyGizmoResultHandler);
+        if (!component.serveyGizmoResultHandler)
+            window.removeEventListener('message', component.serveyGizmoResultHandler);
     }
-})
+});

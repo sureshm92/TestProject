@@ -10,12 +10,21 @@
                 <template if:false={isPIMode}>
                     <div class="ms-multi-header-pa">
                         <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
-                        <select class="slds-select" style="flex-basis: 60%;" data-gtm="ms-pa-pe-select"
-                                id="pe-select" onchange={handleEnrollmentSelect}>
+                        <select
+                            class="slds-select"
+                            style="flex-basis: 60%"
+                            data-gtm="ms-pa-pe-select"
+                            id="pe-select"
+                            onchange={handleEnrollmentSelect}
+                        >
                             <option value="">{labels.selectStudyPlaceholderLabel}</option>
                             <template for:each={enrollmentsOptions} for:item="enrollmentsOption">
-                                <option key={enrollmentsOption.value}
-                                        value={enrollmentsOption.value}>{enrollmentsOption.label}</option>
+                                <option
+                                    key={enrollmentsOption.value}
+                                    value={enrollmentsOption.value}
+                                >
+                                    {enrollmentsOption.label}
+                                </option>
                             </template>
                         </select>
                     </div>
@@ -26,10 +35,12 @@
                         <div class="ms-pi-new-mess">{labels.newMessLabel}</div>
                         <div class="ms-pi-multi-recipient" data-gtm="LKP_Participants">
                             <c-web-lookup
-                                    onsearch={handleSearch}
-                                    onselectionchange={handleSelectionChange}
-                                    placeholder={labels.recipientsPlaceholder}
-                                    is-multi-entry="true" result-limit="15">
+                                onsearch={handleSearch}
+                                onselectionchange={handleSelectionChange}
+                                placeholder={labels.recipientsPlaceholder}
+                                is-multi-entry="true"
+                                result-limit="15"
+                            >
                             </c-web-lookup>
                         </div>
                     </div>
@@ -44,19 +55,28 @@
                             {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
                         </template>
                         <template if:true={isPastStudy}>
-                            <c-web-limit-text-by-lines max-lines="2"
-                                                       title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
-                                <span slot="body">{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
+                            <c-web-limit-text-by-lines
+                                max-lines="2"
+                                title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                            >
+                                <span slot="body"
+                                    >{labels.teamLabel}&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                >
                             </c-web-limit-text-by-lines>
                         </template>
                     </div>
                 </template>
                 <template if:true={isPIMode}>
                     <div class="ms-header-patient-name" data-gtm="ms-header-patient-name">
-                        <c-web-limit-text-by-lines max-lines="1" title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                        <c-web-limit-text-by-lines
+                            max-lines="1"
+                            title={selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                        >
                             <span slot="body">
                                 {selectedEnrollment.Participant__r.Full_Name__c}
-                        <span class="ms-header-patient-study">&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span>
+                                <span class="ms-header-patient-study"
+                                    >&nbsp;|&nbsp;{selectedEnrollment.Clinical_Trial_Profile__r.Study_Code_Name__c}</span
+                                >
                             </span>
                         </c-web-limit-text-by-lines>
                     </div>

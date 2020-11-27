@@ -4,5 +4,5 @@
  * DEPRECATED!
  */
 
-global without sharing class  EmailTemplateParticipantController {
+global without sharing class EmailTemplateParticipantController {
 }

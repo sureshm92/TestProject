@@ -3,9 +3,9 @@
  */
 
 public without sharing class NotificationCatalog {
-/**
- *  MESSAGE TO PATIENT
- */
+    /**
+     *  MESSAGE TO PATIENT
+     */
     // for virtual study
     public static final String MESSAGE_TO_PT_PATIENT_DECLINED_VT_TYPE = 'Message_to_PT_Patient_Declined_VT_Type';
     public static final String MESSAGE_TO_PT_PATIENT_ON_HOLD_VT_TYPE = 'Message_to_PT_Patient_On_Hold_VT_Type';
@@ -58,9 +58,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE = 'Message_to_PT_Del_Reactivated_GSK';
     public static final String MESSAGE_TO_PT_DEL_NEW_STUDY_TYPE = 'Message_to_PT_Del_New_Study_Type';
 
-/**
- *  MESSAGE TO PI
- */
+    /**
+     *  MESSAGE TO PI
+     */
     public static final String MESSAGE_TO_PI_SS_WAS_CHANGED_TYPE = 'Message_to_PI_SS_Was_Changed_Type';
     public static final String MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE = 'Message_To_PI_Accept_New_Study_Type';
     public static final String MESSAGE_TO_PI_NEW_PATIENT_REFERRAL_TYPE = 'Message_to_PI_New_Patient_Referral_Type';
@@ -69,9 +69,9 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_PI_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_PI_Access_Level_Changed_Type';
     public static final String MESSAGE_TO_PI_CONTACT_PARTICIPANT_TYPE = 'Message_To_PI_Contact_Participant_Type';
 
-/**
- *  MESSAGE TO HCP
- */
+    /**
+     *  MESSAGE TO HCP
+     */
     //check 5.1 commit
     public static final String MESSAGE_TO_HCP_PATIENT_ACCEPTED_TYPE = 'Message_to_HCP_Patient_Accepted_Type';
     public static final String MESSAGE_TO_HCP_PATIENT_DECLINED_TYPE = 'Message_to_HCP_Patient_Declined_Type';
@@ -87,16 +87,16 @@ public without sharing class NotificationCatalog {
     public static final String MESSAGE_TO_HCP_REFERRAL_NETWORK_TYPE = 'Message_to_HCP_Referral_Network_Type';
     public static final String MESSAGE_TO_HCP_ACCESS_LEVEL_CHANGED_TYPE = 'Message_to_HCP_Access_Level_Changed_Type';
     public static final String MESSAGE_TO_HCP_HCPE_ON_HOLD_TYPE = 'Message_to_HCP_HCPE_On_Hold_Type';
-
-/**
- *  MESSAGE TO EXTERNAL USERS
- */
+    public static final String MESSAGE_TO_HCP_NEW_STUDY_BACKEND = 'Message_to_HCP_New_Study_Backend';
+    /**
+     *  MESSAGE TO EXTERNAL USERS
+     */
     public static final String MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE = 'Message_to_ExUs_Shared_Study_By_PE_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE = 'Message_to_ExUs_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE = 'Message_to_ExUs_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE = 'Message_to_ExUs_Share_Resources_Type';
-    public static final String MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE_NO_CNT='Message_to_NoCnt_Shared_Study_By_PE_Type';
-    public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT='Message_to_NoCnt_Share_Study_By_HCP_Type';
+    public static final String MESSAGE_TO_EXUS_SHARED_STUDY_BY_PE_TYPE_NO_CNT = 'Message_to_NoCnt_Shared_Study_By_PE_Type';
+    public static final String MESSAGE_TO_EXUS_SHARE_STUDY_BY_HCP_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Study_By_HCP_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_SOCIAL_STUDY_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Social_Study_Type';
     public static final String MESSAGE_TO_EXUS_SHARE_RESOURCES_TYPE_NO_CNT = 'Message_to_NoCnt_Share_Resources_Type';
 }

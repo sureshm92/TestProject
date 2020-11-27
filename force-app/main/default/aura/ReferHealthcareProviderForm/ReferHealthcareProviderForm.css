@@ -2,15 +2,14 @@
     padding: 6px 6px;
     margin-top: 4px;
 }
-.THIS .slds-button{
+.THIS .slds-button {
     box-shadow: none;
     border: none;
     font-weight: 600;
 }
 
-@media all and (max-width: 768px){
-	.THIS .apollo-btn.secondary {
+@media all and (max-width: 768px) {
+    .THIS .apollo-btn.secondary {
         margin-bottom: 15px;
     }
-    
 }

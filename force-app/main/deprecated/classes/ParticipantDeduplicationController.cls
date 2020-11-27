@@ -5,5 +5,4 @@
 //TODO !!! DEPRECATED MUST BE REMOVED!!!
 
 public without sharing class ParticipantDeduplicationController {
-
 }

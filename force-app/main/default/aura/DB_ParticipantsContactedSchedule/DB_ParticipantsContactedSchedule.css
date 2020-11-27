@@ -15,17 +15,36 @@
 
 .THIS .col_format1 {
     border-radius: 5px;
-    background-color: #F6F7FB;
+    background-color: #f6f7fb;
     height: 100px;
     width: 120px;
     text-align: center;
     padding-top: 15px;
 }
 
+.THIS .showMore {
+    font-size: 18px;
+    color: #297dfd;
+    font-weight: 600;
+}
+
 .THIS .text_format {
     color: #000000;
     font-size: 25px;
     font-weight: 600;
+}
+
+.THIS .help_text {
+    margin-left: 1rem;
+    margin-bottom: 1rem;
+}
+
+.THIS .help_text_format {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 17px;
 }
 
 .THIS .text_format_days {
@@ -40,7 +59,7 @@
 .THIS .slds-button_neutral {
     margin-top: 16px;
     font-size: 14px;
-    background-color: #F6F7FB;
+    background-color: #f6f7fb;
     border: none;
     font-weight: 400;
     padding-left: 1rem;
@@ -52,7 +71,6 @@
 }
 
 @media all and (max-width: 768px) {
-
     .THIS {
         margin-top: 1rem;
     }
@@ -99,9 +117,24 @@
     .THIS .slds-button_neutral {
         margin-top: 0;
     }
+
+    .THIS .slds-truncate {
+        white-space: pre-wrap !important;
+        text-align: left !important;
+    }
+
+    .THIS .help_text {
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
 }
 
 @media all and (max-width: 500px) {
+    .THIS .slds-truncate {
+        white-space: pre-wrap !important;
+        text-align: left !important;
+    }
+
     .THIS .slds-card__body > .slds-grid {
         justify-content: space-between;
     }
@@ -109,4 +142,22 @@
     .THIS h2 > .slds-text-heading_small {
         white-space: normal;
     }
+
+    .THIS .help_text {
+        margin-left: 0;
+        margin-bottom: 1rem;
+    }
+}
+
+.THIS .slds-spinner_container {
+    z-index: 1 !important;
+}
+
+.THIS.exampleHolder {
+    position: relative;
+    display: inline-block;
+    margin-left: 15px;
+    width: 55px;
+    vertical-align: middle;
+    white-space: nowrap;
 }

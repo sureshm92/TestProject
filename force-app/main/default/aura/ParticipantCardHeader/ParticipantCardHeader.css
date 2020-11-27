@@ -11,11 +11,14 @@
     justify-content: space-between;
 }
 
-.THIS.rtl > div{
+/*.THIS.rtl > div{
     flex-direction: row-reverse;
+}*/
+.THIS.rtl {
+    direction: rtl;
 }
 
-.THIS .psec-title-link{
+.THIS .psec-title-link {
     font-size: 1rem;
     color: #3294fe;
     font-weight: 600;
@@ -32,7 +35,7 @@
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-.THIS .objective-section{
+.THIS .objective-section {
     display: flex;
     justify-content: space-between;
     align-items: center;
@@ -58,6 +61,13 @@
     display: inline-block;
     text-align: right;
 }
+.THIS .objective-linkRTL {
+    white-space: nowrap;
+    font-size: 1rem;
+    width: 150px;
+    display: inline-block;
+    text-align: left;
+}
 
 .THIS .vpi-title,
 .THIS .vpi-tile-title {
@@ -67,11 +77,11 @@
     display: inline-block;
 }
 
-.THIS.rtl .vpi-tile-title{
+.THIS.rtl .vpi-tile-title {
     direction: rtl;
 }
 
-.THIS.rtl .objective-text{
+.THIS.rtl .objective-text {
     direction: rtl;
 }
 
@@ -85,14 +95,14 @@
 }
 
 .THIS .icon-link {
-    fill: #297DFD;
+    fill: #297dfd;
     cursor: pointer;
 }
 .THIS .icon-link:hover {
     fill: #686868;
 }
 
-.THIS .slds-has-block-links--space{
+.THIS .slds-has-block-links--space {
     background: #00c221;
     fill: white;
     padding: 0 16px;
@@ -103,7 +113,7 @@
     right: 10px;
     border-radius: 2px;
 }
-.THIS .slds-has-block-links--space2{
+.THIS .slds-has-block-links--space2 {
     background: #999;
     fill: white;
     padding: 0 16px;
@@ -114,8 +124,8 @@
     right: 10px;
     border-radius: 2px;
 }
-.THIS .slds-has-block-links--space3{
-    background: #FF9300;
+.THIS .slds-has-block-links--space3 {
+    background: #ff9300;
     fill: white;
     padding: 0 16px;
     text-align: center;
@@ -126,15 +136,20 @@
     border-radius: 2px;
 }
 
-@media screen and (max-width: 500px){
-    .THIS  {
+@media screen and (max-width: 500px) {
+    .THIS {
         padding: 0;
     }
-    
+
+    .THIS .vpi-title {
+        width: 50%;
+        line-height: 1.25;
+    }
+
     .THIS .slds-has-block-links--space,
     .THIS .slds-has-block-links--space2,
     .THIS .slds-has-block-links--space3 {
-     	right: 0;   
+        right: 0;
     }
 
     /*.THIS .custom-plus {
@@ -147,7 +162,6 @@
        left: 0;
        right: 0;
    }*/
-    
 }
 
 /*Added for performance improvement view more link

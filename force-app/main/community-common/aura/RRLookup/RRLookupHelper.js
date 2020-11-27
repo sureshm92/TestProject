@@ -3,8 +3,7 @@
  */
 
 ({
-
-    containsObject : function (array, value) {
+    containsObject: function (array, value) {
         // console.log(JSON.stringify(array));
         // console.log(JSON.stringify(value));
         for (let i = 0; i < array.length; i++) {
@@ -16,7 +15,7 @@
         return false;
     },
 
-    removeFromArray : function (array, idToRemove) {
+    removeFromArray: function (array, idToRemove) {
         for (let i = 0; i < array.length; i++) {
             if (array[i]['Id'] === idToRemove) {
                 array.splice(i, 1);
@@ -25,7 +24,7 @@
         }
     },
 
-    fillValueWithIds :function (items, component) {
+    fillValueWithIds: function (items, component) {
         let value = [];
         for (let i = 0; i < items.length; i++) {
             value.push(items[i]);
@@ -33,4 +32,3 @@
         component.set('v.value', value);
     }
 });
-

@@ -3,30 +3,39 @@
  */
 ({
     doInit: function (component, event, helper) {
-        if(!communityService.isInitialized()) return;
+        var rtl_language = $A.get('$Label.c.RTL_Languages');
+        component.set('v.isRTL', rtl_language.includes(communityService.getLanguage()));
+        if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             component.find('mainSpinner').show();
-            communityService.executeAction(component, 'getSearchCTPs', null, function (data) {
-                if (!data.isAllowed) communityService.navigateToHome();
-                component.set('v.trialTDOs', data.trialTDOs);
-                component.set('v.taps', data.taps);
-                component.set('v.participant', data.participant);
-                component.set('v.formData', data.formData);
-                component.set('v.isInitialized', true);
-                component.set('v.initializedTaps', true);
+            communityService.executeAction(
+                component,
+                'getSearchCTPs',
+                null,
+                function (data) {
+                    if (!data.isAllowed) communityService.navigateToHome();
+                    component.set('v.trialTDOs', data.trialTDOs);
+                    component.set('v.taps', data.taps);
+                    component.set('v.participant', data.participant);
+                    component.set('v.formData', data.formData);
+                    component.set('v.isInitialized', true);
+                    component.set('v.initializedTaps', true);
 
-                if (!String.format) {
-                    String.format = function (format) {
-                        var args = Array.prototype.slice.call(arguments, 1);
-                        return format.replace(/{(\d+)}/g, function (match, number) {
-                            return typeof args[number] != 'undefined' ? args[number] : match;
-                        });
-                    };
+                    if (!String.format) {
+                        String.format = function (format) {
+                            var args = Array.prototype.slice.call(arguments, 1);
+                            return format.replace(/{(\d+)}/g, function (match, number) {
+                                return typeof args[number] != 'undefined' ? args[number] : match;
+                            });
+                        };
+                    }
+                },
+                null,
+                function () {
+                    component.find('mainSpinner').hide();
                 }
-            }, null, function () {
-                component.find('mainSpinner').hide();
-            });
+            );
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
@@ -40,26 +49,31 @@
 
         console.log('In container ' + JSON.stringify(taps));
 
-        helper.enqueue(component, 'c.getFilterSearchCTPs', {
-            'taps': taps,
-            'isEnrolling': isEnrolling,
-            'isNotYetEnrolling': isNotYetEnrolling
-        })
-            .then(function (data) {
-                console.log('data ', data);
-                component.set('v.trialTDOs', data.trialTDOs);
-                component.set('v.isInit', true);
-                //component.set('v.taps', data.taps);
-                component.find('mainSpinner').hide();
-            }, function (err) {
-                if (err && err[0].message) {
-                    component.set('v.errorMessage', err[0].message);
+        helper
+            .enqueue(component, 'c.getFilterSearchCTPs', {
+                taps: taps,
+                isEnrolling: isEnrolling,
+                isNotYetEnrolling: isNotYetEnrolling
+            })
+            .then(
+                function (data) {
+                    console.log('data ', data);
+                    component.set('v.trialTDOs', data.trialTDOs);
+                    component.set('v.isInit', true);
+                    //component.set('v.taps', data.taps);
+                    component.find('mainSpinner').hide();
+                },
+                function (err) {
+                    if (err && err[0].message) {
+                        component.set('v.errorMessage', err[0].message);
+                    }
+                    console.log('error:', err[0].message);
+                    component.find('mainSpinner').hide();
                 }
-                console.log('error:', err[0].message);
+            )
+            .catch(function (err) {
+                console.error(err);
                 component.find('mainSpinner').hide();
-            }).catch(function (err) {
-            console.error(err);
-            component.find('mainSpinner').hide();
-        });
+            });
     }
 });

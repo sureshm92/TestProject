@@ -1,7 +1,5 @@
 public with sharing class CTCTriggerHandler extends TriggerHandler {
-
     public override void afterDelete(List<SObject> oldList) {
-
         CTCService ctcService = (CTCService) ClassFactory.newInstance(CTCService.class);
         ctcService.deleteTAAs(oldList);
     }
@@ -13,7 +11,6 @@ public with sharing class CTCTriggerHandler extends TriggerHandler {
     }
 
     public override void afterInsert(List<SObject> newList) {
-
         CTCService ctcService = (CTCService) ClassFactory.newInstance(CTCService.class);
         ctcService.createUpdateTAAs(newList);
     }

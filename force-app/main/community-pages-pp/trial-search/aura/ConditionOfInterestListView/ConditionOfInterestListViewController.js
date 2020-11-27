@@ -3,7 +3,9 @@
  */
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getConditionOfInterest', {}, function (returnValue) {
+        communityService.executeAction(component, 'getConditionOfInterest', {}, function (
+            returnValue
+        ) {
             component.set('v.conditionOfInterestList', returnValue);
         });
     },
@@ -17,20 +19,20 @@
     },
 
     doDown: function (component, event, helper) {
-            component.set('v.showSpinner', true);
-            let indexCoi = event.getSource().get('v.value');
-            helper.swapElement(component, indexCoi, (indexCoi + 1));
+        component.set('v.showSpinner', true);
+        let indexCoi = event.getSource().get('v.value');
+        helper.swapElement(component, indexCoi, indexCoi + 1);
     },
 
     doUp: function (component, event, helper) {
-            component.set('v.showSpinner', true);
-            let indexCoi = event.getSource().get('v.value');
-            helper.swapElement(component, indexCoi, (indexCoi - 1));
+        component.set('v.showSpinner', true);
+        let indexCoi = event.getSource().get('v.value');
+        helper.swapElement(component, indexCoi, indexCoi - 1);
     },
 
     doDelete: function (component, event, helper) {
-            component.set('v.showSpinner', true);
-            let idCOI = event.getSource().get('v.value');
-            helper.deleteCOI(component, idCOI);
+        component.set('v.showSpinner', true);
+        let idCOI = event.getSource().get('v.value');
+        helper.deleteCOI(component, idCOI);
     }
-})
+});

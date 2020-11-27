@@ -3,7 +3,6 @@
  */
 @IsTest
 private class Test_VisitResultSharingService {
-
     @TestSetup
     static void init() {
         Test.startTest();
@@ -20,10 +19,10 @@ private class Test_VisitResultSharingService {
 
         Test.startTest();
         Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
-                Clinical_Trial_Profile__c = testData.ctp.Id,
-                Include_Countries__c = true,
-                Type__c = 'Calcium',
-                Sharing_Countries__c = 'US'
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Include_Countries__c = true,
+            Type__c = 'Calcium',
+            Sharing_Countries__c = 'US'
         );
         insert vrts;
 
@@ -45,54 +44,70 @@ private class Test_VisitResultSharingService {
         update testData.pe;
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
-        patientVisits.add(new Patient_Visit__c(
+        patientVisits.add(
+            new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(0).Id,
                 Visit_Number__c = 1
-        ));
-        patientVisits.add(new Patient_Visit__c(
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Missed',
                 Visit__c = visits.get(1).Id,
                 Visit_Number__c = 2
-        ));
-        patientVisits.add(new Patient_Visit__c(
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(2).Id,
                 Visit_Number__c = 3
-        ));
-        patientVisits.add(new Patient_Visit__c(
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(3).Id,
                 Visit_Number__c = 3.1
-        ));
-        patientVisits.add(new Patient_Visit__c(
+            )
+        );
+        patientVisits.add(
+            new Patient_Visit__c(
                 Participant_Enrollment__c = testData.pe.Id,
                 Status__c = 'Completed',
                 Visit__c = visits.get(4).Id,
                 Visit_Number__c = 4
-        ));
+            )
+        );
         insert patientVisits;
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
-        visitResults.add(new Visit_Result__c(
+        visitResults.add(
+            new Visit_Result__c(
                 Actual_Value__c = 0.01,
                 Patient_Visit__c = patientVisits.get(0).Id,
                 Result_Type__c = 'Calcium'
-        ));
-        visitResults.add(new Visit_Result__c(
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
                 Actual_Value__c = 0.5,
                 Patient_Visit__c = patientVisits.get(3).Id,
                 Result_Type__c = 'Calcium'
-        ));
-        visitResults.add(new Visit_Result__c(
+            )
+        );
+        visitResults.add(
+            new Visit_Result__c(
                 Actual_Value__c = 0.8,
                 Patient_Visit__c = patientVisits.get(4).Id,
                 Result_Type__c = 'Calcium'
-        ));
+            )
+        );
         insert visitResults;
 
         List<Visit_Result__c> filteredResults;
@@ -111,16 +126,29 @@ private class Test_VisitResultSharingService {
         Participant_Enrollment__c pe = testData.pe;
         pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update pe;
+        Clinical_Trial_Profile__c testCtp;
+        Map<String, Visit_Result_Type_Sharing__c> testVRTP;
 
         System.runAs(testData.participantUser) {
             VisitResultSharingService.getCTP(testData.ctp.Id);
-            VisitResultSharingService.disableShareback(testData.ctp);
-            VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
-            VisitResultSharingService.updateStudySitesSharing(testData.ctp.Id, new List<Id>{
-                    testData.ss.Id
-            }, true, true);
+            testCtp = VisitResultSharingService.disableShareback(testData.ctp);
+            testVRTP = VisitResultSharingService.getTypeVRSharingMap(testData.ctp);
+            VisitResultSharingService.updateStudySitesSharing(
+                testData.ctp.Id,
+                new List<Id>{ testData.ss.Id },
+                true,
+                true
+            );
         }
 
         Test.stopTest();
+        Study_Site__c testSS = [
+            SELECT Id, Visit_Results_Sharing__c
+            FROM Study_Site__c
+            WHERE Id = :testData.ss.Id
+        ];
+        System.assertEquals(false, testCtp.Shareback_Settings_On_Participant_Level__c);
+        System.assertEquals(true, testSS.Visit_Results_Sharing__c);
+        System.assert(testVRTP.isEmpty());
     }
 }

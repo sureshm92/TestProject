@@ -2,11 +2,11 @@
  * Created by Igor Malyuta on 21.12.2019.
  */
 
-import {LightningElement, track, wire} from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import {CurrentPageReference, NavigationMixin} from 'lightning/navigation';
-import {registerListener, unregisterAllListeners} from 'c/pubSub';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import { CurrentPageReference, NavigationMixin } from 'lightning/navigation';
+import { registerListener, unregisterAllListeners } from 'c/pubSub';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import messagesLabel from '@salesforce/label/c.MS_Messages';
 import newMessLabel from '@salesforce/label/c.MS_New_Mess';
@@ -19,7 +19,6 @@ import showLessLabel from '@salesforce/label/c.MS_Show_Less';
 import getInit from '@salesforce/apex/MessagePageRemote.getInitData';
 
 export default class MessagesPage extends NavigationMixin(LightningElement) {
-
     labels = {
         messagesLabel,
         newMessLabel,
@@ -30,7 +29,6 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         showLessLabel
     };
 
-
     stubLoad;
     spinner;
     needAfterRenderSetup;
@@ -38,11 +36,12 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     messageTemplates;
     firstConWrapper;
     statusByPeMap;
-
+    isRTL;
     @track showFullDisclaimer;
     @track showBTNLabel = showMoreLabel;
 
     @track leftDisplay;
+    @track rtlDisplay = 'ss';
     @track rightDisplay;
 
     @track initialized;
@@ -53,7 +52,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     @track enrollments;
     @track canStartConversation;
     @track conversationWrappers;
-
+    // @track isRTL;
     @track selectedConWrapper;
 
     connectedCallback() {
@@ -74,7 +73,8 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             if (!this.canStartConversation) this.changePlusStyle(false);
 
             this.messageBoard = this.template.querySelector('c-message-board');
-            if (this.userMode === 'Participant') this.messageBoard.setTemplates(this.messageTemplates);
+            if (this.userMode === 'Participant')
+                this.messageBoard.setTemplates(this.messageTemplates);
         }
 
         if (this.initialized) {
@@ -103,17 +103,38 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     get leftPartClass() {
-        return 'slds-col slds-large-size--1-of-3 slds-medium-size--1-of-3 slds-small-size--1-of-1 ms-left '
-            + (this.leftDisplay ? 'visible' : 'hide');
+        let context = this;
+        return (
+            'slds-col slds-large-size--1-of-3 slds-medium-size--1-of-3 slds-small-size--1-of-1 ms-left ' +
+            (context.isRTL ? ' msgrtl  ' : '') +
+            ' ' +
+            (this.leftDisplay ? ' visible ' : ' hide ')
+        );
+    }
+
+    get isRTLret() {
+        let context = this;
+        return context.isRTL ? 'rtl' : '';
+    }
+    get headertitleRTL() {
+        let context = this;
+        return context.isRTL ? 'headertitle' : '';
+    }
+
+    get newMessLabelRTL() {
+        let context = this;
+        return context.isRTL ? 'ms-new-mode newMsgLabel' : 'ms-new-mode';
     }
 
     get conversationBoardStyles() {
-        return (navigator.userAgent.match(/Trident/) ? '' : 'display: flex; flex-direction: column;');
+        return navigator.userAgent.match(/Trident/) ? '' : 'display: flex; flex-direction: column;';
     }
 
     get rightPartClass() {
-        return 'slds-col slds-large-size--2-of-3 slds-medium-size--2-of-3 slds-small-size--1-of-1 ms-right '
-            + (this.rightDisplay ? '' : 'hide');
+        return (
+            'slds-col slds-large-size--2-of-3 slds-medium-size--2-of-3 slds-small-size--1-of-1 ms-right ' +
+            (this.rightDisplay ? '' : 'hide')
+        );
     }
 
     get isPIMode() {
@@ -144,7 +165,12 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.closeCreationMode();
 
         this.changeConversationsBackground(conItem.conversation.Id);
-        this.messageBoard.openExisting(conItem.conversation, conItem.messages, conItem.isPastStudy, conItem.patientDelegates);
+        this.messageBoard.openExisting(
+            conItem.conversation,
+            conItem.messages,
+            conItem.isPastStudy,
+            conItem.patientDelegates
+        );
         this.changeVisiblePart();
     }
 
@@ -173,7 +199,10 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         if (isNew) updatedWrappers.unshift(conWr);
 
         updatedWrappers.sort(function (a, b) {
-            return new Date(b.messages[0].message.CreatedDate) - new Date(a.messages[0].message.CreatedDate);
+            return (
+                new Date(b.messages[0].message.CreatedDate) -
+                new Date(a.messages[0].message.CreatedDate)
+            );
         });
 
         this.conversationWrappers = updatedWrappers;
@@ -187,7 +216,12 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             context.changeConversationsBackground(conWr.conversation.Id);
         }, 50);
 
-        this.messageBoard.openExisting(conWr.conversation, conWr.messages, conWr.isPastStudy, conWr.patientDelegates);
+        this.messageBoard.openExisting(
+            conWr.conversation,
+            conWr.messages,
+            conWr.isPastStudy,
+            conWr.patientDelegates
+        );
     }
 
     handleRefreshEvent() {
@@ -211,9 +245,12 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         setTimeout(function () {
             let stub = context.template.querySelector('c-builder-stub');
             stub.isDummy(function (dummy) {
-                if(!dummy) {
-                    getInit({formFactor: formFactor, isIE: navigator.userAgent.match(/Trident|Edge/) !== null})
-                        .then(data => {
+                if (!dummy) {
+                    getInit({
+                        formFactor: formFactor,
+                        isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+                    })
+                        .then((data) => {
                             if (!data.isPageEnabled) {
                                 context[NavigationMixin.Navigate]({
                                     type: 'comm__namedPage',
@@ -226,16 +263,21 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
                             context.userMode = data.userMode;
                             context.enrollments = data.enrollments;
                             context.statusByPeMap = data.statusByPeMap;
-
+                            context.isRTL = data.isRTL;
                             context.conversationWrappers = data.conversationWrappers;
-                            if (context.conversationWrappers) context.firstConWrapper = context.conversationWrappers[0];
+                            if (context.conversationWrappers)
+                                context.firstConWrapper = context.conversationWrappers[0];
                             context.canStartConversation = context.checkCanStartNewConversation();
-
                             context.initialized = true;
-                            if (context.userMode === 'Participant') context.messageTemplates = data.messageTemplates;
-                            if (context.conversationWrappers && context.conversationWrappers.length > 0) context.hideEmptyStub = true;
+                            if (context.userMode === 'Participant')
+                                context.messageTemplates = data.messageTemplates;
+                            if (
+                                context.conversationWrappers &&
+                                context.conversationWrappers.length > 0
+                            )
+                                context.hideEmptyStub = true;
                         })
-                        .catch(error => {
+                        .catch((error) => {
                             console.error('Error in getInit():' + JSON.stringify(error));
                             context.notifyUser('Error', error.message, 'error');
                         });
@@ -246,7 +288,6 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             });
         }, 1);
     }
-
 
     changePlusStyle(enabled) {
         let newMessBTN = this.template.querySelector('.ms-btn-new');
@@ -262,7 +303,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         }
 
         let freeEnrollments = this.getFreeEnrollments();
-        return (freeEnrollments && freeEnrollments.length !== 0);
+        return freeEnrollments && freeEnrollments.length !== 0;
     }
 
     closeCreationMode() {
@@ -307,6 +348,12 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     }
 
     notifyUser(title, message, variant) {
-        this.dispatchEvent(new ShowToastEvent({title, message, variant}));
+        this.dispatchEvent(
+            new ShowToastEvent({
+                title,
+                message,
+                variant
+            })
+        );
     }
 }

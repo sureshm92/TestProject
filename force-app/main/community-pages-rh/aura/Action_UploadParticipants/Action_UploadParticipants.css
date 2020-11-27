@@ -38,8 +38,8 @@
 }
 
 .THIS .uploadFiles .input-fields-labels .upload-close,
-.THIS .upload-icon{
-	margin: 0 0 3px 8px;
+.THIS .upload-icon {
+    margin: 0 0 3px 8px;
 }
 
 .THIS .slds-scrollable {
@@ -59,7 +59,7 @@
 .THIS .slds-item_label {
     width: 497px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 500;
     letter-spacing: 0;
@@ -67,14 +67,14 @@
 }
 
 .THIS .slds-textInfo-label {
-    background-color: #F2F2F2;
+    background-color: #f2f2f2;
 }
 
 @media screen and (max-width: 500px) {
     .THIS .cPopup .p-container .p-footer {
-     	max-height: 40vh;   
+        max-height: 40vh;
     }
-    
+
     .THIS .p-footer .p-buttons-container .slds-size--5-of-12 {
         display: flex;
         width: 100%;

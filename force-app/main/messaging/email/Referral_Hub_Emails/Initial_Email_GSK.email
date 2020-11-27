@@ -2,7 +2,7 @@
                          recipientType="User"
                          language="{!recipient.LanguageLocaleKey}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:InitialWireframe userId="{!recipient.Id}"
                             communityTemplate="GSK"
                             buttonLabel="{!$Label.Email_Action_Enroll_Now}"
@@ -10,7 +10,7 @@
         </c:InitialWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:InitialWireframeText userId="{!recipient.Id}"
                                 communityTemplate="GSK"
                                 buttonLabel="{!$Label.Email_Action_Enroll_Now}"

@@ -6,7 +6,7 @@
     doInit: function (component, helper, event) {
         if (!communityService.isInitialized()) return;
 
-        if(!communityService.isDummy()) {
+        if (!communityService.isDummy()) {
             component.set('v.initialized', true);
         } else {
             component.find('builderStub').setPageName(component.getName());

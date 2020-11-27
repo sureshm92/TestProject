@@ -11,14 +11,9 @@
  * The pubsub approach is used to provide a communication mechanism between sibling components assembled in a flexipage (App Builder) where traditional parent/child communication patterns are not available.
  * Do NOT use this utility for parent/child communication.
  */
-import {LightningElement, api, wire} from 'lwc';
-import {CurrentPageReference} from 'lightning/navigation';
-import {
-    registerListener,
-    unregisterListener,
-    unregisterAllListeners,
-    fireEvent
-} from 'c/pubSub';
+import { LightningElement, api, wire } from 'lwc';
+import { CurrentPageReference } from 'lightning/navigation';
+import { registerListener, unregisterListener, unregisterAllListeners, fireEvent } from 'c/pubSub';
 
 export default class AuraPubsub extends LightningElement {
     @wire(CurrentPageReference) pageRef;
