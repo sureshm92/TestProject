@@ -192,7 +192,7 @@ public without sharing class UserTriggerHandler {
                             Site_Contact__c,
                             Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c
                         FROM Site_Staff__c
-                        WHERE Site_Contact__c IN :piIds
+                        WHERE Site_Contact__c IN :piIds AND is_Invited__c = true
                     ];
                     if (!delegatesSS.isEmpty()) {
                         for (Integer i = 0, j = delegatesSS.size(); i < j; i++) {
