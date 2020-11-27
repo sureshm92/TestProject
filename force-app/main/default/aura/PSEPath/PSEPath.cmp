@@ -16,12 +16,19 @@
     <aura:attribute name="actions" type="List" />
     <aura:attribute name="isInvited" type="Boolean" default="false" access="public" />
 
+    <aura:attribute name="isHidden" type="Boolean" default="false"/>
+
+
     <!-- handler: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!pe.Participant_Status__c}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.isCollapsed}" action="{!c.doProcessCollapse}" />
 
+    <!-- Event-->
+    <aura:registerEvent name="ViewMore" type="c:ViewMore"/>
+
     <!-- component body: -->
+    <aura:if isTrue="{!v.isHidden}">
     <div>
         <div class="path-panel">
             <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
@@ -41,6 +48,7 @@
                 data-gtm="BTN_Participant_Details"
             >
                 <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12">
+                        <a class="slds-show slds-col" style="padding-top:16px;text-align:left;" onclick="{!c.closeCard}"><span>{!$Label.c.View_Less}</span></a>
                     <button
                         class="{!'apollo-btn secondary'}"
                         title="{!$Label.c.BTN_View_Participant_Details}"
@@ -98,4 +106,5 @@
             <!--            </div>-->
         </aura:if>
     </div>
+</aura:if>
 </aura:component>
