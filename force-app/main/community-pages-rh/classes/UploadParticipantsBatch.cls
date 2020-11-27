@@ -81,7 +81,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             if (uploadUser != null) {
                 uploaderContactId = uploadUser.ContactId;
             }
-            participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
+            participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 ];
             List<List<String>> stringList1 = new List<List<String>>();
             for(List<String> ss : csvFileLines){
                 List<String> tem = new List<String>();

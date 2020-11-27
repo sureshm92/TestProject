@@ -299,7 +299,7 @@ public without sharing class ParticipantTriggerHandler {
 
 	@TestVisible
 	private static Id getParticipantAccountId(){
-		return [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE].Id;
+		return [SELECT Id FROM Account WHERE Name =: CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 ].Id;
 	}
 
 	@TestVisible

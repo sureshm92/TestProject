@@ -104,7 +104,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
             Participant__c participantExisting;
-            Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
+            Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 ];
             
             for(Ethnicity_Mapping_Participant__mdt objMT : [SELECT Ethnicity_Code__c,Ethnicity_Description__c 
                                                             FROM Ethnicity_Mapping_Participant__mdt])
