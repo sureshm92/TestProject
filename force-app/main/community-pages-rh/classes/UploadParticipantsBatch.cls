@@ -1,13 +1,12 @@
 /**
-* Created by alekseymoseev on 12/10/19.
-*/
+ * Created by alekseymoseev on 12/10/19.
+ */
 
 global without sharing class UploadParticipantsBatch implements Database.Batchable<List<String>>, Database.Stateful {
-    
     @TestVisible
     private static Boolean isTestRunning = false;
     private static final String PARTICIPANT_USER_MODE = 'Participant';
-    
+
     private List<List<String>> csvLines = new List<List<String>>();
     private Map<String, Integer> headerIndexes = new Map<String, Integer>();
     private String selectedStatus;
@@ -20,24 +19,35 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean doContact;
     private Boolean allowEmail;
     private Boolean allowPhone;
-    private Boolean allowSMS;    
+    private Boolean allowSMS;
     private User uploadUser;
-    
+
     private String emailError = '';
     private Boolean valid = true;
     private DateTime uploadTime;
-    
+
     private Set<String> listOfFailedRecords = new Set<String>();
     private Set<String> listOfFailedRecordsWithMsg = new Set<String>();
-    
-    private Set<String> genderLVSet = new Set<String> { 'Female', 'Male' };
-        private Set<String> phoneTypeLVSet = new Set<String>();
+
+    private Set<String> genderLVSet = new Set<String>{ 'Female', 'Male' };
+    private Set<String> phoneTypeLVSet = new Set<String>();
     private Set<String> laguageLVSet = new Set<String>();
     public static boolean isCalloutFromUploadParticipantsBatch = true; //Added By Krishna For REF-2183
-    Global List<Id>  PERecIds = new List<Id>(); //Added By Krishna For REF-2183
-    
-    
-    public UploadParticipantsBatch(List<List<String>> csvFileLines, String header, String studySiteId, String selectedStatus, Boolean headerFailed, Map<String, Integer> headerIndexes, Boolean createUsers,Boolean doContact,Boolean allowEmail,Boolean allowPhone,Boolean allowSMS) {
+    global List<Id> PERecIds = new List<Id>(); //Added By Krishna For REF-2183
+
+    public UploadParticipantsBatch(
+        List<List<String>> csvFileLines,
+        String header,
+        String studySiteId,
+        String selectedStatus,
+        Boolean headerFailed,
+        Map<String, Integer> headerIndexes,
+        Boolean createUsers,
+        Boolean doContact,
+        Boolean allowEmail,
+        Boolean allowPhone,
+        Boolean allowSMS
+    ) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
         this.headerIndexes = headerIndexes;
@@ -48,9 +58,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.allowEmail = allowEmail;
         this.allowPhone = allowPhone;
         this.allowSMS = allowSMS;
-        
-        studySiteDetails = [SELECT Id, Name, Principal_Investigator__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.CommunityTemplate__c FROM Study_Site__c WHERE Id = :studySiteId];
-        
+
+        studySiteDetails = [
+            SELECT
+                Id,
+                Name,
+                Principal_Investigator__c,
+                Clinical_Trial_Profile__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c
+            FROM Study_Site__c
+            WHERE Id = :studySiteId
+        ];
+
         listOfFailedRecordsWithMsg.add('Row Index, Failed Reason');
         String line = header.trim().removeEnd(',').trim().removeEnd(',');
         if (line.endsWith(',')) {
@@ -58,74 +77,114 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         } else {
             listOfFailedRecords.add(line + ', Row Index');
         }
-        
+
         if (totalRowCount < 1) {
-            listOfFailedRecordsWithMsg.add('0, VALIDATION ERROR: File is empty. Please correct the problem and try again.');
+            listOfFailedRecordsWithMsg.add(
+                '0, VALIDATION ERROR: File is empty. Please correct the problem and try again.'
+            );
             system.debug('ERROR, File is empty. Please correct the problem and try again.');
             valid = false;
         }
         if (totalRowCount > 45005) {
-            listOfFailedRecordsWithMsg.add('0, VALIDATION ERROR: File contains more than 45,000 records; you may split the file. Please correct the problem and try again.');
-            system.debug('ERROR, File contains more than 45,000 records; you may split the file. Please correct the problem and try again.');
+            listOfFailedRecordsWithMsg.add(
+                '0, VALIDATION ERROR: File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
+            );
+            system.debug(
+                'ERROR, File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
+            );
             valid = false;
         }
         if (totalRowCount == 0 || headerFailed) {
-            listOfFailedRecordsWithMsg.add('0, VALIDATION ERROR: File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.');
-            system.debug('ERROR, File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.');
+            listOfFailedRecordsWithMsg.add(
+                '0, VALIDATION ERROR: File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.'
+            );
+            system.debug(
+                'ERROR, File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.'
+            );
             emailError = 'File format must be .CSV, .XLS or .XLSX; also, the fields must match the ones provided in the Sample Template. Please correct the problem and try again.';
             valid = false;
         }
-        
+
         if (valid) {
-            uploadUser = [SELECT ContactId, Contact.MailingCountry, Contact.MailingCountryCode, Contact.Language__c FROM User WHERE Id = :UserInfo.getUserId()];
+            uploadUser = [
+                SELECT
+                    ContactId,
+                    Contact.MailingCountry,
+                    Contact.MailingCountryCode,
+                    Contact.Language__c
+                FROM User
+                WHERE Id = :UserInfo.getUserId()
+            ];
             if (uploadUser != null) {
                 uploaderContactId = uploadUser.ContactId;
             }
-            participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE];
+            participantAccount = [
+                SELECT Id
+                FROM Account
+                WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                LIMIT 1
+            ];
             List<List<String>> stringList1 = new List<List<String>>();
-            for(List<String> ss : csvFileLines){
+            for (List<String> ss : csvFileLines) {
                 List<String> tem = new List<String>();
-                for(String sg : ss){
-                    if(sg.contains(',')){
+                for (String sg : ss) {
+                    if (sg.contains(',')) {
                         tem.add('"' + sg + '"');
-                    }else{
+                    } else {
                         tem.add(sg);
                     }
                 }
                 stringList1.add(tem);
             }
             csvLines = stringList1;
-            
-            List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Phone_Type__c);
+
+            List<LabelValueItem> phoneTypeLVList = SObjectHelper.getPicklistLabelValueList(
+                Participant__c.Phone_Type__c
+            );
             for (LabelValueItem lb : phoneTypeLVList) {
                 phoneTypeLVSet.add(lb.value);
             }
-            List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(Participant__c.Preferred_Language__c);
+            List<LabelValueItem> languageLVList = SObjectHelper.getPicklistLabelValueList(
+                Participant__c.Preferred_Language__c
+            );
             for (LabelValueItem lb : languageLVList) {
                 laguageLVSet.add(lb.value);
             }
         }
     }
-    
+
     global Iterable<List<String>> start(Database.BatchableContext bc) {
         return csvLines;
     }
-    
+
     global void execute(Database.BatchableContext BC, List<List<String>> csvChunkLines) {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
-        isCalloutFromUploadParticipantsBatch=true; //Added By Krishna For REF-2183
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+        );
+        isCalloutFromUploadParticipantsBatch = true; //Added By Krishna For REF-2183
         if (!valid) {
             return;
         }
-        
+
         try {
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            String permissionSetName = CommunityTemplateService.getTemplate(studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
-            
+            String permissionSetName = CommunityTemplateService.getTemplate(
+                    studySiteDetails.Clinical_Trial_Profile__r.CommunityTemplate__c
+                )
+                .permissionSet;
+
             Map<Id, Contact> contactsById = new Map<Id, Contact>();
             Set<Id> contactsToCreateUsersWith = new Set<Id>();
             Map<Id, Participant__c> participantsByContact = new Map<Id, Participant__c>();
@@ -133,18 +192,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
             Set<Id> insertedContacts = new Set<Id>();
             Set<Id> dupclicateContactIds = new Set<Id>();
-            Map<Id,Id> duplicateContactUsersMap = new Map<Id,Id>();
+            Map<Id, Id> duplicateContactUsersMap = new Map<Id, Id>();
             Set<Id> insertUsersWithDefaultSettings = new Set<Id>();
-            
+
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
                     continue;
                 }
-                
+
                 Set<Id> dupclicateParticipantstIds = new Set<Id>();
-                
+
                 Boolean hasErrors = false;
-                
+
                 String FirstName = '';
                 String MiddleName = '';
                 String LastName = '';
@@ -159,93 +218,220 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String State = '';
                 String PostalCode = '';
                 String Language = '';
-                
+
                 totalRecordCount++;
                 system.debug('ITERATION #: ' + totalRecordCount);
                 system.debug(csvRecordData);
-                
-                FirstName = headerIndexes.get('FIRST NAME') != null && csvRecordData[headerIndexes.get('FIRST NAME')] != null ? csvRecordData[headerIndexes.get('FIRST NAME')].trim() : '';
-                MiddleName = headerIndexes.get('MIDDLE NAME') != null && csvRecordData[headerIndexes.get('MIDDLE NAME')] != null ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim() : '';
-                LastName = headerIndexes.get('LAST NAME') != null && csvRecordData[headerIndexes.get('LAST NAME')] != null ? csvRecordData[headerIndexes.get('LAST NAME')].trim() : '';
-                Nickname = headerIndexes.get('NICKNAME') != null && csvRecordData[headerIndexes.get('NICKNAME')] != null ? csvRecordData[headerIndexes.get('NICKNAME')].trim() : '';
-                Sex = headerIndexes.get('SEX') != null && csvRecordData[headerIndexes.get('SEX')] != null ? csvRecordData[headerIndexes.get('SEX')].trim() : null;
-                DateOfBirth = headerIndexes.get('DATE OF BIRTH') != null && csvRecordData[headerIndexes.get('DATE OF BIRTH')] != null ? csvRecordData[headerIndexes.get('DATE OF BIRTH')].trim() : null;
-                EmailAddress = headerIndexes.get('EMAIL ADDRESS') != null && csvRecordData[headerIndexes.get('EMAIL ADDRESS')] != null ? csvRecordData[headerIndexes.get('EMAIL ADDRESS')].trim() : null;
-                Phone = headerIndexes.get('PHONE') != null && csvRecordData[headerIndexes.get('PHONE')] != null ? csvRecordData[headerIndexes.get('PHONE')].trim() : null;
-                PhoneType = headerIndexes.get('PHONE TYPE') != null && csvRecordData[headerIndexes.get('PHONE TYPE')] != null ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim() : null;
-                Phone2 = headerIndexes.get('ALTERNATIVE PHONE') != null && csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')] != null ? csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')].trim() : null;
-                PhoneType2 = headerIndexes.get('ALT. PHONE TYPE') != null && csvRecordData[headerIndexes.get('ALT. PHONE TYPE')] != null ? csvRecordData[headerIndexes.get('ALT. PHONE TYPE')].trim() : null;
-                State = headerIndexes.get('STATE') != null && csvRecordData[headerIndexes.get('STATE')] != null ? csvRecordData[headerIndexes.get('STATE')].trim() : null;
-                PostalCode = headerIndexes.get('POSTAL CODE') != null && csvRecordData[headerIndexes.get('POSTAL CODE')] != null ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim() : null;
-                Language = headerIndexes.get('LANGUAGE') != null && csvRecordData[headerIndexes.get('LANGUAGE')] != null ? csvRecordData[headerIndexes.get('LANGUAGE')].trim() : null;
-                
-                System.debug('@@@### EmailAddress ' +csvRecordData[headerIndexes.get('EMAIL ADDRESS')]);
+
+                FirstName = headerIndexes.get('FIRST NAME') != null &&
+                    csvRecordData[headerIndexes.get('FIRST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('FIRST NAME')].trim()
+                    : '';
+                MiddleName = headerIndexes.get('MIDDLE NAME') != null &&
+                    csvRecordData[headerIndexes.get('MIDDLE NAME')] != null
+                    ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim()
+                    : '';
+                LastName = headerIndexes.get('LAST NAME') != null &&
+                    csvRecordData[headerIndexes.get('LAST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('LAST NAME')].trim()
+                    : '';
+                Nickname = headerIndexes.get('NICKNAME') != null &&
+                    csvRecordData[headerIndexes.get('NICKNAME')] != null
+                    ? csvRecordData[headerIndexes.get('NICKNAME')].trim()
+                    : '';
+                Sex = headerIndexes.get('SEX') != null &&
+                    csvRecordData[headerIndexes.get('SEX')] != null
+                    ? csvRecordData[headerIndexes.get('SEX')].trim()
+                    : null;
+                DateOfBirth = headerIndexes.get('DATE OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('DATE OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('DATE OF BIRTH')].trim()
+                    : null;
+                EmailAddress = headerIndexes.get('EMAIL ADDRESS') != null &&
+                    csvRecordData[headerIndexes.get('EMAIL ADDRESS')] != null
+                    ? csvRecordData[headerIndexes.get('EMAIL ADDRESS')].trim()
+                    : null;
+                Phone = headerIndexes.get('PHONE') != null &&
+                    csvRecordData[headerIndexes.get('PHONE')] != null
+                    ? csvRecordData[headerIndexes.get('PHONE')].trim()
+                    : null;
+                PhoneType = headerIndexes.get('PHONE TYPE') != null &&
+                    csvRecordData[headerIndexes.get('PHONE TYPE')] != null
+                    ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim()
+                    : null;
+                Phone2 = headerIndexes.get('ALTERNATIVE PHONE') != null &&
+                    csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')] != null
+                    ? csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')].trim()
+                    : null;
+                PhoneType2 = headerIndexes.get('ALT. PHONE TYPE') != null &&
+                    csvRecordData[headerIndexes.get('ALT. PHONE TYPE')] != null
+                    ? csvRecordData[headerIndexes.get('ALT. PHONE TYPE')].trim()
+                    : null;
+                State = headerIndexes.get('STATE') != null &&
+                    csvRecordData[headerIndexes.get('STATE')] != null
+                    ? csvRecordData[headerIndexes.get('STATE')].trim()
+                    : null;
+                PostalCode = headerIndexes.get('POSTAL CODE') != null &&
+                    csvRecordData[headerIndexes.get('POSTAL CODE')] != null
+                    ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim()
+                    : null;
+                Language = headerIndexes.get('LANGUAGE') != null &&
+                    csvRecordData[headerIndexes.get('LANGUAGE')] != null
+                    ? csvRecordData[headerIndexes.get('LANGUAGE')].trim()
+                    : null;
+
+                System.debug(
+                    '@@@### EmailAddress ' + csvRecordData[headerIndexes.get('EMAIL ADDRESS')]
+                );
 
                 if (!String.isEmpty(EmailAddress)) {
-                    String regexExclude  = System.Label.RH_Email_Invalid_Characters;
-                    String regexInclude  = System.Label.RH_Email_Validation_Pattern;
+                    String regexExclude = System.Label.RH_Email_Invalid_Characters;
+                    String regexInclude = System.Label.RH_Email_Validation_Pattern;
                     Boolean isValidEmail;
                     Pattern regexExcludePattern = Pattern.compile(regexExclude);
                     Pattern regexIncludePattern = Pattern.compile(regexInclude);
                     Matcher regexExcludeMatcher = regexExcludePattern.matcher(EmailAddress);
                     Matcher regexIncludeMatcher = regexIncludePattern.matcher(EmailAddress);
-                    if(regexExcludeMatcher.find()){
+                    if (regexExcludeMatcher.find()) {
                         hasErrors = true;
                         system.debug('ERROR:1 ' + totalRecordCount + ', ' + 'Invalid Email field');
-                        
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Email');
-                    }else if(!regexIncludeMatcher.find()){
+
+                        listOfFailedRecordsWithMsg.add(
+                            '' +
+                            totalRecordCount +
+                            ', ' +
+                            'ERROR: invalid field - Email'
+                        );
+                    } else if (!regexIncludeMatcher.find()) {
                         hasErrors = true;
                         system.debug('ERROR:2 ' + totalRecordCount + ', ' + 'Invalid Email field');
-                        
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Email');
+
+                        listOfFailedRecordsWithMsg.add(
+                            '' +
+                            totalRecordCount +
+                            ', ' +
+                            'ERROR: invalid field - Email'
+                        );
                     }
                 }
 
-                
                 if (String.isEmpty(FirstName)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'First Name, mandatory field is empty');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - First Name');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'First Name, mandatory field is empty'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'mandatory field is empty - First Name'
+                    );
                 }
                 if (String.isEmpty(LastName)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Last Name, mandatory field is empty');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Last Name');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Last Name, mandatory field is empty'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'mandatory field is empty - Last Name'
+                    );
                 }
                 if (String.isEmpty(Phone)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Phone, mandatory field is empty');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Phone');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Phone, mandatory field is empty'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'mandatory field is empty - Phone'
+                    );
                 }
                 if (!String.isEmpty(PhoneType) && !phoneTypeLVSet.contains(PhoneType)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Phone Type, value is not correct');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Phone Type');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Phone Type, value is not correct'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'value is not correct - Phone Type'
+                    );
                 }
                 if (!String.isEmpty(Sex) && !genderLVSet.contains(Sex)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Gender, value is not correct');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Gender, value is not correct'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'value is not correct - Gender'
+                    );
                 }
-                
+
                 Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
-                if (statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null && !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() && String.isEmpty(State)) {
+                if (
+                    statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null &&
+                    !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() &&
+                    String.isEmpty(State)
+                ) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'State, mandatory field is empty');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - State');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'State, mandatory field is empty'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'mandatory field is empty - State'
+                    );
                 }
                 if (String.isEmpty(PostalCode)) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Postal Code, mandatory field is empty');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'mandatory field is empty - Postal Code');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Postal Code, mandatory field is empty'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'mandatory field is empty - Postal Code'
+                    );
                 }
                 try {
                     Date resultDate = null;
@@ -287,184 +473,295 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 resultDate = Date.valueOf(DateOfBirth);
                             }
                         } catch (Exception exp) {
-                            System.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
+                            System.debug(
+                                'ERROR: ' +
+                                totalRecordCount +
+                                ', ' +
+                                'Date of Birth, Incorrect value'
+                            );
                             resultDate = null;
                             DateOfBirth = null;
                         }
                     }
-                    if (resultDate == null || String.isBlank(DateOfBirth) || resultDate > System.today()) {
+                    if (
+                        resultDate == null ||
+                        String.isBlank(DateOfBirth) ||
+                        resultDate > System.today()
+                    ) {
                         hasErrors = true;
-                        system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
-                        
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, incorrect, can\'t be empty or in the future');
+                        system.debug(
+                            'ERROR: ' +
+                            totalRecordCount +
+                            ', ' +
+                            'Date of Birth, incorrect, can\'t be empty or in the future'
+                        );
+
+                        listOfFailedRecordsWithMsg.add(
+                            '' +
+                            totalRecordCount +
+                            ', ' +
+                            'Date of Birth, incorrect, can\'t be empty or in the future'
+                        );
                     }
                 } catch (Exception exp) {
                     hasErrors = true;
-                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
+                    system.debug(
+                        'ERROR: ' +
+                        totalRecordCount +
+                        ', ' +
+                        'Date of Birth, Incorrect value'
+                    );
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'Date of Birth, Incorrect value'
+                    );
                 }
-                if (!String.isBlank(Language) && String.isBlank(uploadUser.Contact.Language__c) && !laguageLVSet.contains(Language)) {
+                if (
+                    !String.isBlank(Language) &&
+                    String.isBlank(uploadUser.Contact.Language__c) &&
+                    !laguageLVSet.contains(Language)
+                ) {
                     hasErrors = true;
                     system.debug('ERROR: ' + totalRecordCount + ', ' + 'Language, Incorrect value');
-                    
-                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Language, Incorrect value');
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'Language, Incorrect value'
+                    );
                 }
-                
+
                 if (!hasErrors) {
-                    Contact participantContact =
-                        new Contact(FirstName = FirstName,
-                                    LastName = LastName,
-                                    AccountId = participantAccount.Id,
-                                    MiddleName = MiddleName,
-                                    Birthdate = Date.valueOf(DateOfBirth),
-                                    Email = EmailAddress,
-                                    Phone = Phone,
-                                    MobilePhone = Phone2,
-                                    MailingState = State,
-                                    MailingCountry = uploadUser.Contact.MailingCountry,
-                                    MailingCountryCode = uploadUser.Contact.MailingCountryCode,
-                                    MailingPostalCode = PostalCode,
-                                    userCommunityMode__c = PARTICIPANT_USER_MODE,
-                                    Consent_To_Inform_About_Study__c = createUsers,
-                                    Language__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language));
-                    
-                    Participant__c participant =
-                        new Participant__c(First_Name__c = FirstName,
-                                           Last_Name__c = LastName,
-                                           Middle_Name__c = MiddleName,
-                                           Nickname__c = Nickname,
-                                           Gender__c = Sex,
-                                           Date_of_Birth__c = DateOfBirth,
-                                           Email__c = EmailAddress,
-                                           Phone__c = Phone,
-                                           Phone_Type__c = PhoneType,
-                                           Alternative_Phone_Number__c = Phone2,
-                                           Alternative_Phone_Type__c = PhoneType2,
-                                           Preferred_Language__c = (String.isBlank(Language) ? uploadUser.Contact.Language__c : Language),
-                                           Mailing_State__c = State,
-                                           Mailing_Country__c = uploadUser.Contact.MailingCountry,
-                                           Mailing_Zip_Postal_Code__c = PostalCode);
-                    participant.Adult__c = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
-                    
+                    Contact participantContact = new Contact(
+                        FirstName = FirstName,
+                        LastName = LastName,
+                        AccountId = participantAccount.Id,
+                        MiddleName = MiddleName,
+                        Birthdate = Date.valueOf(DateOfBirth),
+                        Email = EmailAddress,
+                        Phone = Phone,
+                        MobilePhone = Phone2,
+                        MailingState = State,
+                        MailingCountry = uploadUser.Contact.MailingCountry,
+                        MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                        MailingPostalCode = PostalCode,
+                        userCommunityMode__c = PARTICIPANT_USER_MODE,
+                        Consent_To_Inform_About_Study__c = createUsers,
+                        Language__c = (String.isBlank(Language)
+                            ? uploadUser.Contact.Language__c
+                            : Language)
+                    );
+
+                    Participant__c participant = new Participant__c(
+                        First_Name__c = FirstName,
+                        Last_Name__c = LastName,
+                        Middle_Name__c = MiddleName,
+                        Nickname__c = Nickname,
+                        Gender__c = Sex,
+                        Date_of_Birth__c = DateOfBirth,
+                        Email__c = EmailAddress,
+                        Phone__c = Phone,
+                        Phone_Type__c = PhoneType,
+                        Alternative_Phone_Number__c = Phone2,
+                        Alternative_Phone_Type__c = PhoneType2,
+                        Preferred_Language__c = (String.isBlank(Language)
+                            ? uploadUser.Contact.Language__c
+                            : Language),
+                        Mailing_State__c = State,
+                        Mailing_Country__c = uploadUser.Contact.MailingCountry,
+                        Mailing_Zip_Postal_Code__c = PostalCode
+                    );
+                    participant.Adult__c =
+                        ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
+
                     //Duplicates check
                     Boolean isDuplicate = false;
-                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(participant);
-                    Participant__c participantDuplicate = duplicateService.findDuplicate(participant);
-                    
+                    ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
+                        participant
+                    );
+                    Participant__c participantDuplicate = duplicateService.findDuplicate(
+                        participant
+                    );
+
                     isDuplicate = participantDuplicate != null;
                     Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
-                    System.debug('contact duplicate>>>>'+contactDuplicate);
+                    System.debug('contact duplicate>>>>' + contactDuplicate);
                     isDuplicate = isDuplicate || contactDuplicate != null;
-                   
-                    
+
                     if (!isDuplicate) {
                         try {
-                            Database.SaveResult saveRes = Database.insert(participantContact, false);
+                            Database.SaveResult saveRes = Database.insert(
+                                participantContact,
+                                false
+                            );
                             if (!saveRes.isSuccess()) {
                                 errorRecordCount++;
                                 Database.Error error = saveRes.getErrors().get(0);
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                
+                                listOfFailedRecordsWithMsg.add(
+                                    '' +
+                                    totalRecordCount +
+                                    ', ERROR on Participant Contact record insert: ' +
+                                    error.getFields() +
+                                    ' ' +
+                                    error.getMessage()
+                                );
+                                listOfFailedRecords.add(
+                                    ('' + csvLines.get(totalRecordCount - 1))
+                                        .removeStart('(')
+                                        .removeEnd(')') +
+                                    ', ' +
+                                    totalRecordCount
+                                );
+                                system.debug(
+                                    'ERROR: ' +
+                                    totalRecordCount +
+                                    ', ERROR on Participant Contact record insert: ' +
+                                    error.getFields() +
+                                    ' ' +
+                                    error.getMessage()
+                                );
+
                                 continue;
                             }
                         } catch (Exception exp) {
                             errorRecordCount++;
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
-                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Contact record insert: ' + exp.getMessage());
-                            
+                            listOfFailedRecordsWithMsg.add(
+                                '' +
+                                totalRecordCount +
+                                ', ERROR on Participant Contact record insert: ' +
+                                exp.getMessage()
+                            );
+                            listOfFailedRecords.add(
+                                ('' + csvLines.get(totalRecordCount - 1))
+                                    .removeStart('(')
+                                    .removeEnd(')') +
+                                ', ' +
+                                totalRecordCount
+                            );
+                            system.debug(
+                                'ERROR: ' +
+                                totalRecordCount +
+                                ', ERROR on Participant Contact record insert: ' +
+                                exp.getMessage()
+                            );
+
                             continue;
                         }
                     } else {
                         if (contactDuplicate != null) {
                             dupclicateContactIds.add(contactDuplicate.Id);
-                            if(participant.Adult__c){
+                            if (participant.Adult__c) {
                                 contactsToCreateUsersWith.add(contactDuplicate.Id);
                             }
                         } else {
                             dupclicateParticipantstIds.add(participantDuplicate.Id);
                         }
-                        
+
                         if (!dupclicateParticipantstIds.isEmpty()) {
                             for (Participant__c p : [
-                                SELECT Id,Adult__c,
-                                Contact__c
+                                SELECT Id, Adult__c, Contact__c
                                 FROM Participant__c
                                 WHERE Id IN :dupclicateParticipantstIds
                             ]) {
                                 dupclicateContactIds.add(p.Contact__c);
-                                if(p.Adult__c){
+                                if (p.Adult__c) {
                                     contactsToCreateUsersWith.add(p.Contact__c);
                                 }
                             }
                         }
-                        
-                        System.debug('dupclicateContactIds>>>>'+dupclicateContactIds);
+
+                        System.debug('dupclicateContactIds>>>>' + dupclicateContactIds);
                         if (!dupclicateContactIds.isEmpty()) {
                             Set<Id> duplicateParticipantEnrollments = new Set<Id>();
-                            Map<Id,Participant__c> contactParticipantMap = new Map<Id,Participant__c>();
-                            
+                            Map<Id, Participant__c> contactParticipantMap = new Map<Id, Participant__c>();
+
                             for (User u : [
-                                SELECT Id,
-                                ContactId
+                                SELECT Id, ContactId
                                 FROM User
                                 WHERE ContactId IN :dupclicateContactIds
                             ]) {
                                 duplicateContactUsersMap.put(u.ContactId, u.Id);
                             }
                             for (Participant_Enrollment__c pEnrollment : [
-                                SELECT Id,
-                                Participant_Contact__c
+                                SELECT Id, Participant_Contact__c
                                 FROM Participant_Enrollment__c
-                                WHERE Participant_Contact__c IN :dupclicateContactIds AND
-                                (Study_Site__c = :studySiteDetails.Id OR
-                                 Study_Site__r.Clinical_Trial_Profile__c = :studySiteDetails.Clinical_Trial_Profile__c)
+                                WHERE
+                                    Participant_Contact__c IN :dupclicateContactIds
+                                    AND (Study_Site__c = :studySiteDetails.Id
+                                    OR Study_Site__r.Clinical_Trial_Profile__c = :studySiteDetails.Clinical_Trial_Profile__c)
                             ]) {
-                                duplicateParticipantEnrollments.add(pEnrollment.Participant_Contact__c);
+                                duplicateParticipantEnrollments.add(
+                                    pEnrollment.Participant_Contact__c
+                                );
                             }
-                            System.debug('duplicateParticipantEnrollments>>>>>>'+duplicateParticipantEnrollments);
+                            System.debug(
+                                'duplicateParticipantEnrollments>>>>>>' +
+                                duplicateParticipantEnrollments
+                            );
                             for (Participant__c part : [
-                                SELECT Id,
-                                Contact__c
+                                SELECT Id, Contact__c
                                 FROM Participant__c
                                 WHERE Contact__c IN :dupclicateContactIds
                             ]) {
                                 contactParticipantMap.put(part.Contact__c, part);
                             }
-                            System.debug('contactParticipantMap>>>>>>>>'+contactParticipantMap);
-                            System.debug('dupclicateContactIds>>>>>>>>'+dupclicateContactIds);
+                            System.debug('contactParticipantMap>>>>>>>>' + contactParticipantMap);
+                            System.debug('dupclicateContactIds>>>>>>>>' + dupclicateContactIds);
                             for (Id cId : dupclicateContactIds) {
-                                if (!duplicateParticipantEnrollments.contains(cId) && contactParticipantMap.get(cId) != null) {
+                                if (
+                                    !duplicateParticipantEnrollments.contains(cId) &&
+                                    contactParticipantMap.get(cId) != null
+                                ) {
                                     participantContact.Id = cId;
                                     participant.Id = contactParticipantMap.get(cId).Id;
                                 } else {
                                     errorRecordCount++;
-                                    system.debug('ERROR: ' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Duplicate Participant record');
-                                    listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
-                                    
+                                    system.debug(
+                                        'ERROR: ' +
+                                        totalRecordCount +
+                                        ', ' +
+                                        'Duplicate Participant record'
+                                    );
+                                    listOfFailedRecordsWithMsg.add(
+                                        '' +
+                                        totalRecordCount +
+                                        ', ' +
+                                        'Duplicate Participant record'
+                                    );
+                                    listOfFailedRecords.add(
+                                        ('' + csvLines.get(totalRecordCount - 1))
+                                            .removeStart('(')
+                                            .removeEnd(')') +
+                                        ', ' +
+                                        totalRecordCount
+                                    );
+
                                     continue;
                                 }
                             }
                         }
                     }
-                    
+
                     if (participantContact.Id != null) {
                         participant.Contact__c = participantContact.Id;
-                        Participant_Enrollment__c participantEnrollment =
-                            new Participant_Enrollment__c(Participant_Status__c = selectedStatus,
-                                                          Study_Site__c = studySiteDetails.Id,
-                                                          Referred_Date__c = System.today(),
-                                                          Participant_Contact__c = participantContact != null ? participantContact.Id : null,
-                                                          Referral_Completed_by__c = uploaderContactId,
-                                                          Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
-                                                          PI_Contact__c = studySiteDetails.Principal_Investigator__c);
-                        
+                        Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                            Participant_Status__c = selectedStatus,
+                            Study_Site__c = studySiteDetails.Id,
+                            Referred_Date__c = System.today(),
+                            Participant_Contact__c = participantContact != null
+                                ? participantContact.Id
+                                : null,
+                            Referral_Completed_by__c = uploaderContactId,
+                            Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_PI,
+                            PI_Contact__c = studySiteDetails.Principal_Investigator__c
+                        );
+
                         contactsById.put(participantContact.Id, participantContact);
-                        if(participant.Adult__c){
+                        if (participant.Adult__c) {
                             contactsToCreateUsersWith.add(participantContact.Id);
                         }
                         try {
@@ -472,18 +769,42 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 Database.SaveResult saveRes = Database.insert(participant, false);
                                 if (!saveRes.isSuccess()) {
                                     Database.Error error = saveRes.getErrors().get(0);
-                                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                    system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                    listOfFailedRecordsWithMsg.add(
+                                        '' +
+                                        totalRecordCount +
+                                        ', ERROR on Participant record insert: ' +
+                                        error.getFields() +
+                                        ' ' +
+                                        error.getMessage()
+                                    );
+                                    system.debug(
+                                        'ERROR: ' +
+                                        totalRecordCount +
+                                        ', ERROR on Participant record insert: ' +
+                                        error.getFields() +
+                                        ' ' +
+                                        error.getMessage()
+                                    );
                                 } else {
                                     insertedContacts.add(saveRes.getId());
                                     participantsByContact.put(participantContact.Id, participant);
                                 }
                             }
                         } catch (Exception exp) {
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
-                            system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant record insert: ' + exp.getMessage());
+                            listOfFailedRecordsWithMsg.add(
+                                '' +
+                                totalRecordCount +
+                                ', ERROR on Participant record insert: ' +
+                                exp.getMessage()
+                            );
+                            system.debug(
+                                'ERROR: ' +
+                                totalRecordCount +
+                                ', ERROR on Participant record insert: ' +
+                                exp.getMessage()
+                            );
                         }
-                        
+
                         if (participant.Id != null) {
                             participantEnrollment.Participant__c = participant.Id;
                             //participantEnrollment.Permit_IQVIA_to_contact_about_study__c = !doNotContactParticipants;
@@ -493,43 +814,82 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             participantEnrollment.Permit_SMS_Text_for_this_study__c = allowSMS;
                             participantEnrollment.Permit_IQVIA_to_contact_about_study__c = doContact;
                             //
-                            
-                            Database.SaveResult saveRes = Database.insert(participantEnrollment, false);
-                            participantEnrollmentsByContact.put(participantEnrollment.Participant_Contact__c, participantEnrollment);
+
+                            Database.SaveResult saveRes = Database.insert(
+                                participantEnrollment,
+                                false
+                            );
+                            participantEnrollmentsByContact.put(
+                                participantEnrollment.Participant_Contact__c,
+                                participantEnrollment
+                            );
                             if (!saveRes.isSuccess()) {
                                 Database.Error error = saveRes.getErrors().get(0);
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
-                                system.debug('ERROR: ' + totalRecordCount + ', ERROR on Participant Enrollment record insert: ' + error.getFields() + ' ' + error.getMessage());
+                                listOfFailedRecordsWithMsg.add(
+                                    '' +
+                                    totalRecordCount +
+                                    ', ERROR on Participant Enrollment record insert: ' +
+                                    error.getFields() +
+                                    ' ' +
+                                    error.getMessage()
+                                );
+                                system.debug(
+                                    'ERROR: ' +
+                                    totalRecordCount +
+                                    ', ERROR on Participant Enrollment record insert: ' +
+                                    error.getFields() +
+                                    ' ' +
+                                    error.getMessage()
+                                );
+                            } else {
+                                // Added By Krishna For REF-2183 -Start
+                                PERecIds.Add(saveRes.Id);
+                                // Added By Krishna For REF-2183 -End
                             }
-                            // Added By Krishna For REF-2183 -Start 
-                            else{
-                             PERecIds.Add(saveRes.Id);
-                            // Added By Krishna For REF-2183 -End
-                            }
-                            
-                            actionAssignContactPermissions.addPermission(participantContact.Id, permissionSetName);
+
+                            actionAssignContactPermissions.addPermission(
+                                participantContact.Id,
+                                permissionSetName
+                            );
                         } else {
                             contactsById.remove(participantContact.Id);
                             contactsToCreateUsersWith.remove(participantContact.Id);
                             delete participantContact;
-                            listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                            listOfFailedRecords.add(
+                                ('' + csvLines.get(totalRecordCount - 1))
+                                    .removeStart('(')
+                                    .removeEnd(')') +
+                                ', ' +
+                                totalRecordCount
+                            );
                         }
                     } else {
                         continue;
                     }
                 } else {
                     errorRecordCount++;
-                    listOfFailedRecords.add(('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') + ', ' + totalRecordCount);
+                    listOfFailedRecords.add(
+                        ('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') +
+                        ', ' +
+                        totalRecordCount
+                    );
                 }
             }
-            
+
             if (createUsers) {
                 system.debug('CREATE_USERS: ' + insertedContacts);
                 if (!insertedContacts.isEmpty()) {
                     for (Contact c : contactsById.values()) {
-                        if (insertedContacts.contains(participantsByContact.get(c.Id).Id) && contactsToCreateUsersWith.contains(c.Id)) {
+                        if (
+                            insertedContacts.contains(participantsByContact.get(c.Id).Id) &&
+                            contactsToCreateUsersWith.contains(c.Id)
+                        ) {
                             if (participantEnrollmentsByContact.get(c.Id) != null) {
-                                createUsersMap.put(participantEnrollmentsByContact.get(c.Id).Participant_Contact__c, participantEnrollmentsByContact.get(c.Id).PI_Contact__c);
+                                createUsersMap.put(
+                                    participantEnrollmentsByContact.get(c.Id)
+                                        .Participant_Contact__c,
+                                    participantEnrollmentsByContact.get(c.Id).PI_Contact__c
+                                );
                             } else {
                                 insertUsersWithDefaultSettings.add(c.Id);
                             }
@@ -538,9 +898,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
                 if (!dupclicateContactIds.isEmpty()) {
                     for (Id contId : dupclicateContactIds) {
-                        if (!duplicateContactUsersMap.keySet().contains(contId) && contactsToCreateUsersWith.contains(contId)) {
+                        if (
+                            !duplicateContactUsersMap.keySet().contains(contId) &&
+                            contactsToCreateUsersWith.contains(contId)
+                        ) {
                             if (participantEnrollmentsByContact.get(contId) != null) {
-                                createUsersMap.put(participantEnrollmentsByContact.get(contId).Participant_Contact__c, participantEnrollmentsByContact.get(contId).PI_Contact__c);
+                                createUsersMap.put(
+                                    participantEnrollmentsByContact.get(contId)
+                                        .Participant_Contact__c,
+                                    participantEnrollmentsByContact.get(contId).PI_Contact__c
+                                );
                             } else {
                                 insertUsersWithDefaultSettings.add(contId);
                             }
@@ -548,112 +915,166 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     }
                 }
                 if (!createUsersMap.isEmpty()) {
-                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(createUsersMap);
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(createUsersMap);
                 }
                 if (!insertUsersWithDefaultSettings.isEmpty()) {
-                    ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createPortalUsers(insertUsersWithDefaultSettings);
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createPortalUsers(insertUsersWithDefaultSettings);
                 }
                 if (!actionAssignContactPermissions.isEmpty()) {
                     ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                 }
-                
-                if (listOfFailedRecords.size() > 1 && errorRecordCount != (listOfFailedRecords.size() - 1)) {
+
+                if (
+                    listOfFailedRecords.size() > 1 &&
+                    errorRecordCount != (listOfFailedRecords.size() - 1)
+                ) {
                     errorRecordCount = listOfFailedRecords.size() - 1;
                 }
             }
-            
-            system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
+
+            system.debug(
+                'HEAP SIZE IS: ' +
+                limits.getHeapSize() +
+                ' enforced is: ' +
+                limits.getLimitHeapSize() +
+                'on totalRecordCount: ' +
+                totalRecordCount
+            );
         } catch (Exception exp) {
-            system.debug('ERROR during CSV parsing: ' + exp.getMessage() + ' ' + exp.getStackTraceString());
+            system.debug(
+                'ERROR during CSV parsing: ' +
+                exp.getMessage() +
+                ' ' +
+                exp.getStackTraceString()
+            );
         }
     }
-    
+
     global void finish(Database.BatchableContext BC) {
-       // Added By Krishna For REF-2183 -Start
-       if(PERecIds!=null && !PERecIds.IsEmpty()){
-           UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(PERecIds);
-           Database.executeBatch(obj,5);
-       }
-       // Added By Krishna For REF-2183 -End
+        // Added By Krishna For REF-2183 -Start
+        if (PERecIds != null && !PERecIds.IsEmpty()) {
+            UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(PERecIds);
+            Database.executeBatch(obj, 5);
+        }
+        // Added By Krishna For REF-2183 -End
         try {
             List<String> finalEmails = null;
-            
-            system.debug('HEAP SIZE IS: ' + limits.getHeapSize() + ' enforced is: ' + limits.getLimitHeapSize() + 'on totalRecordCount: ' + totalRecordCount);
-            sendNotificationEmail(listOfFailedRecords,
-                                  listOfFailedRecordsWithMsg,
-                                  studySiteDetails.Principal_Investigator__c,
-                                  uploadTime,
-                                  studySiteDetails,
-                                  totalRecordCount,
-                                  errorRecordCount);
+
+            system.debug(
+                'HEAP SIZE IS: ' +
+                limits.getHeapSize() +
+                ' enforced is: ' +
+                limits.getLimitHeapSize() +
+                'on totalRecordCount: ' +
+                totalRecordCount
+            );
+            sendNotificationEmail(
+                listOfFailedRecords,
+                listOfFailedRecordsWithMsg,
+                studySiteDetails.Principal_Investigator__c,
+                uploadTime,
+                studySiteDetails,
+                totalRecordCount,
+                errorRecordCount
+            );
         } catch (Exception exp) {
             system.debug('ERROR during sending file with failed records: ' + exp.getMessage());
         }
     }
-    
-    private static void sendNotificationEmail(Set<String> listOfFailedRecords, Set<String> listOfFailedRecordsWithMsg, String piContactId, DateTime uploadTime, Study_Site__c studySiteDetails, Integer totalRecordCount, Integer errorRecordCount) {
-        String formattedDate = uploadTime.format('MM/dd/yyyy hh:mm a', UserInfo.getTimeZone().toString());
-        System.debug('ErrorRecordsCount>>>>'+errorRecordCount);
+
+    private static void sendNotificationEmail(
+        Set<String> listOfFailedRecords,
+        Set<String> listOfFailedRecordsWithMsg,
+        String piContactId,
+        DateTime uploadTime,
+        Study_Site__c studySiteDetails,
+        Integer totalRecordCount,
+        Integer errorRecordCount
+    ) {
+        String formattedDate = uploadTime.format(
+            'MM/dd/yyyy hh:mm a',
+            UserInfo.getTimeZone().toString()
+        );
+        System.debug('ErrorRecordsCount>>>>' + errorRecordCount);
         //Added by Krisha for REF-2536 to send email to the logged in User- start
         Id contextUserId = UserInfo.getUserId();
-        User contextUser = [SELECT Id, Email, Contact.Email,contactId FROM User WHERE id=:contextUserId];
+        User contextUser = [
+            SELECT Id, Email, Contact.Email, contactId
+            FROM User
+            WHERE id = :contextUserId
+        ];
         //Added by Krisha for REF-2536 to send email to the logged in User- End
-        OrgWideEmailAddress owea = [SELECT Id FROM OrgWideEmailAddress WHERE DisplayName LIKE '%IQVIA Referral Hub' LIMIT 1];
-        Id importParticipantsTemplateId = [SELECT Id FROM EmailTemplate WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT LIMIT 1].Id;
-        
+        OrgWideEmailAddress owea = [
+            SELECT Id
+            FROM OrgWideEmailAddress
+            WHERE DisplayName LIKE '%IQVIA Referral Hub'
+            LIMIT 1
+        ];
+        Id importParticipantsTemplateId = [
+            SELECT Id
+            FROM EmailTemplate
+            WHERE DeveloperName = :SendEmailTemplate.EMAIL_TEMPLATE_PATIENT_IMPORT
+            LIMIT 1
+        ]
+        .Id;
+
         Messaging.SingleEmailMessage adminEmailToSend = new Messaging.SingleEmailMessage();
         adminEmailToSend.setTemplateId(importParticipantsTemplateId);
         adminEmailToSend.setTargetObjectId(contextUser.contactId); //Added by Krisha for REF-2536 to send email to the logged in User
         adminEmailToSend.setSaveAsActivity(false);
         adminEmailToSend.setOrgWideEmailAddressId(owea.Id);
         adminEmailToSend.setWhatId(studySiteDetails.Id);
-        
+
         String failedRecordsCSV = '';
         for (String failedRecord : listOfFailedRecords) {
             failedRecordsCSV = failedRecordsCSV + failedRecord + '\n';
         }
-        
+
         String failedRecordsCSVMsgs = '';
         for (String failedRecordMsg : listOfFailedRecordsWithMsg) {
             failedRecordsCSVMsgs = failedRecordsCSVMsgs + failedRecordMsg + '\n';
         }
-        
+
         Messaging.EmailFileAttachment failedRecordsEfa = new Messaging.EmailFileAttachment();
         failedRecordsEfa.setFileName('ProcessOutput_Records_' + formattedDate + '.csv');
         failedRecordsEfa.setBody(Blob.valueOf(failedRecordsCSV));
-        
+
         Messaging.EmailFileAttachment failedMsgsEfa = new Messaging.EmailFileAttachment();
         failedMsgsEfa.setFileName('ProcessOutput_Details_' + formattedDate + '.csv');
         failedMsgsEfa.setBody(Blob.valueOf(failedRecordsCSVMsgs));
-        
+
         Savepoint sp = Database.setSavepoint();
         if (!Test.isRunningTest()) {
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { adminEmailToSend });
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ adminEmailToSend });
         }
         Database.rollback(sp);
-        
-       String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
+
+        String htmlBody = (!Test.isRunningTest() ? adminEmailToSend.getHtmlBody() : 'test');
         htmlBody = htmlBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
         htmlBody = htmlBody.replace('##TotalRecCount', '' + totalRecordCount);
         String plainBody = (!Test.isRunningTest() ? adminEmailToSend.getPlainTextBody() : 'test');
         plainBody = plainBody.replace('##SucRecCount', '' + (totalRecordCount - errorRecordCount));
-        plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount); 
-        
-        
-      
-        
+        plainBody = plainBody.replace('##TotalRecCount', '' + totalRecordCount);
+
         Messaging.SingleEmailMessage emailToSend = new Messaging.SingleEmailMessage();
-       emailToSend.setToAddresses(new List<String> { (contextUser.Email != null ? contextUser.Email : contextUser.Contact.Email) }); //Added by Krisha for REF-2536 to send email to the logged in User
+        emailToSend.setToAddresses(
+            new List<String>{
+                (contextUser.Email != null ? contextUser.Email : contextUser.Contact.Email)
+            }
+        ); //Added by Krisha for REF-2536 to send email to the logged in User
         emailToSend.setPlainTextBody(plainBody);
         emailToSend.setHtmlBody(htmlBody);
         emailToSend.setSubject(adminEmailToSend.getSubject());
         emailToSend.setOrgWideEmailAddressId(owea.Id);
-        
-        emailToSend.setFileAttachments(new List<Messaging.EmailFileAttachment> { failedRecordsEfa, failedMsgsEfa });
-        
+
+        emailToSend.setFileAttachments(
+            new List<Messaging.EmailFileAttachment>{ failedRecordsEfa, failedMsgsEfa }
+        );
+
         if (!Test.isRunningTest()) {
-            Messaging.sendEmail(new Messaging.SingleEmailMessage[] { emailToSend });
+            Messaging.sendEmail(new List<Messaging.SingleEmailMessage>{ emailToSend });
         }
     }
-    
 }
