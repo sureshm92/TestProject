@@ -9,7 +9,8 @@
     <aura:attribute name="siteId" type="String"/>
     <aura:attribute name="userMode" type="String"/>
     <aura:attribute name="peFilterData" type="Object"/>
-    <aura:attribute name="isDataLoaded" type="boolean"/>  
+    <aura:attribute name="isDataLoaded" type="boolean"/> 
+    <aura:attribute name="isJanssen" type="Boolean" default="false"/> 
     
     <!-- <lightning:breadcrumbs>
         <lightning:breadcrumb label="{!$Label.c.My_Participant}"  onclick="{! c.onClickMyReferrals }"/>
@@ -21,7 +22,10 @@
                  onclick="{!c.onClickCardView}">
             {!$Label.c.BTN_Naviagte_Card} 
             </a></span>
-            </div>
+    </div>
+    <aura:if isTrue="{!v.isJanssen}">
+        <div class="slds-col slds-size_1-of-1 DiversityMessage">{!$Label.c.Diversity_Message}</div>
+    </aura:if>
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
     <aura:if isTrue="{!v.isDataLoaded}">
         <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}"/>
