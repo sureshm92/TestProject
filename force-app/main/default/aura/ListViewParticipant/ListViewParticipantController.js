@@ -5,7 +5,9 @@
     spinner.show();
         var Usermode = communityService.getUserMode();
         component.set('v.userMode',Usermode);
-        
+        var commName = communityService.getCurrentCommunityName();
+        if(commName.includes('Janssen'))
+        component.set('v.isJanssen',true);
         var trialId = communityService.getUrlParameter('id');
         component.set('v.trialId', trialId);
         var siteId = communityService.getUrlParameter('siteId');

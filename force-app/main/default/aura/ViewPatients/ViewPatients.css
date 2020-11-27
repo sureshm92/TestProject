@@ -15,6 +15,12 @@
     margin-top: 0;
 }
 
+.THIS .DiversityMessage {
+    font-size: 13px;
+    font-weight: 700;
+    margin-bottom: 20px;
+}
+
 .THIS .vp-export-btn{
     padding: 5px;
 }
