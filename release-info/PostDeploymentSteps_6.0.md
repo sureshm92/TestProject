@@ -150,7 +150,7 @@ Publish Community
 
 3.Go to Setup - Object Manager - Clinical Trial Profile - Page Layouts - Page Layout Assignment - Edit Assignment - hold CTRL button + choose three profiles Business Lead, IQVIA SPNL2,PRDBAPI and then select "Clinical Trial Profile Layout" from Page Layout To Use drop down list - Save. 
 
-## 19. Trial Match Learn More Field-Level Security
+## 20. Trial Match Learn More Field-Level Security
 1.open Developer console-->Debug-->Open Execute Anonymous Window-->Run below lines of code-->
 
  TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
