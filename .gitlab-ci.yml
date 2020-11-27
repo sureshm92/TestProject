@@ -25,7 +25,7 @@ stages:
   - RunTestINF6.0
   
    #6.1 INT
-  - DeployINT6.1
+  -  DeployINT6.1
   - RunTestINT6.1
   
   #6.1 INF
