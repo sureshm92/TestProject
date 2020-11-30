@@ -286,7 +286,6 @@ public without sharing class DashboardRemoteNew {
                     WHERE
                         Site_Contact__c = :currentContactId
                         AND is_Invited__c = TRUE
-                        AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
                 ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,
@@ -532,7 +531,6 @@ public without sharing class DashboardRemoteNew {
                     AND Study_Site__c != NULL
                     AND study_Site__r.Clinical_Trial_Profile__c = :ctpId
                     AND Study_Site__r.Principal_Investigator__c = :piId
-                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
                 ORDER BY Createddate DESC
                 LIMIT 50
             ];
@@ -548,7 +546,6 @@ public without sharing class DashboardRemoteNew {
                     Study_Site__c IN :ssId
                     AND Site_Contact__c = :currentContactId
                     AND is_Invited__c = TRUE
-                    AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = :communityName
             ]) {
                 avaliableSS.add(sstaff.Study_Site__c);
             }
