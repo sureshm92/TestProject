@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class VisitResultSharingCountryLookupRemote {
+public without sharing class VisitResultSharingCountryLookupRemote {
     private final static List<String> DEFAULT_COUNTRIES = new List<String>{ 'US', 'CA' };
     private static final String INCLUDE_ICON = 'standard:task2';
     private static final String EXCLUDE_ICON = 'standard:first_non_empty';

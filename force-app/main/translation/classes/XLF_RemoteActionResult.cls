@@ -2,7 +2,7 @@
  * Created by Slav on 31.10.2019.
  */
 
-public class XLF_RemoteActionResult {
+public without sharing class XLF_RemoteActionResult {
     @AuraEnabled
     public Boolean success;
     @AuraEnabled

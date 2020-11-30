@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TranslationExportImportRemote {
+public without sharing class TranslationExportImportRemote {
     public class TranslationImportException extends Exception {
     }
 

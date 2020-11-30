@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ParticipantItem {
+public without sharing class ParticipantItem {
     @AuraEnabled
     public Participant_Enrollment__c pe;
     @AuraEnabled

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class StudyLogoRemote {
+public without sharing class StudyLogoRemote {
     @AuraEnabled
     public static String getStudyPicture(Id studyId) {
         Clinical_Trial_Profile__c clinicalTrialProfile = [

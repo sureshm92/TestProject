@@ -2,7 +2,7 @@
  * Created by Vitalii Aheienko on 9/24/2019.
  */
 
-public class StudySiteLookupRemote {
+public without sharing class StudySiteLookupRemote {
     private static final String INCLUDE_ICON = 'standard:task2';
     private static final String EXCLUDE_ICON = 'standard:first_non_empty';
 

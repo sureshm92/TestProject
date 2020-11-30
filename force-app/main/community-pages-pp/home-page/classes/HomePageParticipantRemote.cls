@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class HomePageParticipantRemote {
+public without sharing class HomePageParticipantRemote {
     @AuraEnabled
     public static String getInitData() {
         try {
