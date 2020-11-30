@@ -19,7 +19,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>All_Ethnicities</shortDescription>
-        <value>All Ethnicity</value>
+        <value>All</value>
     </labels>
     <labels>
         <fullName>American_Indian_Alaskan_Native</fullName>
@@ -19031,6 +19031,14 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
         <value>Nazma Ansari</value>
+    </labels>
+     <labels>
+        <fullName>View_Less</fullName>
+        <categories>My Referrals</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View_Less</shortDescription>
+        <value>View Less</value>
     </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>

@@ -123,7 +123,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 FROM Account
                 WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
                 LIMIT 1
-                FOR UPDATE
             ];
             List<List<String>> stringList1 = new List<List<String>>();
             for (List<String> ss : csvFileLines) {

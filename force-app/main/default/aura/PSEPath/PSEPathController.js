@@ -4,6 +4,7 @@
 ({
     doInit: function (component, event, helper) {
         helper.updatePathSteps(component);
+        component.set('v.isHidden', true);
     },
 
     doProcessCollapse: function (component, event, helper) {
@@ -23,5 +24,11 @@
             .execute(pe, actions, rootComponent, isInvited, function (enrollment) {
                 component.set('v.pe', enrollment);
             });
-    }
+    },
+    
+    closeCard: function(component,event,helper){
+      component.set("v.isHidden",false);
+       var appEvent = $A.get("e.c:ViewMore");
+       appEvent.fire();  
+   }
 });
