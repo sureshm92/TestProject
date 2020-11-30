@@ -267,6 +267,7 @@
         /*   height: 95%; */
         max-height: 95%;
         top: 50%;
+        padding-bottom: 10px;
     }
 
     .THIS.cAction_ParticipantInformation .p-container .p-footer {
