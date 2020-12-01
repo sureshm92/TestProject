@@ -8,7 +8,7 @@ Developer                Date            Description
 -----------------------------------------------------------------------------------------------------------------
 Srinath       			21/05/2020      			Initial Version
 */
-public class TrialMatchLearnMoreLinkPDF {
+public without sharing class TrialMatchLearnMoreLinkPDF {
     private static String base64PNG = 'data:image/png;base64,';
 
     /**

@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ParticipantStateRemote {
+public without sharing class ParticipantStateRemote {
     @AuraEnabled
     public static String getInitData() {
         try {

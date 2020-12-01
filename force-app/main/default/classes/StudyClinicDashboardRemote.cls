@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class StudyClinicDashboardRemote {
+public without sharing class StudyClinicDashboardRemote {
     class FunnelItem {
         String category;
         Integer value;

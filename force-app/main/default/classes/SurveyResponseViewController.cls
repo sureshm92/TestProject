@@ -1,4 +1,4 @@
-public class SurveyResponseViewController {
+public without sharing class SurveyResponseViewController {
     @AuraEnabled
     public static String getSurveyResponse(Id peId) {
         Form_Results__c fr = [

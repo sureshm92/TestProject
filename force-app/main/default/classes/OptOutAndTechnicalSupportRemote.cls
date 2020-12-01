@@ -1,4 +1,4 @@
-public class OptOutAndTechnicalSupportRemote {
+public without sharing class OptOutAndTechnicalSupportRemote {
     @AuraEnabled
     public static List<OptOutAndTechnicalSupport.InitDataWrapper> getInitData(String strLanguage) {
         try {
