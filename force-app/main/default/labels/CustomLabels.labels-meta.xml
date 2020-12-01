@@ -3732,7 +3732,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Diversity Message</shortDescription>
-        <value>We support diversity message... place here if static message type.</value>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse participants.</value>
     </labels>
     <labels>
         <fullName>Do_Not_Continue</fullName>
