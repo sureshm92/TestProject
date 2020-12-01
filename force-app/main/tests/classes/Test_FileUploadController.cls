@@ -11,9 +11,15 @@ private class Test_FileUploadController {
         FileUploadController.FilesWrapper filesWrapper;
 
         Test.startTest();
-        filesWrapper = FileUploadController.getResourceFiles(accountId);
-        Test.stopTest();
+        filesWrapper = FileUploadController.getResourceFiles(accountId, null);
         System.assertEquals('Penguins', filesWrapper.listOfFiles[0].fileName);
+        filesWrapper = FileUploadController.getResourceFiles(
+            null,
+            new List<String>{ String.valueof(documentId) }
+        );
+        System.assertEquals('Penguins', filesWrapper.listOfFiles[0].fileName);
+
+        Test.stopTest();
     }
 
     @IsTest
@@ -22,7 +28,7 @@ private class Test_FileUploadController {
         Id documentId = createDocumentLinkAndGetId(accountId);
 
         Test.startTest();
-        FileUploadController.updateContentDocument(documentId, 'Code Value', accountId);
+        FileUploadController.updateContentDocument(documentId, 'Code Value', accountId, null);
         Test.stopTest();
 
         ContentDocument updatedDocument = [
@@ -44,7 +50,12 @@ private class Test_FileUploadController {
         Id documentId = createDocumentLinkAndGetId(accountId);
 
         Test.startTest();
-        FileUploadController.deleteContentDocument(documentId, 'testDocumentAttach', accountId);
+        FileUploadController.deleteContentDocument(
+            documentId,
+            'testDocumentAttach',
+            accountId,
+            null
+        );
         Test.stopTest();
 
         List<ContentDocument> deletedDocument = [
