@@ -76,6 +76,7 @@
 
     .THIS .slds-small-size_6-of-12 {
         margin-left: 0;
+        flex-direction: column-reverse;
     }
 
     .THIS .vpi-status-btns > .slds-small-size_6-of-12 > button {
