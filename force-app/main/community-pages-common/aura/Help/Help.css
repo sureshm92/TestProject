@@ -60,7 +60,7 @@
         flex-direction: column;
     }
 
-    .THIS > .slds-grid .slds-col {
+    .THIS > .slds-grid > .slds-col {
         width: 100%;
     }
 
