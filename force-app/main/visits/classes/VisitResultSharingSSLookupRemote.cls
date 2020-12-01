@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class VisitResultSharingSSLookupRemote {
+public without sharing class VisitResultSharingSSLookupRemote {
     private static final String INCLUDE_ICON = 'standard:task2';
     private static final String EXCLUDE_ICON = 'standard:first_non_empty';
 

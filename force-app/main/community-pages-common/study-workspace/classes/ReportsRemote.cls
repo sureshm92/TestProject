@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class ReportsRemote {
+public without sharing class ReportsRemote {
     class InitData {
         ReportsFilterData filterData;
         Analitics analitics;
