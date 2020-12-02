@@ -95,7 +95,6 @@ public without sharing class FileUploadController {
         for (LabelValueItem objItem : allLanguagesLVList) {
             languageMap.put(objItem.value, objItem.Label);
         }
-        labelValueItemList.addAll(allLanguagesLVList);
         List<FileWrapper> listOfFileWrappers = new List<FileWrapper>();
         List<ContentDocumentLink> listOfFiles = new List<ContentDocumentLink>();
         if (resourceId != null) {
@@ -123,6 +122,7 @@ public without sharing class FileUploadController {
         Set<String> usedLanguages = new Set<String>();
         List<LabelValueItem> availableLanguagesLVList = new List<LabelValueItem>();
         for (ContentDocumentLink contentLink : listOfFiles) {
+            usedLanguages.add(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c);
             listOfFileWrappers.add(
                 new FileWrapper(
                     contentLink.ContentDocument,
@@ -136,6 +136,11 @@ public without sharing class FileUploadController {
                 )
             );
         }
+        for (LabelValueItem lvi : allLanguagesLVList) {
+            if (!usedLanguages.contains(lvi.value))
+                availableLanguagesLVList.add(lvi);
+        }
+        labelValueItemList.addAll(availableLanguagesLVList);
         return new FilesWrapper(listOfFileWrappers, labelValueItemList);
     }
 }
