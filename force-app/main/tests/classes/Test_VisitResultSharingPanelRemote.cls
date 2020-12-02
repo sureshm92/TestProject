@@ -8,7 +8,7 @@ private class Test_VisitResultSharingPanelRemote {
     static void testAll() {
         TestData.loadTestData();
         TestData testData = new TestData();
-
+        
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
         visitResultTypeSharings.add(
             new Visit_Result_Type_Sharing__c(

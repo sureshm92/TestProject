@@ -7,6 +7,7 @@ private class Test_Batch_CreatePartLoginNotification {
     @IsTest
     static void testBehavior() {
         TestData.loadTestData();
+        Test.startTest();
         TestData td = new TestData();
         td.updatePEStatusEnrollmentSuccess();
         List<Contact> contacts = [
@@ -21,7 +22,7 @@ private class Test_Batch_CreatePartLoginNotification {
                 AND Current_Participant_Enrollment__c != NULL
         ];
 
-        Test.startTest();
+       
         Batch_CreateParticipantLoginNotification.createNearestLogOutNotification(contacts);
         Test.stopTest();
 
