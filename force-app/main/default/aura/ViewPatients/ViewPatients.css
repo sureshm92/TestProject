@@ -25,6 +25,12 @@
     padding: 5px;
 }
 
+.THIS .check{
+    height: 16px;
+    width: 16px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+}
 
 .THIS .emancipation-notification {
     background: #FF9300;
