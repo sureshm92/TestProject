@@ -1460,7 +1460,7 @@ public without sharing class ParticipantWorkflowService {
             );
             if (pesh.Date__c != null) {
                 result.dateOccured = pesh.Date__c.date().format();
-                result.occuredDate = ((Date) pe.get(step.Success_Date_Field__c));
+                result.occuredDate = pesh.Date__c.date();
             }
             result.state = outcomesMap.get(pesh.Status__c).get(step.DeveloperName).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
