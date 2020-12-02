@@ -6646,6 +6646,13 @@ Sincerely,
         <value>File Type</value>
     </labels>
     <labels>
+        <fullName>File_Upload_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>File Upload Error Message</shortDescription>
+        <value>Please upload atleast one file before proceeding.</value>
+    </labels>
+    <labels>
         <fullName>File_Upload_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>

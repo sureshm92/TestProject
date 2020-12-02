@@ -1,30 +1,52 @@
-<aura:component implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,force:lightningQuickAction" access="global" controller="FileUploadController">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+<aura:component
+    implements="flexipage:availableForAllPageTypes,force:hasRecordId,lightning:availableForFlowScreens,force:lightningQuickAction"
+    access="global"
+    controller="FileUploadController"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
     <!-- attributes -->
-    <aura:attribute name="fileType" type="List" default="['.pdf']"/>
-    <aura:attribute name="recordId" type="String"/>
-    <aura:attribute name="fileWrapper" type="Object"/>
-    <aura:attribute name="documentIdList" type="List"/>
-    <aura:attribute name="docIds" type="String"/>
-    <aura:attribute name="validate" type="Aura.Action"/>
-    <aura:attribute name="showErrorMessage" type="Boolean" default="false"/>
-    <aura:attribute name="isNext" type="Boolean" default="false"/>
+    <aura:attribute name="fileType" type="List" default="['.pdf']" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="fileWrapper" type="Object" />
+    <aura:attribute name="documentIdList" type="List" />
+    <aura:attribute name="docIds" type="String" />
+    <aura:attribute name="validate" type="Aura.Action" />
+    <aura:attribute name="showErrorMessage" type="Boolean" default="false" />
+    <aura:attribute name="isNext" type="Boolean" default="false" />
 
     <!-- component body: -->
+    <div class="{!v.showErrorMessage?'slds-col slds-size_1-of-1':'slds-hide'}">
+        <div
+            class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error"
+            role="alert"
+        >
+            <span
+                class="slds-icon_container slds-m-right_x-small"
+                title="Description of icon when needed"
+            >
+                <lightning:icon
+                    iconName="utility:clear"
+                    alternativeText="info"
+                    size="x-small"
+                    variant="inverse"
+                />
+            </span>
+            <h2>{!$Label.c.File_Upload_Error_Message}</h2>
+        </div>
+    </div>
     <lightning:card>
-    	<aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
+        <aura:if isTrue="{!v.fileWrapper.listOfLanguages.length > 0}">
             <div class="slds-grid slds-wrap">
-                <div class="{!v.showErrorMessage?'slds-col slds-size_1-of-1':'slds-hide'}">
-                    <div class="slds-notify slds-notify_alert slds-theme_alert-texture slds-theme_error" role="alert">
-                        <span class="slds-icon_container slds-m-right_x-small" title="Description of icon when needed">
-                            <lightning:icon iconName="utility:clear" alternativeText="info" size="x-small" variant="inverse"/>
-                        </span>
-                        <h2>Failure Sample Notification, Failure Sample Notification</h2>
-                    </div>
-                </div>
                 <div class="slds-col slds-size_1-of-1">
-                    <lightning:select name="{!$Label.c.PG_AH_H_Language}" label="{!$Label.c.Resource_Language}" value="{!v.fileWrapper.currentLanguageCode}" required="true">
+                    <lightning:select
+                        name="{!$Label.c.PG_AH_H_Language}"
+                        label="{!$Label.c.Resource_Language}"
+                        value="{!v.fileWrapper.currentLanguageCode}"
+                        required="true"
+                    >
                         <aura:iteration items="{!v.fileWrapper.listOfLanguages}" var="languageItem">
                             <option value="{!languageItem.value}">{!languageItem.label}</option>
                         </aura:iteration>
@@ -32,20 +54,31 @@
                 </div>
                 <div class="slds-col slds-size_1-of-1">
                     <center>
-                        <lightning:fileUpload label="" multiple="false"
-                                                  accept="{!v.fileType}" recordId="{!v.recordId}"
-                                                  onuploadfinished="{!c.saveFile}" disabled="{!v.fileWrapper.currentLanguageCode==''}"/>   
-                    </center>    
+                        <lightning:fileUpload
+                            label=""
+                            multiple="false"
+                            accept="{!v.fileType}"
+                            recordId="{!v.recordId}"
+                            onuploadfinished="{!c.saveFile}"
+                            disabled="{!v.fileWrapper.currentLanguageCode==''}"
+                        />
+                    </center>
                 </div>
-            </div>    
+            </div>
         </aura:if>
-        <article class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop slds-m-top_medium">
+        <article
+            class="slds-card slds-card_boundary related_list_card_border_top forceRelatedListCardDesktop slds-m-top_medium"
+        >
             <div class="related_list_themed_border_top"></div>
             <div class="slds-card__header slds-grid">
                 <header class="slds-media slds-media_center slds-has-flexi-truncate">
                     <div class="slds-media__figure">
                         <span class="slds-icon_container slds-icon-standard-file" title="file">
-                            <lightning:icon iconName="standard:file" size="small" alternativeText="File image" />
+                            <lightning:icon
+                                iconName="standard:file"
+                                size="small"
+                                alternativeText="File image"
+                            />
                         </span>
                     </div>
                     <div class="slds-media__body">
@@ -63,30 +96,40 @@
                 <div class="slds-card__body slds-card__body_inner">
                     <table class="slds-table slds-table--bordered">
                         <thead>
-                        <tr>
-                            <th>{!$Label.c.File_Upload_Name}</th>
-                            <th>{!$Label.c.File_Type}</th>
-                            <th>{!$Label.c.File_Language}</th>
-                            <th></th>
-                        </tr>
+                            <tr>
+                                <th>{!$Label.c.File_Upload_Name}</th>
+                                <th>{!$Label.c.File_Type}</th>
+                                <th>{!$Label.c.File_Language}</th>
+                                <th></th>
+                            </tr>
                         </thead>
                         <tbody>
-                        <aura:iteration items="{!v.fileWrapper.listOfFiles}" var="file">
-                            <tr>
-                                <td><a href="" id="{!file.content.Id}" onclick="{!c.previewFile}">{!file.fileName}</a></td>
-                                <td>{!file.content.FileType}</td>
-                                <td>{!file.language}</td>
-                                <td  class="slds-text-align--right" id="{!file.content.Id}">
-                                    <lightning:buttonIcon iconName="utility:close" alternativeText="Delete" onclick="{!c.deleteSelectedFile}"/>
-                                </td>
-                            </tr>
-                        </aura:iteration>
+                            <aura:iteration items="{!v.fileWrapper.listOfFiles}" var="file">
+                                <tr>
+                                    <td>
+                                        <a
+                                            href=""
+                                            id="{!file.content.Id}"
+                                            onclick="{!c.previewFile}"
+                                            >{!file.fileName}</a
+                                        >
+                                    </td>
+                                    <td>{!file.content.FileType}</td>
+                                    <td>{!file.language}</td>
+                                    <td class="slds-text-align--right" id="{!file.content.Id}">
+                                        <lightning:buttonIcon
+                                            iconName="utility:close"
+                                            alternativeText="Delete"
+                                            onclick="{!c.deleteSelectedFile}"
+                                        />
+                                    </td>
+                                </tr>
+                            </aura:iteration>
                         </tbody>
                     </table>
                 </div>
             </aura:if>
-            <c:RRSpinner aura:id="spinner" size="small"/>
+            <c:RRSpinner aura:id="spinner" size="small" />
         </article>
     </lightning:card>
-   
 </aura:component>
