@@ -25,12 +25,11 @@
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
+    justify-content: space-between;
 }
 
 .THIS .visit-result-item-container {
-    width: 28.3%;
     min-width: 275px;
-    margin-right: 50px;
     margin-bottom: 60px;
     box-sizing: border-box;
 }
@@ -41,16 +40,13 @@
     font-size: 14px;
     font-weight: 600;
     line-height: 14px;
-    text-align: center;
 }
 
-@media (max-width: 616px) {
-    .THIS .visit-result-items-container {
-        width: 285px;
+
+@media all and (max-width: 500px) {
+    .THIS .visit-result-item-container {
+        width: auto;
+        margin: unset;
     }
-}
-@media (min-width: 617px) and (max-width: 901px) {
-    .THIS .visit-result-items-container {
-        width: 570px;
-    }
+
 }
