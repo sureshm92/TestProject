@@ -16,12 +16,12 @@ force-app/main/default/reports/unfiled$public/Escalation_report_vBd*
 force-app/main/default/objects/Contact/recordTypes/*
 
 # Exclude community settings
-force-app/communities/community-gsk/networkBranding
-force-app/communities/community-gsk/networks
-force-app/communities/community-gsk/sites
-force-app/communities/community-iqvia/networkBranding
-force-app/communities/community-iqvia/networks
-force-app/communities/community-iqvia/sites
-force-app/communities/community-iqvia
+#force-app/communities/community-gsk/networkBranding
+#force-app/communities/community-gsk/networks
+#force-app/communities/community-gsk/sites
+#force-app/communities/community-iqvia/networkBranding
+#force-app/communities/community-iqvia/networks
+#force-app/communities/community-iqvia/sites
+#force-app/communities/community-iqvia
 #temprary remove community from deployment
-force-app/communities
+#force-app/communities
