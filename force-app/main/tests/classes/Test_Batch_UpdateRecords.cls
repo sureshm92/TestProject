@@ -7,11 +7,12 @@ private class Test_Batch_UpdateRecords {
     @IsTest
     static void testBehavior() {
         TestData.loadTestData();
+         Test.startTest();
         TestData td = new TestData();
         td.ctp.Study_Code_Name__c = null;
         update td.ctp;
 
-        Test.startTest();
+       
         Batch_UpdateRecords.run();
         Test.stopTest();
 
