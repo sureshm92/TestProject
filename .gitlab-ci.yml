@@ -32,15 +32,22 @@ stages:
   - DeployINF6.1
   - RunTestINF6.1
 
+#6.1 INT
+  - DeployINT6.1
+  - RunTestINT6.1
+  
+  #6.1 INF
+  - DeployINF6.1
+  - RunTestINF6.1
+
   
   #5.1 INF
   - DeployINF5.1
   - RunTestINF5.1
 
-#5.1 INF
+ #5.1 INF
   - DeployClonedFml
   - RunTestClonedFml
-
 
 
 cache:
@@ -287,6 +294,57 @@ RunTestINF5.1:
   stage: RunTestINF5.1
   script:
     - . ./scripts/ci/run-tests.sh INF5_1
+    # 6.1 INT: ---------------------------------------------------------------------
+DeployINT6.1:
+  #tags:
+   # - shell
+  only:
+    - INT6.1
+  except:
+    - merge_requests
+
+  stage: DeployINT6.1
+  script:
+    - . ./scripts/ci/deploy.sh INT61
+
+RunTestINT6.1:
+  #tags:
+   # - shell
+  only:
+    - INT6.1
+  except:
+    - merge_requests
+
+  stage: RunTestINT6.1
+  script:
+    - . ./scripts/ci/run-tests.sh INT61
+    
+     # 6.0 INF: ---------------------------------------------------------------------
+DeployINF6.1:
+  #tags:
+   # - shell
+  only:
+    - INF6.1
+  except:
+    - merge_requests
+
+  stage: DeployINF6.1
+  script:
+    - . ./scripts/ci/deploy.sh INF61
+
+RunTestINF6.1:
+  #tags:
+   # - shell
+  only:
+    - INF6.1
+  except:
+    - merge_requests
+
+  stage: RunTestINF6.1
+  script:
+    - . ./scripts/ci/run-tests.sh INF61
+    
+
     
  # ClonedFml: ---------------------------------------------------------------------
 DeployClonedFml:
@@ -312,7 +370,6 @@ RunTestClonedFml:
   stage: RunTestClonedFml
   script:
     - . ./scripts/ci/run-tests.sh Clonedformal
-
 .sfdx_helpers: &sfdx_helpers |
 
   # Function to authenticate to Salesforce.
