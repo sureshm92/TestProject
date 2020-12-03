@@ -7,6 +7,7 @@ private class Test_ParticipantVisitsRemote {
     @TestSetup
     static void setup() {
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
 
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
@@ -42,6 +43,7 @@ private class Test_ParticipantVisitsRemote {
             Visit_Plan__c = vp.Id
         );
         insert icon;
+         Test.stopTest();
     }
 
     @IsTest
