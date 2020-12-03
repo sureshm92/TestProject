@@ -2,14 +2,16 @@
 private class Test_Batch_UpdateParticipantNameInPE {
     @isTest
     static void testBehavior() {
+    
         TestData.loadTestData();
+         Test.startTest();
         TestData testData = new TestData();
 
         testData.pe.Participant_Name__c = '';
         testData.pe.Participant_Surname__c = '';
         update testData.pe;
 
-        Test.startTest();
+       
         Database.executeBatch(new Batch_UpdateParticipantNameInPE());
         Test.stopTest();
 

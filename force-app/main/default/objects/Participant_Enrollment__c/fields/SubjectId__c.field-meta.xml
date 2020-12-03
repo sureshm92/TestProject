@@ -3,8 +3,8 @@
     <fullName>SubjectId__c</fullName>
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
-    <label>SubjectId</label>
-    <length>225</length>
+    <label>Study Hub Id</label>
+    <length>255</length>
     <required>false</required>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
