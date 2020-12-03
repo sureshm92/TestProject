@@ -7,6 +7,7 @@ private class Test_MotivationalMessagesRemote {
     @IsTest
     static void test1() {
         TestData.loadTestData();
+        Test.startTest();
         TestData testDataInstance = new TestData();
         testDataInstance.updatePEStatusEnrollmentSuccess();
 
@@ -30,7 +31,7 @@ private class Test_MotivationalMessagesRemote {
             )
         };
         insert motivationalMessages;
-        Test.startTest();
+        
         String message;
         System.runAs(testDataInstance.participantUser) {
             message = MotivationalMessagesRemote.getMotivationalMessage(
