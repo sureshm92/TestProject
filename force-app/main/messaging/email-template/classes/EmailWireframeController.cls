@@ -108,7 +108,7 @@ global without sharing class EmailWireframeController {
                     titleLabelValue = getProvider()
                         .getParameters()
                         .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TITLE_LABEL);
-                } else if (getProvider().getUserMode() == CommunityService.USER_MODE_PI) {
+                } else if (getProvider().getUserMode() == CommunityService.USER_MODE_PI || getProvider().getUserMode() == CommunityService.USER_MODE_HCP) {
                     titleLabelValue = getProvider()
                         .getParameters()
                         .get(TemplatePropertiesCatalog.TEMPLATE_PROP_TEAM_RH);
