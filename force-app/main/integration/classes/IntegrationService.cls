@@ -38,7 +38,6 @@ public without sharing class IntegrationService {
         public boolean PriorityFlag;
         public Date InitialVisitScheduledDate;
         public Time InitialVisitScheduledTime;
-        public String SubjectId;
     }
 
     public class SubjectDetails {
@@ -363,7 +362,6 @@ public without sharing class IntegrationService {
                 Referral_ID__c,
                 Referred_Date__c,
                 High_Priority__c,
-                SubjectId__c,
                 Initial_visit_scheduled_date__c,
                 Initial_visit_scheduled_time__c,
                 Study_Site__r.Protocol_ID__c,
@@ -400,7 +398,6 @@ public without sharing class IntegrationService {
         referralDetails.PriorityFlag = pe.High_Priority__c;
         referralDetails.InitialVisitScheduledDate = pe.Initial_visit_scheduled_date__c;
         referralDetails.InitialVisitScheduledTime = pe.Initial_visit_scheduled_time__c;
-        referralDetails.SubjectId = pe.SubjectId__c;
         if (setAcceptedDate)
             referralDetails.AcceptedDate = Date.today();
 

@@ -652,6 +652,7 @@ public without sharing class MyTeamRemote {
                         Site_Staff__c curDelegateRecord = new Site_Staff__c();
                         curDelegateRecord.id = mapDuplicate.get(dupChk);
                         curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        curDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                         curDelegateRecord.is_Invited__c = true;
                         delegateRecordsToUpdate.add(curDelegateRecord);
                     }

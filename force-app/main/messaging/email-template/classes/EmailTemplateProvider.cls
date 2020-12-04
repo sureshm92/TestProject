@@ -400,11 +400,11 @@ public without sharing virtual class EmailTemplateProvider {
         List<Id> studySites = new List<Id>();
         if (recipientId != null) {
             for (Site_Staff__c ss : [
-                SELECT Study_Site__c
+                SELECT Study_Site__c,is_Invited__c
                 FROM Site_Staff__c
                 WHERE
                     Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                    AND Site_Contact__c = :recipientId
+                    AND Site_Contact__c = :recipientId AND is_Invited__c = TRUE
             ]) {
                 studySites.add(ss.Study_Site__c);
             }
