@@ -20,17 +20,34 @@
     display:flex;
     justify-content: space-between;
     margin-bottom: 1.0rem;
+	align-items: center;
 }
-
 .THIS.DiversityMessage {
     font-size: 13px;
     font-weight: 700;
     margin-bottom: 20px;
 }
 
-@media all and (max-width: 360px) {
-    .THIS.ListViewHead  span:first-child {
-        width: 40%
-    }
-    
+.THIS.ListViewHead > span:first-child {
+	font-size: 13px;
+	font-weight: 600;
+	color: #000;
+	line-height: 1;
+}
+
+.THIS .check{
+    height: 16px;
+    width: 16px;
+    padding-bottom: 2px;
+    padding-right: 4px;
+}
+
+@media all and (max-width: 500px) {
+	.THIS.ListViewHead {
+		margin-top: 12px;
+	}
+
+	.THIS.ListViewHead span:last-child a {
+		white-space: nowrap;
+	}
 }
