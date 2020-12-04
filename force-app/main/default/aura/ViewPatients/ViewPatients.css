@@ -5,10 +5,16 @@
     padding-bottom: 100px;
 }
 .THIS .vp-navigation{
-    margin-bottom: 15px;
+    margin-bottom: 1.0rem;
     display: flex;
     justify-content: space-between;
     align-items: center;
+}
+
+@media all and (max-width: 500px) {
+	.THIS .vp-navigation {
+		margin-bottom: 0.2rem;
+	}
 }
 .THIS .navigation-breadcrumbs .cRRNavigationPath.navigation-path {
 	margin-bottom: 0;
