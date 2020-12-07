@@ -92,8 +92,10 @@ public without sharing class FileUploadController {
         List<LabelValueItem> allLanguagesLVList = SObjectHelper.getPicklistLabelValueList(
             Contact.Language__c
         );
-        for (LabelValueItem objItem : allLanguagesLVList) {
-            languageMap.put(objItem.value, objItem.Label);
+        if (!allLanguagesLVList.isEmpty()) {
+            for (LabelValueItem objItem : allLanguagesLVList) {
+                languageMap.put(objItem.value, objItem.Label);
+            }
         }
         List<FileWrapper> listOfFileWrappers = new List<FileWrapper>();
         List<ContentDocumentLink> listOfFiles = new List<ContentDocumentLink>();
@@ -136,11 +138,15 @@ public without sharing class FileUploadController {
                 )
             );
         }
-        for (LabelValueItem lvi : allLanguagesLVList) {
-            if (!usedLanguages.contains(lvi.value))
-                availableLanguagesLVList.add(lvi);
+        if (!allLanguagesLVList.isEmpty()) {
+            for (LabelValueItem lvi : allLanguagesLVList) {
+                if (!usedLanguages.contains(lvi.value))
+                    availableLanguagesLVList.add(lvi);
+            }
         }
-        labelValueItemList.addAll(availableLanguagesLVList);
+        if (!availableLanguagesLVList.isEmpty()) {
+            labelValueItemList.addAll(availableLanguagesLVList);
+        }
         return new FilesWrapper(listOfFileWrappers, labelValueItemList);
     }
 }

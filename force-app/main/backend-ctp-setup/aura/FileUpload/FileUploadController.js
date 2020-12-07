@@ -24,12 +24,10 @@
                         }
                         return { isValid: true };
                     } else {
-                        console.log(sessionStorage);
                         if (sessionStorage) {
                             sessionStorage.setItem('validationfailed', true);
                             component.set('v.isNext', true);
                         }
-                        console.log(sessionStorage.getItem('validationfailed'));
                         return { isValid: false, errorMessage: '' };
                     }
                 });
@@ -52,8 +50,6 @@
         var docIdList = component.get('v.documentIdList');
         docIdList.push(uploadedFiles[0]['documentId']);
         component.set('v.documentIdList', docIdList);
-        console.log(docIdList.toString());
-        console.log(component.get('v.docIds'));
         component.set('v.docIds', docIdList.toString());
         communityService.executeAction(
             component,
@@ -84,13 +80,11 @@
                 docIds: component.get('v.documentIdList')
             },
             function (fileWrapper) {
-                console.log(docIdList.indexOf(event.target.id));
                 if (docIdList.indexOf(event.target.id) > -1) {
                     docIdList.splice(docIdList.indexOf(event.target.id), 1);
                 }
                 component.set('v.documentIdList', docIdList);
                 component.set('v.docIds', docIdList.toString());
-                console.log(docIdList.toString());
                 component.set('v.fileWrapper', fileWrapper);
                 component.find('spinner').hide();
             }
