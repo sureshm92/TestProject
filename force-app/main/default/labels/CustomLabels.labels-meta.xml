@@ -3771,6 +3771,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Distolic Blood Pr</value>
     </labels>
     <labels>
+        <fullName>Diversity_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Diversity Message</shortDescription>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse participants.</value>
+    </labels>
+    <labels>
         <fullName>Do_Not_Continue</fullName>
         <language>en_US</language>
         <protected>true</protected>
