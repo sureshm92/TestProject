@@ -9,19 +9,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>ActionChain</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>ActionExecutor</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>ActionStack</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Action_AssignContactPermissions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -46,10 +34,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Action_RequestToReferByHCPRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Action_SendPush</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -96,6 +80,42 @@
         <apexClass>ApprovedLangSearchResponse</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+        <classAccesses>
+        <apexClass>Batch_CleanUpBatchNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_SendDelegateEMailForNewReferrals</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Batch_SendPIEmailForNewReferrals</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailForPendingReferrals</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FindCommunityName</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CleanUpBatchNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_SendDelgtEmailForNewReferrals</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_SendPIEmailForNewReferrals</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FindCommunityName</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ArticleService</apexClass>
         <enabled>true</enabled>
@@ -129,14 +149,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CleanUpBatchNotifications</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_ConversationReminder</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_CopyEnrollmentHistory</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -153,19 +165,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_CreateParticipantForDelegate</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_CreateParticipantLoginNotification</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_CreateParticipants</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_CreatePushNotificationForPE</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -178,26 +182,6 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_DataBecomesAvailable</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_DataCleanup_EligibilityFailed</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_DataCleanup_EligibilityPassed</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_DataCleanup_OnHoldDeclined</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_DataCleanup_Received</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_DataCleanup_ReceivedHistories</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -257,23 +241,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_ProcessActionSetupObjects</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_ProcessNotifications</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_RHPEUpdateParticipantStatus</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_RHPEUpdateParticipant_Scheduler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_RemoveDuplicateDelegates</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -285,51 +253,11 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_SendDelegateEMailForNewReferrals</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SendPIEmailForNewReferrals</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SetDefaultPermissionSets</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SetPermissionGroupByProfile</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SetVisitedCommunitiesOnContact</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SiteStaff_Invited_Update</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_SiteStaff_Invited_UpdateTest</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_TrialMatchNotify</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_UpdateActivityDateTimeOldUsers</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateCTPShortCommNameField</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateIconDetailsOnVisitPlans</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateJanssenctCookies</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -353,35 +281,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_UpdatePE_PermitContactFlag</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdatePE_PermitEmailFlag</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateParticipantAge</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateParticipantEnrollmentRP</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_UpdateParticipantInitialVisitFlag</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateParticipantNameInPE</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdateParticipantStudyFlag</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Batch_UpdatePatientDelegateStatuses</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -397,35 +297,7 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Batch_UpdateVisitResultsOptIn</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>Batch_UserCreatedDateNotification</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CCStaffTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CC_ParticipantSupportRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CPD_ConstantUtil</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CPD_DistanceCalculator</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CPDonorReferralFormController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>CPDonorReferralFormHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -449,10 +321,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>CaseCreator</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>CatalogParametersHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -469,15 +337,1587 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>ChangeStatusModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClassFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClinicProfileRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClinicalTrialProfileService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CodeExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CollectionUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesLandingController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesLandingControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesLoginController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesLoginControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesSelfRegConfirmController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesSelfRegConfirmControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesSelfRegController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunitiesSelfRegControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityFacadeRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityMode</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityModeService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityServiceException</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityTemplate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CommunityTemplateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConditionsOfInterestViewRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactReferralNetworkTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactTherapeuticAreaTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContactTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ContentDocumentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ConversationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>CountryStateUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>CreateTACOIAssignmentHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_CreateTACOIAssignmentHandler</apexClass>
+        <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>Test_FileUploadController</apexClass>
+        <apexClass>DPicklistCMPwithRTAndMSPCalloutMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DashboardRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DataHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseProxy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DateRangeFilterData</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DateTimeConverterUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatch</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateAddressesBatchTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateLevelWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DependntPicklistCMPwithRecTypeAndMspCtrl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DeploymentContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DirectMessageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DistanceHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DocumentationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DonutItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>DuplicateContactController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailActionBtnController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateProvider</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateDelController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateDelegateController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailTemplateParticipantController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmailWireframeController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>EmptyPagePanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExcelController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExternalParticipantRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ExternalParticipantsService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FieldDescribeUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FileUploadController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FilterPillInfo</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FirstLogonController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ForgotPasswordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ForgotPasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetCardDetailsHttpCalloutMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>GetPermissions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HCPEnrollmentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HCPEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HCPTrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HelpController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>HomePageParticipantRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IRBParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ImportPatientsCSV</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IncentiveProgramRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InfoModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Injector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationPatientTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationVisitResultService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>IntegrationVisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>InviteTeamMembersController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LabelValueItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguagePreferenceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguageSearchLookup</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LanguageSwitcherRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadConversionException</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LeadConversionHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LibraryPIRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningForgotPasswordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningForgotPasswordControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningLoginFormController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningLoginFormControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningSelfRegisterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LightningSelfRegisterControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>LookupSearchResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MCloudSMSSender</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MailForTests</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ManualCreationPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ManualTaskFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ManualTaskLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ManualTaskRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalRecordReviewLogItemController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalRecordReviewRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageConfigurationPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MotivationalMessagesRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyPatientsStatistics</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyProfilePageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyProfilePageControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyReferredZoneController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyReferringClinicsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyStudySitesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyTeamController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyTeamItemController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MyTeamRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NationalIdTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>Test_NewMediaOutReach</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ViewMediaResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>MediaOutreachServices</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NewMediaOutReach</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ViewMediaResult</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NoTanksModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationAvailabilityService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationCatalog</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationResultService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>NotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>OnboardingSlideTourRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PENotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PEStatusState</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PETriggerBuffer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PETriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PIStudiesFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PITrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEStatusHistoryRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSEStatusHistoryTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PSETriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaginationData</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParagraphController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParametersDataProvider</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParametersProviderService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParametrizedMessageService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDecoupler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDeduplicationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantDuplicateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentSHTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantIRBCheckerRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantInformationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantStateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantStudyEnrollmentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantTrialBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ParticipantVisitsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PastStudiesController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Path</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientDelegateTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientIntegrationException</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientVisitService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PatientVisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaymentVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PaymentsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PicklistCMPwithRTAndMSPTestCls</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PlatformEventService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>PostInstallDX</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProfileIconController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ProviderPaymentsService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>QualityCheckController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RPDelegateRelationshipTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRChangePasswordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRIconTableController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRLoginRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRPDFViewerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRPicklistLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RRProfileController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferHealthcareProviderRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferralNetworkService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferralProfileRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferringClinicsFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReferringRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RelevantLinksRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCallHttpCalloutMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_GetCardDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_GetTravelBookingDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_SendPEToStudyHub</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RemoteCall_SendSMS</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ReportsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResStudyTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceArticleVideoService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceBasicService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceContentClassService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceDecoupler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceDelegate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceExpBatchScheduler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceExpirationBatchHandlerImpl</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceFavoriteService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceForStudyResFlowRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceNotifierRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceOverrideRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceReminderRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceReminderService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyDocumentService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceStudyRelatedService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceTARelatedService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourceTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ResourcesDetailRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SMSService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SObjectHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSMessageConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSPaymentVendorsConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSTravelVendorsConfigResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SSVisitConfigSearchResponse</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SchemaUtil</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SdhIntegrationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchConditionsOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SearchService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SelectStateModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SendEmailTemplate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SendEmailToParticipant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SettingStoreService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>ShareModalController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteLoginController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteLoginControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteRegisterController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteRegisterControllerTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteStaffTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SitesSearchRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SortOrder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StatusesUpdateBatchHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubBuilder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StubFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyActions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyActionsHCP</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyActionsPI</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyActionsParticipant</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyClinicDashboardRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyConfigurationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyDetailAboutStudyRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyDetailItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyDetailViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyListViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyLogoRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyResourceVisibilityService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteSearchLookup</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudySiteVisitConfigRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTotalPassed</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>StudyTrialService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SubscribeToReferralNetworkRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SudyTrialService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SummaryContainer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SurveyResponseTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SurveyService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SystemService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TaskEditRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TaskService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TaskTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TasksRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TermsAndConditions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TermsAndConditionsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TermsAndConditionsTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestData</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TestDataFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AccountSettingsController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Action</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ActionExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ActionSuccess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Action_GetCardDetails</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AddPatientByPIRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AdminPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Alert</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AlertRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_AlertsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ApprovedLangRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ArticleService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BaseCRCPCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BasePPCommunity</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BaselineSurveyRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BatchDataBecomesAvailable</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_BatchHCPEStatusUpdate</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CopyEnrollmentHistory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateParticipantNotification</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateSummaryNotifications</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_CreateSurveyTasks</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_IntegrationVisitProcess</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_MigratePicklistToCheckbox</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_PSECreateInvitation</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_PatientTaskReminder</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_ReviewOnboardingFAQ</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateActivityDateTime</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdateNotifyDateOldUsers</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePESourceType</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_Batch_UpdatePETrialCompleteNotify</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTCTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTPSelector</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CTPSendNotificationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ClassFactory</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ClinicalTrialProfileTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CodeExecutor</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CommunityFacadeRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CommunityUserOnStudySite</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ConditionOfInterestRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ConditionsOfInterestViewRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContactService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentLinkTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ContentDocumentTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_CountryLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DMLService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DatabaseProxy</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DatabaseService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DelegateLevelWrapper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DeploymentContext</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DistanceHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_DuplicateContactController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EditLocationRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EmailActionBtnController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EmailTemplateController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_EmailTestBoardRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ExcelController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ExternalParticipantHttpMock</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ExternalParticipantRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FillTAOnParticipantsBatchHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_FirstLogonController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_HelpController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_HomePageParticipantRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IconPlanetVisitInfoEditRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ImportPatientsCSV</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationPatientReferralHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationPatientTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationReferralTrigger</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationVisitResultHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_IntegrationVisitTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_LanguagePreferenceService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_LanguageSwitcherRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_LeadConversion</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualCreationPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskFilter</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskLookupRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ManualTaskRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MessageConfigurationPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MessagePageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MotivationalMessagesRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MyTemRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_NotificationService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_NotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PENotificationTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PSEStatusHistoryRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantDuplicateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantStateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantVisitRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_ParticipantVisitsRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientDelegateTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitResultTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PatientVisitSchedule</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PaymentVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_PlatformEventService</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_RRChangePasswordController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>
@@ -623,6 +2063,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Batch_Notification__c.Time_Zone_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Batch_Notification__c.Recipient_Ids__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Batch_Detail__c.First_launch_DT__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -640,31 +2090,6 @@
         <editable>false</editable>
         <field>Batch_Executor__mdt.Scope_Size__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Batch_Notification__c.Recipient_Ids__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Batch_Notification__c.Time_Zone_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Biomarker__mdt.Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Biomarker__mdt.Help_Text__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Biomarker__mdt.Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -758,11 +2183,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Case.CommunityName__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Case.Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -826,7 +2246,7 @@
         <field>Clinical_Trial_Profile__c.Age__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Block_Outreach__c</field>
         <readable>true</readable>
@@ -894,11 +2314,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Enrolled_End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Enrolled_Or_Randomized_Consent_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1011,6 +2426,11 @@
         <field>Clinical_Trial_Profile__c.MDM_Cluster_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Max_Prescreen_Log_CAP_per_PI__c</field>
@@ -1029,11 +2449,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Max_Referral_CAP_Per_Study__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Media_outreach_Provider__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1086,7 +2501,7 @@
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Participant_Visit_Result_Group__c</field>
         <readable>true</readable>
@@ -1142,11 +2557,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Promote_to_SH__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Publications__c</field>
         <readable>true</readable>
@@ -1154,11 +2564,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Randomization__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Received_Until_Consent_Is_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1197,15 +2602,25 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Share_URL__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Screening_Duration__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Share_URL__c</field>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Enrolled_Or_Randomized_Consent_Available__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Received_Until_Consent_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Availability_Status__c</field>
@@ -1223,17 +2638,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Shareback_Settings_Country__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Country_Level__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Shareback_Settings_On_Participant_Level__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Shareback_Settings_on_StudySites__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1271,7 +2686,7 @@
         <field>Clinical_Trial_Profile__c.Study_Code_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Content__c</field>
         <readable>true</readable>
@@ -1313,18 +2728,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Suppress_PI_Emails__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Suppress_Participant_Emails__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Survey__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Suppress_PI_Emails__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1355,11 +2765,6 @@
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Therapeutic_Area__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Clinical_Trial_Profile__c.Travel_Support_On_Relevant_Links__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1437,16 +2842,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Community_Template__mdt.ShortCommunityName__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Completed_Incentive_Task__c.Completed_For__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Incentive_Task__c.Incentive_Task_Catalog__c</field>
         <readable>true</readable>
@@ -1454,6 +2849,70 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Completed_Incentive_Task__c.Points__c</field>
+        <readable>true</readable>
+    </fieldPermissions><fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Media_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.fMediaType__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Actual_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Actual_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Clinical_Trial_Profile__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Preferred_contact_method__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+		<editable>false</editable>
+        <field>Media_Outreach__c.Requested_End_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+	    <editable>false</editable>
+        <field>Media_Outreach__c.Requested_Start_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Media_Outreach__c.Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+		<editable>false</editable>
+        <field>Media_Outreach__c.Study_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+	<editable>false</editable>
+        <field>Media_Outreach__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+		<field>Media_Outreach__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1507,31 +2966,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Date_CL_was_informed_of_opt_in__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Date_Opted_in_RNS__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Date_PI_oriented_to_RNS__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Date_RH_submitted_to_IRB__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Date_RH_team_informed_of_IRB_approval__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Degree__c</field>
         <readable>true</readable>
@@ -1575,11 +3009,6 @@
         <editable>true</editable>
         <field>Contact.HCP_Opt_In_Study_Emails__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.IRB_Approval_Date__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1652,11 +3081,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Override_Email__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Override_Mailing_Address__c</field>
         <readable>true</readable>
@@ -1690,11 +3114,6 @@
         <editable>true</editable>
         <field>Contact.Participant_Phone_Opt_In_Permit_Phone__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Phone_Type__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1732,24 +3151,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.RRJanssenCookiesAllowedCookie__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.RRJanssenLanguageAllowedCookie__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Contact.RRLanguageAllowedCookie__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Registry_Source__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -1770,11 +3174,6 @@
         <editable>true</editable>
         <field>Contact.SitesInterested__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Source__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -1868,11 +3267,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>ContentVersion.LanguageCode__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Conversation__c.Elapsed_Days_First_Unread__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -1937,11 +3331,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Ethnicity_Mapping_Participant__mdt.Ethnicity_Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Event.Action_URL__c</field>
         <readable>true</readable>
@@ -1953,12 +3342,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Community_Template_Name__c</field>
+        <field>Event.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Completed_Date__c</field>
+        <field>Event.Community_Template_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1972,13 +3361,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Event.Owner_Contact__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Event.Patient_Visit__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Event.Patient_Visit__c</field>
+        <field>Event.Reminder_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Event.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -1994,16 +3388,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Event.Remind_Using_SMS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event.Reminder_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Event.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2053,12 +3437,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Execution_History__c.Error_Message__c</field>
+        <field>Execution_History__c.Integration_Log__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Execution_History__c.Integration_Log__c</field>
+        <field>Execution_History__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2075,61 +3459,6 @@
         <editable>false</editable>
         <field>FollowUp_Reminder__mdt.Days_after_Permission_gets__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Consent_to_store_info__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Covid_19_Test_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Days_14_of_symptoms__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Estimated_Date_of_first_symptom__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Estimated_date_of_last_symptom__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Other_Referral_Org__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Participant_Enrollment__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Positive_for_COVID_19__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Refering_Orgs__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Form_Results__c.Referral_Org__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Guides_Setting__mdt.Community_Template__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2160,11 +3489,6 @@
         <editable>false</editable>
         <field>Guides_Setting__mdt.PI_Video_Guide__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Guides_Setting__mdt.Participant_Quick_Reference_GSK__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2200,11 +3524,6 @@
         <editable>true</editable>
         <field>HCP_Enrollment__c.Declining_Reason__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>HCP_Enrollment__c.Degrees_of_Separation__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2357,21 +3676,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>HCP_Enrollment__c.Virtual_PI_Contact__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>HCP_Enrollment__c.referred_who_have_enrolled__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>HCP_Enrollment__c.referred_who_signed_consent__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Healthcare_Provider__c.Email__c</field>
         <readable>true</readable>
@@ -2453,11 +3757,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Help_Topic__mdt.User_Communities__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Help_Topic__mdt.User_Description_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2495,11 +3794,6 @@
         <editable>false</editable>
         <field>Icons_package__c.Visit_Plan__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Incentive_Plan_Task__c.Description__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -2713,28 +4007,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Age__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Integration_Patient_Referral__c.Atid__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.BMI__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Integration_Patient_Referral__c.BirthDate__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Comorbidities__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2787,11 +4061,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Delegate_Suffix__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Delegate_Zip_Postal_Code__c</field>
         <readable>true</readable>
@@ -2801,12 +4070,7 @@
         <field>Integration_Patient_Referral__c.Error_Message__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Ethnicity__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
+	    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
@@ -2826,7 +4090,7 @@
         <field>Integration_Patient_Referral__c.Participant_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Participant_MobileNumber__c</field>
         <readable>true</readable>
@@ -2842,19 +4106,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Referral_Sent_to_PI__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Success__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Patient_Referral__c.Suffix__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -2918,6 +4172,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Atid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Integration_Patient__c.External_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2955,116 +4214,6 @@
         <editable>false</editable>
         <field>Integration_Patient__c.Work_Status__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Address_Country__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Email__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.First_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Last_Name__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Mailing_City__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Mailing_State__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Phone__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Roles__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Site_Email_Key__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Study_Site_Number__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.Zip_Postal_Code__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Site_Staff__c.protocolId__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.IsDeleted__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Is_Eligible__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Matched_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Matching_Details__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Matching_Score__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Participant_Enrollment_External_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Passed__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Protocol_ID__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Protocol_Version__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Integration_Trial_Match__c.Therapeutic_Area__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3220,11 +4369,6 @@
         <editable>true</editable>
         <field>Lead.Degree__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Lead.Degrees_of_Separation__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3422,11 +4566,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Lead.Virtual_PI_Contact__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Material_Sent__c.Contact__c</field>
         <readable>true</readable>
@@ -3444,71 +4583,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Material_Sent__c.Material_Sent__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Actual_End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Actual_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Alternate_Email_Phone_Number__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Clinical_Trial_Profile__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Media_Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Preferred_contact_method__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Requested_End_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Requested_Start_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Status__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Study_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Study_Site__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.Type__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Media_Outreach__c.fMediaType__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -3593,11 +4667,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Notification_Target__mdt.Title__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Notification_Type__mdt.Description__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3625,11 +4694,6 @@
         <editable>true</editable>
         <field>Notification__c.From__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Notification__c.IsDelegate__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3663,18 +4727,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Onboarding_Slide__mdt.Disclaimer__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Onboarding_Slide__mdt.Multimode_Only__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Onboarding_Slide__mdt.Sub_Title__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3717,36 +4771,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_And_Tech_Support_Subcategory__mdt.Display_Order__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_And_Tech_Support_Subcategory__mdt.Opt_Out_and_Tech_Support_UI_Category__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_And_Tech_Support_Subcategory__mdt.Opt_Out_and_Technical_Support_Category__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_And_Tech_Support_Subcategory__mdt.Title__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_and_Technical_Support_Category__mdt.Display_Order__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Opt_Out_and_Technical_Support_Category__mdt.Title__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>PI_RP_Relationship__c.PI_Contact__c</field>
         <readable>true</readable>
@@ -3773,11 +4797,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment_Status_History__c.Additional_Notes__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -3793,23 +4812,18 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment_Status_History__c.Reason__c</field>
+        <field>Participant_Enrollment_Status_History__c.Additional_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.Atid__c</field>
+        <field>Participant_Enrollment_Status_History__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Comorbidities__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3840,11 +4854,6 @@
         <editable>false</editable>
         <field>Participant_Enrollment__c.Days_After_Referred__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Days_Since_Last_Status_Change__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -3906,15 +4915,10 @@
         <field>Participant_Enrollment__c.HCP__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	 <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.HighRisk_Indicator__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.High_Priority__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4151,17 +5155,12 @@
         <field>Participant_Enrollment__c.Patient_ID__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.PerCounter__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Permit_IQVIA_to_contact_about_study__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Permit_Mail_Email_contact_for_this_study__c</field>
         <readable>true</readable>
@@ -4308,11 +5307,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment__c.SubjectId__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment__c.Terms_and_Conditions_Accepted_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4364,6 +5358,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.utmz__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Atid__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4462,24 +5461,14 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Depends_On_Values__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Workflow_Form_Field__mdt.Editable_for_Statuses__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.False_Value_Label__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.False_Value_Validation_Error_Label__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4498,43 +5487,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Populate_Fields_Map__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Populate_from_Field__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Readonly_for_Steps__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Required_Condition__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Required_Title_Label__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Workflow_Form_Field__mdt.Required_for_Steps__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Status_History_Record_Field__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Strict_Dependency__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4553,43 +5512,13 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Workflow_Form_Field__mdt.Valid_Value_for_Validation_Message__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Condition__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Condition_for_Auto_Update__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Disclaimer_if_Current__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Workflow_Outcome__mdt.Order__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Readonly_if_Current__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Workflow_Outcome__mdt.Reasons_List__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Show_Only_If_Selected__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -4605,51 +5534,6 @@
         <editable>false</editable>
         <field>Participant_Workflow_Outcome__mdt.Step__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Outcome__mdt.Suppress_Multiple__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Available_Condition__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Label__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Order__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Readonly_if_Current__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Selected_Condition__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Show_Only_If_Selected__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Update_Fields_Mapping__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Workflow_Picklist_Value__mdt.Value__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4723,11 +5607,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant_Workflow_Step__mdt.Success_Checkbox_Field__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant_Workflow_Step__mdt.Success_Condition__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4742,11 +5621,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Age__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Alternative_Phone_Number__c</field>
         <readable>true</readable>
@@ -4758,22 +5632,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.BMI__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant__c.Balance__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant__c.Block_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4806,6 +5670,11 @@
         <field>Participant__c.Date_of_Birth__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Block_Outreach__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.Day_of_Birth__c</field>
@@ -4822,11 +5691,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Ethnicity__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.First_Name__c</field>
         <readable>true</readable>
@@ -4835,11 +5699,6 @@
         <editable>false</editable>
         <field>Participant__c.Full_Name__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Gender_Technical__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -4853,12 +5712,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Has_Studies_In_Progress__c</field>
+        <field>Participant__c.Has_Studies__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant__c.Has_Studies__c</field>
+        <field>Participant__c.Has_Studies_In_Progress__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4973,23 +5832,8 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Participant__c.Present_Age__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Salutation__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Participant__c.Secondary_Source__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant__c.Site__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5009,6 +5853,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.ZIP_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.SubjectId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5135,11 +5984,6 @@
         <editable>false</editable>
         <field>Post_Install__mdt.HandlerName__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Promote_to_SH_Limit__mdt.Limit__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5446,7 +6290,7 @@
         <field>Resource__c.Sponsor__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+   <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Submitted_By__c</field>
         <readable>true</readable>
@@ -5557,11 +6401,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Scheduled_Maintenance_Covid__mdt.IsActive__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Score__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
@@ -5606,6 +6445,7 @@
         <field>Send_Result__c.Integration_Log__c</field>
         <readable>true</readable>
     </fieldPermissions>
+
     <fieldPermissions>
         <editable>true</editable>
         <field>Send_Result__c.Status__c</field>
@@ -5640,36 +6480,6 @@
         <editable>false</editable>
         <field>Site_Staff__c.Clinical_Trial_Profile__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Email__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Phone__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Roles__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Site_Email_Key__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Site_Number2__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Site_Staff__c.Site_Number__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -5723,12 +6533,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Study_Incentive_Plan__c.Study_Site__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
         <field>Study_Site__c.Account_Was_Changed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Block_Outreach__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5748,22 +6558,17 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Study_Site__c.Block_Outreach__c</field>
+        <field>Study_Site__c.Chart_Review__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Site__c.Chart_Review__c</field>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Completed_training__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Study_Site__c.Completed_training__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5911,14 +6716,14 @@
         <field>Study_Site__c.ReferralNetworkId__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Site__c.Referral__c</field>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Review_Board_Approval__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>true</editable>
-        <field>Study_Site__c.Review_Board_Approval__c</field>
+        <editable>false</editable>
+        <field>Study_Site__c.Referral__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5931,7 +6736,7 @@
         <field>Study_Site__c.SPNL_LN_assignment__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
+	<fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Site_Information_Form_Completed__c</field>
         <readable>true</readable>
@@ -5950,7 +6755,7 @@
         <editable>true</editable>
         <field>Study_Site__c.Skip_to_Eligibility_Passed__c</field>
         <readable>true</readable>
-    </fieldPermissions>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Sponsor_Pays_for_Referral_Activity__c</field>
@@ -5965,11 +6770,6 @@
         <editable>true</editable>
         <field>Study_Site__c.Study_Site_Email__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Study_Site__c.Study_Site_Full_Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6063,12 +6863,12 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Community_Template_Name__c</field>
+        <field>Task.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Completed_Date__c</field>
+        <field>Task.Community_Template_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6082,13 +6882,18 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Task.Owner_Contact__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Task.Patient_Visit__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Patient_Visit__c</field>
+        <field>Task.Reminder_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6104,16 +6909,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Remind_Using_SMS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Task.Reminder_Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Task.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6476,8 +7271,8 @@
         <field>User.Survey_Result__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
+    	<fieldPermissions>
+	 <editable>true</editable>
         <field>User.TimeOfRun__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6485,11 +7280,6 @@
         <editable>true</editable>
         <field>User.Time_To_Send_Mail__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>User.isPasswordLocked__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -6510,16 +7300,6 @@
         <editable>true</editable>
         <field>Visit_Plan__c.Version__c</field>
         <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Visit_Result_Measurement_Name__mdt.Alternate_Names__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Visit_Result_Measurement_Name__mdt.Display_Name__c</field>
-        <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
@@ -6654,12 +7434,18 @@
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
     </layoutAssignments>
+	<layoutAssignments>
+        <layout>Media_Outreach__c-Media Outreach Layout</layout>
+	</layoutAssignments>
     <layoutAssignments>
         <layout>Account-Account Layout</layout>
         <recordType>Account.Business_Account</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Action_Execution_Setting__c-Action Execution Setting Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Action__c-Action Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Age_of_Majority__mdt-Age of Majority Layout</layout>
@@ -6671,21 +7457,18 @@
         <layout>Alert__c-Alert Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Batch_Notification__c-Batch Notification Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Batch_Detail__c-Batch Detail Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Batch_Executor__mdt-BatchExecutor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Batch_Notification__c-Batch Notification Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Biomarker__mdt-Biomarker Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Booking__c-Booking Layout</layout>
     </layoutAssignments>
-    <layoutAssignments>
+	<layoutAssignments>
         <layout>CC_Staff__c-CC Staff Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6717,10 +7500,10 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-IQVIA Contact Layout</layout>
+        <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact-IQVIA Contact Layout</layout>
-        <recordType>Contact.MASTER</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact_Referral_Network__c-Contact Referral Network Layout</layout>
@@ -6730,9 +7513,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Contact_Topic__c-Contact Topic Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>ContentVersion-Content Version Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Conversation__c-Conversation Layout</layout>
@@ -6757,12 +7537,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Execution_History__c-Execution History Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>FollowUp_Reminder__mdt-FollowUp Reminder Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Form_Results__c-Form Result Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Guides_Setting__mdt-Guides Setting Layout</layout>
@@ -6807,12 +7581,6 @@
         <layout>Integration_Patient__c-Integration Patient Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Integration_Site_Staff__c-Integration Site Staff Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Integration_Trial_Match__c-Integration Trial Match Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Integration_VisitResult__c-Integration VisitResult Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -6826,9 +7594,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Material_Sent__c-Material Sent Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Media_Outreach__c-Media Outreach Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Message_Template__mdt-Message Template Layout</layout>
@@ -6847,9 +7612,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>National_ID__c-National ID Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>New_Style_Enablement__mdt-New Style Enablement Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Notification_Target__mdt-Notification Target Layout</layout>
@@ -6871,12 +7633,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Onboarding_Tour__mdt-Onboarding Tour Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Opt_Out_And_Tech_Support_Subcategory__mdt-Opt Out And Tech Support Subcategory Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Opt_Out_and_Technical_Support_Category__mdt-Opt Out and Technical Support Category Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>PI_RP_Relationship__c-PI RP Relationship Layout</layout>
@@ -6910,9 +7666,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Workflow_Outcome__mdt-Participant Workflow Outcome Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Participant_Workflow_Picklist_Value__mdt-Participant Workflow Picklist Value Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Participant_Workflow_Step__mdt-Participant Workflow Step Layout</layout>
@@ -6996,9 +7749,6 @@
         <layout>ScheduleIntervalSettings__mdt-ScheduleIntervalSetting Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Scheduled_Maintenance_Covid__mdt-Guest User Encryption Setting Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Score__c-Score Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7014,13 +7764,13 @@
         <layout>Status_History__c-Status History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Study_Incentive_Plan__c-Study Incentive Plan Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>StudySiteVisitPlan__c-StudySiteVisitPlan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_ID__c-Study ID Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Study_Incentive_Plan__c-Study Incentive Plan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_Site__c-Study Site Layout</layout>
@@ -7074,9 +7824,6 @@
         <layout>TravelVendor__c-TravelVendor Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Trial_Match__c-Trial Match Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Trial_Notification__c-Trial Notification Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7103,9 +7850,6 @@
         <layout>Visit_Result_GroupM__mdt-Visit Result Group Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
-        <layout>Visit_Result_Measurement_Name__mdt-Visit Result Measurement Name Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
         <layout>Visit_Result_TypeM_Dashboard_Config__mdt-Visit Result Type Dashboard Config Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -7116,10 +7860,6 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
-    </layoutAssignments>
-    <layoutAssignments>
-        <layout>Visit_Result__c-Visit_Result Layout</layout>
-        <recordType>Visit_Result__c.Biomarker</recordType>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Visit_Result__c-Visit_Result Layout</layout>
@@ -7185,15 +7925,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Batch_Notification__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Book__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7206,13 +7937,22 @@
         <object>Booking__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
-    <objectPermissions>
+	<objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>CC_Staff__c</object>
+		<viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Batch_Notification__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7269,6 +8009,15 @@
         <object>Contact_Referral_Network__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
+	<objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Media_Outreach__c</object>
+		<viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
         <allowDelete>true</allowDelete>
@@ -7321,15 +8070,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Execution_History__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Form_Results__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -7428,24 +8168,6 @@
         <allowEdit>true</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
-        <object>Integration_Site_Staff__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Integration_Trial_Match__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
         <object>Integration_VisitResult__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
@@ -7474,15 +8196,6 @@
         <allowRead>true</allowRead>
         <modifyAllRecords>true</modifyAllRecords>
         <object>Material_Sent__c</object>
-        <viewAllRecords>true</viewAllRecords>
-    </objectPermissions>
-    <objectPermissions>
-        <allowCreate>true</allowCreate>
-        <allowDelete>true</allowDelete>
-        <allowEdit>true</allowEdit>
-        <allowRead>true</allowRead>
-        <modifyAllRecords>true</modifyAllRecords>
-        <object>Media_Outreach__c</object>
         <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
@@ -8002,7 +8715,7 @@
         <recordType>Resource__c.Study_Document</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
-    <recordTypeVisibilities>
+	<recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Submitted_Articles</recordType>
         <visible>true</visible>
@@ -8038,11 +8751,6 @@
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>
-        <default>false</default>
-        <recordType>Visit_Result__c.Biomarker</recordType>
-        <visible>false</visible>
-    </recordTypeVisibilities>
-    <recordTypeVisibilities>
         <default>true</default>
         <recordType>Visit_Result__c.Lab</recordType>
         <visible>true</visible>
@@ -8069,16 +8777,20 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
-        <tab>CC_Staff__c</tab>
+        <tab>CTE__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <tabVisibilities>
-        <tab>CTE__c</tab>
+	<tabVisibilities>
+        <tab>CC_Staff__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
         <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Email_Test_Board</tab>
+        <visibility>Hidden</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>HCP_Enrollment__c</tab>
@@ -8094,18 +8806,6 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>Integration_Patient_Referral__c</tab>
-        <visibility>DefaultOn</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Integration_Site_Staff__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Integration_Trial_Match__c</tab>
-        <visibility>Hidden</visibility>
-    </tabVisibilities>
-    <tabVisibilities>
-        <tab>Media_Outreach__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -8190,6 +8890,10 @@
     </tabVisibilities>
     <tabVisibilities>
         <tab>TravelVendor__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+	<tabVisibilities>
+        <tab>Media_Outreach__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
@@ -8300,10 +9004,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ConnectOrgToEnvironmentHub</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ConsentApiUpdate</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -8455,10 +9155,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>FieldServiceAccess</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>GiveRecognitionBadge</name>
     </userPermissions>
     <userPermissions>
@@ -8503,14 +9199,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ManageC360AConnections</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageCMS</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ManageCallCenters</name>
     </userPermissions>
     <userPermissions>
@@ -8524,10 +9212,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageCertificates</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageClearbitIntegration</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -8576,10 +9260,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ManageHealthCheck</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ManageHubConnections</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -8647,10 +9327,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ManageReleaseUpdates</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ManageRemoteAccess</name>
     </userPermissions>
     <userPermissions>
@@ -8695,10 +9371,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ManageZapierIntegration</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>MassInlineEdit</name>
     </userPermissions>
     <userPermissions>
@@ -8731,10 +9403,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>Packaging2Delete</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>PrivacyDataAccess</name>
     </userPermissions>
     <userPermissions>
@@ -8747,10 +9415,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>RetainFieldHistory</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>RunReports</name>
     </userPermissions>
     <userPermissions>
@@ -8760,14 +9424,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>SelectFilesFromSalesforce</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>SendCustomNotifications</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>SendExternalEmailAvailable</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
@@ -8847,10 +9503,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ViewAllProfiles</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ViewAllUsers</name>
     </userPermissions>
     <userPermissions>
@@ -8887,10 +9539,6 @@
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
-        <name>ViewPlatformEvents</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
         <name>ViewPublicDashboards</name>
     </userPermissions>
     <userPermissions>
@@ -8904,10 +9552,6 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>ViewSetup</name>
-    </userPermissions>
-    <userPermissions>
-        <enabled>true</enabled>
-        <name>ViewUserPII</name>
     </userPermissions>
     <userPermissions>
         <enabled>true</enabled>
