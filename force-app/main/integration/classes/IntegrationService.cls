@@ -420,7 +420,7 @@ public without sharing class IntegrationService {
         integrationMessage.referralDetails = referralDetails;
         integrationMessage.auditLog = auditLog;
         integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
-        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c;
+        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c; //Added by vicky REF-2653
         return integrationMessage;
     }
 
