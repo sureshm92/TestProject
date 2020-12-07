@@ -20,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Incentive Program Mobile View</value>
+        <value xsi:type="xsd:string">Incentive  For Mobile View</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">Incentive Program</value>
+        <value xsi:type="xsd:string">12.Incentive Program</value>
     </values>
 </CustomMetadata>
