@@ -29,29 +29,31 @@
         if (!component.get('v.isInitialized')) return;
         var params = [];
         var currentTab = component.get('v.currentTab');
-        if (component.get('v.studyDetail.trial.Id')) params.push('id=' + component.get('v.studyDetail.trial.Id'));
+        if (component.get('v.studyDetail.trial.Id'))
+            params.push('id=' + component.get('v.studyDetail.trial.Id'));
         if (component.get('v.currentTab')) params.push('tab=' + component.get('v.currentTab'));
-        if (component.get('v.taskMode') && currentTab === 'tab-tasks') params.push('taskmode=' + component.get('v.taskMode'));
-        if (component.get('v.resourceMode') && currentTab === 'tab-resources') params.push('resourcemode=' + component.get('v.resourceMode'));
+        if (component.get('v.taskMode') && currentTab === 'tab-tasks')
+            params.push('taskmode=' + component.get('v.taskMode'));
+        if (component.get('v.resourceMode') && currentTab === 'tab-resources')
+            params.push('resourcemode=' + component.get('v.resourceMode'));
         var paramsStr = '';
         if (params.length > 0) paramsStr = params.join('&');
-        history.pushState(null, '',
-            communityService.getCommunityURLPathPrefix() + '/study-workspace?' + paramsStr);
-
+        history.pushState(
+            null,
+            '',
+            communityService.getCommunityURLPathPrefix() + '/study-workspace?' + paramsStr
+        );
     },
 
     mailSendMessage: function (component) {
         let urlShare = component.get('v.studyDetail.trial.Share_URL__c');
-        let messageShare = $A.get("$Label.c.Resources_social");
+        let messageShare = $A.get('$Label.c.Resources_social');
         if (urlShare && messageShare) {
             if (!String.format) {
                 String.format = function (format) {
                     var args = Array.prototype.slice.call(arguments, 1);
                     return format.replace(/{(\d+)}/g, function (match, number) {
-                        return typeof args[number] != 'undefined'
-                            ? args[number]
-                            : match
-                            ;
+                        return typeof args[number] != 'undefined' ? args[number] : match;
                     });
                 };
             }
@@ -62,12 +64,12 @@
 
     setTabActions: function (component) {
         var tabs = component.get('v.studyDetail.tabs');
-        if(!tabs) {
+        if (!tabs) {
             return;
         }
         var currTab = component.get('v.currentTab');
-        for(var i = 0; i < tabs.length; i++) {
-            if(tabs[i].id === currTab) {
+        for (var i = 0; i < tabs.length; i++) {
+            if (tabs[i].id === currTab) {
                 component.set('v.currentActions', tabs[i].studyActions);
                 if (tabs[i].id === 'tab-about-the-study') {
                     component.set('v.shareButtons', component.get('v.studyDetail.shareActions'));
@@ -76,5 +78,4 @@
             }
         }
     }
-
-})
+});

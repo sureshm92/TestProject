@@ -3,7 +3,6 @@
  */
 
 public without sharing class CommunityTemplateService {
-    
     //Template properties:
     public static final String SPONSOR_JANSSEN = 'Janssen';
 
@@ -26,121 +25,132 @@ public without sharing class CommunityTemplateService {
     public static final Map<String, String> RESOURCES_URL_MAP = getResourcesURLMap();
     public static final Map<String, Network> NETWORKS_MAP = getNetworksMap();
     public static final Map<String, CommunityTemplate> TEMPLATES_MAP = getTemplatesMap();
-    
-    public static CommunityTemplate getTemplate(String templateName){
-        if(templateName == null) templateName = '';
+
+    public static CommunityTemplate getTemplate(String templateName) {
+        if (templateName == null)
+            templateName = '';
         CommunityTemplate template = TEMPLATES_MAP.get(templateName);
-        if(template == null) template = TEMPLATES_MAP.get(TEMPLATE_DEFAULT);
+        if (template == null)
+            template = TEMPLATES_MAP.get(TEMPLATE_DEFAULT);
         return template;
     }
-    
-    public static CommunityTemplate getTemplateByCommunityName(String communityName){
-        for(CommunityTemplate communityTemplate : TEMPLATES_MAP.values()){
-            if(communityTemplate.communityName == communityName) return communityTemplate;
+
+    public static CommunityTemplate getTemplateByCommunityName(String communityName) {
+        for (CommunityTemplate communityTemplate : TEMPLATES_MAP.values()) {
+            if (communityTemplate.communityName == communityName)
+                return communityTemplate;
         }
         return getDefaultTemplate();
     }
 
     public static CommunityTemplate getTemplateByPermissionSetName(String permissionSetName) {
-        for(CommunityTemplate template : TEMPLATES_MAP.values()){
-            if(template.permissionSet == permissionSetName) return template;
+        for (CommunityTemplate template : TEMPLATES_MAP.values()) {
+            if (template.permissionSet == permissionSetName)
+                return template;
         }
         return getDefaultTemplate();
     }
 
     public static CommunityTemplate getTemplateByPrefix(String pathPrefix) {
-        for(CommunityTemplate template : TEMPLATES_MAP.values()){
-            if(template.pathPrefix == pathPrefix) return template;
+        for (CommunityTemplate template : TEMPLATES_MAP.values()) {
+            if (template.pathPrefix == pathPrefix)
+                return template;
         }
         return getDefaultTemplate();
     }
-    
-    public static CommunityTemplate getDefaultTemplate(){
+
+    public static CommunityTemplate getDefaultTemplate() {
         return getTemplate(TEMPLATE_DEFAULT);
     }
-    
-    public static Map<String, CommunityTemplate> getTemplatesMap(){
+
+    public static Map<String, CommunityTemplate> getTemplatesMap() {
         List<Community_Template__mdt> templates = [
-                SELECT Id,
-                        DeveloperName,
-                        Community_Name__c,
-                        Label,
-                        Permission_Set_Developer_Name__c,
-                        ShortCommunityName__c,
-                        (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
-                FROM Community_Template__mdt
+            SELECT
+                Id,
+                DeveloperName,
+                Community_Name__c,
+                Label,
+                Permission_Set_Developer_Name__c,
+                ShortCommunityName__c,
+                (SELECT Id, Label, Value__c FROM CommunityTemplate_Properties__r)
+            FROM Community_Template__mdt
         ];
         Map<String, CommunityTemplate> templatesMap = new Map<String, CommunityTemplate>();
         Map<String, String> defaultProperties = new Map<String, String>();
-        for(Community_Template__mdt template : templates){
+        for (Community_Template__mdt template : templates) {
             Map<String, String> propertiesMap = new Map<String, String>();
             propertiesMap.putAll(defaultProperties);
-            for(CommunityTemplate_Property__mdt property : template.CommunityTemplate_Properties__r){
+            for (
+                CommunityTemplate_Property__mdt property : template.CommunityTemplate_Properties__r
+            ) {
                 propertiesMap.put(property.Label, replaceResourceParameter(property.Value__c));
             }
-            templatesMap.put(template.Label, new CommunityTemplate(
-                    template,
-                    propertiesMap
-            ));
-            if(template.Label == TEMPLATE_DEFAULT) defaultProperties = propertiesMap;
+            templatesMap.put(template.Label, new CommunityTemplate(template, propertiesMap));
+            if (template.Label == TEMPLATE_DEFAULT)
+                defaultProperties = propertiesMap;
         }
         return templatesMap;
     }
-    
-    public static Set<String> getAllPermissionSets(){
+
+    public static Set<String> getAllPermissionSets() {
         Set<String> permissions = new Set<String>();
-        for(CommunityTemplate ct : TEMPLATES_MAP.values()) permissions.add(ct.permissionSet);
+        for (CommunityTemplate ct : TEMPLATES_MAP.values())
+            permissions.add(ct.permissionSet);
         return permissions;
     }
-    
-    public static String getCommunityURL(String communityName){
+
+    public static String getCommunityURL(String communityName) {
         Network nw = NETWORKS_MAP.get(communityName);
-        if(nw != null) {
+        if (nw != null) {
             List<String> urlItems = Network.getLoginUrl(nw.Id).split('/');
-            List<String> resURLItems = new List<String>{urlItems[0], urlItems[1], urlItems[2]};
+            List<String> resURLItems = new List<String>{ urlItems[0], urlItems[1], urlItems[2] };
             String url = String.join(resURLItems, '/');
-            if(nw.UrlPathPrefix != null) url += '/' + nw.UrlPathPrefix;
+            if (nw.UrlPathPrefix != null)
+                url += '/' + nw.UrlPathPrefix;
             return url;
         }
         return null;
     }
 
-    public static String getUrlPathPrefix(String templateName){
+    public static String getUrlPathPrefix(String templateName) {
         CommunityTemplate template = getTemplate(templateName);
         return NETWORKS_MAP.get(template.communityName).UrlPathPrefix;
     }
-    public static String getNetworkId(String communityName){
+    public static String getNetworkId(String communityName) {
         Network nw = NETWORKS_MAP.get(communityName);
-        return nw!=NULL? String.valueOf(nw.Id).substring(0, 15) : '';
+        return nw != null ? String.valueOf(nw.Id).substring(0, 15) : '';
     }
-    
-    public static Map<String, Network> getNetworksMap(){
-        List<Network> networks = [
-                SELECT Id, Name, UrlPathPrefix
-                FROM Network
-        ];
+
+    public static Map<String, Network> getNetworksMap() {
+        List<Network> networks = [SELECT Id, Name, UrlPathPrefix FROM Network];
         Map<String, Network> networksMap = new Map<String, Network>();
-        for(Network network : networks) networksMap.put(network.Name, network);
+        for (Network network : networks)
+            networksMap.put(network.Name, network);
         return networksMap;
     }
-    
+
     public static Map<String, String> getResourcesURLMap() {
         List<StaticResource> resourceList = [
-                SELECT Name, NamespacePrefix, SystemModStamp
-                FROM StaticResource];
+            SELECT Name, NamespacePrefix, SystemModStamp
+            FROM StaticResource
+        ];
         Map<String, String> resourcesMap = new Map<String, String>();
-        for(StaticResource resource : resourceList){
+        for (StaticResource resource : resourceList) {
             String namespace = resource.NamespacePrefix;
-            String resourceURL = '/resource/' + resource.SystemModStamp.getTime() +
-                    '/' + (namespace != null && namespace != '' ? namespace + '__' : '') + resource.Name;
+            String resourceURL =
+                '/resource/' +
+                resource.SystemModStamp.getTime() +
+                '/' +
+                (namespace != null && namespace != '' ? namespace + '__' : '') +
+                resource.Name;
             resourcesMap.put('$Resource/' + resource.Name, resourceURL);
         }
         return resourcesMap;
     }
-    
-    public static String replaceResourceParameter(String sourceString){
+
+    public static String replaceResourceParameter(String sourceString) {
         String resStr = sourceString;
-        for(String resourceName : RESOURCES_URL_MAP.keySet()){
+        for (String resourceName : RESOURCES_URL_MAP.keySet()) {
             resStr = resStr.replace(resourceName, RESOURCES_URL_MAP.get(resourceName));
         }
         return resStr;

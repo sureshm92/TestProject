@@ -6,7 +6,7 @@
 
 /* @krishna Mahto- REF-2179 - start */
 .THIS .slds-form-element__icon {
-    padding-top:0;
+    padding-top: 0;
 }
 
 /* @krishna Mahto- REF-2179 - end */
@@ -22,15 +22,17 @@
     margin-bottom: 20px;
 }
 
-.THIS.rtl .hp-welcome-msg{
+.THIS.rtl .hp-welcome-msg {
     direction: rtl;
 }
-
-.THIS.rtl .main-layout{
+.THIS.rtl {
+    direction: rtl;
+}
+.THIS.rtl .main-layout {
     flex-direction: row-reverse;
 }
 
-.THIS.rtl .logo-text{
+.THIS.rtl .logo-text {
     direction: rtl;
 }
 
@@ -39,8 +41,8 @@
 }
 
 .THIS > .slds-grid > .slds-col,
-.THIS > .slds-grid > [class*=slds-col_padded],
-.THIS > .slds-grid > [class*=slds-col--padded] {
+.THIS > .slds-grid > [class*='slds-col_padded'],
+.THIS > .slds-grid > [class*='slds-col--padded'] {
     flex: 0 0 auto;
 }
 
@@ -90,8 +92,8 @@
     flex: 0 0 33%;
 }
 
-@media (max-width: 768px){
-    .THIS > .slds-grid > [class*="slds-medium-size_"] {
+@media (max-width: 768px) {
+    .THIS > .slds-grid > [class*='slds-medium-size_'] {
         width: 100%;
     }
     .THIS > div:nth-child(2) {
@@ -99,9 +101,9 @@
     }
 }
 
-@media all and (max-width:500px) {
+@media all and (max-width: 500px) {
     .THIS .hp-welcome-msg {
-        max-width: 100%
+        max-width: 100%;
     }
 
     .THIS .apollo-btn.primary.dark {

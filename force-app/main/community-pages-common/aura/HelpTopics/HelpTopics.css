@@ -1,19 +1,15 @@
 /**
  * Created by Kryvolap on 21.09.2019.
  */
-.THIS .ht-panel{
+.THIS .ht-panel {
     margin-bottom: 20px;
 }
 
 .THIS .slds-has-error .slds-form-element__help {
-    position: absolute;
     width: 100%;
     margin-bottom: 18px;
     z-index: 0;
     display: flex;
-}
-.THIS .sld-input-margin{
-    margin-top: -5px;
 }
 
 .THIS .h-body {
@@ -44,14 +40,26 @@
 .THIS .h-body .slds-file-selector.slds-file-selector_files,
 .THIS .h-body .slds-file-selector__dropzone,
 .THIS .h-body .slds-form-element__control.slds-grow,
-.THIS .h-body .rrs-container{
+.THIS .h-body .rrs-container {
+    width: 100%;
+}
+
+.THIS .rrs-label {
+    margin-bottom: 5px;
+}
+
+.THIS .slds-align_absolute-center {
+    width: 80%;
+}
+
+.THIS .slds-align_absolute-center .slds-wrap {
     width: 100%;
 }
 
 .THIS .h-body .h-body-text-area label {
     display: none;
 }
-.THIS .h-body .h-type-select{
+.THIS .h-body .h-type-select {
     margin-bottom: 10px;
 }
 .THIS .h-body textarea {
@@ -77,7 +85,7 @@
     margin-left: 0;
     padding-right: 1px;
 }
-.THIS .h-body-file-upload-pills .h-file-pill svg{
+.THIS .h-body-file-upload-pills .h-file-pill svg {
     width: 16px;
     height: 16px;
 }
@@ -91,19 +99,16 @@
     margin-top: 70px;
 }
 
-.THIS .file-btn{
-    display: inline-block!important;
-    max-height: inherit!important;
-    max-width: inherit!important;
-    text-align: center!important;
-    line-height: 1!important;
-    cursor: default!important;
+.THIS .file-btn {
+    display: inline-block !important;
+    max-height: inherit !important;
+    max-width: inherit !important;
+    text-align: center !important;
+    line-height: 1 !important;
+    cursor: default !important;
 }
 
-
 @media (max-width: 850px) {
-
-
     .THIS .h-body {
         margin-top: 20px;
     }
@@ -124,13 +129,29 @@
         z-index: 0;
         display: flex;
     }
+
+    .THIS .slds-radio:first-child {
+        margin-bottom: 15px;
+    }
 }
 
-.THIS .ht-label{
+.THIS .ht-label {
     font-size: 16px;
 }
 
-.THIS .ht-sub-label{
+.THIS .ht-sub-label {
     font-size: 14px;
     color: #444444;
+}
+
+@media all and (max-width: 500px) {
+
+    .THIS .pi-picklist-container .slds-grid > .slds-col {
+        width: 100%;
+    }
+
+    .THIS .pi-picklist-container .slds-grid > .slds-col:first-child {
+       margin-bottom: 15px;
+    }
+
 }

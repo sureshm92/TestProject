@@ -1,5 +1,5 @@
 .THIS.mrc-container {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     display: inline-block;
     width: 100%;
     padding-bottom: 100px;
@@ -10,40 +10,35 @@
 }
 
 .THIS .cFilterPanel .fp-search-input .rri-container {
-	width: 230px;
+    width: 230px;
 }
 
-.THIS .mrc-invite-btn-container{
+.THIS .mrc-invite-btn-container {
     text-align: right;
 }
 
-.THIS .rr-form-element{
+.THIS .rr-form-element {
     margin-bottom: 10px;
     min-width: 300px;
 }
 
-.THIS .rr-form-element .label{
+.THIS .rr-form-element .label {
     text-align: left;
 }
 
-.THIS .rr-form-element .radio-group{
+.THIS .rr-form-element .radio-group {
     text-align: left;
     word-wrap: break-word;
     padding: 0 10px 0 10px;
     max-width: 300px;
 }
 
-.THIS .rr-form-element .radio-group .slds-form-element__label{
-    font-size: 16px!important;
-    color: #444444!important;
+.THIS .rr-form-element .radio-group .slds-form-element__label {
+    font-size: 16px !important;
+    color: #444444 !important;
     /*text-overflow: ellipsis;*/
     /*white-space: nowrap;*/
     /*overflow: hidden;*/
-}
-
-
-.THIS .p-content{
-    max-height: 72vh!important;
 }
 
 .THIS.mrz-main-container,
@@ -51,7 +46,7 @@
     color: #666666;
     display: inline-block;
     width: 100%;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 21px;
@@ -65,60 +60,64 @@
     .THIS.mrc-container {
         padding-bottom: 0;
     }
-    
-    .THIS .mrc-invite-btn-container{
+
+    .THIS .mrc-invite-btn-container {
         width: 100%;
         margin: 15px 0;
     }
-    
+
     .THIS .mrc-invite-btn-container .mrc-invite-btn {
-        margin-right: 15px;   
+        margin-right: 15px;
     }
-    
+
     .THIS .slds-col {
         flex-wrap: wrap;
     }
-    
+
     .THIS .slds-col.slds-p-around_medium {
         flex-wrap: wrap;
         padding: 0;
         width: 100%;
     }
-    
+
     .THIS .rr-form-element .slds-form-element__control {
         margin-bottom: 15px;
     }
-
 }
 
-@media all and (max-width: 500px)  {
+@media all and (max-width: 500px) {
     .THIS .slds-gutters_medium {
-		margin: 0!important;
+        margin: 0 !important;
     }
-    
+
     .THIS .rr-form-element {
         min-width: 100%;
     }
-    
-	.THIS .mrc-invite-btn-container .mrc-invite-btn {
+
+    .THIS .mrc-invite-btn-container .mrc-invite-btn {
         width: 100%;
         margin-bottom: 25px;
     }
-    
+
     .THIS .p-container.large .p-content {
         padding: 1rem;
     }
-    
+
     .THIS .p-container .p-footer.p-variant-normal {
         padding: 15px 15px 30px;
     }
-    
+
     .THIS .p-buttons-container .apollo-btn {
         width: 100%;
         margin: 0;
     }
-    
-     .THIS .p-buttons-container .apollo-btn.primary {
+
+    .THIS .p-buttons-container .apollo-btn.primary {
         margin-top: 1rem;
+    }
+
+
+    .THIS .p-content {
+        max-height: 50vh;
     }
 }

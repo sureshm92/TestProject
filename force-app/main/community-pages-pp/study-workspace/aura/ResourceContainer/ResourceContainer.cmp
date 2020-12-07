@@ -1,43 +1,118 @@
-<aura:component controller="ResourceRemote" description="ResourceContainer" implements="forceCommunity:availableForAllPageTypes">
-
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"/>
+<aura:component
+    controller="ResourceRemote"
+    description="ResourceContainer"
+    implements="forceCommunity:availableForAllPageTypes"
+    extends="c:CommunityContext"
+>
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <!--ATTRIBUTES-->
 
-    <aura:attribute name="resourceMode" type="String" default="Default" description="Possible values are 'Default', 'Favorite', 'Documents'"/>
-    <aura:attribute name="noTAMessage" type="String" default="{!null}"/>
-    <aura:attribute name="documentsResourceMode" type="String" default="Documents" access="private" description="constant variable"/>
-    <aura:attribute name="studyDocumentsAvailable" type="Boolean" default="true"/>
-    <aura:attribute name="videoArticlesAvailable" type="Boolean" default="true"/>
+    <aura:attribute
+        name="resourceMode"
+        type="String"
+        default="Default"
+        description="Possible values are 'Default', 'Favorite', 'Documents'"
+    />
+    <aura:attribute name="noTAMessage" type="String" default="{!null}" />
+    <aura:attribute
+        name="documentsResourceMode"
+        type="String"
+        default="Documents"
+        access="private"
+        description="constant variable"
+    />
+    <aura:attribute name="studyDocumentsAvailable" type="Boolean" default="true" />
+    <aura:attribute name="videoArticlesAvailable" type="Boolean" default="true" />
+    <aura:attribute name="submittedArticlesURL" type="String" />
+    <aura:attribute name="disableSave" type="Boolean" default="true" />
+    <aura:attribute name="showSpinner" type="Boolean" default="false" access="private" />
+    <aura:attribute name="isDelegate" type="Boolean" default="false" />
+    <aura:attribute name="hascois" type="Boolean" default="false" />
 
     <!--HANDLERS-->
 
-    <aura:handler name="init" value="this" action="{!c.doInit}"/>
+    <aura:handler name="init" value="this" action="{!c.doInit}" />
 
     <!--COMPONENT BODY-->
+    <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
 
     <aura:if isTrue="{!and(v.resourceMode != v.documentsResourceMode, v.videoArticlesAvailable)}">
         <aura:if isTrue="{!v.noTAMessage != null}">
             <div class="resource-noTAMessage">
-                <aura:unescapedHtml value="{!v.noTAMessage}"/>
+                <aura:unescapedHtml value="{!v.noTAMessage}" />
             </div>
             <aura:set attribute="else">
                 <lightning:layout horizontalAlign="center" class="width-limiter">
-                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12">
-                        <c:Resource resourceType="Video" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
+                    <lightning:layoutItem
+                        smallDeviceSize="12"
+                        mediumDeviceSize="12"
+                        largeDeviceSize="6"
+                        flexibility="auto"
+                        size="12"
+                    >
+                        <c:Resource
+                            resourceType="Video"
+                            resourceMode="{!v.resourceMode}"
+                            isAvailable="{!v.videoArticlesAvailable}"
+                        />
                     </lightning:layoutItem>
-                    <lightning:layoutItem smallDeviceSize="12" mediumDeviceSize="12" largeDeviceSize="6" flexibility="auto" size="12" class="resource-right">
-                        <c:Resource resourceType="Article" resourceMode="{!v.resourceMode}" isAvailable="{!v.videoArticlesAvailable}"/>
+                    <lightning:layoutItem
+                        smallDeviceSize="12"
+                        mediumDeviceSize="12"
+                        largeDeviceSize="6"
+                        flexibility="auto"
+                        size="12"
+                        class="resource-right"
+                    >
+                        <c:Resource
+                            resourceType="Article"
+                            resourceMode="{!v.resourceMode}"
+                            isAvailable="{!v.videoArticlesAvailable}"
+                        />
                     </lightning:layoutItem>
                 </lightning:layout>
-                <div class="resource-disclaimer">
-                    {!$Label.c.Resources_Expiration_Date_Disclaimer}
-                </div>
             </aura:set>
         </aura:if>
         <aura:set attribute="else">
-            <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}"/>
+            <c:StudyDocumentContainer isAvailable="{!v.studyDocumentsAvailable}" />
         </aura:set>
+        <aura:if isTrue="{!and(v.resourceMode == 'Default',!v.isDelegate)}">
+            <div class="{! v.hascois ? 'mainCard' : 'mainCardCoi' }">
+                <div class="url-disclaimer">
+                    <!-- style="{!if(v.isRTL == true, 'padding-right:33px', '')}" -->
+                    {!$Label.c.PP_Share_Article}
+                    <div class="videoSubmit">{!$Label.c.PP_Submit_Video}</div>
+                </div>
+                <div class="slds-grid mar_grid">
+                    <div class="slds-col slds-size_1-of-1 mar_btn">
+                        <lightning:input
+                            type="text"
+                            aura:id="urlField"
+                            placeholder="{!$Label.c.PP_Paste_URL}"
+                            value="{!v.submittedArticlesURL}"
+                            onblur="{!c.handleUrlValidation}"
+                        ></lightning:input>
+                        <span style="{!if(v.isRTL == true, 'padding-right:15px', '')}">
+                            <lightning:button
+                                label="{!$Label.c.PP_Submit_Button}"
+                                onclick="{!c.createArticles}"
+                                class="{!v.disableSave ? 'btn slds-button disabled' : 'btn slds-button'}"
+                                disabled="{!v.disableSave}"
+                            ></lightning:button>
+                        </span>
+                    </div>
+                    <span class="emergency-disclaimer">
+                        <!-- style="{!if(v.isRTL == true, 'margin-right: -989px!important;', '')}" -->
+                        {!$Label.c.PP_Emergency}
+                    </span>
+                </div>
+                <aura:if isTrue="{!v.hascois }">
+                    <div class="resource-disclaimer">
+                        {!$Label.c.Resources_Expiration_Date_Disclaimer}
+                    </div></aura:if
+                >
+            </div>
+        </aura:if>
     </aura:if>
-
 </aura:component>

@@ -7,50 +7,50 @@
     padding: 10px;
 }
 
-.THIS .section{
+.THIS .section {
     padding: 10px;
 }
 
-.THIS .section-header{
+.THIS .section-header {
     font-weight: bold;
     margin-bottom: 10px;
 }
 
-.THIS .import-form{
+.THIS .import-form {
     display: flex;
     align-items: center;
     justify-content: start;
 }
 
-.THIS .export-form .slds-col{
+.THIS .export-form .slds-col {
     margin-bottom: 10px;
 }
-.THIS .study-input{
+.THIS .study-input {
     width: 400px;
 }
 
-.THIS .export-btn{
+.THIS .export-btn {
     float: right;
 }
 
-.THIS .import-btn{
+.THIS .import-btn {
     margin-left: 20px;
 }
 
-.THIS .border-panel{
+.THIS .border-panel {
     padding: 20px;
     border: 1px solid #e6e6e6;
     border-radius: 5px;
 }
 
-.THIS .rr-spinner{
+.THIS .rr-spinner {
     opacity: 1;
     visibility: visible;
     transition: 0.4s linear;
     z-index: 1200;
 }
 
-.THIS .rr-spinner.fixed{
+.THIS .rr-spinner.fixed {
     position: fixed;
     top: 0;
     bottom: 0;
@@ -59,12 +59,12 @@
 }
 
 .THIS .rr-hide,
-.THIS .siteforcePanelsContainer.hideEl{
+.THIS .siteforcePanelsContainer.hideEl {
     opacity: 0;
     visibility: hidden;
 }
 
-.THIS .platform-object{
+.THIS .platform-object {
     border: 1px solid #dadada;
     border-radius: 5px;
     padding: 0 10px;
@@ -74,7 +74,7 @@
     color: white;
 }
 
-@media only screen and (min-device-width: 1028px) and (min-device-height: 700px){
+@media only screen and (min-device-width: 1028px) and (min-device-height: 700px) {
     .THIS .export-panel {
         min-height: 250px;
         max-height: 250px;

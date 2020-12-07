@@ -2,41 +2,81 @@
  - Created by Olga Skrynnikova on 6/10/2020.
  -->
 
- <aura:component description="PPMenuItems">
-
+<aura:component description="PPMenuItems" extends="c:CommunityContext">
+    <aura:attribute name="tooltipTop" type="Integer" />
+    <aura:attribute name="tooltipLeft" type="Integer" />
+    <aura:attribute name="tooltipRight" type="Integer" />
     <!-- attributes: -->
-    <aura:attribute name="allModes" type="Object"/>
-
+    <aura:attribute name="allModes" type="Object" />
+    <aura:attribute name="hovertext" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!-- events: -->
-    <aura:registerEvent access="global" name="onclick" type="c:uiEvent"/>
+    <aura:registerEvent access="global" name="onclick" type="c:uiEvent" />
 
-    <div>
+    <div class="slds-form-element">
         <aura:iteration var="item" items="{!v.allModes.ppModeItems}">
-            <ul class="contain">
+            <ul class="{!'contain ' + if(v.isRTL, 'rtlMain', '')}">
                 <aura:iteration items="{!item.subItems}" var="subItem">
                     <c:uiMenuItem onclick="{!c.doOnClick}" itemValue="{!subItem}" class="pp-item">
                         <div class="main-box">
                             <div class="menu-item-box">
-                                <div class="{!'item-line' + if(subItem.isSelected, ' selected ', '')}">
+                                <div
+                                    class="{!'item-line' + if(subItem.isSelected, ' selected ', '')}"
+                                >
                                     <div class="item-title">{!subItem.title}</div>
                                     <aura:if isTrue="{!subItem.isSelected}">
-                                        <c:RRIcon iconName="icon-check" class="icon-check"/>
+                                        <c:RRIcon iconName="icon-check" class="icon-check" />
                                     </aura:if>
                                 </div>
                                 <div class="icon-settings-box">
-                                    <aura:if isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}">
-                                        <div class="icon-delegate-box">
-                                            <c:menuItemButton class="icon-delegate" iconName="delegate" navigateTo="my-team"
-                                                              itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                    <aura:if
+                                        isTrue="{!and(not(item.isDelegate), item.hasBeenActive)}"
+                                    >
+                                        <div
+                                            data-id="{!$Label.c.Delegates}"
+                                            aura:id="Delegates"
+                                            data-value="Delegates"
+                                            class="icon-delegate-box"
+                                            onmouseover="{!c.display}"
+                                            onmouseout="{!c.displayOut}"
+                                        >
+                                            <!--	 <lightning:helptext
+											content="Click the icon to log in to Salesforce"> -->
+
+                                            <c:menuItemButton
+                                                class="icon-delegate"
+                                                iconName="delegate"
+                                                navigateTo="my-team"
+                                                itemValue="{!subItem}"
+                                                onclick="{!c.doOnClick}"
+                                            />
+                                            <!--						   </lightning:helptext>-->
                                         </div>
                                     </aura:if>
-                                    <div class="icon-box">
-                                        <c:menuItemButton class="icon-cog" iconName="cog" navigateTo="account-settings"
-                                                          itemValue="{!subItem}" onclick="{!c.doOnClick}"/>
+                                    <div
+                                        data-id="{!$Label.c.PP_Account_Settings}"
+                                        aura:id="Account Settings"
+                                        class="{!if(v.isRTL, 'icon-boxRTL', 'icon-box')}"
+                                        onmouseover="{!c.display}"
+                                        onmouseout="{!c.displayOut}"
+                                    >
+                                        <c:menuItemButton
+                                            class="icon-cog"
+                                            iconName="cog"
+                                            navigateTo="account-settings"
+                                            itemValue="{!subItem}"
+                                            onclick="{!c.doOnClick}"
+                                        />
                                     </div>
                                 </div>
                             </div>
-                            <div class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + 'overflow'}">
+                            <div
+                                data-id="{!subItem.subTitle}"
+                                aura:id="{!subItem.subTitle}"
+                                class="{!'menu-sub-item ' + if(subItem.isSelected, 'selected-sub-title ', '') + if(v.isRTL, 'subtitleRTL ', '') + 'overflow'}"
+                                onmouseover="{!c.display}"
+                                onmouseout="{!c.displayOut}"
+                            >
                                 {!subItem.subTitle}
                             </div>
                         </div>
@@ -45,5 +85,13 @@
             </ul>
         </aura:iteration>
     </div>
-
+    <div
+        class="slds-popover slds-popover--tooltip toggle container tooltip"
+        role="tooltip"
+        id="help"
+        aura:id="tooltip"
+        style="{!if(v.isRTL == true,'top:'+v.tooltipTop+';right:'+v.tooltipRight,'top:'+v.tooltipTop+';left:'+v.tooltipLeft)}"
+    >
+        <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
+    </div>
 </aura:component>

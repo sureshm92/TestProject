@@ -6,7 +6,7 @@
     doCheckFields: function (component, event, helper) {
         let isValid = true;
         let selectedSurvey = component.get('v.wrapper.selectedSurvey');
-        if(!selectedSurvey || selectedSurvey.length <= 0) isValid = false;
+        if (!selectedSurvey || selectedSurvey.length <= 0) isValid = false;
 
         isValid = isValid && component.find('daysToExpire').get('v.validity').valid;
 

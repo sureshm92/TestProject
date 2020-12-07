@@ -2,27 +2,23 @@
  * Created by Andrii Kryvolap.
  */
 
-import {LightningElement, track, api} from 'lwc';
+import { LightningElement, track, api } from 'lwc';
 import getPoints from '@salesforce/apex/IncentiveProgramRemote.getCurrentPoints';
 
 export default class NavIncentiveCounter extends LightningElement {
-
-    @track totalPoints=null;
-    @track lastPoints=null;
-    @track parOfIncentiveProgram=false;
+    @track totalPoints = null;
+    @track lastPoints = null;
+    @track parOfIncentiveProgram = false;
     @track showDropDown;
     _currentPage;
     @api
-    set currentPage(pageName){
+    set currentPage(pageName) {
         this._currentPage = pageName;
         this.updateSelected();
     }
-    get currentPage(){
+    get currentPage() {
         return this._currentPage;
     }
-
-
-
 
     lastDatastamp;
 
@@ -31,24 +27,24 @@ export default class NavIncentiveCounter extends LightningElement {
         this.lastDatastamp = new Date();
         let fetchPoints = () => {
             getPoints({
-                timeStamp : this.lastDatastamp.toISOString()
+                timeStamp: this.lastDatastamp.toISOString()
             })
-                .then(data => {
+                .then((data) => {
                     this.totalPoints = data.totalPoints;
                     this.lastPoints = data.lastPoints;
-                    this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks ;
+                    this.parOfIncentiveProgram = this.totalPoints > 0 || data.hasEnabledTasks;
                     this.updateSelected();
                 })
-                .catch(error => {
+                .catch((error) => {
                     console.error('Error in getPointsCounter():' + JSON.stringify(error));
                 });
-        }
+        };
         fetchPoints();
         setInterval(fetchPoints, 5000);
     }
 
     doToggleDropDown() {
-        if (this.showDropDown){
+        if (this.showDropDown) {
             this.lastDatastamp = new Date();
         }
         this.showDropDown = !this.showDropDown;
@@ -59,7 +55,7 @@ export default class NavIncentiveCounter extends LightningElement {
         this.lastDatastamp = new Date();
         this.updateSelected();
     }
-    doEvent(){
+    doEvent() {
         this.doCloseDropDown();
         const navigateToIncentivesEvent = new CustomEvent('navigatetoincentives', {
             detail: {
@@ -69,16 +65,14 @@ export default class NavIncentiveCounter extends LightningElement {
         this.dispatchEvent(navigateToIncentivesEvent);
     }
 
-    updateSelected(){
-        if (this.parOfIncentiveProgram){
-            if (this._currentPage =='incentives'){
+    updateSelected() {
+        if (this.parOfIncentiveProgram) {
+            if (this._currentPage == 'incentives') {
                 this.template.querySelector('.nic-button').classList.add('current-page');
-            }
-            else{
-                if (this.showDropDown){
+            } else {
+                if (this.showDropDown) {
                     this.template.querySelector('.nic-button').classList.add('current-page');
-                }
-                else{
+                } else {
                     this.template.querySelector('.nic-button').classList.remove('current-page');
                 }
             }

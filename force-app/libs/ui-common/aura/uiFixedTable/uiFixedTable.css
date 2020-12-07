@@ -1,12 +1,12 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.table-container{
+.THIS.table-container {
     width: 100%;
     opacity: 0;
 }
 
-.THIS.table-container.initialized{
+.THIS.table-container.initialized {
     opacity: 1;
 }
 

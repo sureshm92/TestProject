@@ -7,14 +7,14 @@
 
 .THIS .healthcare-info {
     margin: 1% 0 1% 0;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     color: black;
 }
 
 .THIS .referring-provider-header {
     color: #444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     margin-top: 5.5%;
     padding-left: 9%;
@@ -28,24 +28,24 @@
     padding-right: 4%;
 }
 
-.THIS .healthcare-form-container{
+.THIS .healthcare-form-container {
     margin-bottom: 1%;
 }
 
-.THIS .healthcare-input input{
+.THIS .healthcare-input input {
     height: 32px;
 }
 
-.THIS .provider-found-section{
+.THIS .provider-found-section {
     font-size: 13px;
     font-weight: 500;
 }
-.THIS .referring{
+.THIS .referring {
     margin-top: 10px;
     font-weight: 600;
     width: 1000px;
 }
-.THIS .slds-box{
+.THIS .slds-box {
     box-shadow: none;
     border: none;
     font-weight: 600;
@@ -53,60 +53,57 @@
     min-width: 160px;
     border-radius: 4px;
 }
-.THIS .slds-badge__icon{
+.THIS .slds-badge__icon {
     box-shadow: none;
     border: none;
     font-weight: 600;
 }
 
-.THIS .delegate-alert-message{
+.THIS .delegate-alert-message {
     background-color: #ffffff;
 }
 
-@media screen and (max-width: 768px){
+@media screen and (max-width: 768px) {
     .THIS .slds-grid > .slds-col,
     .THIS .apollo-btn {
         width: 100%;
     }
-
 }
 
 .THIS .apollo-btn.secondary {
     padding: 6px 6px;
     margin-top: 4px;
 }
-.THIS .slds-button{
+.THIS .slds-button {
     box-shadow: none;
     border: none;
     font-weight: 600;
 }
 
-@media all and (max-width: 768px){
+@media all and (max-width: 768px) {
     .THIS .apollo-btn.secondary {
         margin-bottom: 15px;
     }
-    
+
     .THIS .healthcare-input input {
         height: 40px;
     }
-    
-     .THIS > .rr-form-element {
+
+    .THIS > .rr-form-element {
         min-width: 50%;
     }
-
 }
 
-@media all and (max-width: 500px){
+@media all and (max-width: 500px) {
     .THIS > .rr-form-element {
         min-width: 100%;
     }
-    
+
     .THIS .healthcare-input {
         padding-right: 0;
     }
-    
-    .THIS .apollo-btn.secondary {
-        margin-left: 0
-    }
 
+    .THIS .apollo-btn.secondary {
+        margin-left: 0;
+    }
 }

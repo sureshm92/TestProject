@@ -1,20 +1,33 @@
 @IsTest
 public class Test_RRPDFViewerController {
-
     @TestSetup
     public static void setup() {
-
-        Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(Resource__c.getSObjectType(), new Map<String, Object>{
-                'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT, Resource__c.getSObjectType())
-        });
+        Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(
+            Resource__c.getSObjectType(),
+            new Map<String, Object>{
+                'RecordTypeId' => SchemaUtil.getRecordTypeIdByName(
+                    ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT,
+                    Resource__c.getSObjectType()
+                )
+            }
+        );
         insert singleResource;
-        ContentVersion singleVersion = (ContentVersion) TestDataFactory.getSObject(ContentVersion.getSObjectType());
+        ContentVersion singleVersion = (ContentVersion) TestDataFactory.getSObject(
+            ContentVersion.getSObjectType()
+        );
         insert singleVersion;
-        singleVersion = [SELECT Id, ContentDocumentId FROM ContentVersion WHERE Id = :singleVersion.Id];
-        ContentDocumentLink singleLink = (ContentDocumentLink) TestDataFactory.getSObject(ContentDocumentLink.getSObjectType(), new Map<String, Object>{
+        singleVersion = [
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
+            WHERE Id = :singleVersion.Id
+        ];
+        ContentDocumentLink singleLink = (ContentDocumentLink) TestDataFactory.getSObject(
+            ContentDocumentLink.getSObjectType(),
+            new Map<String, Object>{
                 'LinkedEntityId' => singleResource.Id,
                 'ContentDocumentId' => singleVersion.ContentDocumentId
-        });
+            }
+        );
         insert singleLink;
     }
 
@@ -33,9 +46,12 @@ public class Test_RRPDFViewerController {
         Test.startTest();
         controller.initData();
         Test.stopTest();
-        
+
         System.assertEquals(resources[0].Title__c, controller.fileName);
-        System.assertEquals(EncodingUtil.base64Encode(versions[0].VersionData), controller.pdfBlobDataInBase64StringFormat);
+        System.assertEquals(
+            EncodingUtil.base64Encode(versions[0].VersionData),
+            controller.pdfBlobDataInBase64StringFormat
+        );
         System.assertEquals(true, controller.executeJS);
     }
 }

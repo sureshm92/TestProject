@@ -1,7 +1,7 @@
 /**
  * Created by mkotenev on 3/5/2019.
  */
-.THIS.te-task-panel{
+.THIS.te-task-panel {
     min-height: 400px;
     max-width: 1140px;
     margin: 25px auto 30px;
@@ -27,7 +27,7 @@
 
 .THIS.cRRTopBar.top-bar .cRRLink:hover {
     background-color: #eef5ff;
-    transition: .25s;
+    transition: 0.25s;
 }
 
 .THIS.cRRTopBar.top-bar .cRRLink:before {
@@ -73,13 +73,13 @@
     font-weight: bold;
 }
 
-.THIS .slds-form-element__label{
+.THIS .slds-form-element__label {
     padding-bottom: 5px;
     font-size: 14px;
     color: #444;
 }
 
-.THIS .te-form > .slds-col{
+.THIS .te-form > .slds-col {
     margin-bottom: 8px;
 }
 
@@ -87,12 +87,12 @@
     margin-top: 25px;
 }
 
-.THIS .icon-alert{
+.THIS .icon-alert {
     margin-top: 8px;
     display: flex;
     align-items: center;
 }
 
-.THIS .icon-alert .text{
+.THIS .icon-alert .text {
     padding-left: 10px;
 }

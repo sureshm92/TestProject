@@ -4,11 +4,9 @@
 
 @IsTest
 public class Test_DeploymentContext {
-    
     @IsTest
-    public static void runTest () {
+    public static void runTest() {
         DeploymentContext.onInstall();
         DeploymentContext.getHandlers();
     }
-
 }

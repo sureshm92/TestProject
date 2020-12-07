@@ -1,4 +1,4 @@
-.THIS.resource-container {
+.THIS .resource-container {
     display: flex;
     margin: 0 11px 48px 18px;
     min-width: 510px;
@@ -10,6 +10,10 @@
     height: 88px;
     margin: 1px 20px 1px 0;
     overflow: hidden;
+}
+
+.THIS.rtl {
+    direction: rtl;
 }
 
 .THIS .resource-image-container > img {
@@ -48,7 +52,7 @@
 .THIS .resource-description-title {
     height: 20px;
     color: #666666;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 13px;
     font-weight: 500;
     line-height: 20px;
@@ -57,7 +61,7 @@
 .THIS .resource-description-text {
     height: 30px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     line-height: 14px;
     margin: 0 0 3px 0;
@@ -66,7 +70,7 @@
 .THIS .resource-expiration-date {
     height: 14px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 12px;
     font-style: italic;
     line-height: 14px;

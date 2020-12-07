@@ -4,11 +4,11 @@
 
 @IsTest
 private without sharing class Test_ContactService {
-
-
     @IsTest
     private static void defaultPEOnContact() {
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
 
         TestData.loadTestData();
         TestData testData = new TestData();
@@ -19,12 +19,13 @@ private without sharing class Test_ContactService {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
-
         }
 
         //case getCurrentPe:
-        Participant_Enrollment__c pe1 = ContactService.getCurrentPE(testData.participantUser.ContactId);
-        System.assert(pe1.Id == testData.pe.Id);
+        Participant_Enrollment__c pe1 = ContactService.getCurrentPE(
+            testData.participantUser.ContactId
+        );
+        System.assertEquals(testData.pe.Id, pe1.Id);
 
         //case applyRelevantNames:
         Contact contact = ContactService.getContact(testData.participantUser.ContactId);
@@ -37,32 +38,35 @@ private without sharing class Test_ContactService {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
-
         }
-
-        System.runAs(testData.createPatientDelegate()) {
+        User pdUser = testData.createPatientDelegate();
+        System.runAs(pdUser) {
             CommunityFacadeRemote.isFirstLogon();
             CommunityFacadeRemote.acceptTerms();
             CommunityFacadeRemote.getCommunityData();
-
         }
 
         //case getPastStudyWrappers:
         List<ContactService.PastStudyWrapper> pastStudyWrappers = new List<ContactService.PastStudyWrapper>();
         Id conId = testData.participantUser.ContactId;
         pastStudyWrappers.addAll(ContactService.getPastStudyWrappers(conId));
+        System.assertEquals(testData.ctp.Id, pastStudyWrappers[0].ctp.Id);
 
         //case getPastEnrollments
         List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
         peList.addAll(ContactService.getPastEnrollments(conId));
+        System.assertEquals(testData.pe.Id, peList[0].Id);
 
         //case NextNotifyDate
         Datetime dt = Datetime.newInstance(2020, 1, 1);
         ContactService.updateNextNotifyDate(conId, dt);
-        Contact delCon = [SELECT Id, LastName FROM Contact WHERE LastName = 'Delegate'];
+        Contact delCon = [SELECT Id, LastName FROM Contact WHERE Id = :pdUser.ContactId];
         ContactService.updateNextNotifyDate(delCon.Id, dt);
-
         Test.stopTest();
-    }
 
+        Contact testCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :conId];
+        Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
+        System.assertEquals(Datetime.now().date(), testCont.Next_Notify_Date__c);
+        System.assertEquals(null, testDelCont.Next_Notify_Date__c);
+    }
 }

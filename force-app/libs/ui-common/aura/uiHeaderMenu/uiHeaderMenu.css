@@ -1,15 +1,15 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS > div:first-child{
+.THIS > div:first-child {
     height: 100%;
 }
 
-.THIS > div:first-child > div:first-child{
+.THIS > div:first-child > div:first-child {
     height: 100%;
 }
 
-.THIS > div:first-child > div:first-child > div:first-child{
+.THIS > div:first-child > div:first-child > div:first-child {
     height: 100%;
     display: flex;
     align-items: center;
@@ -27,29 +27,28 @@
     justify-content: flex-end;
 }
 
-
 .THIS .header-menu-link:hover,
-.THIS.popup-visible .header-menu-link{
+.THIS.popup-visible .header-menu-link {
     background-color: rgba(255, 255, 255, 0.16);
 }
 
 .THIS .header-menu-link:hover,
 .THIS .header-menu-link:focus,
 .THIS .header-menu-link:visited,
-.THIS .header-menu-link:active{
-    text-decoration: unset!important;
+.THIS .header-menu-link:active {
+    text-decoration: unset !important;
     outline: 0;
     color: white;
 }
 
-.THIS .chevron{
+.THIS .chevron {
     width: 12px;
     opacity: 0.8;
     margin-left: 5px;
     cursor: pointer;
 }
 
-.THIS .menu-popup-panel.popupTargetContainer{
+.THIS .menu-popup-panel.popupTargetContainer {
     visibility: hidden;
     display: block;
     opacity: 0;
@@ -59,7 +58,7 @@
     width: 260px;
     border: 1px solid #d9d9d9;
     border-radius: 0;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 16px 24px 0 rgba(0, 0, 0, 0.16);
     padding: 0;
     transition: 0.4s;
@@ -68,7 +67,7 @@
     z-index: 10010;
 }
 
-.THIS .menu-popup-panel.popupTargetContainer.visible{
+.THIS .menu-popup-panel.popupTargetContainer.visible {
     display: block;
     visibility: visible;
     opacity: 1;
@@ -88,14 +87,14 @@
     text-overflow: ellipsis;
 }
 
-
-.THIS .menu-popup-panel li.active, .THIS .menu-popup-panel li:hover:not(.active) {
+.THIS .menu-popup-panel li.active,
+.THIS .menu-popup-panel li:hover:not(.active) {
     color: #000;
     background-color: #eef5ff;
     height: 40px;
 }
 
-.THIS .menu-popup-panel li:hover:not(.active){
+.THIS .menu-popup-panel li:hover:not(.active) {
     background-color: #eef5ff;
     color: #000;
     box-shadow: none;
@@ -103,7 +102,6 @@
 }
 
 @media all and (max-width: 768px) {
-
     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
         right: -40px;
@@ -113,6 +111,6 @@
 
 @media all and (max-width: 550px) {
     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
-        right: 6px;
+        right: -10px;
     }
 }

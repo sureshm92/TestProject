@@ -1,7 +1,7 @@
 /**
  * Created by Yulia Yakushenkova on 12/10/2019.
  */
-import {api, LightningElement, track} from 'lwc';
+import { api, LightningElement, track } from 'lwc';
 
 import Conditions_of_interest from '@salesforce/label/c.TrialSearch_Conditions_of_interest';
 import Search_for_another_condition from '@salesforce/label/c.TrialSearch_Search_for_another_condition';
@@ -13,7 +13,6 @@ import Update_Search_Results from '@salesforce/label/c.TrialSearch_Update_Search
 import searchForCOI from '@salesforce/apex/ConditionsOfInterestViewRemote.searchForConditionOfInterest';
 
 export default class ConditionsOfInterestViewComp extends LightningElement {
-
     @api searchResults;
     @api filterText;
     @api participantId;
@@ -52,13 +51,12 @@ export default class ConditionsOfInterestViewComp extends LightningElement {
             searchText: event.target.value,
             selectedCoisIds: selectedCOIsIds
         })
-            .then(result => {
+            .then((result) => {
                 this.searchResults = result;
                 console.log('Result ' + JSON.stringify(this.searchResults));
                 this.showDropdown = result.length !== 0;
-
             })
-            .catch(error => {
+            .catch((error) => {
                 console.log('Error in searchForCOI. ' + JSON.stringify(error));
             });
     }
@@ -82,7 +80,7 @@ export default class ConditionsOfInterestViewComp extends LightningElement {
             } catch (exception) {
                 console.log('Exception ' + exception);
             }
-            this.searchResults.forEach(result => {
+            this.searchResults.forEach((result) => {
                 if (result.Id === evId) tap = result;
             });
             this.currentTaps = this.putSelectedTaps(tap, this.currentTaps);
@@ -118,17 +116,18 @@ export default class ConditionsOfInterestViewComp extends LightningElement {
         });
         this.dispatchEvent(updateSearch);
         this.taps = this.currentTaps;
-        this.template.querySelectorAll('.taps').forEach(checkBox => {
+        this.template.querySelectorAll('.taps').forEach((checkBox) => {
             checkBox.checked = true;
         });
     }
 
     handleCheckboxChange() {
-        this.selection = Array.from(this.template.querySelectorAll('.checkbox')).map(element => element);
+        this.selection = Array.from(this.template.querySelectorAll('.checkbox')).map(
+            (element) => element
+        );
 
         for (let i = 0; i < this.selection.length; i++)
-            if (this.selection[i].name === 'enrolling')
-                this.enrolling = this.selection[i].checked;
+            if (this.selection[i].name === 'enrolling') this.enrolling = this.selection[i].checked;
             else if (this.selection[i].name === 'notYetEnrolling')
                 this.notYetEnrolling = this.selection[i].checked;
     }
@@ -137,15 +136,16 @@ export default class ConditionsOfInterestViewComp extends LightningElement {
         let checkedTaps = [];
         let id = event.currentTarget.value;
         if (event.currentTarget.checked) {
-            this.taps.forEach(tap => {
+            this.taps.forEach((tap) => {
                 if (tap.Therapeutic_Area__r.Id === id) checkedTaps.push(tap);
             });
-            this.currentTaps.forEach(tap => {
+            this.currentTaps.forEach((tap) => {
                 checkedTaps.push(tap);
             });
-        } else this.currentTaps.forEach(tap => {
-            if (tap.Therapeutic_Area__r.Id !== id) checkedTaps.push(tap);
-        });
+        } else
+            this.currentTaps.forEach((tap) => {
+                if (tap.Therapeutic_Area__r.Id !== id) checkedTaps.push(tap);
+            });
         this.currentTaps = checkedTaps;
     }
 }

@@ -7,20 +7,28 @@
 
         let isActive = !component.get('v.isActive');
         let callback = function () {
-            communityService.executeAction(component, 'changeDelegateStatus', {
-                contactId: component.get('v.contact').Id,
-                isActive: isActive
-            }, function () {
-                parent.find('mainSpinner').hide();
-                parent.refresh();
-            });
-
+            communityService.executeAction(
+                component,
+                'changeDelegateStatus',
+                {
+                    contactId: component.get('v.contact').Id,
+                    isActive: isActive
+                },
+                function () {
+                    parent.find('mainSpinner').hide();
+                    parent.refresh();
+                }
+            );
         };
-        if(!isActive) {
+        if (!isActive) {
             let contact = component.get('v.contact');
-            let messText = $A.get('$Label.c.Patient_Delegate_Deactivate_Mess').replace('##Name', contact.FirstName + ' ' + contact.LastName);
+            let messText = $A
+                .get('$Label.c.Patient_Delegate_Deactivate_Mess')
+                .replace('##Name', contact.FirstName + ' ' + contact.LastName);
             let titText = $A.get('$Label.c.PG_PST_L_Delegates_Remove_Delegate');
-            let actionRemoveDelegate = component.get('v.parentComponent').find('actionRemoveDelegate');
+            let actionRemoveDelegate = component
+                .get('v.parentComponent')
+                .find('actionRemoveDelegate');
             actionRemoveDelegate.execute(messText, titText, callback);
         } else {
             parent.find('mainSpinner').show();

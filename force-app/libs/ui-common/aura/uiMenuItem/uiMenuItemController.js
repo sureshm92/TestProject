@@ -4,7 +4,7 @@
 ({
     doOnClick: function (component) {
         component.getEvent('onclick').fire();
-        if(component.get('v.closeAfterClick')){
+        if (component.get('v.closeAfterClick')) {
             component.closeMenu();
         }
     },
@@ -13,9 +13,8 @@
         var menuSelectEvent = component.getEvent('menuSelect');
         menuSelectEvent.setParams({
             selectedItem: component,
-            'hideMenu': true
+            hideMenu: true
         });
         menuSelectEvent.fire();
     }
-
-})
+});

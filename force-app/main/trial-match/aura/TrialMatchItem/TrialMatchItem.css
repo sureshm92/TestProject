@@ -1,16 +1,21 @@
 /**
  * Created by Sravani Dasari
  */
- .THIS {
+.THIS {
+}
+
+.THIS .learn-more {
+    margin-top: 59px;
+    white-space: nowrap;
 }
 
 .THIS.card-ctp {
     height: auto;
     width: auto;
-    border: 1px solid #F2F2F2;
+    border: 1px solid #f2f2f2;
     box-sizing: border-box;
     border-radius: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     margin: 18px 18px 18px 0;
 }
@@ -19,7 +24,7 @@
     height: 5px;
     width: auto;
     border-radius: 5px 5px 0 0;
-    background-color: #00C221;
+    background-color: #00c221;
     box-shadow: 0 1px 2px 0 rgba(85, 85, 85, 0.15);
 }
 
@@ -38,11 +43,12 @@
     white-space: nowrap;
     overflow: hidden;
     text-overflow: ellipsis;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     color: #000000;
     font-size: 14px;
     line-height: 21px;
-    width: 80%
+    width: 80%;
+    margin-right: 2px;
 }
 
 .THIS .ctp-info-block {
@@ -50,12 +56,12 @@
 }
 
 .THIS .ctp-study-code-name {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     color: #000000;
     font-weight: 600;
     font-size: 20px;
     line-height: 30px;
-    width: 60ch
+    width: 60ch;
 }
 
 .THIS .ctp-recruitment-status {
@@ -63,29 +69,65 @@
     width: 20%;
     text-align: right;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-weight: 600;
     line-height: 21px;
 }
 
-.THIS .ctp-date-status {
+.THIS .ctp-recruitment-status-rtl {
     font-size: 14px;
-    width: 45%;
-    text-align: right;
+    width: 20%;
+    text-align: left;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
+    font-weight: 600;
+    line-height: 21px;
+}
+
+.THIS .ctp-date-status-rtl {
+    font-size: 14px;
+    text-align: left;
+    color: #000000;
+    font-family: 'Proxima Nova';
     font-weight: 500;
     line-height: 21px;
+    direction: ltr;
+    white-space: nowrap;
+    margin-right: 55px;
+}
+
+.THIS .ctp-date-status {
+    font-size: 14px;
+    text-align: right;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-weight: 500;
+    line-height: 21px;
+    white-space: nowrap;
+    margin-left: 55px;
 }
 
 .THIS .cpt-official-title {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 24px;
-    width: 60ch
+    width: 60ch;
+    margin-top: -20px;
 }
 
+.THIS .nctId-rtl {
+    margin-right: -7px;
+}
+.THIS .nctId {
+    margin-left: -6px;
+}
+.THIS .ctp-nct-Id {
+    color: #595959;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    display: inline-block;
+}
 .THIS .ctp-padding {
     padding: 15px;
 }
@@ -100,4 +142,27 @@
 
 .THIS .p-footer {
     text-align: left !important;
+}
+@media (min-width: 320px) and (max-width: 480px) {
+    .THIS .ctp-date-status-rtl {
+        font-size: 14px;
+        text-align: left;
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-weight: 500;
+        line-height: 21px;
+        direction: ltr;
+        margin-right: 55px;
+        white-space: normal;
+    }
+    .THIS .ctp-date-status {
+        font-size: 14px;
+        text-align: right;
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-weight: 500;
+        line-height: 21px;
+        white-space: normal;
+        margin-left: 55px;
+    }
 }

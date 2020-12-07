@@ -3,7 +3,6 @@
  */
 
 public without sharing class LanguageSearchLookup {
-
     @AuraEnabled
     public static List<LookupSearchResult> searchLanguages(String searchTerm, String value) {
         try {
@@ -12,16 +11,22 @@ public without sharing class LanguageSearchLookup {
             List<LabelValueItem> languages = IRBParticipantService.getLanguages();
 
             List<String> selectedLangs = new List<String>();
-            if (!String.isEmpty(value)) selectedLangs = value.split(';');
+            if (!String.isEmpty(value))
+                selectedLangs = value.split(';');
             for (LabelValueItem labelValueItem : languages) {
-                if (labelValueItem.label.containsIgnoreCase(searchTerm) && !selectedLangs.contains(labelValueItem.value)) {
-                    resList.add(new LookupSearchResult(
+                if (
+                    labelValueItem.label.containsIgnoreCase(searchTerm) &&
+                    !selectedLangs.contains(labelValueItem.value)
+                ) {
+                    resList.add(
+                        new LookupSearchResult(
                             labelValueItem.value,
                             null,
                             'standard:task2',
                             labelValueItem.label,
                             null
-                    ));
+                        )
+                    );
                 }
             }
 
@@ -37,18 +42,21 @@ public without sharing class LanguageSearchLookup {
             List<LabelValueItem> languages = IRBParticipantService.getLanguages();
 
             List<LookupSearchResult> resList = new List<LookupSearchResult>();
-            if (String.isBlank(value)) return resList;
+            if (String.isBlank(value))
+                return resList;
 
             for (LabelValueItem labelValueItem : languages) {
                 for (String item : value.split(';')) {
                     if (item.equals(labelValueItem.value)) {
-                        resList.add(new LookupSearchResult(
+                        resList.add(
+                            new LookupSearchResult(
                                 labelValueItem.value,
                                 null,
                                 'standard:task2',
                                 labelValueItem.label,
                                 null
-                        ));
+                            )
+                        );
                     }
                 }
             }

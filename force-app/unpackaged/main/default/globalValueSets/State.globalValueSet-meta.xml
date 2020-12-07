@@ -568,12 +568,12 @@
     <customValue>
         <fullName>COBOL</fullName>
         <default>false</default>
-        <label>BolÃ­var</label>
+        <label>Bolívar</label>
     </customValue>
     <customValue>
         <fullName>COBOY</fullName>
         <default>false</default>
-        <label>BoyacÃ¡</label>
+        <label>Boyacá</label>
     </customValue>
     <customValue>
         <fullName>COCAU</fullName>
@@ -593,7 +593,7 @@
     <customValue>
         <fullName>COPAN</fullName>
         <default>false</default>
-        <label>PanamÃ¡</label>
+        <label>Panamá</label>
     </customValue>
     <customValue>
         <fullName>COSAN</fullName>
@@ -819,6 +819,430 @@
         <fullName>ART</fullName>
         <default>false</default>
         <label>Tucumán</label>
+    </customValue>
+    <customValue>
+        <fullName>GBELN</fullName>
+        <default>false</default>
+        <label>East Lothian</label>
+    </customValue>
+    <customValue>
+        <fullName>GBERW</fullName>
+        <default>false</default>
+        <label>East Renfrewshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBESX</fullName>
+        <default>false</default>
+        <label>East Sussex</label>
+    </customValue>
+    <customValue>
+        <fullName>GBEDH</fullName>
+        <default>false</default>
+        <label>Edinburgh</label>
+    </customValue>
+    <customValue>
+        <fullName>GBESS</fullName>
+        <default>false</default>
+        <label>Essex</label>
+    </customValue>
+    <customValue>
+        <fullName>GBFAL</fullName>
+        <default>false</default>
+        <label>Falkirk</label>
+    </customValue>
+    <customValue>
+        <fullName>GBFMO</fullName>
+        <default>false</default>
+        <label>Fermanagh</label>
+    </customValue>
+    <customValue>
+        <fullName>GBFIF</fullName>
+        <default>false</default>
+        <label>Fife</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGLG</fullName>
+        <default>false</default>
+        <label>Glasgow</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGLS</fullName>
+        <default>false</default>
+        <label>Gloucestershire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGW</fullName>
+        <default>false</default>
+        <label>Gwent</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGWN</fullName>
+        <default>false</default>
+        <label>Gwynedd</label>
+    </customValue>
+    <customValue>
+        <fullName>GBHAM</fullName>
+        <default>false</default>
+        <label>Hampshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBHRT</fullName>
+        <default>false</default>
+        <label>Hertfordshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBHLD</fullName>
+        <default>false</default>
+        <label>Highland</label>
+    </customValue>
+    <customValue>
+        <fullName>GBIVC</fullName>
+        <default>false</default>
+        <label>Inverclyde</label>
+    </customValue>
+    <customValue>
+        <fullName>GBKEN</fullName>
+        <default>false</default>
+        <label>Kent</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLAN</fullName>
+        <default>false</default>
+        <label>Lancashire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLEC</fullName>
+        <default>false</default>
+        <label>Leicestershire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLIN</fullName>
+        <default>false</default>
+        <label>Lincolnshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLDN</fullName>
+        <default>false</default>
+        <label>Londonderry</label>
+    </customValue>
+    <customValue>
+        <fullName>GBMGL</fullName>
+        <default>false</default>
+        <label>Mid Glamorgan</label>
+    </customValue>
+    <customValue>
+        <fullName>GBMLN</fullName>
+        <default>false</default>
+        <label>Midlothian</label>
+    </customValue>
+    <customValue>
+        <fullName>GBMRY</fullName>
+        <default>false</default>
+        <label>Moray</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNES</fullName>
+        <default>false</default>
+        <label>Na h-Eileanan Siar (Western Isles)</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNFK</fullName>
+        <default>false</default>
+        <label>Norfolk</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNAY</fullName>
+        <default>false</default>
+        <label>North Ayrshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNLK</fullName>
+        <default>false</default>
+        <label>North Lanarkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNYK</fullName>
+        <default>false</default>
+        <label>North Yorkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNTH</fullName>
+        <default>false</default>
+        <label>Northamptonshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNTT</fullName>
+        <default>false</default>
+        <label>Nottinghamshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBORK</fullName>
+        <default>false</default>
+        <label>Orkney Islands</label>
+    </customValue>
+    <customValue>
+        <fullName>GBOXF</fullName>
+        <default>false</default>
+        <label>Oxfordshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBPKN</fullName>
+        <default>false</default>
+        <label>Perth and Kinross</label>
+    </customValue>
+    <customValue>
+        <fullName>GBPOW</fullName>
+        <default>false</default>
+        <label>Powys</label>
+    </customValue>
+    <customValue>
+        <fullName>GBRFW</fullName>
+        <default>false</default>
+        <label>Renfrewshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSCB</fullName>
+        <default>false</default>
+        <label>Scottish Borders</label>
+    </customValue>
+    <customValue>
+        <fullName>GBZET</fullName>
+        <default>false</default>
+        <label>Shetland Islands</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSOM</fullName>
+        <default>false</default>
+        <label>Somerset</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSAY</fullName>
+        <default>false</default>
+        <label>South Ayrshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSGC</fullName>
+        <default>false</default>
+        <label>South Glamorgan</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSLK</fullName>
+        <default>false</default>
+        <label>South Lanarkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSTS</fullName>
+        <default>false</default>
+        <label>Staffordshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSTG</fullName>
+        <default>false</default>
+        <label>Stirling</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSFK</fullName>
+        <default>false</default>
+        <label>Suffolk</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSRY</fullName>
+        <default>false</default>
+        <label>Surrey</label>
+    </customValue>
+    <customValue>
+        <fullName>GBTYR</fullName>
+        <default>false</default>
+        <label>Tyrone</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWAR</fullName>
+        <default>false</default>
+        <label>Warwickshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWDU</fullName>
+        <default>false</default>
+        <label>West Dunbartonshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWGL</fullName>
+        <default>false</default>
+        <label>West Glamorgan</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWLN</fullName>
+        <default>false</default>
+        <label>West Lothian</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWSX</fullName>
+        <default>false</default>
+        <label>West Sussex</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWOR</fullName>
+        <default>false</default>
+        <label>Worcestershire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBBF</fullName>
+        <default>false</default>
+        <label>Bedfordshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBBK</fullName>
+        <default>false</default>
+        <label>Berkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBBT</fullName>
+        <default>false</default>
+        <label>Bristol</label>
+    </customValue>
+    <customValue>
+        <fullName>GBCH</fullName>
+        <default>false</default>
+        <label>Cheshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBCON</fullName>
+        <default>false</default>
+        <label>Cornwall</label>
+    </customValue>
+    <customValue>
+        <fullName>GBDUR</fullName>
+        <default>false</default>
+        <label>County Durham</label>
+    </customValue>
+    <customValue>
+        <fullName>GBERY</fullName>
+        <default>false</default>
+        <label>East Riding of Yorkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGRL</fullName>
+        <default>false</default>
+        <label>Greater London</label>
+    </customValue>
+    <customValue>
+        <fullName>GBGRM</fullName>
+        <default>false</default>
+        <label>Greater Manchester</label>
+    </customValue>
+    <customValue>
+        <fullName>GBHEF</fullName>
+        <default>false</default>
+        <label>Herefordshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBIOW</fullName>
+        <default>false</default>
+        <label>Isle of Wight</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLK</fullName>
+        <default>false</default>
+        <label>Lanarkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBMSY</fullName>
+        <default>false</default>
+        <label>Merseyside</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNBL</fullName>
+        <default>false</default>
+        <label>Northumberland</label>
+    </customValue>
+    <customValue>
+        <fullName>GBRXG</fullName>
+        <default>false</default>
+        <label>Roxburghshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBRUT</fullName>
+        <default>false</default>
+        <label>Rutland</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSKR</fullName>
+        <default>false</default>
+        <label>Selkirkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSHR</fullName>
+        <default>false</default>
+        <label>Shropshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSYK</fullName>
+        <default>false</default>
+        <label>South Yorkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSTH</fullName>
+        <default>false</default>
+        <label>Stirlingshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSLD</fullName>
+        <default>false</default>
+        <label>Sutherland</label>
+    </customValue>
+    <customValue>
+        <fullName>GBTW</fullName>
+        <default>false</default>
+        <label>Tyne and Wear</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWMD</fullName>
+        <default>false</default>
+        <label>West Midlands</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWYK</fullName>
+        <default>false</default>
+        <label>West Yorkshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWSH</fullName>
+        <default>false</default>
+        <label>Wigtownshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWIL</fullName>
+        <default>false</default>
+        <label>Wiltshire</label>
+    </customValue>
+    <customValue>
+        <fullName>GBLND</fullName>
+        <default>false</default>
+        <label>London</label>
+    </customValue>
+    <customValue>
+        <fullName>GBENG</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>England</label>
+    </customValue>
+    <customValue>
+        <fullName>GBNIR</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Northern Ireland</label>
+    </customValue>
+    <customValue>
+        <fullName>GBWLS</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Wales</label>
+    </customValue>
+    <customValue>
+        <fullName>GBSCT</fullName>
+        <default>false</default>
+        <isActive>false</isActive>
+        <label>Scotland</label>
     </customValue>
     <masterLabel>State</masterLabel>
     <sorted>false</sorted>

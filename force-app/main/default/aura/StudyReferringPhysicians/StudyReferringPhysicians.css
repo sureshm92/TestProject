@@ -1,8 +1,8 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS label{
-    color: #7F888D;
+.THIS label {
+    color: #7f888d;
     font-size: 10px;
     font-weight: bold;
     line-height: 12px;
@@ -12,11 +12,11 @@
     margin-top: 1px;
 }
 
-.THIS .srp-items-cutter{
+.THIS .srp-items-cutter {
     overflow: hidden;
 }
 
-.THIS .srp-items{
+.THIS .srp-items {
     display: flex;
     flex-wrap: wrap;
     position: relative;
@@ -25,7 +25,7 @@
     margin-bottom: -5px;
 }
 
-.THIS .srp-item{
+.THIS .srp-item {
     color: #666666;
     font-size: 13px;
     line-height: 16px;
@@ -33,6 +33,6 @@
     white-space: nowrap;
 }
 
-.THIS .srp-dot{
+.THIS .srp-dot {
     padding: 0 10px;
 }

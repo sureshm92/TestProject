@@ -3,13 +3,13 @@
                          relatedToType="Participant__c"
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                           sourceId="{!relatedTo.Id}"
                           header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
-                          title="{!$Label.Email_Title_Initial_All_IQVIA}"
+                          title="{!$Label.Email_Title_PH}"
                           greeting="{!$Label.Email_User_Greeting_FirstName}"
-                          signature="{!$Label.Email_Signature_New_FullName}"
+                          signature="{!$Label.Email_Signature_FullName_New}"
                           communityTemplate="Default">
             <c:Paragraph emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
             <c:EmailTemplateDelegateParticipant sourceId="{!relatedTo.Id}"/>
@@ -18,13 +18,13 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                               sourceId="{!relatedTo.Id}"
                               header="{!$Label.Email_Header_Your_Access_Level_Has_Changed}"
-                              title="{!$Label.Email_Title_Initial_All_IQVIA}"
+                              title="{!$Label.Email_Title_PH}"
                               greeting="{!$Label.Email_User_Greeting_FirstName}"
-                              signature="{!$Label.Email_Signature_New_FullName}"
+                              signature="{!$Label.Email_Signature_FullName_New}"
                               communityTemplate="Default">
             <c:ParagraphText emailLabel="{!$Label.Email_Body_Participant_Delegate_Reactivated}"/>
             <c:EmailTemplateDelegateParticipantText sourceId="{!relatedTo.Id}"/>

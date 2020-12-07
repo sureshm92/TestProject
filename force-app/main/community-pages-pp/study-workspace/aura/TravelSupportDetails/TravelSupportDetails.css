@@ -4,7 +4,7 @@
 
 .THIS {
 }
-.THIS.sv-body{
+.THIS.sv-body {
     /* padding-bottom: 50px; */
     background: #fff;
     border-radius: 0 0 4px 4px;
@@ -23,10 +23,10 @@
 .THIS.sv-body .rr-white-panel {
     border: none;
 }
-.THIS.sv-body.hidden{
+.THIS.sv-body.hidden {
     display: none;
 }
-.THIS .tt-title{
+.THIS .tt-title {
     font-size: 20px;
     font-weight: 500;
     line-height: 24px;
@@ -35,7 +35,7 @@
     align-items: center;
     justify-content: space-between;
 }
-.THIS td{
+.THIS td {
     border-bottom: 1px solid #eaeaea;
     min-height: 45px;
 }
@@ -45,12 +45,12 @@
     line-height: 21px;
 }
 
-.THIS .cRRTable.rr-table .sv-t-visit{
+.THIS .cRRTable.rr-table .sv-t-visit {
     padding-left: 34px;
     width: 18%;
 }
 
-.THIS .cRRTable.rr-table .sv-t-name{
+.THIS .cRRTable.rr-table .sv-t-name {
     padding-left: 34px;
     width: 20%;
 }
@@ -64,7 +64,7 @@
     width: 15%;
 }
 
-.THIS .sv-t-time{
+.THIS .sv-t-time {
     width: 15%;
 }
 
@@ -72,15 +72,15 @@
     width: 15%;
 }
 
-.THIS .sv-t-icons{
+.THIS .sv-t-icons {
     width: 25%;
 }
-.THIS .svl-icon{
+.THIS .svl-icon {
     height: 30px;
     width: 30px;
 }
 
-.THIS .icon-item{
+.THIS .icon-item {
     width: 17px;
     height: 17px;
     display: flex;
@@ -93,7 +93,7 @@
     align-items: center;
 }
 
-.THIS .pagination{
+.THIS .pagination {
     margin-top: 20px;
     margin-bottom: 15px;
 }
@@ -117,7 +117,7 @@
     margin-left: 1%;
     height: max-content;
 }
-.THIS .sv-element{
+.THIS .sv-element {
     padding: 4px 10px;
 }
 .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
@@ -132,8 +132,15 @@
     display: none;
 }
 
+@media (max-width: 768px) {
+    .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        left: unset;
+        top: unset;
+    }
+}
+
 @media all and (max-width: 500px) {
-    .THIS .rr-table .tableHeader{
+    .THIS .rr-table .tableHeader {
         display: none;
     }
 
@@ -162,7 +169,7 @@
     }
 
     .THIS .cRRTable.rr-table .sv-t-visit,
-    .THIS .cRRTable.rr-table .sv-t-name{
+    .THIS .cRRTable.rr-table .sv-t-name {
         padding-left: 10px;
     }
 
@@ -170,7 +177,7 @@
         right: 0;
     }
 
-    .THIS .cRRTable.rr-table a  {
+    .THIS .cRRTable.rr-table a {
         padding-left: 1rem;
     }
 
@@ -179,5 +186,4 @@
         margin-bottom: 1.5rem;
         padding-top: 0;
     }
-
 }

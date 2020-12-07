@@ -2,24 +2,24 @@
  * Created by Igor Malyuta on 20.09.2019.
  */
 
-.THIS .menu-popup{
+.THIS .menu-popup {
     left: 0;
     transform: none;
 }
 
-.THIS .menu-popup li{
+.THIS .menu-popup li {
     font-weight: normal;
 }
 
-.THIS .menu-popup li{
+.THIS .menu-popup li {
     padding: 8px 5px;
     cursor: pointer;
 }
 
-.THIS .menu-popup li:hover{
+.THIS .menu-popup li:hover {
     background-color: #f2f7ff;
 }
 
-.THIS .menu-popup li .slds-icon_container{
+.THIS .menu-popup li .slds-icon_container {
     margin: 0 6px 0 4px;
 }

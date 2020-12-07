@@ -1,63 +1,76 @@
-<aura:component controller="MyTeamRemote" description="MyTeam">
-
-    <ltng:require scripts="{!$Resource.rr_community_js}"/>
+<aura:component controller="MyTeamRemote" description="MyTeam" extends="c:CommunityContext">
+    <ltng:require scripts="{!$Resource.rr_community_js}" />
 
     <!-- attributes: -->
-    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant"/>
-    <aura:attribute name="isInitialized" type="Boolean" default="false"/>
-    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private"/>
-    <aura:attribute name="delegates" type="List" access="private"/>
-    <aura:attribute name="delegateOptions" type="List" access="private"/>
-    <aura:attribute name="hasStudies" type="Boolean" access="private"/>
-    <aura:attribute name="ignoreUpdates" type="Boolean" default="false"/>
-    <aura:attribute name="piDelegateParents" type="List" default="[]"/>
-    <aura:attribute name="piSelectedParent" type="String" default=""/>
-    <aura:attribute name="currentUserContactId" type="String" access="private" default=""/>
+    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" />
+    <aura:attribute name="isInitialized" type="Boolean" default="false" />
+    <aura:attribute name="showSpinner" type="Boolean" default="true" access="private" />
+    <aura:attribute name="delegates" type="List" access="private" />
+    <aura:attribute name="delegateOptions" type="List" access="private" />
+    <aura:attribute name="hasStudies" type="Boolean" access="private" />
+    <aura:attribute name="ignoreUpdates" type="Boolean" default="false" />
+    <aura:attribute name="piDelegateParents" type="List" default="[]" />
+    <aura:attribute name="piSelectedParent" type="String" default="" />
+    <aura:attribute name="currentUserContactId" type="String" access="private" default="" />
 
     <!-- methods: -->
-    <aura:method name="refresh" action="{!c.doInit}" access="public"/>
+    <aura:method name="refresh" action="{!c.doInit}" access="public" />
 
     <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.piSelectedParent}" action="{!c.doInit}"/>
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler name="change" value="{!v.piSelectedParent}" action="{!c.doInit}" />
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
     <!-- actions: -->
-    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate"/>
+    <c:Action_RemoveDelegate aura:id="actionRemoveDelegate" />
 
     <!--component body-->
-    <div class="mt-container">
-        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}"/>
-        <c:Action_SaveDelegateLevelChanges aura:id="saveDelegateLevelChanges"
-                                           userMode="{!v.userMode}"/>
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <div class="mt-container" style="{!if(v.isRTL, 'direction: rtl;', '')}">
+        <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="{!v.showSpinner}" />
+        <c:Action_SaveDelegateLevelChanges
+            aura:id="saveDelegateLevelChanges"
+            userMode="{!v.userMode}"
+        />
         <aura:if isTrue="{!!empty(v.piDelegateParents)}">
             <div class="delegate-parent-tabs">
                 <c:rrButtonTubSet>
                     <aura:iteration items="{!v.piDelegateParents}" var="delegateParent">
-                        <c:rrButtonTubSetItem title="{!delegateParent.label}" tabId="{!delegateParent.value}"
-                                              currentTab="{!v.piSelectedParent}"/>
+                        <c:rrButtonTubSetItem
+                            title="{!delegateParent.label}"
+                            tabId="{!delegateParent.value}"
+                            currentTab="{!v.piSelectedParent}"
+                        />
                     </aura:iteration>
                 </c:rrButtonTubSet>
             </div>
         </aura:if>
         <div class="slds-grid slds-wrap slds-gutters">
-            <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1">
+            <div
+                class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-order_2 slds-medium-order_1"
+            >
                 <div class="mt-button-container">
                     <aura:if isTrue="{!v.userMode != 'Participant'}">
-                        <button class="apollo-btn primary mt-button" onclick="{!c.inviteTeamMembers}"
-                                title="{!if(v.hasStudies,'',$Label.c.PG_MT_T_Your_permissions_do_not_permit_this_action)}"
-                                disabled="{!not(v.hasStudies)}">
+                        <button
+                            class="apollo-btn primary mt-button"
+                            onclick="{!c.inviteTeamMembers}"
+                            title="{!if(v.hasStudies,'',$Label.c.PG_MT_T_Your_permissions_do_not_permit_this_action)}"
+                            disabled="{!not(v.hasStudies)}"
+                        >
                             {!$Label.c.PG_MT_BTN_Add_New_Team_Member}
                         </button>
                         <aura:set attribute="else">
-                            <button class="apollo-btn primary mt-button" onclick="{!c.inviteTeamMembers}">
+                            <button
+                                class="apollo-btn primary mt-button"
+                                onclick="{!c.inviteTeamMembers}"
+                            >
                                 {!$Label.c.PG_PST_L_Delegates_Add}
                             </button>
                         </aura:set>
                     </aura:if>
                 </div>
                 <div class="delegate-info-table-container">
-                    <c:DelegateLevelInfoTable userMode="{!v.userMode}"/>
+                    <c:DelegateLevelInfoTable userMode="{!v.userMode}" />
                 </div>
             </div>
             <aura:if isTrue="{!and(v.userMode == 'Participant', v.delegates.length == 0)}">
@@ -65,19 +78,25 @@
                     {!$Label.c.PG_PST_L_Delegates_Click_Add_New}
                 </div>
                 <aura:set attribute="else">
-                    <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel">
+                    <div
+                        class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-order_1 slds-medium-order_2 team-items-panel"
+                    >
                         <aura:iteration items="{!v.delegates}" var="delegate">
                             <aura:if isTrue="{!v.userMode != 'Participant'}">
-                                <c:MyTeamItem delegate="{!delegate}"
-                                              userMode="{!v.userMode}"
-                                              parentComponent="{!this}"
-                                              options="{!v.delegateOptions}"
-                                              ignoreUpdates="{!v.ignoreUpdates}"
-                                              isCurrentUser="{!v.currentUserContactId == delegate.delegateContact.Id}"/>
+                                <c:MyTeamItem
+                                    delegate="{!delegate}"
+                                    userMode="{!v.userMode}"
+                                    parentComponent="{!this}"
+                                    options="{!v.delegateOptions}"
+                                    ignoreUpdates="{!v.ignoreUpdates}"
+                                    isCurrentUser="{!v.currentUserContactId == delegate.delegateContact.Id}"
+                                />
                                 <aura:set attribute="else">
-                                    <c:PatientDelegateItem contact="{!delegate.delegateContact}"
-                                                           isActive="{!delegate.isActive}"
-                                                           parentComponent="{!this}"/>
+                                    <c:PatientDelegateItem
+                                        contact="{!delegate.delegateContact}"
+                                        isActive="{!delegate.isActive}"
+                                        parentComponent="{!this}"
+                                    />
                                 </aura:set>
                             </aura:if>
                         </aura:iteration>

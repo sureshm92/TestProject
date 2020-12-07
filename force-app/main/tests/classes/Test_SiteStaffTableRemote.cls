@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=false)
 private class Test_SiteStaffTableRemote {
-
     @TestSetup
     static void init() {
         Test.startTest();
@@ -17,7 +16,9 @@ private class Test_SiteStaffTableRemote {
         TestData testDataInst = new TestData();
         Test.startTest();
         System.runAs(testDataInst.hcpUser) {
-            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.getInitData(testDataInst.hcpEnrollment.Study_Site__c);
+            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.getInitData(
+                testDataInst.hcpEnrollment.Study_Site__c
+            );
             System.assertEquals(initData.viewMode, 'Disabled');
         }
         Test.stopTest();
@@ -27,7 +28,10 @@ private class Test_SiteStaffTableRemote {
         TestData testDataInst = new TestData();
         Test.startTest();
         System.runAs(testDataInst.hcpUser) {
-            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.createInitData(testDataInst.hcpEnrollment.Study_Site__c, 'Edit');
+            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.createInitData(
+                testDataInst.hcpEnrollment.Study_Site__c,
+                'Edit'
+            );
             System.assertEquals(initData.viewMode, 'Edit');
             System.assertEquals(initData.inInvitationActiveStatus, true);
             System.assertEquals(initData.siteStaffMembers.size(), 2);
@@ -39,10 +43,20 @@ private class Test_SiteStaffTableRemote {
         TestData testDataInst = new TestData();
         Test.startTest();
         System.runAs(testDataInst.hcpUser) {
-            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.createInitData(testDataInst.hcpEnrollment.Study_Site__c, 'Edit');
+            SiteStaffTableRemote.InitData initData = SiteStaffTableRemote.createInitData(
+                testDataInst.hcpEnrollment.Study_Site__c,
+                'Edit'
+            );
             Datetime timeStamp = Datetime.now();
-            SiteStaffTableRemote.inviteStaffMember(initData.siteStaffMembers[1].staffContact.Id,testDataInst.hcpEnrollment.Study_Site__c);
-            List<Action__c> pendingActions = [SELECT Id, Body__c, Status__c, CreatedDate FROM Action__c WHERE Type__c = 'Action_AssignContactPermissions' AND CreatedDate >= :timeStamp];
+            SiteStaffTableRemote.inviteStaffMember(
+                initData.siteStaffMembers[1].staffContact.Id,
+                testDataInst.hcpEnrollment.Study_Site__c
+            );
+            List<Action__c> pendingActions = [
+                SELECT Id, Body__c, Status__c, CreatedDate
+                FROM Action__c
+                WHERE Type__c = 'Action_AssignContactPermissions' AND CreatedDate >= :timeStamp
+            ];
             System.debug(pendingActions);
             System.assertEquals(1, pendingActions.size());
         }

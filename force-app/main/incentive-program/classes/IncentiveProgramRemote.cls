@@ -3,42 +3,48 @@
  */
 
 public without sharing class IncentiveProgramRemote {
-
     @AuraEnabled
-    public static IncentiveProgramService.PointsResultWrapper getCurrentPoints(Datetime timeStamp ){
+    public static IncentiveProgramService.PointsResultWrapper getCurrentPoints(Datetime timeStamp) {
         try {
-            return  IncentiveProgramService.getCurrentContactPoints(timeStamp);
+            return IncentiveProgramService.getCurrentContactPoints(timeStamp);
         } catch (Exception e) {
             return (IncentiveProgramService.PointsResultWrapper) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
-    public static IncentiveProgramService.IncentiveHistoryWrapper getIncentiveHistory(){
+    public static IncentiveProgramService.IncentiveHistoryWrapper getIncentiveHistory() {
         try {
-            return  IncentiveProgramService.getCurrentContactIncentiveHistory();
+            return IncentiveProgramService.getCurrentContactIncentiveHistory();
         } catch (Exception e) {
             return (IncentiveProgramService.IncentiveHistoryWrapper) AuraHelper.throwException(e);
         }
     }
     @AuraEnabled
-    public static IncentiveProgramService.IncentivePlanResultWrapper getIncentivePlanResultWrapperForStudySite(Id ssId){
+    public static IncentiveProgramService.IncentivePlanResultWrapper getIncentivePlanResultWrapperForStudySite(
+        Id ssId
+    ) {
         try {
-            return  IncentiveProgramService.getIncentivePlanResultWrapperForStudySite(ssId);
+            return IncentiveProgramService.getIncentivePlanResultWrapperForStudySite(ssId);
         } catch (Exception e) {
-            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(e);
+            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(
+                e
+            );
         }
     }
     @AuraEnabled
-    public static IncentiveProgramService.IncentivePlanResultWrapper getInitialIncentivePlanResultWrapper(){
+    public static IncentiveProgramService.IncentivePlanResultWrapper getInitialIncentivePlanResultWrapper() {
         try {
-            return  IncentiveProgramService.getInitialIncentivePlanResultWrapper();
+            return IncentiveProgramService.getInitialIncentivePlanResultWrapper();
         } catch (Exception e) {
-            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(e);
+            return (IncentiveProgramService.IncentivePlanResultWrapper) AuraHelper.throwException(
+                e
+            );
         }
     }
     @AuraEnabled
-    public static Boolean getIncentivesPageEnabled(){
-        return UserContext.getCurrentCommunityTemplate().templateName != CommunityTemplateService.TEMPLATE_JANSSEN;
+    public static Boolean getIncentivesPageEnabled() {
+        return UserContext.getCurrentCommunityTemplate().templateName !=
+            CommunityTemplateService.TEMPLATE_JANSSEN;
     }
 }

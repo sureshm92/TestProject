@@ -1,3 +1,4 @@
+<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.cmp
 <aura:component implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
                 access="global" 
                 controller="ListViewParticipantController">
@@ -12,12 +13,33 @@
     <aura:attribute name="peFilterData" type="Object"/>
     <aura:attribute name="isDataLoaded" type="boolean"/>  
     
+=======
+<aura:component
+    implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+    access="global"
+    controller="ListViewParticipantController"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+
+    <!-- aura attributes to store data/values -->
+    <aura:attribute name="trialId" type="String" />
+    <aura:attribute name="isJanssen" type="Boolean" default="false"/>
+    <aura:attribute name="siteId" type="String" />
+    <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="peFilterData" type="Object" />
+    <aura:attribute name="isDataLoaded" type="boolean" />
+
+>>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.cmp
     <!-- <lightning:breadcrumbs>
         <lightning:breadcrumb label="{!$Label.c.My_Participant}"  onclick="{! c.onClickMyReferrals }"/>
         <lightning:breadcrumb label="Population View" href="path/to/place/2" onclick="{! c.navigateToCustomPage2 }"/>
     </lightning:breadcrumbs> -->
     <div class="slds-col slds-size_1-of-1 ListViewHead">
         <span>{!$Label.c.RH_MyPartiCipantListView}</span>
+<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.cmp
         <span><a style="font-size: 16px;font-weight: 600;"
                  onclick="{!c.onClickCardView}">
             {!$Label.c.BTN_Naviagte_Card} 
@@ -30,8 +52,22 @@
                                 class="check"/>{!$Label.c.Diversity_Message}</div>
     </aura:if>
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
-    <aura:if isTrue="{!v.isDataLoaded}">
-        <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}"/>
+=======
+        <span
+            ><a style="font-size: 16px; font-weight: 600" onclick="{!c.onClickCardView}">
+                {!$Label.c.BTN_Naviagte_Card}
+            </a></span
+        >
+    </div>
+        <aura:if isTrue="{!v.isJanssen}">
+        
+        <div class="slds-col slds-size_1-of-1 DiversityMessage">
+            <img src="{!$Resource.icon_circle}"
+                                class="check"/>{!$Label.c.Diversity_Message}</div>
     </aura:if>
-    
+    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
+>>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.cmp
+    <aura:if isTrue="{!v.isDataLoaded}">
+        <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}" />
+    </aura:if>
 </aura:component>

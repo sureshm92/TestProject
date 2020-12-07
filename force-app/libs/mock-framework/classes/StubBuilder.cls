@@ -2,18 +2,15 @@
  * Created by Yehor Dobrovolskyi
  */
 public with sharing class StubBuilder {
-
     private Stub stub;
     private Type typeOfClass;
     private String methodName;
 
     public static StubBuilder newInstance(Type typeOfClass) {
-
         return new StubBuilder(typeOfClass);
     }
 
     public static StubBuilder newInstance(String fullNameOfClass) {
-
         return newInstance(Type.forName(fullNameOfClass));
     }
 
@@ -37,17 +34,20 @@ public with sharing class StubBuilder {
     }
 
     public class Stub implements System.StubProvider {
-
         public Map<String, Object> desiredResultsByMethodNames;
 
         public Stub() {
             this.desiredResultsByMethodNames = new Map<String, Object>();
         }
 
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName,
-                Type returnType, List<Type> listOfParamTypes, List<String> listOfParamNames,
-                List<Object> listOfArgs) {
-
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
             Object result = desiredResultsByMethodNames.get(stubbedMethodName);
             if (result == null) {
                 return result;
@@ -61,5 +61,4 @@ public with sharing class StubBuilder {
             return result;
         }
     }
-
 }

@@ -3,25 +3,28 @@
  */
 
 public class CatalogParametersHelper {
-
     public class ParametersProviderException extends Exception {
     }
     private static Map<String, Parameters_Provider__mdt> ppByNameMap = new Map<String, Parameters_Provider__mdt>();
     static {
         List<Parameters_Provider__mdt> ppList = [
-                SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
-                FROM Parameters_Provider__mdt
+            SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
+            FROM Parameters_Provider__mdt
         ];
-        for(Parameters_Provider__mdt pp: ppList) ppByNameMap.put(pp.DeveloperName, pp);
+        for (Parameters_Provider__mdt pp : ppList)
+            ppByNameMap.put(pp.DeveloperName, pp);
     }
 
     public static String getErrorInParameters(SObjectType sObjectType, String parameters) {
-        if (String.isEmpty(parameters)) return null;
+        if (String.isEmpty(parameters))
+            return null;
         Map<String, String> paramsMap = getParamsMap(parameters);
         for (String paramName : paramsMap.keySet()) {
             String paramValue = paramsMap.get(paramName);
-            if (paramValue == null) return 'Parameter: ' + paramName + '; Field path can not be empty';
-            if (!SObjectHelper.hasField(sObjectType, paramValue)) return 'Parameter: ' + paramName + '; Wrong field path: ' + paramValue;
+            if (paramValue == null)
+                return 'Parameter: ' + paramName + '; Field path can not be empty';
+            if (!SObjectHelper.hasField(sObjectType, paramValue))
+                return 'Parameter: ' + paramName + '; Wrong field path: ' + paramValue;
         }
         return null;
     }
@@ -33,21 +36,29 @@ public class CatalogParametersHelper {
             List<String> lineParts = line.split('=');
             String paramName = lineParts[0].trim();
             String paramValue;
-            if (lineParts.size() > 1) paramValue = lineParts[1].trim();
+            if (lineParts.size() > 1)
+                paramValue = lineParts[1].trim();
             resMap.put(paramName, paramValue);
         }
         return resMap;
     }
 
-    public static Map<String, String> getParamsValueMap(String sourceId, Parameters_Provider__mdt pp, String language) {
+    public static Map<String, String> getParamsValueMap(
+        String sourceId,
+        Parameters_Provider__mdt pp,
+        String language
+    ) {
         Map<String, String> paramsMap = getParamsMap(pp.Parameters__c);
         Set<String> fields = new Set<String>(paramsMap.values());
-        List<SObject> sObjects = queryObjects(pp.Source_Object_Type__c, fields, new Set<Id>{
-                sourceId
-        });
+        List<SObject> sObjects = queryObjects(
+            pp.Source_Object_Type__c,
+            fields,
+            new Set<Id>{ sourceId }
+        );
         TranslateHelper.translate(sObjects, language);
         Map<String, String> resultMap = new Map<String, String>();
-        if(sObjects.size() == 0) return resultMap;
+        if (sObjects.size() == 0)
+            return resultMap;
         for (String paramName : paramsMap.keySet()) {
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sObjects[0], fieldPath);
@@ -70,19 +81,29 @@ public class CatalogParametersHelper {
         for (String paramName : cardParametersMap.keySet()) {
             String fieldPath = cardParametersMap.get(paramName);
             String value = (String) SObjectHelper.getSObjectFieldValue(sObj, fieldPath);
-            if (fieldPath != null && value != null) resMap.put(paramName, value);
+            if (fieldPath != null && value != null)
+                resMap.put(paramName, value);
         }
         return resMap;
     }
 
-    public static List<SObject> queryObjects(String objectType, Set<String> fields, Set<Id> recIds) {
+    public static List<SObject> queryObjects(
+        String objectType,
+        Set<String> fields,
+        Set<Id> recIds
+    ) {
         List<String> fieldsList = new List<String>();
         fieldsList.addAll(fields);
         List<Id> idsList = new List<Id>();
         idsList.addAll(recIds);
-        String query = 'SELECT ' + String.join(fieldsList, ',') + ' FROM ' + objectType
-                + ' WHERE Id IN (\'' + String.join(idsList, '\',\'') +
-                '\')';
+        String query =
+            'SELECT ' +
+            String.join(fieldsList, ',') +
+            ' FROM ' +
+            objectType +
+            ' WHERE Id IN (\'' +
+            String.join(idsList, '\',\'') +
+            '\')';
         System.debug('RESULT QUERY: ' + query);
         List<SObject> records = Database.query(query);
         TranslateHelper.translate(records);
@@ -93,19 +114,30 @@ public class CatalogParametersHelper {
         return prepareLabel(labelName, parameters, UserInfo.getLanguage());
     }
 
-    public static String prepareLabel(String labelName, Map<String, String> parameters, String language) {
-        if (String.isEmpty(labelName)) return labelName;
+    public static String prepareLabel(
+        String labelName,
+        Map<String, String> parameters,
+        String language
+    ) {
+        if (String.isEmpty(labelName))
+            return labelName;
         return prepareMergeFields(TranslateHelper.getLabelValue(labelName, language), parameters);
     }
 
-    public static String prepareLabel(String labelName, Id whatId, String paramProviderName, String language) {
+    public static String prepareLabel(
+        String labelName,
+        Id whatId,
+        String paramProviderName,
+        String language
+    ) {
         Parameters_Provider__mdt pp = ppByNameMap.get(paramProviderName);
         Map<String, String> parameters = getParamsValueMap(whatId, pp, language);
         return prepareLabel(labelName, parameters, language);
     }
 
     public static String prepareMergeFields(String sourceString, Map<String, String> parameters) {
-        if (sourceString == null) return null;
+        if (sourceString == null)
+            return null;
         String resultValue = sourceString;
         for (String parameterName : parameters.keySet()) {
             resultValue = resultValue.replace('##' + parameterName, parameters.get(parameterName));
@@ -113,41 +145,66 @@ public class CatalogParametersHelper {
         return resultValue;
     }
 
-    public static String prepareMergeFields(String sourceString, Id sourceId, String providerDeveloperName) {
-        Parameters_Provider__mdt parametersProvider = getParametersProviderMetadata(providerDeveloperName);
-        Map<String, String> paramsMap = getParamsValueMap(sourceId, parametersProvider, UserInfo.getLanguage());
+    public static String prepareMergeFields(
+        String sourceString,
+        Id sourceId,
+        String providerDeveloperName
+    ) {
+        Parameters_Provider__mdt parametersProvider = getParametersProviderMetadata(
+            providerDeveloperName
+        );
+        Map<String, String> paramsMap = getParamsValueMap(
+            sourceId,
+            parametersProvider,
+            UserInfo.getLanguage()
+        );
         return prepareMergeFields(sourceString, paramsMap);
     }
 
-
-    public static Parameters_Provider__mdt getParametersProviderMetadata(String providerDeveloperName) {
+    public static Parameters_Provider__mdt getParametersProviderMetadata(
+        String providerDeveloperName
+    ) {
         List<Parameters_Provider__mdt> parametersProviders = [
-                SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
-                FROM Parameters_Provider__mdt
-                WHERE DeveloperName = :providerDeveloperName
+            SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
+            FROM Parameters_Provider__mdt
+            WHERE DeveloperName = :providerDeveloperName
         ];
-        if (parametersProviders.size() == 0) throw new ParametersProviderException('Parameters Provider "' + providerDeveloperName + '" not found');
+        if (parametersProviders.size() == 0)
+            throw new ParametersProviderException(
+                'Parameters Provider "' +
+                providerDeveloperName +
+                '" not found'
+            );
         return parametersProviders[0];
     }
 
     public static void validate() {
         List<Parameters_Provider__mdt> parametersProviders = [
-                SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
-                FROM Parameters_Provider__mdt
+            SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
+            FROM Parameters_Provider__mdt
         ];
         for (Parameters_Provider__mdt pp : parametersProviders) {
             SObjectType sObjectType = Schema.getGlobalDescribe().get(pp.Source_Object_Type__c);
             if (sObjectType == null) {
-                throw new ParametersProviderException('Wrong parameters provider: ' + pp.DeveloperName + '.' +
-                        ' SObject "' + pp.Source_Object_Type__c + '" not exists');
+                throw new ParametersProviderException(
+                    'Wrong parameters provider: ' +
+                    pp.DeveloperName +
+                    '.' +
+                    ' SObject "' +
+                    pp.Source_Object_Type__c +
+                    '" not exists'
+                );
             }
             String errorMessage = getErrorInParameters(sObjectType, pp.Parameters__c);
             if (errorMessage != null) {
-                throw new ParametersProviderException('Wrong parameters provider: ' + pp.DeveloperName + '.' +
-                        ' Error in parameters: ' + errorMessage);
-
+                throw new ParametersProviderException(
+                    'Wrong parameters provider: ' +
+                    pp.DeveloperName +
+                    '.' +
+                    ' Error in parameters: ' +
+                    errorMessage
+                );
             }
         }
     }
-
 }

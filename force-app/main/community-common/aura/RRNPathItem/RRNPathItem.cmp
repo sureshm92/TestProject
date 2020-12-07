@@ -2,15 +2,21 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRNPathItem">
-
+<aura:component description="RRNPathItem" extends="c:CommunityContext">
     <!-- attruutes: -->
-    <aura:attribute name="label" type="String"/>
-    <aura:attribute name="page" type="String" default="empty"/>
+    <aura:attribute name="label" type="String" />
+    <aura:attribute name="page" type="String" default="empty" />
 
     <!-- components: -->
     <div class="path-item">
-        <div class="{!if(v.page != 'empty', 'np-link', '')}" onclick="{!c.doNavigateToPage}">{!v.label}</div>
-        <c:RRIcon iconName="icon-chevron-right"/>
+        <div class="{!if(v.page != 'empty', 'np-link', '')}" onclick="{!c.doNavigateToPage}">
+            {!v.label}
+        </div>
+        <aura:if isTrue="{!v.isRTL}">
+            <c:RRIcon iconName="icon-chevron-left" />
+            <aura:set attribute="else">
+                <c:RRIcon iconName="icon-chevron-right" />
+            </aura:set>
+        </aura:if>
     </div>
 </aura:component>

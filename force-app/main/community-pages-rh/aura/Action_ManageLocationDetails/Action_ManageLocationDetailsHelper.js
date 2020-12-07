@@ -16,5 +16,5 @@
             return 0;
         });
         component.set('v.studySiteAccounts', accounts);
-    },
+    }
 });

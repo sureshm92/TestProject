@@ -12,8 +12,8 @@
                 Icons__c: ''
             };
             component.set('v.mode', 'new');
-        }else{
-            component.set('v.mode', 'edit')
+        } else {
+            component.set('v.mode', 'edit');
         }
 
         component.set('v.visit', visit);
@@ -27,7 +27,8 @@
 
     checkValidity: function (component, event, helper) {
         let visit = component.get('v.visit');
-        let isValid = !visit.Name || !visit.Icons__c || !visit.Visit_Number__c || (visit.Visit_Number__c < 1);
+        let isValid =
+            !visit.Name || !visit.Icons__c || !visit.Visit_Number__c || visit.Visit_Number__c < 1;
         component.set('v.isValid', isValid);
     },
 

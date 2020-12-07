@@ -2,3 +2,10 @@
     margin-top: 20px;
     text-align: left;
 }
+.THIS .rtl-email {
+    text-align: right;
+    direction: rtl;
+}
+.THIS .btn-mar_20 {
+    margin-left: 20px;
+}

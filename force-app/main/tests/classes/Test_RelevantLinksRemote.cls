@@ -4,7 +4,6 @@
 
 @IsTest
 public class Test_RelevantLinksRemote {
-
     @TestSetup
     static void setup() {
         Test.startTest();
@@ -22,7 +21,7 @@ public class Test_RelevantLinksRemote {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Relevant Links', initData.linksWrappers[0].type.value);
     }
 
     @IsTest
@@ -30,60 +29,66 @@ public class Test_RelevantLinksRemote {
         TestData td = new TestData();
         RelevantLinksRemote.InitData initData = new RelevantLinksRemote.InitData();
         Resource__c relLink = new Resource__c(
-                Content_Type__c = 'Relevant_Link',
-                Title__c = 'Test',
-                Type__c = 'Helpful Links',
-                URL__c = 'https://www.google.com/',
-                Languages__c = 'en_US'
+            Content_Type__c = 'Relevant_Link',
+            Title__c = 'Test',
+            Type__c = 'Helpful Links',
+            URL__c = 'https://www.google.com/',
+            Languages__c = 'en_US'
         );
         insert relLink;
 
-        List<Resource__c> resources = [SELECT Id FROM Resource__c WHERE Content_Type__c = 'Relevant_Link'];
+        List<Resource__c> resources = [
+            SELECT Id
+            FROM Resource__c
+            WHERE Content_Type__c = 'Relevant_Link'
+        ];
         Res_study__c resStudy = new Res_study__c(
-                Resource__c = resources[0].Id,
-                Clinical_Trial_Profile__c = td.ctp.Id,
-                Visible_To_Participant__c = true
+            Resource__c = resources[0].Id,
+            Clinical_Trial_Profile__c = td.ctp.Id,
+            Visible_To_Participant__c = true
         );
         insert resStudy;
-
-        Therapeutic_Area__c ta = new Therapeutic_Area__c(
-                Name = 'TestCOI'
-        );
-        List<Therapeutic_Area__c> therapeuticAreas = [SELECT Id FROM Therapeutic_Area__c WHERE Name = 'TestCOI'];
-        Therapeutic_Area_Assignment__c taa = new Therapeutic_Area_Assignment__c(
-
-        );
 
         Test.startTest();
         System.runAs(td.participantUser) {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Test', initData.linksWrappers[0].resources[0].resource.Title__c);
     }
 
     @IsTest
     public static void alumniVisibleResource_Test() {
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
         TestData td = new TestData();
         RelevantLinksRemote.InitData initData = new RelevantLinksRemote.InitData();
         Resource__c relLink = new Resource__c(
-                Content_Type__c = 'Relevant_Link',
-                Title__c = 'Test',
-                Type__c = 'Helpful Links',
-                URL__c = 'https://www.google.com/',
-                Languages__c = 'en_US'
+            Content_Type__c = 'Relevant_Link',
+            Title__c = 'Test',
+            Type__c = 'Helpful Links',
+            URL__c = 'https://www.google.com/',
+            Languages__c = 'en_US'
         );
         insert relLink;
 
-        List<Resource__c> resources = [SELECT Id FROM Resource__c WHERE Content_Type__c = 'Relevant_Link'];
+        List<Resource__c> resources = [
+            SELECT Id
+            FROM Resource__c
+            WHERE Content_Type__c = 'Relevant_Link'
+        ];
         Res_study__c resStudy = new Res_study__c(
-                Resource__c = resources[0].Id,
-                Clinical_Trial_Profile__c = td.ctp.Id,
-                Visible_To_Participant__c = true,
-                Visible_In_Alumni__c = true
+            Resource__c = resources[0].Id,
+            Clinical_Trial_Profile__c = td.ctp.Id,
+            Visible_To_Participant__c = true,
+            Visible_In_Alumni__c = true
         );
         insert resStudy;
 
@@ -97,7 +102,7 @@ public class Test_RelevantLinksRemote {
             initData = RelevantLinksRemote.getInitData();
         }
         Test.stopTest();
-        System.assertEquals(1, initData.linksWrappers.size());
+        System.assertEquals('Test', initData.linksWrappers[0].resources[0].resource.Title__c);
     }
 
     @IsTest

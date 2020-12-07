@@ -5,4 +5,5 @@
 /*
     DEPRECATED
  */
-public class Test_SendEmailToParticipant {}
+public class Test_SendEmailToParticipant {
+}

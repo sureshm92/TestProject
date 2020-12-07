@@ -3,7 +3,7 @@
  */
 
 ({
-    invoke : function(component, event, helper) {
+    invoke: function (component, event, helper) {
         // Get the record ID attribute
         var record = component.get('v.recordId');
 
@@ -12,7 +12,7 @@
 
         // Pass the record ID to the event
         redirect.setParams({
-            'recordId': record
+            recordId: record
         });
 
         // Open the record

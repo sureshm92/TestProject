@@ -3,9 +3,9 @@
  */
 ({
     select: function (component, event, helper) {
-     const divSelector  =  component.find('selector');
+        const divSelector = component.find('selector');
         $A.util.toggleClass(divSelector, 'selected');
         let sel = component.get('v.selected');
-        component.set('v.selected',!sel);
-    },
-})
+        component.set('v.selected', !sel);
+    }
+});

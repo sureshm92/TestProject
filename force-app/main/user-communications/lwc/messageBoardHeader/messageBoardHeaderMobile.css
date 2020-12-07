@@ -5,6 +5,7 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    position: relative;
 }
 
 .header-back {
@@ -17,8 +18,8 @@
 }
 
 .back-label {
-    color: #297DFD;
-    font-family: "Proxima Nova";
+    color: #297dfd;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     line-height: 24px;
@@ -32,7 +33,7 @@
     width: 32px;
     height: 32px;
     color: white;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: 600;
     line-height: 19px;
@@ -50,7 +51,7 @@
 
 .header-team-label {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
@@ -58,7 +59,7 @@
 
 .header-pi-name {
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 21px;
 }
@@ -67,18 +68,19 @@
     display: flex;
     flex-direction: column;
     justify-content: center;
-    min-height: 100px;
+    width: 100%;
 }
 
 .mob-multi-header-pa {
     align-self: center;
     padding: 40px 5px 10px;
-    width: 320px;
+    width: 100%;
 }
 
 .mob-multi-header-pi {
     align-self: center;
     padding: 40px 10px 10px;
+    width: 100%;
 }
 
 .mob-pi-new-mess {
@@ -88,14 +90,14 @@
 }
 
 .mob-pi-multi-recipient {
-    min-width: 322px;
     border: 1px solid #d4d1d1;
     border-radius: 5px;
     padding: 4px;
+    margin-top: 10px;
 }
 
 .mob-header-patient-name {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     line-height: 22px;
     font-weight: 600;
@@ -103,7 +105,7 @@
 }
 
 .mob-header-team-name {
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 18px;
     font-weight: 500;
     line-height: 22px;
@@ -119,7 +121,7 @@
 
 .mob-header-patient-study {
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 19px;
 }
@@ -131,7 +133,7 @@
 
 .header-patient-delegates-label {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 24px;
 }

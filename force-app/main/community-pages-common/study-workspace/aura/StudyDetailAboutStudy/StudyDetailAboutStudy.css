@@ -2,10 +2,14 @@
     padding-bottom: 32px;
 }
 
+.THIS.rtl {
+    direction: rtl;
+}
+
 .THIS.sdas-sub-tab {
     height: 40px;
     width: 100%;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
     padding-top: 12px;
 }
@@ -31,7 +35,7 @@
 }
 
 .THIS.sdas-main-container #info-left,
-.THIS.sdas-main-container #info-right{
+.THIS.sdas-main-container #info-right {
     height: 100%;
 }
 
@@ -51,6 +55,11 @@
     display: block;
 }
 
+.THIS .hideborder.slds-grid.slds-wrap:before {
+    /*display: none;*/
+    margin-left: -279px;
+}
+
 .THIS .cTasksTab {
     border-top: none;
     border-radius: 0 0 4px 4px;
@@ -64,7 +73,7 @@
     line-height: 44px;
     display: flex;
     align-items: center;
-    margin-bottom: 10px
+    margin-bottom: 10px;
 }
 
 .THIS .sdas-category svg {
@@ -95,7 +104,7 @@
 .THIS .sdas-separator {
     height: 8px;
     width: 100px;
-    border-top: 1px solid #297DFD;
+    border-top: 1px solid #297dfd;
     margin-top: 2em;
     margin-bottom: 2em;
 }
@@ -109,14 +118,12 @@
 }
 
 .THIS .sdas-criteria-block {
-
 }
 
 .THIS .sdas-criteria-dropdown {
     margin-top: 20px;
     margin-bottom: 20px;
 }
-
 
 /*======================================MAP===========================================================================*/
 .THIS .sdas-map {
@@ -127,8 +134,8 @@
     position: relative;
     min-height: 80px;
     width: 100%;
-    background: linear-gradient(306deg, #0076AE 0%, #250056 100%);
-    color: #FFFFFF;
+    background: linear-gradient(306deg, #0076ae 0%, #250056 100%);
+    color: #ffffff;
     font-size: 17px;
     font-weight: 500;
     line-height: 20px;
@@ -165,7 +172,7 @@
 
 .THIS .sdas-footer-info .name {
     color: #000000;
-    font-size: .875rem;
+    font-size: 0.875rem;
     font-weight: 600;
     line-height: 18px;
     margin-bottom: 10px;
@@ -180,24 +187,23 @@
 .THIS .address .address-1,
 .THIS .address .address-2,
 .THIS .address .address-3 {
-
 }
 
 .THIS .sdas-map-footer .sdas-footer-button {
     display: flex;
     float: right;
     padding: 4px;
-    color: #FFFFFF;
+    color: #ffffff;
     font-size: 10px;
     line-height: 10px;
 }
 
 .THIS .sdas-map-footer .sdas-footer-button#Preferred {
-    background-color: #7100D5;
+    background-color: #7100d5;
 }
 
 .THIS .sdas-map-footer .sdas-footer-button#Activated {
-    background-color: #337BFC;
+    background-color: #337bfc;
 }
 
 /*=====================================RIGHT-INFO=====================================================================*/
@@ -212,7 +218,7 @@
     line-height: 21px;
     color: #444;
     font-weight: 400;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
 .THIS .sdas-main-info .text {
@@ -227,7 +233,7 @@
     box-sizing: border-box;
     border: 1px solid #d9d9d9;
     border-radius: 5px;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 2px 15px 0 rgba(0, 0, 0, 0.2);
     margin-bottom: 1.5em;
     padding: 16px;
@@ -259,7 +265,7 @@
 }
 
 .THIS .question-body .question-link {
-    color: #297DFD;
+    color: #297dfd;
     font-size: 1rem;
     font-weight: 500;
     line-height: 16px;
@@ -271,15 +277,17 @@
     margin-left: 2px;
 }
 
-.THIS .study-sites-footer{
+.THIS .study-sites-footer {
     border: 1px solid #d9d9d9;
     border-radius: 0 0 5px 5px;
-    background-color: #F8f9fb;
-    box-shadow: 0 8px 30px 0 rgba(0,0,0,0.15);
+    background-color: #f8f9fb;
+    box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
     padding: 20px;
 }
 
-.THIS .tc-link, .THIS .tc-link:hover, .THIS .tc-link:active{
+.THIS .tc-link,
+.THIS .tc-link:hover,
+.THIS .tc-link:active {
     color: white;
     margin: 0 5px;
     text-decoration: underline;
@@ -295,36 +303,36 @@
     min-height: 72px;
     width: 100%;
     border: 1px solid #d9d9d9;
-    background-color: #FFFFFF;
+    background-color: #ffffff;
     box-shadow: 0 8px 30px 0 rgba(0, 0, 0, 0.15);
     text-align: center;
     padding-top: 16px;
 }
 
-.THIS .rr-bottom-bar .bar-content{
+.THIS .rr-bottom-bar .bar-content {
     text-align: center;
 }
 
-.THIS .rr-bottom-bar .bar-content .apollo-btn{
+.THIS .rr-bottom-bar .bar-content .apollo-btn {
     width: 250px;
 }
 
-.THIS .collapse-wrapper .rr-collapse-panel .body{
+.THIS .collapse-wrapper .rr-collapse-panel .body {
     white-space: pre-wrap;
 }
 
-.THIS .criteria-body{
+.THIS .criteria-body {
     margin: 0 5px 10px 35px;
-    font-size: .875rem;
+    font-size: 0.875rem;
 }
 
-@media all and (max-width: 1100px){
- 	.THIS .socialnetworks-section > .slds-col {
+@media all and (max-width: 1100px) {
+    .THIS .socialnetworks-section > .slds-col {
         min-width: 100%;
-    }   
+    }
 }
 
-.THIS .primary-contact-select{
+.THIS .primary-contact-select {
     margin-top: 5px;
     margin-bottom: 5px;
     min-width: 100px;
@@ -332,18 +340,16 @@
 
 .THIS .slvi-btn {
     text-align: center;
-    color: #297DFD;
+    color: #297dfd;
     padding-top: 10px;
     padding-bottom: 10px;
     /*border-collapse: collapse;*/
     flex-basis: 0;
 }
 
-
 .THIS .slvi-btn + .slvi-btn {
     /*border-left: 1px solid #F2F2F2;*/
 }
-
 
 .THIS .slvi-btn.disabled {
     pointer-events: none;
@@ -355,7 +361,7 @@
     height: 24px;
     width: 20px;
     margin: auto;
-    fill: #297DFD;
+    fill: #297dfd;
 }
 
 .THIS .slvi-btn .btn-content {
@@ -371,10 +377,9 @@
     /*top: 1px;*/
 }
 
-
 .THIS .slvi-btn:hover {
     cursor: pointer;
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
 }
 
 .THIS .slvi-btn:active {
@@ -398,39 +403,39 @@
     border-top: 1px solid #d9d9d9;
 }
 
-.THIS .socialnetworks {
-    z-index: 2000;
-    position: absolute;
-    bottom: 10px;
-    float: right;
-    right: 0;
-    margin-bottom: 10px;
+.THIS .socialnetworks-section {
+    align-items: center;
+    margin-bottom: 25px;
 }
 
-.THIS .docs-conteiner{
+.THIS .socialnetworks {
+
+}
+
+.THIS .docs-conteiner {
     margin: 10px 0;
 }
 
 .THIS .doc-item {
     padding: 2px;
 }
-.THIS .socialnetworks .cRRIcon.rr-icon-default{
+.THIS .socialnetworks .cRRIcon.rr-icon-default {
     width: 18px;
 }
 
 .THIS .socialnetworks .slds-m-around_x-small {
-    margin: 0 .25rem;
+    margin: 0 0.25rem;
 }
 
 .THIS .direction {
     margin-top: 10px;
 }
 
-.THIS .direction-title{
+.THIS .direction-title {
     margin-bottom: 5px !important;
 }
 
-.THIS .direction-info{
+.THIS .direction-info {
     margin-bottom: 10px !important;
     color: #444;
     font-size: 1rem;
@@ -438,25 +443,37 @@
 }
 
 @media all and (max-width: 768px) {
-    
-    .THIS .rr-bottom-bar .bar-content .apollo-btn{
+
+    .THIS .socialnetworks {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .THIS .socialnetworks > .rri-icon {
+        display: flex;
+        justify-content: center;
+    }
+
+    .THIS .rr-bottom-bar .bar-content .apollo-btn {
         width: 150px;
     }
-    
+
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
-    
+
     .cStudyDetailAboutStudy .sdas-main-info .title {
         font-size: 1rem;
     }
-    
+
     .THIS .slds-grid.slds-wrap:before {
         display: none;
     }
 
     .THIS .site-distance {
-        margin-top: .5rem;
+        margin-top: 0.5rem;
     }
 
     .THIS .rri-icon svg {
@@ -464,40 +481,49 @@
         width: 13px;
     }
 
-    .THIS .rri-icon span {
-        margin: .125rem !important;
+    .THIS .rri-icon span.slds-m-around_x-small {
+        margin: 0 0 0 1rem;
     }
 }
 
 @media all and (max-width: 500px) {
-    
-    .THIS.sdas-main-container {
-        padding: 10px 10px 25px;
+    .THIS {
+        padding-top: 0;
     }
-    
+
+    .THIS .sdas-about > .slds-wrap > #info-left {
+        margin-top: 90px
+    }
+
+    .THIS .socialnetworks-section {
+        align-items: flex-end;
+        flex-direction: column;
+    }
+
+    .THIS .socialnetworks-section>.slds-col {
+        min-width: unset;
+    }
+
+    .THIS .socialnetworks {
+        margin-top: 10px;
+    }
+
     .THIS .sdas-main-info {
-        padding: 0;
+        padding: 15px 0 0;
     }
-    
-    .THIS .sdas-sub-category {
-        margin-top: 2rem;
+
+    .THIS .socialnetworks .rri-icon > a {
+        padding: 0 0 0 .5rem;
     }
-    
-     .THIS .socialnetworks .rri-icon > a {
-        padding: 0 .5rem;
-    }
-    
-    
+
     .THIS .socialnetworks-section.slds-grid.slds-wrap {
         position: absolute;
-        top: 50px;
-        right: 8px;
+        top: 0;
+        right: 0;
         width: 100%;
     }
-    
+
     .THIS .socialnetworks-section.slds-grid.slds-wrap .rri-icon svg {
         height: 24px;
-        
     }
-    
 }

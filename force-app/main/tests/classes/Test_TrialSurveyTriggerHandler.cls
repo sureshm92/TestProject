@@ -3,30 +3,32 @@
  */
 @IsTest(SeeAllData=true)
 private class Test_TrialSurveyTriggerHandler {
-
     @IsTest
     static void doExpireTest() {
-        List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL  LIMIT 1];
-        if(survey.isEmpty()) return;
+        List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
+        if (survey.isEmpty())
+            return;
 
         TestData.loadTestData();
         TestData testData = new TestData();
 
+        Integer taskSize;
         Test.startTest();
         Trial_Survey__c ts = new Trial_Survey__c(
-                Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
-                Clinical_Trial_Profile__c = testData.ctp.Id,
-                Survey__c = survey.get(0).Id,
-                Whose_response_needed__c = 'Patient only'
+            Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Survey__c = survey.get(0).Id,
+            Whose_response_needed__c = 'Patient only'
         );
         insert ts;
 
         SurveyInvitation invitation = SurveyService.getInstance()
-                .generateInvitation(ts, testData.pe.Id, CommunityService.getCommunityId(null));
+            .generateInvitation(ts, testData.pe.Id, CommunityService.getCommunityId(null));
         insert invitation;
-        TaskService.getInstance().createSurveyTasks(new Map<Id, String>{invitation.Id => 'Patient only'});
-
+        taskSize = TaskService.getInstance()
+            .createSurveyTasks(new Map<Id, String>{ invitation.Id => 'Patient only' });
         delete ts;
         Test.stopTest();
+        System.assertEquals(1, taskSize);
     }
 }

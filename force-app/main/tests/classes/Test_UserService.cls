@@ -4,7 +4,6 @@
 
 @IsTest(IsParallel=true)
 private class Test_UserService {
-    
     @IsTest
     static void test1() {
         Datetime dt = Datetime.newInstance(2001, 1, 1, 0, 0, 0);

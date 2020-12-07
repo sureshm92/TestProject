@@ -1,154 +1,7 @@
 stages:
 
   #Validation:
-  - VALIDATE
-
-  #5.0 INT
-  - DeployINT5.0
-  - RunTestINT5.0
-
-  #5.0 INF
-  - DeployINF5.0
-  - RunTestINF5.0
-
-  #5.1 INT
-  - DeployINT5.1
-  - RunTestINT5.1
-  
-  #5.1 INF
-  - DeployINF5.1
-  - RunTestINF5.1
-
-
-
-cache:
-  paths:
-    - ~/.sfdx
-    - .sfdx
-
-
-# Validation: ------------------------------------------------------------------
-VALIDATE:
-  #tags:
-   # - shell
-  only:
-    - merge_requests
-  except:
-    - push
-    - commit
-
-  stage: VALIDATE
-  script:
-    - . ./scripts/ci/validate.sh INF60
-
-
-# 5.0 INT: ---------------------------------------------------------------------
-DeployINT5.0:
-  #tags:
-   # - shell
-  only:
-    - INT5.0
-  except:
-    - merge_requests
-
-  stage: DeployINT5.0
-  script:
-    - . ./scripts/ci/deploy.sh INT5_0
-
-RunTestINT5.0:
-  #tags:
-   # - shell
-  only:
-    - INT5.0
-  except:
-    - merge_requests
-
-  stage: RunTestINT5.0
-  script:
-    - . ./scripts/ci/run-tests.sh INT5_0
-
-
-
-# 5.0 INF: ---------------------------------------------------------------------
-DeployINF5.0:
-  #tags:
-   # - shell
-  only:
-    - INF5.0
-  except:
-    - merge_requests
-
-  stage: DeployINF5.0
-  script:
-    - . ./scripts/ci/deploy.sh INF5_0
-
-RunTestINF5.0:
-  #tags:
-   # - shell
-  only:
-    - INF5.0
-  except:
-    - merge_requests
-
-  stage: RunTestINF5.0
-  script:
-    - . ./scripts/ci/run-tests.sh INF5_0
-
-# 5.1 INT: ---------------------------------------------------------------------
-DeployINT5.1:
-  #tags:
-   # - shell
-  only:
-    - INT5.1
-  except:
-    - merge_requests
-
-  stage: DeployINT5.1
-  script:
-    - . ./scripts/ci/deploy.sh INT5_1
-
-RunTestINT5.1:
-  #tags:
-   # - shell
-  only:
-    - INT5.1
-  except:
-    - merge_requests
-
-  stage: RunTestINT5.1
-  script:
-    - . ./scripts/ci/run-tests.sh INT5_1
-    
-    # 5.1 INF: ---------------------------------------------------------------------
-DeployINF5.1:
-  #tags:
-   # - shell
-  only:
-    - INF5.1
-  except:
-    - merge_requests
-
-  stage: DeployINF5.1
-  script:
-    - . ./scripts/ci/deploy.sh INF5_1
-
-RunTestINF5.1:
-  #tags:
-   # - shell
-  only:
-    - INF5.1
-  except:
-    - merge_requests
-
-  stage: RunTestINF5.1
-  script:
-    - . ./scripts/ci/run-tests.sh INF5_1
-
-
-
-stages:
-
-  #Validation:
+  - SonarCheck
   - VALIDATE
 
   #5.0 INT
@@ -176,6 +29,10 @@ stages:
   - DeployINF5.1
   - RunTestINF5.1
 
+#5.1 INF
+  - DeployClonedFml
+  - RunTestClonedFml
+
 
 
 cache:
@@ -185,9 +42,32 @@ cache:
 
 
 # Validation: ------------------------------------------------------------------
+SonarCheck:
+  allow_failure: true
+  tags:
+    - RHPP
+  only:
+   - merge_requests
+  except:
+   - push
+   - commit
+  stage: SonarCheck
+  image:
+    name: sonarsource/sonar-scanner-cli:latest
+    entrypoint: [""]
+  cache:
+    key: "${CI_JOB_NAME}"
+    paths:
+      - .sonar/cache
+  before_script:
+   - echo "Sonar Analysis"
+  script:
+   - . ./scripts/ci/sonar-check.sh
+
+
 VALIDATE:
-  #tags:
-   # - shell
+  tags:
+    - RHPP
   only:
     - merge_requests
   except:
@@ -196,7 +76,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - . ./scripts/ci/validate.sh INF5_1
+    - . ./scripts/ci/validate.sh INF60
 
 
 # 5.0 INT: ---------------------------------------------------------------------
@@ -350,8 +230,61 @@ RunTestINF5.1:
   stage: RunTestINF5.1
   script:
     - . ./scripts/ci/run-tests.sh INF5_1
+    
+ # ClonedFml: ---------------------------------------------------------------------
+DeployClonedFml:
+  #tags:
+   # - shell
+  only:
+    - Formal
+  except:
+    - merge_requests
+
+  stage: DeployClonedFml
+  script:
+    - . ./scripts/ci/deploy.sh Clonedformal
+
+RunTestClonedFml:
+  #tags:
+   # - shell
+  only:
+    - Formal
+  except:
+    - merge_requests
+
+  stage: RunTestClonedFml
+  script:
+    - . ./scripts/ci/run-tests.sh Clonedformal
+
+.sfdx_helpers: &sfdx_helpers |
+
+  # Function to authenticate to Salesforce.
+  # Don't expose the auth url to the logs.
+  # Arguments:
+  #     $1 = alias to set
+  #     $2 = Sfdx Auth URL
+  #     $3 = SFDX AUth URL to use if the previous one isn't set (optional)
+
+  function authenticate() {
+
+    local alias_to_set=$1
+    local org_auth_url=$2
+    local org_auth_url_backup=$3
+
+    local file=$(mktemp)
+    echo $org_auth_url > $file
+    local cmd="sfdx force:auth:sfdxurl:store --sfdxurlfile $file --setalias $alias_to_set -d --json" && (echo $cmd >&2)
+    local output=$($cmd)
+
+    sfdx force:config:set defaultusername=$alias_to_set
+    sfdx force:config:set defaultdevhubusername=$alias_to_set
+
+    rm $file
+  }
 
 
+
+image: salesforce/salesforcedx:latest-full
 
 .sfdx_helpers: &sfdx_helpers |
 

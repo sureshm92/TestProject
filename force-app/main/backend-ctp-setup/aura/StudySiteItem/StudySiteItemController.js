@@ -33,7 +33,7 @@
                 actionName: 'view',
                 objectApiName: 'Study_Site__c',
                 recordId: ssId
-            },
+            }
         };
 
         component.get('v.parent').find('navLink').navigate(pageRef);
@@ -52,12 +52,20 @@
                 let selectedItem = component.get('v.selectedItem');
                 if (selectedItem && selectedItem !== assignments[j].value && assignments[j].state) {
                     assignments[j].state = false;
-                    communityService.showWarningToast('Warning!', $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'), 5000);
-                } else if (selectedItem && selectedItem === assignments[j].value && !assignments[j].state) {
+                    communityService.showWarningToast(
+                        'Warning!',
+                        $A.get('$Label.c.PG_Ref_L_One_Incentive_Plan'),
+                        5000
+                    );
+                } else if (
+                    selectedItem &&
+                    selectedItem === assignments[j].value &&
+                    !assignments[j].state
+                ) {
                     component.set('v.selectedItem', '');
 
                     var allSelectedIPs = component.get('v.selectedGlobalItems');
-                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id)
+                    allSelectedIPs[assignments[j].value].delete(component.get('v.item').ss.Id);
                     component.set('v.selectedGlobalItems', allSelectedIPs);
                 } else if (!selectedItem && assignments[j].state) {
                     component.set('v.selectedItem', assignments[j].value);
@@ -79,10 +87,12 @@
     },
 
     sscRadioStateChange: function (component, event, helper) {
-        var selected = event.getSource().get("v.label");
+        var selected = event.getSource().get('v.label');
         var item = component.get('v.item');
         var asgCount = 0;
         var assignments = item.assignments;
+
+        let parent = component.get('v.parent');
         console.log(selected);
         console.log(JSON.stringify(assignments));
         for (var j = 0; j < assignments.length; j++) {
@@ -91,5 +101,9 @@
         }
         item.emptyAssignments = asgCount === 0;
         component.set('v.item', item);
+
+        if (parent && parent.doSave) {
+            parent.doSave();
+        }
     }
 });

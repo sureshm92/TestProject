@@ -1,5 +1,4 @@
 /**
  * Created by Kryvolap
  */
-({
-})
+({});

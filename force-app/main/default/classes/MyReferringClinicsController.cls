@@ -8,8 +8,11 @@ public without sharing class MyReferringClinicsController {
         try {
             initData = new InitData(trialId, ssId);
             getInitDataEnrollments(initData);
-            if(CommunityService.getUserContact().UserCommunityIsDelegate__c) {
-                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation(communityTemplateName).isEmpty();
+            if (CommunityService.getUserContact().UserCommunityIsDelegate__c) {
+                initData.isButtonDisabled = Action_InviteRPRemote.getPIForInvetation(
+                        communityTemplateName
+                    )
+                    .isEmpty();
             } else {
                 initData.isButtonDisabled = false;
             }
@@ -19,18 +22,31 @@ public without sharing class MyReferringClinicsController {
         return JSON.serialize(initData);
     }
     @AuraEnabled
-    public static String searchReferringClinics(String filterValuesJSON, String sortDataJSON, String paginationDataJSON, Boolean trialChanged) {
+    public static String searchReferringClinics(
+        String filterValuesJSON,
+        String sortDataJSON,
+        String paginationDataJSON,
+        Boolean trialChanged
+    ) {
         InitData initData;
         try {
-            ReferringClinicsFilter.FilterValues filterValues = (ReferringClinicsFilter.FilterValues) JSON.deserialize(filterValuesJSON, ReferringClinicsFilter.FilterValues.class);
-            ReferringClinicsFilter.SortData sortData = (ReferringClinicsFilter.SortData) JSON.deserialize(sortDataJSON, ReferringClinicsFilter.SortData.class);
-            PaginationData paginationData = (PaginationData) JSON.deserialize(paginationDataJSON, PaginationData.class);
+            ReferringClinicsFilter.FilterValues filterValues = (ReferringClinicsFilter.FilterValues) JSON.deserialize(
+                filterValuesJSON,
+                ReferringClinicsFilter.FilterValues.class
+            );
+            ReferringClinicsFilter.SortData sortData = (ReferringClinicsFilter.SortData) JSON.deserialize(
+                sortDataJSON,
+                ReferringClinicsFilter.SortData.class
+            );
+            PaginationData paginationData = (PaginationData) JSON.deserialize(
+                paginationDataJSON,
+                PaginationData.class
+            );
             if (trialChanged) {
                 filterValues.ssId = '';
             }
             initData = new InitData(filterValues, sortData, paginationData);
             getInitDataEnrollments(initData);
-
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -38,10 +54,15 @@ public without sharing class MyReferringClinicsController {
     }
 
     private static void getInitDataEnrollments(InitData initData) {
-        List<HCP_Enrollment__c> enrollments = SearchService.search(initData.referringClinicsFilter, initData.paginationData);
+        List<HCP_Enrollment__c> enrollments = SearchService.search(
+            initData.referringClinicsFilter,
+            initData.paginationData
+        );
         initData.filteredReferringClinics = getEnrollmentWrappers(enrollments);
     }
-    private static List<MyReferringClinicsController.ClinicWrapper> getEnrollmentWrappers(List<HCP_Enrollment__c> enrollments) {
+    private static List<MyReferringClinicsController.ClinicWrapper> getEnrollmentWrappers(
+        List<HCP_Enrollment__c> enrollments
+    ) {
         List<MyReferringClinicsController.ClinicWrapper> result = new List<MyReferringClinicsController.ClinicWrapper>();
         Map<Id, List<HCP_Enrollment__c>> clinicEnrolmentMap = new Map<Id, List<HCP_Enrollment__c>>();
         for (HCP_Enrollment__c enroll : enrollments) {
@@ -80,10 +101,15 @@ public without sharing class MyReferringClinicsController {
         public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
             Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
             status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
-            statusLabel = TranslateHelper.getPickListLabel(HCP_Enrollment__c.Status__c, hcpEnrollment.Status__c);
+            statusLabel = TranslateHelper.getPickListLabel(
+                HCP_Enrollment__c.Status__c,
+                hcpEnrollment.Status__c
+            );
             enrollment = hcpEnrollment;
             //isHCPRegistred = !hcpEnrollment.HCP_Contact__r.Is_First_Logon__c;
-            Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(hcpEnrollment.Status__c);
+            Map<String, String> actionToStatusesMap = HCPEnrollmentService.HCP_CHANGE_STATUS_MAP.get(
+                hcpEnrollment.Status__c
+            );
             if (actionToStatusesMap != null) {
                 for (String actionId : actionToStatusesMap.keySet()) {
                     buttonList.add(actionsMap.get(actionId));
@@ -102,10 +128,14 @@ public without sharing class MyReferringClinicsController {
             this.trialId = trialId;
             this.ssId = ssId;
             filteredReferringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
-            referringClinicsFilter = new ReferringClinicsFilter(trialId,ssId);
+            referringClinicsFilter = new ReferringClinicsFilter(trialId, ssId);
             paginationData = new PaginationData();
         }
-        public InitData(ReferringClinicsFilter.FilterValues filterValues, ReferringClinicsFilter.SortData sortData, PaginationData paginationData) {
+        public InitData(
+            ReferringClinicsFilter.FilterValues filterValues,
+            ReferringClinicsFilter.SortData sortData,
+            PaginationData paginationData
+        ) {
             filteredReferringClinics = new List<MyReferringClinicsController.ClinicWrapper>();
             this.trialId = filterValues.trialId;
             this.ssId = filterValues.ssId;
@@ -113,5 +143,4 @@ public without sharing class MyReferringClinicsController {
             this.paginationData = paginationData;
         }
     }
-
 }

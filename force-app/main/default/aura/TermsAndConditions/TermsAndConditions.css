@@ -1,5 +1,17 @@
-.THIS .rr-body-content{
+.THIS .rr-body-content {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+
+.THIS .arabic {
+    direction: rtl !important;
     padding-bottom: 100px;
+}
+.THIS.english {
+    padding-bottom: 100px;
+}
+.THIS.slds-text-longform-rtl {
+    direction: rtl !important;
 }
 
 .THIS .main-header {
@@ -15,13 +27,17 @@
     color: #444;
     margin-right: auto;
 }
+.THIS .tc-accept-text-rtl {
+    float: right !important;
+    margin-right: 5px !important;
+}
 
-.THIS .rr-bottom-bar .bar-content{
+.THIS .rr-bottom-bar .bar-content {
     justify-content: right;
 }
 
-.THIS .tc-bottom-bar-content{
-    justify-content: space-between!important;
+.THIS .tc-bottom-bar-content {
+    justify-content: space-between !important;
 }
 
 .THIS a {
@@ -35,10 +51,10 @@
     background-color: #eef5ff;
 }
 
-.THIS .bottom-line-with-cookie{
+.THIS .bottom-line-with-cookie {
     bottom: 85px !important;
 }
 
-.THIS .padding-for-cookie-policy{
+.THIS .padding-for-cookie-policy {
     padding-bottom: 185px !important;
 }

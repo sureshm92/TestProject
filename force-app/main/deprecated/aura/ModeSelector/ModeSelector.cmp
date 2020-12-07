@@ -3,7 +3,5 @@
  -->
 
 <aura:component description="ModeSelector" controller="CommunityFacadeRemote">
-
     <!-- deprecated -->
-
 </aura:component>

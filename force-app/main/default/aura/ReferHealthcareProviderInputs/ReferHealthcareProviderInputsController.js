@@ -7,15 +7,31 @@
         var email = event.getSource().get('v.value');
         var isValid = component.get('v.isValid');
         var emailIsValid = helper.checkValidEmail(event.getSource(), email);
-        if(emailIsValid) {
-            if (email && communityService.isValidEmail(email.trim()) && sharingObject.sObjectType != 'Object') {
+        if (emailIsValid) {
+            if (
+                email &&
+                communityService.isValidEmail(email.trim()) &&
+                sharingObject.sObjectType != 'Object'
+            ) {
                 helper.doCheckContact(component, event, helper, null, null, email.trim());
             }
-            if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
-                helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+            if (
+                isValid &&
+                sharingObject.sObjectType == 'Object' &&
+                sharingObject.firstName &&
+                sharingObject.lastName &&
+                sharingObject.email.trim()
+            ) {
+                helper.doCheckContact(
+                    component,
+                    event,
+                    helper,
+                    sharingObject.firstName,
+                    sharingObject.lastName,
+                    sharingObject.email.trim()
+                );
             }
         }
-
     },
 
     checkFields: function (component, event, helper) {
@@ -81,7 +97,7 @@
             firstName = sharingObject.First_Name__c ? sharingObject.First_Name__c.trim() : null;
             lastName = sharingObject.Last_Name__c ? sharingObject.Last_Name__c.trim() : null;
         }
-        var isValid = (email && communityService.isValidEmail(email)) && firstName && lastName;
+        var isValid = email && communityService.isValidEmail(email) && firstName && lastName;
         component.set('v.isValid', isValid);
     },
 
@@ -97,15 +113,28 @@
         }
     },
 
-    checkDelegateDuplicate: function(component, event, helper){
+    checkDelegateDuplicate: function (component, event, helper) {
         var isValid = component.get('v.isValid');
         var sharingObject = component.get('v.sharingObject');
-        if(isValid && sharingObject.sObjectType == 'Object' && sharingObject.firstName && sharingObject.lastName && sharingObject.email.trim()){
-            helper.doCheckContact(component, event, helper, sharingObject.firstName, sharingObject.lastName, sharingObject.email.trim());
+        if (
+            isValid &&
+            sharingObject.sObjectType == 'Object' &&
+            sharingObject.firstName &&
+            sharingObject.lastName &&
+            sharingObject.email.trim()
+        ) {
+            helper.doCheckContact(
+                component,
+                event,
+                helper,
+                sharingObject.firstName,
+                sharingObject.lastName,
+                sharingObject.email.trim()
+            );
         }
     },
 
-    approveDelegate:function(component, event, helper){
+    approveDelegate: function (component, event, helper) {
         component.set('v.useThisDelegate', true);
-    },
+    }
 });

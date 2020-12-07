@@ -12,10 +12,10 @@
                     return 1;
                 }
                 return 0;
-            })
+            });
         }
         if (component.get('v.userMode') == 'PI') {
-            component.set("v.detailsExpanded", true);
+            component.set('v.detailsExpanded', true);
         }
     },
 
@@ -40,7 +40,12 @@
                 parent.find('shareModal').show(trial.Id, currentStudy.hcpe.HCP_Contact__c);
                 break;
             case 'viewTermsAndConditions':
-                communityService.navigateToPage("trial-terms-and-conditions?id=" + trialId + "&ret=" + communityService.createRetString());
+                communityService.navigateToPage(
+                    'trial-terms-and-conditions?id=' +
+                        trialId +
+                        '&ret=' +
+                        communityService.createRetString()
+                );
                 break;
             case 'findStudySites':
                 //communityService.navigateToPage("study-workspace?id=" + trialId + "#studySitesAnchor");
@@ -51,46 +56,59 @@
                 communityService.navigateToPage('my-patients?id=' + trialId);
                 break;
             case 'noThanks':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                parent.showOpenNoTanksModal(trialId,studySiteId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value]
+                    .studySite.Id;
+                parent.showOpenNoTanksModal(trialId, studySiteId);
                 break;
             case 'manageReferrals':
-                communityService.navigateToPage("my-referrals?id=" + trialId);
+                communityService.navigateToPage('my-referrals?id=' + trialId);
                 break;
             case 'manageReferralsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-               // communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
-                communityService.navigateToPage("my-referrals?id=" +trialId+"&siteId="+studySiteId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value]
+                    .studySite.Id;
+                // communityService.navigateToPage("study-workspace?id=" + trialId + "&ssId=" + studySiteId + "&tab=tab-referrals");
+                communityService.navigateToPage(
+                    'my-referrals?id=' + trialId + '&siteId=' + studySiteId
+                );
                 break;
             case 'manageReferringClinics':
-                communityService.navigateToPage("study-workspace?id=" + trialId + "&tab=tab-referred-clinics");
+                communityService.navigateToPage(
+                    'study-workspace?id=' + trialId + '&tab=tab-referred-clinics'
+                );
                 break;
             case 'manageReferringClinicsBySS':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage("my-referring-clinics?id=" + trialId + "&ssId="+studySiteId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value]
+                    .studySite.Id;
+                communityService.navigateToPage(
+                    'my-referring-clinics?id=' + trialId + '&ssId=' + studySiteId
+                );
                 break;
             case 'openToReceiveReferrals':
                 //pass trial to 'Iam open to receive...' dialog:
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                console.log('studySiteId',studySiteId);
-                parent.find('receiveReferralsModal').show(trial,studySiteId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value]
+                    .studySite.Id;
+                console.log('studySiteId', studySiteId);
+                parent.find('receiveReferralsModal').show(trial, studySiteId);
                 break;
             case 'linkToStudySites':
                 communityService.navigateToPage('sites-search?id=' + trialId);
                 break;
             case 'addPatient':
-                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Id;
-                communityService.navigateToPage('add-patient?id=' + trialId + "&ssId=" + studySiteId);
+                var studySiteId = component.get('v.currentStudy.ssList')[event.currentTarget.value]
+                    .studySite.Id;
+                communityService.navigateToPage(
+                    'add-patient?id=' + trialId + '&ssId=' + studySiteId
+                );
                 break;
         }
     },
 
     toggleStudySiteListView: function (cmp, event, helper) {
-        let detailsExpanded = cmp.get("v.detailsExpanded");
+        let detailsExpanded = cmp.get('v.detailsExpanded');
         if (detailsExpanded) {
-            cmp.set("v.detailsExpanded", false);
+            cmp.set('v.detailsExpanded', false);
         } else {
-            cmp.set("v.detailsExpanded", true);
+            cmp.set('v.detailsExpanded', true);
         }
     },
 
@@ -99,7 +117,9 @@
         var trial = currentStudy.trial;
         var trialId = trial.Id;
         var hcpeId = event.target.dataset.hcpeId;
-        communityService.navigateToPage('referring?id=' + trialId + (hcpeId ? '&hcpeid=' + hcpeId : ''));
+        communityService.navigateToPage(
+            'referring?id=' + trialId + (hcpeId ? '&hcpeid=' + hcpeId : '')
+        );
     },
 
     doMyPatients: function (cmp, event, helper) {
@@ -108,14 +128,16 @@
         var trialId = trial.Id;
         var siteId = event.target.dataset.siteId;
 
-        communityService.navigateToPage('my-patients?id=' + trialId + (siteId ? '&siteId=' + siteId : ''));
+        communityService.navigateToPage(
+            'my-patients?id=' + trialId + (siteId ? '&siteId=' + siteId : '')
+        );
     },
 
     navigateToSitesSearch: function (component, event, helper) {
         var currentStudy = component.get('v.currentStudy');
         var trial = currentStudy.trial;
         var trialId = trial.Id;
-        communityService.navigateToPage("sites-search?id=" + trialId);
+        communityService.navigateToPage('sites-search?id=' + trialId);
     },
 
     onShareClick: function (component, event, helper) {
@@ -164,7 +186,7 @@
 
     checkValidEmail: function (component, event, helper) {
         var email = event.getSource().get('v.value');
-        if(email) {
+        if (email) {
             email = email.trim();
             var isValid = communityService.isValidEmail(email);
             var elIndex = event.target.parentElement.dataset.index;
@@ -188,13 +210,12 @@
         var popupIndex = event.currentTarget.dataset.index;
         var currentStudy = component.get('v.currentStudy');
         var studySiteWrapper = currentStudy.ssList[popupIndex];
-        parent.find('actionManageLocationDetails').execute(studySiteWrapper, function(ss){
+        parent.find('actionManageLocationDetails').execute(studySiteWrapper, function (ss) {
             currentStudy.ssList[popupIndex].studySite = ss;
-            component.set('v.currentStudy',currentStudy);
+            component.set('v.currentStudy', currentStudy);
         });
 
-
-/*
+        /*
         component.set('v.editAddress', false);
         component.set('v.checkedAccount', null);
         component.set('v.locationWasChanged', false);
@@ -219,7 +240,6 @@
                 helper.doUpdateStudyTitle(component);
             }), 5);
         }*/
-
     },
 
     /*changeRadioMarker: function (component, event, helper) {
@@ -243,7 +263,6 @@
         parent.saveSSDetails(currentSS);
     },*/
 
-
     editAccountAddress: function (component, event, helper) {
         component.set('v.addressChecked', false);
         var editIndx = event.target.dataset.indx;
@@ -251,12 +270,25 @@
         component.set('v.states', []);
         var cmp;
         if (editIndx) {
-            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].accounts[editIndx]));
+            cmp = JSON.parse(
+                JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].accounts[editIndx])
+            );
         } else if (!editIndx && !ssIndex) {
-            var ssWrapIndex = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite.Principal_Investigator__r));
-            cmp = new Object({'Id': null, 'BillingCountry': ssWrapIndex.MailingAddress.country, 'BillingStateCode': ssWrapIndex.MailingAddress.stateCode});
+            var ssWrapIndex = JSON.parse(
+                JSON.stringify(
+                    component.get('v.currentStudy.ssList')[event.currentTarget.value].studySite
+                        .Principal_Investigator__r
+                )
+            );
+            cmp = new Object({
+                Id: null,
+                BillingCountry: ssWrapIndex.MailingAddress.country,
+                BillingStateCode: ssWrapIndex.MailingAddress.stateCode
+            });
         } else {
-            cmp = JSON.parse(JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].studySite.Site__r));
+            cmp = JSON.parse(
+                JSON.stringify(component.get('v.currentStudy.ssList')[ssIndex].studySite.Site__r)
+            );
         }
         if (cmp.BillingCountry) {
             var countryCodeByName = component.get('v.countryCodesMap');
@@ -266,7 +298,7 @@
             component.set('v.states', states);
         }
         //if(cmp.BillingLongitude && cmp.BillingLatitude){
-            helper.setCoordinates(component,cmp);
+        helper.setCoordinates(component, cmp);
         //}
         component.set('v.editedAccount', cmp);
         component.set('v.editAddress', true);
@@ -285,9 +317,12 @@
         component.set('v.editAddress', false);
         component.set('v.editedAccount', null);
         component.set('v.showPopUpSpinner', false);
-        setTimeout($A.getCallback(function () {
-            helper.doUpdateStudyTitle(component);
-        }), 10);
+        setTimeout(
+            $A.getCallback(function () {
+                helper.doUpdateStudyTitle(component);
+            }),
+            10
+        );
         component.set('v.currentCountry', null);
         component.set('v.states', []);
         component.set('v.addressChecked', false);
@@ -329,7 +364,7 @@
     trimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
         event.getSource().set('v.value', val.trim());
-        if(!event.getSource().checkValidity()){
+        if (!event.getSource().checkValidity()) {
             event.getSource().showHelpMessageIfInvalid();
         }
     },
@@ -357,12 +392,15 @@
     checkAddress: function (component, event, helper) {
         component.set('v.showPopUpSpinner', true);
         var currentAccount = component.get('v.editedAccount');
-        communityService.executeAction(component, 'createTmpAccountForLocationCheck', {
-            account: JSON.stringify(currentAccount)
-        }, function (createdAccountId) {
-            helper.waitAccountCheckResult(component, createdAccountId, 0);
-        });
+        communityService.executeAction(
+            component,
+            'createTmpAccountForLocationCheck',
+            {
+                account: JSON.stringify(currentAccount)
+            },
+            function (createdAccountId) {
+                helper.waitAccountCheckResult(component, createdAccountId, 0);
+            }
+        );
     }
-
-
-})
+});

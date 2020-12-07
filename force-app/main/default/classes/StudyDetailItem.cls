@@ -55,18 +55,28 @@ public without sharing class StudyDetailItem implements Comparable {
             }
         }
         if (sortType == 'CreatedDate DESC') {
-            if (compareItem.maxHCPCreatedDate > this.maxHCPCreatedDate || this.maxHCPCreatedDate == null) {
+            if (
+                compareItem.maxHCPCreatedDate > this.maxHCPCreatedDate ||
+                this.maxHCPCreatedDate == null
+            ) {
                 return 1;
-            } else if (this.maxHCPCreatedDate > compareItem.maxHCPCreatedDate || compareItem.maxHCPCreatedDate == null) {
+            } else if (
+                this.maxHCPCreatedDate > compareItem.maxHCPCreatedDate ||
+                compareItem.maxHCPCreatedDate == null
+            ) {
                 return -1;
             } else {
                 return 0;
             }
         }
         if (sortType == 'Name') {
-            if (trial.Study_Code_Name__c.toLowerCase() > this.trial.Study_Code_Name__c.toLowerCase()) {
+            if (
+                trial.Study_Code_Name__c.toLowerCase() > this.trial.Study_Code_Name__c.toLowerCase()
+            ) {
                 return 1;
-            } else if (trial.Study_Code_Name__c.toLowerCase() < this.trial.Study_Code_Name__c.toLowerCase()) {
+            } else if (
+                trial.Study_Code_Name__c.toLowerCase() < this.trial.Study_Code_Name__c.toLowerCase()
+            ) {
                 return -1;
             } else {
                 return 0;
@@ -75,23 +85,35 @@ public without sharing class StudyDetailItem implements Comparable {
         return 0;
     }
 
-    public class StudySiteWithActions{
-       public Study_Site__c studySite;
-       public List<StudyActions.Action> actions;
-       public List<Account> accounts;
+    public class StudySiteWithActions {
+        public Study_Site__c studySite;
+        public List<StudyActions.Action> actions;
+        public List<Account> accounts;
         public String PIName = '';
         public List<LabelValueItem> delegatePicklist = new List<LabelValueItem>();
 
-        public studySiteWithActions(){}
+        public studySiteWithActions() {
+        }
 
-        public studySiteWithActions(Study_Site__c studySite, List<StudyActions.Action> actions,List<Account> accounts){
+        public studySiteWithActions(
+            Study_Site__c studySite,
+            List<StudyActions.Action> actions,
+            List<Account> accounts
+        ) {
             this.studySite = studySite;
             this.actions = actions;
             this.accounts = accounts;
-            if(studySite.Principal_Investigator__c != CommunityService.getUserContact().Id){
-                PIName = (studySite.Principal_Investigator__r.Salutation == null ? '' :studySite.Principal_Investigator__r.Salutation + ' ')
-                        + studySite.Principal_Investigator__r.FirstName + ' ' + studySite.Principal_Investigator__r.LastName
-                        + (studySite.Principal_Investigator__r.Suffix == null ? '' : ' ' + studySite.Principal_Investigator__r.Suffix);
+            if (studySite.Principal_Investigator__c != CommunityService.getUserContact().Id) {
+                PIName =
+                    (studySite.Principal_Investigator__r.Salutation == null
+                        ? ''
+                        : studySite.Principal_Investigator__r.Salutation + ' ') +
+                    studySite.Principal_Investigator__r.FirstName +
+                    ' ' +
+                    studySite.Principal_Investigator__r.LastName +
+                    (studySite.Principal_Investigator__r.Suffix == null
+                        ? ''
+                        : ' ' + studySite.Principal_Investigator__r.Suffix);
             }
         }
     }

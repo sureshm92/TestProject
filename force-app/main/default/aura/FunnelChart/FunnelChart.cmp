@@ -1,35 +1,36 @@
 <!--
  - Created by Nikita Abrazhevitch on 13-Feb-20.
+ - Modified by Sabir on 20-oct-20. 
  -->
-
 <aura:component description="FunnelChart" controller="DashboardRemoteNew">
-    <ltng:require styles="{!$Resource.funnel_library_css}"/>
-    <ltng:require styles="{!$Resource.funnel_library_theme_css}"/>
-    <ltng:require scripts="{!$Resource.funnel_library_js}" afterScriptsLoaded="{!c.doInit}"/>
+    <ltng:require styles="{!$Resource.funnel_library_css}" />
+    <ltng:require styles="{!$Resource.funnel_library_theme_css}" />
+    <ltng:require scripts="{!$Resource.funnel_library_js}" />
 
-    <aura:attribute name="funnelData" type="Object"/>
-    <aura:attribute name="invitedParticipants" type="Integer"/>
-    <aura:attribute name="currentPi" type="String"/>
-    <aura:attribute name="currentStudy" type="String"/>
-    <aura:attribute name="childLoad" type="String"/> 
-    <aura:attribute name="recordChanged" type="String" default="" access="public"/> 
-    
+    <aura:attribute name="funnelData" type="Object" />
+    <aura:attribute name="currentPi" type="String" />
+    <aura:attribute name="currentStudy" type="String" />
+    <aura:attribute name="childLoad" type="String" />
+    <aura:attribute name="recordChanged" type="String" default="" access="public" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
 
     <!-- handler -->
-    <!--<aura:handler value="{!v.currentStudy}" name="change" action="{!c.doInit}"/>
-    <aura:handler  value="{!v.currentPi}" name="change" action="{!c.doInit}"/>-->
-   <!-- <aura:handler value="{!v.funnelData}" name="change" action="{!c.doInit}"/>-->
-    <aura:handler name="change" value="{!v.childLoad}" action="{!c.doInit}"/>
-    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.doInit}"/>
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
 
-
+    <!-- component body -->
     <div class="funnel-dashborad-container">
         <div class="funnel-dashboard-name">
             <div>{!$Label.c.Referral_Pathway_Label}</div>
         </div>
+
+        <div class="exampleHolder" style="position: relative; padding: 0%; z-index: 1">
+            <aura:if isTrue="{! v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
         <div class="flex">
-                <div aura:id="funnelContainer" class="funnel">
-                </div>
+            <div aura:id="funnelContainer" class="funnel"></div>
         </div>
     </div>
 </aura:component>

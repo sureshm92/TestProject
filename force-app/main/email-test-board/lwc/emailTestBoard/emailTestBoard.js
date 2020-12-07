@@ -2,8 +2,8 @@
  * Created by Igor Malyuta on 03.05.2020.
  */
 
-import {LightningElement, track, wire} from 'lwc';
-import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import { LightningElement, track, wire } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 import getEmailTemplateWrappers from '@salesforce/apex/EmailTestBoardRemote.getEmailTemplateWrappers';
 import searchRecipient from '@salesforce/apex/EmailTestBoardRemote.searchRecipient';
@@ -12,7 +12,6 @@ import getPreviewHTML from '@salesforce/apex/EmailTestBoardRemote.getPreviewHTML
 import sendEmail from '@salesforce/apex/EmailTestBoardRemote.sendEmail';
 
 export default class EmailTestBoard extends LightningElement {
-
     @track currentEmailWrapper;
     @track selectedEmail;
     @track sendMethod = 'notification';
@@ -30,33 +29,34 @@ export default class EmailTestBoard extends LightningElement {
 
     renderedCallback() {
         this.mainSpinner = this.template.querySelector('.main-spinner');
-        if(!this.emailWrappers) this.mainSpinner.show();
+        if (!this.emailWrappers) this.mainSpinner.show();
         this.previewSpinner = this.template.querySelector('.preview-spinner');
     }
 
-
     @wire(getEmailTemplateWrappers)
-    wireData({data, error}) {
+    wireData({ data, error }) {
         if (data) {
             this.emailWrappers = data;
-            if(this.mainSpinner) this.mainSpinner.hide();
+            if (this.mainSpinner) this.mainSpinner.hide();
         } else if (error) {
-            this.dispatchEvent(new ShowToastEvent({
-                title: 'Init data Error',
-                message: 'An error occurred while getting initial data.',
-                variant: 'error'
-            }));
+            this.dispatchEvent(
+                new ShowToastEvent({
+                    title: 'Init data Error',
+                    message: 'An error occurred while getting initial data.',
+                    variant: 'error'
+                })
+            );
             console.error('Wire error:' + JSON.stringify(error));
         }
     }
 
     get isSupportNotification() {
-        if(!this.currentEmailWrapper) return true;
+        if (!this.currentEmailWrapper) return true;
         return !this.currentEmailWrapper.supportNotification;
     }
 
-    get isSupportRelatedSearchByName () {
-        if(!this.currentEmailWrapper) return true;
+    get isSupportRelatedSearchByName() {
+        if (!this.currentEmailWrapper) return true;
         return !this.currentEmailWrapper.supportSearchByName;
     }
 
@@ -70,24 +70,28 @@ export default class EmailTestBoard extends LightningElement {
 
     get relatedInputPlaceholder() {
         if (!this.currentEmailWrapper || !this.currentEmailWrapper.relatedObjLabel) return '';
-        return 'Type ' + this.currentEmailWrapper.relatedObjLabel
-            + (this.relatedSearchMethod === 'Name' ? ' Name' : ' Id') + ' here...';
+        return (
+            'Type ' +
+            this.currentEmailWrapper.relatedObjLabel +
+            (this.relatedSearchMethod === 'Name' ? ' Name' : ' Id') +
+            ' here...'
+        );
     }
 
     get isRelatedInputDisabled() {
-        if(!this.currentEmailWrapper) return true;
+        if (!this.currentEmailWrapper) return true;
         return !this.currentEmailWrapper.supportNotification;
     }
 
     get isPreviewDisabled() {
-        if(!this.currentEmailWrapper || !this.recipientId) return true;
-        if(this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
+        if (!this.currentEmailWrapper || !this.recipientId) return true;
+        if (this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
         return false;
     }
 
     get isSendDisabled() {
-        if(!this.currentEmailWrapper || !this.recipientId) return true;
-        if(this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
+        if (!this.currentEmailWrapper || !this.recipientId) return true;
+        if (this.currentEmailWrapper.supportNotification && !this.relatedId) return true;
         return false;
     }
 
@@ -95,7 +99,7 @@ export default class EmailTestBoard extends LightningElement {
     get emailTemplateOptions() {
         let options = [];
         if (this.emailWrappers) {
-            this.emailWrappers.forEach(wr => {
+            this.emailWrappers.forEach((wr) => {
                 options.push({
                     label: wr.emailLabel,
                     value: wr.emailDevName
@@ -107,7 +111,8 @@ export default class EmailTestBoard extends LightningElement {
 
     get sendOptions() {
         let options = [];
-        options.push({
+        options.push(
+            {
                 label: 'Notification',
                 value: 'notification'
             },
@@ -121,7 +126,8 @@ export default class EmailTestBoard extends LightningElement {
 
     get searchOptions() {
         let options = [];
-        options.push({
+        options.push(
+            {
                 label: 'Name',
                 value: 'Name'
             },
@@ -137,13 +143,15 @@ export default class EmailTestBoard extends LightningElement {
     handleEmailChange(event) {
         this.currentEmailWrapper = null;
         this.selectedEmail = event.target.value;
-        this.emailWrappers.some(wr => {
+        this.emailWrappers.some((wr) => {
             if (wr.emailDevName === this.selectedEmail) {
                 this.currentEmailWrapper = wr;
                 return true;
             }
         });
-        this.sendMethod = this.currentEmailWrapper.supportNotification ? this.sendMethod : 'immediately';
+        this.sendMethod = this.currentEmailWrapper.supportNotification
+            ? this.sendMethod
+            : 'immediately';
         this.relatedSearchMethod = this.currentEmailWrapper.supportSearchByName ? 'Name' : 'Id';
         this.showPreview = false;
         this.previewHtml = null;
@@ -178,8 +186,10 @@ export default class EmailTestBoard extends LightningElement {
             this.previewSpinner.show();
 
             console.log(
-                'Wrapper: ' + JSON.stringify(this.currentEmailWrapper) +
-                '\nRecipient: ' + this.recipientId,
+                'Wrapper: ' +
+                    JSON.stringify(this.currentEmailWrapper) +
+                    '\nRecipient: ' +
+                    this.recipientId,
                 '\nRelated: ' + this.relatedId
             );
 
@@ -188,16 +198,18 @@ export default class EmailTestBoard extends LightningElement {
                 contactId: this.recipientId,
                 relatedId: this.relatedId
             })
-                .then(result => {
+                .then((result) => {
                     this.previewHtml = result;
                 })
-                .catch(error => {
+                .catch((error) => {
                     this.showPreview = false;
-                    this.dispatchEvent(new ShowToastEvent({
-                        title: '',
-                        message: 'Preview error',
-                        variant: 'error'
-                    }));
+                    this.dispatchEvent(
+                        new ShowToastEvent({
+                            title: '',
+                            message: 'Preview error',
+                            variant: 'error'
+                        })
+                    );
                     console.error('Preview error', JSON.stringify(error));
                 })
                 .finally(() => {
@@ -217,18 +229,22 @@ export default class EmailTestBoard extends LightningElement {
             sendMethod: this.sendMethod
         })
             .then(() => {
-                this.dispatchEvent(new ShowToastEvent({
-                    title: '',
-                    message: 'Email was sent',
-                    variant: 'success'
-                }));
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: '',
+                        message: 'Email was sent',
+                        variant: 'success'
+                    })
+                );
             })
-            .catch(error => {
-                this.dispatchEvent(new ShowToastEvent({
-                    title: '',
-                    message: 'Send error',
-                    variant: 'error'
-                }));
+            .catch((error) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: '',
+                        message: 'Send error',
+                        variant: 'error'
+                    })
+                );
                 console.error('Send error', JSON.stringify(error));
             })
             .finally(() => {
@@ -241,15 +257,17 @@ export default class EmailTestBoard extends LightningElement {
         searchRecipient({
             searchTerm: event.detail.searchTerm
         })
-            .then(results => {
+            .then((results) => {
                 this.template.querySelector('.recipient-look-up').setSearchResults(results);
             })
-            .catch(error => {
-                this.dispatchEvent(new ShowToastEvent({
-                    title: 'Lookup Error',
-                    message: 'An error occurred while searching with the lookup field.',
-                    variant: 'error'
-                }));
+            .catch((error) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Lookup Error',
+                        message: 'An error occurred while searching with the lookup field.',
+                        variant: 'error'
+                    })
+                );
                 console.error('Lookup error', JSON.stringify(error));
             });
     }
@@ -259,15 +277,17 @@ export default class EmailTestBoard extends LightningElement {
             objName: this.currentEmailWrapper.relatedObjName,
             searchTerm: event.detail.searchTerm
         })
-            .then(results => {
+            .then((results) => {
                 this.template.querySelector('.related-look-up').setSearchResults(results);
             })
-            .catch(error => {
-                this.dispatchEvent(new ShowToastEvent({
-                    title: 'Lookup Error',
-                    message: 'An error occurred while searching with the lookup field.',
-                    variant: 'error'
-                }));
+            .catch((error) => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Lookup Error',
+                        message: 'An error occurred while searching with the lookup field.',
+                        variant: 'error'
+                    })
+                );
                 console.error('Lookup error', JSON.stringify(error));
             });
     }
@@ -290,7 +310,7 @@ export default class EmailTestBoard extends LightningElement {
     }
 
     clearSelection(field, lookUpClass) {
-        if(field) {
+        if (field) {
             let lookUp = this.template.querySelector(lookUpClass);
             if (lookUp) lookUp.clearSelection();
         }

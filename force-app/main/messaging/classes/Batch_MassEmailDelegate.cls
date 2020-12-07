@@ -12,37 +12,39 @@ public without sharing class Batch_MassEmailDelegate implements Database.Batchab
     }
 
     public Database.QueryLocator start(Database.BatchableContext context) {
-        return Database.getQueryLocator([
+        return Database.getQueryLocator(
+            [
                 SELECT Id, Email, Participant_Opt_In_Status_Emails__c
                 FROM Contact
-                WHERE Id IN:processedContacts
-        ]);
+                WHERE Id IN :processedContacts
+            ]
+        );
     }
 
     public void execute(Database.BatchableContext bc, List<SObject> sObjects) {
-
-        Map<Id, List<Contact>> delegatesContactById = PatientDelegateService.getDelegatedCntsByParticipantCnt(processedContacts,
-                new List<String>{
-                        'Email', 'Participant_Opt_In_Status_Emails__c'
-                });
+        Map<Id, List<Contact>> delegatesContactById = PatientDelegateService.getDelegatedCntsByParticipantCnt(
+            processedContacts,
+            new List<String>{ 'Email', 'Participant_Opt_In_Status_Emails__c' }
+        );
 
         List<Notification__c> notificationsForMassEmailDelegate = new List<Notification__c>();
-        for (Id delId: delegatesContactById.keySet()) {
-            notificationsForMassEmailDelegate.add(new Notification__c(
+        for (Id delId : delegatesContactById.keySet()) {
+            notificationsForMassEmailDelegate.add(
+                new Notification__c(
                     WhatId__c = notification.WhatId__c,
                     Recipient__c = delId,
                     Notification_Type__c = notification.Notification_Type__c,
                     Status__c = NotificationService.NOTIFICATION_STATUS_PENDING
-            ));
+                )
+            );
         }
 
         try {
             insert notificationsForMassEmailDelegate;
-        } catch (DmlException e){}
-
+        } catch (DmlException e) {
+        }
     }
 
     public void finish(Database.BatchableContext bc) {
     }
-
 }

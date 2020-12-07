@@ -4,31 +4,36 @@
 
 @IsTest
 private class Test_VisitResultSharingPanelRemote {
-
     @IsTest
     static void testAll() {
         TestData.loadTestData();
         TestData testData = new TestData();
-
+        
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
-        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+        visitResultTypeSharings.add(
+            new Visit_Result_Type_Sharing__c(
                 Type__c = 'BUN',
                 Sharing_Countries__c = 'All',
                 Include_Countries__c = false,
                 Clinical_Trial_Profile__c = testData.ctp.Id
-        ));
-        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+            )
+        );
+        visitResultTypeSharings.add(
+            new Visit_Result_Type_Sharing__c(
                 Type__c = 'Potassium',
                 Sharing_Countries__c = 'FR',
                 Include_Countries__c = true,
                 Clinical_Trial_Profile__c = testData.ctp.Id
-        ));
-        visitResultTypeSharings.add(new Visit_Result_Type_Sharing__c(
+            )
+        );
+        visitResultTypeSharings.add(
+            new Visit_Result_Type_Sharing__c(
                 Type__c = 'Hemoglobin',
                 Sharing_Countries__c = 'CA',
                 Include_Countries__c = false,
                 Clinical_Trial_Profile__c = testData.ctp.Id
-        ));
+            )
+        );
         insert visitResultTypeSharings;
 
         testData.ctp.Shareback_Settings_on_StudySites__c = true;
@@ -36,9 +41,21 @@ private class Test_VisitResultSharingPanelRemote {
 
         Test.startTest();
         VisitResultSharingSSLookupRemote.searchSSByIds(testData.ss.Id, true, '');
-        VisitResultSharingSSLookupRemote.searchSSByTerm(testData.ctp.Id, testData.ss.Name, '', true, '');
-        VisitResultSharingPanelRemote.InitData initData = VisitResultSharingPanelRemote.getInitData(testData.ctp.Id);
-        VisitResultSharingPanelRemote.saveSharingRules(JSON.serialize(initData.options), JSON.serialize(initData.groups), testData.ctp.Id);
+        VisitResultSharingSSLookupRemote.searchSSByTerm(
+            testData.ctp.Id,
+            testData.ss.Name,
+            '',
+            true,
+            ''
+        );
+        VisitResultSharingPanelRemote.InitData initData = VisitResultSharingPanelRemote.getInitData(
+            testData.ctp.Id
+        );
+        VisitResultSharingPanelRemote.saveSharingRules(
+            JSON.serialize(initData.options),
+            JSON.serialize(initData.groups),
+            testData.ctp.Id
+        );
 
         testData.ctp.Shareback_Settings_On_Country_Level__c = true;
         testData.ss.Visit_Results_Sharing__c = true;
@@ -48,10 +65,23 @@ private class Test_VisitResultSharingPanelRemote {
         initData = VisitResultSharingPanelRemote.getInitData(testData.ctp.Id);
         VisitResultSharingPanelRemote.VisitResultGroupWrapper groupWrapper = new VisitResultSharingPanelRemote.VisitResultGroupWrapper();
         groupWrapper.visitResults = new List<VisitResultSharingPanelRemote.VisitResultWrapper>();
-        groupWrapper.visitResults.add(new VisitResultSharingPanelRemote.VisitResultWrapper('Weight', 'Weight', 'Countries', 'CA'));
-        groupWrapper.visitResults.add(new VisitResultSharingPanelRemote.VisitResultWrapper('BUN', 'BUN', 'Disabled', ''));
+        groupWrapper.visitResults.add(
+            new VisitResultSharingPanelRemote.VisitResultWrapper(
+                'Weight',
+                'Weight',
+                'Countries',
+                'CA'
+            )
+        );
+        groupWrapper.visitResults.add(
+            new VisitResultSharingPanelRemote.VisitResultWrapper('BUN', 'BUN', 'Disabled', '')
+        );
         initData.groups.add(groupWrapper);
-        VisitResultSharingPanelRemote.saveSharingRules(JSON.serialize(initData.options), JSON.serialize(initData.groups), testData.ctp.Id);
+        VisitResultSharingPanelRemote.saveSharingRules(
+            JSON.serialize(initData.options),
+            JSON.serialize(initData.groups),
+            testData.ctp.Id
+        );
 
         testData.ctp.Shareback_Settings_on_StudySites__c = false;
         update testData.ctp;
@@ -62,8 +92,26 @@ private class Test_VisitResultSharingPanelRemote {
         update testData.ctp;
 
         initData = VisitResultSharingPanelRemote.getInitData(testData.ctp.Id);
-        VisitResultSharingPanelRemote.saveSharingRules(JSON.serialize(initData.options), JSON.serialize(initData.groups), testData.ctp.Id);
+        VisitResultSharingPanelRemote.saveSharingRules(
+            JSON.serialize(initData.options),
+            JSON.serialize(initData.groups),
+            testData.ctp.Id
+        );
         Test.stopTest();
+
+        Clinical_Trial_Profile__c testCTP = [
+            SELECT Id, Visit_Data_Shareback__c
+            FROM Clinical_Trial_Profile__c
+            WHERE Id = :testData.ctp.Id
+        ];
+        Study_Site__c testSS = [
+            SELECT Id, Visit_Results_Sharing__c
+            FROM Study_Site__c
+            WHERE Id = :testData.ss.Id
+        ];
+
+        System.assertEquals(false, testCTP.Visit_Data_Shareback__c);
+        System.assertEquals(false, testSS.Visit_Results_Sharing__c);
     }
 
     @IsTest

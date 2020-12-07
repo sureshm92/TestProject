@@ -4,11 +4,12 @@
 
 @IsTest
 private class Test_PatientVisitSchedule {
-    
     @IsTest
-    static void patientVisitSchedule(){
+    static void patientVisitSchedule() {
         ClassFactory.clearStubTypesByClassNamesMap();
-        ClassFactory.putStubTypeByClassName(CommunityService.class, StubBuilder.newInstance(CommunityService.class)
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
                 .when('createPortalUsers')
                 .then(null)
                 .when('createParticipantUsers')
@@ -22,16 +23,8 @@ private class Test_PatientVisitSchedule {
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test VP');
         insert vp;
         List<Visit__c> visits = new List<Visit__c>{
-                new Visit__c(
-                        Visit_Plan__c = vp.Id,
-                        Order__c = 1,
-                        Visit_Number__c = 1
-                ),
-                new Visit__c(
-                        Visit_Plan__c = vp.Id,
-                        Order__c = 2,
-                        Visit_Number__c = 2
-                )
+            new Visit__c(Visit_Plan__c = vp.Id, Order__c = 1, Visit_Number__c = 1),
+            new Visit__c(Visit_Plan__c = vp.Id, Order__c = 2, Visit_Number__c = 2)
         };
         insert visits;
         TestData testDataInstance = new TestData();
@@ -41,11 +34,10 @@ private class Test_PatientVisitSchedule {
         testDataInstance.updatePEStatusEnrollmentSuccess();
         Test.stopTest();
         List<Patient_Visit__c> patientVisits = [
-                SELECT Id, Visit_Number__c, Visit_Schedule__c
-                FROM Patient_Visit__c
-                WHERE Participant_Enrollment__c =: testDataInstance.pe.Id
+            SELECT Id, Visit_Number__c, Visit_Schedule__c
+            FROM Patient_Visit__c
+            WHERE Participant_Enrollment__c = :testDataInstance.pe.Id
         ];
         System.assertEquals(2, patientVisits.size());
     }
-    
 }

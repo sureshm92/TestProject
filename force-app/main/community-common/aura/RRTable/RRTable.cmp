@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="RRTable" extends="c:CommunityContext">
-    <table class="{!'rr-table ' + if(v.isArabic, 'rtl', '')}">
+    <table class="{!'rr-table ' + if(v.isRTL, 'rtl', '')}">
         {!v.body}
     </table>
 </aura:component>

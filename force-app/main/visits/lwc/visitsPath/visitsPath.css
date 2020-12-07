@@ -8,7 +8,6 @@
 .path-panel .path-section {
     padding: 30px 5px 25px;
 }
-
 .arrow-border span {
     text-align: center;
     justify-items: center;
@@ -17,7 +16,7 @@
     height: 23px;
     border: 1px solid #979797;
     border-radius: 100%;
-    background-color: #F8F9FB;
+    background-color: #f8f9fb;
     display: flex;
     align-items: flex-start;
     transition: all 0.4s;
@@ -59,6 +58,10 @@
     width: 16px;
     height: 14px;
 }
+.state-ico-wrapperRTL .rr-icon-default {
+    width: 16px;
+    height: 14px;
+}
 
 .width-basis {
     flex-basis: auto;
@@ -75,6 +78,14 @@
     font-size: 1rem;
     color: #444;
     overflow-wrap: break-word;
+}
+.state-labelRTL {
+    text-align: center;
+    font-size: 1rem;
+    color: #444;
+    overflow-wrap: break-word;
+    min-width: 125px;
+    max-width: inherit;
 }
 
 .line-div {
@@ -103,6 +114,9 @@
 .missed .state-label {
     color: #999;
 }
+.missed .state-labelRTL {
+    color: #999;
+}
 
 .state-ico-wrapper {
     width: 18px;
@@ -116,12 +130,30 @@
     align-items: center;
     justify-content: center;
 }
+.state-ico-wrapperRTL {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    right: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
 
 .state .state-ico-wrapper {
     width: 30px;
     height: 30px;
     top: -18px;
     left: -16px;
+}
+.state .state-ico-wrapperRTL {
+    width: 30px;
+    height: 30px;
+    top: -18px;
+    right: -16px;
 }
 
 .state.planned .state-ico-wrapper-middle {
@@ -133,7 +165,19 @@
     left: -20px;
     width: 38px;
     height: 38px;
-    opacity: .25;
+    opacity: 0.25;
+    background-color: #005ff1;
+}
+.state.planned .state-ico-wrapper-middleRTL {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    justify-content: center;
+    top: -22px;
+    right: -20px;
+    width: 38px;
+    height: 38px;
+    opacity: 0.25;
     background-color: #005ff1;
 }
 
@@ -151,20 +195,46 @@
     height: 48px;
     opacity: 0.1;
 }
+.state.planned .state-ico-wrapper-largeRTL {
+    border-radius: 50%;
+    position: absolute;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    background-color: #005ff1;
+    top: -27px;
+    right: -24px;
+    width: 48px;
+    height: 48px;
+    opacity: 0.1;
+}
 
 .state.neutral .state-ico-wrapper {
+    background-color: #b5b5b5 !important;
+}
+.state.neutral .state-ico-wrapperRTL {
     background-color: #b5b5b5 !important;
 }
 
 .state.success .state-ico-wrapper {
     background-color: #00c221 !important;
 }
+.state.success .state-ico-wrapperRTL {
+    background-color: #00c221 !important;
+}
 
 .state.missed .state-ico-wrapper {
     background-color: #99e7a6 !important;
 }
+.state.missed .state-ico-wrapperRTL {
+    background-color: #99e7a6 !important;
+}
 
 .state.planned .state-ico-wrapper {
+    background-color: #005ff1 !important;
+}
+.state.planned .state-ico-wrapperRTL {
     background-color: #005ff1 !important;
 }
 
@@ -182,6 +252,15 @@
     display: flex;
     padding-top: 15px;
 }
+.arrow-leftRTL {
+    opacity: 0;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-right: 5px;
+    display: flex;
+    padding-top: 15px;
+}
 
 .arrow-right {
     opacity: 0;
@@ -189,6 +268,15 @@
     -webkit-transition: opacity 200ms;
     min-width: 30px;
     margin-right: 5px;
+    display: flex;
+    padding-top: 15px;
+}
+.arrow-rightRTL {
+    opacity: 0;
+    transition: opacity 200ms;
+    -webkit-transition: opacity 200ms;
+    min-width: 30px;
+    margin-left: 5px;
     display: flex;
     padding-top: 15px;
 }
@@ -205,18 +293,32 @@
         left: -13px;
     }
 
+    .state .state-ico-wrapperRTL {
+        width: 30px;
+        height: 30px;
+        top: -16px;
+        right: -13px;
+    }
+
     .arrow-left {
         margin-right: 4px;
     }
 
-    .arrow-left + .slds-col > .vis-path.slds-grid > .slds-col:nth-of-type(n+2) .state-label {
-        padding-right: 36px
+    .arrow-left + .slds-col > .vis-path.slds-grid > .slds-col:nth-of-type(n + 2) .state-label {
+        padding-right: 36px;
+    }
+    .arrow-leftRTL
+        + .slds-col
+        > .vis-path.slds-grid
+        > .slds-col:nth-of-type(n + 2)
+        .state-labelRTL {
+        padding-right: 0px;
     }
 }
 
 @media screen and (max-width: 600px) {
     .vis-path {
-     /*   max-width: 310px; */
+        /*   max-width: 310px; */
         overflow-x: scroll;
         -ms-overflow-style: none;
         scroll-behavior: smooth;
@@ -238,6 +340,12 @@
         top: -22px;
         left: -19px;
     }
+    .state .state-ico-wrapperRTL {
+        width: 40px;
+        height: 42px;
+        top: -22px;
+        right: -19px;
+    }
 
     .arrow-left {
         padding-left: 8px;
@@ -247,10 +355,13 @@
         width: 18px;
         height: 20px;
     }
-
+    .state-ico-wrapperRTL .rr-icon-default {
+        width: 18px;
+        height: 20px;
+    }
 }
 
-@media only screen and (min-width: 650px) and (max-width: 800px) and (orientation : portrait) {
+@media only screen and (min-width: 650px) and (max-width: 800px) and (orientation: portrait) {
     .path-section {
         padding: 30px 5px 25px;
         max-width: 750px;
@@ -277,7 +388,11 @@
         height: 18px;
         margin-bottom: 2px;
     }
-
+    .state-ico-wrapperRTL .rr-icon-default {
+        width: 20px;
+        height: 18px;
+        margin-bottom: 2px;
+    }
 
     .width-basis {
         flex-basis: 0;
@@ -290,6 +405,13 @@
         left: -14px;
     }
 
+    .state .state-ico-wrapperRTL {
+        width: 32px;
+        height: 32px;
+        top: -17px;
+        right: -14px;
+    }
+
     .arrow-left,
     .arrow-right {
         padding-left: 30px;
@@ -297,13 +419,13 @@
     }
 }
 
-@media only screen and (min-device-width : 800px) and (max-device-width : 1000px) and (orientation : landscape) {
+@media only screen and (min-device-width: 800px) and (max-device-width: 1000px) and (orientation: landscape) {
     .arrow-left {
         margin-right: 5px;
     }
 }
 
-@media only screen and (min-device-width : 768px) and (max-device-width : 1024px) and (orientation : landscape) {
+@media only screen and (min-device-width: 768px) and (max-device-width: 1024px) and (orientation: landscape) {
     .path-section {
         max-width: 700px;
     }
@@ -328,9 +450,20 @@
         left: -25px;
     }
 
+    .state.planned .state-ico-wrapper-largeRTL {
+        right: -25px;
+    }
+
     .state.planned .state-ico-wrapper-middle {
         top: -22px;
         left: -21px;
+        width: 39px;
+        height: 38px;
+    }
+
+    .state.planned .state-ico-wrapper-middleRTL {
+        top: -22px;
+        right: -21px;
         width: 39px;
         height: 38px;
     }
@@ -343,11 +476,14 @@
         width: 20px;
         height: 22px;
     }
+    .state .state-ico-wrapperRTL .rr-icon-default {
+        width: 20px;
+        height: 22px;
+    }
 
     .arrow-left,
     .arrow-right {
         padding-top: 20px;
         margin-left: 0;
     }
-
 }

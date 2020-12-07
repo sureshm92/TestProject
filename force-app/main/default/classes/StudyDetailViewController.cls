@@ -2,10 +2,8 @@
  * Created by Leonid Bartenev
  */
 public without sharing class StudyDetailViewController {
-
-
     @AuraEnabled
-    public static String getTrialDetail(String trialId, String userMode){
+    public static String getTrialDetail(String trialId, String userMode) {
         try {
             return getTrialDetail(trialId, userMode, null);
         } catch (Exception e) {
@@ -20,12 +18,10 @@ public without sharing class StudyDetailViewController {
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-
     }
 
     @AuraEnabled
-    public static Map<String,Map<String,List<String>>> visitResultSharingByGroupAndMode(){
+    public static Map<String, Map<String, List<String>>> visitResultSharingByGroupAndMode() {
         return VisitResultSharingService.visitResultSharingByGroupAndMode();
     }
-
 }

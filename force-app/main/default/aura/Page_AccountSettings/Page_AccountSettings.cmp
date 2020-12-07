@@ -2,25 +2,36 @@
  - Created by Kryvolap on 03.09.2019.
  -->
 
-<aura:component description="Page_AccountSettings" implements="forceCommunity:availableForAllPageTypes">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}"
-                  afterScriptsLoaded="{!c.doInit}"/>
+<aura:component
+    description="Page_AccountSettings"
+    implements="forceCommunity:availableForAllPageTypes"
+    extends="c:CommunityContext"
+>
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
 
     <!-- attributes: -->
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private"/>
-    <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" access="private"/>
+    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
+    <aura:attribute
+        name="userMode"
+        type="String"
+        description="HCP / PI / Participant"
+        access="private"
+    />
 
     <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}"/>
+    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
     <!-- components body: -->
 
     <aura:if isTrue="{!v.isInitialized}">
         <div class="ps-container">
             <div class="ps-body">
-               <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
-                   <c:PP_AccountSettings userMode="{!v.userMode}"/> 
-                   <!-- <aura:set attribute="else">
+                <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
+                <c:PP_AccountSettings userMode="{!v.userMode}" isRTLLanguage="{!v.isRTL}" />
+                <!-- <aura:set attribute="else">
                     <c:AccountSettings userMode="{!v.userMode}"/>
                 </aura:set> 
                 </aura:if>  -->
@@ -28,5 +39,5 @@
         </div>
     </aura:if>
 
-    <c:builderStub aura:id="builderStub"/>
+    <c:builderStub aura:id="builderStub" />
 </aura:component>

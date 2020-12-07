@@ -2,351 +2,399 @@
  * Created by Leonid Bartenev
  */
 
-public class StudyActionsPI extends StudyActions{
-    
-    public StudyActionsPI(Study_Site__c studySite){
-        this(
-                studySite.Clinical_Trial_Profile__r,
-                studySite,
-                null,
-                null
-        );
+public class StudyActionsPI extends StudyActions {
+    public StudyActionsPI(Study_Site__c studySite) {
+        this(studySite.Clinical_Trial_Profile__r, studySite, null, null);
     }
-    
-    public StudyActionsPI(HCP_Enrollment__c hcpEnrollment){
-        this(
-                hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
-                hcpEnrollment.Study_Site__r,
-                hcpEnrollment,
-                null
-        );
-    }
-    
-    public StudyActionsPI(Participant_Enrollment__c pe){
-        this(
-                pe.Study_Site__r.Clinical_Trial_Profile__r,
-                pe.Study_Site__r,
-                pe.HCP__r,
-                pe
-        );
-    }
-    
-    public StudyActionsPI(Clinical_Trial_Profile__c study, Study_Site__c studySite, HCP_Enrollment__c hcpEnrollment, Participant_Enrollment__c pe){
 
-        super(study,studySite, hcpEnrollment, CommunityService.USER_MODE_PI);
-    
+    public StudyActionsPI(HCP_Enrollment__c hcpEnrollment) {
+        this(
+            hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r,
+            hcpEnrollment.Study_Site__r,
+            hcpEnrollment,
+            null
+        );
+    }
+
+    public StudyActionsPI(Participant_Enrollment__c pe) {
+        this(pe.Study_Site__r.Clinical_Trial_Profile__r, pe.Study_Site__r, pe.HCP__r, pe);
+    }
+
+    public StudyActionsPI(
+        Clinical_Trial_Profile__c study,
+        Study_Site__c studySite,
+        HCP_Enrollment__c hcpEnrollment,
+        Participant_Enrollment__c pe
+    ) {
+        super(study, studySite, hcpEnrollment, CommunityService.USER_MODE_PI);
+
         //init reasons:
         List<String> manageReferralsStatuses = new List<String>{
-                StudySiteService.PI_S_ACCEPTED,
-                StudySiteService.PI_S_ACCEPTED_A,
-                StudySiteService.PI_S_ON_HOLD,
-                StudySiteService.PI_S_ON_HOLD_A
+            StudySiteService.PI_S_ACCEPTED,
+            StudySiteService.PI_S_ACCEPTED_A,
+            StudySiteService.PI_S_ON_HOLD,
+            StudySiteService.PI_S_ON_HOLD_A
         };
-        
+
         DisableReason manageReferralsStatusesReason = new DisableReason(
-                !manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c),
-                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
-        );
-        
-        DisableReason delegateL3CannotAccept = new DisableReason(
-                studyAccessLevel == DelegateService.DELEGATE_LEVEL_3 && pe != null &&
-                        pe.Participant_Status__c.contains('Referral') && !pe.Participant_Status__c.contains('Accepted'),
-                REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+            !manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c),
+            REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
         );
 
+        DisableReason delegateL3CannotAccept = new DisableReason(
+            studyAccessLevel == DelegateService.DELEGATE_LEVEL_3 &&
+            pe != null &&
+            pe.Participant_Status__c.contains('Referral') &&
+            !pe.Participant_Status__c.contains('Accepted'),
+            REASON_LABEL_ACTION_NOT_ALLOWED_ON_ACCESS_LEVEL
+        );
 
         //init actions:
-        actions.put(ACT_MANAGE_REFERRALS, new Action(
+        actions.put(
+            ACT_MANAGE_REFERRALS,
+            new Action(
                 ACT_MANAGE_REFERRALS,
                 LABEL_MANAGE_REFERRALS,
                 'referrals',
                 new List<DisableReason>{
-                        studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason
+                    studyNoLongerEnrollingReason,
+                    manageReferralsStatusesReason
                 }
-        ));
+            )
+        );
         if (CommunityTemplateService.TEMPLATE_JANSSEN != study.CommunityTemplate__c) {
-            actions.put(ACT_MANAGE_REFERRING_CLINICS, new Action(
+            actions.put(
+                ACT_MANAGE_REFERRING_CLINICS,
+                new Action(
                     ACT_MANAGE_REFERRING_CLINICS,
                     LABEL_MANAGE_REFERRING_CLINICS,
                     'referring-clinic',
                     new List<DisableReason>{
-                            studyNoLongerEnrollingReason,
-                            manageReferralsStatusesReason
+                        studyNoLongerEnrollingReason,
+                        manageReferralsStatusesReason
                     }
-            ));
+                )
+            );
         }
-        actions.put(ACT_CHANGE_PE_STATUS_BY_PI, new Action(
+        actions.put(
+            ACT_CHANGE_PE_STATUS_BY_PI,
+            new Action(
                 ACT_CHANGE_PE_STATUS_BY_PI,
                 null,
                 null,
                 new List<DisableReason>{
-                        delegateL3CannotAccept,
-                        hcpOnHoldReason,
-                        studySiteOnHoldReason,
-                        hcpNotActiveReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    delegateL3CannotAccept,
+                    hcpOnHoldReason,
+                    studySiteOnHoldReason,
+                    hcpNotActiveReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 }
-        ));
-    
-        actions.put(ACT_HCP_ACTIVATE, new Action(
+            )
+        );
+
+        actions.put(
+            ACT_HCP_ACTIVATE,
+            new Action(
                 ACT_HCP_ACTIVATE,
                 LABEL_HCP_ACTIVATE,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'green'
-        ));
-        actions.put(ACT_HCP_ACTIVATE_FOR_All, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_ACTIVATE_FOR_All,
+            new Action(
                 ACT_HCP_ACTIVATE_FOR_ALL,
                 LABEL_HCP_ACTIVATE_FOR_ALL,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'green'
-        ));
-        actions.put(ACT_HCP_APPROVE, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_APPROVE,
+            new Action(
                 ACT_HCP_APPROVE,
                 LABEL_HCP_APPROVE,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'green'
-        ));
-        actions.put(ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE,
+            new Action(
                 ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE,
                 LABEL_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'green'
-        ));
-        actions.put(ACT_HCP_DECLINE, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_DECLINE,
+            new Action(
                 ACT_HCP_DECLINE,
                 LABEL_HCP_DECLINE,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'red'
-        ));
-        actions.put(ACT_HCP_DEACTIVATE, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_DEACTIVATE,
+            new Action(
                 ACT_HCP_DEACTIVATE,
                 LABEL_HCP_DEACTIVATE,
                 null,
                 new List<DisableReason>{
-                        supportLevelReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    supportLevelReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'red'
-        ));
-        actions.put(ACT_HCP_ON_HOLD, new Action(
+            )
+        );
+        actions.put(
+            ACT_HCP_ON_HOLD,
+            new Action(
                 ACT_HCP_ON_HOLD,
                 LABEL_HCP_ON_HOLD,
                 null,
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 },
                 'orange'
-        ));
-        
+            )
+        );
+
         List<String> openToReceiveReferralsStatuses = new List<String>{
-                StudySiteService.PI_S_INVITATION_SENT,
-                StudySiteService.PI_S_DECLINED_ACCEPTANCE,
-                StudySiteService.PI_S_NON_RESPONCIVE_A
+            StudySiteService.PI_S_INVITATION_SENT,
+            StudySiteService.PI_S_DECLINED_ACCEPTANCE,
+            StudySiteService.PI_S_NON_RESPONCIVE_A
         };
-        
-        actions.put(ACT_OPEN_TO_RECEIVE_REFERRALS, new Action(
+
+        actions.put(
+            ACT_OPEN_TO_RECEIVE_REFERRALS,
+            new Action(
                 ACT_OPEN_TO_RECEIVE_REFERRALS,
                 LABEL_OPEN_TO_RECEIVE_REFERRALS,
                 'check-in-square-cut',
                 new List<DisableReason>{
-                        level1AndLowReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason,
-                        new DisableReason(
-                                !openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c),
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
-                        )
+                    level1AndLowReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason,
+                    new DisableReason(
+                        !openToReceiveReferralsStatuses.contains(
+                            studySite.Override_PI_Referral_Status__c
+                        ),
+                        REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+                    )
                 },
                 'primary'
-        ));
-    
-        actions.put(ACT_NO_THANKS, new Action(
+            )
+        );
+
+        actions.put(
+            ACT_NO_THANKS,
+            new Action(
                 ACT_NO_THANKS,
                 LABEL_NO_THANKS,
                 'icon-disabled',
                 new List<DisableReason>{
-                        studyNoLongerEnrollingReason,
-                        new DisableReason(
-                                studySite.Override_PI_Referral_Status__c != StudySiteService.PI_S_INVITATION_SENT,
-                                REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
-                        )
+                    studyNoLongerEnrollingReason,
+                    new DisableReason(
+                        studySite.Override_PI_Referral_Status__c !=
+                        StudySiteService.PI_S_INVITATION_SENT,
+                        REASON_LABEL_NOT_ALLOWED_FOR_CURRENT_SS_STATUS
+                    )
                 },
                 'secondary'
-        ));
+            )
+        );
 
-        actions.put(ACT_ADD_PATIENT, new Action(
+        actions.put(
+            ACT_ADD_PATIENT,
+            new Action(
                 ACT_ADD_PATIENT,
                 LABEL_ADD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 }
-        ));
+            )
+        );
 
-        actions.put(ACT_UPLOAD_PATIENT, new Action(
+        actions.put(
+            ACT_UPLOAD_PATIENT,
+            new Action(
                 ACT_UPLOAD_PATIENT,
                 LABEL_UPLOAD_PATIENT,
                 'icon-user-add',
                 new List<DisableReason>{
-                        level2AndLowReason,
-                        hcpLockedByAdmin,
-                        studySiteOnHoldReason,
-                        studySiteNotAcceptedReason,
-                        studyNoLongerEnrollingReason,
-                        tcAcceptanceRequiredReason
+                    level2AndLowReason,
+                    hcpLockedByAdmin,
+                    studySiteOnHoldReason,
+                    studySiteNotAcceptedReason,
+                    studyNoLongerEnrollingReason,
+                    tcAcceptanceRequiredReason
                 }
-        ));
+            )
+        );
 
-        actions.put(ACT_SCREENER_RESPONSES, new Action(
+        actions.put(
+            ACT_SCREENER_RESPONSES,
+            new Action(
                 ACT_SCREENER_RESPONSES,
                 null,
-                null, new List<DisableReason>{
-                        //level2AndLowReason,
-                        supportLevelReason
+                null,
+                new List<DisableReason>{
+                    //level2AndLowReason,
+                    supportLevelReason
                 }
-        ));
-        actions.put(ACT_CONNECT_PROVIDER, new Action(
+            )
+        );
+        actions.put(
+            ACT_CONNECT_PROVIDER,
+            new Action(
                 ACT_CONNECT_PROVIDER,
                 null,
-                null, new List<DisableReason>{
-                        level2AndLowReason
-                }
-        ));
+                null,
+                new List<DisableReason>{ level2AndLowReason }
+            )
+        );
 
-
-        actions.put(ACT_MANAGE_REFERRALS_BY_SS, new Action(
+        actions.put(
+            ACT_MANAGE_REFERRALS_BY_SS,
+            new Action(
                 ACT_MANAGE_REFERRALS_BY_SS,
                 LABEL_MANAGE_REFERRALS_BY_SS,
                 null,
                 new List<DisableReason>{
-                        studySiteOnHoldReason,
-                        studyNoLongerEnrollingReason,
-                        manageReferralsStatusesReason,
-                        tcAcceptanceRequiredReason
+                    studySiteOnHoldReason,
+                    studyNoLongerEnrollingReason,
+                    manageReferralsStatusesReason,
+                    tcAcceptanceRequiredReason
                 }
-        ));
+            )
+        );
 
         if (CommunityTemplateService.TEMPLATE_JANSSEN != study.CommunityTemplate__c) {
-            actions.put(ACT_MANAGE_REFERRING_CLINICS_BY_SS, new Action(
+            actions.put(
+                ACT_MANAGE_REFERRING_CLINICS_BY_SS,
+                new Action(
                     ACT_MANAGE_REFERRING_CLINICS_BY_SS,
                     LABEL_MANAGE_REFERRING_CLINICS_BY_SS,
                     null,
                     new List<DisableReason>{
-                            studySiteOnHoldReason,
-                            studyNoLongerEnrollingReason,
-                            manageReferralsStatusesReason,
-                            tcAcceptanceRequiredReason
+                        studySiteOnHoldReason,
+                        studyNoLongerEnrollingReason,
+                        manageReferralsStatusesReason,
+                        tcAcceptanceRequiredReason
                     }
-            ));
+                )
+            );
         }
-        
+
         //init study item actions list
 
-
-       /* if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+        /* if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRALS));
             studyListViewItemActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS));
         }*/
 
-        if(manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
+        if (manageReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) {
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRALS_BY_SS));
             studySitePiActions.add(actions.get(ACT_MANAGE_REFERRING_CLINICS_BY_SS));
         }
 
         //if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
-            if(isTCAcceptanceRequired){
-                studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
-            }
-            if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
-                //studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
-                studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
-            }
+        if (isTCAcceptanceRequired) {
+            studyListViewItemActions.add(actions.get(ACT_ACCEPT_TC));
+        }
+        if (openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) {
+            //studyListViewItemActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+            studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+        }
         //}/
-        if(studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
+        if (studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
             //studyListViewItemActions.add(actions.get(ACT_NO_THANKS));
-           // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
+            // studySitePiActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             studySitePiActions.add(actions.get(ACT_NO_THANKS));
         }
         //if(!actions.get(ACT_ADD_PATIENT).disabled)studyListViewItemActions.add(actions.get(ACT_ADD_PATIENT));
-        if(!actions.get(ACT_ADD_PATIENT).disabled) studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
-        if(!actions.get(ACT_UPLOAD_PATIENT).disabled) studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
+        if (!actions.get(ACT_ADD_PATIENT).disabled)
+            studySitePiActions.add(actions.get(ACT_ADD_PATIENT));
+        if (!actions.get(ACT_UPLOAD_PATIENT).disabled)
+            studySitePiActions.add(actions.get(ACT_UPLOAD_PATIENT));
 
         //prepare bottom bar actions:
-        if(openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)){
-            if(isTCAcceptanceRequired){
+        if (openToReceiveReferralsStatuses.contains(studySite.Override_PI_Referral_Status__c)) {
+            if (isTCAcceptanceRequired) {
                 studyDetailBottomBarActions.add(actions.get(ACT_VIEW_TC));
-            }else{
+            } else {
                 studyDetailBottomBarActions.add(actions.get(ACT_OPEN_TO_RECEIVE_REFERRALS));
             }
-            if(studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT){
+            if (studySite.Override_PI_Referral_Status__c == StudySiteService.PI_S_INVITATION_SENT) {
                 studyDetailBottomBarActions.add(actions.get(ACT_NO_THANKS));
-            
             }
         }
-        
+
         //prepare study detail actions list:
-        if(study.Terms_And_Conditions_ID__c != null) studyDetailActions.add(actions.get(ACT_VIEW_TC));
+        if (study.Terms_And_Conditions_ID__c != null)
+            studyDetailActions.add(actions.get(ACT_VIEW_TC));
         studyDetailActions.add(actions.get(ACT_ADD_PATIENT));
         //studyDetailActions.add(actions.get(ACT_UPLOAD_PATIENT));
-    
-        
     }
-
 }

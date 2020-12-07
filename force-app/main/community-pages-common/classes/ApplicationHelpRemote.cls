@@ -3,13 +3,12 @@
  */
 
 public without sharing class ApplicationHelpRemote {
-    
     public class InitData {
         String videoLink;
         String userManual;
         String quickReference;
     }
-    
+
     @AuraEnabled
     public static String getInitData(String userMode) {
         try {
@@ -17,22 +16,36 @@ public without sharing class ApplicationHelpRemote {
             String userLanguage = UserInfo.getLanguage();
             String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
             List<Guides_Setting__mdt> guidesSettings = [
-                    SELECT Language__c, Community_Template__c, HCP_Quick_Reference__c, HCP_User_Manual__c, HCP_Video_Guide__c,
-                            PI_Quick_Reference__c, PI_User_Manual__c, PI_Video_Guide__c,
-                            Participant_Quick_Reference__c,Participant_Quick_Reference_GSK__c,Participant_User_Manual__c, Participant_Video_Guide__c
-                    FROM Guides_Setting__mdt
-                    WHERE (Language__c = :userLanguage OR Language__c = 'en_US' )
-                    AND (Community_Template__c = :CommunityTemplateService.TEMPLATE_DEFAULT OR Community_Template__c = :communityTemplateName)
-
+                SELECT
+                    Language__c,
+                    Community_Template__c,
+                    HCP_Quick_Reference__c,
+                    HCP_User_Manual__c,
+                    HCP_Video_Guide__c,
+                    PI_Quick_Reference__c,
+                    PI_User_Manual__c,
+                    PI_Video_Guide__c,
+                    Participant_Quick_Reference__c,
+                    Participant_Quick_Reference_GSK__c,
+                    Participant_User_Manual__c,
+                    Participant_Video_Guide__c
+                FROM Guides_Setting__mdt
+                WHERE
+                    (Language__c = :userLanguage
+                    OR Language__c = 'en_US')
+                    AND (Community_Template__c = :CommunityTemplateService.TEMPLATE_DEFAULT
+                    OR Community_Template__c = :communityTemplateName)
             ];
             if (!guidesSettings.isEmpty()) {
                 Guides_Setting__mdt setting = guidesSettings[0];
                 for (Guides_Setting__mdt gs : guidesSettings) {
-                    if (gs.Language__c == userLanguage && gs.Community_Template__c == communityTemplateName) {
+                    if (
+                        gs.Language__c == userLanguage &&
+                        gs.Community_Template__c == communityTemplateName
+                    ) {
                         setting = gs;
                         break;
-                    }
-                    else if (gs.Community_Template__c == communityTemplateName) {
+                    } else if (gs.Community_Template__c == communityTemplateName) {
                         setting = gs;
                     }
                 }
@@ -44,8 +57,7 @@ public without sharing class ApplicationHelpRemote {
                     initData.videoLink = setting.PI_Video_Guide__c;
                     initData.userManual = setting.PI_User_Manual__c;
                     initData.quickReference = setting.PI_Quick_Reference__c;
-                }
-                else {
+                } else {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;
                     initData.quickReference = setting.Participant_Quick_Reference__c;
@@ -59,10 +71,10 @@ public without sharing class ApplicationHelpRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-    @AuraEnabled
-    public static String getPdfDonload(String titleName) {
-        Id recId =[Select Id FROM Resource__c WHERE Title__c=: titleName].Id;
-        Id docId =[SELECT ContentDocumentId,LinkedEntityId  FROM ContentDocumentLink where LinkedEntityId =:recId].ContentDocumentId;
-        return docId;
-    }
+    /*@AuraEnabled
+	   public static String getPdfDonload(String titleName) {
+	    Id recId =[Select Id FROM Resource__c WHERE Title__c=: titleName].Id;
+	    Id docId =[SELECT ContentDocumentId,LinkedEntityId  FROM ContentDocumentLink where LinkedEntityId =:recId].ContentDocumentId;
+	    return docId;
+	   }*/
 }

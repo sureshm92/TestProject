@@ -3,24 +3,33 @@
  */
 
 public class TasksRemote {
-
     public class ParticipantTasks {
-        @AuraEnabled public List<OpenTask> openTasksWrapper;
-        @AuraEnabled public List<CompletedTask> completedTasks;
-        @AuraEnabled public String emptyText;
-        @AuraEnabled public Boolean showCreateTaskButton = false;
+        @AuraEnabled
+        public List<OpenTask> openTasksWrapper;
+        @AuraEnabled
+        public List<CompletedTask> completedTasks;
+        @AuraEnabled
+        public String emptyText;
+        @AuraEnabled
+        public Boolean showCreateTaskButton = false;
     }
 
     public class OpenTask {
-        @AuraEnabled public Task openTask;
-        @AuraEnabled public String originator;
-        @AuraEnabled public Date activityDate;
-        @AuraEnabled public Date reminder;
+        @AuraEnabled
+        public Task openTask;
+        @AuraEnabled
+        public String originator;
+        @AuraEnabled
+        public Date activityDate;
+        @AuraEnabled
+        public Date reminder;
     }
 
     public class CompletedTask {
-        @AuraEnabled public Task task;
-        @AuraEnabled public Date completedDate;
+        @AuraEnabled
+        public Task task;
+        @AuraEnabled
+        public Date completedDate;
     }
 
     @AuraEnabled
@@ -44,8 +53,10 @@ public class TasksRemote {
                 OpenTask taskWrapper = new OpenTask();
                 taskWrapper.openTask = task;
 
-                if (task.Activity_Datetime__c != null) taskWrapper.activityDate = task.Activity_Datetime__c.date();
-                if (task.ReminderDateTime != null) taskWrapper.reminder = task.ReminderDateTime.date();
+                if (task.Activity_Datetime__c != null)
+                    taskWrapper.activityDate = task.Activity_Datetime__c.date();
+                if (task.ReminderDateTime != null)
+                    taskWrapper.reminder = task.ReminderDateTime.date();
 
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
@@ -56,20 +67,27 @@ public class TasksRemote {
             for (Task compTask : completedTasks) {
                 CompletedTask completedTask = new CompletedTask();
                 completedTask.task = compTask;
-                if (compTask.Completed_Date__c != null) completedTask.completedDate = compTask.Completed_Date__c.date();
+                if (compTask.Completed_Date__c != null)
+                    completedTask.completedDate = compTask.Completed_Date__c.date();
 
                 participantTasks.completedTasks.add(completedTask);
             }
 
-            ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+            ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+                .getState();
             if (participantState.isDelegate) {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks_Delegate.replace(
-                        '##ParticipantFirstName', participantState.participant.First_Name__c);
+                    '##ParticipantFirstName',
+                    participantState.participant.First_Name__c
+                );
             } else {
                 participantTasks.emptyText = Label.PG_Task_Tab_No_Tasks;
             }
-            if (ParticipantContext.getCurrentUser() != null &&
-                    (participantState.value == ParticipantService.ParticipantStates.ALUMNI || participantState.ctp.Tasks_Are_Available__c)) {
+            if (
+                ParticipantContext.getCurrentUser() != null &&
+                (participantState.value == ParticipantService.ParticipantStates.ALUMNI ||
+                participantState.ctp.Tasks_Are_Available__c)
+            ) {
                 participantTasks.showCreateTaskButton = true;
             }
         } catch (Exception e) {

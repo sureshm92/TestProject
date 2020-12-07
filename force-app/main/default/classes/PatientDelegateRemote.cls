@@ -3,22 +3,22 @@
  */
 
 public without sharing class PatientDelegateRemote {
-
     @AuraEnabled
     public static String getYourPatientFirstName() {
-        try{
-            if(ParticipantContext.isCurrentDelegate()) return ParticipantContext.getCurrentParticipant().First_Name__c;
+        try {
+            if (ParticipantContext.isCurrentDelegate())
+                return ParticipantContext.getCurrentParticipant().First_Name__c;
             return null;
-        }catch (Exception e){
+        } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
     public static String getDelegateByContactId(String id) {
-        try{
+        try {
             return JSON.serialize(PatientDelegateService.getInstance().getDelegateContact(id));
-        }catch (Exception e) {
+        } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
     }
@@ -28,17 +28,23 @@ public without sharing class PatientDelegateRemote {
         try {
             Contact editedDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
             List<Contact> contactsWithSameEmail = [
-                    SELECT Id
-                    FROM Contact
-                    WHERE Email = :editedDelegate.Email AND Id !=: editedDelegate.Id
+                SELECT Id
+                FROM Contact
+                WHERE Email = :editedDelegate.Email AND Id != :editedDelegate.Id
             ];
-            if(!contactsWithSameEmail.isEmpty()) {
-                throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Email_Not_Uniq);
+            if (!contactsWithSameEmail.isEmpty()) {
+                throw new PatientDelegateService.PatientDelegateServiceException(
+                    Label.PG_PST_L_Delegates_Email_Not_Uniq
+                );
             }
-            if (PatientDelegateService.getInstance().getDelegateContact(editedDelegate.Id) != null) {
+            if (
+                PatientDelegateService.getInstance().getDelegateContact(editedDelegate.Id) != null
+            ) {
                 update editedDelegate;
             } else {
-                throw new PatientDelegateService.PatientDelegateServiceException(Label.PG_PST_L_Delegates_Not_Patient_Delegate);
+                throw new PatientDelegateService.PatientDelegateServiceException(
+                    Label.PG_PST_L_Delegates_Not_Patient_Delegate
+                );
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -47,32 +53,31 @@ public without sharing class PatientDelegateRemote {
 
     @AuraEnabled
     public static void changeDelegateStatus(String contactId, Boolean isActive) {
-        try{
-            String status = isActive ?
-                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS :
-                    PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
+        try {
+            String status = isActive
+                ? PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                : PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS;
             PatientDelegateService.changeStatus(contactId, status);
-        }catch (Exception e){
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
     public static void withdrawDelegate(String contactId, Boolean removeHimself) {
-        try{
+        try {
             PatientDelegateService.getInstance().resetDelegate(contactId, removeHimself);
-        }catch (Exception e){
+        } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
 
     @AuraEnabled
     public static String getLogOutUrl() {
-        try{
+        try {
             return Site.getBaseUrl();
-        }catch (Exception e) {
+        } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
         }
-
     }
 }

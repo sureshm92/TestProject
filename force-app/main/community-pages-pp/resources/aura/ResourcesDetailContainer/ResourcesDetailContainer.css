@@ -1,7 +1,7 @@
 /**
  * Created by Yehor Dobrovolskyi on 20.02.2019.020.
  */
-.THIS .resource-detail-block{
+.THIS .resource-detail-block {
     width: 100%;
     margin: 3% auto auto;
 }
@@ -10,7 +10,7 @@
     /*position: sticky;*/
     height: 26px;
     color: #999999;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 24px;
     line-height: 26px;
     text-align: center;

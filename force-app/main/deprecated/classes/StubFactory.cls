@@ -5,27 +5,28 @@
  */
 public with sharing class StubFactory {
     public static StubBuilder newInstance(Type typeOfClass) {
-
         return new StubBuilder(typeOfClass);
     }
 
     public static StubBuilder newInstance(String fullNameOfClass) {
-
         return newInstance(Type.forName(fullNameOfClass));
     }
 
     public class Stub implements System.StubProvider {
-
         public Map<String, Object> desiredResultsByMethodNames;
 
         public Stub() {
             this.desiredResultsByMethodNames = new Map<String, Object>();
         }
 
-        public Object handleMethodCall(Object stubbedObject, String stubbedMethodName,
-                Type returnType, List<Type> listOfParamTypes, List<String> listOfParamNames,
-                List<Object> listOfArgs) {
-
+        public Object handleMethodCall(
+            Object stubbedObject,
+            String stubbedMethodName,
+            Type returnType,
+            List<Type> listOfParamTypes,
+            List<String> listOfParamNames,
+            List<Object> listOfArgs
+        ) {
             Object result = desiredResultsByMethodNames.get(stubbedMethodName);
             if (result == null) {
                 return result;
@@ -33,7 +34,7 @@ public with sharing class StubFactory {
             if (result instanceof CodeExecutor) {
                 return ((CodeExecutor) result).execute(listOfArgs);
             }
-            if(result instanceof Exception) {
+            if (result instanceof Exception) {
                 throw (Exception) result;
             }
             return result;
@@ -41,7 +42,6 @@ public with sharing class StubFactory {
     }
 
     public class StubBuilder {
-
         private Stub stub;
         private Type typeOfClass;
         private String methodName;

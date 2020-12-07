@@ -1,95 +1,223 @@
-@isTest(seeAllData = false)
+@isTest(seeAllData=false)
 private class Test_DashboardRemoteNew {
-    
-    
-     @TestSetup static void init() {
+    @TestSetup
+    static void init() {
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
     }
 
-    @IsTest static void HCPTest() {
+    @IsTest
+    static void HCPTest() {
         TestData testDataInst = new TestData();
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.hcpUser) {
             //DashboardRemoteNew.getInitData(CommunityService.USER_MODE_HCP, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c, testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.getInitData(CommunityService.USER_MODE_HCP, null,null,null,null,null);            
-            DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_HCP, null,testDataInst.participant.Id);
-           // Added
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getInitData(
+                CommunityService.USER_MODE_HCP,
+                null,
+                null,
+                null,
+                null,
+                null
+            );
+            DashboardRemoteNew.getParticipantData(
+                CommunityService.USER_MODE_HCP,
+                null,
+                testDataInst.participant.Id
+            );
+            // Added
+            //DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
+            DashboardRemoteNew.prepareAwaitingContactList(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_HCP,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
             //DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
             DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
             //DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
-            
         }
         Test.stopTest();
     }
 
-    @IsTest static void PITest() {
+    @IsTest
+    static void PITest() {
         TestData testDataInst = new TestData();
         TestData.createHCPEWaitingAcceptance();
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c, testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_PI, null,testDataInst.participant.Id);
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
-          //DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
+            DashboardRemoteNew.getInitData(
+                CommunityService.USER_MODE_PI,
+                CommunityTemplateService.TEMPLATE_DEFAULT,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                'Init'
+            );
+            DashboardRemoteNew.getParticipantData(
+                CommunityService.USER_MODE_PI,
+                null,
+                testDataInst.participant.Id
+            );
+            DashboardRemoteNew.prepareAwaitingContactList(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            //DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
             DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
@@ -99,67 +227,146 @@ private class Test_DashboardRemoteNew {
         Test.stopTest();
     }
 
-    @IsTest static void PIContactAttemptedTest() {
+    @IsTest
+    static void PIContactAttemptedTest() {
         TestData testDataInst = new TestData();
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_CONTACT_ATTEMPTED);
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
-           // DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
+            DashboardRemoteNew.getInitData(
+                CommunityService.USER_MODE_PI,
+                CommunityTemplateService.TEMPLATE_DEFAULT,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                'Init'
+            );
+            DashboardRemoteNew.prepareAwaitingContactList(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            // DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
-            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);            
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
-           // DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
+            // DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
         }
         Test.stopTest();
     }
 
-    @IsTest static void PIDelegateTest() {
+    @IsTest
+    static void PIDelegateTest() {
         TestData.createPIDelegateUser();
         TestData testDataInst = new TestData();
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piDelUser) {
             //DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_PI, testDataInst.ss.Principal_Investigator__c,testDataInst.participant.Id);
-            DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
-           // DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
+            DashboardRemoteNew.getParticipantData(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.participant.Id
+            );
+            DashboardRemoteNew.prepareAwaitingContactList(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            // DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.piContact.Id);
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
-            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);            
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
-           // DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
+            // DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
         }
         Test.stopTest();
     }
@@ -168,39 +375,91 @@ private class Test_DashboardRemoteNew {
     static void PIJanssenTest() {
         TestData.createPIDelegateUser();
         TestData testDataInst = new TestData();
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
         Test.startTest();
         System.runAs(testDataInst.piDelUser) {
-           // DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.getParticipantData(CommunityService.USER_MODE_PI, testDataInst.ss.Principal_Investigator__c,testDataInst.participant.Id);
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            // DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT, testDataInst.ss.Principal_Investigator__c,testDataInst.ss.Principal_Investigator__c,testDataInst.ctp.Id,'Init');
+            DashboardRemoteNew.getParticipantData(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.participant.Id
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
-            DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.Participant.Id);            
-            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);            
+            DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.Participant.Id);
+            DashboardRemoteNew.getInvitedDetails(testDataInst.Participant.Id);
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
             //DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
@@ -211,47 +470,101 @@ private class Test_DashboardRemoteNew {
     @IsTest
     static void PINullInitTest() {
         TestData testDataInst = new TestData();
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class);
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.CreateNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+        );
         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class);
-        TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class);
-        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
-        TriggerHandlerExecutor.bypassHandler(ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class);
-        
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
+        );
+
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_ELIGIBILITY_PASSED);
         testDataInst.updatePEStatusThroughHistory(PEStatusState.PE_STATUS_SCREENING_PASSED);
-        
-        
+
         Test.startTest();
         System.runAs(testDataInst.piUser) {
-            DashboardRemoteNew.getInitData(CommunityService.USER_MODE_PI, CommunityTemplateService.TEMPLATE_DEFAULT,null,null,testDataInst.ctp.Id,'Init');
-            DashboardRemoteNew.prepareWaitingList(CommunityService.USER_MODE_PI,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareDataForFunnelChart(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id,testDataInst.ctp.Id);
-            DashboardRemoteNew.getContactedParticipantsData(testDataInst.piContact.Id, testDataInst.ctp.Id); 
+            DashboardRemoteNew.getInitData(
+                CommunityService.USER_MODE_PI,
+                CommunityTemplateService.TEMPLATE_DEFAULT,
+                null,
+                null,
+                testDataInst.ctp.Id,
+                'Init'
+            );
+            DashboardRemoteNew.prepareWaitingList(
+                CommunityService.USER_MODE_PI,
+                testDataInst.ss.Principal_Investigator__c,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareDataForFunnelChart(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
+            DashboardRemoteNew.prepareHCPEList(testDataInst.piContact.Id, testDataInst.ctp.Id);
+            DashboardRemoteNew.getContactedParticipantsData(
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
+            );
             DashboardRemoteNew.getPIName(testDataInst.piContact.Id);
             DashboardRemoteNew.getPEEnrollmentsByPI(testDataInst.Participant.Id);
-            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);            
+            DashboardRemoteNew.getStudyName(testDataInst.ctp.Id);
             DashboardRemoteNew.getCurrentStudySitesCount(testDataInst.ctp.Id);
             DashboardRemoteNew.getStudySiteDetails(testDataInst.piContact.Id, testDataInst.ctp.Id);
             //DashboardRemoteNew.preparePEList(new List<Participant_Enrollment__c>{testDataInst.pe}, CommunityService.USER_MODE_PI, testDataInst.Participant.Id);
         }
         Test.stopTest();
     }
-
 }

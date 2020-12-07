@@ -3,5 +3,4 @@
  */
 
 public without sharing class PSEService {
-
 }

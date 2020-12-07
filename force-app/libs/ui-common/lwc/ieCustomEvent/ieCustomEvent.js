@@ -3,7 +3,7 @@
  */
 const createCustomEvent = function (eventName, detail) {
     let evt;
-    if(typeof window.CustomEvent === 'function') {
+    if (typeof window.CustomEvent === 'function') {
         evt = new CustomEvent(eventName, detail);
     } else {
         let params = {
@@ -18,5 +18,4 @@ const createCustomEvent = function (eventName, detail) {
     return evt;
 };
 
-
-export {createCustomEvent}
+export { createCustomEvent };

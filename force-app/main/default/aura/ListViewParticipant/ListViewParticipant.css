@@ -1,26 +1,38 @@
-.THIS .h_font{
-	color: #595959;
+.THIS .h_font {
+    color: #595959;
 }
 
-.THIS.myPart{
-	color: black;
-	font-weight: 600;
-	font-size: 14px;
-	padding-bottom: 15px;
-	display: flex;
-	justify-content: space-between;
+.THIS.myPart {
+    color: black;
+    font-weight: 600;
+    font-size: 14px;
+    padding-bottom: 15px;
+    display: flex;
+    justify-content: space-between;
 }
 
 .THIS .switchButton {
-	display: inline-block;
-	margin-top: -3px;
+    display: inline-block;
+    margin-top: -3px;
 }
 
 .THIS.ListViewHead {
-    display:flex;
+    display: flex;
     justify-content: space-between;
+<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
     margin-bottom: 1.0rem;
 	align-items: center;
+=======
+    margin-bottom: 1.0rem;
+    align-items: center;
+}
+
+.THIS.ListViewHead > span:first-child {
+    font-size: 13px;
+    font-weight: 600;
+    color: #000;
+    line-height: 1;
+>>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
 }
 .THIS.DiversityMessage {
     font-size: 13px;
@@ -47,7 +59,19 @@
 		margin-top: 12px;
 	}
 
+<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
 	.THIS.ListViewHead span:last-child a {
 		white-space: nowrap;
 	}
 }
+=======
+@media all and (max-width: 500px) {
+    .THIS.ListViewHead {
+        margin-top: 12px;
+    }
+
+    .THIS.ListViewHead span:last-child a {
+        white-space: nowrap;
+    }
+}
+>>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css

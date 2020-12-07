@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Body__c</field>
-        <value xsi:type="xsd:string">Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&#39;s permissions for individual studies using the dropdowns.</value>
+        <value xsi:type="xsd:string">Click on your user profile icon to access My Team. Add new members to your team by clicking on Add New Team Member. Manage existing team member&apos;s permissions for individual studies using the dropdowns.</value>
+    </values>
+    <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Multimode_Only__c</field>
@@ -16,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Modify Permission</value>
+        <value xsi:type="xsd:string">Modify Permission For Mobile view</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">My Team</value>
+        <value xsi:type="xsd:string">2.My Team</value>
     </values>
 </CustomMetadata>

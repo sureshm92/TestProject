@@ -5851,6 +5851,11 @@
         <field>Participant__c.ZIP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.SubjectId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Patient_Delegate__c.Status__c</field>
@@ -6281,6 +6286,11 @@
         <field>Resource__c.Sponsor__c</field>
         <readable>true</readable>
     </fieldPermissions>
+   <fieldPermissions>
+        <editable>true</editable>
+        <field>Resource__c.Submitted_By__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Resource__c.Subtitle__c</field>
@@ -6337,7 +6347,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Resource__c.article_external_link__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6475,6 +6485,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Site_Staff__c.Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Site_Staff__c.is_Invited__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7716,6 +7731,10 @@
         <recordType>Resource__c.Study_Document</recordType>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Resource__c-Submitted Articles</layout>
+        <recordType>Resource__c.Submitted_Articles</recordType>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Resource__c-Video</layout>
         <recordType>Resource__c.Video</recordType>
     </layoutAssignments>
@@ -8690,6 +8709,11 @@
     <recordTypeVisibilities>
         <default>false</default>
         <recordType>Resource__c.Study_Document</recordType>
+        <visible>true</visible>
+    </recordTypeVisibilities>
+	<recordTypeVisibilities>
+        <default>false</default>
+        <recordType>Resource__c.Submitted_Articles</recordType>
         <visible>true</visible>
     </recordTypeVisibilities>
     <recordTypeVisibilities>

@@ -5,16 +5,15 @@
     doStatusChanged: function (component) {
         var status = component.get('v.status');
         var overrideStatusLabel = component.get('v.overrideStatusLabel');
-        if(status){
-            if(!overrideStatusLabel){
+        if (status) {
+            if (!overrideStatusLabel) {
                 var statusParts = status.split('(');
                 var statusLabel = statusParts[0];
                 //statusLabel = statusLabel.trim();
                 component.set('v.statusLabel', statusLabel);
-            }
-            else{
+            } else {
                 component.set('v.statusLabel', overrideStatusLabel);
             }
         }
     }
-})
+});

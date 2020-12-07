@@ -16,7 +16,6 @@ public virtual with sharing class TriggerHandler {
         this.debugStats = new DebugModeStats(handlerType);
     }
     protected TriggerHandler() {
-
     }
     public virtual void beforeInsert(List<SObject> newList) {
         this.setTriggerEvent(TriggerOperation.BEFORE_INSERT);
@@ -84,13 +83,11 @@ public virtual with sharing class TriggerHandler {
         this.debugFinish();
     }
 
-
     //OVERRIDE
     protected virtual void onBeforeInsert(List<SObject> newList) {
     }
 
     protected virtual void onBeforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-
     }
 
     protected virtual void onBeforeDelete(List<SObject> oldList) {
@@ -110,11 +107,9 @@ public virtual with sharing class TriggerHandler {
     }
 
     protected virtual void runBeforeHandle() {
-
     }
 
     protected virtual void runAfterHandle() {
-
     }
     //private methods
 
@@ -130,7 +125,6 @@ public virtual with sharing class TriggerHandler {
             this.getDebugStatus().previewStats(this.currentTriggerEvent);
             this.getCounter().runPreview(this.currentTriggerEvent);
         }
-
     }
     private RunCounter getCounter() {
         if (this.counter == null) {
@@ -145,19 +139,18 @@ public virtual with sharing class TriggerHandler {
         return this.debugStats;
     }
     private class RunCounter {
-
         private Map<TriggerOperation, Integer> runCount;
         private System.Type handlerType;
 
         public RunCounter(System.Type handlerType) {
             this.runCount = new Map<TriggerOperation, Integer>{
-                    TriggerOperation.BEFORE_INSERT => 0,
-                    TriggerOperation.BEFORE_UPDATE => 0,
-                    TriggerOperation.BEFORE_DELETE => 0,
-                    TriggerOperation.AFTER_INSERT => 0,
-                    TriggerOperation.AFTER_UPDATE => 0,
-                    TriggerOperation.AFTER_DELETE => 0,
-                    TriggerOperation.AFTER_UNDELETE => 0
+                TriggerOperation.BEFORE_INSERT => 0,
+                TriggerOperation.BEFORE_UPDATE => 0,
+                TriggerOperation.BEFORE_DELETE => 0,
+                TriggerOperation.AFTER_INSERT => 0,
+                TriggerOperation.AFTER_UPDATE => 0,
+                TriggerOperation.AFTER_DELETE => 0,
+                TriggerOperation.AFTER_UNDELETE => 0
             };
             this.handlerType = handlerType;
         }
@@ -169,7 +162,14 @@ public virtual with sharing class TriggerHandler {
         }
 
         public void runPreview(TriggerOperation event) {
-            System.debug('\n>> ' + this.handlerType.getName() + ':' + event + ' finished.\nTotals: ' + this.runCount);
+            System.debug(
+                '\n>> ' +
+                this.handlerType.getName() +
+                ':' +
+                event +
+                ' finished.\nTotals: ' +
+                this.runCount
+            );
         }
     }
 
@@ -178,7 +178,6 @@ public virtual with sharing class TriggerHandler {
     }
 
     private class DebugModeStats {
-
         private System.Type handlerType;
         private Map<String, Decimal> statsBefore;
         private Map<String, Decimal> statsAfter;
@@ -206,11 +205,13 @@ public virtual with sharing class TriggerHandler {
         public void previewStats(TriggerOperation event) {
             System.debug('\n?> Stats for ' + this.handlerType.getName() + ':' + event);
             for (String key : this.statsBefore.keySet()) {
-                System.debug(key + ' used ' + (this.statsAfter.get(key) - this.statsBefore.get(key)));
+                System.debug(
+                    key +
+                    ' used ' +
+                    (this.statsAfter.get(key) - this.statsBefore.get(key))
+                );
             }
         }
     }
     //utility
-
-
 }

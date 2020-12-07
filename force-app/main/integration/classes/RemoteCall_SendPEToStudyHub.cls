@@ -2,10 +2,10 @@
  * Created by Nargiz Mamedova on 11/19/2019.
  */
 
-public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
+public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall {
     public Id participantEnrollmentId;
 
-    public class IntegrationMessage{
+    public class IntegrationMessage {
         public String protocolId;
         public String rrid;
         public SubjectDetails subjectDetails;
@@ -54,9 +54,7 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
     public RemoteCall_SendPEToStudyHub(Id participantEnrollmentId) {
         this.endPointURL = 'callout:ServiceNowAndStudyHub';
         this.httpMethod = METHOD_POST;
-        this.headersMap.putAll(new Map<String, String>{
-                'Content-Type' => 'application/json'
-        });
+        this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' });
         this.participantEnrollmentId = participantEnrollmentId;
     }
 
@@ -66,31 +64,33 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
 
     protected override String buildRequestBody() {
         Participant_Enrollment__c pe = [
-                SELECT Id,
-                        Name,
-                        Participant__r.First_Name__c,
-                        Participant__r.Last_Name__c,
-                        Participant__r.Phone__c,
-                        Participant__r.Email__c,
-                        Participant__r.Mailing_City__c,
-                        Participant__r.Mailing_State__c,
-                        Participant__r.Mailing_State_Code__c,
-                        Participant__r.Mailing_Zip_Postal_Code__c,
-                        Participant__r.Mailing_Country__c,
-                        Participant__r.Mailing_Country_Code__c,
-                        Participant__r.Country_Code__c,
-                        Participant__r.Country__c,
-                        Participant__r.Mailing_Street__c,
-                        Participant__r.Preferred_Language__c,
-                        Referral_ID__c,
-                        Referred_Date__c,
-                        Study_Site__r.Protocol_ID__c,
-                        Study_Site__r.Study_Site_Type__c
-                FROM Participant_Enrollment__c
-                WHERE Id =: participantEnrollmentId
+            SELECT
+                Id,
+                Name,
+                Participant__r.First_Name__c,
+                Participant__r.Last_Name__c,
+                Participant__r.Phone__c,
+                Participant__r.Email__c,
+                Participant__r.Mailing_City__c,
+                Participant__r.Mailing_State__c,
+                Participant__r.Mailing_State_Code__c,
+                Participant__r.Mailing_Zip_Postal_Code__c,
+                Participant__r.Mailing_Country__c,
+                Participant__r.Mailing_Country_Code__c,
+                Participant__r.Country_Code__c,
+                Participant__r.Country__c,
+                Participant__r.Mailing_Street__c,
+                Participant__r.Preferred_Language__c,
+                Referral_ID__c,
+                Referred_Date__c,
+                Study_Site__r.Protocol_ID__c,
+                Study_Site__r.Study_Site_Type__c
+            FROM Participant_Enrollment__c
+            WHERE Id = :participantEnrollmentId
         ];
 
-        if(!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c)) return null;
+        if (!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c))
+            return null;
 
         Address addr = new Address();
         addr.Street = pe.Participant__r.Mailing_Street__c;
@@ -111,7 +111,7 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
 
         ReferralDetails referralDetails = new ReferralDetails();
         referralDetails.ReferralId = pe.Name;
-        referralDetails.ReferralDate =  pe.Referred_Date__c;
+        referralDetails.ReferralDate = pe.Referred_Date__c;
         referralDetails.AcceptedDate = Date.today();
 
         SubjectDetails subjectDetails = new SubjectDetails();
@@ -137,5 +137,4 @@ public with sharing class RemoteCall_SendPEToStudyHub extends RemoteCall{
     protected override Object parseResponse(String responseBody) {
         return null;
     }
-
 }
