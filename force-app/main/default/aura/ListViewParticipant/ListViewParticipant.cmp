@@ -33,19 +33,7 @@
             <img src="{!$Resource.icon_circle}"
                                 class="check"/>{!$Label.c.Diversity_Message}</div>
     </aura:if>
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true"/>
-        <span
-            ><a style="font-size: 16px; font-weight: 600" onclick="{!c.onClickCardView}">
-                {!$Label.c.BTN_Naviagte_Card}
-            </a></span
-        >
-    </div>
-        <aura:if isTrue="{!v.isJanssen}">
-        
-        <div class="slds-col slds-size_1-of-1 DiversityMessage">
-            <img src="{!$Resource.icon_circle}"
-                                class="check"/>{!$Label.c.Diversity_Message}</div>
-    </aura:if>
+    
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
     <aura:if isTrue="{!v.isDataLoaded}">
         <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}" />
