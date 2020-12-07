@@ -17,5 +17,12 @@ Quick Find box - Release Updates - Require Verification When External Users Chan
 	d)Review Alert : Click Done -  check the two checkboxes - click Confirm.
 	e) Quick Find box - Identity Verification - Disable the Require email confirmations for email address changes (applies to external users in Lightning Communities).
 
+## 5.Enforce Data Access in Flow Merge Fields
+Go to Setup - Release Updates - Click Get Started of update 'Enforce Data Access in Flow Merge Fields' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm .	
+
+## 6.Enable Partial Save for Invocable Actions
+Go to Setup - Release Updates - Click Get Started of update 'Enable Partial Save for Invocable Actions' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm.	
+
+
 
 
