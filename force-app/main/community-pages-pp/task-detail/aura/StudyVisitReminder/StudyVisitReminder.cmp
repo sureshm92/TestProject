@@ -296,8 +296,14 @@
                             <br />
                             <div class="slds-p-top_small"></div>
                             <b>
-                                <lightning:formattedText
+                                <!--  <lightning:formattedText
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
+                                />-->
+                                <lightning:formattedDateTime
+                                    value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
                                 />
                             </b>
                         </div>
