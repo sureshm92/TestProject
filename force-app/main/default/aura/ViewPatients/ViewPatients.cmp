@@ -21,10 +21,6 @@
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false"/>
     <aura:attribute name="entriesOnPage" type="Integer" access="global"/>
     <aura:attribute name="isJanssen" type="Boolean" default="false"/>
-    <aura:attribute name="trialId" type="String" />
-    <aura:attribute name="siteId" type="String" />
-    <aura:attribute name="userMode" type="String" />
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
     <aura:attribute
         name="emptyListMessage"
         type="String"
