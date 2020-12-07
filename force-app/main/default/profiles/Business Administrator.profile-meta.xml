@@ -593,6 +593,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CreateTACOIAssignmentHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
