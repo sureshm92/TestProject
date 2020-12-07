@@ -6,7 +6,10 @@
         var defaultLanguage = 'en_US';
         var language = communityService.getCookie('RRLanguage');
         var paramLanguage = communityService.getUrlParameter('language');
-        if (!language) {
+        if (language && paramLanguage && paramLanguage !== language) {
+            document.location.href = communityService.replaceUrlParameter('language', language);
+            return;
+        } else if (!language) {
             var multiBrowserLanguage =
                 navigator.language ||
                 navigator.userLanguage ||

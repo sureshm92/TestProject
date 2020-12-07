@@ -20,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Library Mobile View</value>
+        <value xsi:type="xsd:string">Library For Mobile  View</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">Library</value>
+        <value xsi:type="xsd:string">9.Library</value>
     </values>
 </CustomMetadata>

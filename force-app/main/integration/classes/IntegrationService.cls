@@ -38,6 +38,7 @@ public without sharing class IntegrationService {
         public boolean PriorityFlag;
         public Date InitialVisitScheduledDate;
         public Time InitialVisitScheduledTime;
+        public String CountryName;
     }
 
     public class SubjectDetails {
@@ -367,7 +368,8 @@ public without sharing class IntegrationService {
                 Study_Site__r.Protocol_ID__c,
                 Study_Site__r.Study_Site_Type__c,
                 Study_Site__r.Study_Site_Number__c,
-                Study_Site__r.Principal_Investigator__r.OneKeyID__c
+                Study_Site__r.Principal_Investigator__r.OneKeyID__c,
+                Study_Site__r.Site__r.BillingCountry
             FROM Participant_Enrollment__c
             WHERE Id = :participantEnrollmentId
         ];
@@ -398,6 +400,7 @@ public without sharing class IntegrationService {
         referralDetails.PriorityFlag = pe.High_Priority__c;
         referralDetails.InitialVisitScheduledDate = pe.Initial_visit_scheduled_date__c;
         referralDetails.InitialVisitScheduledTime = pe.Initial_visit_scheduled_time__c;
+        referralDetails.CountryName = pe.Study_Site__r.Site__r.BillingCountry;
         if (setAcceptedDate)
             referralDetails.AcceptedDate = Date.today();
 
@@ -420,7 +423,7 @@ public without sharing class IntegrationService {
         integrationMessage.referralDetails = referralDetails;
         integrationMessage.auditLog = auditLog;
         integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
-        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c;
+        integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c; //Added by vicky REF-2653
         return integrationMessage;
     }
 
