@@ -23,7 +23,7 @@ public without sharing class SiteStaffTriggerHandler {
         }
     }
     
-    public class UpdateSiteStaffContactHandler extends TriggerHandler {
+   /**  public class UpdateSiteStaffContactHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             List<Id> lstConId = new List<Id>();
             List<Contact> lstContacts = new List<Contact>();
@@ -45,7 +45,7 @@ public without sharing class SiteStaffTriggerHandler {
             }
 
         }
-    }
+    } */
 
     public class DeactivateUserWhenLastDelegationRemovedHandler extends TriggerHandler {
         public override void afterDelete(List<SObject> oldList) {
