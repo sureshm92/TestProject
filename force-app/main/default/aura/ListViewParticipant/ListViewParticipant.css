@@ -19,10 +19,8 @@
 .THIS.ListViewHead {
     display: flex;
     justify-content: space-between;
-<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
     margin-bottom: 1.0rem;
 	align-items: center;
-=======
     margin-bottom: 1.0rem;
     align-items: center;
 }
@@ -32,7 +30,6 @@
     font-weight: 600;
     color: #000;
     line-height: 1;
->>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
 }
 .THIS.DiversityMessage {
     font-size: 13px;
@@ -59,12 +56,10 @@
 		margin-top: 12px;
 	}
 
-<<<<<<< force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
 	.THIS.ListViewHead span:last-child a {
 		white-space: nowrap;
 	}
 }
-=======
 @media all and (max-width: 500px) {
     .THIS.ListViewHead {
         margin-top: 12px;
@@ -74,4 +69,3 @@
         white-space: nowrap;
     }
 }
->>>>>>> force-app/main/default/aura/ListViewParticipant/ListViewParticipant.css
