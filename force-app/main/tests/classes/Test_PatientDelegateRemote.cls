@@ -54,6 +54,7 @@ public class Test_PatientDelegateRemote {
         Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
+         Test.stopTest();
         User delegateUser = testData.createPatientDelegate();
         insert delegateUser;
         List<Contact> conDel = [
@@ -67,7 +68,7 @@ public class Test_PatientDelegateRemote {
         System.runAs(delegateUser) {
             name = PatientDelegateRemote.getYourPatientFirstName();
         }
-        Test.stopTest();
+       
         System.assertEquals(true, name != null ? true : false);
     }
 
@@ -148,8 +149,10 @@ public class Test_PatientDelegateRemote {
 
     @IsTest
     static void changeDelegateStatusTest() {
+         Test.startTest();
         TestData.loadTestData();
         TestData testData = new TestData();
+          Test.stopTest();
         User delegateUser = testData.createPatientDelegate();
         insert delegateUser;
         List<Contact> conDel = [
@@ -157,11 +160,11 @@ public class Test_PatientDelegateRemote {
             FROM Contact
             WHERE Email = 'jsmith@somemail.com'
         ];
-        Test.startTest();
+       
         System.runAs(testData.participantUser) {
             PatientDelegateRemote.changeDelegateStatus(conDel[0].Id, false);
         }
-        Test.stopTest();
+      
         List<Patient_Delegate__c> patientDelegate = [
             SELECT Id, Status__c
             FROM Patient_Delegate__c

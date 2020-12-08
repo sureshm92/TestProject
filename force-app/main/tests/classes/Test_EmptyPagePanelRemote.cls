@@ -12,7 +12,7 @@ private class Test_EmptyPagePanelRemote {
         testData.ctp.Tasks_Are_Available__c = true;
         update testData.ctp;
         Boolean hasAccess;
-
+ 
         
         hasAccess = EmptyPagePanelRemote.getPermission(testData.ctp.Id, 'Trial_Surveys');
         Test.stopTest();
