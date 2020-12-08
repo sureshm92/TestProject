@@ -470,9 +470,9 @@ public without sharing class MyTeamRemote {
                 String PI ='';
                 List<Study_Site__c> lstSSites = New List<Study_Site__c>();
                 List<user> lstUsr = new List<User>();
-                lstSSites =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 5];
+                lstSSites =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 1];
                 if(lstSSites.size() >0){
-                PI =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 1].Principal_Investigator__c;
+                PI =lstSSites[0].Principal_Investigator__c;
                 if(PI!=null && PI!='')
                 {
                 lstUsr = [select id,Contactid from user where Contactid=:PI limit 1];
