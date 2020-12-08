@@ -16,4 +16,5 @@ trigger SiteStaffTrigger on Site_Staff__c(
         SiteStaffTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class
     );
     TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.RemoveConversationSharesHandler.class);
+    TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.AssignCommunitymodeAndTypeHandler.class);
 }
