@@ -6,8 +6,11 @@
 private class Test_VisitResultSharingPanelRemote {
     @IsTest
     static void testAll() {
+         Test.startTest();
         TestData.loadTestData();
+        
         TestData testData = new TestData();
+          Test.stopTest();
         
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
         visitResultTypeSharings.add(
@@ -39,7 +42,7 @@ private class Test_VisitResultSharingPanelRemote {
         testData.ctp.Shareback_Settings_on_StudySites__c = true;
         update testData.ctp;
 
-        Test.startTest();
+       
         VisitResultSharingSSLookupRemote.searchSSByIds(testData.ss.Id, true, '');
         VisitResultSharingSSLookupRemote.searchSSByTerm(
             testData.ctp.Id,
@@ -97,7 +100,7 @@ private class Test_VisitResultSharingPanelRemote {
             JSON.serialize(initData.groups),
             testData.ctp.Id
         );
-        Test.stopTest();
+      
 
         Clinical_Trial_Profile__c testCTP = [
             SELECT Id, Visit_Data_Shareback__c

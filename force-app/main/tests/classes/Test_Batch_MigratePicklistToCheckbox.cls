@@ -6,7 +6,7 @@ public class Test_Batch_MigratePicklistToCheckbox {
     @IsTest
     public static void testMigratePicklistToCheckboxBatch() {
         TestData.loadTestData();
-        Test.startTest();
+          Test.startTest();
         TestData tstData = new TestData();
         tstData.ctp.Participating_in_Digital_Recruitment__c = 'Yes';
         update tstData.ctp;
