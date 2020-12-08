@@ -1128,25 +1128,7 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Language__c</picklist>
-        <values>
-            <fullName>en_US</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Languages__c</picklist>
-        <values>
-            <fullName>en_US</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Type__c</picklist>
+    <picklist>Type__c</picklist>
         <values>
             <fullName>Articles for caregivers</fullName>
             <default>false</default>
@@ -1157,6 +1139,18 @@
         </values>
         <values>
             <fullName>Patient advocacy groups</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>For Caregivers and Families</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Relevant Links</fullName>
+            <default>false</default>
+        </values>
+        <values>
+            <fullName>Helpful Links	</fullName>
             <default>false</default>
         </values>
     </picklistValues>

@@ -16083,6 +16083,13 @@ communications using the toggles below.</value>
         <shortDescription>Pulse</shortDescription>
         <value>Pulse</value>
     </labels>
+    <labels>
+        <fullName>RH_Masked_IQVIA_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_Masked_IQVIA_User</shortDescription>
+        <value>IQVIA</value>
+    </labels>
 	<labels>
         <fullName>RH_AgeFrom</fullName>
         <language>en_US</language>

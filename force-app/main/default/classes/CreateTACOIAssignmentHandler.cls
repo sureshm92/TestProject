@@ -1,4 +1,8 @@
-global class CreateTACOIAssignmentHandler {
+/*
+Create TherapeuticAreaAssignment records and link uploaded files to resource record.
+Test class Name-Test_CreateTACOIAssignmentHandler
+*/
+global without sharing class CreateTACOIAssignmentHandler {
     @InvocableMethod(Label='Create Assignment Records')
     public static void createTAAsignmentRecords(List<COIWrapper> coiWrapperList) {
         if (!coiWrapperList.isEmpty()) {
