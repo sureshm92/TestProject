@@ -9,7 +9,7 @@ private class Test_Batch_UpdatePartInitialVisitFlag {
         TestData.loadTestData();
         Test.startTest();
         TestData testData = new TestData();
-
+ 
         testData.ctp.Initial_Visit_Required__c = true;
         update testData.ctp;
 

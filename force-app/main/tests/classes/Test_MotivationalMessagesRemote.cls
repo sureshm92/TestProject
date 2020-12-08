@@ -10,7 +10,7 @@ private class Test_MotivationalMessagesRemote {
         Test.startTest();
         TestData testDataInstance = new TestData();
         testDataInstance.updatePEStatusEnrollmentSuccess();
-
+ 
         Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c];
         Participant_Enrollment_Status_History__c peHistory = new Participant_Enrollment_Status_History__c(
             Date__c = Date.today(),

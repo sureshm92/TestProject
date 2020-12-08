@@ -12,7 +12,7 @@ private class Test_Batch_UpdateRecords {
         td.ctp.Study_Code_Name__c = null;
         update td.ctp;
 
-       
+        
         Batch_UpdateRecords.run();
         Test.stopTest();
 

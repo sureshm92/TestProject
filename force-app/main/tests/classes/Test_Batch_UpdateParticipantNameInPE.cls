@@ -11,7 +11,7 @@ private class Test_Batch_UpdateParticipantNameInPE {
         testData.pe.Participant_Surname__c = '';
         update testData.pe;
 
-       
+        
         Database.executeBatch(new Batch_UpdateParticipantNameInPE());
         Test.stopTest();
 
