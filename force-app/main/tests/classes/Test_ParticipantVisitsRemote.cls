@@ -13,7 +13,7 @@ private class Test_ParticipantVisitsRemote {
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
         insert vp;
         vp = [SELECT Id FROM Visit_Plan__c];
-
+ 
         Visit__c visit = new Visit__c(
             Name = 'TestVisit' + 1,
             Visit_Schedule__c = 'Week ' + 1,
