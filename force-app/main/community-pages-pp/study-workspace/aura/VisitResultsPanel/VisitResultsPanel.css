@@ -20,16 +20,16 @@
     line-height: 21px;
     margin-bottom: 8px;
 }
-
 .THIS .visit-result-items-container {
     display: flex;
     flex-wrap: wrap;
     margin: 0 auto;
-    justify-content: space-between;
 }
 
 .THIS .visit-result-item-container {
+    width: 28.3%;
     min-width: 275px;
+    margin-right: 50px;
     margin-bottom: 60px;
     box-sizing: border-box;
 }
@@ -42,11 +42,9 @@
     line-height: 14px;
 }
 
-
 @media all and (max-width: 500px) {
     .THIS .visit-result-item-container {
         width: auto;
         margin: unset;
     }
-
 }
