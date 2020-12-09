@@ -12,8 +12,6 @@ trigger SiteStaffTrigger on Site_Staff__c(
     after undelete
 ) {
     TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.DuplicateSiteStaffHandler.class);
-    TriggerHandlerExecutor.execute(
-        SiteStaffTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class
-    );
+    TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.DeactivateUserWhenLastDelegationRemovedHandler.class);
     TriggerHandlerExecutor.execute(SiteStaffTriggerHandler.RemoveConversationSharesHandler.class);
 }

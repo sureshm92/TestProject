@@ -80,3 +80,10 @@
 .THIS .hidden {
     display: none;
 }
+
+@media all and (max-width: 500px) {
+    .THIS.visit-result-item-panel {
+        width: auto;
+    }
+
+}

@@ -22,6 +22,30 @@ public without sharing class SiteStaffTriggerHandler {
                 delete dupSitestaffLst;
         }
     }
+    
+   /**  public class UpdateSiteStaffContactHandler extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            List<Id> lstConId = new List<Id>();
+            List<Contact> lstContacts = new List<Contact>();
+            List<Contact> lstToUpdate = new List<COntact>();
+            for (Site_Staff__c ss : (List<Site_Staff__c>) newList) {
+                lstConId.add(ss.Site_Contact__c);
+            }
+            lstContacts = [select id,UserCommunityIsDelegate__c,userCommunityMode__c from contact where ID IN:lstConId and UserCommunityIsDelegate__c=false and userCommunityMode__c='PI'];
+            if(lstContacts.size() > 0)
+            {
+              for(Contact c:lstContacts)
+              {
+                 contact con = new contact();
+                 con.id = c.id;
+                 con.UserCommunityIsDelegate__c=true;
+                 lstToUpdate.add(con);
+              }
+                 update lstToUpdate;
+            }
+
+        }
+    } */
 
     public class DeactivateUserWhenLastDelegationRemovedHandler extends TriggerHandler {
         public override void afterDelete(List<SObject> oldList) {
