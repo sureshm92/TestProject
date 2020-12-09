@@ -31,7 +31,7 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
 				CreatedBy.IsPortalEnabled,
-				ParticipantEnrollment__r.PI_Contact__r.userCommunityMode__c
+				CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
             ORDER BY Date__c DESC
@@ -582,7 +582,7 @@ public without sharing class ParticipantWorkflowService {
 		String createdbyName ='';
         //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC' 
         if(pesh.CreatedBy.IsPortalEnabled== true){
-			if(pesh.ParticipantEnrollment__r.PI_Contact__r.userCommunityMode__c=='CC'){
+			if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
 				 createdbyName=System.Label.RH_Masked_IQVIA_User;
 			}else{
 				createdbyName =pesh.CreatedBy.Name;
@@ -1413,7 +1413,7 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
 				CreatedBy.IsPortalEnabled,
-				ParticipantEnrollment__r.PI_Contact__r.userCommunityMode__c
+				CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
