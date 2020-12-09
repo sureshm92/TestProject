@@ -7,9 +7,10 @@ private class Test_MotivationalMessagesRemote {
     @IsTest
     static void test1() {
         TestData.loadTestData();
+        Test.startTest();
         TestData testDataInstance = new TestData();
         testDataInstance.updatePEStatusEnrollmentSuccess();
-
+ 
         Clinical_Trial_Profile__c ctp = [SELECT Id FROM Clinical_Trial_Profile__c];
         Participant_Enrollment_Status_History__c peHistory = new Participant_Enrollment_Status_History__c(
             Date__c = Date.today(),
@@ -30,7 +31,7 @@ private class Test_MotivationalMessagesRemote {
             )
         };
         insert motivationalMessages;
-        Test.startTest();
+        
         String message;
         System.runAs(testDataInstance.participantUser) {
             message = MotivationalMessagesRemote.getMotivationalMessage(

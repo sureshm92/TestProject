@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Body__c</field>
-        <value xsi:type="xsd:string">Manage the status of clinics you have previously approved.</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Multimode_Only__c</field>
@@ -16,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Referring Clinics</value>
+        <value xsi:type="xsd:string">Dashboard For Mobile View</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">My Studies</value>
+        <value xsi:type="xsd:string">6.Dashboard</value>
     </values>
 </CustomMetadata>

@@ -118,6 +118,8 @@
             } else {
                 email.setCustomValidity('You have entered an invalid format');
                 isValid = false;
+                component.set('v.firstName', '');
+                component.set('v.lastName', '');
             }
         }
 

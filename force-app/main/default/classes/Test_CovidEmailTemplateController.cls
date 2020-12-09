@@ -44,7 +44,7 @@ public class Test_CovidEmailTemplateController {
         i.protocolId__c = 'E7449-E044-101';
         i.referralID__c = '700-112314';
         i.siteSelected__c = '102';
-        insert i;
+      //  insert i;
         CovidEmailTemplateController controller = new CovidEmailTemplateController();
         EmailTemplate templateId = [SELECT id FROM EmailTemplate WHERE name = 'Covid19 Delegate'];
         OrgWideEmailAddress owa = [

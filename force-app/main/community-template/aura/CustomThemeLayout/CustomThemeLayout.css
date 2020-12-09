@@ -296,6 +296,8 @@
     .THIS input[type='password'],
     .THIS input[type='email'] {
         height: 40px;
+        display: inline-flex;
+        align-items: center;
     }
 
     .THIS .cFilterPanel .fp-search .rri-container .slds-input,
@@ -316,7 +318,7 @@
     }
 
     .THIS .cRrSelect .slds-select_container:after {
-        top: 12px;
+        top: 16px;
     }
 
     .THIS cAccountSettings.as-container .as-password {
