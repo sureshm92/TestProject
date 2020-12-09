@@ -1,0 +1,59 @@
+## I. Post-Deployment steps:
+
+## 1. Update Batch Patient Task Reminder
+
+Update Batch Patient Task Reminder--> Go to Setup --> Click on App launcher --> Click on Batch Control Panel-->Click on Patient Task Reminder-->Change Interval Mode to Minutes and Relaunch Interval to 15
+
+## 2.Allow Users to Use Standard External Profiles to Self-Register and Log Into Communities and Portals
+
+Go to Setup - Release Updates - Click Get Started of update 'Allow Users to Use Standard External Profiles to Self-Register and Log Into Communities and Portals' - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm - Apply Update.
+
+## 3.Check for Null Record Variables or Null Values of Lookup Relationship Fields in Process and Flow Formulas
+
+Quick Find box - Release Updates - Check for Null Record Variables or Null Values of Lookup Relationship Fields in Process and Flow Formulas - Click Get Started - click Mark as Complete in Assessment step - Click Done in Review Alert - check the two checkboxes - click Confirm.
+
+## 4.Require Verification When External Users Change Their Email Address
+
+Quick Find box - Release Updates - Require Verification When External Users Change Their Email Address - Click Get Started -
+a)Customize Your Email Templates : Quick findbox - All Communities - Workspaces next to name of any community - Administration - Emails - click mirror image next to Old Email Address Change Verification - select the 'Communities: Old Email - Change Email Verification' from the Unfiled Public Classic Email Templates folder - then click on mirror image next to 'New Email Address Change Verification' - select the 'Communities: New Email - Change Email Verification' - Click Save finally. --> repeat this step for each community : Covid-19,GSK Community,IQVIA Referral Hub,Janssen Community - click mark as Complete.
+b)Communicate the Change to Your Users : click mark as Complete.
+c)Enable Email Change Verification : Quick Find box - Identity Verification - Enable the setting Require email confirmations for email address changes (applies to external users in Lightning Communities) - click mark as Complete.
+d)Review Alert : Click Done - check the two checkboxes - click Confirm.
+e) Quick Find box - Identity Verification - Disable the Require email confirmations for email address changes (applies to external users in Lightning Communities).
+
+## 5.Enforce Data Access in Flow Merge Fields
+
+Go to Setup - Release Updates - Click Get Started of update 'Enforce Data Access in Flow Merge Fields' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm .
+
+## 6.Enable Partial Save for Invocable Actions
+
+Go to Setup - Release Updates - Click Get Started of update 'Enable Partial Save for Invocable Actions' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm.
+
+## 7.Enable AuraEnabled Critical Updates
+
+setup-->Release Updated->Use with sharing for @AuraEnabled Apex Controllers with Implicit Sharing
+--->Get Started-->Enabled Test Run-->Assess the impact of this release update-->Done-->check both checkboxes-->confirm
+
+##8.Require Permission to View Record Names in Lookup Fields
+
+Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' button in the 'Require Permission to View Record Names in Lookup Fields' - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm.
+    
+	8.1) In Quick Find box - Type as Profiles - Click on 'Business Administrator' Profile - Click on Edit button - Search with 'View All Lookup Record Names' permission - Enable the permission by Click Marking the checkbox - Click on Save button
+	Repeat the above (8.1) steps for the following mentioned Profiles 
+	   a)Business Lead
+	   b)IQVIA Customer Community Plus Login User
+	   c)IQVIA SPNL2
+	   d)PRDBAPI
+	   e)Product Owner
+	   	   
+##9.Require User Permission for the Send Custom Notification Action
+
+Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' button of update 'Require User Permission for the Send Custom Notification Action' - Click 'Mark as Complete' button in Review Impact on Flows of this release update - Click 'Mark as Complete' button in Review Impact on Apex Integrations of this release update - Click 'Mark as Complete' button in Review Impact on REST API Integrations of this release update - Click 'Mark as Complete' button in Review Impact on Processes of this release update - Click 'Done' button in Review Alert of this release update - check the two checkboxes - click Confirm.
+
+    9.1) In Quick Find box - Type as Profiles - Click on 'Business Administrator' Profile - Click on Edit button - Search with 'Send Custom Notifications' permission - Enable the permission by Click Marking the checkbox - Click on Save button
+	Repeat the above (9.1) steps for the following mentioned Profiles 
+	   a)Business Lead
+	   b)IQVIA Customer Community Plus Login User
+	   c)IQVIA SPNL2
+	   d)PRDBAPI
+	   e)Product Owner

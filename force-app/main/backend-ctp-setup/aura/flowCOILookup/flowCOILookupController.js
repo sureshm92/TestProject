@@ -6,8 +6,6 @@
     updateCoi: function (component, event, helper) {
         var conditions = 'none';
         if (component.get('v.conditions')) conditions = component.get('v.conditions');
-        console.log('conditions' + JSON.stringify(conditions));
-        console.log('recordId: ' + component.get('v.recordId'));
-        component.set("v.coirecordIds",conditions);
+        component.set('v.coirecordIds', conditions);
     }
 });
