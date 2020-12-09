@@ -165,9 +165,6 @@ public without sharing class ContactTriggerHandler {
             if (contact.userCommunityMode__c == 'CC') {
                 contact.userCommunytyType__c = 'CC';
             }
-            if (contact.userCommunityMode__c == 'PI') {
-                contact.UserCommunityIsDelegate__c = true;
-            }else{contact.UserCommunityIsDelegate__c = false;}
             contact.Next_Profile_Update_DT__c = Datetime.now().addYears(1);
         }
     }
