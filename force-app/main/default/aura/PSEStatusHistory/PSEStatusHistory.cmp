@@ -38,7 +38,7 @@
                                 {!$Label.c.PE_Status_History_On_Date + ' '}
                                 <!--<ui:outputDate value="{!pathItem.peSH.Date__c}"/>-->
                                 <lightning:formattedDateTime
-                                    value="{!pathItem.peSH.Date__c}"
+                                    value="{!pathItem.peSH.PSE_Date__c}"
                                     year="numeric"
                                     month="short"
                                     day="2-digit"
