@@ -3771,6 +3771,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Distolic Blood Pr</value>
     </labels>
     <labels>
+        <fullName>Diversity_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Diversity Message</shortDescription>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse participants.</value>
+    </labels>
+    <labels>
         <fullName>Do_Not_Continue</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9888,6 +9895,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PES L All Steps</shortDescription>
         <value>All Steps</value>
     </labels>
+	 <labels>
+        <fullName>PES_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PES_Email_Body</shortDescription>
+        <value>&lt;/br&gt;
+&lt;p&gt;There may be activity where a PI has updated a record they should not have access to.  Please verify the participant history of the referral ID below to confirm all transaction history was performed by people having access rights to the study and study site.&lt;/p&gt;</value>
+    </labels>
     <labels>
         <fullName>PES_L_All_acceptance_statuses</fullName>
         <language>en_US</language>
@@ -9950,6 +9965,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Enrollment ID</shortDescription>
         <value>Enrollment ID</value>
+    </labels>
+	 <labels>
+        <fullName>PE_History_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_History_Report</shortDescription>
+        <value>Participant Enrollment History Report</value>
     </labels>
     <labels>
         <fullName>PE_Info_PopUp_Title</fullName>
@@ -18035,6 +18057,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Successfully_Contacted</shortDescription>
         <value>Successfully Contacted</value>
+    </labels>
+	 <labels>
+        <fullName>Suspicious_Activity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Suspicious_Activity</shortDescription>
+        <value>Suspicious Activity</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>

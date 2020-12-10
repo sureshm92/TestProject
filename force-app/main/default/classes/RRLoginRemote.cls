@@ -3,114 +3,81 @@
  */
 
 global without sharing class RRLoginRemote {
+
     @AuraEnabled
     public static String login(String username, String password, String startUrl) {
-        try {
+        try{
             ApexPages.PageReference lgn = Site.login(username, password, startUrl);
-
+            
             //PEH-2038 & PEH-2008: When porspect who is delegate of a participant logs in the community,
             //set the Landing_Community__c based on the Site
-            //set userCommunityDelegateId__c to null
-            //set Current_Participant_Enrollment__c to null
-            List<User> loginUser = [
-                SELECT
-                    Id,
-                    ContactId,
-                    Contact.Email,
-                    Contact.Current_Participant_Enrollment__c,
-                    Contact.userCommunityDelegateId__c,
-                    Contact.UserCommunityIsDelegate__c,
-                    Contact.userCommunityMode__c,
-                    Contact.Landing_Community__c
-                FROM User
-                WHERE UserName = :username
-                LIMIT 1
-            ];
-            //  Integer counter=0;
-            //  List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
-            //   for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
-            //No participant enrollment and UserCommunityIsDelegate__c to ensure the
+            //set userCommunityDelegateId__c to null 
+            //set Current_Participant_Enrollment__c to null 
+            List<User> loginUser = [SELECT Id, ContactId, Contact.Email, Contact.Current_Participant_Enrollment__c,
+                              Contact.userCommunityDelegateId__c, Contact.UserCommunityIsDelegate__c, Contact.userCommunityMode__c,
+                              Contact.Landing_Community__c
+                              FROM User WHERE UserName =: username limit 1];
+          //  Integer counter=0;
+          //  List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
+         //   for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
+            //No participant enrollment and UserCommunityIsDelegate__c to ensure the 
             //contact is a prospect and delegate of a certain contact
 
-            if (
-                /**(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) ||**/ (!loginUser.isEmpty() &&
-                loginUser[0].Contact.userCommunityMode__c == 'Participant')
-            ) {
-                Contact c = new Contact(
-                    Id = loginUser[0].ContactId,
-                    Current_Participant_Enrollment__c = null,
-                    userCommunityDelegateId__c = null,
-                    Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
-                        ? CommunityService.IQVIA_NETWORK_NAME
-                        : Site.getMasterLabel()
-                );
+            if(/**(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) ||**/ (!loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c=='Participant')){
+               Contact c = new Contact(Id = loginUser[0].ContactId,
+                                       Current_Participant_Enrollment__c = null, 
+                                       userCommunityDelegateId__c = null,
+                                       Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH') ? CommunityService.IQVIA_NETWORK_NAME : Site.getMasterLabel());
                 update c;
             }
             aura.redirect(lgn);
             return null;
-        } catch (Exception ex) {
-            List<User> u = [
-                SELECT Id, TimeZoneSidKey, isPasswordLocked__c
-                FROM User
-                WHERE Username = :username
-            ];
-            if (!u.isEmpty()) {
+        }
+        catch (Exception ex) {
+            List<User> u = [SELECT Id, TimeZoneSidKey, isPasswordLocked__c FROM User WHERE Username = :username];
+            if(!u.isEmpty()){
                 UserLogin ul = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId = :u[0].Id];
-                List<LoginHistory> history = [
-                    SELECT Id, Status, LoginTime
-                    FROM LoginHistory
-                    WHERE UserId = :u[0].Id
-                    ORDER BY LoginTime DESC
-                    LIMIT 100
-                ];
-                if (ul.IsPasswordLocked) {
+                List<LoginHistory> history = [SELECT Id, Status, LoginTime FROM LoginHistory WHERE UserId = :u[0].Id ORDER BY LoginTime DESC LIMIT 100];
+                if(ul.IsPasswordLocked){
                     DateTime lockoutTime = null;
-                    for (LoginHistory loginAttempt : history) {
-                        if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
+                    for( LoginHistory loginAttempt : history){
+                        if(lockoutTime == null && loginAttempt.Status == 'Invalid Password'){
                             lockoutTime = loginAttempt.LoginTime;
                         }
+
                     }
-                    if (!u[0].isPasswordLocked__c) {
+                    if(!u[0].isPasswordLocked__c){
                         u[0].isPasswordLocked__c = true;
                         Database.update(u[0]);
                         Site.forgotPassword(username);
                     }
-                    return Label.PG_Login_Lockout_Error_Message.replace(
-                        '##LockoutEndTime',
-                        lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
-                    );
-                } else if (!history.isEmpty() && history[0].Status == 'Invalid Password') {
+                    return Label.PG_Login_Lockout_Error_Message.replace('##LockoutEndTime',lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey));
+
+                }
+                else if(!history.isEmpty() && history[0].Status == 'Invalid Password'){
                     Integer attempts = 0;
-                    if (u[0].isPasswordLocked__c) {
+                    if(u[0].isPasswordLocked__c){
                         u[0].isPasswordLocked__c = false;
                         Database.update(u[0]);
                     }
-                    while (
-                        attempts < history.size() &&
-                        history[attempts].Status == 'Invalid Password'
-                    ) {
+                    while (attempts<history.size() && history[attempts].Status == 'Invalid Password'){
                         attempts++;
                     }
-                    if (attempts > 5) {
-                        attempts = math.mod(attempts, 5);
+                    if(attempts > 5){
+                        attempts = math.mod(attempts,5);
                     }
-                    String forgotPasswordLink =
-                        '<a class="no-float" href="' +
-                        getForgotPasswordUrl() +
-                        '">' +
-                        Label.PG_Login_L_here_link +
-                        '</a>';
-                    return Label.PG_Login_Wrong_Password_Error_Message.replace(
-                            '##AttemptsLeft',
-                            String.valueOf(5 - attempts)
-                        )
-                        .replace('##ForgotPasswordLink', forgotPasswordLink);
-                } else {
+                    String forgotPasswordLink = '<a class="no-float" href="'+getForgotPasswordUrl() + '">'+Label.PG_Login_L_here_link + '</a>';
+                    return Label.PG_Login_Wrong_Password_Error_Message.replace('##AttemptsLeft',String.valueOf(5-attempts)).replace('##ForgotPasswordLink',forgotPasswordLink);
+                }
+                else{
                     return ex.getMessage();
                 }
-            } else {
-                return ex.getMessage();
+
             }
+            else{
+            return ex.getMessage();
+        }
+
         }
     }
 
@@ -137,43 +104,31 @@ global without sharing class RRLoginRemote {
 
     @AuraEnabled
     public static String getForgotPasswordUrl(String username) {
-        List<User> u = [
-            SELECT Id, TimeZoneSidKey, isPasswordLocked__c
-            FROM User
-            WHERE Username = :username
-        ];
-        if (!u.isEmpty()) {
-            UserLogin ul = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId = :u[0].Id];
-            List<LoginHistory> history = [
-                SELECT Id, Status, LoginTime
-                FROM LoginHistory
-                WHERE UserId = :u[0].Id
-                ORDER BY LoginTime DESC
-                LIMIT 100
-            ];
-            if (ul.IsPasswordLocked) {
-                DateTime lockoutTime = null;
-                for (LoginHistory loginAttempt : history) {
-                    if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
-                        lockoutTime = loginAttempt.LoginTime;
+                    List<User> u = [SELECT Id, TimeZoneSidKey, isPasswordLocked__c FROM User WHERE Username = :username];
+            if(!u.isEmpty()){
+                UserLogin ul = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId = :u[0].Id];
+                List<LoginHistory> history = [SELECT Id, Status, LoginTime FROM LoginHistory WHERE UserId = :u[0].Id ORDER BY LoginTime DESC LIMIT 100];
+                if(ul.IsPasswordLocked){
+                    DateTime lockoutTime = null;
+                    for( LoginHistory loginAttempt : history){
+                        if(lockoutTime == null && loginAttempt.Status == 'Invalid Password'){
+                            lockoutTime = loginAttempt.LoginTime;
+                        }
+
                     }
+                    if(!u[0].isPasswordLocked__c){
+                        u[0].isPasswordLocked__c = true;
+                        Database.update(u[0]);
+                        Site.forgotPassword(username);
+                    }
+                    return '**return' + Label.PG_Login_Lockout_Error_Message.replace('##LockoutEndTime',lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey));
+
                 }
-                if (!u[0].isPasswordLocked__c) {
-                    u[0].isPasswordLocked__c = true;
-                    Database.update(u[0]);
-                    Site.forgotPassword(username);
-                }
-                return '**return' +
-                    Label.PG_Login_Lockout_Error_Message.replace(
-                        '##LockoutEndTime',
-                        lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
-                    );
             }
-        }
         Auth.AuthConfiguration authConfig = getAuthConfig();
         return '**url' + authConfig.getForgotPasswordUrl();
-    }
-
+    }    
+    
     @AuraEnabled
     public static String getForgotPasswordUrl() {
         Auth.AuthConfiguration authConfig = getAuthConfig();
@@ -186,9 +141,9 @@ global without sharing class RRLoginRemote {
     }
 
     @TestVisible
-    private static Auth.AuthConfiguration getAuthConfig() {
+    private static Auth.AuthConfiguration getAuthConfig(){
         Id networkId = Network.getNetworkId();
-        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId, '');
+        Auth.AuthConfiguration authConfig = new Auth.AuthConfiguration(networkId,'');
         return authConfig;
     }
 
@@ -205,22 +160,23 @@ global without sharing class RRLoginRemote {
         }
     }
 
-    //@Krishna Mahto - PEH-1910 - Prod Issue fix- Start
+     //@Krishna Mahto - PEH-1910 - Prod Issue fix- Start 
     /**
-     * ───────────────────────────────────────────────────────────────────────────────────────────────┐
-     * This method will return the current communityName
-     * ────────────────────────────────────────────────────────────────────────────────────────────────
-     * @Method:   getCommunityName
-     * @param:    NA
-     * @return:   Strings
-     * ───────────────────────────────────────────────────────────────────────────────────────────────┘
-     **/
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA   
+    * @return:   Strings  
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    **/
     @auraEnabled
-    public static String getCommunityName() {
+    public static String getCommunityName(){
         Id networkId = Network.getNetworkId();
-        String communityName = [SELECT Id, Name FROM Network WHERE Id = :networkId].Name;
+        String communityName = [Select Id,Name from Network where Id=:networkId].Name;
         return communityName;
     }
-
+    
     //@Krishna Mahto - PEH-1910 - Prod Issue fix- End
+
 }

@@ -105,6 +105,7 @@
     font-size: 16px;
     line-height: 24px;
     padding: 30px 15px 15px;
+    text-align: center;
 }
 
 .THIS .visit-result-item-measurement {
@@ -159,7 +160,7 @@
     .THIS .visit-results-container {
         flex-wrap: wrap;
         justify-content: flex-start;
-        padding-left: 15px
+        padding-left: 15px;
     }
 
     .THIS .visit-results-item {
@@ -170,6 +171,4 @@
     .THIS .visit-results-item:last-child {
         min-width: 185px;
     }
-
-
 }
