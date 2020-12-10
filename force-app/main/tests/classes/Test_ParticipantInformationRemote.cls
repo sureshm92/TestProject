@@ -132,6 +132,7 @@ private class Test_ParticipantInformationRemote {
             JSON.serialize(participant),
             true
         );
+        ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
         Test.stopTest();
     }
 
