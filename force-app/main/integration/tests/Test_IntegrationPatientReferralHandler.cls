@@ -89,9 +89,43 @@ private class Test_IntegrationPatientReferralHandler {
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
                 Email__c = 'MaxJames@mail.com'
+            	
         );
         insert participantWithBY;
+        /*Account hcpAccount = new Account(Name = 'HCP Account');
+        insert hcpAccount;
         
+        Contact hcpContact = new Contact(
+            FirstName = 'HCP',
+            LastName = 'HCP',
+            Email = 'hcp@emil.com',
+            AccountId = hcpAccount.Id,
+            MailingLatitude = 40.766594,
+            MailingLongitude = -73.991509
+        );
+        insert hcpContact;
+        
+        HCP_Enrollment__c hcpEnrollment = new HCP_Enrollment__c(
+            Study_Site__c = studySite.Id,
+            HCP_Contact__c = hcpContact.Id,
+            Status__c = HCPEnrollmentService.HCP_S_INVITATION_SENT
+        );
+        
+        insert hcpEnrollment;
+        Participant_Enrollment__c pe = new Participant_Enrollment__c(
+            HCP__c = hcpEnrollment.Id,
+            Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
+            Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
+            PI_Contact__c = piContact.Id,
+            Study_Site__c = studySite.Id,
+            Patient_ID__c = 'SomePatientId1',
+            Referral_Source__c = 'HCP',
+            Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_RECEIVED,
+            Participant__c = participantWithBY.Id,
+            Screening_ID__c = 'PESCR1'
+        );
+        insert pe;
+        */
       /*  Contact exitedContact = new Contact(
                 FirstName = 'Leo',
                 LastName = 'Win',
@@ -119,7 +153,12 @@ private class Test_IntegrationPatientReferralHandler {
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1234343242',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-            	Ethnicity__c = '0;1;2' 
+            	Ethnicity__c = '0;1;2'/* ,
+            	Delegate_First_Name__c='Test First',
+            	Delegate_Last_Name__c='Test Last',
+            	Delegate_Email_Address__c='some1@dssd.cre',
+            	Delegate_Daytime_Phone_Number__c= '31444244214'*/
+            
            
         );
         Integration_Patient_Referral__c ipr2 = new Integration_Patient_Referral__c(
@@ -139,9 +178,14 @@ private class Test_IntegrationPatientReferralHandler {
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1232141212',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-            	Ethnicity__c = '0',
+            	Ethnicity__c = '0'/*,
+            	Participant_MobileNumber__c = '1212134567',
+           	    Delegate_First_Name__c='Test First1',
+            	Delegate_Last_Name__c='Test Last1',
+            	Delegate_Email_Address__c='some2@dssd.cre',
+            	Delegate_Daytime_Phone_Number__c= '30444244214'*/
 
-           Participant_MobileNumber__c = '1212134567'
+           
         );
         Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
                 Address_Country__c = 'US',
@@ -158,7 +202,11 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '444323423',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'/*,
+            	Delegate_First_Name__c='Test First3',
+            	Delegate_Last_Name__c='Test Last3',
+            	Delegate_Email_Address__c='some3@dssd.cre',
+            	Delegate_Daytime_Phone_Number__c= '33444244214'*/
         );
 
         iprList.add(ipr);
@@ -181,9 +229,15 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '4443234231',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
+            	Delegate_First_Name__c='Test First4',
+            	Delegate_Last_Name__c='Test Last4',
+            	Delegate_Email_Address__c='some4@dssd.cre',
+            	Delegate_Daytime_Phone_Number__c= '35444244214'
         );
-        
+        List<Participant__c> ParList = new List<Participant__c>();
+        ParList.add(participantWithBY);
+        ParticipantTriggerHandler.checkDuplicates(ParList);
         test.stopTest();
 
         System.assert([SELECT Id, Middle_Name__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Middle_Name__c == 'S');
