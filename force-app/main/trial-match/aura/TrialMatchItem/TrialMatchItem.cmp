@@ -49,11 +49,22 @@
                 <div class="slds-col slds-size_1-of-1">
                     <aura:if isTrue="{!v.isRTL}">
                         <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
-                            {!v.trialMatch.matchDate} &nbsp;{!$Label.c.Matched_of}
+                            <lightning:formattedDateTime
+                                value="{!v.trialMatch.matchedDate}"
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                            />
+                            &nbsp;{!$Label.c.Matched_of}
                         </div>
                         <aura:set attribute="else">
                             <div class="{!v.isRTL? 'ctp-date-status-rtl':'ctp-date-status'}">
-                                {!$Label.c.Matched_of}&nbsp;{!v.trialMatch.matchDate}
+                                {!$Label.c.Matched_of}&nbsp;<lightning:formattedDateTime
+                                    value="{!v.trialMatch.matchedDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                />
                             </div>
                         </aura:set>
                     </aura:if>
