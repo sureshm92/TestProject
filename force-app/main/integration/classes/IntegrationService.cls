@@ -103,23 +103,12 @@ public without sharing class IntegrationService {
     }
 
     public static void sendPEToServiceNow(Id participantEnrollmentId) {
-        IntegrationMessage integrationMessage = createIntegrationMessage(
-            participantEnrollmentId,
-            false
-        );
+        IntegrationMessage integrationMessage = createIntegrationMessage( participantEnrollmentId,false);
         if (integrationMessage == null)
             return;
         String integrationMessageString = JSON.serializePretty(integrationMessage, true);
-        ResponseResult result = sendIntegrationMessage(
-            END_POINT_URL,
-            participantEnrollmentId,
-            integrationMessageString
-        );
-        update new Participant_Enrollment__c(
-            Id = participantEnrollmentId
-            //Service_Now_Sent_Date__c = Datetime.now()
-            //Study_Hub_Log__c = result.log.Id
-        );
+        ResponseResult result = sendIntegrationMessage(END_POINT_URL,participantEnrollmentId,integrationMessageString);
+        update new Participant_Enrollment__c(Id = participantEnrollmentId );
     }
 
     @Future(Callout=true)
@@ -133,42 +122,25 @@ public without sharing class IntegrationService {
     }
 
     public static void sendPEToStudyHub(Id participantEnrollmentId) {
-        IntegrationMessage integrationMessage = createIntegrationMessage(
-            participantEnrollmentId,
-            true
-        );
+        IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId,true);
         System.debug('PE: ' + integrationMessage);
         if (integrationMessage == null)
             return;
         String integrationMessageString = JSON.serializePretty(integrationMessage, true);
-        ResponseResult result = sendIntegrationMessage(
-            END_POINT_URL,
-            participantEnrollmentId,
-            integrationMessageString
-        );
-        update new Participant_Enrollment__c(
-            Id = participantEnrollmentId,
-            Study_Hub_Log__c = result.log.Id
-        );
+        ResponseResult result = sendIntegrationMessage(END_POINT_URL,participantEnrollmentId,integrationMessageString);
+        update new Participant_Enrollment__c(Id = participantEnrollmentId,Study_Hub_Log__c = result.log.Id);
     }
 
     //Added by Krishna for REF-2183 - Start
     //Added to be called from UploadParticipantsBatch class
     public static Integration_Log__c sendPEToStudyHubBatch(Id participantEnrollmentId) {
-        IntegrationMessage integrationMessage = createIntegrationMessage(
-            participantEnrollmentId,
-            true
-        );
+        IntegrationMessage integrationMessage = createIntegrationMessage(participantEnrollmentId,true);
         System.debug('PE: ' + integrationMessage);
         if (integrationMessage == null) {
             return null;
         }
         String integrationMessageString = JSON.serializePretty(integrationMessage, true);
-        ResponseResult result = sendIntegrationMessageBatch(
-            END_POINT_URL,
-            participantEnrollmentId,
-            integrationMessageString
-        );
+        ResponseResult result = sendIntegrationMessageBatch(END_POINT_URL,participantEnrollmentId,integrationMessageString);
         Integer logListLength = intLogList.size();
         //Removing The latest log from the List intLogList as latest log is getting returned in this method.
         if (logListLength > 0) {
@@ -179,56 +151,34 @@ public without sharing class IntegrationService {
     }
 
     public static void sendPESHToEPR(List<Id> participantEnrollmentSHIds) {
-        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(
-            participantEnrollmentSHIds
-        );
+        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(participantEnrollmentSHIds);
         System.debug('PESH: ' + integrationMessagesMap);
         if (integrationMessagesMap == null)
             return;
         for (String endpoint : integrationMessagesMap.keySet()) {
-            ResponseResult result = sendIntegrationMessage(
-                'callout:' + endpoint,
-                String.join(participantEnrollmentSHIds, ','),
-                integrationMessagesMap.get(endpoint)
-            );
+            ResponseResult result = sendIntegrationMessage( 'callout:' + endpoint, String.join(participantEnrollmentSHIds, ','), integrationMessagesMap.get(endpoint));
         }
     }
 
     //Added to be called from UploadParticipantsBatch class
     public static void sendPESHToEPRBatch(List<Id> participantEnrollmentSHIds) {
-        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(
-            participantEnrollmentSHIds
-        );
+        Map<String, String> integrationMessagesMap = createStatusIntegrationMessage(participantEnrollmentSHIds);
         System.debug('PESH: ' + integrationMessagesMap);
         if (integrationMessagesMap == null)
             return;
         for (String endpoint : integrationMessagesMap.keySet()) {
             ResponseResult result = sendIntegrationMessageBatch(
-                'callout:' + endpoint,
-                String.join(participantEnrollmentSHIds, ','),
-                integrationMessagesMap.get(endpoint)
-            );
+                'callout:' + endpoint,String.join(participantEnrollmentSHIds, ','),integrationMessagesMap.get(endpoint));
         }
     }
 
-    public static ResponseResult sendIntegrationMessage(
-        String endpointURl,
-        String sourceId,
-        String integrationMessage
-    ) {
+    public static ResponseResult sendIntegrationMessage(String endpointURl,String sourceId,String integrationMessage) {
         ResponseResult responseResult;
         Integer currentAttempt = 1;
         Integer attemptsCount = 3;
         List<Integration_Log__c> logs = new List<Integration_Log__c>();
         while (true) {
-            responseResult = send(
-                endpointURl,
-                'POST',
-                TIMEOUT,
-                sourceId,
-                integrationMessage,
-                currentAttempt
-            );
+            responseResult = send(endpointURl,'POST',TIMEOUT,sourceId,integrationMessage,currentAttempt);
             logs.add(responseResult.log);
             if (
                 (responseResult.httpResponse != null &&
@@ -245,33 +195,17 @@ public without sharing class IntegrationService {
         return responseResult;
     }
 
-    public static ResponseResult sendIntegrationMessageBatch(
-        String endpointURl,
-        String sourceId,
-        String integrationMessage
-    ) {
+    public static ResponseResult sendIntegrationMessageBatch(String endpointURl,String sourceId,String integrationMessage) {
         ResponseResult responseResult;
         Integer currentAttempt = 1;
         Integer attemptsCount = 3;
         List<Integration_Log__c> logs = new List<Integration_Log__c>();
         while (true) {
-            responseResult = send(
-                endpointURl,
-                'POST',
-                TIMEOUT,
-                sourceId,
-                integrationMessage,
-                currentAttempt
-            );
+            responseResult = send(endpointURl,'POST',TIMEOUT,sourceId,integrationMessage,currentAttempt);
             logs.add(responseResult.log);
             if (
-                (responseResult.httpResponse != null &&
-                responseResult.httpResponse.getStatusCode() == 500) &&
-                currentAttempt < attemptsCount
-            ) {
-                currentAttempt++;
-                sleep(10000);
-                continue;
+                (responseResult.httpResponse != null && responseResult.httpResponse.getStatusCode() == 500) && currentAttempt < attemptsCount) {
+                currentAttempt++;sleep(10000);continue;
             }
             break;
         }
@@ -279,14 +213,7 @@ public without sharing class IntegrationService {
         return responseResult;
     }
 
-    public static ResponseResult send(
-        String url,
-        String method,
-        Integer timeout,
-        String sourceId,
-        String requestBody,
-        Integer attemptNumber
-    ) {
+    public static ResponseResult send( String url,String method,Integer timeout,String sourceId,String requestBody,Integer attemptNumber) {
         //init request:
         HttpRequest request = new HttpRequest();
         request.setEndpoint(url);
@@ -297,28 +224,14 @@ public without sharing class IntegrationService {
         Datetime requestDT = Datetime.now();
         Datetime responseDT;
         //init log:
-        Integration_Log__c log = new Integration_Log__c(
-            End_Point_URL__c = url.mid(0, 255),
-            Method__c = method,
-            Request__c = requestBody.mid(0, 32768),
-            Response_Time__c = requestDT,
-            Source_Id__c = sourceId.mid(0, 255),
-            Attempt__c = attemptNumber,
-            Request_Time__c = requestDT,
-            Timeout__c = timeout
-        );
+        Integration_Log__c log = new Integration_Log__c(End_Point_URL__c = url.mid(0, 255),Method__c = method,Request__c = requestBody.mid(0, 32768),Response_Time__c = requestDT,Source_Id__c = sourceId.mid(0, 255),Attempt__c = attemptNumber, Request_Time__c = requestDT, Timeout__c = timeout);
         Http h = new Http();
         //send request:
         HttpResponse response;
         try {
             response = h.send(request);
             responseDT = Datetime.now();
-            System.debug(
-                'RESPONSE: ' +
-                response.getStatus() +
-                ' code: ' +
-                response.getStatusCode()
-            );
+            System.debug('RESPONSE: ' +response.getStatus() +' code: ' +response.getStatusCode());
             //update log:
             log.Response_Status__c = response.getStatus();
             log.Response_Status_Code__c = response.getStatusCode();
@@ -336,9 +249,7 @@ public without sharing class IntegrationService {
         return new ResponseResult(response, log);
     }
 
-    public static IntegrationMessage createIntegrationMessage(
-        Id participantEnrollmentId,
-        Boolean setAcceptedDate
+    public static IntegrationMessage createIntegrationMessage(Id participantEnrollmentId,Boolean setAcceptedDate
     ) {
         Participant_Enrollment__c pe = [
             SELECT
@@ -432,20 +343,12 @@ public without sharing class IntegrationService {
     ) {
         Map<String, List<Map<String, String>>> endpointToIntegrationMessagesMap = new Map<String, List<Map<String, String>>>();
         Set<String> refSources = getReferralSourceEndpointMap().keySet();
-        String quertString =
-            'SELECT ' +
-            getQueriedStatusFields() +
-            ' FROM Participant_Enrollment_Status_History__c ' +
-            'WHERE Id IN :participantEnrollmentSHIds AND ParticipantEnrollment__r.Referral_Source__c IN :refSources';
-        List<Participant_Enrollment_Status_History__c> statusHistories = Database.query(
-            quertString
-        );
+        String quertString ='SELECT ' +getQueriedStatusFields() +' FROM Participant_Enrollment_Status_History__c ' + 'WHERE Id IN :participantEnrollmentSHIds AND ParticipantEnrollment__r.Referral_Source__c IN :refSources';
+        List<Participant_Enrollment_Status_History__c> statusHistories = Database.query(quertString);
         for (Participant_Enrollment_Status_History__c pesh : statusHistories) {
             Map<String, String> statusIntegrationMessage = new Map<String, String>();
-            Map<String, String> fieldMap = getReferralSourceFieldsMap()
-                .get(pesh.ParticipantEnrollment__r.Referral_Source__c);
-            String endpoint = getReferralSourceEndpointMap()
-                .get(pesh.ParticipantEnrollment__r.Referral_Source__c);
+            Map<String, String> fieldMap = getReferralSourceFieldsMap().get(pesh.ParticipantEnrollment__r.Referral_Source__c);
+            String endpoint = getReferralSourceEndpointMap().get(pesh.ParticipantEnrollment__r.Referral_Source__c);
 
             for (String key : fieldMap.keySet()) {
                 statusIntegrationMessage.put(key, getFieldValue(pesh, fieldMap.get(key)));
@@ -458,10 +361,7 @@ public without sharing class IntegrationService {
         }
         Map<String, String> result = new Map<String, String>();
         for (String endpoint : endpointToIntegrationMessagesMap.keySet()) {
-            result.put(
-                endpoint,
-                JSON.serializePretty(endpointToIntegrationMessagesMap.get(endpoint), true)
-            );
+            result.put(endpoint,JSON.serializePretty(endpointToIntegrationMessagesMap.get(endpoint), true));
         }
         System.debug(result);
         return result;
@@ -480,10 +380,7 @@ public without sharing class IntegrationService {
         referralSourceEndpointMap = new Map<String, String>();
         referralSourceFieldsMap = new Map<String, Map<String, String>>();
         Set<String> queriedStatusFieldsSet = new Set<String>();
-        for (Participant_Status_Integration__mdt setting : [
-            SELECT Id, Fields__c, ApiFieldNames__c, Referral_Sources__c, Named_Credential__c
-            FROM Participant_Status_Integration__mdt
-        ]) {
+        for (Participant_Status_Integration__mdt setting : [SELECT Id, Fields__c, ApiFieldNames__c, Referral_Sources__c, Named_Credential__c FROM Participant_Status_Integration__mdt]) {
             for (String field : setting.Fields__c.split(',')) {
                 queriedStatusFieldsSet.add(field.trim());
             }
