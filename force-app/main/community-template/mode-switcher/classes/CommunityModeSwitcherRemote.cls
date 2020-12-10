@@ -14,11 +14,7 @@ public without sharing class CommunityModeSwitcherRemote {
     public static String getSwitcherInitData() {
         CommunityModesWrapper result = new CommunityModesWrapper();
         result.communityModes = new CommunityModes();
-        List<User> currentUser = [
-            SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl
-            FROM User
-            WHERE Id = :UserInfo.getUserId()
-        ];
+        List<User> currentUser = [ SELECT Id, Contact.FirstName, Contact.LastName, SmallPhotoUrl FROM User  WHERE Id = :UserInfo.getUserId() ];
         ContactService.applyRelevantNames(currentUser);
         result.user = currentUser[0];
         result.hasProfilePic = !currentUser[0].SmallPhotoUrl.contains('profilephoto/005/T');
@@ -35,13 +31,7 @@ public without sharing class CommunityModeSwitcherRemote {
         Contact userContact = UserContext.getUserContact();
         userContact.Current_Participant_Enrollment__c = null;
         update userContact;
-        List<LoginHistory> userLoginHistory = [
-            SELECT Id, UserId, LoginTime, LoginUrl
-            FROM LoginHistory
-            WHERE UserId = :UserInfo.getUserId()
-            ORDER BY LoginTime DESC
-            LIMIT 1
-        ];
+        List<LoginHistory> userLoginHistory = [ SELECT Id, UserId, LoginTime, LoginUrl FROM LoginHistory  WHERE UserId = :UserInfo.getUserId() ORDER BY LoginTime DESC LIMIT 1 ];
         return userLoginHistory.isEmpty() ? Site.getBaseUrl() : 'https://' + userLoginHistory.get(0) .LoginUrl.substringAfter('https://').substringBefore('/s').trim();
     }
 
