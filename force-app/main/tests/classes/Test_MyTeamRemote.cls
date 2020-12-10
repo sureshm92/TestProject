@@ -19,6 +19,11 @@ private class Test_MyTeamRemote {
         Test.startTest();
         System.runAs(testData.hcpUser) {
             MyTeamRemote.getInitData(CommunityService.USER_MODE_HCP, null);
+            RP_Delegate_Relationship__c rpDelegate = new RP_Delegate_Relationship__c(
+        Referring_Provider__c = hcpContact.Id,
+        Delegate_Access_Level__c = DelegateService.DELEGATE_LEVEL_1,
+        Delegate__c = hcpContact.id
+        );
             MyTeamRemote.MyTeamDetail detail = (MyTeamRemote.MyTeamDetail) JSON.deserialize(
                 MyTeamRemote.getContactData(
                     CommunityService.USER_MODE_HCP,
