@@ -92,7 +92,7 @@ private class Test_IntegrationPatientReferralHandler {
             	
         );
         insert participantWithBY;
-        Account hcpAccount = new Account(Name = 'HCP Account');
+        /*Account hcpAccount = new Account(Name = 'HCP Account');
         insert hcpAccount;
         
         Contact hcpContact = new Contact(
@@ -125,7 +125,7 @@ private class Test_IntegrationPatientReferralHandler {
             Screening_ID__c = 'PESCR1'
         );
         insert pe;
-        
+        */
       /*  Contact exitedContact = new Contact(
                 FirstName = 'Leo',
                 LastName = 'Win',
@@ -153,11 +153,11 @@ private class Test_IntegrationPatientReferralHandler {
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1234343242',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-            	Ethnicity__c = '0;1;2' ,
+            	Ethnicity__c = '0;1;2'/* ,
             	Delegate_First_Name__c='Test First',
             	Delegate_Last_Name__c='Test Last',
             	Delegate_Email_Address__c='some1@dssd.cre',
-            	Delegate_Daytime_Phone_Number__c= '31444244214'
+            	Delegate_Daytime_Phone_Number__c= '31444244214'*/
             
            
         );
@@ -178,12 +178,12 @@ private class Test_IntegrationPatientReferralHandler {
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '1232141212',
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-            	Ethnicity__c = '0',
+            	Ethnicity__c = '0'/*,
             	Participant_MobileNumber__c = '1212134567',
            	    Delegate_First_Name__c='Test First1',
             	Delegate_Last_Name__c='Test Last1',
             	Delegate_Email_Address__c='some2@dssd.cre',
-            	Delegate_Daytime_Phone_Number__c= '30444244214'
+            	Delegate_Daytime_Phone_Number__c= '30444244214'*/
 
            
         );
@@ -202,11 +202,11 @@ private class Test_IntegrationPatientReferralHandler {
                 siteSelected__c = 'SS1',
                 Referred_Date__c  = '2019-10-02T10:00:00-05:00',
                 referralID__c = '444323423',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
+                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'/*,
             	Delegate_First_Name__c='Test First3',
             	Delegate_Last_Name__c='Test Last3',
             	Delegate_Email_Address__c='some3@dssd.cre',
-            	Delegate_Daytime_Phone_Number__c= '33444244214'
+            	Delegate_Daytime_Phone_Number__c= '33444244214'*/
         );
 
         iprList.add(ipr);
