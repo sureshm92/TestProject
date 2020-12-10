@@ -43,6 +43,12 @@ private class Test_BasePPCommunity {
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY'
             );
+            Participant__c participantDel = new Participant__c();
+            participantDel.Email__c = 'Test01@mail.ru';
+        	participantDel.First_Name__c = 'testName';
+        	participantDel.Last_Name__c = 'testLastName';
+        	participantDel.Phone__c = '141241';
+        	participantDel.Phone_Type__c = 'Home';
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 Study_Site__c = testDataInstance.ss.Id,
                 Patient_ID__c = '12345678',
@@ -62,7 +68,7 @@ private class Test_BasePPCommunity {
                     userLanguage,
                     testDataInstance.ss.Id,
                     true,
-                    null,
+                    JSON.serialize(participantDel),
                     JSON.serialize(ddInfo),
                     false,
                     false,

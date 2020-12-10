@@ -1132,40 +1132,6 @@
         </values>
     </picklistValues>
     <picklistValues>
-        <picklist>Language__c</picklist>
-        <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>iw</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en_US</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
-        <picklist>Languages__c</picklist>
-        <values>
-            <fullName>ar</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>iw</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>en_US</fullName>
-            <default>false</default>
-        </values>
-        <values>
-            <fullName>ru</fullName>
-            <default>false</default>
-        </values>
-    </picklistValues>
-    <picklistValues>
         <picklist>Type__c</picklist>
         <values>
             <fullName>Articles for caregivers</fullName>
