@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 12-10-2020
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
- * Modifications Log 
- * Ver   Date         Author                               Modification
- * 1.0   12-10-2020   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
-**/
 global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_ScheduledAbstract implements Database.Batchable<sObject>, Database.Stateful {
     global List<Participant_Enrollment__c> PEUpdateList = New List<Participant_Enrollment__c>();
     global List<Id> PEIDList = New List<Id>();
