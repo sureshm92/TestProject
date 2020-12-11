@@ -1,5 +1,5 @@
 @IsTest
-public class Test_InitialWireframeController {
+public class Test_InitialWireFrameController {
     
     @TestSetup
     static void setup() {
