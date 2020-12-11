@@ -126,88 +126,21 @@ private class Test_IntegrationCovidPatientRefHandler {
             	Delegate_Zip_Postal_Code__c = '1003',
             	Delegate_Email_Address__c = 'tommy.danny@mail.com'
         );
-        Integration_Patient_Referral__c ipr2 = new Integration_Patient_Referral__c(
-                Address_Country__c = 'US',
-                Address_State__c = 'New York',
-                Address_ZipCode__c = '34234',
-                birthYear__c = '1985',
-                Data_Source__c = 'IQVIA registry',
-                email__c = 'MaxJames@mail.com',
-                Middle_Initial__c = 'S',
-                firstName__c = 'Max',
-                lastName__c = 'Weg',
-                Language_Preference__c = 'en_US',
-                phone__c = '13245215333',
-                protocolId__c = 'C19NYBC',
-                siteSelected__c = 'SS1',
-                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
-                referralID__c = 'SS1_NYBC12347',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-				Participant_MobileNumber__c = '1212134567',
-				Condition_Of_Interests__c = 'Covid-19',
-            	Delegate_First_Name__c = 'Tommy',
-            	Delegate_Last_Name__c = 'Danny',
-            	Delegate_Phone_Number_Type__c = 'Home',
-            	Delegate_Zip_Postal_Code__c = '1003',
-            	Delegate_Email_Address__c = 'tommy.danny@mail.com'
-        );
-        Integration_Patient_Referral__c ipr3 = new Integration_Patient_Referral__c(
-                Address_Country__c = 'US',
-                Address_State__c = 'New York',
-                Address_ZipCode__c = '12312',
-                birthYear__c = '1985',
-                Data_Source__c = 'IQVIA registry',
-                email__c = 'leo@mail.com',
-                firstName__c = 'Leo',
-                lastName__c = 'Wide',
-                Language_Preference__c = 'en_US',
-                phone__c = '321234243',
-                protocolId__c = 'C19NYBC',
-                siteSelected__c = 'SS1',
-                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
-                referralID__c = 'SS1_NYBC12345',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-				Condition_Of_Interests__c = 'Covid-19',
-            	Delegate_First_Name__c = 'Tommy',
-            	Delegate_Last_Name__c = 'Danny',
-            	Delegate_Phone_Number_Type__c = 'Home',
-            	Delegate_Zip_Postal_Code__c = '1003',
-            	Delegate_Email_Address__c = 'tommy.danny@mail.com'
-        );
+      
 
-        iprList.add(ipr);
-        iprList.add(ipr2);
-        iprList.add(ipr3);
+        iprList.add(ipr); 
+     
         insert iprList;
         
-        insert new Integration_Patient_Referral__c(
-                Address_Country__c = 'US',
-                Address_State__c = 'New York',
-                Address_ZipCode__c = '12312',
-                birthYear__c = '1985',
-                Data_Source__c = '23AndMe',
-                email__c = 'leo@mail.com',
-                firstName__c = 'Leo',
-                lastName__c = 'Wide',
-                Language_Preference__c = 'en_US',
-                phone__c = '321234243',
-                protocolId__c = 'C19NYBC',
-                siteSelected__c = 'SS1',
-                Referred_Date__c  = '2019-10-02T10:00:00-05:00',
-                referralID__c = 'SS1_NYBC12348',
-                acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00',
-				Condition_Of_Interests__c = 'Covid-19'
-        );
+    
         
         test.stopTest();
 
-        System.assert([SELECT Id, Middle_Name__c FROM Participant__c WHERE Email__c = 'maxjames@mail.com'].Middle_Name__c == 'S');
+
         System.assert([SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'some@dssd.cre'].Secondary_Source__c == 'IQVIA registry');
-       // System.assert([SELECT Id, Contact__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Contact__c == exitedContact.Id);
+
         
-        String refSource = [SELECT Id, Secondary_Source__c FROM Participant__c WHERE Email__c = 'leo@mail.com'].Secondary_Source__c;
-        System.assert(refSource.contains('IQVIA registry'));
-        System.assert(refSource.contains('23AndMe'));
+      
     }
     
 }
