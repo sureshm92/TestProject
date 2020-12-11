@@ -13,7 +13,7 @@ public class Test_InitialWireFrameController {
         TestData tstData = new TestData();
         Test.startTest();
         System.runAs(tstData.participantUser) {
-        InitialWireframeController initialWireFrame =new InitialWireframeController();
+        InitialWireFrameController initialWireFrame =new InitialWireFrameController();
         initialWireFrame.recordId= tstData.participantUser.Id;   
         initialWireFrame.getUserMode();
         initialWireFrame.getBTNLabel();
