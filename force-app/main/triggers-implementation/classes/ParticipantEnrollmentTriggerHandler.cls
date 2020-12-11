@@ -153,6 +153,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Contact> participantContacts = new List<Contact>();
         for (Participant_Enrollment__c pe : newList) {
             String nctNumber;
+            String protocolId;
             String participantName;
             Boolean visitOpt = false;
 
@@ -162,6 +163,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     pe.PI_Contact__c = ss.Principal_Investigator__c;
                     pe.Clinical_Trial_Profile__c = ss.Clinical_Trial_Profile__c;
                     nctNumber = ss.Clinical_Trial_Profile__r.NCT_Number__c;
+                    protocolId= ss.Clinical_Trial_Profile__r.Protocol_ID__c;
                     visitOpt = ss.Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c;
                 }
             }
@@ -194,6 +196,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             //populate Participant Code
             if (nctNumber != null && participantName != null) {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
+            }else if(protocolId != null && participantName != null){
+                 pe.Participant_Key__c = participantName + ' ' + protocolId;
             }
             //populate referred date
             if (
