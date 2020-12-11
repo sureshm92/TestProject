@@ -681,9 +681,8 @@ public without sharing class ParticipantInformationRemote {
             ]) {
                 stepsWithName.put(s.MasterLabel, s);
             }
-            //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC'
+            //Mask Created by Name for  Portal user whose User Community Mode is 'CC'
             String createdbyName = '';
-            Id userId =Userinfo.getUserId();
              
             if(isCCUser){
                 createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
