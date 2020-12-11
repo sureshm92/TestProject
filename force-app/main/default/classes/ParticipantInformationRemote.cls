@@ -616,7 +616,8 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             } else if (notesToBeAdded && pe != null && pe.Id != null) {
-                updateNotes(pathWrapper, pe, outcome);
+                Boolean isCCUser=false;
+                updateNotes(pathWrapper, pe, outcome,isCCUser);
             } else if (pe != null && pe.Id != null) {
                 updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
@@ -644,7 +645,8 @@ public without sharing class ParticipantInformationRemote {
     private static void updateNotes(
         ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper,
         Participant_Enrollment__c pe,
-        String outcome
+        String outcome,
+        Boolean isCCUser
     ) {
         Participant_Enrollment_Status_History__c peshnotes;
         if (outcome != null) {
@@ -679,6 +681,17 @@ public without sharing class ParticipantInformationRemote {
             ]) {
                 stepsWithName.put(s.MasterLabel, s);
             }
+            //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC'
+            String createdbyName = '';
+            Id userId =Userinfo.getUserId();
+             
+            if(isCCUser){
+                createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
+            }
+            else{
+                createdbyName =UserInfo.getName();
+            }
+            
             for (Integer i = 0; i < pathWrapper.steps.size(); i = i + 1) {
                 ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[
                     i
@@ -712,7 +725,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
-                                    UserInfo.getName() +
+                                    createdbyName +
                                     '#';
                                 break;
                             } else if (
@@ -729,7 +742,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
-                                    UserInfo.getName() +
+                                    createdbyName +
                                     '#' +
                                     peshnotes.Additional_Notes__c;
                                 break;
@@ -747,7 +760,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
-                            UserInfo.getName() +
+                            createdbyName +
                             '#';
                         break;
                     } else {
@@ -760,7 +773,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
-                            UserInfo.getName() +
+                            createdbyName +
                             '#' +
                             peshnotes.Additional_Notes__c;
                         break;
@@ -971,7 +984,8 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             } else if (notesToBeAdded && pe != null && pe.Id != null) {
-                updateNotes(pathWrapper, pe, outcome);
+               	Boolean isCCUser=true;
+                updateNotes(pathWrapper, pe, outcome,isCCUser);
             } else if (pe != null && pe.Id != null) {
                 updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
