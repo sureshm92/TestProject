@@ -54,7 +54,8 @@ public without sharing class PETriggerBuffer {
                     Clinical_Trial_Profile__r.Visit_Data_Shareback__c,
                     Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                     Clinical_Trial_Profile__r.NCT_Number__c,
-                    Clinical_Trial_Profile__r.CommunityTemplate__c
+                    Clinical_Trial_Profile__r.CommunityTemplate__c,
+                    Clinical_Trial_Profile__r.Protocol_ID__c
                 FROM Study_Site__c
                 WHERE Id IN :ssIds
             ]
