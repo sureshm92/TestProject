@@ -305,6 +305,20 @@ public class StudyActionsPI extends StudyActions {
                 }
             )
         );
+        //REF-2774
+        actions.put(
+            ACT_MEDICAL_HISTORY,
+            new Action(
+                ACT_MEDICAL_HISTORY,
+                null,
+                null,
+                new List<DisableReason>{
+                    //level2AndLowReason,
+                    supportLevelReason
+                }
+            )
+        );
+        
         actions.put(
             ACT_CONNECT_PROVIDER,
             new Action(

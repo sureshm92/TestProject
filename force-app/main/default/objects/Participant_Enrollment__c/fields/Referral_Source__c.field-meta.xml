@@ -63,6 +63,10 @@
                 <default>false</default>
                 <label>IQVIA registry</label>
             </value>
+			 <fullName>Ciitizen</fullName>
+                    <default>false</default>
+                    <label>Ciitizen</label>
+                </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

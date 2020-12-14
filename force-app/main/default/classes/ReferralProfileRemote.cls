@@ -13,6 +13,7 @@ public without sharing class ReferralProfileRemote {
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean isEnrolled;
+        Boolean containsFile; //REF-2654
         User userInfo;
     }
 
@@ -100,6 +101,21 @@ public without sharing class ReferralProfileRemote {
             Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(
                 pe.Clinical_Trial_Profile__c
             );
+
+             //START REF-2654
+             String participantId = pe.Participant__c;
+             Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
+             Boolean containsFile;
+             if(count > 0)
+             {
+                 containsFile = true;
+             }else
+             {
+                 containsFile = false;
+             }
+             initData.containsFile = containsFile;
+             //END REF-2654	
+             
             List<User> participantUsers = [
                 SELECT Id, LanguageLocaleKey
                 FROM User
@@ -432,6 +448,7 @@ public without sharing class ReferralProfileRemote {
         String peId,
         String userMode,
         String delegateId
+        
     ) {
         Map<String, Object> returnValue = new Map<String, Object>();
         try {
