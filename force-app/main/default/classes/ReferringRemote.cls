@@ -267,6 +267,11 @@ public without sharing class ReferringRemote {
             }
 
             Boolean createDelegateuser = true;
+            // Added this lines for REF-2592 bug fixing, to stop sending email to the Virtual/Hybrid study 
+            if(hcpEnrollment!=null && (hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Virtual' || hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Hybrid') ){
+                createDelegateuser = false;             
+            }
+            /////
             if (
                 participantDelegate != null &&
                 !String.isEmpty(participantDelegate.Last_Name__c) &&

@@ -25,7 +25,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                 WHERE
                     Notify_On_Availability__c = TRUE
                     AND Visible_To_Participant__c = TRUE
-                    AND Resource__r.Content_Type__c = 'Study_Document'
+                    AND Resource__r.document_type__c = 'Document'
             ]
         );
     }
