@@ -19654,28 +19654,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJa&amp;oid=00D3O0000004pI7&amp;lastMod=1604401449000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMX&amp;oid=00D1I000001V1t1&amp;lastMod=1607841830000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_LearnLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJV&amp;oid=00D3O0000004pI7&amp;lastMod=1604400304000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMS&amp;oid=00D1I000001V1t1&amp;lastMod=1607841651000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_PPHeaderLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJQ&amp;oid=00D3O0000004pI7&amp;lastMod=1604399794000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMN&amp;oid=00D1I000001V1t1&amp;lastMod=1607836850000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_TrackLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJf&amp;oid=00D3O0000004pI7&amp;lastMod=1604401527000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMc&amp;oid=00D1I000001V1t1&amp;lastMod=1607842028000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>
