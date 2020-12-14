@@ -552,6 +552,11 @@ public without sharing class ParticipantWorkflowService {
                     Label.PE_Status_History_On_Date,
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date')
                 );
+                String createdByName = historyWrapper.detail.substringAfterLast(Label.PG_IMI_L_by_user);
+                if(createdByName.contains(Label.RH_Masked_IQVIA_User)){
+                    createdByName=Label.RH_Masked_IQVIA_User;
+                    historyWrapper.detail=historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +Label.PG_IMI_L_by_user +' ' + createdByName;
+                }
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
