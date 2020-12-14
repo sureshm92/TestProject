@@ -1,0 +1,33 @@
+<apex:page standardStylesheets="false" renderAs="pdf" controller="TrialMatchLearnMorePageController" applyHtmlTag="false" 
+           showHeader="false" 
+           cache="true"  
+           readOnly="true">
+     <head> 
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+    <style type="text/css">
+    @page {
+        size:A4 landscape;
+        border:9px solid  RGB(216, 216, 216);
+        border-right: 0;
+        margin-right: -8px;   
+   }   
+    </style> 
+    </head>
+ 
+<apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" style="display:block;width:130px;height:35px;margin-right: 60px; right:90px;float: left;
+                top:0%; 
+               "/>  
+    <br/>
+    <div style="margin-left: 160px;margin-right: 170px;text-align:center;">  
+        <h1 style="font-size:20px;color:#3333ff;" >
+      {!studyTitle} 
+    </h1> 
+    </div>
+   
+   
+<div  style="margin:10px;margin-right: 60px;">
+      
+     <apex:outputLabel escape="false" Value="{!htmlformattedString}" ></apex:outputLabel>
+    </div>
+     
+</apex:page>

@@ -5,12 +5,14 @@
 public without sharing virtual class EmailTemplateProvider {
     public static final String PARAM_PREFIX = '##';
     public static final String DEFAULT_LANGUAGE = 'en_US';
+    // Added the value at line number 14 to fix REF-2560 bug, PIName is not displaying receipient.
     public static final Map<String, String> PARAM_PROVIDER_BY_TYPE = new Map<String, String>{
         'Case' => 'Email_Template_Parameters_From_Case',
         'Contact' => 'PP_Contact',
         'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
         'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
         'Participant__c' => 'PP_Participant',
+        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',
         'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
         'Resource__c' => 'Email_Template_Parameters_From_Resource',
         'Study_Site__c' => 'PP_Study_Site',

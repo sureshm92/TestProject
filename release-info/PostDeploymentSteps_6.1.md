@@ -57,3 +57,11 @@ Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' but
 	   c)IQVIA SPNL2
 	   d)PRDBAPI
 	   e)Product Owner
+
+## 10.Make Flows Respect Access Modifiers for Legacy Apex Actions
+
+Go to Setup - Release Updates - Make Flows Respect Access Modifiers for Legacy Apex Actions - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm - Apply Update.
+
+## 11.Prevent Creation of Function Expressions When Using $A.createComponent() or $A.createComponents() in Aura Components
+
+Go to Setup - Release Updates - Prevent Creation of Function Expressions When Using $A.createComponent() or $A.createComponents() in Aura Components - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm - Apply Update.

@@ -1909,6 +1909,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>TrialMatchLearnMorePageController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>TrialMatchPageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -7968,6 +7972,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>TrialMatchData</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>TrialMatchLearnMorePage</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>
