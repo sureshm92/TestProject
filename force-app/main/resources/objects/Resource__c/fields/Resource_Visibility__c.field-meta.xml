@@ -21,11 +21,6 @@
                 <default>false</default>
                 <label>RP</label>
             </value>
-            <value>
-                <fullName>Participant</fullName>
-                <default>false</default>
-                <label>Participant</label>
-            </value>
         </valueSetDefinition>
     </valueSet>
     <visibleLines>4</visibleLines>
