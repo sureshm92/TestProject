@@ -96,7 +96,7 @@
                                         class="slds-show slds-col"
                                         style="padding-top: 9px; text-align: left"
                                         onclick="{!c.closeCard}"
-                                        ><span>View Less</span></a
+                                        ><span>{!$Label.c.View_Less}</span></a
                                     >
 
                                     <button

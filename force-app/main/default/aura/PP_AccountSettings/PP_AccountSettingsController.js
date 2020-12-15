@@ -65,8 +65,56 @@
         y.style.boxShadow = 'none';
         component.set('v.toglNavg', false);
     },
+    // Added for REF-2736 bug fixing
+     onClick: function (component, event, helper) {
+        var y = document.getElementById('selectOption');
+        var toglNavg = component.get('v.toglNavg');
+        toglNavg = !toglNavg;
+        component.set('v.toglNavg', toglNavg);
+        var device = $A.get('$Browser.formFactor');
+        var id = event.target.dataset.menuItemId;
+        component.set('v.compId', id);
+        var compId = component.get('v.compId');
+        
+        if (device == 'PHONE'|| device == 'TABLET') {
+            for (var i = 1; i < 7; i++) {
+                var x = document.getElementById(i);
+                if (id != i && !toglNavg) {
+                    x.style.visibility = 'hidden';
+                    y.style.boxShadow = 'none';
+                    y.style.background = 'Transparent';
+                } else if (toglNavg) {
+                    x.style.visibility = 'visible';
+                    y.style.boxShadow = '0 4px 24px 0 rgba(0, 0, 0, 0.16)';
+                    y.style.background = '#fff';
+                }
+            }
+        }
 
-    onClick: function (component, event, helper) {
+        if (compId == '1') {
+            window.history.replaceState(null, null, "?profileInformation");
+            //communityService.navigateToPage('account-settings?profileInformation');
+        } else if (compId == '3') {
+            window.history.replaceState(null, null, "?langloc");
+            //communityService.navigateToPage('account-settings?langloc');
+        } else if (compId == '4') {
+            window.history.replaceState(null, null, "?changePref");
+            //communityService.navigateToPage('account-settings?changePref');
+        } else if (compId == '2') {
+            window.history.replaceState(null, null, "?passwordchange");
+            //communityService.navigateToPage('account-settings?passwordchange');
+        } else if (compId == '5') {
+            window.history.replaceState(null, null, "?cookiesSettings");
+            //communityService.navigateToPage('account-settings?cookiesSettings');
+        } else if (compId == '6') {
+            window.history.replaceState(null, null, "?notify");
+            //communityService.navigateToPage('account-settings?notify');
+        } else {
+            communityService.navigateToPage('account-settings');
+        }
+    },
+
+    /*onClick: function (component, event, helper) {
         var y = document.getElementById('selectOption');
         var toglNavg = component.get('v.toglNavg');
         toglNavg = !toglNavg;
@@ -106,7 +154,7 @@
         } else {
             communityService.navigateToPage('account-settings');
         }
-    },
+    },*/
 
     onEditPerson: function (component, event, helper) {
         let personWrapper = event.getSource().get('v.personWrapper');

@@ -13,6 +13,11 @@
 .THIS.checkbox-field {
     padding-top: 35px;
 }
+/*Fix for REF-2710 Vikrant */
+.THIS .slds-has-error .slds-form-element__help {
+    width: 200px;
+    left: 1px;
+    }
 
 @media screen and (max-width: 768px) {
     .THIS.form-field {

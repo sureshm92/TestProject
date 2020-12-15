@@ -25,9 +25,13 @@
 }
 
 .THIS .vpi-status-btns {
-    display: flex;
+    /* Commented for REF-2727 Vikrant
+     * display: flex;
     justify-content: center;
-    padding-left: 63%;
+    padding-left: 63%; */
+    display: flex;
+    justify-content: flex-end;
+    padding-left: 0;
 }
 
 .THIS .vpi-status-btns > div {
@@ -44,7 +48,7 @@
     min-width: 100%;
     display: inline-flex;
     justify-content: flex-end;
-    margin: 1rem 1rem 0 0;
+   /*  margin: 1rem 1rem 0 0; Commented for REF-2727 Vikrant */
 }
 
 .THIS .vpi-status-btns > .slds-small-size_6-of-12 > button {
@@ -72,6 +76,7 @@
 
     .THIS .slds-small-size_6-of-12 {
         margin-left: 0;
+        flex-direction: column-reverse;
     }
 
     .THIS .vpi-status-btns > .slds-small-size_6-of-12 > button {

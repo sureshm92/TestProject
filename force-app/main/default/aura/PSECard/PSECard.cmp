@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PSECard">
+ <aura:component description="PSECard">
     <!-- attributes: -->
     <aura:attribute name="pe" type="Object" />
     <aura:attribute name="steps" type="List" />
@@ -57,6 +57,8 @@
                             isInvited="{!v.isInvited}"
                             peStatusStateMap="{!v.peStatusStateMap}"
                             actions="{!v.actions}"
+                            isHidden ="{!v.isHidden}"
+                            
                         />
                     </aura:set>
                 </aura:if>

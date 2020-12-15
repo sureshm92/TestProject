@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Body__c</field>
-        <value xsi:type="xsd:string">Use the filters to select studies, clinics and date ranges. Then click Export to download your data. (If you are prompted with a window indicating that the file format and extension do not match, click on &quot;Yes&quot; to open the file.)</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Multimode_Only__c</field>
@@ -16,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Export data</value>
+        <value xsi:type="xsd:string">My Participant For Mobile View</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">Reports</value>
+        <value xsi:type="xsd:string">7.My Participants</value>
     </values>
 </CustomMetadata>

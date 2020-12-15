@@ -6,14 +6,10 @@
 }
 
 .THIS .slds-has-error .slds-form-element__help {
-    position: absolute;
     width: 100%;
     margin-bottom: 18px;
     z-index: 0;
     display: flex;
-}
-.THIS .sld-input-margin {
-    margin-top: -5px;
 }
 
 .THIS .h-body {
@@ -45,6 +41,18 @@
 .THIS .h-body .slds-file-selector__dropzone,
 .THIS .h-body .slds-form-element__control.slds-grow,
 .THIS .h-body .rrs-container {
+    width: 100%;
+}
+
+.THIS .rrs-label {
+    margin-bottom: 5px;
+}
+
+.THIS .slds-align_absolute-center {
+    width: 80%;
+}
+
+.THIS .slds-align_absolute-center .slds-wrap {
     width: 100%;
 }
 
@@ -134,4 +142,16 @@
 .THIS .ht-sub-label {
     font-size: 14px;
     color: #444444;
+}
+
+@media all and (max-width: 500px) {
+
+    .THIS .pi-picklist-container .slds-grid > .slds-col {
+        width: 100%;
+    }
+
+    .THIS .pi-picklist-container .slds-grid > .slds-col:first-child {
+       margin-bottom: 15px;
+    }
+
 }

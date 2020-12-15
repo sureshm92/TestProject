@@ -41,10 +41,6 @@
     /*overflow: hidden;*/
 }
 
-.THIS .p-content {
-    max-height: 72vh !important;
-}
-
 .THIS.mrz-main-container,
 .THIS.mrz-filter {
     color: #666666;
@@ -118,5 +114,10 @@
 
     .THIS .p-buttons-container .apollo-btn.primary {
         margin-top: 1rem;
+    }
+
+
+    .THIS .p-content {
+        max-height: 50vh;
     }
 }

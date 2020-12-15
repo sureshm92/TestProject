@@ -7,8 +7,7 @@ public without sharing class CommunityFacadeRemote {
 
     @AuraEnabled
     public static Boolean isFirstLogon() {
-        return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = :UserInfo.getUserId()]
-        .Contact.Is_First_Logon__c;
+        return [SELECT Id, Contact.Is_First_Logon__c FROM User WHERE Id = : UserInfo.getUserId()].Contact.Is_First_Logon__c;
     }
 
     @AuraEnabled
@@ -102,7 +101,7 @@ public without sharing class CommunityFacadeRemote {
             cd.pathPrefix = Site.getPathPrefix();
             cd.isTCAccepted = cd.isDummy || isTCAccepted();
             cd.language = UserInfo.getLanguage();
-            cd.isMobileApp = isCurrentSessionMobileApp();
+            cd.isMobileApp = false;
 
             return JSON.serialize(cd);
         } catch (Exception e) {
@@ -154,7 +153,7 @@ public without sharing class CommunityFacadeRemote {
                 if (study.Messages_Are_Available__c) return false;
             }
             return false;
-        } else {
+           } else {
             List<Study_Site__c> studies = new List<Study_Site__c>([SELECT Id,
                                                                           Messages_Are_Available__c,
                                                                           Clinical_Trial_Profile__r.CommunityTemplate__c
@@ -165,7 +164,7 @@ public without sharing class CommunityFacadeRemote {
                 if (study.Messages_Are_Available__c) return true;
             }
             return true;
-        }*/
+           }*/
     }
 
     @AuraEnabled
@@ -186,16 +185,15 @@ public without sharing class CommunityFacadeRemote {
         List<String> cookieFields = new List<String>();
         String commUrl = getCommunityUrl();
         //Map<String, Schema.SObjectField> fields = Contact.getSObjectType().getDescribe().fields.getMap();
-
-        if (commUrl != null)
-            if (commUrl.contains('Janssen Community')) {
+         if(commUrl!=null) 
+            if(commUrl.contains('Janssen Community')) {
                 cookieFields.add('RRJanssenCookiesAllowedCookie__c');
                 cookieFields.add('RRJanssenLanguageAllowedCookie__c');
             } else {
                 cookieFields.add('RRCookiesAllowedCookie__c');
                 cookieFields.add('RRLanguageAllowedCookie__c');
-            }
-        /*  for (String currField : fields.keySet()) {
+           }
+        /*for (String currField : fields.keySet()) {
             String fieldName = fields.get(currField).getDescribe().getName();
             if (fieldName.endsWith(COOKIE_FIELD_MARK)) {
                 cookieFields.add(fieldName);
@@ -276,7 +274,7 @@ public without sharing class CommunityFacadeRemote {
             peWithAvailableMessages = [
                 SELECT Id
                 FROM Participant_Enrollment__c
-                WHERE Id IN :peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
+                WHERE Id IN:peIds AND Study_Site__r.Messages_Are_Available__c = TRUE
             ];
         }
 
@@ -287,10 +285,8 @@ public without sharing class CommunityFacadeRemote {
 
     private static Boolean getTrialMatchVisibility() {
         if (ParticipantContext.getCurrentPEId() != null) {
-            return ParticipantContext.getCurrentPE()
-                    .Clinical_Trial_Profile__r.Trial_Match_Is_Available__c &&
-                ParticipantService.getParticipantState().value ==
-                ParticipantService.ParticipantStates.PARTICIPANT;
+            return ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Trial_Match_Is_Available__c
+                   && ParticipantService.getParticipantState().value == ParticipantService.ParticipantStates.PARTICIPANT;
         }
         return false;
     }
@@ -370,16 +366,15 @@ public without sharing class CommunityFacadeRemote {
         List<AuthSession> sessions = [
             SELECT Id, IsCurrent, LoginHistory.Browser, LoginHistory.Application, LastModifiedDate
             FROM AuthSession
-            WHERE UsersId = :UserContext.getUserId() AND IsCurrent = TRUE
-            ORDER BY LastModifiedDate DESC
-            LIMIT 1
+            WHERE UsersId =: UserContext.getUserId() AND IsCurrent = TRUE
+                                                                     ORDER BY LastModifiedDate DESC LIMIT 1
         ];
         if (!sessions.isEmpty() && sessions[0].LoginHistory != null) {
             LoginHistory history = sessions[0].LoginHistory;
             if (history.Browser != null && history.Application != null) {
-                isMobileApp = (!history.Application.equals('Browser') ||
-                history.Browser.equals('Unknown Mobile Browser') ||
-                history.Browser.equals('Unknown Webkit Mobile'));
+                isMobileApp = (!history.Application.equals('Browser')
+                               || history.Browser.equals('Unknown Mobile Browser')
+                               || history.Browser.equals('Unknown Webkit Mobile'));
             }
         }
         return isMobileApp;
@@ -390,15 +385,9 @@ public without sharing class CommunityFacadeRemote {
             return false;
         }
         List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
-        return [
-                SELECT Id
-                FROM Study_Site__c
-                WHERE
-                    (Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_DEFAULT
-                    OR Clinical_Trial_Profile__r.CommunityTemplate__c = :CommunityTemplateService.TEMPLATE_GSK)
-                    AND (Id IN :delegatedSites
-                    OR Principal_Investigator__c = :UserContext.getUserContactId())
-            ]
-            .size() > 0;
+        
+        return [SELECT Id FROM Study_Site__c WHERE (Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_DEFAULT OR
+                                                    Clinical_Trial_Profile__r.CommunityTemplate__c = : CommunityTemplateService.TEMPLATE_GSK)
+                                                    AND (Id IN: delegatedSites OR Principal_Investigator__c = : UserContext.getUserContactId()) ].size() > 0;
     }
 }

@@ -502,7 +502,11 @@ public without sharing class DashboardRemoteNew {
     } */
 
     @AuraEnabled
-    public static List<WaitingContactItem> prepareAwaitingContactList(Id piId, String ctpId) {
+    public static List<WaitingContactItem> prepareAwaitingContactList(
+        Id piId,
+        String ctpId,
+        String communityName
+    ) {
         List<WaitingContactItem> resList = new List<WaitingContactItem>();
         Set<Id> avaliableSS = new Set<Id>();
         Set<Id> ssId = new Set<Id>();
