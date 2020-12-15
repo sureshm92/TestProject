@@ -149,6 +149,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.Status__c;
+            pe.Last_Status_Changed_Additional_Notes__c = headHistory.Additional_Notes__c;
             if (
                 headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
                 headHistory.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS
