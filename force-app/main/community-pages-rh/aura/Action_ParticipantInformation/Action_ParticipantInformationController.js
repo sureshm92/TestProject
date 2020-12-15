@@ -69,6 +69,7 @@
                                 returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                             }
                             component.set('v.pe', returnValue.enrollment);
+                            component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.init', true);
                             component.set(
                                 'v.isEmail',
