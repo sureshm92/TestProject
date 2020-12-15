@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Profile xmlns="http://soap.sforce.com/2006/04/metadata">
-    <classAccesses>
+   
+   <classAccesses>
 	    <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1028,6 +1029,10 @@
         <apexClass>MediaOutreachServices</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>MedicalHistoryViewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
@@ -1906,6 +1911,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>TrialMatchLearnMoreLinkPDF</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>TrialMatchLearnMorePageController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -7968,6 +7977,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>TrialMatchData</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>TrialMatchLearnMorePage</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

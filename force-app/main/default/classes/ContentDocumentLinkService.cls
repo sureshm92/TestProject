@@ -10,6 +10,20 @@ public with sharing class ContentDocumentLinkService {
         'GIF'
     };
 
+ //REF-2654    
+ public static final Set<String> PARTICIPANT_FILE_TYPES = new Set<String>{
+    'jpeg',
+    'png',
+    'jpg',
+    'gif',
+    'JPEG',
+    'PNG',
+    'JPG',
+    'GIF',
+    'PDF',
+    'pdf'   
+};    
+
     public class TranslatedContentItem {
         @AuraEnabled
         public Id contentId;
@@ -279,4 +293,50 @@ public with sharing class ContentDocumentLinkService {
                 )
         ];
     }
+    //REF-2654    
+
+    String strObjPrefix;
+    Schema.DescribeSObjectResult participant = Participant__c.sObjectType.getDescribe();
+    String keyPrefix = participant.getKeyPrefix();
+    public void shareParticipantReportsWithCommunityUsers(List<ContentDocumentLink> links) {
+        //Schema.DescribeSObjectResult participant = Participant__c.sObjectType.getDescribe();
+   		//String keyPrefix = participant.getKeyPrefix();
+        
+        for (ContentDocumentLink singleLink : links) {
+             if((String.valueOf(singleLink.LinkedEntityId)).startsWith(keyPrefix)){
+                 singleLink.ShareType = 'I';
+                 singleLink.Visibility = 'AllUsers';
+            } 
+        }
+    } 
+	
+    public void restrictFiles(List<ContentDocumentLink> lstCntLinks)
+    {
+        Set<Id> setCntDocIds = new set<Id>();
+        set<Id> setParentIds = new set<Id>();
+        map<Id, Participant__c> mapParent;
+        
+        try{
+            for(ContentDocumentLink clIterator : lstCntLinks) {
+                strObjPrefix = String.valueOf(clIterator.LinkedEntityId).substring(0, 3);  
+                if(strObjPrefix == Participant__c.sObjectType.getDescribe().getKeyPrefix()) {
+                    setCntDocIds.add(clIterator.ContentDocumentId);
+                }
+            }
+            
+            map<Id, ContentDocument> mapContentDocuments = new map<Id, ContentDocument>([SELECT Id, Title, FileExtension FROM ContentDocument WHERE Id IN :setCntDocIds]);
+            
+            list<ContentDocument> lstCntDocsToUpdate = new list<ContentDocument>();        
+            for(ContentDocumentLink cdlIterator : lstCntLinks) {
+                ContentDocument objCntDoc = mapContentDocuments.get(cdlIterator.ContentDocumentId);
+                if(!PARTICIPANT_FILE_TYPES.contains(objCntDoc.FileExtension)){
+                    cdlIterator.addError('You can not upload this type of file');   
+                }                        
+            }  
+    	}
+    	catch (Exception ex){
+            system.debug('Exception in ContentDocumentLink_Handler class :' + ex.getMessage());
+        }
+    }
+	//End
 }

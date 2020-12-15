@@ -102,6 +102,7 @@ public abstract class StudyActions {
     public static final String ACT_HCP_LINK_STUDY_SITES = 'linkToStudySites';
     public static final String ACT_SCREENER_RESPONSES = 'screenerResponses';
     public static final String ACT_CONNECT_PROVIDER = 'connectProvider';
+    public static final String ACT_MEDICAL_HISTORY = 'medicalHistory'; //REF-2774
 
     //action labels:
     public static final String LABEL_ACCEPT_TC = Label.BTN_Accept_terms_and_conditions;
