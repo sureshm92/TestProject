@@ -33,7 +33,7 @@ public without sharing class PSEStatusHistoryRemote {
             );
 
             List<Participant_Enrollment_Status_History__c> histories = [
-                SELECT Id, Status__c, Date__c
+                SELECT Id, Status__c, Date__c, PSE_Date__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :peId AND Status__c IN :participationFlowSteps
                 ORDER BY Date__c DESC
@@ -45,6 +45,8 @@ public without sharing class PSEStatusHistoryRemote {
                     Participant_Enrollment__c.Participant_Status__c,
                     peSH.Status__c
                 );
+                DateTime dT = peSH.Date__c;
+                peSH.PSE_Date__c = date.newinstance(dT.year(), dT.month(), dT.day());
                 items.add(new PathItem(peSH));
             }
             return JSON.serialize(items);
