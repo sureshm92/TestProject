@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	
+	 <labels>
+        <fullName>DLIT_L_View_medical_history</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L View medical history</shortDescription>
+        <value>View medical history</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Medical_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant_Medical_History</shortDescription>
+        <value>Participant Medical History</value>
+    </labels>
+    <labels>
+        <fullName>Tab_Medical_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tab_Medical_History</shortDescription>
+        <value>Medical History</value>
+    </labels>
 	<labels>
         <fullName>African_American_Black</fullName>
         <language>en_US</language>

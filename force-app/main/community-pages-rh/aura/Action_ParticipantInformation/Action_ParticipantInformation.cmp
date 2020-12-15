@@ -15,6 +15,7 @@
     <aura:attribute name="pe" type="Participant_Enrollment__c" />
     <aura:attribute name="refProvider" type="Contact" />
     <aura:attribute name="participant" type="Participant__c" access="private" />
+	<aura:attribute name="containsFile" type="Boolean" default="false"/> 
     <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
@@ -318,6 +319,13 @@
                                        >
                             <c:SurveyResponseView pe="{!v.pe}" />
                         </lightning:tab>
+                    </aura:if>
+                    <!--REF-2654, REF-2774-->
+                    <aura:if isTrue="{!v.containsFile &amp;&amp; !v.actions.medicalHistory.disabled}">
+                        <lightning:tab class="slds-tabs_default__item" aura:id="MedicalHistory"
+                                       label="{!$Label.c.Tab_Medical_History}" onactive="{!c.checkTabs}">  
+                            <c:MedicalHistoryView pe="{!v.pe}"/>
+                        </lightning:tab>  
                     </aura:if>
                 </lightning:tabset>
             </aura:if>

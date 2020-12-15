@@ -274,6 +274,9 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
+	<relatedList>RelatedFileList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <fields>Participant_Status__c</fields>
         <fields>Study__c</fields>
