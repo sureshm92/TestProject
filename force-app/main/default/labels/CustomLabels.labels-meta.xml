@@ -15986,6 +15986,13 @@ communications using the toggles below.</value>
         <shortDescription>Programmed death ligand 1</shortDescription>
         <value>Programmed death ligand 1 (PD-L1)</value>
     </labels>
+	<labels>
+        <fullName>Promote_to_SH_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Promote to SH Statuses</shortDescription>
+        <value>Contact Attempted,Eligibility Failed,Pre-review Failed,Pre-review Passed,Received,Successfully Contacted</value>
+    </labels>
     <labels>
         <fullName>Pswd_8_Characters</fullName>
         <language>en_US</language>
