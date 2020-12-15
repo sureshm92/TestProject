@@ -467,6 +467,16 @@ public without sharing class MyTeamRemote {
                     WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
                     LIMIT 5
                 ];
+                String PI ='';
+                List<Study_Site__c> lstSSites = New List<Study_Site__c>();
+                List<user> lstUsr = new List<User>();
+                lstSSites =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 1];
+                if(lstSSites.size() >0){
+                PI =lstSSites[0].Principal_Investigator__c;
+                if(PI!=null && PI!='')
+                {
+                lstUsr = [select id,Contactid from user where Contactid=:PI limit 1];
+                }}
                 if (userMode == CommunityService.USER_MODE_PI) {
                     hasDelegatelevelMap hdmp = new hasDelegatelevelMap();
                     hdmp = savePIDelegate(dw);
@@ -476,7 +486,7 @@ public without sharing class MyTeamRemote {
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
                 }
-                if (lstss.size() > 0) {
+                if (lstss.size() > 0 || lstUsr.size() > 0) {
                     if (
                         (hasDelegateLevels ||
                         !hasDelegateLevelsPIMap.isEmpty()) /*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/
@@ -652,6 +662,7 @@ public without sharing class MyTeamRemote {
                         Site_Staff__c curDelegateRecord = new Site_Staff__c();
                         curDelegateRecord.id = mapDuplicate.get(dupChk);
                         curDelegateRecord.Delegate_Level__c = delegateRecord.delegateLevel;
+                        curDelegateRecord.Study_Site__c = delegateRecord.enrollmentOrStudySiteId;
                         curDelegateRecord.is_Invited__c = true;
                         delegateRecordsToUpdate.add(curDelegateRecord);
                     }
@@ -672,31 +683,12 @@ public without sharing class MyTeamRemote {
             }
         }
         if (!delegateRecordsToInsert.isEmpty()) {
-            insert delegateRecordsToInsert;
+			insert delegateRecordsToInsert;
             DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
+			hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToInsert));
         }
         if (!delegateRecordsToUpdate.isEmpty()) {
-            List<Id> ssIds = new List<Id>();
-            for (Site_Staff__c ss : delegateRecordsToUpdate)
-                ssIds.add(ss.Study_Site__c);
-            List<Study_Site__c> listSS = [
-                SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
-                FROM Study_Site__c
-                WHERE Id IN :ssIds
-            ];
-            List<Id> ssIdsForNotification = new List<Id>();
-            List<String> communityNames = new List<String>();
-            for (Study_Site__c ss : listSS)
-                if (!communityNames.contains(ss.Clinical_Trial_Profile__r.CommunityTemplate__c))
-                    communityNames.add(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
-
-            for (String cmN : communityNames) {
-                for (Study_Site__c ss : listSS) {
-                    if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == cmN)
-                        ssIdsForNotification.add(ss.Id);
-                }
-            }
-            hasDelegateLevelsMap.put(OLD_VALUES_DELEGATE_LEVELS, ssIdsForNotification);
+			hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToUpdate));
             update delegateRecordsToUpdate;
         }
         if (!delegateRecordsToDelete.isEmpty()) {
@@ -708,6 +700,32 @@ public without sharing class MyTeamRemote {
         wrphdlmp.hasCreatedNewSS = hasNewSS;
         return wrphdlmp;
     }
+	
+	private static Map<String, List<Id>> hasDelegateLevelsMapUpdate(List<Site_Staff__c> delegateRecords) {
+		List<Id> ssIds = new List<Id>();
+		Map<String, List<Id>> hasDelegateLevelsMap = new Map<String, List<Id>>();
+		for (Site_Staff__c ss : delegateRecords)
+			ssIds.add(ss.Study_Site__c);
+		List<Study_Site__c> listSS = [
+			SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
+			FROM Study_Site__c
+			WHERE Id IN :ssIds
+		];
+		List<Id> ssIdsForNotification = new List<Id>();
+		List<String> communityNames = new List<String>();
+		for (Study_Site__c ss : listSS)
+			if (!communityNames.contains(ss.Clinical_Trial_Profile__r.CommunityTemplate__c))
+				communityNames.add(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
+
+		for (String cmN : communityNames) {
+			for (Study_Site__c ss : listSS) {
+				if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == cmN)
+					ssIdsForNotification.add(ss.Id);
+			}
+		}
+		hasDelegateLevelsMap.put(OLD_VALUES_DELEGATE_LEVELS, ssIdsForNotification);
+		return hasDelegateLevelsMap;
+	}
 
     private static Boolean saveHCPDelegate(DelegateWrapper dw, String parentId) {
         Boolean hasDelegateLevels = dw.trialLevel.delegateLevel != '';

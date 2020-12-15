@@ -8,6 +8,7 @@ private class Test_ReferralProfileRemote {
     static void testSetMRRStatus() {
         TestData.loadTestData();
         TestData testData = new TestData();
+        String srcstr = 'testdata';
         Participant_Enrollment__c part = [
             SELECT
                 Id,
@@ -22,7 +23,24 @@ private class Test_ReferralProfileRemote {
         Participant_Enrollment__c test1;
         Test.startTest();
         System.runAs(testData.participantUser) {
+            try{
             test1 = ReferralProfileRemote.setMRRStatus(participant, 'Pass', 'bad');
+            ReferralProfileRemote.toSentenceFont(srcstr);
+            ReferralProfileRemote.getReferralProfileDetail(part.id,'PI');
+            ReferralProfileRemote.savePEScreeningId(part.id,'screenid');
+            } catch(exception e){
+            system.debug(e);
+            }
+        }
+        
+        System.runAs(testData.participantUser) {
+            try{
+            ReferralProfileRemote.changePEStatusByBtn(part.id,'Pre-review Passed');
+            ReferralProfileRemote.updateParticipantData(participant,participant);
+            
+            } catch(exception e){
+             system.debug(e);
+            }
         }
         Test.stopTest();
         System.assert(test1 != null);

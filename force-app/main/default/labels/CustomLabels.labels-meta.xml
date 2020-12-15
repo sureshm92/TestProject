@@ -41,7 +41,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>All_Ethnicities</shortDescription>
-        <value>All Ethnicity</value>
+        <value>All</value>
     </labels>
     <labels>
         <fullName>American_Indian_Alaskan_Native</fullName>
@@ -3258,7 +3258,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DB__Only_First_800_participants</shortDescription>
-        <value>Only first 800 participants will be shown in each dropdown, with the most recently created contact shown first.</value>
+        <value>Only the first 800 participants will be shown in each dropdown, with the most recently received shown first.</value>
     </labels>
     <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
@@ -3791,6 +3791,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Distolic Blood Pr</shortDescription>
         <value>Distolic Blood Pr</value>
+    </labels>
+    <labels>
+        <fullName>Diversity_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Diversity Message</shortDescription>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse participants.</value>
     </labels>
     <labels>
         <fullName>Do_Not_Continue</fullName>
@@ -9924,6 +9931,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PES L All Steps</shortDescription>
         <value>All Steps</value>
     </labels>
+	 <labels>
+        <fullName>PES_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PES_Email_Body</shortDescription>
+        <value>&lt;/br&gt;
+&lt;p&gt;There may be activity where a PI has updated a record they should not have access to.  Please verify the participant history of the referral ID below to confirm all transaction history was performed by people having access rights to the study and study site.&lt;/p&gt;</value>
+    </labels>
     <labels>
         <fullName>PES_L_All_acceptance_statuses</fullName>
         <language>en_US</language>
@@ -9986,6 +10001,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Enrollment ID</shortDescription>
         <value>Enrollment ID</value>
+    </labels>
+	 <labels>
+        <fullName>PE_History_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_History_Report</shortDescription>
+        <value>Participant Enrollment History Report</value>
     </labels>
     <labels>
         <fullName>PE_Info_PopUp_Title</fullName>
@@ -18079,6 +18101,13 @@ communications using the toggles below.</value>
         <shortDescription>Successfully_Contacted</shortDescription>
         <value>Successfully Contacted</value>
     </labels>
+	 <labels>
+        <fullName>Suspicious_Activity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Suspicious_Activity</shortDescription>
+        <value>Suspicious Activity</value>
+    </labels>
     <labels>
         <fullName>Systolic</fullName>
         <language>en_US</language>
@@ -19075,6 +19104,14 @@ communications using the toggles below.</value>
         <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
         <value>Nazma Ansari</value>
     </labels>
+     <labels>
+        <fullName>View_Less</fullName>
+        <categories>My Referrals</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View_Less</shortDescription>
+        <value>View Less</value>
+    </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>
         <language>en_US</language>
@@ -19748,5 +19785,12 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Disclaimer_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Disclaimer Text</shortDescription>
+        <value>CONFIDENTIAL AND PROPRIETARY: This report and any information contained herein are proprietary and confidential information of the Sponsor of the clinical trial identified in the report. This report and any information contained herein are intended solely for the purpose of managing the recruitment of potential clinical trial participants by the study team in a manner consistent with the specific clinical trial protocol or the express written instructions of the Sponsor or IQVIA. Any disclosure, dissemination, distribution, copying or any use of this report and any information contained herein other than for the purpose described in this statement is strictly and expressly prohibited.</value>
     </labels>
 </CustomLabels>

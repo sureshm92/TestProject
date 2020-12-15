@@ -397,31 +397,24 @@ public without sharing virtual class EmailTemplateProvider {
             parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
     }
 
-    public void addStudySiteNumber() {
+    public void addStudySiteNumber(){
         List<Participant_Enrollment__c> receivedPEs = new List<Participant_Enrollment__c>();
         List<Id> studySites = new List<Id>();
-        if (recipientId != null) {
-            for (Site_Staff__c ss : [
-                SELECT Study_Site__c
-                FROM Site_Staff__c
-                WHERE
-                    Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                    AND Site_Contact__c = :recipientId
-            ]) {
-                studySites.add(ss.Study_Site__c);
-            }
-
-            receivedPEs.addAll(
-                [
-                    SELECT Id
-                    FROM Participant_Enrollment__c
-                    WHERE
-                        Participant_Status__c = 'Received'
-                        AND (Study_Site__c IN :studySites
-                        OR PI_Contact__c = :recipientId)
-                ]
-            );
+        if(recipientId !=null){
+            
+            
+                for(Site_Staff__c ss:[SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
+                                      WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE]){
+                   studySites.add(ss.Study_Site__c);   
+                }
+            
+            receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
+                                WHERE  Participant_Status__c = 'Received' 
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);
+            
         }
         parameters.put('TotalStudies', String.valueOf(receivedPEs.size()));
     }
+
 }

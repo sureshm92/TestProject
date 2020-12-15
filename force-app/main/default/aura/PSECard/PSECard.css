@@ -21,6 +21,44 @@
     margin-top: 15px;
 }
 
+.THIS .vpi-status-btns a.slds-show > span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.THIS .vpi-status-btns a.slds-show > span:before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid #0768fd;
+    border-left: 2px solid #0768fd;
+    transform: rotate(135deg);
+    left: 2px;
+    top: 8px;
+}
+
+.THIS a.cParticipantCardFields > span {
+    position: relative;
+    padding-left: 20px;
+}
+
+.THIS a.cParticipantCardFields > span:before {
+    content: '';
+    display: block;
+    box-sizing: border-box;
+    position: absolute;
+    width: 8px;
+    height: 8px;
+    border-bottom: 2px solid #0768fd;
+    border-left: 2px solid #0768fd;
+    transform: rotate(-45deg);
+    left: 2px;
+    top: 4px;
+}
+
 @media all and (min-width: 1024px) {
     .THIS .vri-state-label {
         display: block;
