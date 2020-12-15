@@ -40,7 +40,7 @@ global class Batch_UpdPESHReasonToNonEnReason implements Database.Batchable<SObj
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.UpdateLastChangedAdditionalNotes.class
             ); 
-            update peshToUpdate;
+            Database.Update(peshToUpdate, false);
         }
     }
 

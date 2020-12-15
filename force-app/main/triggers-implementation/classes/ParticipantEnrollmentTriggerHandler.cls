@@ -153,7 +153,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Contact> participantContacts = new List<Contact>();
         for (Participant_Enrollment__c pe : newList) {
             String nctNumber;
-             String protocolId;
+            String protocolId;
             String participantName;
             Boolean visitOpt = false;
 
@@ -196,7 +196,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             //populate Participant Code
             if (nctNumber != null && participantName != null) {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
-                }else if(protocolId != null && participantName != null){
+            }else if(protocolId != null && participantName != null){
                  pe.Participant_Key__c = participantName + ' ' + protocolId;
             }
             //populate referred date
