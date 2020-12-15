@@ -25,6 +25,14 @@
                         }
                     });
                     component.set('v.visitResultWrappers', returnValue);
+                    if (
+                        component.get('v.visitResultWrappers[0].visitDate') ==
+                        $A.get('$Label.StudyVisit_Information_Not_Available')
+                    ) {
+                        component.set('v.isVisitResultAvailable', false);
+                    } else {
+                        component.set('v.isVisitResultAvailable', true);
+                    }
                     var trialId = component.get('v.ctpId');
                     component.set(
                         'v.VisitResultPage',

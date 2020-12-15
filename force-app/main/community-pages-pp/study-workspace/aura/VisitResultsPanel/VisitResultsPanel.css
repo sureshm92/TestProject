@@ -49,3 +49,8 @@
         margin: unset;
     }
 }
+@media (min-width: 617px) and (max-width: 901px) {
+    .THIS .visit-result-items-container {
+        width: 570px;
+    }
+}

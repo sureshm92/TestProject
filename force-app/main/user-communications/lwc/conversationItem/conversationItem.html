@@ -26,7 +26,14 @@
         <div class="con-content">
             <div class="con-title">
                 <div class="con-name" title={item.title}>{item.title}</div>
-                <div class="con-time">{item.lastUpdate}</div>
+                <div class="con-time">
+                    <lightning-formatted-date-time
+                        value={item.lastUpdate}
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                    ></lightning-formatted-date-time>
+                </div>
             </div>
             <div class="con-description">
                 <c-web-limit-text-by-lines max-lines="2" title={item.description}>

@@ -43,7 +43,12 @@
     <lightning:input label="Patient Id" value="{!v.participant.patientId}" />
     <lightning:input label="First Name" value="{!v.participant.firstName}" />
     <lightning:input label="Last Name" value="{!v.participant.lastName}" />
-    <lightning:input type="Date" label="Date of Birth" value="{!v.participant.dob}" />
+    <lightning:input
+        type="Date"
+        label="Date of Birth"
+        value="{!v.participant.dob}"
+        dateStyle="medium"
+    />
     <lightning:input label="Address Line 1" value="{!v.participant.addressLine1}" />
     <lightning:input label="Address Line 2" value="{!v.participant.addressLine2}" />
     <lightning:input label="City" value="{!v.participant.city}" />

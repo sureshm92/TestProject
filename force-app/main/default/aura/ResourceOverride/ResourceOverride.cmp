@@ -174,6 +174,7 @@
                                 label="Version Date"
                                 value="{!v.Version_Date__c}"
                                 required="true"
+                                dateStyle="medium"
                             />
                         </div>
                     </div>
@@ -261,6 +262,7 @@
                                 label="Posting Date"
                                 value="{!v.Posting_Date__c}"
                                 required="true"
+                                dateSyle="medium"
                             />
                         </div>
                         <div class="slds-col slds-size_1-of-2">
@@ -285,6 +287,7 @@
                                 name="expirationdate"
                                 label="Expiration Date"
                                 value="{!v.Expiration_Date__c}"
+                                dateStyle="medium"
                             />
                         </div>
                         <div class="slds-col slds-size_1-of-2" />
@@ -296,6 +299,7 @@
                                 name="updateddate"
                                 label="Updated Date"
                                 value="{!v.Updated_Date__c}"
+                                dateStyle="medium"
                             />
                         </div>
 
@@ -534,6 +538,7 @@
                                 label="Posting Date"
                                 value="{!v.Posting_Date__c}"
                                 required="true"
+                                dateStyle="medium"
                             />
                         </div>
                         <div class="slds-col slds-size_1-of-2">
@@ -558,6 +563,7 @@
                                 name="expirationdate"
                                 label="Expiration Date"
                                 value="{!v.Expiration_Date__c}"
+                                dateStyle="medium"
                             />
                         </div>
                         <div class="slds-col slds-size_1-of-2" />
@@ -568,6 +574,7 @@
                                 name="updateddate"
                                 label="Updated Date"
                                 value="{!v.Updated_Date__c}"
+                                dateStyle="medium"
                             />
                         </div>
                         <div

@@ -395,8 +395,12 @@
                             >
                                 <div class="title">{!$Label.c.PG_SW_F_Enrollment_Start_Date}</div>
                                 <div class="text">
-                                    <ui:outputDate
+                                    <!--  <ui:outputDate value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"/>-->
+                                    <lightning:formattedDateTime
                                         value="{!v.studyDetail.trial.Enrollment_Start_Date__c}"
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
                                     />
                                 </div>
                             </aura:if>
@@ -404,8 +408,12 @@
                             <aura:if isTrue="{!!empty(v.studyDetail.trial.Enrolled_End_Date__c)}">
                                 <div class="title">{!$Label.c.PG_SW_F_Enrollment_End_Date}</div>
                                 <div class="text">
-                                    <ui:outputDate
+                                    <!-- <ui:outputDate value="{!v.studyDetail.trial.Enrolled_End_Date__c}"/>-->
+                                    <lightning:formattedDateTime
                                         value="{!v.studyDetail.trial.Enrolled_End_Date__c}"
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
                                     />
                                 </div>
                             </aura:if>

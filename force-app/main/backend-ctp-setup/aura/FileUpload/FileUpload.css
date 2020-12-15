@@ -1,0 +1,7 @@
+.THIS.slds-card {
+    padding-left: 5px;
+    padding-right: 5px;
+}
+.THIS .slds-card__body_inner {
+    padding: 0;
+}

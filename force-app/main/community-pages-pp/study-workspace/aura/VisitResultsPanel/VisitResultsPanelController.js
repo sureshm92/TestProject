@@ -19,6 +19,14 @@
                     component.set('v.displayPanel', false);
                 } else {
                     component.set('v.visitResultsContainer', returnValue);
+                    if (
+                        component.get('v.visitResultsContainer.visitDate') ==
+                        $A.get('$Label.StudyVisit_Information_Not_Available')
+                    ) {
+                        component.set('v.isVisitResultAvailable', false);
+                    } else {
+                        component.set('v.isVisitResultAvailable', true);
+                    }
                     component.set('v.initialized', true);
                 }
                 let spinner = component.find('mainSpinner');

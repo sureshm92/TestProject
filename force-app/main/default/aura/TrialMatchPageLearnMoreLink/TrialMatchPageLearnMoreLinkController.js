@@ -17,13 +17,15 @@
             );
             return;
         }
-        helper.uploadReportData(component, function () {
+      /**  helper.uploadReportData(component, function () {
             window.setTimeout(
                 $A.getCallback(function () {
                     helper.generateLearnMorePDF(component);
                 }),
                 100
             );
-        });
+        }); **/
+        const ctpId = component.get('v.ctpId');    
+        window.open('https://'.concat(window.location.hostname)+'/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
     }
 });

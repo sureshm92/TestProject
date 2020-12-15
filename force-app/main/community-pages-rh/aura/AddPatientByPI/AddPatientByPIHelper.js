@@ -7,7 +7,8 @@
         component.set('v.participant', {
             sobjectType: 'Participant__c',
             Mailing_Country_Code__c: 'US',
-            Mailing_State_Code__c: ss.Principal_Investigator__r.Account.BillingStateCode
+            Mailing_State_Code__c: ss.Principal_Investigator__r.Account.BillingStateCode,
+            Site__c: ss.Site__c
         });
         let formData = component.get('v.formData');
         let pe = {
@@ -74,8 +75,10 @@
     },
 
     setDelegate: function (component) {
+        var ss = component.get('v.ss');
         var delegateParticipant = {
-            sobjectType: 'Participant__c'
+            sobjectType: 'Participant__c',
+            Site__c: ss.Site__c
         };
         component.set('v.participantDelegate', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');

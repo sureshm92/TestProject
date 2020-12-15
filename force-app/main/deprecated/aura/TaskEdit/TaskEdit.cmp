@@ -77,6 +77,7 @@
                             value="{!v.initData.activityDate}"
                             disabled="{!not(v.editAvailable)}"
                             onchange="{!c.onChangeDueDate}"
+                            dateStyle="medium"
                         />
                     </div>
                     <!-- Task Type -->
@@ -110,6 +111,7 @@
                                 label="{!$Label.c.Reminder_Date}"
                                 value="{!if(empty(v.initData.reminderDate),$Label.c.None, v.initData.reminderDate)}"
                                 disabled="true"
+                                dateStyle="medium"
                             />
                         </div>
                     </div>
@@ -191,6 +193,7 @@
                                 disabled="{!or(v.task.Is_Reminder_Sent__c, !v.reminderDateEnabled)}"
                                 min="{!v.initData.today}"
                                 max="{!if(v.initData.activityDate, v.initData.activityDate, '')}"
+                                dateStyle="medium"
                             />
                         </div>
                     </div>

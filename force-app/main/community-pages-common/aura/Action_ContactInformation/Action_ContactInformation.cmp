@@ -146,6 +146,7 @@
                         value="{!v.personWrapper.dateBirth}"
                         required="true"
                         onblur="{!c.doCheckFieldsValidity}"
+                        dateStyle="medium"
                     />
                 </div>
                 <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3">

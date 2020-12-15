@@ -276,6 +276,8 @@ public inherited sharing class VisitResultsService {
         public String visitDate;
         @AuraEnabled
         public String groupName;
+        @AuraEnabled
+        public Date dateVisited;
 
         public VisitResultsContainer(
             Patient_Visit__c visit,
@@ -293,6 +295,7 @@ public inherited sharing class VisitResultsService {
                     0
                 );
                 this.visitDate = dt.format('dd-MMM-yyyy');
+                this.dateVisited = visit.Completed_Date__c;
             } else {
                 this.visitDate = Label.StudyVisit_Information_Not_Available;
             }
@@ -317,6 +320,8 @@ public inherited sharing class VisitResultsService {
         public String recordtype;
         @AuraEnabled
         public String visitDate;
+        @AuraEnabled
+        public Date dateVisited;
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
             this(visitResult, name, description, null);
@@ -384,6 +389,7 @@ public inherited sharing class VisitResultsService {
                         0
                     );
                     this.visitDate = dt.format('dd-MMM-yyyy');
+                    this.dateVisited = visitResult.Patient_Visit__r.Completed_Date__c;
                 } else {
                     this.visitDate = Label.StudyVisit_Information_Not_Available;
                 }

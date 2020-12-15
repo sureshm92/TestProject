@@ -51,6 +51,9 @@
                                             <template if:false={pathItem.isPending}>
                                                 <lightning-formatted-date-time
                                                     value={pathItem.complDate}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
                                                 ></lightning-formatted-date-time>
                                             </template>
                                             <template if:true={pathItem.isPending}>
@@ -58,6 +61,9 @@
                                                     <div class="date-edit">
                                                         <lightning-formatted-date-time
                                                             value={pathItem.planDate}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
                                                         ></lightning-formatted-date-time>
                                                         <div
                                                             data-id={pathItem.id}
@@ -189,6 +195,9 @@
                                                     <div class="date-edit">
                                                         <lightning-formatted-date-time
                                                             value={pathItem.planDate}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
                                                         ></lightning-formatted-date-time>
                                                         <div
                                                             data-id={pathItem.id}

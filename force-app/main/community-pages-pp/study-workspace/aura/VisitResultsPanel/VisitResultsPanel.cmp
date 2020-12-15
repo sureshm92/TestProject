@@ -13,6 +13,7 @@
     />
     <aura:attribute name="displayPanel" type="Boolean" default="true" access="private" />
     <aura:attribute name="initialized" type="Boolean" default="false" access="private" />
+    <aura:attribute name="isVisitResultAvailable" type="Boolean" default="false" />
 
     <!-- HANDLERS -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -24,8 +25,16 @@
             <aura:if isTrue="{!v.initialized}">
                 <div class="visit-result-panel-title">{!v.visitResultsContainer.groupName}</div>
                 <div class="visit-result-panel-date">
-                    {!$Label.c.Visit_Results_Tab_Result_Date + ' ' +
-                    v.visitResultsContainer.visitDate}
+                    {!$Label.c.Visit_Results_Tab_Result_Date + ' '}
+                    <aura:if isTrue="{!v.isVisitResultAvailable}">
+                        <lightning:formattedDateTime
+                            value="{!v.visitResultsContainer.dateVisited}"
+                            year="numeric"
+                            month="short"
+                            day="2-digit"
+                        ></lightning:formattedDateTime>
+                        <aura:set attribute="else"> {!v.visitResultsContainer.visitDate} </aura:set>
+                    </aura:if>
                 </div>
                 <div class="visit-result-items-container">
                     <aura:iteration items="{!v.visitResultsContainer.wrappers}" var="wrapper">

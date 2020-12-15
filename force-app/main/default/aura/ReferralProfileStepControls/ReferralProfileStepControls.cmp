@@ -72,7 +72,17 @@
                                 </div>
                                 <div class="date">
                                     {!$Label.c.PE_Status_History_On_Date + ' '}
-                                    <ui:outputDateTime value="{!historyItem.changeDate}" /><br />
+                                    <!--<ui:outputDateTime value="{!historyItem.changeDate}"/>-->
+                                    <lightning:formattedDateTime
+                                        value="{!historyItem.changeDate}"
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        hour="numeric"
+                                        minute="numeric"
+                                    />
+
+                                    <br />
                                     <aura:if isTrue="{!v.step.name == 'Referred'}">
                                         <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
                                             <div class="value">

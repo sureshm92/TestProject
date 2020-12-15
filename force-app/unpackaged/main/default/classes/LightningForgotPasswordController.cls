@@ -1,4 +1,4 @@
-global class LightningForgotPasswordController {
+global without sharing class LightningForgotPasswordController {
     public LightningForgotPasswordController() {
     }
 

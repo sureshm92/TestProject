@@ -160,7 +160,8 @@ public without sharing class ReferringRemote {
                         participant.Mailing_State_Code__c
                     );
             } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
-                needsGuardian = participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
+                needsGuardian =
+                    participantAge < ageByCountryCode.get(participant.Mailing_Country_Code__c);
             } else {
                 needsGuardian = participantAge < 18;
             }
@@ -253,6 +254,11 @@ public without sharing class ReferringRemote {
             }
 
             Boolean createDelegateuser = true;
+            // Added this lines for REF-2592 bug fixing, to stop sending email to the Virtual/Hybrid study 
+            if(hcpEnrollment!=null && (hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Virtual' || hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Hybrid') ){
+                createDelegateuser = false;             
+            }
+            /////
             if (
                 participantDelegate != null &&
                 !String.isEmpty(participantDelegate.Last_Name__c) &&
@@ -264,14 +270,14 @@ public without sharing class ReferringRemote {
                     newContact.FirstName = participantDelegate.First_Name__c;
                     newContact.LastName = participantDelegate.Last_Name__c;
                     newContact.Email = participantDelegate.Email__c;
-                    newContact.AccountId = [
-                        SELECT Id
-                        FROM Account
-                        WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                        LIMIT 1
-                        FOR UPDATE
-                    ]
-                    .Id;
+                    /*newContact.AccountId = [
+                            SELECT Id
+                            FROM Account
+                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                            LIMIT 1
+                            FOR UPDATE
+                    ].Id;*/
+                    newContact.AccountId = participantDelegate.Site__c;
                     newContact.Language__c = UserInfo.getLanguage();
                     newContact.Second_Choice_Language__c = '';
                     newContact.Third_Choice_Language__c = '';
@@ -350,8 +356,14 @@ public without sharing class ReferringRemote {
                 if (createDelegateuser) {
                     createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
                 }
-            } else if (!String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)) {
-                Participant__c newParticipant = [SELECT Id, Contact__c FROM Participant__c WHERE Id = :participant.Id];
+            } else if (
+                !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
+            ) {
+                Participant__c newParticipant = [
+                    SELECT Id, Contact__c
+                    FROM Participant__c
+                    WHERE Id = :participant.Id
+                ];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
                     Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                     Study_Site__c ss = StudySiteService.getStudySiteForHCPById(hcpEnrollment.Study_Site__c );

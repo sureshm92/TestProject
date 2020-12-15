@@ -64,6 +64,7 @@
                 disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
                 required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
                 onchange="{!c.onValueChange}"
+                dateStyle="medium"
             />
         </aura:if>
         <aura:if isTrue="{!v.field.type=='time'}">

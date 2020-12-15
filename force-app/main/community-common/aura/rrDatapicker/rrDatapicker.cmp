@@ -16,14 +16,15 @@
         <div class="{!'rr-error-message' + if(v.errorMessage == '', ' slds-hide','')}">
             {!v.errorMessage}
         </div>
-
-        <ui:inputDate
+        <lightning:input
+            type="date"
             aura:id="dataField"
             class="{!if(v.errorMessage != '', 'rr-input-error','')}"
             label=""
             value="{!v.value}"
             displayDatePicker="true"
-            change="{!c.handleChange}"
+            onchange="{!c.handleChange}"
         />
+        <!--<ui:inputDate aura:id="dataField" class="{!if(v.errorMessage != '', 'rr-input-error','')}"  label="" value="{!v.value}" displayDatePicker="true" change="{!c.handleChange}"/>-->
     </div>
 </aura:component>

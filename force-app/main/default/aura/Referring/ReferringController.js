@@ -12,6 +12,7 @@
             let trialId = communityService.getUrlParameter('id');
             let peId = communityService.getUrlParameter('peid');
             let hcpeId = communityService.getUrlParameter('hcpeid');
+            let siteId = communityService.getUrlParameter('siteid');
             if (!trialId) communityService.navigateToPage('');
             if (communityService.getUserMode() !== 'HCP') communityService.navigateToPage('');
             let spinner = component.find('mainSpinner');
@@ -66,7 +67,7 @@
                     component.set('v.statesByCountyMap', initData.statesByCountryMap);
                     component.set('v.markers', helper.fillMarkers(component));
                     if (initData.participantEnrollment) {
-                        helper.setParticipant(component, initData.participantEnrollment);
+                        helper.setParticipant(component, initData.participantEnrollment, siteId);
                         if (initData.studies.length > 0) {
                             component.set('v.currentState', 'Screening');
                         } else {
@@ -137,6 +138,8 @@
     doSelectSite: function (component, event, helper) {
         let trial = component.get('v.trial');
         let hcpeId = event.target.dataset.hcpeId;
+        let siteId = event.target.dataset.siteId;
+        component.set('v.siteId', siteId);
         component.set('v.hcpeId', hcpeId);
         if (trial.Link_to_Pre_screening__c) {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
@@ -150,10 +153,12 @@
 
     doGoToMedicalRecordReview: function (component) {
         let hcpeId = component.get('v.hcpeId');
+        let siteId = component.get('v.siteId');
         communityService.navigateToPage(
             'medical-record-review?id=' +
                 component.get('v.trialId') +
-                (hcpeId ? '&hcpeid=' + hcpeId : '')
+                (hcpeId ? '&hcpeid=' + hcpeId : '') +
+                (siteId ? '&siteid=' + siteId : '')
         );
     },
 
@@ -200,7 +205,7 @@
     doNeedsGuardian: function (component, event, helper) {
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
-            helper.setDelegate(component);
+            helper.setDelegate(component, participant);
         } else {
             component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
@@ -210,10 +215,7 @@
 
     doSaveParticipant: function (component) {
         let participant = component.get('v.participant');
-        console.log('participant', JSON.parse(JSON.stringify(participant)));
         let delegateParticipant = component.get('v.delegateParticipant');
-        console.log('delegateParticipant', JSON.parse(JSON.stringify(delegateParticipant)));
-
         let trial = component.get('v.trial');
         let hcpeId = component.get('v.hcpeId');
         let pEnrollment = component.get('v.pEnrollment');
@@ -253,7 +255,8 @@
             component.set('v.participant', {
                 sobjectType: 'Participant__c',
                 First_Name__c: searchResult.pe.Participant_Name__c,
-                Last_Name__c: searchResult.pe.Participant_Surname__c
+                Last_Name__c: searchResult.pe.Participant_Surname__c,
+                Site__c: component.get('v.siteId')
             });
         }
     },

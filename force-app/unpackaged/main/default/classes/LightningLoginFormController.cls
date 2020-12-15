@@ -1,4 +1,4 @@
-global class LightningLoginFormController {
+global without sharing class LightningLoginFormController {
     public LightningLoginFormController() {
     }
 

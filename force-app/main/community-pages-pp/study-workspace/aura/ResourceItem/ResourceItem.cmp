@@ -32,7 +32,14 @@
                 <div class="resource-expiration-date">
                     <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
                         Expires:
-                        <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" />
+                        <!--<ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}"/>-->
+                        <lightning:formattedDateTime
+                            value="{!v.resourceWrapper.resource.Expiration_Date__c}"
+                            year="numeric"
+                            month="short"
+                            day="2-digit"
+                        />
+
                         <aura:set attribute="else"> Expires: None </aura:set>
                     </aura:if>
                 </div>

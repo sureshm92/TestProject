@@ -68,7 +68,13 @@
                             <div class="rr-output-field">
                                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
                                 <div class="value">
-                                    <ui:outputDate value="{!v.pe.Referred_Date__c}" />
+                                    <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
+                                    <lightning:formattedDateTime
+                                        value="{!v.pe.Referred_Date__c}"
+                                        year="numeric"
+                                        month="numeric"
+                                        day="2-digit"
+                                    ></lightning:formattedDateTime>
                                 </div>
                             </div>
 

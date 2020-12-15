@@ -5,13 +5,14 @@
 <aura:component
     description="flowCOILookup"
     controller="FlowCOILookupRemote"
-    implements="force:hasRecordId, lightning:availableForFlowScreens"
+    implements="force:hasRecordId,lightning:availableForFlowScreens"
     access="global"
 >
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <aura:attribute name="conditions" type="String" />
     <aura:attribute name="recordId" type="String" access="global" />
+    <aura:attribute name="coirecordIds" type="String" access="global" />
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <c:uiSObjectLookup

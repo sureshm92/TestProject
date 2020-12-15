@@ -73,6 +73,7 @@
                                     type="date"
                                     value="{!v.participant.Date_of_Birth__c}"
                                     disabled="true"
+                                    dateStyle="medium"
                                 />
                             </div>
                             <div class="rr-form-element slds-col slds-size--1-of-4">

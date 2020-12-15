@@ -33,5 +33,6 @@ public class TrialMatchDataController {
         public String StudyCodeName { get; set; }
         public String OfficialTitle { get; set; }
         public String matchDate { get; set; }
+        public String matchedDate { get; set; }
     }
 }

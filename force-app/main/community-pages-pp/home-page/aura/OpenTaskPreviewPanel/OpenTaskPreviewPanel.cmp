@@ -53,7 +53,13 @@
                                 </aura:if>
                                 <aura:if isTrue="{!task.Status != 'In Progress'}">
                                     <aura:if isTrue="{!task.Activity_Datetime__c}">
-                                        <ui:outputDate value="{!task.Activity_Datetime__c}" />
+                                        <!--<ui:outputDate value="{!task.Activity_Datetime__c}"/>-->
+                                        <lightning:formattedDateTime
+                                            value="{!task.Activity_Datetime__c}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                        />
                                     </aura:if>
                                     <aura:if isTrue="{!!task.Activity_Datetime__c}">
                                         {!$Label.c.None}

@@ -4,7 +4,6 @@
 ({
     doInit: function (component, event, hepler) {
         var userMode = component.get('v.userMode');
-
         var header;
         var capList;
         switch (userMode) {
@@ -47,8 +46,13 @@
                         text: $A.get('$Label.c.DLIT_L_Pre_screen_a_participant'),
                         levels: [true, true, false]
                     },
-                    {
+                    { 
                         text: $A.get('$Label.c.DLIT_L_View_screener_responses'),
+                        levels: [true, true, false]
+                    },
+                    //REF-2774
+                    {
+                        text: $A.get('$Label.c.DLIT_L_View_medical_history'),
                         levels: [true, true, false]
                     },
                     {
@@ -71,7 +75,6 @@
                 component.set('v.capList', capList);
                 component.set('v.disclaimer', $A.get('$Label.c.DLIT_L_Disclaimer'));
                 break;
-
             case 'HCP':
                 header = {
                     text: $A.get('$Label.c.DLIT_L_PERMISSIONS_BY_LEVEL'),
@@ -83,12 +86,10 @@
                         text: $A.get('$Label.c.DLIT_L_Manage_team_member'),
                         levels: [true, false]
                     },
-
                     {
                         text: $A.get('$Label.c.DLIT_L_Select_new_study_to_refer_to'),
                         levels: [true, false]
                     },
-
                     {
                         text: $A.get('$Label.c.DLIT_L_Select_a_study_site_to_refer_to'),
                         levels: [true, false]
@@ -112,7 +113,6 @@
                 ];
                 component.set('v.capList', capList);
                 break;
-
             default:
                 //Participant
                 var headerText;

@@ -473,6 +473,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>CreateTACOIAssignmentHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>DMLService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4993,6 +4997,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Last_Status_Changed_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Last_Status_Changed_Additional_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -49,6 +49,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     Protocol_ID__c,
                     Primary_Key_ePR__c,
                     Study_Site_Type__c,
+                    Site__c,
                     Override_PI_Referral_Status__c,
                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
                     Suppress_Participant_Emails__c
@@ -121,12 +122,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
             Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
             Participant__c participantExisting;
-            Account participantAccount = [
-                SELECT Id
-                FROM Account
-                WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                LIMIT 1
-            ];
+            //Account participantAccount = [SELECT Id FROM Account WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME LIMIT 1 FOR UPDATE ];
 
             for (Ethnicity_Mapping_Participant__mdt objMT : [
                 SELECT Ethnicity_Code__c, Ethnicity_Description__c
@@ -139,8 +135,11 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             }
 
             for (Integration_Patient_Referral__c ipr : newList) {
-                newParticipantsMap.put(ipr.referralID__c, convertToParticipant(ipr));
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
+                Participant__c objParticipant = convertToParticipant(ipr);
+                Account participantAccount = new Account(Id = ss.Site__c);
+                objParticipant.Site__c = ss.Site__c;
+                newParticipantsMap.put(ipr.referralID__c, objParticipant);
                 if (
                     ss != null &&
                     !String.isBlank(ipr.Delegate_First_Name__c) &&
@@ -222,6 +221,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             for (Integration_Patient_Referral__c ipr : newList) {
                 Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
+                participant.Site__c = ss.Site__c;
                 if (ss != null)
                     peList.add(createPE(ipr, participant.Id, ss.Id));
 

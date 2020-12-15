@@ -58,7 +58,7 @@ global without sharing class ReferHealthcareProviderRemote {
         }
 
         for (Participant__c par : [
-            SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c
+            SELECT Id, Contact__c, First_Name__c, Last_Name__c, Email__c, Site__c
             FROM Participant__c
             WHERE Contact__c IN :mapDel.keySet()
         ]) {
@@ -81,7 +81,7 @@ global without sharing class ReferHealthcareProviderRemote {
     @AuraEnabled
     public static Participant__c getDelegateParticipant(String delegateContactId) {
         List<Participant__c> participantDelegate = [
-            SELECT Id, First_Name__c, Last_Name__c, Email__c
+            SELECT Id, First_Name__c, Last_Name__c, Email__c, Site__c
             FROM Participant__c
             WHERE Contact__c = :delegateContactId
         ];
@@ -342,14 +342,14 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.FirstName = delegateObj.firstName;
                     newContact.LastName = delegateObj.lastName;
                     newContact.Email = delegateObj.email;
-                    newContact.AccountId = [
-                        SELECT Id
-                        FROM Account
-                        WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
-                        LIMIT 1
-                        FOR UPDATE
-                    ]
-                    .Id;
+                    /* newContact.AccountId = [
+                            SELECT Id
+                            FROM Account
+                            WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+                            LIMIT 1
+                            FOR UPDATE
+                    ].Id;*/
+                    newContact.AccountId = participantObj.Site__c;
                     newContact.Language__c = UserInfo.getLanguage();
                     newContact.Second_Choice_Language__c = '';
                     newContact.Third_Choice_Language__c = '';

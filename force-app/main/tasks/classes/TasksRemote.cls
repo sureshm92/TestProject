@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class TasksRemote {
+public without sharing class TasksRemote {
     public class ParticipantTasks {
         @AuraEnabled
         public List<OpenTask> openTasksWrapper;

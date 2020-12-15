@@ -283,9 +283,7 @@ public without sharing class DashboardRemoteNew {
                         Study_Site__c,
                         is_Invited__c
                     FROM Site_Staff__c
-                    WHERE
-                        Site_Contact__c = :currentContactId
-                        AND is_Invited__c = TRUE
+                    WHERE Site_Contact__c = :currentContactId AND is_Invited__c = TRUE
                 ]) {
                     delegatePIsMap.put(
                         sStaff.Study_Site__r.Principal_Investigator__c,

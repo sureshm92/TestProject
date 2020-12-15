@@ -15,7 +15,13 @@
         <div class="imi-title">{!v.status}</div>
         <div class="imi-subtitle">
             {!$Label.c.PE_Status_History_On_Date + ' '}
-            <ui:outputDate value="{!v.statusHistory.Date__c}" />
+            <!--<ui:outputDate value="{!v.statusHistory.Date__c}"/>-->
+            <lightning:formattedDateTime
+                value="{!v.statusHistory.Date__c}"
+                year="numeric"
+                month="short"
+                day="2-digit"
+            />
             {!' '+ $Label.c.PG_IMI_L_by_user + ' ' + v.statusHistory.CreatedBy.FirstName +' ' +
             v.statusHistory.CreatedBy.LastName}
         </div>

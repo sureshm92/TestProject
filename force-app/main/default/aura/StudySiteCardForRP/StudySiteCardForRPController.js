@@ -7,8 +7,13 @@
         var siteWrapper = cmp.get('v.siteWrapper');
         var trialId = siteWrapper.site.Clinical_Trial_Profile__c;
         var hcpeId = event.target.dataset.hcpeId;
+        var siteId = event.target.dataset.siteId;
+
         communityService.navigateToPage(
-            'referring?id=' + trialId + (hcpeId ? '&hcpeid=' + hcpeId : '')
+            'referring?id=' +
+                trialId +
+                (hcpeId ? '&hcpeid=' + hcpeId : '') +
+                (siteId ? '&siteid=' + siteId : '')
         );
     },
 

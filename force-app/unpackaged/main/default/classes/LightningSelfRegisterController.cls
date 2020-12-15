@@ -1,4 +1,4 @@
-global class LightningSelfRegisterController {
+global without sharing class LightningSelfRegisterController {
     public LightningSelfRegisterController() {
     }
 

@@ -3,5 +3,6 @@
  -->
 
 <design:component label="flowCOILookup">
-    <design:attribute label="ResourceId" name="recordId"/>
+    <design:attribute label="ResourceId" name="recordId" />
+    <design:attribute label="COIRecordId" name="coirecordIds" />
 </design:component>

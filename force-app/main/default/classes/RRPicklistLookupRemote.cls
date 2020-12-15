@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-public class RRPicklistLookupRemote {
+public without sharing class RRPicklistLookupRemote {
     @AuraEnabled
     public static List<LookupSearchResult> getAllValues(
         String objectName,

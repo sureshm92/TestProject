@@ -87,7 +87,14 @@
                                         isTrue="{!taskWrapper.openTask.Status != 'In Progress'}"
                                     >
                                         <aura:if isTrue="{!taskWrapper.activityDate}">
-                                            <ui:outputDate value="{!taskWrapper.activityDate}" />
+                                            <!-- <ui:outputDate value="{!taskWrapper.activityDate}"/>-->
+                                            <lightning:formattedDateTime
+                                                value="{!taskWrapper.activityDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                            />
+
                                             <aura:set attribute="else"> {!$Label.c.None} </aura:set>
                                         </aura:if>
                                     </aura:if>
@@ -101,7 +108,13 @@
                                             data-reminder="{!taskWrapper.reminder}"
                                             onclick="{!c.onReminderDateClick}"
                                         >
-                                            <ui:outputDate value="{!taskWrapper.reminder}" />
+                                            <!--<ui:outputDate value="{!taskWrapper.reminder}"/>-->
+                                            <lightning:formattedDateTime
+                                                value="{!taskWrapper.reminder}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                            />
                                         </div>
 
                                         <aura:set attribute="else">
@@ -168,7 +181,13 @@
                                         {!$Label.c.Task_Tab_Table_Status_Expired}
                                     </aura:if>
                                     <aura:if isTrue="{!taskWrapper.task.Status == 'Completed'}">
-                                        <ui:outputDate value="{!taskWrapper.completedDate}" />
+                                        <!-- <ui:outputDate value="{!taskWrapper.completedDate}"/>-->
+                                        <lightning:formattedDateTime
+                                            value="{!taskWrapper.completedDate}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                        />
                                     </aura:if>
                                 </td>
                             </tr>

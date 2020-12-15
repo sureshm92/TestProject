@@ -5,12 +5,14 @@
 public without sharing virtual class EmailTemplateProvider {
     public static final String PARAM_PREFIX = '##';
     public static final String DEFAULT_LANGUAGE = 'en_US';
+    // Added the value at line number 14 to fix REF-2560 bug, PIName is not displaying receipient.
     public static final Map<String, String> PARAM_PROVIDER_BY_TYPE = new Map<String, String>{
         'Case' => 'Email_Template_Parameters_From_Case',
         'Contact' => 'PP_Contact',
         'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
         'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
         'Participant__c' => 'PP_Participant',
+        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',
         'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
         'Resource__c' => 'Email_Template_Parameters_From_Resource',
         'Study_Site__c' => 'PP_Study_Site',
@@ -130,10 +132,15 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public String getDelegateBottomTxt() {
-        if (recipientId.getSobjectType() != User.getSObjectType()) return '';
+        if (recipientId.getSobjectType() != User.getSObjectType())
+            return '';
         return TranslateHelper.replaceParams(
-                TranslateHelper.getLabelValue(Label.Email_Body_Initial_Patient_Delegate_AfterText, recipientLanguage),
-                PARAM_PREFIX, parameters
+            TranslateHelper.getLabelValue(
+                Label.Email_Body_Initial_Patient_Delegate_AfterText,
+                recipientLanguage
+            ),
+            PARAM_PREFIX,
+            parameters
         );
     }
 
@@ -339,9 +346,13 @@ public without sharing virtual class EmailTemplateProvider {
         ];
         if (!participants.isEmpty()) {
             recipientFirstName = checkMetacharacters(participants.get(0).First_Name__c);
-            recipientName = (recipientContact.Salutation == null ? '' : recipientContact.Salutation) + ' ' + checkMetacharacters( participants.get(0).First_Name__c) + ' ' + checkMetacharacters(participants.get(0).Last_Name__c);
+            recipientName =
+                (recipientContact.Salutation == null ? '' : recipientContact.Salutation) +
+                ' ' +
+                checkMetacharacters(participants.get(0).First_Name__c) +
+                ' ' +
+                checkMetacharacters(participants.get(0).Last_Name__c);
         }
-
 
         if (String.isEmpty(recipientName))
             recipientName = recipientContact.Salutation_With_Name__c;
@@ -403,7 +414,7 @@ public without sharing virtual class EmailTemplateProvider {
                                 AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);
             
         }
-        parameters.put('TotalStudies',String.valueOf(receivedPEs.size()));
+        parameters.put('TotalStudies', String.valueOf(receivedPEs.size()));
     }
 
 }

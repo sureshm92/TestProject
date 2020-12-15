@@ -23,7 +23,16 @@
                 <aura:iteration items="{!v.NotesData}" var="Note">
                     <div class="slds-col slds-size_1-of-1">
                         <span
-                            ><b><ui:outputDate value="{!Note.CreatedDate}" />: </b>
+                            ><b
+                                ><!--<ui:outputDate value="{!Note.CreatedDate}" />-->
+                                <lightning:formattedDateTime
+                                    value="{!Note.CreatedDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                />
+                                :
+                            </b>
                             {!Note.Title}</span
                         >
                         <br /><br />

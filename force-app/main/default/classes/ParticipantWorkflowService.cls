@@ -29,7 +29,9 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Source__c,
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
-                ParticipantEnrollment__r.PI_Contact__r.Name
+                ParticipantEnrollment__r.PI_Contact__r.Name,
+				CreatedBy.IsPortalEnabled,
+				CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
             ORDER BY Date__c DESC
@@ -550,6 +552,11 @@ public without sharing class ParticipantWorkflowService {
                     Label.PE_Status_History_On_Date,
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date')
                 );
+                String createdByName = historyWrapper.detail.substringAfterLast(Label.PG_IMI_L_by_user);
+                if(createdByName.contains(Label.RH_Masked_IQVIA_User)){
+                    createdByName=Label.RH_Masked_IQVIA_User;
+                    historyWrapper.detail=historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +Label.PG_IMI_L_by_user +' ' + createdByName;
+                }
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
@@ -577,6 +584,19 @@ public without sharing class ParticipantWorkflowService {
               )
             : '');
         String notesString = (String.isNotBlank(pesh.Notes__c) ? ', ' + pesh.Notes__c.trim() : '');
+		String createdbyName ='';
+        //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC' 
+        if(pesh.CreatedBy.IsPortalEnabled== true){
+			if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
+				 createdbyName=System.Label.RH_Masked_IQVIA_User;
+			}else{
+				createdbyName =pesh.CreatedBy.Name;
+			}    
+        }
+        else{
+            createdbyName=System.Label.RH_Masked_IQVIA_User;
+        }
+		
         if (String.isEmpty(step.History_Item_Title_Template_Label__c)) {
             historyWrapper.title = statusString + reasonString + notesString;
         } else {
@@ -597,7 +617,7 @@ public without sharing class ParticipantWorkflowService {
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
-                    pesh.CreatedBy.Name;
+                    createdbyName;
             } else {
                 historyWrapper.detail =
                     ' ' +
@@ -605,7 +625,7 @@ public without sharing class ParticipantWorkflowService {
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
-                    pesh.CreatedBy.Name;
+                   createdbyName;
             }
         } else {
             String sourceString = String.isBlank(
@@ -620,7 +640,7 @@ public without sharing class ParticipantWorkflowService {
                 ' ' +
                 TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c)
                     .replace('##Date', pesh.Date__c.format())
-                    .replace('##ByUser', pesh.CreatedBy.Name)
+                    .replace('##ByUser', createdbyName)
                     .replace('##Source', sourceString);
         }
         return historyWrapper;
@@ -1396,7 +1416,9 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Source__c,
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
-                ParticipantEnrollment__r.PI_Contact__r.Name
+                ParticipantEnrollment__r.PI_Contact__r.Name,
+				CreatedBy.IsPortalEnabled,
+				CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
@@ -1460,6 +1482,7 @@ public without sharing class ParticipantWorkflowService {
             );
             if (pesh.Date__c != null) {
                 result.dateOccured = pesh.Date__c.date().format();
+                result.occuredDate = pesh.Date__c.date();
             }
             result.state = outcomesMap.get(pesh.Status__c).get(step.DeveloperName).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
@@ -1485,6 +1508,7 @@ public without sharing class ParticipantWorkflowService {
                     pe.get(step.Success_Date_Field__c) != null
                 ) {
                     result.dateOccured = ((Date) pe.get(step.Success_Date_Field__c)).format();
+                    result.occuredDate = ((Date) pe.get(step.Success_Date_Field__c));
                 }
                 result.isCurrent = true;
             } else if (
@@ -1503,6 +1527,7 @@ public without sharing class ParticipantWorkflowService {
                     pe.get(step.In_Progress_Date_Field__c) != null
                 ) {
                     result.dateOccured = ((Date) pe.get(step.In_Progress_Date_Field__c)).format();
+                    result.occuredDate = ((Date) pe.get(step.Success_Date_Field__c));
                 }
                 result.isCurrent = true;
             } else {
@@ -1736,6 +1761,8 @@ public without sharing class ParticipantWorkflowService {
         public String reason;
         @AuraEnabled
         public String dateOccured;
+        @AuraEnabled
+        public Date occuredDate;
         @AuraEnabled
         public String left;
         @AuraEnabled

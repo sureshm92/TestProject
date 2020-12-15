@@ -235,6 +235,7 @@
                                         required="true"
                                         onblur="{!c.doCheckfields}"
                                         onchange="{!c.doCheckFields}"
+                                        dateStyle="medium"
                                     />
                                 </div>
                                 <div class="rr-form-element slds-col slds-size--1-of-3">

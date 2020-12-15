@@ -50,11 +50,12 @@
         );
     },
 
-    setParticipant: function (component, pe) {
+    setParticipant: function (component, pe, markers) {
         var participant = {
             sobjectType: 'Participant__c',
             First_Name__c: pe.Participant_Name__c,
-            Last_Name__c: pe.Participant_Surname__c
+            Last_Name__c: pe.Participant_Surname__c,
+            Site__c: pe.Study_Site__r ? pe.Study_Site__r.Site__c : pe.HCP__r.Study_Site__r.Site__c
             // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
             // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
         };
@@ -67,9 +68,10 @@
         component.set('v.participant', participant);
     },
 
-    setDelegate: function (component) {
+    setDelegate: function (component, participant) {
         var delegateParticipant = {
-            sobjectType: 'Participant__c'
+            sobjectType: 'Participant__c',
+            Site__c: participant.Site__c
         };
         component.set('v.delegateParticipant', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');

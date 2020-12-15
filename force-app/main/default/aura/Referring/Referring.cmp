@@ -11,6 +11,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String" />
+    <aura:attribute name="siteId" type="String" />
     <aura:attribute name="trial" type="Object" />
     <aura:attribute name="pEnrollment" type="Object" />
     <aura:attribute name="hcpeId" type="String" />
@@ -81,6 +82,7 @@
         action="{!c.approveDelegate}"
     />
 
+    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
     <aura:if isTrue="{!!empty(v.trial)}">
@@ -343,6 +345,7 @@
                                         >
                                             <button
                                                 data-hcpe-id="{!ss.hcpe.Id}"
+                                                data-site-id="{!ss.site.Site__c}"
                                                 class="apollo-btn secondary"
                                                 style="margin-top: 10px"
                                                 onclick="{!c.doSelectSite}"
@@ -543,6 +546,7 @@
                                                     type="date"
                                                     value="{!v.participant.Date_of_Birth__c}"
                                                     onblur="{!c.doCheckDateOfBith}"
+                                                    dateStyle="medium"
                                                 />
                                             </div>
                                         </div>

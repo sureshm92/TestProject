@@ -61,16 +61,24 @@
                 <aura:if
                     isTrue="{!v.resourceWrapper.resource.RecordType.DeveloperName == v.StudyDocumentRecordTypeName}"
                 >
-                    <ui:outputDate
+                    <!--  <ui:outputDate value="{!v.resourceWrapper.resource.Version_Date__c}" format="dd-MMM-y"/>-->
+                    <lightning:formattedDateTime
                         value="{!v.resourceWrapper.resource.Version_Date__c}"
-                        format="dd-MMM-y"
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
                     />
+
                     <aura:set attribute="else">
                         <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
-                            <ui:outputDate
+                            <!-- <ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}" format="dd-MMM-y"/>-->
+                            <lightning:formattedDateTime
                                 value="{!v.resourceWrapper.resource.Expiration_Date__c}"
-                                format="dd-MMM-y"
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
                             />
+
                             <aura:set attribute="else"> None </aura:set>
                         </aura:if>
                     </aura:set>

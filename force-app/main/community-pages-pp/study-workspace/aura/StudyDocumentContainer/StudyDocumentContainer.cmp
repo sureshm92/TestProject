@@ -57,9 +57,13 @@
                                         <td
                                             class="study-document-version-date study-document-column-data"
                                         >
-                                            <ui:outputDate
+                                            <!-- <ui:outputDate value="{!resourceWrapper.resource.Version_Date__c}"
+                                                           format="DD-MMM-YYYY"/>-->
+                                            <lightning:formattedDateTime
                                                 value="{!resourceWrapper.resource.Version_Date__c}"
-                                                format="DD-MMM-YYYY"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
                                             />
                                         </td>
                                     </tr>

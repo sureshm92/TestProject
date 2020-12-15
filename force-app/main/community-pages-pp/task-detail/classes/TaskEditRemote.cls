@@ -145,17 +145,18 @@ public without sharing class TaskEditRemote {
                 );
             }
             if (taskWrapper.reminderDate != null) {
+                Time myTime = Time.newInstance(9, 0, 0, 0);
                 taskToUpsert.Reminder_Date__c = Datetime.newInstance(
                     taskWrapper.reminderDate,
-                    Datetime.now().time()
+                    myTime
                 );
                 Datetime newReminderDate = taskToUpsert.Reminder_Date__c.addDays(-1);
                 taskToUpsert.ReminderDateTime = String.isNotBlank(taskToUpsert.Remind_Me__c) &&
                     taskToUpsert.Remind_Me__c.equals(Label.One_day_before)
-                    ? Datetime.newInstanceGmt(newReminderDate.dateGmt(), newReminderDate.timeGmt())
-                    : Datetime.newInstanceGmt(
-                          taskToUpsert.Reminder_Date__c.dateGmt(),
-                          taskToUpsert.Reminder_Date__c.timeGmt()
+                    ? Datetime.newInstance(newReminderDate.date(), newReminderDate.time())
+                    : Datetime.newInstance(
+                          taskToUpsert.Reminder_Date__c.date(),
+                          taskToUpsert.Reminder_Date__c.time()
                       );
             }
 

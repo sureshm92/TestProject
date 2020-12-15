@@ -1,0 +1,37 @@
+<!--MedicalHistoryView 
+REF-2654
+Created by Sumit S-->
+
+<aura:component description="MedicalHistoryView" controller="MedicalHistoryViewController">
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
+    <aura:attribute name="medicalHistory" type="Object"/>
+    
+		<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+		<div class="maindiv">
+            <div class="headerdiv">
+                {!$Label.c.Participant_Medical_History}
+            </div>
+            <aura:iteration items="{!v.medicalHistory.attachments}" var="item">
+                <div class="divpadding">
+                    <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size--2-of-4 slds-align_absolute-left">
+                            {!item.Title}.{!item.FileExtension}
+                        </div>
+                        <div class="slds-col slds-size--1-of-4">
+                            <!--{!v.medicalHistory.fileDate}-->
+                            <!--<lightning:formattedDateTime value="{!item.CreatedDate}" year="numeric" day="2-digit" month="short" hour="2-digit" minute="2-digit"/>-->
+                            <ui:outputDateTime value="{!item.CreatedDate}" timezone="America/Panama"/>
+                        </div>
+                        <div class="slds-col slds-size--1-of-4">
+                            <span>	
+                            	<img src="{!$Resource.icon_download}" width="16" height="16"/>
+                            </span>
+                            <span class="slds-p-left_x-small">
+                                <a href= "{!v.medicalHistory.baseURL + '/sfc/servlet.shepherd/document/download/'+ item.Id +'?operationContext=S1'}" target="_blank" download="{!item.Title}">Download</a>
+                            </span>  
+                        </div>
+                    </div>    
+                </div>
+            </aura:iteration>
+		</div>
+</aura:component>

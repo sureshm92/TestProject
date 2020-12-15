@@ -490,9 +490,9 @@
                                     <div class="slds-truncate">
                                         <lightning:formattedDateTime
                                             value="{!obj.pe.CreatedDate}"
-                                            month="short"
-                                            day="numeric"
                                             year="numeric"
+                                            month="short"
+                                            day="2-digit"
                                         />
                                     </div>
                                 </th>
@@ -542,9 +542,13 @@
                                 </th>
                                 <th scope="row">
                                     <div class="slds-truncate" style="text-align: center">
-                                        <ui:outputDate
+                                        <!--<ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}"/>-->
+                                        <lightning:formattedDateTime
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
                                             value="{!obj.pe.Initial_visit_scheduled_date__c}"
-                                        />
+                                        ></lightning:formattedDateTime>
                                     </div>
                                 </th>
                                 <th scope="row">

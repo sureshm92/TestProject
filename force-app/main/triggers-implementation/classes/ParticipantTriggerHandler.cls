@@ -75,7 +75,7 @@ public without sharing class ParticipantTriggerHandler {
 
     @TestVisible
     private static void createContactsForParticipants(List<Participant__c> newList) {
-        Id participantAccountId = getParticipantAccountId();
+        // Id participantAccountId = getParticipantAccountId();
         Map<String, Participant__c> participantsByEmail = new Map<String, Participant__c>();
         List<Contact> contactsToInsert = new List<Contact>();
         List<String> emails = new List<String>();
@@ -86,7 +86,7 @@ public without sharing class ParticipantTriggerHandler {
                 Contact newContact = new Contact();
                 newContact.LastName = participant.Last_Name__c;
                 newContact.Email = participant.Email__c;
-                newContact.AccountId = participantAccountId;
+                newContact.AccountId = participant.Site__c;
                 newContact.Language__c = participant.Preferred_Language__c;
                 newContact.Second_Choice_Language__c = '';
                 newContact.Third_Choice_Language__c = '';

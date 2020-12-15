@@ -30,10 +30,19 @@
                             <div class="pe-history">
                                 <aura:iteration items="{!pathItem.history}" var="historyItem">
                                     <div class="history-item">
-                                        <!--<div class="date">{!historyItem.message + ' '}<ui:outputDateTime value="{!historyItem.changeDate}"/></div>-->
                                         <div class="date">
-                                            {!historyItem.message + ' ' + historyItem.changeDate}
+                                            {!historyItem.message + ' '}
+                                            <!--<ui:outputDateTime value="{!historyItem.changeDate}"/>-->
+                                            <lightning:formattedDateTime
+                                                value="{!historyItem.changeDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                hour="numeric"
+                                                minute="numeric"
+                                            />
                                         </div>
+                                        <!--<div class="date">{!historyItem.message + ' ' + historyItem.changeDate}</div>-->
                                     </div>
                                 </aura:iteration>
                             </div>

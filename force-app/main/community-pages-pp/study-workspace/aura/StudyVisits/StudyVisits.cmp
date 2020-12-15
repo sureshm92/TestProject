@@ -129,8 +129,12 @@
                                                     >
                                                         {!$Label.c.Create}
                                                         <aura:set attribute="else">
-                                                            <ui:outputDate
+                                                            <!--  <ui:outputDate value="{!visitWrapper.reminderDate}"/>-->
+                                                            <lightning:formattedDateTime
                                                                 value="{!visitWrapper.reminderDate}"
+                                                                year="numeric"
+                                                                month="short"
+                                                                day="2-digit"
                                                             />
                                                         </aura:set>
                                                     </aura:if>
@@ -148,7 +152,13 @@
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
                                 >
-                                <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
+                                <lightning:formattedDateTime
+                                    value="{!visitWrapper.completedOrPlannedDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                />
                             </td>
                         </tr>
                     </aura:iteration>

@@ -54,6 +54,7 @@
                     required="true"
                     onchange="{!c.onDaysChange}"
                     min="{!v.todayDate}"
+                    dateStyle="medium"
                 />
                 <!-- Due Date -->
                 <lightning:input
@@ -64,6 +65,7 @@
                     onchange="{!c.onDaysChange}"
                     min="{!v.taskConfig.startDate}"
                     disabled="{!empty(v.taskConfig.startDate)}"
+                    dateStyle="medium"
                 />
             </div>
             <div class="slds-col slds-size--1-of-2">
@@ -104,6 +106,7 @@
                             onchange="{!c.onDaysChange}"
                             min="{!v.taskConfig.startDate}"
                             max="{!v.taskConfig.endTime}"
+                            dateStyle="medium"
                         />
                     </aura:set>
                 </aura:if>

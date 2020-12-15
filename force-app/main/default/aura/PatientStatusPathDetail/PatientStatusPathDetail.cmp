@@ -49,7 +49,15 @@
                                         </div>
                                         <div class="date">
                                             {!$Label.c.PE_Status_History_On_Date + ' '}
-                                            <ui:outputDateTime value="{!historyItem.changeDate}" />
+                                            <!--<ui:outputDateTime value="{!historyItem.changeDate}"/>-->
+                                            <lightning:formattedDateTime
+                                                value="{!historyItem.changeDate}"
+                                                year="numeric"
+                                                month="numeric"
+                                                day="2-digit"
+                                                hour="numeric"
+                                                minute="numeric"
+                                            />
                                         </div>
                                     </div>
                                 </aura:iteration>

@@ -42,7 +42,15 @@
                         <aura:if isTrue="{!empty(v.privacyPolicyId)}">
                             <aura:if isTrue="{!v.tcData.isAccepted}">
                                 {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '}
-                                <ui:outputDateTime value="{!v.tcData.acceptedDate}" />
+                                <lightning:formattedDateTime
+                                    value="{!v.tcData.acceptedDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
+                                    hour="numeric"
+                                    minute="numeric"
+                                    second="numeric"
+                                />
                                 <aura:set attribute="else">
                                     {!$Label.c.PG_TC_H_Do_You_Accept}
                                 </aura:set>

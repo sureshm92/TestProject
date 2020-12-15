@@ -116,6 +116,7 @@
                                 value="{!v.initData.activityDate}"
                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}"
+                                dateStyle="medium"
                             />
                         </div>
                         <!--Seperator-->
@@ -199,6 +200,7 @@
                                 max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                 messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                 messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                dateStyle="medium"
                             />
                         </div>
                     </div>
@@ -294,8 +296,14 @@
                             <br />
                             <div class="slds-p-top_small"></div>
                             <b>
-                                <lightning:formattedText
+                                <!--  <lightning:formattedText
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
+                                />-->
+                                <lightning:formattedDateTime
+                                    value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
+                                    year="numeric"
+                                    month="short"
+                                    day="2-digit"
                                 />
                             </b>
                         </div>
@@ -340,6 +348,7 @@
                                 messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                 messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
                                 required="true"
+                                dateStyle="medium"
                             />
                         </div>
                     </div>

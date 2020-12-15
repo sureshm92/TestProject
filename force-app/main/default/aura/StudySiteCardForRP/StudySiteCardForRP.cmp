@@ -61,6 +61,7 @@
                                 <div class="slds-col slds-size_1-of-2">
                                     <button
                                         data-hcpe-id="{!v.siteWrapper.hcpe.Id}"
+                                        data-site-id="{!v.siteWrapper.site.Site__c}"
                                         class="apollo-btn secondary slvi-site-btn"
                                         onclick="{!c.doReferPatient}"
                                         disabled="{!v.siteWrapper.actions.refer.disabled}"

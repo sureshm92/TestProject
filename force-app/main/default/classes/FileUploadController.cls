@@ -20,17 +20,20 @@ public without sharing class FileUploadController {
         public ContentDocument content;
         @AuraEnabled
         public String fileName;
+        @AuraEnabled
+        public String language;
 
-        public FileWrapper(ContentDocument content, String fileName) {
+        public FileWrapper(ContentDocument content, String fileName, String language) {
             this.content = content;
             this.fileName = fileName;
+            this.language = language;
         }
     }
 
     @AuraEnabled
-    public static FilesWrapper getResourceFiles(Id resourceId) {
+    public static FilesWrapper getResourceFiles(Id resourceId, List<String> docIds) {
         try {
-            return createFilesWrapper(resourceId);
+            return createFilesWrapper(resourceId, docIds);
         } catch (Exception e) {
             return (FilesWrapper) AuraHelper.throwException(e);
         }
@@ -40,11 +43,12 @@ public without sharing class FileUploadController {
     public static FilesWrapper deleteContentDocument(
         String documentId,
         String fileName,
-        String resourceId
+        String resourceId,
+        List<String> docIds
     ) {
         try {
             delete [SELECT Id FROM ContentDocument WHERE Id = :documentId];
-            return createFilesWrapper(resourceId);
+            return createFilesWrapper(resourceId, docIds);
         } catch (Exception e) {
             return (FilesWrapper) AuraHelper.throwException(e);
         }
@@ -54,7 +58,8 @@ public without sharing class FileUploadController {
     public static FilesWrapper updateContentDocument(
         String documentId,
         String codeValue,
-        String resourceId
+        String resourceId,
+        List<String> docIds
     ) {
         //String codeValue
         try {
@@ -73,16 +78,25 @@ public without sharing class FileUploadController {
             ];
             conversion.LanguageCode__c = codeValue;
             update conversion;
-            return createFilesWrapper(resourceId);
+            return createFilesWrapper(resourceId, docIds);
         } catch (Exception e) {
             return (FilesWrapper) AuraHelper.throwException(e);
         }
     }
 
-    private static FilesWrapper createFilesWrapper(Id resourceId) {
+    private static FilesWrapper createFilesWrapper(Id resourceId, List<String> docIds) {
+        Map<String, String> languageMap = new Map<String, String>();
+        LabelValueItem objLabelValueItem = new LabelValueItem('None', '');
+        List<LabelValueItem> labelValueItemList = new List<LabelValueItem>();
+        labelValueItemList.add(objLabelValueItem);
         List<LabelValueItem> allLanguagesLVList = SObjectHelper.getPicklistLabelValueList(
             Contact.Language__c
         );
+        if (!allLanguagesLVList.isEmpty()) {
+            for (LabelValueItem objItem : allLanguagesLVList) {
+                languageMap.put(objItem.value, objItem.Label);
+            }
+        }
         List<FileWrapper> listOfFileWrappers = new List<FileWrapper>();
         List<ContentDocumentLink> listOfFiles = new List<ContentDocumentLink>();
         if (resourceId != null) {
@@ -94,34 +108,45 @@ public without sharing class FileUploadController {
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :resourceId
             ];
+        } else {
+            if (!docIds.isEmpty()) {
+                List<Id> contentDocumentIds = (List<Id>) docIds;
+                listOfFiles = [
+                    SELECT
+                        ContentDocument.Title,
+                        ContentDocument.FileType,
+                        ContentDocument.LatestPublishedVersion.LanguageCode__c
+                    FROM ContentDocumentLink
+                    WHERE ContentDocumentId IN :contentDocumentIds
+                ];
+            }
         }
         Set<String> usedLanguages = new Set<String>();
         List<LabelValueItem> availableLanguagesLVList = new List<LabelValueItem>();
         for (ContentDocumentLink contentLink : listOfFiles) {
-            if (
-                contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c != '' &&
-                contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c != null
-            ) {
-                usedLanguages.add(
-                    contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c
-                );
-            } else {
-                usedLanguages.add(contentLink.ContentDocument.Title);
-            }
+            usedLanguages.add(contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c);
             listOfFileWrappers.add(
                 new FileWrapper(
                     contentLink.ContentDocument,
                     TranslateHelper.getPickListLabel(
                         Contact.Language__c,
                         contentLink.ContentDocument.Title
+                    ),
+                    languageMap.get(
+                        contentLink.ContentDocument.LatestPublishedVersion.LanguageCode__c
                     )
                 )
             );
         }
-        for (LabelValueItem lvi : allLanguagesLVList) {
-            if (!usedLanguages.contains(lvi.value))
-                availableLanguagesLVList.add(lvi);
+        if (!allLanguagesLVList.isEmpty()) {
+            for (LabelValueItem lvi : allLanguagesLVList) {
+                if (!usedLanguages.contains(lvi.value))
+                    availableLanguagesLVList.add(lvi);
+            }
         }
-        return new FilesWrapper(listOfFileWrappers, availableLanguagesLVList);
+        if (!availableLanguagesLVList.isEmpty()) {
+            labelValueItemList.addAll(availableLanguagesLVList);
+        }
+        return new FilesWrapper(listOfFileWrappers, labelValueItemList);
     }
 }

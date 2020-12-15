@@ -46,7 +46,12 @@
                     Task Reminder Details
                 </div>
                 <div class="slds-col" style="font-size: 13px; margin-bottom: 5px">
-                    <ui:inputDateTime displayDatePicker="true" />
+                    <!-- <ui:inputDateTime displayDatePicker="true"/>-->
+                    <lightning:input
+                        type="date"
+                        displayDatePicker="true"
+                        dateStyle="medium"
+                    ></lightning:input>
                 </div>
             </div>
         </div>

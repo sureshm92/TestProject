@@ -3,8 +3,8 @@
     <actionCalls>
         <name>BackNnRecord</name>
         <label>BackNnRecord</label>
-        <locationX>799</locationX>
-        <locationY>2131</locationY>
+        <locationX>1391</locationX>
+        <locationY>1925</locationY>
         <actionName>c:NavigateToRecord</actionName>
         <actionType>component</actionType>
         <inputParameters>
@@ -17,6 +17,35 @@
             <assignToReference>recordId</assignToReference>
             <name>recordId</name>
         </outputParameters>
+    </actionCalls>
+    <actionCalls>
+        <name>Create_COI_TA_Assignment</name>
+        <label>Create COI/TA Assignment</label>
+        <locationX>1265</locationX>
+        <locationY>1419</locationY>
+        <actionName>CreateTACOIAssignmentHandler</actionName>
+        <actionType>apex</actionType>
+        <connector>
+            <targetReference>BackNnRecord</targetReference>
+        </connector>
+        <inputParameters>
+            <name>chosenConditions</name>
+            <value>
+                <elementReference>COIRecordIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>docIds</name>
+            <value>
+                <elementReference>DocIds</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>resourceId</name>
+            <value>
+                <elementReference>Recources_for_StudyRes</elementReference>
+            </value>
+        </inputParameters>
     </actionCalls>
     <choices>
         <name>Article</name>
@@ -97,6 +126,61 @@
             <stringValue>Study-Specific</stringValue>
         </value>
     </constants>
+    <decisions>
+        <name>Check_Record_Type</name>
+        <label>Check Record Type</label>
+        <locationX>539</locationX>
+        <locationY>1461</locationY>
+        <defaultConnector>
+            <targetReference>Create_Res</targetReference>
+        </defaultConnector>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Video_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Video</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Res_Video</targetReference>
+            </connector>
+            <label>Video Resource</label>
+        </rules>
+        <rules>
+            <name>Article_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Article</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_record_article</targetReference>
+            </connector>
+            <label>Article Resource</label>
+        </rules>
+        <rules>
+            <name>Relevant_Link_Resource</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>RelevantLink</elementReference>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Create_Res_0</targetReference>
+            </connector>
+            <label>Relevant Link Resource</label>
+        </rules>
+    </decisions>
     <decisions>
         <name>Current_or_new_resource</name>
         <label>Current or new resource</label>
@@ -212,12 +296,31 @@
         <label>Type Rocord type</label>
         <locationX>452</locationX>
         <locationY>1928</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>StudyDoc</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Choose_record_type_resource</leftValueReference>
+                <operator>EqualTo</operator>
+                <rightValue>
+                    <elementReference>Study_Document_recordtype</elementReference>
+                </rightValue>
+            </conditions>
+            <label>StudyDoc</label>
+        </rules>
+    </decisions>
+    <decisions>
+        <name>Type_Rocord_type_1</name>
+        <label>Type Rocord type</label>
+        <locationX>43</locationX>
+        <locationY>1090</locationY>
         <defaultConnector>
             <targetReference>Add_COI</targetReference>
         </defaultConnector>
         <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
         <rules>
-            <name>StudyDoc</name>
+            <name>StudyDoc_record_Type</name>
             <conditionLogic>and</conditionLogic>
             <conditions>
                 <leftValueReference>Choose_record_type_resource</leftValueReference>
@@ -364,6 +467,12 @@
         </value>
     </processMetadataValues>
     <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
         <name>OriginBuilderType</name>
         <value>
             <stringValue>LightningFlowBuilder</stringValue>
@@ -373,8 +482,8 @@
     <recordCreates>
         <name>Create_record_article</name>
         <label>Create record article</label>
-        <locationX>317</locationX>
-        <locationY>1209</locationY>
+        <locationX>675</locationX>
+        <locationY>1128</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -522,8 +631,8 @@
     <recordCreates>
         <name>Create_Res</name>
         <label>Create Res</label>
-        <locationX>546</locationX>
-        <locationY>1211</locationY>
+        <locationX>838</locationX>
+        <locationY>1510</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res</targetReference>
@@ -581,8 +690,8 @@
     <recordCreates>
         <name>Create_Res_0</name>
         <label>Create Res</label>
-        <locationX>436</locationX>
-        <locationY>1214</locationY>
+        <locationX>808</locationX>
+        <locationY>1200</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -640,8 +749,8 @@
     <recordCreates>
         <name>Create_Res_Video</name>
         <label>Create Res Video</label>
-        <locationX>183</locationX>
-        <locationY>1209</locationY>
+        <locationX>520</locationX>
+        <locationY>1052</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -801,10 +910,10 @@
     <recordCreates>
         <name>Create_Study_Res</name>
         <label>Create Study Res</label>
-        <locationX>506</locationX>
-        <locationY>1653</locationY>
+        <locationX>977</locationX>
+        <locationY>1544</locationY>
         <connector>
-            <targetReference>Type_Rocord_type</targetReference>
+            <targetReference>Create_COI_TA_Assignment</targetReference>
         </connector>
         <inputAssignments>
             <field>Active_After_Days__c</field>
@@ -883,8 +992,8 @@
     <recordCreates>
         <name>Create_Study_Res_0</name>
         <label>Create Study Res</label>
-        <locationX>802</locationX>
-        <locationY>1720</locationY>
+        <locationX>1636</locationX>
+        <locationY>1794</locationY>
         <connector>
             <targetReference>BackNnRecord</targetReference>
         </connector>
@@ -959,10 +1068,10 @@
     <recordCreates>
         <name>Create_Study_Res_0_0</name>
         <label>Create Study Res</label>
-        <locationX>317</locationX>
-        <locationY>1656</locationY>
+        <locationX>914</locationX>
+        <locationY>1058</locationY>
         <connector>
-            <targetReference>Type_Rocord_type</targetReference>
+            <targetReference>Create_COI_TA_Assignment</targetReference>
         </connector>
         <inputAssignments>
             <field>Active_After_Days__c</field>
@@ -1035,13 +1144,13 @@
     <screens>
         <name>Add_COI</name>
         <label>Add COI</label>
-        <locationX>364</locationX>
-        <locationY>2131</locationY>
+        <locationX>399</locationX>
+        <locationY>1273</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>BackNnRecord</targetReference>
+            <targetReference>Check_Record_Type</targetReference>
         </connector>
         <fields>
             <name>headerOfChoosingCOI</name>
@@ -1064,6 +1173,10 @@
                 </value>
             </inputParameters>
             <isRequired>true</isRequired>
+            <outputParameters>
+                <assignToReference>COIRecordIds</assignToReference>
+                <name>coirecordIds</name>
+            </outputParameters>
         </fields>
         <fields>
             <name>footerWithNextButton</name>
@@ -1083,13 +1196,13 @@
     <screens>
         <name>Article_type_record</name>
         <label>Article</label>
-        <locationX>317</locationX>
-        <locationY>896</locationY>
+        <locationX>252</locationX>
+        <locationY>786</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_record_article</targetReference>
+            <targetReference>Type_Rocord_type_1</targetReference>
         </connector>
         <fields>
             <name>Page_show_record_type_3</name>
@@ -1303,8 +1416,8 @@
     <screens>
         <name>Exist_Res_c</name>
         <label>Exist Res</label>
-        <locationX>800</locationX>
-        <locationY>930</locationY>
+        <locationX>1442</locationX>
+        <locationY>936</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1376,13 +1489,13 @@
     <screens>
         <name>Relevant_Link_recordType</name>
         <label>Relevant Link</label>
-        <locationX>436</locationX>
-        <locationY>914</locationY>
+        <locationX>493</locationX>
+        <locationY>825</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_Res_0</targetReference>
+            <targetReference>Type_Rocord_type_1</targetReference>
         </connector>
         <fields>
             <name>Page_show_record_type_4</name>
@@ -1459,13 +1572,13 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>595</locationX>
-        <locationY>934</locationY>
+        <locationX>726</locationX>
+        <locationY>911</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_Res</targetReference>
+            <targetReference>Type_Rocord_type_1</targetReference>
         </connector>
         <fields>
             <name>Page_show_record_type_5</name>
@@ -1684,8 +1797,8 @@
     <screens>
         <name>Upload_File</name>
         <label>Upload File</label>
-        <locationX>261</locationX>
-        <locationY>1926</locationY>
+        <locationX>149</locationX>
+        <locationY>1340</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1712,10 +1825,20 @@
                     <elementReference>Recources_for_StudyRes</elementReference>
                 </value>
             </inputParameters>
+            <inputParameters>
+                <name>docIds</name>
+                <value>
+                    <elementReference>DocIds</elementReference>
+                </value>
+            </inputParameters>
             <isRequired>true</isRequired>
             <outputParameters>
                 <assignToReference>Recources_for_StudyRes</assignToReference>
                 <name>recordId</name>
+            </outputParameters>
+            <outputParameters>
+                <assignToReference>DocIds</assignToReference>
+                <name>docIds</name>
             </outputParameters>
         </fields>
         <fields>
@@ -1737,13 +1860,13 @@
     <screens>
         <name>Video_type_record</name>
         <label>Video</label>
-        <locationX>184</locationX>
-        <locationY>889</locationY>
+        <locationX>174</locationX>
+        <locationY>894</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
         <connector>
-            <targetReference>Create_Res_Video</targetReference>
+            <targetReference>Type_Rocord_type_1</targetReference>
         </connector>
         <fields>
             <name>Page_show_record_type_2</name>
@@ -1964,6 +2087,13 @@
         <objectType>Clinical_Trial_Profile__c</objectType>
     </variables>
     <variables>
+        <name>COIRecordIds</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
+    </variables>
+    <variables>
         <name>Created_resource</name>
         <dataType>SObject</dataType>
         <isCollection>false</isCollection>
@@ -1978,6 +2108,13 @@
         <isInput>true</isInput>
         <isOutput>false</isOutput>
         <objectType>Clinical_Trial_Profile__c</objectType>
+    </variables>
+    <variables>
+        <name>DocIds</name>
+        <dataType>String</dataType>
+        <isCollection>false</isCollection>
+        <isInput>true</isInput>
+        <isOutput>true</isOutput>
     </variables>
     <variables>
         <name>Exist_recource_variable</name>

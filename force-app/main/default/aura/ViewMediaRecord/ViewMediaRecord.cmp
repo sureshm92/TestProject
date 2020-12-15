@@ -103,16 +103,28 @@
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_Start_Date}</div>
                         <span
-                            ><ui:outputDate value="{!v.ViewRecord[0].Requested_Start_Date__c}"
-                        /></span>
+                            ><!--<ui:outputDate value="{!v.ViewRecord[0].Requested_Start_Date__c}" />-->
+                            <lightning:formattedDateTime
+                                value="{!v.ViewRecord[0].Requested_Start_Date__c}"
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                            />
+                        </span>
                     </div>
                 </div>
                 <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                     <div class="rr-form-element">
                         <div class="label slds-text-align_left">{!$Label.c.MO_End_Date}</div>
                         <span
-                            ><ui:outputDate value="{!v.ViewRecord[0].Requested_End_Date__c}"
-                        /></span>
+                            ><!--<ui:outputDate value="{!v.ViewRecord[0].Requested_End_Date__c}" />-->
+                            <lightning:formattedDateTime
+                                value="{!v.ViewRecord[0].Requested_End_Date__c}"
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                            />
+                        </span>
                     </div>
                 </div>
             </div>
@@ -175,7 +187,15 @@
                 <p>{!$Label.c.Recent_Notes}:</p>
                 <br />
                 <aura:iteration items="{!v.lstNotes}" var="item">
-                    <p><ui:outputDate value="{!item.CreatedDate}" />: {!item.Title}</p>
+                    <p>
+                        <!--   <ui:outputDate value="{!item.CreatedDate}" />-->
+                        <lightning:formattedDateTime
+                            value="{!item.CreatedDate}"
+                            year="numeric"
+                            month="short"
+                            day="2-digit"
+                        />: {!item.Title}
+                    </p>
                     <br />
                 </aura:iteration>
             </div>

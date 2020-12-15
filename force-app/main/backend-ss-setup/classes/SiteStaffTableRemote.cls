@@ -175,6 +175,14 @@ public with sharing class SiteStaffTableRemote {
             ) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                     .createPortalUsers(new Set<Id>{ contactId });
+            } else {
+                actionAssignContactPermissions.addPermission(
+                    contactId,
+                    CommunityTemplateService.getTemplate(
+                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c
+                        )
+                        .permissionSet
+                );
             }
 
             actionAssignContactPermissions.addPermission(

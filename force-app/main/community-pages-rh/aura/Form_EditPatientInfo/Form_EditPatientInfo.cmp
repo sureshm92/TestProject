@@ -148,6 +148,7 @@
                             required="true"
                             autocomplete="off"
                             onblur="{!c.doCheckDateOfBith}"
+                            dateStyle="medium"
                         />
                     </div>
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
@@ -275,7 +276,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -317,7 +318,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -337,7 +338,7 @@
                                 title="required"
                                 style="
                                      {
-                                        !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                     }
                                 "
                                 class="slds-required"
@@ -414,7 +415,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"
@@ -437,7 +438,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"
@@ -461,7 +462,7 @@
                                     title="required"
                                     style="
                                          {
-                                            !!v.participantdelegate|| (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
                                         }
                                     "
                                     class="slds-required"

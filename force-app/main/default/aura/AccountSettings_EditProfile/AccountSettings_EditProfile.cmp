@@ -332,6 +332,7 @@
                                         required="true"
                                         onblur="{!c.doCheckFieldsValidity}"
                                         class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"
+                                        dateStyle="medium"
                                 /></aura:if>
                                 <aura:if isTrue="{!(v.isDelegate)}">
                                     <lightning:input
@@ -344,6 +345,7 @@
                                         onblur="{!c.doCheckFieldsValidity}"
                                         disabled="true"
                                         class="{!v.isRTL?'mar_dob rightAlign':'mar_dob'}"
+                                        dateStyle="medium"
                                     />
                                 </aura:if>
                             </div>

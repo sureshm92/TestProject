@@ -141,6 +141,7 @@
                                 aura:id="startdtId"
                                 placeholder="{!$Label.c.Select}"
                                 onchange="{!c.startdateController}"
+                                dateStyle="medium"
                             />
                         </div>
                         <div
@@ -165,6 +166,7 @@
                                 aura:id="enddtId"
                                 placeholder="{!$Label.c.Select}"
                                 onchange="{!c.enddateController}"
+                                dateStyle="medium"
                             />
                         </div>
                         <div
