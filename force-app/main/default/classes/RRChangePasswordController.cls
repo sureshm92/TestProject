@@ -411,29 +411,24 @@ public without sharing class RRChangePasswordController {
             try {
                 if (!Test.isRunningTest()) {
                     Site.validatePassword(userVal, newPassword, verifyNewPassword);
-
-                    for (ApexPages.Message m : ApexPages.getMessages()) {
-                        if (m.getDetail().contains(System.Label.Pswd_ValidationMsg5)) {
-                            m = new ApexPages.Message(
-                                ApexPages.Severity.ERROR,
-                                System.Label.Pswd_ValidationMsg6
-                            );
+                
+                    for (ApexPages.Message m : ApexPages.getMessages()) 
+                    {
+                       if(m.getDetail().contains(System.Label.Pswd_ValidationMsg5)){
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg6);
                             failingPageResponse = m.getDetail();
-                        } else if (
-                            m.getDetail().contains(System.Label.Pswd_Val_strng1) ||
-                            m.getDetail().contains(System.Label.Pswd_Val_strng2) ||
-                            m.getDetail().contains(System.Label.Pswd_ValidationMsg4)
-                        ) {
-                            m = new ApexPages.Message(
-                                ApexPages.Severity.ERROR,
-                                System.Label.Pswd_ValidationMsg3
-                            );
+                           
+                       }
+                       else if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
+                        {
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
                             failingPageResponse = m.getDetail();
                         } else {
                             failingPageResponse = null;
                         }
                     }
                 }
+                
             } catch (Exception e) {
                 ApexPages.addMessages(e);
             }

@@ -2,8 +2,9 @@
 private class Test_Batch_DataCleanup_EligibilityPassed {
     @isTest
     private static void Batch_DataCleanup_Eligibility() {
-        test.startTest();
+     
         testdata.loadTestData();
+        test.startTest();
         Participant_Enrollment__c pe = [
             SELECT id, Participant_Status__c, Is_Virtual_Study_Site__c
             FROM Participant_Enrollment__c
@@ -18,8 +19,9 @@ private class Test_Batch_DataCleanup_EligibilityPassed {
 
     @isTest
     private static void Batch_DataCleanup_OnHold() {
-        test.startTest();
+        
         testdata.loadTestData();
+        test.startTest();
         Participant_Enrollment__c pe = [
             SELECT id, Participant_Status__c, Is_Virtual_Study_Site__c
             FROM Participant_Enrollment__c
@@ -35,8 +37,9 @@ private class Test_Batch_DataCleanup_EligibilityPassed {
 
     @isTest
     private static void Batch_DataCleanup_Received() {
-        test.startTest();
+       
         testdata.loadTestData();
+         test.startTest();
         Participant_Enrollment__c pe = [
             SELECT id, Participant_Status__c, Is_Virtual_Study_Site__c
             FROM Participant_Enrollment__c

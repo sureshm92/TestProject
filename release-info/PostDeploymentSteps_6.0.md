@@ -149,3 +149,21 @@ Publish Community
 2.please check both visible and Read-Only checkboxes for profile : PRDBAPI
 
 3.Go to Setup - Object Manager - Clinical Trial Profile - Page Layouts - Page Layout Assignment - Edit Assignment - hold CTRL button + choose three profiles Business Lead, IQVIA SPNL2,PRDBAPI and then select "Clinical Trial Profile Layout" from Page Layout To Use drop down list - Save. 
+
+## 20. Update existing Delegates Adult flag
+1.open Developer console-->Debug-->Open Execute Anonymous Window-->Run below lines of code-->
+
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+ TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateParticipantAge.class);
+ List<Participant__c> participantsList=[Select Id,Contact__r.Email, Contact__c, Contact__r.userCommunityDelegateId__c, Adult__c from Participant__c where Contact__r.userCommunityMode__c ='Participant' and Contact__r.UserCommunityIsDelegate__c =true and Adult__c = False];
+ for (Participant__c participant : participantsList) {
+    participant.Adult__c = true;
+  }
+update participantsList;
+
+2.Verification : open Developer console-->Query Editor-->paste this SOQL query : ( Select Id,Contact__r.Email, Contact__c, Contact__r.userCommunityDelegateId__c, Adult__c from Participant__c where Contact__r.userCommunityMode__c ='Participant' and Contact__r.UserCommunityIsDelegate__c =true and Adult__c = False ) -->Execute--> We should get Zero records after executing that query.

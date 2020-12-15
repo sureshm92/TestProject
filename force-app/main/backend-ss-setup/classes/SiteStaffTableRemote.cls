@@ -184,6 +184,11 @@ public with sharing class SiteStaffTableRemote {
                         .permissionSet
                 );
             }
+
+            actionAssignContactPermissions.addPermission(
+                    contactId,
+                    CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet);
+            
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }

@@ -573,15 +573,9 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             //PEH-2038: For prospect view check the Landing_Community__c
-            CommunityTemplate initTemplate = !String.isBlank(
-                    userParticipant.Contact__r.Landing_Community__c
-                )
-                ? CommunityTemplateService.getTemplateByCommunityName(
-                      userParticipant.Contact__r.Landing_Community__c
-                  )
-                : CommunityTemplateService.getTemplateByCommunityName(
-                      UserContext.getCurrentCommunityName()
-                  );
+            CommunityTemplate initTemplate =  !String.isBlank(userParticipant.Contact__r.Landing_Community__c) ?
+                    CommunityTemplateService.getTemplateByCommunityName(userParticipant.Contact__r.Landing_Community__c) :
+                    CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 userParticipant.First_Name__c +
@@ -791,9 +785,9 @@ public without sharing class CommunityModeService {
         List<Id> ssDelegateIds = new List<Id>();
 
         List<Site_Staff__c> siteStaffs = [
-            SELECT Id, Study_Site__c
+            SELECT Id, Study_Site__c,is_Invited__c
             FROM Site_Staff__c
-            WHERE Site_Contact__c = :contactId
+            WHERE Site_Contact__c = :contactId and is_Invited__c=true
         ];
         for (Site_Staff__c staff : siteStaffs)
             ssDelegateIds.add(staff.Study_Site__c);

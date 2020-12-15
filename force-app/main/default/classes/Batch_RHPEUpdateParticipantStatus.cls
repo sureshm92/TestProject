@@ -14,26 +14,13 @@ global without sharing class Batch_RHPEUpdateParticipantStatus extends Batch_Sch
         String Status;
         lmt = label.RHPElimit15;
         String query;
-        Status = '(\'' + label.PERHParticipantStatusExclude + '\')';
-        ctp = '(\'' + label.PERHStudyId + '\')';
-        pecreateddate = '' + label.RHPECreatedDate + '';
-        if (!Test.isRunningTest()) {
-            query =
-                'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN ' +
-                ctp +
-                ' AND Participant_Status__c NOT IN ' +
-                Status +
-                ' AND Is_Virtual_Study_Site__c=true AND Study_Hub_Log__r.Response_Status_Code__c!=201 AND CreatedDate >= ' +
-                pecreateddate +
-                ' order by CreatedDate Asc LIMIT ' +
-                lmt;
-        } else {
-            query =
-                'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN ' +
-                ctp +
-                ' AND Participant_Status__c NOT IN ' +
-                Status +
-                ' AND Is_Virtual_Study_Site__c=true LIMIT 1';
+        Status= '(\''+label.PERHParticipantStatusExclude+'\')';
+        ctp = '(\''+label.PERHStudyId+'\')';
+        pecreateddate = ''+label.RHPECreatedDate+'';
+        if(!Test.isRunningTest()){
+        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Clinical_Trial_Profile__c IN '+ctp+' AND Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true AND Study_Hub_Log__r.Response_Status_Code__c!=201 AND CreatedDate >= '+pecreateddate+' order by CreatedDate Asc LIMIT '+lmt;
+        }else{
+        query = 'SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Status__c NOT IN '+Status+' AND Is_Virtual_Study_Site__c=true LIMIT 1';
         }
         return Database.getQueryLocator(query);
     }

@@ -87,8 +87,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             valid = false;
         }
         if (totalRowCount > 45005) {
-            listOfFailedRecordsWithMsg.add(
-                '0, VALIDATION ERROR: File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
+            listOfFailedRecordsWithMsg.add( '0, VALIDATION ERROR: File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
             );
             system.debug(
                 'ERROR, File contains more than 45,000 records; you may split the file. Please correct the problem and try again.'
@@ -293,12 +292,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         hasErrors = true;
                         system.debug('ERROR:1 ' + totalRecordCount + ', ' + 'Invalid Email field');
 
-                        listOfFailedRecordsWithMsg.add(
-                            '' +
-                            totalRecordCount +
-                            ', ' +
-                            'ERROR: invalid field - Email'
-                        );
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Email');
                     } else if (!regexIncludeMatcher.find()) {
                         hasErrors = true;
                         system.debug('ERROR:2 ' + totalRecordCount + ', ' + 'Invalid Email field');
@@ -385,12 +379,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         'Gender, value is not correct'
                     );
 
-                    listOfFailedRecordsWithMsg.add(
-                        '' +
-                        totalRecordCount +
-                        ', ' +
-                        'value is not correct - Gender'
-                    );
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
                 }
 
                 Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
@@ -425,8 +414,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add(
                         '' +
-                        totalRecordCount +
-                        ', ' +
+                        totalRecordCount + ', ' +
                         'mandatory field is empty - Postal Code'
                     );
                 }
@@ -509,12 +497,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         'Date of Birth, Incorrect value'
                     );
 
-                    listOfFailedRecordsWithMsg.add(
-                        '' +
-                        totalRecordCount +
-                        ', ' +
-                        'Date of Birth, Incorrect value'
-                    );
+                    listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
                 }
                 if (
                     !String.isBlank(Language) &&
@@ -598,21 +581,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             if (!saveRes.isSuccess()) {
                                 errorRecordCount++;
                                 Database.Error error = saveRes.getErrors().get(0);
-                                listOfFailedRecordsWithMsg.add(
-                                    '' +
-                                    totalRecordCount +
-                                    ', ERROR on Participant Contact record insert: ' +
-                                    error.getFields() +
-                                    ' ' +
-                                    error.getMessage()
-                                );
+                                listOfFailedRecordsWithMsg.add('' +totalRecordCount +', ERROR on Participant Contact record insert: ' +error.getFields() +' ' + error.getMessage() );
                                 listOfFailedRecords.add(
-                                    ('' + csvLines.get(totalRecordCount - 1))
-                                        .removeStart('(')
-                                        .removeEnd(')') +
-                                    ', ' +
-                                    totalRecordCount
-                                );
+                                    ('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') +', ' +totalRecordCount);
                                 system.debug(
                                     'ERROR: ' +
                                     totalRecordCount +
@@ -626,19 +597,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
                         } catch (Exception exp) {
                             errorRecordCount++;
-                            listOfFailedRecordsWithMsg.add(
-                                '' +
-                                totalRecordCount +
-                                ', ERROR on Participant Contact record insert: ' +
-                                exp.getMessage()
-                            );
+                            listOfFailedRecordsWithMsg.add( '' +totalRecordCount +', ERROR on Participant Contact record insert: ' +exp.getMessage());
                             listOfFailedRecords.add(
-                                ('' + csvLines.get(totalRecordCount - 1))
-                                    .removeStart('(')
-                                    .removeEnd(')') +
-                                ', ' +
-                                totalRecordCount
-                            );
+                                ('' + csvLines.get(totalRecordCount - 1)).removeStart('(').removeEnd(')') +', ' +totalRecordCount);
                             system.debug(
                                 'ERROR: ' +
                                 totalRecordCount +
