@@ -65,3 +65,8 @@ Go to Setup - Release Updates - Make Flows Respect Access Modifiers for Legacy A
 ## 11.Prevent Creation of Function Expressions When Using $A.createComponent() or $A.createComponents() in Aura Components
 
 Go to Setup - Release Updates - Prevent Creation of Function Expressions When Using $A.createComponent() or $A.createComponents() in Aura Components - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm - Apply Update.
+
+## 12. Run below Script to execute the batch
+ Go to developer console > Open "Open execute Annonymous Window" uder debug tab > Run below script:
+ Id myBatch= Database.executeBatch(new Batch_UpdPESHReasonToNonEnReason(), 2000);
+
