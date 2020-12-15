@@ -17124,6 +17124,13 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
+	<labels>
+        <fullName>Sent_to_Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sent to Study Hub</shortDescription>
+        <value>Sent to Study Hub</value>
+    </labels>
     <labels>
         <fullName>Sex</fullName>
         <language>en_US</language>
