@@ -192,7 +192,7 @@ private class Test_ParticipantInformationRemote {
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';
             ParticipantInformationRemote.updateNotes(path, testData.pe, null);
-            ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe, null);
+            ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe, null, false);
         }
         Test.stopTest();
     }
