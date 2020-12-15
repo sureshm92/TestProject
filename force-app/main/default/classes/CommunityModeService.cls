@@ -791,9 +791,9 @@ public without sharing class CommunityModeService {
         List<Id> ssDelegateIds = new List<Id>();
 
         List<Site_Staff__c> siteStaffs = [
-            SELECT Id, Study_Site__c
+            SELECT Id, Study_Site__c,is_Invited__c
             FROM Site_Staff__c
-            WHERE Site_Contact__c = :contactId
+            WHERE Site_Contact__c = :contactId and is_Invited__c=true
         ];
         for (Site_Staff__c staff : siteStaffs)
             ssDelegateIds.add(staff.Study_Site__c);
