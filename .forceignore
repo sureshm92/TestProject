@@ -11,6 +11,8 @@ FlowInterview.All
 force-app/main/default/email/unfiled$public
 force-app/main/default/siteDotComSites
 force-app/main/default/settings/Address.settings-meta.xml
+**/jsconfig.json
+**/.eslintrc.json
 
 #profiles:
 force-app/main/default/profiles/Custom%3A Marketing Profile.profile-meta.xml
@@ -28,22 +30,10 @@ force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 force-app/main/default/workflows/Case.workflow-meta.xml
 
-#ignore all onboarding slides, comment line for include
-#*/staticresources/*os_pislide*
-#*/staticresources/*os_hcp*
-#*/staticresources/*os_part*
+#Ignore all onboarding slides, comment line for include
 #**/onboarding-tour/staticresources
-#**/onboarding-tour/staticresources/*os_pislide*
-#**/onboarding-tour/staticresources/*os_hcp*
-#**/onboarding-tour/staticresources/*os_part*
+#force-app/unpackaged/main/default/staticresources/os_*
+#force-app/main/onboarding-tour/staticresources/os_*
 
-**/jsconfig.json
-**/.eslintrc.json
-
-#Staic resources to stay within SFDX governor limit. Will free ~5MB
-#Feel free to add more static resources as  required. DO NOT commit uncommented file to team branch.
-#Uncomment the below lines when necessary.
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
-#force-app/main/default/staticresources/pdf_worker_js.js
-#force-app/main/default/staticresources/Participant_quick_reference_GSK.pdf
+#Ignore State globalValueSet
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml

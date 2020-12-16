@@ -5,5 +5,3 @@
 **/staticresources/**
 .sfdx
 .vscode
-**/classes/*.cls
-**/triggers/*.trigger
