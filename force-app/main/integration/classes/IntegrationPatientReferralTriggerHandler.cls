@@ -112,11 +112,41 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 ) {
                     errorsLog.add('Study is not accepting referrals;');
                 }
+
+                //Check active language preference 
+                Set<String> langPref = getPicklistValues(Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues());
+                if(!langPref.contains(ipr.Language_Preference__c)) {
+                    errorsLog.add('Invalid Language Preference:' + ipr.Language_Preference__c + ';');
+                    }
+                    //Check active address states
+                if(String.isNotBlank(ipr.Address_State__c)) {
+                    Set<String> states = getPicklistValues(Participant__c.Mailing_State_Province__c.getDescribe().getPicklistValues());
+                    if(!states.contains(ipr.Address_State__c)) {
+                        errorsLog.add('Invalid State: ' + ipr.Address_State__c + ';');
+                    }
+                }
+                    //Check active address states for delegate
+                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) {
+                        Set<String> states = getPicklistValues(Participant__c.Mailing_State_Province__c.getDescribe().getPicklistValues());
+                    if(!states.contains(ipr.Delegate_Mailing_State__c)) {
+                        errorsLog.add('Invalid State: ' + ipr.Delegate_Mailing_State__c + ';'); 
+                    }   
+                }   
+
                 if (errorsLog.size() > 0)
                     ipr.addError(String.join(errorsLog, '\n'));
             }
         }
 
+        private Set<String> getPicklistValues(List<PicklistEntry> picklistEntries) {
+            Set<String> activeLangPre = new Set<String>();
+           // List<PicklistEntry> picklistEntries = Participant__c.Language_Preference_Code__c.getDescribe()
+          //  .getPicklistValues();
+            for (Schema.PicklistEntry picklistEntry : picklistEntries)
+                activeLangPre.add(picklistEntry.getValue());
+                return activeLangPre;
+        }
+        
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();
