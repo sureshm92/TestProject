@@ -112,12 +112,15 @@ public without sharing class StudySiteService {
         //Commenting this because this is nowhere used and this snipet is throwing SOQL 50001 error
         /*
         for (Participant_Enrollment__c pe : [
-                SELECT Id, Study_Site__c
-                FROM Participant_Enrollment__c
-                WHERE Study_Site__c IN :siteIds
-                AND Participant_Status__c NOT IN (:ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
-                        :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
-                        :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING)
+            SELECT Id, Study_Site__c
+            FROM Participant_Enrollment__c
+            WHERE
+                Study_Site__c IN :siteIds
+                AND Participant_Status__c NOT IN (
+                    :ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
+                    :ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
+                    :ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
+                )
         ]) {
             siteWithPatientsIds.add(pe.Study_Site__c);
         }

@@ -14,13 +14,11 @@
     padding-bottom: 20px;
     border-bottom: 1px solid #d9d9d9;
 }
-.THIS.mti-container .mti-save-button {
-    width: 100%;
-}
+
 .THIS.mti-container .mti-save-button-container {
     margin-top: 20px;
 }
-@media all and (min-width: 768px) {
+@media all and (min-width: 769px) {
     .THIS.mti-container .mti-save-button-container {
         position: absolute;
         top: 20px;
@@ -29,8 +27,41 @@
     }
 }
 
+@media all and (max-width: 768px) {
+    .THIS.mti-container .mti-save-button-container {
+        text-align: right;
+        position: relative;
+        top: unset;
+        right: unset;
+        margin-top: 20px;
+    }
+
+    .THIS .mti-name .slds-grid {
+        justify-content: space-between;
+        padding-right: 15px;
+    }
+}
+
 @media all and (max-width: 500px) {
+
+    .THIS .mti-name > .slds-grid {
+        flex-wrap: wrap;
+    }
     .THIS .mti-name .slds-size--2-of-4 {
         min-width: 100%;
+        margin-bottom: 15px;
+    }
+
+    .THIS .mti-name .slds-size--1-of-4 {
+        min-width: 100%;
+        padding: 0;
+    }
+
+    .THIS .sdli-container .sdli-select {
+        margin-bottom: 10px;
+    }
+
+    .THIS.mti-container .mti-save-button {
+        width: 100%;
     }
 }

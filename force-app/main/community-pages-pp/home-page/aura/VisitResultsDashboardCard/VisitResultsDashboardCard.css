@@ -59,24 +59,22 @@
 .THIS .visit-results-container {
     display: flex;
     padding: 15px 0;
-    justify-content: center;
-    padding-right: 15px;
+    justify-content: space-evenly;
 }
 
 .THIS .visit-results-item {
-    width: 25%;
     height: 100%;
     padding-top: 17px;
-    padding-left: 16px;
+    padding-left: 10px;
     text-align: left;
     display: flex;
     flex-direction: column;
 }
+
 .THIS .visit-results-itemRTL {
-    width: 25%;
     height: 100%;
     padding-top: 17px;
-    padding-right: 16px;
+    padding-right: 10px;
     text-align: right;
     display: flex;
     flex-direction: column;
@@ -106,9 +104,8 @@
     font-family: 'Proxima Nova';
     font-size: 16px;
     line-height: 24px;
+    padding: 30px 15px 15px;
     text-align: center;
-    padding-bottom: 15px;
-    padding-top: 30px;
 }
 
 .THIS .visit-result-item-measurement {
@@ -162,9 +159,16 @@
 @media all and (max-width: 500px) {
     .THIS .visit-results-container {
         flex-wrap: wrap;
+        justify-content: flex-start;
+        padding-left: 15px;
     }
 
     .THIS .visit-results-item {
-        min-width: 150px;
+        min-width: 160px;
+        padding-left: 0;
+    }
+
+    .THIS .visit-results-item:last-child {
+        min-width: 185px;
     }
 }

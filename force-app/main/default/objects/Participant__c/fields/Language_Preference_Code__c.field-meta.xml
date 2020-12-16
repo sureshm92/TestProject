@@ -157,9 +157,9 @@
                 <label>uk</label>
             </value>
             <value>
-                <fullName>vi_US</fullName>
+                <fullName>vi</fullName>
                 <default>false</default>
-                <label>vi_US</label>
+                <label>vi</label>
             </value>
             <value>
                 <fullName>sq</fullName>
@@ -2234,10 +2234,10 @@
                 <label> ur</label>
             </value>
             <value>
-                <fullName> vi</fullName>
+                <fullName>vi_US</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
-                <label> vi</label>
+                <label>vi_US</label>
             </value>
         </valueSetDefinition>
     </valueSet>

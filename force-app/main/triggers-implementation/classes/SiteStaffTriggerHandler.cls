@@ -22,6 +22,7 @@ public without sharing class SiteStaffTriggerHandler {
                 delete dupSitestaffLst;
         }
     }
+    
 
     public class DeactivateUserWhenLastDelegationRemovedHandler extends TriggerHandler {
         public override void afterDelete(List<SObject> oldList) {
