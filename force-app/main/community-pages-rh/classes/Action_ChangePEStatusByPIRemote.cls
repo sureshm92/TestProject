@@ -32,7 +32,7 @@ public without sharing class Action_ChangePEStatusByPIRemote {
                 Status__c = status,
                 Notes__c = notes,
                 ParticipantEnrollment__c = penr.Id,
-                Reason__c = reason
+                Non_Enrollment_Reason__c = reason
             );
             insert history;
         } catch (Exception e) {

@@ -68,4 +68,9 @@ Go to Setup - Release Updates - Prevent Creation of Function Expressions When Us
 
 ## 12.Transition to new Bot Options Menu behavior
 
-Go to Setup - Release Updates - Click Get Started of update 'Transition to new Bot Options Menu behavior' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm.
+Go to Setup - Release Updates - Click Get Started of update 'Transition to new Bot Options Menu behavior' - Click on Enable Test Run - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm. 
+
+## 13. Run below Script to execute the batch
+ Go to developer console > Open "Open execute Annonymous Window" uder debug tab > Run below script:
+ Id myBatch= Database.executeBatch(new Batch_UpdPESHReasonToNonEnReason(), 2000);
+
