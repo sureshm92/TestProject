@@ -53,7 +53,7 @@
    
     setParticipant: function (component, pe, markers) {
         if(!pe.Study_Site__r){
-           var hasPeStudySite = 'true';
+            var hasPeStudySite = 'true';
         }
         var participant = {
             sobjectType: 'Participant__c',
