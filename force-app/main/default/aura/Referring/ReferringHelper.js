@@ -50,6 +50,7 @@
         );
     },
 
+   
     setParticipant: function (component, pe, markers) {
         if(!pe.Study_Site__r){
             var hasPeStudySite = 'true';
