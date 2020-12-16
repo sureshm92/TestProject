@@ -3,7 +3,7 @@
         component.find('spinner').show();
         let communityPrefix = communityService.getCommunityURLPathPrefix();
         communityService.executeAction(component, 'getCommunityUrl', {}, function (rValue) {
-            component.set('v.isJanssen', communityPrefix.includes('Janssen Community'));
+            component.set('v.isJanssen', rValue.includes('Janssen Community'));
         });
         // component.set('v.isJanssen', communityPrefix.includes('janssen'));
         // component.set('v.isJanssen', true);

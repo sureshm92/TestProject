@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Body__c</field>
-        <value xsi:type="xsd:string">Click on the Help menu to view this application walkthrough again and to access other application resources.</value>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
     </values>
     <values>
         <field>Multimode_Only__c</field>
@@ -16,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Application Help</value>
+        <value xsi:type="xsd:string">Participant Model For Mobile View</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">Help</value>
+        <value xsi:type="xsd:string">8.Participant Details Model</value>
     </values>
 </CustomMetadata>

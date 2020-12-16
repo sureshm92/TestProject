@@ -7,6 +7,10 @@
         <value xsi:type="xsd:string">Manage individual referral statuses. Click on the patient name to access fields for recording contacts, changing referral status, and making notes.</value>
     </values>
     <values>
+        <field>Disclaimer__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Multimode_Only__c</field>
         <value xsi:type="xsd:boolean">false</value>
     </values>
@@ -16,10 +20,10 @@
     </values>
     <values>
         <field>Sub_Title__c</field>
-        <value xsi:type="xsd:string">Referrals</value>
+        <value xsi:type="xsd:string">Referral Provides For Mobile view</value>
     </values>
     <values>
         <field>Title__c</field>
-        <value xsi:type="xsd:string">My Studies</value>
+        <value xsi:type="xsd:string">5.MRP</value>
     </values>
 </CustomMetadata>

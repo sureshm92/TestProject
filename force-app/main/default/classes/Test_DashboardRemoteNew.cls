@@ -88,7 +88,8 @@ private class Test_DashboardRemoteNew {
             //DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
-                testDataInst.ctp.Id
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
             );
             DashboardRemoteNew.prepareWaitingList(
                 CommunityService.USER_MODE_HCP,
@@ -194,7 +195,8 @@ private class Test_DashboardRemoteNew {
             );
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
-                testDataInst.ctp.Id
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
             );
             DashboardRemoteNew.prepareWaitingList(
                 CommunityService.USER_MODE_PI,
@@ -241,7 +243,8 @@ private class Test_DashboardRemoteNew {
             );
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
-                testDataInst.ctp.Id
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
             );
             DashboardRemoteNew.prepareWaitingList(
                 CommunityService.USER_MODE_PI,
@@ -340,7 +343,8 @@ private class Test_DashboardRemoteNew {
             );
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
-                testDataInst.ctp.Id
+                testDataInst.ctp.Id,
+                CommunityTemplateService.TEMPLATE_DEFAULT
             );
             DashboardRemoteNew.prepareWaitingList(
                 CommunityService.USER_MODE_PI,

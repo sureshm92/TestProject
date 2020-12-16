@@ -9,7 +9,8 @@
                           title="{!$Label.Email_Title}"
                           greeting="{!$Label.Email_User_Greeting}"
                           signature="{!$Label.Email_Signature_RH}"
-                          communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
+                         communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
+                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphPendingReferrals emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                          filterrequired="true"/>
             <c:EmailTemplatePendingParticipants sourceId="{!recipient.Id}"/>
@@ -25,7 +26,8 @@
                               title="{!$Label.Email_Title}"
                               greeting="{!$Label.Email_User_Greeting}"
                               signature="{!$Label.Email_Signature_RH}"
-                              communityTemplate="{!relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c}">
+                         communityTemplate="{!IF(relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c == 'GSK',
+                                                                                         'Default', relatedTo.Clinical_Trial_Profile__r.CommunityTemplate__c)}">
             <c:ParagraphPendingReferralsText emailLabel="{!$Label.Email_Body_PI_Delegate_Referrals}"
                                              filterrequired="true"/>                                             
             <c:EmailTemplatePendingParticipantsText sourceId="{!recipient.Id}"/>

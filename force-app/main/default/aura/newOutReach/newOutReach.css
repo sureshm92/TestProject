@@ -107,8 +107,8 @@
 }
 
 @media all and (max-width: 500px) {
-    .THIS .p-content > .slds-grid > .slds-grid {
-        flex-direction: column;
+    .THIS .p-content > div > .slds-grid > .slds-col {
+        flex-wrap: wrap;
     }
 
     .THIS .slds-grid > .slds-grid > .slds-col {

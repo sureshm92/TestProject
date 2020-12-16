@@ -58,7 +58,7 @@ private class Test_SiteStaffTableRemote {
                 WHERE Type__c = 'Action_AssignContactPermissions' AND CreatedDate >= :timeStamp
             ];
             System.debug(pendingActions);
-            System.assertEquals(1, pendingActions.size());
+            System.assertEquals(2, pendingActions.size());
         }
         Test.stopTest();
     }

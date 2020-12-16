@@ -34,7 +34,7 @@ Go to Setup - Release Updates - Click Get Started of update 'Enable Partial Save
 setup-->Release Updated->Use with sharing for @AuraEnabled Apex Controllers with Implicit Sharing
 --->Get Started-->Enabled Test Run-->Assess the impact of this release update-->Done-->check both checkboxes-->confirm
 
-##8.Require Permission to View Record Names in Lookup Fields
+## 8.Require Permission to View Record Names in Lookup Fields
 
 Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' button in the 'Require Permission to View Record Names in Lookup Fields' - Click Done in Assess the impact of this release update - check the two checkboxes - click Confirm.
     
@@ -46,7 +46,7 @@ Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' but
 	   d)PRDBAPI
 	   e)Product Owner
 	   	   
-##9.Require User Permission for the Send Custom Notification Action
+## 9.Require User Permission for the Send Custom Notification Action
 
 Go to Setup - Quick Find box - Type as Release Updates - Click 'Get Started' button of update 'Require User Permission for the Send Custom Notification Action' - Click 'Mark as Complete' button in Review Impact on Flows of this release update - Click 'Mark as Complete' button in Review Impact on Apex Integrations of this release update - Click 'Mark as Complete' button in Review Impact on REST API Integrations of this release update - Click 'Mark as Complete' button in Review Impact on Processes of this release update - Click 'Done' button in Review Alert of this release update - check the two checkboxes - click Confirm.
 
