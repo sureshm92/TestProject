@@ -89,11 +89,13 @@
         var languageKey = component.get('v.languageKey');
         var previousLangaugeKey = component.get('v.previousValue');
         var countryName, stateName, zipcode;
+        var isUserModeParticipant = false;
         if (component.get('v.userMode') == 'Participant') {
             countryName = component.get('v.personWrapper.mailingCC');
             stateName = component.get('v.personWrapper.mailingSC');
             //if(component.get('v.personWrapper.zip')!=null)
             zipcode = component.get('v.personWrapper.zip');
+            isUserModeParticipant = true;
         }
 
         var secondLangKey = component.get('v.secondLangKey');
@@ -139,7 +141,8 @@
                 timezoneKey: timezoneKey,
                 countryName: countryName,
                 stateName: stateName,
-                zipcode: zipcode
+                zipcode: zipcode,
+                isUserModeParticipant: isUserModeParticipant
             },
             function () {
                 component.find('spinner').hide();
