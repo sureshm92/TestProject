@@ -76,3 +76,5 @@ Go to Setup - Release Updates - Click Get Started of update 'Transition to new B
 ## 14. Profile Permission
 Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access on "Non-Enrollment Reason" field. 
 Step 2: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access and Edit access on "Non-Enrollment Reason" Field. 
+Step 3: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field. 
+Step 4: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" Field. 
