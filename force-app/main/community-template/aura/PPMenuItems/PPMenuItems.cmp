@@ -90,7 +90,7 @@
         role="tooltip"
         id="help"
         aura:id="tooltip"
-        style="{!if(v.isRTL == true,'top:'+v.tooltipTop+';right:'+v.tooltipRight,'top:'+v.tooltipTop+';left:'+v.tooltipLeft)}"
+        style="{!if(v.isRTL == true,'top:'+v.tooltipTop+';left:'+v.tooltipRight,'top:'+v.tooltipTop+';left:'+v.tooltipLeft)}"
     >
         <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
     </div>

@@ -48,16 +48,18 @@
     line-height: 24px;
     color: #444444;
     margin-top: 1.75rem;
+    min-width: 300px;
 }
 
 .THIS .NavContainer1 {
-    min-width: 300px;
+    width: auto;
 }
 
 .THIS .NavContainer1 h2 {
     font-size: 24px;
     white-space: nowrap;
     font-weight: 600;
+    min-width: 300px;
 }
 .THIS .NavContainer1 .RTL {
     padding: 1.5rem 1.5rem 0 0;

@@ -53,7 +53,7 @@
    
     setParticipant: function (component, pe, markers) {
         if(!pe.Study_Site__r){
-           var hasPeStudySite = 'true';
+            var hasPeStudySite = 'true';
         }
         var participant = {
             sobjectType: 'Participant__c',
@@ -75,7 +75,7 @@
     setDelegate: function (component, participant) {
         var delegateParticipant = {
             sobjectType: 'Participant__c',
-            Site__c: participant.Site__c
+            Site__c: participant?participant.Site__c:''
         };
         component.set('v.delegateParticipant', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');
