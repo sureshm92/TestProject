@@ -56,6 +56,10 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Opt_In_Status_Emails__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Parent_Account__c</field>
+            </layoutItems>
              <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Participant_Phone_Opt_In_Permit_Phone__c</field>

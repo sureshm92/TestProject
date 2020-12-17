@@ -348,7 +348,6 @@ public without sharing class ParticipantTriggerHandler {
             FROM Account
             WHERE Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
             LIMIT 1
-            FOR UPDATE
         ]
         .Id;
     }

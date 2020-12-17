@@ -150,7 +150,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             }
 
             pe.Last_Status_Changed_Notes__c = headHistory.Notes__c;
-            pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
+            pe.Non_Enrollment_Reason__c = headHistory.Non_Enrollment_Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.Status__c;
             pe.Last_Status_Changed_Additional_Notes__c = headHistory.Additional_Notes__c;

@@ -573,15 +573,9 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             //PEH-2038: For prospect view check the Landing_Community__c
-            CommunityTemplate initTemplate = !String.isBlank(
-                    userParticipant.Contact__r.Landing_Community__c
-                )
-                ? CommunityTemplateService.getTemplateByCommunityName(
-                      userParticipant.Contact__r.Landing_Community__c
-                  )
-                : CommunityTemplateService.getTemplateByCommunityName(
-                      UserContext.getCurrentCommunityName()
-                  );
+            CommunityTemplate initTemplate =  !String.isBlank(userParticipant.Contact__r.Landing_Community__c) ?
+                    CommunityTemplateService.getTemplateByCommunityName(userParticipant.Contact__r.Landing_Community__c) :
+                    CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 userParticipant.First_Name__c +

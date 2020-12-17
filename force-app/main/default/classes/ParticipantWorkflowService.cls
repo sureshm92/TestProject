@@ -22,7 +22,7 @@ public without sharing class ParticipantWorkflowService {
                 Id,
                 Date__c,
                 Status__c,
-                Reason__c,
+                Non_Enrollment_Reason__c,
                 Notes__c,
                 CreatedBy.Name,
                 Additional_Notes__c,
@@ -576,11 +576,11 @@ public without sharing class ParticipantWorkflowService {
             Participant_Enrollment__c.Participant_Status__c,
             pesh.Status__c
         );
-        String reasonString = (String.isNotBlank(pesh.Reason__c)
+        String reasonString = (String.isNotBlank(pesh.Non_Enrollment_Reason__c)
             ? ' - ' +
               TranslateHelper.getPickListLabel(
                   Participant_Enrollment__c.Non_Enrollment_Reason__c,
-                  pesh.Reason__c.trim()
+                  pesh.Non_Enrollment_Reason__c.trim()
               )
             : '');
         String notesString = (String.isNotBlank(pesh.Notes__c) ? ', ' + pesh.Notes__c.trim() : '');
@@ -1068,7 +1068,7 @@ public without sharing class ParticipantWorkflowService {
         if (lastStepWrapper != null) {
             if (String.isNotBlank(lastStepWrapper.outcome)) {
                 pesh.Status__c = lastStepWrapper.outcome;
-                pesh.Reason__c = lastStepWrapper.reason;
+                pesh.Non_Enrollment_Reason__c = lastStepWrapper.reason;
                 pesh.Notes__c = lastStepWrapper.notes;
             }
         }
@@ -1410,7 +1410,7 @@ public without sharing class ParticipantWorkflowService {
                 Id,
                 Date__c,
                 Status__c,
-                Reason__c,
+                Non_Enrollment_Reason__c,
                 Notes__c,
                 CreatedBy.Name,
                 ParticipantEnrollment__r.Referral_Source__c,
@@ -1478,7 +1478,7 @@ public without sharing class ParticipantWorkflowService {
             );
             result.reason = TranslateHelper.getPickListLabel(
                 Participant_Enrollment__c.Non_Enrollment_Reason__c,
-                pesh.Reason__c
+                pesh.Non_Enrollment_Reason__c
             );
             if (pesh.Date__c != null) {
                 result.dateOccured = pesh.Date__c.date().format();
