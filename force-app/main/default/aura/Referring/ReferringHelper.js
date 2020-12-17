@@ -75,7 +75,7 @@
     setDelegate: function (component, participant) {
         var delegateParticipant = {
             sobjectType: 'Participant__c',
-            Site__c: participant.Site__c
+            Site__c: participant?participant.Site__c:''
         };
         component.set('v.delegateParticipant', delegateParticipant);
         component.set('v.emailDelegateRepeat', '');
