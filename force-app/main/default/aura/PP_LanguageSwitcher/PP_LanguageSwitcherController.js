@@ -109,25 +109,29 @@
                 value = component.find('pFieldCountry').get('v.value');
             //index = tempcountries.findIndex(item => item.value == value);
             var index;
-            for (var i = 0; i < tempcountries.length; ++i) {
-                if (tempcountries[i].value == value) {
-                    index = i;
-                    break;
+            if(tempcountries !=null && tempcountries !=undefined){
+                for (var i = 0; i < tempcountries.length; ++i) {
+                    if (tempcountries[i].value == value) {
+                        index = i;
+                        break;
+                    }
                 }
+                console.log(index);
+                countryName = index >= 0 ? tempcountries[index].label : null;
             }
-            console.log(index);
-            countryName = index >= 0 ? tempcountries[index].label : null;
             var tempstates = component.get('v.statesLVList'),
                 statevalue = component.find('pFieldState').get('v.value');
             //stateindex = tempstates.findIndex(item => item.value == statevalue);
             var stateindex;
-            for (var i = 0; i < tempstates.length; ++i) {
-                if (tempstates[i].value == statevalue) {
-                    stateindex = i;
-                    break;
+            if(tempstates!=null && tempstates!=undefined){
+                for (var i = 0; i < tempstates.length; ++i) {
+                    if (tempstates[i].value == statevalue) {
+                        stateindex = i;
+                        break;
+                    }
                 }
+                stateName = stateindex >= 0 ? tempstates[stateindex].label : null;
             }
-            stateName = stateindex >= 0 ? tempstates[stateindex].label : null;
         }
 
         communityService.executeAction(
