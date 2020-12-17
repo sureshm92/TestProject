@@ -50,7 +50,7 @@
             <div class="headerLeft" style="background: url({!URLFOR($Resource.ReportBrandingLogos, imgUrl)})  no-repeat ;"></div>
         </apex:outputPanel>
         <div id="logo">
-            <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" />
+            <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" alt="logo" />
         </div>
         <div style="margin-left: 160px;margin-right: 170px;text-align:center;">
             <h1 style="font-size:20px;color:#3333ff;">
