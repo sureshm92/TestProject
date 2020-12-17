@@ -71,17 +71,21 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                                                                 ParticipantEnrollment__r.Participant_Status_Last_Changed_Date__c,
                                                                 ParticipantEnrollment__r.Last_Status_Changed_Additional_Notes__c 
                                                                 FROM Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c IN:peIds
-                                                                ORDER BY Date__c DESC];
+                                                                ORDER BY CreatedDate DESC];
         Map<Id,Participant_Enrollment_Status_History__c> pepesh = new Map<Id,Participant_Enrollment_Status_History__c>();
         Map<Id,Participant_Enrollment__c> toUpdate = new Map<Id,Participant_Enrollment__c>();
+        Map<Id,Id> headHistories = new Map<Id,Id>(); 
         for(Participant_Enrollment_Status_History__c pesh : peshs){
+            if(!headHistories.containsKey(pesh.ParticipantEnrollment__c)){
+                headHistories.put(pesh.ParticipantEnrollment__c,pesh.Id);
+            }
+          
             if(!toUpdate.containsKey(pesh.ParticipantEnrollment__c) 
                && newMap.containsKey(pesh.Id) && oldMap.containsKey(pesh.Id) 
                && newMap.get(pesh.Id)!=null && oldMap.get(pesh.Id)!=null 
                && newMap.get(pesh.Id).Additional_Notes__c != oldMap.get(pesh.Id).Additional_Notes__c
-               && pesh.ParticipantEnrollment__r.Participant_Status__c == pesh.Status__c 
-               && (pesh.ParticipantEnrollment__r.Participant_Status_Last_Changed_Date__c == pesh.Date__c
-                   || pesh.ParticipantEnrollment__r.Participant_Status_Last_Changed_Date__c == pesh.CreatedDate)){
+               && pesh.ParticipantEnrollment__r.Participant_Status__c == pesh.Status__c
+               && headHistories.get(pesh.ParticipantEnrollment__c) == pesh.Id){
                        toUpdate.put(pesh.ParticipantEnrollment__c,new Participant_Enrollment__c(Id=pesh.ParticipantEnrollment__c,
                                                                                                 Last_Status_Changed_Additional_Notes__c = pesh.Additional_Notes__c));
                    }
