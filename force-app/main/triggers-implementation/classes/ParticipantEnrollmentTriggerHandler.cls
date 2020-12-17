@@ -546,7 +546,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);
@@ -566,7 +566,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);

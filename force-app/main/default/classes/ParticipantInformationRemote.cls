@@ -1145,6 +1145,42 @@ public without sharing class ParticipantInformationRemote {
             this.participantPath = participantPath;
         }
     }
+	
+	@AuraEnabled
+    public static void updateParticipantData(
+        Id peId) {
+        List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
+        for (Participant_Enrollment__c pe : [
+            SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
+            FROM Participant_Enrollment__c
+            WHERE Id = : peId
+        ]) {
+            
+                if (pe.Initial_visit_scheduled_date__c != null) {
+                    pe.High_Priority__c = true;
+                } else {
+                    pe.High_Priority__c = false;
+                }
+            
+            pe.Participant_Status__c = 'Eligibility Passed';
+            PEUpdateList.add(pe);
+        }
+        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+            update PEUpdateList;
+        }
+    }
+    
+    @AuraEnabled
+    public static string getPESHrecord(Id peId){
+        List<Participant_Enrollment_Status_History__c> pesh = [Select 
+                             Date__c 
+                             From Participant_Enrollment_Status_History__c 
+                             WHERE ParticipantEnrollment__c =: peId 
+                            AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
+        String statusChangedDate = String.valueOf(Date.valueOf(pesh[0].Date__c));
+        return statusChangedDate;
+    }
+
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192

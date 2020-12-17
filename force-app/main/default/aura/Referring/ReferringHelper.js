@@ -50,12 +50,16 @@
         );
     },
 
+   
     setParticipant: function (component, pe, markers) {
+        if(!pe.Study_Site__r){
+            var hasPeStudySite = 'true';
+        }
         var participant = {
             sobjectType: 'Participant__c',
             First_Name__c: pe.Participant_Name__c,
             Last_Name__c: pe.Participant_Surname__c,
-            Site__c: pe.Study_Site__r ? pe.Study_Site__r.Site__c : pe.HCP__r.Study_Site__r.Site__c
+            Site__c:  hasPeStudySite != 'true'? pe.Study_Site__r ? pe.Study_Site__r.Site__c : pe.HCP__r.Study_Site__r.Site__c : ''
             // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
             // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
         };

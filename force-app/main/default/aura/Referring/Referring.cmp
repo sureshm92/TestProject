@@ -82,7 +82,7 @@
         action="{!c.approveDelegate}"
     />
 
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
     <aura:if isTrue="{!!empty(v.trial)}">
@@ -453,12 +453,11 @@
                 <!-- Questionare -->
                 <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Questionnaire}">
                     <div class="rr-width-limiter">
-                        <iframe
-                            src="{!v.trial.Link_to_Pre_screening__c}"
-                            class="screening-gizmo-frame"
-                            style="{!'height: '+v.frameHeight + 'px'}"
-                            onload="{!c.doFrameLoaded}"
-                        ></iframe>
+            <iframe src="{!v.trial.Link_to_Pre_screening__c}"
+                    class="screening-gizmo-frame"
+                    style="{!'height: '+v.frameHeight + 'px'}"
+                    onload="{!c.doFrameLoaded}">
+                        </iframe>
                     </div>
                 </aura:if>
 
