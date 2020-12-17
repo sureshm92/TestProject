@@ -82,6 +82,7 @@
     margin-bottom: 10px;
     font-size: 18px;
     font-family: 'Proxima Nova';
+    white-space: nowrap;
     height: 32px;
     width: 216px;
     color: #000000;
