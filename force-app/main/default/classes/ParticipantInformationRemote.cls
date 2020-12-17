@@ -1181,6 +1181,12 @@ public without sharing class ParticipantInformationRemote {
         return statusChangedDate;
     }
 
+    @AuraEnabled
+    public static string getUser(Id contactId){
+        List<user> lstUser = [SELECT id,CreatedDate, ContactId FROM user WHERE ContactId = :contactid];
+        return String.ValueOf(Date.valueOf(lstUser[0].CreatedDate));
+    }
+
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192
