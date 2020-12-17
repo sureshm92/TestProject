@@ -717,7 +717,7 @@ public without sharing class ListViewParticipantController {
             'Participant__r.Last_Name__c,Participant__r.Middle_Name__c,Participant__r.Contact__c,Participant__r.Suffix__c,' +
             'Participant__r.Nickname__c,Participant__r.Date_of_Birth__c,Participant__r.Gender__c,Participant__r.Email__c,' +
             'Participant__r.Mailing_Country_Code__c,Participant__r.Adult__c,Participant__r.Mailing_State_Code__c,' +
-            'Participant__r.Emancipation_in_progress__c,Participant__r.Mailing_Zip_Postal_Code__c,' +
+            'Participant__r.Emancipation_in_progress__c,Participant__r.Mailing_Zip_Postal_Code__c,Participant_Status__c,' +
             'Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,Study_Site__r.Study_Site_Phone__c,' +
             'Study_Site__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,' +
             'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c FROM Participant_Enrollment__c' +
