@@ -3160,6 +3160,11 @@
         <field>Contact.Override_Phone__c</field>
         <readable>false</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Parent_Account__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.PI_DelegateAccessLevel__c</field>
