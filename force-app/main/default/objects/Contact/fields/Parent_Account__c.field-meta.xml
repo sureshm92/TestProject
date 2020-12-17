@@ -3,7 +3,7 @@
     <fullName>Parent_Account__c</fullName>
     <deleteConstraint>SetNull</deleteConstraint>
     <externalId>false</externalId>
-    <label>Parent Account</label>
+    <label>Primary Account</label>
     <referenceTo>Account</referenceTo>
     <relationshipLabel>Contacts</relationshipLabel>
     <relationshipName>Contacts</relationshipName>
