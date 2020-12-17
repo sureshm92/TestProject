@@ -187,6 +187,11 @@
                 <label>hr</label>
             </value>
             <value>
+                <fullName>nl_BE</fullName>
+                <default>false</default>
+                <label>nl_BE</label>
+            </value>            
+            <value>
                 <fullName>en_AU</fullName>
                 <default>false</default>
                 <label>en_AU</label>
@@ -890,9 +895,8 @@
                 <label>GT</label>
             </value>
             <value>
-                <fullName>GU</fullName>
+                <fullName>gu</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>GU</label>
             </value>
             <value>
@@ -1292,9 +1296,8 @@
                 <label>MX</label>
             </value>
             <value>
-                <fullName>MY</fullName>
+                <fullName>my</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>MY</label>
             </value>
             <value>
