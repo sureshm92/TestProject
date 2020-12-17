@@ -1,0 +1,29 @@
+@page {
+    size: A4 landscape;
+    direction: rtl;
+    border: 9px solid RGB(216, 216, 216);
+    border-left: 0;
+    margin-left: -8px;
+
+    @top-right {
+        content: element(headerRight);
+    }
+    @top-left {
+        content: element(headerLeft);
+    }
+}
+
+#logo img {
+    visibility: hidden;
+
+    width: 140px;
+    height: 35px;
+}
+
+.rtlEnable {
+    direction: rtl;
+    unicode-bidi: bidi-override !important;
+    direction: unset !important;
+    text-align: right;
+    margin-right: -32px;
+}

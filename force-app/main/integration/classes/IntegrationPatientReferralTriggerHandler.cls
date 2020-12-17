@@ -112,11 +112,13 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 ) {
                     errorsLog.add('Study is not accepting referrals;');
                 }
+
                 if (errorsLog.size() > 0)
                     ipr.addError(String.join(errorsLog, '\n'));
             }
         }
 
+              
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
             Map<String, ContactAndSiteType> newDelegateContactsMap = new Map<String, ContactAndSiteType>();

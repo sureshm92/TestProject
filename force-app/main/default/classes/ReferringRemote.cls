@@ -223,6 +223,14 @@ public without sharing class ReferringRemote {
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             enrollment.Show_Referring_Provider__c = true;
             String language = UserInfo.getLanguage();
+             List<Study_Site__c> sSite = new List<Study_Site__c>();
+                    if(enrollment.Study_Site__c != null){
+                    sSite = [Select Id,Site__c from Study_Site__c where Id =:enrollment.Study_Site__c];
+                    }
+                if(sSite[0].Site__c != Null){
+                    participant.Site__c = sSite[0].Site__c;
+                    participantDelegate.Site__c = sSite[0].Site__c;
+                }
 
             ParticipantService.createParticipantAndUpdatePE(
                 participant,
@@ -234,7 +242,7 @@ public without sharing class ReferringRemote {
                 ? participant.Id: enrollment.Participant__c;
             if (participantId != null) {
                 Participant__c newpartcipant = [
-                    SELECT Id, Contact__c, Phone__c
+                    SELECT Id, Contact__c, Phone__c,Site__c
                     FROM Participant__c
                     WHERE Id = :participantId
                 ];

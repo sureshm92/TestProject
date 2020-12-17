@@ -6,6 +6,11 @@
         <field>Clinical_Trial_Profile__c.Promote_to_SH__c</field>
         <readable>false</readable>
     </fieldPermissions>
+	  <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Parent_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Age__c</field>
