@@ -23,7 +23,8 @@
 
             img {
                 height: auto;
-                max-width: 100%;
+                width: 80%;
+                max-width: 80%;
             }
 
             .ltr {
@@ -56,7 +57,7 @@
                 <apex:outputtext dir="RTL" value=" {!studyTitle} " />
             </h1>
         </div>
-        <div class="{!if(isRTL == true,'rtl', 'ltr')}" style="max-width: 100%">
+        <div class="{!if(isRTL == true,'rtl', 'ltr')}">
             <apex:outputLabel escape="false" Value="{!htmlformattedString}"></apex:outputLabel>
         </div>
     </body>
