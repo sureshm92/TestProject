@@ -5,3 +5,6 @@
 .THIS .slds-card__body_inner {
     padding: 0;
 }
+.THIS .fixedTable {
+    table-layout: fixed;
+}

@@ -1,5 +1,6 @@
 ({
     doInit: function (component, event, helper) {
+        var urlValue = window.location.href;
         component.find('spinner').show();
         if (sessionStorage) {
             if (sessionStorage.getItem('validationfailed')) {
@@ -32,6 +33,12 @@
                     }
                 });
                 component.set('v.fileWrapper', fileWrapper);
+                var cmpTable = component.find('auraTable');
+                if (urlValue.includes('view')) {
+                    $A.util.addClass(cmpTable, 'fixedTable');
+                } else {
+                    $A.util.removeClass(cmpTable, 'fixedTable');
+                }
                 component.find('spinner').hide();
             }
         );
