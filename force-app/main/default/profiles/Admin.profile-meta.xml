@@ -3114,6 +3114,11 @@
         <field>Contact.Participant_Opt_In_Status_SMS__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Parent_Account__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.Participant_Phone_Opt_In_Permit_Phone__c</field>

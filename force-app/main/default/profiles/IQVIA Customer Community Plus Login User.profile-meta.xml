@@ -3160,6 +3160,11 @@
         <field>Contact.Override_Phone__c</field>
         <readable>false</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Contact.Parent_Account__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Contact.PI_DelegateAccessLevel__c</field>
@@ -4965,6 +4970,11 @@
         <field>Participant_Enrollment__c.Last_Status_Changed_Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Last_Status_Changed_Additional_Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.MRN_Id__c</field>

@@ -10,8 +10,7 @@
             spinner.show();
             component.set('v.userMode', communityService.getUserMode());
             var commName = communityService.getCurrentCommunityName();
-            if(commName.includes('Janssen'))
-                component.set('v.isJanssen',true);
+            if (commName.includes('Janssen')) component.set('v.isJanssen', true);
             let trialId = communityService.getUrlParameter('id');
             component.set('v.trialId', trialId);
             let siteId = communityService.getUrlParameter('siteId');
@@ -44,7 +43,7 @@
         childComponent.childMethod();
     },
     onClickListView: function (component, event, helper) {
-        communityService.navigateToPage('listviewparticipant');
+        communityService.navigateToPage('my-referrals-list');
     },
     doNeedsGuardian: function (component, event) {
         let childCmp = event.getSource();
