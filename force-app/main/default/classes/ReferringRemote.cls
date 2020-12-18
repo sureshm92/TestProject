@@ -185,7 +185,7 @@ public without sharing class ReferringRemote {
                 Participant__c.class
             );
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
-            Participant__c participantDelegate;
+            Participant__c participantDelegate = new Participant__c();
             ReferHealthcareProviderRemote.HealthcareProvider delegateDuplicateInfo;
             if (ddInfo != null)
                 delegateDuplicateInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(ddInfo,ReferHealthcareProviderRemote.HealthcareProvider.class);
@@ -229,6 +229,7 @@ public without sharing class ReferringRemote {
                     }
                 if(sSite[0].Site__c != Null){
                     participant.Site__c = sSite[0].Site__c;
+                    if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
                 }
 
