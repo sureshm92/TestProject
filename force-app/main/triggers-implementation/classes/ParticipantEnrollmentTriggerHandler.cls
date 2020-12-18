@@ -546,7 +546,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);
@@ -566,7 +566,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);
@@ -615,10 +615,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
                 pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
+                if(pe.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen)
+                    pe.Source_Type__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen;
+                else    
+                    pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }
+
 
     // On study logic---------------------------------------------------------------------------------------------------
     @TestVisible

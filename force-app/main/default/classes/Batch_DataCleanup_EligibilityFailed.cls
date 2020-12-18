@@ -16,7 +16,7 @@ global without sharing class Batch_DataCleanup_EligibilityFailed implements Data
             peIds.add(pe.Id);
         }
         for (Participant_Enrollment_Status_History__c pesh : [
-            SELECT Id, Status__c, Reason__c, Notes__c
+            SELECT Id, Status__c, Non_Enrollment_Reason__c, Notes__c
             FROM Participant_Enrollment_Status_History__c
             WHERE
                 ParticipantEnrollment__c IN :peIds
