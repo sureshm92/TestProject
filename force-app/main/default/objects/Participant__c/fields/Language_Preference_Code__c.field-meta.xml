@@ -897,7 +897,12 @@
             <value>
                 <fullName>gu</fullName>
                 <default>false</default>
-                <isActive>true</isActive>
+                <label>GU</label>
+            </value>
+            <value>
+                <fullName>GU</fullName>
+                <default>false</default>
+                <isActive>false</isActive>
                 <label>GU</label>
             </value>
             <value>
