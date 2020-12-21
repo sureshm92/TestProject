@@ -5,6 +5,7 @@
     <formula>AND
 (
 AND (
+Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=true,
 NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c, &quot;Trial Complete&quot;)),
 NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c,&quot;Drop out&quot;))
 ),
