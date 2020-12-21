@@ -11667,7 +11667,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG EMN MSG Participant record import is processing</shortDescription>
-        <value>Participant record import is processing. You will be notified via email when the process has complete.</value>
+        <value>Participant record import is processing. You will be notified via email when the process has completed.</value>
     </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>

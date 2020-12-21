@@ -89,11 +89,13 @@
         var languageKey = component.get('v.languageKey');
         var previousLangaugeKey = component.get('v.previousValue');
         var countryName, stateName, zipcode;
+        var isUserModeParticipant = false;
         if (component.get('v.userMode') == 'Participant') {
             countryName = component.get('v.personWrapper.mailingCC');
             stateName = component.get('v.personWrapper.mailingSC');
             //if(component.get('v.personWrapper.zip')!=null)
             zipcode = component.get('v.personWrapper.zip');
+            isUserModeParticipant = true;
         }
 
         var secondLangKey = component.get('v.secondLangKey');
@@ -107,25 +109,29 @@
                 value = component.find('pFieldCountry').get('v.value');
             //index = tempcountries.findIndex(item => item.value == value);
             var index;
-            for (var i = 0; i < tempcountries.length; ++i) {
-                if (tempcountries[i].value == value) {
-                    index = i;
-                    break;
+            if(tempcountries !=null && tempcountries !=undefined){
+                for (var i = 0; i < tempcountries.length; ++i) {
+                    if (tempcountries[i].value == value) {
+                        index = i;
+                        break;
+                    }
                 }
+                console.log(index);
+                countryName = index >= 0 ? tempcountries[index].label : null;
             }
-            console.log(index);
-            countryName = index >= 0 ? tempcountries[index].label : null;
             var tempstates = component.get('v.statesLVList'),
                 statevalue = component.find('pFieldState').get('v.value');
             //stateindex = tempstates.findIndex(item => item.value == statevalue);
             var stateindex;
-            for (var i = 0; i < tempstates.length; ++i) {
-                if (tempstates[i].value == statevalue) {
-                    stateindex = i;
-                    break;
+            if(tempstates!=null && tempstates!=undefined){
+                for (var i = 0; i < tempstates.length; ++i) {
+                    if (tempstates[i].value == statevalue) {
+                        stateindex = i;
+                        break;
+                    }
                 }
+                stateName = stateindex >= 0 ? tempstates[stateindex].label : null;
             }
-            stateName = stateindex >= 0 ? tempstates[stateindex].label : null;
         }
 
         communityService.executeAction(
@@ -139,7 +145,8 @@
                 timezoneKey: timezoneKey,
                 countryName: countryName,
                 stateName: stateName,
-                zipcode: zipcode
+                zipcode: zipcode,
+                isUserModeParticipant: isUserModeParticipant
             },
             function () {
                 component.find('spinner').hide();

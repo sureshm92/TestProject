@@ -47,6 +47,7 @@
             </value>
         </inputParameters>
     </actionCalls>
+    <apiVersion>49.0</apiVersion>
     <choices>
         <name>Article</name>
         <choiceText>Article</choiceText>
@@ -674,12 +675,6 @@
             </value>
         </inputAssignments>
         <inputAssignments>
-            <field>Video__c</field>
-            <value>
-                <elementReference>Video_Link</elementReference>
-            </value>
-        </inputAssignments>
-        <inputAssignments>
             <field>document_type__c</field>
             <value>
                 <elementReference>Document_type</elementReference>
@@ -691,7 +686,7 @@
         <name>Create_Res_0</name>
         <label>Create Res</label>
         <locationX>808</locationX>
-        <locationY>1200</locationY>
+        <locationY>1199</locationY>
         <assignRecordIdToReference>Recources_for_StudyRes</assignRecordIdToReference>
         <connector>
             <targetReference>Create_Study_Res_0_0</targetReference>
@@ -1572,8 +1567,8 @@
     <screens>
         <name>Study_Doc_c</name>
         <label>Study Doc</label>
-        <locationX>726</locationX>
-        <locationY>911</locationY>
+        <locationX>727</locationX>
+        <locationY>910</locationY>
         <allowBack>true</allowBack>
         <allowFinish>true</allowFinish>
         <allowPause>true</allowPause>
@@ -1596,13 +1591,6 @@
             <name>Description</name>
             <dataType>String</dataType>
             <fieldText>Description</fieldText>
-            <fieldType>InputField</fieldType>
-            <isRequired>false</isRequired>
-        </fields>
-        <fields>
-            <name>Video_Link</name>
-            <dataType>String</dataType>
-            <fieldText>URL</fieldText>
             <fieldType>InputField</fieldType>
             <isRequired>false</isRequired>
         </fields>

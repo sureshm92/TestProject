@@ -138,6 +138,21 @@
         <label>Arabic_Saudi</label>
     </customValue>
     <customValue>
+        <fullName>nl_BE</fullName>
+        <default>false</default>
+        <label>Dutch (Belgium)</label>
+    </customValue>    
+    <customValue>
+        <fullName>my</fullName>
+        <default>false</default>
+        <label>Burmese</label>
+    </customValue>    
+    <customValue>
+        <fullName>gu</fullName>
+        <default>false</default>
+        <label>Gujarati</label>
+    </customValue>    
+    <customValue>
         <fullName>zh_CN</fullName>
         <default>false</default>
         <isActive>false</isActive>
