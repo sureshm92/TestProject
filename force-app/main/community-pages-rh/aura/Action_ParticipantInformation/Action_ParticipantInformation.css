@@ -312,6 +312,7 @@
     }
     .THIS .invite-patient-container .slds-size--3-of-12 {
         min-width: 35%;
+        height: auto;
     }
 }
 
