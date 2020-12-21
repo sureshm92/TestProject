@@ -78,3 +78,6 @@ Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Sett
 Step 2: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access and Edit access on "Non-Enrollment Reason" Field. 
 Step 3: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field. 
 Step 4: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" Field. 
+Step 5: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access and Edit access on "Non-Enrollment Reason" Field.
+## 14. Add User lock out email temlate for Janssen Community
+Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save	
