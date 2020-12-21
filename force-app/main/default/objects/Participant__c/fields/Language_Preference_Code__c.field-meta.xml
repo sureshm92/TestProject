@@ -895,9 +895,9 @@
                 <label>GT</label>
             </value>
             <value>
-                <fullName>gu</fullName>
+                <fullName>GU</fullName>
                 <default>false</default>
-                <isActive>true</isActive>
+                <isActive>false</isActive>
                 <label>GU</label>
             </value>
             <value>
