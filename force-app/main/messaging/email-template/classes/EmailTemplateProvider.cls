@@ -5,12 +5,14 @@
 public without sharing virtual class EmailTemplateProvider {
     public static final String PARAM_PREFIX = '##';
     public static final String DEFAULT_LANGUAGE = 'en_US';
+    // Added the value at line number 14 to fix REF-2560 bug, PIName is not displaying receipient.
     public static final Map<String, String> PARAM_PROVIDER_BY_TYPE = new Map<String, String>{
         'Case' => 'Email_Template_Parameters_From_Case',
         'Contact' => 'PP_Contact',
         'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
         'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
         'Participant__c' => 'PP_Participant',
+        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',
         'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
         'Resource__c' => 'Email_Template_Parameters_From_Resource',
         'Study_Site__c' => 'PP_Study_Site',
@@ -395,31 +397,24 @@ public without sharing virtual class EmailTemplateProvider {
             parameters.put('ParticipantFirstName', checkMetacharacters(participant.First_Name__c));
     }
 
-    public void addStudySiteNumber() {
+    public void addStudySiteNumber(){
         List<Participant_Enrollment__c> receivedPEs = new List<Participant_Enrollment__c>();
         List<Id> studySites = new List<Id>();
-        if (recipientId != null) {
-            for (Site_Staff__c ss : [
-                SELECT Study_Site__c
-                FROM Site_Staff__c
-                WHERE
-                    Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                    AND Site_Contact__c = :recipientId
-            ]) {
-                studySites.add(ss.Study_Site__c);
-            }
-
-            receivedPEs.addAll(
-                [
-                    SELECT Id
-                    FROM Participant_Enrollment__c
-                    WHERE
-                        Participant_Status__c = 'Received'
-                        AND (Study_Site__c IN :studySites
-                        OR PI_Contact__c = :recipientId)
-                ]
-            );
+        if(recipientId !=null){
+            
+            
+                for(Site_Staff__c ss:[SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
+                                      WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE]){
+                   studySites.add(ss.Study_Site__c);   
+                }
+            
+            receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
+                                WHERE  Participant_Status__c = 'Received' 
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);
+            
         }
         parameters.put('TotalStudies', String.valueOf(receivedPEs.size()));
     }
+
 }

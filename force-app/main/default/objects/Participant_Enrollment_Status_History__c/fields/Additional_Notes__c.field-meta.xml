@@ -1,10 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Additional_Notes__c</fullName>
-    <externalId>false</externalId>
-    <label>Additional Notes</label>
-    <length>131072</length>
-    <trackTrending>false</trackTrending>
-    <type>LongTextArea</type>
-    <visibleLines>3</visibleLines>
+        <fullName>Additional_Notes__c</fullName>
+        <externalId>false</externalId>
+        <inlineHelpText>Please add Additional notes in the format  of Additional Notes on 12/9/2020 12:36 AM by User Name(IQVIA)#</inlineHelpText>
+        <label>Additional Notes</label>
+        <length>131072</length>
+		<trackHistory>true</trackHistory>
+        <trackTrending>false</trackTrending>
+        <type>LongTextArea</type>
+        <visibleLines>3</visibleLines>
 </CustomField>

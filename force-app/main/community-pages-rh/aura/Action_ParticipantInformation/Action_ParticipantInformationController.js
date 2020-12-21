@@ -10,13 +10,15 @@
             component.set('v.initialized', true);
         });
     },
-
+    
     doExecute: function (component, event, helper) {
+        var statusList = $A.get("$Label.c.Promote_to_SH_Statuses").split(",");
+        
         try {
             component.set(
                 'v.isIQVIA',
                 communityService.getCurrentCommunityTemplateName() !==
-                    $A.get('$Label.c.Janssen_Community_Template_Name')
+                $A.get('$Label.c.Janssen_Community_Template_Name')
             );
             component.set('v.init', false);
             component.find('spinner').show();
@@ -26,7 +28,23 @@
             var params = event.getParam('arguments');
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
+            var status = pe.Participant_Status__c;
+            if(statusList.includes(status) && (pe.Study_Hub_Log__c == null ||
+                                               pe.Study_Hub_Log__c != null &&
+                                               pe.Study_Hub_Log__r.Response_Status_Code__c != 201)){
+                component.set('v.promoteToSHStatus',true);
+            }
+            else{
+                if(status == 'Eligibility Passed'){
+                    helper.getPESH(component,event,helper) ;
+                } else
+                    component.set('v.promoteToSHStatus',false);
+            }
+            
             component.set('v.isInvited', params.isInvited);
+            if(component.get('v.isInvited')){
+                helper.getInvitedDate(component,event,helper);
+            }
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
@@ -69,6 +87,7 @@
                                 returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                             }
                             component.set('v.pe', returnValue.enrollment);
+                            component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.init', true);
                             component.set(
                                 'v.isEmail',
@@ -82,7 +101,7 @@
                                 'v.isSMS',
                                 returnValue.enrollment.Permit_SMS_Text_for_this_study__c
                             );
-
+                            
                             component.set(
                                 'v.doContact',
                                 !pe.Permit_IQVIA_to_contact_about_study__c
@@ -103,7 +122,7 @@
             console.error(e);
         }
     },
-
+    
     checkParticipant: function (component, event, helper) {
         let newPhone = component.get('v.pe.Participant__r.Phone__c');
         let oldPhone = component.get('v.participant.Phone__c');
@@ -111,7 +130,7 @@
             component.set('v.participant.Phone__c', newPhone);
         }
     },
-
+    
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
@@ -167,7 +186,7 @@
             }
         );
     },
-
+    
     doCallback: function (component, event, helper) {
         var pe = component.get('v.pe');
         var callback = component.get('v.callback');
@@ -320,7 +339,7 @@
             }
         );
     },
-
+    
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
         var usermode = communityService.getUserMode();
@@ -401,7 +420,7 @@
                     var returnValue = JSON.parse(returnValueJSON);
                     component.set('v.updateInProgress', true);
                     component.set('v.participantPath', returnValue.participantPath);
-
+                    
                     component.set('v.pe', returnValue.pe);
                     var callback = component.get('v.callback');
                     if (callback) {
@@ -441,6 +460,7 @@
                 returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
                 component.set('v.isInvited', true);
                 component.set('v.userInfo', returnvalue);
+                component.set('v.invitedon',date.valueOf(returnvalue.CreatedDate));
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {
@@ -464,18 +484,17 @@
         }
         component.set('v.statusDetailValid', isValid);
     },
-
+    
     checkChildChanges: function (component, event, helper) {
         var isChangedPatientInfo = event.getParam('isChangedPatientInfo');
         var isChangedStatus = event.getParam('isChangedStatus');
         var source = event.getParam('source');
-
+        
         if (isChangedStatus && source === 'STATUS') {
             component.set('v.isStatusChanged', true);
         }
     },
     doContact: function (component) {
-        console.log('hi');
         component.set('v.doContact', !component.get('v.doContact'));
         if (!component.get('v.doContact')) {
             component.set('v.sendEmails', false);
@@ -484,12 +503,28 @@
     doContactEmail: function (component) {
         component.set('v.isEmail', !component.get('v.isEmail'));
     },
-
+    
     doContactPhone: function (component) {
         component.set('v.isPhone', !component.get('v.isPhone'));
     },
-
+    
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
-    }
+    },
+    
+    sendToStudyHub : function(component,event,helper){
+        
+        var pe = component.get('v.pe');
+        component.find('spinner').show();
+        communityService.executeAction(
+            component,
+            'updateParticipantData',
+            {
+                peId : pe.Id
+            }, function(){
+                
+                component.find('spinner').hide();
+            });
+        helper.getpeshdate(component,event,helper);
+    },
 });

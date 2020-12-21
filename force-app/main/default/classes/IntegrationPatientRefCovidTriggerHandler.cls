@@ -24,7 +24,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
     public without sharing class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setNewList(newList);
-            checkFields();
+            //checkFields();
             upsertParticipantAndPE();
         }
 
@@ -66,7 +66,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
                 ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
         }
 
-        private void checkFields() {
+        /*private void checkFields() {
             //process items:
             for (Integration_Patient_Referral__c ipr : newList) {
                 List<String> errorsLog = new List<String>();
@@ -112,6 +112,7 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
                     ipr.addError(String.join(errorsLog, '\n'));
             }
         }
+	*/
 
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();

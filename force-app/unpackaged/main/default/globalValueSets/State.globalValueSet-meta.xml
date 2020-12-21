@@ -1216,6 +1216,11 @@
         <label>Wiltshire</label>
     </customValue>
     <customValue>
+        <fullName>GBLND</fullName>
+        <default>false</default>
+        <label>London</label>
+    </customValue>
+    <customValue>
         <fullName>GBENG</fullName>
         <default>false</default>
         <isActive>false</isActive>

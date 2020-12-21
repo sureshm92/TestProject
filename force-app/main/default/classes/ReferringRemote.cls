@@ -59,18 +59,10 @@ public without sharing class ReferringRemote {
                 delegateId
             );
         } else if (initData.trial.Link_to_Medical_Record_Review__c == null) {
-            initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(
-                initData.trial,
-                initData.hcpEnrollment,
-                null
-            );
+            initData.participantEnrollment = ParticipantEnrollmentService.createParticipantEnrollment(initData.trial,initData.hcpEnrollment,null);
         }
         if (initData.trial.Link_to_Medical_Record_Review__c != null) {
-            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(
-                trialId,
-                null,
-                delegateId
-            );
+            initData.pendingPEnrollments = ParticipantEnrollmentService.getPendingParticipantEnrollments(trialId,null,delegateId);
         }
         StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance()
             .getSiteFilterDataImpl(trialId, 'HCP');
@@ -151,8 +143,7 @@ public without sharing class ReferringRemote {
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
-                ? Date.today().year() - birthDate.year()
-                : Date.today().year() - birthDate.year() - 1;
+                ? Date.today().year() - birthDate.year() : Date.today().year() - birthDate.year() - 1;
 
             if (
                 ageByCountryCode.get(
@@ -194,13 +185,10 @@ public without sharing class ReferringRemote {
                 Participant__c.class
             );
             participant.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
-            Participant__c participantDelegate;
+            Participant__c participantDelegate = new Participant__c();
             ReferHealthcareProviderRemote.HealthcareProvider delegateDuplicateInfo;
             if (ddInfo != null)
-                delegateDuplicateInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(
-                    ddInfo,
-                    ReferHealthcareProviderRemote.HealthcareProvider.class
-                );
+                delegateDuplicateInfo = (ReferHealthcareProviderRemote.HealthcareProvider) JSON.deserialize(ddInfo,ReferHealthcareProviderRemote.HealthcareProvider.class);
             if (!String.isBlank(participantDelegateJSON)) {
                 participantDelegate = (Participant__c) JSON.deserialize(
                     participantDelegateJSON,
@@ -235,6 +223,15 @@ public without sharing class ReferringRemote {
             enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
             enrollment.Show_Referring_Provider__c = true;
             String language = UserInfo.getLanguage();
+             List<Study_Site__c> sSite = new List<Study_Site__c>();
+                    if(enrollment.Study_Site__c != null){
+                    sSite = [Select Id,Site__c from Study_Site__c where Id =:enrollment.Study_Site__c];
+                    }
+                if(sSite[0].Site__c != Null){
+                    participant.Site__c = sSite[0].Site__c;
+                    if (participantDelegate != null)
+                    participantDelegate.Site__c = sSite[0].Site__c;
+                }
 
             ParticipantService.createParticipantAndUpdatePE(
                 participant,
@@ -243,11 +240,10 @@ public without sharing class ReferringRemote {
                 language
             );
             String participantId = !String.isBlank(participant.Id)
-                ? participant.Id
-                : enrollment.Participant__c;
+                ? participant.Id: enrollment.Participant__c;
             if (participantId != null) {
                 Participant__c newpartcipant = [
-                    SELECT Id, Contact__c, Phone__c
+                    SELECT Id, Contact__c, Phone__c,Site__c
                     FROM Participant__c
                     WHERE Id = :participantId
                 ];
@@ -267,6 +263,11 @@ public without sharing class ReferringRemote {
             }
 
             Boolean createDelegateuser = true;
+            // Added this lines for REF-2592 bug fixing, to stop sending email to the Virtual/Hybrid study 
+            if(hcpEnrollment!=null && (hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Virtual' || hcpEnrollment.Study_Site__r.Study_Site_Type__c == 'Hybrid') ){
+                createDelegateuser = false;             
+            }
+            /////
             if (
                 participantDelegate != null &&
                 !String.isEmpty(participantDelegate.Last_Name__c) &&
@@ -307,25 +308,15 @@ public without sharing class ReferringRemote {
                     insert newContact;
                 } else {
                     newContact = [
-                        SELECT
-                            Id,
-                            FirstName,
-                            LastName,
-                            Email,
-                            MailingCity,
-                            MailingCountryCode,
-                            MailingStateCode
-                        FROM Contact
-                        WHERE Id = :delegateDuplicateInfo.contactId
-                    ];
+                        SELECT  Id,  FirstName, LastName,   Email, MailingCity, MailingCountryCode
+                        ,MailingStateCode  FROM Contact  WHERE Id = :delegateDuplicateInfo.contactId ];
                     createDelegateuser = false;
                 }
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
                     participantDelegate.Contact__c = newContact.Id;
                     participantDelegate.Adult__c = true;
                     if (
-                        String.isBlank(participantDelegate.Phone__c) &&
-                        !String.isBlank(participant.Phone__c)
+                        String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)
                     ) {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
@@ -361,12 +352,9 @@ public without sharing class ReferringRemote {
                             StudySiteService.SS_TYPE_TRADITIONAL &&
                             (particpantEnrollList[0].Study_Site__r.Suppress_Participant_Emails__c ||
                             particpantEnrollList[0]
-                                .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &&
-                            communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
+                                .Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) && communityTemplateName == CommunityTemplateService.TEMPLATE_DEFAULT
                         ) {
-                            TriggerHandlerExecutor.bypassHandler(
-                                PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
-                            );
+                            TriggerHandlerExecutor.bypassHandler(PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class);
                         }
 
                         insert ptDelegateRef;
@@ -387,17 +375,9 @@ public without sharing class ReferringRemote {
                 ];
                 if (newParticipant != null && !String.isBlank(newParticipant.Contact__c)) {
                     Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-                    Study_Site__c ss = StudySiteService.getStudySiteForHCPById(
-                        hcpEnrollment.Study_Site__c
-                    );
-                    String permissionSetName = CommunityTemplateService.getTemplate(
-                            ss.Clinical_Trial_Profile__r.CommunityTemplate__c
-                        )
-                        .permissionSet;
-                    actionAssignContactPermissions.addPermission(
-                        newParticipant.Contact__c,
-                        permissionSetName
-                    );
+                    Study_Site__c ss = StudySiteService.getStudySiteForHCPById(hcpEnrollment.Study_Site__c );
+                    String permissionSetName = CommunityTemplateService.getTemplate(ss.Clinical_Trial_Profile__r.CommunityTemplate__c).permissionSet;
+                    actionAssignContactPermissions.addPermission(newParticipant.Contact__c, permissionSetName);
                     if (!actionAssignContactPermissions.isEmpty()) {
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
@@ -411,8 +391,7 @@ public without sharing class ReferringRemote {
     @Future
     public static void createParticipantUsers(Map<Id, Id> usersToCreate) {
         if (usersToCreate != null && !usersToCreate.isEmpty())
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createParticipantUsers(usersToCreate);
+            ((CommunityService) ClassFactory.newInstance(CommunityService.class)).createParticipantUsers(usersToCreate);
     }
 
     @AuraEnabled
@@ -449,11 +428,7 @@ public without sharing class ReferringRemote {
     );
 
     @AuraEnabled
-    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate(
-        String email,
-        String firstName,
-        String lastName
-    ) {
+    public static ReferHealthcareProviderRemote.HealthcareProvider checkDuplicateDelegate( String email, String firstName,String lastName ) {
         return ReferHealthcareProviderRemote.checkDuplicate(null, email, firstName, lastName, null);
     }
 }

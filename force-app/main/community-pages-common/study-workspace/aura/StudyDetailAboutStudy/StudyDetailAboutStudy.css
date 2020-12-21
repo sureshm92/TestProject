@@ -403,13 +403,13 @@
     border-top: 1px solid #d9d9d9;
 }
 
+.THIS .socialnetworks-section {
+    align-items: center;
+    margin-bottom: 25px;
+}
+
 .THIS .socialnetworks {
-    z-index: 2000;
-    position: absolute;
-    bottom: 10px;
-    float: right;
-    right: 0;
-    margin-bottom: 10px;
+
 }
 
 .THIS .docs-conteiner {
@@ -443,6 +443,19 @@
 }
 
 @media all and (max-width: 768px) {
+
+    .THIS .socialnetworks {
+        position: relative;
+        display: flex;
+        justify-content: flex-end;
+        margin-top: 10px;
+    }
+
+    .THIS .socialnetworks > .rri-icon {
+        display: flex;
+        justify-content: center;
+    }
+
     .THIS .rr-bottom-bar .bar-content .apollo-btn {
         width: 150px;
     }
@@ -468,8 +481,8 @@
         width: 13px;
     }
 
-    .THIS .rri-icon span {
-        margin: 0.125rem !important;
+    .THIS .rri-icon span.slds-m-around_x-small {
+        margin: 0 0 0 1rem;
     }
 }
 
@@ -478,18 +491,35 @@
         padding-top: 0;
     }
 
+    .THIS .sdas-about > .slds-wrap > #info-left {
+        margin-top: 90px
+    }
+
+    .THIS .socialnetworks-section {
+        align-items: flex-end;
+        flex-direction: column;
+    }
+
+    .THIS .socialnetworks-section>.slds-col {
+        min-width: unset;
+    }
+
+    .THIS .socialnetworks {
+        margin-top: 10px;
+    }
+
     .THIS .sdas-main-info {
         padding: 15px 0 0;
     }
 
     .THIS .socialnetworks .rri-icon > a {
-        padding: 0 0.5rem;
+        padding: 0 0 0 .5rem;
     }
 
     .THIS .socialnetworks-section.slds-grid.slds-wrap {
         position: absolute;
-        top: 50px;
-        right: 8px;
+        top: 0;
+        right: 0;
         width: 100%;
     }
 

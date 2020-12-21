@@ -97,15 +97,16 @@ private class Test_ParticipantInformationRemote {
 
     @IsTest
     static void testUpdateParticipant() {
+        TestData testData = new TestData();
         Participant__c participant = new Participant__c();
-        participant.Email__c = 'Test01@mail.ru';
-        participant.First_Name__c = 'testName';
-        participant.Last_Name__c = 'testLastName';
-        participant.Suffix__c = 'S';
-        participant.Middle_Name__c = 'Mr';
+        participant.Email__c = 'Test011@mail.ru';
+        participant.First_Name__c = 'testName1';
+        participant.Last_Name__c = 'testLastName1';
         insert participant;
         Test.startTest();
-        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+        System.runAs(testData.piUser) {
+                    AddPatientByPIRemote.updateParticipant(JSON.serialize(testData.participant));
+        }
         Test.stopTest();
     }
     @IsTest
@@ -131,6 +132,7 @@ private class Test_ParticipantInformationRemote {
             JSON.serialize(participant),
             true
         );
+        ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
         Test.stopTest();
     }
 
@@ -189,7 +191,7 @@ private class Test_ParticipantInformationRemote {
             );
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';
-            ParticipantInformationRemote.updateNotes(path, testData.pe, null);
+            ParticipantInformationRemote.updateNotes(path, testData.pe, null, false);
             ParticipantInformationRemote.updateWithDividerWithNotes(path, testData.pe, null);
         }
         Test.stopTest();

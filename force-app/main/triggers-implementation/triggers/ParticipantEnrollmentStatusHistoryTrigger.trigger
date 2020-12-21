@@ -22,4 +22,7 @@ trigger ParticipantEnrollmentStatusHistoryTrigger on Participant_Enrollment_Stat
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentSHTriggerHandler.UpdateLastChangedAdditionalNotes.class
+    );
 }

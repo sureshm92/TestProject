@@ -36,6 +36,15 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
     }
 
+    public class UpdateLastChangedAdditionalNotes extends TriggerHandler {
+
+        public override void afterUpdate(List<SObject> newList, Map<Id,SObject> oldMap) {
+            if (!Test.isRunningTest()) {
+                updateLastChangedAdditionalNotes((List<Participant_Enrollment_Status_History__c>) newList, (Map<Id,Participant_Enrollment_Status_History__c>) oldMap);
+            }
+        }
+    }  
+
     //Logic-------------------------------------------------------------------------------------------------------------
     private static void sendToEPR(List<Participant_Enrollment_Status_History__c> newList) {
         List<Id> ids = new List<Id>();
@@ -48,6 +57,40 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             //Added By Krishna For REF-2183
             IntegrationService.sendPESHToEPR(ids);
         }
+    }
+
+    @TestVisible
+    private static void updateLastChangedAdditionalNotes(List<Participant_Enrollment_Status_History__c> newList, Map<Id,Participant_Enrollment_Status_History__c> oldMap) {
+        List<Id> peids = new List<Id>();
+        Map<Id,Participant_Enrollment_Status_History__c> newMap = new Map<Id,Participant_Enrollment_Status_History__c>();
+        for(Participant_Enrollment_Status_History__c pesh: newList){
+            peIds.add(pesh.ParticipantEnrollment__c);
+            newMap.put(pesh.Id,pesh);
+        }
+        List<Participant_Enrollment_Status_History__c> peshs = [SELECT Status__c,Date__c,CreatedDate,Additional_Notes__c,ParticipantEnrollment__r.Participant_Status__c,
+                                                                ParticipantEnrollment__r.Participant_Status_Last_Changed_Date__c,
+                                                                ParticipantEnrollment__r.Last_Status_Changed_Additional_Notes__c 
+                                                                FROM Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c IN:peIds
+                                                                ORDER BY CreatedDate DESC];
+        Map<Id,Participant_Enrollment_Status_History__c> pepesh = new Map<Id,Participant_Enrollment_Status_History__c>();
+        Map<Id,Participant_Enrollment__c> toUpdate = new Map<Id,Participant_Enrollment__c>();
+        Map<Id,Id> headHistories = new Map<Id,Id>(); 
+        for(Participant_Enrollment_Status_History__c pesh : peshs){
+            if(!headHistories.containsKey(pesh.ParticipantEnrollment__c)){
+                headHistories.put(pesh.ParticipantEnrollment__c,pesh.Id);
+            }
+          
+            if(!toUpdate.containsKey(pesh.ParticipantEnrollment__c) 
+               && newMap.containsKey(pesh.Id) && oldMap.containsKey(pesh.Id) 
+               && newMap.get(pesh.Id)!=null && oldMap.get(pesh.Id)!=null 
+               && newMap.get(pesh.Id).Additional_Notes__c != oldMap.get(pesh.Id).Additional_Notes__c
+               && pesh.ParticipantEnrollment__r.Participant_Status__c == pesh.Status__c
+               && headHistories.get(pesh.ParticipantEnrollment__c) == pesh.Id){
+                       toUpdate.put(pesh.ParticipantEnrollment__c,new Participant_Enrollment__c(Id=pesh.ParticipantEnrollment__c,
+                                                                                                Last_Status_Changed_Additional_Notes__c = pesh.Additional_Notes__c));
+                   }
+        }
+        update toUpdate.values();
     }
 
     @TestVisible
@@ -110,6 +153,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             pe.Non_Enrollment_Reason__c = headHistory.Reason__c;
             pe.Participant_Status_Last_Changed_Date__c = headHistory.Date__c;
             pe.Participant_Status__c = headHistory.Status__c;
+            pe.Last_Status_Changed_Additional_Notes__c = headHistory.Additional_Notes__c;
             if (
                 headHistory.Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
                 headHistory.Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS

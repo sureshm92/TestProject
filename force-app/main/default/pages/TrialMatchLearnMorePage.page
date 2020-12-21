@@ -1,0 +1,65 @@
+<apex:page standardStylesheets="false" renderAs="pdf" controller="TrialMatchLearnMorePageController" applyHtmlTag="false"
+    showHeader="false" cache="true" readOnly="true">
+    <html>
+    <head>
+        <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+        <style type="text/css">
+            div.headerRight {
+                margin-top: 12px;
+                height: 130px;
+                width: 715px;
+                text-align: center;
+                position: running(headerRight);
+                margin-left: 938px;
+                margin-right: 33px;
+            }
+
+            div.headerLeft {
+                margin-top: 15px;
+                height: 130px;
+                width: 715px;
+                position: running(headerLeft);
+            }
+
+            img {
+                height: auto;
+                width: 80%;
+                max-width: 80%;
+            }
+
+            .ltr {
+                margin-left: 20px;
+                margin-right: 40px;
+            }
+
+            .rtl {
+                margin-left: 60px;
+                margin-right: 60px;
+            }
+        </style>
+        <apex:stylesheet value="{!if(isRTL == true, $Resource.TrailMatchLearnMoreRTL, $Resource.TrialMatchLearmoreLTR)}" />
+        <!--<apex:stylesheet value="{!$Resource.TrailMatchLearnMoreRTL}" />  -->
+
+    </head>
+
+    <body class="{!if(isRTL == true, 'rtlEnable', '')}">
+        <apex:outputPanel rendered="{!(isRTL==true)}">
+            <div class="headerRight" style="background: url({!URLFOR($Resource.ReportBrandingLogos, imgUrl)})  no-repeat ;"></div>
+        </apex:outputPanel>
+        <apex:outputPanel rendered="{!(isRTL==false)}">
+            <div class="headerLeft" style="background: url({!URLFOR($Resource.ReportBrandingLogos, imgUrl)})  no-repeat ;"></div>
+        </apex:outputPanel>
+        <div id="logo">
+            <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" alt="logo" />
+        </div>
+        <div style="margin-left: 160px;margin-right: 170px;text-align:center;">
+            <h1 style="font-size:20px;color:#3333ff;">
+                <apex:outputtext dir="RTL" value=" {!studyTitle} " />
+            </h1>
+        </div>
+        <div class="{!if(isRTL == true,'rtl', 'ltr')}">
+            <apex:outputLabel escape="false" Value="{!htmlformattedString}"></apex:outputLabel>
+        </div>
+    </body>
+    </html>
+</apex:page>

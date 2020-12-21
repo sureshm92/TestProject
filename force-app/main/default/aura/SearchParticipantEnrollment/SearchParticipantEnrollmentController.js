@@ -28,7 +28,7 @@
                         component.set('v.mrrResult', 'Start Pre-Screening');
                     }
                     if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending')
-                        component.set('v.showSpinner', false);
+                        component.set('v.showSpinner', false);component.find('mainSpinner').hide();
                     helper.addEventListener(component, helper);
                 }
             );
@@ -54,7 +54,7 @@
                         component.set('v.mrrResult', 'Start Pre-Screening');
                     }
                     if (searchResult.result !== 'New' && searchResult.result !== 'MRR Pending')
-                        component.set('v.showSpinner', false);
+                        component.set('v.showSpinner', false);component.find('mainSpinner').hide();
                     helper.addEventListener(component, helper);
                 }
             );

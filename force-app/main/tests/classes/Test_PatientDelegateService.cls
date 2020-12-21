@@ -232,6 +232,15 @@ public class Test_PatientDelegateService {
                 PEStatusState.PE_STATUS_GROUP_ACTIVE
             );
             PatientDelegateService.getInstance().resetDelegate(delegateContact.Id, false);
+            CommunityService.isUserModeValid('');
+            CommunityService.getConvertedStatus('tset \\( ');
+            CommunityService.getCommunityProfile();
+            CommunityService.ActivateUsers(new set<id> {delegateContact.Id});
+            CommunityService.isUserInCommunity(delegateContact.Id);
+            CommunityService.setUserToCommunity(testData.participantUser);
+            CommunityService.isNewSession();
+            CommunityService.setUserToCommunity(testData.participantUser.contactid);
+           // CommunityService.setUserToCommunity(delegateContact.Id);
             Test.stopTest();
         }
 
@@ -239,10 +248,13 @@ public class Test_PatientDelegateService {
                 SELECT userCommunityMode__c, userCommunytyType__c
                 FROM Contact
                 WHERE Id = :delegateContact.Id
-            ]
-            .get(0);
+        ].get(0);
+         CommunityService.getUserId();
+           
+        
         System.assertEquals(null, contactFromDB.userCommunityMode__c);
         System.assertEquals(null, contactFromDB.userCommunytyType__c);
+        
 
         List<Patient_Delegate__c> testRemove = [
             SELECT Id

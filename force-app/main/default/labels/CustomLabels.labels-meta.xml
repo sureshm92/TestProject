@@ -1,5 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
+	
+	 <labels>
+        <fullName>DLIT_L_View_medical_history</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>DLIT L View medical history</shortDescription>
+        <value>View medical history</value>
+    </labels>
+    <labels>
+        <fullName>Participant_Medical_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Participant_Medical_History</shortDescription>
+        <value>Participant Medical History</value>
+    </labels>
+    <labels>
+        <fullName>Tab_Medical_History</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Tab_Medical_History</shortDescription>
+        <value>Medical History</value>
+    </labels>
 	<labels>
         <fullName>African_American_Black</fullName>
         <language>en_US</language>
@@ -19,7 +41,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>All_Ethnicities</shortDescription>
-        <value>All Ethnicity</value>
+        <value>All</value>
     </labels>
     <labels>
         <fullName>American_Indian_Alaskan_Native</fullName>
@@ -3236,7 +3258,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>DB__Only_First_800_participants</shortDescription>
-        <value>Only first 800 participants will be shown in each dropdown, with the most recently created contact shown first.</value>
+        <value>Only the first 800 participants will be shown in each dropdown, with the most recently received shown first.</value>
     </labels>
     <labels>
         <fullName>DI_L_Acceptance_pending</fullName>
@@ -3769,6 +3791,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Distolic Blood Pr</shortDescription>
         <value>Distolic Blood Pr</value>
+    </labels>
+    <labels>
+        <fullName>Diversity_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Diversity Message</shortDescription>
+        <value>Use the ethnicity filtering feature to prioritize outreach to diverse participants.</value>
     </labels>
     <labels>
         <fullName>Do_Not_Continue</fullName>
@@ -8095,6 +8124,13 @@ The expected format is REF##### to REF########</value>
         <value>Invite Participant to Patient Portal</value>
     </labels>
     <labels>
+        <fullName>Invited_to_Patient_Portal</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Invited_to_Patient_Portal</shortDescription>
+        <value>Invited to Patient Portal</value>
+    </labels>
+    <labels>
         <fullName>Invited</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9902,6 +9938,14 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PES L All Steps</shortDescription>
         <value>All Steps</value>
     </labels>
+	 <labels>
+        <fullName>PES_Email_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PES_Email_Body</shortDescription>
+        <value>&lt;/br&gt;
+&lt;p&gt;There may be activity where a PI has updated a record they should not have access to.  Please verify the participant history of the referral ID below to confirm all transaction history was performed by people having access rights to the study and study site.&lt;/p&gt;</value>
+    </labels>
     <labels>
         <fullName>PES_L_All_acceptance_statuses</fullName>
         <language>en_US</language>
@@ -9964,6 +10008,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Enrollment ID</shortDescription>
         <value>Enrollment ID</value>
+    </labels>
+	 <labels>
+        <fullName>PE_History_Report</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PE_History_Report</shortDescription>
+        <value>Participant Enrollment History Report</value>
     </labels>
     <labels>
         <fullName>PE_Info_PopUp_Title</fullName>
@@ -11616,7 +11667,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG EMN MSG Participant record import is processing</shortDescription>
-        <value>Participant record import is processing. You will be notified via email when the process has complete.</value>
+        <value>Participant record import is processing. You will be notified via email when the process has completed.</value>
     </labels>
     <labels>
         <fullName>PG_EMN_MSG_Update_Contact_Info</fullName>
@@ -15964,6 +16015,13 @@ communications using the toggles below.</value>
         <shortDescription>Programmed death ligand 1</shortDescription>
         <value>Programmed death ligand 1 (PD-L1)</value>
     </labels>
+	<labels>
+        <fullName>Promote_to_SH_Statuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Promote to SH Statuses</shortDescription>
+        <value>Contact Attempted,Eligibility Failed,Pre-review Failed,Pre-review Passed,Received,Successfully Contacted</value>
+    </labels>
     <labels>
         <fullName>Pswd_8_Characters</fullName>
         <language>en_US</language>
@@ -17102,6 +17160,13 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
+	<labels>
+        <fullName>Sent_to_Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sent to Study Hub</shortDescription>
+        <value>Sent to Study Hub</value>
+    </labels>
     <labels>
         <fullName>Sex</fullName>
         <language>en_US</language>
@@ -18056,6 +18121,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Successfully_Contacted</shortDescription>
         <value>Successfully Contacted</value>
+    </labels>
+	 <labels>
+        <fullName>Suspicious_Activity</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Suspicious_Activity</shortDescription>
+        <value>Suspicious Activity</value>
     </labels>
     <labels>
         <fullName>Systolic</fullName>
@@ -19053,6 +19125,14 @@ communications using the toggles below.</value>
         <shortDescription>User_Name_For_Email_Recipient_User_Lockout</shortDescription>
         <value>Nazma Ansari</value>
     </labels>
+     <labels>
+        <fullName>View_Less</fullName>
+        <categories>My Referrals</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>View_Less</shortDescription>
+        <value>View Less</value>
+    </labels>
     <labels>
         <fullName>VPN_AddDate</fullName>
         <language>en_US</language>
@@ -19638,28 +19718,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_DiscoverLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJa&amp;oid=00D3O0000004pI7&amp;lastMod=1604401449000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMX&amp;oid=00D1I000001V1t1&amp;lastMod=1607841830000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_LearnLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_LearnLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJV&amp;oid=00D3O0000004pI7&amp;lastMod=1604400304000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMS&amp;oid=00D1I000001V1t1&amp;lastMod=1607841651000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_PPHeaderLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_PPHeaderLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJQ&amp;oid=00D3O0000004pI7&amp;lastMod=1604399794000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMN&amp;oid=00D1I000001V1t1&amp;lastMod=1607836850000</value>
     </labels>
     <labels>
         <fullName>WelcomeEmail_TrackLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>WelcomeEmail_TrackLogo</shortDescription>
-        <value>https://quintilesimscmo--inf60--c.documentforce.com/servlet/servlet.ImageServer?id=0153O000000CAJf&amp;oid=00D3O0000004pI7&amp;lastMod=1604401527000</value>
+        <value>https://quintilesimscmo--c.documentforce.com/servlet/servlet.ImageServer?id=0152o0000077jMc&amp;oid=00D1I000001V1t1&amp;lastMod=1607842028000</value>
     </labels>
     <labels>
         <fullName>Withdrew_Consent</fullName>
@@ -19726,5 +19806,12 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>Disclaimer_Text</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Disclaimer Text</shortDescription>
+        <value>CONFIDENTIAL AND PROPRIETARY: This report and any information contained herein are proprietary and confidential information of the Sponsor of the clinical trial identified in the report. This report and any information contained herein are intended solely for the purpose of managing the recruitment of potential clinical trial participants by the study team in a manner consistent with the specific clinical trial protocol or the express written instructions of the Sponsor or IQVIA. Any disclosure, dissemination, distribution, copying or any use of this report and any information contained herein other than for the purpose described in this statement is strictly and expressly prohibited.</value>
     </labels>
 </CustomLabels>

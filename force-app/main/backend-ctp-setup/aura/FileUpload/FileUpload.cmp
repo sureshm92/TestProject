@@ -94,7 +94,7 @@
             </div>
             <aura:if isTrue="{!v.fileWrapper.listOfFiles.length > 0}">
                 <div class="slds-card__body slds-card__body_inner">
-                    <table class="slds-table slds-table--bordered">
+                    <table class="slds-table slds-table--bordered" aura:id="auraTable">
                         <thead>
                             <tr>
                                 <th>{!$Label.c.File_Upload_Name}</th>
@@ -107,21 +107,27 @@
                             <aura:iteration items="{!v.fileWrapper.listOfFiles}" var="file">
                                 <tr>
                                     <td>
-                                        <a
-                                            href=""
-                                            id="{!file.content.Id}"
-                                            onclick="{!c.previewFile}"
-                                            >{!file.fileName}</a
-                                        >
+                                        <div class="slds-truncate">
+                                            <a
+                                                href=""
+                                                id="{!file.content.Id}"
+                                                onclick="{!c.previewFile}"
+                                                >{!file.fileName}</a
+                                            >
+                                        </div>
                                     </td>
-                                    <td>{!file.content.FileType}</td>
-                                    <td>{!file.language}</td>
+                                    <td>
+                                        <div class="slds-truncate">{!file.content.FileType}</div>
+                                    </td>
+                                    <td><div class="slds-truncate">{!file.language}</div></td>
                                     <td class="slds-text-align--right" id="{!file.content.Id}">
-                                        <lightning:buttonIcon
-                                            iconName="utility:close"
-                                            alternativeText="Delete"
-                                            onclick="{!c.deleteSelectedFile}"
-                                        />
+                                        <div class="slds-truncate">
+                                            <lightning:buttonIcon
+                                                iconName="utility:close"
+                                                alternativeText="Delete"
+                                                onclick="{!c.deleteSelectedFile}"
+                                            />
+                                        </div>
                                     </td>
                                 </tr>
                             </aura:iteration>

@@ -153,6 +153,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Contact> participantContacts = new List<Contact>();
         for (Participant_Enrollment__c pe : newList) {
             String nctNumber;
+            String protocolId;
             String participantName;
             Boolean visitOpt = false;
 
@@ -162,6 +163,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     pe.PI_Contact__c = ss.Principal_Investigator__c;
                     pe.Clinical_Trial_Profile__c = ss.Clinical_Trial_Profile__c;
                     nctNumber = ss.Clinical_Trial_Profile__r.NCT_Number__c;
+                    protocolId= ss.Clinical_Trial_Profile__r.Protocol_ID__c;
                     visitOpt = ss.Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c;
                 }
             }
@@ -194,6 +196,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             //populate Participant Code
             if (nctNumber != null && participantName != null) {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
+            }else if(protocolId != null && participantName != null){
+                 pe.Participant_Key__c = participantName + ' ' + protocolId;
             }
             //populate referred date
             if (
@@ -542,7 +546,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);
@@ -562,7 +566,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                             Status__c = pe.Participant_Status__c,
                             Notes__c = pe.Non_Referral_Notes__c,
                             ParticipantEnrollment__c = pe.Id,
-                            Reason__c = pe.Non_Referral_Reason__c
+                            Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                         )
                     );
                     peListForTaskCreation.add(pe);
@@ -611,10 +615,14 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
                 pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
+                if(pe.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen)
+                    pe.Source_Type__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen;
+                else    
+                    pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }
+
 
     // On study logic---------------------------------------------------------------------------------------------------
     @TestVisible
@@ -781,5 +789,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         ParticipantEnrollmentService.updateParticipantState(participants);
+        ContactService.updateContactSite(participants);
+
     }
 }

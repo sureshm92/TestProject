@@ -616,7 +616,8 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             } else if (notesToBeAdded && pe != null && pe.Id != null) {
-                updateNotes(pathWrapper, pe, outcome);
+                Boolean isCCUser=false;
+                updateNotes(pathWrapper, pe, outcome,isCCUser);
             } else if (pe != null && pe.Id != null) {
                 updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
@@ -644,7 +645,8 @@ public without sharing class ParticipantInformationRemote {
     private static void updateNotes(
         ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper,
         Participant_Enrollment__c pe,
-        String outcome
+        String outcome,
+        Boolean isCCUser
     ) {
         Participant_Enrollment_Status_History__c peshnotes;
         if (outcome != null) {
@@ -679,6 +681,16 @@ public without sharing class ParticipantInformationRemote {
             ]) {
                 stepsWithName.put(s.MasterLabel, s);
             }
+            //Mask Created by Name for  Portal user whose User Community Mode is 'CC'
+            String createdbyName = '';
+             
+            if(isCCUser){
+                createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
+            }
+            else{
+                createdbyName =UserInfo.getName();
+            }
+            
             for (Integer i = 0; i < pathWrapper.steps.size(); i = i + 1) {
                 ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[
                     i
@@ -712,7 +724,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
-                                    UserInfo.getName() +
+                                    createdbyName +
                                     '#';
                                 break;
                             } else if (
@@ -729,7 +741,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
-                                    UserInfo.getName() +
+                                    createdbyName +
                                     '#' +
                                     peshnotes.Additional_Notes__c;
                                 break;
@@ -747,7 +759,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
-                            UserInfo.getName() +
+                            createdbyName +
                             '#';
                         break;
                     } else {
@@ -760,7 +772,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
-                            UserInfo.getName() +
+                            createdbyName +
                             '#' +
                             peshnotes.Additional_Notes__c;
                         break;
@@ -971,7 +983,8 @@ public without sharing class ParticipantInformationRemote {
                 }
                 insert pesh;
             } else if (notesToBeAdded && pe != null && pe.Id != null) {
-                updateNotes(pathWrapper, pe, outcome);
+               	Boolean isCCUser=true;
+                updateNotes(pathWrapper, pe, outcome,isCCUser);
             } else if (pe != null && pe.Id != null) {
                 updateWithDividerWithNotes(pathWrapper, pe, outcome);
             }
@@ -1132,6 +1145,48 @@ public without sharing class ParticipantInformationRemote {
             this.participantPath = participantPath;
         }
     }
+	
+	@AuraEnabled
+    public static void updateParticipantData(
+        Id peId) {
+        List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
+        for (Participant_Enrollment__c pe : [
+            SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
+            FROM Participant_Enrollment__c
+            WHERE Id = : peId
+        ]) {
+            
+                if (pe.Initial_visit_scheduled_date__c != null) {
+                    pe.High_Priority__c = true;
+                } else {
+                    pe.High_Priority__c = false;
+                }
+            
+            pe.Participant_Status__c = 'Eligibility Passed';
+            PEUpdateList.add(pe);
+        }
+        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+            update PEUpdateList;
+        }
+    }
+    
+    @AuraEnabled
+    public static string getPESHrecord(Id peId){
+        List<Participant_Enrollment_Status_History__c> pesh = [Select 
+                             Date__c 
+                             From Participant_Enrollment_Status_History__c 
+                             WHERE ParticipantEnrollment__c =: peId 
+                            AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
+        String statusChangedDate = String.valueOf(Date.valueOf(pesh[0].Date__c));
+        return statusChangedDate;
+    }
+
+    @AuraEnabled
+    public static string getUser(Id contactId){
+        List<user> lstUser = [SELECT id,CreatedDate, ContactId FROM user WHERE ContactId = :contactid];
+        return String.ValueOf(Date.valueOf(lstUser[0].CreatedDate));
+    }
+
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192

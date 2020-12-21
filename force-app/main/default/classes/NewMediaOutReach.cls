@@ -156,33 +156,18 @@ public without sharing class NewMediaOutReach {
         if (studyContactId != null && con.UserCommunityIsDelegate__c == true) {
             if (ctpdata != null) {
                 List<id> studySiteIds = new List<Id>();
-                List<Site_Staff__c> sitestaffDetails = [
-                    SELECT
-                        id,
-                        Delegate_Level__c,
-                        Study_Site__r.Clinical_Trial_Profile__c,
+                List<Site_Staff__c> sitestaffDetails = [    SELECT
+                        id,  Delegate_Level__c,  Study_Site__r.Clinical_Trial_Profile__c,
                         Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,
-                        Study_Site__c,
-                        Site_Contact__c,
-                        is_Invited__c
-                    FROM Site_Staff__c
-                    WHERE
-                        Site_Contact__c = :studyContactId
-                        AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != NULL
-                        AND Study_Site__r.Clinical_Trial_Profile__c = :ctpdata.id
-                        AND is_Invited__c = TRUE
-                    LIMIT :limitRows
-                ];
+                        Study_Site__c, Site_Contact__c,  is_Invited__c   FROM Site_Staff__c
+                    WHERE   Site_Contact__c = :studyContactId  AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != NULL
+                        AND Study_Site__r.Clinical_Trial_Profile__c = :ctpdata.id  AND is_Invited__c = TRUE    LIMIT :limitRows  ];
                 for (Site_Staff__c sitestaff : sitestaffDetails) {
                     studySiteIds.add(sitestaff.Study_Site__c);
                 }
                 if (!studySiteIds.isEmpty()) {
-                    studyDataLast = [
-                        SELECT id, Site__r.Name, Clinical_Trial_Profile__r.Study_Code_Name__c, Name
-                        FROM Study_Site__c
-                        WHERE id IN :studySiteIds
-                        LIMIT :limitRows
-                    ];
+                    studyDataLast = [ SELECT id, Site__r.Name, Clinical_Trial_Profile__r.Study_Code_Name__c, Name
+                        FROM Study_Site__c  WHERE id IN :studySiteIds   LIMIT :limitRows   ];
                     for (Study_Site__c sc : studyDataLast) {
                         studyPoistion = new NewMediaOutReach.CommunityPreferred();
                         studyPoistion.studyName = sc.Name;
@@ -253,22 +238,11 @@ public without sharing class NewMediaOutReach {
         }
 
         if (studyContactId != null && con.UserCommunityIsDelegate__c == true) {
-            siteStaff = [
-                SELECT
-                    id,
-                    Delegate_Level__c,
-                    Study_Site__r.Clinical_Trial_Profile__c,
-                    Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,
-                    Study_Site__c,
-                    Site_Contact__c,
-                    is_Invited__c
-                FROM Site_Staff__c
-                WHERE
-                    Site_Contact__c = :studyContactId
-                    AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != NULL
-                    AND is_Invited__c = TRUE
-                LIMIT :limitRows
-            ];
+            siteStaff = [  SELECT  id,  Delegate_Level__c,  Study_Site__r.Clinical_Trial_Profile__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c,  Study_Site__c,
+                    Site_Contact__c,  is_Invited__c   FROM Site_Staff__c 
+                     WHERE  Site_Contact__c = :studyContactId
+                    AND Study_Site__r.Clinical_Trial_Profile__r.Media_outreach_Provider__c != NULL   AND is_Invited__c = TRUE LIMIT :limitRows ];
         }
 
         if (studylst.size() > 0) {
@@ -283,13 +257,8 @@ public without sharing class NewMediaOutReach {
         }
         if (!ctpIds.isEmpty()) {
             clinicalTrialLst = [
-                SELECT id, Study_Code_Name__c, Name
-                FROM Clinical_Trial_Profile__c
-                WHERE
-                    Id = :ctpIds
-                    AND CommunityTemplate__c NOT IN :MediaOutreachServices.RESTRICTED_COMMUNITY_TEMPLATES
-                LIMIT :limitRows
-            ];
+                SELECT id, Study_Code_Name__c, Name   FROM Clinical_Trial_Profile__c
+                WHERE Id = :ctpIds  AND CommunityTemplate__c NOT IN :MediaOutreachServices.RESTRICTED_COMMUNITY_TEMPLATES  LIMIT :limitRows ];
         }
 
         return clinicalTrialLst;
