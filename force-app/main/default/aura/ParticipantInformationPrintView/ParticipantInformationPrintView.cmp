@@ -341,10 +341,8 @@
                      <div  class="header" >{!$Label.c.Tab_Medical_History}</div>
                       <c:MedicalHistoryView pe="{!v.pe}"  />
              </div>
-              </aura:if>                             
-     
-             </aura:if>
-
+              </aura:if>  
+              
         </aura:if>
     </div>
 
