@@ -27,6 +27,11 @@
                 <default>false</default>
                 <label>Digital Recruitment</label>
             </value>
+			<value>
+                <fullName>Ciitizen</fullName>
+                <default>false</default>
+                <label>Ciitizen</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

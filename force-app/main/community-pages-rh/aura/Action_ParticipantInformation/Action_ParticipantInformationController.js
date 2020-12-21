@@ -36,12 +36,15 @@
             }
             else{
                 if(status == 'Eligibility Passed'){
-                helper.getPESH(component, event, helper);
-            } else
-                component.set('v.promoteToSHStatus',false);
+                    helper.getPESH(component,event,helper) ;
+                } else
+                    component.set('v.promoteToSHStatus',false);
             }
             
             component.set('v.isInvited', params.isInvited);
+            if(component.get('v.isInvited')){
+                helper.getInvitedDate(component,event,helper);
+            }
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
             component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
@@ -105,7 +108,7 @@
                             );
                             component.set('v.participantDelegate', returnValue.participantDelegate);
                             component.set('v.participant', pe.Participant__r);
-                            component.set('v.userInfo', returnValue.userInfo);              
+                            component.set('v.userInfo', returnValue.userInfo);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -457,6 +460,7 @@
                 returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
                 component.set('v.isInvited', true);
                 component.set('v.userInfo', returnvalue);
+                component.set('v.invitedon',date.valueOf(returnvalue.CreatedDate));
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {
@@ -491,7 +495,6 @@
         }
     },
     doContact: function (component) {
-        console.log('hi');
         component.set('v.doContact', !component.get('v.doContact'));
         if (!component.get('v.doContact')) {
             component.set('v.sendEmails', false);
@@ -509,7 +512,8 @@
         component.set('v.isSMS', !component.get('v.isSMS'));
     },
     
-    sendToStudyHub : function(component){
+    sendToStudyHub : function(component,event,helper){
+        
         var pe = component.get('v.pe');
         component.find('spinner').show();
         communityService.executeAction(
@@ -517,10 +521,10 @@
             'updateParticipantData',
             {
                 peId : pe.Id
-            }, function () {
-                component.find('spinner').hide();
-                component.set('v.promoteToSHStatus',false);
+            }, function(){
                 
+                component.find('spinner').hide();
             });
+        helper.getpeshdate(component,event,helper);
     },
 });

@@ -15,7 +15,7 @@
     <aura:attribute name="pe" type="Participant_Enrollment__c" />
     <aura:attribute name="refProvider" type="Contact" />
     <aura:attribute name="participant" type="Participant__c" access="private" />
-	<aura:attribute name="containsFile" type="Boolean" default="false"/> 
+    <aura:attribute name="containsFile" type="Boolean" default="false"/> 
     <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
@@ -49,6 +49,9 @@
     <aura:attribute name="isIQVIA" type="Boolean" default="false" />
     <aura:attribute name="isListView" type="Boolean" default="false" />
     <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="dateofSH" type="String" />
+    <aura:attribute name="status" type="String" />
+    <aura:attribute name="invitedon" type="String" />
     <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
@@ -89,69 +92,82 @@
              showHeader="true"
              showFooter="true"
              >
+        
         <aura:if
-                 isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}"
-                 >
+                 isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+                         !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
+                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c ||
+                         v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c ||
+                         and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c)) ||
+                         (v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}"
+                 > 
             <div
                  class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
                  >
-                <lightning:button
-                                  disabled="true"
-                                  label="{!$Label.c.BTN_Create_User_on_PE_Info}"
-                                  class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                                  />
-            </div>
-            <aura:set attribute="else">
                 <aura:if
-                         isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
-                                 !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-                                 v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
+                         isTrue="{!and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c))}"
                          >
-                    <div
-                         class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
-                         >
-                        <button
-                                class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                                onclick="{!c.createUserForPatient}"
-                                data-gtm="BTN_Invite_To_PP"
-                                >
-                            {!$Label.c.BTN_Create_User_on_PE_Info}
-                        </button>
-                    </div>
+                    
+                    <lightning:button
+                                      disabled="true"
+                                      label="{!$Label.c.BTN_Create_User_on_PE_Info}"
+                                      class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                                      />
+                    
+                    <aura:set attribute="else">
+                        <aura:if
+                                 isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+                                         !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
+                                         v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
+                                 >
+                            <button
+                                    class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                                    onclick="{!c.createUserForPatient}"
+                                    data-gtm="BTN_Invite_To_PP"
+                                    >
+                                {!$Label.c.BTN_Create_User_on_PE_Info}
+                            </button>
+                        </aura:if>
+                    </aura:set>
+                    
                 </aura:if>
-            </aura:set>
-        </aura:if>
-        <aura:if
-                 isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
-                 >
-            <aura:if isTrue="{!v.pe.Participant_Status__c != 'Eligibility Passed'}">
-                <div
-                     class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
-                     >
+                <aura:if isTrue="{!(v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
+                    
                     <button
                             class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                            disabled="{!!v.promoteToSHStatus}"
-                            onclick="{!c.sendToStudyHub}"
+                            disabled="true"
                             data-gtm="BTN_Invite_To_PP"
                             >
-                        {!$Label.c.Send_to_Study_Hub}
+                        {!$Label.c.Invited_to_Patient_Portal} <br/>({!v.invitedon})
                     </button>
-                </div>
-                <aura:set attribute= "else">
-                    <div
-                         class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
+                </aura:if>
+                <aura:if
+                         isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
                          >
+                    <aura:if isTrue="{!and(v.pe.Participant_Status__c != 'Eligibility Passed',v.status != 'Eligibility Passed')}">
+                        
                         <button
                                 class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
-                                disabled="true"
+                                disabled="{!!v.promoteToSHStatus}"
+                                onclick="{!c.sendToStudyHub}"
                                 data-gtm="BTN_Invite_To_PP"
                                 >
-                            {!$Label.c.Sent_to_Study_Hub} <br/>({!v.dateofSH})
+                            {!$Label.c.Send_to_Study_Hub}
                         </button>
-                    </div>   
-                </aura:set>                 
-            </aura:if>
-            
+                        <aura:set attribute= "else">
+                            
+                            <button
+                                    class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                                    disabled="true"
+                                    data-gtm="BTN_Invite_To_PP"
+                                    >
+                                {!$Label.c.Sent_to_Study_Hub} <br/>({!v.dateofSH})
+                            </button>   
+                        </aura:set>                 
+                    </aura:if>
+                    
+                </aura:if>
+            </div>
         </aura:if>
         
         <c:RRSpinner aura:id="spinner" size="medium" />
