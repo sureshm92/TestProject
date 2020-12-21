@@ -185,12 +185,7 @@
                 <fullName>hr</fullName>
                 <default>false</default>
                 <label>hr</label>
-            </value>
-            <value>
-                <fullName>nl_BE</fullName>
-                <default>false</default>
-                <label>nl_BE</label>
-            </value>            
+            </value>          
             <value>
                 <fullName>en_AU</fullName>
                 <default>false</default>
@@ -1297,8 +1292,9 @@
                 <label>MX</label>
             </value>
             <value>
-                <fullName>my</fullName>
+                <fullName>MY</fullName>
                 <default>false</default>
+                <isActive>false</isActive>
                 <label>MY</label>
             </value>
             <value>
