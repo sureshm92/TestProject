@@ -122,7 +122,8 @@ public without sharing class PP_LanguageSwitcherRemote {
         String secondLangKey,
         String thirdLangKey,
         String localeKey,
-        String timezoneKey
+        String timezoneKey,
+        Boolean isUserModeParticipant
     ) {
         try {
             contact myContact = new contact();
@@ -187,21 +188,33 @@ public without sharing class PP_LanguageSwitcherRemote {
                     Second_Choice_Language__c = secondLangKey,
                     Third_Choice_Language__c = thirdLangKey
                 );
-                update new Participant__c(
-                    Id = participantList[0].id,
-                    Mailing_Zip_Postal_Code__c = zipcode,
-                    Mailing_Country__c = countryName,
-                    Mailing_State__c = stateName
-                );
+                if(isUserModeParticipant == true){
+                    update new Participant__c(
+                        Id = participantList[0].id,
+                        Mailing_Zip_Postal_Code__c = zipcode,
+                        Mailing_Country__c = countryName,
+                        Mailing_State__c = stateName
+                    );
+                }
             } else {
-                update new Contact(
-                    Id = myContact.Id,
-                    Second_Choice_Language__c = secondLangKey,
-                    Third_Choice_Language__c = thirdLangKey,
-                    MailingCountry = countryName,
-                    MailingState = stateName,
-                    MailingPostalCode = zipcode
-                );
+                if(isUserModeParticipant == true){
+                    update new Contact(
+                        Id = myContact.Id,
+                        Second_Choice_Language__c = secondLangKey,
+                        Third_Choice_Language__c = thirdLangKey,
+                        MailingCountry = countryName,
+                        MailingState = stateName,
+                        MailingPostalCode = zipcode
+                    );
+                    
+                }else{
+                    update new Contact(
+                        Id = myContact.Id,
+                        Second_Choice_Language__c = secondLangKey,
+                        Third_Choice_Language__c = thirdLangKey
+                    );
+                    
+                }
             }
         } catch (Exception e) {
             AuraHelper.throwException(e);
