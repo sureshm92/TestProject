@@ -34,10 +34,6 @@
                 <field>document_type__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Video__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Required</behavior>
                 <field>Version_Date__c</field>
             </layoutItems>
