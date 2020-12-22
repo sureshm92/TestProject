@@ -1173,11 +1173,12 @@ public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static string getPESHrecord(Id peId){
         List<Participant_Enrollment_Status_History__c> pesh = [Select 
-                             Date__c 
-                             From Participant_Enrollment_Status_History__c 
-                             WHERE ParticipantEnrollment__c =: peId 
-                            AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
-        String statusChangedDate = String.valueOf(Date.valueOf(pesh[0].Date__c));
+        Date__c ,PSE_Date__c
+        From Participant_Enrollment_Status_History__c 
+        WHERE ParticipantEnrollment__c =: peId 
+        AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
+        DateTime dT = pesh[0].Date__c;
+        Date statusChangedDate = date.newinstance(dT.year(), dT.month(), dT.day());
         return statusChangedDate;
     }
 
