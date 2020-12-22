@@ -383,4 +383,52 @@ public without sharing class ContactService {
         Contact con = [SELECT Id, Visited_Communities__c FROM Contact WHERE Id = :conId];
         return String.isNotEmpty(con.Visited_Communities__c);
     }
+    public static void updateContactSite(List<Participant__c> participants) {
+        List<Participant_Enrollment__c> enrollments = [
+            SELECT Id, Participant__c, Participant_Status__c,Study_Site__r.Site__c,Participant_Contact__c
+            FROM Participant_Enrollment__c
+            WHERE Participant__c IN :participants
+            ORDER BY Participant__c
+        ];
+          Set<Id> conIds = new Set<Id>();
+          for (Participant_Enrollment__c pe : enrollments) {
+            conIds.add(pe.Participant_Contact__c);
+         }
+        List<Contact> consToBeUpdated = new List<Contact>();
+        List<Contact> consToUpdate = [Select Id ,AccountId from Contact where Id IN : conIds];
+        List<Patient_Delegate__c> pds = [Select Id,Contact__c,Participant__c,Participant__r.Contact__r.AccountId from Patient_Delegate__c where Contact__c IN:conIds];
+          for(Contact con:consToUpdate){
+              for (Participant_Enrollment__c pe : enrollments) {
+                  if(pe.Participant_Contact__c == con.Id){
+                      con.AccountId = pe.Study_Site__r.Site__c;
+                  }
+               }
+              consToBeUpdated.add(con);
+          } 
+          if(consToBeUpdated.size()>0)
+              update consToBeUpdated;
+          if(pds.size()>0){
+              updatePatientDelegates(pds);
+          }
+    }
+    
+    public static void updatePatientDelegates(List<Patient_Delegate__c> patientDelegates){
+        Set<Id> conIds = new Set<Id>();
+        for(Patient_Delegate__c pds:patientDelegates){
+            conIds.add(pds.Contact__c);
+        }
+        List<Contact> consToBeUpdated = new List<Contact>();
+        List<Contact> consToUpdate = [Select Id , AccountId from Contact where Id IN : conIds];
+         for(Contact con:consToUpdate){
+             for(Patient_Delegate__c pd:patientDelegates){
+                 if(pd.Contact__c == con.Id){
+                   con.AccountId = pd.Participant__r.Contact__r.AccountId;
+                 }
+             }
+               consToBeUpdated.add(con);
+           }
+          if(consToBeUpdated.size()>0)
+              update consToBeUpdated;
+    }
+
 }

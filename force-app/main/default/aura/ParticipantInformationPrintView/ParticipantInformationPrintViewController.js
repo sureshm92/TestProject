@@ -22,6 +22,8 @@
                     component.set('v.pe', returnValue.pe);
                     component.set('v.participant', returnValue.pe.Participant__r);
                     component.set('v.pathItems', returnValue.pathItems);
+                    component.set('v.containsFile', returnValue.containsFile);//REF-2826
+
                     //window.addEventListener("afterprint", function(event) { window.close(); });
                     communityService.executeAction(
                         component,
