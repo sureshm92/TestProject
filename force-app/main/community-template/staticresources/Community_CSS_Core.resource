@@ -827,6 +827,13 @@ select.rr-select-error,
     color: #FFFFFF;
 }
 
+.apollo-btn.primary.slds-button_neutral[disabled],
+.apollo-btn.primary.slds-button_neutral:disabled,
+.apollo-btn.primary.slds-button--neutral[disabled],
+.apollo-btn.primary.slds-button--neutral:disabled {
+    box-shadow: none;
+}
+
 .apollo-btn.secondary{
     background: #fff;
     color: #297dfd;
