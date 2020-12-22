@@ -2,6 +2,30 @@
  * Created by Andrii Kryvolap.
  */
 ({
+    doInit: function(component, event, helper){
+        var temp = component.get('v.participantWorkflowWrapperTemp');
+        if(temp == null){
+            component.find('spinner').show();
+            var pe = component.get('v.pe');
+            communityService.executeAction(
+                component,
+                'prepareParticipantWorkflowHelper',
+                {
+                    peId: pe.Id,
+                    userMode: communityService.getUserMode(),
+                    delegateId: communityService.getDelegateId(),
+                },
+                function (returnValue) {
+                    component.set('v.participantWorkflowWrapper',returnValue);
+                    component.find('spinner').hide();
+                }
+            );
+        }else{
+            component.set('v.participantWorkflowWrapper',temp);
+        }
+        
+    },
+    
     doChangeStep: function (component, event, helper) {
         component.set('v.updateInProgress', true);
         let currentStepInd = component.get('v.participantWorkflowWrapper.currentStepInd');
@@ -63,7 +87,7 @@
                 if (
                     participantWorkflowWrapper.steps[j].isCurrentStep &&
                     participantWorkflowWrapper.steps[j].title ==
-                        $A.get('$Label.c.PWS_Initial_Visit_Name')
+                    $A.get('$Label.c.PWS_Initial_Visit_Name')
                 ) {
                     if (params.fieldName == 'Notes__c') {
                         participantWorkflowWrapper.steps[j].notes = params.value;
@@ -75,11 +99,11 @@
             }
             component.set('v.participantWorkflowWrapper', participantWorkflowWrapper);
             let parent = component.get('v.parent');
-            parent.statusDetailValidityCheck();
+            parent.statusDetailValidityCheck(participantWorkflowWrapper);
             component.set('v.updateInProgress', false);
         }
     },
-
+    
     doNotifyParent: function (component, event, helper) {
         var params = event.getParam('arguments');
         var notifyStatusDetails = component.getEvent('detectChildChanges');

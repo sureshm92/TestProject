@@ -77,11 +77,9 @@
     <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
     <aura:method name="doUpdate" action="{!c.doUpdate}" access="public" />
     <aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public" />
-    <aura:method
-                 name="statusDetailValidityCheck"
-                 action="{!c.doCheckStatusDetailValidity}"
-                 access="public"
-                 />
+    <aura:method name="statusDetailValidityCheck" action="{!c.doCheckStatusDetailValidity}" access="public">
+        <aura:attribute name="participantWorkflowWrapper" type="Object" />
+    </aura:method>
     
     <!-- component body: -->
     <c:Popup
@@ -283,7 +281,9 @@
                                    >
                         <c:ParticipantStatusDetails
                                                     NotCCMode="{!v.NotCCMode}"
-                                                    participantWorkflowWrapper="{!v.participantPath}"
+                                                    pe="{!v.pe}"
+                                                    participantWorkflowWrapperTemp="{!v.participantPath}"
+                                                    aura:id="childCmp"
                                                     parent="{!this}"
                                                     updateInProgress="{!v.updateInProgress}"
                                                     />
