@@ -166,11 +166,12 @@
 .THIS .invite-patient-container {
     margin-top: -30px;
     margin-bottom: 30px;
-    width: 100%;
-    background-color: white;
-    border: 1px solid #d9d9d9;
-    padding: 2%;
-    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.08);
+    border-top: 1px solid #efefef;
+    border-bottom: 1px solid #efefef;
+    padding: 15px 25px;
+    margin-left: -25px;
+    width: 115%;
+    box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04)
 }
 
 .THIS .IQVIA_contact-patient-container {
@@ -225,7 +226,7 @@
 .THIS .p-container .slds-tabs_default__item.slds-is-active:hover::after {
     background-color: #297dfd;
     border-radius: 3px;
-    bottom: -2px;
+    bottom: 0;
     width: 85%;
     margin-left: 8%;
 }
@@ -276,6 +277,10 @@
     align-content: center;
 }
 
+.THIS .partinfo-footer-buttons .slds-button + .slds-button {
+    margin-left: 15px;
+}
+
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 1000px;
@@ -312,6 +317,7 @@
     }
     .THIS .invite-patient-container .slds-size--3-of-12 {
         min-width: 35%;
+        height: auto;
     }
 }
 
