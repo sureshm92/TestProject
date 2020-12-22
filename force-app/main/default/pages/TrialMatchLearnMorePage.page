@@ -21,12 +21,7 @@
                 position: running(headerLeft);
             }
 
-            img {
-                height: auto;
-                width: 80%;
-                max-width: 80%;
-            }
-
+           
             .ltr {
                 margin-left: 20px;
                 margin-right: 40px;
@@ -52,12 +47,12 @@
         <div id="logo">
             <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" alt="logo" />
         </div>
-        <div style="margin-left: 160px;margin-right: 170px;text-align:center;">
+        <div style="margin-left: 160px;margin-right: 160px;text-align:center;">
             <h1 style="font-size:20px;color:#3333ff;">
                 <apex:outputtext dir="RTL" value=" {!studyTitle} " />
             </h1>
         </div>
-        <div class="{!if(isRTL == true,'rtl', 'ltr')}">
+        <div class="{!if(isRTL == true,'rtl', 'ltr')}"  >
             <apex:outputLabel escape="false" Value="{!htmlformattedString}"></apex:outputLabel>
         </div>
     </body>

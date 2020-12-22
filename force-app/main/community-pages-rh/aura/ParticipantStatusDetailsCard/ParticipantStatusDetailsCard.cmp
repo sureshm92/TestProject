@@ -3,6 +3,7 @@
 -->
 
 <aura:component description="ParticipantStatusDetailsCard">
+    <aura:attribute name="participantWorkflowWrapper" type="Object" required="true" />
     <aura:attribute name="stepWrapper" type="Object" required="true" />
     <aura:attribute name="reasonList" type="List" access="private" />
     <aura:attribute name="previousSelectedOutcome" type="String" access="private" />
