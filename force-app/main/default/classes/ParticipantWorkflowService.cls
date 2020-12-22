@@ -7,6 +7,19 @@ public without sharing class ParticipantWorkflowService {
     public static final String PARTICIPANT_ENROLLMENT_STATUS_HISTORY_SOBJECT_ALIAS = 'pesh';
     public static final String CLINICAL_TRIAL_PROFILE_SOBJECT_ALIAS = 'ctp';
 
+    @AuraEnabled
+    public static ParticipantWorkflowWrapper prepareParticipantWorkflowHelper(String peId, String userMode, String delegateId) {
+        try {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId, ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS);
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(pe.Clinical_Trial_Profile__c);
+            ParticipantWorkflowWrapper partWFwrap = new ParticipantWorkflowWrapper();
+            partWFwrap = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
+            return partWFwrap;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     public static ParticipantWorkflowWrapper prepareParticipantWorkflow(
         Clinical_Trial_Profile__c ctp,
         Participant_Enrollment__c pe
@@ -1060,9 +1073,11 @@ public without sharing class ParticipantWorkflowService {
         Participant_Enrollment_Status_History__c pesh
     ) {
         ParticipantWorkflowStepWrapper lastStepWrapper = null;
-        for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
-            if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
-                lastStepWrapper = step;
+        if(pathWrapper != null){
+            for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
+                if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
+                    lastStepWrapper = step;
+                }
             }
         }
         if (lastStepWrapper != null) {
@@ -1251,9 +1266,11 @@ public without sharing class ParticipantWorkflowService {
         String objectNameAlias,
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap
     ) {
-        for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
-            if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
-                populateOBJFromStepWrapper(step, obj, objectNameAlias, fieldsMap);
+        if( pathWrapper != null){
+            for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
+                if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
+                    populateOBJFromStepWrapper(step, obj, objectNameAlias, fieldsMap);
+                }
             }
         }
     }

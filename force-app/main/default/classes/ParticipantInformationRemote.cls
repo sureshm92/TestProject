@@ -836,6 +836,7 @@ public without sharing class ParticipantInformationRemote {
             ]) {
                 stepsWithName.put(s.MasterLabel, s);
             }
+        if(pathWrapper != null){
             for (Integer i = 0; i < pathWrapper.steps.size(); i = i + 1) {
                 ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[
                     i
@@ -866,6 +867,7 @@ public without sharing class ParticipantInformationRemote {
                     }
                 }
             }
+        }
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
             );
