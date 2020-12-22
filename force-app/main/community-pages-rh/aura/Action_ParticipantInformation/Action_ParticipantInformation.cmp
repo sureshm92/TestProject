@@ -51,7 +51,7 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="dateofSH" type="Date" />
     <aura:attribute name="status" type="String" />
-    <aura:attribute name="invitedon" type="String" />
+    <aura:attribute name="invitedon" type="Date" />
     <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
     <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
     <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
