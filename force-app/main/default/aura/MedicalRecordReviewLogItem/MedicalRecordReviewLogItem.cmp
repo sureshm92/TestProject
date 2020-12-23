@@ -8,6 +8,7 @@
     <aura:attribute name="actions" type="Object" required="true" />
     <aura:attribute name="showSpinner" type="Boolean" default="false" access="private" />
     <aura:attribute name="addedOnDate" type="String" access="private" />
+    <aura:attribute name="addedDate" type="Date" access="private" />
     <aura:attribute name="isReviewPass" type="Boolean" default="false" access="private" />
     <aura:attribute name="isReferred" type="Boolean" default="false" access="private" />
     <aura:attribute name="recordReviewMessage" type="String" access="private" />
@@ -47,7 +48,7 @@
             </div>
             <div class="mrrli-info-bottom">
                 <div class="mrrli-fields">{!v.participantEnrollment.Patient_ID__c}</div>
-                <div class="mrrli-fields">{!v.addedOnDate}</div>
+                <div class="mrrli-fields">{!$Label.c.PG_MRRLI_MSG_Added_on}&nbsp;&nbsp;<lightning:formattedDateTime year="numeric" month="short" day="2-digit" value="{!v.addedDate}"/></div>
                 <aura:if isTrue="{!v.showStudyLink}">
                     <div class="mrrli-study-link">
                         <c:RRLink
