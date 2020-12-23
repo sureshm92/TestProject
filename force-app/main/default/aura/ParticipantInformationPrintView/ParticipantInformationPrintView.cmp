@@ -20,6 +20,9 @@
     <!--REF-1192-->
     <aura:attribute name="participantWorkflowWrapper" type="Object" />
     <aura:attribute name="participantHistory" type="List" />
+    <!--REF-2826-->
+    <aura:attribute name="containsFile" type="Boolean" default="false"/> 
+    <aura:attribute name="medicalHistory" type="Object"/>
 
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
@@ -329,6 +332,15 @@
                     <c:SurveyGismoResultsView results="{!v.pe.MRR_Survey_Results_URL__c}" />
                 </div>
             </aura:if>
+
+            <!--Medical History Results-->                                    
+            <aura:if isTrue="{!v.containsFile &amp;&amp; !v.actions.medicalHistory.disabled}">
+                <div>                        
+                    <div  class="header" >{!$Label.c.Tab_Medical_History}</div>
+                    <c:MedicalHistoryView pe="{!v.pe}"  />
+                </div>
+            </aura:if>
+
         </aura:if>
     </div>
 
