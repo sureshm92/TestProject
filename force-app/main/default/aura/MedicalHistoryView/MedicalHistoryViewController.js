@@ -10,4 +10,11 @@
                            });
         $A.enqueueAction(action);
     },
+    //REF-2820
+    previewFile: function (component, event, helper) {
+        var recordId = event.currentTarget.id;
+        $A.get('e.lightning:openFiles').fire({
+            recordIds: [recordId]
+        });
+    },
 })
