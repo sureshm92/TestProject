@@ -54,7 +54,8 @@
                         </div>
                         <div class="vri-state-label">{!pathItem.title}</div>
                         <div class="vri-state-label">{!pathItem.reason}</div>
-                        <div class="vri-state-label">{!pathItem.dateOccured}</div>
+                        <div class="vri-state-label"><lightning:formattedDateTime value="{!pathItem.occuredDate}" year="numeric" month="short" day="2-digit"/>
+                        </div>
                     </div>
                 </aura:iteration>
             </div>

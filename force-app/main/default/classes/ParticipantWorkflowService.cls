@@ -318,9 +318,8 @@ public without sharing class ParticipantWorkflowService {
                 TranslateHelper.getPickListLabel(
                     Participant_Enrollment__c.Participant_Status__c,
                     peshList[0].Status__c
-                ) +
-                ' ' +
-                peshList[0].Date__c.date().format();
+                ) ;
+            stepWrapper.dateStatus = Date.valueOf(peshList[0].Date__c);
             stepWrapper.outcome = peshList[0].Status__c;
             List<Id> stepList = new List<Id>();
             if (peshList != null)
@@ -425,6 +424,8 @@ public without sharing class ParticipantWorkflowService {
             if (stepSuccessful && step.Success_Date_Field__c != null) {
                 if (pe.get(step.Success_Date_Field__c) != null)
                     stepWrapper.status = ((Date) pe.get(step.Success_Date_Field__c)).format();
+                    stepWrapper.dateStatus = (Date) pe.get(step.Success_Date_Field__c);
+
             } else {
                 stepWrapper.status = TranslateHelper.getLabelValue(step.No_Outcome_Label__c);
             }
@@ -631,6 +632,9 @@ public without sharing class ParticipantWorkflowService {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                     createdbyName;
+                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.createdBy = createdbyName;
+
             } else {
                 historyWrapper.detail =
                     ' ' +
@@ -639,6 +643,8 @@ public without sharing class ParticipantWorkflowService {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                    createdbyName;
+                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.createdBy = createdbyName;
             }
         } else {
             String sourceString = String.isBlank(
@@ -655,6 +661,9 @@ public without sharing class ParticipantWorkflowService {
                     .replace('##Date', pesh.Date__c.format())
                     .replace('##ByUser', createdbyName)
                     .replace('##Source', sourceString);
+                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.createdBy = createdbyName;
+                historyWrapper.source = sourceString;
         }
         return historyWrapper;
     }
@@ -1669,6 +1678,8 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String status;
         @AuraEnabled
+		public Date dateStatus;
+        @AuraEnabled
         public Boolean editable;
         @AuraEnabled
         public String state;
@@ -1715,6 +1726,14 @@ public without sharing class ParticipantWorkflowService {
         public String title;
         @AuraEnabled
         public String detail;
+        @AuraEnabled
+        public Date detailDate;
+        @AuraEnabled
+        public String createdBy;
+        @AuraEnabled
+        public String source;
+
+        
     }
 
     public class ParticipantWorkflowFieldGroupWrapper {

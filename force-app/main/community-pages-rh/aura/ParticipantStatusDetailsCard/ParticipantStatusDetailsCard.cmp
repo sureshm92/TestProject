@@ -152,7 +152,14 @@
                         <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
                             <div class="history-item">
                                 <span class="history-item-title">{!history.title}</span>
-                                <span class="history-item-detail">{!history.detail}</span>
+                                <span class="history-item-detail">
+                                    <aura:if isTrue="{!history.title == 'Received'}">
+                                        {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit"/> {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
+                                        <aura:set attribute="else">
+                                 &nbsp;{!$Label.c.PE_Status_History_On_Date + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit"/>{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+ history.createdBy}
+                                    </aura:set>
+                                    </aura:if>
+                                </span>
                             </div>
                         </aura:iteration>
                     </aura:set>
