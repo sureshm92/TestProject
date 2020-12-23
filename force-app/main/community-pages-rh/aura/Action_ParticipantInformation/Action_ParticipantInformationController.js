@@ -336,6 +336,7 @@
             },
             null,
             function () {
+                component.set('v.participantPath', null);
                 component.set('v.isStatusChanged', false);
                 component.find('spinner').hide();
             }
