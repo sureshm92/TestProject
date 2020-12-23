@@ -1,0 +1,42 @@
+<aura:component>
+    <aura:attribute name="searchList" type="List" />
+    <div class="ssp-header">
+        <div class="ssp-label">Search by:</div>
+        <div class="ssp-picklist">
+            <lightning:select
+                aura:id="searchList"
+                name="ssp-select"
+                variant="label-hidden"
+                onchange="{!c.setEditable}"
+            >
+                <option value="{!null}" style="display: none">Choose an option</option>
+                <aura:iteration items="{!v.searchList}" var="item">
+                    <option value="{!item.value}">
+                        <aura:unescapedHtml value="{!item.label}" />
+                    </option>
+                </aura:iteration>
+            </lightning:select>
+            <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
+        </div>
+
+        <div class="ssp-search">
+            <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
+                <c:rrInput
+                    valueString="{!v.searchText}"
+                    iconName="icon-search"
+                    placeholder="{!v.searchTextPlaceHolder}"
+                />
+            </aura:if>
+        </div>
+        <aura:if isTrue="{!!empty(v.sortVariants)}">
+            <div class="fp-form-element">
+                <label>{!$Label.c.PG_FP_L_Sort_by}</label>
+                <c:rrSelect
+                    value="{!v.sortType}"
+                    options="{!v.sortVariants}"
+                    setValueAsSelected="{!v.setValueAsSelected}"
+                />
+            </div>
+        </aura:if>
+    </div>
+</aura:component>
