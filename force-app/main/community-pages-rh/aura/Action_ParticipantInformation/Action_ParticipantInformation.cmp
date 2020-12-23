@@ -51,7 +51,7 @@
 <aura:attribute name="parent" type="Aura.Component" />
 <aura:attribute name="dateofSH" type="String" />
 <aura:attribute name="status" type="String" />
-<aura:attribute name="invitedon" type="String" />
+<aura:attribute name="invitedon" type="Date" />
 <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
 <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
 <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
@@ -136,8 +136,15 @@ showFooter="true"
              disabled="true"
              data-gtm="BTN_Invite_To_PP"
              >
-         {!$Label.c.Invited_to_Patient_Portal} <br/>({!v.invitedon})
-     </button>
+             <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-1">
+                    {!$Label.c.Invited_to_Patient_Portal} 
+                </div>
+                <div class="slds-col slds-size_1-of-1">
+                    (<lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>)
+                </div>
+            </div>
+</button>
  </aura:if>
  <aura:if
           isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
@@ -159,8 +166,14 @@ showFooter="true"
                      disabled="true"
                      data-gtm="BTN_Invite_To_PP"
                      >
-                 {!$Label.c.Sent_to_Study_Hub} <br/>({!v.dateofSH})
-             </button>   
+                     <div class="slds-grid slds-wrap">
+                        <div class="slds-col slds-size_1-of-1">
+                            {!$Label.c.Sent_to_Study_Hub}</div>
+                        <div class="slds-col slds-size_1-of-1">
+                            (<lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>)
+                        </div>
+                    </div>
+</button>   
          </aura:set>                 
      </aura:if>
      
