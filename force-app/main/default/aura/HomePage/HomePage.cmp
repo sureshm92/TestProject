@@ -25,7 +25,7 @@
             <c:StudyListView />
         </aura:if>
         <aura:if isTrue="{!v.userMode == 'CC'}">
-            <c:CC_ParticipantSupport />
+            <c:SiteListPage />
         </aura:if>
     </aura:if>
 

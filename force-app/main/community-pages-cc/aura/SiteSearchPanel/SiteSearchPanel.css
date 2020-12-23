@@ -1,0 +1,10 @@
+.THIS .ssp-label {
+    display: inline-block;
+    padding: 12px 0;
+    width: 16px;
+    height: 16px;
+    fill: #999999;
+    position: relative;
+    top: -1px;
+    margin-left: 5px;
+}
