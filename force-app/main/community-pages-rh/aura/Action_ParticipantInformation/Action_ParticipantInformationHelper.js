@@ -36,4 +36,13 @@
                 component.set('v.invitedon',returnValue);
             });
     },
+    showToast: function (component, event, helper) {
+        var toastEvent = $A.get('e.force:showToast');
+        toastEvent.setParams({
+            duration: 400,
+            type: 'success',
+            message: $A.get('$Label.c.Records_sent_to_SH')
+        });
+        toastEvent.fire();
+    },
 })
