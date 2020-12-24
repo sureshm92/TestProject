@@ -43,6 +43,10 @@
                 <behavior>Edit</behavior>
                 <field>Promote_to_SH__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Enable_for_Call_Center_Support__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
