@@ -2432,6 +2432,11 @@
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enrolled_End_Date__c</field>
@@ -6455,6 +6460,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
