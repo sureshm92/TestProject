@@ -465,7 +465,7 @@
                 returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
                 component.set('v.isInvited', true);
                 component.set('v.userInfo', returnvalue);
-                component.set('v.invitedon',date.valueOf(returnvalue.CreatedDate));
+                component.set('v.invitedon',Date.now());
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {
