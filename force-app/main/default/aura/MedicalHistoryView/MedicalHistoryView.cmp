@@ -15,7 +15,9 @@ Created by Sumit S-->
                 <div class="divpadding">
                     <div class="slds-grid slds-wrap">
                         <div class="slds-col slds-size--2-of-4 slds-align_absolute-left">
-                            {!item.Title}.{!item.FileExtension}
+
+                            <a onclick="{!c.previewFile}" Id="{!item.Id}">{!item.Title}.{!item.FileExtension}</a>
+
                         </div>
                         <div class="slds-col slds-size--1-of-4">
                             <!--{!v.medicalHistory.fileDate}-->
