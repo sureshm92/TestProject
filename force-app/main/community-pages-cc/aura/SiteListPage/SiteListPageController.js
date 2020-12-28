@@ -20,7 +20,9 @@
             ];
             component.set('v.searchList', searchList);
             component.set('v.sortVariants', sortVariants);
-            component.set('v.sortType', '');
+            component.set('v.sectionDisabled', true);
+            component.set('v.searchTextPlaceHolder', $A.get('$Label.c.CC_Btn_Search'));
+            component.set('v.sortType', 'Name ASC');
             component.set('v.searchText', '');
             spinner.hide();
         } else {

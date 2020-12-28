@@ -3,6 +3,7 @@
         helper.doUpdateSelectionHelper(component);
     },
     doSearch: function (component, event, helper) {
+        debugger;
         let selectedSearchOption = component.get('v.selectedSearchOption');
         let searchText = component.get('v.searchText');
         let sortType = component.get('v.sortType');

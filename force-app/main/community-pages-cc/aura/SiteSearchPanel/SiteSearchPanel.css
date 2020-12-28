@@ -12,3 +12,14 @@
 .THIS .ssp-picklist img {
     display: none;
 }
+
+.THIS .ssp-search .rri-container .slds-input,
+.THIS .ssp-search-input .rri-container .slds-input {
+    padding-left: 25px;
+    background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
+    background-size: 14px 14px;
+    padding-left: 25px;
+    position: relative;
+    top: 0;
+    left: 0;
+}

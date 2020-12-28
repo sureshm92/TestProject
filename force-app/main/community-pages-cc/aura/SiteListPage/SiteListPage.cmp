@@ -4,7 +4,10 @@
     controller="SiteListPageRemote"
     extends="c:CommunityContext"
 >
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+    <ltng:require
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
     <!--attributes-->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
@@ -19,7 +22,12 @@
     <aura:attribute name="searchList" type="List" />
     <aura:attribute name="sortVariants" type="List" />
     <aura:attribute name="sortType" type="String" default="Name ASC" />
-
+    <aura:attribute name="sectionDisabled" type="Boolean" default="true" />
+    <aura:attribute
+        name="searchTextPlaceHolder"
+        type="String"
+        default="{!$Label.c.CC_Btn_Search}"
+    />
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
@@ -48,7 +56,9 @@
     </div>
     <c:SiteSearchPanel
         searchText="{!v.searchText}"
+        searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
         searchList="{!v.searchList}"
+        sectionDisabled="{!v.sectionDisabled}"
         parent="{!this}"
         sortType="{!v.sortType}"
         sortVariants="{!v.sortVariants}"

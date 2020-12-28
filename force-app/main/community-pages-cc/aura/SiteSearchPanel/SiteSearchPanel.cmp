@@ -4,13 +4,9 @@
     <aura:attribute name="searchList" type="List" />
     <aura:attribute name="selectedSearchOption" type="String" default="" />
     <aura:attribute name="searchText" type="String" />
-    <aura:attribute
-        name="searchTextPlaceHolder"
-        type="String"
-        default="{!$Label.c.CC_Btn_Search}"
-    />
+    <aura:attribute name="searchTextPlaceHolder" type="String" />
     <aura:attribute name="searchResults" type="List" />
-    <aura:attribute name="sectionDisabled" type="Boolean" default="true" />
+    <aura:attribute name="sectionDisabled" type="Boolean" />
     <aura:attribute name="sortType" type="String" />
     <aura:attribute name="sortVariants" type="List" />
     <aura:attribute name="parent" type="Aura.Component" />
