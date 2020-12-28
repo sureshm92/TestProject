@@ -43,8 +43,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
             ORDER BY Date__c DESC
@@ -547,7 +547,22 @@ public without sharing class ParticipantWorkflowService {
         stepWrapper.notes = '';
         return stepWrapper;
     }
-
+    @TestVisible
+    private static Date setStringToDateFormat(String myDate) {
+        String[] myDateOnly = myDate.split(' ');
+        Date d;
+        if(myDateOnly.size()!=0){
+            String[] strDate = myDateOnly[0].split('/');
+            if(strDate.size()==3){    
+                Integer myIntDate = integer.valueOf(strDate[1]);
+                Integer myIntMonth = integer.valueOf(strDate[0]);
+                Integer myIntYear = integer.valueOf(strDate[2]);
+                d = Date.newInstance(myIntYear, myIntMonth, myIntDate);
+            }
+        }
+        return d;
+    }
+    
     private static List<ParticipantWorkflowHistoryWrapper> createOnlyNotesHistoryWrapper(
         String additionalNotes
     ) {
@@ -562,6 +577,7 @@ public without sharing class ParticipantWorkflowService {
                 historyWrapper.detail =
                     Label.PE_Status_History_On_Date +
                     note.substringAfterLast(Label.PE_Status_History_On_Date);
+                historyWrapper.detailDate = setStringToDateFormat(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
                 historyWrapper.detail.replace(
                     Label.PE_Status_History_On_Date,
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date')
@@ -571,11 +587,12 @@ public without sharing class ParticipantWorkflowService {
                     createdByName=Label.RH_Masked_IQVIA_User;
                     historyWrapper.detail=historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +Label.PG_IMI_L_by_user +' ' + createdByName;
                 }
+                historyWrapper.createdBy = createdByName;
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
                 );
-            }
+            }                
             historyWrappers.add(historyWrapper);
         }
         return historyWrappers;
@@ -598,19 +615,19 @@ public without sharing class ParticipantWorkflowService {
               )
             : '');
         String notesString = (String.isNotBlank(pesh.Notes__c) ? ', ' + pesh.Notes__c.trim() : '');
-		String createdbyName ='';
+        String createdbyName ='';
         //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC' 
         if(pesh.CreatedBy.IsPortalEnabled== true){
-			if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
-				 createdbyName=System.Label.RH_Masked_IQVIA_User;
-			}else{
-				createdbyName =pesh.CreatedBy.Name;
-			}    
+            if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
+                 createdbyName=System.Label.RH_Masked_IQVIA_User;
+            }else{
+                createdbyName =pesh.CreatedBy.Name;
+            }    
         }
         else{
             createdbyName=System.Label.RH_Masked_IQVIA_User;
         }
-		
+        
         if (String.isEmpty(step.History_Item_Title_Template_Label__c)) {
             historyWrapper.title = statusString + reasonString + notesString;
         } else {
@@ -1443,8 +1460,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
@@ -1678,7 +1695,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String status;
         @AuraEnabled
-		public Date dateStatus;
+        public Date dateStatus;
         @AuraEnabled
         public Boolean editable;
         @AuraEnabled
