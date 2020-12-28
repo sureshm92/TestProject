@@ -49,6 +49,13 @@ stages:
   - DeployClonedFml
   - RunTestClonedFml
 
+#6.2 INT
+  - DeployCallcenter
+  - RunTestCallcenter
+  
+#6.2 INF
+  - DeployINF6.2
+  - RunTestINF6.2
 
 cache:
   paths:
@@ -91,7 +98,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - . ./scripts/ci/validate.sh INF61
+    - . ./scripts/ci/validate.sh INF62
 
 
 # 5.0 INT: ---------------------------------------------------------------------
@@ -269,7 +276,56 @@ RunTestINF6.1:
   stage: RunTestINF6.1
   script:
     - . ./scripts/ci/run-tests.sh INF61
+
+ # 6.2 INT: ---------------------------------------------------------------------
+DeployCallcenter:
+  #tags:
+   # - shell
+  only:
+    - Callcenter
+  except:
+    - merge_requests
+
+  stage: DeployCallcenter
+  script:
+    - . ./scripts/ci/deploy.sh INT62
+
+RunTestCallcenter:
+  #tags:
+   # - shell
+  only:
+    - Callcenter
+  except:
+    - merge_requests
+
+  stage: RunTestCallcenter
+  script:
+    - . ./scripts/ci/run-tests.sh INT62
     
+     # 6.2 INF: ---------------------------------------------------------------------
+DeployINF6.2:
+  #tags:
+   # - shell
+  only:
+    - INF6.2
+  except:
+    - merge_requests
+
+  stage: DeployINF6.2
+  script:
+    - . ./scripts/ci/deploy.sh INF62
+
+RunTestINF6.2:
+  #tags:
+   # - shell
+  only:
+    - INF6.2
+  except:
+    - merge_requests
+
+  stage: RunTestINF6.2
+  script:
+    - . ./scripts/ci/run-tests.sh INF62 
     # 5.1 INF: ---------------------------------------------------------------------
 DeployINF5.1:
   #tags:

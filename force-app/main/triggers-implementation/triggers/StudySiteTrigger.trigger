@@ -25,6 +25,9 @@ trigger StudySiteTrigger on Study_Site__c(
         StudySiteTriggerHandler.SetSuppressEmailsFieldAccordingToStudy.class
     );
     TriggerHandlerExecutor.execute(StudySiteTriggerHandler.AssignCommunityPermissionsForUser.class);
+    TriggerHandlerExecutor.execute(
+        StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
+    );
 
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {

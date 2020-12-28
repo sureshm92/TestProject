@@ -72,6 +72,10 @@
                 <behavior>Readonly</behavior>
                 <field>Block_Outreach__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Enable_for_Call_Center_Support__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
