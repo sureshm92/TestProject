@@ -82,11 +82,12 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     errorsLog.add('Required field is missing: firstName__c;');
                 if (String.isEmpty(ipr.lastName__c))
                     errorsLog.add('Required field is missing: lastName__c;');
-                if (String.isEmpty(ipr.email__c) &&
+               if (String.isEmpty(ipr.email__c) &&
                     String.isEmpty(ipr.phone__c) &&
                     String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
                     String.isEmpty(ipr.Delegate_Email_Address__c)) 
                     errorsLog.add('Either email or phone number must be provided;');
+
 
                 //Check SS
                 String studySiteNumber = getSitePrimaryKeyEPR(ipr);
@@ -139,22 +140,21 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 objParticipant.Site__c = ss.Site__c;
                 newParticipantsMap.put(ipr.referralID__c, objParticipant);
                if (
-                ss != null &&
-                !String.isBlank(ipr.Delegate_First_Name__c) &&
-                !String.isBlank(ipr.Delegate_Last_Name__c) &&
-                !String.isEmpty(ipr.siteSelected__c) &&
-                !String.isEmpty(ipr.protocolId__c) &&
-                !String.isEmpty(ipr.firstName__c) &&
-                !String.isEmpty(ipr.lastName__c) &&
-                !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
-                !String.isEmpty(ipr.Delegate_Email_Address__c))
-                {​​
+                    ss != null &&
+                    !String.isBlank(ipr.Delegate_First_Name__c) &&
+                    !String.isBlank(ipr.Delegate_Last_Name__c) &&
+                    !String.isEmpty(ipr.siteSelected__c) &&
+                    !String.isEmpty(ipr.protocolId__c) &&
+                    !String.isEmpty(ipr.firstName__c) &&
+                    !String.isEmpty(ipr.lastName__c) &&
+                    !String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
+                    !String.isEmpty(ipr.Delegate_Email_Address__c))
+                 {
                     newDelegateContactsMap.put(
-                    ipr.referralID__c,
-                    convertToDelegateContact(ipr, participantAccount, ss.Study_Site_Type__c)
+                        ipr.referralID__c,
+                       convertToDelegateContact(ipr, participantAccount, ss.Study_Site_Type__c)
                     );
-                }​​
-
+                }
             }
 
             //Duplicates check and upsert participant
