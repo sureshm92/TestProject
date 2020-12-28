@@ -4521,6 +4521,17 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
             Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient19</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient19</shortDescription>
+        <value>Recently, ##HCPName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
+
+You will be contacted by a member of the study team regarding the next steps in the enrollment process.
+
+If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
+</labels>
+    <labels>
         <fullName>Email_Body_Patient1_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
