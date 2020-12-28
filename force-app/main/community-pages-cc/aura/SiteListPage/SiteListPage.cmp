@@ -15,25 +15,43 @@
         default="{!$Label.c.PG_VP_L_No_Items}"
     />
     <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute
-        name="searchList"
-        type="List"
-        default="[{label: 'Study Site Name', value: 'Study Site Name'},
-    {label: 'Protocol Number', value: 'Protocol Number'},
-    {label: 'Site Number', value: 'Site Number'}, 
-    {label: 'PI Name', value: 'PI Name'}]"
-    />
+    <aura:attribute name="searchText" type="String" default="" />
+    <aura:attribute name="searchList" type="List" />
+    <aura:attribute name="sortVariants" type="List" />
+    <aura:attribute name="sortType" type="String" default="Name ASC" />
+
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
+
+    <!--methods-->
+    <aura:method name="doRefesh" action="{!c.doInit}" />
+    <aura:method name="callPartialSearch" action="{!c.doPartialSearch}">
+        <aura:attribute name="selectedSearchOption" type="String" />
+        <aura:attribute name="searchText" type="String" />
+        <aura:attribute name="sortType" type="String" />
+    </aura:method>
+
+    <aura:method name="callExactSearch" action="{!c.doExactSearch}">
+        <aura:attribute name="selectedSearchOption" type="String" />
+        <aura:attribute name="searchText" type="String" />
+        <aura:attribute name="sortType" type="String" />
+    </aura:method>
+
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
     <div class="vp-navigation">
         <div class="navigation-breadcrumbs">
             <c:RRNavigationPath>
-                <c:RRNPathItem label="Site List" />
+                <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
             </c:RRNavigationPath>
         </div>
     </div>
-    <c:SiteSearchPanel searchList="{!v.searchList}" />
+    <c:SiteSearchPanel
+        searchText="{!v.searchText}"
+        searchList="{!v.searchList}"
+        parent="{!this}"
+        sortType="{!v.sortType}"
+        sortVariants="{!v.sortVariants}"
+    />
     <c:builderStub aura:id="builderStub" />
 </aura:component>
