@@ -1585,6 +1585,34 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Comorbidities</value>
     </labels>
     <labels>
+        <fullName>CC_Btn_ExportAll</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Btn_ExportAll</shortDescription>
+        <value>Export All Search Results</value>
+    </labels>
+    <labels>
+        <fullName>CC_Btn_Reset</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Btn_Reset</shortDescription>
+        <value>Reset</value>
+    </labels>
+    <labels>
+        <fullName>CC_Btn_Search</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Btn_Search</shortDescription>
+        <value>Search</value>
+    </labels>
+    <labels>
+        <fullName>CC_ChooseAnOption</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_ChooseAnOption</shortDescription>
+        <value>Choose an option</value>
+    </labels>
+    <labels>
         <fullName>CC_Day_Ago</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1641,6 +1669,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Phone Type</value>
     </labels>
     <labels>
+        <fullName>CC_ProtocolNumber</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_ProtocolNumber</shortDescription>
+        <value>Protocol Number</value>
+    </labels>
+    <labels>
         <fullName>CC_Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1648,11 +1683,32 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Received</value>
     </labels>
     <labels>
+        <fullName>CC_SearchBy</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_SearchBy</shortDescription>
+        <value>Search by:</value>
+    </labels>
+    <labels>
+        <fullName>CC_SearchPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_SearchPlaceholder</shortDescription>
+        <value>Start typing...</value>
+    </labels>
+    <labels>
         <fullName>CC_Site_Contact</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Site_Contact</shortDescription>
         <value>Site Contact</value>
+    </labels>
+    <labels>
+        <fullName>CC_SiteNumber</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_SiteNumber</shortDescription>
+        <value>Site Number</value>
     </labels>
     <labels>
         <fullName>CC_Site_Phone_Number</fullName>
@@ -1674,6 +1730,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>CC_Study_Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>CC_StudySiteName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_StudySiteName</shortDescription>
+        <value>Study Site Name</value>
     </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>
