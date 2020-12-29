@@ -371,7 +371,8 @@ public class TestData {
             Email__c = 'part1@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
         Participant__c participant2 = new Participant__c(
             First_Name__c = 'ParticipantTD1',
@@ -380,7 +381,8 @@ public class TestData {
             Email__c = 'part2@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         Participant__c participant3 = new Participant__c(
@@ -390,7 +392,8 @@ public class TestData {
             Email__c = 'part3@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         Participant__c participant4 = new Participant__c(
@@ -400,7 +403,8 @@ public class TestData {
             Email__c = 'part4@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         Participant__c participant5 = new Participant__c(
@@ -410,7 +414,8 @@ public class TestData {
             Email__c = 'part5@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         Participant__c participant6 = new Participant__c(
@@ -420,7 +425,8 @@ public class TestData {
             Email__c = 'part6@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         partList.add(participant);
