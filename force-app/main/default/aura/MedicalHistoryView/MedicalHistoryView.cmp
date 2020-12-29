@@ -5,7 +5,8 @@ Created by Sumit S-->
 <aura:component description="MedicalHistoryView" controller="MedicalHistoryViewController">
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="medicalHistory" type="Object"/>
-    
+    <aura:attribute name="HideDownloadButton" type="Boolean" default="true" />
+
 		<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 		<div class="maindiv">
             <div class="headerdiv">
@@ -24,6 +25,7 @@ Created by Sumit S-->
                             <!--<lightning:formattedDateTime value="{!item.CreatedDate}" year="numeric" day="2-digit" month="short" hour="2-digit" minute="2-digit"/>-->
                             <ui:outputDateTime value="{!item.CreatedDate}" timezone="America/Panama"/>
                         </div>
+                        <aura:if isTrue="{!v.HideDownloadButton}">
                         <div class="slds-col slds-size--1-of-4">
                             <span>	
                             	<img src="{!$Resource.icon_download}" width="16" height="16"/>
@@ -32,6 +34,7 @@ Created by Sumit S-->
                                 <a href= "{!v.medicalHistory.baseURL + '/sfc/servlet.shepherd/document/download/'+ item.Id +'?operationContext=S1'}" target="_blank" download="{!item.Title}">Download</a>
                             </span>  
                         </div>
+                        </aura:if>
                     </div>    
                 </div>
             </aura:iteration>
