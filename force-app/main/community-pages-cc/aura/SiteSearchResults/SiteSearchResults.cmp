@@ -1,0 +1,34 @@
+<aura:component description="SiteSearchResults">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
+    <!--attributes-->
+    <aura:attribute name="resultSet" type="List" />
+    <aura:attribute name="filterStudyName" type="String" />
+    <aura:attribute name="filterCountry" type="String" />
+    <!--body-->
+    <div class="ssr-container">
+        <div class="ssr-filterPanel">
+            <c:filterSearchResults
+                resultSet="{!v.resultSet}"
+                filterStudyName="{!v.filterStudyName}"
+                filterCountry="{!v.filterCountry}"
+            />
+        </div>
+        <div class="ssr-resultsPanel">
+            <aura:if isTrue="{!!empty(v.resultSet)}">
+                <c:RRTable>
+                    <!--prettier-ignore-->
+                    <th>
+                    <tr>Study</tr>
+                    <tr>Site Number</tr>
+                    <tr>Study Site</tr>
+                    <tr>Country</tr>
+                    <tr>Principal Investigator</tr>
+                    <tr>Phone Number</tr>
+                    <tr>Primary Contact</tr>
+                    <tr>Site Status</tr>
+                </th>
+                </c:RRTable>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
