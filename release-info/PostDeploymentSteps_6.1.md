@@ -74,15 +74,30 @@ Go to Setup - Release Updates - Click Get Started of update 'Transition to new B
  Go to developer console > Open "Open execute Annonymous Window" uder debug tab > Run below script:
  Id myBatch= Database.executeBatch(new Batch_UpdPESHReasonToNonEnReason(), 2000);
 ## 14. Profile Permission
-Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access on "Non-Enrollment Reason" field and Read and Write Access on Date, Notes and Additional Notes fields.
+Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read and Write Access on Notes and Additional Notes fields and Read Access to rest of the fields.
 
-Step 2: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access and Edit access on "Non-Enrollment Reason" Field and Additional Notes field. 
+Step 2: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment Status History" object -> Under Object Permissions,give Read,Edit and Create Access.Under Field Permissions: Give Read and Edit Access on "Non-Enrollment Reason" Field and "Additional Notes" field. 
 
-Step 3: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field. 
+Step 3: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field.
+Give Read Access on "Last Status Changed Additional Notes" Field.
+Remove Edit Access for:
+Participant Status
+Participant Status Last Changed Date
+Non-Enrollment Reason
+Last Status Changed Notes 
 
-Step 4: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" Field. 
+Step 4: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: 
+Give Read Access on "Last Status Changed Additional Notes" Field.
+Remove Edit Access for:
+Participant Status
+Participant Status Last Changed Date
+Non-Enrollment Reason
+Last Status Changed Notes 
 
-Step 5: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read Access and Edit access on "Non-Enrollment Reason" Field and Additional Note field.
+Step 5: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read and Edit Access on "Non-Enrollment Reason" ,"PESH Date" and "Additional Note" field.
+
+Step 6: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field.
+Give Read Access on "Last Status Changed Additional Notes" Field.
 
 ## 15. Add User lock out email temlate for Janssen Community
 Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save	
