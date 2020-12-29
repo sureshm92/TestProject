@@ -198,7 +198,7 @@
         </recipients>
         <senderType>CurrentUser</senderType>
         <template>Referral_Hub_Emails/Patient15_VT_RP_New_C_S_Referral</template>
-    </alerts>
+    </alerts>    
     <fieldUpdates>
         <fullName>Populate_Scr_ID</fullName>
         <description>To pre-populates an empty Screening ID filed on PE by Screening ID 1 on PE</description>
@@ -255,7 +255,7 @@
         </actions>
         <active>true</active>
         <description>Patient receives email that they have been referred to a clinical research study by PI - RP refers a participant</description>
-          <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; (ISPICKVAL( Referral_Source__c , &quot;PI&quot;) || ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
+          <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;PI&quot;) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; 
 NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp;
 Participant__r.Present_Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
@@ -455,7 +455,7 @@ NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quo
         </actions>
         <active>false</active>
         <description>Patient receives email that they have been put On Hold from trial.</description>
-         <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; (ISPICKVAL( Referral_Source__c , &quot;PI&quot;) || ISPICKVAL( Referral_Source__c , &quot;HCP&quot;)) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp; Participant__r.Present_Age__c &gt;=18</formula>
+        <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp; Is_Virtual_Study_Site__c  = True   &amp;&amp; NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Participant__r.IsCountry_NOT_Eligible_for_Emails__c)</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
     </rules>
     <rules>
@@ -511,5 +511,5 @@ NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quo
         <description>Patient receives email that they have been referred to a clinical research study by  RP refers a participant</description>
         <formula>ISPICKVAL( Participant_Status__c , &quot;Received&quot;) &amp;&amp;  (ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Virtual&quot;) || ISPICKVAL( Study_Site__r.Study_Site_Type__c , &quot;Hybrid&quot;)) &amp;&amp; ISPICKVAL( Referral_Source__c , &quot;HCP&quot;) &amp;&amp;  NOT(Study_Site__r.Suppress_Participant_Emails__c) &amp;&amp; NOT(Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c) &amp;&amp;  NOT(ISPICKVAL(Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c, &quot;Janssen&quot;))  &amp;&amp; Participant__r.Present_Age__c &gt;=18</formula>
         <triggerType>onCreateOrTriggeringUpdate</triggerType>
-    </rules>
+    </rules>    
 </Workflow>
