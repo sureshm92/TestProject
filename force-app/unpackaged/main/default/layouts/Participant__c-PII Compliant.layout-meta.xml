@@ -24,10 +24,6 @@
                 <field>Condition_of_Interest_s__c</field>
             </layoutItems>
             <layoutItems>
-                <behavior>Required</behavior>
-                <field>Country__c</field>
-            </layoutItems>
-            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Country_Code__c</field>
             </layoutItems>
