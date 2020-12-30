@@ -15,8 +15,8 @@
     <!--body-->
     <div class="ssp-header">
         <div class="slds-grid slds-wrap">
-            <div class="ssp-label slds-col slds-size_1-of-12">{!$Label.c.CC_SearchBy}</div>
-            <div class="ssp-select slds-col slds-p-horizontal_small slds-size_2-of-12">
+            <div class="ssp-label slds-col slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
+            <div class="ssp-select slds-col slds-p-horizontal_small slds-size_1-of-6">
                 <c:rrSelect
                     value="{!v.selectedSearchOption}"
                     options="{!v.searchList}"
@@ -24,7 +24,7 @@
                     onchange="{!c.doUpdateSelection}"
                 />
             </div>
-            <div class="ssp-search slds-p-horizontal_small slds-col slds-size_4-of-12">
+            <div class="ssp-search slds-col slds-p-horizontal_small slds-size_2-of-6">
                 <c:rrInput
                     valueString="{!v.searchText}"
                     iconName="icon-search"
@@ -32,7 +32,7 @@
                     placeholder="{!v.searchTextPlaceHolder}"
                 />
             </div>
-            <div class="slds-col slds-p-horizontal_small slds-size_2-of-12">
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-6">
                 <lightning:button
                     variant="brand"
                     class="apollo-btn primary"
@@ -41,7 +41,7 @@
                     onclick="{!c.doSearch}"
                 />
             </div>
-            <div class="slds-col slds-p-horizontal_small slds-size_2-of-12">
+            <div class="slds-col slds-p-horizontal_small slds-size_1-of-6">
                 <lightning:button
                     class="apollo-btn tertiary"
                     disabled="{!v.sectionDisabled}"

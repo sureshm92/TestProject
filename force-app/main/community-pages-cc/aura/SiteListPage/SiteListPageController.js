@@ -46,8 +46,10 @@
                     searchText: params.searchText,
                     sortType: params.sortType
                 },
-                function (siteList) {
-                    component.set('v.resultSet', siteList);
+                function (paginatedWrapper) {
+                    console.log(JSON.stringify(paginatedWrapper));
+                    component.set('v.resultSet', paginatedWrapper.sites);
+                    component.set('v.paginationData', paginatedWrapper.paginationData);
                 }
             );
         }
