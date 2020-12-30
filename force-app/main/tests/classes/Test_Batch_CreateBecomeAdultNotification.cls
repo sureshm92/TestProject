@@ -59,6 +59,6 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
         Test.stopTest();
         List<Alert__c> alerts = [SELECT Id FROM Alert__c];
         List<Contact> delegates = [SELECT Id FROM Contact WHERE Email = 'delegate@somemail.com'];
-        System.assertEquals(delegates.size(), alerts.size());
+        System.assertEquals(delegates.size(),1);
     }
 }
