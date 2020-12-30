@@ -1745,6 +1745,62 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>CC_search_for_a_participant</shortDescription>
         <value>Search for a phone number</value>
     </labels>
+    	<labels>
+        <fullName>CC_TableHeader_CTP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_CTP</shortDescription>
+        <value>Study</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_SiteNo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_SiteNo</shortDescription>
+        <value>Site Number</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_Country</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_PI</shortDescription>
+        <value>Principal Investigator</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Phone</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_Contact</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Contact</shortDescription>
+        <value>Primary Contact</value>
+    </labels>
+	<labels>
+        <fullName>CC_TableHeader_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Status</shortDescription>
+        <value>Site Status</value>
+    </labels>
     <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
