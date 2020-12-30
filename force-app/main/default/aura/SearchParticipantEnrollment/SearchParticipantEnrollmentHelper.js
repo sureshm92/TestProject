@@ -6,6 +6,7 @@
         component.find('mainSpinner').show();
         var pe = component.get('v.searchResult').pe;
         var action = component.get('c.setMRRStatus');
+        component.set('v.isUpdateCalled',true);
         action.setParams({
             peJSON: JSON.stringify(pe),
             status: status,
@@ -32,15 +33,16 @@
         if (!component.serveyGizmoResultHandler) {
             component.serveyGizmoResultHandler = $A.getCallback(function (e) {
                 //window.removeEventListener('message', component.serveyGizmoResultHandler);
-                if (component.isValid()) {
+                if (component.isValid()) {   
                     if (e.data.messageType === 'SurveyGizmoResult') {
                         var gizmoData = null;
+                        var isUpdateMRRCalled = component.get('v.isUpdateCalled');
                         if (e.data.pdfContent) {
                             gizmoData = e.data.pdfContent;
                         }
-                        if (e.data.success) {
+                        if (e.data.success &&  !isUpdateMRRCalled) {
                             helper.updateMRRStatus(component, 'Pass', gizmoData);
-                        } else {
+                        } else if(!isUpdateMRRCalled){
                             helper.updateMRRStatus(component, 'Fail', gizmoData);
                         }
                         //console.log('Gizmo mrr result: ' + window.atob(e.data.pdfContent));
