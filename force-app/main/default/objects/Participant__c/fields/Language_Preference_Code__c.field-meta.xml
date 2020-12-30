@@ -332,6 +332,21 @@
                 <label>en_US</label>
             </value>
             <value>
+                <fullName>gu</fullName>
+                <default>false</default>
+                <label>GU</label>
+            </value>
+            <value>
+                <fullName>my</fullName>
+                <default>false</default>
+                <label>MY</label>
+            </value>
+            <value>
+                <fullName>nl_BE</fullName>
+                <default>false</default>
+                <label>nl_BE</label>
+            </value>                                    
+            <value>
                 <fullName>AA</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -890,12 +905,6 @@
                 <label>GT</label>
             </value>
             <value>
-                <fullName>GU</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>GU</label>
-            </value>
-            <value>
                 <fullName>GW</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -1290,12 +1299,6 @@
                 <default>false</default>
                 <isActive>false</isActive>
                 <label>MX</label>
-            </value>
-            <value>
-                <fullName>MY</fullName>
-                <default>false</default>
-                <isActive>false</isActive>
-                <label>MY</label>
             </value>
             <value>
                 <fullName>MZ</fullName>
