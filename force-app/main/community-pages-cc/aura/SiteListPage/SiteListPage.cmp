@@ -28,18 +28,15 @@
         type="String"
         default="{!$Label.c.CC_Btn_Search}"
     />
+    <aura:attribute name="resultSet" type="List" />
+    <aura:attribute name="filterStudyName" type="String" />
+    <aura:attribute name="filterCountry" type="String" />
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
     <!--methods-->
     <aura:method name="doRefesh" action="{!c.doInit}" />
-    <aura:method name="callPartialSearch" action="{!c.doPartialSearch}">
-        <aura:attribute name="selectedSearchOption" type="String" />
-        <aura:attribute name="searchText" type="String" />
-        <aura:attribute name="sortType" type="String" />
-    </aura:method>
-
-    <aura:method name="callExactSearch" action="{!c.doExactSearch}">
+    <aura:method name="callDatabaseSearch" action="{!c.doDatabaseSearch}">
         <aura:attribute name="selectedSearchOption" type="String" />
         <aura:attribute name="searchText" type="String" />
         <aura:attribute name="sortType" type="String" />
@@ -62,6 +59,11 @@
         parent="{!this}"
         sortType="{!v.sortType}"
         sortVariants="{!v.sortVariants}"
+    />
+    <c:SiteSearchResults
+        resultSet="{!v.resultSet}"
+        filterStudyName="{!v.filterStudyName}"
+        filterCountry="{!v.filterCountry}"
     />
     <c:builderStub aura:id="builderStub" />
 </aura:component>

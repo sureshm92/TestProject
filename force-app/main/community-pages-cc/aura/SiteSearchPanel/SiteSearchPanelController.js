@@ -11,13 +11,8 @@
         if (!searchText || !selectedSearchOption) {
             communityService.showErrorToast('Error', 'Search text required!');
             return;
-        }
-        if (selectedSearchOption.match(/name/i)) {
-            //Partial match
-            parent.callPartialSearch(selectedSearchOption, searchText, sortType);
         } else {
-            //Exact match
-            parent.callExactSearch(selectedSearchOption, searchText, sortType);
+            parent.callDatabaseSearch(selectedSearchOption, searchText, sortType);
         }
     },
     doReset: function (component, event, helper) {
