@@ -4,6 +4,7 @@
     <aura:attribute name="resultSet" type="List" />
     <aura:attribute name="filterStudyName" type="String" />
     <aura:attribute name="filterCountry" type="String" />
+    <aura:attribute name="searched" type="Boolean" />
     <!--body-->
     <div class="ssr-container">
         <div class="ssr-filterPanel">
@@ -14,9 +15,14 @@
             />
         </div>
         <div class="ssr-resultsPanel">
+            <c:EmptyListStub
+                iconName="{!v.searched ? 'sad' : 'neutral'}"
+                message="{!v.searched ? $Label.c.PG_VP_L_No_Items : 'Please initiate search!'}"
+                targetList="{!v.resultSet}"
+            />
             <aura:if isTrue="{!!empty(v.resultSet)}">
                 <c:RRTable>
-                    <tr class="tableHeader">
+                    <tr class="table-header">
                         <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>
                         <th class="ssr-t-site-no">{!$Label.c.CC_TableHeader_SiteNo}</th>
                         <th class="ssr-t-site">{!$Label.c.CC_TableHeader_Site}</th>

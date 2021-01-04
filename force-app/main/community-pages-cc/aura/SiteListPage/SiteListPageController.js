@@ -25,6 +25,7 @@
             component.set('v.searchTextPlaceHolder', $A.get('$Label.c.CC_Btn_Search'));
             component.set('v.sortType', 'Name ASC');
             component.set('v.searchText', '');
+            component.set('v.selectedSearchOption', '');
             component.set('v.resultSet', resultSet);
             component.set('v.filterStudyName', '');
             component.set('v.filterCountry', '');
