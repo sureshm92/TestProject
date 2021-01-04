@@ -94,7 +94,7 @@
             </div>
             <aura:if isTrue="{!v.fileWrapper.listOfFiles.length > 0}">
                 <div class="slds-card__body slds-card__body_inner">
-                    <table class="slds-table slds-table--bordered" aura:id="auraTable">
+                    <table class="slds-table slds-table--bordered fixedTable" aura:id="auraTable">
                         <thead>
                             <tr>
                                 <th>{!$Label.c.File_Upload_Name}</th>
@@ -121,7 +121,7 @@
                                     </td>
                                     <td><div class="slds-truncate">{!file.language}</div></td>
                                     <td class="slds-text-align--right" id="{!file.content.Id}">
-                                        <div class="slds-truncate">
+                                        <div class="slds-truncate" id="{!file.content.Id}">
                                             <lightning:buttonIcon
                                                 iconName="utility:close"
                                                 alternativeText="Delete"
