@@ -154,9 +154,9 @@
                                 <span class="history-item-title">{!history.title}</span>
                                 <span class="history-item-detail">
                                     <aura:if isTrue="{!history.title == 'Received'}">
-                                        {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit"/> {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
+                                        {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit" hour="numeric" minute="numeric"/> {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
                                         <aura:set attribute="else">
-                                 &nbsp;{!$Label.c.PE_Status_History_On_Date + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit"/>{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+ history.createdBy}
+                                 &nbsp;{!$Label.c.PE_Status_History_On_Date + ' '}<lightning:formattedDateTime value="{!history.detailDate}" year="numeric" month="short" day="2-digit" hour="numeric" minute="numeric"/>{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+ history.createdBy}
                                     </aura:set>
                                     </aura:if>
                                 </span>
