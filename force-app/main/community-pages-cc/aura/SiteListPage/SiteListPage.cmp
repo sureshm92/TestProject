@@ -19,6 +19,7 @@
     />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="searchText" type="String" default="" />
+    <aura:attribute name="selectedSearchOption" type="String" default="" />
     <aura:attribute name="searchList" type="List" />
     <aura:attribute name="sortVariants" type="List" />
     <aura:attribute name="sortType" type="String" default="Name ASC" />
@@ -38,12 +39,12 @@
         name="change"
         value="{!v.paginationData.pageRecordsCount}"
         action="{!c.doDatabaseSearch}"
-    />
+    />-->
     <aura:handler
         name="change"
         value="{!v.paginationData.currentPage}"
         action="{!c.doDatabaseSearch}"
-    />-->
+    />
     <!--methods-->
     <aura:method name="doRefesh" action="{!c.doInit}" />
     <aura:method name="callDatabaseSearch" action="{!c.doDatabaseSearch}">
@@ -62,6 +63,7 @@
         </div>
     </div>
     <c:SiteSearchPanel
+        selectedSearchOption="{!v.selectedSearchOption}"
         searchText="{!v.searchText}"
         searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
         searchList="{!v.searchList}"
@@ -76,10 +78,23 @@
         filterCountry="{!v.filterCountry}"
     />
     <!-- pagination -->
-    <c:RRPaginationRemote
-        entriesOnPage="{!v.paginationData.pageRecordsCount}"
-        currentPage="{!v.paginationData.currentPage}"
-        allRecordsCount="{!v.paginationData.allRecordsCount}"
-    />
+    <aura:if isTrue="{!!empty(v.resultSet)}">
+        <div class="slp-counter slds-grid slds-grid_align-spread">
+            <div class="slp-counter-txt slds-col">
+                {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
+                v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
+                v.paginationData.currentPageCount) + ' ' + $Label.c.PG_FP_L_of + ' ' +
+                v.paginationData.allRecordsCount + ' ' + $Label.c.PG_SW_Tab_Study_Sites + ' ' + '('+
+                $Label.c.CC_Max100 +')' }
+            </div>
+            <div class="slds-col">
+                <c:RRPaginationRemote
+                    entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                    currentPage="{!v.paginationData.currentPage}"
+                    allRecordsCount="{!v.paginationData.allRecordsCount}"
+                />
+            </div>
+        </div>
+    </aura:if>
     <c:builderStub aura:id="builderStub" />
 </aura:component>

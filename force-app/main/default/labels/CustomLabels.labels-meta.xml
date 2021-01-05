@@ -1634,6 +1634,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Site List</value>
     </labels>
     <labels>
+        <fullName>CC_Max100</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Max100</shortDescription>
+        <value>max.100</value>
+    </labels>
+    <labels>
         <fullName>CC_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
