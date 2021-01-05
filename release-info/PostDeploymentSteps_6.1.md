@@ -101,3 +101,6 @@ Give Read Access on "Last Status Changed Additional Notes" Field.
 
 ## 15. Add User lock out email temlate for Janssen Community
 Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save	
+
+## 16. Add User lock out email temlate for IQVIA Community
+Go to setup > serach for All Community and click on that > Click on  Workspaces before IQVIA Referral Hub > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email" in User Lockout serch box and select that > Click on Save	
