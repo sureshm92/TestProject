@@ -6,7 +6,9 @@
 public with sharing class Test_ParametrizedMessageService {
     @TestSetup
     static void testSetup() {
+        Test.startTest();
         TestData.loadTestData();
+        Test.stopTest();
     }
 
     @IsTest
