@@ -1,21 +1,37 @@
 public without sharing class SiteListPageRemote {
     public class SiteWrapper {
         @AuraEnabled
+        public String ctpId;
+        @AuraEnabled
+        public String studyId;
+        @AuraEnabled
+        public String piId;
+        @AuraEnabled
         public String studyName;
         @AuraEnabled
         public String siteNumber;
         @AuraEnabled
         public String siteName;
         @AuraEnabled
-        public String country;
+        public String siteCountry;
         @AuraEnabled
         public String piName;
         @AuraEnabled
-        public String phoneNumber;
+        public String sitePhone;
         @AuraEnabled
         public String primaryContact;
         @AuraEnabled
         public String siteStatus;
+        @AuraEnabled
+        public String siteEmail;
+        @AuraEnabled
+        public Boolean receivePIEmail;
+        @AuraEnabled
+        public Boolean siteInfoComplete;
+        @AuraEnabled
+        public Boolean trainingComplete;
+
+
     }
     public class PaginatedSiteWrapper {
         @AuraEnabled
@@ -24,15 +40,21 @@ public without sharing class SiteListPageRemote {
         public PaginationData paginationData;
     }
     public static final List<String> SS_TABLE_FIELDS = new List<String>{
+        'Id',
+        'Clinical_Trial_Profile__c',
         'Clinical_Trial_Profile__r.Study_Code_Name__c',
         'Study_Site_Number__c',
         'Name',
         'Site__r.BillingCountry',
+        'Principal_Investigator__c',
         'Principal_Investigator__r.Name',
         'Study_Site_Phone__c',
         'Site_Staff__r.Site_Contact__r.Name',
         'Study_Site_Email__c',
-        'Recruitment_Status__c'
+        'Recruitment_Status__c',
+        'Suppress_Study_Site_PI_Emails__c',
+        'Site_Information_Form_Completed__c',
+        'Completed_training__c'
     };
 
     public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
@@ -115,14 +137,20 @@ public without sharing class SiteListPageRemote {
         List<SiteWrapper> wrapperList = new List<SiteWrapper>();
         for (Study_Site__c site : siteList) {
             SiteWrapper wrapper = new SiteWrapper();
-            wrapper.country = site.Site__r.BillingCountry;
-            wrapper.phoneNumber = site.Study_Site_Phone__c;
+            wrapper.siteCountry = site.Site__r.BillingCountry;
+            wrapper.sitePhone = site.Study_Site_Phone__c;
             wrapper.piName = site.Principal_Investigator__r.Name;
             wrapper.primaryContact = site.Site_Staff__r.Site_Contact__r.Name;
             wrapper.siteName = site.Name;
             wrapper.siteNumber = site.Study_Site_Number__c;
             wrapper.siteStatus = site.Recruitment_Status__c;
             wrapper.studyName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
+            wrapper.studyId = site.Id;
+            wrapper.ctpId = site.Clinical_Trial_Profile__c;
+            wrapper.piId = site.Principal_Investigator__c;
+            wrapper.receivePIEmail = !site.Suppress_Study_Site_PI_Emails__c;
+            wrapper.siteInfoComplete  = site.Site_Information_Form_Completed__c;
+            wrapper.trainingComplete = site.Completed_training__c;
             wrapperList.add(wrapper);
         }
         return wrapperList;

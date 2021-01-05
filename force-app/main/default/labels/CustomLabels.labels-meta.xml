@@ -1652,7 +1652,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_PI_Name</shortDescription>
-        <value>PI Name</value>
+        <value>PI Name (partial match)</value>
     </labels>
     <labels>
         <fullName>CC_Participant_Support</fullName>
@@ -1680,7 +1680,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_ProtocolNumber</shortDescription>
-        <value>Protocol Number</value>
+        <value>Protocol Number (exact match)</value>
     </labels>
     <labels>
         <fullName>CC_Received</fullName>
@@ -1715,7 +1715,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_SiteNumber</shortDescription>
-        <value>Site Number</value>
+        <value>Site Number (exact match)</value>
     </labels>
     <labels>
         <fullName>CC_Site_Phone_Number</fullName>
@@ -1743,7 +1743,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_StudySiteName</shortDescription>
-        <value>Study Site Name</value>
+        <value>Study Site Name (partial match)</value>
     </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>

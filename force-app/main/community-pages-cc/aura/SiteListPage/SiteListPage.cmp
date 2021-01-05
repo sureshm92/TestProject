@@ -24,6 +24,7 @@
     <aura:attribute name="sortVariants" type="List" />
     <aura:attribute name="sortType" type="String" default="Name ASC" />
     <aura:attribute name="sectionDisabled" type="Boolean" default="true" />
+    <aura:attribute name="searched" type="Boolean" default="false" />
     <aura:attribute
         name="searchTextPlaceHolder"
         type="String"
@@ -33,6 +34,7 @@
     <aura:attribute name="filterStudyName" type="String" />
     <aura:attribute name="filterCountry" type="String" />
     <aura:attribute name="paginationData" type="Object" />
+    <aura:attribute name="resetVal" type="Boolean" default="false" />
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
     <!--<aura:handler
@@ -46,7 +48,9 @@
         action="{!c.doDatabaseSearch}"
     />
     <!--methods-->
-    <aura:method name="doRefesh" action="{!c.doInit}" />
+    <aura:method name="doRefesh" action="{!c.doInit}">
+        <aura:attribute name="resetVal" type="Boolean" />
+    </aura:method>
     <aura:method name="callDatabaseSearch" action="{!c.doDatabaseSearch}">
         <aura:attribute name="selectedSearchOption" type="String" />
         <aura:attribute name="searchText" type="String" />
@@ -55,13 +59,11 @@
 
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
-    <div class="vp-navigation">
-        <div class="navigation-breadcrumbs">
-            <c:RRNavigationPath>
-                <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
-            </c:RRNavigationPath>
-        </div>
-    </div>
+
+    <c:RRNavigationPath>
+        <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
+    </c:RRNavigationPath>
+
     <c:SiteSearchPanel
         selectedSearchOption="{!v.selectedSearchOption}"
         searchText="{!v.searchText}"
@@ -71,8 +73,11 @@
         parent="{!this}"
         sortType="{!v.sortType}"
         sortVariants="{!v.sortVariants}"
+        resetVal="{!v.resetVal}"
     />
     <c:SiteSearchResults
+        parent="{!this}"
+        searched="{!v.searched}"
         resultSet="{!v.resultSet}"
         filterStudyName="{!v.filterStudyName}"
         filterCountry="{!v.filterCountry}"

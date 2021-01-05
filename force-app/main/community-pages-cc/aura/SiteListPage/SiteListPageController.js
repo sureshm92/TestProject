@@ -17,6 +17,10 @@
             ];
             let resultSet = [];
             spinner.show();
+            let params = event.getParam('arguments');
+            if (params && params.resetVal) {
+                component.set('v.resetVal', true);
+            }
             component.set('v.userMode', communityService.getUserMode());
             component.set('v.isInitialized', true);
             component.set('v.searchList', searchList);
@@ -29,6 +33,7 @@
             component.set('v.resultSet', resultSet);
             component.set('v.filterStudyName', '');
             component.set('v.filterCountry', '');
+            component.set('v.searched', false);
             spinner.hide();
         } else {
             component.find('builderStub').setPageName(component.getName());
@@ -37,8 +42,10 @@
     doDatabaseSearch: function (component, event, helper) {
         debugger;
         let params = event.getParam('arguments');
+        let spinner = component.find('mainSpinner');
         if (params && params.selectedSearchOption && params.searchText && params.sortType) {
             console.log('doDatabaseSearch' + JSON.stringify(params));
+            spinner.show();
             communityService.executeAction(
                 component,
                 'getSearchResults',
@@ -51,6 +58,9 @@
                     console.log(JSON.stringify(paginatedWrapper));
                     component.set('v.resultSet', paginatedWrapper.sites);
                     component.set('v.paginationData', paginatedWrapper.paginationData);
+                    component.set('v.searched', true);
+                    component.set('v.resetVal', false);
+                    spinner.hide();
                 }
             );
         }

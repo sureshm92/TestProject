@@ -11,53 +11,67 @@
     <aura:attribute name="sortVariants" type="List" />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="setValueAsSelected" type="Boolean" default="true" />
+    <aura:attribute name="resetVal" type="Boolean" />
+
+    <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
 
     <!--body-->
     <div class="ssp-header">
         <div class="slds-grid slds-wrap">
-            <div class="ssp-label slds-col slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
-            <div class="ssp-select slds-col slds-p-horizontal_small slds-size_1-of-6">
-                <c:rrSelect
-                    value="{!v.selectedSearchOption}"
-                    options="{!v.searchList}"
-                    placeholder="{!$Label.c.CC_ChooseAnOption}"
-                    onchange="{!c.doUpdateSelection}"
-                />
-            </div>
-            <div class="ssp-search slds-col slds-p-horizontal_small slds-size_2-of-6">
-                <c:rrInput
-                    valueString="{!v.searchText}"
-                    iconName="icon-search"
-                    disabled="{!v.sectionDisabled}"
-                    placeholder="{!v.searchTextPlaceHolder}"
-                />
-            </div>
-            <div class="slds-col slds-p-horizontal_small slds-size_1-of-6">
-                <lightning:button
-                    variant="brand"
-                    class="apollo-btn primary"
-                    label="{!$Label.c.CC_Btn_Search}"
-                    disabled="{!v.sectionDisabled}"
-                    onclick="{!c.doSearch}"
-                />
-            </div>
-            <div class="slds-col slds-p-horizontal_small slds-size_1-of-6">
-                <lightning:button
-                    variant="base"
-                    disabled="{!v.sectionDisabled}"
-                    label="{!$Label.c.CC_Btn_Reset}"
-                    onclick="{!c.doReset}"
-                />
+            <div class="slds-large-size_9-of-12">
+                <div class="ssp-content">
+                    <div class="ssp-label slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
+                    <div class="ssp-select slds-size_2-of-6">
+                        <c:rrSelect
+                            value="{!v.selectedSearchOption}"
+                            options="{!v.searchList}"
+                            placeholder="{!$Label.c.CC_ChooseAnOption}"
+                            onchange="{!c.doUpdateSelection}"
+                            useSentenceFont="false"
+                        />
+                    </div>
+                    <div class="ssp-search slds-size_3-of-6">
+                        <c:rrInput
+                            valueString="{!v.searchText}"
+                            iconName="icon-search"
+                            disabled="{!v.sectionDisabled}"
+                            placeholder="{!v.searchTextPlaceHolder}"
+                        />
+                    </div>
+                    <div class="ssp-button-search slds-size_1-of-6">
+                        <lightning:button
+                            variant="brand"
+                            class="apollo-btn primary"
+                            label="{!$Label.c.CC_Btn_Search}"
+                            disabled="{!v.sectionDisabled}"
+                            onclick="{!c.doSearch}"
+                        />
+                    </div>
+                    <div class="ssp-button-reset slds-size_1-of-6">
+                        <lightning:button
+                            variant="base"
+                            disabled="{!v.sectionDisabled}"
+                            label="{!$Label.c.CC_Btn_Reset}"
+                            onclick="{!c.doReset}"
+                        />
+                    </div>
+                </div>
             </div>
         </div>
+
         <div class="slds-grid slds-grid_align-spread">
             <div class="slds-col">
-                <label>{!$Label.c.PG_FP_L_Sort_by}</label>
-                <c:rrSelect
-                    value="{!v.sortType}"
-                    options="{!v.sortVariants}"
-                    setValueAsSelected="{!v.setValueAsSelected}"
-                />
+                <span style="display: flex">
+                    <label>{!$Label.c.PG_FP_L_Sort_by}</label>
+                    <div class="ssp-sort-list">
+                        <c:rrSelect
+                            value="{!v.sortType}"
+                            options="{!v.sortVariants}"
+                            setValueAsSelected="{!v.setValueAsSelected}"
+                            useSentenceFont="false"
+                        />
+                    </div>
+                </span>
             </div>
             <div class="slds-col">
                 <lightning:button
