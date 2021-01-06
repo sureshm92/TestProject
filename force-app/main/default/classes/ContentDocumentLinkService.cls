@@ -324,13 +324,16 @@ public with sharing class ContentDocumentLinkService {
                 }
             }
             
-            map<Id, ContentDocument> mapContentDocuments = new map<Id, ContentDocument>([SELECT Id, Title, FileExtension FROM ContentDocument WHERE Id IN :setCntDocIds]);
+            map<Id, ContentDocument> mapContentDocuments = new map<Id, ContentDocument>([SELECT Id, ContentSize, Title, FileExtension FROM ContentDocument WHERE Id IN :setCntDocIds]);
             
             list<ContentDocument> lstCntDocsToUpdate = new list<ContentDocument>();        
             for(ContentDocumentLink cdlIterator : lstCntLinks) {
                 ContentDocument objCntDoc = mapContentDocuments.get(cdlIterator.ContentDocumentId);
                 if(!PARTICIPANT_FILE_TYPES.contains(objCntDoc.FileExtension)){
                     cdlIterator.addError('You can not upload this type of file');   
+                }  
+                if(objCntDoc.ContentSize > 25000000){
+                    cdlIterator.addError('please choose a file that is 25MB or less');   
                 }                        
             }  
     	}
