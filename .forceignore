@@ -32,8 +32,8 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 
 #Ignore all onboarding slides, comment line for include
 #**/onboarding-tour/staticresources
-force-app/unpackaged/main/default/staticresources/os_*
-force-app/main/onboarding-tour/staticresources/os_*
+#force-app/unpackaged/main/default/staticresources/os_*
+#force-app/main/onboarding-tour/staticresources/os_*
 
 #Ignore State globalValueSet
 #force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
