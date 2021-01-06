@@ -22,3 +22,7 @@
 .THIS .table-header {
     font-weight: 600;
 }
+
+.THIS .ssr-t-ctp {
+    max-width: 320px;
+}

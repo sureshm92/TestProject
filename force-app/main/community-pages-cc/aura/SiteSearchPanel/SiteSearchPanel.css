@@ -1,16 +1,45 @@
-.THIS .ssp-label {
+.THIS.ssp-header {
     font-size: 16px;
     font-family: 'Proxima Nova';
+    padding-top: 10px;
+    align-items: stretch;
+}
+
+.THIS .ssp-label {
     letter-spacing: 0;
-    line-height: 24px;
+    margin-top: 5px;
+}
+
+.THIS .ssp-content {
+    display: inline-flex;
+    flex-grow: 1;
+    padding-bottom: 8px;
 }
 
 .THIS .ssp-select {
     position: relative;
+    width: 200px;
+    margin-top: -3px;
+    margin-left: -16px;
 }
 
-.THIS .ssp-picklist img {
-    display: none;
+.THIS .ssp-button-search {
+    margin-left: 16px;
+}
+
+.THIS .ssp-button-reset {
+    margin-left: 16px;
+}
+
+.THIS .ssp-sort-list {
+    width: 220px;
+    margin-left: 20px;
+    padding-left: 20px;
+}
+
+.THIS .ssp-search {
+    max-width: 275px;
+    margin-left: 16px;
 }
 
 .THIS .ssp-search .rri-container .slds-input,
@@ -18,7 +47,6 @@
     padding-left: 25px;
     background: #fff url(/resource/1570111512000/searchIcon) no-repeat 7px 9px;
     background-size: 14px 14px;
-    padding-left: 25px;
     position: relative;
     top: 0;
     left: 0;
