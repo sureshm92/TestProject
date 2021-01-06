@@ -23,6 +23,31 @@
     font-weight: 600;
 }
 
+.THIS .table-scroll {
+    max-height: 420px;
+    overflow-y: auto;
+}
+
 .THIS .ssr-t-ctp {
-    max-width: 320px;
+    max-width: 265px;
+}
+
+.THIS .rr-table td.ssr-t-ctp {
+    color: #297dfd;
+    padding: 4px 8px;
+    align-items: center;
+    border-radius: 4px;
+    margin: 1px 0 0 -8px;
+}
+
+.THIS .rr-table td.ssr-t-ctp:hover {
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: 0.25s;
+    cursor: pointer;
+}
+
+.THIS .rr-table th {
+    position: sticky;
+    top: 0;
 }

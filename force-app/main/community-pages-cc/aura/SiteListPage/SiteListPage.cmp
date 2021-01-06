@@ -74,6 +74,7 @@
         sortType="{!v.sortType}"
         sortVariants="{!v.sortVariants}"
         resetVal="{!v.resetVal}"
+        hasResult="{!empty(v.resultSet)}"
     />
     <c:SiteSearchResults
         parent="{!this}"

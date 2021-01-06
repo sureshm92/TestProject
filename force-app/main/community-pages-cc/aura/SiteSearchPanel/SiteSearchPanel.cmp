@@ -12,6 +12,7 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="setValueAsSelected" type="Boolean" default="true" />
     <aura:attribute name="resetVal" type="Boolean" />
+    <aura:attribute name="hasResult" type="Boolean" />
 
     <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
 
@@ -30,7 +31,11 @@
                             useSentenceFont="false"
                         />
                     </div>
-                    <div class="ssp-search slds-size_3-of-6">
+                    <div
+                        class="ssp-search slds-size_3-of-6"
+                        onkeyup="{!c.onKeyUp}"
+                        aura:id="search"
+                    >
                         <c:rrInput
                             valueString="{!v.searchText}"
                             iconName="icon-search"
@@ -62,7 +67,7 @@
         <div class="slds-grid slds-grid_align-spread">
             <div class="slds-col">
                 <span style="display: flex">
-                    <label>{!$Label.c.PG_FP_L_Sort_by}</label>
+                    <label class="ssp-label">{!$Label.c.PG_FP_L_Sort_by}</label>
                     <div class="ssp-sort-list">
                         <c:rrSelect
                             value="{!v.sortType}"
@@ -78,6 +83,7 @@
                     class="apollo-btn secondary"
                     label="{!$Label.c.CC_Btn_ExportAll}"
                     onclick="{!c.doExportAll}"
+                    disabled="{!v.hasResult}"
                 />
             </div>
         </div>
