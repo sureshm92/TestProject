@@ -3,8 +3,6 @@
  */
 ({
     doInit: function(component, event, helper){
-        var temp = component.get('v.participantWorkflowWrapperTemp');
-        if(temp == null){
             component.find('spinner').show();
             var pe = component.get('v.pe');
             communityService.executeAction(
@@ -20,9 +18,6 @@
                     component.find('spinner').hide();
                 }
             );
-        }else{
-            component.set('v.participantWorkflowWrapper',temp);
-        }
         
     },
     
