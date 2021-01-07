@@ -43,8 +43,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
             ORDER BY Date__c DESC
@@ -547,7 +547,7 @@ public without sharing class ParticipantWorkflowService {
         stepWrapper.notes = '';
         return stepWrapper;
     }
-
+    
     private static List<ParticipantWorkflowHistoryWrapper> createOnlyNotesHistoryWrapper(
         String additionalNotes
     ) {
@@ -562,6 +562,7 @@ public without sharing class ParticipantWorkflowService {
                 historyWrapper.detail =
                     Label.PE_Status_History_On_Date +
                     note.substringAfterLast(Label.PE_Status_History_On_Date);
+                historyWrapper.detailDate = DateTime.parse(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
                 historyWrapper.detail.replace(
                     Label.PE_Status_History_On_Date,
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date')
@@ -571,11 +572,12 @@ public without sharing class ParticipantWorkflowService {
                     createdByName=Label.RH_Masked_IQVIA_User;
                     historyWrapper.detail=historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +Label.PG_IMI_L_by_user +' ' + createdByName;
                 }
+                historyWrapper.createdBy = createdByName;
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
                 );
-            }
+            }                
             historyWrappers.add(historyWrapper);
         }
         return historyWrappers;
@@ -598,19 +600,19 @@ public without sharing class ParticipantWorkflowService {
               )
             : '');
         String notesString = (String.isNotBlank(pesh.Notes__c) ? ', ' + pesh.Notes__c.trim() : '');
-		String createdbyName ='';
+        String createdbyName ='';
         //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC' 
         if(pesh.CreatedBy.IsPortalEnabled== true){
-			if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
-				 createdbyName=System.Label.RH_Masked_IQVIA_User;
-			}else{
-				createdbyName =pesh.CreatedBy.Name;
-			}    
+            if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
+                 createdbyName=System.Label.RH_Masked_IQVIA_User;
+            }else{
+                createdbyName =pesh.CreatedBy.Name;
+            }    
         }
         else{
             createdbyName=System.Label.RH_Masked_IQVIA_User;
         }
-		
+        
         if (String.isEmpty(step.History_Item_Title_Template_Label__c)) {
             historyWrapper.title = statusString + reasonString + notesString;
         } else {
@@ -632,7 +634,7 @@ public without sharing class ParticipantWorkflowService {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                     createdbyName;
-                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.detailDate = pesh.Date__c;
                 historyWrapper.createdBy = createdbyName;
 
             } else {
@@ -643,7 +645,7 @@ public without sharing class ParticipantWorkflowService {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                    createdbyName;
-                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.detailDate = pesh.Date__c;
                 historyWrapper.createdBy = createdbyName;
             }
         } else {
@@ -661,7 +663,7 @@ public without sharing class ParticipantWorkflowService {
                     .replace('##Date', pesh.Date__c.format())
                     .replace('##ByUser', createdbyName)
                     .replace('##Source', sourceString);
-                historyWrapper.detailDate = Date.valueOf(pesh.Date__c);
+                historyWrapper.detailDate = pesh.Date__c;
                 historyWrapper.createdBy = createdbyName;
                 historyWrapper.source = sourceString;
         }
@@ -1443,8 +1445,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c 
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
@@ -1678,7 +1680,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String status;
         @AuraEnabled
-		public Date dateStatus;
+        public Date dateStatus;
         @AuraEnabled
         public Boolean editable;
         @AuraEnabled
@@ -1727,7 +1729,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String detail;
         @AuraEnabled
-        public Date detailDate;
+        public DateTime detailDate;
         @AuraEnabled
         public String createdBy;
         @AuraEnabled

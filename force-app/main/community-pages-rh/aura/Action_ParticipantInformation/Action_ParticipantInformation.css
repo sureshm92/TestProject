@@ -102,9 +102,14 @@
     text-align: left;
 }
 
-.THIS #p-modal .p-container.large {
-    z-index: 20001 !important;
-}
+  .THIS #p-modal .p-container.large {
+      /*  / z-index: 2 !important;*/
+         /*z-index: 20001 !important;*/
+    }
+
+/*    .THIS .slds-backdrop {
+        z-index: 1 !important; 
+    }*/
 
 .THIS .p-header h2 {
     overflow: hidden;
@@ -393,13 +398,7 @@
         margin-top: 0;
     }
 
-    .THIS #p-modal .p-container.large {
-        z-index: 2 !important;
-        /*z-index: 20001 !important;*/
-    }
-    .THIS .slds-backdrop {
-        z-index: 1 !important; 
-    }
+    
     .THIS .forceContentPreviewPlayerTopToolbar .file-preview-buttons{
         display : none;
     }
@@ -409,4 +408,6 @@
         width: 65%;
         line-height: 1.25;
     }
+  
+    
 }
