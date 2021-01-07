@@ -15,5 +15,11 @@
     doUpdateSortType: function (component, event, helper) {
         if (component.get('v.resetVal')) return;
         helper.doSearchHelper(component);
+    },
+    onKeyUp: function (component, event, helper) {
+        debugger;
+        if (event.which === 13) {
+            helper.doSearchHelper(component);
+        }
     }
 });

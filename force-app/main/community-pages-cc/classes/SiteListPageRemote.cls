@@ -30,8 +30,6 @@ public without sharing class SiteListPageRemote {
         public Boolean siteInfoComplete;
         @AuraEnabled
         public Boolean trainingComplete;
-
-
     }
     public class PaginatedSiteWrapper {
         @AuraEnabled
@@ -94,8 +92,9 @@ public without sharing class SiteListPageRemote {
                     DEFAULT_FILTER +
                     ' AND ' +
                     searchOption +
-                    ' =' +
-                    String.escapeSingleQuotes(searchText);
+                    ' = \'' +
+                    String.escapeSingleQuotes(searchText) +
+                    '\'';
             }
         }
         try {
@@ -149,7 +148,7 @@ public without sharing class SiteListPageRemote {
             wrapper.ctpId = site.Clinical_Trial_Profile__c;
             wrapper.piId = site.Principal_Investigator__c;
             wrapper.receivePIEmail = !site.Suppress_Study_Site_PI_Emails__c;
-            wrapper.siteInfoComplete  = site.Site_Information_Form_Completed__c;
+            wrapper.siteInfoComplete = site.Site_Information_Form_Completed__c;
             wrapper.trainingComplete = site.Completed_training__c;
             wrapperList.add(wrapper);
         }

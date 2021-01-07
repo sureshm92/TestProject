@@ -5,7 +5,11 @@
             let spinner = component.find('mainSpinner');
             let searchList = [
                 { label: $A.get('$Label.c.CC_StudySiteName'), value: 'Name' },
-                { label: $A.get('$Label.c.CC_ProtocolNumber'), value: 'Protocol_ID__c' },
+                //To make the query indexed
+                {
+                    label: $A.get('$Label.c.CC_ProtocolNumber'),
+                    value: 'Clinical_Trial_Profile__r.Protocol_ID__c'
+                },
                 { label: $A.get('$Label.c.CC_SiteNumber'), value: 'Study_Site_Number__c' },
                 { label: $A.get('$Label.c.CC_PI_Name'), value: 'Principal_Investigator__r.Name' }
             ];
@@ -60,6 +64,9 @@
                     component.set('v.paginationData', paginatedWrapper.paginationData);
                     component.set('v.searched', true);
                     component.set('v.resetVal', false);
+                    spinner.hide();
+                },
+                function () {
                     spinner.hide();
                 }
             );
