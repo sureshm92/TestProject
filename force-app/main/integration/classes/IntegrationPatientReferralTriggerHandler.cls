@@ -24,8 +24,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
     public class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setNewList(newList);
-            checkFields();
-            upsertParticipantAndPE();
+            boolean checkData = checkFields();
+            if(checkData)
+                upsertParticipantAndPE();
         }
 
         private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
@@ -69,7 +70,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
         }
 
-        private void checkFields() {
+        private boolean checkFields() {
             //process items:
             for (Integration_Patient_Referral__c ipr : newList) {
                 List<String> errorsLog = new List<String>();
@@ -88,7 +89,33 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     String.isEmpty(ipr.Delegate_Email_Address__c)) 
                     errorsLog.add('Either email or phone number must be provided;');
 
-
+                   // check country    
+                if(String.isNotBlank(ipr.Address_Country__c)) {
+                    String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
+                    if(String.isBlank(countryName))
+                        errorsLog.add('Invalid Country;');
+                }   
+                 
+               // check state 
+               Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
+                if(String.isNotBlank(ipr.address_state__c)) 
+                    if(!states.containskey(ipr.address_state__c))
+                        errorsLog.add('Invalid State Province;');
+                
+                // check state 
+                 if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                    if(!states.containskey(ipr.Delegate_Mailing_State__c))
+                        errorsLog.add('Invalid State Province;');
+                         
+                // check langauge  
+                  if(String.isNotBlank(ipr.Language_Preference__c)) {
+                    set<String> languageCodes = new set<String>();
+                    for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
+                        languageCodes.add(ple.getValue());
+                    if(!languageCodes.contains(ipr.Language_Preference__c)) 
+                        errorsLog.add('Invalid Language Preference;');
+                
+                  }    
                 //Check SS
                 String studySiteNumber = getSitePrimaryKeyEPR(ipr);
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
@@ -110,9 +137,12 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     errorsLog.add('Study is not accepting referrals;');
                 }
 
-                if (errorsLog.size() > 0)
+                if (errorsLog.size() > 0) {
                     ipr.addError(String.join(errorsLog, '\n'));
+                    return false;
+                }
             }
+            return true;
         }
 
               
