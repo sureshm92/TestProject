@@ -1,4 +1,4 @@
-public class StudySiteCountryWarning {
+public with sharing class StudySiteCountryWarning {
 
  @AuraEnabled(cacheable=true)
     public static boolean getInitData(String recId) {
