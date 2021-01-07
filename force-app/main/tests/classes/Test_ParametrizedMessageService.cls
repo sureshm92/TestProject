@@ -6,9 +6,7 @@
 public with sharing class Test_ParametrizedMessageService {
     @TestSetup
     static void testSetup() {
-        Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
     }
 
     @IsTest
@@ -43,7 +41,10 @@ public with sharing class Test_ParametrizedMessageService {
             label,
             'en_US'
         );
+        
+        Test.startTest();
         parametrizedMessageService.processMessages();
+        Test.stopTest();
 
         System.assert(!parametrizedMessageService.getMessage('Message 1').contains('##'));
     }
