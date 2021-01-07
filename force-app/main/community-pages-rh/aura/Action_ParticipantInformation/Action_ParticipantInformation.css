@@ -103,13 +103,13 @@
 }
 
   .THIS #p-modal .p-container.large {
-        z-index: 2 !important;
-        /*z-index: 20001 !important;*/
+      /*  / z-index: 2 !important;*/
+         /*z-index: 20001 !important;*/
     }
-    
-    .THIS .slds-backdrop {
+
+/*    .THIS .slds-backdrop {
         z-index: 1 !important; 
-    }
+    }*/
 
 .THIS .p-header h2 {
     overflow: hidden;
