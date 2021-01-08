@@ -74,7 +74,7 @@ Go to Setup - Release Updates - Click Get Started of update 'Transition to new B
  Go to developer console > Open "Open execute Annonymous Window" uder debug tab > Run below script:
  Id myBatch= Database.executeBatch(new Batch_UpdPESHReasonToNonEnReason(), 2000);
 ## 14. Profile Permission
-Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment Status History" object ->  Under Field Permissions: Give Read and Write Access on Notes and Additional Notes fields and Read Access to rest of the fields.
+Step 1: Go to Setup >Go to Profiles-> Open Profile "Business Lead" ->Object Settings Open "Participant Enrollment Status History" object -> Field Permissions: Give Read and Edit Access for all fields except "PSE Date".
 
 Step 2: Go to Setup >Go to Profiles-> Open Profile "Business Administrator" ->Object Settings Open "Participant Enrollment Status History" object -> Under Object Permissions,give Read,Edit and Create Access.Under Field Permissions: Give Read and Edit Access for all fields except "PSE Date". 
 
