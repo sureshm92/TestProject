@@ -86,7 +86,7 @@
         </aura:iteration>
     </div>
     <div
-        class="slds-popover slds-popover--tooltip toggle container tooltip"
+        class="slds-popover slds-popover--tooltip toggle container tooltip slds-slide-from-right-to-left"
         role="tooltip"
         id="help"
         aura:id="tooltip"
