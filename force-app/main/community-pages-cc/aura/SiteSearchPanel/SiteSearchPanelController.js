@@ -10,14 +10,22 @@
         parent.doRefesh(true);
     },
     doExportAll: function (component, event, helper) {
-        //TO DO
+        let selectedSearchOption = component.get('v.selectedSearchOption');
+        let searchText = component.get('v.searchText');
+        let parent = component.get('v.parent');
+        searchText = searchText.trim();
+        if (!searchText || !selectedSearchOption) {
+            communityService.showErrorToast('Error', 'Search text required!');
+            return;
+        } else {
+            parent.callExportAll(selectedSearchOption, searchText);
+        }
     },
     doUpdateSortType: function (component, event, helper) {
         if (component.get('v.resetVal')) return;
         helper.doSearchHelper(component);
     },
     onKeyUp: function (component, event, helper) {
-        debugger;
         if (event.which === 13) {
             helper.doSearchHelper(component);
         }
