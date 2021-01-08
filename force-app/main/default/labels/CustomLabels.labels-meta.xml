@@ -15392,7 +15392,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
-        <value>Please an option to send reminder.</value>
+        <value>Please select a notification option to send the reminder.</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using_SMS</fullName>
