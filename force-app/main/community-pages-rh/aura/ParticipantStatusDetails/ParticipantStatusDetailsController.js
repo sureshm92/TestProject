@@ -91,7 +91,7 @@
                 ) {
                     if (params.fieldName == 'Notes__c') {
                         participantWorkflowWrapper.steps[j].notes = params.value;
-                    } else if (params.fieldName == 'Reason__c') {
+                    } else if (params.fieldName == 'Non_Enrollment_Reason__c') {
                         participantWorkflowWrapper.steps[j].reason = params.value;
                     }
                 }
