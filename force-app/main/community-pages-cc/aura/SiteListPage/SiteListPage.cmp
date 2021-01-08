@@ -35,6 +35,8 @@
     <aura:attribute name="filterCountry" type="String" />
     <aura:attribute name="paginationData" type="Object" />
     <aura:attribute name="resetVal" type="Boolean" default="false" />
+    <aura:attribute name="siteIds" type="List" />
+    <aura:attribute name="exportList" type="List" />
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
     <!--<aura:handler
@@ -56,7 +58,10 @@
         <aura:attribute name="searchText" type="String" />
         <aura:attribute name="sortType" type="String" />
     </aura:method>
-
+    <aura:method name="callExportAll" action="{!c.doExportAllSearchResults}">
+        <aura:attribute name="selectedSearchOption" type="String" />
+        <aura:attribute name="searchText" type="String" />
+    </aura:method>
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 

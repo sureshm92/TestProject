@@ -37,6 +37,18 @@ public without sharing class SiteListPageRemote {
         @AuraEnabled
         public PaginationData paginationData;
     }
+    public class CSVWrapper {
+        @AuraEnabled
+        public List<Study_Site__c> sites;
+        @AuraEnabled
+        public List<String> siteIds;
+
+        CSVWrapper() {
+            this.sites = new List<Study_Site__c>();
+            this.siteIds = new List<String>();
+        }
+    }
+
     public static final List<String> SS_TABLE_FIELDS = new List<String>{
         'Id',
         'Clinical_Trial_Profile__c',
@@ -52,10 +64,14 @@ public without sharing class SiteListPageRemote {
         'Recruitment_Status__c',
         'Suppress_Study_Site_PI_Emails__c',
         'Site_Information_Form_Completed__c',
-        'Completed_training__c'
+        'Completed_training__c',
+        'CreatedDate'
     };
 
     public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
+
+    private static final Integer DOWNLOAD_QUERY_LIMIT = 49000;
+    private static final Integer RECORDS_PER_PAGE = 100;
 
     @AuraEnabled
     public static PaginatedSiteWrapper getSearchResults(
@@ -67,38 +83,12 @@ public without sharing class SiteListPageRemote {
         List<Study_Site__c> siteQueryResult;
         String filterText = '';
 
-        paginatedWrapper.paginationData = new PaginationData(100);
+        paginatedWrapper.paginationData = new PaginationData(RECORDS_PER_PAGE);
         paginatedWrapper.sites = new List<SiteWrapper>();
 
-        switch on searchOption {
-            when 'Principal_Investigator__r.Name' {
-                filterText +=
-                    DEFAULT_FILTER +
-                    ' AND Principal_Investigator__r.Name LIKE ' +
-                    '\'%' +
-                    String.escapeSingleQuotes(searchText) +
-                    '%\'';
-            }
-            when 'Name' {
-                filterText +=
-                    DEFAULT_FILTER +
-                    ' AND Name LIKE ' +
-                    '\'%' +
-                    String.escapeSingleQuotes(searchText) +
-                    '%\'';
-            }
-            when else {
-                filterText +=
-                    DEFAULT_FILTER +
-                    ' AND ' +
-                    searchOption +
-                    ' = \'' +
-                    String.escapeSingleQuotes(searchText) +
-                    '\'';
-            }
-        }
+        filterText = getFilterText(searchOption, searchText);
+
         try {
-            System.debug(filterText);
             //Apply pagination
             Integer recordCount = Database.countQuery(
                 'SELECT COUNT() FROM Study_Site__c WHERE ' + filterText
@@ -130,6 +120,73 @@ public without sharing class SiteListPageRemote {
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+
+    @AuraEnabled
+    public static CSVWrapper getAllSearchResults(
+        String searchOption,
+        String searchText,
+        List<String> siteIds,
+        Integer totalItemsToDownload
+    ) {
+        try {
+            CSVWrapper result = new CSVWrapper();
+            String filterText = getFilterText(searchOption, searchText);
+            filterText += siteIds.isEmpty() ? '' : ' AND Id NOT IN :siteIds';
+            String fields = String.join(SS_TABLE_FIELDS, ',');
+            String queryString =
+                'SELECT ' +
+                fields +
+                ' FROM Study_Site__c' +
+                ' WHERE ' +
+                filterText +
+                ' LIMIT ' +
+                DOWNLOAD_QUERY_LIMIT;
+            Map<Id, Study_Site__c> siteMap = new Map<Id, Study_Site__c>(
+                (List<Study_Site__c>) Database.query(queryString)
+            );
+            if (totalItemsToDownload <= DOWNLOAD_QUERY_LIMIT) {
+                result.siteIds = null;
+            } else {
+                result.siteIds = (List<String>) (new List<Id>(siteMap.keySet()));
+            }
+            result.sites = siteMap.values();
+            return result;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    private static String getFilterText(String searchOption, String searchText) {
+        String filterText = '';
+        switch on searchOption {
+            when 'Principal_Investigator__r.Name' {
+                filterText +=
+                    DEFAULT_FILTER +
+                    ' AND Principal_Investigator__r.Name LIKE ' +
+                    '\'%' +
+                    String.escapeSingleQuotes(searchText) +
+                    '%\'';
+            }
+            when 'Name' {
+                filterText +=
+                    DEFAULT_FILTER +
+                    ' AND Name LIKE ' +
+                    '\'%' +
+                    String.escapeSingleQuotes(searchText) +
+                    '%\'';
+            }
+            when else {
+                filterText +=
+                    DEFAULT_FILTER +
+                    ' AND ' +
+                    searchOption +
+                    ' = \'' +
+                    String.escapeSingleQuotes(searchText) +
+                    '\'';
+            }
+        }
+        return filterText;
     }
 
     private static List<SiteWrapper> wrapperTransformation(List<Study_Site__c> siteList) {

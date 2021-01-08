@@ -44,32 +44,15 @@
         }
     },
     doDatabaseSearch: function (component, event, helper) {
-        debugger;
         let params = event.getParam('arguments');
-        let spinner = component.find('mainSpinner');
         if (params && params.selectedSearchOption && params.searchText && params.sortType) {
-            console.log('doDatabaseSearch' + JSON.stringify(params));
-            spinner.show();
-            communityService.executeAction(
-                component,
-                'getSearchResults',
-                {
-                    searchOption: params.selectedSearchOption,
-                    searchText: params.searchText,
-                    sortType: params.sortType
-                },
-                function (paginatedWrapper) {
-                    console.log(JSON.stringify(paginatedWrapper));
-                    component.set('v.resultSet', paginatedWrapper.sites);
-                    component.set('v.paginationData', paginatedWrapper.paginationData);
-                    component.set('v.searched', true);
-                    component.set('v.resetVal', false);
-                    spinner.hide();
-                },
-                function () {
-                    spinner.hide();
-                }
-            );
+            helper.doDatabaseSearchHelper(component, event, params);
+        }
+    },
+    doExportAllSearchResults: function (component, event, helper) {
+        let params = event.getParam('arguments');
+        if (params && params.selectedSearchOption && params.searchText) {
+            helper.doExportAllHelper(component, helper, params);
         }
     }
 });

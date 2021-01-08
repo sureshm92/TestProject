@@ -1,6 +1,5 @@
 ({
     doUpdateSelectionHelper: function (component) {
-        debugger;
         let option = component.get('v.selectedSearchOption');
         if (option !== '') {
             component.set('v.sectionDisabled', false);
@@ -8,8 +7,6 @@
         }
     },
     doSearchHelper: function (component) {
-        debugger;
-        console.log('doSearch');
         let selectedSearchOption = component.get('v.selectedSearchOption');
         let searchText = component.get('v.searchText');
         let sortType = component.get('v.sortType');
