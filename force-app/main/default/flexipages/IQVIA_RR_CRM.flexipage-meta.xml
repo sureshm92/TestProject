@@ -20,7 +20,7 @@
         <name>bottomRight</name>
         <type>Region</type>
     </flexiPageRegions>
-     <flexiPageRegions>
+	 <flexiPageRegions>
         <itemInstances>
             <componentInstance>
                 <componentInstanceProperties>
