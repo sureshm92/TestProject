@@ -41,10 +41,10 @@ global without sharing class EmailTemplatePendingPartController {
                             Participant_Status__c = 'Received'
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
-                            AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                            AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE LIMIT 12
                     ]) {
                         size = size + 1;
-                        if (size < 12)
+                        if (size < 10){
                             delegateStudyNames.add(
                                 new ParticipantInfoWrapper(
                                     pe.Name,
@@ -53,8 +53,10 @@ global without sharing class EmailTemplatePendingPartController {
                                     user[0].timezonesidkey
                                 )
                             );
-                        else
+							size = size + 1;	
+                        }else{
                             break;
+						}	
                     }
                 }
             }

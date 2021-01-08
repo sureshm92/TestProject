@@ -12,7 +12,7 @@ public without sharing virtual class EmailTemplateProvider {
         'Clinical_Trial_Profile__c' => 'Email_Template_Parameters_From_CTP',
         'HCP_Enrollment__c' => 'Email_Template_Parameters_From_HCPE',
         'Participant__c' => 'PP_Participant',
-        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',
+        'Healthcare_Provider__c' => 'PP_Healthcare_Provider',        
         'Participant_Enrollment__c' => 'Email_Template_Parameters_From_PE',
         'Resource__c' => 'Email_Template_Parameters_From_Resource',
         'Study_Site__c' => 'PP_Study_Site',
@@ -398,23 +398,24 @@ public without sharing virtual class EmailTemplateProvider {
     }
 
     public void addStudySiteNumber(){
-        List<Participant_Enrollment__c> receivedPEs = new List<Participant_Enrollment__c>();
+        List<AggregateResult> totalParticipants = new List<AggregateResult>();
         List<Id> studySites = new List<Id>();
+
         if(recipientId !=null){
             
             
-                for(Site_Staff__c ss:[SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
+                for(Site_Staff__c ss:[SELECT Study_Site__c FROM Site_Staff__c 
                                       WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE]){
+                                      AND Site_Contact__c =:recipientId]){
                    studySites.add(ss.Study_Site__c);   
                 }
             
-            receivedPEs.addAll([SELECT Id FROM Participant_Enrollment__c
+            totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c
                                 WHERE  Participant_Status__c = 'Received' 
-                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)]);
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)];
             
         }
-        parameters.put('TotalStudies', String.valueOf(receivedPEs.size()));
+        parameters.put('TotalStudies',String.valueOf(totalParticipants[0].get('expr0')));
     }
 
 }
