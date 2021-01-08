@@ -104,3 +104,6 @@ Go to setup > serach for All Community and click on that > Click on  Workspaces 
 
 ## 16. Add User lock out email temlate for IQVIA Community
 Go to setup > serach for All Community and click on that > Click on  Workspaces before IQVIA Referral Hub > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email" in User Lockout serch box and select that > Click on Save	
+
+## 17. Rename Account Label
+Go to Setup > search for Search for Rename Tab and labels > Search for Account and click Edit > Click Next in the Edit Mode > Search for Account Name(Usually Second row) > Type Most Recent Account Name in Singular and Most Recent Account Names in Plural. > Click Save
