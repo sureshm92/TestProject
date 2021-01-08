@@ -357,7 +357,7 @@
                                 data-gtm="BTN_Visit_Results_Biomarkers"
                                 data-lab-results-mode="Biomarkers"
                                 class="{!'apollo-btn text ' + if(v.labResultsMode == 'Biomarkers', ' current', '')}"
-                                style="{!if(v.isRTL == true, 'border-left: 1px solid #d9d9d9;border-right: none;', '')}"
+                                style="{!if(v.isRTL == true, 'margin-left:-173px;border-left: 1px solid #d9d9d9;border-right: none;', '')}"
                                 onclick="{!c.doAction}"
                             >
                                 {!$Label.c.Visit_Results_Tab_Biomarkers}
