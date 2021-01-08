@@ -43,7 +43,6 @@ global without sharing class EmailTemplatePendingPartController {
                             OR PI_Contact__c = :sourceIdValue)
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE LIMIT 12
                     ]) {
-                        size = size + 1;
                         if (size < 10){
                             delegateStudyNames.add(
                                 new ParticipantInfoWrapper(
