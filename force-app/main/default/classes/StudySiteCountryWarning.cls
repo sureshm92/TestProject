@@ -1,3 +1,5 @@
+// show warning message study site detail page when pi country and staff country not same
+
 public with sharing class StudySiteCountryWarning {
 
  @AuraEnabled(cacheable=true)
