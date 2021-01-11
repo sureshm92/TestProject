@@ -415,7 +415,11 @@ public without sharing virtual class EmailTemplateProvider {
                                 AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)];
             
         }
-        parameters.put('TotalStudies',String.valueOf(totalParticipants[0].get('expr0')));
+        String size = '0';
+        if(totalParticipants.size()>0){
+           size = String.valueOf(totalParticipants[0].get('expr0'));
+        }
+        parameters.put('TotalStudies',size);
     }
 
 }

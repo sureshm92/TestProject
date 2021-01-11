@@ -17163,6 +17163,13 @@ communications using the toggles below.</value>
         <shortDescription>RH Email Invalid Characters</shortDescription>
         <value>[\¡¿«»¢£¥€¤›]</value>
     </labels>
+      <labels>
+        <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
+        <value>PI/Site staff country is not the same as Site country</value>
+    </labels>
 	  <labels>
         <fullName>RH_Email_Invalid_Error</fullName>
         <language>en_US</language>
