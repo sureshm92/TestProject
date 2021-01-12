@@ -7,7 +7,7 @@ global class Batch_UpdPESHReasonToNonEnReason implements Database.Batchable<SObj
 
 
    global Database.QueryLocator start(Database.BatchableContext BC) {
-        String queryString = 'SELECT Id,Reason__c, Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__c';
+        String queryString = 'SELECT Id,Reason__c, Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__c WHERE Reason__c !=null';
         
         return Database.getQueryLocator(queryString);
     }
