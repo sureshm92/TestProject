@@ -109,7 +109,7 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
-    @IsTest
+  /*  @IsTest
     static void testCreateParticipantDelegate() {
         Participant__c participant = new Participant__c();
         participant.Email__c = 'Test01@mail.ru';
@@ -136,7 +136,7 @@ private class Test_ParticipantInformationRemote {
         ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
           }catch(exception e) {system.debug('teste');}
         Test.stopTest();
-    }
+    } */
 
     @IsTest
     static void updateStateCC() {
