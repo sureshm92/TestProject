@@ -553,16 +553,17 @@ public without sharing class ParticipantWorkflowService {
     ) {
         List<ParticipantWorkflowHistoryWrapper> historyWrappers = new List<ParticipantWorkflowHistoryWrapper>();
         List<String> notes = new List<String>();
-        if (additionalNotes != null)
+        if (additionalNotes != null && additionalNotes !='')
             notes = additionalNotes.split('#');
         for (String note : notes) {
+            if(note!=''){
             ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
             historyWrapper.title = note.substringBeforeLast(Label.PE_Status_History_On_Date);
             if (!String.isBlank(note.substringAfterLast(Label.PE_Status_History_On_Date))) {
                 historyWrapper.detail =
                     Label.PE_Status_History_On_Date +
                     note.substringAfterLast(Label.PE_Status_History_On_Date);
-                historyWrapper.detailDate = DateTime.parse(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
+                //historyWrapper.detailDate = DateTime.parse(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
                 historyWrapper.detail.replace(
                     Label.PE_Status_History_On_Date,
                     TranslateHelper.getLabelValue('PE_Status_History_On_Date')
@@ -576,9 +577,11 @@ public without sharing class ParticipantWorkflowService {
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
-                );
-            }                
+                ); 
+            }
+            historyWrapper.isAdditionalNote = true;    
             historyWrappers.add(historyWrapper);
+            }
         }
         return historyWrappers;
     }
@@ -1734,7 +1737,8 @@ public without sharing class ParticipantWorkflowService {
         public String createdBy;
         @AuraEnabled
         public String source;
-
+        @AuraEnabled
+        public Boolean isAdditionalNote;
         
     }
 
