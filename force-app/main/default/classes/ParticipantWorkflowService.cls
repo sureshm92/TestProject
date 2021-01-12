@@ -577,9 +577,9 @@ public without sharing class ParticipantWorkflowService {
                 historyWrapper.detail.replace(
                     Label.PG_IMI_L_by_user,
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user')
-                );
-                historyWrapper.isAdditionalNote = true;
-            }                
+                ); 
+            }
+            historyWrapper.isAdditionalNote = true;    
             historyWrappers.add(historyWrapper);
             }
         }
