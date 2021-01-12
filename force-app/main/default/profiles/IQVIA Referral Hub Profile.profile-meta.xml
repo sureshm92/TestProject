@@ -2065,6 +2065,19 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+     <classAccesses>
+        <apexClass>MedicalPreviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_MedicalPreviewController</apexClass>
+        <enabled>false</enabled>
+    </classAccesses>
+    <custom>true</custom>
+    <pageAccesses>
+        <apexPage>MedicalHistoryPreviewVF</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
     <pageAccesses>
         <apexPage>RRChangePassword</apexPage>
         <enabled>true</enabled>
