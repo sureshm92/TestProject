@@ -39,6 +39,7 @@ public with sharing class ResStudyTriggerHandler {
                 AND Id IN :resStudyIds
                 AND Visible_To_Participant__c = TRUE
                 AND Notify_On_Availability__c = TRUE
+                AND Clinical_Trial_Profile__r.Study_Documents_Are_Available__c = TRUE
         ]) {
             resStudies.add((Res_study__c) resStudy);
         }

@@ -105,6 +105,7 @@ public class Test_ListViewParticipantController {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             age__c = 23,
+            site__c = account_1.id,
             // Present_Age__c =
             Adult__c = true
         );
