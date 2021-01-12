@@ -1384,6 +1384,10 @@
         <apexClass>RRPDFViewerController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>MedicalPreviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>RRPicklistLookupRemote</apexClass>
         <enabled>true</enabled>
@@ -2064,16 +2068,8 @@
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
-    <custom>true</custom>
-     <classAccesses>
-        <apexClass>MedicalPreviewController</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
-        <apexClass>Test_MedicalPreviewController</apexClass>
-        <enabled>false</enabled>
-    </classAccesses>
-    <custom>true</custom>
+
+    <custom>true</custom> 
     <pageAccesses>
         <apexPage>MedicalHistoryPreviewVF</apexPage>
         <enabled>true</enabled>
