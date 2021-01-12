@@ -332,9 +332,8 @@ public with sharing class ContentDocumentLinkService {
                 if(!PARTICIPANT_FILE_TYPES.contains(objCntDoc.FileExtension)){
                     cdlIterator.addError('File Not Supported (Use format-jpg,pdf,jpeg,gif,png)');   
                 }  
-                else
-                                    
-                if(objCntDoc.ContentSize > 25000000){
+                                                    
+                if(objCntDoc.ContentSize > 26215000){
                     cdlIterator.addError('please choose a file that is 25MB or less');   
                 }                      
             }  

@@ -53,6 +53,7 @@
                         component.set('v.thirdLangKey', initData.thirdLangKey);
                         component.set('v.localeKey', initData.localeKey);
                         component.set('v.timezoneKey', initData.timezoneKey);
+                        component.set('v.prevLocaleKey',initData.localeKey);                        
                         //alert('callBack'+component.find("pFieldCountry").get('v.value')+personWrapper.mailingCC);
                         //component.find("pFieldCountry").set('v.value',personWrapper.mailingCC);
                         component.set('v.personWrapper.mailingCC', personWrapper.mailingCC);
@@ -158,6 +159,7 @@
                 );
                 communityService.navigateToPage('account-settings?langloc');
                 if (previousLangaugeKey != languageKey) window.location.reload();
+                if (localeKey != component.get("v.prevLocaleKey")) location.reload(true);
             }
         );
     },
