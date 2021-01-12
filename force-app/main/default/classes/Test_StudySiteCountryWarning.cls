@@ -156,7 +156,7 @@ public class Test_StudySiteCountryWarning  {
     @IsTest
     public static void runTest() {
         Study_Site__c ss = [SELECT id FROM Study_Site__c  LIMIT 1];
-        StudySiteCountryWarning.getInitData(ss.id);
+        StudySiteCountryWarning.siteCountry(ss.id);
     
     }
    }
