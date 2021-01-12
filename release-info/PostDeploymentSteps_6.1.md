@@ -111,3 +111,5 @@ For English(Canada) we request you to separately enable the required locale via 
 2.	Select User Interface.
 3.	In Currency Display Settings, select Enable ICU formats for en_CA locale.
 4.	Click Save.
+5.  Go to Setup.Click on All Sites.Click on Builder next to Iqvia Referral Hub.Go to gear icon and click on Languages .Click on Add languages .Select English(Canada) and click on Publish.
+6.  Do the same step for GSK community.
