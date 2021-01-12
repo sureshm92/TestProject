@@ -3,7 +3,7 @@ public without sharing class SiteListPageRemote {
         @AuraEnabled
         public String ctpId;
         @AuraEnabled
-        public String studyId;
+        public String siteId;
         @AuraEnabled
         public String piId;
         @AuraEnabled
@@ -201,7 +201,7 @@ public without sharing class SiteListPageRemote {
             wrapper.siteNumber = site.Study_Site_Number__c;
             wrapper.siteStatus = site.Recruitment_Status__c;
             wrapper.studyName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
-            wrapper.studyId = site.Id;
+            wrapper.siteId = site.Id;
             wrapper.ctpId = site.Clinical_Trial_Profile__c;
             wrapper.piId = site.Principal_Investigator__c;
             wrapper.receivePIEmail = !site.Suppress_Study_Site_PI_Emails__c;

@@ -1,5 +1,6 @@
 ({
     doDatabaseSearchHelper: function (component, event, params) {
+        debugger;
         let spinner = component.find('mainSpinner');
         spinner.show();
         communityService.executeAction(
@@ -15,6 +16,36 @@
                 component.set('v.paginationData', paginatedWrapper.paginationData);
                 component.set('v.searched', true);
                 component.set('v.resetVal', false);
+                let filterStudyList = [];
+                let filterCountryList = [];
+                if (paginatedWrapper.sites.length > 0) {
+                    paginatedWrapper.sites.forEach(function (site) {
+                        //For study filter
+                        if (filterStudyList.some((study) => study.value === site.studyName)) {
+                            let index = filterStudyList.findIndex(
+                                (study) => study.value === site.studyName
+                            );
+                            filterStudyList[index].key.push(site.siteId);
+                        } else {
+                            filterStudyList.push({ key: [site.siteId], value: site.studyName });
+                        }
+                        //For country filter
+                        if (
+                            filterCountryList.some((country) => country.value === site.siteCountry)
+                        ) {
+                            let index = filterCountryList.findIndex(
+                                (country) => country.value === site.siteCountry
+                            );
+                            filterCountryList[index].key.push(site.siteId);
+                        } else {
+                            filterCountryList.push({ key: [site.siteId], value: site.siteCountry });
+                        }
+                    });
+                    console.log('filterStudyList ' + JSON.stringify(filterStudyList));
+                    console.log('filterCountryList ' + JSON.stringify(filterCountryList));
+                    component.set('v.filterStudyList', filterStudyList);
+                    component.set('v.filterCountryList', filterCountryList);
+                }
                 spinner.hide();
             },
             function () {

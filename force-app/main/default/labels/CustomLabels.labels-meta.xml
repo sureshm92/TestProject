@@ -1627,6 +1627,27 @@ By using our website, you are accepting our use of cookies.</value>
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>CC_FilterPanel_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPanel_Label</shortDescription>
+        <value>Filter page by:</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_StudyName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_StudyName</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
