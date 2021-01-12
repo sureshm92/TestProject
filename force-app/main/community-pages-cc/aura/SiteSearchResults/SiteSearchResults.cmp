@@ -3,20 +3,22 @@
     <!--attributes-->
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="resultSet" type="List" />
-    <aura:attribute name="filteredResultSet" type="List" />
-    <aura:attribute name="filterStudyName" type="String" />
-    <aura:attribute name="filterCountry" type="String" />
+    <aura:attribute name="filterStudyList" type="List" />
+    <aura:attribute name="filterCountryList" type="List" />
+    <aura:attribute name="filterDataList" type="List" />
     <aura:attribute name="searched" type="Boolean" />
     <!--body-->
-    <div class="ssr-container">
-        <div class="ssr-filterPanel">
-            <c:filterSearchResults
-                resultSet="{!v.resultSet}"
-                filterStudyName="{!v.filterStudyName}"
-                filterCountry="{!v.filterCountry}"
-            />
+    <div class="ssr-container slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <aura:if isTrue="{!!empty(v.resultSet)}">
+                <c:filterSearchResults
+                    filterCountryList="{!v.filterCountryList}"
+                    filterStudyList="{!v.filterStudyList}"
+                    onfilterchange="{!c.handleFilterChange}"
+                />
+            </aura:if>
         </div>
-        <div class="ssr-resultsPanel">
+        <div class="ssr-resultsPanel slds-col">
             <c:EmptyListStub
                 iconName="{!v.searched ? 'sad' : 'neutral'}"
                 message="{!v.searched ? $Label.c.PG_VP_L_No_Items : 'Please initiate search!'}"

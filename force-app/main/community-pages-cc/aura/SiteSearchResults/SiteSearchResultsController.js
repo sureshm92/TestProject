@@ -6,5 +6,9 @@
         let siteData = component.get('v.resultSet')[index];
         //communityService.navigateToPage('study-workspace?id=' + siteData.ctpId);
         window.open('study-workspace?id=' + siteData.ctpId, '_blank');
+    },
+    handleFilterChange: function (component, event, helper) {
+        let filteredData = event.getParam('filteredData');
+        console.log(JSON.stringify(filteredData));
     }
 });
