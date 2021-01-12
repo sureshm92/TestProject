@@ -11,7 +11,6 @@ Created by Sumit S-->
   	<aura:attribute name="openmodel" type="boolean" default="false"/>
    	<aura:attribute name="closeModel" type="boolean" default="false"/>
 
-    <aura:registerEvent name="closePopup" type="c:closePopup"/>
     
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 		<div class="maindiv">
