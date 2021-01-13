@@ -725,7 +725,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PE_Status_History_On_Date +
                                     ' ' +
-                                    DateTime.now().format('MMM dd yyyy, HH:mm') +
+                                    DateTime.now().format('MMM dd yyyy, HH:mm a') +
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
@@ -742,7 +742,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PE_Status_History_On_Date +
                                     ' ' +
-                                    DateTime.now().format('MMM dd yyyy, HH:mm') +
+                                    DateTime.now().format('MMM dd yyyy, HH:mm a') +
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
@@ -760,7 +760,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PE_Status_History_On_Date +
                             ' ' +
-                            DateTime.now().format('MMM dd yyyy, HH:mm') +
+                            DateTime.now().format('MMM dd yyyy, HH:mm a') +
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
@@ -773,7 +773,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PE_Status_History_On_Date +
                             ' ' +
-                            DateTime.now().format('MMM dd yyyy, HH:mm') +
+                            DateTime.now().format('MMM dd yyyy, HH:mm a') +
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
