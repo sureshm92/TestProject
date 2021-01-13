@@ -435,7 +435,7 @@ public without sharing class MyTeamRemote {
     public static void saveDelegateLevelChanges(String userMode, String delegate, String parentId) {
         Savepoint sp = Database.setSavepoint();
         Boolean newss = false;
-
+        Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
         try {
             DelegateWrapper dw = (DelegateWrapper) JSON.deserialize(
                 delegate,
@@ -448,10 +448,10 @@ public without sharing class MyTeamRemote {
                 parentId = CommunityService.getInstance().getCurrentContactId();
             }
             if (dw.delegateContact.Id == null) {
-                createDelegate(dw, userMode, parentId);
+                dw.delegateContact = createDelegate(dw, userMode, parentId);
+                sendEmailNotification(dw.delegateContact, userMode, hasDelegateLevelsPIMap);
             } else {
                 checkAndCreateDelegateUser(dw.delegateContact, dw.delegateTrials, userMode);
-                Map<String, LIst<Id>> hasDelegateLevelsPIMap = new Map<String, List<Id>>();
                 hasDelegateLevelsPIMap.put(HAS_NOT_DELEGATE_LEVELS, new List<Id>());
                 Boolean hasDelegateLevels = false;
                 for (TrialDelegateWrapper delegateTrialRecord : dw.delegateTrials) {
@@ -838,7 +838,7 @@ public without sharing class MyTeamRemote {
         }
     }
 
-    private static void createDelegate(DelegateWrapper delegate, String userMode, String parentId) {
+    private static Contact createDelegate(DelegateWrapper delegate, String userMode, String parentId) {
         Contact delegateContact = createDelegateContact(delegate, userMode);
         List<Site_Staff__c> piDelegates = new List<Site_Staff__c>();
         List<TrialDelegateWrapper> dlw = delegate.delegateTrials;
@@ -858,6 +858,7 @@ public without sharing class MyTeamRemote {
         if (!piDelegates.isEmpty()) {
             DelegateService.addConversationSharesForPITeam(piDelegates);
         }
+        return delegateContact;
     }
 
     public static void checkAndCreateDelegateUser(
