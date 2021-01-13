@@ -16153,6 +16153,20 @@ communications using the toggles below.</value>
         <value>The passwords do not match</value>
     </labels>
     <labels>
+        <fullName>Pswd_ValidationMsg7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg7</shortDescription>
+        <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg8</shortDescription>
+        <value>Your password cannot be null</value>
+    </labels>
+    <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
         <language>en_US</language>
         <protected>false</protected>
