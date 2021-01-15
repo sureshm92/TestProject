@@ -14,7 +14,9 @@ export default class FilterSearchResults extends LightningElement {
     initialized = false;
     @api filterCountryList;
     @api filterStudyList;
+
     renderedCallback() {
+        console.log('renderedCallback');
         if (this.initialized) {
             return;
         }
@@ -28,13 +30,45 @@ export default class FilterSearchResults extends LightningElement {
         this.template.querySelector('input[data-study-id=country]').setAttribute('list', country);
     }
 
-    handleChange(evt) {
+    handleCountryChange(evt) {
+        let nodeName = evt.target.getAttribute('name');
+        let value = evt.target.value;
+        let keyArray = [];
+
+        if (nodeName === 'country' && value) {
+            let index = this.filterCountryList.findIndex((country) => country.value === value);
+            keyArray = this.filterCountryList[index].key;
+        }
         const filteredData = {
-            key: evt.target.key,
-            value: evt.target.value
+            key: keyArray,
+            value: value,
+            name: nodeName
         };
+        this.value = evt.target.value;
         this.dispatchEvent(
-            new CustomEvent('filterchange', {
+            new CustomEvent('countryfilterchange', {
+                detail: { filteredData }
+            })
+        );
+    }
+
+    handleStudyChange(evt) {
+        let nodeName = evt.target.getAttribute('name');
+        let value = evt.target.value;
+        let keyArray = [];
+
+        if (nodeName === 'studyName' && value) {
+            let index = this.filterStudyList.findIndex((study) => study.value === value);
+            keyArray = this.filterStudyList[index].key;
+        }
+        const filteredData = {
+            key: keyArray,
+            value: value,
+            name: nodeName
+        };
+        this.value = evt.target.value;
+        this.dispatchEvent(
+            new CustomEvent('studyfilterchange', {
                 detail: { filteredData }
             })
         );

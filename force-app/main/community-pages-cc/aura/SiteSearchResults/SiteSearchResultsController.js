@@ -2,13 +2,33 @@
     doNavigate: function (component, event, helper) {
         debugger;
         let index = event.currentTarget.dataset.index;
-        //TO DO: move to filteredResultSet
-        let siteData = component.get('v.resultSet')[index];
+        let filteredResultSet = component.get('v.filteredResultSet');
+        let siteData =
+            filteredResultSet.length > 0
+                ? filteredResultSet[index]
+                : component.get('v.resultSet')[index];
         //communityService.navigateToPage('study-workspace?id=' + siteData.ctpId);
         window.open('study-workspace?id=' + siteData.ctpId, '_blank');
     },
-    handleFilterChange: function (component, event, helper) {
+    handleStudyFilterChange: function (component, event, helper) {
         let filteredData = event.getParam('filteredData');
-        console.log(JSON.stringify(filteredData));
+        if (filteredData) {
+            helper.studyFilterChangeHelper(component, filteredData);
+        }
+    },
+    handleCountryFilterChange: function (component, event, helper) {
+        let filteredData = event.getParam('filteredData');
+        if (filteredData) {
+            helper.countryFilterChangeHelper(component, filteredData);
+        }
+    },
+    resetFilteredResultSet: function (component, event, helper) {
+        if (!component.get('v.countryFilterApplied') && !component.get('v.studyFilterApplied')) {
+            let tmpFilterStudyList = component.get('v.tmpFilterStudyList');
+            let tmpFilterCountryList = component.get('v.tmpFilterCountryList');
+            component.set('v.filteredResultSet', []);
+            component.set('v.filterStudyList', tmpFilterStudyList);
+            component.set('v.filterCountryList', tmpFilterCountryList);
+        }
     }
 });
