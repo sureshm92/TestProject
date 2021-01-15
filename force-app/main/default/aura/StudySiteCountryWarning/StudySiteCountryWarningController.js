@@ -1,6 +1,6 @@
 ({
     doInit : function(component, event, helper)  {
-        communityService.executeAction(component, 'getInitData', {
+        communityService.executeAction(component, 'siteCountry', {
             recId : component.get("v.recordId")
             
         }, function (returnValue) {
