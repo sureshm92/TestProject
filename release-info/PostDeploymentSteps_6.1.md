@@ -124,3 +124,6 @@ For English(Canada) we request you to separately enable the required locale via 
 4.	Click Save.
 5.  Go to Setup.Click on All Sites.Click on Builder next to Iqvia Referral Hub.Go to gear icon and click on Languages .Click on Add languages .Select English(Canada) and click on Publish.
 6.  Do the same step for GSK community.
+
+## 17. Execute Script to update PESH additonal notes
+1. Execute the script attached (Name of script is "Script_to_Update_18_PESH.txt" ). Please execute this step after the batch Batch_UpdPESHReasonToNonEnReason  executed in step 13 is completed(To monitor the batch is completed or not, please go to setup>Apex Job>check for job Batch_UpdPESHReasonToNonEnReason status).
