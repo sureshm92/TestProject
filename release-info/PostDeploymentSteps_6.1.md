@@ -99,6 +99,8 @@ Step 5: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Sett
 Step 6: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field.
 Give Read Access on "Last Status Changed Additional Notes" Field.
 
+Step 7: Go to Setup >Go to Profiles-> Open Profile "IQVIA SPNL2" ->Object Settings Open "Participant Enrollment Status History" object -> Field Permissions: Remove Read and Edit Access for "Additional Notes" and "Notes".
+
 ## 15. Add User lock out email temlate for Janssen Community
 Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save
 
