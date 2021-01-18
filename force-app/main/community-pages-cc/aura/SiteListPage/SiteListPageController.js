@@ -19,7 +19,7 @@
                 { label: 'Site Number (Ascending)', value: 'Study_Site_Number__c ASC' },
                 { label: 'Site Number (Descending)', value: 'Study_Site_Number__c DESC' }
             ];
-            let resultSet = [];
+            let emptyData = [];
             spinner.show();
             let params = event.getParam('arguments');
             if (params && params.resetVal) {
@@ -34,9 +34,8 @@
             component.set('v.sortType', 'Name ASC');
             component.set('v.searchText', '');
             component.set('v.selectedSearchOption', '');
-            component.set('v.resultSet', resultSet);
-            component.set('v.filterStudyName', '');
-            component.set('v.filterCountry', '');
+            component.set('v.resultSet', emptyData);
+            component.set('v.filteredResultSet', emptyData);
             component.set('v.searched', false);
             spinner.hide();
         } else {

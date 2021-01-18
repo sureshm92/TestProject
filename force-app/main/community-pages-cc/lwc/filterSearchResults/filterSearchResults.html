@@ -11,7 +11,7 @@
                     class="slds-input"
                     type="text"
                     data-study-id="country"
-                    onchange={handleChange}
+                    onchange={handleCountryChange}
                 />
                 <datalist id="countryResultSet" data-study-id="country">
                     <template for:each={filterCountryList} for:item="item">
@@ -30,7 +30,7 @@
                     class="slds-input"
                     type="text"
                     data-study-id="studyName"
-                    onchange={handleChange}
+                    onchange={handleStudyChange}
                 />
                 <datalist id="studyResultSet" data-study-id="studyName">
                     <template for:each={filterStudyList} for:item="item">
@@ -39,6 +39,6 @@
                 </datalist>
             </div>
         </div>
-        <label class="fsr-label" for="input"> {label.filterPanelLabel} </label>
+        <label class="fsr-label" for="studyName"> {label.filterPanelLabel} </label>
     </div>
 </template>

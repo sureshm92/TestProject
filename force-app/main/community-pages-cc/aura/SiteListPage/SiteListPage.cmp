@@ -31,8 +31,11 @@
         default="{!$Label.c.CC_Btn_Search}"
     />
     <aura:attribute name="resultSet" type="List" />
+    <aura:attribute name="filteredResultSet" type="List" default="[]" />
     <aura:attribute name="filterStudyList" type="List" />
     <aura:attribute name="filterCountryList" type="List" />
+    <aura:attribute name="tmpFilterStudyList" type="List" default="[]" />
+    <aura:attribute name="tmpFilterCountryList" type="List" default="[]" />
     <aura:attribute name="paginationData" type="Object" />
     <aura:attribute name="resetVal" type="Boolean" default="false" />
     <aura:attribute name="siteIds" type="List" />
@@ -85,8 +88,11 @@
         parent="{!this}"
         searched="{!v.searched}"
         resultSet="{!v.resultSet}"
+        filteredResultSet="{!v.filteredResultSet}"
         filterStudyList="{!v.filterStudyList}"
         filterCountryList="{!v.filterCountryList}"
+        tmpFilterCountryList="{!v.tmpFilterCountryList}"
+        tmpFilterStudyList="{!v.tmpFilterStudyList}"
     />
     <!-- pagination -->
     <aura:if isTrue="{!!empty(v.resultSet)}">

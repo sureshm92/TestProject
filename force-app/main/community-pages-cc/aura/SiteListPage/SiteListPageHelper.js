@@ -45,6 +45,8 @@
                     console.log('filterCountryList ' + JSON.stringify(filterCountryList));
                     component.set('v.filterStudyList', filterStudyList);
                     component.set('v.filterCountryList', filterCountryList);
+                    component.set('v.tmpFilterStudyList', filterStudyList);
+                    component.set('v.tmpFilterCountryList', filterCountryList);
                 }
                 spinner.hide();
             },
