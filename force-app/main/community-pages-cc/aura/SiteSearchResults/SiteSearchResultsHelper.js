@@ -1,6 +1,5 @@
 ({
     studyFilterChangeHelper: function (component, filteredData) {
-        debugger;
         let filteredResultSet = component.get('v.filteredResultSet');
         let filterCountryList = component.get('v.filterCountryList');
         let countryFilterApplied = component.get('v.countryFilterApplied');
@@ -9,10 +8,11 @@
         let resultSet = component.get('v.resultSet');
         console.log('studyFilterChangeHelper' + JSON.stringify(filteredData));
 
-        //1. Create/Modify filteredResultSet based on the filtered data
-        //      1.1 if filteredResultSet contains value, it will be updated to
-        //          filter1 (intersection) filter2
+        //Create/Modify filteredResultSet based on the filtered data
+        //1. if filteredResultSet already contains value and filter2 is applied
         if (filteredResultSet.length > 0 && countryFilterApplied) {
+            //1.1 filteredData contains value, it will be updated to
+            //    filter1 (intersection) filter2
             if (filteredData.value) {
                 filteredResultSet = filteredResultSet.filter(
                     (site) =>
@@ -20,16 +20,22 @@
                         idsFromCountryFilter.includes(site.siteId) //filter2
                 );
             }
-            //      1.2 if filteredResultSet is empty populate it based on filteredData.key
-            //          from resultSet
-        } else {
+            //1.2 else update it based on filter2
+            else {
+                filteredResultSet = resultSet.filter(
+                    (site) => idsFromCountryFilter.includes(site.siteId) //filter2
+                );
+            }
+        }
+        //2. if filteredResultSet is empty and filter2 is not applied
+        else {
             if (filteredData.value) {
                 filteredResultSet = resultSet.filter((site) =>
                     idsFromStudyFilter.includes(site.siteId)
                 );
             }
         }
-        //2. Update filterCountryList
+        //3. Update filterCountryList
         if (filteredData.value) {
             let updatedCountries = filteredResultSet.map((site) => site.siteCountry);
             filterCountryList = filterCountryList.filter((country) =>
@@ -44,7 +50,6 @@
     },
 
     countryFilterChangeHelper: function (component, filteredData) {
-        debugger;
         let filteredResultSet = component.get('v.filteredResultSet');
         let filterStudyList = component.get('v.filterStudyList');
         let studyFilterApplied = component.get('v.studyFilterApplied');
@@ -53,10 +58,11 @@
         let resultSet = component.get('v.resultSet');
         console.log('countryFilterChangeHelper' + JSON.stringify(filteredData));
 
-        //1. Create/Modify filteredResultSet based on the filtered data
-        //      1.1 if filteredResultSet is empty populate it based on filteredData.key
-        //          from resultSet
+        //Create/Modify filteredResultSet based on the filtered data
+        //1. if filteredResultSet already contains value and filter1 is applied
         if (filteredResultSet.length > 0 && studyFilterApplied) {
+            //1.1 filteredData contains value, it will be updated to
+            //    filter1 (intersection) filter2
             if (filteredData.value) {
                 filteredResultSet = filteredResultSet.filter(
                     (site) =>
@@ -64,16 +70,22 @@
                         idsFromCountryFilter.includes(site.siteId) //filter2
                 );
             }
-            //      1.2 if filteredResultSet contains value, it will be updated to
-            //          filter1 (intersection) filter2
-        } else {
+            //1.2 else update it based on filter1
+            else {
+                filteredResultSet = resultSet.filter((site) =>
+                    idsFromStudyFilter.includes(site.siteId)
+                );
+            }
+        }
+        //2. if filteredResultSet is empty and filter2 is not applied
+        else {
             if (filteredData.value) {
                 filteredResultSet = resultSet.filter((site) =>
                     idsFromCountryFilter.includes(site.siteId)
                 );
             }
         }
-        //2. Update filterStudyList
+        //3. Update filterStudyList
         if (filteredData.value) {
             let updatedStudies = filteredResultSet.map((site) => site.studyName);
             filterStudyList = filterStudyList.filter((study) =>

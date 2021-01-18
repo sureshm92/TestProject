@@ -1,6 +1,5 @@
 ({
     doNavigate: function (component, event, helper) {
-        debugger;
         let index = event.currentTarget.dataset.index;
         let filteredResultSet = component.get('v.filteredResultSet');
         let siteData =

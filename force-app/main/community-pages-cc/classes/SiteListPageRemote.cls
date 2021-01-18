@@ -61,7 +61,7 @@ public without sharing class SiteListPageRemote {
         'Study_Site_Phone__c',
         'Site_Staff__r.Site_Contact__r.Name',
         'Study_Site_Email__c',
-        'Recruitment_Status__c',
+        'Override_PI_Referral_Status__c',
         'Suppress_Study_Site_PI_Emails__c',
         'Site_Information_Form_Completed__c',
         'Completed_training__c',
@@ -199,7 +199,7 @@ public without sharing class SiteListPageRemote {
             wrapper.primaryContact = site.Site_Staff__r.Site_Contact__r.Name;
             wrapper.siteName = site.Name;
             wrapper.siteNumber = site.Study_Site_Number__c;
-            wrapper.siteStatus = site.Recruitment_Status__c;
+            wrapper.siteStatus = site.Override_PI_Referral_Status__c;
             wrapper.studyName = site.Clinical_Trial_Profile__r.Study_Code_Name__c;
             wrapper.siteId = site.Id;
             wrapper.ctpId = site.Clinical_Trial_Profile__c;
