@@ -218,6 +218,10 @@ public without sharing class AccountSettingsController {
         String verifyNewPassword,
         String oldPassword
     ) {
+        String errorMsg1='The passwords do not match';
+        String errorMsg2='The password you entered is too easy to guess. Enter a different one';
+        String errorMsg3='Your password cannot be null';
+        
         PageReference pr;
         try {
             pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
@@ -231,10 +235,24 @@ public without sharing class AccountSettingsController {
                     ' ' +
                     System.Label.Pswd_ValidationMsg3_2
                 );
-            } else {
+            } 
+            if(ex.getMessage().contains(errorMsg1))
+            {
+               throw new AuraHandledException(System.Label.Pswd_ValidationMsg5);
+            }
+            else if(ex.getMessage().contains(errorMsg2))
+            { 
+               throw new AuraHandledException(System.Label.Pswd_ValidationMsg7);
+            }
+            else if(ex.getMessage().contains(errorMsg3))
+            {
+               throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
+            }                           
+            else {
                 throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
             }
         }
+        
     }
 
     @AuraEnabled
