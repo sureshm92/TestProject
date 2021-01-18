@@ -10,6 +10,8 @@ Created by Sumit S-->
     <aura:attribute name="subDomain" type="String" />
   	<aura:attribute name="openmodel" type="boolean" default="false"/>
    	<aura:attribute name="closeModel" type="boolean" default="false"/>
+       	<aura:attribute name="ContentSize" type="String" />
+
 
     
 	<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -21,8 +23,7 @@ Created by Sumit S-->
                 <div class="divpadding">
                     <div class="slds-grid slds-wrap">
                         <div class="slds-col slds-size--2-of-4 slds-align_absolute-left">                            
-                            
-		<a href="javascript:void(0)" onclick="{!c.openModel}" >{!item.Title}.{!item.FileExtension}</a>
+		<a  onclick="{!c.openModel}" >{!item.Title}.{!item.FileExtension}</a>
                             
  		<aura:If isTrue="{!v.openmodel}">
     
@@ -34,12 +35,12 @@ Created by Sumit S-->
                                  <lightning:icon iconName="utility:close" size="small" />
                              </button>
                          </div>
-                         <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap slds-scrollable ">
+                         <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
                              <!--  Write Your Content here  -->
                              <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
                                  <span>
-                                     <iframe id="my_iframe" style="min-width:880px;height:400px;z-index:-999;" 
-                                             src="{!v.subDomain + '/apex/MedicalHistoryPreviewVF?resourceId=' + item.Id}"  frameborder="0" >
+                                     <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
+                                             src="{!v.subDomain + '/apex/MedicalHistoryPreviewVF?resourceId=' + item.Id}"  frameborder="0"  >
                                      </iframe>
                                  </span>
                              </div>
