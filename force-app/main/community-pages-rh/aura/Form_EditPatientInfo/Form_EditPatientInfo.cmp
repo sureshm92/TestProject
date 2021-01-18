@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Form_EditPatientInfo">
+ <aura:component description="Form_EditPatientInfo">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -685,7 +685,7 @@
                         </div>
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div
-                                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
+                                class="customWidth rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
                             >
                                 <div class="label">
                                     {!$Label.c.Source_ID}
@@ -701,6 +701,8 @@
                                         type="text"
                                         value="{!v.pe.MRN_Id__c}"
                                         disabled="{!v.disableSourceId}"
+                                        title="{!v.pe.MRN_Id__c}"
+                                                     
                                     />
                                 </aura:if>
                                 <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
@@ -710,6 +712,7 @@
                                         value="{!v.pe.Patient_ID__c}"
                                         onblur="{!c.doCheckFields}"
                                         disabled="true"
+                                        title="{!v.pe.Patient_ID__c}"
                                     />
                                 </aura:if>
                                 <aura:if
@@ -721,6 +724,7 @@
                                         value="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}"
                                         onblur="{!c.doCheckFields}"
                                         disabled="true"
+                                       title="{!v.pe.Referral_ID__c + ' ; ' + v.pe.Source_Type__c}"             
                                     />
                                 </aura:if>
                             </div>
