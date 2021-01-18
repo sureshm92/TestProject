@@ -1,6 +1,5 @@
 ({
     doDatabaseSearchHelper: function (component, event, params) {
-        debugger;
         let spinner = component.find('mainSpinner');
         spinner.show();
         communityService.executeAction(
@@ -164,9 +163,10 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-            //Status?
-            if (exportList[i]['Recruitment_Status__c'] !== undefined) {
-                csvStringResult += '"' + exportList[i]['Recruitment_Status__c'] + '"' + ',';
+            //Status
+            if (exportList[i]['Override_PI_Referral_Status__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + exportList[i]['Override_PI_Referral_Status__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
