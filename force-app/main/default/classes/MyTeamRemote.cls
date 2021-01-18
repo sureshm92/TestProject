@@ -486,6 +486,13 @@ public without sharing class MyTeamRemote {
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
                 }
+                  //To check existing data present or not
+                lstss = [
+                    SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
+                    FROM Site_Staff__c
+                    WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
+                    LIMIT 5
+                ];
                 if (lstss.size() > 0 || lstUsr.size() > 0) {
                     if (
                         (hasDelegateLevels ||
