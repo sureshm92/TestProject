@@ -99,8 +99,21 @@ Step 5: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Sett
 Step 6: Go to Setup >Go to Profiles-> Open Profile "Product Owner" ->Object Settings Open "Participant Enrollment" object ->  Under Field Permissions: Give Read Access on "Last Status Changed Additional Notes" field.
 Give Read Access on "Last Status Changed Additional Notes" Field.
 
+Step 7: Go to Setup >Go to Profiles-> Open Profile "IQVIA SPNL2" ->Object Settings Open "Participant Enrollment Status History" object -> Field Permissions: Remove Read and Edit Access for "Additional Notes" and "Notes".
+
 ## 15. Add User lock out email temlate for Janssen Community
-Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save	
+Go to setup > serach for All Community and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" in User Lockout serch box and select that > Click on Save
+
+if getting error in above step, Please follow the below steps.
+
+step 1
+Go to Setup > Classic Email Templates> check for "User Lockout Email Janssen" template under Referral Hub Emails folder > Click on Edit > Change the folde to "Unfiled Public Classic Email Templates" > click on save.
+
+Step 2
+Go to setup > serach for All Sites and click on that > Click on  Workspaces before Janssen Community > Click on Administration > Click on Email Under Administration > Under Email Templates section,  Searche for "User Lockout Email Janssen" under "Unfiled Public Classic Email Templates" folder in User Lockout serch box and select that > Click on Save
+
+Step 3: 
+Revert the chaneges done in Step 1
 
 ## 16. Enable ICU Locale Date Formats
 1.	Navigate to Setup -> Release Updates
@@ -113,3 +126,6 @@ For English(Canada) we request you to separately enable the required locale via 
 4.	Click Save.
 5.  Go to Setup.Click on All Sites.Click on Builder next to Iqvia Referral Hub.Go to gear icon and click on Languages .Click on Add languages .Select English(Canada) and click on Publish.
 6.  Do the same step for GSK community.
+
+## 17. Execute Script to update PESH additonal notes
+1. Execute the script attached (Name of script is "Script_to_Update_18_PESH.txt" ). Please execute this step after the batch Batch_UpdPESHReasonToNonEnReason  executed in step 13 is completed(To monitor the batch is completed or not, please go to setup>Apex Job>check for job Batch_UpdPESHReasonToNonEnReason status).
