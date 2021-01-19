@@ -106,7 +106,7 @@ VALIDATE:
 
   stage: VALIDATE
   script:
-    - . ./scripts/ci/validate.sh INF62
+    - . ./scripts/ci/validate.sh INF70
 
 
 # 5.0 INT: ---------------------------------------------------------------------
