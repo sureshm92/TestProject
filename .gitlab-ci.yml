@@ -56,7 +56,15 @@ stages:
 #6.2 INF
   - DeployINF6.2
   - RunTestINF6.2
+  
+#7.0 INT
+  - DeployINT7.0
+  - RunTestINT7.0
 
+#7.0 INF
+  - DeployINF7.0
+  - RunTestINF7.0
+  
 cache:
   paths:
     - ~/.sfdx
@@ -400,7 +408,57 @@ RunTestINF6.1:
   script:
     - . ./scripts/ci/run-tests.sh INF61
     
+# 7.0 INT: ---------------------------------------------------------------------
+DeployINT7.0:
+  tags:
+    - shell
+  only:
+    - INT7.0
+  except:
+    - merge_requests
 
+  stage: DeployINT7.0
+  script:
+    - . ./scripts/ci/deploy.sh INT70
+
+RunTestINT7.0:
+  tags:
+    - shell
+  only:
+    - INT7.0
+  except:
+    - merge_requests
+
+  stage: RunTestINT7.0
+  script:
+    - . ./scripts/ci/run-tests.sh INT70
+-----------------------------------------------------------------------------
+    
+# 7.0 INF: ---------------------------------------------------------------------
+DeployINF7.0:
+  tags:
+    - shell
+  only:
+    - INF7.0
+  except:
+    - merge_requests
+
+  stage: DeployINF7.0
+  script:
+    - . ./scripts/ci/deploy.sh INF70
+
+RunTestINF7.0:
+  tags:
+    - shell
+  only:
+    - INF7.0
+  except:
+    - merge_requests
+
+  stage: RunTestINF7.0
+  script:
+    - . ./scripts/ci/run-tests.sh INF70
+-----------------------------------------------------------------------------
     
  # ClonedFml: ---------------------------------------------------------------------
 DeployClonedFml:
