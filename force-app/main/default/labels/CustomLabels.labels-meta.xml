@@ -6351,7 +6351,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Empty TaskName</shortDescription>
-        <value>Task Name cannot be empty!</value>
+        <value>Task Name cannot be empty.</value>
     </labels>
     <labels>
         <fullName>Empty_Visits_tab</fullName>
@@ -8089,7 +8089,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
-        <value>Please input correct data!</value>
+        <value>Please input correct data.</value>
     </labels>
     <labels>
         <fullName>Inducible_co_stimulator</fullName>
@@ -8651,6 +8651,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+     <labels>
+        <fullName>Medical_Preview_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Preview Error Message</shortDescription>
+        <value>This file is too large to preview. Please download the file to view it.</value>
     </labels>
     <labels>
         <fullName>Mess_Variant_Can_relocate</fullName>

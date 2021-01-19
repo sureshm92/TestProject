@@ -10,15 +10,30 @@
                            });
         $A.enqueueAction(action);
     },
-  	openModel : function(component, event, helper) {
-        component.set("v.openmodel",true);
+    openModel : function(component, event, helper){       
+        var peId = component.get("v.pe.Id");
+        var action = component.get("c.getMedicalHistory");
+        action.setParams({ peId : peId });
+        action.setCallback(this, function (response) {
+            var state = response.getState();
+            if (state === 'SUCCESS') 
+            {
+                var responseData = JSON.parse(response.getReturnValue());                
+                if (responseData.attachments[0].ContentSize < 11534336 ) //In Bytes(in binary)
+                {                  
+                    component.set('v.openmodel',true);
+                } 
+                else 
+                {
+                    component.set('v.openmodel',false);
+                    helper.showToast(component, event, helper );
+                }
+            }   
+        });
+        $A.enqueueAction(action);
     },
     
     closeModal:function(component,event,helper){    
-        var cmpTarget = component.find('editDialog');
-        var cmpBack = component.find('overlay');
-        $A.util.removeClass(cmpBack,'slds-backdrop--open');
-        $A.util.removeClass(cmpTarget, 'slds-fade-in-open');
         component.set('v.openmodel',false);
         },
 
