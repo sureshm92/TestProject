@@ -410,8 +410,8 @@ RunTestINF6.1:
     
 # 7.0 INT: ---------------------------------------------------------------------
 DeployINT7.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT7.0
   except:
@@ -422,8 +422,8 @@ DeployINT7.0:
     - . ./scripts/ci/deploy.sh INT70
 
 RunTestINT7.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INT7.0
   except:
@@ -435,8 +435,8 @@ RunTestINT7.0:
 
 # 7.0 INF: ---------------------------------------------------------------------
 DeployINF7.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF7.0
   except:
@@ -447,8 +447,8 @@ DeployINF7.0:
     - . ./scripts/ci/deploy.sh INF70
 
 RunTestINF7.0:
-  tags:
-    - shell
+  #tags:
+   # - shell
   only:
     - INF7.0
   except:
