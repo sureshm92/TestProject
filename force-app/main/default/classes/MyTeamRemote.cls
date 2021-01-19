@@ -468,9 +468,16 @@ public without sharing class MyTeamRemote {
                     LIMIT 5
                 ];
                 String PI ='';
+                Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = New List<Study_Site__c>();
+                List<Contact> lstHcpCont = New List<Contact>();
                 List<user> lstUsr = new List<User>();
                 lstSSites =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 1];
+                lstHcpCont = [SELECT userCommunytyType__c FROM Contact WHERE id=: ConId LIMIT 1];
+                // check whether hep or not
+                if(!lstHcpCont.isEmpty()) {
+                   isHCP  = String.isNotBlank(lstHcpCont[0].userCommunytyType__c)? lstHcpCont[0].userCommunytyType__c.contains('HCP') ? true : false : false;   
+                }  
                 if(lstSSites.size() >0){
                 PI =lstSSites[0].Principal_Investigator__c;
                 if(PI!=null && PI!='')
@@ -486,14 +493,8 @@ public without sharing class MyTeamRemote {
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
                 }
-                  //To check existing data present or not
-                lstss = [
-                    SELECT id, Site_Contact__c, is_Invited__c, Study_Site__c
-                    FROM Site_Staff__c
-                    WHERE Site_Contact__c IN :ConId AND is_Invited__c = TRUE
-                    LIMIT 5
-                ];
-                if (lstss.size() > 0 || lstUsr.size() > 0) {
+                
+                if (lstss.size() > 0 || lstUsr.size() > 0 || isHCP) {
                     if (
                         (hasDelegateLevels ||
                         !hasDelegateLevelsPIMap.isEmpty()) /*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/
