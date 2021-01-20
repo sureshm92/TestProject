@@ -42,7 +42,7 @@
         <div class="ssr-resultsPanel slds-col">
             <c:EmptyListStub
                 iconName="{!v.searched ? 'sad' : 'neutral'}"
-                message="{!v.searched ? $Label.c.PG_VP_L_No_Items : 'Please initiate search!'}"
+                message="{!v.searched ? $Label.c.PG_VP_L_No_Items : $Label.c.CC_TablePlaceholderTxt}"
                 targetList="{!v.resultSet}"
             />
             <aura:if isTrue="{!!empty(v.resultSet)}">

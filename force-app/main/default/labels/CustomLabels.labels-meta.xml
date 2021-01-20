@@ -1681,6 +1681,13 @@
         <value>Start typing...</value>
     </labels>
     <labels>
+        <fullName>CC_SearchTxtRequired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error message to be shown on the UI in case search text is missing</shortDescription>
+        <value>Search text is required!</value>
+    </labels>
+    <labels>
         <fullName>CC_SiteNumber</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1700,6 +1707,13 @@
         <protected>true</protected>
         <shortDescription>CC_Site_Phone_Number</shortDescription>
         <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_SortVariant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sort variants seperated by semi-colon(;)</shortDescription>
+        <value>Site Alphabetical (a-z); Site Alphabetical (z-a); Site Number (Ascending); Site Number (Descending)</value>
     </labels>
     <labels>
         <fullName>CC_Study</fullName>
@@ -1777,6 +1791,13 @@
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Status</shortDescription>
         <value>Site Status</value>
+    </labels>
+    <labels>
+        <fullName>CC_TablePlaceholderTxt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_TablePlaceholderTxt</shortDescription>
+        <value>Please initiate search!</value>
     </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>

@@ -3,6 +3,7 @@
         if (!communityService.isInitialized()) return;
         if (!communityService.isDummy()) {
             let spinner = component.find('mainSpinner');
+            let sortVariantArray = $A.get('$Label.c.CC_SortVariant').split(';');
             let searchList = [
                 { label: $A.get('$Label.c.CC_StudySiteName'), value: 'Name' },
                 //To make the query indexed
@@ -14,10 +15,10 @@
                 { label: $A.get('$Label.c.CC_PI_Name'), value: 'Principal_Investigator__r.Name' }
             ];
             let sortVariants = [
-                { label: 'Site Alphabetical (a-z)', value: 'Name ASC' },
-                { label: 'Site Alphabetical (z-a)', value: 'Name DESC' },
-                { label: 'Site Number (Ascending)', value: 'Study_Site_Number__c ASC' },
-                { label: 'Site Number (Descending)', value: 'Study_Site_Number__c DESC' }
+                { label: sortVariantArray[0].trim(), value: 'Name ASC' }, //'Site Alphabetical (a-z)'
+                { label: sortVariantArray[1].trim(), value: 'Name DESC' }, //'Site Alphabetical (z-a)'
+                { label: sortVariantArray[2].trim(), value: 'Study_Site_Number__c ASC' }, //'Site Number (Ascending)'
+                { label: sortVariantArray[3].trim(), value: 'Study_Site_Number__c DESC' } //'Site Number (Descending)'
             ];
             let emptyData = [];
             spinner.show();
