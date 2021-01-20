@@ -26,19 +26,19 @@
         <titleSize>18</titleSize>
     </chart>
     <columns>
-        <field>Contact.Study_Site__r.Site_Staff__r$Site_Staff__c</field>
-    </columns>
-    <columns>
-        <field>Contact.Study_Site__r.Site_Staff__r$Site_Contact__c.MailingCountryCode</field>
-    </columns>
-    <columns>
         <field>Contact.Study_Site__r$Site_Country__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Study_Site__r$PI_Name__c</field>
     </columns>
     <columns>
         <field>Contact$MailingCountryCode</field>
     </columns>
     <columns>
-        <field>Contact.Study_Site__r$PI_Name__c</field>
+        <field>Contact.Study_Site__r.Site_Staff__r$Site_Staff__c</field>
+    </columns>
+    <columns>
+        <field>Contact.Study_Site__r.Site_Staff__r$Site_Contact__c.MailingCountryCode</field>
     </columns>
     <description>This is using in Home tab</description>
     <filter>
