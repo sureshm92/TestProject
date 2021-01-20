@@ -1513,7 +1513,7 @@ public without sharing class ParticipantWorkflowService {
             );
             if (pesh.Date__c != null) {
                 result.dateOccured = pesh.Date__c.date().format();
-                result.occuredDate = pesh.Date__c.date();
+                result.occuredDate = pesh.Date__c;
             }
             result.state = outcomesMap.get(pesh.Status__c).get(step.DeveloperName).State__c;
             result.left = PEStatusState.STATUS_STATE_SUCCESS;
@@ -1539,7 +1539,7 @@ public without sharing class ParticipantWorkflowService {
                     pe.get(step.Success_Date_Field__c) != null
                 ) {
                     result.dateOccured = ((Date) pe.get(step.Success_Date_Field__c)).format();
-                    result.occuredDate = ((Date) pe.get(step.Success_Date_Field__c));
+                    result.occuredDate = ((Datetime) pe.get(step.Success_Date_Field__c));
                 }
                 result.isCurrent = true;
             } else if (
@@ -1558,7 +1558,7 @@ public without sharing class ParticipantWorkflowService {
                     pe.get(step.In_Progress_Date_Field__c) != null
                 ) {
                     result.dateOccured = ((Date) pe.get(step.In_Progress_Date_Field__c)).format();
-                    result.occuredDate = ((Date) pe.get(step.Success_Date_Field__c));
+                    result.occuredDate = ((Datetime) pe.get(step.Success_Date_Field__c));
                 }
                 result.isCurrent = true;
             } else {
@@ -1804,7 +1804,7 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String dateOccured;
         @AuraEnabled
-        public Date occuredDate;
+        public Datetime occuredDate;
         @AuraEnabled
         public String left;
         @AuraEnabled

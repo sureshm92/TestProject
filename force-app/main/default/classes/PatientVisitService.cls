@@ -170,7 +170,7 @@ public inherited sharing class PatientVisitService {
 
     public class VisitWrapper {
         @AuraEnabled
-        public String completedOrPlannedDate;
+        public Datetime completedOrPlannedDate;
         @AuraEnabled
         public String icons;
         @AuraEnabled
@@ -178,7 +178,7 @@ public inherited sharing class PatientVisitService {
         @AuraEnabled
         public Task task;
         @AuraEnabled
-        public Date reminderDate;
+        public Datetime reminderDate;
         @AuraEnabled
         public Patient_Visit__c visit;
         @AuraEnabled
@@ -213,13 +213,14 @@ public inherited sharing class PatientVisitService {
 
             this.task = task;
             if (task != null && task.ReminderDateTime != null) {
-                this.reminderDate = task.ReminderDateTime.date();
+                this.reminderDate = task.ReminderDateTime;
             }
-            completedOrPlannedDate = visit.Completed_Date__c != null
-                ? String.valueOf(visit.Completed_Date__c)
-                : (visit.Planned_Date__c != null
-                      ? String.valueOf(visit.Planned_Date__c)
-                      : Label.Study_Visit_Unavailable);
+            if(visit.Completed_Date__c != null){
+                completedOrPlannedDate = visit.Completed_Date__c;
+            }else if(visit.Planned_Date__c != null){
+                
+                completedOrPlannedDate = visit.Planned_Date__c;
+            }   
         }
     }
 }
