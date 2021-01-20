@@ -59,6 +59,7 @@
                                             year="numeric"
                                             month="short"
                                             day="2-digit"
+                                            timeZone="{!$Locale.timezone}"
                                         />
                                     </aura:if>
                                     <aura:if isTrue="{!!task.Activity_Datetime__c}">
