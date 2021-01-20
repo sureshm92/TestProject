@@ -1,0 +1,72 @@
+<!--MedicalHistory Tab Attachments Preview-Created by Enugothula Srinath-->
+
+<apex:page controller="MedicalPreviewController" showHeader="false" sideBar="false" action="{!initData}">
+   
+    <embed width="100%" style="height: 100vh;" name="jpg" id="jpg" src=""/> 
+    <embed width="100%" style="height: 100vh;" name="pdf" id="pdf" src=""/> 
+    <embed width="100%" style="height: 100vh;" name="jpeg" id="jpeg" src=""/> 
+    <embed width="100%" style="height: 100vh;" name="gif" id="gif" src=""/> 
+    <embed width="100%" style="height: 100vh;" name="png" id="png" src=""/> 
+
+    <apex:outputPanel rendered="{!executeJS}">
+        <script>
+            let fileName = "{!fileName}";
+        	var fileFormat = "{!fileType}";
+        
+            let pdfBlobDataInBase64StringFormat = "{!pdfBlobDataInBase64StringFormat}";
+            let byteCharacters = atob(pdfBlobDataInBase64StringFormat);
+            let byteNumbers = new Array(byteCharacters.length);
+            for (let i = 0; i < byteCharacters.length; i++) 
+            {
+                byteNumbers[i] = byteCharacters.charCodeAt(i);
+            }
+            let ieEDGE = navigator.userAgent.match(/Edge/g);
+            let ie = navigator.userAgent.match(/.NET/g);
+            let oldIE = navigator.userAgent.match(/MSIE/g);
+            let bytes = new Uint8Array(byteNumbers); //use this if data is raw bytes else directly pass resData
+            var filemt;
+      
+         	if(fileFormat.toLowerCase() == 'jpg') 
+                   filemt = 'image/jpeg';
+            
+             if(fileFormat.toLowerCase() == 'jpeg') 
+                   filemt = 'image/jpg';
+            
+             if(fileFormat.toLowerCase() == 'png') 
+                   filemt = 'image/png';
+           
+            
+             if(fileFormat.toLowerCase() == 'gif') 
+                   filemt = 'image/gif';
+        
+             if(fileFormat.toLowerCase() == 'pdf')
+               filemt = 'application/pdf'; 
+                           
+            let blob = new window.Blob([bytes], {type : filemt});
+            if (ie || oldIE || ieEDGE) {
+                window.navigator.msSaveBlob(blob, fileName +'.'+ fileFormat.toLowerCase());
+            } else {
+                let fileURL = URL.createObjectURL(blob);
+                 let plugin;
+                
+                  if(fileFormat.toLowerCase() == 'jpeg')
+                		plugin = document.getElementById("jpeg");
+             
+                   if(fileFormat.toLowerCase() == 'jpg')
+                     	plugin = document.getElementById("jpg");
+                
+                   if(fileFormat.toLowerCase() == 'png')
+                 	 	plugin = document.getElementById("png");
+               
+                    if(fileFormat.toLowerCase() == 'gif')
+                  	 	plugin = document.getElementById("gif"); 
+                
+                   if(fileFormat.toLowerCase() == 'pdf')
+                 		plugin = document.getElementById("pdf");
+                
+                        plugin.src = fileURL;
+                        plugin.type = filemt;
+            }
+        </script>
+    </apex:outputPanel>
+</apex:page>

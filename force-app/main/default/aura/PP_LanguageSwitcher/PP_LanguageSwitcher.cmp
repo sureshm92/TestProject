@@ -18,6 +18,8 @@
     <aura:attribute name="localeKey" type="String" />
     <aura:attribute name="locales" type="LabelValueItem[]" />
     <aura:attribute name="timezoneKey" type="String" />
+    <aura:attribute name="prevLocaleKey" type="String" />
+    <aura:attribute name="prevTimeZoneKey" type="String" />
     <aura:attribute name="timezones" type="LabelValueItem[]" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="personWrapper" type="Object" />

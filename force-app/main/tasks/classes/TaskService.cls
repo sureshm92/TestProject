@@ -241,6 +241,9 @@ public without sharing class TaskService {
         List<Task> tasks = getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER);
         List<Task> resTasks = new List<Task>();
         for (Integer i = 0; i < tasks.size(); i++) {
+           if(tasks[i].Activity_Datetime__c != null){
+           tasks[i].Activity_Datetime__c = tasks[i].Activity_Datetime__c.date();
+           }
             resTasks.add(tasks[i]);
             if (i >= 4)
                 break;

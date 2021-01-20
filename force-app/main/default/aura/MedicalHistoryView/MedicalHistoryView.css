@@ -5,6 +5,10 @@
     font-weight: 500;
 }
 
+.THIS .forceContentPreviewerAction .forceContentPreviewerActionsBar .forceActionsContainer{
+    color: red !important;
+}
+
 .THIS .headerdiv{
     font-size: 1rem;
     line-height: 36px;
@@ -19,4 +23,14 @@
     padding-top: 5px;
     padding-bottom: 5px;
     padding-left: 10px;
+}
+
+.THIS .resourceLinkHover:hover {
+    text-decoration: none;
+    background-color: #eef5ff;
+    transition: 0.25s;
+}
+
+.THIS.forceContentPreviewPlayerTopToolbar .file-preview-buttons .forceActionsContainer:nth-of-type(n+2) {
+    display: none;
 }

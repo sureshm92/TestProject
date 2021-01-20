@@ -26,6 +26,8 @@
             );
         }); **/
         const ctpId = component.get('v.ctpId');    
-        window.open('https://'.concat(window.location.hostname)+'/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
+        var pageurl = window.location.href;
+        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
+        else window.open('/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
     }
 });

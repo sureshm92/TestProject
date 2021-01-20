@@ -23,18 +23,8 @@ public without sharing class MyTeamRemote {
                         parentId = detail.piDelegateParents[0].value;
                     } else {
                         detail.piSelectedParent = parentId;
-                        Contact parentContact = [
-                            SELECT Id, Full_Name__c, Suffix, Salutation
-                            FROM Contact
-                            WHERE Id = :parentId
-                            LIMIT 1
-                        ];
-                        detail.parentFullName =
-                            (parentContact.Salutation == null
-                                ? ''
-                                : parentContact.Salutation + ' ') +
-                            parentContact.Full_Name__c +
-                            (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
+                        Contact parentContact = [SELECT Id, Full_Name__c, Suffix, Salutation  FROM Contact WHERE Id = :parentId  LIMIT 1];
+                        detail.parentFullName = (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') +  parentContact.Full_Name__c +  (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
                     }
                 }
             }
@@ -113,16 +103,8 @@ public without sharing class MyTeamRemote {
             detail.delegateOptions = getDelegateOptions(userMode);
             detail.hasStudies = true;
             if (userMode == CommunityService.USER_MODE_PI && parentId != null && parentId != '') {
-                Contact parentContact = [
-                    SELECT Id, Full_Name__c, Suffix, Salutation
-                    FROM Contact
-                    WHERE Id = :parentId
-                    LIMIT 1
-                ];
-                detail.parentFullName =
-                    (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') +
-                    parentContact.Full_Name__c +
-                    (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
+                Contact parentContact = [SELECT Id, Full_Name__c, Suffix, Salutation FROM Contact WHERE Id = :parentId LIMIT 1];
+                detail.parentFullName = (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') + parentContact.Full_Name__c + (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
             }
             return JSON.serialize(detail);
         } catch (Exception e) {
@@ -271,13 +253,8 @@ public without sharing class MyTeamRemote {
                 DelegateWrapper dw = new DelegateWrapper();
                 dw.delegateContact = delegateContact;
                 dw.trialLevel = new DelegateLevelWrapper();
-                dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null
-                    ? delegateLevels.get(delegateContact.Id)
-                    : '';
-                dw.trialLevel.readOnly =
-                    DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(
-                        DelegateService.getHCPDelegateLevelMap().get(parentId)
-                    ) || delegateContact.Id == CommunityService.getUserContact().Id;
+                dw.trialLevel.delegateLevel = delegateLevels.get(delegateContact.Id) != null? delegateLevels.get(delegateContact.Id): '';
+                dw.trialLevel.readOnly = DelegateService.DELEGATE_LEVEL_2_AND_LOW.contains(DelegateService.getHCPDelegateLevelMap().get(parentId)) || delegateContact.Id == CommunityService.getUserContact().Id;
                 delegates.add(dw);
             }
         }
@@ -313,23 +290,14 @@ public without sharing class MyTeamRemote {
             } else {
                 delegateContacts = CommunityService.getContacts(staffTrialMap.keySet());
                 Map<Id, Contact> delegateContactMap = new Map<Id, Contact>(delegateContacts);
-                for (Participant__c participant : [
-                    SELECT Contact__c, First_Name__c, Last_Name__c
-                    FROM Participant__c
-                    WHERE Contact__c IN :delegateContactMap.keySet()
-                ]) {
-                    delegateContactMap.get(participant.Contact__c)
-                        .FirstName = participant.First_Name__c;
-                    delegateContactMap.get(participant.Contact__c)
-                        .LastName = participant.Last_Name__c;
+                for (Participant__c participant : [SELECT Contact__c, First_Name__c, Last_Name__c FROM Participant__c WHERE Contact__c IN :delegateContactMap.keySet()]) {
+                    delegateContactMap.get(participant.Contact__c).FirstName = participant.First_Name__c;
+                    delegateContactMap.get(participant.Contact__c).LastName = participant.Last_Name__c;
                 }
             }
 
             for (Contact delegateContact : delegateContacts) {
-                if (
-                    !excludeCurrentUser ||
-                    delegateContact.Id != CommunityService.getUserContact().Id
-                ) {
+                if (!excludeCurrentUser || delegateContact.Id != CommunityService.getUserContact().Id) {
                     DelegateWrapper dw = new DelegateWrapper();
                     dw.delegateContact = delegateContact;
                     Boolean isDelegate = false;
@@ -360,9 +328,7 @@ public without sharing class MyTeamRemote {
                                 DelegateService.getPIStudySitesAccessLevelMap().get(site.Id)
                             ) || delegateContact.Id == CommunityService.getUserContact().Id;
                         Site_Staff__c delegateRecord = (staffTrialMap.get(delegateContact.Id) ==
-                            null)
-                            ? null
-                            : (staffTrialMap.get(delegateContact.Id).get(site.Id));
+                            null)? null : (staffTrialMap.get(delegateContact.Id).get(site.Id));
                         if (delegateRecord != null) {
                             isDelegate = true;
                             siteLevel.delegateLevel = delegateRecord.Delegate_Level__c;
@@ -417,16 +383,8 @@ public without sharing class MyTeamRemote {
             );
         }
         for (Contact parent : CommunityService.getContacts(piDelegateParentIds)) {
-            String parentFullName =
-                (parent.Salutation != null ? parent.Salutation + ' ' : '') +
-                parent.Full_Name__c +
-                (parent.Suffix != null ? ' ' + parent.Suffix : '');
-            parents.add(
-                new LabelValueItem(
-                    Label.PG_MT_L_Team_for.replace('##PIName', parentFullName),
-                    parent.Id
-                )
-            );
+            String parentFullName = (parent.Salutation != null ? parent.Salutation + ' ' : '') + parent.Full_Name__c + (parent.Suffix != null ? ' ' + parent.Suffix : '');
+            parents.add(new LabelValueItem(Label.PG_MT_L_Team_for.replace('##PIName', parentFullName),parent.Id));
         }
         return parents;
     }
@@ -468,9 +426,16 @@ public without sharing class MyTeamRemote {
                     LIMIT 5
                 ];
                 String PI ='';
+                Boolean isHCP = false;
                 List<Study_Site__c> lstSSites = New List<Study_Site__c>();
+                List<Contact> lstHcpCont = New List<Contact>();
                 List<user> lstUsr = new List<User>();
                 lstSSites =[select id,Principal_Investigator__c from Study_Site__c where Principal_Investigator__c IN :ConId limit 1];
+                lstHcpCont = [SELECT userCommunytyType__c FROM Contact WHERE id=: ConId LIMIT 1];
+                // check whether hep or not
+                if(!lstHcpCont.isEmpty()) {
+                   isHCP  = String.isNotBlank(lstHcpCont[0].userCommunytyType__c)? lstHcpCont[0].userCommunytyType__c.contains('HCP') ? true : false : false;   
+                }  
                 if(lstSSites.size() >0){
                 PI =lstSSites[0].Principal_Investigator__c;
                 if(PI!=null && PI!='')
@@ -486,7 +451,8 @@ public without sharing class MyTeamRemote {
                 } else if (userMode == CommunityService.USER_MODE_HCP) {
                     hasDelegateLevels = saveHCPDelegate(dw, parentId);
                 }
-                if (lstss.size() > 0 || lstUsr.size() > 0) {
+                
+                if (lstss.size() > 0 || lstUsr.size() > 0 || isHCP) {
                     if (
                         (hasDelegateLevels ||
                         !hasDelegateLevelsPIMap.isEmpty()) /*&& delegateContact != null && !delegateContact.HasOptedOutOfEmail*/
@@ -508,6 +474,7 @@ public without sharing class MyTeamRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    @testvisible
     private static void sendEmailNotification(
         Contact delegateContact,
         String userMode,
@@ -683,12 +650,12 @@ public without sharing class MyTeamRemote {
             }
         }
         if (!delegateRecordsToInsert.isEmpty()) {
-			insert delegateRecordsToInsert;
+      insert delegateRecordsToInsert;
             DelegateService.addConversationSharesForPITeam(delegateRecordsToInsert);
-			hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToInsert));
+      hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToInsert));
         }
         if (!delegateRecordsToUpdate.isEmpty()) {
-			hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToUpdate));
+      hasDelegateLevelsMap.putall(hasDelegateLevelsMapUpdate(delegateRecordsToUpdate));
             update delegateRecordsToUpdate;
         }
         if (!delegateRecordsToDelete.isEmpty()) {
@@ -700,32 +667,32 @@ public without sharing class MyTeamRemote {
         wrphdlmp.hasCreatedNewSS = hasNewSS;
         return wrphdlmp;
     }
-	
-	private static Map<String, List<Id>> hasDelegateLevelsMapUpdate(List<Site_Staff__c> delegateRecords) {
-		List<Id> ssIds = new List<Id>();
-		Map<String, List<Id>> hasDelegateLevelsMap = new Map<String, List<Id>>();
-		for (Site_Staff__c ss : delegateRecords)
-			ssIds.add(ss.Study_Site__c);
-		List<Study_Site__c> listSS = [
-			SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
-			FROM Study_Site__c
-			WHERE Id IN :ssIds
-		];
-		List<Id> ssIdsForNotification = new List<Id>();
-		List<String> communityNames = new List<String>();
-		for (Study_Site__c ss : listSS)
-			if (!communityNames.contains(ss.Clinical_Trial_Profile__r.CommunityTemplate__c))
-				communityNames.add(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
+  
+  private static Map<String, List<Id>> hasDelegateLevelsMapUpdate(List<Site_Staff__c> delegateRecords) {
+    List<Id> ssIds = new List<Id>();
+    Map<String, List<Id>> hasDelegateLevelsMap = new Map<String, List<Id>>();
+    for (Site_Staff__c ss : delegateRecords)
+      ssIds.add(ss.Study_Site__c);
+    List<Study_Site__c> listSS = [
+      SELECT Id, Clinical_Trial_Profile__r.CommunityTemplate__c
+      FROM Study_Site__c
+      WHERE Id IN :ssIds
+    ];
+    List<Id> ssIdsForNotification = new List<Id>();
+    List<String> communityNames = new List<String>();
+    for (Study_Site__c ss : listSS)
+      if (!communityNames.contains(ss.Clinical_Trial_Profile__r.CommunityTemplate__c))
+        communityNames.add(ss.Clinical_Trial_Profile__r.CommunityTemplate__c);
 
-		for (String cmN : communityNames) {
-			for (Study_Site__c ss : listSS) {
-				if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == cmN)
-					ssIdsForNotification.add(ss.Id);
-			}
-		}
-		hasDelegateLevelsMap.put(OLD_VALUES_DELEGATE_LEVELS, ssIdsForNotification);
-		return hasDelegateLevelsMap;
-	}
+    for (String cmN : communityNames) {
+      for (Study_Site__c ss : listSS) {
+        if (ss.Clinical_Trial_Profile__r.CommunityTemplate__c == cmN)
+          ssIdsForNotification.add(ss.Id);
+      }
+    }
+    hasDelegateLevelsMap.put(OLD_VALUES_DELEGATE_LEVELS, ssIdsForNotification);
+    return hasDelegateLevelsMap;
+  }
 
     private static Boolean saveHCPDelegate(DelegateWrapper dw, String parentId) {
         Boolean hasDelegateLevels = dw.trialLevel.delegateLevel != '';

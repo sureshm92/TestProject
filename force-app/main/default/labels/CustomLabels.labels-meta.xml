@@ -6351,7 +6351,7 @@ Sincerely,
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Empty TaskName</shortDescription>
-        <value>Task Name cannot be empty!</value>
+        <value>Task Name cannot be empty.</value>
     </labels>
     <labels>
         <fullName>Empty_Visits_tab</fullName>
@@ -8089,7 +8089,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
-        <value>Please input correct data!</value>
+        <value>Please input correct data.</value>
     </labels>
     <labels>
         <fullName>Inducible_co_stimulator</fullName>
@@ -8651,6 +8651,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Medical Record Review</shortDescription>
         <value>Medical Record Review</value>
+    </labels>
+     <labels>
+        <fullName>Medical_Preview_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Preview Error Message</shortDescription>
+        <value>This file is too large to preview. Please download the file to view it.</value>
     </labels>
     <labels>
         <fullName>Mess_Variant_Can_relocate</fullName>
@@ -15392,7 +15399,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
-        <value>Please an option to send reminder.</value>
+        <value>Please select a notification option to send the reminder.</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using_SMS</fullName>
@@ -16151,6 +16158,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_ValidationMsg6</shortDescription>
         <value>The passwords do not match</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg7</shortDescription>
+        <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg8</shortDescription>
+        <value>Your password cannot be null</value>
     </labels>
     <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
@@ -17162,6 +17183,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Email Invalid Characters</shortDescription>
         <value>[\¡¿«»¢£¥€¤›]</value>
+    </labels>
+      <labels>
+        <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
+        <value>PI/Site staff country is not the same as Site country</value>
     </labels>
 	  <labels>
         <fullName>RH_Email_Invalid_Error</fullName>
