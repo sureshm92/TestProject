@@ -8,6 +8,7 @@
     <aura:attribute name="parent" type="Aura.Component" access="public" />
     <aura:attribute name="userMode" type="String" access="public" />
     <aura:attribute name="actions" type="Object" />
+    <aura:attribute name="isInvited" type="Boolean" access="public"/>
 
     <!-- component body:-->
     <aura:if

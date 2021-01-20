@@ -196,8 +196,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             //populate Participant Code
             if (nctNumber != null && participantName != null) {
                 pe.Participant_Key__c = participantName + ' ' + nctNumber;
-            }else if(protocolId != null && participantName != null){
-                 pe.Participant_Key__c = participantName + ' ' + protocolId;
             }
             //populate referred date
             if (
