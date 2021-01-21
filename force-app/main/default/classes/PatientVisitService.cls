@@ -216,10 +216,9 @@ public inherited sharing class PatientVisitService {
                 this.reminderDate = task.ReminderDateTime;
             }
             if(visit.Completed_Date__c != null){
-                completedOrPlannedDate = visit.Completed_Date__c;
+                completedOrPlannedDate = Datetime.newInstance(visit.Completed_Date__c,Datetime.now().time());
             }else if(visit.Planned_Date__c != null){
-                
-                completedOrPlannedDate = visit.Planned_Date__c;
+                completedOrPlannedDate = Datetime.newInstance(visit.Planned_Date__c,Datetime.now().time());
             }   
         }
     }
