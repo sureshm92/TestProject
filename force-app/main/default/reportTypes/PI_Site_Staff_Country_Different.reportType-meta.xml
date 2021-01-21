@@ -6,7 +6,7 @@
     <description>PI, Site Staff Country Different</description>
     <join>
         <join>
-            <outerJoin>false</outerJoin>
+            <outerJoin>true</outerJoin>
             <relationship>Site_Staff__r</relationship>
         </join>
         <outerJoin>false</outerJoin>
@@ -284,6 +284,11 @@
             <checkedByDefault>false</checkedByDefault>
             <field>IsEmailBounced</field>
             <table>Contact</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <field>Principal_Investigator__c</field>
+            <table>Contact.Study_Site__r</table>
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>

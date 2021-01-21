@@ -42,7 +42,6 @@
     </columns>
     <description>This is using in Home tab</description>
     <filter>
-        <booleanFilter>1 OR 2</booleanFilter>
         <criteriaItems>
             <column>Contact.Study_Site__r.Site_Staff__r$is_Site_and_Staff_Same_Country__c</column>
             <columnToColumn>false</columnToColumn>
