@@ -135,6 +135,7 @@
                                                                 year="numeric"
                                                                 month="short"
                                                                 day="2-digit"
+                                                                timeZone="UTC"
                                                             />
                                                         </aura:set>
                                                     </aura:if>
@@ -153,12 +154,20 @@
                                     >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
                                 >
                                 <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
-                                <lightning:formattedDateTime
-                                    value="{!visitWrapper.completedOrPlannedDate}"
-                                    year="numeric"
-                                    month="short"
-                                    day="2-digit"
-                                />
+                                <aura:if
+                                    isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
+                                >
+                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <aura:set attribute="else">
+                                        <lightning:formattedDateTime
+                                            value="{!visitWrapper.completedOrPlannedDate}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            timeZone="UTC"
+                                        />
+                                    </aura:set>
+                                </aura:if>
                             </td>
                         </tr>
                     </aura:iteration>
