@@ -194,8 +194,10 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
             //populate Participant Code
-            if (nctNumber != null && participantName != null) {
-                pe.Participant_Key__c = participantName + ' ' + nctNumber;
+            if(oldMap == null){
+                if (nctNumber != null && participantName != null) {
+                        pe.Participant_Key__c = participantName + ' ' + nctNumber;
+                }
             }
             //populate referred date
             if (
