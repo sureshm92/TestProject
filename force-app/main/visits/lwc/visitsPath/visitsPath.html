@@ -13,23 +13,16 @@
                         <div class="slds-col arrow-left" style="padding-right: 0">
                             <div onclick={handleScrollLeft} class="arrow-border">
                                 <i>
-                                    <span
-                                        ><c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon
-                                    ></span>
+                                    <span></span>
+                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18"></c-web-icon>
+                                    </span>
                                 </i>
-                            </div>
+                            </div> 
                         </div>
-                        <div
-                            class="slds-col"
-                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
-                        >
+                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
                             <div class="slds-grid vis-path">
-                                <template for:each={pathItems} for:item="pathItem">
+                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
                                         <div class="slds-grid">
                                             <div class={pathItem.left}></div>
@@ -37,59 +30,37 @@
                                                 <div class="state-ico-wrapper-large"></div>
                                                 <div class="state-ico-wrapper-middle"></div>
                                                 <div class="state-ico-wrapper">
-                                                    <c-web-icon
-                                                        icon-width="13"
-                                                        icon-height="14"
-                                                        icon-name={pathItem.icon}
-                                                        icon-color="white"
-                                                    ></c-web-icon>
+                                                    <c-web-icon icon-width="13" icon-height="14"
+                                                        icon-name={pathItem.icon} icon-color="white"></c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="state-label">{pathItem.visitName}</div>
                                         <div class="state-label">
                                             <template if:false={pathItem.isPending}>
-                                                <lightning-formatted-date-time
-                                                    value={pathItem.complDate}
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                ></lightning-formatted-date-time>
+                                                <lightning-formatted-date-time value={pathItem.complDate} year="numeric"
+                                                    month="short" day="2-digit" time-zone="UTC">
+                                                </lightning-formatted-date-time>
                                             </template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time
-                                                            value={pathItem.planDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                        ></lightning-formatted-date-time>
-                                                        <div
-                                                            data-id={pathItem.id}
-                                                            onclick={handleOpenDialog}
-                                                        >
-                                                            <c-web-icon
-                                                                icon-name="pencil-2"
-                                                                icon-color="#999"
-                                                                icon-size="small"
-                                                                icon-height="16"
-                                                                icon-width="16"
+                                                        <lightning-formatted-date-time value={pathItem.planDate}
+                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
+                                                        </lightning-formatted-date-time>
+                                                        <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                            <c-web-icon icon-name="pencil-2" icon-color="#999"
+                                                                icon-size="small" icon-height="16" icon-width="16"
                                                                 style="
                                                                     margin-left: 4px;
                                                                     cursor: pointer;
-                                                                "
-                                                            ></c-web-icon>
+                                                                "></c-web-icon>
                                                         </div>
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    <a
-                                                        data-id={pathItem.id}
-                                                        class="add-date"
-                                                        onclick={handleOpenDialog}
-                                                        >{labels.addLabel}</a
-                                                    >
+                                                    <a data-id={pathItem.id} class="add-date"
+                                                        onclick={handleOpenDialog}>{labels.addLabel}</a>
                                                 </template>
                                             </template>
                                         </div>
@@ -101,13 +72,8 @@
                             <div onclick={handleScrollRight} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18" class=""></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -120,20 +86,10 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup
-            show-header="true"
-            show-footer="true"
-            custom-buttons="true"
-            title={labels.planDate}
-        >
+        <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
             <div slot="body">
-                <lightning-input
-                    type="date"
-                    label={labels.selDate}
-                    value={planDate}
-                    autocomplete="off"
-                    onchange={handleDateChange}
-                ></lightning-input>
+                <lightning-input type="date" label={labels.selDate} value={planDate} autocomplete="off"
+                    onchange={handleDateChange}></lightning-input>
             </div>
             <div slot="footerButtons">
                 <button class="apollo-btn tertiary" onclick={handleHideDialog}>
@@ -154,21 +110,14 @@
                         <div class="slds-col arrow-leftRTL" style="padding-left: 0">
                             <div onclick={handleScrollRightRTL} class="arrow-border">
                                 <i>
-                                    <span
-                                        ><c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon
-                                    ></span>
+                                    <span>
+                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18"></c-web-icon>
+                                    </span>
                                 </i>
                             </div>
                         </div>
-                        <div
-                            class="slds-col"
-                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
-                        >
+                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
                             <div class="slds-grid vis-path">
                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
@@ -178,52 +127,33 @@
                                                 <div class="state-ico-wrapper-largeRTL"></div>
                                                 <div class="state-ico-wrapper-middleRTL"></div>
                                                 <div class="state-ico-wrapperRTL">
-                                                    <c-web-icon
-                                                        icon-name={pathItem.icon}
-                                                        icon-color="white"
-                                                    ></c-web-icon>
+                                                    <c-web-icon icon-name={pathItem.icon} icon-color="white">
+                                                    </c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="state-labelRTL">{pathItem.visitName}</div>
                                         <div class="state-labelRTL">
-                                            <template if:false={pathItem.isPending}
-                                                >{pathItem.complDate}</template
-                                            >
+                                            <template if:false={pathItem.isPending}>{pathItem.complDate}</template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time
-                                                            value={pathItem.planDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                        ></lightning-formatted-date-time>
-                                                        <div
-                                                            data-id={pathItem.id}
-                                                            onclick={handleOpenDialog}
-                                                        >
-                                                            <c-web-icon
-                                                                icon-name="pencil-2"
-                                                                icon-color="#999"
-                                                                icon-size="small"
-                                                                icon-height="16"
-                                                                icon-width="16"
+                                                        <lightning-formatted-date-time value={pathItem.planDate}
+                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
+                                                        </lightning-formatted-date-time>
+                                                        <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                            <c-web-icon icon-name="pencil-2" icon-color="#999"
+                                                                icon-size="small" icon-height="16" icon-width="16"
                                                                 style="
                                                                     margin-left: 4px;
                                                                     cursor: pointer;
-                                                                "
-                                                            ></c-web-icon>
+                                                                "></c-web-icon>
                                                         </div>
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    <a
-                                                        data-id={pathItem.id}
-                                                        class="add-date"
-                                                        onclick={handleOpenDialog}
-                                                        >{labels.addLabel}</a
-                                                    >
+                                                    <a data-id={pathItem.id} class="add-date"
+                                                        onclick={handleOpenDialog}>{labels.addLabel}</a>
                                                 </template>
                                             </template>
                                         </div>
@@ -235,13 +165,8 @@
                             <div onclick={handleScrollLeftRTL} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18" class=""></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -254,28 +179,14 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup
-            show-header="true"
-            show-footer="true"
-            custom-buttons="true"
-            title={labels.planDate}
-        >
+        <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
             <div slot="body" class="">
                 <span style="margin-left: 287px; display: table-cell">{labels.selDate}</span>
-                <lightning-input
-                    type="date"
-                    label=""
-                    value={planDate}
-                    autocomplete="off"
-                    onchange={handleDateChange}
-                ></lightning-input>
+                <lightning-input type="date" label="" value={planDate} autocomplete="off" onchange={handleDateChange}>
+                </lightning-input>
             </div>
             <div slot="footerButtons" style="text-align: right">
-                <button
-                    class="apollo-btn primary"
-                    onclick={savePlannedDate}
-                    style="margin-left: 13px"
-                >
+                <button class="apollo-btn primary" onclick={savePlannedDate} style="margin-left: 13px">
                     {labels.saveBTNLabel}
                 </button>
                 <button class="apollo-btn tertiary" onclick={handleHideDialog}>
