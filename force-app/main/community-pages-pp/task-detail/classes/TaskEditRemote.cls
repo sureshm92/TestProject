@@ -139,10 +139,11 @@ public without sharing class TaskEditRemote {
             }
 
             if (taskWrapper.activityDate != null) {
-                taskToUpsert.Activity_Datetime__c = Datetime.newInstance(
+                /* taskToUpsert.Activity_Datetime__c = Datetime.newInstance(
                     taskWrapper.activityDate.date(),
                     Datetime.now().time()
-                );
+                );*/
+                taskToUpsert.Activity_Datetime__c = taskWrapper.activityDate;
             }
             if (taskWrapper.reminderDate != null) {
                 Time myTime = Time.newInstance(9, 0, 0, 0);
