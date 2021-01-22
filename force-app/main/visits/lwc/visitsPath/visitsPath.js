@@ -4,8 +4,6 @@
 
 import { LightningElement, track } from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
-import profileTZ from '@salesforce/i18n/timeZone';
-
 
 import addLabel from '@salesforce/label/c.Add_Date';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
@@ -348,8 +346,5 @@ export default class VisitsPath extends LightningElement {
     doScrollInto(index) {
         this.pathContainer.scrollLeft =
             index * this.elementWidth - this.elementWidth / 2 - this.pathContainer.clientWidth / 2;
-    }
-    get timeZone() {
-        return profileTZ;
     }
 }
