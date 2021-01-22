@@ -300,11 +300,7 @@
             <field>Is_FollowUp_Sent__c</field>
             <table>Contact</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>QIDC__OK_MDM_Is_Privacy_Law_Enabled_IMS__c</field>
-            <table>Contact</table>
-        </columns>
+      
         <columns>
             <checkedByDefault>false</checkedByDefault>
             <field>is_Site_Country__c</field>
