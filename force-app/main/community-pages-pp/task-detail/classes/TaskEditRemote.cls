@@ -27,9 +27,9 @@ public without sharing class TaskEditRemote {
         @AuraEnabled
         public Date today;
         @AuraEnabled
-        public Datetime activityDate;
+        public Date activityDate;
         @AuraEnabled
-        public Datetime reminderDate;
+        public Date reminderDate;
         @AuraEnabled
         public Boolean isEnrolled;
         @AuraEnabled
@@ -139,16 +139,15 @@ public without sharing class TaskEditRemote {
             }
 
             if (taskWrapper.activityDate != null) {
-                /* taskToUpsert.Activity_Datetime__c = Datetime.newInstance(
-                    taskWrapper.activityDate.date(),
+                taskToUpsert.Activity_Datetime__c = Datetime.newInstance(
+                    taskWrapper.activityDate,
                     Datetime.now().time()
-                );*/
-                taskToUpsert.Activity_Datetime__c = taskWrapper.activityDate;
+                );
             }
             if (taskWrapper.reminderDate != null) {
                 Time myTime = Time.newInstance(9, 0, 0, 0);
                 taskToUpsert.Reminder_Date__c = Datetime.newInstance(
-                    taskWrapper.reminderDate.date(),
+                    taskWrapper.reminderDate,
                     myTime
                 );
                 Datetime newReminderDate = taskToUpsert.Reminder_Date__c.addDays(-1);

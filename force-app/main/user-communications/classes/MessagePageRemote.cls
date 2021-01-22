@@ -32,7 +32,7 @@ public without sharing class MessagePageRemote {
         @AuraEnabled
         public String title;
         @AuraEnabled
-        public Datetime lastUpdate;
+        public Date lastUpdate;
         @AuraEnabled
         public String description;
         @AuraEnabled
@@ -549,7 +549,7 @@ public without sharing class MessagePageRemote {
 
         if (!messages.isEmpty()) {
             Message__c lastMessage = messages.get(0);
-            conWr.lastUpdate = lastMessage.CreatedDate;
+            conWr.lastUpdate = lastMessage.CreatedDate.date();
             conWr.lastMessagePart = lastMessage.Message_Content__c;
 
             if (ascendingOrder)

@@ -135,7 +135,6 @@
                                                                 year="numeric"
                                                                 month="short"
                                                                 day="2-digit"
-                                                                timeZone="{!$Locale.timezone}"
                                                             />
                                                         </aura:set>
                                                     </aura:if>
@@ -159,7 +158,6 @@
                                     year="numeric"
                                     month="short"
                                     day="2-digit"
-                                    timeZone="{!$Locale.timezone}"
                                 />
                             </td>
                         </tr>

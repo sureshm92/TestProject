@@ -3,7 +3,6 @@
  */
 
 import { LightningElement, api, track } from 'lwc';
-import profileTZ from '@salesforce/i18n/timeZone';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
 
 import markRead from '@salesforce/apex/MessagePageRemote.markConversationAsRead';
@@ -77,9 +76,5 @@ export default class ConversationItem extends LightningElement {
         this.template.querySelectorAll('c-web-limit-text-by-lines').forEach(function (cmp) {
             cmp.setBackground(bgColor);
         });
-    }
-
-    get timeZone() {
-        return profileTZ;
     }
 }
