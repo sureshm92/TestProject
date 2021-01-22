@@ -789,7 +789,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         ParticipantEnrollmentService.updateParticipantState(participants);
-        ContactService.updateContactSite(participants);
+        //ContactService.updateContactSite(participants);
 
     }
 }
