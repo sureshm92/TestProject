@@ -1744,13 +1744,6 @@
         <value>Site Information Form Complete</value>
     </labels>
     <labels>
-        <fullName>CC_Site_Phone_Number</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Site_Phone_Number</shortDescription>
-        <value>Site Phone Number</value>
-    </labels>
-    <labels>
         <fullName>CC_TableHeader_CTP</fullName>
         <language>en_US</language>
         <protected>false</protected>
