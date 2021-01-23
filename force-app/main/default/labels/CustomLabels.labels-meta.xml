@@ -1541,6 +1541,20 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CC_Receive_Study_Site_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
+        <value>Receive Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Training_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Training_Complete</shortDescription>
+        <value>Training Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_Btn_ExportAll</fullName>
         <language>en_US</language>
         <protected>true</protected>
