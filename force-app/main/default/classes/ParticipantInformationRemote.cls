@@ -43,6 +43,7 @@ public without sharing class ParticipantInformationRemote {
                 Participant_Enrollment__c.Participant_Status__c,
                 pi.pe.Participant_Status__c
             );
+            pi.currentPageList =  ViewPatientsRemote.convertToPEWrapperList(new List<Participant_Enrollment__c> {pe}, userMode, delegateId);
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
