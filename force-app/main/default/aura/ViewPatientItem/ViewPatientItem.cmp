@@ -74,6 +74,7 @@
                         parent="{!v.parent}"
                         userMode="{!v.userMode}"
                         actions="{!v.actions}"
+                        isInvited="{!v.isInvited}"
                     />
                     <aura:if
                         isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;

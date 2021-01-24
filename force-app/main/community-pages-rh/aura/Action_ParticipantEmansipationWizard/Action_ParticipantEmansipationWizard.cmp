@@ -35,7 +35,7 @@
     <aura:attribute name="showInvite" type="Boolean" default="false" />
     <aura:attribute name="Invite" type="Boolean" default="false" />
     <aura:attribute name="NoInvite" type="Boolean" default="false" access="public" />
-
+    <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="todayDate" type="Date" access="private" />
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
     <aura:attribute name="participantMsgWithName" type="String" access="private" />
@@ -46,6 +46,7 @@
         <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
         <aura:attribute name="actions" type="Object" />
         <aura:attribute name="callback" type="Function" />
+        <aura:attribute name="isInvited" type="Boolean" access="public" />
     </aura:method>
     <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
 
@@ -97,9 +98,7 @@
                                 {!$Label.c.BTN_Participant_Information}
                             </div>
                             <div class="slds-grid slds-gutters slds-wrap">
-                                <aura:if
-                                    isTrue="{!and(v.communityTemplate != 'Janssen',v.showInvite)}"
-                                >
+                                <aura:if isTrue="{!(v.communityTemplate != 'Janssen' &amp;&amp; v.showInvite &amp;&amp; !v.isInvited)}">
                                     <div
                                         class="rr-form-element slds-col slds-size--1-of-1"
                                         style="margin-top: 5px"
@@ -595,6 +594,7 @@
                         readMode="true"
                         participantMsgWithName="{!v.participantMsgWithName}"
                         currentTab="{!v.currentTab}"
+                        isInvited="{!v.isInvited}"
                     />
                 </aura:if>
             </aura:if>
