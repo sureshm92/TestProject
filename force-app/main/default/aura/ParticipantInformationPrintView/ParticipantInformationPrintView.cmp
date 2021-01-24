@@ -24,6 +24,7 @@
     <aura:attribute name="containsFile" type="Boolean" default="false"/> 
     <aura:attribute name="medicalHistory" type="Object"/>
     <aura:attribute name="HideDownloadButton" type="Boolean" default="false" />
+    <aura:attribute name="actions" type="Object" description="medical history actions"/>
 
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
 
@@ -334,11 +335,11 @@
                 </div>
             </aura:if>
 
-            <!--Medical History Results-->                                    
-            <aura:if isTrue="{!v.containsFile &amp;&amp; !v.actions.medicalHistory.disabled}">
+            <!--Medical History Results-->     
+            <aura:if isTrue="{!and(v.containsFile , !v.actions.medicalHistory.disabled)}">
                 <div>                        
                     <div  class="header" >{!$Label.c.Tab_Medical_History}</div>
-                    <c:MedicalHistoryView pe="{!v.pe}"  HideDownloadButton="false"/>
+                    <c:MedicalHistoryView pe="{!v.pe}"  HideDownloadButton="false" />
                 </div>
             </aura:if>
 
