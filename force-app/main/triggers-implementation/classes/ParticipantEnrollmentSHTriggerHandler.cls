@@ -67,9 +67,11 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             peIds.add(pesh.ParticipantEnrollment__c);
             newMap.put(pesh.Id,pesh);
         }
-        List<Participant_Enrollment_Status_History__c> peshs = [SELECT Status__c,Date__c,CreatedDate,Additional_Notes__c,ParticipantEnrollment__r.Participant_Status__c,
+        List<Participant_Enrollment_Status_History__c> peshs = [SELECT Status__c,Date__c,CreatedDate,Additional_Notes__c,
+                                                                Non_Enrollment_Reason__c,ParticipantEnrollment__r.Participant_Status__c,
                                                                 ParticipantEnrollment__r.Participant_Status_Last_Changed_Date__c,
-                                                                ParticipantEnrollment__r.Last_Status_Changed_Additional_Notes__c 
+                                                                ParticipantEnrollment__r.Last_Status_Changed_Additional_Notes__c,
+                                                                ParticipantEnrollment__r.Non_Enrollment_Reason__c 
                                                                 FROM Participant_Enrollment_Status_History__c WHERE ParticipantEnrollment__c IN:peIds
                                                                 ORDER BY CreatedDate DESC];
         Map<Id,Participant_Enrollment_Status_History__c> pepesh = new Map<Id,Participant_Enrollment_Status_History__c>();
@@ -83,12 +85,22 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
             if(!toUpdate.containsKey(pesh.ParticipantEnrollment__c) 
                && newMap.containsKey(pesh.Id) && oldMap.containsKey(pesh.Id) 
                && newMap.get(pesh.Id)!=null && oldMap.get(pesh.Id)!=null 
-               && newMap.get(pesh.Id).Additional_Notes__c != oldMap.get(pesh.Id).Additional_Notes__c
                && pesh.ParticipantEnrollment__r.Participant_Status__c == pesh.Status__c
                && headHistories.get(pesh.ParticipantEnrollment__c) == pesh.Id){
-                       toUpdate.put(pesh.ParticipantEnrollment__c,new Participant_Enrollment__c(Id=pesh.ParticipantEnrollment__c,
-                                                                                                Last_Status_Changed_Additional_Notes__c = pesh.Additional_Notes__c));
-                   }
+
+                    Participant_Enrollment__c peshtoupdate = new Participant_Enrollment__c(Id=pesh.ParticipantEnrollment__c);
+                    Boolean isUpdate = false;
+                    if(newMap.get(pesh.Id).Additional_Notes__c != oldMap.get(pesh.Id).Additional_Notes__c){
+                        peshtoupdate.Last_Status_Changed_Additional_Notes__c = pesh.Additional_Notes__c;
+                        isUpdate = true;
+                    }
+                    if(newMap.get(pesh.Id).Non_Enrollment_Reason__c != oldMap.get(pesh.Id).Non_Enrollment_Reason__c){
+                        peshtoupdate.Non_Enrollment_Reason__c = pesh.Non_Enrollment_Reason__c;
+                        isUpdate = true;
+                    }
+                    if(isUpdate)
+                    toUpdate.put(pesh.ParticipantEnrollment__c,peshtoupdate);
+                }
         }
         update toUpdate.values();
     }
