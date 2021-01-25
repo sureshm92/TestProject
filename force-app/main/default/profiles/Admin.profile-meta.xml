@@ -1345,6 +1345,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SiteListPageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SiteLoginController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1922,6 +1926,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Test_RRChangePasswordController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>Test_SiteListPageRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <custom>false</custom>

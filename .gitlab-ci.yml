@@ -57,7 +57,6 @@ stages:
   - DeployINF6.2
   - RunTestINF6.2
 
-
 cache:
   paths:
     - ~/.sfdx
@@ -278,7 +277,7 @@ RunTestINF6.1:
   script:
     - . ./scripts/ci/run-tests.sh INF61
 
-# 6.2 INT: ---------------------------------------------------------------------
+ # 6.2 INT: ---------------------------------------------------------------------
 DeployCallcenter:
   #tags:
    # - shell
@@ -302,8 +301,8 @@ RunTestCallcenter:
   stage: RunTestCallcenter
   script:
     - . ./scripts/ci/run-tests.sh INT62
-
-# 6.2 INF: ---------------------------------------------------------------------
+    
+     # 6.2 INF: ---------------------------------------------------------------------
 DeployINF6.2:
   #tags:
    # - shell
@@ -327,7 +326,6 @@ RunTestINF6.2:
   stage: RunTestINF6.2
   script:
     - . ./scripts/ci/run-tests.sh INF62 
-    
     # 5.1 INF: ---------------------------------------------------------------------
 DeployINF5.1:
   #tags:

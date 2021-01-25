@@ -1,10 +1,17 @@
-.THIS .vp-navigation {
-    margin-bottom: 1rem;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
 .THIS .navigation-breadcrumbs .cRRNavigationPath.navigation-path {
     margin-bottom: 0;
     margin-top: 0;
+}
+
+.THIS .slp-counter {
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: space-between;
+    padding-bottom: 15px;
+    font-size: 13px;
+}
+
+.THIS .slp-counter-txt {
+    padding-top: 20px;
 }

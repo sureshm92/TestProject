@@ -1,0 +1,116 @@
+<aura:component description="SiteSearchResults">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
+    <!--attributes-->
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="resultSet" type="List" />
+    <aura:attribute name="tmpFilterStudyList" type="List" />
+    <aura:attribute name="tmpFilterCountryList" type="List" />
+    <aura:attribute name="filterStudyList" type="List" />
+    <aura:attribute name="filterCountryList" type="List" />
+    <!--filtered site id list-->
+    <aura:attribute name="idsFromStudyFilter" type="List" />
+    <aura:attribute name="idsFromCountryFilter" type="List" />
+    <!--filtered list to be displayed-->
+    <aura:attribute name="filteredResultSet" type="List" />
+    <!--if filters applied-->
+    <aura:attribute name="countryFilterApplied" type="Boolean" />
+    <aura:attribute name="studyFilterApplied" type="Boolean" />
+    <aura:attribute name="searched" type="Boolean" />
+    <!--event handlers-->
+    <aura:handler
+        name="change"
+        value="{!v.countryFilterApplied}"
+        action="{!c.resetFilteredResultSet}"
+    />
+    <aura:handler
+        name="change"
+        value="{!v.studyFilterApplied}"
+        action="{!c.resetFilteredResultSet}"
+    />
+    <!--body-->
+    <div class="ssr-container slds-grid slds-grid_vertical">
+        <div class="slds-col">
+            <aura:if isTrue="{!!empty(v.resultSet)}">
+                <c:filterSearchResults
+                    filterCountryList="{!v.filterCountryList}"
+                    filterStudyList="{!v.filterStudyList}"
+                    onstudyfilterchange="{!c.handleStudyFilterChange}"
+                    oncountryfilterchange="{!c.handleCountryFilterChange}"
+                />
+            </aura:if>
+        </div>
+        <div class="ssr-resultsPanel slds-col">
+            <c:EmptyListStub
+                iconName="{!v.searched ? 'sad' : 'neutral'}"
+                message="{!v.searched ? $Label.c.PG_VP_L_No_Items : $Label.c.CC_TablePlaceholderTxt}"
+                targetList="{!v.resultSet}"
+            />
+            <aura:if isTrue="{!!empty(v.resultSet)}">
+                <div class="table-scroll">
+                    <c:RRTable>
+                        <tr class="table-header">
+                            <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>
+                            <th class="ssr-t-site-no">{!$Label.c.CC_TableHeader_SiteNo}</th>
+                            <th class="ssr-t-site">{!$Label.c.CC_TableHeader_Site}</th>
+                            <th class="ssr-t-country">{!$Label.c.CC_TableHeader_Country}</th>
+                            <th class="ssr-t-pi-name">{!$Label.c.CC_TableHeader_PI}</th>
+                            <th class="ssr-t-phone">{!$Label.c.CC_TableHeader_Phone}</th>
+                            <th class="ssr-t-primary-con">{!$Label.c.CC_TableHeader_Contact}</th>
+                            <th class="ssr-t-status">{!$Label.c.CC_TableHeader_Status}</th>
+                        </tr>
+                        <aura:if isTrue="{!not(empty(v.filteredResultSet))}">
+                            <aura:iteration
+                                var="siteWrapper"
+                                items="{!v.filteredResultSet}"
+                                indexVar="index"
+                            >
+                                <tr>
+                                    <td
+                                        class="ssr-t-ctp"
+                                        data-index="{!index}"
+                                        onclick="{!c.doNavigate}"
+                                    >
+                                        {!siteWrapper.studyName}
+                                    </td>
+                                    <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
+                                    <td class="ssr-t-site">{!siteWrapper.siteName}</td>
+                                    <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
+                                    <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
+                                    <td class="ssr-t-phone">{!siteWrapper.sitePhone}</td>
+                                    <td class="ssr-t-primary-con">{!siteWrapper.primaryContact}</td>
+                                    <td class="ssr-t-status">{!siteWrapper.siteStatus}</td>
+                                </tr>
+                            </aura:iteration>
+                            <aura:set attribute="else">
+                                <aura:iteration
+                                    var="siteWrapper"
+                                    items="{!v.resultSet}"
+                                    indexVar="index"
+                                >
+                                    <tr>
+                                        <td
+                                            class="ssr-t-ctp"
+                                            data-index="{!index}"
+                                            onclick="{!c.doNavigate}"
+                                        >
+                                            {!siteWrapper.studyName}
+                                        </td>
+                                        <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
+                                        <td class="ssr-t-site">{!siteWrapper.siteName}</td>
+                                        <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
+                                        <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
+                                        <td class="ssr-t-phone">{!siteWrapper.sitePhone}</td>
+                                        <td class="ssr-t-primary-con">
+                                            {!siteWrapper.primaryContact}
+                                        </td>
+                                        <td class="ssr-t-status">{!siteWrapper.siteStatus}</td>
+                                    </tr>
+                                </aura:iteration>
+                            </aura:set>
+                        </aura:if>
+                    </c:RRTable>
+                </div>
+            </aura:if>
+        </div>
+    </div>
+</aura:component>
