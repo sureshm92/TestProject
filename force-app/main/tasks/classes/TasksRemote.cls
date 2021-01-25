@@ -20,16 +20,16 @@ public without sharing class TasksRemote {
         @AuraEnabled
         public String originator;
         @AuraEnabled
-        public Datetime activityDate;
+        public Date activityDate;
         @AuraEnabled
-        public Datetime reminder;
+        public Date reminder;
     }
 
     public class CompletedTask {
         @AuraEnabled
         public Task task;
         @AuraEnabled
-        public Datetime completedDate;
+        public Date completedDate;
     }
 
     @AuraEnabled
@@ -54,9 +54,9 @@ public without sharing class TasksRemote {
                 taskWrapper.openTask = task;
 
                 if (task.Activity_Datetime__c != null)
-                    taskWrapper.activityDate = task.Activity_Datetime__c;
+                    taskWrapper.activityDate = task.Activity_Datetime__c.date();
                 if (task.ReminderDateTime != null)
-                    taskWrapper.reminder = task.ReminderDateTime;
+                    taskWrapper.reminder = task.ReminderDateTime.date();
 
                 participantTasks.openTasksWrapper.add(taskWrapper);
             }
@@ -68,7 +68,7 @@ public without sharing class TasksRemote {
                 CompletedTask completedTask = new CompletedTask();
                 completedTask.task = compTask;
                 if (compTask.Completed_Date__c != null)
-                    completedTask.completedDate = compTask.Completed_Date__c;
+                    completedTask.completedDate = compTask.Completed_Date__c.date();
 
                 participantTasks.completedTasks.add(completedTask);
             }

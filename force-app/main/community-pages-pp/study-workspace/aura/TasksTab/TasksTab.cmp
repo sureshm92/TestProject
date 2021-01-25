@@ -93,7 +93,7 @@
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
-                                                timeZone="{!$Locale.timezone}"
+                                                timeZone="UTC"
                                             />
 
                                             <aura:set attribute="else"> {!$Label.c.None} </aura:set>
@@ -115,7 +115,7 @@
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
-                                                timeZone="{!$Locale.timezone}"
+                                                timeZone="UTC"
                                             />
                                         </div>
 
@@ -189,7 +189,7 @@
                                             year="numeric"
                                             month="short"
                                             day="2-digit"
-                                            timeZone="{!$Locale.timezone}"
+                                            timeZone="UTC"
                                         />
                                     </aura:if>
                                 </td>

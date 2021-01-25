@@ -17,7 +17,8 @@
                     icon-color="#ffffff"
                     icon-height="25"
                     icon-width="20"
-                ></c-web-icon>
+                >
+                </c-web-icon>
             </template>
             <template if:true={isPIMode}>
                 <p>{initials}</p>
@@ -32,7 +33,7 @@
                         year="numeric"
                         month="short"
                         day="2-digit"
-                        time-zone={timeZone}
+                        time-zone="UTC"
                     ></lightning-formatted-date-time>
                 </div>
             </div>
