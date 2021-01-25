@@ -109,6 +109,7 @@
                                 year="numeric"
                                 month="short"
                                 day="2-digit"
+                                timeZone="UTC"
                             />
                         </span>
                     </div>
@@ -123,6 +124,7 @@
                                 year="numeric"
                                 month="short"
                                 day="2-digit"
+                                timeZone="UTC"
                             />
                         </span>
                     </div>
@@ -194,6 +196,7 @@
                             year="numeric"
                             month="short"
                             day="2-digit"
+                            timeZone="UTC"
                         />: {!item.Title}
                     </p>
                     <br />
