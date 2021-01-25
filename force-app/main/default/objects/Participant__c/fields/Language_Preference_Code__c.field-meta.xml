@@ -557,9 +557,8 @@
                 <label>BM</label>
             </value>
             <value>
-                <fullName>BN</fullName>
+                <fullName>bn</fullName>
                 <default>false</default>
-                <isActive>false</isActive>
                 <label>BN</label>
             </value>
             <value>
