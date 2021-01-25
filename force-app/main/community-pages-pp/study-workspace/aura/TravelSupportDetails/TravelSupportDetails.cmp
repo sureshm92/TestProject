@@ -150,6 +150,7 @@
                                     year="numeric"
                                     month="short"
                                     day="2-digit"
+                                    timeZone="UTC"
                                 />
                             </td>
                             <td class="sv-t-time">
@@ -160,6 +161,7 @@
                                     value="{!travelWrapper.dateAndTime}"
                                     hour="numeric"
                                     minute="numeric"
+                                    timeZone="UTC"
                                 />
                             </td>
                             <td class="sv-t-reminder">

@@ -133,9 +133,14 @@
                                         <span class="libLabel">Format:</span>{!resource.format}
                                     </div>
                                     <div class="slds-coll slds-size--1-of-12 versionForMobile">
-                                        <span class="libLabel">Version Date:</span
-                                        >
-                                        <lightning:formattedDateTime value="{!resource.versionDate}" year="numeric" month="short" day="2-digit"/>
+                                        <span class="libLabel">Version Date:</span>
+                                        <lightning:formattedDateTime
+                                            value="{!resource.versionDate}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            timeZone="UTC"
+                                        />
                                     </div>
                                     <div
                                         data-attributeVal="{!key + ',' + resourceIndex}"
