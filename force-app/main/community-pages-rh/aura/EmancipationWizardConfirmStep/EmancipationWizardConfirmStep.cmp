@@ -12,7 +12,7 @@
     <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" />
     <aura:attribute name="readMode" type="Boolean" default="true" />
     <aura:attribute name="currentTab" type="String" />
-
+    <aura:attribute name="isInvited" type="Boolean" access="public"/>
     <aura:attribute name="participantMsgWithName" type="String" />
 
     <!-- component body: -->
@@ -33,12 +33,22 @@
                 </button>
 
                 <div class="slds-grid slds-gutters slds-wrap" style="margin: 10px 0">
+                    <aura:if isTrue="{!v.isInvited}">
                     <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
                         {!v.participantMsgWithName}
                     </div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 participantOption">
                         {!v.selectedOption == '1' ? $Label.c.BTN_Invite : $Label.c.Do_Not_Invite}
                     </div>
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isInvited}">
+                    <div class="rr-form-element grey-text slds-col slds-size--1-of-1">
+                        {!v.participantMsgWithName}
+                    </div>
+                    <div class="rr-form-element slds-col slds-size--1-of-1 participantOption">
+                        {!v.selectedOption == '1' ? $Label.c.BTN_Invite : $Label.c.Do_Not_Invite}
+                    </div>
+                    </aura:if>
 
                     <div class="rr-form-element slds-col slds-size--1-of-3 bold-title">
                         {!$Label.c.PG_AP_H_Patient_Details}

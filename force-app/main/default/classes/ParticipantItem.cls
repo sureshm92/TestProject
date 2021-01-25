@@ -14,6 +14,8 @@ public without sharing class ParticipantItem {
     @AuraEnabled
     public Boolean showParticipationSteps;
     @AuraEnabled
+    public List<ViewPatientsRemote.PEWrapper> currentPageList;
+    @AuraEnabled
     public Boolean showVisits;
     @AuraEnabled//REF-2826
     public Boolean containsFile;
