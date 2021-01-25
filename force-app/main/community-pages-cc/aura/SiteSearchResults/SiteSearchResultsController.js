@@ -29,5 +29,16 @@
             component.set('v.filterStudyList', tmpFilterStudyList);
             component.set('v.filterCountryList', tmpFilterCountryList);
         }
+    },
+
+    openStudyInformation : function(component, event, helper) {
+       
+        var ssIndex = event.getSource().get('v.name');
+        var ss = component.get('v.resultSet')[ssIndex];
+        component.set('v.studyInformation',ss);
+        component.set('v.onclickName',true);
+        component.find('OpenStudySiteInfoAction').execute();
+        
+        
     }
 });
