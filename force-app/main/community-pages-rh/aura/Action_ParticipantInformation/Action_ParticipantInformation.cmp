@@ -141,7 +141,8 @@ showFooter="true"
                     {!$Label.c.Invited_to_Patient_Portal}
                 </div>
                 <div class="slds-col slds-size_1-of-1">
-                    (<ui:outputDate value="{!v.invitedon}"/>)
+                    <!--(<ui:outputDate value="{!v.invitedon}"/>)-->
+                    <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>
                 </div>
             </div>
 </button>
@@ -170,7 +171,8 @@ showFooter="true"
                         <div class="slds-col slds-size_1-of-1">
                             {!$Label.c.Sent_to_Study_Hub}</div>
                         <div class="slds-col slds-size_1-of-1">
-                            (<ui:outputDate value="{!v.dateofSH}"/>)
+                            <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
+                            <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>
                         </div>
                     </div>
 </button>   
