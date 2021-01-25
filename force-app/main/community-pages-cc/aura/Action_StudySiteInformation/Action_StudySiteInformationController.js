@@ -20,8 +20,26 @@
         var comp = component.find('dialog');
         comp.hide();
     },
-     doSave: function (component, event, helper) {
-          var childComponent = component.find("childCmp");
-          childComponent.childMessageMethod();
-    }
+    doSave: function (component, event, helper) {
+        // var childComponent = component.find("childCmp");
+        // childComponent.childMessageMethod();
+        var siteWrapper = component.get('v.studyInformation');
+        communityService.executeAction(
+            component,
+            'saveSSChanges',
+            { studySiteInfo: JSON.stringify(siteWrapper) },
+            function () {
+                communityService.showToast(
+                    'success',
+                    'success',
+                    $A.get('$Label.c.SS_Success_Save_Message')
+                );
+            },
+            null,
+            function () {
+                component.find('dialog').hide();
+                //studyListViewComponent.find('mainSpinner').hide();
+            }
+        );
+    },
 })

@@ -1,15 +1,6 @@
 ({
-    doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getInitData', null, function (initData) {
-            component.set('v.countriesLVList', initData.countriesLVList);
-            component.set('v.statesByCountryMap', initData.statesByCountryMap);
-            
-        });
-    },
-    
     doExecute: function (component, event, helper) {
         var params = event.getParam('arguments');
-        console.log('>>params>>'+JSON.stringify(params));
         component.set('v.account',params.account);
         
         var statesByCountryMap = component.get('v.statesByCountryMap');
@@ -41,8 +32,6 @@
         component.set('v.showContent', true);
         if (params.callback) 
             component.set('v.callback', $A.getCallback(params.callback));
-        //component.find('editLocation').show();
-        //  });
     },
     
     doCancel: function (component, event, helper) {
@@ -107,21 +96,19 @@
                 ssId: component.get('v.ssId')
             },
             function (returnedAccount) {
-                console.log(JSON.stringify(returnedAccount));
-                //component.find('editLocation').hide();
-                // component.get('v.callback')(returnedAccount);
+                component.get('v.callback')(returnedAccount);
             },
             null,
             function () {
                 //component.find('spinner').hide();
             }
         );
-        
-        var p = component.get('v.parent');
-        p.refreshTable();
-        component.set('v.editLocation',false);
-        var p = component.get('v.parent');
-        p.closeTab();
+        //  var p = component.get('v.parent');
+        //p.refreshTable();
+        //   component.set('v.editLocation',false);
+        //alert(component.get('v.accIndex'));
+        // var p = component.get('v.parent');
+        //  p.closeTab();
         
     }
 });

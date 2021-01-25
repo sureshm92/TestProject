@@ -6,6 +6,7 @@
                   />
     
     <!-- attributes: -->
+    <aura:attribute name="account" type="Object" />
     <aura:attribute name="ssId" type="String" />
     <aura:attribute name="accountInitial" type="Object" />
     <aura:attribute name="accountValidatedAddress" type="Object" />
@@ -20,9 +21,8 @@
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="editLocation" type="boolean" default="false"/>
     <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute name="accIndex" type="Integer" />
-    <aura:attribute name="locationtype" type="String" />
-    <aura:attribute name="account" type="Object" />
+     <aura:attribute name="accIndex" type="Integer" />
+     <aura:attribute name="locationtype" type="String" />
     
     
     <!-- methods: -->
@@ -47,15 +47,10 @@
                                      class="slds-col slds-size--1-of-12 slds-grid slds-grid--vertical-align-center slds-grid--align-center"
                                      style="max-width:30px;"
                                      >
-                                    <lightning:input
-                                                     aura:id="radioBtn"
-                                                     class="slds-grid"
-                                                     type="radio"
-                                                     />
-                                    
+                                   
                                 </div>
                                 
-                                <lightning:input
+                                 <lightning:input
                                                  aura:id="locationName"
                                                  class="ss-lightning-input"
                                                  value="{!v.account.Name}"
@@ -154,6 +149,7 @@
                                 <lightning:button
                                                   class="apollo-btn primary slds-button--neutral"
                                                   onclick="{!c.doUpsertAccount}"
+                                                  value="{!v.account}"
                                                   >Save</lightning:button
                                     >
                             </span>
@@ -255,5 +251,5 @@
         </div>
         
     </div>
-    <!--/aura:if-->
+        <!--/aura:if-->
 </aura:component>

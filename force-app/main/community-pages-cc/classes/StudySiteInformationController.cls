@@ -235,4 +235,74 @@ public without sharing class StudySiteInformationController {
             return (InitData) AuraHelper.throwException(e);
         }
     }
+
+    @AuraEnabled
+    public static void saveSSChanges(String studySiteInfo) {
+        try {
+            
+            Study_Site__c study = new Study_Site__c();
+            SiteWrapper response = (SiteWrapper) JSON.deserialize(
+                studySiteInfo,
+                SiteWrapper.class
+            );
+            study.Id = response.siteId;
+            study.Name = response.siteName;
+            study.Study_Site_Phone__c = response.sitePhone;
+            if(!String.IsBlank(response.siteStaff) ){
+                study.Site_Staff__c = response.siteStaff;
+            }
+            study.Study_Site_Email__c = response.siteEmail;
+            study.Completed_training__c =  response.trainingComplete;
+            study.Site_Information_Form_Completed__c = response.siteInfoComplete;
+            study.Suppress_Study_Site_PI_Emails__c = !response.receivePIEmail;
+            update study;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+    
+    public class SiteWrapper {
+        @AuraEnabled
+        public String ctpId;
+        @AuraEnabled
+        public String siteId;
+        @AuraEnabled
+        public String piId;
+        @AuraEnabled
+        public String studyName;
+        @AuraEnabled
+        public String siteNumber;
+        @AuraEnabled
+        public String siteName;
+        @AuraEnabled
+        public String siteCountry;
+        @AuraEnabled
+        public String piName;
+        @AuraEnabled
+        public String sitePhone;
+        @AuraEnabled
+        public String primaryContact;
+        @AuraEnabled
+        public String siteStatus;
+        @AuraEnabled
+        public String siteEmail;
+        @AuraEnabled
+        public String siteStaff;
+        @AuraEnabled
+        public Boolean receivePIEmail;
+        @AuraEnabled
+        public Boolean siteInfoComplete;
+        @AuraEnabled
+        public Boolean trainingComplete;
+        @AuraEnabled
+        public Boolean isStudySiteEmailValid;
+        @AuraEnabled
+        public Boolean isRecordUpdated;
+        @AuraEnabled
+        public String site;
+        @AuraEnabled
+        public String BillingCountryCode;
+        @AuraEnabled
+        public String BillingStateCode;
+    }
 }

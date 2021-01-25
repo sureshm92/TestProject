@@ -11,7 +11,8 @@
     <aura:method name="closeTab" action="{!c.closeTab}" />
     <aura:method name="refreshTable" action="{!c.refreshTable}" />
     <aura:attribute name="isAccountModified" type="Boolean" default="true" />
-   
+    <aura:attribute name="callback" type="Object" access="private" />
+       
     <aura:registerEvent name="CloseEvent" type="c:CloseEditLocations" />
     <aura:if isTrue = "{!!v.editLocations}">
         <div class="slds-grid slds-col slds-size--1-of-1">

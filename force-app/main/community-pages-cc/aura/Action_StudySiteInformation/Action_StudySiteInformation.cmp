@@ -41,7 +41,8 @@
                               account = "{!v.account}"/>
         
         <c:CallDispositionSection 
-                                  siteId="{!v.studyInformation.studyId}" isCDValitated="{!v.isCDValitated}"
+                                  siteId="{!v.studyInformation.studyId}" 
+                                  isCDValitated="{!v.isCDValitated}"
                                   aura:id="childCmp"/>
         <aura:set attribute="footerButtons">
             <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">

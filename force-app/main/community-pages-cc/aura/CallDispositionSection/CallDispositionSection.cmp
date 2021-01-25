@@ -1,14 +1,14 @@
-<aura:component description="CallDispositions" >
+<aura:component description="CallDispositionSection" >
     <!-- attributes: -->
-   
+    
     <aura:attribute name="sectionOpen" type="Boolean" default="false"/>
-       <aura:attribute name="siteId" type="string" access="public"/>
-     <aura:attribute name="notes" type="String" default=""/>
+    <aura:attribute name="siteId" type="string" access="public"/>
+    <aura:attribute name="notes" type="String" default=""/>
     <aura:attribute name="callbound" type="String" default="Inbound"/>
-     <aura:attribute name="callcategory" type="String"/>
+    <aura:attribute name="callcategory" type="String"/>
     <aura:attribute name="interventionReq" type="Boolean" default="false"/>
-     <aura:attribute name="isCDValitated" type="Boolean"  />
-     <aura:attribute name="newCall" type="Boolean" default="false" />
+    <aura:attribute name="isCDValitated" type="Boolean" access="public" />
+    <aura:attribute name="newCall" type="Boolean" default="false" />
     <aura:method name="childMessageMethod" action="{!c.getMessage}" access="public">
         <aura:attribute name="childnote" type="String" /> 
         <aura:attribute name="childcallcategory" type="String" /> 
@@ -21,33 +21,33 @@
                                      aura:id="accordioncd"
                                      allowMultipleSectionsOpen="true"
                                      onsectiontoggle="{! c.callhandleSectionToggle }"
-                                    activeSectionName="A"
+                                     activeSectionName="A"
                                      >
                     <lightning:accordionSection name="CD" label="Call Dispositions">
                         
                         <aura:set attribute="actions">
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
-                                <button
-                                        data-site-id="{!v.studySite.site.Id}"
-                                        id="addNewLocation"
-                                        class="apollo-btn secondary"
-                                        onclick="{!c.handleNewCall}"
-                                        >
-                                    <span>+  &nbsp;</span> New Call
-                                </button>
+                            <button
+                                    data-site-id="{!v.studySite.site.Id}"
+                                    id="addNewLocation"
+                                    class="apollo-btn secondary"
+                                    onclick="{!c.handleNewCall}"
+                                    >
+                                <span>+  &nbsp;</span> New Call
+                            </button>
                             <!--</div>-->
                         </aura:set>
-                      
-                      
+                        
+                        
                         <div class="slds-grid slds-grid_vertical">
-                              <c:callDispositions aura:id="calldispositionlwc" 
-                                                  onvaluechange="{!c.getValueFromLwc}" 
-                                                  oncallcategchange="{!c.getcallcategValueFromLwc}" 
-                                                  onlistselection="{!c.validationNotrequired}"
-                                                  oncallBoundchange="{!c.getcallBound}"
-                                                  oninterventionchange="{!c.getinterventionchange}"
-                                                  />
-                          
+                            <c:callDispositions aura:id="calldispositionlwc" 
+                                                onvaluechange="{!c.getValueFromLwc}" 
+                                                oncallcategchange="{!c.getcallcategValueFromLwc}" 
+                                                onlistselection="{!c.validationNotrequired}"
+                                                oncallBoundchange="{!c.getcallBound}"
+                                                oninterventionchange="{!c.getinterventionchange}"
+                                                />
+                            
                         </div>
                         
                         <!--/c:RRCollapse-->
