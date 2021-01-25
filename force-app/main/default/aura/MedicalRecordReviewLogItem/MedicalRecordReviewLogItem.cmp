@@ -48,7 +48,15 @@
             </div>
             <div class="mrrli-info-bottom">
                 <div class="mrrli-fields">{!v.participantEnrollment.Patient_ID__c}</div>
-                <div class="mrrli-fields">{!$Label.c.PG_MRRLI_MSG_Added_on}&nbsp;&nbsp;<lightning:formattedDateTime year="numeric" month="short" day="2-digit" value="{!v.addedDate}"/></div>
+                <div class="mrrli-fields">
+                    {!$Label.c.PG_MRRLI_MSG_Added_on}&nbsp;&nbsp;<lightning:formattedDateTime
+                        year="numeric"
+                        month="short"
+                        day="2-digit"
+                        value="{!v.addedDate}"
+                        timeZone="UTC"
+                    />
+                </div>
                 <aura:if isTrue="{!v.showStudyLink}">
                     <div class="mrrli-study-link">
                         <c:RRLink

@@ -63,12 +63,29 @@
                             </div>
                             <div class="step-info">
                                 <div class="step-title">{!step.title}</div>
-                                   <aura:if isTrue="{!step.title == 'Initial Visit'}">
-                                         <div class="step-status"><lightning:formattedDateTime value="{!step.dateStatus}" year="numeric" month="short" day="2-digit"/></div>
-                                       <aura:set attribute="else">
-                                            <div class="step-status">{!step.status}&nbsp;<lightning:formattedDateTime value="{!step.dateStatus}" year="numeric" month="short" day="2-digit"/></div>
-                                            </aura:set>
-                                        </aura:if>                            </div>
+                                <aura:if isTrue="{!step.title == 'Initial Visit'}">
+                                    <div class="step-status">
+                                        <lightning:formattedDateTime
+                                            value="{!step.dateStatus}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            timeZone="UTC"
+                                        />
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="step-status">
+                                            {!step.status}&nbsp;<lightning:formattedDateTime
+                                                value="{!step.dateStatus}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                timeZone="UTC"
+                                            />
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
                         </button>
                     </div>
 
@@ -92,15 +109,30 @@
                                     <div class="step-info">
                                         <div class="step-title">{!step.title}</div>
                                         <aura:if isTrue="{!step.title == 'Initial Visit'}">
-                                         <div class="step-status"><lightning:formattedDateTime value="{!step.dateStatus}" year="numeric" month="short" day="2-digit"/></div>
-                                       <aura:set attribute="else">
-                                            <div class="step-status">{!step.status}&nbsp;<lightning:formattedDateTime value="{!step.dateStatus}" year="numeric" month="short" day="2-digit"/></div>
+                                            <div class="step-status">
+                                                <lightning:formattedDateTime
+                                                    value="{!step.dateStatus}"
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    timeZone="UTC"
+                                                />
+                                            </div>
+                                            <aura:set attribute="else">
+                                                <div class="step-status">
+                                                    {!step.status}&nbsp;<lightning:formattedDateTime
+                                                        value="{!step.dateStatus}"
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        timeZone="UTC"
+                                                    />
+                                                </div>
                                             </aura:set>
                                         </aura:if>
                                     </div>
-                                </button>
-                            </div></aura:if
-                        >
+                                </button></div
+                        ></aura:if>
                     </aura:set>
                 </aura:if>
             </aura:iteration>

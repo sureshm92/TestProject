@@ -17,6 +17,9 @@
                 },
                 function (returnValue) {
                     returnValue = JSON.parse(returnValue);
+                    if(returnValue.currentPageList) 
+                        if(returnValue.currentPageList[0].actions)
+                        component.set("v.actions", returnValue.currentPageList[0].actions);
                     component.set('v.isFinalUpdate', true);
                     component.set('v.initialized', true);
                     component.set('v.pe', returnValue.pe);
