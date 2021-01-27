@@ -6,7 +6,7 @@
     padding: 20px 0px 0 0px;
 }
 
-.THIS .driving-directions{
+.THIS .driving-directions {
     padding: 20px 8px 0 0px;
 }
 
@@ -149,11 +149,11 @@
     background-color: #f8f9fb;
     min-height: 100px;
 }
-.THIS .partinfo-buttons{
-    padding-top:10px;
-     display: flex;
+.THIS .partinfo-buttons {
+    padding-top: 10px;
+    display: flex;
     justify-content: flex-end;
 }
-.THIS .button-base{
+.THIS .button-base {
     padding: 6px 16px;
 }

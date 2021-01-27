@@ -1,5 +1,5 @@
 ({
-	sortAndSetAccountsByName: function (component, accounts) {
+    sortAndSetAccountsByName: function (component, accounts) {
         accounts.sort(function (a, b) {
             var nameA = a.Name.toUpperCase();
             var nameB = b.Name.toUpperCase();
@@ -13,4 +13,4 @@
         });
         component.set('v.studySiteAccounts', accounts);
     }
-})
+});

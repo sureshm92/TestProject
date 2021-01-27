@@ -1,8 +1,8 @@
 ({
     doExecute: function (component, event, helper) {
         var params = event.getParam('arguments');
-        component.set('v.account',params.account);
-        
+        component.set('v.account', params.account);
+
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var account;
         if (params.account) {
@@ -21,25 +21,24 @@
             };
         }
         component.set('v.account', account);
-        
+
         component.set('v.ssId', params.ssId);
-        
+
         component.set('v.accountInitial', JSON.parse(JSON.stringify(account)));
         helper.checkAccountModified(component);
         helper.setCoordinates(component);
         //reset content:
         component.set('v.showContent', false);
         component.set('v.showContent', true);
-        if (params.callback) 
-            component.set('v.callback', $A.getCallback(params.callback));
+        if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
     },
-    
+
     doCancel: function (component, event, helper) {
-        component.set('v.editLocation',false);
+        component.set('v.editLocation', false);
         var p = component.get('v.parent');
         p.closeTab();
     },
-    
+
     doCheckAddress: function (component, event, helper) {
         component.set('v.showAddressValidationSpinner', true);
         var currentAccount = component.get('v.account');
@@ -54,7 +53,7 @@
             }
         );
     },
-    
+
     doCheckFields: function (component, event, helper) {
         var account = component.get('v.account');
         if (account.BillingStateCode) {
@@ -63,7 +62,7 @@
         component.set('v.account', account);
         helper.checkAccountModified(component);
     },
-    
+
     doTrimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
         event.getSource().set('v.value', val.trim());
@@ -71,7 +70,7 @@
             event.getSource().showHelpMessageIfInvalid();
         }
     },
-    
+
     doCountryChange: function (component, event, helper) {
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var countriesLVList = component.get('v.countriesLVList');
@@ -84,7 +83,7 @@
         helper.checkAccountModified(component);
         component.set('v.statesLVList', states);
     },
-    
+
     doUpsertAccount: function (component, event, helper) {
         var account = component.get('v.account');
         //component.find('spinner').show();
@@ -109,6 +108,5 @@
         //alert(component.get('v.accIndex'));
         // var p = component.get('v.parent');
         //  p.closeTab();
-        
     }
 });
