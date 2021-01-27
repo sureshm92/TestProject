@@ -2,13 +2,23 @@
     doInit : function(component, event, helper) {
         var peId = component.get("v.pe.Id");
         var action = component.get("c.getMedicalHistory");
-		component.set('v.subDomain', communityService.getSubDomain());
+        component.set('v.subDomain', communityService.getSubDomain());        
         action.setParams({ peId : peId });
         action.setCallback(this, function(response) 
                            {
+                               //console.log('Test9' +response.getReturnValue());
                                component.set('v.medicalHistory', JSON.parse(response.getReturnValue()));
+                               var MD =component.get('v.medicalHistory');
+                               //console.log('MED123' +JSON.stringify(MD));
+                               var CreatedDate =MD.attachments[0].CreatedDate
+                               //Console.log('MED12345' +JSON.stringify(CreatedDate));
+                               component.set('v.CreatedDate' , Date.parse(CreatedDate));
+                               //console.log('MED123456789' +JSON.stringify(Date.parse(CreatedDate)));
+                               
+                               
                            });
         $A.enqueueAction(action);
+        
     },
     openModel : function(component, event, helper){       
         var peId = component.get("v.pe.Id");
@@ -35,7 +45,7 @@
     
     closeModal:function(component,event,helper){    
         component.set('v.openmodel',false);
-        },
-
-        
+    },
+    
+    
 })

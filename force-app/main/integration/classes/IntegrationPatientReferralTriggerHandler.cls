@@ -365,8 +365,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     }
                 }
                 if (!delegateUsersToCreate.isEmpty()) {
-                    ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                        .createParticipantUsers(delegateUsersToCreate);
+                    CommunityService.createParticipantUsersAsync(delegateUsersToCreate.keySet());
                 }
             }
         }
