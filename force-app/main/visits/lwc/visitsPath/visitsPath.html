@@ -13,16 +13,16 @@
                         <div class="slds-col arrow-left" style="padding-right: 0">
                             <div onclick={handleScrollLeft} class="arrow-border">
                                 <i>
-                                    <span></span>
+                                    <span>
                                         <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
                                             icon-height="18"></c-web-icon>
                                     </span>
                                 </i>
-                            </div> 
+                            </div>
                         </div>
                         <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
                             <div class="slds-grid vis-path">
-                                 <template for:each={pathItems} for:item="pathItem">
+                                <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
                                         <div class="slds-grid">
                                             <div class={pathItem.left}></div>
