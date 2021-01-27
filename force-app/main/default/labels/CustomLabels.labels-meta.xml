@@ -1541,6 +1541,20 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CC_Receive_Study_Site_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
+        <value>Receive Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Training_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Training_Complete</shortDescription>
+        <value>Training Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_Btn_ExportAll</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1735,6 +1749,13 @@
         <protected>true</protected>
         <shortDescription>CC_Study_Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+	    <labels>
+        <fullName>CC_Site_Information_Form_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Information_Form_Complete</shortDescription>
+        <value>Site Information Form Complete</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_CTP</fullName>
@@ -18179,6 +18200,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+	    <labels>
+        <fullName>Study_Site_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Information</shortDescription>
+        <value>Study Site Information</value>
+    </labels>
+    <labels>
+        <fullName>Study_Site_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>Study_Site_phone_number</fullName>

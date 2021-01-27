@@ -25,11 +25,23 @@ public without sharing class SiteListPageRemote {
         @AuraEnabled
         public String siteEmail;
         @AuraEnabled
+        public String siteStaff;
+        @AuraEnabled
         public Boolean receivePIEmail;
         @AuraEnabled
         public Boolean siteInfoComplete;
         @AuraEnabled
         public Boolean trainingComplete;
+        @AuraEnabled
+        public Boolean isStudySiteEmailValid;
+        @AuraEnabled
+        public Boolean isRecordUpdated;
+        @AuraEnabled
+        public String site;
+        @AuraEnabled
+        public String BillingCountryCode;
+        @AuraEnabled
+        public String BillingStateCode;
     }
     public class PaginatedSiteWrapper {
         @AuraEnabled
@@ -65,7 +77,11 @@ public without sharing class SiteListPageRemote {
         'Suppress_Study_Site_PI_Emails__c',
         'Site_Information_Form_Completed__c',
         'Completed_training__c',
-        'CreatedDate'
+        'CreatedDate',
+        'Site_Staff__c',
+        'Site__c',
+        'Principal_Investigator__r.Account.BillingCountryCode',
+        'Principal_Investigator__r.Account.BillingStateCode'
     };
 
     public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
@@ -207,6 +223,11 @@ public without sharing class SiteListPageRemote {
             wrapper.receivePIEmail = !site.Suppress_Study_Site_PI_Emails__c;
             wrapper.siteInfoComplete = site.Site_Information_Form_Completed__c;
             wrapper.trainingComplete = site.Completed_training__c;
+            wrapper.siteStaff = site.Site_Staff__c;
+            wrapper.siteEmail = site.Study_Site_Email__c;
+            wrapper.site = site.Site__c;
+            wrapper.BillingCountryCode = site.Principal_Investigator__r.Account.BillingCountryCode;
+            wrapper.BillingStateCode = site.Principal_Investigator__r.Account.BillingStateCode;
             wrapperList.add(wrapper);
         }
         return wrapperList;

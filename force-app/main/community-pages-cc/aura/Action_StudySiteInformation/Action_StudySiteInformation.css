@@ -1,0 +1,16 @@
+.THIS .partinfo-footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+    align-content: center;
+}
+
+.THIS
+    .cStudySiteLocations
+    + .ap-section
+    .slds-grid
+    .slds-size_1-of-2.slds-p-around_xx-small
+    > div:nth-child(3) {
+    max-height: 190px;
+    overflow: hidden;
+    overflow-y: auto;
+}

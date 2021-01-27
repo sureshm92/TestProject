@@ -1,0 +1,106 @@
+<aura:component description="StudySiteLocations" controller="StudySiteInformationController">
+    <!-- attributes: -->
+    <aura:attribute name="studySite" type="Object" />
+    <aura:attribute name="studySiteAccounts" type="List" />
+    <aura:attribute name="callback" type="Object" access="private" />
+    <aura:attribute name="locationWasChanged" type="Boolean" default="false" />
+    <aura:attribute name="checkedAccount" type="Account" />
+    <aura:attribute name="editLocation" type="Boolean" default="true" />
+    <aura:attribute name="CurrenIndexOpen" type="String" default="null" />
+    <aura:attribute name="isAccountModified" type="Boolean" default="true" />
+    <aura:attribute name="accountEdited" type="Object" />
+    <aura:attribute name="piId" type="String" />
+    <aura:attribute name="countriesLVList" type="List" />
+    <aura:attribute name="statesByCountryMap" type="Object" />
+    <aura:attribute name="sectionOpen" type="Boolean" default="false" />
+    <aura:attribute name="account" type="Object" />
+    <!-- methods: -->
+    <aura:method name="execute" action="{!c.doExecute}">
+        <aura:attribute name="studySiteWrapper" type="Object" />
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+    <!--<aura:method name="CloseOtherAccTab" action="{!c.CloseOtherAccTab}" >
+        <aura:attribute name="accindex" type="Integer" />
+    </aura:method>-->
+    <aura:method name="tabClosed" action="{!c.tabClosed}" />
+    <aura:method
+        name="handleSectionToggle"
+        action="{!c.handleSectionToggle}"
+        description="controller function"
+    />
+    <aura:method name="refreshTable" action="{!c.refreshTable}" />
+    <aura:method name="closeTab" action="{!c.closeTab}" />
+    <aura:handler name="CloseEvent" event="c:CloseEditLocations" action="{!c.CloseOtherAccTab}" />
+
+    <div class="ap-section">
+        <div class="collapse-wrapper slds-m-bottom--medium slds-grid">
+            <div class="slds-col">
+                <!--c:RRCollapse label="Study Site Locations" onclick="{!c.fetchLocations}"-->
+                <!--<lightning:accordion
+                                     aura:id="accordion"
+                                     allowMultipleSectionsOpen="true"
+                                     onsectiontoggle="{! c.handleSectionToggle }"
+                                     class="{!'rr-collapse-panel ' + if(v.sectionOpen, ' collapsed', '')}"
+                                     >-->
+                <lightning:accordion
+                    aura:id="accordion"
+                    allowMultipleSectionsOpen="true"
+                    onsectiontoggle="{! c.handleSectionToggle }"
+                    activeSectionName="B"
+                >
+                    <lightning:accordionSection name="SSL" label="Study Site Locations">
+                        <aura:set attribute="actions">
+                            <!--<div class="slds-col slds-grid slds-grid_align-end">-->
+                            <button
+                                data-site-id="{!v.studySite.siteId}"
+                                id="addNewLocation"
+                                class="apollo-btn secondary"
+                                onclick="{!c.newAccountAddress}"
+                            >
+                                <span>+</span> {!$Label.c.SS_New_Location}
+                            </button>
+                            <!--</div>-->
+                        </aura:set>
+                        <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
+                        <aura:if isTrue="{!v.editLocation}">
+                            <c:StudySiteLocationEdit
+                                aura:id="editLocation"
+                                countriesLVList="{!v.countriesLVList}"
+                                locationtype="nl"
+                                statesByCountryMap="{!v.statesByCountryMap}"
+                                parent="{!this}"
+                                isAccountModified="{!v.isAccountModified}"
+                                account="{!v.account}"
+                            />
+                        </aura:if>
+                        <div class="slds-grid slds-grid_vertical">
+                            <aura:if isTrue="{!v.studySiteAccounts}">
+                                <div class="slds-grid slds-wrap">
+                                    <aura:iteration
+                                        items="{!v.studySiteAccounts}"
+                                        var="account"
+                                        indexVar="accIndex"
+                                    >
+                                        <c:SiteLocation
+                                            aura:id="siteloc"
+                                            gparent="{! this }"
+                                            account="{!account}"
+                                            studySite="{!v.studySite}"
+                                            accIndex="{!accIndex}"
+                                            studySiteAccounts="{!v.studySiteAccounts}"
+                                            countriesLVList="{!v.countriesLVList}"
+                                            statesByCountryMap="{!v.statesByCountryMap}"
+                                            isAccountModified="{!v.isAccountModified}"
+                                        />
+                                    </aura:iteration>
+                                </div>
+                            </aura:if>
+                        </div>
+
+                        <!--/c:RRCollapse-->
+                    </lightning:accordionSection>
+                </lightning:accordion>
+            </div>
+        </div>
+    </div>
+</aura:component>

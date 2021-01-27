@@ -1,0 +1,44 @@
+.THIS .ss-lightning-input label {
+    height: 21px;
+    color: #444;
+    font-family: 'Proxima Nova';
+    font-size: 13px;
+    font-weight: 500;
+    line-height: 21px;
+    margin-bottom: 4px;
+}
+.THIS .delegate-select {
+    width: 100%;
+    color: #000000;
+    font-size: 14px;
+}
+.THIS .input-fields-labels {
+    height: 21px;
+    color: #444;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 21px;
+}
+.THIS .criteria-body {
+    margin: 0 5px 10px 35px;
+    font-size: 0.875rem;
+}
+.THIS .collapse-wrapper .rr-collapse-panel .body {
+    white-space: pre-wrap;
+}
+.THIS .rr-form-element + .rr-form-element {
+    margin-top: 0;
+    margin-bottom: 25px;
+}
+
+.THIS .rr-form-element {
+    margin-bottom: 10px;
+}
+.THIS .IQVIA_contact-patient-checkbox {
+    display: inline-block;
+    margin-bottom: 20px;
+}
+.THIS .criteria-body {
+    margin: 0 5px 10px 35px;
+    font-size: 0.875rem;
+}
