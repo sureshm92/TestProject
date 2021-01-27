@@ -77,13 +77,12 @@
                                     <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
                                     <td class="ssr-t-site">
                                         <lightning:button
-                                                    class="align-left"
-                                                    variant="base"
-                                                    name="{!index}"
-                                                    label="{!siteWrapper.siteName}"
-                                                    onclick="{!c.openStudyInformation}"
-                                                />
-                                       
+                                            class="align-left"
+                                            variant="base"
+                                            name="{!index}"
+                                            label="{!siteWrapper.siteName}"
+                                            onclick="{!c.openStudyInformation}"
+                                        />
                                     </td>
                                     <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
                                     <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
@@ -125,8 +124,9 @@
         </div>
     </div>
     <aura:if isTrue="{!v.onclickName}">
-        <c:Action_StudySiteInformation 
-                                       studyInformation="{!v.studyInformation}"
-                                       aura:id = "OpenStudySiteInfoAction"/>
+        <c:Action_StudySiteInformation
+            studyInformation="{!v.studyInformation}"
+            aura:id="OpenStudySiteInfoAction"
+        />
     </aura:if>
 </aura:component>

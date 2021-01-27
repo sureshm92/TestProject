@@ -54,41 +54,41 @@ public without sharing class SiteListPageRemote {
         public List<Study_Site__c> sites;
         @AuraEnabled
         public List<String> siteIds;
-        
+
         CSVWrapper() {
             this.sites = new List<Study_Site__c>();
             this.siteIds = new List<String>();
         }
     }
-    
+
     public static final List<String> SS_TABLE_FIELDS = new List<String>{
         'Id',
-            'Clinical_Trial_Profile__c',
-            'Clinical_Trial_Profile__r.Study_Code_Name__c',
-            'Study_Site_Number__c',
-            'Name',
-            'Site__r.BillingCountry',
-            'Principal_Investigator__c',
-            'Principal_Investigator__r.Name',
-            'Study_Site_Phone__c',
-            'Site_Staff__r.Site_Contact__r.Name',
-            'Study_Site_Email__c',
-            'Override_PI_Referral_Status__c',
-            'Suppress_Study_Site_PI_Emails__c',
-            'Site_Information_Form_Completed__c',
-            'Completed_training__c',
-            'CreatedDate',
-            'Site_Staff__c',
-            'Site__c',
-            'Principal_Investigator__r.Account.BillingCountryCode',
-            'Principal_Investigator__r.Account.BillingStateCode'
-            };
-                
-                public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
-    
+        'Clinical_Trial_Profile__c',
+        'Clinical_Trial_Profile__r.Study_Code_Name__c',
+        'Study_Site_Number__c',
+        'Name',
+        'Site__r.BillingCountry',
+        'Principal_Investigator__c',
+        'Principal_Investigator__r.Name',
+        'Study_Site_Phone__c',
+        'Site_Staff__r.Site_Contact__r.Name',
+        'Study_Site_Email__c',
+        'Override_PI_Referral_Status__c',
+        'Suppress_Study_Site_PI_Emails__c',
+        'Site_Information_Form_Completed__c',
+        'Completed_training__c',
+        'CreatedDate',
+        'Site_Staff__c',
+        'Site__c',
+        'Principal_Investigator__r.Account.BillingCountryCode',
+        'Principal_Investigator__r.Account.BillingStateCode'
+    };
+
+    public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
+
     private static final Integer DOWNLOAD_QUERY_LIMIT = 49000;
     private static final Integer RECORDS_PER_PAGE = 100;
-    
+
     @AuraEnabled
     public static PaginatedSiteWrapper getSearchResults(
         String searchOption,
@@ -98,20 +98,20 @@ public without sharing class SiteListPageRemote {
         PaginatedSiteWrapper paginatedWrapper = new PaginatedSiteWrapper();
         List<Study_Site__c> siteQueryResult;
         String filterText = '';
-        
+
         paginatedWrapper.paginationData = new PaginationData(RECORDS_PER_PAGE);
         paginatedWrapper.sites = new List<SiteWrapper>();
-        
+
         filterText = getFilterText(searchOption, searchText);
-        
+
         try {
             //Apply pagination
             Integer recordCount = Database.countQuery(
                 'SELECT COUNT() FROM Study_Site__c WHERE ' + filterText
             );
-            
+
             paginatedWrapper.paginationData.setRecordsCount(recordCount);
-            
+
             Integer limitvalue = paginatedWrapper.paginationData.pageRecordsCount;
             Integer currentpage = paginatedWrapper.paginationData.currentPage;
             Integer size = currentpage - 1;
@@ -125,7 +125,7 @@ public without sharing class SiteListPageRemote {
                 limitvalue,
                 offsetvalue
             );
-            
+
             if (!siteQueryResult.isEmpty()) {
                 //Apply translation
                 TranslateHelper.translate(siteQueryResult);
@@ -137,7 +137,7 @@ public without sharing class SiteListPageRemote {
             throw new AuraHandledException(e.getMessage());
         }
     }
-    
+
     @AuraEnabled
     public static CSVWrapper getAllSearchResults(
         String searchOption,
@@ -172,7 +172,7 @@ public without sharing class SiteListPageRemote {
             throw new AuraHandledException(e.getMessage());
         }
     }
-    
+
     private static String getFilterText(String searchOption, String searchText) {
         String filterText = '';
         switch on searchOption {
@@ -204,7 +204,7 @@ public without sharing class SiteListPageRemote {
         }
         return filterText;
     }
-    
+
     private static List<SiteWrapper> wrapperTransformation(List<Study_Site__c> siteList) {
         List<SiteWrapper> wrapperList = new List<SiteWrapper>();
         for (Study_Site__c site : siteList) {
@@ -223,13 +223,13 @@ public without sharing class SiteListPageRemote {
             wrapper.receivePIEmail = !site.Suppress_Study_Site_PI_Emails__c;
             wrapper.siteInfoComplete = site.Site_Information_Form_Completed__c;
             wrapper.trainingComplete = site.Completed_training__c;
-            wrapper.siteStaff =  site.Site_Staff__c;
-            wrapper.siteEmail =  site.Study_Site_Email__c;
+            wrapper.siteStaff = site.Site_Staff__c;
+            wrapper.siteEmail = site.Study_Site_Email__c;
             wrapper.site = site.Site__c;
             wrapper.BillingCountryCode = site.Principal_Investigator__r.Account.BillingCountryCode;
             wrapper.BillingStateCode = site.Principal_Investigator__r.Account.BillingStateCode;
             wrapperList.add(wrapper);
         }
         return wrapperList;
-    }  
+    }
 }

@@ -100,7 +100,6 @@
     margin-right: 10px;
 }
 
-
 @media (max-width: 925px) {
     .THIS .ss-info-headers {
         overflow: hidden;
@@ -178,9 +177,8 @@
     height: 49px;
 }
 
-
 .THIS .label-block {
     font-size: 1rem;
-  /*  height: 49px; */
+    /*  height: 49px; */
     color: #595959;
 }
