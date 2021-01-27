@@ -6,6 +6,7 @@
         let idsFromStudyFilter = filteredData.key;
         let idsFromCountryFilter = component.get('v.idsFromCountryFilter');
         let resultSet = component.get('v.resultSet');
+        let tmpFilterStudyList = component.get('v.tmpFilterStudyList');
         console.log('studyFilterChangeHelper' + JSON.stringify(filteredData));
 
         //Create/Modify filteredResultSet based on the filtered data
@@ -25,6 +26,12 @@
                 filteredResultSet = resultSet.filter(
                     (site) => idsFromCountryFilter.includes(site.siteId) //filter2
                 );
+                //And update filter1
+                let updatedStudies = filteredResultSet.map((site) => site.studyName);
+                let filterStudyList = tmpFilterStudyList.filter((country) =>
+                    updatedStudies.includes(country.value)
+                );
+                component.set('v.filterStudyList', filterStudyList);
             }
         }
         //2. if filteredResultSet is empty and filter2 is not applied
@@ -56,6 +63,7 @@
         let idsFromCountryFilter = filteredData.key;
         let idsFromStudyFilter = component.get('v.idsFromStudyFilter');
         let resultSet = component.get('v.resultSet');
+        let tmpFilterCountryList = component.get('v.tmpFilterCountryList');
         console.log('countryFilterChangeHelper' + JSON.stringify(filteredData));
 
         //Create/Modify filteredResultSet based on the filtered data
@@ -75,6 +83,12 @@
                 filteredResultSet = resultSet.filter((site) =>
                     idsFromStudyFilter.includes(site.siteId)
                 );
+                //And update filter1
+                let updatedCountries = filteredResultSet.map((site) => site.siteCountry);
+                let filterCountryList = tmpFilterCountryList.filter((country) =>
+                    updatedCountries.includes(country.value)
+                );
+                component.set('v.filterCountryList', filterCountryList);
             }
         }
         //2. if filteredResultSet is empty and filter2 is not applied
