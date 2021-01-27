@@ -403,7 +403,8 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                 ParticipantEnrollment__r.Participant__c,
                 ParticipantEnrollment__r.Clinical_Trial_Profile__c,
                 ParticipantEnrollment__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
-                Status__c
+                Status__c,
+                Date__c
             FROM Participant_Enrollment_Status_History__c
             WHERE Id IN :newHistories
         ];
