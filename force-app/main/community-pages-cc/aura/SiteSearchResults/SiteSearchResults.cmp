@@ -77,12 +77,13 @@
                                     <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
                                     <td class="ssr-t-site">
                                         <lightning:button
-                                            class="align-left"
-                                            variant="base"
-                                            name="{!index}"
-                                            label="{!siteWrapper.siteName}"
-                                            onclick="{!c.openStudyInformation}"
-                                        />
+                                                    class="align-left"
+                                                    variant="base"
+                                                    name="{!index}"
+                                                    label="{!siteWrapper.siteName}"
+                                                    onclick="{!c.openStudyInformation}"
+                                                />
+                                       
                                     </td>
                                     <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
                                     <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
@@ -106,7 +107,16 @@
                                             {!siteWrapper.studyName}
                                         </td>
                                         <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
-                                        <td class="ssr-t-site">{!siteWrapper.siteName}</td>
+                                        <td class="ssr-t-site">
+                                            <lightning:button
+                                                        class="align-left"
+                                                        variant="base"
+                                                        name="{!index}"
+                                                        label="{!siteWrapper.siteName}"
+                                                        onclick="{!c.openStudyInformation}"
+                                                    />
+                                           
+                                        </td>
                                         <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
                                         <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
                                         <td class="ssr-t-phone">{!siteWrapper.sitePhone}</td>
@@ -124,9 +134,8 @@
         </div>
     </div>
     <aura:if isTrue="{!v.onclickName}">
-        <c:Action_StudySiteInformation
-            studyInformation="{!v.studyInformation}"
-            aura:id="OpenStudySiteInfoAction"
-        />
+        <c:Action_StudySiteInformation 
+                                       studyInformation="{!v.studyInformation}"
+                                       aura:id = "OpenStudySiteInfoAction"/>
     </aura:if>
 </aura:component>
