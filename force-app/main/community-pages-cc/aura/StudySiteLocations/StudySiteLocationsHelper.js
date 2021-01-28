@@ -13,11 +13,11 @@
         });
         component.set('v.studySiteAccounts', accounts);
     },
-
+    
     getCountryData: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (initData) {
             component.set('v.countriesLVList', initData.countriesLVList);
-            component.set('v.statesByCountryMap', initData.statesByCountryMap);
+            component.set('v.statesByCountryMap', initData.statesByCountryMap);            
         });
     }
 });

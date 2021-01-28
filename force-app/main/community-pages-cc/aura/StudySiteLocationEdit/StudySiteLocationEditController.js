@@ -1,8 +1,17 @@
 ({
     doExecute: function (component, event, helper) {
         var params = event.getParam('arguments');
-        component.set('v.account', params.account);
-
+        component.set('v.account',params.account);
+       
+        
+        if($A.util.isUndefinedOrNull(component.get('v.account.Name'))
+          || ($A.util.isUndefinedOrNull(component.get('v.account.BillingStreet')))
+           ||($A.util.isUndefinedOrNull(component.get('v.account.BillingCity'))))
+        {
+            component.set('v.isAccountDetailFilled',false);
+        }
+            
+        
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var account;
         if (params.account) {
@@ -21,24 +30,27 @@
             };
         }
         component.set('v.account', account);
-
         component.set('v.ssId', params.ssId);
-
+        
         component.set('v.accountInitial', JSON.parse(JSON.stringify(account)));
         helper.checkAccountModified(component);
         helper.setCoordinates(component);
         //reset content:
         component.set('v.showContent', false);
         component.set('v.showContent', true);
-        if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
+        //component.set('v.isStudyInfoModified',true);
+        if (params.callback) 
+            component.set('v.callback', $A.getCallback(params.callback));
     },
-
+    
     doCancel: function (component, event, helper) {
-        component.set('v.editLocation', false);
+        component.set('v.isEdited',false);
+        component.set('v.editLocation',false);
+        
         var p = component.get('v.parent');
         p.closeTab();
     },
-
+    
     doCheckAddress: function (component, event, helper) {
         component.set('v.showAddressValidationSpinner', true);
         var currentAccount = component.get('v.account');
@@ -53,16 +65,22 @@
             }
         );
     },
-
+    
     doCheckFields: function (component, event, helper) {
         var account = component.get('v.account');
+        if($A.util.isUndefinedOrNull(account.BillingCity))
+        {
+            component.set('v.isAccountDetailFilled',false);
+        }
+        else
+            component.set('v.isAccountDetailFilled',true);
         if (account.BillingStateCode) {
             var statesLVList = component.get('v.statesLVList');
         }
         component.set('v.account', account);
         helper.checkAccountModified(component);
     },
-
+    
     doTrimChanges: function (component, event, helper) {
         var val = event.getSource().get('v.value');
         event.getSource().set('v.value', val.trim());
@@ -70,7 +88,7 @@
             event.getSource().showHelpMessageIfInvalid();
         }
     },
-
+    
     doCountryChange: function (component, event, helper) {
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var countriesLVList = component.get('v.countriesLVList');
@@ -83,10 +101,12 @@
         helper.checkAccountModified(component);
         component.set('v.statesLVList', states);
     },
-
+    
     doUpsertAccount: function (component, event, helper) {
         var account = component.get('v.account');
-        //component.find('spinner').show();
+        component.find('modalSpinner').show();
+        component.set('v.isEdited',false);
+        component.set('v.isStudyInfoModified', true);
         communityService.executeAction(
             component,
             'upsertAccount',
@@ -99,6 +119,8 @@
             },
             null,
             function () {
+                component.set('v.editedAccount', account.Id);
+                console.log('hhhh'+component.get(v.editedAccount));
                 //component.find('spinner').hide();
             }
         );
@@ -108,5 +130,6 @@
         //alert(component.get('v.accIndex'));
         // var p = component.get('v.parent');
         //  p.closeTab();
+        
     }
 });
