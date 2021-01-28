@@ -9,6 +9,7 @@
     <aura:attribute name="interventionReq" type="Boolean" default="false" />
     <aura:attribute name="isCDValitated" type="Boolean" access="public" />
     <aura:attribute name="newCall" type="Boolean" default="false" />
+    <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
     <aura:method name="childMessageMethod" action="{!c.getMessage}" access="public">
         <aura:attribute name="childnote" type="String" />
         <aura:attribute name="childcallcategory" type="String" />
