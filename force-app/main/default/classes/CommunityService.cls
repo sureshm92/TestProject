@@ -171,53 +171,6 @@ public without sharing class CommunityService {
         insert newPortalUsers;
     }
 
-    @future
-    public Static Void createParticipantUsersAsync(Set<Id> conList) {
-        
-        Map<Id,Id> contactIdsMap = new Map<Id,Id>();
-        for(Id i:conList){
-            contactIdsMap.put(i,null);
-        }
-        System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
-        List<Contact> contacts = getContacts(contactIdsMap.keySet());
-        List<User> hcpUsers = [
-            SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
-            FROM User
-            WHERE ContactId IN :contactIdsMap.values() AND LocaleSidKey != NULL
-        ];
-        Map<Id, User> hcpUsersMap = new Map<Id, User>();
-        for (User hcp : hcpUsers)
-            hcpUsersMap.put(hcp.ContactId, hcp);
-        
-        List<User> newPortalUsers = new List<User>();
-        Set<String> usedNames = new Set<String>();
-        for (Contact cont : contacts) {
-            String timeZone;
-            String locale;
-            String language;
-            User hcpUser = hcpUsersMap.get(contactIdsMap.get(cont.Id));
-            if (hcpUser != null) {
-                timeZone = hcpUser.TimeZoneSidKey;
-                locale = hcpUser.LocaleSidKey;
-                language = hcpUser.LanguageLocaleKey;
-            }
-            if (
-                !cont.Participants__r.isEmpty() &&
-                cont.Participants__r[0].Preferred_Language__c != null
-            ) {
-                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
-            }
-            if (cont.Language__c != null)
-                language = cont.Language__c;
-            if (cont.Email != null && cont.Email != '') {
-                newPortalUsers.add(createUser(cont, locale, language, timeZone));
-            }
-       }
-        System.debug('newPortalUsers' + newPortalUsers);
-        insert newPortalUsers;
-        System.debug('Portal users successfully created = ' + newPortalUsers.size());
-    }
-
     //Create participant users, fill time zone, locale and language from HCP contact
     public List<User> createParticipantUsers(Map<Id, Id> contactIdsMap) {
         System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
