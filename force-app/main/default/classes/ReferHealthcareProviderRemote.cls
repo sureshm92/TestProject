@@ -354,7 +354,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         SELECT AccountId 
                         FROM Contact
                         WHERE Id =: participantObj.Contact__c 
-                        LIMIT 1].AccountId;
+                        LIMIT 1
+                        FOR UPDATE].AccountId;
                     newContact.Language__c = UserInfo.getLanguage();
                     newContact.Second_Choice_Language__c = '';
                     newContact.Third_Choice_Language__c = '';
