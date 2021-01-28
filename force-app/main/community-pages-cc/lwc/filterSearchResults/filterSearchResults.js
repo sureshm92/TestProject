@@ -16,8 +16,8 @@ export default class FilterSearchResults extends LightningElement {
     @api filterStudyList;
 
     renderedCallback() {
-        console.log('renderedCallback');
         if (this.initialized) {
+            console.log('renderedCallback');
             return;
         }
         this.initialized = true;
@@ -72,5 +72,20 @@ export default class FilterSearchResults extends LightningElement {
                 detail: { filteredData }
             })
         );
+    }
+
+    resetFilterTxt(evt) {
+        let nodeName = evt.target.name;
+        let country = this.template.querySelector('input[data-study-id=country]').value;
+        let studyName = this.template.querySelector('input[data-study-id=studyName]').value;
+        console.log(nodeName);
+        if (nodeName === 'forCountry' && country) {
+            this.template.querySelector('input[data-study-id=country]').value = '';
+            this.handleCountryChange(evt);
+        }
+        if (nodeName === 'forStudyName' && studyName) {
+            this.template.querySelector('input[data-study-id=studyName]').value = '';
+            this.handleStudyChange(evt);
+        }
     }
 }
