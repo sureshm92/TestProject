@@ -31,6 +31,16 @@
         <label>Hebrew</label>
     </customValue>
     <customValue>
+        <fullName>bn</fullName>
+        <default>false</default>
+        <label>Bengali</label>
+    </customValue>
+    <customValue>
+        <fullName>cy</fullName>
+        <default>false</default>
+        <label>Welsh</label>
+    </customValue>        
+    <customValue>
         <fullName>de</fullName>
         <default>false</default>
         <isActive>false</isActive>
@@ -47,12 +57,6 @@
         <default>false</default>
         <isActive>false</isActive>
         <label>Australian English</label>
-    </customValue>
-    <customValue>
-        <fullName>bn</fullName>
-        <default>false</default>
-        <isActive>false</isActive>
-        <label>Label Names</label>
     </customValue>
     <customValue>
         <fullName>hi</fullName>

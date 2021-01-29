@@ -493,6 +493,7 @@
                                             year="numeric"
                                             month="short"
                                             day="2-digit"
+                                            timeZone="UTC"
                                         />
                                     </div>
                                 </th>
@@ -542,13 +543,9 @@
                                 </th>
                                 <th scope="row">
                                     <div class="slds-truncate" style="text-align: center">
-                                        <!--<ui:outputDate value="{!obj.pe.Initial_visit_scheduled_date__c}"/>-->
-                                        <lightning:formattedDateTime
-                                            year="numeric"
-                                            month="short"
-                                            day="2-digit"
+                                        <ui:outputDate
                                             value="{!obj.pe.Initial_visit_scheduled_date__c}"
-                                        ></lightning:formattedDateTime>
+                                        />
                                     </div>
                                 </th>
                                 <th scope="row">

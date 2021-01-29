@@ -14,8 +14,10 @@ public without sharing class ParticipantItem {
     @AuraEnabled
     public Boolean showParticipationSteps;
     @AuraEnabled
+    public List<ViewPatientsRemote.PEWrapper> currentPageList;
+    @AuraEnabled
     public Boolean showVisits;
-    @AuraEnabled  //REF-2826
+    @AuraEnabled//REF-2826
     public Boolean containsFile;
 
     @AuraEnabled
@@ -27,7 +29,7 @@ public without sharing class ParticipantItem {
             pe.Referral_Source__c
         );
         this.pe = pe;
-        String participantId = pe.Participant__c; //REF-2826
+        String participantId = pe.Participant__c;//REF-2826
         Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
         if(count > 0)
         {

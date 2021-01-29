@@ -43,6 +43,7 @@ public without sharing class ParticipantInformationRemote {
                 Participant_Enrollment__c.Participant_Status__c,
                 pi.pe.Participant_Status__c
             );
+            pi.currentPageList =  ViewPatientsRemote.convertToPEWrapperList(new List<Participant_Enrollment__c> {pe}, userMode, delegateId);
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
@@ -649,24 +650,28 @@ public without sharing class ParticipantInformationRemote {
         Boolean isCCUser
     ) {
         Participant_Enrollment_Status_History__c peshnotes;
+        List<Participant_Enrollment_Status_History__c> peshnotesList = new List<Participant_Enrollment_Status_History__c>();
+        Boolean isBetweenStep = false;
         if (outcome != null) {
-            peshnotes = [
+            peshnotesList = [
                 SELECT Id, Additional_Notes__c, Notes__c, Status__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id AND Status__c = :outcome
                 ORDER BY Date__c DESC
                 LIMIT 1
-            ][0];
+            ];
         } else {
-            peshnotes = [
+            peshnotesList = [
                 SELECT Id, Additional_Notes__c, Notes__c, Status__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id
                 ORDER BY Date__c DESC
                 LIMIT 1
-            ][0];
+            ];
         }
-
+        if(peshnotesList.size()>0){
+            peshnotes = peshnotesList[0]; 
+        }
         if (peshnotes != null) {
             Map<String, Participant_Workflow_Step__mdt> stepsWithName = new Map<String, Participant_Workflow_Step__mdt>();
             for (Participant_Workflow_Step__mdt s : [
@@ -713,6 +718,7 @@ public without sharing class ParticipantInformationRemote {
                             nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
                             nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE)
                         ) {
+                            isBetweenStep = true;
                             if (peshnotes.Additional_Notes__c == null) {
                                 peshnotes.Additional_Notes__c =
                                     '####' +
@@ -720,7 +726,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PE_Status_History_On_Date +
                                     ' ' +
-                                    DateTime.now().format() +
+                                    DateTime.now().format('MMM dd yyyy, hh:mm a') +
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
@@ -737,7 +743,7 @@ public without sharing class ParticipantInformationRemote {
                                     ' ' +
                                     Label.PE_Status_History_On_Date +
                                     ' ' +
-                                    DateTime.now().format() +
+                                    DateTime.now().format('MMM dd yyyy, hh:mm a') +
                                     ' ' +
                                     Label.PG_IMI_L_by_user +
                                     ' ' +
@@ -755,7 +761,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PE_Status_History_On_Date +
                             ' ' +
-                            DateTime.now().format() +
+                            DateTime.now().format('MMM dd yyyy, hh:mm a') +
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
@@ -768,7 +774,7 @@ public without sharing class ParticipantInformationRemote {
                             ' ' +
                             Label.PE_Status_History_On_Date +
                             ' ' +
-                            DateTime.now().format() +
+                            DateTime.now().format('MMM dd yyyy, hh:mm a') +
                             ' ' +
                             Label.PG_IMI_L_by_user +
                             ' ' +
@@ -794,7 +800,18 @@ public without sharing class ParticipantInformationRemote {
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
             );
-            update peshnotes;
+            List<Participant_Enrollment_Status_History__c> peshNotesToUpdate = new List<Participant_Enrollment_Status_History__c>();
+            peshNotesToUpdate.add(peshnotes);
+            if(isBetweenStep && peshnotes!=null){
+                for(Participant_Enrollment_Status_History__c peshstep:[SELECT Id,Additional_Notes__c FROM Participant_Enrollment_Status_History__c
+                                                                        WHERE Id!=:peshnotes.Id AND Status__c = :peshnotes.Status__c AND ParticipantEnrollment__c = :pe.Id]){
+                        if(peshstep.Additional_Notes__c!=null && peshstep.Additional_Notes__c!='' && !peshstep.Additional_Notes__c.contains('####')){
+                            	peshstep.Additional_Notes__c = '####' + peshstep.Additional_Notes__c;
+                               	peshNotesToUpdate.add(peshstep);
+                            }                                         
+                   }		                
+            }
+            update peshNotesToUpdate;
         }
     }
 
@@ -805,22 +822,27 @@ public without sharing class ParticipantInformationRemote {
         String outcome
     ) {
         Participant_Enrollment_Status_History__c peshnotes;
+        List<Participant_Enrollment_Status_History__c> peshnotesList = new List<Participant_Enrollment_Status_History__c>();
+        Boolean isBetweenStep = false;        
         if (outcome != null) {
-            peshnotes = [
+            peshnotesList = [
                 SELECT Id, Additional_Notes__c, Notes__c, Status__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id AND Status__c = :outcome
                 ORDER BY Date__c DESC
                 LIMIT 1
-            ][0];
+            ];
         } else {
-            peshnotes = [
+            peshnotesList = [
                 SELECT Id, Additional_Notes__c, Notes__c, Status__c
                 FROM Participant_Enrollment_Status_History__c
                 WHERE ParticipantEnrollment__c = :pe.Id
                 ORDER BY Date__c DESC
                 LIMIT 1
-            ][0];
+            ];
+        }
+        if(peshnotesList.size()>0){
+            peshnotes = peshnotesList[0]; 
         }
         if (peshnotes != null) {
             Map<String, Participant_Workflow_Step__mdt> stepsWithName = new Map<String, Participant_Workflow_Step__mdt>();
@@ -836,6 +858,7 @@ public without sharing class ParticipantInformationRemote {
             ]) {
                 stepsWithName.put(s.MasterLabel, s);
             }
+        if(pathWrapper != null){
             for (Integer i = 0; i < pathWrapper.steps.size(); i = i + 1) {
                 ParticipantWorkflowService.ParticipantWorkflowStepWrapper step = pathWrapper.steps[
                     i
@@ -854,6 +877,7 @@ public without sharing class ParticipantInformationRemote {
                             nextStepStateOld == PEStatusState.STATUS_STATE_IN_PROGRESS ||
                             nextStepStateOld == PEStatusState.STATUS_STATE_FAILURE)
                         ) {
+                            isBetweenStep = true;
                             if (
                                 peshnotes.Additional_Notes__c != null &&
                                 !peshnotes.Additional_Notes__c.contains('####')
@@ -866,6 +890,7 @@ public without sharing class ParticipantInformationRemote {
                     }
                 }
             }
+        }
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
             );
@@ -881,7 +906,18 @@ public without sharing class ParticipantInformationRemote {
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
             );
-            update peshnotes;
+            List<Participant_Enrollment_Status_History__c> peshNotesToUpdate = new List<Participant_Enrollment_Status_History__c>();
+            peshNotesToUpdate.add(peshnotes);
+            if(isBetweenStep && peshnotes!=null){
+                for(Participant_Enrollment_Status_History__c peshstep:[SELECT Id,Additional_Notes__c FROM Participant_Enrollment_Status_History__c
+                                                                        WHERE Id!=:peshnotes.Id AND Status__c = :peshnotes.Status__c AND ParticipantEnrollment__c = :pe.Id]){
+                        if(peshstep.Additional_Notes__c!=null && peshstep.Additional_Notes__c!='' && !peshstep.Additional_Notes__c.contains('####')){
+                            	peshstep.Additional_Notes__c = '####' + peshstep.Additional_Notes__c;
+                               	peshNotesToUpdate.add(peshstep);
+                            }                                         
+                   }		                
+            }
+            update peshNotesToUpdate;
         }
     }
 
@@ -1145,7 +1181,50 @@ public without sharing class ParticipantInformationRemote {
             this.participantPath = participantPath;
         }
     }
-	
+    
+    //REF-2826
+    @AuraEnabled
+    public static String getMedicalHistory(Id peId){
+        
+        Participant_Enrollment__c pe = [SELECT Id, 
+                                        Participant__c
+                                        FROM Participant_Enrollment__c
+                                        WHERE Id = : peId];
+        
+        List<ContentDocument> entries = new List<ContentDocument>();
+		
+        List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: pe.Participant__c];
+		
+        Set<Id> documentIds = new Set<Id>();
+        for (ContentDocumentLink cdl : cdls) {
+            documentIds.add(cdl.ContentDocumentId);
+        }
+        List<ContentDocument> documents = [SELECT Id, Title, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+                                           ORDER BY CreatedDate DESC LIMIT 1];
+               
+        String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
+        return JSON.serialize(new MedicalHistoryWrapper(pe, documents, basefileUrl));
+    }
+
+    public class MedicalHistoryWrapper{
+        @AuraEnabled public Participant_Enrollment__c pe;
+        @AuraEnabled public List<ContentDocument> attachments;
+        @AuraEnabled public String baseURL;
+         @AuraEnabled
+        public ContentDocument content;
+       
+        
+        public MedicalHistoryWrapper(Participant_Enrollment__c pe, List<ContentDocument> attachments, String baseURL){
+            this.pe = pe;
+            this.attachments = attachments;
+            this.baseURL = baseURL;
+			this.content = content;
+
+        }
+    } 
+    //REF-2826 End
+
+
 	@AuraEnabled
     public static void updateParticipantData(
         Id peId) {
@@ -1171,13 +1250,13 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static string getPESHrecord(Id peId){
+    public static Date getPESHrecord(Id peId){
         List<Participant_Enrollment_Status_History__c> pesh = [Select 
                              Date__c 
                              From Participant_Enrollment_Status_History__c 
                              WHERE ParticipantEnrollment__c =: peId 
                             AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
-        String statusChangedDate = String.valueOf(Date.valueOf(pesh[0].Date__c));
+        Date statusChangedDate = Date.valueOf(pesh[0].Date__c);
         return statusChangedDate;
     }
 
@@ -1186,47 +1265,7 @@ public without sharing class ParticipantInformationRemote {
         List<user> lstUser = [SELECT id,CreatedDate, ContactId FROM user WHERE ContactId = :contactid];
         return String.ValueOf(Date.valueOf(lstUser[0].CreatedDate));
     }
-//REF-2826
-@AuraEnabled
-public static String getMedicalHistory(Id peId){
-    
-    Participant_Enrollment__c pe = [SELECT Id, 
-                                    Participant__c
-                                    FROM Participant_Enrollment__c
-                                    WHERE Id = : peId];
-    
-    List<ContentDocument> entries = new List<ContentDocument>();
-    
-    List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: pe.Participant__c];
-    
-    Set<Id> documentIds = new Set<Id>();
-    for (ContentDocumentLink cdl : cdls) {
-        documentIds.add(cdl.ContentDocumentId);
-    }
-    List<ContentDocument> documents = [SELECT Id, Title, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
-                                       ORDER BY CreatedDate DESC LIMIT 1];
-           
-    String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
-    return JSON.serialize(new MedicalHistoryWrapper(pe, documents, basefileUrl));
-}
 
-public class MedicalHistoryWrapper{
-    @AuraEnabled public Participant_Enrollment__c pe;
-    @AuraEnabled public List<ContentDocument> attachments;
-    @AuraEnabled public String baseURL;
-     @AuraEnabled
-    public ContentDocument content;
-   
-    
-    public MedicalHistoryWrapper(Participant_Enrollment__c pe, List<ContentDocument> attachments, String baseURL){
-        this.pe = pe;
-        this.attachments = attachments;
-        this.baseURL = baseURL;
-        this.content = content;
-
-    }
-} 
-//REF-2826 End
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192

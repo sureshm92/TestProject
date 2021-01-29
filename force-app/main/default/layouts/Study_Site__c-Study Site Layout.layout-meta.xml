@@ -351,6 +351,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Site_Contact__c</fields>
+        <fields>is_Site_and_Staff_Same_Country__c</fields>
         <relatedList>Site_Staff__c.Study_Site__c</relatedList>
     </relatedLists>
     <relatedLists>

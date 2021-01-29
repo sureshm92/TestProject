@@ -9,6 +9,34 @@
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
         component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
+        window.setTimeout(function(){
+            var charSize;
+        if((component.get('v.pe.Referral_Source__c') == 'PI') && component.get('v.pe.MRN_Id__c'))
+        {
+           charSize = component.get('v.pe.MRN_Id__c').length;
+        }
+        else if((component.get('v.pe.Referral_Source__c') == 'HCP') && component.get('v.pe.Patient_ID__c'))
+            charSize = component.get('v.pe.Patient_ID__c').length;
+        else if((component.get('v.pe.Referral_Source__c') != 'PI') && (component.get('v.pe.Referral_Source__c') != 'HCP'))
+        {
+            var referralIdSize;
+            if(component.get('v.pe.Referral_ID__c'))
+                referralIdSize = component.get('v.pe.Referral_ID__c').length;
+            if(component.get('v.pe.Source_Type__c'))
+                referralIdSize += component.get('v.pe.Source_Type__c').length;
+            if(referralIdSize > 0)
+                charSize = referralIdSize + 3;
+        }
+            if(charSize > 30 && charSize <=50){
+            //var charSize = component.get('v.pe.MRN_Id__c').length;
+       		document.getElementsByClassName('customWidth')[0].style.width = charSize+'%';
+        }
+            else if(charSize > 50){
+                document.getElementsByClassName('customWidth')[0].style.width = 50 + '%';
+            }
+        },3000)
+        
+       
     },
 
     doClearValidity: function (component, event, hepler) {

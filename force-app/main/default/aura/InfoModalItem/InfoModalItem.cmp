@@ -21,6 +21,7 @@
                 year="numeric"
                 month="short"
                 day="2-digit"
+                timeZone="UTC"
             />
             {!' '+ $Label.c.PG_IMI_L_by_user + ' ' + v.statusHistory.CreatedBy.FirstName +' ' +
             v.statusHistory.CreatedBy.LastName}
