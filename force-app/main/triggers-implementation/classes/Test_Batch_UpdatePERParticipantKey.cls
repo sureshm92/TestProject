@@ -16,6 +16,7 @@ public class Test_Batch_UpdatePERParticipantKey  {
 
         Account piAccount = new Account(Name = 'PI Account', BillingCountry = 'United States');
         accounts.add(piAccount);
+        
 
         Account hcpAccount = new Account(Name = 'HCP Account');
         accounts.add(hcpAccount);
@@ -140,7 +141,8 @@ public class Test_Batch_UpdatePERParticipantKey  {
             Email__c = 'part1@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
         Participant__c participant2 = new Participant__c(
             First_Name__c = 'ParticipantTD1',
@@ -149,7 +151,8 @@ public class Test_Batch_UpdatePERParticipantKey  {
             Email__c = 'part2@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
 
         partList.add(participant);
