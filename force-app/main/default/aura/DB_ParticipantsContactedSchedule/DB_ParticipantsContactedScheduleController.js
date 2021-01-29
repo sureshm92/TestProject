@@ -11,8 +11,8 @@
 
     showEditParticipantInformation: function (component, event, helper) {
         var participantEnrolmentId = event.getParam('value');
-        helper.getInviteDetails(component, event, participantEnrolmentId); // added for REF-2646 issue fixing
         if (participantEnrolmentId !== '' && participantEnrolmentId !== 'No participant record') {
+            helper.getInviteDetails(component, event, participantEnrolmentId); // added for REF-2646 issue fixing
             communityService.executeAction(
                 component,
                 'getPEEnrollmentsByPI',

@@ -54,6 +54,7 @@
                                 year="numeric"
                                 month="short"
                                 day="2-digit"
+                                timeZone="UTC"
                             />
                             &nbsp;{!$Label.c.Matched_of}
                         </div>
@@ -64,6 +65,7 @@
                                     year="numeric"
                                     month="short"
                                     day="2-digit"
+                                    timeZone="UTC"
                                 />
                             </div>
                         </aura:set>

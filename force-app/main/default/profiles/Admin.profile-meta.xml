@@ -1445,6 +1445,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>StudySiteCountryWarning</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteLookupRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -5869,6 +5873,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Participant__c.Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Participant__c.Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6651,6 +6660,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Is_Virtual_Study_Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+      <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.is_PI_Site_Country_Same__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

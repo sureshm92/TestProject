@@ -349,7 +349,7 @@ public without sharing class ViewPatientsRemote {
     ) {
         return convertToPEWrapperList(participantEnrollments, userMode, null);
     }
-    private static List<PEWrapper> convertToPEWrapperList(
+    public static List<PEWrapper> convertToPEWrapperList(
         List<Participant_Enrollment__c> participantEnrollments,
         String userMode,
         String delegateId

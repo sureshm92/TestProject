@@ -16,7 +16,6 @@ export default class SvgLoader {
             this.parseXML(resourceUrl, function () {
                 uploadState = STATE_COMPLETED;
                 callback(symbolMap[iconName]);
-
                 callbackQueue.forEach(function (queueItem) {
                     queueItem(symbolMap[iconName]);
                 });
@@ -37,9 +36,12 @@ export default class SvgLoader {
                 let doc = new DOMParser().parseFromString(request.response, 'text/xml');
                 if (doc) {
                     let symbols = doc.getElementsByTagName('symbol');
-                    symbols.forEach(function (symbol) {
+                    /*symbols.forEach(function (symbol) {
                         symbolMap[symbol.id] = symbol;
-                    });
+                    });*/
+                    for (var i = 0; i < symbols.length; i++) {
+                        symbolMap[symbols[i].id] = symbols[i];
+                    }
                 }
                 callback();
             }

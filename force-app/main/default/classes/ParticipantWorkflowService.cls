@@ -7,6 +7,30 @@ public without sharing class ParticipantWorkflowService {
     public static final String PARTICIPANT_ENROLLMENT_STATUS_HISTORY_SOBJECT_ALIAS = 'pesh';
     public static final String CLINICAL_TRIAL_PROFILE_SOBJECT_ALIAS = 'ctp';
 
+    @AuraEnabled
+    public static ParticipantWorkflowWrapper prepareParticipantWorkflowHelper(
+        String peId,
+        String userMode,
+        String delegateId
+    ) {
+        try {
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                peId,
+                userMode,
+                delegateId,
+                ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS
+            );
+            Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(
+                pe.Clinical_Trial_Profile__c
+            );
+            ParticipantWorkflowWrapper partWFwrap = new ParticipantWorkflowWrapper();
+            partWFwrap = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
+            return partWFwrap;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
     public static ParticipantWorkflowWrapper prepareParticipantWorkflow(
         Clinical_Trial_Profile__c ctp,
         Participant_Enrollment__c pe
@@ -30,8 +54,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
             ORDER BY Date__c DESC
@@ -301,13 +325,11 @@ public without sharing class ParticipantWorkflowService {
             stepWrapper.state = outcomesMap.get(peshList[0].Status__c)
                 .get(step.DeveloperName)
                 .State__c;
-            stepWrapper.status =
-                TranslateHelper.getPickListLabel(
-                    Participant_Enrollment__c.Participant_Status__c,
-                    peshList[0].Status__c
-                ) +
-                ' ' +
-                peshList[0].Date__c.date().format();
+            stepWrapper.status = TranslateHelper.getPickListLabel(
+                Participant_Enrollment__c.Participant_Status__c,
+                peshList[0].Status__c
+            );
+            stepWrapper.dateStatus = Date.valueOf(peshList[0].Date__c);
             stepWrapper.outcome = peshList[0].Status__c;
             List<Id> stepList = new List<Id>();
             if (peshList != null)
@@ -412,6 +434,7 @@ public without sharing class ParticipantWorkflowService {
             if (stepSuccessful && step.Success_Date_Field__c != null) {
                 if (pe.get(step.Success_Date_Field__c) != null)
                     stepWrapper.status = ((Date) pe.get(step.Success_Date_Field__c)).format();
+                stepWrapper.dateStatus = (Date) pe.get(step.Success_Date_Field__c);
             } else {
                 stepWrapper.status = TranslateHelper.getLabelValue(step.No_Outcome_Label__c);
             }
@@ -539,30 +562,41 @@ public without sharing class ParticipantWorkflowService {
     ) {
         List<ParticipantWorkflowHistoryWrapper> historyWrappers = new List<ParticipantWorkflowHistoryWrapper>();
         List<String> notes = new List<String>();
-        if (additionalNotes != null)
+        if (additionalNotes != null && additionalNotes != '')
             notes = additionalNotes.split('#');
         for (String note : notes) {
-            ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
-            historyWrapper.title = note.substringBeforeLast(Label.PE_Status_History_On_Date);
-            if (!String.isBlank(note.substringAfterLast(Label.PE_Status_History_On_Date))) {
-                historyWrapper.detail =
-                    Label.PE_Status_History_On_Date +
-                    note.substringAfterLast(Label.PE_Status_History_On_Date);
-                historyWrapper.detail.replace(
-                    Label.PE_Status_History_On_Date,
-                    TranslateHelper.getLabelValue('PE_Status_History_On_Date')
-                );
-                String createdByName = historyWrapper.detail.substringAfterLast(Label.PG_IMI_L_by_user);
-                if(createdByName.contains(Label.RH_Masked_IQVIA_User)){
-                    createdByName=Label.RH_Masked_IQVIA_User;
-                    historyWrapper.detail=historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +Label.PG_IMI_L_by_user +' ' + createdByName;
+            if (note != '') {
+                ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
+                historyWrapper.title = note.substringBeforeLast(Label.PE_Status_History_On_Date);
+                if (!String.isBlank(note.substringAfterLast(Label.PE_Status_History_On_Date))) {
+                    historyWrapper.detail =
+                        Label.PE_Status_History_On_Date +
+                        note.substringAfterLast(Label.PE_Status_History_On_Date);
+                    //historyWrapper.detailDate = DateTime.parse(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
+                    historyWrapper.detail.replace(
+                        Label.PE_Status_History_On_Date,
+                        TranslateHelper.getLabelValue('PE_Status_History_On_Date')
+                    );
+                    String createdByName = historyWrapper.detail.substringAfterLast(
+                        Label.PG_IMI_L_by_user
+                    );
+                    if (createdByName.contains(Label.RH_Masked_IQVIA_User)) {
+                        createdByName = Label.RH_Masked_IQVIA_User;
+                        historyWrapper.detail =
+                            historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +
+                            Label.PG_IMI_L_by_user +
+                            ' ' +
+                            createdByName;
+                    }
+                    historyWrapper.createdBy = createdByName;
+                    historyWrapper.detail.replace(
+                        Label.PG_IMI_L_by_user,
+                        TranslateHelper.getLabelValue('PG_IMI_L_by_user')
+                    );
                 }
-                historyWrapper.detail.replace(
-                    Label.PG_IMI_L_by_user,
-                    TranslateHelper.getLabelValue('PG_IMI_L_by_user')
-                );
+                historyWrapper.isAdditionalNote = true;
+                historyWrappers.add(historyWrapper);
             }
-            historyWrappers.add(historyWrapper);
         }
         return historyWrappers;
     }
@@ -584,19 +618,18 @@ public without sharing class ParticipantWorkflowService {
               )
             : '');
         String notesString = (String.isNotBlank(pesh.Notes__c) ? ', ' + pesh.Notes__c.trim() : '');
-		String createdbyName ='';
-        //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC' 
-        if(pesh.CreatedBy.IsPortalEnabled== true){
-			if(pesh.CreatedBy.contact.userCommunityMode__c =='CC'){
-				 createdbyName=System.Label.RH_Masked_IQVIA_User;
-			}else{
-				createdbyName =pesh.CreatedBy.Name;
-			}    
+        String createdbyName = '';
+        //Mask Created by Name for non Portal users and Portal user whose User Community Mode is 'CC'
+        if (pesh.CreatedBy.IsPortalEnabled == true) {
+            if (pesh.CreatedBy.contact.userCommunityMode__c == 'CC') {
+                createdbyName = System.Label.RH_Masked_IQVIA_User;
+            } else {
+                createdbyName = pesh.CreatedBy.Name;
+            }
+        } else {
+            createdbyName = System.Label.RH_Masked_IQVIA_User;
         }
-        else{
-            createdbyName=System.Label.RH_Masked_IQVIA_User;
-        }
-		
+
         if (String.isEmpty(step.History_Item_Title_Template_Label__c)) {
             historyWrapper.title = statusString + reasonString + notesString;
         } else {
@@ -618,6 +651,8 @@ public without sharing class ParticipantWorkflowService {
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
                     createdbyName;
+                historyWrapper.detailDate = pesh.Date__c;
+                historyWrapper.createdBy = createdbyName;
             } else {
                 historyWrapper.detail =
                     ' ' +
@@ -625,7 +660,9 @@ public without sharing class ParticipantWorkflowService {
                     ' ' +
                     TranslateHelper.getLabelValue('PG_IMI_L_by_user') +
                     ' ' +
-                   createdbyName;
+                    createdbyName;
+                historyWrapper.detailDate = pesh.Date__c;
+                historyWrapper.createdBy = createdbyName;
             }
         } else {
             String sourceString = String.isBlank(
@@ -642,6 +679,9 @@ public without sharing class ParticipantWorkflowService {
                     .replace('##Date', pesh.Date__c.format())
                     .replace('##ByUser', createdbyName)
                     .replace('##Source', sourceString);
+            historyWrapper.detailDate = pesh.Date__c;
+            historyWrapper.createdBy = createdbyName;
+            historyWrapper.source = sourceString;
         }
         return historyWrapper;
     }
@@ -1060,9 +1100,11 @@ public without sharing class ParticipantWorkflowService {
         Participant_Enrollment_Status_History__c pesh
     ) {
         ParticipantWorkflowStepWrapper lastStepWrapper = null;
-        for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
-            if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
-                lastStepWrapper = step;
+        if (pathWrapper != null) {
+            for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
+                if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
+                    lastStepWrapper = step;
+                }
             }
         }
         if (lastStepWrapper != null) {
@@ -1251,9 +1293,11 @@ public without sharing class ParticipantWorkflowService {
         String objectNameAlias,
         Map<String, Participant_Workflow_Form_Field__mdt> fieldsMap
     ) {
-        for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
-            if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
-                populateOBJFromStepWrapper(step, obj, objectNameAlias, fieldsMap);
+        if (pathWrapper != null) {
+            for (ParticipantWorkflowStepWrapper step : pathWrapper.steps) {
+                if (step.state != PEStatusState.STATUS_STATE_NEUTRAL) {
+                    populateOBJFromStepWrapper(step, obj, objectNameAlias, fieldsMap);
+                }
             }
         }
     }
@@ -1417,8 +1461,8 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
-				CreatedBy.IsPortalEnabled,
-				CreatedBy.contact.userCommunityMode__c 
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peIds
             ORDER BY Date__c DESC
@@ -1652,6 +1696,8 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public String status;
         @AuraEnabled
+        public Date dateStatus;
+        @AuraEnabled
         public Boolean editable;
         @AuraEnabled
         public String state;
@@ -1698,6 +1744,14 @@ public without sharing class ParticipantWorkflowService {
         public String title;
         @AuraEnabled
         public String detail;
+        @AuraEnabled
+        public DateTime detailDate;
+        @AuraEnabled
+        public String createdBy;
+        @AuraEnabled
+        public String source;
+        @AuraEnabled
+        public Boolean isAdditionalNote;
     }
 
     public class ParticipantWorkflowFieldGroupWrapper {
