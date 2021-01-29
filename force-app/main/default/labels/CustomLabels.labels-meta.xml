@@ -15821,20 +15821,6 @@ communications using the toggles below.</value>
         <value>Initial Visit</value>
     </labels>
     <labels>
-        <fullName>PWS_Initial_Visit_History_Title</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
-        <value>Inital Visit History:</value>
-    </labels>
-    <labels>
-        <fullName>PWS_Initial_Visit_Name</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
-        <value>Initial Visit</value>
-    </labels>
-    <labels>
         <fullName>PWS_Initial_Visit_No_Outcome</fullName>
         <language>en_US</language>
         <protected>true</protected>
