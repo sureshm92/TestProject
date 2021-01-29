@@ -3,16 +3,20 @@
  */
 
 .THIS .popup-address-inputs {
-    padding: 20px 0px 0 0px;
+    padding: 10px .75rem 0 0px;
 }
 
-.THIS .driving-directions {
+.THIS .driving-directions{
     padding: 20px 8px 0 0px;
 }
 
 .THIS .edit-address-container {
     font-weight: 500;
     text-align: left;
+}
+
+.THIS .slds-map_container .slds-map {
+    min-width: 21.75rem;
 }
 
 .THIS .ss-lightning-input label {
@@ -80,9 +84,19 @@
     fill: #e20000;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
+    
+    .THIS.slds-gutters {
+        margin-right: 0;
+        margin-left: 0;
+    }
+    
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
+    }
+    
+     .THIS .card-locationDetails {
+     	padding-bottom: 15px;   
     }
 
     .THIS .site-distance {
@@ -112,9 +126,6 @@
     .THIS .edit-address-container .slds-size--2-of-6 {
         width: 100%;
     }
-    .THIS .edit-address-container .slds-size--1-of-2 {
-        width: 100%;
-    }
 
     .THIS .check-button-container {
         padding-top: unset;
@@ -127,33 +138,40 @@
     .THIS .google-map-style {
         padding: 5% 0% 0% 1%;
     }
-    .THIS .edit-address-container .slds-map {
-        min-width: 35.75rem;
+   
+    .THIS .slds-map_container .slds-map {
+        min-width: 19.5rem;
     }
 }
 
-@media all and (max-width: 644px) {
-    .THIS .edit-address-container .slds-map {
-        min-width: 25.75rem;
-    }
-}
 
-@media all and (max-width: 482px) {
-    .THIS .edit-address-container .slds-map {
+
+@media all and (max-width: 500px) {
+     .THIS .slds-map_container .slds-map {
         min-width: 15.75rem;
     }
+    
+     .THIS .edit-address-container .slds-size--1-of-2 {
+        width: 100%;
+    }
+    
+    .THIS .popup-address-inputs {
+        min-width: 100%;
+    }
+    
 }
 .THIS .card-locationDetails {
     box-sizing: border-box;
     border-radius: 4px;
     background-color: #f8f9fb;
     min-height: 100px;
+    
 }
-.THIS .partinfo-buttons {
-    padding-top: 10px;
-    display: flex;
+.THIS .partinfo-buttons{
+    padding-top:10px;
+     display: flex;
     justify-content: flex-end;
 }
-.THIS .button-base {
+.THIS .button-base{
     padding: 6px 16px;
 }
