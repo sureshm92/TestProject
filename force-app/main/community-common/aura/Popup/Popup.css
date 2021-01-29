@@ -198,6 +198,19 @@
 .THIS.cAction_ParticipantInformation .p-container .p-header + div {
     height: 89%;
 }
+
+.THIS.cAction_StudySiteInformation .p-container .p-content {
+    padding-left: 10px;
+    max-height: 60vh;
+    padding-top: 0px;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.1rem;
+    white-space: initial;
+    text-align: left;
+    font-weight: 400;
+    overflow-x: hidden;
+}
 @media screen and (max-width: 768px) {
     .THIS .cPopup .p-container .p-content {
         max-height: 90vh;

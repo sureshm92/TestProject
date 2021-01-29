@@ -5,10 +5,11 @@
         }else{
             component.set('v.sectionOpen',true);
         }
+        //alert(component.get('v.sectionOpen'));
         component.find('calldispositionlwc').Refresh();
-        console.log('siteid--------->'+component.get('v.siteId'));
     },
     handleNewCall: function (component, event, helper)  {
+        //alert(component.get('v.sectionOpen'));
         if(component.get('v.sectionOpen')){
             component.find("accordioncd").set('v.activeSectionName', 'CD');
         }
@@ -20,25 +21,25 @@
             if(!$A.util.isEmpty(component.get('v.callcategory')))
             {
                 if(component.get('v.interventionReq')){
-                    component.set('v.isCDValitated',false);console.log('okay');
+                    component.set('v.isCDValitated',false);
                 }else{
                     component.set('v.isCDValitated',true);
-                    
-                    console.log('t');
                 }
                 
-            }else{component.set('v.isCDValitated',false);console.log('notokay');}
+            }else{component.set('v.isCDValitated',false);
+                 }
             
         }else{
             if(!$A.util.isEmpty(component.get('v.callcategory')))
             {
                 if(component.get('v.interventionReq')){
-                    component.set('v.isCDValitated',true);console.log('okay');
+                    component.set('v.isCDValitated',true);
                 }else{
-                    component.set('v.isCDValitated',true);console.log('t');
+                    component.set('v.isCDValitated',true);
                 }
                 
-            }else{component.set('v.isCDValitated',false);console.log('notokay');}
+            }else{component.set('v.isCDValitated',false);
+                 }
         }       
         
         component.set('v.newCall',true);
@@ -47,7 +48,6 @@
     },
     getValueFromLwc : function(component, event, helper) {
         component.set("v.notes",event.getParam('value'));
-        console.log('aurainputval'+component.get('v.notes'));
         
         if($A.util.isEmpty(component.get('v.notes')))
         {
@@ -55,42 +55,52 @@
             if(!$A.util.isEmpty(component.get('v.callcategory')))
             {
                 if(component.get('v.interventionReq')){
-                    component.set('v.isCDValitated',false);console.log('okay');
+                    component.set('v.isCDValitated',false);
                 }else{
-                    component.set('v.isCDValitated',true);console.log('t');
+                    component.set('v.isCDValitated',true);
                 }
                 
-            }else{component.set('v.isCDValitated',false);console.log('notokay');}
+            }
+            else
+            {
+                component.set('v.isCDValitated',false);
+            }
             
         }else{
             if(!$A.util.isEmpty(component.get('v.callcategory')))
             {
                 if(component.get('v.interventionReq')){
-                    component.set('v.isCDValitated',true);console.log('okay');
-                }else{
-                    component.set('v.isCDValitated',true);console.log('t');
+                    component.set('v.isCDValitated',true);
+                }
+                else{
+                    component.set('v.isCDValitated',true);
                 }
                 
-            }else{component.set('v.isCDValitated',false);console.log('notokay');}
+            }
+            else
+            {
+                component.set('v.isCDValitated',false);
+                
+            }
         }       
         
     },
     getcallcategValueFromLwc : function(component, event, helper) {
         component.set("v.callcategory",event.getParam('value'));
         //alert('LWC to Aura');
-        console.log('aura'+component.get('v.callcategory'));
         var intervionReq = component.get('v.interventionReq');
         if(intervionReq)
         {
             var notes = component.get('v.notes');
-            console.log(notes);
-            console.log($A.util.isEmpty(notes));
-            if($A.util.isEmpty(notes)){console.log('notes  empty');
-                                       component.set('v.isCDValitated',false);
-                                      }else{ component.set('v.isCDValitated',true);console.log('notes not  empty');}
+            if($A.util.isEmpty(notes)){
+                component.set('v.isCDValitated',false);
+            }
+            else{ 
+                component.set('v.isCDValitated',true);
+            }
             
         }else{
-            component.set('v.isCDValitated',true);console.log('intervion true');
+            component.set('v.isCDValitated',true);
         }
     },
     validationNotrequired : function(component, event, helper) {
@@ -100,28 +110,32 @@
         component.set('v.interventionReq',false);
         component.set('v.notes','');
         component.set('v.newCall',false);
+        component.set('v.isStudyInfoModified',false);
     },
     getcallBound : function(component, event, helper) {
         component.set('v.callbound',event.getParam('value'));
-        console.log('aura'+component.get('v.callbound'));
     },
     getinterventionchange : function(component, event, helper) {
         var interReq = event.getParam('value');
         var notes = component.get('v.notes');
         component.set('v.interventionReq',interReq);
-        console.log('aura'+component.get('v.interventionReq'));
-        console.log(!$A.util.isEmpty(component.get('v.callcategory')));
-        console.log(!$A.util.isEmpty(component.get('v.notes')));
         if(interReq)
         {
             if(!$A.util.isEmpty(notes))
             {
                 if(!$A.util.isEmpty(component.get('v.callcategory')))
                 {
-                    component.set('v.isCDValitated',true);console.log('okay');
-                }else{component.set('v.isCDValitated',false);console.log('notokay');}
+                    component.set('v.isCDValitated',true);
+                    
+                }
+                else
+                {
+                    component.set('v.isCDValitated',false);
+                }
                 
-            }else{ component.set('v.isCDValitated',false);console.log('notesempty');}
+            }else{ 
+                component.set('v.isCDValitated',false);
+            }
         }else{
             if($A.util.isEmpty(component.get('v.callcategory')))
             {
@@ -130,5 +144,15 @@
             
         }
     },
+    updCDobj : function(component, event, helper) {
+        var RowItemList = [];
+        RowItemList.push({
+            callbound: component.get('v.callbound'),
+            callcategory: component.get('v.callcategory'),
+            interventionReq: component.get('v.interventionReq'),
+            notes: component.get('v.notes')
+        });
+        component.set('v.CD', RowItemList);
+    }
     
 })
