@@ -12,7 +12,10 @@
     font-size: 16px;
     font-weight: 500;
 }
-
+.THIS .slds-accordion__section{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
 .THIS .locationContainer {
     box-sizing: border-box;
     background-color: #f8f9fb;

@@ -6,6 +6,7 @@
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   />
     
+    <aura:attribute name="parentComp" type="Aura.Component" />
     <aura:attribute name="studyInformation" type="String" />
     <aura:attribute name="delegateList" type="List" />
     <aura:attribute name="siteInfoComplete" type="Boolean" default="false"/>
@@ -17,8 +18,14 @@
     <aura:attribute name="editedAccount" type="String" />
     <aura:attribute name="isEdited" type="Boolean" default="false" />
     <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
-    
+    <aura:attribute name="newCall" type="Boolean" default="false" />
+    <aura:attribute name="notes" type="String" default=""/>
+    <aura:attribute name="callbound" type="String" default="Inbound"/>
+    <aura:attribute name="callcategory" type="String"/>
+    <aura:attribute name="interventionReq" type="Boolean" default="false"/>
+    <aura:attribute name="CD" type="object" access="public" />
     <aura:method name="execute" action="{!c.doExecute}" access="public"/>
+    
     <!-- component body: -->
     <c:Popup
              aura:id="dialog"
@@ -28,6 +35,7 @@
              showHeader="true"
              showFooter="true"
              >
+        <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false" />
         <c:StudySiteEdit 
                          studyInformation="{!v.studyInformation}"
                          delegateList="{!v.delegateList}"
@@ -43,13 +51,20 @@
                               isAccountModified = "{!v.isAccountModified}"
                               isEdited = "{!v.isEdited}"
                               isStudyInfoModified = "{!v.isStudyInfoModified}"
-                              editedAccount = "{v.editedAccount}"/>
-        
+                              editedAccount = "{!v.editedAccount}"/>
+      
         <c:CallDispositionSection 
-                                  siteId="{!v.studyInformation.studyId}" 
+                                  siteId="{!v.studyInformation.siteId}" 
                                   isCDValitated="{!v.isCDValitated}"
                                   aura:id="childCmp"
-                                  isStudyInfoModified = "{!v.isStudyInfoModified}"/>
+                                  isStudyInfoModified = "{!v.isStudyInfoModified}"
+                                  newCall ="{!v.newCall}"
+                                  notes="{!v.notes}"
+                                  callbound="{!v.callbound}"
+                                  callcategory="{!v.callcategory}"
+                                  interventionReq="{!v.interventionReq}"
+                                  CD="{!v.CD}"
+                                  />
         <aura:set attribute="footerButtons">
             <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
                 <span>
@@ -58,7 +73,7 @@
                                       onclick="{!c.doCancel}"
                                       >{!$Label.c.BTN_Cancel}</lightning:button
                         >
-                   
+            
                     <lightning:button
                                       class="apollo-btn secondary" onclick="{!c.doSave}" 
                                       disabled = "{!!(v.isStudyInfoModified &amp;&amp;

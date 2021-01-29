@@ -32,29 +32,34 @@ public without sharing class FetchCallDispositions {
        }
     }
     @AuraEnabled(Cacheable=true)
-    public static wrapcalls getcalls(integer limits) {
+    public static wrapcalls getcalls(integer limits, string siteId) {
         try {
         List<Call_Dispositions__c> lstCD = new List<Call_Dispositions__c>();
         List<Call_Dispositions__c> lstCallDispositions = new List<Call_Dispositions__c>();
         List<Wrapcd> lstcalldts = new List<Wrapcd>();
         List<String> lstCallDateTime = new List<String>();
         Integer count = 0;
+		Contact userContact = CommunityService.getUserContact();
         lstCD = [
             SELECT
                 Id,
                 Call_Category__c,
                 Caller__c,
-                Call_Date__c,
                 CreatedDate,
                 Inbound_Outbound__c,
                 IQVIA_intervention_required__c,
                 Study_Site__c,
                 Notes__c
             FROM Call_Dispositions__c
+			WHERE Study_Site__c=:siteId 
+			AND Caller__c=:userContact.id
             ORDER BY CreatedDate DESC
             LIMIT :limits
         ];
-        count = [SELECT COUNT() FROM Call_Dispositions__c];
+        count = [SELECT COUNT() 
+					FROM Call_Dispositions__c
+					WHERE Study_Site__c=:siteId AND
+					Caller__c=:userContact.id];
         
         string calldatetime = '';
         string a = '';

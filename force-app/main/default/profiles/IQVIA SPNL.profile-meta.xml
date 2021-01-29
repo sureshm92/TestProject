@@ -5,6 +5,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+	    <apexClass>FetchCallDispositions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+	    <apexClass>StudySiteInformationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2255,6 +2263,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Booking__c.Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6512,6 +6530,11 @@
         <field>Study_Site__c.Is_Virtual_Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.IQVIA_intervention_required__c</field>
+		<readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Messages_Are_Available__c</field>
@@ -8034,6 +8057,10 @@
     <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+	<tabVisibilities>
+        <tab>Call_Dispositions__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>

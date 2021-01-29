@@ -9,25 +9,25 @@
 
                     <div><b>Previous Call Dispositions</b></div><br>
                     <div>
-                        <template for:each={records} for:item="item" for:index="index">
-                            <div key={item.cd.Id} data-value={index} onclick={handleClick}>
-                                <c-call-dispositions-details key={item.cd.Id} items={item} item-id={item.cd.Id}
-                                    call-date={item.dtcd} call-category={item.cd.Call_Category__c} index={index}
+                        <template iterator:it={records} >
+                            <div key={it.value.cd.Id} data-value={it.index} onclick={handleClick}>
+                                <c-call-dispositions-details key={it.value.cd.Id} items={it.value} item-id={it.value.cd.Id}
+                                    call-date={it.value.dtcd} call-category={it.value.cd.Call_Category__c} index={it.index}
                                     selected={selected}>
                                 </c-call-dispositions-details>
                             </div>
-                            <!--<div key={item.Id} data-value={index} onclick={handleClick} class="pointer">
-                                Call 2 - {item.Call_Date__c}, {item.Call_Category__c}
-                            </div>-->
-                            <hr key={item.Id} style="margin:5px" />
+                            <div if:false={it.last} key={it.value.Id}>
+                                <hr key={it.value.Id} style="margin:5px" />
+                            </div>
                         </template>
                         <!--<br>-->
                     </div>
                     <template if:true={showViewMore}>
                         <lightning-button variant="base" label="View More" title="Looks like a link" onclick={ViewMore}
-                            class="slds-m-left_x-small"></lightning-button>
+                            class="" style="font-size: 14px;"></lightning-button>
                     </template>
-                </div>
+               
+            </div>
 
                 <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
 

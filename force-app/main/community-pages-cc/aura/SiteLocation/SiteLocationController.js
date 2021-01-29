@@ -60,6 +60,7 @@
     
     changeRadioMarker: function (component, event, helper) {
         component.set('v.account',event.getSource().get('v.value'));
+        component.set('v.editedAccount', event.getSource().get('v.value').Id);
         var accountChecked = event.getSource().get('v.value');
         var studySite = component.get('v.studySite');
         studySite.site = accountChecked.Id;

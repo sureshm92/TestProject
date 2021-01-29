@@ -9,6 +9,7 @@
     <aura:attribute name="isModifiedInfo" type="Boolean" default="true"/>
     <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
     
+    
     <div class="ap-section">
         <div class="collapse-wrapper" >
             <lightning:accordion
@@ -59,6 +60,7 @@
                                                 placeholder="{!if(v.delegateList.length>0,$Label.c.PG_AC_Select,$Label.c.SS_Add_A_Member)}"
                                                 onchange="{!c.changeUpdatedStatus}"
                                                 useSentenceFont="false"
+                                                setValueAsSelected="true"
                                                 />
                                 </span>
                             </div>
