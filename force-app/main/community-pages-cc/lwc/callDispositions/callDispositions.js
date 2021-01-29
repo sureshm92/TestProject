@@ -12,9 +12,9 @@ export default class CallDispositions extends LightningElement {
     @api dateerror;
     @api todaydate;
     @api day;
-    @api month;
+    @api month;@api siteId;
     @api year;@api callDateTime;@api isCDValitated=false;@api newcallnotes;@api callcategoryvalue;@api interventionreq=false;
-    @api defcallbound = 'Inbound';@track count;selected;@track InterventionRequired=false;
+    @api defcallbound = 'Inbound';@api count;selected;@track InterventionRequired=false;
     @api rwindx; @api call; @api ViewMode = false; @api Oldcallcategory; @api Oldcallbound; @api newcall = false;
     @api Oldcallintervention; @api Oldcallnotes; @api Oldcalldate; @api limit = 5; @api initloaded = false;@api Refreshed=false;
   /**   @wire(getRecord, {
@@ -99,7 +99,7 @@ export default class CallDispositions extends LightningElement {
         }**/
      @api
     Refresh() {
-        getcalls({ limits: this.limit })
+        getcalls({ limits: this.limit,siteId: this.siteId })
             .then((result) => {
                 console.log('records-->');
                 this.records = result.lstCDs;
@@ -130,7 +130,7 @@ export default class CallDispositions extends LightningElement {
                 this.errors = error;
                 console.log(error);
                 this.records = undefined;
-                this.count=undefined;
+                this.count=0;
             });
     }
     handleClick(event) {

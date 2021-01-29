@@ -25,7 +25,7 @@
     <aura:attribute name="locationtype" type="String" />
     <aura:attribute name="isEdited" type="Boolean" default="false" />
     <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
-    <aura:attribute name="isAccountDetailFilled" type="Boolean"/>
+    <aura:attribute name="isAccountDetailFilled" type="Boolean" default = "true"/>
     
     <aura:attribute name="editedAccount" type="String" />
     

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Notes_Null_Check</fullName>
+    <active>true</active>
+    <errorConditionFormula>IF( IQVIA_intervention_required__c ,LEN(Notes__c)== 0,false)</errorConditionFormula>
+    <errorMessage>Notes is Required</errorMessage>
+</ValidationRule>
