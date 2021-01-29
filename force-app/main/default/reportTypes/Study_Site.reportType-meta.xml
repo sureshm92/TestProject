@@ -3,12 +3,8 @@
     <baseObject>Study_Site__c</baseObject>
     <category>other</category>
     <deployed>false</deployed>
-    <description>Study Site and Staff</description>
-    <join>
-        <outerJoin>true</outerJoin>
-        <relationship>Site_Staff__r</relationship>
-    </join>
-    <label>Study Site and Staff</label>
+    <description>Study Site</description>
+    <label>Study Site</label>
     <sections>
         <columns>
             <checkedByDefault>false</checkedByDefault>
@@ -272,6 +268,11 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <field>Study_Site_Full_Name__c</field>
+            <table>Study_Site__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <field>Id</field>
             <table>Study_Site__c</table>
         </columns>
@@ -282,7 +283,7 @@
         </columns>
         <columns>
             <checkedByDefault>true</checkedByDefault>
-            <displayNameOverride>Site</displayNameOverride>
+            <displayNameOverride>Site Name</displayNameOverride>
             <field>Name</field>
             <table>Study_Site__c</table>
         </columns>
@@ -318,11 +319,6 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
-            <field>Site_Country__c</field>
-            <table>Study_Site__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
             <field>Enrollment_End_Date2__c</field>
             <table>Study_Site__c</table>
         </columns>
@@ -343,127 +339,34 @@
         </columns>
         <columns>
             <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Study Name</displayNameOverride>
+            <field>Clinical_Trial_Profile__c.Name</field>
+            <table>Study_Site__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Account Name</displayNameOverride>
+            <field>Site__c.Name</field>
+            <table>Study_Site__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>Site Country</displayNameOverride>
+            <field>Site__c.BillingCountryCode</field>
+            <table>Study_Site__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
+            <displayNameOverride>PI</displayNameOverride>
+            <field>Principal_Investigator__c.Name</field>
+            <table>Study_Site__c</table>
+        </columns>
+        <columns>
+            <checkedByDefault>false</checkedByDefault>
             <displayNameOverride>PI Country</displayNameOverride>
             <field>Principal_Investigator__c.MailingCountryCode</field>
             <table>Study_Site__c</table>
         </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Site</displayNameOverride>
-            <field>Site__c.Name</field>
-            <table>Study_Site__c</table>
-        </columns>
         <masterLabel>Study Sites</masterLabel>
-    </sections>
-    <sections>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Clinical_Trial_Profile__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedBy</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>CreatedDate</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Delegate_Level__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Email__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Study_Site_Full_Name__c</field>
-            <table>Study_Site__c</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>is_Invited__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>is_Site_and_Staff_Same_Country__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Study_Site__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedBy</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>LastModifiedDate</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Phone__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Roles__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Site</displayNameOverride>
-            <field>Site__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Site_Email_Key__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Site_Number__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Site_Number2__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>true</checkedByDefault>
-            <displayNameOverride>Staff Name</displayNameOverride>
-            <field>Name</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Id</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <field>Site_Contact__c</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <columns>
-            <checkedByDefault>false</checkedByDefault>
-            <displayNameOverride>Staff Country</displayNameOverride>
-            <field>Site_Contact__c.MailingCountryCode</field>
-            <table>Study_Site__c.Site_Staff__r</table>
-        </columns>
-        <masterLabel>Site Staff</masterLabel>
     </sections>
 </ReportType>
