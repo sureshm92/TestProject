@@ -60,7 +60,11 @@ private class Test_MyTeamRemote {
                 JSON.serialize(detail.delegates[0]),
                 hcpContact.Id
             );
+            MyTeamRemote.sendEmailNotification(hcpContact ,'HCP', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(hcpContact ,'Participant', new Map<String, List<Id>>());
+            MyTeamRemote.sendEmailNotification(hcpContact ,'PI', new Map<String, List<Id>>());
         }
+        
         Test.stopTest();
         RP_Delegate_Relationship__c testHcpRelationship = [
             SELECT Id, Delegate_Access_Level__c, Delegate__r.FirstName, Delegate__r.LastName
@@ -74,6 +78,8 @@ private class Test_MyTeamRemote {
         System.assertEquals('Test New HCP Delegate', testHcpRelationship.Delegate__r.FirstName);
         System.assertEquals('Test New HCP Delegate', testHcpRelationship.Delegate__r.LastName);
     }
+    
+    
 
     @IsTest
     static void piDelegateTest() {

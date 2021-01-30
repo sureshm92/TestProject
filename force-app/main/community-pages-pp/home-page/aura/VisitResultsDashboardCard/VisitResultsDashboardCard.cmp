@@ -30,6 +30,7 @@
                         year="numeric"
                         month="short"
                         day="2-digit"
+                        timeZone="UTC"
                     ></lightning:formattedDateTime>
                     <aura:set attribute="else"> {!v.visitResultWrappers[0].visitDate} </aura:set>
                 </aura:if>
@@ -42,11 +43,13 @@
                     <div class="objective-link">
                         <c:RRLink page="{!v.VisitResultPage}">
                             <aura:if isTrue="{!v.isRTL}"
-                                >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-left"
-                            /></aura:if>
+                                >{!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-left" />
+                            </aura:if>
                             <aura:if isTrue="{!!v.isRTL}"
-                                >{!$Label.c.BTN_Learn_More}<c:RRIcon iconName="icon-chevron-right"
-                            /></aura:if>
+                                >{!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-right" />
+                            </aura:if>
                         </c:RRLink>
                     </div>
                 </div>
@@ -93,10 +96,12 @@
             <aura:set attribute="footer">
                 <c:RRLink page="{!v.VisitResultPage}">
                     {!$Label.c.PG_L_See_All}
-                    <aura:if isTrue="{!v.isRTL}"><c:RRIcon iconName="icon-chevron-left" /></aura:if>
-                    <aura:if isTrue="{!!v.isRTL}"
-                        ><c:RRIcon iconName="icon-chevron-right"
-                    /></aura:if>
+                    <aura:if isTrue="{!v.isRTL}">
+                        <c:RRIcon iconName="icon-chevron-left" />
+                    </aura:if>
+                    <aura:if isTrue="{!!v.isRTL}">
+                        <c:RRIcon iconName="icon-chevron-right" />
+                    </aura:if>
                 </c:RRLink>
             </aura:set>
         </c:HomePreviewTablePanel>

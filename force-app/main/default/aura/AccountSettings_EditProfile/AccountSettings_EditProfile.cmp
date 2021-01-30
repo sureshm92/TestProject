@@ -393,7 +393,6 @@
                                 </aura:if>
 
                                 <aura:if isTrue="{!(v.isDelegate)}">
-                                    <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                                     <lightning:input
                                         aura:id="emailInput1"
                                         type="text"
@@ -543,7 +542,7 @@
                                         type="text"
                                         label="{!$Label.c.RH_HCP_Name}"
                                         value="{!v.institute.Name}"
-                                        disabled="false"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                         onchange="{!c.onChangeInput}"
                                     />
                                 </div>
@@ -555,6 +554,7 @@
                                         label="{!$Label.c.RH_Address_Line_1}"
                                         value="{!v.addressLine1}"
                                         onchange="{!c.onChangeInput}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"             
                                     />
                                 </div>
 
@@ -566,6 +566,7 @@
                                         label="{!$Label.c.RH_Address_Line_2}"
                                         value="{!v.addressLine2}"
                                         onchange="{!c.onChangeInput}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
 
@@ -586,6 +587,7 @@
                                         value="{!v.personWrapper.mailingSC}"
                                         useSentenceFont="{!false}"
                                         isValueChanged="{!v.disableSave}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
 
@@ -597,6 +599,7 @@
                                         label="{!$Label.c.SS_City}"
                                         value="{!v.personWrapper.mailingCity}"
                                         onchange="{!c.onChangeInput}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
                                 <div
@@ -607,6 +610,7 @@
                                         label="{!$Label.c.SS_Postal_Code}"
                                         value="{!v.personWrapper.zip}"
                                         onchange="{!c.onChangeInput}"
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
                             </div>

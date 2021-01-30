@@ -27,14 +27,7 @@ public class EmailForPendingReferrals {
             SELECT Id, Principal_Investigator__c
             FROM Study_Site__c
             WHERE
-                Id IN (
-                    SELECT Study_Site__c
-                    FROM Participant_Enrollment__c
-                    WHERE
-                        Participant_Status__c = 'Received'
-                        AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
-                )
-                AND Principal_Investigator__c IN :allContactIds
+            Principal_Investigator__c IN :allContactIds
             ORDER BY CreatedDate
         ];
 
@@ -69,11 +62,6 @@ public class EmailForPendingReferrals {
             WHERE
                 Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
                 AND is_Invited__c = TRUE
-                AND Study_Site__c IN (
-                    SELECT Study_Site__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant_Status__c = 'Received'
-                )
                 AND Site_Contact__c IN :allContactIds
         ];
         for (Site_Staff__c ss : siteStaffs) {
@@ -86,12 +74,7 @@ public class EmailForPendingReferrals {
             SELECT Study_Site__c, HCP_Contact__c
             FROM HCP_Enrollment__c
             WHERE
-                Study_Site__c IN (
-                    SELECT Study_Site__c
-                    FROM Participant_Enrollment__c
-                    WHERE Participant_Status__c = 'Received'
-                )
-                AND HCP_Contact__c IN :allContactIds
+            HCP_Contact__c IN :allContactIds
         ];
         for (HCP_Enrollment__c hpe : hpes) {
             if (!ssByContactIdMap.containsKey(hpe.HCP_Contact__c)) {

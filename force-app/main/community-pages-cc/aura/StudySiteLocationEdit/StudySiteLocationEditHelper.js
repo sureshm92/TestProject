@@ -161,6 +161,6 @@
                 }
             }
         }
-        component.set('v.isAccountModified', infoWasChanged);
+        //component.set('v.isAccountModified', infoWasChanged);
     }
 });

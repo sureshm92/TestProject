@@ -1708,6 +1708,10 @@
         <apexClass>StudyListViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>StudySiteCountryWarning</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>StudyLogoRemote</apexClass>
         <enabled>true</enabled>
