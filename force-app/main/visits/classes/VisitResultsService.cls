@@ -19,6 +19,7 @@ public inherited sharing class VisitResultsService {
     public List<VisitResultWrapper> getVisitResultWrappersForDashboard() {
         Participant_Enrollment__c objCurrParEnroll = ParticipantContext.getCurrentPE();
         String strCountryCode = '';
+        Map<String, String> visitResultTypeGroupMap = new Map<String, String>();
         if (objCurrParEnroll.Participant__c != null) {
             strCountryCode = objCurrParEnroll.Participant__r.Mailing_Country_Code__c;
         }
@@ -87,6 +88,7 @@ public inherited sharing class VisitResultsService {
         Map<String, String> visitResultTypeDescriptionMap = new Map<String, String>();
         for (Visit_Result_GroupM__mdt objMetadata : visistResultGroupMetaDataTypeList) {
             for (Visit_Result_TypeM__mdt objVSR : objMetadata.Visit_Result_Types__r) {
+                visitResultTypeGroupMap.put(objVSR.DeveloperName, objMetadata.Label);
                 attributePerSectionList.add(objVSR.DeveloperName);
                 visitResultTypeDescriptionMap.put(
                     objVSR.DeveloperName,
@@ -208,7 +210,8 @@ public inherited sharing class VisitResultsService {
                 patientVisit,
                 getVisitResultWrappers(
                     resultsWithAvailableSing,
-                    filteredVisitResultTypesIfAvailable
+                    filteredVisitResultTypesIfAvailable,
+                    visitResultsGroupName
                 ),
                 TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsGroupName)
             );
@@ -236,7 +239,8 @@ public inherited sharing class VisitResultsService {
 
     private List<VisitResultWrapper> getVisitResultWrappers(
         List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSign,
-        List<Visit_Result_TypeM__mdt> visitResultTypes
+        List<Visit_Result_TypeM__mdt> visitResultTypes,
+        String visitResultGroupName
     ) {
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType = getVisitResultsByTypeDeveloperNames(
             resultsWithAvailableSign
