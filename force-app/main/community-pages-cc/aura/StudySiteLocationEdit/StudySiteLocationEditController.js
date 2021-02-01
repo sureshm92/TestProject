@@ -2,15 +2,14 @@
     doExecute: function (component, event, helper) {
         var params = event.getParam('arguments');
         component.set('v.account',params.account);
-       
-        
+        var accountTest = JSON.stringify(params.account);
+	        
         if($A.util.isUndefinedOrNull(component.get('v.account.Name'))
           || ($A.util.isUndefinedOrNull(component.get('v.account.BillingStreet')))
            ||($A.util.isUndefinedOrNull(component.get('v.account.BillingCity'))))
         {
             component.set('v.isAccountDetailFilled',false);
         }
-            
         
         var statesByCountryMap = component.get('v.statesByCountryMap');
         var account;
@@ -68,12 +67,16 @@
     
     doCheckFields: function (component, event, helper) {
         var account = component.get('v.account');
-        if($A.util.isUndefinedOrNull(account.BillingCity))
+        if(account.Name == '' || account.Name == null
+          ||account.BillingStreet == '' || account.BillingStreet == null
+          || account.BillingCity == '' || account.BillingCity == null)
         {
-            component.set('v.isAccountDetailFilled',false);
+            component.set('v.isAccountDetailFilled', false);
         }
         else
-            component.set('v.isAccountDetailFilled',true);
+        {
+            component.set('v.isAccountDetailFilled', true);
+        }
         if (account.BillingStateCode) {
             var statesLVList = component.get('v.statesLVList');
         }
@@ -120,7 +123,7 @@
             null,
             function () {
                 component.set('v.editedAccount', account.Id);
-                console.log('hhhh'+component.get(v.editedAccount));
+                console.log('>>hhhh>>>'+component.get('v.editedAccount'));
                 //component.find('spinner').hide();
             }
         );

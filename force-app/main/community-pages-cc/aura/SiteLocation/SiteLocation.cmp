@@ -165,6 +165,6 @@
                                  account = "{!v.account}"
                                  isEdited = "{!v.isEdited}"
                                  isStudyInfoModified = "{!v.isStudyInfoModified}"
-                                 editedAccount = "{v.editedAccount}"/>
+                                 editedAccount = "{!v.editedAccount}"/>
     </aura:if>
 </aura:component>

@@ -1,6 +1,5 @@
 ({
-	doExecute : function(component, event, helper) {
-        console.log('>>>>studyInformate>>'+JSON.stringify(component.get('v.studyInformation')));
+    doExecute : function(component, event, helper) {
         component.find('dialog').show();
         component.set('v.siteInfoComplete',component.get('v.studyInformation.siteInfoComplete'));
         component.set('v.trainingComplete',component.get('v.studyInformation.trainingComplete'));
@@ -15,19 +14,26 @@
             {
                 component.set('v.delegateList',returnValue);
             });
-	},
+    },
     doCancel: function (component, event, helper) {
-      component.find('dialog').cancel();
+        component.find('dialog').cancel();
         
     },
-     doSave: function (component, event, helper) {
-         // var childComponent = component.find("childCmp");
-         // childComponent.childMessageMethod();
+    
+    doSave: function (component, event, helper) {
+        component.find('Spinnerpopup').show();
         var siteWrapper = component.get('v.studyInformation');
+        var callDisp = JSON.stringify(component.get('v.CD'));
+        var result = callDisp.slice(1,-1);
         communityService.executeAction(
             component,
             'saveSSChanges',
-            { studySiteInfo: JSON.stringify(siteWrapper) },
+            { 
+                studySiteInfo: JSON.stringify(siteWrapper),
+                accId : component.get('v.editedAccount'),
+                callDisp: result,
+                newCall: component.get('v.newCall')
+            },
             function () {
                 communityService.showToast(
                     'success',
@@ -37,8 +43,8 @@
             },
             null,
             function () {
-                 component.find('dialog').hide();
-                //studyListViewComponent.find('mainSpinner').hide();
+                component.find('Spinnerpopup').hide();
+                component.find('dialog').hide();
             }
         );
     },

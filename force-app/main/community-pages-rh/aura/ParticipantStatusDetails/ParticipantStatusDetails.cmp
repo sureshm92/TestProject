@@ -2,9 +2,12 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="ParticipantStatusDetails">
+ <aura:component description="ParticipantStatusDetails" controller="ParticipantWorkflowService">
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--attributes-->
+    <aura:attribute name="pe" type="Participant_Enrollment__c"/>
     <aura:attribute name="participantWorkflowWrapper" type="Object" required="true" />
+    <aura:attribute name="participantWorkflowWrapperTemp" type="Object" required="true" />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="updateInProgress" type="Boolean" default="false" />
     <aura:attribute name="NotCCMode" type="Boolean" default="true" access="public" />
@@ -28,8 +31,12 @@
     <aura:method name="notifyParent" action="{!c.doNotifyParent}" access="public">
         <aura:attribute name="changesMap" type="Map" />
     </aura:method>
+    
+    <aura:method name="refreshChildTable" action="{!c.doInit}" access="public">
+    </aura:method>
 
     <div class="slds-grid slds-wrap">
+        <c:RRSpinner aura:id="spinner" size="medium"/>
         <div
             class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3 slds-p-horizontal--medium"
         >
@@ -56,7 +63,28 @@
                             </div>
                             <div class="step-info">
                                 <div class="step-title">{!step.title}</div>
-                                <div class="step-status">{!step.status}</div>
+                                <aura:if isTrue="{!step.title == 'Initial Visit'}">
+                                    <div class="step-status">
+                                        <lightning:formattedDateTime
+                                            value="{!step.dateStatus}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            timeZone="UTC"
+                                        />
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <div class="step-status">
+                                            {!step.status}&nbsp;<lightning:formattedDateTime
+                                                value="{!step.dateStatus}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                timeZone="UTC"
+                                            />
+                                        </div>
+                                    </aura:set>
+                                </aura:if>
                             </div>
                         </button>
                     </div>
@@ -80,11 +108,31 @@
                                     </div>
                                     <div class="step-info">
                                         <div class="step-title">{!step.title}</div>
-                                        <div class="step-status">{!step.status}</div>
+                                        <aura:if isTrue="{!step.title == 'Initial Visit'}">
+                                            <div class="step-status">
+                                                <lightning:formattedDateTime
+                                                    value="{!step.dateStatus}"
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    timeZone="UTC"
+                                                />
+                                            </div>
+                                            <aura:set attribute="else">
+                                                <div class="step-status">
+                                                    {!step.status}&nbsp;<lightning:formattedDateTime
+                                                        value="{!step.dateStatus}"
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        timeZone="UTC"
+                                                    />
+                                                </div>
+                                            </aura:set>
+                                        </aura:if>
                                     </div>
-                                </button>
-                            </div></aura:if
-                        >
+                                </button></div
+                        ></aura:if>
                     </aura:set>
                 </aura:if>
             </aura:iteration>
@@ -95,6 +143,7 @@
                     <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
                         <c:ParticipantStatusDetailsCard
                             aura:id="stepCard"
+                            participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
                             stepWrapper="{!step}"
                             partInfoForm="{!v.parent}"
                             parent="{!this}"
@@ -108,6 +157,7 @@
                             >
                                 <c:ParticipantStatusDetailsCard
                                     aura:id="stepCard"
+                                    participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
                                     stepWrapper="{!step}"
                                     partInfoForm="{!v.parent}"
                                     parent="{!this}"

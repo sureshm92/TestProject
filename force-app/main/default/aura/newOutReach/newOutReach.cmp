@@ -80,10 +80,7 @@
                             >
                                 <option value="">{!$Label.c.Select_Study}</option>
                                 <aura:iteration items="{!v.studysite}" var="rol">
-                                    <option
-                                        value="{!rol.Study_Code_Name__c}"
-                                        label="{!rol.Study_Code_Name__c}"
-                                    ></option>
+                                    <option value="{!rol.Study_Code_Name__c}">{!rol.Study_Code_Name__c}</option>
                                 </aura:iteration>
                             </ui:inputSelect>
                         </div>
@@ -102,10 +99,7 @@
                             >
                                 <option value="">{!$Label.c.Select_Site}</option>
                                 <aura:iteration items="{!v.studyData}" var="itms">
-                                    <option
-                                        value="{!itms.studyName}"
-                                        label="{!itms.studyName}"
-                                    ></option>
+                                    <option value="{!itms.studyName}">{!itms.studyName}</option>
                                 </aura:iteration>
                             </ui:inputSelect>
                         </div>
@@ -188,23 +182,11 @@
                                     aura:id="preferredId"
                                     onchange="{!preferredType}"
                                 >
-                                    <option value="" label=""></option>
-                                    <option
-                                        value="{!$Label.c.PG_MRC_RF_Email}"
-                                        label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.PG_MRC_RF_Phone}"
-                                        label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Email}"
-                                        label="{!$Label.c.Other_Email}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Phone_Number}"
-                                        label="{!$Label.c.Other_Phone_Number}"
-                                    ></option>
+                                    <option value=""></option>
+                                    <option value="{!$Label.c.PG_MRC_RF_Email}">{!$Label.c.Media_Email+'         '+ v.studyEmail}</option>
+                                    <option value="{!$Label.c.PG_MRC_RF_Phone}">{!$Label.c.Media_Phone+'                     ' +v.studyPhone}</option>
+                                    <option value="{!$Label.c.Other_Email}">{!$Label.c.Other_Email}</option>
+                                    <option value="{!$Label.c.Other_Phone_Number}">{!$Label.c.Other_Phone_Number}</option>
                                 </lightning:select>
                             </aura:if>
                             <aura:if isTrue="{!v.isCheckPhonenull}">
@@ -213,23 +195,11 @@
                                     aura:id="preferredId"
                                     onchange="{!preferredType}"
                                 >
-                                    <option value="" label=""></option>
-                                    <option
-                                        value="{!$Label.c.PG_MRC_RF_Email}"
-                                        label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.PG_MRC_RF_Phone}"
-                                        label="{!$Label.c.Media_Phone+'                     ' +v.studyPhone}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Email}"
-                                        label="{!$Label.c.Other_Email}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Phone_Number}"
-                                        label="{!$Label.c.Other_Phone_Number}"
-                                    ></option>
+                                    <option value=""></option>
+                                    <option value="{!$Label.c.PG_MRC_RF_Email}">{!$Label.c.Media_Email+'         '+ v.studyEmail}</option>
+                                    <option value="{!$Label.c.PG_MRC_RF_Phone}">{!$Label.c.Media_Phone+'                     ' +v.studyPhone}</option>
+                                    <option value="{!$Label.c.Other_Email}">{!$Label.c.Other_Email}</option>
+                                    <option value="{!$Label.c.Other_Phone_Number}">{!$Label.c.Other_Phone_Number}</option>
                                 </lightning:select>
                             </aura:if>
 
@@ -239,19 +209,10 @@
                                     aura:id="preferredId"
                                     onchange="{!preferredType}"
                                 >
-                                    <option value="" label=""></option>
-                                    <option
-                                        value="{!$Label.c.PG_MRC_RF_Email}"
-                                        label="{!$Label.c.Media_Email+'         '+ v.studyEmail}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Email}"
-                                        label="{!$Label.c.Other_Email}"
-                                    ></option>
-                                    <option
-                                        value="{!$Label.c.Other_Phone_Number}"
-                                        label="{!$Label.c.Other_Phone_Number}"
-                                    ></option>
+                                    <option value=""></option>
+                                    <option value="{!$Label.c.PG_MRC_RF_Email}">{!$Label.c.Media_Email+'         '+ v.studyEmail}</option>
+                                    <option value="{!$Label.c.Other_Email}">{!$Label.c.Other_Email}</option>
+                                    <option value="{!$Label.c.Other_Phone_Number}">{!$Label.c.Other_Phone_Number}</option> 
                                 </lightning:select>
                             </aura:if>
                         </div>

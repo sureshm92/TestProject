@@ -214,6 +214,13 @@
         <value>Welcome to the ##CommunityWelcome!</value>
     </labels>
     <labels>
+        <fullName>ARM</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ARM</shortDescription>
+        <value>ARM</value>
+    </labels>
+    <labels>
         <fullName>AST</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -240,6 +247,14 @@
         <protected>true</protected>
         <shortDescription>About the Study</shortDescription>
         <value>About the Study</value>
+    </labels>
+    <labels>
+        <fullName>Accees_Personal_Information</fullName>
+        <categories>Opt Out And Technical Support</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Accees Personal Information</shortDescription>
+        <value>I want to access, correct or delete my personal information</value>
     </labels>
     <labels>
         <fullName>Accepted_For_All_Study_Sites</fullName>
@@ -4692,6 +4707,17 @@ To accept this request, please log in to the IQVIA Referral Hub and navigate to 
             Please login to the ##ShortCommunityName for the latest clinical research information and for future updates on the clinical research study.</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Patient19</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Body Patient19</shortDescription>
+        <value>Recently, ##HCPName made a referral on your behalf to potentially participate in a clinical research study: ##StudyName
+
+You will be contacted by a member of the study team regarding the next steps in the enrollment process.
+
+If you are not contacted about this opportunity within 3 business days, please call the study team directly at ##SitePhoneNumber.</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Patient1_New</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5646,6 +5672,20 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <value>If you have a medical emergency, please contact your local emergency medical services.</value>
     </labels>
     <labels>
+        <fullName>Email_Outage_Header</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Outage Header</shortDescription>
+        <value>IQVIA Technologies Product &amp; Release Updates</value>
+    </labels>
+    <labels>
+        <fullName>Email_Outage_Title</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Outage Title</shortDescription>
+        <value>Referral Hub 4.0 &amp; Patient Portal 2.0 Release on weekend</value>
+    </labels>
+    <labels>
         <fullName>Email_Signature</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6416,6 +6456,13 @@ Sincerely,
         <value>IQVIA™ Referral Hub</value>
     </labels>
     <labels>
+        <fullName>Email_Title_All</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email Title All</shortDescription>
+        <value>##TitleNewTM</value>
+    </labels>
+    <labels>
         <fullName>Email_Title_Initial_All_GSK</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6474,6 +6521,19 @@ Sincerely,
             Please review the referrals and accept, decline, or place on hold each referral.
 
             To review the referrals, log in to the IQVIA Referral Hub and navigate to &quot;My Referrals.&quot;</value>
+    </labels>
+    <labels>
+        <fullName>Email_for_Outage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Email for Outage</shortDescription>
+        <value>IQVIA Referral Hub Release 4.0
+
+This weekend IQVIA will be launching an update to the referral management workflow.  
+
+Release 4.0 includes additional details around the screening process, which has the following capabilities:
+•	Ability to load in Initial visit scheduled and actual completion dates
+•	Distinguishing between enrollment versus randomization for the study</value>
     </labels>
     <labels>
         <fullName>Empty_Reminder</fullName>
@@ -8780,6 +8840,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Media_Type</shortDescription>
         <value>Media_Type__c</value>
+    </labels>
+    <labels>
+        <fullName>Medical_Preview_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Medical Preview Error Message</shortDescription>
+        <value>This file is too large to preview. Please download the file to view it.</value>
     </labels>
     <labels>
         <fullName>Medical_Record_Review</fullName>
@@ -15733,11 +15800,11 @@ communications using the toggles below.</value>
         <value>Not Enrolled</value>
     </labels>
     <labels>
-        <fullName>PWS_Initial_Visit_Card_Name</fullName>
+        <fullName>PWS_From</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
-        <value>Initial Visit</value>
+        <shortDescription>PWS_From</shortDescription>
+        <value>from</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_History_Title</fullName>
@@ -15750,7 +15817,7 @@ communications using the toggles below.</value>
         <fullName>PWS_Initial_Visit_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
+        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
         <value>Initial Visit</value>
     </labels>
     <labels>
@@ -15759,6 +15826,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PWS_Initial_Visit_No_Outcome</shortDescription>
         <value>Not Completed</value>
+    </labels>
+    <labels>
+        <fullName>PWS_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PWS_On</shortDescription>
+        <value>on</value>
     </labels>
     <labels>
         <fullName>PWS_Picklist_Value_Childcare_Issues</fullName>
@@ -16267,6 +16341,20 @@ communications using the toggles below.</value>
         <value>The passwords do not match</value>
     </labels>
     <labels>
+        <fullName>Pswd_ValidationMsg7</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg7</shortDescription>
+        <value>The password you entered is too easy to guess. Enter a different one</value>
+    </labels>
+    <labels>
+        <fullName>Pswd_ValidationMsg8</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Pswd_ValidationMsg8</shortDescription>
+        <value>Your password cannot be null</value>
+    </labels>
+    <labels>
         <fullName>Pswd_Your_Pswd_Include</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16518,6 +16606,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Others</shortDescription>
         <value>Others</value>
+    </labels>
+    <labels>
+        <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
+        <value>PI/Site staff country is not the same as Site country</value>
     </labels>
     <labels>
         <fullName>RH_Reset</fullName>

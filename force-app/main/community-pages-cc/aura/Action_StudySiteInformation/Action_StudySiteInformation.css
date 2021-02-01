@@ -5,9 +5,14 @@
 }
 
 .THIS .cStudySiteLocations + .ap-section .slds-grid .slds-size_1-of-2.slds-p-around_xx-small > div:nth-child(3) {
-    max-height: 190px;
+    max-height: 195px;
     overflow: hidden;
     overflow-y: auto;
+}
+
+.THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-is-open>.slds-accordion__summary .slds-accordion__summary-action-icon,
+.THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-accordion__summary-action-icon {
+    margin-bottom: 2px;
 }
 
 
