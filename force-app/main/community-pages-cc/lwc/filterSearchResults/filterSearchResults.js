@@ -30,9 +30,13 @@ export default class FilterSearchResults extends LightningElement {
         this.template.querySelector('input[data-study-id=country]').setAttribute('list', country);
     }
 
-    handleCountryChange(evt) {
-        let nodeName = evt.target.getAttribute('name');
-        let value = evt.target.value;
+    handleCountryChange(evt, targetName, targetValue) {
+        let nodeName =
+            targetName == 'undefined' || targetName == null
+                ? evt.target.getAttribute('name')
+                : targetName;
+        let value =
+            targetValue == 'undefined' || targetValue == null ? evt.target.value : targetValue;
         let keyArray = [];
 
         if (nodeName === 'country' && value) {
@@ -44,7 +48,8 @@ export default class FilterSearchResults extends LightningElement {
             value: value,
             name: nodeName
         };
-        this.value = evt.target.value;
+        this.value =
+            targetValue == 'undefined' || targetValue == null ? evt.target.value : targetValue;
         this.dispatchEvent(
             new CustomEvent('countryfilterchange', {
                 detail: { filteredData }
@@ -52,9 +57,13 @@ export default class FilterSearchResults extends LightningElement {
         );
     }
 
-    handleStudyChange(evt) {
-        let nodeName = evt.target.getAttribute('name');
-        let value = evt.target.value;
+    handleStudyChange(evt, targetName, targetValue) {
+        let nodeName =
+            targetName == 'undefined' || targetName == null
+                ? evt.target.getAttribute('name')
+                : targetName;
+        let value =
+            targetValue == 'undefined' || targetValue == null ? evt.target.value : targetValue;
         let keyArray = [];
 
         if (nodeName === 'studyName' && value) {
@@ -66,7 +75,8 @@ export default class FilterSearchResults extends LightningElement {
             value: value,
             name: nodeName
         };
-        this.value = evt.target.value;
+        this.value =
+            targetValue == 'undefined' || targetValue == null ? evt.target.value : targetValue;
         this.dispatchEvent(
             new CustomEvent('studyfilterchange', {
                 detail: { filteredData }
@@ -81,11 +91,11 @@ export default class FilterSearchResults extends LightningElement {
         console.log(nodeName);
         if (nodeName === 'forCountry' && country) {
             this.template.querySelector('input[data-study-id=country]').value = '';
-            this.handleCountryChange(evt);
+            this.handleCountryChange(evt, 'country', '');
         }
         if (nodeName === 'forStudyName' && studyName) {
             this.template.querySelector('input[data-study-id=studyName]').value = '';
-            this.handleStudyChange(evt);
+            this.handleStudyChange(evt, 'studyName', '');
         }
     }
 }
