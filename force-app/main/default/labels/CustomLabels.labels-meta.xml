@@ -17808,6 +17808,13 @@ communications using the toggles below.</value>
         <value>Total</value>
     </labels>
     <labels>
+        <fullName>switcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>switcher</shortDescription>
+        <value>1</value>
+    </labels>
+    <labels>
         <fullName>STP_MRR_T2</fullName>
         <language>en_US</language>
         <protected>false</protected>
