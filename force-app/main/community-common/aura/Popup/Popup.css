@@ -167,7 +167,7 @@
     .slds-tabs_default__item.slds-is-active:hover::after {
     background-color: #297dfd;
     border-radius: 3px;
-    bottom: -2px;
+    bottom: 0;
     width: 85%;
     margin-left: 8%;
 }

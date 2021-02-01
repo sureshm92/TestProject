@@ -401,6 +401,7 @@
                                         year="numeric"
                                         month="short"
                                         day="2-digit"
+                                        timeZone="UTC"
                                     />
                                 </div>
                             </aura:if>
@@ -414,6 +415,7 @@
                                         year="numeric"
                                         month="short"
                                         day="2-digit"
+                                        timeZone="UTC"
                                     />
                                 </div>
                             </aura:if>

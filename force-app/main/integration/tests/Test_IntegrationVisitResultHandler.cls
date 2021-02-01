@@ -15,25 +15,45 @@ private class Test_IntegrationVisitResultHandler {
 		TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
 		TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
 		TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
-
-		Test.startTest();
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+		TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
+        
+        
 		Account acc = new Account();
 		acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
 		insert acc;
+		
+        TestData.loadTestData();
 		ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1', '2', '3');
-		List<Participant_Enrollment__c> peList = [
+        
+        List<Participant_Enrollment__c> peList = [
 			SELECT Id,
 			External_Key__c
 			FROM Participant_Enrollment__c
-			WHERE External_Key__c = '1~2~3'
+			WHERE External_Key__c = '1~2~3' LIMIT 1
 		];
+        
+        /*
+        TestData.loadTestData();
+        Participant_Enrollment__c part = [
+            SELECT
+                Id,
+                Medical_Record_Review_Status__c,
+                MRR_Survey_Results_URL__c,
+                Medical_Record_Review_Completed_by__c,
+                Pre_screening_Status__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
+        */
 		Patient_Visit__c visit = new Patient_Visit__c();
 		visit.Name = 'New Visit';
 		visit.Completed_Date__c = Date.today();
 		visit.Participant_Enrollment__c = peList[0].Id;
 		visit.SDH_Key__c = '1~2~3' + 'New Visit' + Date.today();
 		insert visit;
-		Test.stopTest();
 	}
 
 	@IsTest

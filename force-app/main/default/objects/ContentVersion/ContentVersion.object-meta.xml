@@ -30,7 +30,11 @@
     </actionOverrides>
     <compactLayoutAssignment>SYSTEM</compactLayoutAssignment>
     <enableFeeds>false</enableFeeds>
-    
+     <recordTypes>
+        <fullName>ReferralHub</fullName>
+        <active>true</active>
+        <label>ReferralHub</label>
+    </recordTypes>
     <searchLayouts>
         <searchResultsAdditionalFields>VERSION.TITLE</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>VERSION.CONTENT_SIZE</searchResultsAdditionalFields>

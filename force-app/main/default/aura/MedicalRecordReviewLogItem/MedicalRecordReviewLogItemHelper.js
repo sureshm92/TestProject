@@ -51,6 +51,9 @@
             'v.addedOnDate',
             $A.get('$Label.c.PG_MRRLI_MSG_Added_on') + ' ' + pEnroll.CreatedDate.substr(0, 10)
         );
+        component.set(
+            'v.addedDate',pEnroll.CreatedDate.substr(0, 10)
+        );
     },
 
     returnPickListTranslation: function (component, picklistValue, objectName, fieldName) {
