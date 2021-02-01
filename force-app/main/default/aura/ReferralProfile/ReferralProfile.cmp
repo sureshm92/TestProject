@@ -74,6 +74,7 @@
                                         year="numeric"
                                         month="numeric"
                                         day="2-digit"
+                                        timeZone="UTC"
                                     ></lightning:formattedDateTime>
                                 </div>
                             </div>

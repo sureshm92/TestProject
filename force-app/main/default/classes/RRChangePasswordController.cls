@@ -411,7 +411,9 @@ public without sharing class RRChangePasswordController {
             try {
                 if (!Test.isRunningTest()) {
                     Site.validatePassword(userVal, newPassword, verifyNewPassword);
-                
+                    String errorMsg1='The passwords do not match';
+       			    String errorMsg2='The password you entered is too easy to guess. Enter a different one';
+                    String errorMsg3='Your password cannot be null';
                     for (ApexPages.Message m : ApexPages.getMessages()) 
                     {
                        if(m.getDetail().contains(System.Label.Pswd_ValidationMsg5)){
@@ -420,10 +422,23 @@ public without sharing class RRChangePasswordController {
                            
                        }
                        else if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
-                        {
+                       {
                             m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
                             failingPageResponse = m.getDetail();
-                        } else {
+                       }  
+                       else if(m.getDetail().contains(errorMsg3)) {
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg8);
+                            failingPageResponse = m.getDetail();
+                       }
+                       else if(m.getDetail().contains(errorMsg1)) {
+                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg5);
+                            failingPageResponse = m.getDetail();
+                       }  
+                       else if(m.getDetail().contains(errorMsg2)) {
+                             m = new ApexPages.Message( ApexPages.Severity.ERROR,System.Label.Pswd_ValidationMsg7);
+                            failingPageResponse = m.getDetail();
+                       }                          
+                       else {                          
                             failingPageResponse = null;
                         }
                     }

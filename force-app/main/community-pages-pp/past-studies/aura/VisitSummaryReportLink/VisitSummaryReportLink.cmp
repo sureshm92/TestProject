@@ -23,20 +23,38 @@
     <!-- component body -->
     <c:RRSpinner aura:id="spinner" size="medium" fixed="true" />
     <aura:if isTrue="{!v.initialized}">
+        <aura:if isTrue="{!v.isRTL}">
+        <div class="resource-link-container">            
+        <a
+           class="resource-name"
+           onclick="{!c.doGenerateReport}"
+           style="{!if(v.isRTL, 'float:right;', '')}"
+           >
+            {!if(v.inTrialSummaryReport, $Label.c.Resource_In_Trial_Summary_Report,
+            $Label.c.Resource_Visit_Summary_Report)}
+        </a>
+            <c:RRIcon
+                iconName="icon-pdf"
+                class="resource-icon"
+            />
+        </div>
+        </aura:if>
+        <aura:if isTrue="{!!v.isRTL}">
         <div class="resource-link-container">
             <c:RRIcon
                 iconName="icon-pdf"
-                class="{!if(v.isRTL, 'resource-icon resource-icon-rtl', 'resource-icon')}"
+                class="resource-icon"
             />
-            <a
-                class="resource-name"
-                onclick="{!c.doGenerateReport}"
-                style="{!if(v.isRTL, 'float:right;', '')}"
-            >
-                {!if(v.inTrialSummaryReport, $Label.c.Resource_In_Trial_Summary_Report,
-                $Label.c.Resource_Visit_Summary_Report)}
-            </a>
+            
+        <a
+           class="resource-name"
+           onclick="{!c.doGenerateReport}"
+	           >
+            {!if(v.inTrialSummaryReport, $Label.c.Resource_In_Trial_Summary_Report,
+            $Label.c.Resource_Visit_Summary_Report)}
+        </a>
         </div>
+        </aura:if>
     </aura:if>
 
     <!-- table for report generation -->

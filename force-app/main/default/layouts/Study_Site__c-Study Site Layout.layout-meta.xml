@@ -76,6 +76,10 @@
                 <behavior>Edit</behavior>
                 <field>Enable_for_Call_Center_Support__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IQVIA_intervention_required__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -347,6 +351,7 @@
     <relatedLists>
         <fields>NAME</fields>
         <fields>Site_Contact__c</fields>
+        <fields>is_Site_and_Staff_Same_Country__c</fields>
         <relatedList>Site_Staff__c.Study_Site__c</relatedList>
     </relatedLists>
     <relatedLists>

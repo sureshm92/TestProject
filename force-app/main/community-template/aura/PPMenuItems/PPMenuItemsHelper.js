@@ -6,6 +6,7 @@
             var x = event.clientX,
                 y = event.clientY;
             component.set('v.tooltipTop', y - 100 + 'px');
+            var dataVal = component.get('v.hovertext');
             if(dataVal == $A.get('$Label.c.Delegates'))
             {    
             component.set('v.tooltipLeft',265-(dataVal.length*3)+'px');
@@ -24,7 +25,6 @@
 
             }
 
-            var dataVal = component.get('v.hovertext');
             if (
                 dataVal != $A.get('$Label.c.Delegates') &&
                 dataVal != $A.get('$Label.c.PP_Account_Settings')

@@ -67,6 +67,7 @@
                         year="numeric"
                         month="short"
                         day="2-digit"
+                        timeZone="UTC"
                     />
 
                     <aura:set attribute="else">
@@ -77,6 +78,7 @@
                                 year="numeric"
                                 month="short"
                                 day="2-digit"
+                                timeZone="UTC"
                             />
 
                             <aura:set attribute="else"> None </aura:set>

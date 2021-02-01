@@ -7,10 +7,32 @@ private class Test_Batch_UpdateActivityDateTime {
     @IsTest
     static void batchExecute() {
         TestData.loadTestData();
+        Participant_Enrollment__c part = [
+            SELECT
+                Id,
+                Medical_Record_Review_Status__c,
+                MRR_Survey_Results_URL__c,
+                Medical_Record_Review_Completed_by__c,
+                Pre_screening_Status__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
+        Account a = new Account(Name = 'Participant');
+        insert a;
+        Contact newCont = new Contact(
+            LastName = 'drdr',
+            Email = 'dasda@mail.com',
+            FirstName = 'asdas',
+            AccountId = a.Id
+        );
+        insert newCont;
+        
+        ReferralProfileRemote.createUser(part.Id, newCont.Id);
+       
         User user = [
             SELECT Id
             FROM User
-            WHERE Account.Name = :CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+            WHERE Account.Name =:CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
             LIMIT 1
         ];
         List<Task> tasksList = new List<Task>{

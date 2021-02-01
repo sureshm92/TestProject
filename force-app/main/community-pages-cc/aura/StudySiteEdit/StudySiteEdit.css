@@ -12,6 +12,10 @@
     color: #000000;
     font-size: 14px;
 }
+.THIS .slds-accordion__section{
+    padding-top: 0px;
+    padding-bottom: 0px;
+}
 .THIS .input-fields-labels {
     height: 21px;
     color: #444;
@@ -32,7 +36,7 @@
 }
 
 .THIS .rr-form-element {
-    margin-bottom: 10px;
+    margin-bottom: 5px;
 }
 
 .THIS .IQVIA_contact-patient-checkbox {
