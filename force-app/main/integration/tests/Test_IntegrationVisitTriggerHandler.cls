@@ -15,13 +15,17 @@ private class Test_IntegrationVisitTriggerHandler {
 		TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class);
 		TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
 		TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.UpdateNameOnPE.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class);
+		TriggerHandlerExecutor.bypassHandler(StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class);
+        TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class);
 
-		Test.startTest();
+		TestData.loadTestData();
 		Account acc = new Account();
 		acc.Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME;
 		insert acc;
 		ParticipantEnrollmentFactory.createParticipantEnrollmentRecords('1','2','3');
-		List<Participant_Enrollment__c> peList = [
+        List<Participant_Enrollment__c> peList = [
 			SELECT Id,
 			External_Key__c
 			FROM Participant_Enrollment__c
@@ -37,7 +41,7 @@ private class Test_IntegrationVisitTriggerHandler {
 			visits.add(visit);
 		}
 		insert visits;
-		Test.stopTest();
+		
 	}
 
 	@IsTest

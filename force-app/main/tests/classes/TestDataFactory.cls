@@ -263,7 +263,8 @@ public class TestDataFactory {
             Email__c = 'part1@email.com',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
-            Adult__c = true
+            Adult__c = true,
+            Site__c= piAccount.Id
         );
         insert participant;
         Participant_Enrollment__c pe = new Participant_Enrollment__c(

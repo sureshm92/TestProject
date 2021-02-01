@@ -16,7 +16,7 @@ public class MedicalHistoryViewController
         for (ContentDocumentLink cdl : cdls) {
             documentIds.add(cdl.ContentDocumentId);
         }
-        List<ContentDocument> documents = [SELECT Id, Title, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+        List<ContentDocument> documents = [SELECT Id, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
                                            ORDER BY CreatedDate DESC LIMIT 1];
                
         String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();

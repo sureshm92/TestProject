@@ -26,6 +26,7 @@ public without sharing class Batch_CreateSummaryNotifications extends Batch_Sche
                     Notify_On_Availability__c = TRUE
                     AND Visible_To_Participant__c = TRUE
                     AND Resource__r.document_type__c = 'Document'
+                    AND Clinical_Trial_Profile__r.Study_Documents_Are_Available__c = TRUE
             ]
         );
     }

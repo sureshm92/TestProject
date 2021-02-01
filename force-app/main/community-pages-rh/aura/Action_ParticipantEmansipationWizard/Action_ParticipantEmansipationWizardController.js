@@ -47,7 +47,7 @@
                         Consent_To_Inform_About_Study__c: false
                     };
                     component.set('v.contact', contact);
-
+                    component.set('v.isInvited', params.isInvited);
                     if (
                         !pe.Study_Site__r.Suppress_Participant_Emails__c &&
                         !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
