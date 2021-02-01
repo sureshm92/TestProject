@@ -70,7 +70,8 @@
                 (stepWrapper.notes !== undefined && stepWrapper.notes.trim() !== ''));
         console.log('isCurrentStepValid ' + isCurrentStepValid);
         component.set('v.stepWrapper.isCurrentStepValid', isCurrentStepValid);
+        var participantWorkflowWrapper = component.get('v.participantWorkflowWrapper');
         let partInfoForm = component.get('v.partInfoForm');
-        partInfoForm.statusDetailValidityCheck();
+        partInfoForm.statusDetailValidityCheck(participantWorkflowWrapper);
     }
 });

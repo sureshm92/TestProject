@@ -56,7 +56,7 @@
     <label>Participant Enrollment Status History</label>
     <nameField>
         <displayFormat>PESH-{0000000}</displayFormat>
-        <label>Participant Enrollment Status History Na</label>
+        <label>Participant Enrollment Status History</label>
         <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Participant Enrollment Status History</pluralLabel>

@@ -40,9 +40,9 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             system.debug('userlocaltime' + userlocaltime);
 
             if (
-                ((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt() < 45) ||
+                ((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt() <= 45) ||
                 userlocaltime.hourgmt() == 6) &&
-                ((userlocaltime.hourgmt() + 1 == 7 && userlocaltime.minutegmt() > 45) ||
+                ((userlocaltime.hourgmt() + 1 == 7 && userlocaltime.minutegmt() >= 45) ||
                 userlocaltime.hourgmt() + 1 == 8) &&
                 u.TimeOfRun__c != String.valueOf(timestarted).subStringBefore(' ')
             ) {

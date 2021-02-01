@@ -70,7 +70,7 @@
                     returnValue = JSON.parse(returnValue);
                     //component.set('v.statusSteps', returnValue.steps);
                     component.set('v.formData.visitPlansLVList', returnValue.visitPlanLVList);
-                    component.set('v.participantPath', returnValue.steps);
+                    // component.set('v.participantPath', returnValue.steps);
                     component.set('v.isFinalUpdate', false);
                     component.set('v.initialized', true);
                     setTimeout(
@@ -238,30 +238,32 @@
         var isIniVisCurrentStep = false;
         var nextStepNeutral = false;
         var nextOutcome = null;
-        for (let ind = 0; ind < steps.length; ind++) {
-            if (steps[ind].isCurrentStepValid && steps[ind].isCurrentStep) {
-                if (steps[ind].notes != '' && steps[ind].notes != null) {
-                    notesToBeAdded = true;
+        if(steps != null){
+            for (let ind = 0; ind < steps.length; ind++) {
+                if (steps[ind].isCurrentStepValid && steps[ind].isCurrentStep) {
+                    if (steps[ind].notes != '' && steps[ind].notes != null) {
+                        notesToBeAdded = true;
+                    }
+                    if (ind > 0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)) {
+                        outcome = steps[ind - 1].outcome;
+                    } else {
+                        outcome = steps[ind].outcome;
+                    }
                 }
-                if (ind > 0 && (steps[ind].outcome == undefined || steps[ind].outcome == null)) {
-                    outcome = steps[ind - 1].outcome;
-                } else {
-                    outcome = steps[ind].outcome;
+                if (
+                    steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') &&
+                    steps[ind].isCurrentStepValid &&
+                    steps[ind].isCurrentStep
+                ) {
+                    isStatusChanged = true;
+                    isIniVisCurrentStep = true;
+                    if (ind + 1 < steps.length && steps[ind + 1].state == 'neutral') {
+                        nextStepNeutral = true;
+                    } else if (ind + 1 < steps.length && steps[ind + 1].state != 'neutral') {
+                        nextOutcome = steps[ind + 1].outcome;
+                    }
+                    break;
                 }
-            }
-            if (
-                steps[ind].title == $A.get('$Label.c.PWS_Initial_Visit_Name') &&
-                steps[ind].isCurrentStepValid &&
-                steps[ind].isCurrentStep
-            ) {
-                isStatusChanged = true;
-                isIniVisCurrentStep = true;
-                if (ind + 1 < steps.length && steps[ind + 1].state == 'neutral') {
-                    nextStepNeutral = true;
-                } else if (ind + 1 < steps.length && steps[ind + 1].state != 'neutral') {
-                    nextOutcome = steps[ind + 1].outcome;
-                }
-                break;
             }
         }
         if (isStatusChanged && !isIniVisCurrentStep) {
@@ -334,6 +336,7 @@
             },
             null,
             function () {
+                component.set('v.participantPath', null);
                 component.set('v.isStatusChanged', false);
                 component.find('spinner').hide();
             }
@@ -438,6 +441,8 @@
                 },
                 null,
                 function () {
+                    var childComponent = component.find("childCmp");
+        			childComponent.refreshChildTable();
                     component.set('v.updateInProgress', false);
                     component.set('v.isStatusChanged', false);
                     component.find('spinner').hide();
@@ -460,7 +465,7 @@
                 returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
                 component.set('v.isInvited', true);
                 component.set('v.userInfo', returnvalue);
-                component.set('v.invitedon',date.valueOf(returnvalue.CreatedDate));
+                component.set('v.invitedon',Date.now());
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {
@@ -474,7 +479,10 @@
         );
     },
     doCheckStatusDetailValidity: function (component, event, helper) {
-        let steps = component.get('v.participantPath.steps');
+        var params = event.getParam('arguments');
+        // let steps = component.get('v.participantPath.steps');
+        component.set('v.participantPath', params.participantWorkflowWrapper);
+        let steps = params.participantWorkflowWrapper.steps;
         let isValid = true;
         for (let ind = 0; ind < steps.length; ind++) {
             if (!steps[ind].isCurrentStepValid) {
@@ -526,5 +534,6 @@
                 component.find('spinner').hide();
             });
         helper.getpeshdate(component,event,helper);
+        helper.showToast();
     },
 });
