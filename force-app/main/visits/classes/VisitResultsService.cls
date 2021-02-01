@@ -1,6 +1,7 @@
 public inherited sharing class VisitResultsService {
     public static final String DASHBOARD_TYPE_HOME_PAGE = 'Home Page';
     public static final String ALL_COUNTRIES = 'All';
+    public static final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private VisitResultMService metadataService;
     private Map<String, String> visitResultsMeasurementNamesMap;
 
@@ -114,15 +115,22 @@ public inherited sharing class VisitResultsService {
             if (visitResult != null && visitResult.Actual_Value__c != null) {
                 listIsNotEmpty = true;
             }
-            VisitResultWrapper objVisitResultWrapper = new VisitResultWrapper(
-                visitResult,
-                TranslateHelper.getLabelValue(selectedVisitGroup),
-                this.visitResultsMeasurementNamesMap
-            );
-            objVisitResultWrapper.description = TranslateHelper.getLabelValue(
-                visitResultTypeDescriptionMap.get(selectedVisitGroup)
-            );
-            wrappers.add(objVisitResultWrapper);
+            if (
+                visitResultTypeGroupMap.containskey(selectedVisitGroup) &&
+                (visitResultTypeGroupMap.get(selectedVisitGroup) != BIOMARKER_VISIT_RESULT_GROUP ||
+                (visitResultTypeGroupMap.get(selectedVisitGroup) == BIOMARKER_VISIT_RESULT_GROUP &&
+                visitResult != null))
+            ) {
+                VisitResultWrapper objVisitResultWrapper = new VisitResultWrapper(
+                    visitResult,
+                    TranslateHelper.getLabelValue(selectedVisitGroup),
+                    this.visitResultsMeasurementNamesMap
+                );
+                objVisitResultWrapper.description = TranslateHelper.getLabelValue(
+                    visitResultTypeDescriptionMap.get(selectedVisitGroup)
+                );
+                wrappers.add(objVisitResultWrapper);
+            }
         }
         List<VisitResultWrapper> resultWrappers = new List<VisitResultWrapper>();
         List<VisitResultWrapper> emptyWrappers = new List<VisitResultWrapper>();
@@ -242,14 +250,20 @@ public inherited sharing class VisitResultsService {
             if (resultWithAvailableSign == null || !resultWithAvailableSign.isCountryEnabled)
                 continue;
 
-            wrappers.add(
-                new VisitResultWrapper(
-                    resultWithAvailableSign.visitResult,
-                    TranslateHelper.getLabelValue(singleVRT.DeveloperName),
-                    TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c),
-                    this.visitResultsMeasurementNamesMap
-                )
-            );
+            if (
+                (visitResultGroupName == BIOMARKER_VISIT_RESULT_GROUP &&
+                resultWithAvailableSign.visitResult != null) ||
+                (visitResultGroupName != BIOMARKER_VISIT_RESULT_GROUP)
+            ) {
+                wrappers.add(
+                    new VisitResultWrapper(
+                        resultWithAvailableSign.visitResult,
+                        TranslateHelper.getLabelValue(singleVRT.DeveloperName),
+                        TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c),
+                        this.visitResultsMeasurementNamesMap
+                    )
+                );
+            }
         }
         return wrappers;
     }
