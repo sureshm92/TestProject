@@ -9,6 +9,7 @@
 >
     <!-- attributes: -->
     <aura:attribute name="ctp" type="Object" />
+    <aura:attribute name="delay_days" type="String" />
     <aura:attribute name="user_has_permission" type="String" default="Edit" />
     <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
@@ -167,6 +168,29 @@
                             />
                             <div style="margin-left: 10px">Trial Match</div>
                         </div>
+                        <aura:if isTrue="{!v.ctp.Trial_Match_Is_Available__c}">
+                            <div style="margin-left: 20px" class="global-element">
+                                <div>Delayed No.of Days</div>
+                                <div style="margin-left: 10px; margin-right: 10px" >
+                                    <lightning:input 
+                                                     aura:id="delayedDays"
+                                                     type="number" 
+                                                     variant="label-hidden" 
+                                                     min = "0"
+                                                     value="{!v.ctp.Delayed_No_Of_Days__c}"
+                                                     > 
+                                    </lightning:input>
+                                </div>
+                                <lightning:buttonIcon
+                                                  variant="bare"
+                                                  name="saveDelayDays"
+                                                  alternativeText="Save"
+                                                  iconName="utility:save"
+                                                  onclick="{!c.saveCTP}"
+                                                  size="large"
+                                                  />
+                            </div>
+                        </aura:if>
                     </div>
                 </div>
                 <aura:if isTrue="{!v.user_has_permission == 'View'}">
