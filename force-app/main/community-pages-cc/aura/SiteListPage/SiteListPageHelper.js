@@ -17,6 +17,7 @@
             },
             function (paginatedWrapper) {
                 component.set('v.resultSet', paginatedWrapper.sites);
+                component.set('v.filteredResultSet', []);
                 component.set('v.paginationData', paginatedWrapper.paginationData);
                 component.set('v.searched', true);
                 component.set('v.resetVal', false);
