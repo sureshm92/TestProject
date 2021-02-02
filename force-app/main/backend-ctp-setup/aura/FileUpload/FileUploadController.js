@@ -33,12 +33,6 @@
                     }
                 });
                 component.set('v.fileWrapper', fileWrapper);
-                var cmpTable = component.find('auraTable');
-                if (urlValue.includes('view')) {
-                    $A.util.addClass(cmpTable, 'fixedTable');
-                } else {
-                    $A.util.removeClass(cmpTable, 'fixedTable');
-                }
                 component.find('spinner').hide();
             }
         );

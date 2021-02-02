@@ -68,6 +68,11 @@
                     <default>false</default>
                     <label>Ciitizen</label>
                 </value>
+            <value>
+                <fullName>MassiveBio</fullName>
+                <default>false</default>
+                <label>MassiveBio</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

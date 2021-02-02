@@ -1626,6 +1626,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>SiteListPageRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>SiteListPageRemoteTest</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>SiteLoginController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1727,6 +1735,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>StudySiteItem</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>StudySiteCountryWarning</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -5764,6 +5776,11 @@
         <editable>false</editable>
         <field>Participant__c.Secondary_Source__c</field>
         <readable>false</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Participant__c.Site__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

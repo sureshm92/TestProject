@@ -3,6 +3,7 @@
 -->
 
 <aura:component description="ParticipantStatusDetailsCard">
+    <aura:attribute name="participantWorkflowWrapper" type="Object" required="true" />
     <aura:attribute name="stepWrapper" type="Object" required="true" />
     <aura:attribute name="reasonList" type="List" access="private" />
     <aura:attribute name="previousSelectedOutcome" type="String" access="private" />
@@ -151,7 +152,36 @@
                         <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
                             <div class="history-item">
                                 <span class="history-item-title">{!history.title}</span>
-                                <span class="history-item-detail">{!history.detail}</span>
+                                <span class="history-item-detail">
+                                    <aura:if isTrue="{!history.isAdditionalNote != true}">
+                                        <aura:if isTrue="{!history.title == 'Received'}">
+                                            {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime
+                                                value="{!history.detailDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                hour="numeric"
+                                                minute="numeric"
+                                                timeZone="UTC"
+                                            />
+                                            {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
+                                            <aura:set attribute="else">
+                                                &nbsp;{!$Label.c.PE_Status_History_On_Date + '
+                                                '}<lightning:formattedDateTime
+                                                    value="{!history.detailDate}"
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    hour="numeric"
+                                                    minute="numeric"
+                                                    timeZone="UTC"
+                                                />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
+                                                history.createdBy}
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else"> {!history.detail} </aura:set>
+                                    </aura:if>
+                                </span>
                             </div>
                         </aura:iteration>
                     </aura:set>

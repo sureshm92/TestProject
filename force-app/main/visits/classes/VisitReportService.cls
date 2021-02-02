@@ -105,24 +105,15 @@ public inherited sharing class VisitReportService {
                                     );
                                     isResult = true;
                                 } else {
-                                    reportHeaderWrappers.add(
-                                        new VisitReportContainerRemote.VisitHeaderWrapper(
-                                            visitResultWrapper.visitResultTypeM.DeveloperName
-                                        )
-                                    );
                                     if (
-                                        visitResultWrapper.visitResultTypeM.Visit_Result_Type__c ==
+                                        visitResultWrapper.visitResultTypeM.Visit_Result_Type__c !=
                                         VISIT_RES_BIOMARKER_TYPE
                                     ) {
-                                        reportRowWrappers.add(
-                                            new VisitReportContainerRemote.VisitValueWrapper(
-                                                TranslateHelper.getLabelValue(
-                                                    System.Label.Visit_Result_No_Data,
-                                                    language
-                                                )
+                                        reportHeaderWrappers.add(
+                                            new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                visitResultWrapper.visitResultTypeM.DeveloperName
                                             )
                                         );
-                                    } else {
                                         reportRowWrappers.add(
                                             new VisitReportContainerRemote.VisitValueWrapper(
                                                 '______'

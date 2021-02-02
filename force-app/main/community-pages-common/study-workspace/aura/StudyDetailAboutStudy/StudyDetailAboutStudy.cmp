@@ -84,15 +84,15 @@
                         <div class="sdas-criteria-block"></div>
                         <div class="collapse-wrapper">
                             <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Inclusion_Criteria}">
-                                <div class="criteria-body">
-                                    {!v.studyDetail.trial.Override_Inclusion_Criteria__c}
+                                <div class="criteria-body uiOutputRichText" linkify="true">
+                                    <aura:unescapedHtml value="{!v.studyDetail.trial.Override_Inclusion_Criteria__c}"/>
                                 </div>
                             </c:RRCollapse>
                         </div>
                         <div class="collapse-wrapper slds-m-bottom--medium">
                             <c:RRCollapse label="{!$Label.c.PG_SW_H_Full_Exclusion_Criteria}">
-                                <div class="criteria-body">
-                                    {!v.studyDetail.trial.Override_Exclusion_Criteria__c}
+                                <div class="criteria-body uiOutputRichText" linkify="true">
+                                    <aura:unescapedHtml value="{!v.studyDetail.trial.Override_Exclusion_Criteria__c}"/>
                                 </div>
                             </c:RRCollapse>
                         </div>
@@ -401,6 +401,7 @@
                                         year="numeric"
                                         month="short"
                                         day="2-digit"
+                                        timeZone="UTC"
                                     />
                                 </div>
                             </aura:if>
@@ -414,6 +415,7 @@
                                         year="numeric"
                                         month="short"
                                         day="2-digit"
+                                        timeZone="UTC"
                                     />
                                 </div>
                             </aura:if>

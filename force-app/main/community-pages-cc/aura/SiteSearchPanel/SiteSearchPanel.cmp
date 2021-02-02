@@ -1,42 +1,91 @@
-<aura:component>
+<aura:component description="SiteSearchPanel">
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
+    <!--attributes-->
     <aura:attribute name="searchList" type="List" />
+    <aura:attribute name="selectedSearchOption" type="String" />
+    <aura:attribute name="searchText" type="String" />
+    <aura:attribute name="searchTextPlaceHolder" type="String" />
+    <aura:attribute name="searchResults" type="List" />
+    <aura:attribute name="sectionDisabled" type="Boolean" />
+    <aura:attribute name="sortType" type="String" />
+    <aura:attribute name="sortVariants" type="List" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:attribute name="setValueAsSelected" type="Boolean" default="true" />
+    <aura:attribute name="resetVal" type="Boolean" />
+    <aura:attribute name="hasResult" type="Boolean" />
+
+    <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
+
+    <!--body-->
     <div class="ssp-header">
-        <div class="ssp-label">Search by:</div>
-        <div class="ssp-picklist">
-            <lightning:select
-                aura:id="searchList"
-                name="ssp-select"
-                variant="label-hidden"
-                onchange="{!c.setEditable}"
-            >
-                <option value="{!null}" style="display: none">Choose an option</option>
-                <aura:iteration items="{!v.searchList}" var="item">
-                    <option value="{!item.value}">
-                        <aura:unescapedHtml value="{!item.label}" />
-                    </option>
-                </aura:iteration>
-            </lightning:select>
-            <img src="{!$Resource.SelectMenuTriangleDown}" height="16" width="16" />
+        <div class="slds-grid slds-wrap">
+            <div class="slds-large-size_9-of-12">
+                <div class="ssp-content">
+                    <div class="ssp-label slds-size_1-of-6">{!$Label.c.CC_SearchBy}</div>
+                    <div class="ssp-select slds-size_2-of-6">
+                        <c:rrSelect
+                            value="{!v.selectedSearchOption}"
+                            options="{!v.searchList}"
+                            placeholder="{!$Label.c.CC_ChooseAnOption}"
+                            onchange="{!c.doUpdateSelection}"
+                            useSentenceFont="false"
+                        />
+                    </div>
+                    <div
+                        class="ssp-search slds-size_3-of-6"
+                        onkeyup="{!c.onKeyUp}"
+                        aura:id="search"
+                    >
+                        <c:rrInput
+                            valueString="{!v.searchText}"
+                            iconName="icon-search"
+                            disabled="{!v.sectionDisabled}"
+                            placeholder="{!v.searchTextPlaceHolder}"
+                        />
+                    </div>
+                    <div class="ssp-button-search slds-size_1-of-6">
+                        <lightning:button
+                            variant="brand"
+                            class="apollo-btn primary"
+                            label="{!$Label.c.CC_Btn_Search}"
+                            disabled="{!v.sectionDisabled}"
+                            onclick="{!c.doSearch}"
+                        />
+                    </div>
+                    <div class="ssp-button-reset slds-size_1-of-6">
+                        <lightning:button
+                            variant="base"
+                            disabled="{!v.sectionDisabled}"
+                            label="{!$Label.c.CC_Btn_Reset}"
+                            onclick="{!c.doReset}"
+                        />
+                    </div>
+                </div>
+            </div>
         </div>
 
-        <div class="ssp-search">
-            <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">
-                <c:rrInput
-                    valueString="{!v.searchText}"
-                    iconName="icon-search"
-                    placeholder="{!v.searchTextPlaceHolder}"
-                />
-            </aura:if>
-        </div>
-        <aura:if isTrue="{!!empty(v.sortVariants)}">
-            <div class="fp-form-element">
-                <label>{!$Label.c.PG_FP_L_Sort_by}</label>
-                <c:rrSelect
-                    value="{!v.sortType}"
-                    options="{!v.sortVariants}"
-                    setValueAsSelected="{!v.setValueAsSelected}"
+        <div class="slds-grid slds-grid_align-spread">
+            <div class="slds-col">
+                <span style="display: flex">
+                    <label class="ssp-label">{!$Label.c.PG_FP_L_Sort_by}</label>
+                    <div class="ssp-sort-list">
+                        <c:rrSelect
+                            value="{!v.sortType}"
+                            options="{!v.sortVariants}"
+                            setValueAsSelected="{!v.setValueAsSelected}"
+                            useSentenceFont="false"
+                        />
+                    </div>
+                </span>
+            </div>
+            <div class="slds-col">
+                <lightning:button
+                    class="apollo-btn secondary"
+                    label="{!$Label.c.CC_Btn_ExportAll}"
+                    onclick="{!c.doExportAll}"
+                    disabled="{!v.hasResult}"
                 />
             </div>
-        </aura:if>
+        </div>
     </div>
 </aura:component>

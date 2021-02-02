@@ -11,7 +11,7 @@ public class Test_MedicalHistoryViewController {
     public static void runTest() {
         TestData testDataInst = new TestData();
 		Test.startTest();
-        System.runAs(testDataInst.piDelUser)
+        System.runAs(testDataInst.piUser)
         {
             MedicalHistoryViewController.getMedicalHistory(testDataInst.pe.Id);
         }    

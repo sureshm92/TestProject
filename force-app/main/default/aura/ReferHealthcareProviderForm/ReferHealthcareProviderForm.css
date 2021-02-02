@@ -1,7 +1,11 @@
 .THIS .apollo-btn.secondary {
-    padding: 6px 6px;
-    margin-top: 4px;
+    padding: 6px;
 }
+
+.THIS .apollo-btn.secondary:hover {
+    box-shadow: none;
+}
+
 .THIS .slds-button {
     box-shadow: none;
     border: none;

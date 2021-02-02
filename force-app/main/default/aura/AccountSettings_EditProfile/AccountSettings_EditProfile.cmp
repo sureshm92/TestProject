@@ -393,7 +393,6 @@
                                 </aura:if>
 
                                 <aura:if isTrue="{!(v.isDelegate)}">
-                                    <div class="label">{!$Label.c.PG_AS_F_Email_address}</div>
                                     <lightning:input
                                         aura:id="emailInput1"
                                         type="text"
