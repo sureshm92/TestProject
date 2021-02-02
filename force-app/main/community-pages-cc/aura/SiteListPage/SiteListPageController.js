@@ -54,5 +54,8 @@
         if (params && params.selectedSearchOption && params.searchText) {
             helper.doExportAllHelper(component, helper, params);
         }
+    },
+    doPageNavigation: function (component, event, helper) {
+        component.find('searchPanel').getSearchParams();
     }
 });
