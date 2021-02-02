@@ -69,6 +69,14 @@ public without sharing class StudySiteTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setCCSupport(newList);
         }
+        
+    }
+    
+    public class EnableCCSupportFieldAccordingToStudy extends TriggerHandler {
+        public override void beforeUpdate(List<SObject> newList,Map<Id, SObject> oldMap) {
+            setCCSupportonUpdate(newList,(Map<Id, Study_Site__c>) oldMap);
+        }
+        
     }
     
     public class AssignCommunityPermissionsForUser extends TriggerHandler {
@@ -446,11 +454,37 @@ public without sharing class StudySiteTriggerHandler {
             ctpsMap.put(ctp.Id, ctp);
         }
         for (Study_Site__c site : newList) {
-            if (!site.Enable_for_Call_Center_Support__c)
+            if (!site.Enable_for_Call_Center_Support__c )
                 site.Enable_for_Call_Center_Support__c = ctpsMap.get(site.Clinical_Trial_Profile__c)
                 .Enable_for_Call_Center_Support__c;
         }
     }
+    
+    @TestVisible
+    private static void setCCSupportonUpdate
+        (List<Study_Site__c> newList,
+         Map<Id, Study_Site__c> oldMap) {
+             Set<Id> studyIds = new Set<Id>();
+             for (Study_Site__c site : newList) {
+                 studyIds.add(site.Clinical_Trial_Profile__c);
+             }
+             Map<Id, Clinical_Trial_Profile__c> ctpsMap = new Map<Id, Clinical_Trial_Profile__c>();
+             for (Clinical_Trial_Profile__c ctp : [
+                 SELECT Id, Enable_for_Call_Center_Support__c
+                 FROM Clinical_Trial_Profile__c
+                 WHERE Id IN :studyIds
+             ]) {
+                 ctpsMap.put(ctp.Id, ctp);
+             }
+             for (Study_Site__c site : newList) {
+                 if (ctpsMap.get(site.Clinical_Trial_Profile__c).Enable_for_Call_Center_Support__c){
+                     site.Enable_for_Call_Center_Support__c = !oldMap.get(site.Id)
+                         .Enable_for_Call_Center_Support__c;
+                 }else{
+                     site.Enable_for_Call_Center_Support__c = False;
+                 }
+             }
+         }
     
     @TestVisible
     private static void assignCommunityPermissions(List<Study_Site__c> newList) {
