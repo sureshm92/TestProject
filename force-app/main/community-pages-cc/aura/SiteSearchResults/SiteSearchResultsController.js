@@ -32,7 +32,7 @@
     },
 
     openStudyInformation: function (component, event, helper) {
-        var ssIndex = event.getSource().get('v.name');
+        var ssIndex = event.currentTarget.dataset.index;
         var ss = component.get('v.resultSet')[ssIndex];
         component.set('v.studyInformation', ss);
         component.set('v.onclickName', true);

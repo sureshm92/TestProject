@@ -85,7 +85,7 @@ public without sharing class SiteListPageRemote {
     };
 
     public static final String DEFAULT_FILTER = 'Enable_for_Call_Center_Support__c = true AND Clinical_Trial_Profile__r.Enable_for_Call_Center_Support__c = true';
-
+    private static final String SOSL_FILTER = 'userCommunytyType__c includes (' + '\'PI\'' + ')';
     private static final Integer DOWNLOAD_QUERY_LIMIT = 49000;
     private static final Integer RECORDS_PER_PAGE = 100;
 
@@ -103,39 +103,40 @@ public without sharing class SiteListPageRemote {
         paginatedWrapper.sites = new List<SiteWrapper>();
 
         filterText = getFilterText(searchOption, searchText);
+        if (filterText != '') {
+            try {
+                //Apply pagination
+                Integer recordCount = Database.countQuery(
+                    'SELECT COUNT() FROM Study_Site__c WHERE ' + filterText
+                );
 
-        try {
-            //Apply pagination
-            Integer recordCount = Database.countQuery(
-                'SELECT COUNT() FROM Study_Site__c WHERE ' + filterText
-            );
+                paginatedWrapper.paginationData.setRecordsCount(recordCount);
 
-            paginatedWrapper.paginationData.setRecordsCount(recordCount);
+                Integer limitvalue = paginatedWrapper.paginationData.pageRecordsCount;
+                Integer currentpage = paginatedWrapper.paginationData.currentPage;
+                Integer size = currentpage - 1;
+                Integer offsetvalue = size * limitvalue;
+                //Get query results from DatabaseService
+                siteQueryResult = DatabaseService.query(
+                    SS_TABLE_FIELDS,
+                    Study_Site__c.getSObjectType(),
+                    filterText,
+                    sortType,
+                    limitvalue,
+                    offsetvalue
+                );
 
-            Integer limitvalue = paginatedWrapper.paginationData.pageRecordsCount;
-            Integer currentpage = paginatedWrapper.paginationData.currentPage;
-            Integer size = currentpage - 1;
-            Integer offsetvalue = size * limitvalue;
-            //Get query results from DatabaseService
-            siteQueryResult = DatabaseService.query(
-                SS_TABLE_FIELDS,
-                Study_Site__c.getSObjectType(),
-                filterText,
-                sortType,
-                limitvalue,
-                offsetvalue
-            );
-
-            if (!siteQueryResult.isEmpty()) {
-                //Apply translation
-                TranslateHelper.translate(siteQueryResult);
-                //Transform into wrapper
-                paginatedWrapper.sites = wrapperTransformation(siteQueryResult);
+                if (!siteQueryResult.isEmpty()) {
+                    //Apply translation
+                    TranslateHelper.translate(siteQueryResult);
+                    //Transform into wrapper
+                    paginatedWrapper.sites = wrapperTransformation(siteQueryResult);
+                }
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage());
             }
-            return paginatedWrapper;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
         }
+        return paginatedWrapper;
     }
 
     @AuraEnabled
@@ -177,12 +178,12 @@ public without sharing class SiteListPageRemote {
         String filterText = '';
         switch on searchOption {
             when 'Principal_Investigator__r.Name' {
-                filterText +=
-                    DEFAULT_FILTER +
-                    ' AND Principal_Investigator__r.Name LIKE ' +
-                    '\'%' +
-                    String.escapeSingleQuotes(searchText) +
-                    '%\'';
+                List<Contact> piContacts = getPIContacts(searchText);
+                filterText += !piContacts.isEmpty()
+                    ? DEFAULT_FILTER +
+                      ' AND ' +
+                      DatabaseService.fieldIn('Principal_Investigator__c', piContacts)
+                    : '';
             }
             when 'Name' {
                 filterText +=
@@ -231,5 +232,21 @@ public without sharing class SiteListPageRemote {
             wrapperList.add(wrapper);
         }
         return wrapperList;
+    }
+
+    private static List<Contact> getPIContacts(String searchText) {
+        String soslSearchTerm = '\'(';
+        for (String word : searchText.split(' ')) {
+            soslSearchTerm += '\"' + word + '*\"' + ' AND ';
+        }
+        soslSearchTerm = soslSearchTerm.trim().removeEnd('AND') + ')\'';
+        String soslSearchQuery =
+            'FIND ' +
+            soslSearchTerm +
+            ' IN NAME FIELDS RETURNING Contact ( Id WHERE ' +
+            SOSL_FILTER +
+            ' ) LIMIT 2000';
+        System.debug('##soslSearchQuery: ' + soslSearchQuery);
+        return Search.query(soslSearchQuery)[0];
     }
 }
