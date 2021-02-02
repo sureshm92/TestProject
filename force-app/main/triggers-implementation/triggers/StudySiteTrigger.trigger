@@ -1,6 +1,6 @@
 /**
- * Created by Leonid Bartenev
- */
+* Created by Leonid Bartenev
+*/
 
 trigger StudySiteTrigger on Study_Site__c(
     before insert,
@@ -28,7 +28,10 @@ trigger StudySiteTrigger on Study_Site__c(
     TriggerHandlerExecutor.execute(
         StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
     );
-
+    TriggerHandlerExecutor.execute(
+        StudySiteTriggerHandler.EnableCCSupportFieldAccordingToStudy.class
+    );
+    
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {
         ReferralNetworkService.sendEmails(Trigger.new, Trigger.oldMap);
