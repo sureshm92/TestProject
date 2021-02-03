@@ -20,7 +20,7 @@
         
     },
     
-    doSave: function (component, event, helper) {
+    doSaveandExit: function (component, event, helper) {
         component.find('Spinnerpopup').show();
         var siteWrapper = component.get('v.studyInformation');
         var callDisp = JSON.stringify(component.get('v.CD'));
@@ -45,6 +45,36 @@
             function () {
                 component.find('Spinnerpopup').hide();
                 component.find('dialog').hide();
+            }
+        );
+    },
+
+    doSave: function (component, event, helper) {
+        component.find('Spinnerpopup').show();
+        var siteWrapper = component.get('v.studyInformation');
+        var callDisp = JSON.stringify(component.get('v.CD'));
+        var result = callDisp.slice(1,-1);
+        communityService.executeAction(
+            component,
+            'saveSSChanges',
+            { 
+                studySiteInfo: JSON.stringify(siteWrapper),
+                accId : component.get('v.editedAccount'),
+                callDisp: result,
+                newCall: component.get('v.newCall')
+            },
+            function () {
+                communityService.showToast(
+                    'success',
+                    'success',
+                    $A.get('$Label.c.SS_Success_Save_Message')
+                );
+                component.find('childCmp').RefreshCD();
+            },
+            null,
+            function () {
+                component.find('childCmp').RefreshCD();
+                component.find('Spinnerpopup').hide();
             }
         );
     },

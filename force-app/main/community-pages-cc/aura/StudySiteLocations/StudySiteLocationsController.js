@@ -59,13 +59,14 @@
             account = accountsList[index];
            
         }
-        component.set('v.editLocation', true);
-         var currentIndex = component.get('v.CurrenIndexOpen');
-         if (currentIndex != null || currentIndex != 'null' || currentIndex != 'new') {
-             var childComponent = component.find('siteloc')[currentIndex];
+        component.set('v.CurrenIndexOpen',"new");
+        component.set('v.isEdited',true);
+         var currentIndex=component.get('v.CurrenIndexOpen');
+         
+         if(currentIndex != null && currentIndex != 'null' && currentIndex != 'new'){
+             var childComponent = component.find("siteloc")[currentIndex];
             childComponent.closeTab();
-         }
-        component.set('v.CurrenIndexOpen', 'new');
+        }
         if (!account) {
             account = {
                 BillingCountryCode: studySite.BillingCountryCode,
@@ -73,7 +74,7 @@
                 sobjectType: 'Account'
             };
         }
-        //component.set('v.editLocation',true);
+        component.set('v.editLocation',true);
         component.find('editLocation').execute(account, studySite.siteId, function (account) {
             if (index) {
                 accountsList[index] = account;
