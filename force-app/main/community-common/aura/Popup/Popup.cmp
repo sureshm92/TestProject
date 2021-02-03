@@ -3,6 +3,7 @@
     <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doInit}" />
     <!-- attributes: -->
     <aura:attribute name="childpopup" type="boolean" default="false" access="public" />
+    <aura:attribute name="actionpopupcc" type="boolean" default="false" access="public" />
     <aura:attribute name="title" type="String" required="true" />
     <aura:attribute
         name="showModal"
@@ -63,7 +64,7 @@
 
     <!-- Events:-->
     <aura:registerEvent name="cmpEvent" type="c:MediaOutreachCancelReqEvt" />
-
+    <aura:registerEvent name="CloseCCSSInfoEvent" type="c:CloseCCSSInfoEvent" />
     <!-- methods: -->
     <aura:method name="show" action="{!c.show}" />
     <aura:method name="hide" action="{!c.hide}" />

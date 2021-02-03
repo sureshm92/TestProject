@@ -103,6 +103,7 @@
                                     <!--div class="rr-form-element"-->
                                     
                                     <lightning:input type="toggle" iconSize="small" 
+                                                     class="slds-size--1-of-12"
                                                      checked="{!!v.studyInformation.receivePIEmail}"
                                                      onchange="{!c.doSupressEmail}"/>
                                     

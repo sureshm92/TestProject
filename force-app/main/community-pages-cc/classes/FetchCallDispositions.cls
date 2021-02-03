@@ -1,131 +1,123 @@
 public without sharing class FetchCallDispositions {
-    public FetchCallDispositions() {
-
-    }
+    
     @AuraEnabled(Cacheable = true)
     public static todayDate gettodaydate(){
         try {
-             Integer Year = Date.Today().Year();
-             Integer day = Date.Today().day();
-             DateTime dt = Datetime.now();
-             Contact userContact = CommunityService.getUserContact();
-             String dy = '';
-             
-            if (day == 01 || day == 21 || day == 31) {
-                dy = day + 'st';  
-            } else if(day == 02|| day == 22) {
-                dy = day + 'nd'; 
-            } else if(day == 03|| day == 23){
-                dy = day + 'rd'; 
-            } else {
-                dy = day + 'th';
+            Integer Year = Date.Today().Year();
+            Integer day = Date.Today().day();
+            DateTime dt = Datetime.now();
+            Contact userContact = CommunityService.getUserContact();
+            String dy='';           
+            
+            if(day == 01 || day == 21 || day == 31)
+            {
+                dy=day+'st';  
+            }
+            else if(day == 02|| day == 22){
+                dy=day+'nd'; 
+            }
+            else if(day == 03|| day == 23){
+                dy=day+'rd'; 
+            }
+            else
+            {
+                dy=day+'th';
+            }            
+            
+            todayDate td = new todayDate();
+            td.day=dy;
+            td.year =Year;
+            td.month= dt.format('MMMM');
+            td.conName =userContact.Name;
+            return td;
+        }
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+    @AuraEnabled
+    public static wrapcalls getcalls(integer limits,string siteId){
+        try {
+            List<Call_Dispositions__c> lstCD =new  List<Call_Dispositions__c>();
+            List<Call_Dispositions__c> lstCallDispositions =new  List<Call_Dispositions__c>();
+            List<Wrapcd> lstcalldts = new List<Wrapcd>();
+            List<String> lstCallDateTime = new List<String>();
+            Integer count=0;
+            Contact userContact = CommunityService.getUserContact();
+            lstCD = [select Id,Call_Category__c,Caller__c,CreatedDate,Inbound_Outbound__c,IQVIA_intervention_required__c,Study_Site__c,Notes__c 
+                     from Call_Dispositions__c where Study_Site__c=:siteId and Caller__c=:userContact.id  order by CreatedDate desc limit:limits];
+            count =[select count() from Call_Dispositions__c where Study_Site__c=:siteId and Caller__c=:userContact.id ];
+            
+            string calldatetime='';
+            string a='';
+            for(Call_Dispositions__c c:lstCD)
+            {
+                calldatetime='';
+                a='';
+                DateTime dt = c.CreatedDate;
+                if(dt.format('dd') == '01' || dt.format('dd') == '21' || dt.format('dd') == '31')
+                {
+                    a='st';  
+                }
+                else if(dt.format('dd') == '02'|| dt.format('dd') == '22')
+                {
+                    a='nd'; 
+                }
+                else if(dt.format('dd') == '03'|| dt.format('dd') == '23')
+                {
+                    a='rd'; 
+                }
+                else
+                {
+                    a='th';
+                }
+                calldatetime=calldatetime+dt.format('MMMM')+' '+dt.format('dd')+a+', '+dt.format('yyyy')+', '+dt.format('h:mm a');
+                system.debug('cd-->'+c.id+' '+calldatetime);
+                lstcalldts.add(new Wrapcd(c, calldatetime));
+                lstCallDispositions.add(c);
+                lstCallDateTime.add(calldatetime);
             }
             
-             todayDate td = new todayDate();
-             td.day = dy;
-             td.year = Year;
-             td.month = dt.format('MMMM');
-             td.conName = userContact.Name;
-             return td;
-        } catch (Exception e) {
-        throw new AuraHandledException(e.getMessage());
-       }
-    }
-    @AuraEnabled(Cacheable=true)
-    public static wrapcalls getcalls(integer limits, string siteId) {
-        try {
-        List<Call_Dispositions__c> lstCD = new List<Call_Dispositions__c>();
-        List<Call_Dispositions__c> lstCallDispositions = new List<Call_Dispositions__c>();
-        List<Wrapcd> lstcalldts = new List<Wrapcd>();
-        List<String> lstCallDateTime = new List<String>();
-        Integer count = 0;
-		Contact userContact = CommunityService.getUserContact();
-        lstCD = [
-            SELECT
-                Id,
-                Call_Category__c,
-                Caller__c,
-                CreatedDate,
-                Inbound_Outbound__c,
-                IQVIA_intervention_required__c,
-                Study_Site__c,
-                Notes__c
-            FROM Call_Dispositions__c
-			WHERE Study_Site__c=:siteId 
-			AND Caller__c=:userContact.id
-            ORDER BY CreatedDate DESC
-            LIMIT :limits
-        ];
-        count = [SELECT COUNT() 
-					FROM Call_Dispositions__c
-					WHERE Study_Site__c=:siteId AND
-					Caller__c=:userContact.id];
-        
-        string calldatetime = '';
-        string a = '';
-        for (Call_Dispositions__c c : lstCD) {
-        calldatetime = '';
-        a = '';
-        DateTime dt = c.CreatedDate;
-        if (dt.format('dd') == '01' || dt.format('dd') == '21' || dt.format('dd') == '31') {
-            a = 'st';  
-        } else if (dt.format('dd') == '02' || dt.format('dd') == '22') {
-            a = 'nd'; 
-        } else if (dt.format('dd') == '03' || dt.format('dd') == '23') {
-            a = 'rd'; 
-        } else {
-            a = 'th';
+            
+            wrapcalls wc = new wrapcalls();
+            wc.lstCDs=lstcalldts;
+            //wc.callDateTime=lstCallDateTime;
+            wc.count=count;
+            return wc;
         }
-        calldatetime =
-            calldatetime +
-            dt.format('MMMM') +
-            ' ' +
-            dt.format('dd') +
-            a +
-            ', ' +
-            dt.format('yyyy') +
-            ', ' +
-            dt.format('h:mm a');
-        system.debug('cd-->'+c.id+' '+calldatetime);
-        lstcalldts.add(new Wrapcd(c, calldatetime));
-        lstCallDispositions.add(c);
-        lstCallDateTime.add(calldatetime);
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
         }
-        
-        
-        wrapcalls wc = new wrapcalls();
-        wc.lstCDs = lstcalldts;
-        //wc.callDateTime=lstCallDateTime;
-        wc.count = count;
-        return wc;
-        } catch (Exception e) {
-        throw new AuraHandledException(e.getMessage());
-       }
     }
-     public class todayDate {
+    public class todayDate {
         @AuraEnabled
         public String day { get; set; }
-         @AuraEnabled
+        @AuraEnabled
         public string month { get; set; }
-         @AuraEnabled
+        @AuraEnabled
         public Integer year { get; set; }
         @AuraEnabled
         public string conName { get; set; }
     }
     public class wrapcalls {
         @AuraEnabled
-         public List<Wrapcd> lstCDs { get; set; }
-         @AuraEnabled
+        public List<Wrapcd> lstCDs { get; set; }
+        @AuraEnabled
         public Integer count { get; set; }
+        
+        
     }
-        public class Wrapcd {
-            @AuraEnabled
-            public Call_Dispositions__c cd { get; set; }
-            @AuraEnabled
-            public String dtcd { get; set; }
-            public Wrapcd(Call_Dispositions__c cd, String dtcd) {
-                this.cd = cd;
-                this.dtcd = dtcd;  
-            }
+    public class Wrapcd
+    {
+        @AuraEnabled
+        public Call_Dispositions__c cd { get; set; }
+        @AuraEnabled
+        public String dtcd{ get; set; }
+        public Wrapcd(Call_Dispositions__c cd,String dtcd) {
+            this.cd= cd;
+            this.dtcd= dtcd;
+            
+        }
     }
+    
 }

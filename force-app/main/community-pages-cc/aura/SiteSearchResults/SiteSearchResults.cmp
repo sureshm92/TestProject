@@ -29,6 +29,7 @@
         value="{!v.studyFilterApplied}"
         action="{!c.resetFilteredResultSet}"
     />
+    <aura:handler name="CloseSSInfoEvent" event="c:CloseSSInfoEvent" action="{!c.doClosePopup}" />
     <!--methods-->
     <aura:method name="resetPageFilter" action="{!c.invokeFilterReset}" access="PUBLIC" />
     <!--body-->
@@ -134,6 +135,7 @@
         <c:Action_StudySiteInformation
             studyInformation="{!v.studyInformation}"
             aura:id="OpenStudySiteInfoAction"
+            parentComp="{!this}"
         />
     </aura:if>
 </aura:component>
