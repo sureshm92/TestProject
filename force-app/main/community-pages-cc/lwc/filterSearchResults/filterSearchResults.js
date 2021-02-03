@@ -98,4 +98,11 @@ export default class FilterSearchResults extends LightningElement {
             this.handleStudyChange(evt, 'studyName', '');
         }
     }
+
+    @api
+    doFilterReset() {
+        this.template.querySelector('input[data-study-id=studyName]').value = '';
+        this.template.querySelector('input[data-study-id=country]').value = '';
+        console.log('doFilterReset');
+    }
 }

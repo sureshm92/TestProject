@@ -29,12 +29,15 @@
         value="{!v.studyFilterApplied}"
         action="{!c.resetFilteredResultSet}"
     />
-    <aura:handler name="CloseSSInfoEvent" event="c:CloseSSInfoEvent" action="{!c.doClosepupup}"/>
+    <aura:handler name="CloseSSInfoEvent" event="c:CloseSSInfoEvent" action="{!c.doClosePopup}" />
+    <!--methods-->
+    <aura:method name="resetPageFilter" action="{!c.invokeFilterReset}" access="PUBLIC" />
     <!--body-->
     <div class="ssr-container slds-grid slds-grid_vertical">
         <div class="slds-col">
             <aura:if isTrue="{!!empty(v.resultSet)}">
                 <c:filterSearchResults
+                    aura:id="filterSearchResults"
                     filterCountryList="{!v.filterCountryList}"
                     filterStudyList="{!v.filterStudyList}"
                     onstudyfilterchange="{!c.handleStudyFilterChange}"
@@ -132,7 +135,7 @@
         <c:Action_StudySiteInformation
             studyInformation="{!v.studyInformation}"
             aura:id="OpenStudySiteInfoAction"
-            parentComp = "{!this}"
+            parentComp="{!this}"
         />
     </aura:if>
 </aura:component>
