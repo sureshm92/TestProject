@@ -246,18 +246,15 @@ public without sharing class StudySiteInformationController {
             study.Study_Site_Email__c = response.siteEmail;
             study.Completed_training__c =  response.trainingComplete;
             study.Site_Information_Form_Completed__c = response.siteInfoComplete;
-            study.Suppress_Study_Site_PI_Emails__c = !response.receivePIEmail;
+            study.Suppress_Study_Site_PI_Emails__c = response.receivePIEmail;
             
             if(accId != NULL){
                 study.Site__c = accId;
             }
             update study;
-            system.debug('>>>newCall>>'+newCall);
             if(newCall){
-                system.debug('cddvalue1'+callDisp);
                 Call_Dispositions__c cDisp = new Call_Dispositions__c();
                 callDisp cd = (callDisp) JSON.deserialize(callDisp, callDisp.class);
-                system.debug('cddvalue'+cd);
                 cDisp.Study_Site__c = study.Id;
                 cDisp.Call_Category__c = cd.callcategory;
                 cDisp.Inbound_Outbound__c = cd.callbound;
