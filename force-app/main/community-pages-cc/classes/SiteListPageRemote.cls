@@ -93,13 +93,16 @@ public without sharing class SiteListPageRemote {
     public static PaginatedSiteWrapper getSearchResults(
         String searchOption,
         String searchText,
-        String sortType
+        String sortType,
+        String paginationJSON
     ) {
         PaginatedSiteWrapper paginatedWrapper = new PaginatedSiteWrapper();
         List<Study_Site__c> siteQueryResult;
         String filterText = '';
 
-        paginatedWrapper.paginationData = new PaginationData(RECORDS_PER_PAGE);
+        paginatedWrapper.paginationData = String.isEmpty(paginationJSON)
+            ? new PaginationData(RECORDS_PER_PAGE)
+            : (PaginationData) JSON.deserialize(paginationJSON, PaginationData.class);
         paginatedWrapper.sites = new List<SiteWrapper>();
 
         filterText = getFilterText(searchOption, searchText);

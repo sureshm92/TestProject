@@ -15,6 +15,7 @@
     <aura:attribute name="hasResult" type="Boolean" />
 
     <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
+    <aura:method name="getSearchParams" action="{!c.doSearch}" access="PUBLIC" />
 
     <!--body-->
     <div class="ssp-header">

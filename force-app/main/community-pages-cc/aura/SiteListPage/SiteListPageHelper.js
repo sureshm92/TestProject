@@ -1,6 +1,7 @@
 ({
     doDatabaseSearchHelper: function (component, event, params) {
         let spinner = component.find('mainSpinner');
+        let paginationData = component.get('v.paginationData');
         spinner.show();
         communityService.executeAction(
             component,
@@ -8,10 +9,15 @@
             {
                 searchOption: params.selectedSearchOption,
                 searchText: params.searchText,
-                sortType: params.sortType
+                sortType: params.sortType,
+                paginationJSON:
+                    paginationData === undefined || paginationData === null
+                        ? null
+                        : JSON.stringify(paginationData)
             },
             function (paginatedWrapper) {
                 component.set('v.resultSet', paginatedWrapper.sites);
+                component.set('v.filteredResultSet', []);
                 component.set('v.paginationData', paginatedWrapper.paginationData);
                 component.set('v.searched', true);
                 component.set('v.resetVal', false);
