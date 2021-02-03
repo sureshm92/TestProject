@@ -76,6 +76,7 @@
         hasResult="{!empty(v.resultSet)}"
     />
     <c:SiteSearchResults
+        aura:id="searchResults"
         parent="{!this}"
         searched="{!v.searched}"
         resultSet="{!v.resultSet}"

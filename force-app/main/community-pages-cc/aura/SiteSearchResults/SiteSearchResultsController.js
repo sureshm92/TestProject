@@ -37,5 +37,10 @@
         component.set('v.studyInformation', ss);
         component.set('v.onclickName', true);
         component.find('OpenStudySiteInfoAction').execute();
+    },
+
+    invokeFilterReset: function (component, event, helper) {
+        console.log('invokeFilterReset');
+        component.find('filterSearchResults').doFilterReset();
     }
 });

@@ -29,11 +29,14 @@
         value="{!v.studyFilterApplied}"
         action="{!c.resetFilteredResultSet}"
     />
+    <!--methods-->
+    <aura:method name="resetPageFilter" action="{!c.invokeFilterReset}" access="PUBLIC" />
     <!--body-->
     <div class="ssr-container slds-grid slds-grid_vertical">
         <div class="slds-col">
             <aura:if isTrue="{!!empty(v.resultSet)}">
                 <c:filterSearchResults
+                    aura:id="filterSearchResults"
                     filterCountryList="{!v.filterCountryList}"
                     filterStudyList="{!v.filterStudyList}"
                     onstudyfilterchange="{!c.handleStudyFilterChange}"
