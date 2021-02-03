@@ -8,10 +8,45 @@
         //alert(component.get('v.sectionOpen'));
         component.find('calldispositionlwc').Refresh();
     },
+    doRefreshSectionToggle: function (component, event, helper)  {
+        if(component.get('v.sectionOpen')){
+            component.set('v.sectionOpen',false);
+        }else{
+            component.set('v.sectionOpen',true);
+        }
+        component.set('v.isCDValitated',true);
+        component.set('v.callcategory','');
+        component.set('v.callbound','Inbound');
+        component.set('v.interventionReq',false);
+        component.set('v.notes','');
+        component.set('v.newCall',false);
+        component.set('v.isStudyInfoModified',false);
+        console.log('calling lwc');
+        component.find('calldispositionlwc').Refresh();
+        
+    },
+    doRefreshSection: function (component, event, helper)  {
+        if(component.get('v.sectionOpen')){
+            component.set('v.sectionOpen',false);
+        }else{
+            component.set('v.sectionOpen',true);
+        }
+        component.set('v.isCDValitated',true);
+        component.set('v.callcategory','');
+        component.set('v.callbound','Inbound');
+        component.set('v.interventionReq',false);
+        component.set('v.notes','');
+        component.set('v.newCall',false);
+        component.set('v.isStudyInfoModified',false);
+        console.log('calling lwc');
+        component.find('calldispositionlwc').RefreshSection();
+        
+    },
     handleNewCall: function (component, event, helper)  {
         //alert(component.get('v.sectionOpen'));
-        if(component.get('v.sectionOpen')){
+        if(!component.get('v.sectionOpen')){
             component.find("accordioncd").set('v.activeSectionName', 'CD');
+             component.set('v.sectionOpen',true);
         }
         //component.set('v.isCDValitated',false);
         component.set('v.isStudyInfoModified',true);
@@ -154,5 +189,4 @@
         });
         component.set('v.CD', RowItemList);
     }
-    
 })

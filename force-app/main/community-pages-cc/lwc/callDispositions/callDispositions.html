@@ -1,19 +1,15 @@
 <template>
-    <!--<lightning-card title="Call Dispositions">-->
-        <!--<lightning-button variant="base" label="Refresh" title="Looks like a link" onclick={Refresh}
-            class="slds-m-left_x-small"></lightning-button>
-        <lightning-button label="+ New Call" slot="actions" onclick={newCall}></lightning-button>-->
-        <div class="slds-p-around_medium">
-            <div class="slds-grid slds-wrap">
-                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
-
-                    <div><b>Previous Call Dispositions</b></div><br>
+    <div class="slds-p-around_medium">
+        <div class="slds-grid slds-wrap">
+            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+                <div><b>Previous Call Dispositions</b></div><br>
+                <template if:true={isRecordExists}>
                     <div>
-                        <template iterator:it={records} >
+                        <template iterator:it={records}>
                             <div key={it.value.cd.Id} data-value={it.index} onclick={handleClick}>
-                                <c-call-dispositions-details key={it.value.cd.Id} items={it.value} item-id={it.value.cd.Id}
-                                    call-date={it.value.dtcd} call-category={it.value.cd.Call_Category__c} index={it.index}
-                                    selected={selected}>
+                                <c-call-dispositions-details key={it.value.cd.Id} items={it.value}
+                                    item-id={it.value.cd.Id} call-date={it.value.dtcd}
+                                    call-category={it.value.cd.Call_Category__c} index={it.index} selected={selected}>
                                 </c-call-dispositions-details>
                             </div>
                             <div if:false={it.last} key={it.value.Id}>
@@ -26,105 +22,89 @@
                         <lightning-button variant="base" label="View More" title="Looks like a link" onclick={ViewMore}
                             class="" style="font-size: 14px;"></lightning-button>
                     </template>
-               
+                </template>
+                <template if:false={isRecordExists}>
+                    <p style="font-size:14px;">No records to display</p>
+                </template>
             </div>
 
-                <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
+            <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
 
-                    <template if:false={ViewMode}>
-                        <b>New Call - {month} {day}, {year} </b>
-                    </template>
-                    <template if:true={ViewMode}>
-                        <b>{Oldcalldate} </b>
-                    </template>
-                    <div class="slds-grid slds-wrap ">
-                        <div class="slds-col slds-size_1-of-2">
-                            <!--<label for="FieldSelect" class="slds-form-element__label slds-no-flex">
-                                Call Category<abbr title="required" class="slds-required"> *</abbr></label>-->
-                            <div class="slds-p-around_xx-small">
-                                <template if:false={ViewMode}>
-                                    <lightning-combobox name="progress" label="Call Category" value=""
-                                        placeholder="Select Call Catagory" options={callcategorys}
-                                        onchange={handlecallcategory} required>
-                                    </lightning-combobox>
-                                </template>
-                                <template if:true={ViewMode}>
-                                    <lightning-combobox name="progress" label="Call Category" value={Oldcallcategory}
-                                        placeholder="Select Call Catagory" options={callcategorys}
-                                        onchange={handleChange} required disabled>
-                                    </lightning-combobox>
-                                </template>
-                                <!--<select class="slds-select" name="optionSelect"
-                                    onchange={changeHandler} disabled>
-                                    <option  value="OPTION A">No Answer</option>
-                                    <option  value="OPTION B">Welcome Call</option>
-                                </select>-->
+                <template if:false={ViewMode}>
+                    <b>New Call - {month} {day}, {year} </b>
+                </template>
+                <template if:true={ViewMode}>
+                    <b>{Oldcalldate} </b>
+                </template>
+                <div class="slds-grid slds-wrap ">
+                    <div class="slds-col slds-size_1-of-2">
 
-                                <lightning-input type="text" label="Caller" placeholder={conName} disabled>
-                                </lightning-input>
-                            </div>
-                        </div>
-                        <div class="slds-col slds-size_1-of-2">
-                            <!--<label for="FieldSelect" class="slds-form-element__label slds-no-flex">
-                                Inbound / Outbound<abbr title="required" class="slds-required"> *</abbr> </label>-->
-                            <div class="slds-p-around_xx-small">
-                                <template if:false={ViewMode}>
-                                    <lightning-combobox name="progress" label="Inbound / Outbound" value={defcallbound}
-                                        placeholder="" options={callboundoptions} onchange={handlecallbound} required>
-                                    </lightning-combobox>
-                                </template>
-                                <template if:true={ViewMode}>
-                                    <lightning-combobox name="progress" label="Inbound / Outbound" value={Oldcallbound}
-                                        placeholder="" options={callboundoptions}  required
-                                        disabled>
-                                    </lightning-combobox>
-                                </template>
-
-                                <!--<select class="slds-select" name="optionSelect"
-                                    onchange={changeHandler}>
-                                    <option value="OPTION A">Inbound</option>
-                                    <option value="OPTION B">Outbound</option>
-                                </select>-->
-                                <!--<br></br>--><br>
-                                <template if:false={ViewMode}>
-                                    <lightning-input type="checkbox" label="IQVIA intervention required"
-                                        onchange={onCheckboxChange}>
-                                    </lightning-input>
-                                </template>
-                                <template if:true={ViewMode}>
-                                    <template if:true={Oldcallintervention}>
-                                        <lightning-input type="checkbox" checked label="IQVIA intervention required"
-                                            disabled></lightning-input>
-                                    </template>
-                                    <template if:false={Oldcallintervention}>
-                                        <lightning-input type="checkbox" label="IQVIA intervention required" disabled>
-                                        </lightning-input>
-                                    </template>
-                                </template>
-                            </div>
+                        <div class="slds-p-around_xx-small">
+                            <template if:false={ViewMode}>
+                                <lightning-combobox name="progress" label="Call Category" value=""
+                                    placeholder="Select Call Catagory" options={callcategorys}
+                                    onchange={handlecallcategory} required>
+                                </lightning-combobox>
+                            </template>
+                            <template if:true={ViewMode}>
+                                <lightning-combobox name="progress" label="Call Category" value={Oldcallcategory}
+                                    placeholder="Select Call Catagory" options={callcategorys} onchange={handleChange}
+                                    required disabled>
+                                </lightning-combobox>
+                            </template>
+                            <lightning-input type="text" label="Caller" placeholder={conName} disabled>
+                            </lightning-input>
                         </div>
                     </div>
-                    <template if:false={ViewMode}>
-                        <template if:true={InterventionRequired}>
-                            <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..." value={newcallnotes}
-                                maxlength="140"  onchange={handlenotes}  required>
-                            </lightning-textarea>
-                        </template>
-                        <template if:false={InterventionRequired}>
-                            <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..." value={newcallnotes}
-                                maxlength="140"  onchange={handlenotes}>
-                            </lightning-textarea>
-                        </template>
-                    </template>
-                    <template if:true={ViewMode}>
-                        <lightning-textarea name="notes" value={Oldcallnotes} label="Notes"
-                            placeholder="Type in your notes..." disabled>
+                    <div class="slds-col slds-size_1-of-2">
+                        <div class="slds-p-around_xx-small">
+                            <template if:false={ViewMode}>
+                                <lightning-combobox name="progress" label="Inbound / Outbound" value={defcallbound}
+                                    placeholder="" options={callboundoptions} onchange={handlecallbound} required>
+                                </lightning-combobox>
+                            </template>
+                            <template if:true={ViewMode}>
+                                <lightning-combobox name="progress" label="Inbound / Outbound" value={Oldcallbound}
+                                    placeholder="" options={callboundoptions} required disabled>
+                                </lightning-combobox>
+                            </template>
+                            <br>
+                            <template if:false={ViewMode}>
+                                <lightning-input type="checkbox" label="IQVIA intervention required"
+                                    onchange={onCheckboxChange}>
+                                </lightning-input>
+                            </template>
+                            <template if:true={ViewMode}>
+                                <template if:true={Oldcallintervention}>
+                                    <lightning-input type="checkbox" checked label="IQVIA intervention required"
+                                        disabled></lightning-input>
+                                </template>
+                                <template if:false={Oldcallintervention}>
+                                    <lightning-input type="checkbox" label="IQVIA intervention required" disabled>
+                                    </lightning-input>
+                                </template>
+                            </template>
+                        </div>
+                    </div>
+                </div>
+                <template if:false={ViewMode}>
+                    <template if:true={InterventionRequired}>
+                        <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..."
+                            value={newcallnotes} maxlength="140" onchange={handlenotes} required>
                         </lightning-textarea>
                     </template>
-
-                </div>
+                    <template if:false={InterventionRequired}>
+                        <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..."
+                            value={newcallnotes} maxlength="140" onchange={handlenotes}>
+                        </lightning-textarea>
+                    </template>
+                </template>
+                <template if:true={ViewMode}>
+                    <lightning-textarea name="notes" value={Oldcallnotes} label="Notes"
+                        placeholder="Type in your notes..." disabled>
+                    </lightning-textarea>
+                </template>
             </div>
         </div>
-       <!-- <p slot="footer"> <br></p> -->
-    <!--</lightning-card>-->
+    </div>
 </template>

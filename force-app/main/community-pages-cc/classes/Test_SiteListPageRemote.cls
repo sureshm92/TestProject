@@ -21,24 +21,28 @@ private without sharing class Test_SiteListPageRemote {
         SiteListPageRemote.PaginatedSiteWrapper paginatedWrapper0 = SiteListPageRemote.getSearchResults(
             'Principal_Investigator__r.Name',
             'PITD',
-            'Name ASC'
+            'Name ASC',
+            null
         );
         SiteListPageRemote.PaginatedSiteWrapper paginatedWrapper1 = SiteListPageRemote.getSearchResults(
             'Name',
             'Test',
-            'Name ASC'
+            'Name ASC',
+            null
         );
         SiteListPageRemote.PaginatedSiteWrapper paginatedWrapper2 = SiteListPageRemote.getSearchResults(
             'Study_Site_Number__c',
             'SS1',
-            'Name ASC'
+            'Name ASC',
+            null
         );
         //Negative scenario
         try {
             SiteListPageRemote.PaginatedSiteWrapper paginatedWrapper3 = SiteListPageRemote.getSearchResults(
                 '',
                 '',
-                'Name ASC'
+                'Name ASC',
+                null
             );
         } catch (Exception e) {
             System.debug(e.getMessage());
