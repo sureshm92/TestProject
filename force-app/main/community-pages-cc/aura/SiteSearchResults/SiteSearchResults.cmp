@@ -29,6 +29,7 @@
         value="{!v.studyFilterApplied}"
         action="{!c.resetFilteredResultSet}"
     />
+     <aura:handler name="CloseSSInfoEvent" event="c:CloseSSInfoEvent" action="{!c.doClosepupup}"/>
     <!--body-->
     <div class="ssr-container slds-grid slds-grid_vertical">
         <div class="slds-col">
@@ -75,12 +76,15 @@
                                         {!siteWrapper.studyName}
                                     </td>
                                     <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
-                                    <td
-                                        class="ssr-t-site"
-                                        data-index="{!index}"
-                                        onclick="{!c.openStudyInformation}"
-                                    >
-                                        {!siteWrapper.siteName}
+                                    <td class="ssr-t-site">
+                                        <lightning:button
+                                                    class="align-left"
+                                                    variant="base"
+                                                    name="{!index}"
+                                                    label="{!siteWrapper.siteName}"
+                                                    onclick="{!c.openStudyInformation}"
+                                                />
+                                       
                                     </td>
                                     <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
                                     <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
@@ -104,12 +108,14 @@
                                             {!siteWrapper.studyName}
                                         </td>
                                         <td class="ssr-t-site-no">{!siteWrapper.siteNumber}</td>
-                                        <td
-                                            class="ssr-t-site"
-                                            data-index="{!index}"
-                                            onclick="{!c.openStudyInformation}"
-                                        >
-                                            {!siteWrapper.siteName}
+                                        <td class="ssr-t-site">
+                                            <lightning:button
+                                                        class="align-left"
+                                                        variant="base"
+                                                        name="{!index}"
+                                                        label="{!siteWrapper.siteName}"
+                                                        onclick="{!c.openStudyInformation}"
+                                                    />
                                         </td>
                                         <td class="ssr-t-country">{!siteWrapper.siteCountry}</td>
                                         <td class="ssr-t-pi-name">{!siteWrapper.piName}</td>
@@ -128,9 +134,9 @@
         </div>
     </div>
     <aura:if isTrue="{!v.onclickName}">
-        <c:Action_StudySiteInformation
-            studyInformation="{!v.studyInformation}"
-            aura:id="OpenStudySiteInfoAction"
-        />
+        <c:Action_StudySiteInformation 
+                                       studyInformation="{!v.studyInformation}"
+                                       aura:id = "OpenStudySiteInfoAction"
+                                       parentComp = "{!this}"/>
     </aura:if>
 </aura:component>

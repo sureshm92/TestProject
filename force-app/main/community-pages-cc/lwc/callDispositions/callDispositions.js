@@ -4,6 +4,7 @@ import USER_ID from '@salesforce/user/Id';
 import NAME_FIELD from '@salesforce/schema/User.Name';
 import getcalls from '@salesforce/apex/FetchCallDispositions.getcalls';
 import gettodaydate from '@salesforce/apex/FetchCallDispositions.gettodaydate';
+import {refreshApex} from '@salesforce/apex';
 export default class CallDispositions extends LightningElement {
     @track error;
     @track conName;
@@ -12,24 +13,11 @@ export default class CallDispositions extends LightningElement {
     @api dateerror;
     @api todaydate;
     @api day;
-    @api month;@api siteId;
-    @api year;@api callDateTime;@api isCDValitated=false;@api newcallnotes;@api callcategoryvalue;@api interventionreq=false;
-    @api defcallbound = 'Inbound';@api count;selected;@track InterventionRequired=false;
+    @api month; @api siteId;
+    @api year; @api callDateTime; @api isCDValitated = false; @api newcallnotes; @api callcategoryvalue; @api interventionreq = false;
+    @api defcallbound = 'Inbound'; @api count; selected; @track InterventionRequired = false;
     @api rwindx; @api call; @api ViewMode = false; @api Oldcallcategory; @api Oldcallbound; @api newcall = false;
-    @api Oldcallintervention; @api Oldcallnotes; @api Oldcalldate; @api limit = 5; @api initloaded = false;@api Refreshed=false;
-  /**   @wire(getRecord, {
-        recordId: USER_ID,
-        fields: [NAME_FIELD]
-    }) wireuser({
-        error,
-        data
-    }) {
-        if (error) {
-            this.error = error;
-        } else if (data) {
-            this.conName = data.fields.Name.value;
-        }
-    }*/
+    @api Oldcallintervention; @api Oldcallnotes; @api Oldcalldate; @api limit = 5; @api initloaded = false; @api Refreshed = false;
     get callcategorys() {
         return [
             { label: 'Welcome Call Complete', value: 'Welcome Call Complete' },
@@ -50,13 +38,12 @@ export default class CallDispositions extends LightningElement {
     onCheckboxChange(event) {
         this.InterventionRequired = event.target.checked;
         const value = event.target.checked;
-        this.interventionreq=value;
+        this.interventionreq = value;
         const valueChangeEvent = new CustomEvent("interventionchange", {
-          detail: { value }
+            detail: { value }
         });
         // Fire the custom event
         this.dispatchEvent(valueChangeEvent);
-        console.log('iqvia intervention'+event.target.checked);
     }
     @wire(gettodaydate)
     wireddate({
@@ -68,156 +55,183 @@ export default class CallDispositions extends LightningElement {
             this.year = data.year;
             this.conName = data.conName;
             this.dateerror = undefined;
-            console.log('yes'); console.log(data);
-            console.log(this.month);
         }
         if (error) {
             this.dateerror = error;
             this.todaydate = undefined;
-            console.log('No');
         }
     }
-    /**  @wire(getcalls)
-        wiredCalls({
-            data,error
-        }){
-            if(data){
-                this.records = data;
-                this.errors = undefined;
-                this.ViewMode=true;
-                console.log('testwire'+this.records[0].Call_Category__c);
-                this.Oldcallcategory=this.records[0].Call_Category__c;
-                this.Oldcallbound=this.records[0].Inbound_Outbound__c;
-                this.Oldcallintervention=this.records[0].IQVIA_intervention_required__c;
-                this.Oldcallnotes=this.records[0].Notes__c;
-                this.Oldcalldate=this.records[0].Call_Date__c;
-            }
-            if(error){
-                this.errors= error;
-                this.records= undefined;
-            }
-        }**/
-     @api
+    @api
     Refresh() {
-        getcalls({ limits: this.limit,siteId: this.siteId })
+        getcalls({ limits: this.limit, siteId: this.siteId })
             .then((result) => {
-                console.log('records-->');
+               
                 this.records = result.lstCDs;
-                console.log('records-->'+this.records);
-                //this.callDateTime=result.callDateTime;
-                this.count=result.count;
+                this.count = result.count;
+                console.log('<---Refresh-->');
+                console.log('count-->' + this.count);
                 this.errors = undefined;
-                console.log('count'+this.count);
                 if (this.newcall == false) {
                     this.ViewMode = true;
-                    console.log('vmin'+this.ViewMode);
                 }
-                console.log('testwire' + this.records[0].cd.Call_Category__c);
-                console.log(this.initloaded);
-                if (this.initloaded == false) {
-                    this.Oldcallcategory = this.records[0].cd.Call_Category__c;
-                    this.Oldcallbound = this.records[0].cd.Inbound_Outbound__c;
-                    this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
-                    this.Oldcallnotes = this.records[0].cd.Notes__c;
-                    this.Oldcalldate = this.records[0].dtcd;
+                console.log('ViewMode-->' + this.ViewMode);
+                //if (this.initloaded == false) {
+                    if(this.count !=0){
+                        this.Oldcallcategory = this.records[0].cd.Call_Category__c;
+                        this.Oldcallbound = this.records[0].cd.Inbound_Outbound__c;
+                        this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
+                        this.Oldcallnotes = this.records[0].cd.Notes__c;
+                        this.Oldcalldate = this.records[0].dtcd;
+                    }else{
+                        this.Oldcallcategory = '';
+                        this.Oldcallbound = '';
+                        this.Oldcallintervention = '';
+                        this.Oldcallnotes = '';
+                        this.Oldcalldate = '';
+                    }
+                   
                     this.initloaded = true;
-                    console.log('in'+this.initloaded);
-                }
-                this.Refreshed=true;
-                console.log('viewmoderef--->'+ this.ViewMode);
+                //}
+                this.Refreshed = true;
             })
             .catch((error) => {
                 this.errors = error;
                 console.log(error);
                 this.records = undefined;
-                this.count=0;
+                this.ViewMode = true;
+                this.count = 0;
+                this.Oldcallcategory = '';
+                this.Oldcallbound = '';
+                this.Oldcallintervention = '';
+                this.Oldcallnotes = '';
+                this.Oldcalldate = '';
+            });
+    }
+    @api
+    RefreshSection() {
+        getcalls({ limits: this.limit, siteId: this.siteId })
+            .then((result) => {
+               
+                this.records = result.lstCDs;
+                this.count = result.count;
+                console.log('<---Refresh-->');
+                console.log('count-->' + this.count);
+                this.errors = undefined;
+                //if (this.newcall == false) {
+                    this.ViewMode = true;
+               // }
+                console.log('ViewMode-->' + this.ViewMode);
+                //if (this.initloaded == false) {
+                    if(this.count !=0){
+                        this.Oldcallcategory = this.records[0].cd.Call_Category__c;
+                        this.Oldcallbound = this.records[0].cd.Inbound_Outbound__c;
+                        this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
+                        this.Oldcallnotes = this.records[0].cd.Notes__c;
+                        this.Oldcalldate = this.records[0].dtcd;
+                    }else{
+                        this.Oldcallcategory = '';
+                        this.Oldcallbound = '';
+                        this.Oldcallintervention = '';
+                        this.Oldcallnotes = '';
+                        this.Oldcalldate = '';
+                    }
+                   
+                    this.initloaded = true;
+                //}
+                this.Refreshed = true;
+            })
+            .catch((error) => {
+                this.errors = error;
+                console.log(error);
+                this.records = undefined;
+                this.ViewMode = true;
+                this.count = 0;
+                this.Oldcallcategory = '';
+                this.Oldcallbound = '';
+                this.Oldcallintervention = '';
+                this.Oldcallnotes = '';
+                this.Oldcalldate = '';
             });
     }
     handleClick(event) {
-
-        console.log('Value = ' + event.currentTarget.dataset.value);
         this.rwindx = event.currentTarget.dataset.value;
         this.call = this.records[this.rwindx];
-        console.log(this.call); console.log(this.ViewMode);
         this.ViewMode = true;
-        console.log(this.ViewMode);
-        console.log(this.call.cd.Call_Category__c);
         this.Oldcallcategory = this.call.cd.Call_Category__c;
         this.Oldcallbound = this.call.cd.Inbound_Outbound__c;
         this.Oldcallintervention = this.call.cd.IQVIA_intervention_required__c;
         this.Oldcallnotes = this.call.cd.Notes__c;
         this.Oldcalldate = this.call.dtcd;
         this.newcall = false;
-        //this.template.querySelector('.highlight').classList.add('highlightCSS');
-        //event.stopPropagation();
+
         event.target.classList.add('highlight');
         this.unselect(event.target);
         this.selected = event.target;
         this.template.querySelector('c-call-dispositions-details').unselect(event.target);
         const valueChangeEvent = new CustomEvent("listselection", {
-          });
-          // Fire the custom event
-          this.dispatchEvent(valueChangeEvent);
+        });
+        // Fire the custom event
+        this.dispatchEvent(valueChangeEvent);
     }
-    unselect(target){
+    unselect(target) {
         if (this.selected && this.selected !== target) {
             this.selected.classList.remove('highlight');
             this.selected = null;
         }
     }
-    
+
     @api
     newCall() {
         this.initloaded = true;
-        if(this.Refreshed==false){
-          
+        if (this.Refreshed == false) {
             this.Refresh();
-    
         }
+        
         this.ViewMode = false;
         this.newcall = true;
         this.template.querySelector('c-call-dispositions-details').unselectNew();
-        console.log('newcall');
         this.selected.classList.remove('highlight');
         this.selected = null;
-        this.newcallnotes='';
-        this.InterventionRequired=false;
-        console.log('viewmode--->'+ this.ViewMode);
-        
+        this.newcallnotes = '';
+        this.InterventionRequired = false;
     }
-    ViewMore(event){
-        this.limit=this.limit+5;
+    ViewMore(event) {
+        this.limit = this.limit + 5;
         this.Refresh();
     }
-    get showViewMore(){
-        if(this.limit >= this.count) return false;
+    get showViewMore() {
+        if (this.limit >= this.count) return false;
         return true;
+    }
+    get isRecordExists() {
+        if (this.count > 0) return true;
+        return false;
     }
     handlenotes(event) {
         const value = event.target.value;
-        this.newcallnotes=value;
+        this.newcallnotes = value;
         const valueChangeEvent = new CustomEvent("valuechange", {
-          detail: { value }
+            detail: { value }
         });
         // Fire the custom event
         this.dispatchEvent(valueChangeEvent);
-      }
-      
-      handlecallcategory(event) {
+    }
+
+    handlecallcategory(event) {
         const value = event.target.value;
-        this.callcategoryvalue=value;
+        this.callcategoryvalue = value;
         const valueChangeEvent = new CustomEvent("callcategchange", {
-          detail: { value }
+            detail: { value }
         });
         // Fire the custom event
         this.dispatchEvent(valueChangeEvent);
-      }
-      handlecallbound(event){
+    }
+    handlecallbound(event) {
         const value = event.target.value;
         const valueChangeEvent = new CustomEvent("callBoundchange", {
-          detail: { value }
+            detail: { value }
         });
         // Fire the custom event
         this.dispatchEvent(valueChangeEvent);
-      }
+    }
 }

@@ -2,6 +2,7 @@
     <!-- attributes: -->
     
     <aura:attribute name="sectionOpen" type="Boolean" default="false"/>
+    <aura:attribute name="studySite" type="Object" />
     <aura:attribute name="siteId" type="string" access="public"/>
     <aura:attribute name="CD" type="object" access="public" />
     <aura:attribute name="notes" type="String" default=""/>
@@ -15,10 +16,14 @@
         <aura:attribute name="childnote" type="String" /> 
         <aura:attribute name="childcallcategory" type="String" /> 
     </aura:method>
+     <aura:method name="RefreshCD" action="{!c.doRefreshSectionToggle}" /> 
+     <aura:method name="RefreshCDsection" action="{!c.doRefreshSection}" /> 
      <aura:handler name="change" value="{!v.callbound}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.callcategory}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.interventionReq}" action="{!c.updCDobj}" />
     <aura:handler name="change" value="{!v.notes}" action="{!c.updCDobj}" />
+   
+    
     <div class="ap-section">
         <div class="collapse-wrapper slds-m-bottom--medium slds-grid">
             <div class="slds-col ">
@@ -34,7 +39,6 @@
                         <aura:set attribute="actions">
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
                             <button
-                                    data-site-id="{!v.studySite.site.Id}"
                                     id="addNewLocation"
                                     class="apollo-btn secondary"
                                     onclick="{!c.handleNewCall}"
