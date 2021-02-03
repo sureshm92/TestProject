@@ -1563,6 +1563,13 @@
         <value>Receive Study Site Email</value>
     </labels>
     <labels>
+        <fullName>CC_Save_All_And_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Save_All_And_Close</shortDescription>
+        <value>Save All and Close</value>
+    </labels>
+    <labels>
         <fullName>CC_Training_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>

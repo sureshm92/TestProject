@@ -82,6 +82,14 @@
                                                   v.isCDValitated))}"
                                       >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
                         >
+                    <lightning:button
+                                      class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
+                                      disabled = "{!!(v.isStudyInfoModified &amp;&amp;
+                                                  (v.isModifiedInfo &amp;&amp;
+                                                   v.isAccountModified &amp;&amp; 
+                                                   v.isCDValitated))}"
+                                      >{!Label.c.CC_Save_All_And_Close}</lightning:button
+                        >    
                 </span>
             </div>
         </aura:set>
