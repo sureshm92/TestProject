@@ -1570,6 +1570,20 @@
         <value>Save All and Close</value>
     </labels>
     <labels>
+        <fullName>CC_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone</shortDescription>
+        <value>Study Site Phone</value>
+    </labels>
+    <labels>
+        <fullName>CC_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Email</shortDescription>
+        <value>Study Site Email</value>
+    </labels>
+    <labels>
         <fullName>CC_Training_Complete</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1651,7 +1665,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Max100</shortDescription>
-        <value>max.100</value>
+        <value>max.100 per page</value>
     </labels>
     <labels>
         <fullName>CC_Name</fullName>
