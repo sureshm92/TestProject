@@ -25,7 +25,7 @@
     <aura:attribute name="interventionReq" type="Boolean" default="false"/>
     <aura:attribute name="CD" type="object" access="public" />
     <aura:method name="execute" action="{!c.doExecute}" access="public"/>
-    <aura:registerEvent name="RefreshSiteSearchEvt" type="c:RefreshSiteSearchEvt" />
+    
     <aura:attribute name="CmpOpen" type="Boolean" default="false" />
     <aura:registerEvent name="CloseSSInfoEvent" type="c:CloseSSInfoEvent" />
     <aura:handler name="CloseCCSSInfoEvent" event="c:CloseCCSSInfoEvent" action="{!c.doClosePopups}"/>
