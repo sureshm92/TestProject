@@ -29,6 +29,7 @@
         value="{!v.studyFilterApplied}"
         action="{!c.resetFilteredResultSet}"
     />
+    <aura:handler name="CloseSSInfoEvent" event="c:CloseSSInfoEvent" action="{!c.doClosepupup}"/>
     <!--body-->
     <div class="ssr-container slds-grid slds-grid_vertical">
         <div class="slds-col">
@@ -131,6 +132,7 @@
         <c:Action_StudySiteInformation
             studyInformation="{!v.studyInformation}"
             aura:id="OpenStudySiteInfoAction"
+            parentComp = "{!this}"
         />
     </aura:if>
 </aura:component>

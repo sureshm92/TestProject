@@ -37,5 +37,9 @@
         component.set('v.studyInformation', ss);
         component.set('v.onclickName', true);
         component.find('OpenStudySiteInfoAction').execute();
+    },
+    doClosepupup : function(component, event, helper) {
+        component.set('v.onclickName',false);
+        console.log('onclickName-->false');
     }
 });
