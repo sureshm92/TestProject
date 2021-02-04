@@ -36,6 +36,8 @@
     <aura:method name="refreshTable" action="{!c.refreshTable}" />
     <aura:method name="closeTab" action="{!c.closeTab}" />
     <aura:handler name="CloseEvent" event="c:CloseEditLocations" action="{!c.CloseOtherAccTab}" />
+
+    <aura:registerEvent name="CloseEvent" type="c:CloseEditLocations" />
     
     
     <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
