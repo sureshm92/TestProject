@@ -6,6 +6,7 @@
     description="MedicalRecordReview"
     implements="forceCommunity:availableForAllPageTypes"
     controller="MedicalRecordReviewRemote"
+    extends="c:CommunityContext"
 >
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
@@ -39,13 +40,13 @@
         />
 
         <!-- page content -->
-        <div class="rr-body-content" style="position: relative">
+        <div class="rr-body-content" style="{!if(v.isRTL, 'position: relative; direction: rtl;','position: relative;')}">
             <div class="rr-width-limiter side-padding">
                 <aura:if isTrue="{!v.mrrResult == 'Pending'}">
                     <div class="slds-grid slds-wrap" style="align-items: stretch">
-                        <div class="slds-col slds-size_1-of-1 slds-large-size_4-of-12 left-column">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-large-size_4-of-12 ' + if(v.isRTL,'left-columnRTL','left-column')}">
                             <div class="rr-card">
-                                <c:RRIcon iconName="chart-review-sent" class="rr-card-ico" />
+                                <c:RRIcon iconName="chart-review-sent" class="{!v.isRTL? 'rr-card-icoRTL':'rr-card-ico'}"/>
                                 <div class="rr-secondary-text" style="padding-top: 4px">
                                     {!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}
                                 </div>
@@ -73,7 +74,7 @@
                                 {!$Label.c.PG_MRR_Note_Remember}
                             </div>
                         </div>
-                        <div class="slds-col slds-size_1-of-1 slds-large-size_8-of-12 right-column">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-large-size_8-of-12 ' + if(v.isRTL,'right-columnRTL','right-column')}">
                             <c:SearchParticipantEnrollment
                                 trialId="{!v.trialId}"
                                 trial="{!v.trial}"

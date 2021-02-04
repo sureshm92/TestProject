@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="FilterPanel">
+<aura:component description="FilterPanel" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <!-- attributes: -->
@@ -74,7 +74,7 @@
                         </aura:if>
                     </div>
 
-                    <div class="fp-filters-container">{!v.body}</div>
+                    <div class="{!v.isRTL? 'fp-filters-containerRTL':'fp-filters-container'}">{!v.body}</div>
                 </div>
             </div>
         </div>
@@ -124,11 +124,11 @@
 
             <aura:if isTrue="{!!empty(v.recordsPerPageVariants)}">
                 <div
-                    class="slds-col slds-size--5-of-12 slds-max-medium-size_1-of-1 fp-page-control"
+                    class="{!'slds-col slds-size--5-of-12 slds-max-medium-size_1-of-1 '+ if(v.isRTL, 'fp-page-controlRTL','fp-page-control')}"
                 >
-                    <div class="fp-form-element">{!v.buttons}</div>
+                    <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">{!v.buttons}</div>
                     <aura:if isTrue="{!!empty(v.sortVariants)}">
-                        <div class="fp-form-element">
+                        <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">
                             <label>{!$Label.c.PG_FP_L_Sort_by}</label>
                             <c:rrSelect
                                 value="{!v.sortType}"
@@ -138,7 +138,7 @@
                         </div>
                     </aura:if>
                     <aura:if isTrue="{!v.showEntriesVisble}">
-                        <div class="fp-form-element">
+                        <div class="{!v.isRTL? 'fp-form-elementRTL':'fp-form-element'}">
                             <label>{!$Label.c.PG_FP_L_Show_entries}</label>
                             <c:rrSelect
                                 value="{!v.recordsPerPage}"

@@ -76,9 +76,18 @@
     white-space: nowrap;
     text-align: left;
 }
+.THIS .fp-form-elementRTL {
+    display: inline-block;
+    white-space: nowrap;
+    text-align: left;
+}
 
 .THIS .fp-form-element + .fp-form-element {
     margin-left: 15px;
+    margin-bottom: 15px;
+}
+.THIS .fp-form-elementRTL + .fp-form-elementRTL {
+    margin-right: 15px;
     margin-bottom: 15px;
 }
 
@@ -89,6 +98,10 @@
 
 .THIS .fp-page-control {
     text-align: right;
+    white-space: nowrap;
+}
+.THIS .fp-page-controlRTL {
+    text-align: left;
     white-space: nowrap;
 }
 
@@ -135,7 +148,11 @@
     overflow: hidden;
     margin-right: 5px;
 }
-
+.THIS .fp-filters-containerRTL {
+    margin: -5px;
+    overflow: hidden;
+    display: flex;
+}
 .THIS .fp-filters-label {
     white-space: nowrap;
     margin-right: 10px;
