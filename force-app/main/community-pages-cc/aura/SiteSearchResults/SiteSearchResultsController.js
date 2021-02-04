@@ -30,7 +30,6 @@
             component.set('v.filterCountryList', tmpFilterCountryList);
         }
     },
-
     openStudyInformation: function (component, event, helper) {
         var ssIndex = event.currentTarget.dataset.index;
         var ss = component.get('v.resultSet')[ssIndex];
@@ -38,8 +37,12 @@
         component.set('v.onclickName', true);
         component.find('OpenStudySiteInfoAction').execute();
     },
-    doClosepupup : function(component, event, helper) {
-        component.set('v.onclickName',false);
+    invokeFilterReset: function (component, event, helper) {
+        console.log('invokeFilterReset');
+        component.find('filterSearchResults').doFilterReset();
+    },
+    doClosePopup: function (component, event, helper) {
+        component.set('v.onclickName', false);
         console.log('onclickName-->false');
     }
 });

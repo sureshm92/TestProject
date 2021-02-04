@@ -58,6 +58,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Ready_for_Training__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Completed_training__c</field>
             </layoutItems>
             <layoutItems>
@@ -353,6 +357,10 @@
         <fields>Site_Contact__c</fields>
         <fields>is_Site_and_Staff_Same_Country__c</fields>
         <relatedList>Site_Staff__c.Study_Site__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Call_Dispositions__c.Study_Site__c</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

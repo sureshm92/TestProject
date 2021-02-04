@@ -478,8 +478,8 @@ public without sharing class StudySiteTriggerHandler {
              }
              for (Study_Site__c site : newList) {
                  if (ctpsMap.get(site.Clinical_Trial_Profile__c).Enable_for_Call_Center_Support__c){
-                     site.Enable_for_Call_Center_Support__c = !oldMap.get(site.Id)
-                         .Enable_for_Call_Center_Support__c;
+                     if(site.Enable_for_Call_Center_Support__c != oldMap.get(site.Id).Enable_for_Call_Center_Support__c)
+                         site.Enable_for_Call_Center_Support__c = !oldMap.get(site.Id).Enable_for_Call_Center_Support__c;
                  }else{
                      site.Enable_for_Call_Center_Support__c = False;
                  }

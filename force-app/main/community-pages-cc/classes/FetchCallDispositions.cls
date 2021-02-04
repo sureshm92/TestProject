@@ -43,10 +43,9 @@ public without sharing class FetchCallDispositions {
             List<Wrapcd> lstcalldts = new List<Wrapcd>();
             List<String> lstCallDateTime = new List<String>();
             Integer count=0;
-            Contact userContact = CommunityService.getUserContact();
-            lstCD = [select Id,Call_Category__c,Caller__c,CreatedDate,Inbound_Outbound__c,IQVIA_intervention_required__c,Study_Site__c,Notes__c 
-                     from Call_Dispositions__c where Study_Site__c=:siteId and Caller__c=:userContact.id  order by CreatedDate desc limit:limits];
-            count =[select count() from Call_Dispositions__c where Study_Site__c=:siteId and Caller__c=:userContact.id ];
+            lstCD = [select Id,Call_Category__c,Caller__c,Caller__r.Name,CreatedDate,Inbound_Outbound__c,IQVIA_intervention_required__c,Study_Site__c,Notes__c 
+                     from Call_Dispositions__c where Study_Site__c=:siteId order by CreatedDate desc limit:limits];
+            count =[select count() from Call_Dispositions__c where Study_Site__c=:siteId];
             
             string calldatetime='';
             string a='';

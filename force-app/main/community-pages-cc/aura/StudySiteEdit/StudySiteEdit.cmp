@@ -69,7 +69,7 @@
                                  >
                                 <span>
                                     <div class="input-fields-labels" style="display: inline-block">
-                                        {!$Label.c.SS_Phone}
+                                        {!$Label.c.CC_Phone}
                                     </div>
                                     <div class="rr-form-element">
                                         <lightning:input
@@ -85,7 +85,7 @@
                             <div
                                  class="slds-col slds-size--1-of-1 slds-large-size--3-of-8 rr-form-element"
                                  >
-                                <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
+                                <div class="input-fields-labels">{!$Label.c.CC_Email}</div>
                                 <div class="rr-form-element">
                                     <lightning:input
                                                      aura:id="emailInput"
@@ -104,7 +104,7 @@
                                     
                                     <lightning:input type="toggle" iconSize="small" 
                                                      class="slds-size--1-of-12"
-                                                     checked="{!!v.studyInformation.receivePIEmail}"
+                                                     checked="{!v.studyInformation.receivePIEmail}"
                                                      onchange="{!c.doSupressEmail}"/>
                                     
                                 </span>
