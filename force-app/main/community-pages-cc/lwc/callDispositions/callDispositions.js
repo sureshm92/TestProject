@@ -13,7 +13,7 @@ export default class CallDispositions extends LightningElement {
     @api dateerror;
     @api todaydate;
     @api day;
-    @api month; @api siteId;
+    @api month; @api siteId; @api Oldcaller;
     @api year; @api callDateTime; @api isCDValitated = false; @api newcallnotes; @api callcategoryvalue; @api interventionreq = false;
     @api defcallbound = 'Inbound'; @api count; selected; @track InterventionRequired = false;
     @api rwindx; @api call; @api ViewMode = false; @api Oldcallcategory; @api Oldcallbound; @api newcall = false;
@@ -82,12 +82,14 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
                         this.Oldcallnotes = this.records[0].cd.Notes__c;
                         this.Oldcalldate = this.records[0].dtcd;
+                        this.Oldcaller = this.records[0].cd.Caller__r.Name;
                     }else{
                         this.Oldcallcategory = '';
                         this.Oldcallbound = '';
                         this.Oldcallintervention = '';
                         this.Oldcallnotes = '';
                         this.Oldcalldate = '';
+                        this.Oldcaller = this.conName;
                     }
                    
                     this.initloaded = true;
@@ -105,6 +107,7 @@ export default class CallDispositions extends LightningElement {
                 this.Oldcallintervention = '';
                 this.Oldcallnotes = '';
                 this.Oldcalldate = '';
+                this.Oldcaller = this.conName;
             });
     }
     @api
@@ -128,12 +131,14 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
                         this.Oldcallnotes = this.records[0].cd.Notes__c;
                         this.Oldcalldate = this.records[0].dtcd;
+                        this.Oldcaller = this.records[0].cd.Caller__r.Name;
                     }else{
                         this.Oldcallcategory = '';
                         this.Oldcallbound = '';
                         this.Oldcallintervention = '';
                         this.Oldcallnotes = '';
                         this.Oldcalldate = '';
+                        this.Oldcaller = this.conName;
                     }
                    
                     this.initloaded = true;
@@ -151,6 +156,7 @@ export default class CallDispositions extends LightningElement {
                 this.Oldcallintervention = '';
                 this.Oldcallnotes = '';
                 this.Oldcalldate = '';
+                this.Oldcaller = this.conName;
             });
     }
     handleClick(event) {
@@ -162,6 +168,7 @@ export default class CallDispositions extends LightningElement {
         this.Oldcallintervention = this.call.cd.IQVIA_intervention_required__c;
         this.Oldcallnotes = this.call.cd.Notes__c;
         this.Oldcalldate = this.call.dtcd;
+        this.Oldcaller = this.call.cd.Caller__r.Name;
         this.newcall = false;
 
         event.target.classList.add('highlight');
@@ -186,14 +193,15 @@ export default class CallDispositions extends LightningElement {
         if (this.Refreshed == false) {
             this.Refresh();
         }
-        
         this.ViewMode = false;
         this.newcall = true;
+        this.newcallnotes = '';
+        this.InterventionRequired = false;
+        console.log('ViewMode-->New call' + this.ViewMode);
         this.template.querySelector('c-call-dispositions-details').unselectNew();
         this.selected.classList.remove('highlight');
         this.selected = null;
-        this.newcallnotes = '';
-        this.InterventionRequired = false;
+        
     }
     ViewMore(event) {
         this.limit = this.limit + 5;
