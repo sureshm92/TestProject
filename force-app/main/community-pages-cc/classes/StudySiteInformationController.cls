@@ -246,7 +246,7 @@ public without sharing class StudySiteInformationController {
             study.Study_Site_Email__c = response.siteEmail;
             study.Completed_training__c =  response.trainingComplete;
             study.Site_Information_Form_Completed__c = response.siteInfoComplete;
-            study.Suppress_Study_Site_PI_Emails__c = response.receivePIEmail;
+            study.Suppress_Study_Site_PI_Emails__c = !response.receivePIEmail;
             
             if(accId != NULL){
                 study.Site__c = accId;
