@@ -52,8 +52,8 @@
                     component.set('v.filterCountryList', filterCountryList);
                     component.set('v.tmpFilterStudyList', filterStudyList);
                     component.set('v.tmpFilterCountryList', filterCountryList);
+                    component.find('searchResults').resetPageFilter();
                 }
-                component.find('searchResults').resetPageFilter();
                 spinner.hide();
             },
             function () {

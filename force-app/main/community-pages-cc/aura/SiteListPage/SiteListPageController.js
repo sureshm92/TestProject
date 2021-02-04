@@ -1,8 +1,10 @@
 ({
     doInit: function (component, event, helper) {
-        if (!communityService.isInitialized()) return;
+        if (!communityService.isInitialized()) {
+            console.log('Not initialized');
+            return;
+        }
         if (!communityService.isDummy()) {
-            let spinner = component.find('mainSpinner');
             let sortVariantArray = $A.get('$Label.c.CC_SortVariant').split(';');
             let searchList = [
                 { label: $A.get('$Label.c.CC_StudySiteName'), value: 'Name' },
@@ -21,7 +23,6 @@
                 { label: sortVariantArray[3].trim(), value: 'Study_Site_Number__c DESC' } //'Site Number (Descending)'
             ];
             let emptyData = [];
-            spinner.show();
             let params = event.getParam('arguments');
             if (params && params.resetVal) {
                 component.set('v.resetVal', true);
@@ -38,10 +39,10 @@
             component.set('v.resultSet', emptyData);
             component.set('v.filteredResultSet', emptyData);
             component.set('v.searched', false);
-            spinner.hide();
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
+        component.find('mainSpinner').hide();
     },
     doDatabaseSearch: function (component, event, helper) {
         let params = event.getParam('arguments');
