@@ -2,7 +2,7 @@
  - Created by Kryvolap
  -->
 
-<aura:component description="SiteSearchItem">
+<aura:component description="SiteSearchItem" extends="c:CommunityContext">
     <!-- arrtibutes: -->
     <aura:attribute name="studySiteWrapper" type="Object" required="true" />
     <aura:attribute
@@ -24,14 +24,14 @@
                 </div>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">
-                <div class="ssi-site-type">
+                <div class="{!v.isRTL? 'ssi-site-typeRTL':'ssi-site-type'}">
                     {!if(!empty(v.studySiteWrapper.siteType), v.studySiteWrapper.siteTypeLabel+ ' '
                     + $Label.c.PG_SFS_L_Site,'')}
                 </div>
                 <aura:if
                     isTrue="{!and(!empty(v.studySiteWrapper.formatedDistance), v.studySiteWrapper.formatedDistance != null)}"
                 >
-                    <div class="ssi-site-distance">
+                    <div class="{!v.isRTL? 'ssi-site-distanceRTL':'ssi-site-distance'}">
                         <aura:unescapedHtml value="{!v.studySiteWrapper.formatedDistance}" />
                     </div>
                 </aura:if>

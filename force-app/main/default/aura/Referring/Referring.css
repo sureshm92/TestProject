@@ -93,6 +93,13 @@
     text-align: left;
     padding: 35px 0 0;
 }
+.THIS .pe-large-headerRTL {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 60px;
+    text-align: right;
+    padding: 35px 0 0;
+}
 
 .THIS .alert-icon-margin {
     margin-right: 9px !important;

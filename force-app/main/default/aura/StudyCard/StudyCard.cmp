@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
-<aura:component description="StudyCard" controller="StudyListViewController">
+<aura:component description="StudyCard" controller="StudyListViewController" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="currentStudy" type="Object" required="true" />
     <aura:attribute name="userMode" type="String" description="HCP/PI/Patient" />
@@ -22,7 +22,7 @@
                     >
                         <!--   <c:uiLimitTextByLines maxLines="{!if($Browser.formFactor == 'DESKTOP', 1, 3)}" lineHeight="33" unitsType="px"> -->
                         <c:RRLink
-                            class="study-title"
+                            class="{!v.isRTL ? 'study-titleRTL':'study-title'}"
                             label="{!v.currentStudy.trial.Study_Code_Name__c}"
                             page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
                         />
@@ -41,6 +41,7 @@
                         <aura:if isTrue="{!!empty(v.currentStudy.trial.NCT_Number__c)}">
                             <div
                                 class="{!v.userMode == 'PI'? 'rri-icon-pi slds-float_right':'rri-icon slds-float_right'}"
+                                style="{!if(v.isRTL, 'float:left;','')}"
                             >
                                 <a
                                     href="javascript:void(0);"
@@ -103,8 +104,15 @@
                 <div class="objective-text">{!v.currentStudy.trial.Brief_Summary__c}</div>
                 <div class="objective-link">
                     <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                        >{!$Label.c.BTN_Learn_More}
-                        <c:RRIcon iconName="icon-chevron-right" />
+                        >
+                        <aura:if isTrue="{!v.isRTL}">
+                            {!$Label.c.BTN_Learn_More}
+                            <c:RRIcon iconName="icon-chevron-left" />
+                        <aura:set attribute="else">
+                            {!$Label.c.BTN_Learn_More}
+                            <c:RRIcon iconName="icon-chevron-right" />
+                        </aura:set>    
+                        </aura:if>
                     </c:RRLink>
                 </div>
             </div>
@@ -133,8 +141,15 @@
                     </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                            >{!$Label.c.BTN_Learn_More}
-                            <c:RRIcon iconName="icon-chevron-right" />
+                            >
+                            <aura:if isTrue="{!v.isRTL}">
+                                {!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-left" />
+                            <aura:set attribute="else">
+                                {!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-right" />
+                            </aura:set>    
+                            </aura:if>
                         </c:RRLink>
                     </div>
                 </div>
@@ -151,6 +166,7 @@
                     <div
                         class="{!'apollo-btn secondary' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
                         title="{!action.disableReason}"
+                        style="{!if(v.isRTL, 'margin-left: 1.2%;','')}"
                     >
                         <div
                             id="{!action.id}"
@@ -180,10 +196,19 @@
                                     class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                     onclick="{!c.toggleStudySiteListView}"
                                 >
-                                    <span class="slds-m-right--xx-small"
-                                        >{!$Label.c.SS_View_Sites}</span
-                                    >
-                                    <c:RRIcon iconName="icon-chevron-right" />
+                                    <aura:if isTrue="{!v.isRTL}">
+                                            <span class="slds-m-right--xx-small"
+                                            >{!$Label.c.SS_View_Sites}</span
+                                        >
+                                        <c:RRIcon iconName="icon-chevron-left" />
+                                    <aura:set attribute="else">
+                                            <span class="slds-m-right--xx-small"
+                                            >{!$Label.c.SS_View_Sites}</span
+                                        >
+                                        <c:RRIcon iconName="icon-chevron-right" />
+                                    </aura:set>    
+                                    </aura:if> 
+                                    
                                 </a>
                             </div>
                         </div>
@@ -219,11 +244,19 @@
                                     href="javascript:void(0);"
                                     class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
                                     onclick="{!c.toggleStudySiteListView}"
-                                >
+                                >   
+                                <aura:if isTrue="{!v.isRTL}">
                                     <span class="slds-m-right--xx-small accordion-label"
-                                        >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
+                                    >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
+                                    >
+                                    <c:RRIcon iconName="icon-chevron-left" />
+                                <aura:set attribute="else">
+                                    <span class="slds-m-right--xx-small accordion-label"
+                                    >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
                                     >
                                     <c:RRIcon iconName="icon-chevron-right" />
+                                </aura:set>    
+                                </aura:if>
                                 </a>
                             </div>
                             <aura:if isTrue="{!v.searchItem}">

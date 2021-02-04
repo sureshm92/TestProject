@@ -1,7 +1,9 @@
 .THIS {
     font-size: 13px;
 }
-
+.THIS.rtlView{
+    direction:rtl;
+}
 .THIS .slv-category {
     color: #000000;
     font-weight: 600;
@@ -37,6 +39,10 @@
 @media all and (min-width: 768px) {
     .THIS .slv-padded-panel-left {
         padding-left: 4.5rem;
+    }
+    .THIS .slv-padded-panel-leftRTL {
+        padding-left: 0rem;
+        text-align: left;
     }
 
     .THIS .slv-padded-panel-right {

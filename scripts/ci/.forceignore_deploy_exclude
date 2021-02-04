@@ -25,6 +25,3 @@ force-app/communities/community-iqvia/sites
 force-app/communities/community-iqvia
 #temprary remove community from deployment
 force-app/communities
-
-# Exclude Flows
-force-app/main/default/flows
