@@ -14,7 +14,15 @@
     color: #444;
     font-size: 14px;
 }
+.THIS .ssi-site-typeRTL {
+    color: #444;
+    font-size: 14px;
+}
 .THIS .ssi-site-distance {
+    color: #444;
+    font-size: 14px;
+}
+.THIS .ssi-site-distanceRTL {
     color: #444;
     font-size: 14px;
 }
@@ -31,6 +39,10 @@
     .THIS .ssi-site-distance,
     .THIS .ssi-site-type {
         text-align: right;
+    }
+    .THIS .ssi-site-distanceRTL,
+    .THIS .ssi-site-typeRTL {
+        text-align: left;
     }
 }
 .THIS .apollo-btn {
