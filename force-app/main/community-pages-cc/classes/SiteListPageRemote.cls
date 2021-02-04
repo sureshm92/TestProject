@@ -42,6 +42,8 @@ public without sharing class SiteListPageRemote {
         public String BillingCountryCode;
         @AuraEnabled
         public String BillingStateCode;
+        @AuraEnabled
+        public Boolean supressPIEmail;
     }
     public class PaginatedSiteWrapper {
         @AuraEnabled
@@ -64,6 +66,7 @@ public without sharing class SiteListPageRemote {
     public static final List<String> SS_TABLE_FIELDS = new List<String>{
         'Id',
         'Clinical_Trial_Profile__c',
+        'Clinical_Trial_Profile__r.Suppress_PI_Emails__c',
         'Clinical_Trial_Profile__r.Study_Code_Name__c',
         'Study_Site_Number__c',
         'Name',
@@ -232,6 +235,7 @@ public without sharing class SiteListPageRemote {
             wrapper.site = site.Site__c;
             wrapper.BillingCountryCode = site.Principal_Investigator__r.Account.BillingCountryCode;
             wrapper.BillingStateCode = site.Principal_Investigator__r.Account.BillingStateCode;
+            wrapper.supressPIEmail = site.Clinical_Trial_Profile__r.Suppress_PI_Emails__c;
             wrapperList.add(wrapper);
         }
         return wrapperList;
