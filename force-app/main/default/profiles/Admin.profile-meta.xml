@@ -6785,6 +6785,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Study_Site__c.Ready_for_Training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Study_Site__c.ReferralNetworkId__c</field>
         <readable>true</readable>
     </fieldPermissions>
