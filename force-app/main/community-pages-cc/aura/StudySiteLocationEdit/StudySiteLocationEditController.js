@@ -109,7 +109,7 @@
         var account = component.get('v.account');
         component.find('modalSpinner').show();
         component.set('v.isEdited',false);
-        component.set('v.isStudyInfoModified', true);
+       // component.set('v.isStudyInfoModified', true);
         communityService.executeAction(
             component,
             'upsertAccount',

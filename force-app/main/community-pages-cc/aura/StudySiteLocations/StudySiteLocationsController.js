@@ -81,25 +81,21 @@
             } else {
                 accountsList.push(account);
             }
-            
+            studySite.site = account.Id;
+            component.set('v.account',account);
+            component.set('v.studySite',studySite);
             helper.sortAndSetAccountsByName(component, accountsList);
-            studySite.siteId = account.Id;
-            studySite.Site__r = account;
-            var radioBtns = component.find('radioBtn');
-            for (let i = 0; i < radioBtns.length; i++) {
-                if (radioBtns[i].get('v.value').Id == account.Id) {
-                    radioBtns[i].set('v.checked', true);
-                } else {
-                    radioBtns[i].set('v.checked', false);
-                }
-            }
-            
+            component.set('v.editLocation',false);
+            component.find('modalSpinner').hide();
             communityService.showToast(
                 'success',
                 'success',
                 $A.get('$Label.c.SS_Success_Save_Message')
             );
-            component.get('v.callback')(studySite, accountsList);
+            var cmpEvent = component.getEvent("CloseEvent"); 
+            //Set event attribute value
+            cmpEvent.setParams({"EditIndex" : index}); 
+            cmpEvent.fire(); 
         });
         
     },
