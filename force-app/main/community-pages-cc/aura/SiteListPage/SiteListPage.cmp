@@ -56,55 +56,57 @@
         <aura:attribute name="searchText" type="String" />
     </aura:method>
     <!--component body:-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" showSpinner="true" />
 
-    <c:RRNavigationPath>
-        <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
-    </c:RRNavigationPath>
+    <aura:if isTrue="{!v.isInitialized}">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
+        </c:RRNavigationPath>
 
-    <c:SiteSearchPanel
-        aura:id="searchPanel"
-        selectedSearchOption="{!v.selectedSearchOption}"
-        searchText="{!v.searchText}"
-        searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
-        searchList="{!v.searchList}"
-        sectionDisabled="{!v.sectionDisabled}"
-        parent="{!this}"
-        sortType="{!v.sortType}"
-        sortVariants="{!v.sortVariants}"
-        resetVal="{!v.resetVal}"
-        hasResult="{!empty(v.resultSet)}"
-    />
-    <c:SiteSearchResults
-        aura:id="searchResults"
-        parent="{!this}"
-        searched="{!v.searched}"
-        resultSet="{!v.resultSet}"
-        filteredResultSet="{!v.filteredResultSet}"
-        filterStudyList="{!v.filterStudyList}"
-        filterCountryList="{!v.filterCountryList}"
-        tmpFilterCountryList="{!v.tmpFilterCountryList}"
-        tmpFilterStudyList="{!v.tmpFilterStudyList}"
-    />
-    <!-- pagination -->
-    <aura:if isTrue="{!and(not(empty(v.resultSet)), empty(v.filteredResultSet)) }">
-        <div class="slp-counter slds-grid slds-grid_align-spread">
-            <div class="slp-counter-txt slds-col">
-                {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
-                v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
-                v.paginationData.currentPageCount) + ' ' + $Label.c.PG_FP_L_of + ' ' +
-                v.paginationData.allRecordsCount + ' ' + $Label.c.PG_SW_Tab_Study_Sites + ' ' + '('+
-                $Label.c.CC_Max100 +')' }
+        <c:SiteSearchPanel
+            aura:id="searchPanel"
+            selectedSearchOption="{!v.selectedSearchOption}"
+            searchText="{!v.searchText}"
+            searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
+            searchList="{!v.searchList}"
+            sectionDisabled="{!v.sectionDisabled}"
+            parent="{!this}"
+            sortType="{!v.sortType}"
+            sortVariants="{!v.sortVariants}"
+            resetVal="{!v.resetVal}"
+            hasResult="{!empty(v.resultSet)}"
+        />
+        <c:SiteSearchResults
+            aura:id="searchResults"
+            parent="{!this}"
+            searched="{!v.searched}"
+            resultSet="{!v.resultSet}"
+            filteredResultSet="{!v.filteredResultSet}"
+            filterStudyList="{!v.filterStudyList}"
+            filterCountryList="{!v.filterCountryList}"
+            tmpFilterCountryList="{!v.tmpFilterCountryList}"
+            tmpFilterStudyList="{!v.tmpFilterStudyList}"
+        />
+        <!-- pagination -->
+        <aura:if isTrue="{!and(not(empty(v.resultSet)), empty(v.filteredResultSet)) }">
+            <div class="slp-counter slds-grid slds-grid_align-spread">
+                <div class="slp-counter-txt slds-col">
+                    {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
+                    v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
+                    v.paginationData.currentPageCount) + ' ' + $Label.c.PG_FP_L_of + ' ' +
+                    v.paginationData.allRecordsCount + ' ' + $Label.c.PG_SW_Tab_Study_Sites + ' ' +
+                    '('+ $Label.c.CC_Max100 +')' }
+                </div>
+                <div class="slds-col">
+                    <c:RRPaginationRemote
+                        entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                        currentPage="{!v.paginationData.currentPage}"
+                        allRecordsCount="{!v.paginationData.allRecordsCount}"
+                        onchange="{!c.doPageNavigation}"
+                    />
+                </div>
             </div>
-            <div class="slds-col">
-                <c:RRPaginationRemote
-                    entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                    currentPage="{!v.paginationData.currentPage}"
-                    allRecordsCount="{!v.paginationData.allRecordsCount}"
-                    onchange="{!c.doPageNavigation}"
-                />
-            </div>
-        </div>
+        </aura:if>
     </aura:if>
     <c:builderStub aura:id="builderStub" />
 </aura:component>
