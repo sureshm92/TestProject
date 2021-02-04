@@ -8,34 +8,37 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
         return Database.getQueryLocator(
             [
                 SELECT
+                	Matched_Date__c,
                     Participant_Enrollment__c,
                     Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                	Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c,
                     Participant_Enrollment__r.Participant_Contact__c
                 FROM Trial_Match__c
-                WHERE Is_Eligible__c = TRUE AND Is_User_notified__c = FALSE
+                WHERE Is_Eligible__c = TRUE AND Is_User_notified__c = FALSE AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Trial_Match_Is_Available__c = TRUE
             ]
         );
     }
 
     public void execute(Database.BatchableContext param1, List<Trial_Match__c> matches) {
         for (Trial_Match__c match : matches) {
+            Date notifyDate = match.Matched_Date__c +
+                				Integer.valueOf(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c);
             Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
-            if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c)) {
+            if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c) && date.today() >= notifyDate) {
                 enrollmentsByTemplateByContact.put(
                     enrollment.Participant_Contact__c,
                     new Map<String, Id>()
                 );
+                match.Is_User_notified__c = true;
             }
 
             Map<String, Id> enrollmentsByTemplate = enrollmentsByTemplateByContact.get(
                 enrollment.Participant_Contact__c
             );
             String communityTemplate = enrollment.Clinical_Trial_Profile__r.CommunityTemplate__c;
-            if (!enrollmentsByTemplate.containsKey(communityTemplate)) {
+            if (enrollmentsByTemplate != null && !enrollmentsByTemplate.containsKey(communityTemplate)) {
                 enrollmentsByTemplate.put(communityTemplate, enrollment.Id);
             }
-
-            match.Is_User_notified__c = true;
         }
 
         update matches;

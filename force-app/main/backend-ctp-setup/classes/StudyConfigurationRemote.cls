@@ -29,6 +29,7 @@ public with sharing class StudyConfigurationRemote {
                     Trial_Match_Is_Available__c,
                     Relevant_Links_Are_Available__c,
                     Received_Until_Consent_Is_Available__c,
+                	Delayed_No_Of_Days__c,
                     Enrolled_Or_Randomized_Consent_Available__c,
                     Payment_Is_Available__c
                 FROM Clinical_Trial_Profile__c
