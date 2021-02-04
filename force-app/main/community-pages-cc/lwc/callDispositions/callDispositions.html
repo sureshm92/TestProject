@@ -52,8 +52,14 @@
                                     required disabled>
                                 </lightning-combobox>
                             </template>
-                            <lightning-input type="text" label="Caller" placeholder={conName} disabled>
-                            </lightning-input>
+                            <template if:false={ViewMode}>
+                                <lightning-input type="text" label="Caller" placeholder={conName} disabled>
+                                </lightning-input>
+                            </template>
+                            <template if:true={ViewMode}>
+                                <lightning-input type="text" label="Caller" placeholder={Oldcaller} disabled>
+                                </lightning-input>
+                            </template>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-2">
