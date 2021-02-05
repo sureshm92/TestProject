@@ -62,6 +62,7 @@
                             typeSelectLVList="{!v.typeSelectLVList}"
                             globalCountries="{!v.globalCountries}"
                             globalType="{!v.globalType}"
+                            groupName="{!v.groupLabel}"
                             onChange="{!c.doUpdateGroupDisplay}"
                         />
                     </div>

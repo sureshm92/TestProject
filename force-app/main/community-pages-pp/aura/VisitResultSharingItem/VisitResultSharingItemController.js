@@ -7,7 +7,6 @@
         component.set('v.renderLookup', false);
         let visitResult = component.get('v.visitResult');
         component.set('v.showResult', visitResult.type !== 'Disabled');
-
         component.set('v.renderLookup', true);
     },
 
@@ -48,6 +47,13 @@
         let visitResult = component.get('v.visitResult');
         visitResult.countryCodes = null;
         visitResult.type = 'All';
+        component.set('v.visitResult', visitResult);
+    },
+    doToolTipChange: function (component, event, helper) {
+        let visitResult = component.get('v.visitResult');
+        if (visitResult.isCustomToolTipEnabled == false) {
+            visitResult.customTooltip = '';
+        }
         component.set('v.visitResult', visitResult);
     }
 });

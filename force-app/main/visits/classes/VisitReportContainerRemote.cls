@@ -82,7 +82,8 @@ public inherited sharing class VisitReportContainerRemote {
 
         public LabsNameDescriptionWrapper(
             Visit_Result_TypeM__mdt visitResultTypeM,
-            String language
+            String language,
+            String customTooltipDes
         ) {
             this.nameLabs = differentLabNames.contains(visitResultTypeM.DeveloperName)
                 ? TranslateHelper.getLabelValue(
@@ -90,10 +91,12 @@ public inherited sharing class VisitReportContainerRemote {
                       language
                   )
                 : TranslateHelper.getLabelValue(visitResultTypeM.DeveloperName, language);
-            this.descriptionLab = TranslateHelper.getLabelValue(
-                visitResultTypeM.Description_Label_Api_Name__c,
-                language
-            );
+            this.descriptionLab = String.isBlank(customTooltipDes)
+                ? TranslateHelper.getLabelValue(
+                      visitResultTypeM.Description_Label_Api_Name__c,
+                      language
+                  )
+                : customTooltipDes;
         }
     }
 

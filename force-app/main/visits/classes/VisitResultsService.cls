@@ -20,6 +20,7 @@ public inherited sharing class VisitResultsService {
         Participant_Enrollment__c objCurrParEnroll = ParticipantContext.getCurrentPE();
         String strCountryCode = '';
         Map<String, String> visitResultTypeGroupMap = new Map<String, String>();
+        Map<String, String> visitResultTypeSharingDesMap = new Map<String, String>();
         if (objCurrParEnroll.Participant__c != null) {
             strCountryCode = objCurrParEnroll.Participant__r.Mailing_Country_Code__c;
         }
@@ -41,7 +42,7 @@ public inherited sharing class VisitResultsService {
         }
         List<String> ctpAvailableNames = new List<String>();
         List<Visit_Result_Type_Sharing__c> ctpAvailable = [
-            SELECT Id, Include_Countries__c, Sharing_Countries__c, Type__c
+            SELECT Id, Include_Countries__c, Sharing_Countries__c, Type__c, Custom_Tooltip__c
             FROM Visit_Result_Type_Sharing__c
             WHERE Clinical_Trial_Profile__c = :currentCTP
         ];
@@ -56,6 +57,12 @@ public inherited sharing class VisitResultsService {
                     strShareBackCountries.contains(strCountryCode))
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                    if (!String.isBlank(visitResultTypeSharing.Custom_Tooltip__c)) {
+                        visitResultTypeSharingDesMap.put(
+                            visitResultTypeSharing.Type__c,
+                            visitResultTypeSharing.Custom_Tooltip__c
+                        );
+                    }
                 }
             } else {
                 if (
@@ -65,6 +72,12 @@ public inherited sharing class VisitResultsService {
                     visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode))
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
+                    if (!String.isBlank(visitResultTypeSharing.Custom_Tooltip__c)) {
+                        visitResultTypeSharingDesMap.put(
+                            visitResultTypeSharing.Type__c,
+                            visitResultTypeSharing.Custom_Tooltip__c
+                        );
+                    }
                 }
             }
         }
@@ -128,9 +141,15 @@ public inherited sharing class VisitResultsService {
                     TranslateHelper.getLabelValue(selectedVisitGroup),
                     this.visitResultsMeasurementNamesMap
                 );
-                objVisitResultWrapper.description = TranslateHelper.getLabelValue(
-                    visitResultTypeDescriptionMap.get(selectedVisitGroup)
-                );
+                if (visitResultTypeSharingDesMap.containsKey(selectedVisitGroup)) {
+                    objVisitResultWrapper.description = visitResultTypeSharingDesMap.get(
+                        selectedVisitGroup
+                    );
+                } else {
+                    objVisitResultWrapper.description = TranslateHelper.getLabelValue(
+                        visitResultTypeDescriptionMap.get(selectedVisitGroup)
+                    );
+                }
                 wrappers.add(objVisitResultWrapper);
             }
         }
@@ -211,7 +230,8 @@ public inherited sharing class VisitResultsService {
                 getVisitResultWrappers(
                     resultsWithAvailableSing,
                     filteredVisitResultTypesIfAvailable,
-                    visitResultsGroupName
+                    visitResultsGroupName,
+                    ctpId
                 ),
                 TranslateHelper.getLabelValue('Visit_Result_Group_' + visitResultsGroupName)
             );
@@ -240,14 +260,32 @@ public inherited sharing class VisitResultsService {
     private List<VisitResultWrapper> getVisitResultWrappers(
         List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSign,
         List<Visit_Result_TypeM__mdt> visitResultTypes,
-        String visitResultGroupName
+        String visitResultGroupName,
+        Id ctpId
     ) {
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType = getVisitResultsByTypeDeveloperNames(
             resultsWithAvailableSign
         );
-
+        List<Visit_Result_Type_Sharing__c> visitResulTypeSharingList = [
+            SELECT Id, Custom_Tooltip__c, Type__c
+            FROM Visit_Result_Type_Sharing__c
+            WHERE Clinical_Trial_Profile__c = :ctpId
+        ];
+        Map<String, String> visitResultTypeWithDesMap = new Map<String, String>();
+        for (Visit_Result_Type_Sharing__c objVisitResultType : visitResulTypeSharingList) {
+            if (!String.isBlank(objVisitResultType.Custom_Tooltip__c)) {
+                visitResultTypeWithDesMap.put(
+                    objVisitResultType.Type__c,
+                    objVisitResultType.Custom_Tooltip__c
+                );
+            }
+        }
         List<VisitResultWrapper> wrappers = new List<VisitResultWrapper>();
         for (Visit_Result_TypeM__mdt singleVRT : visitResultTypes) {
+            String description = '';
+            if (visitResultTypeWithDesMap.containsKey(singleVRT.DeveloperName)) {
+                description = visitResultTypeWithDesMap.get(singleVRT.DeveloperName);
+            }
             VisitResultSharingService.VisitResultWithAvailableSign resultWithAvailableSign = visitResultsByType.get(
                 singleVRT.DeveloperName
             );
@@ -263,7 +301,9 @@ public inherited sharing class VisitResultsService {
                     new VisitResultWrapper(
                         resultWithAvailableSign.visitResult,
                         TranslateHelper.getLabelValue(singleVRT.DeveloperName),
-                        TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c),
+                        description == ''
+                            ? TranslateHelper.getLabelValue(singleVRT.Description_Label_Api_Name__c)
+                            : description,
                         this.visitResultsMeasurementNamesMap
                     )
                 );
