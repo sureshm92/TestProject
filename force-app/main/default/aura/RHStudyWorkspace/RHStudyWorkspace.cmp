@@ -6,6 +6,7 @@
     controller="StudyDetailViewController"
     implements="forceCommunity:availableForAllPageTypes"
     description="RHStudyWorkspace"
+    extends="c:CommunityContext"
 >
     <ltng:require scripts="{!$Resource.rr_community_js}" />
 
@@ -53,7 +54,8 @@
                         </aura:if>
                         <c:RRNPathItem label="{!$Label.c.PG_SW_Title}" />
                     </c:RRNavigationPath>
-                    <div class="title rr-width-limiter side-padding">
+                    <div class="title rr-width-limiter side-padding"
+                    style="{!if(v.isRTL, 'text-align: right;','')}">
                         {!v.studyDetail.trial.Study_Code_Name__c}
                     </div>
                 </div>
