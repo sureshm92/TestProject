@@ -6,6 +6,7 @@
     description="SitesSearch"
     implements="forceCommunity:availableForAllPageTypes"
     controller="SitesSearchRemote"
+    extends="c:CommunityContext"
 >
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
@@ -48,7 +49,7 @@
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
-    <div class="rr-min-body-height">
+    <div class="rr-min-body-height" style="{!if(v.isRTL, 'direction:rtl;','')}">
         <aura:if isTrue="{!v.isInitialized}">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_My_Studies}" page="" />

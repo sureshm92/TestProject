@@ -7958,7 +7958,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
-        <value>Human leukocyte antigen (HLA)</value>
+        <value>HLA</value>
     </labels>
     <labels>
         <fullName>ICOS_Description</fullName>
@@ -8229,7 +8229,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Inducible co-stimulator</shortDescription>
-        <value>Inducible co-stimulator (ICOS)</value>
+        <value>ICOS</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
@@ -9162,7 +9162,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>New York carcinoma</shortDescription>
-        <value>New York esophageal squamous cell carcinoma-1 (NYESO-1)</value>
+        <value>NY-ESO-1</value>
     </labels>
     <labels>
         <fullName>No</fullName>
@@ -16170,7 +16170,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Programmed death ligand 1</shortDescription>
-        <value>Programmed death ligand 1 (PD-L1)</value>
+        <value>PD-L1</value>
     </labels>
     <labels>
         <fullName>Promote_to_SH_Statuses</fullName>
