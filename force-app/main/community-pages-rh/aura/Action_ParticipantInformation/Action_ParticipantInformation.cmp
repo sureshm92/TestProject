@@ -5,6 +5,7 @@
  <aura:component
  description="Action_ParticipantInformation"
  controller="ParticipantInformationRemote"
+ extends="c:CommunityContext"
  >
 <ltng:require
    scripts="{!join(',', $Resource.rr_community_js)}"
@@ -210,6 +211,8 @@ showFooter="true"
              <!--1936-->
              
              <aura:if isTrue="{!v.init}">
+                    <div
+                      class="slds-grid slds-wrap">
                  <div
                       class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
                       style="margin-bottom: 5px"
@@ -217,14 +220,16 @@ showFooter="true"
                      <div class="slds-size_1-of-1 slds-item_label">
                          <strong>{!$Label.c.PG_Ref_L_Information_Sharing}</strong>
                      </div>
-                 </div>
+                 </div></div>
+                 <div
+                 class="slds-grid slds-wrap">
                  <div
                       class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
                       >
                      <div class="slds-size_1-of-1 slds-item_label">
                          {!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}
                      </div>
-                 </div>
+                    </div></div>
              </aura:if>
              <!--<aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">-->
              <aura:if isTrue="{!v.init}">
@@ -368,39 +373,46 @@ showFooter="true"
                class="{!'slds-button slds-button&#45;&#45;icon-inverse'}"
                >
  <!--<c:RRIcon iconName="icon-print" class="print-icon"/> -->
- <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16" />
+ <img class="{!v.isRTL? 'print-icon-rtl': 'print-icon'}" src="{!$Resource.icon_printIcon}" width="16" height="16" />
 </lightning:button>
 </aura:set>
 <aura:set attribute="footerButtons">
 <!--End-->
 <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
  <span>
+        <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:15px;'}">
      <lightning:button class="apollo-btn tertiary" onclick="{!c.doCancel}"
                        >{!$Label.c.BTN_Cancel}</lightning:button
-         >
+         ></span>
      <aura:if isTrue="{!v.checkTabs == 'participantDetails'}">
+            <span style="{!v.isRTL? 'margin-left:15px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
                            disabled="{!!v.isValid}"
                            onclick="{!c.doUpdate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
+            </span>
      </aura:if>
      <aura:if isTrue="{!v.checkTabs == 'Status'}">
+            <span style="{!v.isRTL? 'margin-left:7px;margin-right:7px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
                            disabled="{!!v.statusDetailValid}"
                            onclick="{!c.doUpdatePatientStatus}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
+            </span>
      </aura:if>
  </span>
+ <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
                    disabled="{!!v.isValid || ! v.statusDetailValid}"
                    onclick="{!c.doUpdateCancel}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >
+    </span>
 </div>
 </aura:set>
 </c:Popup>
