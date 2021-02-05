@@ -238,6 +238,9 @@ public without sharing class VisitResultSharingService {
         return notAccessResultType;
     }
 
+    public Map<String, Visit_Result_Type_Sharing__c> getVisitResultTypeSharingMap(Id ctpId) {
+        return getResultTypeSharingsByType(getCTP(ctpId));
+    }
     public Map<Id, List<VisitReportService.VisitResultWrapper>> geAvailableVisitResultTypeMSByGroupIds(
         Participant_Enrollment__c pe,
         List<Visit_Result_GroupM__mdt> visitResultGroupMs
@@ -347,7 +350,12 @@ public without sharing class VisitResultSharingService {
                 Participant_Visit_Result_Group__c,
                 Visit_Data_Shareback__c,
                 (
-                    SELECT Id, Include_Countries__c, Type__c, Sharing_Countries__c
+                    SELECT
+                        Id,
+                        Include_Countries__c,
+                        Type__c,
+                        Sharing_Countries__c,
+                        Custom_Tooltip__c
                     FROM Visit_Result_Type_Sharings__r
                 )
             FROM Clinical_Trial_Profile__c
