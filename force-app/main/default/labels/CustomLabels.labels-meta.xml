@@ -1675,18 +1675,18 @@
         <value>Start typing...</value>
     </labels>
     <labels>
-        <fullName>CC_Site_Contact</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Site_Contact</shortDescription>
-        <value>Site Contact</value>
-    </labels>
-    <labels>
         <fullName>CC_SiteNumber</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_SiteNumber</shortDescription>
         <value>Site Number (exact match)</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Contact</shortDescription>
+        <value>Site Contact</value>
     </labels>
     <labels>
         <fullName>CC_Site_Phone_Number</fullName>
@@ -1703,13 +1703,6 @@
         <value>Study</value>
     </labels>
     <labels>
-        <fullName>CC_Study_Site</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Study_Site</shortDescription>
-        <value>Study Site</value>
-    </labels>
-    <labels>
         <fullName>CC_StudySiteName</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1717,67 +1710,74 @@
         <value>Study Site Name (partial match)</value>
     </labels>
     <labels>
-        <fullName>CC_search_for_a_participant</fullName>
+        <fullName>CC_Study_Site</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CC_search_for_a_participant</shortDescription>
-        <value>Search for a phone number</value>
+        <shortDescription>CC_Study_Site</shortDescription>
+        <value>Study Site</value>
     </labels>
-    	<labels>
+    <labels>
         <fullName>CC_TableHeader_CTP</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_CTP</shortDescription>
         <value>Study</value>
     </labels>
-	<labels>
-        <fullName>CC_TableHeader_SiteNo</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_SiteNo</shortDescription>
-        <value>Site Number</value>
-    </labels>
-	<labels>
-        <fullName>CC_TableHeader_Site</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_Site</shortDescription>
-        <value>Study Site</value>
-    </labels>
-	<labels>
-        <fullName>CC_TableHeader_Country</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_Country</shortDescription>
-        <value>Country</value>
-    </labels>
-	<labels>
-        <fullName>CC_TableHeader_PI</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_PI</shortDescription>
-        <value>Principal Investigator</value>
-    </labels>
-	<labels>
-        <fullName>CC_TableHeader_Phone</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_Phone</shortDescription>
-        <value>Phone Number</value>
-    </labels>
-	<labels>
+    <labels>
         <fullName>CC_TableHeader_Contact</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Contact</shortDescription>
         <value>Primary Contact</value>
     </labels>
-	<labels>
+    <labels>
+        <fullName>CC_TableHeader_Country</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>CC_TableHeader_PI</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_PI</shortDescription>
+        <value>Principal Investigator</value>
+    </labels>
+    <labels>
+        <fullName>CC_TableHeader_Phone</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Phone</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_TableHeader_Site</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Site</shortDescription>
+        <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>CC_TableHeader_SiteNo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_SiteNo</shortDescription>
+        <value>Site Number</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Status</shortDescription>
         <value>Site Status</value>
+    </labels>
+    <labels>
+        <fullName>CC_search_for_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_search_for_a_participant</shortDescription>
+        <value>Search for a phone number</value>
     </labels>
     <labels>
         <fullName>CPD_About_you</fullName>
@@ -3364,6 +3364,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Creatinine Description</shortDescription>
         <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
+    </labels>
+    <labels>
+        <fullName>Custom_Tooltip_Translation_Warning_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Tooltip Translation Warning Message</shortDescription>
+        <value>Please note that the custom tool tip text changes have to be translated.</value>
     </labels>
     <labels>
         <fullName>DA_Days_Ago</fullName>
@@ -6471,6 +6478,13 @@ This weekend IQVIA will be launching an update to the referral management workfl
 Release 4.0 includes additional details around the screening process, which has the following capabilities:
 •	Ability to load in Initial visit scheduled and actual completion dates
 •	Distinguishing between enrollment versus randomization for the study</value>
+    </labels>
+    <labels>
+        <fullName>Empty_Custom_Tooltip_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Empty Custom Tooltip Error Message</shortDescription>
+        <value>Custom tooltip value should be provided if custom tooltip checkbox is checked.</value>
     </labels>
     <labels>
         <fullName>Empty_Reminder</fullName>
