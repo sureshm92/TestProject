@@ -28,9 +28,6 @@ trigger StudySiteTrigger on Study_Site__c(
     TriggerHandlerExecutor.execute(
         StudySiteTriggerHandler.SetEnableCCSupportFieldAccordingToStudy.class
     );
-    TriggerHandlerExecutor.execute(
-        StudySiteTriggerHandler.EnableCCSupportFieldAccordingToStudy.class
-    );
     
     // TODO: FIX FOR TRIGGER CONVENTIONS!
     if (Trigger.isAfter && Trigger.isUpdate) {
