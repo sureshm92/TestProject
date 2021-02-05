@@ -9,10 +9,9 @@
     <aura:attribute name="globalCountries" type="String" default="" />
     <aura:attribute name="globalType" type="String" default="" />
     <aura:attribute name="typeSelectLVList" type="List" />
-
+    <aura:attribute name="groupName" type="String" />
     <aura:attribute name="renderLookup" type="Boolean" default="true" access="private" />
     <aura:attribute name="showResult" type="Boolean" default="true" access="private" />
-
     <!-- events: -->
     <aura:registerEvent name="onChange" type="c:uiEvent" />
 
@@ -21,7 +20,9 @@
     <aura:handler name="change" value="{!v.visitResult}" action="{!c.doUpdateValue}" />
 
     <!-- component body: -->
-    <div class="{!'slds-grid vr-row ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}">
+    <div
+        class="{!'slds-grid vr-row slds-wrap ' + if(v.visitResult.type == 'Disabled', 'disabled', '')}"
+    >
         <div class="slds-col slds-size_4-of-12 row-label">
             <ui:inputCheckbox
                 aura:id="shareResult"
@@ -30,7 +31,12 @@
                 disabled="{!v.globalType == 'Disabled'}"
                 change="{!c.doChangedByUser}"
             />
-            <span class="slds-p-left_small">{!v.visitResult.label}</span>
+            <span class="slds-p-left_small">
+                {!v.visitResult.label}
+                <div class="{!'helpText '+if(v.groupName=='Biomarkers','slds-show','slds-hide')}">
+                    <lightning:helptext content="{!v.visitResult.description}" />
+                </div>
+            </span>
         </div>
         <div class="slds-col slds-size_8-of-12 type-cell">
             <aura:if isTrue="{!or(v.visitResult.type == 'Disabled', v.visitResult.type == 'All')}">
@@ -69,5 +75,30 @@
                 </aura:if>
             </aura:if>
         </div>
+        <aura:if isTrue="{!and(v.groupName=='Biomarkers',v.showResult)}">
+            <div class="slds-col slds-size_3-of-12 slds-p-top_small slds-p-left_large">
+                <ui:inputCheckbox
+                    label=""
+                    value="{!v.visitResult.isCustomToolTipEnabled}"
+                    change="{!c.doToolTipChange}"
+                />
+                Custom Tooltip
+            </div>
+            <div class="slds-col slds-size_1-of-12"></div>
+            <aura:if isTrue="{!v.visitResult.isCustomToolTipEnabled}">
+                <div class="slds-col slds-size_6-of-12 slds-p-top_medium">
+                    <lightning:textarea value="{!v.visitResult.customTooltip}" label="" />
+                </div>
+            </aura:if>
+            <div class="slds-col slds-size_2-of-12"></div>
+            <div class="slds-col slds-size_4-of-12"></div>
+            <div
+                class="{!'slds-col slds-size_8-of-12 '+if(v.visitResult.isCustomToolTipEnabled,'slds-show','slds-hide')}"
+            >
+                <div class="customTooltipWarningMessage">
+                    {!$Label.c.Custom_Tooltip_Translation_Warning_Message}
+                </div>
+            </div>
+        </aura:if>
     </div>
 </aura:component>
