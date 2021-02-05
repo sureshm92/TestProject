@@ -2,6 +2,11 @@
     display: flex;
     justify-content: flex-end;
     align-content: center;
+    padding-right: 15px;
+}
+
+.THIS .partinfo-footer-buttons span span {
+    padding-right: 15px
 }
 
 .THIS .cStudySiteLocations + .ap-section .slds-grid .slds-size_1-of-2.slds-p-around_xx-small > div:nth-child(3) {
@@ -49,6 +54,24 @@
     
     .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap > .slds-col{
         min-width: 100%;
+    }
+    
+    .THIS .partinfo-footer-buttons {
+        padding-right: 10px;
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .partinfo-footer-buttons > span {
+        display: flex;
+        justify-content: stretch;
+    }
+    
+    .THIS .partinfo-footer-buttons > span .secondary {
+        flex: 1;
+    }
+    
+    .THIS .partinfo-footer-buttons .primary {
+        margin-bottom: 15px;
     }
 
 }
