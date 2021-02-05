@@ -51,12 +51,32 @@ public without sharing class VisitResultSharingPanelRemote {
         public String type;
         @AuraEnabled
         public String countryCodes;
-
-        public VisitResultWrapper(String label, String value, String type, String countryCodes) {
+        @AuraEnabled
+        public String description;
+        @AuraEnabled
+        public String desLabel;
+        @AuraEnabled
+        public String customTooltip;
+        @AuraEnabled
+        public boolean isCustomToolTipEnabled;
+        public VisitResultWrapper(
+            String label,
+            String value,
+            String type,
+            String countryCodes,
+            String description,
+            String desLabel,
+            String customTooltip,
+            Boolean isCustomToolTipEnabled
+        ) {
             this.label = label;
             this.value = value;
             this.type = type;
             this.countryCodes = countryCodes;
+            this.description = description;
+            this.desLabel = desLabel;
+            this.customTooltip = customTooltip;
+            this.isCustomToolTipEnabled = isCustomToolTipEnabled;
         }
     }
 
@@ -141,7 +161,12 @@ public without sharing class VisitResultSharingPanelRemote {
                     Id,
                     Label,
                     (
-                        SELECT Id, DeveloperName, Label, Visit_Result_Code__c
+                        SELECT
+                            Id,
+                            DeveloperName,
+                            Label,
+                            Visit_Result_Code__c,
+                            Description_Label_Api_Name__c
                         FROM Visit_Result_Types__r
                     )
                 FROM Visit_Result_GroupM__mdt
@@ -152,10 +177,12 @@ public without sharing class VisitResultSharingPanelRemote {
                 for (Visit_Result_TypeM__mdt visitResultType : resultGroup.Visit_Result_Types__r) {
                     String type = TYPE_DISABLED;
                     String countryCodes = '';
+                    String customToolTipDes = '';
                     if (typeVRSharingMap.containsKey(visitResultType.DeveloperName)) {
                         Visit_Result_Type_Sharing__c sharing = typeVRSharingMap.get(
                             visitResultType.DeveloperName
                         );
+                        customToolTipDes = sharing.Custom_Tooltip__c;
                         if (!String.isEmpty(sharing.Sharing_Countries__c)) {
                             if (sharing.Sharing_Countries__c == TYPE_ALL) {
                                 type = TYPE_ALL;
@@ -174,7 +201,13 @@ public without sharing class VisitResultSharingPanelRemote {
                             visitResultType.Label,
                             visitResultType.DeveloperName,
                             type,
-                            countryCodes
+                            countryCodes,
+                            TranslateHelper.getLabelValue(
+                                visitResultType.Description_Label_Api_Name__c
+                            ),
+                            visitResultType.Description_Label_Api_Name__c,
+                            customToolTipDes,
+                            !String.isBlank(customToolTipDes) ? true : false
                         )
                     );
                 }
@@ -347,7 +380,9 @@ public without sharing class VisitResultSharingPanelRemote {
                                 Clinical_Trial_Profile__c = ctpId,
                                 Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES,
                                 Type__c = vrWrapper.value,
-                                Sharing_Countries__c = countries
+                                Sharing_Countries__c = countries,
+                                Standard_Tooltip__c = vrWrapper.desLabel,
+                                Custom_Tooltip__c = vrWrapper.customTooltip
                             )
                         );
                     }
@@ -358,6 +393,8 @@ public without sharing class VisitResultSharingPanelRemote {
                     } else {
                         sharing.Sharing_Countries__c = countries;
                         sharing.Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES;
+                        sharing.Standard_Tooltip__c = vrWrapper.desLabel;
+                        sharing.Custom_Tooltip__c = vrWrapper.customTooltip;
                         typeVRSharingMap.put(vrWrapper.value, sharing);
                     }
                 }

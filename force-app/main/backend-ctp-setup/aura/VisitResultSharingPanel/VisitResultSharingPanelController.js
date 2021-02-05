@@ -128,6 +128,7 @@
         let groups = component.get('v.groups');
         let options = component.get('v.options');
         let displayOnMyResultCardFlag = false;
+        let showCustomTooltipErrorMessage = false;
         if (options.countrySelectionType !== 'Disabled') {
             for (let group of groups) {
                 if (group.displayOnMyResultCard) {
@@ -136,11 +137,33 @@
                 }
             }
         }
-        if (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') {
-            communityService.showErrorToast(
-                '',
-                $A.get('$Label.c.Visit_Results_Group_If_Is_Not_Selected_For_My_Results')
-            );
+        for (let group of groups) {
+            if (group.visitResults) {
+                for (let visitResult of group.visitResults) {
+                    if (visitResult.isCustomToolTipEnabled && !visitResult.customTooltip) {
+                        showCustomTooltipErrorMessage = true;
+                        break;
+                    }
+                }
+            }
+        }
+
+        if (
+            (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') ||
+            showCustomTooltipErrorMessage
+        ) {
+            if (!displayOnMyResultCardFlag && options.countrySelectionType !== 'Disabled') {
+                communityService.showErrorToast(
+                    '',
+                    $A.get('$Label.c.Visit_Results_Group_If_Is_Not_Selected_For_My_Results')
+                );
+            }
+            if (showCustomTooltipErrorMessage) {
+                communityService.showErrorToast(
+                    '',
+                    $A.get('$Label.c.Empty_Custom_Tooltip_Error_Message')
+                );
+            }
         } else {
             component.find('spinner').show();
             communityService.executeAction(

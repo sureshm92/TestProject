@@ -58,3 +58,11 @@
 .THIS .close-country-mode {
     flex-shrink: 0;
 }
+.THIS .helpText {
+    display: inline-block;
+    padding-left: 2px;
+}
+.THIS .customTooltipWarningMessage {
+    text-align: left;
+    color: red;
+}
