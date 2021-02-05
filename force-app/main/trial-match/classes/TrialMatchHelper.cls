@@ -160,7 +160,7 @@ public without sharing class TrialMatchHelper {
     @TestVisible
     private List<Trial_Match__c> getTrialMatches(Id participantid) {
         String filter =
-            'Is_Eligible__c = TRUE AND' +
+            'Is_Eligible__c = TRUE  AND Is_User_notified__c = TRUE AND' +
             DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', participantid);
 
         return (List<Trial_Match__c>) DatabaseService.query(
