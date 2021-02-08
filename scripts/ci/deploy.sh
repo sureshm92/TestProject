@@ -6,7 +6,7 @@ orgAuthVar=$1
 echo "${!orgAuthVar}" > authFile
 
 # Login to org:
-sfdx force:auth:sfdxurl:store -f authFile -a TargetOrg -d
+"echo 'y' | sfdx force:auth:sfdxurl:store -f authFile -a TargetOrg -d"
 
 # Save file content to backup
 cp .forceignore .forceignoreTMP
