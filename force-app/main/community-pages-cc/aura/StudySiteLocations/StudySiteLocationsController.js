@@ -142,6 +142,7 @@
         } */
          if(component.get('v.sectionOpen')){
             component.set('v.sectionOpen',false);
+            component.set('v.isEdited',false);
         }else{
              component.set('v.sectionOpen',true);
         }

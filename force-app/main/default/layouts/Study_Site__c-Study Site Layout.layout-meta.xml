@@ -360,7 +360,12 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Caller__c</fields>
+        <fields>Call_Category__c</fields>
         <relatedList>Call_Dispositions__c.Study_Site__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Desc</sortOrder>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>

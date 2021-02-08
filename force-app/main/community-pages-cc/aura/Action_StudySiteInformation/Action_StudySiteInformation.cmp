@@ -75,21 +75,22 @@
             
             <aura:set attribute="footerButtons">
                 <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
-                    <span>
-                        <lightning:button class="apollo-btn tertiary"
-                                          disabled="{!v.isEdited}"
-                                          onclick="{!c.doCancel}"
-                                          >{!$Label.c.BTN_Cancel}</lightning:button
-                            >
-                        
-                        <lightning:button
-                                          class="apollo-btn secondary" onclick="{!c.doSave}" 
-                                          disabled = "{!!(v.isStudyInfoModified &amp;&amp;
-                                                      (v.isModifiedInfo &amp;&amp;
-                                                      v.isAccountModified &amp;&amp; 
-                                                      v.isCDValitated))}"
-                                          >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
-                            >
+                        <span>
+                            <lightning:button class="apollo-btn tertiary"
+                                              disabled="{!v.isEdited}"
+                                              onclick="{!c.doCancel}"
+                                              >{!$Label.c.BTN_Cancel}</lightning:button
+                                >
+                            
+                            <lightning:button
+                                              class="apollo-btn secondary" onclick="{!c.doSave}" 
+                                              disabled = "{!!(v.isStudyInfoModified &amp;&amp;
+                                                          (v.isModifiedInfo &amp;&amp;
+                                                          v.isAccountModified &amp;&amp; 
+                                                          v.isCDValitated))}"
+                                              >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
+                                >
+                         </span>
                         <lightning:button
                                           class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
                                           disabled = "{!!(v.isStudyInfoModified &amp;&amp;
@@ -98,7 +99,6 @@
                                                       v.isCDValitated))}"
                                           >{!$Label.c.CC_Save_All_And_Close}</lightning:button
                             >
-                    </span>
                 </div>
             </aura:set>
         </c:Popup>

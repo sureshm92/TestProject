@@ -68,53 +68,33 @@
                                                  />
                             </div>
                         </div>
-                        <div class="slds-col slds-size--1-of-1 popup-address-inputs">
-                            <div class="rr-form-element">
-                                <lightning:input
-                                                 aura:id="locationAddress"
-                                                 value="{!v.account.BillingStreet}"
-                                                 onblur="{!c.doTrimChanges}"
-                                                 class="ss-lightning-input"
-                                                 label="{!$Label.c.SS_Street_Address}"
-                                                 required="true"
-                                                 onchange="{!c.doCheckFields}"
-                                                 />
-                            </div>
-                        </div>
-                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap" style="padding: 0">
-                            <div class="slds-col slds-size--1-of-1 popup-address-inputs">
-                                <div class="rr-form-element">
-                                    
-                                    <lightning:input
-                                                     aura:id="locationCity"
-                                                     value="{!v.account.BillingCity}"
-                                                     onblur="{!c.doTrimChanges}"
-                                                     class="ss-lightning-input"
-                                                     label="{!$Label.c.SS_City}"
-                                                     required="true"
-                                                     onchange="{!c.doCheckFields}"
-                                                     />
-                                </div>
-                            </div>
+                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap"  style="padding-left:0px;">
                             
+                            <lightning:input
+                                             aura:id="locationAddress"
+                                             value="{!v.account.BillingStreet}"
+                                             onblur="{!c.doTrimChanges}"
+                                             class="ss-lightning-input slds-col slds-size--1-of-2"
+                                             style="padding-left:1px;"
+                                             label="{!$Label.c.SS_Street_Address}"
+                                             required="true"
+                                             onchange="{!c.doCheckFields}"
+                                             />
+                            
+                            <lightning:input
+                                             aura:id="locationCity"
+                                             value="{!v.account.BillingCity}"
+                                             onblur="{!c.doTrimChanges}"
+                                             class="ss-lightning-input slds-col slds-size--1-of-2"
+                                             style="padding-left:1px" 
+                                             label="{!$Label.c.SS_City}"
+                                             required="true"
+                                             onchange="{!c.doCheckFields}"
+                                             />
                         </div>
                         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap" style="padding:0">
-                            <div class="slds-col slds-size--1-of-1 popup-address-inputs">
-                                <div class="input-fields-labels">{!$Label.c.SS_State}</div>
-                                <c:rrSelect
-                                            placeholder="{!if(empty(v.statesLVList), '', $Label.c.PG_AC_Select)}"
-                                            otherOptionLabel="{!null}"
-                                            options="{!v.statesLVList}"
-                                            value="{!v.account.BillingStateCode}"
-                                            class="delegate-select"
-                                            disabled="{!empty(v.statesLVList)}"
-                                            onchange="{!c.doCheckFields}"
-                                            useSentenceFont="false"
-                                            />
-                            </div>
-                        </div>
-                        <div class="slds-col slds-size--4-of-6 slds-grid slds-wrap" style="padding:0">
-                            <div class="slds-col slds-size--1-of-1 popup-address-inputs">
+                            
+                            <div class="slds-col slds-size--1-of-2 popup-address-inputs">
                                 <div class="input-fields-labels">{!$Label.c.SS_Country}</div>
                                 <c:rrSelect
                                             placeholder="{!$Label.c.PG_AC_Select}"
@@ -126,8 +106,24 @@
                                             useSentenceFont="false"
                                             />
                             </div>
+                            
+                            <div class="slds-col slds-size--1-of-2 popup-address-inputs">
+                                <div class="input-fields-labels">{!$Label.c.SS_State}</div>
+                                <c:rrSelect
+                                            placeholder="{!if(empty(v.statesLVList), '', $Label.c.PG_AC_Select)}"
+                                            otherOptionLabel="{!null}"
+                                            options="{!v.statesLVList}"
+                                            value="{!v.account.BillingStateCode}"
+                                            class="delegate-select"
+                                            disabled="{!empty(v.statesLVList)}"
+                                            onchange="{!c.doCheckFields}"
+                                            useSentenceFont="false"
+                                            />
+                                <!--/div-->
+                            </div>
                         </div>
-                        <div class="slds-col slds-size--2-of-6 slds-grid slds-wrap" style="padding:0">
+                        
+                        <div class="slds-col slds-size--3-of-6 slds-grid slds-wrap" style="padding:0">
                             
                             <div class="slds-col slds-size--1-of-1 popup-address-inputs">
                                 <div class="input-fields-labels">
@@ -136,7 +132,6 @@
                                 <div class="rr-form-element">
                                     <lightning:input
                                                      aura:id="locationPostalCode"
-                                                     class="postal-code-input"
                                                      value="{!v.account.BillingPostalCode}"
                                                      onblur="{!c.doTrimChanges}"
                                                      onchange="{!c.doCheckFields}"
@@ -144,7 +139,7 @@
                                 </div>
                             </div>
                         </div>
-                    </div>
+                    </div>    
                     <div class="slds-col slds-size--1-of-2 slds-grid slds-wrap">
                         <div class="slds-size--2-of-2 partinfo-buttons">
                             <span>

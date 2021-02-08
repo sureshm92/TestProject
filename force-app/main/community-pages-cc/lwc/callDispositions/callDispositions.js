@@ -196,7 +196,41 @@ export default class CallDispositions extends LightningElement {
         this.ViewMode = false;
         this.newcall = true;
         this.newcallnotes = '';
-        this.InterventionRequired = false;
+        this.defcallbound = 'Inbound';
+        this.InterventionRequired =false;
+        this.template.querySelectorAll('lightning-input').forEach(element => {
+            if(element.type === 'checkbox' ){
+              element.checked = false;
+            } 
+          });
+        this.template.querySelectorAll('[data-id="callbound"]').forEach(each => {
+            each.value = 'Inbound';
+        });
+        this.template.querySelectorAll('[data-id="callcategory"]').forEach(each => {
+            each.value = '';
+        });
+        let callcatgval='';
+        const valueChangeEvent1 = new CustomEvent("callcategchange", {
+            detail: { callcatgval }
+        });
+        this.dispatchEvent(valueChangeEvent1);
+        let callboundval="Inbound";
+        const valueChangeEvent2 = new CustomEvent("callBoundchange", {
+            detail: { callboundval }
+        });
+        this.dispatchEvent(valueChangeEvent2);
+        let callinterventionreqval="false";
+        const valueChangeEvent3 = new CustomEvent("interventionchange", {
+            detail: { callinterventionreqval }
+        });
+        this.dispatchEvent(valueChangeEvent3);
+        let callnotes=" ";
+        const valueChangeEvent4 = new CustomEvent("valuechange", {
+            detail: { callnotes }
+        });
+        this.dispatchEvent(valueChangeEvent4);
+
+
         console.log('ViewMode-->New call' + this.ViewMode);
         this.template.querySelector('c-call-dispositions-details').unselectNew();
         this.selected.classList.remove('highlight');
@@ -205,7 +239,37 @@ export default class CallDispositions extends LightningElement {
     }
     ViewMore(event) {
         this.limit = this.limit + 5;
-        this.Refresh();
+        //this.Refresh();
+        getcalls({ limits: this.limit, siteId: this.siteId })
+        .then((result) => {
+           
+            this.records = result.lstCDs;
+            this.count = result.count;
+            console.log('<---Refresh-->');
+            console.log('count-->' + this.count);
+            this.errors = undefined;
+            if (this.newcall == false) {
+                this.ViewMode = true;
+            }
+            console.log('ViewMode-->' + this.ViewMode);
+            //if (this.initloaded == false) {
+                this.initloaded = true;
+            //}
+            this.Refreshed = true;
+        })
+        .catch((error) => {
+            this.errors = error;
+            console.log(error);
+            this.records = undefined;
+            this.ViewMode = true;
+            this.count = 0;
+            this.Oldcallcategory = '';
+            this.Oldcallbound = '';
+            this.Oldcallintervention = '';
+            this.Oldcallnotes = '';
+            this.Oldcalldate = '';
+            this.Oldcaller = this.conName;
+        });
     }
     get showViewMore() {
         if (this.limit >= this.count) return false;

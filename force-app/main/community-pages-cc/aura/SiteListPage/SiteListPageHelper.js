@@ -88,6 +88,8 @@
                 } else {
                     helper.downloadCSV(exportList);
                 }
+                //Clear for next operation
+                component.set('v.exportList', []);
                 spinner.hide();
             },
             function () {
