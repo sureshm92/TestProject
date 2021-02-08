@@ -5,7 +5,7 @@
 <aura:component
     description="Dashboard"
     implements="forceCommunity:availableForAllPageTypes"
-    controller="DashboardRemoteNew"
+    controller="DashboardRemoteNew" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -34,6 +34,7 @@
                 <c:RRNPathItem label="{!$Label.c.PG_DB_L_Dashboard}" />
             </c:RRNavigationPath>
         </aura:if>
+        <div class="{!v.isRTL? 'arabic':' '}">
         <div class="{!if(v.showDashboardforPI,'db-content','db-content-empty')}">
             <aura:if isTrue="{!and(v.userMode == 'PI',v.showDashboardforPI)}">
                 <c:DashboardPINew piData="{!v.piData}" parent="{!this}" userMode="{!v.userMode}" />
@@ -47,6 +48,7 @@
             <aura:if isTrue="{!v.userMode == 'HCP'}">
                 <c:DashboardHCP hcpData="{!v.hcpData}" />
             </aura:if>
+        </div>
         </div>
     </aura:if>
 

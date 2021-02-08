@@ -148,7 +148,9 @@
     padding-top: 10px;
     padding-bottom: 4px;
 }
-
+.THIS.arabic {
+    direction: rtl;
+}
 .THIS .db-list-item .btn-block .apollo-btn {
     float: none;
     margin-left: 0;

@@ -3370,7 +3370,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Custom Tooltip Translation Warning Message</shortDescription>
-        <value>Please note that the custom tool tip text changes have to be translated.</value>
+        <value>Please note that the custom tool tip text changes have to be translated as part of the study content.</value>
     </labels>
     <labels>
         <fullName>DA_Days_Ago</fullName>
@@ -6484,7 +6484,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Empty Custom Tooltip Error Message</shortDescription>
-        <value>Custom tooltip value should be provided if custom tooltip checkbox is checked.</value>
+        <value>Custom tooltip cannot be blank if custom tooltip checkbox is checked.</value>
     </labels>
     <labels>
         <fullName>Empty_Reminder</fullName>
