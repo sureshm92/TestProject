@@ -2,19 +2,40 @@
  * Created by Igor Malyuta on 06.12.2019.
  */
 
-import { LightningElement, track } from 'lwc';
+import { LightningElement, track, api } from 'lwc';
+//import lwcStyleResource from '@salesforce/resourceUrl/lwcCss';
+import { loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
-
 import addLabel from '@salesforce/label/c.Add_Date';
+import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
+import emailLabel from '@salesforce/label/c.PP_Remind_Using_Email';
+import smsLabel from '@salesforce/label/c.PP_Remind_Using_SMS';
 import planDate from '@salesforce/label/c.VPN_AddDate';
+import ReminderDate from '@salesforce/label/c.PP_Reminder_Date';
+import whatToExpect from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
+import VisitDate from '@salesforce/label/c.PP_Visit_Date';
+import ChangeNotifications from '@salesforce/label/c.PP_Change_Notification_Settings';
+import remindUsing from '@salesforce/label/c.PP_Remind_Using';
 import selDate from '@salesforce/label/c.VPN_Sel_Date';
 import visitUnavailable from '@salesforce/label/c.Study_Visit_Unavailable';
-
+import CompleteByDate from '@salesforce/label/c.Complete_By_Date';
+import Onedaybefore from '@salesforce/label/c.One_day_before';
+import OneHourBefore from '@salesforce/label/c.PP_One_Hour_Before';
+import FourHoursBefore from '@salesforce/label/c.PP_Four_Hours_Before';
+import OneWeekBefore from '@salesforce/label/c.PP_One_Week_Before';
+import CustomDate from '@salesforce/label/c.PP_Custom';
+import reminderError from '@salesforce/label/c.PP_Reminder_Error_Message';
+import reminderUnderFlow from '@salesforce/label/c.PP_Reminder_Underflow';
+import reminderOverFlow from '@salesforce/label/c.PP_Reminder_Overflow';
+import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
 import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
+import getVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
+import getTaskEditDetails from '@salesforce/apex/TaskEditRemote.getTaskEditData';
+import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -31,23 +52,82 @@ export default class VisitsPath extends LightningElement {
         saveBTNLabel,
         cancelBTNLabel,
         selDate,
-        planDate
+        planDate,
+        CompleteByDate,
+        Onedaybefore,
+        reminderUnderFlow,
+        reminderOverFlow,
+        remindUsingRequired,
+        ReminderDate,
+        VisitDate,
+        ChangeNotifications,
+        remindUsing,
+        whatToExpect,
+        emailLabel,
+        smsLabel,
+        OneHourBefore,
+        FourHoursBefore,
+        OneWeekBefore,
+        CustomDate,
+        reminderError,
+        detailsLabel
     };
 
     initialized = false;
     spinner;
 
     @track isVisitsEmpty = false;
+    @track isVisitCompleted = false;
     @track isRTL;
     @track patientVisits;
+    @track visits;
     @track pathItems = [];
+    @track isLessThanToday = false;
+    @track reminderClass = 'mr_50';
 
     @track selectedPV = {
         Id: null,
         Planned_Date__c: null
     };
+    @track today;
+    @track emailOpted;
+    @track smsOpted;
     @track planDate = null;
-
+    @track patientVisitName;
+    @track visitDetails;
+    @track showCustomDateTime = false;
+    @track taskDetails;
+    @track visitIconDetails = [];
+    @track iconDetails = [];
+    @track disableSave = true;
+    // = [{ "Id": "a0M1100000DDOfGEAX", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a0M1100000DDOfQEAX", "Name": "height-and-weight", "Label__c": "Height and weight" }, { "Id": "a0M1100000DDOfVEAX", "Name": "multiple-users-2", "Label__c": "Demographics" }];
+    //= [{ "Id": "a2t3O0000000xQ2QAI", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a2t3O0000000xQ1QAI", "Name": "Hand-X-Ray", "Label__c": "Hand and feet X-rays" }, { "Id": "a2t3O0000000xQ8QAI", "Name": "health_checkup", "Label__c": "Physical examination" }];
+    @track visitTaskId;
+    @track visitTitle;
+    @track visitId;
+    @track reminderDate;
+    @track initData = {
+        reminderDate: null,
+        emailOptIn: false,
+        smsOptIn: false,
+        reminderOption: null,
+        planDate: null,
+        createdByAdmin: false
+    };
+    @track paramTask = {
+        sobjectType: 'Task',
+        Task_Type__c: 'Visit',
+        Remind_Me__c: null,
+        Remind_Using_Email__c: false,
+        Remind_Using_SMS__c: false,
+        ReminderDateTime: null,
+        Subject: null,
+        Task_Code__c: null,
+        Id: null
+    };
+    @track reminderOption;
+    @track emailOptIn;
+    @track smsOptIn;
     pathContainer;
     elementWidth;
     centredIndex;
@@ -60,6 +140,14 @@ export default class VisitsPath extends LightningElement {
 
     connectedCallback() {
         let context = this;
+        /* Promise.all([
+            loadStyle(this, lwcStyleResource)
+        ]).then(() => {
+            console.log('Files loaded.');
+        })
+            .catch(error => {
+                console.log(error.body.message);
+            });*/
         getisRTL()
             .then(function (data) {
                 context.isRTL = data;
@@ -67,6 +155,7 @@ export default class VisitsPath extends LightningElement {
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
             });
+
         getCardVisits()
             .then(function (data) {
                 context.patientVisits = data;
@@ -82,7 +171,6 @@ export default class VisitsPath extends LightningElement {
     renderedCallback() {
         this.spinner = this.template.querySelector('c-web-spinner');
         if (!this.initialized) this.spinner.show();
-
         switch (formFactor) {
             case 'Medium':
                 this.elementWidth = 145;
@@ -93,9 +181,7 @@ export default class VisitsPath extends LightningElement {
             default:
                 this.elementWidth = 125;
         }
-
         this.pathContainer = this.template.querySelector('.vis-path');
-
         if (this.pathContainer) {
             this.maxScrollValue = this.pathContainer.scrollWidth - this.pathContainer.clientWidth;
             if (this.pathContainer.scrollWidth > this.pathContainer.clientWidth)
@@ -116,6 +202,15 @@ export default class VisitsPath extends LightningElement {
         }
 
         if (this.initialized) this.spinner.hide();
+    }
+    get reminderOptions() {
+        return [
+            { label: this.labels.OneHourBefore, value: '1 hour before' },
+            { label: this.labels.Onedaybefore, value: '1 day before' },
+            { label: this.labels.FourHoursBefore, value: '4 hours before' },
+            { label: this.labels.OneWeekBefore, value: '1 Week before' },
+            { label: this.labels.CustomDate, value: 'Custom' }
+        ];
     }
 
     constructPathItems() {
@@ -166,40 +261,264 @@ export default class VisitsPath extends LightningElement {
                         : lineClass + item.stateStatus;
                 item.left = lineClass + item.stateStatus;
                 item.state = stateClass + item.stateStatus;
+                item.headerTitle = this.pathItems[i].visitName + ' ' + this.labels.detailsLabel;
             }
 
             console.log('VISIT_ITEMS: ' + JSON.stringify(this.pathItems));
         }
     }
 
+    isEmpty(value) {
+        if (value == null || value == undefined || value == '') return true;
+        else return false;
+    }
+
+    doValidateReminder(event) {
+        if (event.target.value != 'Custom') {
+            var visitPlanDate = new Date(this.planDate);
+            var reminderdate;
+            console.log('visitPlanDate-->' + visitPlanDate);
+            if (event.target.value == '1 day before') {
+                reminderdate = visitPlanDate - 24 * 3600 * 1000;
+            } else if (event.target.value == '1 hour before') {
+                reminderdate = visitPlanDate - 3600 * 1000;
+            } else if (event.target.value == '4 hours before') {
+                reminderdate = visitPlanDate - 4 * 3600 * 1000;
+            } else if (event.target.value == '1 Week before') {
+                reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
+            }
+            console.log('reminderdate-->' + reminderdate);
+            var isGreaterThanToday = new Date() > new Date(reminderdate);
+            console.log('isGreaterThanToday' + isGreaterThanToday);
+            this.isLessThanToday = isGreaterThanToday;
+            if (isGreaterThanToday) {
+                this.template
+                    .querySelector('lightning-combobox')
+                    .setCustomValidity(this.labels.reminderError);
+                this.template.querySelector('lightning-combobox').reportValidity();
+                // this.disableSave = true;
+            } else {
+                this.template.querySelector('lightning-combobox').setCustomValidity(' ');
+                this.template.querySelector('lightning-combobox').reportValidity();
+                //this.disableSave = false;
+            }
+        } else {
+            this.template.querySelector('lightning-combobox').setCustomValidity(' ');
+            this.template.querySelector('lightning-combobox').reportValidity();
+        }
+        const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
+            (validSoFar, inputCmp) => {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            },
+            true
+        );
+
+        if (
+            this.isEmpty(this.planDate) ||
+            !allValid ||
+            this.isLessThanToday ||
+            (this.isEmpty(this.reminderDate) && this.reminderOption == 'Custom')
+        ) {
+            this.disableSave = true;
+        } else {
+            this.disableSave = false;
+        }
+    }
     //Planned Date Logic:-----------------------------------------------------------------------------------------------
     handleOpenDialog(event) {
+        // let spinner = this.template.querySelector('c-web-spinner');
+        // console.log('spinner' + spinner);
+        // spinner.show();
         let eventItemId = event.currentTarget.dataset.id;
+        this.visitId = eventItemId;
 
-        this.pathItems.forEach((item) => {
-            if (item.id === eventItemId) {
-                this.selectedPV.Id = item.id;
-                this.planDate = item.Planned_Date__c;
-                this.template.querySelector('c-web-popup').show();
-            }
-        });
+        //this.patientVisitName = event.currentTarget.dataset.name;
+        this.patientVisitName = event.currentTarget.dataset.name;
+        this.visitTitle = event.currentTarget.dataset.title;
+        console.log('visiTitle-->' + this.visitTitle);
+        //+ ' ' + 'Details';
+        console.log('visitname-->' + this.patientVisitName);
+        console.log('eventItemId-->' + this.visitId);
+        this.getVisitDetails(this.visitId);
+        this.selectedPV.Id = this.visitId;
+
+        console.log('visitIconDetails-->' + this.visitIconDetails);
+        console.log('iconDetails-->' + JSON.stringify(this.iconDetails));
+        this.template.querySelector('c-web-popup').show();
+    }
+
+    getVisitDetails(itemId) {
+        getVisitsDetails({ visitId: itemId })
+            .then((result) => {
+                console.log('result-->', result);
+                const [first] = result;
+                this.visitDetails = first;
+                this.planDate = this.visitDetails.visit.Planned_Date__c;
+                this.reminderDate = this.visitDetails.reminderDate;
+                this.isVisitCompleted = this.visitDetails.visitStatus == 'Completed';
+                if (this.visitDetails.task) {
+                    this.visitTaskId = this.visitDetails.task.Id;
+                }
+                if (this.visitDetails.task) {
+                    if (this.visitDetails.task.Remind_Me__c == 'Custom') {
+                        this.showCustomDateTime = true;
+                        this.reminderClass = 'mr_25';
+                    }
+                }
+                if (this.visitDetails.task) {
+                    this.reminderOption = this.visitDetails.task.Remind_Me__c;
+                    console.log('reminderOption-->' + this.reminderOption);
+                    this.emailOptIn = this.visitDetails.task.Remind_Using_Email__c;
+                    console.log('emailOptIn-->' + this.emailOptIn);
+                    this.smsOptIn = this.visitDetails.task.Remind_Using_SMS__c;
+                    console.log('smsOptIn-->' + this.smsOptIn);
+                }
+                this.getTaskDetails(this.visitTaskId);
+                if (this.visitDetails.iconDetails) {
+                    console.log(first.iconDetails);
+                    this.iconDetails = first.iconDetails;
+                    console.log('this.icon-->' + JSON.stringify(this.iconDetails));
+                }
+            })
+            .catch((error) => {
+                console.log(JSON.stringify(error));
+            });
+    }
+    getTaskDetails(tasksId) {
+        getTaskEditDetails({ taskId: tasksId })
+            .then((result) => {
+                console.log('task-->' + JSON.stringify(result));
+                this.taskDetails = result;
+                if (this.taskDetails) {
+                    this.isEmailEnabled = this.taskDetails.emailOptIn;
+                    this.emailOpted = !this.taskDetails.emailOptIn || this.isVisitCompleted;
+                    this.smsOpted = !this.taskDetails.smsOptIn || this.isVisitCompleted;
+                    this.today = this.taskDetails.today;
+                }
+                //this.error = undefined;
+            })
+            .catch((error) => {
+                //this.error = error;
+                console.log(JSON.stringify(error));
+            });
     }
 
     handleHideDialog() {
         this.template.querySelector('c-web-popup').hide();
     }
+    doNavigateToAccountSettings() {
+        window.open('account-settings', '_blank');
+        window.focus();
+        this.handleHideDialog();
+    }
 
     handleDateChange(event) {
-        this.planDate = event.target.value;
+        console.log('inside data change');
+        if (event.target.name == 'planDate') {
+            this.planDate = event.target.value;
+            console.log('this.planDate-->' + this.planDate);
+        }
+        if (event.target.name == 'reminder') {
+            this.reminderOption = event.detail.value;
+            console.log('this.reminderOption-->' + this.reminderOption);
+        }
+        if (this.reminderOption == 'Custom') {
+            this.showCustomDateTime = true;
+            this.reminderClass = 'mr_25';
+        } else {
+            this.showCustomDateTime = false;
+            this.reminderClass = 'mr_50';
+        }
+        if (event.target.name == 'emailOptin') {
+            this.emailOptIn = event.target.checked;
+            console.log('this.emailOptIn-->' + this.emailOptIn);
+        }
+        if (event.target.name == 'smsOptIn') {
+            this.smsOptIn = event.target.checked;
+            console.log('this.smsOptIn-->' + this.smsOptIn);
+        }
+        if (event.target.name == 'reminderDate') {
+            this.reminderDate = event.target.value;
+            console.log('this.reminderDate-->' + this.reminderDate);
+        }
+        const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
+            (validSoFar, inputCmp) => {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            },
+            true
+        );
+        console.log('allValid-->' + allValid);
+        console.log('this.isEmpty(this.planDate)' + this.isEmpty(this.planDate));
+        console.log('!allValid' + !allValid);
+        console.log('this.isLessThanToday' + this.isLessThanToday);
+        console.log('this.isEmpty(this.reminderDate)' + this.isEmpty(this.reminderDate));
+        console.log(
+            'plan-->' +
+                (this.isEmpty(this.planDate) ||
+                    !allValid ||
+                    this.isLessThanToday ||
+                    this.isEmpty(this.reminderDate))
+        );
+        if (
+            this.isEmpty(this.planDate) ||
+            !allValid ||
+            this.isLessThanToday ||
+            this.isEmpty(this.reminderDate)
+        ) {
+            console.log(
+                'plan-->' +
+                    (this.isEmpty(this.planDate) ||
+                        !allValid ||
+                        this.isLessThanToday ||
+                        this.isEmpty(this.reminderDate))
+            );
+            this.disableSave = true;
+        } else {
+            this.disableSave = false;
+        }
     }
 
     savePlannedDate() {
-        this.handleHideDialog();
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
-
+        console.log('planDate-->' + this.planDate);
+        if (this.showCustomDateTime == true) {
+            if (
+                this.isEmpty(this.reminderDate) &&
+                this.emailOptIn == false &&
+                this.smsOptIn == false
+            ) {
+                communityService.showErrorToast('', 'Please Input Correct Data', 3000);
+                return;
+            }
+        }
+        if (this.emailOptIn == false && this.smsOptIn == false) {
+            communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
+            return;
+        }
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
         else this.selectedPV.Planned_Date__c = null;
+        if (this.reminderDate) this.initData.reminderDate = this.reminderDate;
+        if (this.emailOptIn) this.initData.emailOptIn = this.emailOptIn;
+        if (this.smsOptIn) this.initData.smsOptIn = this.smsOptIn;
+        if (this.reminderOption) this.initData.reminderOption = this.reminderOption;
+        if (this.planDate) this.initData.planDate = this.planDate;
+        if (this.visitId) this.initData.visitId = this.visitId;
+        this.initData.createdByAdmin = this.taskDetails.createdByAdmin;
+        console.log('inside initData-->', this.initData);
+        //  if (this.reminderOption) {
+        console.log('inside this.reminderOption-->' + this.reminderOption);
+
+        // }
+        if (this.emailOptIn) this.paramTask.Remind_Using_Email__c = this.emailOptIn;
+        if (this.smsOptIn) this.paramTask.Remind_Using_SMS__c = this.smsOptIn;
+        if (this.reminderDate) this.paramTask.ReminderDateTime = this.reminderDate;
+        this.paramTask.Subject = this.patientVisitName;
+        console.log('visitTaskId-->' + this.visitTaskId);
+        if (this.visitTaskId) this.paramTask.Id = this.visitTaskId;
+        console.log('paramTask-->' + JSON.stringify(this.paramTask));
 
         let context = this;
         updatePV({ visit: JSON.stringify(this.selectedPV) })
@@ -217,6 +536,23 @@ export default class VisitsPath extends LightningElement {
             .catch((error) => {
                 console.log('Error: ' + JSON.stringify(error));
             });
+        // if (this.reminderOption) {
+        createTask({
+            wrapper: JSON.stringify(this.initData),
+            paramTask: JSON.stringify(this.paramTask)
+        })
+            .then(() => {
+                console.log('inside success-->');
+                eval("$A.get('e.force:refreshView').fire();");
+                spinner.hide();
+            })
+            .catch((error) => {
+                console.log('Error: ' + JSON.stringify(error));
+            });
+        this.handleHideDialog();
+        spinner.hide();
+
+        //}
     }
 
     //Scroll Arrows handlers:-------------------------------------------------------------------------------------------
@@ -346,5 +682,10 @@ export default class VisitsPath extends LightningElement {
     doScrollInto(index) {
         this.pathContainer.scrollLeft =
             index * this.elementWidth - this.elementWidth / 2 - this.pathContainer.clientWidth / 2;
+    }
+
+    addADay(paramDate) {
+        paramDate = moment(paramDate, 'YYYY-MM-DD').add(1, 'days');
+        return paramDate.format('YYYY-MM-DD');
     }
 }

@@ -15203,6 +15203,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Change Notification</shortDescription>
         <value>Change your notification preferences under Contact Information</value>
     </labels>
+	 <labels>
+        <fullName>PP_Change_Notification_Settings</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Change_Notification_Settings</shortDescription>
+        <value>Change Notification Settings</value>
+    </labels>
     <labels>
         <fullName>PP_Change_Preferences_Resource</fullName>
         <language>en_US</language>
@@ -15239,6 +15246,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Create Visit Reminder</shortDescription>
         <value>Create Visit Reminder</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Custom</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Custom</shortDescription>
+        <value>Custom</value>
     </labels>
     <labels>
         <fullName>PP_Customize_Exp_Description</fullName>
@@ -15282,6 +15296,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Delegate_Header</shortDescription>
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
+	 <labels>
+        <fullName>PP_Details</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Details</shortDescription>
+        <value>Details</value>
+    </labels>
     <labels>
         <fullName>PP_EditProfilePhoto</fullName>
         <language>en_US</language>
@@ -15318,6 +15339,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Four_Hours_Before</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Four_Hours_Before</shortDescription>
+        <value>4 hours before</value>
     </labels>
     <labels>
         <fullName>PP_General_Info</fullName>
@@ -15402,6 +15430,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Nickname</shortDescription>
         <value>Nickname</value>
+    </labels>
+	 <labels>
+        <fullName>PP_One_Hour_Before</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_One_Hour_Before</shortDescription>
+        <value>1 hour before</value>
+    </labels>
+    <labels>
+        <fullName>PP_One_Week_Before</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_One_Week_Before</shortDescription>
+        <value>1 Week before</value>
     </labels>
     <labels>
         <fullName>PP_Password_Management</fullName>
@@ -15519,6 +15561,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Remind_Using_SMS</shortDescription>
         <value>SMS</value>
     </labels>
+	 <labels>
+        <fullName>PP_Reminder_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Reminder_Date</shortDescription>
+        <value>Reminder Date</value>
+    </labels>
+    <labels>
+        <fullName>PP_Reminder_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Reminder_Error_Message</shortDescription>
+        <value>Reminder cannot be set in the past</value>
+    </labels>
     <labels>
         <fullName>PP_Reminder_Overflow</fullName>
         <categories>c:StudyVisitReminder</categories>
@@ -15613,6 +15669,20 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Visit_Date</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Visit_Date</shortDescription>
+        <value>Visit Date</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Visit_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Visit_Time</shortDescription>
+        <value>Visit Time</value>
     </labels>
     <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
