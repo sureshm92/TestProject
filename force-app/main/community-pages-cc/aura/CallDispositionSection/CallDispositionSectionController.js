@@ -76,7 +76,7 @@
             }else{component.set('v.isCDValitated',false);
                  }
         }       
-        
+        console.log('handle new call');
         component.set('v.newCall',true);
         component.find('calldispositionlwc').newCall();
         
@@ -148,12 +148,25 @@
         component.set('v.isStudyInfoModified',false);
     },
     getcallBound : function(component, event, helper) {
-        component.set('v.callbound',event.getParam('value'));
+        console.log('getcallbound'+event.getParam('value'));
+        if(undefined === event.getParam('value'))
+        {
+             component.set('v.callbound',"Inbound");
+        }else{
+            component.set('v.callbound',event.getParam('value'));
+        }
+        
     },
     getinterventionchange : function(component, event, helper) {
         var interReq = event.getParam('value');
         var notes = component.get('v.notes');
-        component.set('v.interventionReq',interReq);
+        if(undefined === event.getParam('value'))
+        {
+            component.set('v.interventionReq',false);
+        }else{
+            component.set('v.interventionReq',interReq);
+        }
+        
         if(interReq)
         {
             if(!$A.util.isEmpty(notes))
@@ -181,6 +194,7 @@
     },
     updCDobj : function(component, event, helper) {
         var RowItemList = [];
+        
         RowItemList.push({
             callbound: component.get('v.callbound'),
             callcategory: component.get('v.callcategory'),
@@ -188,5 +202,7 @@
             notes: component.get('v.notes')
         });
         component.set('v.CD', RowItemList);
+        console.log('Final Value-->'+JSON.stringify(component.get('v.CD')));
+       
     }
 })
