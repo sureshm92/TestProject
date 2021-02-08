@@ -14,13 +14,20 @@
                             <div onclick={handleScrollLeft} class="arrow-border">
                                 <i>
                                     <span>
-                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
-                                            icon-height="18"></c-web-icon>
+                                        <c-web-icon
+                                            icon-name="icon-chevron-left"
+                                            icon-color="#297DFD"
+                                            icon-width="18"
+                                            icon-height="18"
+                                        ></c-web-icon>
                                     </span>
                                 </i>
                             </div>
                         </div>
-                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
+                        <div
+                            class="slds-col"
+                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
+                        >
                             <div class="slds-grid vis-path">
                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
@@ -30,37 +37,58 @@
                                                 <div class="state-ico-wrapper-large"></div>
                                                 <div class="state-ico-wrapper-middle"></div>
                                                 <div class="state-ico-wrapper">
-                                                    <c-web-icon icon-width="13" icon-height="14"
-                                                        icon-name={pathItem.icon} icon-color="white"></c-web-icon>
+                                                    <c-web-icon
+                                                        icon-width="13"
+                                                        icon-height="14"
+                                                        icon-name={pathItem.icon}
+                                                        icon-color="white"
+                                                    ></c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="state-label">{pathItem.visitName}</div>
+                                        <div class="state-label">
+                                            <a
+                                                onclick={handleOpenDialog}
+                                                data-id={pathItem.id}
+                                                data-name={pathItem.visitName}
+                                                data-title={pathItem.headerTitle}
+                                                >{pathItem.visitName}</a
+                                            >
+                                        </div>
                                         <div class="state-label">
                                             <template if:false={pathItem.isPending}>
-                                                <lightning-formatted-date-time value={pathItem.complDate} year="numeric"
-                                                    month="short" day="2-digit" time-zone="UTC">
+                                                <lightning-formatted-date-time
+                                                    value={pathItem.complDate}
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    time-zone="UTC"
+                                                >
                                                 </lightning-formatted-date-time>
                                             </template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time value={pathItem.planDate}
-                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
+                                                        <lightning-formatted-date-time
+                                                            value={pathItem.planDate}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
+                                                            time-zone="UTC"
+                                                        >
                                                         </lightning-formatted-date-time>
-                                                        <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                        <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>
                                                             <c-web-icon icon-name="pencil-2" icon-color="#999"
                                                                 icon-size="small" icon-height="16" icon-width="16"
                                                                 style="
                                                                     margin-left: 4px;
                                                                     cursor: pointer;
                                                                 "></c-web-icon>
-                                                        </div>
+                                                        </div>-->
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    <a data-id={pathItem.id} class="add-date"
-                                                        onclick={handleOpenDialog}>{labels.addLabel}</a>
+                                                    No Date Set
                                                 </template>
                                             </template>
                                         </div>
@@ -72,8 +100,13 @@
                             <div onclick={handleScrollRight} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
-                                            icon-height="18" class=""></c-web-icon>
+                                        <c-web-icon
+                                            icon-name="icon-chevron-right"
+                                            icon-color="#297DFD"
+                                            icon-width="18"
+                                            icon-height="18"
+                                            class=""
+                                        ></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -86,18 +119,135 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
+        <c-web-popup show-footer="true" show-scroll="false" custom-buttons="true" show-close="true">
             <div slot="body">
-                <lightning-input type="date" label={labels.selDate} value={planDate} autocomplete="off"
-                    onchange={handleDateChange}></lightning-input>
+                <div class="title">{visitTitle}</div>
+                <div style="margin-left: 20px">
+                    <p class="what-to-expect">{labels.whatToExpect}</p>
+                    <div class="icons-container">
+                        <div class="icons-row">
+                            <lightning-layout multiple-rows="false">
+                                <template if:true={iconDetails}>
+                                    <template for:each={iconDetails} for:item="icon">
+                                        <template if:true={icon.Name}>
+                                            <div class="icon" key={icon.Id}>
+                                                <c-web-icon
+                                                    icon-name={icon.Name}
+                                                    icon-color="#999"
+                                                ></c-web-icon>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                    <div class="mr_40">
+                        <div class="label">{labels.VisitDate}</div>
+                        <div class="mr_10" style="height: 40px">
+                            <lightning-input
+                                type="datetime"
+                                label={labels.VisitDate}
+                                value={planDate}
+                                autocomplete="off"
+                                onchange={handleDateChange}
+                                name="planDate"
+                                disabled={isVisitCompleted}
+                                variant="label-hidden"
+                                min={today}
+                                onblur={doValidateReminder}
+                                required
+                            >
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <div class="mr_10">
+                        <lightning-combobox
+                            name="reminder"
+                            label="Reminder"
+                            placeholder="Select"
+                            value={reminderOption}
+                            onchange={handleDateChange}
+                            options={reminderOptions}
+                            disabled={isVisitCompleted}
+                            onblur={doValidateReminder}
+                            dropdown-alignment="auto"
+                            class="container"
+                        >
+                        </lightning-combobox>
+                    </div>
+                    <template if:true={showCustomDateTime}>
+                        <div class="mr_40">
+                            <div class="label">{labels.ReminderDate}</div>
+                            <lightning-input
+                                type="datetime"
+                                value={reminderDate}
+                                autocomplete="off"
+                                onchange={handleDateChange}
+                                name="reminderDate"
+                                disabled={isVisitCompleted}
+                                variant="label-hidden"
+                                required
+                                min={today}
+                                max={planDate}
+                                message-when-range-overflow={labels.reminderOverFlow}
+                                message-when-range-underflow={labels.reminderUnderFlow}
+                                onblur={doValidateReminder}
+                            >
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <div class={reminderClass}>
+                        {labels.remindUsing}
+                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                            >{labels.ChangeNotifications}</a
+                        >
+                    </div>
+                    <div class="slds-grid" style="margin-left: -11px">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                type="checkbox"
+                                value={emailOptIn}
+                                label={labels.emailLabel}
+                                disabled={emailOpted}
+                                checked={emailOptIn}
+                                name="emailOptin"
+                                onchange={handleDateChange}
+                                class="mr_10"
+                            >
+                            </lightning-input>
+                            <lightning-input
+                                type="checkbox"
+                                value={smsOptIn}
+                                label={labels.smsLabel}
+                                disabled={smsOpted}
+                                checked={smsOptIn}
+                                name="smsOptIn"
+                                onchange={handleDateChange}
+                                class="mr_10"
+                            >
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--<a onclick={doNavigateToAccountSettings}>Change Notification Settings</a>-->
+                        </div>
+                    </div>
+                </div>
             </div>
             <div slot="footerButtons">
-                <button class="apollo-btn tertiary" onclick={handleHideDialog}>
-                    {labels.cancelBTNLabel}
-                </button>
-                <button class="apollo-btn primary" onclick={savePlannedDate}>
-                    {labels.saveBTNLabel}
-                </button>
+                <div align="right">
+                    <button class="apollo-btn tertiary" onclick={handleHideDialog}>
+                        {labels.cancelBTNLabel}
+                    </button>
+                    <button
+                        class="apollo-btn primary"
+                        onclick={savePlannedDate}
+                        disabled={disableSave}
+                    >
+                        {labels.saveBTNLabel}
+                    </button>
+                </div>
             </div>
         </c-web-popup>
     </template>
@@ -111,13 +261,20 @@
                             <div onclick={handleScrollRightRTL} class="arrow-border">
                                 <i>
                                     <span>
-                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
-                                            icon-height="18"></c-web-icon>
+                                        <c-web-icon
+                                            icon-name="icon-chevron-right"
+                                            icon-color="#297DFD"
+                                            icon-width="18"
+                                            icon-height="18"
+                                        ></c-web-icon>
                                     </span>
                                 </i>
                             </div>
                         </div>
-                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
+                        <div
+                            class="slds-col"
+                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
+                        >
                             <div class="slds-grid vis-path">
                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
@@ -127,33 +284,42 @@
                                                 <div class="state-ico-wrapper-largeRTL"></div>
                                                 <div class="state-ico-wrapper-middleRTL"></div>
                                                 <div class="state-ico-wrapperRTL">
-                                                    <c-web-icon icon-name={pathItem.icon} icon-color="white">
+                                                    <c-web-icon
+                                                        icon-name={pathItem.icon}
+                                                        icon-color="white"
+                                                    >
                                                     </c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="state-labelRTL">{pathItem.visitName}</div>
                                         <div class="state-labelRTL">
-                                            <template if:false={pathItem.isPending}>{pathItem.complDate}</template>
+                                            <template if:false={pathItem.isPending}
+                                                >{pathItem.complDate}</template
+                                            >
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time value={pathItem.planDate}
-                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
+                                                        <lightning-formatted-date-time
+                                                            value={pathItem.planDate}
+                                                            year="numeric"
+                                                            month="short"
+                                                            day="2-digit"
+                                                            time-zone="UTC"
+                                                        >
                                                         </lightning-formatted-date-time>
-                                                        <div data-id={pathItem.id} onclick={handleOpenDialog}>
+                                                        <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>
                                                             <c-web-icon icon-name="pencil-2" icon-color="#999"
                                                                 icon-size="small" icon-height="16" icon-width="16"
                                                                 style="
                                                                     margin-left: 4px;
                                                                     cursor: pointer;
                                                                 "></c-web-icon>
-                                                        </div>
+                                                        </div>-->
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    <a data-id={pathItem.id} class="add-date"
-                                                        onclick={handleOpenDialog}>{labels.addLabel}</a>
+                                                    No Date Set
                                                 </template>
                                             </template>
                                         </div>
@@ -165,8 +331,13 @@
                             <div onclick={handleScrollLeftRTL} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
-                                            icon-height="18" class=""></c-web-icon>
+                                        <c-web-icon
+                                            icon-name="icon-chevron-left"
+                                            icon-color="#297DFD"
+                                            icon-width="18"
+                                            icon-height="18"
+                                            class=""
+                                        ></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -179,18 +350,128 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-header="true" show-footer="true" custom-buttons="true" title={labels.planDate}>
-            <div slot="body" class="">
-                <span style="margin-left: 287px; display: table-cell">{labels.selDate}</span>
-                <lightning-input type="date" label="" value={planDate} autocomplete="off" onchange={handleDateChange}>
-                </lightning-input>
+        <c-web-popup show-footer="true" custom-buttons="true">
+            <div slot="body">
+                <div class="title">{visitTitle}</div>
+                <div style="margin-left: 20px">
+                    <p class="what-to-expect">{labels.whatToExpect}</p>
+                    <div class="icons-container">
+                        <div class="icons-row">
+                            <lightning-layout multiple-rows="false">
+                                <template if:true={iconDetails}>
+                                    <template for:each={iconDetails} for:item="icon">
+                                        <template if:true={icon.Name}>
+                                            <div class="icon" key={icon.Id}>
+                                                <c-web-icon
+                                                    icon-name={icon.Name}
+                                                    icon-color="#999"
+                                                ></c-web-icon>
+                                            </div>
+                                        </template>
+                                    </template>
+                                </template>
+                            </lightning-layout>
+                        </div>
+                    </div>
+                    <div class="mr_40">
+                        <div class="label">{labels.VisitDate}</div>
+                        <div class="mr_10" style="height: 40px">
+                            <lightning-input
+                                type="datetime"
+                                label={labels.VisitDate}
+                                value={planDate}
+                                autocomplete="off"
+                                onchange={handleDateChange}
+                                name="planDate"
+                                disabled={isVisitCompleted}
+                                variant="label-hidden"
+                                min={today}
+                                onblur={doValidateReminder}
+                                required
+                            >
+                            </lightning-input>
+                        </div>
+                    </div>
+
+                    <div class="mr_10">
+                        <lightning-combobox
+                            name="reminder"
+                            label="Reminder"
+                            placeholder="Select"
+                            value={reminderOption}
+                            onchange={handleDateChange}
+                            options={reminderOptions}
+                            disabled={isVisitCompleted}
+                            onblur={doValidateReminder}
+                            class="container"
+                            dropdown-alignment="auto"
+                        >
+                        </lightning-combobox>
+                    </div>
+                    <template if:true={showCustomDateTime}>
+                        <div class="mr_40">
+                            <div class="label">{labels.ReminderDate}</div>
+                            <lightning-input
+                                type="datetime"
+                                value={reminderDate}
+                                autocomplete="off"
+                                onchange={handleDateChange}
+                                name="reminderDate"
+                                disabled={isVisitCompleted}
+                                variant="label-hidden"
+                                required
+                                min={today}
+                                max={planDate}
+                                message-when-range-overflow={labels.reminderOverFlow}
+                                message-when-range-underflow={labels.reminderUnderFlow}
+                                onblur={doValidateReminder}
+                            >
+                            </lightning-input>
+                        </div>
+                    </template>
+                    <div class={reminderClass}>
+                        {labels.remindUsing}
+                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                            >{labels.ChangeNotifications}</a
+                        >
+                    </div>
+                    <div class="slds-grid" style="margin-left: -11px">
+                        <div class="slds-col slds-size_1-of-2">
+                            <lightning-input
+                                type="checkbox"
+                                value={emailOptIn}
+                                label={labels.emailLabel}
+                                disabled={emailOpted}
+                                checked={emailOptIn}
+                                name="emailOptin"
+                                onchange={handleDateChange}
+                                class="mr_10"
+                            >
+                            </lightning-input>
+                            <lightning-input
+                                type="checkbox"
+                                value={smsOptIn}
+                                label={labels.smsLabel}
+                                disabled={smsOpted}
+                                checked={smsOptIn}
+                                name="smsOptIn"
+                                onchange={handleDateChange}
+                                class="mr_10"
+                            >
+                            </lightning-input>
+                        </div>
+                        <div class="slds-col slds-size_1-of-2">
+                            <!--<a onclick={doNavigateToAccountSettings}>Change Notification Settings</a>-->
+                        </div>
+                    </div>
+                </div>
             </div>
             <div slot="footerButtons" style="text-align: right">
-                <button class="apollo-btn primary" onclick={savePlannedDate} style="margin-left: 13px">
-                    {labels.saveBTNLabel}
-                </button>
                 <button class="apollo-btn tertiary" onclick={handleHideDialog}>
                     {labels.cancelBTNLabel}
+                </button>
+                <button class="apollo-btn primary" onclick={savePlannedDate} disabled={disableSave}>
+                    {labels.saveBTNLabel}
                 </button>
             </div>
         </c-web-popup>

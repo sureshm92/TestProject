@@ -5,6 +5,10 @@
 .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
+.THIS.rr-body-content > .rr-width-limiterRTL {
+    margin-top: 50px;
+    direction: rtl;
+}
 
 .THIS .pe-button .rr-icon-default {
     width: 14px;
@@ -322,6 +326,9 @@
 .THIS .mrr-item-btns {
     margin-left: auto;
 }
+.THIS .mrr-item-btnsRTL {
+    margin-left: 0px;
+}
 
 .THIS .slvi-search-site-btn {
     margin-top: 15px;
@@ -331,6 +338,10 @@
 @media all and (max-width: 500px) {
     .THIS .mrr-item-btns,
     .THIS .mrr-item-btns button {
+        width: 100%;
+    }
+    .THIS .mrr-item-btnsRTL,
+    .THIS .mrr-item-btnsRTL button {
         width: 100%;
     }
 

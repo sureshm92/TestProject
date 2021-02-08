@@ -38,6 +38,16 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
+    @AuraEnabled
+    public static List<PatientVisitService.VisitWrapper> getParticipantVisitsDetails(Id visitId) {
+        try {
+            return ((PatientVisitService) ClassFactory.newInstance(PatientVisitService.class))
+                .getVisitDetails(visitId);
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
 
     @AuraEnabled
     public static Boolean getIsRTL() {

@@ -68,13 +68,16 @@ private class Test_ParticipantVisitsRemote {
         System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
     }
 
-    @IsTest
-    static void updatePatientVisitTest() {
+    
+   @IsTest static void updatePatientVisitTest() {
         TestData testData = new TestData();
 
         Test.startTest();
         Patient_Visit__c patientVisit = [SELECT Id, Planned_Date__c FROM Patient_Visit__c LIMIT 1];
-        Date newPlannedDate = Date.newInstance(2020, 3, 17);
+        //Datetime newPlannedDate = Date.newInstance(2020, 3, 17);
+        Date myDate = Date.newInstance(2020, 3, 18);
+        Time myTime = Time.newInstance(3, 3, 3, 0);
+        Datetime newPlannedDate = DateTime.newInstance(myDate, myTime);
         System.runAs(testData.participantUser) {
             patientVisit.Planned_Date__c = newPlannedDate;
             ParticipantVisitsRemote.updatePatientVisit(JSON.serialize(patientVisit));

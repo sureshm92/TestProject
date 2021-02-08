@@ -254,9 +254,10 @@ public without sharing class TaskService {
 
     public String getOpenTasksFilter() {
         List<String> statusFilter = new List<String>{ TASK_STATUS_OPEN, TASK_STATUS_IN_PROGRESS };
-        return DatabaseService.fieldInValues('Status', statusFilter);
+            String filter = DatabaseService.fieldInValues('Status', statusFilter) + ' AND ' + DatabaseService.fieldNotEqual('Task_Type__c', 'Visit');
+        return filter;
     }
-
+   
     public Task getTask(Id taskId) {
         List<Task> tasks = getTasksCommon(' Id = \'' + taskId + '\' ');
         if (tasks.size() == 0)

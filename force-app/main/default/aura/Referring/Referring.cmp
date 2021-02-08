@@ -124,7 +124,7 @@
         >
             <!-- Select source -->
             <aura:if isTrue="{!v.currentState == 'Select Source'}">
-                <div class="rr-width-limiter side-padding">
+                <div class="{!v.isRTL? 'rr-width-limiterRTL side-padding':'rr-width-limiter side-padding'}">
                     <div class="{!v.isRTL? 'pe-large-headerRTL':'pe-large-header'}">
                         {!$Label.c.PG_Ref_L_Please_select_your_referral_source}
                     </div>
@@ -161,9 +161,10 @@
                                                     <div class="mrr-item-id">{!pe.Name}</div>
                                                     <c:ReviewStatus pEnrollment="{!pe}" />
                                                 </div>
-                                                <div class="sub-line">{!pe.Patient_ID__c}</div>
+                                                
+                                                <div class="sub-line" style="{!if(v.isRTL, 'float: right;','')}">{!pe.Patient_ID__c}</div>
                                             </div>
-                                            <div class="mrr-item-btns">
+                                            <div class="{!v.isRTL? 'mrr-item-btnsRTL':'mrr-item-btns'}">
                                                 <!--<button class="apollo-btn tertiary">View Medical Record Result</button> todo delete-->
                                                 <button
                                                     class="apollo-btn primary"
@@ -471,9 +472,9 @@
                             <div class="message">Contact info page TODO</div>
                         </div>
                     </div-->
-                    <div class="slds-grid slds-wrap" style="align-items: stretch">
+                    <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'direction: rtl;')}">
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
-                            <div class="rr-width-limiter-half side-padding" style="float: right">
+                            <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
                                 <div class="slds-grid slds-wrap">
                                     <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
                                         <div class="rr-big-title inverse" style="margin-top: 30px">
@@ -734,7 +735,7 @@
                                                     onchange="{!c.doNeedsGuardian}"
                                                 />
                                             </div>
-                                            <div class="label rr-cb-label">
+                                            <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
                                                 {!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}
                                             </div>
                                         </div>
@@ -855,7 +856,7 @@
                                                     onchange="{!c.doCheckfields}"
                                                 />
                                             </div>
-                                            <div class="label rr-cb-label">
+                                            <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
                                                 {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study}
                                             </div>
                                         </div>

@@ -10,7 +10,7 @@
 
 .THIS .icons-row {
     display: flex;
-    flex-wrap: wrap;
+    /*flex-wrap: wrap;*/
 }
 
 .THIS .icons-row .icon:last-child .dots {

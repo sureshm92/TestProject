@@ -253,7 +253,8 @@
 
 @media all and (min-width: 768px) {
     .THIS #p-modal .p-container.medium {
-        width: 600px;
+        /*width: 600px;*/
+        width: 668px;
     }
 }
 

@@ -33,6 +33,7 @@
             },
             function (response) {
                 component.set('v.visitWrappers', response);
+                console.log('wrappers-->',response);
                 let iconNames = '';
                 for (let i = 0; i < response.length; i++) {
                     iconNames += response[i].icons + ';';
@@ -68,14 +69,15 @@
         if (!firstLoad) {
             helper.createStudyVisitReminder(component, visitWrapper);
         } else {
-            var title = $A.util.isUndefinedOrNull(visitWrapper.task)
-                ? $A.get('$Label.c.PP_Create_Visit_Reminder')
-                : $A.get('$Label.c.PP_Edit_Visit_Reminder');
+            //var title = $A.util.isUndefinedOrNull(visitWrapper.task)
+              //  ? $A.get('$Label.c.PP_Create_Visit_Reminder')
+                //: $A.get('$Label.c.PP_Edit_Visit_Reminder');
+            var title = !visitWrapper.visit.Portal_Name__c?visitWrapper.visit.Visit__r.Patient_Portal_Name__c:visitWrapper.visit.Visit__r.Name;
             var isNewTask = $A.util.isUndefinedOrNull(visitWrapper.task) ? true : false;
             var relaodAttributes = {
                 visitId: visitWrapper.visit.Id,
                 taskId: $A.util.isUndefinedOrNull(visitWrapper.task) ? null : visitWrapper.task.Id,
-                title: title,
+                title: title + ' ' + $A.get('$Label.c.PP_Details'),
                 taskType: 'Visit',
                 visitData: visitWrapper,
                 isNewTask: isNewTask,

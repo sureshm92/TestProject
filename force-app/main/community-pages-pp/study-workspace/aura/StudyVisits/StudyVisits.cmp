@@ -53,13 +53,15 @@
                 <c:RRTable>
                     <tr class="tableHeader">
                         <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th class="sv-t-completed-date">{!$Label.c.PP_Visit_Date}</th>
+                        <th class="sv-t-time">{!$Label.c.PP_Visit_Time}</th>
                         <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
                         <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
                         <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
                         <th>{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
-                        <th class="sv-t-completed-date">
+                        <!--<th class="sv-t-completed-date">
                             {!$Label.c.Home_Page_StudyVisit_Completed_On}
-                        </th>
+                        </th>-->
                     </tr>
                     <aura:iteration var="visitWrapper" items="{!v.currentVisits}" indexVar="index">
                         <tr>
@@ -67,9 +69,54 @@
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Visit}:
                                 </span>
+                                
+                                                   <lightning:button variant="base"
+                                                    value="{!index}"
+                                                    onclick="{!c.createEditTask}"
+                                                     >
                                 {!(visitWrapper.visit.Is_Adhoc__c ?
                                 $Label.c.StudyVisit_Unscheduled_Visit :
-                                visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}
+                                                       visitWrapper.visit.Visit__r.Patient_Portal_Name__c)}</lightning:button>
+                                
+                            </td>
+                            <td class="">
+                                <span class="visitsLabel"
+                                    >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
+                                >
+                                <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
+                                <aura:if
+                                    isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
+                                >
+                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <aura:set attribute="else">
+                                        <lightning:formattedDateTime
+                                            value="{!visitWrapper.visitDate}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            timeZone="{!$Locale.timezone}"
+                                        />
+                                    </aura:set>
+                                </aura:if>
+                            </td>
+                            <td class="">
+                                <span class="visitsLabel"
+                                    >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
+                                >
+                                <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
+                                <aura:if
+                                    isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
+                                >
+                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <aura:set attribute="else">
+                                        <lightning:formattedDateTime
+                                            value="{!visitWrapper.visitDate}"
+                                            hour="numeric"
+                                            minute="numeric"
+                                            timeZone="{!$Locale.timezone}"                         
+                                        />
+                                    </aura:set>
+                                </aura:if>
                             </td>
                             <td class="sv-t-time">
                                 <span class="visitsLabel"
@@ -119,27 +166,38 @@
                                                     {!$Label.c.Home_Page_StudyVisit_No_Reminder_Date}
                                                     <aura:set attribute="else">-->
                                                 <!-- <lightning:button variant="base" value="{!index}" label="{!visitWrapper.reminderDate}" onclick="{!c.createEditTask}"/> -->
-                                                <lightning:button
+                                               <!-- <lightning:button
                                                     variant="base"
                                                     value="{!index}"
                                                     onclick="{!c.createEditTask}"
-                                                >
+                                                >-->
                                                     <aura:if
                                                         isTrue="{!visitWrapper.task.ReminderDateTime == null}"
                                                     >
-                                                        {!$Label.c.Create}
+                                                        
+                                                        <lightning:button
+                                                    label="{!$Label.c.Create}"
+                                                    variant="base"
+                                                    value="{!index}"
+                                                    onclick="{!c.createEditTask}"
+                                                     />
                                                         <aura:set attribute="else">
                                                             <!--  <ui:outputDate value="{!visitWrapper.reminderDate}"/>-->
-                                                            <lightning:formattedDateTime
+                                                           
+                                                            <aura:if isTrue="{!visitWrapper.task.Remind_Me__c == 'Custom'}">
+                                                                 <lightning:formattedDateTime
                                                                 value="{!visitWrapper.reminderDate}"
                                                                 year="numeric"
                                                                 month="short"
                                                                 day="2-digit"
-                                                                timeZone="UTC"
-                                                            />
+                                                                timeZone="{!$Locale.timezone}"/>
+                                                                <aura:set attribute="else">
+                                                                    {!visitWrapper.task.Remind_Me__c}
+                                                                </aura:set>
+                                                            </aura:if>
                                                         </aura:set>
                                                     </aura:if>
-                                                </lightning:button>
+                                              <!--  </lightning:button>-->
                                                 <!-- <a onclick="{!c.createEditTask}"><ui:outputDate value="{!visitWrapper.reminderDate}"/></a> -->
                                                 <!--</aura:set>
                                                 </aura:if>-->
@@ -149,26 +207,7 @@
                                 </aura:if>
                             </td>
                             <!-- <td class="">{!visitWrapper.completedOrPlannedDate}</td>-->
-                            <td class="">
-                                <span class="visitsLabel"
-                                    >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
-                                >
-                                <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
-                                <aura:if
-                                    isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
-                                >
-                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
-                                    <aura:set attribute="else">
-                                        <lightning:formattedDateTime
-                                            value="{!visitWrapper.completedOrPlannedDate}"
-                                            year="numeric"
-                                            month="short"
-                                            day="2-digit"
-                                            timeZone="UTC"
-                                        />
-                                    </aura:set>
-                                </aura:if>
-                            </td>
+                            
                         </tr>
                     </aura:iteration>
                 </c:RRTable>
