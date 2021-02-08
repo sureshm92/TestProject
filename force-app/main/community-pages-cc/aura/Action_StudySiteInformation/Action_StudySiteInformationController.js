@@ -5,6 +5,7 @@
         component.set('v.siteInfoComplete',component.get('v.studyInformation.siteInfoComplete'));
         component.set('v.trainingComplete',component.get('v.studyInformation.trainingComplete'));
         component.set('v.supressEmail',component.get('v.studyInformation.receivePIEmail'));
+        component.set('v.optIn',component.get('v.studyInformation.optInForWarmTransfer'));
         var ssId = component.get('v.studyInformation').siteId;
         communityService.executeAction(
             component, 'getDelegateMap',

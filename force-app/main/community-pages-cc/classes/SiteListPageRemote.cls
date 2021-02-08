@@ -44,6 +44,8 @@ public without sharing class SiteListPageRemote {
         public String BillingStateCode;
         @AuraEnabled
         public Boolean supressPIEmail;
+        @AuraEnabled
+        public Boolean optInForWarmTransfer;
     }
     public class PaginatedSiteWrapper {
         @AuraEnabled
@@ -83,6 +85,7 @@ public without sharing class SiteListPageRemote {
         'CreatedDate',
         'Site_Staff__c',
         'Site__c',
+        'Opt_in_for_warm_transfer__c',
         'Principal_Investigator__r.Account.BillingCountryCode',
         'Principal_Investigator__r.Account.BillingStateCode'
     };
@@ -233,6 +236,7 @@ public without sharing class SiteListPageRemote {
             wrapper.siteStaff = site.Site_Staff__c;
             wrapper.siteEmail = site.Study_Site_Email__c;
             wrapper.site = site.Site__c;
+            wrapper.optInForWarmTransfer = site.Opt_in_for_warm_transfer__c;
             wrapper.BillingCountryCode = site.Principal_Investigator__r.Account.BillingCountryCode;
             wrapper.BillingStateCode = site.Principal_Investigator__r.Account.BillingStateCode;
             wrapper.supressPIEmail = site.Clinical_Trial_Profile__r.Suppress_PI_Emails__c;
