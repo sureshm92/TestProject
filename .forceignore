@@ -1,0 +1,50 @@
+# List files or directories below to ignore them when running force:source:push, force:source:pull, and force:source:status
+# More information: https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_exclude_source.htm
+#
+
+#misc:
+**/readme.*
+**/ReadMe.*
+package.xml
+AppSwitcher.appMenu
+FlowInterview.All
+force-app/main/default/email/unfiled$public
+force-app/main/default/siteDotComSites
+force-app/main/default/settings/Address.settings-meta.xml
+**/jsconfig.json
+**/.eslintrc.json
+
+#profiles:
+force-app/main/default/profiles/Custom%3A Marketing Profile.profile-meta.xml
+force-app/main/default/profiles/Custom%3A Sales Profile.profile-meta.xml
+force-app/main/default/profiles/Custom%3A Support Profile.profile-meta.xml
+force-app/main/default/profiles/IQVIA RH Profile.profile-meta.xml
+
+#flows
+force-app/main/default/flows/net_promoter_score.flow-meta.xml
+force-app/main/default/flows/customer_satisfaction.flow-meta.xml
+force-app/main/default/flows/Send_Email_to_the_delegate.flow-meta.xml
+force-app/main/default/flows/Create_Task_For_OutReach_User-3.flow-meta.xml
+force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
+#force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
+force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
+force-app/main/default/workflows/Case.workflow-meta.xml
+#Below lines are commented for INT7.0 Error
+force-app/main/default/flows/Email_to_PI_New_Patient_Referral.flow-meta
+force-app/main/default/flows/Update_HCP_Status.flow-meta
+force-app/main/default/flows/Patient_Welcome_to_the_Study_Email.flow-meta
+force-app/main/default/flows/Email_to_PI_Participant_Accepted_Needs_Contact.flow-meta
+force-app/main/deprecated/flows/Update_HCP_Status.flow-meta
+force-app/main/deprecated/flows/Email_to_PI_Participant_Accepted_Needs_Contact.flow-meta.xml
+#for INT7.0 Error
+
+#Ignore all onboarding slides, comment line for include
+#**/onboarding-tour/staticresources
+#force-app/unpackaged/main/default/staticresources/os_*
+#force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/*
+force-app/main/tools/staticresources/*
+
+
+#Ignore State globalValueSet
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
