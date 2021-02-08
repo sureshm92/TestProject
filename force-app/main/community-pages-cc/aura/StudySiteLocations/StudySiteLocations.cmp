@@ -83,7 +83,7 @@
                                 isAccountModified="{!v.isAccountModified}"
                                 account="{!v.account}"
                                 isEdited="{!v.isEdited}"
-                                editedAccount="{v.editedAccount}"
+                                editedAccount="{!v.editedAccount}"
                             />
                         </aura:if>
                         <div class="slds-grid slds-grid_vertical">
