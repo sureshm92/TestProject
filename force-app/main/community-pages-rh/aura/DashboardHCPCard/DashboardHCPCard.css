@@ -18,7 +18,9 @@
 .THIS .accept-btn .menu-popup-panel {
     left: -130px;
 }
-
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS .popupTargetContainer {
     top: 35px !important;
 }
