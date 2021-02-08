@@ -1787,6 +1787,13 @@
         <value>Study Site</value>
     </labels>
     <labels>
+        <fullName>CC_Opt_in_for_Warm_Transfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Opt_in_for_Warm_Transfer</shortDescription>
+        <value>Opt in for Warm Transfer</value>
+    </labels>
+    <labels>
         <fullName>CC_Suppress_PI_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
