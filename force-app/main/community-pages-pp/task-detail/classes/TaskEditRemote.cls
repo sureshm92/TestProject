@@ -1,35 +1,38 @@
 /**
- * Created by mkotenev on 3/5/2019.
- */
+* Created by mkotenev on 3/5/2019.
+*/
 
 public without sharing class TaskEditRemote {
     public Boolean isDelegate;
-
+    
     public class TaskEditDataWrapper {
         @AuraEnabled
         public List<LabelValueItem> taskTypeList = new List<LabelValueItem>{
             new LabelValueItem(Label.Task_Type_Not_Selected, 'Not Selected'),
-            new LabelValueItem(Label.Task_Type_Medication, 'Medication')
-            //new LabelValueItem(Label.Task_Type_Visit, 'Visit')
-        };
-        //@AuraEnabled public List<LabelValueItem> reminderSetList = new List<LabelValueItem>{
-        //        new LabelValueItem(Label.Email, 'Email'),
-        //        new LabelValueItem(Label.Disabled, 'Disabled')
-        //};
-        @AuraEnabled
-        public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
-            new LabelValueItem(Label.Complete_By_Date, 'Complete By'),
-            new LabelValueItem(Label.One_day_before, '1 day before')
-        };
-
+                new LabelValueItem(Label.Task_Type_Medication, 'Medication')
+                //new LabelValueItem(Label.Task_Type_Visit, 'Visit')
+                };
+                    //@AuraEnabled public List<LabelValueItem> reminderSetList = new List<LabelValueItem>{
+                    //        new LabelValueItem(Label.Email, 'Email'),
+                    //        new LabelValueItem(Label.Disabled, 'Disabled')
+                    //};
+                    @AuraEnabled
+                    public List<LabelValueItem> reminderFrequencyList = new List<LabelValueItem>{
+                        new LabelValueItem(Label.PP_One_Hour_Before, '1 hour before'),
+                            new LabelValueItem(Label.PP_Four_Hours_Before, '4 hours before'),
+                            new LabelValueItem(Label.One_day_before, '1 day before'),
+                            new LabelValueItem(Label.PP_One_Week_Before, '1 Week before'),
+                            new LabelValueItem(Label.PP_Custom, 'Custom')
+                            };
+                                
         @AuraEnabled
         public Task task;
         @AuraEnabled
-        public Date today;
+        public Datetime today;
         @AuraEnabled
-        public Date activityDate;
+        public Datetime activityDate;
         @AuraEnabled
-        public Date reminderDate;
+        public Datetime reminderDate;
         @AuraEnabled
         public Boolean isEnrolled;
         @AuraEnabled
@@ -42,32 +45,40 @@ public without sharing class TaskEditRemote {
         public Boolean createdByAdmin;
         @AuraEnabled
         public Boolean isStudyTasksEnabled;
-
+        @AuraEnabled
+        public Datetime planDate;
+        @AuraEnabled
+        public String reminderOption;
+        @AuraEnabled
+        public String visitId;
+        @AuraEnabled
+        public Datetime visitDate;
+        
         public TaskEditDataWrapper() {
             List<Contact> delegates = PatientDelegateService.getInstance().getDelegates();
             Boolean emailPreferencesIsOn = checkEmailPreferencesIsOn();
             Boolean smsPreferenceIsOn = checkSMSPreferencesIsOn();
-
+            
             ParticipantService.ParticipantStates status = ParticipantService.getInstance()
                 .getState()
                 .value;
             isEnrolled =
                 status == ParticipantService.ParticipantStates.REFERRAL ||
                 status == ParticipantService.ParticipantStates.PARTICIPANT;
-
+            
             errorMessage = checkEmailPermissions(emailPreferencesIsOn, delegates);
             emailOptIn = emailEnabledForOneRelatedContact(emailPreferencesIsOn, delegates);
             smsOptIn = smsEnabledForOneRelatedContact(smsPreferenceIsOn, delegates);
             createdByAdmin = false;
-
+            
             task = new Task(Task_Type__c = 'Not Selected');
             isStudyTasksEnabled =
                 ParticipantContext.getCurrentPE() != null &&
                 ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c;
-            today = Date.today();
+            today = Datetime.now();
         }
     }
-
+    
     @AuraEnabled
     public static TaskEditDataWrapper getTaskEditData(Id taskId) {
         try {
@@ -75,12 +86,10 @@ public without sharing class TaskEditRemote {
             if (taskId != null) {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
-
                 if (task.Activity_Datetime__c != null)
-                    wrapper.activityDate = task.Activity_Datetime__c.date();
+                    wrapper.activityDate = task.Activity_Datetime__c;
                 if (task.Reminder_Date__c != null)
-                    wrapper.reminderDate = task.Reminder_Date__c.date();
-
+                    wrapper.reminderDate = task.Reminder_Date__c;
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
             return wrapper;
@@ -88,7 +97,7 @@ public without sharing class TaskEditRemote {
             return (TaskEditDataWrapper) AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static void upsertTask(String wrapper, String paramTask) {
         try {
@@ -97,17 +106,15 @@ public without sharing class TaskEditRemote {
                 TaskEditDataWrapper.class
             );
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
-
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
             taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
             taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
-
             if (String.isEmpty(taskToUpsert.Originator__c))
                 taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate()
-                    ? 'Delegate'
-                    : 'Participant';
+                ? 'Delegate'
+                : 'Participant';
             if (taskToUpsert.Visible_For__c == null)
                 taskToUpsert.Visible_For__c = 'Owner;Delegates';
             //Don't update WhatId for catalog and manual creation panel task
@@ -137,35 +144,151 @@ public without sharing class TaskEditRemote {
             ) {
                 taskToUpsert.Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED;
             }
-
-            if (taskWrapper.activityDate != null) {
-                taskToUpsert.Activity_Datetime__c = Datetime.newInstance(
-                    taskWrapper.activityDate,
-                    Datetime.now().time()
-                );
+            
+            if (taskWrapper.activityDate != null && taskToUpsert.Task_Type__c != 'Visit') {
+                taskToUpsert.Activity_Datetime__c = taskWrapper.activityDate;
             }
-            if (taskWrapper.reminderDate != null) {
-                Time myTime = Time.newInstance(9, 0, 0, 0);
-                taskToUpsert.Reminder_Date__c = Datetime.newInstance(
-                    taskWrapper.reminderDate,
-                    myTime
-                );
-                Datetime newReminderDate = taskToUpsert.Reminder_Date__c.addDays(-1);
-                taskToUpsert.ReminderDateTime = String.isNotBlank(taskToUpsert.Remind_Me__c) &&
-                    taskToUpsert.Remind_Me__c.equals(Label.One_day_before)
-                    ? Datetime.newInstance(newReminderDate.date(), newReminderDate.time())
-                    : Datetime.newInstance(
-                          taskToUpsert.Reminder_Date__c.date(),
-                          taskToUpsert.Reminder_Date__c.time()
-                      );
+            Datetime newReminderDate;
+            /*if (taskWrapper.reminderDate != null || taskWrapper.activityDate != null || taskWrapper.visitDate != null) {
+                if(taskToUpsert.Task_Type__c == 'Visit'){
+                    if(taskToUpsert.Remind_Me__c == '1 day before'){
+                    newReminderDate = taskWrapper.visitDate.addDays(-1);
+                }
+                else if(taskToUpsert.Remind_Me__c == '4 hours before'){
+                    newReminderDate = taskWrapper.visitDate.addHours(-4);
+                }
+                else if(taskToUpsert.Remind_Me__c == '1 hour before'){
+                    newReminderDate = taskWrapper.visitDate.addHours(-1);
+                }
+                else if(taskToUpsert.Remind_Me__c == '1 Week before'){
+                    newReminderDate = taskWrapper.visitDate.addDays(-7);
+                }
+                else{
+                     newReminderDate = taskWrapper.reminderDate;
+                  }
+               }
+               else{*/
+                if(taskToUpsert.Remind_Me__c == '1 day before'){
+                    newReminderDate = taskWrapper.activityDate.addDays(-1);
+                }
+                else if(taskToUpsert.Remind_Me__c == '4 hours before'){
+                    newReminderDate = taskWrapper.activityDate.addHours(-4);
+                }
+                else if(taskToUpsert.Remind_Me__c == '1 hour before'){
+                    newReminderDate = taskWrapper.activityDate.addHours(-1);
+                }
+                else if(taskToUpsert.Remind_Me__c == '1 Week before'){
+                    newReminderDate = taskWrapper.activityDate.addDays(-7);
+                }
+                else{
+                    newReminderDate = taskWrapper.reminderDate;
+                }
+                //}
+           // }
+            if(taskToUpsert.Patient_Visit__c != null){
+                List<Patient_Visit__c> pv =[Select Id,Planned_Date__c from Patient_Visit__c where Id =: taskToUpsert.Patient_Visit__c LIMIT 1];
+                pv[0].Planned_Date__c = taskWrapper.activityDate;
+                update pv;
             }
-
+            taskToUpsert.Reminder_Date__c = newReminderDate;
+            taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
-
+    
+    @AuraEnabled
+    public static void updatePatientVisits(String visit){
+         try {
+                Patient_Visit__c patientVisit = (Patient_Visit__c) JSON.deserialize(
+                visit,
+                Patient_Visit__c.class
+            );
+            update patientVisit;        
+         } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+    
+    @AuraEnabled
+    public static void upsertTaskForVisit(String wrapper, String paramTask) {
+        try {
+            TaskEditDataWrapper taskWrapper = (TaskEditDataWrapper) JSON.deserialize(
+                wrapper,
+                TaskEditDataWrapper.class
+            );
+            system.debug('taskWrapper-->'+taskWrapper);
+            Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
+            system.debug('taskToUpsert-->'+taskToUpsert);
+            Task existingTask;
+            if(taskToUpsert.Id !=null){
+                existingTask =[Select Id,ReminderDateTime,OwnerId,WhoId,Visible_For__c,Originator__c,Task_Type__c,Reminder_Date__c,Remind_Me__c,WhatId,Remind_Using_Email__c,Remind_Using_SMS__c,Patient_Visit__c,Community_Template_Name__c from Task where Id =:taskToUpsert.Id AND Patient_Visit__c =: taskWrapper.visitId];
+                if(existingTask != NULL){
+                    taskToUpsert = existingTask;
+                }
+            }
+            system.debug('taskToUpsert'+taskToUpsert);
+            taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
+                CommunityTemplateService.PROPERTY_TEMPLATE_NAME
+            );
+            taskToUpsert.OwnerId = ParticipantContext.getCurrentUserId();
+            taskToUpsert.WhoId = ParticipantContext.getCurrentContactId();
+            
+            if (String.isEmpty(taskToUpsert.Originator__c))
+                taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate()
+                ? 'Delegate'
+                : 'Participant';
+            if (taskToUpsert.Visible_For__c == null)
+                taskToUpsert.Visible_For__c = 'Owner;Delegates';
+            if (!taskWrapper.createdByAdmin) {
+                if (String.isNotBlank(taskToUpsert.Task_Type__c) && taskToUpsert.Task_Type__c != TaskService.TASK_TYPE_NOT_SELECTED){
+                    taskToUpsert.WhatId = ParticipantContext.getCurrentPEId();
+                } else {
+                    taskToUpsert.WhatId = ParticipantContext.getCurrentParticipantId();
+                }
+            }
+            Datetime newReminderDate;
+            //= taskToUpsert.Reminder_Date__c.addDays(-1);
+            if (taskWrapper.reminderDate != null || taskWrapper.planDate !=null) {
+                if(taskToUpsert.Task_Type__c == 'Visit'){
+                    if(taskWrapper.reminderOption == '1 day before'){
+                        newReminderDate = taskWrapper.planDate.addDays(-1);
+                    }
+                    else if(taskWrapper.reminderOption == '4 hours before'){
+                        newReminderDate = taskWrapper.planDate.addHours(-4);
+                    }
+                    else if(taskWrapper.reminderOption == '1 hour before'){
+                        newReminderDate = taskWrapper.planDate.addHours(-1);
+                    }
+                    else if(taskWrapper.reminderOption == '1 Week before'){
+                        newReminderDate = taskWrapper.planDate.addDays(-7);
+                    }
+                    else{
+                        newReminderDate = taskWrapper.reminderDate;
+                    }
+                    
+                }
+                taskToUpsert.Reminder_Date__c = newReminderDate;
+                taskToUpsert.ReminderDateTime = newReminderDate;
+                taskToUpsert.Remind_Me__c = taskWrapper.reminderOption;
+                taskToUpsert.Remind_Using_Email__c = taskWrapper.emailOptIn;
+                taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
+                taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
+            }
+            if(taskToUpsert.Id!=null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId){
+                update taskToUpsert;
+            }
+            else{
+                insert taskToUpsert;
+            }
+            //upsert taskToUpsert;
+        } catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+    
+    
     @AuraEnabled
     public static String deleteTask(Task paramTask) {
         try {
@@ -175,7 +298,7 @@ public without sharing class TaskEditRemote {
         }
         return 'Success';
     }
-
+    
     @AuraEnabled
     public static void ignoreTask(Id taskId) {
         try {
@@ -184,7 +307,7 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
     }
-
+    
     @AuraEnabled
     public static void markAsCompleted(Id taskId) {
         try {
@@ -193,21 +316,21 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
     }
-
+    
     private static Boolean checkEmailPreferencesIsOn() {
         return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c;
     }
-
+    
     private static Boolean checkSMSPreferencesIsOn() {
         return ParticipantContext.getCurrentContact().Participant_Opt_In_Status_SMS__c;
     }
-
+    
     private static String checkEmailPermissions(
         Boolean emailPreferencesIsOn,
         List<Contact> delegates
     ) {
         String errorMessage = '';
-
+        
         if (
             !emailEnabledForAllRelatedContacts(
                 ParticipantContext.getCurrentContact().Participant_Opt_In_Status_Emails__c,
@@ -221,7 +344,7 @@ public without sharing class TaskEditRemote {
         }
         return errorMessage;
     }
-
+    
     private static Boolean emailEnabledForAllRelatedContacts(
         Boolean emailPreferencesIsOn,
         List<Contact> delegates
@@ -248,7 +371,7 @@ public without sharing class TaskEditRemote {
         }
         return false;
     }
-
+    
     private static Boolean smsEnabledForOneRelatedContact(
         Boolean smsPreferencesIsOn,
         List<Contact> delegates
@@ -263,7 +386,7 @@ public without sharing class TaskEditRemote {
         }
         return false;
     }
-
+    
     private static Boolean emailEnabledForCurrentContact() {
         List<Contact> currentContact = [
             SELECT Participant_Opt_In_Status_Emails__c
@@ -275,7 +398,7 @@ public without sharing class TaskEditRemote {
         }
         return false;
     }
-
+    
     private static Boolean createdByAdmin(Task task) {
         Set<Id> delegateIds = new Set<Id>(
             PatientDelegateService.getInstance().getDelegatedUsersIds()
