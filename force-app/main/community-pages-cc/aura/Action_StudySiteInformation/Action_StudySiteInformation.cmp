@@ -12,6 +12,7 @@
     <aura:attribute name="siteInfoComplete" type="Boolean" default="false"/>
     <aura:attribute name="trainingComplete" type="Boolean" default="false"/>
     <aura:attribute name="supressEmail" type="Boolean" default="false"/>
+    <aura:attribute name="optIn" type="Boolean" default="false"/>
     <aura:attribute name="isModifiedInfo" type="Boolean" default="true"/>
     <aura:attribute name="isAccountModified" type="Boolean" default="true" />
     <aura:attribute name="isCDValitated" type="Boolean" default="true" />

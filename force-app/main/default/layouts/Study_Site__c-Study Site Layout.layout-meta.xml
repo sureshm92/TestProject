@@ -84,6 +84,10 @@
                 <behavior>Edit</behavior>
                 <field>IQVIA_intervention_required__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Opt_in_for_warm_transfer__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

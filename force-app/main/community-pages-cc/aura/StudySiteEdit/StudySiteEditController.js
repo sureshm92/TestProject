@@ -81,7 +81,17 @@
             }
         }
     },
-    
+
+    doOptIn:function(component){
+        component.set('v.optIn', component.get('v.optIn'));
+        var el = component.get('v.studyInformation');
+        el.isRecordUpdated = true;
+        component.set('v.studyInformation', el);
+        if(el.siteName != '' && component.get('v.isModifiedInfo')){
+            component.set('v.isModifiedInfo',true);
+            component.set('v.isStudyInfoModified',true);
+        }
+    },
     
     changeUpdatedStatus: function (component, event) {
         var el = component.get('v.studyInformation');
