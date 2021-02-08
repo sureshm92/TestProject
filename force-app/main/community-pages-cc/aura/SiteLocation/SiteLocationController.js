@@ -20,7 +20,7 @@
             };
         }
         component.find('editLocation').execute(account, studySite.siteId, function (account) {
-            if (index) {
+            if (index >= 0 ) {
                 accountsList[index] = account;
             } else {
                 accountsList.push(account);
