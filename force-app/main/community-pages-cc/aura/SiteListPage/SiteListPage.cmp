@@ -107,6 +107,15 @@
                 </div>
             </div>
         </aura:if>
+        <aura:if isTrue="{!not(empty(v.filteredResultSet))}">
+            <div class="slp-counter slds-grid slds-grid_align-spread">
+                <div class="slp-counter-txt slds-col">
+                    {!$Label.c.PG_FP_L_Showing + ' ' + v.filteredResultSet.length + ' ' +
+                    $Label.c.PG_FP_L_of + ' ' + v.filteredResultSet.length + ' ' +
+                    $Label.c.PG_SW_Tab_Study_Sites + ' ' + '('+ $Label.c.CC_Max100 +')' }
+                </div>
+            </div>
+        </aura:if>
     </aura:if>
     <c:builderStub aura:id="builderStub" />
 </aura:component>
