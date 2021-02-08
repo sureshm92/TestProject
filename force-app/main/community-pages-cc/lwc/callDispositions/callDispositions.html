@@ -41,7 +41,7 @@
 
                         <div class="slds-p-around_xx-small">
                             <template if:false={ViewMode}>
-                                <lightning-combobox name="progress" label="Call Category" value=""
+                                <lightning-combobox  data-id="callcategory" name="progress" label="Call Category" value=""
                                     placeholder="Select Call Catagory" options={callcategorys}
                                     onchange={handlecallcategory} required>
                                 </lightning-combobox>
@@ -65,7 +65,7 @@
                     <div class="slds-col slds-size_1-of-2">
                         <div class="slds-p-around_xx-small">
                             <template if:false={ViewMode}>
-                                <lightning-combobox name="progress" label="Inbound / Outbound" value={defcallbound}
+                                <lightning-combobox data-id="callbound" name="progress" label="Inbound / Outbound" value={defcallbound}
                                     placeholder="" options={callboundoptions} onchange={handlecallbound} required>
                                 </lightning-combobox>
                             </template>
@@ -96,12 +96,12 @@
                 <template if:false={ViewMode}>
                     <template if:true={InterventionRequired}>
                         <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..."
-                            value={newcallnotes} maxlength="140" onchange={handlenotes} required>
+                            value={newcallnotes} maxlength="500" onchange={handlenotes} required>
                         </lightning-textarea>
                     </template>
                     <template if:false={InterventionRequired}>
                         <lightning-textarea name="notes" label="Notes" placeholder="Type in your notes..."
-                            value={newcallnotes} maxlength="140" onchange={handlenotes}>
+                            value={newcallnotes} maxlength="500" onchange={handlenotes}>
                         </lightning-textarea>
                     </template>
                 </template>
