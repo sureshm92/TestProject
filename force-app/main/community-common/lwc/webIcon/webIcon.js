@@ -5,6 +5,8 @@
 import { LightningElement, api } from 'lwc';
 import rrIcons from '@salesforce/resourceUrl/rr_community_icons';
 import rrImages from '@salesforce/resourceUrl/rr_community_images';
+import rrLegend from '@salesforce/resourceUrl/Icons_legend';
+
 import SvgLoader from 'c/svgLoader';
 
 export default class WebIcon extends LightningElement {
@@ -14,10 +16,26 @@ export default class WebIcon extends LightningElement {
     @api iconWidth;
     @api iconHeight;
     @api printMode = false;
+    @api resource;
+    resourcePath;
 
     renderedCallback() {
         let context = this;
         let svgElement = this.template.querySelector('.' + this.svgClass);
+        // if (this.resource == 'icon_legend') {
+        console.log(this.iconName);
+
+        new SvgLoader().getIconBody(rrLegend + '/icons.svg', this.iconName, function (symbol) {
+            try {
+                svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
+                context.cloneNodes(symbol, svgElement);
+            } catch (e) {
+                console.error(e);
+            }
+        });
+        //}
+        //else {
+        console.log('inside legend icon-->')
         new SvgLoader().getIconBody(rrIcons + '/icons.svg', this.iconName, function (symbol) {
             try {
                 svgElement.setAttribute('viewBox', symbol.getAttribute('viewBox'));
@@ -26,6 +44,9 @@ export default class WebIcon extends LightningElement {
                 console.error(e);
             }
         });
+        //}
+
+
         if (this.iconHeight) svgElement.style.height = this.iconHeight + 'px';
         if (this.iconWidth) svgElement.style.width = this.iconWidth + 'px';
     }

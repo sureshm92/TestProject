@@ -5,6 +5,7 @@
         var visitId = component.get('v.visitId');
         var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
+       // component.set('v.isValidFields',false);
         if (!communityService.isDummy()) {
             communityService.executeAction(
                 component,
@@ -18,7 +19,6 @@
                     component.set('v.isEnrolled', wrapper.isEnrolled);
                     component.set('v.emailOptIn', wrapper.emailOptIn);
                     component.set('v.smsOptIn', wrapper.smsOptIn);
-
                     if (!wrapper.emailOptIn || !wrapper.smsOptIn) {
                         component.set('v.showAccountNavigation', true);
                     }
@@ -57,16 +57,15 @@
                         );
                     }
                     component.set('v.task', task);
-
+                    component.set('v.task.Remind_Me__c',task.Remind_Me__c);
                     if (!$A.util.isUndefinedOrNull(visitId)) {
                         component.set('v.task.Patient_Visit__c', visitId);
                     }
-
                     component.set(
                         'v.jsonState',
                         JSON.stringify(wrapper) + '' + JSON.stringify(task)
                     );
-                    component.set('v.isValidFields', true);
+                    component.set('v.isValidFields', false);
                     let today = wrapper.today;
                     component.set('v.tomorrow', helper.addADay(component, today));
                     if (wrapper.activityDate) {
@@ -159,7 +158,6 @@
         }
         return isReminderValid;
     },
-
     doValidateDueDate: function (component, helper) {
         var fieldValid = component.find('field');
         var isFieldValid = true;
@@ -174,4 +172,5 @@
         }
         return isFieldValid;
     }
+    
 });

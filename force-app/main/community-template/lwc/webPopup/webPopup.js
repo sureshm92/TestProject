@@ -11,7 +11,7 @@ export default class WebPopup extends LightningElement {
     @api headerText; //text before popup body
     @api footerText; //text under popup body
     @api variant = 'normal'; //normal;success;warning;error
-    @api size = 'small'; //small;large;medium
+    @api size = 'medium'; //small;large;medium
 
     @api primaryButtonLabel = 'Ok';
     @api secondaryButtonLabel = 'Cancel';
@@ -29,6 +29,7 @@ export default class WebPopup extends LightningElement {
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
+        console.log('inside show');
         this.showModal = true;
     }
 
@@ -41,6 +42,7 @@ export default class WebPopup extends LightningElement {
     }
 
     connectedCallback() {
+        console.log('inside webPopUp-->')
         let context = this;
         getisRTL()
             .then(function (data) {
@@ -74,8 +76,9 @@ export default class WebPopup extends LightningElement {
     }
 
     get iconButtonClass() {
+        //slds-modal__close
         return (
-            'slds-button slds-modal__close slds-button--icon-inverse' +
+            'slds-button slds-button--icon-inverse' +
             (this.showClose ? '' : ' slds-hide') +
             (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '')
         );

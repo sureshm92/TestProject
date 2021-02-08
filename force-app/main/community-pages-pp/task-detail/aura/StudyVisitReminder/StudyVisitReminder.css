@@ -3,9 +3,82 @@
     max-width: 1140px;
     margin: 25px auto -80px;
 }
+.THIS .title {
+    height: 60px;
+    /* width: 190px; */
+    color: #000;
+    font-family: Proxima Nova;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+    margin-top: -25px;
+    margin-left: 16px;
+    
+  }
 .THIS .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
+}
+.THIS .slds-form-element__help {
+    white-space:nowrap;
+}
+
+.THIS .mr_10{
+    margin-top:10px;
+}
+.THIS .slds-input.slds-combobox__input{
+     color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    font-weight:500;
+}
+.THIS .slds-input {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 40px;
+    display: inline-flex;
+    align-items: center;
+    font-weight:500;
+}
+.THIS .label {
+    height: 24px;
+    width: 209.13px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+    padding-bottom:20px;
+  }
+.THIS .container1{
+    height: 40px;
+    width: 360px;
+
+  }
+.THIS .what-to-expect {
+    height: 24px;
+    width: 136px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top:-28px;
+  }
+
+.THIS .container{
+    height: 40px;
+    width: 180px;
 }
 .THIS .slds-datepicker .slds-day{
     width: auto !important;
@@ -130,12 +203,13 @@
 
 .THIS .slds-select,
 .THIS .slds-input {
-    font-size: 14px;
+    font-size: 16px;
     color: #444;
     font-family: 'Proxima Nova';
     height: 40px;
     display: flex;
     align-items: center;
+    font-weight:500;
 }
 
 .THIS .task-rtl > .slds-form-element {
