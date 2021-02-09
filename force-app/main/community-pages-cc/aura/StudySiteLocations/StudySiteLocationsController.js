@@ -31,7 +31,7 @@
                 communityService.showToast(
                     'success',
                     'success',
-                    $A.get('$Label.c.SS_Success_Save_Message')
+                    $A.get('$Label.c.CC_Success_Save_Message')
                 );
                 component.set('v.locationWasChanged', false);
                 component.find('modalSpinner').hide();
