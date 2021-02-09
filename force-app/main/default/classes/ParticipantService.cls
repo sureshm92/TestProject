@@ -38,6 +38,8 @@ public without sharing class ParticipantService {
         public String communityName;
         @AuraEnabled
         public String payCardLink;
+        @AuraEnabled 
+        public Boolean isVisitPathEnabled;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -47,6 +49,7 @@ public without sharing class ParticipantService {
             showVisits = false;
             showResults = false;
             communityName = '';
+            isVisitPathEnabled = false;
         }
     }
 
@@ -95,6 +98,7 @@ public without sharing class ParticipantService {
                 );
                 participantState.showTerms = showTerms();
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
+                participantState.isVisitPathEnabled = participantState.ctp.Visit_Schedule_Is_Available__c;
                 participantState.payCardLink = PaymentService.getPaymentVendorLink(
                     participantState.pe.Study_Site__c
                 );
