@@ -3,11 +3,11 @@
  -->
 <aura:component
     description="ViewMediaOutreach"
-    implements="forceCommunity:availableForAllPageTypes"
+    implements="forceCommunity:availableForAllPageTypes" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
-        afterScriptsLoaded="{!c.doInit}"
+        afterScriptsLoaded="{!c.doInit}" 
     />
 
     <!--attributes:-->
@@ -24,7 +24,7 @@
 
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
-            <div class="vp-navigation">
+            <div class="vp-navigation" style="{!v.isRTL? 'direction:rtl' :''}">
                 <div class="navigation-breadcrumbs">
                     <c:RRNavigationPath>
                         <c:RRNPathItem label="{!$Label.c.Navigation_Resources}" />
