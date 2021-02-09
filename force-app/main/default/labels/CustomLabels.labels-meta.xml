@@ -3366,6 +3366,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
     </labels>
     <labels>
+        <fullName>Custom_Tooltip_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Tooltip Placeholder</shortDescription>
+        <value>type here...</value>
+    </labels>
+    <labels>
         <fullName>Custom_Tooltip_Translation_Warning_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8751,6 +8758,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Matched of</shortDescription>
         <value>Matched as of</value>
+    </labels>
+    <labels>
+        <fullName>Maximum_Length_of_Tooltip</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Maximum Length of Tooltip</shortDescription>
+        <value>maximum length of 1000 characters</value>
     </labels>
     <labels>
         <fullName>Media_Chekbox</fullName>
@@ -15203,7 +15217,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Change Notification</shortDescription>
         <value>Change your notification preferences under Contact Information</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Change_Notification_Settings</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15247,7 +15261,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>Create Visit Reminder</shortDescription>
         <value>Create Visit Reminder</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Custom</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15296,7 +15310,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Delegate_Header</shortDescription>
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Details</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15340,7 +15354,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Four_Hours_Before</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15431,7 +15445,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Nickname</shortDescription>
         <value>Nickname</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_One_Hour_Before</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15561,7 +15575,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Remind_Using_SMS</shortDescription>
         <value>SMS</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Reminder_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15670,14 +15684,14 @@ communications using the toggles below.</value>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Visit_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Visit_Date</shortDescription>
         <value>Visit Date</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Visit_Time</fullName>
         <language>en_US</language>
         <protected>true</protected>
