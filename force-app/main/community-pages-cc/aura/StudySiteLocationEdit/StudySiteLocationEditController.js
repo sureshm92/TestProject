@@ -43,6 +43,7 @@
     },
     
     doCancel: function (component, event, helper) {
+        component.set('v.account',component.get('v.accountInitial'));
         component.set('v.isEdited',false);
         component.set('v.editLocation',false);
         

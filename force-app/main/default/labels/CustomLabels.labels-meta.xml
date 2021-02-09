@@ -1877,6 +1877,13 @@
         <shortDescription>CC_TablePlaceholderTxt</shortDescription>
         <value>Please initiate search!</value>
     </labels>
+	<labels>
+        <fullName>CC_Toggle_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Toggle_Information</shortDescription>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
+    </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>
         <language>en_US</language>
