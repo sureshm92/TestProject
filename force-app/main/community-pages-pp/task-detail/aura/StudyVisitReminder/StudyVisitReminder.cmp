@@ -172,6 +172,7 @@
                       placeholder="Select"
                       value="{!v.task.Remind_Me__c}"
                       onchange="{!c.doValidateFields}"
+                      disabled="{!v.visitData.visitStatus == 'Completed'}" 
                       options="{!v.initData.reminderFrequencyList}" class="container"/>                
                 </div>
                

@@ -127,7 +127,8 @@ export default class VisitsPath extends LightningElement {
         Subject: null,
         Task_Code__c: null,
         Id: null,
-        CronTriggerId__c: null
+        CronTriggerId__c: null,
+        Is_Reminder_Sent__c: false
     };
     @track reminderOption;
     @track emailOptIn;
