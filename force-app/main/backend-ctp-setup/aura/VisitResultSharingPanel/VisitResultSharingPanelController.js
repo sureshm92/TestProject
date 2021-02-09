@@ -140,7 +140,11 @@
         for (let group of groups) {
             if (group.visitResults) {
                 for (let visitResult of group.visitResults) {
-                    if (visitResult.isCustomToolTipEnabled && !visitResult.customTooltip) {
+                    if (
+                        visitResult.isCustomToolTipEnabled &&
+                        (!visitResult.customTooltip ||
+                            (visitResult.customTooltip && visitResult.customTooltip.trim() === ''))
+                    ) {
                         showCustomTooltipErrorMessage = true;
                         break;
                     }
