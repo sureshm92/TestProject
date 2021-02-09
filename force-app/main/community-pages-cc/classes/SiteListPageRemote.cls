@@ -112,7 +112,7 @@ public without sharing class SiteListPageRemote {
         paginatedWrapper.sites = new List<SiteWrapper>();
 
         filterText = getFilterText(searchOption, searchText);
-        if (filterText != '') {
+        if (!String.isEmpty(filterText)) {
             try {
                 //Apply pagination
                 Integer recordCount = Database.countQuery(
@@ -155,9 +155,9 @@ public without sharing class SiteListPageRemote {
         List<String> siteIds,
         Integer totalItemsToDownload
     ) {
-        try {
-            CSVWrapper result = new CSVWrapper();
-            String filterText = getFilterText(searchOption, searchText);
+        CSVWrapper result = new CSVWrapper();
+        String filterText = getFilterText(searchOption, searchText);
+        if (!String.isEmpty(filterText)) {
             filterText += siteIds.isEmpty() ? '' : ' AND Id NOT IN :siteIds';
             String fields = String.join(SS_TABLE_FIELDS, ',');
             String queryString =
@@ -168,26 +168,34 @@ public without sharing class SiteListPageRemote {
                 filterText +
                 ' LIMIT ' +
                 DOWNLOAD_QUERY_LIMIT;
-            Map<Id, Study_Site__c> siteMap = new Map<Id, Study_Site__c>(
-                (List<Study_Site__c>) Database.query(queryString)
-            );
-            if (totalItemsToDownload <= DOWNLOAD_QUERY_LIMIT) {
-                result.siteIds = null;
-            } else {
-                result.siteIds = (List<String>) (new List<Id>(siteMap.keySet()));
+            try {
+                Map<Id, Study_Site__c> siteMap = new Map<Id, Study_Site__c>(
+                    (List<Study_Site__c>) Database.query(queryString)
+                );
+                if (totalItemsToDownload <= DOWNLOAD_QUERY_LIMIT) {
+                    result.siteIds = null;
+                } else {
+                    result.siteIds = (List<String>) (new List<Id>(siteMap.keySet()));
+                }
+                result.sites = siteMap.values();
+                return result;
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage());
             }
-            result.sites = siteMap.values();
-            return result;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage());
         }
+        return result;
     }
 
     private static String getFilterText(String searchOption, String searchText) {
         String filterText = '';
         switch on searchOption {
             when 'Principal_Investigator__r.Name' {
-                List<Contact> piContacts = getPIContacts(searchText);
+                List<Contact> piContacts = new List<Contact>();
+                for (Contact con : getPIContacts(searchText)) {
+                    if (con.Name.containsIgnoreCase(searchText)) {
+                        piContacts.add(con);
+                    }
+                }
                 filterText += !piContacts.isEmpty()
                     ? DEFAULT_FILTER +
                       ' AND ' +
@@ -254,7 +262,7 @@ public without sharing class SiteListPageRemote {
         String soslSearchQuery =
             'FIND ' +
             soslSearchTerm +
-            ' IN NAME FIELDS RETURNING Contact ( Id WHERE ' +
+            ' IN NAME FIELDS RETURNING Contact ( Id, Name WHERE ' +
             SOSL_FILTER +
             ' ) LIMIT 2000';
         System.debug('##soslSearchQuery: ' + soslSearchQuery);
