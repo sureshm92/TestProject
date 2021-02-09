@@ -193,6 +193,16 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
+            if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
+             System.abortJob(taskToUpsert.CronTriggerId__c);
+             }  
+            Integer seconds = 0;
+            Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
+            String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
+            String jobID = system.schedule(removeSpace(taskToUpsert.Subject),str, bsptr);
+            taskToUpsert.CronTriggerId__c = jobID;
+            update taskToUpsert;
+                  
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -218,14 +228,12 @@ public without sharing class TaskEditRemote {
                 wrapper,
                 TaskEditDataWrapper.class
             );
-            system.debug('taskWrapper-->'+taskWrapper);
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
-            system.debug('taskToUpsert-->'+taskToUpsert);
-            Task existingTask;
-            if(taskToUpsert.Id !=null){
-                existingTask =[Select Id,ReminderDateTime,OwnerId,WhoId,Visible_For__c,Originator__c,Task_Type__c,Reminder_Date__c,Remind_Me__c,WhatId,Remind_Using_Email__c,Remind_Using_SMS__c,Patient_Visit__c,Community_Template_Name__c from Task where Id =:taskToUpsert.Id AND Patient_Visit__c =: taskWrapper.visitId];
-                if(existingTask != NULL){
-                    taskToUpsert = existingTask;
+            Task[] existingTask;
+            if(taskToUpsert.Id != null){
+                existingTask =[Select Id,ReminderDateTime,CronTriggerId__c,Subject,OwnerId,WhoId,Visible_For__c,Originator__c,Task_Type__c,Reminder_Date__c,Remind_Me__c,WhatId,Remind_Using_Email__c,Remind_Using_SMS__c,Patient_Visit__c,Community_Template_Name__c from Task where Id =:taskToUpsert.Id AND Patient_Visit__c =: taskWrapper.visitId];
+                if(existingTask.size() > 0 ){
+                    taskToUpsert = existingTask[0];
                 }
             }
             system.debug('taskToUpsert'+taskToUpsert);
@@ -283,6 +291,17 @@ public without sharing class TaskEditRemote {
                 insert taskToUpsert;
             }
             //upsert taskToUpsert;
+            if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
+             System.abortJob(taskToUpsert.CronTriggerId__c);
+             }
+            Integer seconds = 0;
+            Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
+            String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
+            String jobID = system.schedule(taskToUpsert.Subject,str, bsptr);
+            taskToUpsert.CronTriggerId__c = jobID;
+            update taskToUpsert;
+            
+            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -297,6 +316,14 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+    public static String removeSpace(String str){
+            String str1='';
+            String[] splitString = str.split(' ');
+            for(String s: splitString) {
+            str1 = str1+s;
+             }
+        return str1;
     }
     
     @AuraEnabled
