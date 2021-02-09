@@ -193,13 +193,13 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
-             if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
+            if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
              System.abortJob(taskToUpsert.CronTriggerId__c);
              }  
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
-            String jobID = system.schedule(taskToUpsert.Subject,str, bsptr);
+            String jobID = system.schedule('Task',str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
             update taskToUpsert;
                   
