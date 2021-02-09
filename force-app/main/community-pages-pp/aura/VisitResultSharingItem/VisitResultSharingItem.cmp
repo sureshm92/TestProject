@@ -87,7 +87,12 @@
             <div class="slds-col slds-size_1-of-12"></div>
             <aura:if isTrue="{!v.visitResult.isCustomToolTipEnabled}">
                 <div class="slds-col slds-size_6-of-12 slds-p-top_medium">
-                    <lightning:textarea value="{!v.visitResult.customTooltip}" label="" />
+                    <lightning:textarea
+                        value="{!v.visitResult.customTooltip}"
+                        label="{!$Label.c.Maximum_Length_of_Tooltip}"
+                        maxlength="1000"
+                        placeholder="type here..."
+                    />
                 </div>
             </aura:if>
             <div class="slds-col slds-size_2-of-12"></div>
