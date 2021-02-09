@@ -199,7 +199,7 @@ public without sharing class TaskEditRemote {
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
-            String jobID = system.schedule('Task',str, bsptr);
+            String jobID = system.schedule(removeSpace(taskToUpsert.Subject),str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
             update taskToUpsert;
                   
@@ -316,6 +316,14 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
         return 'Success';
+    }
+    public static String removeSpace(String str){
+            String str1='';
+            String[] splitString = str.split(' ');
+            for(String s: splitString) {
+            str1 = str1+s;
+             }
+        return str1;
     }
     
     @AuraEnabled
