@@ -3366,6 +3366,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Creatinine is a waste product of the muscles. Creatinine is removed from the blood by the kidneys and then leaves the body through urine. This test measures the amount of creatinine in your blood. Creatinine is measured to check the health of your kidneys.</value>
     </labels>
     <labels>
+        <fullName>Custom_Tooltip_Placeholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Custom Tooltip Placeholder</shortDescription>
+        <value>type here...</value>
+    </labels>
+    <labels>
         <fullName>Custom_Tooltip_Translation_Warning_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
