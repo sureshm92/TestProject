@@ -116,6 +116,7 @@
                                 <div class="label">{!$Label.c.PP_Reminder_Date}</div>
                                 <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
                                     value="{!v.initData.reminderDate}"
+                                    min="{!v.initData.today}"            
                                     max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                     messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
