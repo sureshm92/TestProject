@@ -200,8 +200,10 @@
                     </template>
                     <div class={reminderClass}>
                         {labels.remindUsing}
-                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                            >{labels.ChangeNotifications}</a
+                        <template if:true={showAccountNavigation}>
+                            <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                >{labels.ChangeNotifications}</a
+                            ></template
                         >
                     </div>
                     <div class="slds-grid" style="margin-left: -11px">
@@ -431,8 +433,10 @@
                     </template>
                     <div class={reminderClass}>
                         {labels.remindUsing}
-                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                            >{labels.ChangeNotifications}</a
+                        <template if:true={showAccountNavigation}>
+                            <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                >{labels.ChangeNotifications}</a
+                            ></template
                         >
                     </div>
                     <div class="slds-grid" style="margin-left: -11px">
