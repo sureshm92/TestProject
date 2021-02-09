@@ -91,7 +91,7 @@
                         value="{!v.visitResult.customTooltip}"
                         label="{!$Label.c.Maximum_Length_of_Tooltip}"
                         maxlength="1000"
-                        placeholder="type here..."
+                        placeholder="{!$Label.c.Custom_Tooltip_Placeholder}"
                     />
                 </div>
             </aura:if>
