@@ -210,6 +210,11 @@
 .THIS .vpi-status-btns span button {
     margin-left: 15px;
 }
+.THIS .vpi-status-btns-rtl {
+    margin-left: 15px;
+     margin-right: 15px;
+ 
+}
 
 .THIS .vpi-status-btns a.slds-show > span {
     position: relative;

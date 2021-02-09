@@ -14,7 +14,7 @@
 /*.THIS.rtl > div{
     flex-direction: row-reverse;
 }*/
-.THIS.rtl {
+.THIS .rtl {
     direction: rtl;
 }
 
@@ -108,7 +108,7 @@
     padding: 0 16px;
     text-align: center;
     color: white;
-    position: absolute;
+    
     top: -5px;
     right: 10px;
     border-radius: 2px;
@@ -119,10 +119,11 @@
     padding: 0 16px;
     text-align: center;
     color: white;
-    position: absolute;
+    
     top: -5px;
     right: 10px;
     border-radius: 2px;
+    direction: revert;
 }
 .THIS .slds-has-block-links--space3 {
     background: #ff9300;
@@ -130,7 +131,7 @@
     padding: 0 16px;
     text-align: center;
     color: white;
-    position: absolute;
+    
     top: -5px;
     right: 10px;
     border-radius: 2px;

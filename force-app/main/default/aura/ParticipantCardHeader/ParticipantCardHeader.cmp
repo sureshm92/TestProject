@@ -14,8 +14,12 @@
     <aura:attribute name="parentSE" type="Aura.Component" required="true"/-->
 
     <!-- component body: -->
-    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative">
+    <div class="{!if(v.isRTL, 'rtl', '')}" style="position: relative"> 
+        <div class="slds-grid">
         <aura:if isTrue="{!v.pe.Participant__c}">
+            
+                <div class="slds-media__body">
+
             <aura:if isTrue="{!v.userMode == 'Participant'}">
                 <div>
                     <div class="vpi-tile-title">
@@ -45,7 +49,8 @@
                 </div>
                 <aura:set attribute="else">
                     <aura:if isTrue="{!not(v.isReferral)}">
-                        <div class="vpi-title" style="margin-bottom: 20px">
+
+                        <div  class="vpi-title" style="margin-bottom: 20px">
                             {!v.pe.Participant__r.First_Name__c + ' ' +
                             v.pe.Participant__r.Last_Name__c}
                         </div>
@@ -67,6 +72,7 @@
                                 </aura:set>
                             </aura:if>
                         </aura:set>
+
                     </aura:if>
                 </aura:set>
             </aura:if>
@@ -76,12 +82,16 @@
                     '')}
                 </div>
             </aura:set>
+            </div>
+            <div class="slds-no-flex">
+
             <aura:if isTrue="{!v.userMode == 'PI'}">
                 <aura:if isTrue="{!v.pe.Participant__r.Emancipation_in_progress__c}">
                     <div class="slds-has-block-links--space3" data-gtm="Label_Action_Required">
                         {!$Label.c.Action_Required}
                     </div>
                     <aura:set attribute="else">
+
                         <div
                             class="{!v.isInvited ? 'slds-has-block-links--space' : 'slds-has-block-links--space2'}"
                             data-gtm="{!v.isInvited ? 'Label_Invited' : 'Label_Not_Invited'}"
@@ -91,8 +101,12 @@
                     </aura:set>
                 </aura:if>
             </aura:if>
+            </div>
+
+
             <!--Added for performance tuning -->
             <!--a aura:id="show" class="slds-show custom-plus" onclick="{!c.openCard}"><span>{!$Label.c.View_More}&nbsp;&gt;</span></a-->
         </aura:if>
     </div>
+</div>
 </aura:component>
