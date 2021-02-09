@@ -39,6 +39,7 @@
             component.set('v.resultSet', emptyData);
             component.set('v.filteredResultSet', emptyData);
             component.set('v.exportList', emptyData);
+            component.set('v.paginationData', null);
             component.set('v.searched', false);
         } else {
             component.find('builderStub').setPageName(component.getName());
