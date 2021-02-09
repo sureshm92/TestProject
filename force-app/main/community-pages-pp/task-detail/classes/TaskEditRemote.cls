@@ -193,8 +193,15 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
-            if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
-             System.abortJob(taskToUpsert.CronTriggerId__c);
+            String cronTriggerId;
+            if(taskToUpsert.Id != null){
+               Task[] tsk =  [Select Id,CronTriggerId__c from Task where Id =: taskToUpsert.Id];
+                if(tsk.size() >0){
+                    cronTriggerId = tsk[0].CronTriggerId__c;
+                }
+            }
+            if(!String.isEmpty(cronTriggerId)){
+              System.abortJob(cronTriggerId);
              }  
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
@@ -236,7 +243,6 @@ public without sharing class TaskEditRemote {
                     taskToUpsert = existingTask[0];
                 }
             }
-            system.debug('taskToUpsert'+taskToUpsert);
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
