@@ -55,7 +55,9 @@
         <div>
             <!-- patient details: -->
             <div class="ap-section">
+                <div class="slds-grid slds-wrap">                
                 <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
+            </div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
@@ -214,7 +216,9 @@
                 <aura:if
                     isTrue="{!!v.needsGuardian &amp;&amp; ((v.participantDelegate &amp;&amp; !v.participant.Adult__c) || (v.participantDelegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c))}"
                 >
+                <div class="slds-grid slds-wrap">
                     <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
+                </div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
@@ -266,9 +270,10 @@
             </div>
 
             <aura:if isTrue="{!v.fromAddParticipantPage}">
+                    <div class="slds-grid slds-wrap">
                 <div class="ap-section-title">
                     {!$Label.c.PG_AP_H_Participant_Contact_Information}
-                </div>
+                </div></div>
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label">
@@ -405,7 +410,9 @@
                     />
                 </div>
                 <aura:set attribute="else">
+                        <div class="slds-grid slds-wrap">
                     <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
+                </div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
@@ -572,10 +579,11 @@
             <!-- referral information -->
             <aura:if isTrue="{!!v.fromActionParticipant}">
                 <div class="ap-section">
+                        <div class="slds-grid slds-wrap">
                     <div class="ap-section-title">
                         {!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details :
                         $Label.c.PG_AP_H_Referral_Information}
-                    </div>
+                    </div></div>
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:if isTrue="{!!v.updateMode}">
                             <div
@@ -680,9 +688,10 @@
                 </div>
                 <aura:set attribute="else">
                     <div class="ap-section">
+                            <div class="slds-grid slds-wrap">
                         <div class="ap-section-title">
                             {!$Label.c.PG_AS_F_Participation_Information}
-                        </div>
+                        </div></div>
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div
                                 class="customWidth rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
