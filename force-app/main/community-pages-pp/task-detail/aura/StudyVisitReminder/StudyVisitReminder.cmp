@@ -179,18 +179,18 @@
                     <div
                         class="{!'slds-form-element__label ' + if(v.isRTL, 'task-rtl-remind', '')}"
                     >
-                        <aura:if isTrue="{!v.showAccountNavigation}">
-                            <div class="slds-grid te-form slds-gutters slds-wrap">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                    {!$Label.c.PP_Remind_Using}
+                        <div class="slds-grid te-form slds-gutters slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                                {!$Label.c.PP_Remind_Using}
+                                <aura:if isTrue="{!v.showAccountNavigation}">
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
                                         style="margin-left: 10px"
                                         >{!$Label.c.PP_Change_Notification_Settings}</a
                                     >
-                                </div>
+                                </aura:if>
                             </div>
-                        </aura:if>
+                        </div>
                     </div>
                     <div class="slds-grid">
                         <!--Remind Using-->
