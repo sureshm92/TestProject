@@ -78,7 +78,7 @@ export default class VisitsPath extends LightningElement {
 
     initialized = false;
     spinner;
-
+    @track showAccountNavigation = false;
     @track isVisitsEmpty = false;
     @track isVisitCompleted = false;
     @track isRTL;
@@ -127,7 +127,8 @@ export default class VisitsPath extends LightningElement {
         Subject: null,
         Task_Code__c: null,
         Id: null,
-        CronTriggerId__c: null
+        CronTriggerId__c: null,
+        Is_Reminder_Sent__c: false
     };
     @track reminderOption;
     @track emailOptIn;
@@ -399,6 +400,9 @@ export default class VisitsPath extends LightningElement {
                     this.emailOpted = !this.taskDetails.emailOptIn || this.isVisitCompleted;
                     this.smsOpted = !this.taskDetails.smsOptIn || this.isVisitCompleted;
                     this.today = this.taskDetails.today;
+                    if (!this.taskDetails.smsOptIn || !this.taskDetails.emailOptIn) {
+                        this.showAccountNavigation = true;
+                    }
                 }
                 //this.error = undefined;
             })

@@ -193,14 +193,22 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
-            if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
-             System.abortJob(taskToUpsert.CronTriggerId__c);
+            String cronTriggerId;
+            if(taskToUpsert.Id != null){
+               Task[] tsk =  [Select Id,CronTriggerId__c,Is_Reminder_Sent__c from Task where Id =: taskToUpsert.Id];
+                if(tsk.size() >0){
+                    cronTriggerId = tsk[0].CronTriggerId__c;
+                }
+            }
+            if(!String.isEmpty(cronTriggerId)){
+              System.abortJob(cronTriggerId);
              }  
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
             String jobID = system.schedule(removeSpace(taskToUpsert.Subject),str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
+            taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
                   
         } catch (Exception e) {
@@ -231,12 +239,11 @@ public without sharing class TaskEditRemote {
             Task taskToUpsert = (Task) JSON.deserialize(paramTask, Task.class);
             Task[] existingTask;
             if(taskToUpsert.Id != null){
-                existingTask =[Select Id,ReminderDateTime,CronTriggerId__c,Subject,OwnerId,WhoId,Visible_For__c,Originator__c,Task_Type__c,Reminder_Date__c,Remind_Me__c,WhatId,Remind_Using_Email__c,Remind_Using_SMS__c,Patient_Visit__c,Community_Template_Name__c from Task where Id =:taskToUpsert.Id AND Patient_Visit__c =: taskWrapper.visitId];
+                existingTask =[Select Id,ReminderDateTime,CronTriggerId__c,Is_Reminder_Sent__c,Subject,OwnerId,WhoId,Visible_For__c,Originator__c,Task_Type__c,Reminder_Date__c,Remind_Me__c,WhatId,Remind_Using_Email__c,Remind_Using_SMS__c,Patient_Visit__c,Community_Template_Name__c from Task where Id =:taskToUpsert.Id AND Patient_Visit__c =: taskWrapper.visitId];
                 if(existingTask.size() > 0 ){
                     taskToUpsert = existingTask[0];
                 }
             }
-            system.debug('taskToUpsert'+taskToUpsert);
             taskToUpsert.Community_Template_Name__c = UserContext.getTemplateProperty(
                 CommunityTemplateService.PROPERTY_TEMPLATE_NAME
             );
@@ -299,9 +306,8 @@ public without sharing class TaskEditRemote {
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
             String jobID = system.schedule(taskToUpsert.Subject,str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
+            taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
-            
-            
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
