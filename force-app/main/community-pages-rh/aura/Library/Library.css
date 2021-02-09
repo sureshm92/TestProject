@@ -4,7 +4,16 @@
     border-width: 1px 1px 0 1px;
     border-radius: 5px;
 }
-
+.THIS.rr-white-panel-RTL {
+    direction: rtl;
+    margin-top: 20px;
+    border: 1px solid #e9e9e9;
+    border-width: 1px 1px 0 1px;
+    border-radius: 5px;
+}
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS .slds-card__header-title {
     font-weight: 700;
     font-size: 25px;

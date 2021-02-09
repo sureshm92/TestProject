@@ -6,7 +6,9 @@ import { LightningElement, track, api } from 'lwc';
 //import lwcStyleResource from '@salesforce/resourceUrl/lwcCss';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import addLabel from '@salesforce/label/c.Add_Date';
+import incorrectData from '@salesforce/label/c.Incorrect_data';
 import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
@@ -70,12 +72,13 @@ export default class VisitsPath extends LightningElement {
         OneWeekBefore,
         CustomDate,
         reminderError,
-        detailsLabel
+        detailsLabel,
+        incorrectData
     };
 
     initialized = false;
     spinner;
-
+    @track showAccountNavigation = false;
     @track isVisitsEmpty = false;
     @track isVisitCompleted = false;
     @track isRTL;
@@ -123,7 +126,9 @@ export default class VisitsPath extends LightningElement {
         ReminderDateTime: null,
         Subject: null,
         Task_Code__c: null,
-        Id: null
+        Id: null,
+        CronTriggerId__c: null,
+        Is_Reminder_Sent__c: false
     };
     @track reminderOption;
     @track emailOptIn;
@@ -395,6 +400,9 @@ export default class VisitsPath extends LightningElement {
                     this.emailOpted = !this.taskDetails.emailOptIn || this.isVisitCompleted;
                     this.smsOpted = !this.taskDetails.smsOptIn || this.isVisitCompleted;
                     this.today = this.taskDetails.today;
+                    if (!this.taskDetails.smsOptIn || !this.taskDetails.emailOptIn) {
+                        this.showAccountNavigation = true;
+                    }
                 }
                 //this.error = undefined;
             })
@@ -490,7 +498,7 @@ export default class VisitsPath extends LightningElement {
                 this.emailOptIn == false &&
                 this.smsOptIn == false
             ) {
-                communityService.showErrorToast('', 'Please Input Correct Data', 3000);
+                communityService.showErrorToast('', this.labels.incorrectData, 3000);
                 return;
             }
         }
@@ -547,6 +555,29 @@ export default class VisitsPath extends LightningElement {
                 spinner.hide();
             })
             .catch((error) => {
+                let message = 'Unknown error';
+                if (error.body) {
+                    if (Array.isArray(error.body)) {
+                        console.log('isnide aaray');
+                        message = error.body.map((e) => e.message).join(', ');
+                    } else if (typeof error.body.message === 'string') {
+                        console.log('isnide strunf');
+                        message = error.body.message;
+                        if (message.includes('\n')) {
+                            message = message.split('\n')[0];
+                        }
+                    }
+                } else {
+                    console.log('isnide else');
+                    message = error.message;
+                }
+                const event = new ShowToastEvent({
+                    title: '',
+                    message: message,
+                    variant: 'error'
+                });
+                this.dispatchEvent(event);
+
                 console.log('Error: ' + JSON.stringify(error));
             });
         this.handleHideDialog();

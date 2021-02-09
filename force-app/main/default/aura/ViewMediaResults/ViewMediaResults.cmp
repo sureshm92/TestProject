@@ -4,7 +4,7 @@
 <aura:component
     description="ViewMediaResults"
     implements="forceCommunity:availableForAllPageTypes"
-    controller="ViewMediaResult"
+    controller="ViewMediaResult" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -51,7 +51,8 @@
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
-
+    
+    <div class="{!v.isRTL? 'arabic':''}">
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
             <aura:if isTrue="{!!empty(v.header)}">
@@ -123,5 +124,6 @@
                 <c:newOutReach aura:id="inviteRPAction" />
             </aura:if>
         </aura:if>
+    </div>
     </div>
 </aura:component>

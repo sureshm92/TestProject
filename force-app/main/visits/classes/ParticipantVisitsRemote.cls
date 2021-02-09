@@ -58,6 +58,12 @@ public without sharing class ParticipantVisitsRemote {
         }
         return null;
     }
+    
+    @AuraEnabled
+    public static Boolean getIsVisitPathEnabled(){
+        ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+        return state.isVisitPathEnabled;
+    }
 
     @AuraEnabled
     public static List<Patient_Visit__c> getCardPatientVisits() {

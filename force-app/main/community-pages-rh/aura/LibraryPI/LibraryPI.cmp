@@ -1,7 +1,7 @@
 <!--
  - Created by Nikita Abrazhevitch on 06-May-20.
  -->
-<aura:component description="LibraryPI" controller="LibraryPIRemote">
+<aura:component description="LibraryPI" controller="LibraryPIRemote" extends="c:CommunityContext">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -19,6 +19,7 @@
     <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+    <div class="{!v.isRTL? 'arabic':''}">
     <div
         class="slds-grid slds-wrap resource-headers slds-grid--vertical-align-center"
         style="height: 31px; padding-right: 27px"
@@ -168,4 +169,5 @@
             </aura:iteration>
         </lightning:accordion>
     </div>
+</div>
 </aura:component>
