@@ -107,6 +107,7 @@ export default class VisitsPath extends LightningElement {
     @track iconDetails = [];
     @track disableSave = true;
     @track isVisitMissed = false;
+    @track reRender = true;
     // = [{ "Id": "a0M1100000DDOfGEAX", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a0M1100000DDOfQEAX", "Name": "height-and-weight", "Label__c": "Height and weight" }, { "Id": "a0M1100000DDOfVEAX", "Name": "multiple-users-2", "Label__c": "Demographics" }];
     //= [{ "Id": "a2t3O0000000xQ2QAI", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a2t3O0000000xQ1QAI", "Name": "Hand-X-Ray", "Label__c": "Hand and feet X-rays" }, { "Id": "a2t3O0000000xQ8QAI", "Name": "health_checkup", "Label__c": "Physical examination" }];
     @track visitTaskId;
@@ -351,6 +352,8 @@ export default class VisitsPath extends LightningElement {
         // let spinner = this.template.querySelector('c-web-spinner');
         // console.log('spinner' + spinner);
         // spinner.show();
+        //this.doValidateReminder(event);
+        this.reRender = true;
         let eventItemId = event.currentTarget.dataset.id;
         this.visitId = eventItemId;
 
@@ -391,6 +394,8 @@ export default class VisitsPath extends LightningElement {
                     if (this.visitDetails.task.Remind_Me__c == 'Custom') {
                         this.showCustomDateTime = true;
                         this.reminderClass = 'mr_25';
+                    } else {
+                        this.showCustomDateTime = false;
                     }
                 }
                 if (this.visitDetails.task) {
@@ -436,6 +441,8 @@ export default class VisitsPath extends LightningElement {
 
     handleHideDialog() {
         this.template.querySelector('c-web-popup').hide();
+        this.reRender = false;
+        //this.reRender = true;
     }
     doNavigateToAccountSettings() {
         window.open('account-settings', '_blank');

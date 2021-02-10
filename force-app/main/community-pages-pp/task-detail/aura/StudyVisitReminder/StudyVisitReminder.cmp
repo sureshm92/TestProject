@@ -14,6 +14,7 @@
     <aura:attribute name="taskData" type="Object" description="Wrapper from c:TasksTab" />
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
     <aura:attribute name="PatientVisit" type="Patient_Visit__c" />
+    <aura:attribute name="reRender" default="true" type="boolean"/>
     <aura:attribute name="isTaskTab" type="Boolean" description="Set TRUE if component called from c:TaskTab" />
     <!-- Task Related Attributes -->
     <aura:attribute name="initData" type="Object" />
@@ -57,6 +58,7 @@
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium" />
         <div class="title">{!v.title}</div>
         <!-- Task Panel -->
+        <aura:if isTrue="{!v.reRender}">
         <aura:if isTrue="{!and(v.task.Task_Type__c != 'Visit',not(v.isReminderOnly))}">
             <div class="te-task-panel">
                 <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
@@ -157,8 +159,11 @@
                 </div>
             </div>
         </aura:if>
-                       <!-- ============================== Reminder Only Section ===========================================-->
- <aura:if isTrue="{!and(v.isReminderOnly,v.task.Task_Type__c != 'Visit')}">
+        </aura:if>
+         
+        <!-- ============================== Reminder Only Section ===========================================-->
+ <aura:if isTrue="{!v.reRender}">
+        <aura:if isTrue="{!and(v.isReminderOnly,v.task.Task_Type__c != 'Visit')}">
             <div class="te-task-panel">
                 <div
                     class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
@@ -276,8 +281,9 @@
             </div>
             <!-- Reminder Section te-task-panel -->
         </aura:if>
+     </aura:if>
 
-
+        <aura:if isTrue="{!v.reRender}">
         <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
             <div style="margin-left:20px;">
              <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
@@ -341,6 +347,7 @@
             </div>   
             </div>
                    </aura:if>
+            </aura:if>
         <!-- End of Reminder Section -->
         <aura:set attribute="footerButtons">
             <aura:if isTrue="{!v.isRTL}">
