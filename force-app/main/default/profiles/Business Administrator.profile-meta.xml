@@ -2078,11 +2078,6 @@
         <field>Call_Dispositions__c.Caller__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Call_Dispositions__c.Inbound_Outbound__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
@@ -2096,11 +2091,6 @@
      <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.Notes__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Call_Dispositions__c.Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <objectPermissions>
