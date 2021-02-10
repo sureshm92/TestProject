@@ -10,6 +10,11 @@
         <field>Call_Dispositions__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>CC_Call_Disposition_Edit</label>
     <license>Salesforce</license>
