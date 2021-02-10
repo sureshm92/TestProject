@@ -15296,6 +15296,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
     </labels>
+	<labels>
+        <fullName>PP_Date_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Date_Unavailable</shortDescription>
+        <value>No Date Entered</value>
+    </labels>
     <labels>
         <fullName>PP_DelegateTasks</fullName>
         <language>en_US</language>
@@ -15444,6 +15451,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Nickname</shortDescription>
         <value>Nickname</value>
+    </labels>
+	 <labels>
+        <fullName>PP_NoDateSet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NoDateSet</shortDescription>
+        <value>No Date Set</value>
     </labels>
     <labels>
         <fullName>PP_One_Hour_Before</fullName>
@@ -15619,6 +15633,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
+	 <labels>
+        <fullName>PP_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Scheduled</shortDescription>
+        <value>Scheduled</value>
+    </labels>
     <labels>
         <fullName>PP_Share_Article</fullName>
         <language>en_US</language>
@@ -15647,6 +15668,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Time_Unavailable</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Time_Unavailable</shortDescription>
+        <value>No Time Entered</value>
     </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>

@@ -12,6 +12,7 @@ import incorrectData from '@salesforce/label/c.Incorrect_data';
 import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
+import noDateSet from '@salesforce/label/c.PP_NoDateSet';
 import emailLabel from '@salesforce/label/c.PP_Remind_Using_Email';
 import smsLabel from '@salesforce/label/c.PP_Remind_Using_SMS';
 import planDate from '@salesforce/label/c.VPN_AddDate';
@@ -73,7 +74,8 @@ export default class VisitsPath extends LightningElement {
         CustomDate,
         reminderError,
         detailsLabel,
-        incorrectData
+        incorrectData,
+        noDateSet
     };
 
     initialized = false;
@@ -90,7 +92,8 @@ export default class VisitsPath extends LightningElement {
 
     @track selectedPV = {
         Id: null,
-        Planned_Date__c: null
+        Planned_Date__c: null,
+        Status__c: 'Scheduled'
     };
     @track today;
     @track emailOpted;
@@ -103,12 +106,14 @@ export default class VisitsPath extends LightningElement {
     @track visitIconDetails = [];
     @track iconDetails = [];
     @track disableSave = true;
+    @track isVisitMissed = false;
     // = [{ "Id": "a0M1100000DDOfGEAX", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a0M1100000DDOfQEAX", "Name": "height-and-weight", "Label__c": "Height and weight" }, { "Id": "a0M1100000DDOfVEAX", "Name": "multiple-users-2", "Label__c": "Demographics" }];
     //= [{ "Id": "a2t3O0000000xQ2QAI", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a2t3O0000000xQ1QAI", "Name": "Hand-X-Ray", "Label__c": "Hand and feet X-rays" }, { "Id": "a2t3O0000000xQ8QAI", "Name": "health_checkup", "Label__c": "Physical examination" }];
     @track visitTaskId;
     @track visitTitle;
     @track visitId;
     @track reminderDate;
+    @track completedDate;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -241,7 +246,9 @@ export default class VisitsPath extends LightningElement {
                 };
                 if (isMissed) {
                     item.stateStatus = stateMissed;
-                    item.complDate = visitUnavailable;
+                    if (this.patientVisits[i].Planned_Date__c) {
+                        item.complDate = this.patientVisits[i].Planned_Date__c;
+                    }
                 }
 
                 this.pathItems.push(item);
@@ -279,17 +286,26 @@ export default class VisitsPath extends LightningElement {
     }
 
     doValidateReminder(event) {
-        if (event.target.value != 'Custom') {
+        if (event.target.value != 'Custom' || this.reminderOption != 'Custom') {
             var visitPlanDate = new Date(this.planDate);
             var reminderdate;
             console.log('visitPlanDate-->' + visitPlanDate);
-            if (event.target.value == '1 day before') {
+            if (event.target.value == '1 day before' || this.reminderOption == '1 day before') {
                 reminderdate = visitPlanDate - 24 * 3600 * 1000;
-            } else if (event.target.value == '1 hour before') {
+            } else if (
+                event.target.value == '1 hour before' ||
+                this.reminderOption == '1 hour before'
+            ) {
                 reminderdate = visitPlanDate - 3600 * 1000;
-            } else if (event.target.value == '4 hours before') {
+            } else if (
+                event.target.value == '4 hours before' ||
+                this.reminderOption == '4 hours before'
+            ) {
                 reminderdate = visitPlanDate - 4 * 3600 * 1000;
-            } else if (event.target.value == '1 Week before') {
+            } else if (
+                event.target.value == '1 Week before' ||
+                this.reminderOption == '1 Week before'
+            ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }
             console.log('reminderdate-->' + reminderdate);
@@ -341,12 +357,15 @@ export default class VisitsPath extends LightningElement {
         //this.patientVisitName = event.currentTarget.dataset.name;
         this.patientVisitName = event.currentTarget.dataset.name;
         this.visitTitle = event.currentTarget.dataset.title;
+        this.completedDate = event.currentTarget.dataset.completeddate;
+        console.log('completedDate-->' + this.completedDate);
         console.log('visiTitle-->' + this.visitTitle);
         //+ ' ' + 'Details';
         console.log('visitname-->' + this.patientVisitName);
         console.log('eventItemId-->' + this.visitId);
         this.getVisitDetails(this.visitId);
         this.selectedPV.Id = this.visitId;
+        this.selectedPV.Status__c = 'Scheduled';
 
         console.log('visitIconDetails-->' + this.visitIconDetails);
         console.log('iconDetails-->' + JSON.stringify(this.iconDetails));
@@ -361,7 +380,10 @@ export default class VisitsPath extends LightningElement {
                 this.visitDetails = first;
                 this.planDate = this.visitDetails.visit.Planned_Date__c;
                 this.reminderDate = this.visitDetails.reminderDate;
-                this.isVisitCompleted = this.visitDetails.visitStatus == 'Completed';
+                this.isVisitCompleted =
+                    this.visitDetails.visitStatus == 'Completed' ||
+                    this.visitDetails.visitStatus == 'Missed';
+                this.isVisitMissed = this.visitDetails.visitStatus == 'Missed';
                 if (this.visitDetails.task) {
                     this.visitTaskId = this.visitDetails.task.Id;
                 }

@@ -87,7 +87,8 @@
                                 <aura:if
                                     isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
                                 >
-                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <!--<ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />-->
+                                    {!$Label.c.PP_Date_Unavailable}
                                     <aura:set attribute="else">
                                         <lightning:formattedDateTime
                                             value="{!visitWrapper.visitDate}"
@@ -105,9 +106,10 @@
                                 >
                                 <!--  <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}"/>-->
                                 <aura:if
-                                    isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
+                                    isTrue="{!or($Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate,visitWrapper.visit.Status__c == 'Completed')}"
                                 >
-                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <!--<ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />-->
+                                    {!$Label.c.PP_Time_Unavailable}
                                     <aura:set attribute="else">
                                         <lightning:formattedDateTime
                                             value="{!visitWrapper.visitDate}"
@@ -149,7 +151,7 @@
                                 $Label.c.Study_Visit_Unavailable, visitWrapper.visitStatus)}
                             </td>
                             <td>
-                                <aura:if isTrue="{!visitWrapper.visit.Status__c == 'Pending'}">
+                                <aura:if isTrue="{!or(visitWrapper.visit.Status__c == 'Pending',visitWrapper.visit.Status__c == 'Scheduled')}">
                                     <div class="sv-t-reminder">
                                         <span class="visitsLabel"
                                             >{!$Label.c.Home_Page_StudyVisit_Reminder}:
