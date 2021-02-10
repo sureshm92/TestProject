@@ -5,6 +5,12 @@ import NAME_FIELD from '@salesforce/schema/User.Name';
 import getcalls from '@salesforce/apex/FetchCallDispositions.getcalls';
 import gettodaydate from '@salesforce/apex/FetchCallDispositions.gettodaydate';
 import {refreshApex} from '@salesforce/apex';
+import Previous_Call_Dispositions from '@salesforce/label/c.Previous_Call_Dispositions';
+import View_More from '@salesforce/label/c.View_More';
+import No_records_to_display from '@salesforce/label/c.No_records_to_display';
+import New_Call from '@salesforce/label/c.New_Call';
+import Call_Category from '@salesforce/label/c.Call_Category';
+import Select_Call_Catagory from '@salesforce/label/c.Select_Call_Catagory';
 export default class CallDispositions extends LightningElement {
     @track error;
     @track conName;
@@ -13,11 +19,22 @@ export default class CallDispositions extends LightningElement {
     @api dateerror;
     @api todaydate;
     @api day;
-    @api month; @api siteId; @api Oldcaller;
+    @api month; @api siteId; @api Oldcaller;@api Oldcallinterventioncompleted;
     @api year; @api callDateTime; @api isCDValitated = false; @api newcallnotes; @api callcategoryvalue; @api interventionreq = false;
     @api defcallbound = 'Inbound'; @api count; selected; @track InterventionRequired = false;
     @api rwindx; @api call; @api ViewMode = false; @api Oldcallcategory; @api Oldcallbound; @api newcall = false;
     @api Oldcallintervention; @api Oldcallnotes; @api Oldcalldate; @api limit = 5; @api initloaded = false; @api Refreshed = false;
+    
+    label = {
+        Previous_Call_Dispositions,
+        View_More,
+        No_records_to_display,
+        New_Call,
+        Call_Category,
+        Select_Call_Catagory
+    };
+    
+    
     get callcategorys() {
         return [
             { label: 'Welcome Call Complete', value: 'Welcome Call Complete' },
@@ -80,6 +97,7 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallcategory = this.records[0].cd.Call_Category__c;
                         this.Oldcallbound = this.records[0].cd.Inbound_Outbound__c;
                         this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
+                        this.Oldcallinterventioncompleted=this.records[0].cd.IQVIA_intervention_completed__c;
                         this.Oldcallnotes = this.records[0].cd.Notes__c;
                         this.Oldcalldate = this.records[0].dtcd;
                         this.Oldcaller = this.records[0].cd.Caller__r.Name;
@@ -87,6 +105,7 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallcategory = '';
                         this.Oldcallbound = '';
                         this.Oldcallintervention = '';
+                        this.Oldcallinterventioncompleted=false;
                         this.Oldcallnotes = '';
                         this.Oldcalldate = '';
                         this.Oldcaller = this.conName;
@@ -105,6 +124,7 @@ export default class CallDispositions extends LightningElement {
                 this.Oldcallcategory = '';
                 this.Oldcallbound = '';
                 this.Oldcallintervention = '';
+                this.Oldcallinterventioncompleted=false;
                 this.Oldcallnotes = '';
                 this.Oldcalldate = '';
                 this.Oldcaller = this.conName;
@@ -129,6 +149,7 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallcategory = this.records[0].cd.Call_Category__c;
                         this.Oldcallbound = this.records[0].cd.Inbound_Outbound__c;
                         this.Oldcallintervention = this.records[0].cd.IQVIA_intervention_required__c;
+                        this.Oldcallinterventioncompleted=this.records[0].cd.IQVIA_intervention_completed__c;
                         this.Oldcallnotes = this.records[0].cd.Notes__c;
                         this.Oldcalldate = this.records[0].dtcd;
                         this.Oldcaller = this.records[0].cd.Caller__r.Name;
@@ -136,6 +157,7 @@ export default class CallDispositions extends LightningElement {
                         this.Oldcallcategory = '';
                         this.Oldcallbound = '';
                         this.Oldcallintervention = '';
+                        this.Oldcallinterventioncompleted=false;
                         this.Oldcallnotes = '';
                         this.Oldcalldate = '';
                         this.Oldcaller = this.conName;
@@ -166,6 +188,7 @@ export default class CallDispositions extends LightningElement {
         this.Oldcallcategory = this.call.cd.Call_Category__c;
         this.Oldcallbound = this.call.cd.Inbound_Outbound__c;
         this.Oldcallintervention = this.call.cd.IQVIA_intervention_required__c;
+        this.Oldcallinterventioncompleted=this.call.cd.IQVIA_intervention_completed__c;
         this.Oldcallnotes = this.call.cd.Notes__c;
         this.Oldcalldate = this.call.dtcd;
         this.Oldcaller = this.call.cd.Caller__r.Name;
@@ -266,6 +289,7 @@ export default class CallDispositions extends LightningElement {
             this.Oldcallcategory = '';
             this.Oldcallbound = '';
             this.Oldcallintervention = '';
+            this.Oldcallinterventioncompleted=false;
             this.Oldcallnotes = '';
             this.Oldcalldate = '';
             this.Oldcaller = this.conName;

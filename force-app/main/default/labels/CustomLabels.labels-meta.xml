@@ -1836,6 +1836,20 @@
         <value>Country</value>
     </labels>
     <labels>
+        <fullName>Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Dispositions</shortDescription>
+        <value>Call Dispositions</value>
+    </labels>
+    <labels>
+        <fullName>Call_Category</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Category</shortDescription>
+        <value>Call Category</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_PI</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9291,6 +9305,13 @@ The expected format is REF##### to REF########</value>
         <value>No access</value>
     </labels>
     <labels>
+        <fullName>New_Call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Call</shortDescription>
+        <value>New Call</value>
+    </labels>
+    <labels>
         <fullName>No_Case_Assign</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9310,6 +9331,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
+    </labels>
+     <labels>
+        <fullName>No_records_to_display</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No records to display</shortDescription>
+        <value>No records to display</value>
     </labels>
     <labels>
         <fullName>No_active_studies</fullName>
@@ -16409,6 +16437,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
+    </labels>
+     <labels>
+        <fullName>Previous_Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous Call Dispositions</shortDescription>
+        <value>Previous Call Dispositions</value>
     </labels>
     <labels>
         <fullName>Pulse</fullName>

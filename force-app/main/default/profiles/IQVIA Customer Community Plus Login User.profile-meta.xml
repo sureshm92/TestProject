@@ -2290,6 +2290,11 @@
         <field>Call_Dispositions__c.Notes__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>CTC__c.COI_3rdParty__c</field>

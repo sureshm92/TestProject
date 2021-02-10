@@ -2,7 +2,7 @@
     <div class="slds-p-around_medium">
         <div class="slds-grid slds-wrap">
             <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
-                <div><b>Previous Call Dispositions</b></div><br>
+                <div><b>{label.Previous_Call_Dispositions}</b></div><br>
                 <template if:true={isRecordExists}>
                     <div>
                         <template iterator:it={records}>
@@ -19,19 +19,19 @@
                         <!--<br>-->
                     </div>
                     <template if:true={showViewMore}>
-                        <lightning-button variant="base" label="View More" title="Looks like a link" onclick={ViewMore}
+                        <lightning-button variant="base" label={label.View_More} title="" onclick={ViewMore}
                             class="" style="font-size: 14px;"></lightning-button>
                     </template>
                 </template>
                 <template if:false={isRecordExists}>
-                    <p style="font-size:14px;">No records to display</p>
+                    <p style="font-size:14px;">{label.No_records_to_display}</p>
                 </template>
             </div>
 
             <div class="slds-col slds-size_1-of-2 slds-p-around_xx-small">
 
                 <template if:false={ViewMode}>
-                    <b>New Call - {month} {day}, {year} </b>
+                    <b>{label.New_Call} - {month} {day}, {year} </b>
                 </template>
                 <template if:true={ViewMode}>
                     <b>{Oldcalldate} </b>
@@ -39,16 +39,16 @@
                 <div class="slds-grid slds-wrap ">
                     <div class="slds-col slds-size_1-of-2">
 
-                        <div class="slds-p-around_xx-small">
+                        <div class="slds-p-around_xx-small">  
                             <template if:false={ViewMode}>
-                                <lightning-combobox  data-id="callcategory" name="progress" label="Call Category" value=""
-                                    placeholder="Select Call Catagory" options={callcategorys}
+                                <lightning-combobox  data-id="callcategory" name="progress" label={label.Call_Category} value=""
+                                    placeholder={label.Select_Call_Catagory} options={callcategorys}
                                     onchange={handlecallcategory} required>
                                 </lightning-combobox>
                             </template>
                             <template if:true={ViewMode}>
-                                <lightning-combobox name="progress" label="Call Category" value={Oldcallcategory}
-                                    placeholder="Select Call Catagory" options={callcategorys} onchange={handleChange}
+                                <lightning-combobox name="progress" label={label.Call_Category} value={Oldcallcategory}
+                                    placeholder={label.Select_Call_Catagory} options={callcategorys} onchange={handleChange}
                                     required disabled>
                                 </lightning-combobox>
                             </template>
@@ -74,19 +74,34 @@
                                     placeholder="" options={callboundoptions} required disabled>
                                 </lightning-combobox>
                             </template>
-                            <br>
-                            <template if:false={ViewMode}>
+                            <!--<br>-->
+                            <template if:false={ViewMode} >
                                 <lightning-input type="checkbox" label="IQVIA intervention required"
-                                    onchange={onCheckboxChange}>
+                                    onchange={onCheckboxChange} style="padding-top:7px;padding-bottom:7px;">
                                 </lightning-input>
                             </template>
-                            <template if:true={ViewMode}>
+                            <template if:true={ViewMode} >
                                 <template if:true={Oldcallintervention}>
                                     <lightning-input type="checkbox" checked label="IQVIA intervention required"
-                                        disabled></lightning-input>
+                                        disabled style="padding-top:7px;padding-bottom:7px;"></lightning-input>
                                 </template>
                                 <template if:false={Oldcallintervention}>
-                                    <lightning-input type="checkbox" label="IQVIA intervention required" disabled>
+                                    <lightning-input type="checkbox" label="IQVIA intervention required" disabled style="padding-top:7px;padding-bottom:7px;">
+                                    </lightning-input>
+                                </template>
+                            </template>
+                            <template if:false={ViewMode} >
+                                <lightning-input type="checkbox" label="IQVIA intervention completed"
+                                disabled style="padding-top:7px;padding-bottom:7px;">
+                                            </lightning-input>
+                            </template>
+                            <template if:true={ViewMode} >
+                                <template if:true={Oldcallinterventioncompleted}>
+                                    <lightning-input type="checkbox" checked label="IQVIA intervention completed"
+                                        disabled style="padding-top:7px;padding-bottom:7px;"></lightning-input>
+                                </template>
+                                <template if:false={Oldcallinterventioncompleted}>
+                                    <lightning-input type="checkbox" label="IQVIA intervention completed" disabled style="padding-top:7px;padding-bottom:7px;">
                                     </lightning-input>
                                 </template>
                             </template>

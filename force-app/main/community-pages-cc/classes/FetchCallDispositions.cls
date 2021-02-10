@@ -43,7 +43,7 @@ public without sharing class FetchCallDispositions {
             List<Wrapcd> lstcalldts = new List<Wrapcd>();
             List<String> lstCallDateTime = new List<String>();
             Integer count=0;
-            lstCD = [select Id,Call_Category__c,Caller__c,Caller__r.Name,CreatedDate,Inbound_Outbound__c,IQVIA_intervention_required__c,Study_Site__c,Notes__c 
+            lstCD = [select Id,Call_Category__c,Caller__c,Caller__r.Name,CreatedDate,Inbound_Outbound__c,IQVIA_intervention_completed__c,IQVIA_intervention_required__c,Study_Site__c,Notes__c 
                      from Call_Dispositions__c where Study_Site__c=:siteId order by CreatedDate desc limit:limits];
             count =[select count() from Call_Dispositions__c where Study_Site__c=:siteId];
             
