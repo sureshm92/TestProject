@@ -58,14 +58,19 @@
                                         </div>
                                         <div class="state-label">
                                             <template if:false={pathItem.isPending}>
-                                                <lightning-formatted-date-time
-                                                    value={pathItem.complDate}
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                    time-zone="UTC"
-                                                >
-                                                </lightning-formatted-date-time>
+                                                <template if:false={pathItem.complDate}>
+                                                    {labels.noDateSet}
+                                                </template>
+                                                <template if:true={pathItem.complDate}>
+                                                    <lightning-formatted-date-time
+                                                        value={pathItem.complDate}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone="UTC"
+                                                    >
+                                                    </lightning-formatted-date-time>
+                                                </template>
                                             </template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
@@ -331,7 +336,6 @@
                                                 <template if:true={pathItem.complDate}>
                                                     {pathItem.complDate}
                                                 </template>
-
                                                 <template if:false={pathItem.complDate}>
                                                     {labels.noDateSet}
                                                 </template></template
