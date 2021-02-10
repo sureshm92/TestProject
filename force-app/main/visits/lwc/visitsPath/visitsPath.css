@@ -45,6 +45,9 @@ h2 {
     background-color: #FFFFFF;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0);*/
 }
+.vis-input {
+    width: 209px;
+}
 .container1 {
     /*height: 40px;
     width: 360px;*/
