@@ -52,6 +52,7 @@
                                                 data-id={pathItem.id}
                                                 data-name={pathItem.visitName}
                                                 data-title={pathItem.headerTitle}
+                                                data-completeddate={pathItem.complDate}
                                                 >{pathItem.visitName}</a
                                             >
                                         </div>
@@ -145,20 +146,31 @@
                     <div class="mr_40">
                         <div class="label">{labels.VisitDate}</div>
                         <div class="mr_10" style="height: 40px">
-                            <lightning-input
-                                type="datetime"
-                                label={labels.VisitDate}
-                                value={planDate}
-                                autocomplete="off"
-                                onchange={handleDateChange}
-                                name="planDate"
-                                disabled={isVisitCompleted}
-                                variant="label-hidden"
-                                min={today}
-                                onblur={doValidateReminder}
-                                required
-                            >
-                            </lightning-input>
+                            <template if:false={isVisitCompleted}>
+                                <lightning-input
+                                    type="datetime"
+                                    label={labels.VisitDate}
+                                    value={planDate}
+                                    autocomplete="off"
+                                    onchange={handleDateChange}
+                                    name="planDate"
+                                    disabled={isVisitCompleted}
+                                    variant="label-hidden"
+                                    min={today}
+                                    onblur={doValidateReminder}
+                                    required
+                                >
+                                </lightning-input>
+                            </template>
+                            <template if:true={isVisitCompleted}>
+                                <lightning-input
+                                    type="date"
+                                    value={completedDate}
+                                    variant="label-hidden"
+                                    disabled="true"
+                                    class="vis-input"
+                                ></lightning-input>
+                            </template>
                         </div>
                     </div>
 
@@ -200,8 +212,10 @@
                     </template>
                     <div class={reminderClass}>
                         {labels.remindUsing}
-                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                            >{labels.ChangeNotifications}</a
+                        <template if:true={showAccountNavigation}>
+                            <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                >{labels.ChangeNotifications}</a
+                            ></template
                         >
                     </div>
                     <div class="slds-grid" style="margin-left: -11px">
@@ -376,20 +390,31 @@
                     <div class="mr_40">
                         <div class="label">{labels.VisitDate}</div>
                         <div class="mr_10" style="height: 40px">
-                            <lightning-input
-                                type="datetime"
-                                label={labels.VisitDate}
-                                value={planDate}
-                                autocomplete="off"
-                                onchange={handleDateChange}
-                                name="planDate"
-                                disabled={isVisitCompleted}
-                                variant="label-hidden"
-                                min={today}
-                                onblur={doValidateReminder}
-                                required
-                            >
-                            </lightning-input>
+                            <template if:false={isVisitCompleted}>
+                                <lightning-input
+                                    type="datetime"
+                                    label={labels.VisitDate}
+                                    value={planDate}
+                                    autocomplete="off"
+                                    onchange={handleDateChange}
+                                    name="planDate"
+                                    disabled={isVisitCompleted}
+                                    variant="label-hidden"
+                                    min={today}
+                                    onblur={doValidateReminder}
+                                    required
+                                >
+                                </lightning-input>
+                            </template>
+                            <template if:true={isVisitCompleted}>
+                                <lightning-input
+                                    type="date"
+                                    value={completedDate}
+                                    variant="label-hidden"
+                                    disabled="true"
+                                    class="vis-input"
+                                ></lightning-input>
+                            </template>
                         </div>
                     </div>
 
@@ -403,8 +428,8 @@
                             options={reminderOptions}
                             disabled={isVisitCompleted}
                             onblur={doValidateReminder}
-                            class="container"
                             dropdown-alignment="auto"
+                            class="container"
                         >
                         </lightning-combobox>
                     </div>
@@ -431,8 +456,10 @@
                     </template>
                     <div class={reminderClass}>
                         {labels.remindUsing}
-                        <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                            >{labels.ChangeNotifications}</a
+                        <template if:true={showAccountNavigation}>
+                            <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                >{labels.ChangeNotifications}</a
+                            ></template
                         >
                     </div>
                     <div class="slds-grid" style="margin-left: -11px">
