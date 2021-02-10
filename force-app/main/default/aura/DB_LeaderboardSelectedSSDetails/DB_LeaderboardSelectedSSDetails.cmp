@@ -17,26 +17,22 @@
     <aura:attribute name="siteRankWrapper" type="object" />
     <aura:attribute name="recordChanged" type="String" default="" access="public" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
-
+    
     <!-- handler -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
     <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
-
+    
     <!-- component body -->
-
-    <div class="rr-white-panel">
-
-        <div class="slds-clearfix">
-            <aura:if isTrue="{!v.isRTL}">               
-              
-                <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount" style="{!if(v.isRTL, 'float: left;1000px;', '')}">
-                     {!v.totalSSCount} :{!$Label.c.Dashboard_Total_Sites}
-                </span>
-                <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title" style="{!if(v.isRTL, 'float: right;', '')}">
+    
+    <div class="rr-white-panel">        
+        <div class="slds-clearfix">            
+            <aura:if isTrue="{!v.isRTL}">                 
+                <span class="slds-p-top_medium leaderboard-title" style="{!if(v.isRTL, 'float:right;padding-right:30px;', '')}">
                     {!v.dashboardTitle}
                 </span>
-
-                
+                <span class="slds-p-top_medium totalcount" style="{!if(v.isRTL, 'float:left;padding-left:', '')}">
+                    {!v.totalSSCount} :{!$Label.c.Dashboard_Total_Sites}
+                </span>                
                 <aura:set attribute="else">
                     <span class="slds-float_left slds-p-left_medium slds-p-top_medium leaderboard-title" >
                         {!v.dashboardTitle}
@@ -46,21 +42,32 @@
                         {!$Label.c.Dashboard_Total_Sites}: {!v.totalSSCount}
                     </span>
                     <!--/aura:if-->
-                </aura:set>
+                </aura:set>                
             </aura:if>
         </div>
+        
         <div class="exampleHolder" style="position: relative; padding: 0%; z-index: 1">
             <aura:if isTrue="{! v.loaded }">
                 <lightning:spinner alternativeText="Loading" />
             </aura:if>
         </div>
         <div class="slds-p-top_small slds-p-left_medium slds-p-right_medium">
-            <div class="slds-float_left">
-                <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}" />
-            </div>
-            <div class="slds-float_right">
-                <c:DB_LeaderboardSSRankDisplay pIStudySiteRank="{!v.siteRankWrapper}" />
-            </div>
+            <aura:if isTrue="{!v.isRTL}">
+                <div class="slds-float_left">
+                    <c:DB_LeaderboardSSRankDisplay pIStudySiteRank="{!v.siteRankWrapper}" />
+                </div>
+                <div class="slds-float_right">
+                    <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}" />
+                </div>
+                <aura:set attribute="else">
+                    <div class="slds-float_right">
+                        <c:DB_LeaderboardSSRankDisplay pIStudySiteRank="{!v.siteRankWrapper}" />
+                    </div>
+                    <div class="slds-float_left">
+                        <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}" />
+                    </div>
+                </aura:set>                
+            </aura:if>           
         </div>
     </div>
 </aura:component>
