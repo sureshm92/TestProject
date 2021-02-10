@@ -3,6 +3,9 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_PAST = 'Past';
     public static final String VISIT_STATUS_PENDING = 'Pending';
     public static final String VISIT_MODE_ALL = 'All';
+    public static final String VISIT_MODE_SCHEDULED = 'Scheduled';
+    public static final String VISIT_MODE_COMPLETED = 'Completed';
+    public static final String VISIT_MODE_MISSED = 'Missed';
     private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
@@ -35,13 +38,26 @@ public inherited sharing class PatientVisitService {
             'Planned_Date__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
-        if (visitMode != VISIT_MODE_ALL) {
+       /* if (visitMode != VISIT_MODE_ALL) {
             filter +=
                 'AND' +
                 (VISIT_MODE_CURRENT == visitMode
                     ? DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING)
                     : DatabaseService.fieldNotEqual('Status__c', VISIT_STATUS_PENDING));
+        }*/
+        if (visitMode != VISIT_MODE_ALL){
+             if(visitMode == VISIT_MODE_SCHEDULED){
+            filter +=
+                'AND' + DatabaseService.fieldEqual('Status__c',VISIT_MODE_SCHEDULED);
+       }else if(visitMode == VISIT_MODE_CURRENT){
+            List<String> currentstatusFilter = new List<String>{ VISIT_STATUS_PENDING,VISIT_MODE_SCHEDULED};
+            filter += 'AND' + DatabaseService.fieldInValues('Status__c', currentstatusFilter);
+       }else if(visitMode == VISIT_MODE_PAST ){
+        List<String> paststatusFilter = new List<String>{ VISIT_MODE_COMPLETED,VISIT_MODE_MISSED};
+          filter += 'AND' + DatabaseService.fieldInValues('Status__c', paststatusFilter);
+         }
         }
+      
         String order =
             'Visit_Number__c ' +
             (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') +

@@ -89,7 +89,7 @@
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    No Date Set
+                                                    {labels.noDateSet}
                                                 </template>
                                             </template>
                                         </div>
@@ -163,13 +163,31 @@
                                 </lightning-input>
                             </template>
                             <template if:true={isVisitCompleted}>
-                                <lightning-input
-                                    type="date"
-                                    value={completedDate}
-                                    variant="label-hidden"
-                                    disabled="true"
-                                    class="vis-input"
-                                ></lightning-input>
+                                <template if:true={isVisitMissed}>
+                                    <lightning-input
+                                        type="datetime"
+                                        label={labels.VisitDate}
+                                        value={planDate}
+                                        autocomplete="off"
+                                        onchange={handleDateChange}
+                                        name="planDate"
+                                        disabled={isVisitCompleted}
+                                        variant="label-hidden"
+                                        min={today}
+                                        onblur={doValidateReminder}
+                                        required
+                                    >
+                                    </lightning-input>
+                                </template>
+                                <template if:false={isVisitMissed}>
+                                    <lightning-input
+                                        type="date"
+                                        value={completedDate}
+                                        variant="label-hidden"
+                                        disabled="true"
+                                        class="vis-input"
+                                    ></lightning-input>
+                                </template>
                             </template>
                         </div>
                     </div>
@@ -229,6 +247,7 @@
                                 name="emailOptin"
                                 onchange={handleDateChange}
                                 class="mr_10"
+                                onblur={doValidateReminder}
                             >
                             </lightning-input>
                             <lightning-input
@@ -308,8 +327,14 @@
                                         </div>
                                         <div class="state-labelRTL">{pathItem.visitName}</div>
                                         <div class="state-labelRTL">
-                                            <template if:false={pathItem.isPending}
-                                                >{pathItem.complDate}</template
+                                            <template if:false={pathItem.isPending}>
+                                                <template if:true={pathItem.complDate}>
+                                                    {pathItem.complDate}
+                                                </template>
+
+                                                <template if:false={pathItem.complDate}>
+                                                    {labels.noDateSet}
+                                                </template></template
                                             >
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
@@ -333,7 +358,7 @@
                                                     </div>
                                                 </template>
                                                 <template if:false={pathItem.planDate}>
-                                                    No Date Set
+                                                    {labels.noDateSet}
                                                 </template>
                                             </template>
                                         </div>
@@ -473,6 +498,7 @@
                                 name="emailOptin"
                                 onchange={handleDateChange}
                                 class="mr_10"
+                                onblur={doValidateReminder}
                             >
                             </lightning-input>
                             <lightning-input
@@ -484,6 +510,7 @@
                                 name="smsOptIn"
                                 onchange={handleDateChange}
                                 class="mr_10"
+                                onblur={doValidateReminder}
                             >
                             </lightning-input>
                         </div>

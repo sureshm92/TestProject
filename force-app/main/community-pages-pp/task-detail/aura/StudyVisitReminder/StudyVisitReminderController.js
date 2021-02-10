@@ -28,7 +28,7 @@
     doSave: function (component, event, helper) {
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
-        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate};
+        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate ,'Status__c':'Scheduled'};
         if(task.Task_Type__c == 'Visit'){
             communityService.executeAction(
                 component,

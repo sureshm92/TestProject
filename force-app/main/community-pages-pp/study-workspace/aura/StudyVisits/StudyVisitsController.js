@@ -11,7 +11,8 @@
                 value: 'Current',
                 label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Current_Visits')
             },
-            { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') }
+            { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') },
+            { value: 'Scheduled', label: $A.get('$Label.c.PP_Scheduled')}
         ];
         component.set('v.options', opts);
         communityService.executeAction(component, 'isStudySiteHasVisits', {}, function (response) {
