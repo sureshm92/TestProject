@@ -15452,6 +15452,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Nickname</shortDescription>
         <value>Nickname</value>
     </labels>
+	 <labels>
+        <fullName>PP_NoDateSet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NoDateSet</shortDescription>
+        <value>No Date Set</value>
+    </labels>
     <labels>
         <fullName>PP_One_Hour_Before</fullName>
         <language>en_US</language>
@@ -15625,6 +15632,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Scheduled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Scheduled</shortDescription>
+        <value>Scheduled</value>
     </labels>
     <labels>
         <fullName>PP_Share_Article</fullName>

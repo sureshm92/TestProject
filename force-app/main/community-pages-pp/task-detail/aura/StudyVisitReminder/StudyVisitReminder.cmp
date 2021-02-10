@@ -143,11 +143,11 @@
                                 label="{!$Label.c.PP_Remind_Using_Email}" name="Email"
                                 value="{!v.task.Remind_Using_Email__c}" disabled="{!not(v.emailOptIn)}"
                                 checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                onchange="{!c.setAttributeValue}" />
+                                onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}"/>
                             <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
                                 name="SMS" value="{!v.task.Remind_Using_SMS__c}" disabled="{!not(v.smsOptIn)}"
                                 checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                onchange="{!c.setAttributeValue}" />
+                                onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}" />
                         </div>
                     </div>
                    
@@ -284,14 +284,24 @@
             <c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" />
             <div style="margin-top:20px;">
                 <div class="label">{!$Label.c.PP_Visit_Date}</div>
-            <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true"></lightning:input>
+                <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                <lightning:input type="date" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="vis-input"></lightning:input>
+                <aura:set attribute="else">
+                    <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
+                      <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true"></lightning:input>
+                    <aura:set attribute="else">
+                      <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true"></lightning:input>
+                    </aura:set>
+                    </aura:if>
+                 </aura:set>
+                </aura:if>
                 </div> 
                 <div>
               <lightning:combobox aura:id="reminderOption"  label="{!$Label.c.Remind_Me}"
                       placeholder="Select"
                       value="{!v.task.Remind_Me__c}"
                       onchange="{!c.doValidateFields}"
-                      disabled="{!v.visitData.visitStatus == 'Completed'}" 
+                      disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}" 
                       options="{!v.initData.reminderFrequencyList}" class="container"/>                
                 </div>
                
@@ -299,7 +309,7 @@
                 <div style="margin-top:40px;">
                 <div class="label">{!$Label.c.PP_Reminder_Date}</div>
                 <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
-                    value="{!v.initData.reminderDate}" disabled="{!v.visitData.visitStatus == 'Completed'}"
+                    value="{!v.initData.reminderDate}" disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
                     max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
                     messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" min="{!v.initData.today}" onblur="{!c.doValidateFields}" required="true"/>
@@ -318,13 +328,13 @@
                 <!--Remind Using-->
                 <div class="slds-col slds-size_1-of-2">
                     <lightning:input aura:id="emailField" type="checkbox" label="{!$Label.c.PP_Remind_Using_Email}"
-                        name="Email" disabled="{!or(not(v.emailOptIn),v.visitData.visitStatus == 'Completed')}" value="{!v.task.Remind_Using_Email__c}"
+                        name="Email" disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_Email__c}"
                         checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                        onchange="{!c.setAttributeValue}" class="mr_10"/>
+                        onchange="{!c.setAttributeValue}" class="mr_10" onblur="{!c.doValidateFields}"/>
                      <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
-                        name="SMS" disabled="{!or(not(v.smsOptIn),v.visitData.visitStatus == 'Completed')}" value="{!v.task.Remind_Using_SMS__c}"
+                        name="SMS" disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_SMS__c}"
                         checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                        onchange="{!c.setAttributeValue}"  class="mr_10"/>
+                        onchange="{!c.setAttributeValue}"  class="mr_10" onblur="{!c.doValidateFields}"/>
                 </div>
                    
             </div>

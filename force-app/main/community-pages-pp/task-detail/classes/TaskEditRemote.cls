@@ -188,6 +188,7 @@ public without sharing class TaskEditRemote {
             if(taskToUpsert.Patient_Visit__c != null){
                 List<Patient_Visit__c> pv =[Select Id,Planned_Date__c from Patient_Visit__c where Id =: taskToUpsert.Patient_Visit__c LIMIT 1];
                 pv[0].Planned_Date__c = taskWrapper.activityDate;
+                pv[0].Status__c = 'Scheduled';
                 update pv;
             }
             taskToUpsert.Reminder_Date__c = newReminderDate;
@@ -210,7 +211,6 @@ public without sharing class TaskEditRemote {
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
-                  
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
