@@ -2,7 +2,7 @@
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
         <fullName>Additional_Notes__c</fullName>
         <externalId>false</externalId>
-        <inlineHelpText>Please add Additional notes in the format of Additional Notes on Jan 13 2021, 03:05 AM by UserName(IQVIA)#</inlineHelpText>
+        <inlineHelpText>Please add Additional notes in the format of Additional Notes on Jan 13 2021, 03:05 AM by (IQVIA)UserName#</inlineHelpText>
         <label>Additional Notes</label>
         <length>131072</length>
 		<trackHistory>true</trackHistory>
