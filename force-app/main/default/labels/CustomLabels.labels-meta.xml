@@ -16652,6 +16652,13 @@ communications using the toggles below.</value>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
+        <fullName>RH_Masked_Display_IQVIA_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Masked_Display_IQVIA_User</shortDescription>
+        <value>- IQVIA</value>
+    </labels>
+    <labels>
         <fullName>RH_Masked_IQVIA_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
