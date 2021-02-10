@@ -90,7 +90,7 @@
             communityService.showToast(
                 'success',
                 'success',
-                $A.get('$Label.c.SS_Success_Save_Message')
+                $A.get('$Label.c.CC_Success_Save_Message')
             );
             var cmpEvent = component.getEvent("CloseEvent"); 
             //Set event attribute value
