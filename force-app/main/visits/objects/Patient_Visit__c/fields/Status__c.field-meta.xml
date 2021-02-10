@@ -25,6 +25,11 @@
                 <default>false</default>
                 <label>Missed</label>
             </value>
+            <value>
+                <fullName>Scheduled</fullName>
+                <default>false</default>
+                <label>Scheduled</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

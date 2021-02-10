@@ -15,6 +15,7 @@
         }
 
         helper.initialize(component, helper);
+        //this.reRender = true;
         //Take scroll bar to top next time when the popup is displayed
         //if (!component.get('v.isReminderOnly')) {
         document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
@@ -23,12 +24,13 @@
 
     doCancel: function (component, event, helper) {
         helper.hideModal(component);
+        this.reRender = false;
     },
 
     doSave: function (component, event, helper) {
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
-        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate};
+        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate ,'Status__c':'Scheduled'};
         if(task.Task_Type__c == 'Visit'){
             communityService.executeAction(
                 component,
