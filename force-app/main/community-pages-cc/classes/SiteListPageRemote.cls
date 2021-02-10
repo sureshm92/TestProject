@@ -222,7 +222,7 @@ public without sharing class SiteListPageRemote {
         }
         return filterText;
     }
-
+    @TestVisible
     private static List<SiteWrapper> wrapperTransformation(List<Study_Site__c> siteList) {
         List<SiteWrapper> wrapperList = new List<SiteWrapper>();
         for (Study_Site__c site : siteList) {
