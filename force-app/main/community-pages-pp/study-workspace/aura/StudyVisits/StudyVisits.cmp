@@ -87,7 +87,8 @@
                                 <aura:if
                                     isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
                                 >
-                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <!--<ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />-->
+                                    {!$Label.c.PP_Date_Unavailable}
                                     <aura:set attribute="else">
                                         <lightning:formattedDateTime
                                             value="{!visitWrapper.visitDate}"
@@ -107,7 +108,8 @@
                                 <aura:if
                                     isTrue="{!$Label.c.Study_Visit_Unavailable == visitWrapper.completedOrPlannedDate}"
                                 >
-                                    <ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />
+                                    <!--<ui:outputDate value="{!visitWrapper.completedOrPlannedDate}" />-->
+                                    {!$Label.c.PP_Time_Unavailable}
                                     <aura:set attribute="else">
                                         <lightning:formattedDateTime
                                             value="{!visitWrapper.visitDate}"

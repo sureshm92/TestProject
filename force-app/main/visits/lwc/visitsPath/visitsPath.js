@@ -109,6 +109,7 @@ export default class VisitsPath extends LightningElement {
     @track visitTitle;
     @track visitId;
     @track reminderDate;
+    @track completedDate;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -341,6 +342,8 @@ export default class VisitsPath extends LightningElement {
         //this.patientVisitName = event.currentTarget.dataset.name;
         this.patientVisitName = event.currentTarget.dataset.name;
         this.visitTitle = event.currentTarget.dataset.title;
+        this.completedDate = event.currentTarget.dataset.completeddate;
+        console.log('completedDate-->' + this.completedDate);
         console.log('visiTitle-->' + this.visitTitle);
         //+ ' ' + 'Details';
         console.log('visitname-->' + this.patientVisitName);
