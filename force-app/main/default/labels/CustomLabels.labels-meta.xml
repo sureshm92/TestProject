@@ -4344,12 +4344,14 @@ By using our website, you are accepting our use of cookies.</value>
 
         Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
-    <labels>
+     <labels>
         <fullName>Email_Body_Initial_CC</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Initial_CC</shortDescription>
-        <value>Please complete your registration to obtain call center access</value>
+        <value>You have been invited to use IQVIA&apos;s Referral Hub Call Center Interface.
+&lt;br&gt;
+Please click the button below to register. This is a required step to gain access to study site information, that you will need in order to process calls.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
@@ -17687,6 +17689,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
+    </labels>
+     <labels>
+        <fullName>Select_Call_Catagory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Call Catagory</shortDescription>
+        <value>Select Call Catagory</value>
     </labels>
     <labels>
         <fullName>SS_Location_Address</fullName>
