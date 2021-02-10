@@ -126,7 +126,8 @@
         console.log('isTaskTab-->'+component.get('v.isTaskTab'));
         var remindMe = component.get('v.task.Remind_Me__c');
         var isTaskTab = component.get('v.isTaskTab') == true;
-        var reminderOptionValid = !isTaskTab?component.find('reminderOption'):component.find('taskReminderOption');
+        var isReminderOnly = component.get('v.isReminderOnly');
+        var reminderOptionValid = !isTaskTab?component.find('reminderOption'): !isReminderOnly?component.find('taskReminderOption'):component.find('taskReminderOption1');
         var isGreaterThanToday = false;
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
         var today = moment();
