@@ -16,7 +16,9 @@
     line-height: 24px;
     font-weight: 500;
 }
-
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS .study_Name {
     margin-top: -2px;
     padding-top: -2px;
