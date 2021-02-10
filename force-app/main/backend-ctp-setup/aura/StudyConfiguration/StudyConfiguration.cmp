@@ -176,7 +176,7 @@
                                                      aura:id="delayedDays"
                                                      type="number" 
                                                      variant="label-hidden" 
-                                                     min = "0"
+                                                     min = "1"
                                                      value="{!v.ctp.Delayed_No_Of_Days__c}"
                                                      > 
                                     </lightning:input>
