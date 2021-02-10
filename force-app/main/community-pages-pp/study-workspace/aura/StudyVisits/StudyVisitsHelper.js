@@ -21,7 +21,8 @@
                 visitData: visitWrapper,
                 isNewTask: isNewTask,
                 isReminderOnly: true,
-                parent: component.get('v.cmpDef')
+                parent: component.get('v.cmpDef'),
+                reRender:true
             },
             function (reminder, status, errorMessage) {
                 if (component.isValid() && status === 'SUCCESS') {

@@ -82,7 +82,8 @@
                 taskType: 'Visit',
                 visitData: visitWrapper,
                 isNewTask: isNewTask,
-                isReminderOnly: true
+                isReminderOnly: true,
+                reRender :true
             };
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
