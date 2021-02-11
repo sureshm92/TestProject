@@ -8764,7 +8764,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Maximum Length of Tooltip</shortDescription>
-        <value>maximum length of 1000 characters</value>
+        <value>(max length of 1000 characters)</value>
     </labels>
     <labels>
         <fullName>Media_Chekbox</fullName>
