@@ -22,7 +22,7 @@
 
 @media all and (max-width: 500px) {
 
-    THIS.slp-counter {
+    .THIS.slp-counter {
         flex-wrap: wrap;
         justify-content: center;
     } 
