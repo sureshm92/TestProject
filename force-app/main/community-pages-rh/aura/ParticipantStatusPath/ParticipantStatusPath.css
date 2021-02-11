@@ -66,13 +66,14 @@
     justify-content: center;
 }
 .THIS .state-ico-wrapperRTL {
-    width: 18px;
-    height: 18px;
+    width: 28px;
+    height: 28px;
     border-radius: 50%;
     position: absolute;
-    top: -10px;
+    top: -15px;
     left: 56px;
     line-height: 1;
+    margin-left:40px;
     display: inline-flex;
     align-items: center;
     justify-content: center;

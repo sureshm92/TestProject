@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="CookiesInfo" controller="CommunityFacadeRemote">
+<aura:component description="CookiesInfo" controller="CommunityFacadeRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
     <!-- attributes: -->
     <aura:attribute name="resultInfoText" type="String" />
@@ -18,9 +18,11 @@
                     <aura:unescapedHtml value="{!v.resultInfoText}" />
                 </span>
             </div>
-            <div class="ci-icon" onclick="{!c.doCloseCookiesInfo}">
+            <div class="{!if(v.isRTL, 'ci-icon rtl-margin', 'ci-icon')}" onclick="{!c.doCloseCookiesInfo}">
                 <c:RRIcon iconName="icon-close" />
             </div>
         </div>
     </aura:if>
+    
 </aura:component>
+
