@@ -11,7 +11,9 @@
     line-height: 30px;
     margin-bottom: 20px;
 }
-
+.rtl {
+    direction: rtl;
+}
 .incentives-page-container {
     margin-bottom: 20px;
 }

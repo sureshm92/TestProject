@@ -8134,6 +8134,14 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Last_Earned</shortDescription>
         <value>Last Earned:</value>
     </labels>
+     <labels>
+        <fullName>IncentiveProgram_Last_EarnedRTL</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Last_EarnedRTL</shortDescription>
+        <value>:Last Earned</value>
+    </labels>
     <labels>
         <fullName>IncentiveProgram_My_Points</fullName>
         <categories>Incentive Program</categories>
@@ -8164,6 +8172,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Pts</shortDescription>
+        <value>pts</value>
+    </labels>
+     <labels>
+        <fullName>IncentiveProgram_PtsRTL</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_PtsRTL</shortDescription>
         <value>pts</value>
     </labels>
     <labels>
@@ -8222,6 +8238,14 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Total_Points</shortDescription>
         <value>Total:</value>
     </labels>
+     <labels>
+        <fullName>IncentiveProgram_TotalRTL</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_TotalRTL</shortDescription>
+        <value>:Total</value>
+    </labels>
     <labels>
         <fullName>IncentiveProgram_Total_Points</fullName>
         <categories>Incentive Program</categories>
@@ -8229,6 +8253,14 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>IncentiveProgram_Total_Points</shortDescription>
         <value>Total Points:</value>
+    </labels>
+     <labels>
+        <fullName>IncentiveProgram_Total_PointsRTL</fullName>
+        <categories>Incentive Program</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IncentiveProgram_Total_PointsRTL</shortDescription>
+        <value>:Total Points</value>
     </labels>
     <labels>
         <fullName>IncentiveProgram_View_Details</fullName>
