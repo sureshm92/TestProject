@@ -159,7 +159,7 @@
         <label>CC Staff Name</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>CC Staffs</pluralLabel>
+    <pluralLabel>CC Staff</pluralLabel>
     <searchLayouts/>
     <sharingModel>ReadWrite</sharingModel>
     <visibility>Public</visibility>
