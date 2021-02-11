@@ -95,7 +95,7 @@
                                             year="numeric"
                                             month="short"
                                             day="2-digit"
-                                            timeZone="{!$Locale.timezone}"
+                                            timeZone="{!visitWrapper.visit.Status__c == 'Completed' ?'UTC' :$Locale.timezone}"
                                         />
                                     </aura:set>
                                 </aura:if>

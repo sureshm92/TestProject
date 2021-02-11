@@ -5,6 +5,10 @@
     font-family: 'Proxima Nova' !important;
 }
 
+.THIS .rtl-margin {
+    margin-right: 1200px;
+}
+
 @media all and (max-width: 767px) {
     .THIS .ci-panel {
         width: 79%;
