@@ -26,7 +26,8 @@
                 isNewTask: isNewTask,
                 isTaskTab: true,
                 isReminderOnly: isReminderOnly,
-                parent: component.get('v.cmpDef')
+                parent: component.get('v.cmpDef'),
+                reRender:true
             },
             function (reminder, status, errorMessage) {
                 if (component.isValid() && status === 'SUCCESS') {
@@ -60,7 +61,8 @@
             taskData: taskData,
             isNewTask: false,
             isReminderOnly: isReminderOnly,
-            isTaskTab: true
+            isTaskTab: true,
+            reRender:true
         };
         return relaodAttributes;
     }
