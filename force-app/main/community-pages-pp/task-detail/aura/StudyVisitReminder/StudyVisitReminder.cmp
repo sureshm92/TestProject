@@ -5,7 +5,7 @@
 
 <aura:component description="StudyVisitReminder" controller="TaskEditRemote" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.moment_js}" afterScriptsLoaded="{!c.doInit}" />
-
+    
     <aura:attribute name="title" type="String" />
     <aura:attribute name="visitId" type="String" />
     <aura:attribute name="taskId" type="String" />
@@ -40,7 +40,7 @@
     <aura:attribute name="messageWhenRangeUnderflow" type="String" default="{!$Label.c.PP_Reminder_Underflow}" />
     <aura:attribute name="tomorrow" type="Datetime" />
     <aura:attribute name="dayAfterDueDate" type="Datetime" />
-
+    
     <!-- event handlers -->
     <aura:handler name="change" value="{!v.visitData.visitDate}" action="{!c.doValidateFields}"/>
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
@@ -53,332 +53,332 @@
     <aura:method name="reloadPopup" action="{!c.doInit}" description="Reload the popup in the parent component">
         <aura:attribute name="relaodAttributes" type="Object" />
     </aura:method>
-
+    
     <c:Popup aura:id="reminderModal" size="medium" showScroll="true" showHeader="false">
         <c:RRSpinner aura:id="spinner" fixed="true" size="medium" />
         <div class="title">{!v.title}</div>
         <!-- Task Panel -->
         <aura:if isTrue="{!v.reRender}">
-        <aura:if isTrue="{!and(v.task.Task_Type__c != 'Visit',not(v.isReminderOnly))}">
-            <div class="te-task-panel">
-                <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
-                    style="min-height: 250px">
-                    <!-- Task Details Section -->
-                    <div class="te-col-header">{!$Label.c.Task_Details}</div>
-                    <!-- Task Header Info -->
-                    <div class="te-col-header-info">{!$Label.c.Task_Details_Header_Info}</div>
-                    <!--Task Name-->
-                    <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <div class="{!'slds-col slds-size_1-of-1 ' + if(v.isRTL, 'task-rtl', '')}">
-                            
-                            <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
-                                required="true"
-                                disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
-                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
-                        </div>
-                    </div>
-                    <!--Seperator-->
-                    <div class="slds-p-top_small"></div>
-                    <div class="slds-grid slds-gutters slds-wrap">
-                        <!-- Due Date -->
-                        <div
-                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
-                            <div class="label">{!$Label.c.Due_Date}</div>
-                            <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
-                                variant="label-hidden" value="{!v.initData.activityDate}"
-                                disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
-                                class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
-                                dateStyle="medium" required="true"/>
-                        </div>
-                        <!--Seperator-->
-                        <div class="slds-p-top_small"></div>
-                        <!-- Task Type -->
-                        <div class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
-                        </div>
-                    </div>
-                    <div class="te-col-header" style="margin-top: 15px">
-                        {!$Label.c.Task_Reminder_Details}
-                    </div>
-                    <!-- Task Reminder Details -->
-                    <!--<aura:if isTrue="{!not(v.initData.createdByAdmin)}"> -->
-                    <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <!--Reminder Frequency-->
-                        <div
-                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl', '')}">
-                          
-                      <lightning:combobox aura:id="taskReminderOption"  label="{!$Label.c.Remind_Me}"
-                      placeholder="Select"
-                      value="{!v.task.Remind_Me__c}"
-                      onchange="{!c.doValidateFields}"
-                      options="{!v.initData.reminderFrequencyList}"/>
-                        </div>
-                        <!--Reminder Date-->
-                        <div class="{!if(v.isRTL, 'task-rtl rightAlign', '')}" style="margin-left:15px;">
-                            <!--{!$Label.c.Home_Page_StudyVisit_Completed_On}-->
-                            <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
-                                <div class="label">{!$Label.c.PP_Reminder_Date}</div>
-                                <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
-                                    value="{!v.initData.reminderDate}"
-                                    min="{!v.initData.today}"            
-                                    max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
-                                    messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
-                                    messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
-                            </aura:if>
-                        </div>
-                    </div>
-                    <div class="slds-p-top_small"></div>
-
-                    <div class="{!'slds-form-element__label ' + if(v.isRTL, 'task-rtl-remind', '')}">
+            <aura:if isTrue="{!and(v.task.Task_Type__c != 'Visit',not(v.isReminderOnly))}">
+                <div class="te-task-panel">
+                    <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
+                         style="min-height: 250px">
+                        <!-- Task Details Section -->
+                        <div class="te-col-header">{!$Label.c.Task_Details}</div>
+                        <!-- Task Header Info -->
+                        <div class="te-col-header-info">{!$Label.c.Task_Details_Header_Info}</div>
+                        <!--Task Name-->
                         <div class="slds-grid te-form slds-gutters slds-wrap">
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                               {!$Label.c.PP_Remind_Using}
-                              						<aura:if isTrue="{!v.showAccountNavigation}">
-  <a onclick="{!c.doNavigateToAccountSettings}" style="margin-left:10px;">{!$Label.c.PP_Change_Notification_Settings}</a>                    </aura:if>
-
+                            <div class="{!'slds-col slds-size_1-of-1 ' + if(v.isRTL, 'task-rtl', '')}">
+                                <div class="label">{!$Label.c.Task_Name}
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                </div>
+                                <lightning:input name="taskName" label="{!$Label.c.Task_Name}" value="{!v.task.Subject}"
+                                                 required="true"
+                                                 variant="label-hidden"
+                                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
                             </div>
                         </div>
-                    </div>
-                    <div class="slds-grid">
-                        <!--Remind Using-->
-                        <div class="slds-col slds-size_1-of-2">
-                            <lightning:input aura:id="emailField" type="checkbox"
-                                label="{!$Label.c.PP_Remind_Using_Email}" name="Email"
-                                value="{!v.task.Remind_Using_Email__c}" disabled="{!not(v.emailOptIn)}"
-                                checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}"/>
-                            <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
-                                name="SMS" value="{!v.task.Remind_Using_SMS__c}" disabled="{!not(v.smsOptIn)}"
-                                checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}" />
+                        <!--Seperator-->
+                        <div class="slds-grid slds-gutters slds-wrap">
+                            <!-- Due Date -->
+                            <div
+                                 class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                                <div class="label">{!$Label.c.Due_Date}
+                                    <abbr title="required" class="slds-required">*</abbr
+                                        >
+                                </div>
+                                <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
+                                                 variant="label-hidden" value="{!v.initData.activityDate}"
+                                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
+                                                 dateStyle="medium" required="true"/>
+                            </div>
                         </div>
+                        <div class="te-col-header" style="margin-top: 15px">
+                            {!$Label.c.Task_Reminder_Details}
+                        </div>
+                        <!-- Task Reminder Details -->
+                        <!--<aura:if isTrue="{!not(v.initData.createdByAdmin)}"> -->
+                        <div class="slds-grid te-form slds-gutters slds-wrap">
+                            <!--Reminder Frequency-->
+                            <div
+                                 class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl', '')}">
+                                
+                                <lightning:combobox aura:id="taskReminderOption"  label="{!$Label.c.Remind_Me}"
+                                                    placeholder="Select"
+                                                    value="{!v.task.Remind_Me__c}"
+                                                    onchange="{!c.doValidateFields}"
+                                                    options="{!v.initData.reminderFrequencyList}" class="wi"/>
+                            </div>
+                            <!--Reminder Date-->
+                            <div class="{!'slds-col slds-size_1-of-2 reminderDate' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                                <!--{!$Label.c.Home_Page_StudyVisit_Completed_On}-->
+                                <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
+                                    <div class="label">{!$Label.c.PP_Reminder_Date}<abbr title="required" class="slds-required">*</abbr
+                                        ></div>
+                                    <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
+                                                     value="{!v.initData.reminderDate}"
+                                                     min="{!v.initData.today}"            
+                                                     max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
+                                                     messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
+                                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" onblur="{!c.doValidateFields}" required="true" class="container1"/>
+                                </aura:if>
+                            </div>
+                        </div>
+                        
+                        <div class="{!'slds-form-element__label ' + if(v.isRTL, 'task-rtl-remind', '')}">
+                            <div class="slds-grid te-form slds-gutters slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                                    {!$Label.c.PP_Remind_Using}
+                                    <aura:if isTrue="{!v.showAccountNavigation}">
+                                        <a onclick="{!c.doNavigateToAccountSettings}" style="margin-left:10px;">{!$Label.c.PP_Change_Notification_Settings}</a>                    </aura:if>
+                                    
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-grid">
+                            <!--Remind Using-->
+                            <div class="slds-col slds-size_1-of-2">
+                                <lightning:input aura:id="emailField" type="checkbox"
+                                                 label="{!$Label.c.PP_Remind_Using_Email}" name="Email"
+                                                 value="{!v.task.Remind_Using_Email__c}" disabled="{!not(v.emailOptIn)}"
+                                                 checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                                 onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}"/>
+                                <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
+                                                 name="SMS" value="{!v.task.Remind_Using_SMS__c}" disabled="{!not(v.smsOptIn)}"
+                                                 checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                                 onchange="{!c.setAttributeValue}" onblur="{!c.doValidateFields}" />
+                            </div>
+                        </div>
+                        
+                        
+                        <!--</aura:if>-->
                     </div>
-                   
-                    <div class="slds-p-top_small"></div>
-
-                    <!--</aura:if>-->
                 </div>
-            </div>
+            </aura:if>
         </aura:if>
-        </aura:if>
-         
+        
         <!-- ============================== Reminder Only Section ===========================================-->
- <aura:if isTrue="{!v.reRender}">
-        <aura:if isTrue="{!and(v.isReminderOnly,v.task.Task_Type__c != 'Visit')}">
-            <div class="te-task-panel">
-                <div
-                    class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
-                    style="min-height: 250px"
-                >
-                    <!-- Task Header Info -->
-                    <div class="te-col-header-info">{!$Label.c.Task_Details_Header_Info}</div>
-                    <div class="slds-p-top_small"></div>
-                    <!--Visit Reminder-->
-                    <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
-                        <div
-                            class="{! 'slds-col slds-size_1-of-1 slds-medium-size_1-of-2'+ if(v.isRTL, 'task-rtl', '')}"
-                        >
-                            <lightning:formattedText
-                                value="{!$Label.c.Task_Name}"
-                            />
-                            <br />
-                            <div class="slds-p-top_small"></div>
-                            <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
-
-                        </div>
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:formattedText
-                                value="{!$Label.c.Due_Date }"
-                            />
-                            <br />
-                            <div class="slds-p-top_small"></div>
-                            <b>
-                                <!--  <lightning:formattedText
+        <aura:if isTrue="{!v.reRender}">
+            <aura:if isTrue="{!and(v.isReminderOnly,v.task.Task_Type__c != 'Visit')}">
+                <div class="te-task-panel">
+                    <div
+                         class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
+                         style="min-height: 250px"
+                         >
+                        <!-- Task Header Info -->
+                        <div class="te-col-header-info">{!$Label.c.Task_Details_Header_Info}</div>
+                        <div class="slds-p-top_small"></div>
+                        <!--Visit Reminder-->
+                        <div class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label">
+                            <div
+                                 class="{! 'slds-col slds-size_1-of-1 slds-medium-size_1-of-2'+ if(v.isRTL, 'task-rtl', '')}"
+                                 >
+                                <lightning:formattedText
+                                                         value="{!$Label.c.Task_Name}"
+                                                         />
+                                <br />
+                                <div class="slds-p-top_small"></div>
+                                <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
+                                
+                            </div>
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning:formattedText
+                                                         value="{!$Label.c.Due_Date }"
+                                                         />
+                                <br />
+                                 <div class="slds-p-top_small"></div>
+                                <b>
+                                    <!--  <lightning:formattedText
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
                                 />-->
-                                <lightning:formattedDateTime
-                                    value="{!v.initData.activityDate}"
-                                    year="numeric"
-                                    month="short"
-                                    day="2-digit"
-                                    timeZone="UTC"
-                                />
-                            </b>
+                                    <lightning:formattedDateTime
+                                                                 value="{!v.initData.activityDate}"
+                                                                 year="numeric"
+                                                                 month="short"
+                                                                 day="2-digit"
+                                                                 timeZone="UTC"
+                                                                 />
+                                </b>
+                            </div>
                         </div>
-                    </div>
-                    <div class="slds-p-top_large"></div>
-
-                    <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
-                    <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <!--Reminder Frequency-->
-                        <div
-                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
-                        >
-                    <lightning:combobox aura:id="taskReminderOption1"  label="{!$Label.c.Remind_Me}"
-                      placeholder="Select"
-                      value="{!v.task.Remind_Me__c}"
-                      onchange="{!c.doValidateFields}"
-                      options="{!v.initData.reminderFrequencyList}"/>
-
+                        
+                        <!--<aura:if isTrue="{!not(v.initData.createdByAdmin-->
+                        <div class="slds-grid te-form slds-gutters slds-wrap">
+                            <!--Reminder Frequency-->
+                            <div
+                                 class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                 >
+                                <lightning:combobox aura:id="taskReminderOption1"  label="{!$Label.c.Remind_Me}"
+                                                    placeholder="Select"
+                                                    value="{!v.task.Remind_Me__c}"
+                                                    onchange="{!c.doValidateFields}"
+                                                    options="{!v.initData.reminderFrequencyList}" class="wi"/>
+                                
+                            </div>
+                            <!--Reminder Date-->
+                            <div
+                                 class="{!'slds-col slds-size_1-of-2 reminderDate' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                 >
+                                <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
+                                    <div class="label">{!$Label.c.PP_Reminder_Date} <abbr title="required" class="slds-required">*</abbr
+                                        ></div>
+                                    <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
+                                                     value="{!v.initData.reminderDate}"
+                                                     min="{!v.initData.today}"            
+                                                     max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
+                                                     messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
+                                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
+                                </aura:if>
+                            </div>
                         </div>
-                        <!--Reminder Date-->
-                        <div
-                            class="{!'slds-col slds-size_1-of-1' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
-                        >
-                               <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
-                                <div class="label">{!$Label.c.PP_Reminder_Date}</div>
-                                <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
-                                    value="{!v.initData.reminderDate}"
-                                    min="{!v.initData.today}"            
-                                    max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
-                                    messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
-                                    messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
+                        <div class="slds-form-element__label">{!$Label.c.PP_Remind_Using}
+                            <aura:if isTrue="{!v.showAccountNavigation}">
+                                <!--Account settings-->
+                                <a onclick="{!c.doNavigateToAccountSettings}"
+                                   style="margin:10px;">{!$Label.c.PP_Change_Notification_Settings}</a
+                                    >
                             </aura:if>
                         </div>
-                    </div>
-                    <div class="slds-p-top_small"></div>
-                    <div class="slds-form-element__label">{!$Label.c.PP_Remind_Using}
-					<aura:if isTrue="{!v.showAccountNavigation}">
-                            <!--Account settings-->
-                                <a onclick="{!c.doNavigateToAccountSettings}"
-                                    style="margin:10px;">{!$Label.c.PP_Change_Notification_Settings}</a
-                                >
-                    </aura:if>
-					</div>
-                    <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <!--Remind Using-->
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input
-                                aura:id="emailField"
-                                type="checkbox"
-                                label="{!$Label.c.PP_Remind_Using_Email}"
-                                name="Email"
-                                disabled="{!not(v.emailOptIn)}"
-                                value="{!v.task.Remind_Using_Email__c}"
-                                checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                onchange="{!c.setAttributeValue}"
-                            />
+                        <div class="slds-grid te-form slds-gutters slds-wrap">
+                            <!--Remind Using-->
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning:input
+                                                 aura:id="emailField"
+                                                 type="checkbox"
+                                                 label="{!$Label.c.PP_Remind_Using_Email}"
+                                                 name="Email"
+                                                 disabled="{!not(v.emailOptIn)}"
+                                                 value="{!v.task.Remind_Using_Email__c}"
+                                                 checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                                 onchange="{!c.setAttributeValue}"
+                                                 />
+                            </div>
                         </div>
-                    </div>
-                    <div class="slds-grid te-form slds-gutters slds-wrap">
-                        <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                            <lightning:input
-                                aura:id="smsField"
-                                type="checkbox"
-                                label="{!$Label.c.PP_Remind_Using_SMS}"
-                                name="SMS"
-                                disabled="{!not(v.smsOptIn)}"
-                                value="{!v.task.Remind_Using_SMS__c}"
-                                checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                onchange="{!c.setAttributeValue}"
-                            />
+                        <div class="slds-grid te-form slds-gutters slds-wrap">
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                <lightning:input
+                                                 aura:id="smsField"
+                                                 type="checkbox"
+                                                 label="{!$Label.c.PP_Remind_Using_SMS}"
+                                                 name="SMS"
+                                                 disabled="{!not(v.smsOptIn)}"
+                                                 value="{!v.task.Remind_Using_SMS__c}"
+                                                 checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                                 onchange="{!c.setAttributeValue}"
+                                                 />
+                            </div>
                         </div>
+                        
+                        <!--</aura:if>-->
                     </div>
-                    <div class="slds-p-top_large"></div>
-                    
-                    <!--</aura:if>-->
+                    <!-- Reminder Section rr-white-panel min-height: 220px; -->
                 </div>
-                <!-- Reminder Section rr-white-panel min-height: 220px; -->
-            </div>
-            <!-- Reminder Section te-task-panel -->
-        </aura:if>
-     </aura:if>
-
-        <aura:if isTrue="{!v.reRender}">
-        <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
-            <div style="margin-left:20px;">
-             <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
-            <c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" />
-            <div style="margin-top:20px;">
-                <div class="label">{!$Label.c.PP_Visit_Date}</div>
-                <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
-                <lightning:input type="date" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="vis-input"></lightning:input>
-                <aura:set attribute="else">
-                    <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
-                      <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true"></lightning:input>
-                    <aura:set attribute="else">
-                      <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true"></lightning:input>
-                    </aura:set>
-                    </aura:if>
-                 </aura:set>
-                </aura:if>
-                </div> 
-                <div>
-              <lightning:combobox aura:id="reminderOption"  label="{!$Label.c.Remind_Me}"
-                      placeholder="Select"
-                      value="{!v.task.Remind_Me__c}"
-                      onchange="{!c.doValidateFields}"
-                      disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}" 
-                      options="{!v.initData.reminderFrequencyList}" class="container"/>                
-                </div>
-               
-            <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
-                <div style="margin-top:40px;">
-                <div class="label">{!$Label.c.PP_Reminder_Date}</div>
-                <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
-                    value="{!v.initData.reminderDate}" disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
-                    max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
-                    messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
-                    messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" min="{!v.initData.today}" onblur="{!c.doValidateFields}" required="true"/>
-
-                </div>
-             </aura:if>
-                
-             <div>
-            <div style="{!(v.task.Remind_Me__c == 'Custom') ? 'margin-top:10px;':'margin-top:45px;'}">{!$Label.c.PP_Remind_Using}
-                  <aura:if isTrue="{!v.showAccountNavigation}">
-                    <!--Account settings-->
-                   <a onclick="{!c.doNavigateToAccountSettings}" style="margin:10px;">{!$Label.c.PP_Change_Notification_Settings}</a>
-                  </aura:if>
-             </div>
-            <div class="slds-grid">
-                <!--Remind Using-->
-                <div class="slds-col slds-size_1-of-2">
-                    <lightning:input aura:id="emailField" type="checkbox" label="{!$Label.c.PP_Remind_Using_Email}"
-                        name="Email" disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_Email__c}"
-                        checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                        onchange="{!c.setAttributeValue}" class="mr_10" onblur="{!c.doValidateFields}"/>
-                     <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
-                        name="SMS" disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_SMS__c}"
-                        checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                        onchange="{!c.setAttributeValue}"  class="mr_10" onblur="{!c.doValidateFields}"/>
-                </div>
-                   
-            </div>
-            </div>   
-            </div>
-                   </aura:if>
+                <!-- Reminder Section te-task-panel -->
             </aura:if>
+        </aura:if>
+        <aura:if isTrue="{!v.reRender}">
+            <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
+                <div style="margin-left:20px;">
+                <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
+                <c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" />
+                <div class="slds-grid slds-p-top_x-small">
+                    <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
+                        <div class="label">{!$Label.c.PP_Visit_Date}<abbr title="required" class="slds-required">*</abbr
+                            ></div>
+                        <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                            <lightning:input type="date" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="vis-input"></lightning:input>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
+                                    <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true" class="container1"></lightning:input>
+                                    <aura:set attribute="else">
+                                        <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="container1"></lightning:input>
+                                    </aura:set>
+                                </aura:if>
+                            </aura:set>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-grid slds-p-top_x-small">
+                    <div class="slds-col slds-size_1-of-2 slds-p-top_x-small">
+                        <lightning:combobox aura:id="reminderOption"  label="{!$Label.c.Remind_Me}"
+                                            placeholder="Select"
+                                            value="{!v.task.Remind_Me__c}"
+                                            onchange="{!c.doValidateFields}"
+                                            disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}" 
+                                            options="{!v.initData.reminderFrequencyList}" class="wi"/>                
+                    </div>
+                    <div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminder">
+                        <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
+                            <div class="label">{!$Label.c.PP_Reminder_Date}<abbr title="required" class="slds-required">*</abbr
+                                ></div>
+                            <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
+                                             value="{!v.initData.reminderDate}" disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
+                                             max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
+                                             messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
+                                             messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" min="{!v.initData.today}" onblur="{!c.doValidateFields}" required="true" class="container1"/>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="slds-grid slds-p-top_x-small">
+                     <div class="slds-p-top_large"></div>
+                        <div class="slds-form-element__label slds-p-top_x-small">{!$Label.c.PP_Remind_Using}
+                            <aura:if isTrue="{!v.showAccountNavigation}">
+                                <!--Account settings-->
+                                <a onclick="{!c.doNavigateToAccountSettings}"
+                                   style="margin:10px;">{!$Label.c.PP_Change_Notification_Settings}</a
+                                    >
+                            </aura:if>
+                        </div>
+                </div>
+                <div class="slds-grid">
+                    <div class="slds-col slds-size_1-of-2">
+                        <lightning:input aura:id="emailField" type="checkbox" label="{!$Label.c.PP_Remind_Using_Email}"
+                                         name="Email" disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_Email__c}"
+                                         checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                         onchange="{!c.setAttributeValue}" class="mr_10" onblur="{!c.doValidateFields}"/>
+                        <lightning:input aura:id="smsField" type="checkbox" label="{!$Label.c.PP_Remind_Using_SMS}"
+                                         name="SMS" disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_SMS__c}"
+                                         checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                         onchange="{!c.setAttributeValue}"  class="mr_10" onblur="{!c.doValidateFields}"/>
+                    </div>
+                </div>
+                    </div>
+            </aura:if>
+        </aura:if>
         <!-- End of Reminder Section -->
         <aura:set attribute="footerButtons">
             <aura:if isTrue="{!v.isRTL}">
                 <div align="left">
                     <lightning:button class="apollo-btn tertiary margin_20" onclick="{!c.doCancel}"
-                        label="{!$Label.c.BTN_Cancel}" />
+                                      label="{!$Label.c.BTN_Cancel}" />
                     <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
                         <lightning:button class="apollo-btn secondary" onclick="{!c.doIgnore}"
-                            label="{!$Label.c.BTN_Ignore}" />
+                                          label="{!$Label.c.BTN_Ignore}" />
                         <lightning:button class="apollo-btn secondary" onclick="{!c.doMarkComplete}"
-                            label="{!$Label.c.BTN_Mark_As_Completed}" />
+                                          label="{!$Label.c.BTN_Mark_As_Completed}" />
                     </aura:if>
                     <lightning:button class="apollo-btn primary" onclick="{!c.doSave}" label="{!$Label.c.BTN_Save}" disabled="{!not(v.isValidFields)}"/>
                 </div>
                 <aura:set attribute="else">
                     <div align="right">
                         <lightning:button class="apollo-btn tertiary" onclick="{!c.doCancel}"
-                            label="{!$Label.c.BTN_Cancel}" />
+                                          label="{!$Label.c.BTN_Cancel}" />
                         <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
                             <lightning:button class="apollo-btn secondary" onclick="{!c.doIgnore}"
-                                label="{!$Label.c.BTN_Ignore}" />
+                                              label="{!$Label.c.BTN_Ignore}" />
                             <lightning:button class="apollo-btn secondary" onclick="{!c.doMarkComplete}"
-                                label="{!$Label.c.BTN_Mark_As_Completed}" />
+                                              label="{!$Label.c.BTN_Mark_As_Completed}" />
                         </aura:if>
                         <lightning:button class="apollo-btn primary" onclick="{!c.doSave}"
-                            label="{!$Label.c.BTN_Save}" disabled="{!not(v.isValidFields)}"/>
+                                          label="{!$Label.c.BTN_Save}" disabled="{!not(v.isValidFields)}"/>
                     </div>
                 </aura:set>
             </aura:if>
         </aura:set>
     </c:Popup>
-
+    
     <c:builderStub aura:id="builderStub" />
 </aura:component>

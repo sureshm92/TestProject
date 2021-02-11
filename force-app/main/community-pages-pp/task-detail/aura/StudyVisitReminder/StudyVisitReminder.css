@@ -4,7 +4,7 @@
     margin: 25px auto -80px;
 }
 .THIS .vis-input {
-    width: 209px;
+    width: 180px;
 }
 .THIS .title {
     height: 60px;
@@ -82,6 +82,17 @@
 .THIS .container{
     height: 40px;
     width: 209px;
+}
+.THIS .reminderDate{
+    margin-left: -113px;
+    margin-top: 5px;
+}
+.THIS .reminder{
+    margin-left: -111px;
+    margin-top: 5px;
+}
+.THIS .wi{
+    width:180px;
 }
 .THIS .slds-datepicker .slds-day{
     width: auto !important;
