@@ -2,7 +2,7 @@
  - Created by Alexey Moseev.
  - Updated by Sabir.
  -->
-<aura:component description="DashboardTimeWaitingContact" controller="DashboardRemoteNew">
+ <aura:component description="DashboardTimeWaitingContact" controller="DashboardRemoteNew" extends="c:CommunityContext">
     <!-- attributes:-->
     <aura:attribute name="peList" type="List" />
     <aura:attribute name="dashboardTitle" type="String" />
@@ -11,11 +11,11 @@
     <aura:attribute name="childLoad" type="String" />
     <aura:attribute name="recordChanged" type="String" default="" access="public" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
-
+    
     <!-- handler -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
     <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
-
+    
     <!-- component body -->
     <div class="rr-white-panel db-qal-container">
         <div class="db-qal-main">
@@ -26,34 +26,55 @@
                 </aura:if>
             </div>
             <div
-                class="db-qal-items slds-grid slds-wrap db-section"
-                style="height: 200px; margin-top: 15px"
-            >
+                 class="db-qal-items slds-grid slds-wrap db-section"
+                 style="height: 200px; margin-top: 15px"
+                 >
                 <aura:iteration items="{!v.peList}" var="item" indexVar="ind">
+                    
                     <div class="barContainer">
-                        <div
-                            class="slds-col slds-size--3-of-12 barTitle"
-                            style="margin-bottom: 10px"
-                        >
-                            {!item.title}
-                        </div>
-                        <div class="slds-col slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
+                        <aura:if isTrue="{!v.isRTL}">
                             <div
-                                class="bar"
-                                style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"
-                            ></div>
-                            <div class="barText" style="margin-left: 10px; display: inline-block">
-                                {!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}
+                                 class="slds-col slds-size--3-of-12 barTitle"
+                                 style="margin-right: 15px" 
+                                 >
+                                {!item.title}
                             </div>
-                        </div>
+                            <div class="slds-col slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
+                                <div
+                                     class="bar"
+                                     style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"
+                                     ></div>
+                                <div class="barText" style="margin-right: 10px; display: inline-block">
+                                    {!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <div
+                                     class="slds-col slds-size--3-of-12 barTitle"
+                                     style="margin-bottom: 10px"
+                                     >
+                                    {!item.title}
+                                </div>
+                                <div class="slds-col slds-size--9-of-12 barGrp" style="margin-bottom: 10px">
+                                    <div
+                                         class="bar"
+                                         style="{!'width: ' + item.width +'; background-color: ' + item.color + '; height: 20px; display: inline-block;'}"
+                                         ></div>
+                                    <div class="barText" style="margin-left: 10px; display: inline-block">
+                                        {!'' + item.count + ' ' + $Label.c.STP_ELSE_PT1}
+                                    </div>
+                                </div>
+                            </aura:set>  
+                            
+                        </aura:if>
                     </div>
                 </aura:iteration>
             </div>
         </div>
         <div class="dqa-view-more" data-gtm="LNK_View_All">
             <c:RRLink page="my-referrals" class="apollo-btn text"
-                >{!$Label.c.BTN_View_all}</c:RRLink
-            >
+                      >{!$Label.c.BTN_View_all}</c:RRLink
+                >
         </div>
     </div>
 </aura:component>
