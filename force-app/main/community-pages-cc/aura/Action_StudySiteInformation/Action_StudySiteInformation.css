@@ -5,7 +5,7 @@
     padding-right: 15px;
 }
 
-.THIS .partinfo-footer-buttons span span {
+.THIS .partinfo-footer-buttons span {
     padding-right: 15px
 }
 
@@ -64,6 +64,7 @@
     .THIS .partinfo-footer-buttons > span {
         display: flex;
         justify-content: stretch;
+        padding-right: 0;
     }
     
     .THIS .partinfo-footer-buttons > span .secondary {
