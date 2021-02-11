@@ -1,7 +1,7 @@
 <aura:component
     implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
     access="global"
-    controller="ListViewParticipantController"
+    controller="ListViewParticipantController" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -20,13 +20,22 @@
         <lightning:breadcrumb label="{!$Label.c.My_Participant}"  onclick="{! c.onClickMyReferrals }"/>
         <lightning:breadcrumb label="Population View" href="path/to/place/2" onclick="{! c.navigateToCustomPage2 }"/>
     </lightning:breadcrumbs> -->
-    <div class="slds-col slds-size_1-of-1 ListViewHead">
-        <span>{!$Label.c.RH_MyPartiCipantListView}</span>
-        <span><a style="font-size: 16px;font-weight: 600;"
-                 onclick="{!c.onClickCardView}">
-            {!$Label.c.BTN_Naviagte_Card} 
-            </a></span>
-    </div>
+<div class="{!v.isRTL? 'arabic':'english'}">
+
+    <div class="vp-navigation">
+        <div class="navigation-breadcrumbs">
+       
+                <span>{!$Label.c.RH_MyPartiCipantListView}</span>
+        </div>
+                <div class="slds-text-align_right vp-navigate-btn">
+                    <a style="font-size: 16px;font-weight: 600;"
+                         onclick="{!c.onClickCardView}">
+                    {!$Label.c.BTN_Naviagte_Card} 
+                    </a>
+                </div>
+         
+        </div>
+    
     <aura:if isTrue="{!v.isJanssen}">
         
         <div class="slds-col slds-size_1-of-1 DiversityMessage">
@@ -38,4 +47,5 @@
     <aura:if isTrue="{!v.isDataLoaded}">
         <c:ListViewParticipantFilter peFilterData="{!v.peFilterData}" />
     </aura:if>
+    </div>
 </aura:component>

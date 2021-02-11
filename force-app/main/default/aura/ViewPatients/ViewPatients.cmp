@@ -28,7 +28,7 @@
 
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
-
+    <div class="{!v.isRTL? 'arabic':'english'}">  
     <div class="rr-min-body-height">
         <aura:if isTrue="{!v.isInitialized}">
             <aura:if isTrue="{!v.hasEmancipatedParticipants &amp;&amp; v.userMode == 'PI'}">
@@ -104,6 +104,6 @@
             />
         </aura:if>
     </div>
-
+</div> 
     <c:builderStub aura:id="builderStub" />
 </aura:component>
