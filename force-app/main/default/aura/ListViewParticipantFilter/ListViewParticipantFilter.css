@@ -8,6 +8,11 @@
     position: fixed;
 }
 
+.THIS .marginRight {
+    
+    margin-right: 0.23rem;
+}
+
 .THIS .filter-card div:first-child .slds-grid {
     margin-bottom: 0.75rem;
 }

@@ -20,7 +20,7 @@
                             ></div>
                             <div
                                 class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
-                                style="position: relative"
+                                style="position: relative;"
                             >
                                 <div
                                     class="{! if(v.isRTL,'state-ico-wrapperRTL','state-ico-wrapper')}"

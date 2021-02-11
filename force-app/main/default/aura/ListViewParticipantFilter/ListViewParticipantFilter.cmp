@@ -2,6 +2,7 @@
     implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
     access="global"
     controller="ListViewParticipantController"
+    extends="c:CommunityContext"
 >
     <!-- <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
     <ltng:require
@@ -276,6 +277,7 @@
                     </div>
                 </div>
             </div>
+            <div class="{!v.isRTL?'alert-count-condition1 RTL-Text-align':'alert-count-condition1 LTR-Text-align'}">
             <div class="slds-size_1-of-1 slds-large-size_3-of-12">
                 <!-- Button Area -->
                 <div class="demo-only demo-only--sizing slds-grid button-grid">
@@ -300,6 +302,7 @@
                 </div>
             </div>
         </div>
+    </div>
     </div>
     <div class="slds-text-body_regular">
         <!-- Table -->
