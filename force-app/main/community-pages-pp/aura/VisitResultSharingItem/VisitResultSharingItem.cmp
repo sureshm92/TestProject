@@ -89,7 +89,7 @@
                 <div class="slds-col slds-size_6-of-12 slds-p-top_medium">
                     <lightning:textarea
                         value="{!v.visitResult.customTooltip}"
-                        label="{!$Label.c.Maximum_Length_of_Tooltip}"
+                        label=""
                         maxlength="1000"
                         placeholder="{!$Label.c.Custom_Tooltip_Placeholder}"
                     />
@@ -101,7 +101,7 @@
                 class="{!'slds-col slds-size_8-of-12 '+if(v.visitResult.isCustomToolTipEnabled,'slds-show','slds-hide')}"
             >
                 <div class="customTooltipWarningMessage">
-                    {!$Label.c.Custom_Tooltip_Translation_Warning_Message}
+                    {!$Label.c.Custom_Tooltip_Translation_Warning_Message}{!$Label.c.Maximum_Length_of_Tooltip}
                 </div>
             </div>
         </aura:if>
