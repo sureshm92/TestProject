@@ -9,7 +9,9 @@
     padding-top: 10px;
     padding-bottom: 10px;
 }
-
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS .db-qal-title {
     color: #000000;
     font-size: 18px;
