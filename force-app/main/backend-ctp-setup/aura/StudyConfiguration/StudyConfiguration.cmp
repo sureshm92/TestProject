@@ -177,7 +177,11 @@
                                                      type="number" 
                                                      variant="label-hidden" 
                                                      min = "1"
+                                                     max = "99"
                                                      value="{!v.ctp.Delayed_No_Of_Days__c}"
+                                                     messageWhenRangeUnderflow="Please enter a number greater than 0."
+                                                     messageWhenBadInput="Please enter only numbers."
+                                                     messageWhenRangeOverflow="Please enter a number less than 100."
                                                      > 
                                     </lightning:input>
                                 </div>
