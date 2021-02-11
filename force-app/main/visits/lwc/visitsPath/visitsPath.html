@@ -204,7 +204,7 @@
                             </div>
                         </div>
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_x-small">
+                            <div class="slds-col slds-size_1-of-2">
                                 <lightning-combobox
                                     name="reminder"
                                     label="Reminder"
@@ -218,8 +218,36 @@
                                     class="wi"
                                 >
                                 </lightning-combobox>
+                                <div class="slds-p-top_medium">
+                                    <template if:true={showCustomDateTime}>
+                                        <div class="label">
+                                            {labels.ReminderDate}<abbr
+                                                title="required"
+                                                class="slds-required"
+                                                >*</abbr
+                                            >
+                                        </div>
+                                        <lightning-input
+                                            type="datetime"
+                                            value={reminderDate}
+                                            autocomplete="off"
+                                            onchange={handleDateChange}
+                                            name="reminderDate"
+                                            disabled={isVisitCompleted}
+                                            variant="label-hidden"
+                                            required
+                                            min={today}
+                                            max={planDate}
+                                            class="container1"
+                                            message-when-range-overflow={labels.reminderOverFlow}
+                                            message-when-range-underflow={labels.reminderUnderFlow}
+                                            onblur={doValidateReminder}
+                                        >
+                                        </lightning-input>
+                                    </template>
+                                </div>
                             </div>
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
+                            <!--<div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
                                 <template if:true={showCustomDateTime}>
                                     <div class="label">
                                         {labels.ReminderDate}<abbr
@@ -246,11 +274,11 @@
                                     >
                                     </lightning-input>
                                 </template>
-                            </div>
+                            </div>-->
                         </div>
+
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-p-top_large"></div>
-                            <div class="slds-form-element__label slds-p-top_x-small mr_left">
+                            <div class="slds-form-element__label mr_left">
                                 {labels.remindUsing}
                                 <template if:true={showAccountNavigation}>
                                     <a onclick={doNavigateToAccountSettings} style="margin: 10px"
@@ -489,7 +517,7 @@
                             </div>
                         </div>
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_x-small">
+                            <div class="slds-col slds-size_1-of-2">
                                 <lightning-combobox
                                     name="reminder"
                                     label="Reminder"
@@ -503,8 +531,36 @@
                                     class="wi"
                                 >
                                 </lightning-combobox>
+                                <div class="slds-p-top_medium">
+                                    <template if:true={showCustomDateTime}>
+                                        <div class="label">
+                                            {labels.ReminderDate}<abbr
+                                                title="required"
+                                                class="slds-required"
+                                                >*</abbr
+                                            >
+                                        </div>
+                                        <lightning-input
+                                            type="datetime"
+                                            value={reminderDate}
+                                            autocomplete="off"
+                                            onchange={handleDateChange}
+                                            name="reminderDate"
+                                            disabled={isVisitCompleted}
+                                            variant="label-hidden"
+                                            required
+                                            min={today}
+                                            max={planDate}
+                                            class="container1"
+                                            message-when-range-overflow={labels.reminderOverFlow}
+                                            message-when-range-underflow={labels.reminderUnderFlow}
+                                            onblur={doValidateReminder}
+                                        >
+                                        </lightning-input>
+                                    </template>
+                                </div>
                             </div>
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
+                            <!--<div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
                                 <template if:true={showCustomDateTime}>
                                     <div class="label">
                                         {labels.ReminderDate}<abbr
@@ -531,11 +587,11 @@
                                     >
                                     </lightning-input>
                                 </template>
-                            </div>
+                            </div>-->
                         </div>
+
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-p-top_large"></div>
-                            <div class="slds-form-element__label slds-p-top_x-small mr_left">
+                            <div class="slds-form-element__label mr_left">
                                 {labels.remindUsing}
                                 <template if:true={showAccountNavigation}>
                                     <a onclick={doNavigateToAccountSettings} style="margin: 10px"

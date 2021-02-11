@@ -64,7 +64,7 @@
                     <div class="{!if(v.isRTL,'rr-white-panelRTL padding slds-col','rr-white-panel padding slds-col')}"
                          style="min-height: 250px">
                         <!-- Task Details Section -->
-                        <div class="te-col-header">{!$Label.c.Task_Details}</div>
+                        <div class="te-col-header"><b>{!$Label.c.Task_Details}</b></div>
                         <!-- Task Header Info -->
                         <div class="te-col-header-info">{!$Label.c.Task_Details_Header_Info}</div>
                         <!--Task Name-->
@@ -97,7 +97,7 @@
                             </div>
                         </div>
                         <div class="te-col-header" style="margin-top: 15px">
-                            {!$Label.c.Task_Reminder_Details}
+                            <b> {!$Label.c.Task_Reminder_Details}</b>
                         </div>
                         <!-- Task Reminder Details -->
                         <!--<aura:if isTrue="{!not(v.initData.createdByAdmin)}"> -->
@@ -113,7 +113,9 @@
                                                     options="{!v.initData.reminderFrequencyList}" class="wi"/>
                             </div>
                             <!--Reminder Date-->
-                            <div class="{!'slds-col slds-size_1-of-2 reminderDate' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                           
+                        </div>
+                         <div class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign', '')}">
                                 <!--{!$Label.c.Home_Page_StudyVisit_Completed_On}-->
                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">{!$Label.c.PP_Reminder_Date}<abbr title="required" class="slds-required">*</abbr
@@ -126,9 +128,8 @@
                                                      messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" onblur="{!c.doValidateFields}" required="true" class="container1"/>
                                 </aura:if>
                             </div>
-                        </div>
-                        
-                        <div class="{!'slds-form-element__label ' + if(v.isRTL, 'task-rtl-remind', '')}">
+                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_x-small':''}"></div>
+                        <div class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}">
                             <div class="slds-grid te-form slds-gutters slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
                                     {!$Label.c.PP_Remind_Using}
@@ -216,13 +217,9 @@
                                                     value="{!v.task.Remind_Me__c}"
                                                     onchange="{!c.doValidateFields}"
                                                     options="{!v.initData.reminderFrequencyList}" class="wi"/>
+                                <div class="{!(v.task.Remind_Me__c == 'Custom')?'slds-p-top_small':''}"></div>
                                 
-                            </div>
-                            <!--Reminder Date-->
-                            <div
-                                 class="{!'slds-col slds-size_1-of-2 reminderDate' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
-                                 >
-                                <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
+                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">{!$Label.c.PP_Reminder_Date} <abbr title="required" class="slds-required">*</abbr
                                         ></div>
                                     <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
@@ -232,8 +229,13 @@
                                                      messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                                      messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
                                 </aura:if>
+
                             </div>
+                            <!--Reminder Date-->
+                            
                         </div>
+                        <div class="{!'slds-grid' + if(v.isRTL, 'task-rtl rightAlign1', '')}">
+                                                           </div>
                         <div class="slds-form-element__label">{!$Label.c.PP_Remind_Using}
                             <aura:if isTrue="{!v.showAccountNavigation}">
                                 <!--Account settings-->
