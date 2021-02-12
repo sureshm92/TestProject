@@ -15,6 +15,8 @@
     <aura:attribute name="isNewTask" type="Boolean" default="false" />
     <aura:attribute name="PatientVisit" type="Patient_Visit__c" />
     <aura:attribute name="reRender" default="true" type="boolean"/>
+    <aura:attribute name="isUpcomingVisits" type="boolean"/>
+    <aura:attribute name="isUpcoming" type="boolean"/>
     <aura:attribute name="isTaskTab" type="Boolean" description="Set TRUE if component called from c:TaskTab" />
     <!-- Task Related Attributes -->
     <aura:attribute name="initData" type="Object" />
@@ -289,7 +291,7 @@
                 <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
                 <div style="margin-left:-8px;"><c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" /></div>
                 <div class="slds-grid slds-p-top_x-small">
-                    <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
+                    <div class="{!'slds-col slds-size_1-of-1 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}">
                         <div class="label">{!$Label.c.PP_Visit_DateTime}<abbr title="required" class="slds-required">*</abbr
                             ></div>
                         <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
@@ -306,7 +308,7 @@
                     </div>
                 </div>
                 <div class="slds-grid slds-p-top_x-small">
-                    <div class="slds-col slds-size_1-of-2 slds-p-top_x-small">
+                    <div class="{!'slds-col slds-size_1-of-2 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}">
                         <lightning:combobox aura:id="reminderOption"  label="{!$Label.c.Remind_Me}"
                                             placeholder="Select"
                                             value="{!v.task.Remind_Me__c}"
@@ -339,7 +341,7 @@
                         </div>
                 </div>
                 <div class="slds-grid">
-                    <div class="slds-col slds-size_1-of-2">
+                    <div class="{!'slds-col slds-size_1-of-2' + if(v.isUpcoming,' mr_8','')}">
                         <lightning:input aura:id="emailField" type="checkbox" label="{!$Label.c.PP_Remind_Using_Email}"
                                          name="Email" disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}" value="{!v.task.Remind_Using_Email__c}"
                                          checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
