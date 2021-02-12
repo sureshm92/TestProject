@@ -46,6 +46,9 @@ public inherited sharing class VisitResultsService {
             FROM Visit_Result_Type_Sharing__c
             WHERE Clinical_Trial_Profile__c = :currentCTP
         ];
+        if(ctpAvailable!=null && ctpAvailable.size()>0){
+            TranslateHelper.translate(ctpAvailable,IRBParticipantService.getSuitableLanguageForIRBTranslation(objCurrParEnroll.Id));
+        }
         for (Visit_Result_Type_Sharing__c visitResultTypeSharing : ctpAvailable) {
             if (!visitResultTypeSharing.Include_Countries__c) {
                 if (
@@ -266,11 +269,18 @@ public inherited sharing class VisitResultsService {
         Map<String, VisitResultSharingService.VisitResultWithAvailableSign> visitResultsByType = getVisitResultsByTypeDeveloperNames(
             resultsWithAvailableSign
         );
+        String language;
+        if(resultsWithAvailableSign!=null && resultsWithAvailableSign.size()>0){
+            language=IRBParticipantService.getSuitableLanguageForIRBTranslation(resultsWithAvailableSign[0].visitResult.Patient_Visit__r.Participant_Enrollment__c);
+        }
         List<Visit_Result_Type_Sharing__c> visitResulTypeSharingList = [
             SELECT Id, Custom_Tooltip__c, Type__c
             FROM Visit_Result_Type_Sharing__c
             WHERE Clinical_Trial_Profile__c = :ctpId
         ];
+        if(visitResulTypeSharingList!=null && visitResulTypeSharingList.size()>0){
+            TranslateHelper.translate(visitResulTypeSharingList,language);
+        }
         Map<String, String> visitResultTypeWithDesMap = new Map<String, String>();
         for (Visit_Result_Type_Sharing__c objVisitResultType : visitResulTypeSharingList) {
             if (!String.isBlank(objVisitResultType.Custom_Tooltip__c)) {
