@@ -8174,14 +8174,6 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Pts</shortDescription>
         <value>pts</value>
     </labels>
-     <labels>
-        <fullName>IncentiveProgram_PtsRTL</fullName>
-        <categories>Incentive Program</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>IncentiveProgram_PtsRTL</shortDescription>
-        <value>pts</value>
-    </labels>
     <labels>
         <fullName>IncentiveProgram_Redeem_Points</fullName>
         <categories>Incentive Program</categories>
