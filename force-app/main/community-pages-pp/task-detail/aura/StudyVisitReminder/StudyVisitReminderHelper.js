@@ -5,6 +5,7 @@
         var visitId = component.get('v.visitId');
         var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
+        component.set('v.isUpcoming',component.get('v.isUpcomingVisits'))
        // component.set('v.isValidFields',false);
         if (!communityService.isDummy()) {
             communityService.executeAction(
