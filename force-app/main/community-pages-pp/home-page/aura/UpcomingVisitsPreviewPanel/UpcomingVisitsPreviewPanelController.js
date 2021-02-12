@@ -38,7 +38,10 @@
                 taskType: 'Visit',
                 visitData: visitWrapper,
                 isNewTask: isNewTask,
-                isReminderOnly: true
+                isReminderOnly: true,
+                parent: component.get('v.cmpDef'),
+                reRender:true,
+                isUpcomingVisits:true
             };
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
         }
