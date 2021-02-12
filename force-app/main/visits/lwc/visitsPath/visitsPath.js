@@ -19,6 +19,8 @@ import planDate from '@salesforce/label/c.VPN_AddDate';
 import ReminderDate from '@salesforce/label/c.PP_Reminder_Date';
 import whatToExpect from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
 import VisitDate from '@salesforce/label/c.PP_Visit_Date';
+import visitDateandTime from '@salesforce/label/c.PP_Visit_DateTime';
+import remindMe from '@salesforce/label/c.Remind_Me';
 import ChangeNotifications from '@salesforce/label/c.PP_Change_Notification_Settings';
 import remindUsing from '@salesforce/label/c.PP_Remind_Using';
 import selDate from '@salesforce/label/c.VPN_Sel_Date';
@@ -75,7 +77,9 @@ export default class VisitsPath extends LightningElement {
         reminderError,
         detailsLabel,
         incorrectData,
-        noDateSet
+        noDateSet,
+        visitDateandTime,
+        remindMe
     };
 
     initialized = false;

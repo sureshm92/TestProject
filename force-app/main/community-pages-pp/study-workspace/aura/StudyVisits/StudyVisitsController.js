@@ -8,7 +8,7 @@
         var opts = [
             { value: 'All', label: $A.get('$Label.c.Home_Page_VisitTab_Filter_Show_All') },
             {
-                value: 'Current',
+                value: 'Pending',
                 label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Current_Visits')
             },
             { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') },
