@@ -105,6 +105,7 @@ h2 {
     display: flex;
     overflow: hidden;
     height: 32px;
+    margin-left: 13px;
     justify-content: space-between;
 }
 
@@ -120,7 +121,11 @@ h2 {
 .icon {
     position: relative;
     display: flex;
-    padding: 4px;
+    padding-top: 6px;
+    padding-left: 10px;
+}
+.icon:hover {
+    fill: #595959 !important;
 }
 
 .icon-item {

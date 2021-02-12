@@ -140,7 +140,9 @@
                                                 <div class="icon" key={icon.Id}>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
-                                                        icon-color="#999"
+                                                        icon-height="20"
+                                                        icon-color="#A9A9A9"
+                                                        icon-width="20"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -152,14 +154,16 @@
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
                                 <div class="label">
-                                    {labels.VisitDate}<abbr title="required" class="slds-required"
+                                    {labels.visitDateandTime}<abbr
+                                        title="required"
+                                        class="slds-required"
                                         >*</abbr
                                     >
                                 </div>
                                 <template if:false={isVisitCompleted}>
                                     <lightning-input
                                         type="datetime"
-                                        label={labels.VisitDate}
+                                        label={labels.visitDateandTime}
                                         value={planDate}
                                         autocomplete="off"
                                         onchange={handleDateChange}
@@ -177,7 +181,7 @@
                                     <template if:true={isVisitMissed}>
                                         <lightning-input
                                             type="datetime"
-                                            label={labels.VisitDate}
+                                            label={labels.visitDateandTime}
                                             value={planDate}
                                             autocomplete="off"
                                             onchange={handleDateChange}
@@ -207,7 +211,7 @@
                             <div class="slds-col slds-size_1-of-2">
                                 <lightning-combobox
                                     name="reminder"
-                                    label="Reminder"
+                                    label={labels.remindMe}
                                     placeholder="Select"
                                     value={reminderOption}
                                     onchange={handleDateChange}
@@ -453,7 +457,9 @@
                                                 <div class="icon" key={icon.Id}>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
-                                                        icon-color="#999"
+                                                        icon-height="20"
+                                                        icon-color="#A9A9A9"
+                                                        icon-width="20"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -465,14 +471,16 @@
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
                                 <div class="label">
-                                    {labels.VisitDate}<abbr title="required" class="slds-required"
+                                    {labels.visitDateandTime}<abbr
+                                        title="required"
+                                        class="slds-required"
                                         >*</abbr
                                     >
                                 </div>
                                 <template if:false={isVisitCompleted}>
                                     <lightning-input
                                         type="datetime"
-                                        label={labels.VisitDate}
+                                        label={labels.visitDateandTime}
                                         value={planDate}
                                         autocomplete="off"
                                         onchange={handleDateChange}
@@ -490,7 +498,7 @@
                                     <template if:true={isVisitMissed}>
                                         <lightning-input
                                             type="datetime"
-                                            label={labels.VisitDate}
+                                            label={labels.visitDateandTime}
                                             value={planDate}
                                             autocomplete="off"
                                             onchange={handleDateChange}
@@ -520,7 +528,7 @@
                             <div class="slds-col slds-size_1-of-2">
                                 <lightning-combobox
                                     name="reminder"
-                                    label="Reminder"
+                                    label={labels.remindMe}
                                     placeholder="Select"
                                     value={reminderOption}
                                     onchange={handleDateChange}

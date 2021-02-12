@@ -151,6 +151,12 @@ public without sharing class DatabaseService {
     public static String fieldEqual(String field, String value) {
         return ' ' + field + ' = \'' + value + '\' ';
     }
+    public static String DatefieldEqualsNull(String field) {
+        return ' ' + field + ' = NULL';
+    }
+    public static String DatefieldNotEqualsNull(String field) {
+        return ' ' + field + ' != NULL';
+    }
     public static String fieldNotEqual(String field, String value) {
         return ' ' + field + ' != \'' + value + '\' ';
     }
