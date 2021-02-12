@@ -274,6 +274,14 @@ public without sharing class TranslationExportImportRemote {
                 '\'',
                 languageCode,
                 exportType
+            ) +
+            generateItemsForSObjectType(
+                Visit_Result_Type_Sharing__c.getSObjectType(),
+                ' WHERE Clinical_Trial_Profile__c =\'' +
+                studyId +
+                '\'',
+                languageCode,
+                exportType
             );
     }
 
