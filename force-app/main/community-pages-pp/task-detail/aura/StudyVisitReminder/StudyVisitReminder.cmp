@@ -85,7 +85,7 @@
                             <!-- Due Date -->
                             <div
                                  class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
-                                <div class="label">{!$Label.c.Due_Date}
+                                <div class="label">{!$Label.c.PP_DueDateandTime}
                                     <abbr title="required" class="slds-required">*</abbr
                                         >
                                 </div>
