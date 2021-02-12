@@ -59,10 +59,12 @@
                         'success',
                         $A.get('$Label.c.CC_Success_Save_Message')
                     );
+                    component.set('v.isStudyInfoModified',false);
                     component.find('childCmp').RefreshCDsection();
                 },
                 null,
                 function () {
+                    component.set('v.isStudyInfoModified',false);
                     component.find('childCmp').RefreshCDsection();
                     component.find('Spinnerpopup').hide();
                 }

@@ -59,14 +59,13 @@
             account = accountsList[index];
            
         }
-        component.set('v.CurrenIndexOpen',"new");
         component.set('v.isEdited',true);
          var currentIndex=component.get('v.CurrenIndexOpen');
-         
          if(currentIndex != null && currentIndex != 'null' && currentIndex != 'new'){
              var childComponent = component.find("siteloc")[currentIndex];
             childComponent.closeTab();
         }
+        component.set('v.CurrenIndexOpen',"new");
         if (!account) {
             account = {
                 BillingCountryCode: studySite.BillingCountryCode,
@@ -92,11 +91,12 @@
                 'success',
                 $A.get('$Label.c.CC_Success_Save_Message')
             );
-            var cmpEvent = component.getEvent("CloseEvent"); 
-            //Set event attribute value
-            cmpEvent.setParams({"EditIndex" : index}); 
-            cmpEvent.fire(); 
+         
         });
+        var cmpEvent = component.getEvent("CloseEvent"); 
+        //Set event attribute value
+        cmpEvent.setParams({"EditIndex" : index}); 
+        cmpEvent.fire(); 
         
     },
     
@@ -153,10 +153,15 @@
         var currentIndex = component.get('v.CurrenIndexOpen');
         if (currentIndex == null || currentIndex == 'null' || currentIndex == 'new') {
           component.set('v.CurrenIndexOpen', index);
-          component.set('v.editLocation', false);
+            if(currentIndex != "new"){
+                component.set('v.editLocation', false);
+            }
         } else {
-            var childComponent = component.find('siteloc')[currentIndex];
-            childComponent.closeTab();
+                if(index != currentIndex)
+                {
+                    var childComponent = component.find('siteloc')[currentIndex];
+                    childComponent.closeTab();
+                }
             component.set('v.CurrenIndexOpen', index);
         }
     },

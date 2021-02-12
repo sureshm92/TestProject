@@ -38,11 +38,12 @@
             // component.get('v.callback')(studySite, accountsList);
             component.set('v.account',account);
             component.set('v.studySite',studySite);
-            var cmpEvent = component.getEvent("CloseEvent"); 
-            //Set event attribute value
-            cmpEvent.setParams({"EditIndex" : index}); 
-            cmpEvent.fire(); 
+           
         });
+        var cmpEvent = component.getEvent("CloseEvent"); 
+        //Set event attribute value
+        cmpEvent.setParams({"EditIndex" : index}); 
+        cmpEvent.fire(); 
          
      },
     

@@ -25,6 +25,7 @@
     <aura:attribute name="callcategory" type="String"/>
     <aura:attribute name="interventionReq" type="Boolean" default="false"/>
     <aura:attribute name="CD" type="object" access="public" />
+    <aura:attribute name="hasNewCall" type="Boolean" default="false" />
     <aura:method name="execute" action="{!c.doExecute}" access="public"/>
     
     <aura:attribute name="CmpOpen" type="Boolean" default="false" />
@@ -62,6 +63,7 @@
                                   editedAccount = "{!v.editedAccount}"/>
             
             <c:CallDispositionSection 
+                                      hasNewCall="{!v.hasNewCall}"
                                       siteId="{!v.studyInformation.siteId}" 
                                       isCDValitated="{!v.isCDValitated}"
                                       aura:id="childCmp"
@@ -83,23 +85,24 @@
                                               >{!$Label.c.BTN_Cancel}</lightning:button
                                 >
                             
-                            <lightning:button
+                           <lightning:button
                                               class="apollo-btn secondary" onclick="{!c.doSave}" 
-                                              disabled = "{!!(v.isStudyInfoModified &amp;&amp;
-                                                          (v.isModifiedInfo &amp;&amp;
-                                                          v.isAccountModified &amp;&amp; 
-                                                          v.isCDValitated))}"
-                                              >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
-                                >
+                                              disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
+                                                (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                              >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
                          </span>
-                        <lightning:button
+                        <!--<lightning:button
                                           class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
                                           disabled = "{!!(v.isStudyInfoModified &amp;&amp;
                                                       (v.isModifiedInfo &amp;&amp;
                                                       v.isAccountModified &amp;&amp; 
                                                       v.isCDValitated))}"
-                                          >{!$Label.c.CC_Save_All_And_Close}</lightning:button
-                            >
+                                          >{!$Label.c.CC_Save_All_And_Close}</lightning:button>-->
+                           <lightning:button
+                                          class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
+                                          disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
+                                            (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                          >{!$Label.c.CC_Save_All_And_Close}</lightning:button>
                 </div>
             </aura:set>
         </c:Popup>
