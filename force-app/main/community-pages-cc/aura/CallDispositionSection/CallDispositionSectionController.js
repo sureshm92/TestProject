@@ -20,7 +20,8 @@
         component.set('v.interventionReq',false);
         component.set('v.notes','');
         component.set('v.newCall',false);
-        component.set('v.isStudyInfoModified',false);
+        //component.set('v.isStudyInfoModified',false);
+        component.set('v.hasNewCall',false);
         console.log('calling lwc');
         component.find('calldispositionlwc').Refresh();
         
@@ -37,7 +38,8 @@
         component.set('v.interventionReq',false);
         component.set('v.notes','');
         component.set('v.newCall',false);
-        component.set('v.isStudyInfoModified',false);
+        //component.set('v.isStudyInfoModified',false);
+        component.set('v.hasNewCall',false);
         console.log('calling lwc');
         component.find('calldispositionlwc').RefreshSection();
         
@@ -49,7 +51,8 @@
              component.set('v.sectionOpen',true);
         }
         //component.set('v.isCDValitated',false);
-        component.set('v.isStudyInfoModified',true);
+        //component.set('v.isStudyInfoModified',true);
+        component.set('v.hasNewCall',true);
         if($A.util.isEmpty(component.get('v.notes')))
         {
             
@@ -145,7 +148,8 @@
         component.set('v.interventionReq',false);
         component.set('v.notes','');
         component.set('v.newCall',false);
-        component.set('v.isStudyInfoModified',false);
+        //component.set('v.isStudyInfoModified',false);
+        component.set('v.hasNewCall',false);
     },
     getcallBound : function(component, event, helper) {
         console.log('getcallbound'+event.getParam('value'));
