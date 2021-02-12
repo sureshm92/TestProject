@@ -107,7 +107,7 @@
                                             isAccountModified="{!v.isAccountModified}"
                                             isEdited = "{!v.isEdited}"
                                             isStudyInfoModified = "{!v.isStudyInfoModified}"
-                                            editedAccount = "{v.editedAccount}"
+                                            editedAccount = "{!v.editedAccount}"
                                         />
                                         
                                     </aura:iteration>

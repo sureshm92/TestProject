@@ -32,17 +32,18 @@
             communityService.showToast(
                 'success',
                 'success',
-                $A.get('$Label.c.SS_Success_Save_Message')
+                $A.get('$Label.c.CC_Success_Save_Message')
             );
             component.set('v.editLocation',false);
             // component.get('v.callback')(studySite, accountsList);
             component.set('v.account',account);
             component.set('v.studySite',studySite);
-            var cmpEvent = component.getEvent("CloseEvent"); 
-            //Set event attribute value
-            cmpEvent.setParams({"EditIndex" : index}); 
-            cmpEvent.fire(); 
+           
         });
+        var cmpEvent = component.getEvent("CloseEvent"); 
+        //Set event attribute value
+        cmpEvent.setParams({"EditIndex" : index}); 
+        cmpEvent.fire(); 
          
      },
     

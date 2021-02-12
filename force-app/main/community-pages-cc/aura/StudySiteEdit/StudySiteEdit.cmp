@@ -96,18 +96,27 @@
                                 </div>
                             </div>
                             <div
-                                 class="slds-col slds-size--1-of-1"
+                                 class="slds-col slds-size--1-of-1 slds-grid slds-wrap"
                                  >
-                                <span>
-                                    <div class="input-fields-labels">{!$Label.c.CC_Receive_Study_Site_Email}</div>
-                                    <!--div class="rr-form-element"-->
+                                 <span class="slds-col slds-size--3-of-12 slds-grid slds-wrap" style="padding-left: 0px;">
+                                    <div class="input-fields-labels ">{!$Label.c.CC_Receive_Study_Site_Email}</div>
+                                    <div>
+                                        <lightning:input type="toggle" iconSize="small"
+                                                             
+                                                         checked="{!v.studyInformation.receivePIEmail}"
+                                                         onchange="{!c.doSupressEmail}"
+                                                         label="{!$Label.c.SS_City}"/>
+                                    </div>
+                                 </span>
                                     
-                                    <lightning:input type="toggle" iconSize="small" 
-                                                     class="slds-size--1-of-12"
-                                                     checked="{!v.studyInformation.receivePIEmail}"
-                                                     onchange="{!c.doSupressEmail}"/>
-                                    
+                                 <span class="slds-col slds-size--3-of-12 slds-grid slds-wrap">
+                                    <div class="input-fields-labels ">{!$Label.c.CC_Opt_in_for_Warm_Transfer}</div>
+                                    <lightning:input type="toggle" iconSize="small"
+                                                     checked="{!v.studyInformation.optInForWarmTransfer}"
+                                                     onchange="{!c.doOptIn}"/>
+                                        
                                 </span>
+                                    
                             </div>
                             <div
                                  class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"

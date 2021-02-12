@@ -18,6 +18,7 @@ private without sharing class Test_SiteListPageRemote {
     private static void testGetSearchResults() {
         TestData td = new TestData();
         Test.startTest();
+        Test.setFixedSearchResults(new List<Id>{ td.piContact.Id });
         SiteListPageRemote.PaginatedSiteWrapper paginatedWrapper0 = SiteListPageRemote.getSearchResults(
             'Principal_Investigator__r.Name',
             'PITD',

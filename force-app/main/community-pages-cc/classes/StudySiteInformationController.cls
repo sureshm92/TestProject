@@ -247,6 +247,7 @@ public without sharing class StudySiteInformationController {
             study.Completed_training__c =  response.trainingComplete;
             study.Site_Information_Form_Completed__c = response.siteInfoComplete;
             study.Suppress_Study_Site_PI_Emails__c = !response.receivePIEmail;
+            study.Opt_in_for_warm_transfer__c = response.optInForWarmTransfer;
             
             if(accId != NULL){
                 study.Site__c = accId;
@@ -313,6 +314,8 @@ public without sharing class StudySiteInformationController {
         public Boolean isRecordUpdated;
         @AuraEnabled
         public String site;
+        @AuraEnabled
+        public boolean optInForWarmTransfer;
     }
     
     public class callDisp{

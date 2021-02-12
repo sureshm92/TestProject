@@ -2175,6 +2175,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>CTC__c.COI_3rdParty__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6704,7 +6709,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>
     </fieldPermissions>

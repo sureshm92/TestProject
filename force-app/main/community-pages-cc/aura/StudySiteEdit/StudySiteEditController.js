@@ -64,14 +64,7 @@
     doSupressEmail:function(component){
         component.set('v.supressEmail', !component.get('v.supressEmail'));
         var el = component.get('v.studyInformation');
-        if(el.supressPIEmail && component.get('v.supressEmail')){
-            communityService.showToast(
-                'success',
-                'success',
-                $A.get('$Label.c.CC_Suppress_PI_Email')
-            );
-        }
-        else{
+        
             el.isRecordUpdated = true;
             el.receivePIEmail = component.get('v.supressEmail');
             component.set('v.studyInformation', el);
@@ -79,9 +72,19 @@
                 component.set('v.isModifiedInfo',true);
                 component.set('v.isStudyInfoModified',true);
             }
+        
+    },
+
+    doOptIn:function(component){
+        component.set('v.optIn', component.get('v.optIn'));
+        var el = component.get('v.studyInformation');
+        el.isRecordUpdated = true;
+        component.set('v.studyInformation', el);
+        if(el.siteName != '' && component.get('v.isModifiedInfo')){
+            component.set('v.isModifiedInfo',true);
+            component.set('v.isStudyInfoModified',true);
         }
     },
-    
     
     changeUpdatedStatus: function (component, event) {
         var el = component.get('v.studyInformation');
