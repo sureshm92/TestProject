@@ -287,7 +287,7 @@
             <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
                 <div style="margin-left:20px;">
                 <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
-                <c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" />
+                <div style="margin-left:-8px;"><c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" /></div>
                 <div class="slds-grid slds-p-top_x-small">
                     <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
                         <div class="label">{!$Label.c.PP_Visit_DateTime}<abbr title="required" class="slds-required">*</abbr
