@@ -8,7 +8,6 @@ import totalLabelRTL from '@salesforce/label/c.IncentiveProgram_TotalRTL';
 import lastEarnedLabel from '@salesforce/label/c.IncentiveProgram_Last_Earned';
 import lastEarnedLabelRTL from '@salesforce/label/c.IncentiveProgram_Last_EarnedRTL';
 import ptsLabel from '@salesforce/label/c.IncentiveProgram_Pts';
-import ptsLabelRTL from '@salesforce/label/c.IncentiveProgram_PtsRTL';
 import viewDetailsLabel from '@salesforce/label/c.IncentiveProgram_View_Details';
 
 export default class NavIncentiveDropDown extends LightningElement {
@@ -18,7 +17,7 @@ export default class NavIncentiveDropDown extends LightningElement {
         lastEarnedLabel,
         lastEarnedLabelRTL,
         ptsLabel,
-        ptsLabelRTL,
+       
         viewDetailsLabel
     };
     @api isRtl;

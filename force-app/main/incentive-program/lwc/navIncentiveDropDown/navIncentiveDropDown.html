@@ -8,7 +8,7 @@
             <div class="slds-p-around_medium">
                 <div class="nidd-total slds-p-around_xx-small"> 
                     <template if:true={isRtl}>
-                        {labels.ptsLabelRTL}  {totalPoints} {labels.totalLabelRTL}
+                        {labels.ptsLabel}  {totalPoints} {labels.totalLabelRTL}
                     </template>
                     <template if:false={isRtl}>
                             {labels.totalLabel} {totalPoints} {labels.ptsLabel}
@@ -16,7 +16,7 @@
                 </div>
                 <div class="nidd-last slds-p-around_xx-small">
                     <template if:true={isRtl}>
-                        {labels.ptsLabelRTL} {lastPoints} {labels.lastEarnedLabelRTL}
+                        {labels.ptsLabel} {lastPoints} {labels.lastEarnedLabelRTL}
                     </template>
                     <template if:false={isRtl}>
                         {labels.lastEarnedLabel} {lastPoints} {labels.ptsLabel} 
