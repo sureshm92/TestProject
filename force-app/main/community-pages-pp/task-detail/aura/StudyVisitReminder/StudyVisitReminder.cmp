@@ -77,7 +77,7 @@
                                                  required="true"
                                                  variant="label-hidden"
                                                  disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
-                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" />
+                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}" onblur="{!c.doValidateFields}"/>
                             </div>
                         </div>
                         <!--Seperator-->
@@ -93,7 +93,7 @@
                                                  variant="label-hidden" value="{!v.initData.activityDate}"
                                                  disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                                  class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
-                                                 dateStyle="medium" required="true"/>
+                                                 dateStyle="medium" required="true" onblur="{!c.doValidateFields}"/>
                             </div>
                         </div>
                         <div class="te-col-header" style="margin-top: 15px">
@@ -256,6 +256,7 @@
                                                  value="{!v.task.Remind_Using_Email__c}"
                                                  checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
                                                  onchange="{!c.setAttributeValue}"
+                                                 onblur="{!c.doValidateFields}"
                                                  />
                             </div>
                         </div>
@@ -270,6 +271,7 @@
                                                  value="{!v.task.Remind_Using_SMS__c}"
                                                  checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
                                                  onchange="{!c.setAttributeValue}"
+                                                 onblur="{!c.doValidateFields}"
                                                  />
                             </div>
                         </div>
@@ -294,9 +296,9 @@
                             <lightning:input type="date" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="vis-input"></lightning:input>
                             <aura:set attribute="else">
                                 <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
-                                    <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true" class="container1"></lightning:input>
+                                    <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true" class="container1" onblur="{!c.doValidateFields}"></lightning:input>
                                     <aura:set attribute="else">
-                                        <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="container1"></lightning:input>
+                                        <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="container1" onblur="{!c.doValidateFields}"></lightning:input>
                                     </aura:set>
                                 </aura:if>
                             </aura:set>
