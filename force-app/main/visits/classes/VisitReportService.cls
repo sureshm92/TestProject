@@ -60,6 +60,9 @@ public inherited sharing class VisitReportService {
             Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = visitResultSharingServiceInt.getVisitResultTypeSharingMap(
                 pe.Clinical_Trial_Profile__c
             );
+            if(visitResultTypeSharingByType!=null && visitResultTypeSharingByType.values().size()>0){
+                TranslateHelper.translate(visitResultTypeSharingByType.values(),language);
+            }
             for (
                 Visit_Result_Type_Sharing__c objVisitResultType : visitResultTypeSharingByType.values()
             ) {

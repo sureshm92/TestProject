@@ -25,7 +25,13 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
             if(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c != null){
                 delayDays = Integer.valueOf(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c);
             }
-            Date notifyDate = match.Matched_Date__c + delayDays;
+            Date notifyDate;
+            if(match.Matched_Date__c != null){
+                notifyDate = match.Matched_Date__c + delayDays;
+            }
+            else{
+                notifyDate = date.today();
+            }
             Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
             if(date.today() >= notifyDate){
                 match.Is_User_notified__c = true;

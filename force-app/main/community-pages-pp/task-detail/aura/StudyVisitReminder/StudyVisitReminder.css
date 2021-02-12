@@ -3,8 +3,11 @@
     max-width: 1140px;
     margin: 25px auto -80px;
 }
+.THIS .mr_8{
+    margin-left:-8px;
+}
 .THIS .vis-input {
-    width: 180px;
+    width: 209px;
 }
 .THIS .title {
     height: 60px;
