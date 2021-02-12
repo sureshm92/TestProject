@@ -367,17 +367,27 @@ showFooter="true"
 </aura:if>
 </div>
 <aura:set attribute="headerButtons">
+        <aura:if isTrue="{!v.isRTL}">
+                <img onclick="{!c.doPrint}" name="" class="print-icon-rtl" src="{!$Resource.icon_printIcon}" width="16" height="16" /> 
+                
+                <aura:set attribute="else">
+
+
 <lightning:button
                onclick="{!c.doPrint}"
                name="Print"
                class="{!'slds-button slds-button&#45;&#45;icon-inverse'}"
                >
  <!--<c:RRIcon iconName="icon-print" class="print-icon"/> -->
- <img class="{!v.isRTL? 'print-icon-rtl': 'print-icon'}" src="{!$Resource.icon_printIcon}" width="16" height="16" />
+  <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16" /> 
 </lightning:button>
+</aura:set>
+</aura:if> 
+
 </aura:set>
 <aura:set attribute="footerButtons">
 <!--End-->
+
 <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
  <span>
         <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:15px;'}">

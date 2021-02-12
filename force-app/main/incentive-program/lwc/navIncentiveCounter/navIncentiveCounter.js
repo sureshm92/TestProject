@@ -4,10 +4,12 @@
 
 import { LightningElement, track, api } from 'lwc';
 import getPoints from '@salesforce/apex/IncentiveProgramRemote.getCurrentPoints';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 export default class NavIncentiveCounter extends LightningElement {
     @track totalPoints = null;
     @track lastPoints = null;
+    @track isRTL = null;
     @track parOfIncentiveProgram = false;
     @track showDropDown;
     _currentPage;
@@ -25,6 +27,13 @@ export default class NavIncentiveCounter extends LightningElement {
     connectedCallback() {
         this.showDropDown = false;
         this.lastDatastamp = new Date();
+        getisRTL()
+        .then((data) => {
+            this.isRTL = data;
+        })
+        .catch(function(error) {
+            console.error('Error: ' + JSON.stringify(error));
+        });
         let fetchPoints = () => {
             getPoints({
                 timeStamp: this.lastDatastamp.toISOString()

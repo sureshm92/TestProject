@@ -18,6 +18,10 @@
     margin-top: 0;
     z-index: 10010;
 }
+.rtl {
+    direction: rtl;
+}
+
 .nidd-total {
     color: #000000;
     font-size: 1rem;
