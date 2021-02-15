@@ -3,8 +3,11 @@
     max-width: 1140px;
     margin: 25px auto -80px;
 }
-.THIS .mr_8{
-    margin-left:-8px;
+.THIS .mr_8 {
+    margin-left: -8px;
+}
+.THIS .slds-button {
+    z-index: 1000;
 }
 .THIS .vis-input {
     width: 209px;
@@ -20,21 +23,20 @@
     white-space: nowrap;
     margin-top: -25px;
     margin-left: 16px;
-    
-  }
+}
 .THIS .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
 .THIS .slds-form-element__help {
-    white-space:nowrap;
+    white-space: nowrap;
 }
 
-.THIS .mr_10{
-    margin-top:10px;
+.THIS .mr_10 {
+    margin-top: 10px;
 }
-.THIS .slds-input.slds-combobox__input{
-     color: #000000;
+.THIS .slds-input.slds-combobox__input {
+    color: #000000;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
@@ -42,7 +44,7 @@
     height: 40px;
     display: inline-flex;
     align-items: center;
-    font-weight:500;
+    font-weight: 500;
 }
 .THIS .slds-input {
     color: #000000;
@@ -53,51 +55,50 @@
     height: 40px;
     display: inline-flex;
     align-items: center;
-    font-weight:500;
+    font-weight: 500;
 }
 .THIS .label {
     height: 24px;
     width: 209.13px;
     color: #444444;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 14px;
     letter-spacing: 0;
     line-height: 24px;
-    padding-bottom:20px;
-  }
-.THIS .container1{
+    padding-bottom: 20px;
+}
+.THIS .container1 {
     height: 40px;
     width: 418px;
-
-  }
+}
 .THIS .what-to-expect {
     height: 24px;
     width: 136px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 20px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 24px;
-    margin-top:-28px;
-  }
+    margin-top: -28px;
+}
 
-.THIS .container{
+.THIS .container {
     height: 40px;
     width: 209px;
 }
-.THIS .reminderDate{
+.THIS .reminderDate {
     margin-left: -113px;
     margin-top: 5px;
 }
-.THIS .reminder{
+.THIS .reminder {
     margin-left: -111px;
     margin-top: 5px;
 }
-.THIS .wi{
-    width:209px;
+.THIS .wi {
+    width: 209px;
 }
-.THIS .slds-datepicker .slds-day{
+.THIS .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
@@ -226,7 +227,7 @@
     height: 40px;
     display: flex;
     align-items: center;
-    font-weight:500;
+    font-weight: 500;
 }
 
 .THIS .task-rtl > .slds-form-element {
