@@ -201,9 +201,10 @@ public without sharing class TaskEditRemote {
                     cronTriggerId = tsk[0].CronTriggerId__c;
                 }
             }
+            if(taskToUpsert.ReminderDateTime != null){
             if(!String.isEmpty(cronTriggerId)){
               System.abortJob(cronTriggerId);
-             }  
+             } 
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
@@ -211,6 +212,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -298,6 +300,7 @@ public without sharing class TaskEditRemote {
                 insert taskToUpsert;
             }
             //upsert taskToUpsert;
+            if(taskToUpsert.ReminderDateTime != null){
             if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
              System.abortJob(taskToUpsert.CronTriggerId__c);
              }
@@ -308,6 +311,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
+            }
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
