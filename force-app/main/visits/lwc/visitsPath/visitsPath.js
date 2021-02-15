@@ -119,6 +119,7 @@ export default class VisitsPath extends LightningElement {
     @track visitId;
     @track reminderDate;
     @track completedDate;
+    @track showTravelSupportDetails = false;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -143,6 +144,7 @@ export default class VisitsPath extends LightningElement {
     @track reminderOption;
     @track emailOptIn;
     @track smsOptIn;
+    @track visitNumber;
     pathContainer;
     elementWidth;
     centredIndex;
@@ -155,6 +157,7 @@ export default class VisitsPath extends LightningElement {
 
     connectedCallback() {
         let context = this;
+        context.showTravelSupportDetails = false;
         /* Promise.all([
             loadStyle(this, lwcStyleResource)
         ]).then(() => {
@@ -221,8 +224,8 @@ export default class VisitsPath extends LightningElement {
     get reminderOptions() {
         return [
             { label: this.labels.OneHourBefore, value: '1 hour before' },
-            { label: this.labels.Onedaybefore, value: '1 day before' },
             { label: this.labels.FourHoursBefore, value: '4 hours before' },
+            { label: this.labels.Onedaybefore, value: '1 day before' },
             { label: this.labels.OneWeekBefore, value: '1 Week before' },
             { label: this.labels.CustomDate, value: 'Custom' }
         ];
@@ -387,6 +390,9 @@ export default class VisitsPath extends LightningElement {
                 this.visitDetails = first;
                 this.planDate = this.visitDetails.visit.Planned_Date__c;
                 this.reminderDate = this.visitDetails.reminderDate;
+                this.visitNumber = this.visitDetails.visit.Visit_Number__c;
+                this.showTravelSupportDetails = true;
+                console.log('visitnum-->' + this.visitNumber);
                 this.isVisitCompleted =
                     this.visitDetails.visitStatus == 'Completed' ||
                     this.visitDetails.visitStatus == 'Missed';
@@ -535,10 +541,13 @@ export default class VisitsPath extends LightningElement {
                 return;
             }
         }
-        if (this.emailOptIn == false && this.smsOptIn == false) {
-            communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
-            return;
+        if (this.reminderOption) {
+            if (this.emailOptIn == false && this.smsOptIn == false) {
+                communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
+                return;
+            }
         }
+
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
         else this.selectedPV.Planned_Date__c = null;
         if (this.reminderDate) this.initData.reminderDate = this.reminderDate;
