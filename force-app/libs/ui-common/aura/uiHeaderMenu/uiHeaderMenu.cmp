@@ -6,6 +6,7 @@
     description="uiHeaderMenu"
     implements="forceCommunity:profileMenuInterface"
     access="global"
+    extends="c:CommunityContext"
 >
     <!-- attributes: -->
     <aura:attribute name="title" type="Aura.Component[]" />
@@ -22,7 +23,7 @@
             {!v.title}
         </ui:menuTriggerLink>
         <ui:menuList
-            class="menu-popup-panel"
+            class="{!v.isRTL? 'menu-popup-panelRTL':'menu-popup-panel'}"
             menuExpand="{!c.doMenuExpand}"
             menuCollapse="{!c.doMenuCollapse}"
             visible="false"

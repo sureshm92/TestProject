@@ -25,6 +25,9 @@
 .THIS .rcei-left .rcei-info {
     display: flex;
 }
+.THIS .rcei-infoRTL{
+    direction: ltr;
+}
 
 .THIS .rcei-left .rcei-name {
     color: #666666;

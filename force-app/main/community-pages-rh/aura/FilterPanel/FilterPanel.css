@@ -70,7 +70,6 @@
 .THIS .cRRPaginationRemote.rrp-container {
     padding-top: 0;
 }
-
 .THIS .fp-form-element {
     display: inline-block;
     white-space: nowrap;
@@ -151,7 +150,8 @@
 .THIS .fp-filters-containerRTL {
     margin: -5px;
     overflow: hidden;
-    display: flex;
+    display: inline-flex;
+    width: -webkit-fill-available;
 }
 .THIS .fp-filters-label {
     white-space: nowrap;
@@ -160,6 +160,12 @@
 }
 
 .THIS .fp-filters-container .rrs-container {
+    display: inline-block;
+    /*max-width: 245px;*/
+    max-width: 210px;
+    margin: 5px;
+}
+.THIS .fp-filters-containerRTL .rrs-container {
     display: inline-block;
     /*max-width: 245px;*/
     max-width: 210px;

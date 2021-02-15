@@ -3,6 +3,7 @@
     controller="MyReferringClinicsController"
     description="MyReferringClinics"
     implements="forceCommunity:availableForAllPageTypes"
+    extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -52,7 +53,7 @@
             <div
                 class="rr-summary-panel slds-grid slds-wrap slds-grid_vertical-stretch slds-gutters_medium"
             >
-                <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container">
+                <div class="slds-col slds-size_1-of-1 mrc-invite-btn-container" style="{!if(v.isRTL, 'text-align: left;','')}"> 
                     <button
                         class="apollo-btn primary mrc-invite-btn"
                         data-gtm="BTN_InviteRP"
