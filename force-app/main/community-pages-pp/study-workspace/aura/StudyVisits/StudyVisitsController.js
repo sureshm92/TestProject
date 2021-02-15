@@ -7,12 +7,13 @@
         component.set('v.initialized', false);
         var opts = [
             { value: 'All', label: $A.get('$Label.c.Home_Page_VisitTab_Filter_Show_All') },
+            { value: 'Scheduled', label: $A.get('$Label.c.PP_Scheduled')},
             {
                 value: 'Pending',
                 label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Current_Visits')
             },
-            { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') },
-            { value: 'Scheduled', label: $A.get('$Label.c.PP_Scheduled')}
+            { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') }
+            
         ];
         component.set('v.options', opts);
         communityService.executeAction(component, 'isStudySiteHasVisits', {}, function (response) {
