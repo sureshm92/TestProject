@@ -42,8 +42,8 @@ force-app/main/deprecated/flows/Email_to_PI_Participant_Accepted_Needs_Contact.f
 #**/onboarding-tour/staticresources
 #force-app/unpackaged/main/default/staticresources/os_*
 #force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/*
-#force-app/main/tools/staticresources/*
+force-app/main/default/staticresources/*
+force-app/main/tools/staticresources/*
 
 
 #Ignore State globalValueSet
