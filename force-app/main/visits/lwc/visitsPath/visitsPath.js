@@ -225,7 +225,7 @@ export default class VisitsPath extends LightningElement {
         return [
             { label: this.labels.OneHourBefore, value: '1 hour before' },
             { label: this.labels.FourHoursBefore, value: '4 hours before' },
-            { label: this.labels.Onedaybefore, value: '1 day before' }
+            { label: this.labels.Onedaybefore, value: '1 day before' },
             { label: this.labels.OneWeekBefore, value: '1 Week before' },
             { label: this.labels.CustomDate, value: 'Custom' }
         ];
