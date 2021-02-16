@@ -82,7 +82,7 @@
                     </div>
                 </span>
             </div>
-            <div class="slds-col">
+            <div class="slds-col" style="display: none">
                 <lightning:button
                     class="apollo-btn secondary"
                     label="{!$Label.c.CC_Btn_ExportAll}"

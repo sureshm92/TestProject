@@ -10,7 +10,7 @@
         parent.doRefesh(true);
     },
     doExportAll: function (component, event, helper) {
-        let selectedSearchOption = component.get('v.selectedSearchOption');
+        /*let selectedSearchOption = component.get('v.selectedSearchOption');
         let searchText = component.get('v.searchText');
         let parent = component.get('v.parent');
         searchText = searchText.trim();
@@ -21,7 +21,8 @@
         } else {
             component.set('v.containsSerchTxt', true);
             parent.callExportAll(selectedSearchOption, searchText);
-        }
+        }*/
+        return false;
     },
     doUpdateSortType: function (component, event, helper) {
         if (component.get('v.resetVal')) return;
