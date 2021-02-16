@@ -6963,6 +6963,11 @@
         <field>Task.Completed_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.CronTriggerId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Community_Template_Name__c</field>

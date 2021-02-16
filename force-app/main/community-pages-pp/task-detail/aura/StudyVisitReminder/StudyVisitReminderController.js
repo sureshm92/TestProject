@@ -1,6 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         //component.find('spinner').show();
+        component.set('v.reRender',true);
         var params = event.getParam('arguments');
         if (params) {
             console.log('#relaodAttributes: ' + JSON.stringify(params.relaodAttributes));
@@ -13,7 +14,6 @@
             component.set('v.title', params.relaodAttributes.title);
             component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
-
         helper.initialize(component, helper);
         //this.reRender = true;
         //Take scroll bar to top next time when the popup is displayed
@@ -24,7 +24,7 @@
 
     doCancel: function (component, event, helper) {
         helper.hideModal(component);
-        this.reRender = false;
+        component.set('v.reRender',false);
     },
 
     doSave: function (component, event, helper) {
@@ -56,12 +56,13 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
+        var reminderOption = component.get('v.task.Remind_Me__c');
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
-        if (
-            !$A.util.isUndefinedOrNull(reminderDate) &&
+       if (
+            (!$A.util.isUndefinedOrNull(reminderDate) || !$A.util.isUndefinedOrNull(reminderOption)) &&
             !(smsPeferenceSelected && smsOptIn) &&
             !(emailPeferenceSelected && emailOptIn)
         ) {
