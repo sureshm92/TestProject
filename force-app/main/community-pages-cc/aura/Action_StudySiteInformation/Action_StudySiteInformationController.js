@@ -2,11 +2,12 @@
     doExecute : function(component, event, helper) {
         component.set('v.CmpOpen',true);
         component.find('dialog').show();
-        component.set('v.siteInfoComplete',component.get('v.studyInformation.siteInfoComplete'));
+       /**  component.set('v.siteInfoComplete',component.get('v.studyInformation.siteInfoComplete'));
         component.set('v.trainingComplete',component.get('v.studyInformation.trainingComplete'));
         component.set('v.supressEmail',component.get('v.studyInformation.receivePIEmail'));
-        component.set('v.optIn',component.get('v.studyInformation.optInForWarmTransfer'));
+        component.set('v.optIn',component.get('v.studyInformation.optInForWarmTransfer')); **/
         var ssId = component.get('v.studyInformation').siteId;
+        component.find('Spinnerpopup').show();
         communityService.executeAction(
             component, 'getDelegateMap',
             {
@@ -14,7 +15,19 @@
             },
             function (returnValue) 
             {
-                component.set('v.delegateList',returnValue);
+                component.set('v.delegateList',returnValue.StudySitesDelegatesPicklist);
+                component.set('v.studyInformation.sitePhone',returnValue.sitePhone);
+                component.set('v.studyInformation.siteEmail',returnValue.siteEmail);
+                component.set('v.studyInformation.optInForWarmTransfer',returnValue.optInForWarmTransfer);
+                component.set('v.studyInformation.trainingComplete',returnValue.trainingComplete);
+                component.set('v.studyInformation.siteInfoComplete',returnValue.siteInfoComplete);
+                component.set('v.studyInformation.receivePIEmail',returnValue.receivePIEmail);
+                component.set('v.studyInformation.siteStaff',returnValue.sitestaff);
+                component.set('v.siteInfoComplete',returnValue.siteInfoComplete);
+                component.set('v.trainingComplete',returnValue.trainingComplete);
+                component.set('v.supressEmail',returnValue.receivePIEmail);
+                component.set('v.optIn',returnValue.optInForWarmTransfer);
+                component.find('Spinnerpopup').hide();
             });
         console.log('>>>execute called succes>>>');
         component.find('childCmp').RefreshCD();
