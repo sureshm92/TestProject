@@ -1,4 +1,4 @@
-<!--Created by D.Yasinskyi on 01.03.2018-->
+<!--Created by D.Yasinskyi on 01.03.2018--> 
 <aura:component description="ReferringClinicItem" extends="c:CommunityContext">
     <!--=============================================================================================================-->
     <aura:attribute name="clinicWrapper" type="Object" required="true" />

@@ -4,7 +4,7 @@
     description="MyReferringClinics"
     implements="forceCommunity:availableForAllPageTypes"
     extends="c:CommunityContext"
->
+>   
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"

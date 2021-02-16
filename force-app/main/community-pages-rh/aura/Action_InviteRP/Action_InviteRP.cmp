@@ -51,7 +51,7 @@
                                     <div class="label slds-text-align_left" style="{!if(v.isRTL, 'text-align: right;','')}">
                                         <abbr title="required" class="slds-required">*</abbr
                                         >{!$Label.c.PG_MRC_RF_Email}
-                                    </div>
+                                    </div>  
                                     <lightning:input
                                         value="{!v.emailS}"
                                         type="text"

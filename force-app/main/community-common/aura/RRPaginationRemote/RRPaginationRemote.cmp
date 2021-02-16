@@ -6,7 +6,7 @@
     <aura:attribute name="entriesOnPage" type="Integer" />
     <aura:attribute name="currentPage" type="Integer" />
     <aura:attribute name="allRecordsCount" type="Integer" />
-    <aura:attribute name="totalPages" type="Integer" access="private" />
+    <aura:attribute name="totalPages" type="Integer" access="private" />    
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onchange" type="c:uiEvent" />

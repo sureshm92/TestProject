@@ -9,7 +9,7 @@
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="locationWasChanged" type="Boolean" default="false" />
     <aura:attribute name="checkedAccount" type="Account" />
-
+ 
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="studySiteWrapper" type="Object" />

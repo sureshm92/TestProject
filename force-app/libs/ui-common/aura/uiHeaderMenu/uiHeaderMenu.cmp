@@ -7,7 +7,7 @@
     implements="forceCommunity:profileMenuInterface"
     access="global"
     extends="c:CommunityContext"
->
+>   
     <!-- attributes: -->
     <aura:attribute name="title" type="Aura.Component[]" />
     <aura:attribute name="isOpened" type="Boolean" default="false" />

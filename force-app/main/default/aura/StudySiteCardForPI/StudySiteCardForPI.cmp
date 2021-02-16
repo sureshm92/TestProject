@@ -3,7 +3,7 @@
  -->
 
 <aura:component description="StudySiteCardForPI" controller="StudyListViewController" extends="c:CommunityContext">
-    <!-- attributes: -->
+    <!-- attributes: -->    
     <aura:attribute name="siteWrapper" type="Object" />
     <aura:attribute name="delegatePicklist" type="List" />
     <aura:attribute name="rerenderComponent" type="Boolean" description="false" />

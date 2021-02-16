@@ -6,7 +6,7 @@
     description="Action_UploadParticipants"
     controller="Action_UploadParticipantsRemote"
     extends="c:CommunityContext"
->
+>   
     <ltng:require scripts="{!$Resource.jszip}" />
     <ltng:require scripts="{!$Resource.xlsxmin}" />
 

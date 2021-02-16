@@ -5,7 +5,7 @@
 <aura:component description="FilterPanel" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
-    <!-- attributes: -->
+    <!-- attributes: -->    
     <aura:attribute name="searchText" type="String" />
     <aura:attribute name="searchTextPlaceHolder" type="String" />
     <aura:attribute name="recordsPerPage" type="String" />

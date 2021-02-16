@@ -176,7 +176,7 @@
     .THIS .ss-info-address {
         word-wrap: break-word;
     }
-}
+}   
 
 @media all and (max-width: 500px) {
     .THIS .p-footer .p-buttons-container {

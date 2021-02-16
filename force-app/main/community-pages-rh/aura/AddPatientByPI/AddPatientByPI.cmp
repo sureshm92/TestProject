@@ -7,7 +7,7 @@
     implements="forceCommunity:availableForAllPageTypes"
     controller="AddPatientByPIRemote"
     extends="c:CommunityContext"
->
+>  
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
     <!-- private attributes: -->

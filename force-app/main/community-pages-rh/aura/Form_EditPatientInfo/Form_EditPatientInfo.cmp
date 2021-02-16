@@ -6,7 +6,7 @@
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
-    />
+    /> 
 
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public" />
