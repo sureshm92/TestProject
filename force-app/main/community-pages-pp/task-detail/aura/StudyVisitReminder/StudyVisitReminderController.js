@@ -97,7 +97,7 @@
         if(task.Task_Type__c == 'Visit'){
             component.set('v.initData.activityDate',visitDate);
         }
-        if(reminderOption){
+        if(reminderOption || task.Task_Type__c != 'Visit'){
         communityService.executeAction(
             component,
             'upsertTask',
