@@ -367,6 +367,8 @@
         <fields>CREATED_DATE</fields>
         <fields>Caller__c</fields>
         <fields>Call_Category__c</fields>
+        <fields>IQVIA_intervention_required__c</fields>
+        <fields>IQVIA_intervention_completed__c</fields>
         <relatedList>Call_Dispositions__c.Study_Site__c</relatedList>
         <sortField>NAME</sortField>
         <sortOrder>Desc</sortOrder>
@@ -405,10 +407,5 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    <summaryLayout>
-        <masterLabel>00h1I000002zie3</masterLabel>
-        <sizeX>4</sizeX>
-        <sizeY>0</sizeY>
-        <summaryLayoutStyle>Default</summaryLayoutStyle>
-    </summaryLayout>
+    
 </Layout>
