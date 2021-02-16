@@ -1,5 +1,5 @@
 <!--Created by D.Yasinskyi on 03.05.2018-->
-<aura:component description="MyTeamItem">
+<aura:component description="MyTeamItem" extends="c:CommunityContext">
     <!-- arrtibutes: -->
     <aura:attribute name="delegate" type="Object" required="true" />
     <aura:attribute name="userMode" type="String" required="true" />
@@ -62,7 +62,7 @@
             </aura:iteration>
         </aura:if>
         <aura:if isTrue="{!!v.isCurrentUser}">
-            <div class="mti-save-button-container">
+            <div class="mti-save-button-container" style="{!v.isRTL? 'margin-right:600px;': ''}">
                 <button
                     class="apollo-btn tertiary mti-save-button"
                     onclick="{!c.doSaveChanges}"
