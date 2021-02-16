@@ -1,0 +1,170 @@
+<aura:component description="SiteLocation" >
+    <aura:attribute name="account" type="Object" />
+    <aura:attribute name="studySite" type="Object" />
+    <aura:attribute name="accIndex" type="Integer" />
+    <aura:attribute name="studySiteAccounts" type="List" />
+    <aura:attribute name="editLocations" type="Boolean" default="false"/>
+    <aura:attribute name="gparent" type="Aura.Component" />
+    <aura:attribute name="callback" type="Object" access="private" />
+    <aura:attribute name="isEdited" type="Boolean" default="false" />
+    <aura:attribute name="isAccountModified" type="Boolean" default="true" />
+    <aura:attribute name="countriesLVList" type="List" />
+    <aura:attribute name="statesByCountryMap" type="Object" />
+    <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
+    <aura:attribute name="editedAccount" type="String" />
+    
+    <aura:method name="closeTab" action="{!c.closeTab}" />
+    <aura:method name="refreshTable" action="{!c.refreshTable}" />
+    
+    <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
+    
+    <aura:registerEvent name="CloseEvent" type="c:CloseEditLocations" />
+    <aura:if isTrue = "{!!v.editLocations}">
+        <div class="slds-grid slds-col slds-size--1-of-1">
+            <div class="locationContainer slds-grid slds-wrap">
+                <div
+                     class="slds-col slds-size--12-of-12 slds-grid slds-wrap"
+                     style="height: 100%"
+                     >
+                    
+                    <div
+                         class="slds-col-size--12-of-12 slds-grid slds-wrap popup-account-name"
+                         >
+                        <div
+                             class="slds-col slds-size--1-of-12 slds-grid slds-grid--vertical-align-center slds-grid--align-center"
+                             style="max-width:30px;"
+                             >
+                            <lightning:input
+                                             aura:id="radioBtn"
+                                             class="slds-grid"
+                                             type="radio"
+                                             value="{!v.account}"
+                                             checked="{!v.account.Id == v.studySite.site}"
+                                             onchange="{!c.changeRadioMarker}"
+                                             
+                                             />
+                        </div>
+                        <div class="slds-col slds-size--6-of-12 slds-grid" style="font-weight:bold;margin-top:3px">
+                            {!v.account.Name + ' ' + $Label.c.SS_Location}
+                        </div>
+                        <div
+                             class="slds-col slds-size--5-of-12 slds-grid slds-grid_align-end edit-btn"
+                             onclick="{!c.editAccountAddress}"
+                             data-index="{!v.accIndex}"
+                             >
+                            {!$Label.c.SS_Btn_Edit}
+                        </div>
+                    </div>
+                    
+                    <div class="account_details">
+                        <div class="slds-col-size--12-of-12 slds-grid slds-wrap">
+                            <div
+                                 class="slds-col slds-size--4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    Street Address
+                                </div>
+                                <div class="ss-info-address">
+                                    {!v.account.BillingStreet}
+                                </div>
+                            </div>
+                            
+                            <div
+                                 class="slds-col slds-size_4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    City
+                                </div>
+                                <div class="ss-info-address">
+                                    {!v.account.BillingCity}
+                                    
+                                </div>
+                            </div>
+                            <div
+                                 class="slds-col slds-size_4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    State
+                                </div>
+                                <div class="ss-info-address">
+                                    {!v.account.BillingStateCode}
+                                </div>
+                            </div>
+                        </div>
+                        <div class="slds-col-size--12-of-12 slds-grid slds-wrap">
+                            <div
+                                 class="slds-col slds-size--4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    Country
+                                </div>
+                                <div class="ss-info-address">
+                                    {!v.account.BillingCountry}
+                                </div>
+                                
+                            </div>
+                            
+                            <div
+                                 class="slds-col slds-size_4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    Zip/Postal Code 
+                                </div>
+                                <div class="ss-info-address">
+                                    {!v.account.BillingPostalCode}
+                                    
+                                </div>
+                            </div>
+                            
+                        </div>
+                        <div class="slds-col slds-size--12-of-12 slds-grid slds-wrap">
+                            <div
+                                 class="slds-col slds-size_4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    {!$Label.c.SS_Driving_Instructions}
+                                </div>
+                                <div class="driving-instructions">
+                                    <c:uiLimitTextByLines
+                                                          maxLines="3"
+                                                          background="#f8f9fb"
+                                                          >
+                                        {!v.account.Driving_Directions__c}
+                                    </c:uiLimitTextByLines>
+                                </div>
+                            </div>
+                            <div
+                                 class="slds-col slds-size_4-of-12 manage-location-info"
+                                 >
+                                <div class="ss-info-headers">
+                                    {!$Label.c.SS_Parking_Instructions}
+                                </div>
+                                <div class="driving-instructions">
+                                    <c:uiLimitTextByLines
+                                                          maxLines="3"
+                                                          background="#f8f9fb"
+                                                          >
+                                        {!v.account.Parking_Instructions__c}
+                                    </c:uiLimitTextByLines>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </aura:if>
+    <aura:if isTrue = "{!v.editLocations}">
+        <c:StudySiteLocationEdit aura:id="editLocation" 
+                                 parent="{! this }"
+                                 accIndex="{!v.accIndex}"
+                                 countriesLVList = "{!v.countriesLVList}" 
+                                 locationtype="sl"
+                                 statesByCountryMap = "{!v.statesByCountryMap}"
+                                 isAccountModified = "{!v.isAccountModified}"
+                                 account = "{!v.account}"
+                                 isEdited = "{!v.isEdited}"
+                                 isStudyInfoModified = "{!v.isStudyInfoModified}"
+                                 editedAccount = "{!v.editedAccount}"/>
+    </aura:if>
+</aura:component>

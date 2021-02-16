@@ -31,24 +31,17 @@
         default="{!$Label.c.CC_Btn_Search}"
     />
     <aura:attribute name="resultSet" type="List" />
-    <aura:attribute name="filterStudyName" type="String" />
-    <aura:attribute name="filterCountry" type="String" />
+    <aura:attribute name="filteredResultSet" type="List" default="[]" />
+    <aura:attribute name="filterStudyList" type="List" />
+    <aura:attribute name="filterCountryList" type="List" />
+    <aura:attribute name="tmpFilterStudyList" type="List" default="[]" />
+    <aura:attribute name="tmpFilterCountryList" type="List" default="[]" />
     <aura:attribute name="paginationData" type="Object" />
     <aura:attribute name="resetVal" type="Boolean" default="false" />
     <aura:attribute name="siteIds" type="List" />
     <aura:attribute name="exportList" type="List" />
     <!--handlers:-->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
-    <!--<aura:handler
-        name="change"
-        value="{!v.paginationData.pageRecordsCount}"
-        action="{!c.doDatabaseSearch}"
-    />-->
-    <aura:handler
-        name="change"
-        value="{!v.paginationData.currentPage}"
-        action="{!c.doDatabaseSearch}"
-    />
     <!--methods-->
     <aura:method name="doRefesh" action="{!c.doInit}">
         <aura:attribute name="resetVal" type="Boolean" />
@@ -63,49 +56,66 @@
         <aura:attribute name="searchText" type="String" />
     </aura:method>
     <!--component body:-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
+    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" showSpinner="true" />
 
-    <c:RRNavigationPath>
-        <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
-    </c:RRNavigationPath>
+    <aura:if isTrue="{!v.isInitialized}">
+        <c:RRNavigationPath>
+            <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
+        </c:RRNavigationPath>
 
-    <c:SiteSearchPanel
-        selectedSearchOption="{!v.selectedSearchOption}"
-        searchText="{!v.searchText}"
-        searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
-        searchList="{!v.searchList}"
-        sectionDisabled="{!v.sectionDisabled}"
-        parent="{!this}"
-        sortType="{!v.sortType}"
-        sortVariants="{!v.sortVariants}"
-        resetVal="{!v.resetVal}"
-        hasResult="{!empty(v.resultSet)}"
-    />
-    <c:SiteSearchResults
-        parent="{!this}"
-        searched="{!v.searched}"
-        resultSet="{!v.resultSet}"
-        filterStudyName="{!v.filterStudyName}"
-        filterCountry="{!v.filterCountry}"
-    />
-    <!-- pagination -->
-    <aura:if isTrue="{!!empty(v.resultSet)}">
-        <div class="slp-counter slds-grid slds-grid_align-spread">
-            <div class="slp-counter-txt slds-col">
-                {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
-                v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
-                v.paginationData.currentPageCount) + ' ' + $Label.c.PG_FP_L_of + ' ' +
-                v.paginationData.allRecordsCount + ' ' + $Label.c.PG_SW_Tab_Study_Sites + ' ' + '('+
-                $Label.c.CC_Max100 +')' }
+        <c:SiteSearchPanel
+            aura:id="searchPanel"
+            selectedSearchOption="{!v.selectedSearchOption}"
+            searchText="{!v.searchText}"
+            searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
+            searchList="{!v.searchList}"
+            sectionDisabled="{!v.sectionDisabled}"
+            parent="{!this}"
+            sortType="{!v.sortType}"
+            sortVariants="{!v.sortVariants}"
+            resetVal="{!v.resetVal}"
+            hasResult="{!empty(v.resultSet)}"
+        />
+        <c:SiteSearchResults
+            aura:id="searchResults"
+            parent="{!this}"
+            searched="{!v.searched}"
+            resultSet="{!v.resultSet}"
+            filteredResultSet="{!v.filteredResultSet}"
+            filterStudyList="{!v.filterStudyList}"
+            filterCountryList="{!v.filterCountryList}"
+            tmpFilterCountryList="{!v.tmpFilterCountryList}"
+            tmpFilterStudyList="{!v.tmpFilterStudyList}"
+        />
+        <!-- pagination -->
+        <aura:if isTrue="{!and(not(empty(v.resultSet)), empty(v.filteredResultSet)) }">
+            <div class="slp-counter slds-grid slds-grid_align-spread">
+                <div class="slp-counter-txt slds-col">
+                    {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
+                    v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
+                    v.paginationData.currentPageCount) + ' ' + $Label.c.PG_FP_L_of + ' ' +
+                    v.paginationData.allRecordsCount + ' ' + $Label.c.PG_SW_Tab_Study_Sites + ' ' +
+                    '('+ $Label.c.CC_Max100 +')' }
+                </div>
+                <div class="slds-col">
+                    <c:RRPaginationRemote
+                        entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                        currentPage="{!v.paginationData.currentPage}"
+                        allRecordsCount="{!v.paginationData.allRecordsCount}"
+                        onchange="{!c.doPageNavigation}"
+                    />
+                </div>
             </div>
-            <div class="slds-col">
-                <c:RRPaginationRemote
-                    entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                    currentPage="{!v.paginationData.currentPage}"
-                    allRecordsCount="{!v.paginationData.allRecordsCount}"
-                />
+        </aura:if>
+        <aura:if isTrue="{!not(empty(v.filteredResultSet))}">
+            <div class="slp-counter slds-grid slds-grid_align-spread">
+                <div class="slp-counter-txt slds-col">
+                    {!$Label.c.PG_FP_L_Showing + ' ' + v.filteredResultSet.length + ' ' +
+                    $Label.c.PG_FP_L_of + ' ' + v.filteredResultSet.length + ' ' +
+                    $Label.c.PG_SW_Tab_Study_Sites + ' ' + '('+ $Label.c.CC_Max100 +')' }
+                </div>
             </div>
-        </div>
+        </aura:if>
     </aura:if>
     <c:builderStub aura:id="builderStub" />
 </aura:component>

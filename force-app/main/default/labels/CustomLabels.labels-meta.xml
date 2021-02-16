@@ -1556,6 +1556,41 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CC_Receive_Study_Site_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
+        <value>Receive Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Save_All_And_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Save_All_And_Close</shortDescription>
+        <value>Save All and Close</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone</shortDescription>
+        <value>Study Site Phone</value>
+    </labels>
+    <labels>
+        <fullName>CC_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Email</shortDescription>
+        <value>Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Training_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Training_Complete</shortDescription>
+        <value>Training Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_Btn_ExportAll</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1598,6 +1633,27 @@
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>CC_FilterPanel_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPanel_Label</shortDescription>
+        <value>Filter page by:</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_StudyName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_StudyName</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1609,7 +1665,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Max100</shortDescription>
-        <value>max.100</value>
+        <value>max.100 per page</value>
     </labels>
     <labels>
         <fullName>CC_Name</fullName>
@@ -1675,11 +1731,18 @@
         <value>Start typing...</value>
     </labels>
     <labels>
-        <fullName>CC_SiteNumber</fullName>
+        <fullName>CC_SearchTxtRequired</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CC_SiteNumber</shortDescription>
-        <value>Site Number (exact match)</value>
+        <shortDescription>Error message to be shown on the UI in case search text is missing</shortDescription>
+        <value>Search text is required!</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Contact</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Contact</shortDescription>
+        <value>Site Contact</value>
     </labels>
     <labels>
         <fullName>CC_Site_Contact</fullName>
@@ -1694,6 +1757,13 @@
         <protected>true</protected>
         <shortDescription>CC_Site_Phone_Number</shortDescription>
         <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_SortVariant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sort variants seperated by semi-colon(;)</shortDescription>
+        <value>Site Alphabetical (a-z); Site Alphabetical (z-a); Site Number (Ascending); Site Number (Descending)</value>
     </labels>
     <labels>
         <fullName>CC_Study</fullName>
@@ -1717,6 +1787,34 @@
         <value>Study Site</value>
     </labels>
     <labels>
+        <fullName>CC_Opt_in_for_Warm_Transfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Opt_in_for_Warm_Transfer</shortDescription>
+        <value>Opt in for Warm Transfer</value>
+    </labels>
+    <labels>
+        <fullName>CC_Suppress_PI_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Suppress_PI_Email</shortDescription>
+        <value>Study Site PI Emails have to be suppressed if Study PI Emails are</value>
+    </labels>
+    <labels>
+        <fullName>CC_Success_Save_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Success_Save_Message</shortDescription>
+        <value>Information was successfully saved</value>
+    </labels>
+	    <labels>
+        <fullName>CC_Site_Information_Form_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Information_Form_Complete</shortDescription>
+        <value>Site Information Form Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_CTP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1736,6 +1834,20 @@
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Country</shortDescription>
         <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Dispositions</shortDescription>
+        <value>Call Dispositions</value>
+    </labels>
+    <labels>
+        <fullName>Call_Category</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Category</shortDescription>
+        <value>Call Category</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_PI</fullName>
@@ -1771,6 +1883,20 @@
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Status</shortDescription>
         <value>Site Status</value>
+    </labels>
+    <labels>
+        <fullName>CC_TablePlaceholderTxt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_TablePlaceholderTxt</shortDescription>
+        <value>Please initiate search!</value>
+    </labels>
+	<labels>
+        <fullName>CC_Toggle_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Toggle_Information</shortDescription>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
     </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>
@@ -4232,12 +4358,14 @@ By using our website, you are accepting our use of cookies.</value>
 
         Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
-    <labels>
+     <labels>
         <fullName>Email_Body_Initial_CC</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Initial_CC</shortDescription>
-        <value>Welcome to IQVIA Referal Hub</value>
+        <value>You have been invited to use IQVIA&apos;s Referral Hub Call Center Interface.
+&lt;br&gt;
+Please click the button below to register. This is a required step to gain access to study site information, that you will need in order to process calls.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
@@ -6487,13 +6615,6 @@ Release 4.0 includes additional details around the screening process, which has 
 •	Distinguishing between enrollment versus randomization for the study</value>
     </labels>
     <labels>
-        <fullName>Empty_Custom_Tooltip_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Empty Custom Tooltip Error Message</shortDescription>
-        <value>Custom tooltip cannot be blank if custom tooltip checkbox is checked.</value>
-    </labels>
-    <labels>
         <fullName>Empty_Reminder</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -6505,7 +6626,7 @@ Release 4.0 includes additional details around the screening process, which has 
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Empty TaskName</shortDescription>
-        <value>Task Name cannot be empty.</value>
+        <value>Task Name cannot be empty!</value>
     </labels>
     <labels>
         <fullName>Empty_Visits_tab</fullName>
@@ -7979,7 +8100,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Human leukocyte antigen</shortDescription>
-        <value>HLA</value>
+        <value>Human leukocyte antigen (HLA)</value>
     </labels>
     <labels>
         <fullName>ICOS_Description</fullName>
@@ -8267,7 +8388,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
-        <value>Please input correct data.</value>
+        <value>Please input correct data!</value>
     </labels>
     <labels>
         <fullName>Inducible_co_stimulator</fullName>
@@ -8275,6 +8396,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Inducible co-stimulator</shortDescription>
         <value>ICOS</value>
+    </labels>
+    <labels>
+        <fullName>Initial_Visit_Date</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit Date</shortDescription>
+        <value>Initial Visit Date</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
@@ -9231,6 +9359,13 @@ The expected format is REF##### to REF########</value>
         <value>No access</value>
     </labels>
     <labels>
+        <fullName>New_Call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Call</shortDescription>
+        <value>New Call</value>
+    </labels>
+    <labels>
         <fullName>No_Case_Assign</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9250,6 +9385,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
+    </labels>
+     <labels>
+        <fullName>No_records_to_display</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No records to display</shortDescription>
+        <value>No records to display</value>
     </labels>
     <labels>
         <fullName>No_active_studies</fullName>
@@ -15342,20 +15484,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>##PatientFirstName has designated you as their delegate.</value>
     </labels>
     <labels>
-        <fullName>PP_Details</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP_Details</shortDescription>
-        <value>Details</value>
-    </labels>
-	 <labels>
-        <fullName>PP_DueDateandTime</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PP_DueDateandTime</shortDescription>
-        <value>Due Date and Time</value>
-    </labels>
-    <labels>
         <fullName>PP_EditProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15610,7 +15738,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PP_Remind_Using_Required</shortDescription>
-        <value>Please select a notification option to send the reminder.</value>
+        <value>Please an option to send reminder.</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using_SMS</fullName>
@@ -15929,11 +16057,11 @@ communications using the toggles below.</value>
         <value>from</value>
     </labels>
     <labels>
-        <fullName>PWS_Initial_Visit_Card_Name</fullName>
+        <fullName>PWS_Initial_Visit_History_Title</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
-        <value>Initial Visit</value>
+        <protected>false</protected>
+        <shortDescription>PWS_Initial_Visit_History_Title</shortDescription>
+        <value>Inital Visit History:</value>
     </labels>
     <labels>
         <fullName>PWS_Initial_Visit_History_Title</fullName>
@@ -15946,7 +16074,7 @@ communications using the toggles below.</value>
         <fullName>PWS_Initial_Visit_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
+        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
         <value>Initial Visit</value>
     </labels>
     <labels>
@@ -16490,6 +16618,13 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
+     <labels>
+        <fullName>Previous_Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous Call Dispositions</shortDescription>
+        <value>Previous Call Dispositions</value>
+    </labels>
     <labels>
         <fullName>Pulse</fullName>
         <language>en_US</language>
@@ -16693,6 +16828,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RH Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
+        <fullName>RH_Masked_Display_IQVIA_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Masked_Display_IQVIA_User</shortDescription>
+        <value>- IQVIA</value>
     </labels>
     <labels>
         <fullName>RH_Masked_IQVIA_User</fullName>
@@ -17733,6 +17875,13 @@ communications using the toggles below.</value>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
     </labels>
+     <labels>
+        <fullName>Select_Call_Catagory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Call Category</shortDescription>
+        <value>Select Call Catagory</value>
+    </labels>
     <labels>
         <fullName>SS_Location_Address</fullName>
         <language>en_US</language>
@@ -17935,6 +18084,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>STP MRR T1</shortDescription>
         <value>Total</value>
+    </labels>
+    <labels>
+        <fullName>switcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>switcher</shortDescription>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>STP_MRR_T2</fullName>
@@ -18424,6 +18580,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+	    <labels>
+        <fullName>Study_Site_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Information</shortDescription>
+        <value>Study Site Information</value>
+    </labels>
+    <labels>
+        <fullName>Study_Site_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>Study_Site_phone_number</fullName>

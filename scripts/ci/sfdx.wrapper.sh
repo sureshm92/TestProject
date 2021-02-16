@@ -92,7 +92,7 @@ fi
 function login_to_org() {
     echo "[INFO] Logging in to org for $1..."
     #echo "${!1}" > authFile
-     echo "$INF70" > authFile
+     echo "$INF62" > authFile
     sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store
     rm -rf authFile
     sfdx force:auth:list | grep TargetOrg || (echo "[ERROR] Not authorizd to Salesforce Org."; false )  # since sfdx 7.83 it's sfdx force:org:list

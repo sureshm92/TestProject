@@ -5,6 +5,14 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+	    <apexClass>FetchCallDispositions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+	    <apexClass>StudySiteInformationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2261,6 +2269,21 @@
         <field>Booking__c.Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>CTC__c.COI_3rdParty__c</field>
@@ -2437,7 +2460,7 @@
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -4768,11 +4791,6 @@
     </fieldPermissions>    
     <fieldPermissions>
         <editable>true</editable>
-        <field>Participant_Enrollment_Status_History__c.Date__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.NewStatus__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6472,7 +6490,7 @@
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
-        <editable>true</editable>
+        <editable>false</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6521,6 +6539,11 @@
         <field>Study_Site__c.Is_Virtual_Study_Site__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.IQVIA_intervention_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
       <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.is_PI_Site_Country_Same__c</field>
@@ -6534,6 +6557,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Orientation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6724,6 +6752,11 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Review_Board_Approval__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Ready_for_Training__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7707,6 +7740,15 @@
         <allowEdit>false</allowEdit>
         <allowRead>true</allowRead>
         <modifyAllRecords>false</modifyAllRecords>
+        <object>Call_Dispositions__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
         <object>CTC__c</object>
         <viewAllRecords>false</viewAllRecords>
     </objectPermissions>
@@ -7826,6 +7868,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Res_study__c</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+     <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>CC_Staff__c</object>
+		<viewAllRecords>false</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
@@ -8034,6 +8085,10 @@
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
+        <tab>CC_Staff__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
         <tab>Action__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
@@ -8048,6 +8103,10 @@
     <tabVisibilities>
         <tab>CTE__c</tab>
         <visibility>Hidden</visibility>
+    </tabVisibilities>
+	<tabVisibilities>
+        <tab>Call_Dispositions__c</tab>
+        <visibility>DefaultOn</visibility>
     </tabVisibilities>
     <tabVisibilities>
         <tab>Clinical_Trial_Profile__c</tab>
