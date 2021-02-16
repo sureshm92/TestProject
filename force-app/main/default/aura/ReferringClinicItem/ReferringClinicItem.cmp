@@ -1,5 +1,5 @@
-<!--Created by D.Yasinskyi on 01.03.2018-->
-<aura:component description="ReferringClinicItem">
+<!--Created by D.Yasinskyi on 01.03.2018--> 
+<aura:component description="ReferringClinicItem" extends="c:CommunityContext">
     <!--=============================================================================================================-->
     <aura:attribute name="clinicWrapper" type="Object" required="true" />
     <aura:attribute name="parent" type="Aura.Component" />
@@ -10,32 +10,63 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--=============================================================================================================-->
 
-    <div class="rci-main-container">
+    <div class="rci-main-container" style="{!if(v.isRTL, 'direction: rtl;','')}">
         <div class="rci-header">
             <div class="rci-name">
-                {!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName
-                + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' +
-                (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
-                '')}
+                <aura:if isTrue="{!v.isRTL}">
+                    {! (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                    '') + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + v.clinicWrapper.hcpContact.FirstName
+                    + ' ' + v.clinicWrapper.hcpContact.Salutation }
+                <aura:set attribute="else">
+                    {!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName
+                    + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' +
+                    (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                    '')}
+                </aura:set>
+                </aura:if>
             </div>
             <div class="rci-info">
-                <div class="rci-inline">
-                    <span class="info-labels">{!$Label.c.Account_Name}:</span>
-                    {!v.clinicWrapper.hcpContact.Account.Name+ ' '}
-                    <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
-                    {! if(v.clinicWrapper.hcpContact.Account.BillingStreet ==
-                    null,'',v.clinicWrapper.hcpContact.Account.BillingStreet +
-                    if(v.clinicWrapper.hcpContact.Account.BillingCity, ', ', ' '))} {!
-                    if(v.clinicWrapper.hcpContact.Account.BillingCity ==
-                    '','',v.clinicWrapper.hcpContact.Account.BillingCity +
-                    if(v.clinicWrapper.hcpContact.Account.BillingPostalCode, ', ', ' '))} {!
-                    if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode
-                    + ' ')}
-                </div>
-                <div class="rci-inline">
-                    <span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span
-                    >{!v.clinicWrapper.hcpContact.Account.Phone}
-                </div>
+                    <aura:if isTrue="{!v.isRTL}">
+                        
+                        <div class="rci-inlineRTL">
+                                {!
+                                if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode
+                                + ' ')}
+                                {! if(v.clinicWrapper.hcpContact.Account.BillingCity ==
+                                '','',v.clinicWrapper.hcpContact.Account.BillingCity +
+                                if(v.clinicWrapper.hcpContact.Account.BillingPostalCode, ', ', ' '))}
+                                {! if(v.clinicWrapper.hcpContact.Account.BillingStreet ==
+                                null,'',v.clinicWrapper.hcpContact.Account.BillingStreet +
+                                if(v.clinicWrapper.hcpContact.Account.BillingCity, ', ', ' '))}
+                            <span class="info-labels">:{!$Label.c.PG_RSS_L_Address}</span>
+                            {! ' '+v.clinicWrapper.hcpContact.Account.Name}
+                            <span class="info-labels">:{!$Label.c.Account_Name}</span>
+                        </div>
+                        <div class="rci-inlineRTL">
+                            {!v.clinicWrapper.hcpContact.Account.Phone}<span class="info-labels">{! ': ' + $Label.c.PG_RSS_L_Phone}</span
+                            >
+                        </div>
+                        
+                    <aura:set attribute="else">
+                        <div class="rci-inline">
+                            <span class="info-labels">{!$Label.c.Account_Name}:</span>
+                            {!v.clinicWrapper.hcpContact.Account.Name+ ' '}
+                            <span class="info-labels">{!$Label.c.PG_RSS_L_Address}:</span>
+                            {! if(v.clinicWrapper.hcpContact.Account.BillingStreet ==
+                            null,'',v.clinicWrapper.hcpContact.Account.BillingStreet +
+                            if(v.clinicWrapper.hcpContact.Account.BillingCity, ', ', ' '))} {!
+                            if(v.clinicWrapper.hcpContact.Account.BillingCity ==
+                            '','',v.clinicWrapper.hcpContact.Account.BillingCity +
+                            if(v.clinicWrapper.hcpContact.Account.BillingPostalCode, ', ', ' '))} {!
+                            if(empty(v.clinicWrapper.hcpContact.Account.BillingPostalCode),'',v.clinicWrapper.hcpContact.Account.BillingPostalCode
+                            + ' ')}
+                        </div>
+                        <div class="rci-inline">
+                            <span class="info-labels">{!$Label.c.PG_RSS_L_Phone}:</span
+                            >{!v.clinicWrapper.hcpContact.Account.Phone}
+                        </div>
+                    </aura:set>
+                    </aura:if>
             </div>
         </div>
 

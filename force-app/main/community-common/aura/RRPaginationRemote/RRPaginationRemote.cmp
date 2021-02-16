@@ -6,7 +6,7 @@
     <aura:attribute name="entriesOnPage" type="Integer" />
     <aura:attribute name="currentPage" type="Integer" />
     <aura:attribute name="allRecordsCount" type="Integer" />
-    <aura:attribute name="totalPages" type="Integer" access="private" />
+    <aura:attribute name="totalPages" type="Integer" access="private" />    
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onchange" type="c:uiEvent" />
@@ -16,7 +16,7 @@
     <aura:handler name="change" value="{!v.entriesOnPage}" action="{!c.doCalcTotalPages}" />
     <aura:if isTrue="{!v.totalPages > 0}">
         <div class="rrp-container">
-            <div class="buttons">
+            <div class="buttons" style="{!if(v.isRTL, 'direction: rtl;','')}">
                 <aura:if isTrue="{!v.isRTL}">
                     <button
                     class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }"
@@ -46,9 +46,16 @@
                 </aura:set>    
                 </aura:if>
             </div>
-            <div class="info">
-                {! $Label.c.Page+' '+ v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' +
-                v.totalPages}
+            <div class="info" style="{!if(v.isRTL, 'direction: ltr;','')}">
+                    <aura:if isTrue="{!v.isRTL}">
+                        {! v.totalPages+' '+ $Label.c.PG_FP_L_of + ' ' + v.currentPage + ' ' +
+                        $Label.c.Page}
+                    <aura:set attribute="else">
+                        {! $Label.c.Page+' '+ v.currentPage + ' ' + $Label.c.PG_FP_L_of + ' ' +
+                        v.totalPages}
+                    </aura:set>
+                    </aura:if>
+                
             </div>
         </div>
     </aura:if>

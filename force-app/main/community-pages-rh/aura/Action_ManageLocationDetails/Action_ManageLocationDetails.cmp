@@ -2,14 +2,14 @@
  - Created by Nikita Abrazhevitch on 20-Aug-19.
  -->
 
-<aura:component description="Action_ManageLocationDetails" controller="StudyListViewController">
+<aura:component description="Action_ManageLocationDetails" controller="StudyListViewController" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="studySite" type="Object" />
     <aura:attribute name="studySiteAccounts" type="List" />
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="locationWasChanged" type="Boolean" default="false" />
     <aura:attribute name="checkedAccount" type="Account" />
-
+ 
     <!-- methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
         <aura:attribute name="studySiteWrapper" type="Object" />
@@ -35,7 +35,7 @@
                             class="apollo-btn secondary"
                             onclick="{!c.editAccountAddress}"
                         >
-                            <span>+</span> {!$Label.c.SS_New_Location}
+                            <span style="{!if(v.isRTL, 'margin-left: 10px; margin-right: 0px;','')}">+</span> {!$Label.c.SS_New_Location}
                         </button>
                     </div>
                 </div>
@@ -53,7 +53,7 @@
                                         style="height: 100%"
                                     >
                                         <div
-                                            class="slds-col-size--1-of-1 slds-grid slds-wrap popup-account-name"
+                                            class="{! 'slds-col-size--1-of-1 slds-grid slds-wrap ' + if(v.isRTL,'popup-account-nameRTL','popup-account-name')}"
                                         >
                                             <div class="slds-col slds-size--1-of-2 slds-grid">
                                                 {!account.Name + ' ' + $Label.c.SS_Location}
@@ -81,7 +81,7 @@
                                         </div>
                                         <div class="account_details">
                                             <div
-                                                class="slds-col slds-size--3-of-12 manage-location-info"
+                                                class="{! 'slds-col slds-size--3-of-12 ' + if(v.isRTL,'manage-location-infoRTL','manage-location-info')}"
                                             >
                                                 <div class="ss-info-headers">
                                                     {!$Label.c.SS_Address}
@@ -135,11 +135,12 @@
                 </aura:if>
             </div>
             <aura:set attribute="footerButtons">
-                <button class="apollo-btn secondary" onclick="{!c.doCancel}">
+                <button class="apollo-btn secondary"  onclick="{!c.doCancel}">
                     {!$Label.c.BTN_Cancel}
                 </button>
                 <button
                     class="apollo-btn primary"
+                    style="{!if(v.isRTL, 'margin-right: 15px;','')}"
                     onclick="{!c.changeStudySiteAddress}"
                     disabled="{!!v.locationWasChanged}"
                     title="{!v.locationWasChanged ? $Label.c.SS_Save_Changes : $Label.c.SS_No_Changes_Message}"
