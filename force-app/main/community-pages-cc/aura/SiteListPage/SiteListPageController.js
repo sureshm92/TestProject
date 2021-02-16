@@ -53,10 +53,11 @@
         }
     },
     doExportAllSearchResults: function (component, event, helper) {
-        let params = event.getParam('arguments');
+        /*let params = event.getParam('arguments');
         if (params && params.selectedSearchOption && params.searchText) {
             helper.doExportAllHelper(component, helper, params);
-        }
+        }*/
+        return false;
     },
     doPageNavigation: function (component, event, helper) {
         component.find('searchPanel').getSearchParams();
