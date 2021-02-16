@@ -6,7 +6,7 @@
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
-    /> 
+    />
 
     <!-- public attributes: -->
     <aura:attribute name="pe" type="Participant_Enrollment__c" access="public" />
@@ -58,7 +58,7 @@
 				<div class="slds-grid slds-wrap">												 
                 <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
 			</div> 
-                <div class="</div>slds-grid slds-gutters slds-wrap">
+                <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
                             <abbr title="required" class="slds-required">*</abbr
