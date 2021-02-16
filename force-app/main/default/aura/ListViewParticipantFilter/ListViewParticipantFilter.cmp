@@ -277,7 +277,7 @@
                     </div>
                 </div>
             </div>
-            <div class="{!v.isRTL?'alert-count-condition1 RTL-Text-align':'alert-count-condition1 LTR-Text-align'}">
+            <!--<div class="{!v.isRTL?'alert-count-condition1 RTL-Text-align':'alert-count-condition1 LTR-Text-align'}">
             <div class="slds-size_1-of-1 slds-large-size_3-of-12">
                 <!-- Button Area -->
                 <div class="demo-only demo-only--sizing slds-grid button-grid">
@@ -302,8 +302,9 @@
                 </div>
             </div>
         </div>
+    <!--/div>-->
     </div>
-    </div>
+    
     <div class="slds-text-body_regular">
         <!-- Table -->
 
