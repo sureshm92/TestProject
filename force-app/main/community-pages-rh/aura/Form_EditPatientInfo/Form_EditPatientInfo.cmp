@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component description="Form_EditPatientInfo">
+ <aura:component description="Form_EditPatientInfo" extends="c:CommunityContext">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -55,9 +55,9 @@
         <div>
             <!-- patient details: -->
             <div class="ap-section">
-                <div class="slds-grid slds-wrap">                
+				<div class="slds-grid slds-wrap">												 
                 <div class="ap-section-title">{!$Label.c.BTN_Participant_Information}</div>
-            </div>
+			</div> 
                 <div class="slds-grid slds-gutters slds-wrap">
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
@@ -142,16 +142,28 @@
                             <abbr title="required" class="slds-required">*</abbr
                             >{!$Label.c.PG_AS_F_Date_of_Birth}
                         </div>
-                        <lightning:input
-                            max="{!v.todayDate}"
-                            min="1900-01-01"
-                            type="date"
-                            value="{!v.participant.Date_of_Birth__c}"
-                            required="true"
-                            autocomplete="off"
-                            onblur="{!c.doCheckDateOfBith}"
-                            dateStyle="medium"
-                        />
+                        <div class="{!v.isRTL? 'rightAlign':''}">
+                            <lightning:input
+                                max="{!v.todayDate}"
+                                min="1900-01-01"
+                                type="date"
+                                value="{!v.participant.Date_of_Birth__c}"
+                                required="true"
+                                autocomplete="off"
+                                onblur="{!c.doCheckDateOfBith}"
+                                dateStyle="medium"
+                            />
+                        </div>
+										
+												
+											
+									   
+																	 
+										   
+											  
+														   
+											  
+						  
                     </div>
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
                         <div
@@ -216,9 +228,9 @@
                 <aura:if
                     isTrue="{!!v.needsGuardian &amp;&amp; ((v.participantDelegate &amp;&amp; !v.participant.Adult__c) || (v.participantDelegate &amp;&amp; v.participant.Adult__c &amp;&amp; v.participant.Emancipation_in_progress__c))}"
                 >
-                <div class="slds-grid slds-wrap">
+				<div class="slds-grid slds-wrap">								 
                     <div class="ap-section-title">{!$Label.c.PG_Ref_L_Delegate_Information}</div>
-                </div>
+				</div>  
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
@@ -270,7 +282,7 @@
             </div>
 
             <aura:if isTrue="{!v.fromAddParticipantPage}">
-                    <div class="slds-grid slds-wrap">
+					<div class="slds-grid slds-wrap">								 
                 <div class="ap-section-title">
                     {!$Label.c.PG_AP_H_Participant_Contact_Information}
                 </div></div>
@@ -410,9 +422,9 @@
                     />
                 </div>
                 <aura:set attribute="else">
-                        <div class="slds-grid slds-wrap">
+						<div class="slds-grid slds-wrap">								 
                     <div class="ap-section-title">{!$Label.c.PG_AP_H_Contact_Information}</div>
-                </div>
+				</div>	  
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
@@ -579,7 +591,7 @@
             <!-- referral information -->
             <aura:if isTrue="{!!v.fromActionParticipant}">
                 <div class="ap-section">
-                        <div class="slds-grid slds-wrap">
+						<div class="slds-grid slds-wrap">								 
                     <div class="ap-section-title">
                         {!v.fromAddParticipantPage ? $Label.c.PG_AP_H_Participation_Details :
                         $Label.c.PG_AP_H_Referral_Information}
@@ -688,7 +700,7 @@
                 </div>
                 <aura:set attribute="else">
                     <div class="ap-section">
-                            <div class="slds-grid slds-wrap">
+							<div class="slds-grid slds-wrap">								 
                         <div class="ap-section-title">
                             {!$Label.c.PG_AS_F_Participation_Information}
                         </div></div>
