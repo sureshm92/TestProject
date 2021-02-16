@@ -7,10 +7,14 @@
     box-shadow: 0 4px 4px 0 rgba(0, 0, 0, 0.04);
     margin-bottom: 14px;
     overflow: hidden;
-}
+}   
 
 .THIS .rci-inline {
     display: inline-block;
+}
+.THIS .rci-inlineRTL {
+    display: inline-block;
+    direction: ltr;
 }
 
 .THIS .rci-study-name {
@@ -56,13 +60,24 @@
     margin-right: 5px;
     color: #000;
 }
+.THIS .rci-header .rci-inlineRTL .info-labels {
+    font-weight: 600;
+    margin-left: 5px;
+    color: #000;
+}
 
 .THIS .rci-header .rci-inline:first-child .info-labels:last-child {
     padding-left: 25px;
 }
+.THIS .rci-header .rci-inlineRTL:first-child .info-labels:last-child {
+    padding-left: 0px;
+}
 
 .THIS .rci-header .rci-inline:last-child {
     margin-left: 25px;
+}
+.THIS .rci-header .rci-inlineRTL:last-child {
+    margin-right: 25px;
 }
 
 @media all and (max-width: 768px) {
@@ -71,12 +86,22 @@
         display: block;
         margin-top: 10px;
     }
+    .THIS .rci-header .rci-inlineRTL,
+    .THIS .rci-header .rci-inlineRTL .info-labels {
+        display: block;
+        margin-top: 10px;
+    }
 
     .THIS .rci-header .rci-inline:first-child .info-labels:last-child {
         padding-left: 0;
     }
-
+    .THIS .rci-header .rci-inlineRTL:first-child .info-labels:last-child {
+        padding-right: 0;
+    }
     .THIS .rci-header .rci-inline:last-child {
         margin-left: 0;
+    }
+    .THIS .rci-header .rci-inlineRTL:last-child {
+        margin-right: 0;
     }
 }
