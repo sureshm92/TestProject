@@ -67,10 +67,10 @@
         var indexVar = event.getSource().get('v.value');
         var visitWrapper = currentVisits[indexVar];
         var firstLoad = component.get('v.firstLoad');
-
-        if (!firstLoad) {
+        component.set('v.firstLoad',false);
+        //if (!firstLoad) {
             helper.createStudyVisitReminder(component, visitWrapper);
-        } else {
+        /*} else {
             //var title = $A.util.isUndefinedOrNull(visitWrapper.task)
               //  ? $A.get('$Label.c.PP_Create_Visit_Reminder')
                 //: $A.get('$Label.c.PP_Edit_Visit_Reminder');
@@ -87,6 +87,6 @@
                 reRender :true
             };
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
-        }
+        }*/
     }
 });
