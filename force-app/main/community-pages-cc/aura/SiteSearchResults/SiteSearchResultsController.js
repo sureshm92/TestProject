@@ -32,7 +32,12 @@
     },
     openStudyInformation: function (component, event, helper) {
         var ssIndex = event.currentTarget.dataset.index;
-        var ss = component.get('v.resultSet')[ssIndex];
+        var ss;
+        var filteredResultSet = component.get('v.filteredResultSet');
+        ss =
+            filteredResultSet.length > 0
+                ? filteredResultSet[ssIndex]
+                : component.get('v.resultSet')[ssIndex];
         component.set('v.studyInformation', ss);
         component.set('v.onclickName', true);
         component.find('OpenStudySiteInfoAction').execute();

@@ -106,7 +106,7 @@ public without sharing class StudySiteInformationController {
     }
     
     @AuraEnabled
-    public static List<LabelValueItem> getDelegateMap( String StudySiteId){
+    public static WrapStudySiteList getDelegateMap( String StudySiteId){
         List<Id> siteContactIds = new List<Id>();
         Map<String, List<Site_Staff__c>> delegatesMap = getDelegates(StudySiteId, siteContactIds);
         Map<Id, String> participantFullnameMap = getParticipantFullnameMap(siteContactIds);
@@ -116,7 +116,17 @@ public without sharing class StudySiteInformationController {
         );
         
         List<LabelValueItem> delegatePicklist = delegatesPicklistMap.get(StudySiteId);
-        return delegatePicklist;
+        Study_Site__c ss = [select id,Study_Site_Email__c,Study_Site_Phone__c,Opt_in_for_warm_transfer__c,Completed_training__c,Site_Information_Form_Completed__c,Suppress_Study_Site_PI_Emails__c,Site_Staff__c from Study_Site__c where id=:StudySiteId];
+        WrapStudySiteList SSlist = new WrapStudySiteList();
+        SSlist.StudySitesDelegatesPicklist = delegatePicklist;
+        SSlist.sitePhone=ss.Study_Site_Phone__c;
+        SSlist.siteEmail=ss.Study_Site_Email__c;
+        SSlist.optInForWarmTransfer=ss.Opt_in_for_warm_transfer__c;
+        SSlist.trainingComplete=ss.Completed_training__c;
+        SSlist.siteInfoComplete=ss.Site_Information_Form_Completed__c;
+        SSlist.receivePIEmail=!ss.Suppress_Study_Site_PI_Emails__c;
+        SSlist.sitestaff=ss.Site_Staff__c;
+        return SSlist;
     }
     
     @AuraEnabled
@@ -327,6 +337,25 @@ public without sharing class StudySiteInformationController {
         public Boolean interventionReq;
         @AuraEnabled
         public String notes;
+        
+    }
+    public class WrapStudySiteList {
+        @AuraEnabled
+        public List<LabelValueItem> StudySitesDelegatesPicklist { get; set; }
+        @AuraEnabled
+        public String sitePhone;
+        @AuraEnabled
+        public String siteEmail;
+        @AuraEnabled
+        public boolean optInForWarmTransfer;
+        @AuraEnabled
+        public Boolean trainingComplete;
+        @AuraEnabled
+        public Boolean siteInfoComplete;
+        @AuraEnabled
+        public Boolean receivePIEmail;
+        @AuraEnabled
+        public String sitestaff;
         
     }
 }
