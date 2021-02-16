@@ -7,7 +7,6 @@ public without sharing class CommunityModes {
     public static final String MODE_TYPE_RH_ONLY = 'RH_Only';
     public static final String MODE_TYPE_RH_SINGLE_VIEW = 'RH_Single_View';
     public static final String MODE_TYPE_PP_AND_RH = 'PP_And_RH';
-    public static final String MODE_TYPE_CC = 'CC_Only';
 
     public static final String RH_ITEM_TYPE_PI = 'PI';
     public static final String RH_ITEM_TYPE_RP = 'RP';

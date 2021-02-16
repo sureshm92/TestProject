@@ -78,18 +78,12 @@ public class TestData {
                 Terms_and_Conditions__c,
                 Initial_Visit_Required__c,
                 Participant_Workflow_Final_Step__c,
-                Final_Consent_Required__c,
-                Enable_for_Call_Center_Support__c
+                Final_Consent_Required__c
             FROM Clinical_Trial_Profile__c
             WHERE NCT_Number__c = 'NCT99999999'
         ];
         ss = [
-            SELECT
-                Id,
-                Visit_Results_Sharing__c,
-                Name,
-                Principal_Investigator__c,
-                Enable_for_Call_Center_Support__c
+            SELECT Id, Visit_Results_Sharing__c, Name, Principal_Investigator__c
             FROM Study_Site__c
             WHERE Clinical_Trial_Profile__c = :ctp.Id
         ];
@@ -239,8 +233,7 @@ public class TestData {
             LastName = 'PITD',
             Email = 'pi@emil.com',
             MailingCountry = 'United States',
-            AccountId = piAccount.Id,
-            userCommunytyType__c = 'PI'
+            AccountId = piAccount.Id
         );
         contacts.add(piContact);
 
@@ -312,8 +305,7 @@ public class TestData {
             Relevant_Links_Are_Available__c = true,
             Sponsor_Pays_for_Referral_Activity__c = 'Yes',
             CommunityTemplate__c = CommunityTemplateService.TEMPLATE_DEFAULT,
-            Logged_Out_Days_Notification__c = 1,
-            Enable_for_Call_Center_Support__c = true
+            Logged_Out_Days_Notification__c = 1
         );
         insert study;
 
@@ -340,8 +332,7 @@ public class TestData {
             Study_Site_Type__c = 'Traditional',
             Suppress_Participant_Emails__c = false,
             Study_Site_Number__c = 'SS1',
-            Billable_Code_CRM_Number__c = 'Test_Billable_Code',
-            Enable_for_Call_Center_Support__c = true
+            Billable_Code_CRM_Number__c = 'Test_Billable_Code'
         );
         insert studySite;
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
@@ -381,7 +372,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
         Participant__c participant2 = new Participant__c(
             First_Name__c = 'ParticipantTD1',
@@ -391,7 +382,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
 
         Participant__c participant3 = new Participant__c(
@@ -402,7 +393,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
 
         Participant__c participant4 = new Participant__c(
@@ -413,7 +404,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
 
         Participant__c participant5 = new Participant__c(
@@ -424,7 +415,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
 
         Participant__c participant6 = new Participant__c(
@@ -435,7 +426,7 @@ public class TestData {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Adult__c = true,
-            Site__c = piAccount.Id
+            Site__c= piAccount.Id
         );
 
         partList.add(participant);

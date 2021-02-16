@@ -15,11 +15,9 @@
         let parent = component.get('v.parent');
         searchText = searchText.trim();
         if (!searchText || !selectedSearchOption) {
-            //communityService.showErrorToast('Error', $A.get('$Label.c.CC_SearchTxtRequired'));
-            component.set('v.containsSerchTxt', false);
+            communityService.showErrorToast('Error', 'Search text required!');
             return;
         } else {
-            component.set('v.containsSerchTxt', true);
             parent.callExportAll(selectedSearchOption, searchText);
         }
     },
@@ -30,12 +28,6 @@
     onKeyUp: function (component, event, helper) {
         if (event.which === 13) {
             helper.doSearchHelper(component);
-        }
-    },
-    doCheckSearchTxt: function (component, event, helper) {
-        let searchText = component.get('v.searchText');
-        if (searchText && searchText.length > 0 && !component.get('v.containsSerchTxt')) {
-            component.set('v.containsSerchTxt', true);
         }
     }
 });

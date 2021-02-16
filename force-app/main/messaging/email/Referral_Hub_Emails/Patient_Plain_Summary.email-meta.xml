@@ -3,7 +3,7 @@
     <apiVersion>46.0</apiVersion>
     <available>true</available>
     <encodingKey>UTF-8</encodingKey>
-    <name>Patient Study Document</name>
+    <name>Patient Plain Summary</name>
     <style>none</style>
     <subject>New information is now available</subject>
     <type>visualforce</type>

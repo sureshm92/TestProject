@@ -26,8 +26,7 @@
 
         this.buttonsMap = {
             RH_Only: [this.allButtonsMap['account-settings'], this.allButtonsMap['my-team']],
-            RH_Single_View: [this.allButtonsMap['account-settings'], this.allButtonsMap['my-team']],
-            CC_Only : [this.allButtonsMap['account-settings']]
+            RH_Single_View: [this.allButtonsMap['account-settings'], this.allButtonsMap['my-team']]
         };
     }
 });

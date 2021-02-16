@@ -4,18 +4,14 @@
 
 @IsTest
 private class Test_VisitResultSharingPanelRemote {
-
-    @TestSetup
+    @IsTest
     static void testAll() {
         Test.startTest();
         TestData.loadTestData();
-        Test.stopTest();
-    }
-    @isTest
-    static void testVisitSharingPanelMethods(){
+
         TestData testData = new TestData();
-        Test.startTest();
-        
+        Test.stopTest();
+
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
         visitResultTypeSharings.add(
             new Visit_Result_Type_Sharing__c(
@@ -42,9 +38,7 @@ private class Test_VisitResultSharingPanelRemote {
             )
         );
         insert visitResultTypeSharings;
-        
-        TriggerHandlerExecutor.bypassHandler(ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class);
-        TriggerHandlerExecutor.bypassHandler(CTPNotificationTriggerHandler.CreateNotificationHandler.class);
+
         testData.ctp.Shareback_Settings_on_StudySites__c = true;
         update testData.ctp;
 
@@ -129,7 +123,6 @@ private class Test_VisitResultSharingPanelRemote {
             FROM Study_Site__c
             WHERE Id = :testData.ss.Id
         ];
-        Test.stopTest();
 
         System.assertEquals(false, testCTP.Visit_Data_Shareback__c);
         System.assertEquals(false, testSS.Visit_Results_Sharing__c);

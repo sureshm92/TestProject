@@ -371,7 +371,7 @@
                     <div class="as-email-preference">
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
                         <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
-                        <div class="contactDesc">{!v.userMode == 'CC' ?  $Label.c.CC_Toggle_Information :  $Label.c.PP_Toggle_Information}</div>
+                        <div class="contactDesc">{!$Label.c.PP_Toggle_Information}</div>
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2"
@@ -386,7 +386,6 @@
                                         value="{!v.contact.Email}"
                                         onblur="{!c.doCheckEmailFieldValidity}"
                                         messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
 
                                     <!-- <c:rrInput valueString="{!v.contact.Email}"
@@ -543,7 +542,7 @@
                                         type="text"
                                         label="{!$Label.c.RH_HCP_Name}"
                                         value="{!v.institute.Name}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
+                                        disabled="false"
                                         onchange="{!c.onChangeInput}"
                                     />
                                 </div>
@@ -555,7 +554,6 @@
                                         label="{!$Label.c.RH_Address_Line_1}"
                                         value="{!v.addressLine1}"
                                         onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"             
                                     />
                                 </div>
 
@@ -567,7 +565,6 @@
                                         label="{!$Label.c.RH_Address_Line_2}"
                                         value="{!v.addressLine2}"
                                         onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
 
@@ -588,7 +585,6 @@
                                         value="{!v.personWrapper.mailingSC}"
                                         useSentenceFont="{!false}"
                                         isValueChanged="{!v.disableSave}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
 
@@ -600,7 +596,6 @@
                                         label="{!$Label.c.SS_City}"
                                         value="{!v.personWrapper.mailingCity}"
                                         onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
                                 <div
@@ -611,7 +606,6 @@
                                         label="{!$Label.c.SS_Postal_Code}"
                                         value="{!v.personWrapper.zip}"
                                         onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
                             </div>

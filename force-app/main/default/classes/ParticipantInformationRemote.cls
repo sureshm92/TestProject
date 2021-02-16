@@ -690,7 +690,7 @@ public without sharing class ParticipantInformationRemote {
             String createdbyName = '';
              
             if(isCCUser){
-                createdbyName='('+ System.Label.RH_Masked_IQVIA_User + ')' + UserInfo.getName() ;         
+                createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
             }
             else{
                 createdbyName =UserInfo.getName();

@@ -1,7 +1,6 @@
 ({
     doDatabaseSearchHelper: function (component, event, params) {
         let spinner = component.find('mainSpinner');
-        let paginationData = component.get('v.paginationData');
         spinner.show();
         communityService.executeAction(
             component,
@@ -9,51 +8,13 @@
             {
                 searchOption: params.selectedSearchOption,
                 searchText: params.searchText,
-                sortType: params.sortType,
-                paginationJSON:
-                    paginationData === undefined || paginationData === null
-                        ? null
-                        : JSON.stringify(paginationData)
+                sortType: params.sortType
             },
             function (paginatedWrapper) {
                 component.set('v.resultSet', paginatedWrapper.sites);
-                component.set('v.filteredResultSet', []);
                 component.set('v.paginationData', paginatedWrapper.paginationData);
                 component.set('v.searched', true);
                 component.set('v.resetVal', false);
-                let filterStudyList = [];
-                let filterCountryList = [];
-                if (paginatedWrapper.sites.length > 0) {
-                    paginatedWrapper.sites.forEach(function (site) {
-                        //For study filter
-                        if (filterStudyList.some((study) => study.value === site.studyName)) {
-                            let index = filterStudyList.findIndex(
-                                (study) => study.value === site.studyName
-                            );
-                            filterStudyList[index].key.push(site.siteId);
-                        } else {
-                            filterStudyList.push({ key: [site.siteId], value: site.studyName });
-                        }
-                        //For country filter
-                        if (
-                            filterCountryList.some((country) => country.value === site.siteCountry)
-                        ) {
-                            let index = filterCountryList.findIndex(
-                                (country) => country.value === site.siteCountry
-                            );
-                            filterCountryList[index].key.push(site.siteId);
-                        } else {
-                            filterCountryList.push({ key: [site.siteId], value: site.siteCountry });
-                        }
-                    });
-                    console.log('filterStudyList ' + JSON.stringify(filterStudyList));
-                    console.log('filterCountryList ' + JSON.stringify(filterCountryList));
-                    component.set('v.filterStudyList', filterStudyList);
-                    component.set('v.filterCountryList', filterCountryList);
-                    component.set('v.tmpFilterStudyList', filterStudyList);
-                    component.set('v.tmpFilterCountryList', filterCountryList);
-                    component.find('searchResults').resetPageFilter();
-                }
                 spinner.hide();
             },
             function () {
@@ -88,8 +49,6 @@
                 } else {
                     helper.downloadCSV(exportList);
                 }
-                //Clear for next operation
-                component.set('v.exportList', []);
                 spinner.hide();
             },
             function () {
@@ -172,10 +131,9 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-            //Status
-            if (exportList[i]['Override_PI_Referral_Status__c'] !== undefined) {
-                csvStringResult +=
-                    '"' + exportList[i]['Override_PI_Referral_Status__c'] + '"' + ',';
+            //Status?
+            if (exportList[i]['Recruitment_Status__c'] !== undefined) {
+                csvStringResult += '"' + exportList[i]['Recruitment_Status__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }

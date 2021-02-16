@@ -138,8 +138,7 @@
 
             'site-list': {
                 page: '',
-                label: $A.get('$Label.c.CC_HomePageLabel'),
-                icon: 'siteListbuilding'
+                label: $A.get('$Label.c.CC_HomePageLabel')
             }
         };
 

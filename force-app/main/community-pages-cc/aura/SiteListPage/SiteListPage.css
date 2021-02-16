@@ -1,3 +1,9 @@
+.THIS .vp-navigation {
+    margin-bottom: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
 .THIS .navigation-breadcrumbs .cRRNavigationPath.navigation-path {
     margin-bottom: 0;
     margin-top: 0;
@@ -14,28 +20,4 @@
 
 .THIS .slp-counter-txt {
     padding-top: 20px;
-}
-
-.THIS .ssr-t-site .slds-button {
-    line-height: 1.5;
-}
-
-@media all and (max-width: 500px) {
-
-    .THIS.slp-counter {
-        flex-wrap: wrap;
-        justify-content: center;
-    } 
-
- 	.THIS .slp-counter-txt {
-        padding-top: 30px;
-    } 
-    
-    .THIS .rr-table {
-        width: 850px;
-    }
-    
-    .THIS .ssr-t-phone {
-        min-width: 150px;
-    }
 }

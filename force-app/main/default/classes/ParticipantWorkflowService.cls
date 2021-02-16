@@ -567,24 +567,32 @@ public without sharing class ParticipantWorkflowService {
         for (String note : notes) {
             if (note != '') {
                 ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
-                Integer startOfIQVIA = note.lastIndexOfIgnoreCase('('+Label.RH_Masked_IQVIA_User+')');
-                if(startOfIQVIA>0){
-                    note = note.substring(0,startOfIQVIA) + ' ' + Label.RH_Masked_Display_IQVIA_User;
-                }
-                Integer startOfOnLabel = note.lastIndexOfIgnoreCase(' ' + Label.PE_Status_History_On_Date + ' ');
-                if(startOfOnLabel>0){
-                    historyWrapper.title = note.substring(0,startOfOnLabel);
-                    historyWrapper.detail =note.substring(startOfOnLabel,note.length());
+                historyWrapper.title = note.substringBeforeLast(Label.PE_Status_History_On_Date);
+                if (!String.isBlank(note.substringAfterLast(Label.PE_Status_History_On_Date))) {
+                    historyWrapper.detail =
+                        Label.PE_Status_History_On_Date +
+                        note.substringAfterLast(Label.PE_Status_History_On_Date);
+                    //historyWrapper.detailDate = DateTime.parse(note.substringAfterLast(Label.PE_Status_History_On_Date + ' ').substringBefore(' '+Label.PG_IMI_L_by_user));
                     historyWrapper.detail.replace(
                         Label.PE_Status_History_On_Date,
                         TranslateHelper.getLabelValue('PE_Status_History_On_Date')
                     );
+                    String createdByName = historyWrapper.detail.substringAfterLast(
+                        Label.PG_IMI_L_by_user
+                    );
+                    if (createdByName.contains(Label.RH_Masked_IQVIA_User)) {
+                        createdByName = Label.RH_Masked_IQVIA_User;
+                        historyWrapper.detail =
+                            historyWrapper.detail.substringBeforeLast(Label.PG_IMI_L_by_user) +
+                            Label.PG_IMI_L_by_user +
+                            ' ' +
+                            createdByName;
+                    }
+                    historyWrapper.createdBy = createdByName;
                     historyWrapper.detail.replace(
                         Label.PG_IMI_L_by_user,
                         TranslateHelper.getLabelValue('PG_IMI_L_by_user')
                     );
-                }else{
-                    historyWrapper.detail = note;
                 }
                 historyWrapper.isAdditionalNote = true;
                 historyWrappers.add(historyWrapper);

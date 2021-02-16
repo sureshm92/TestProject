@@ -1,7 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Plain_Summary}"
                          recipientType="Contact"
-                         relatedToType="Participant_Enrollment__c"
-                         language="{!recipient.Language__c}">
+                         relatedToType="Participant_Enrollment__c">
 
     <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"

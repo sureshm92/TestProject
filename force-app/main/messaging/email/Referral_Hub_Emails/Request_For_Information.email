@@ -1,7 +1,6 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Your_request_for_additonal_information}"
                          recipientType="Contact"
-                         relatedToType="Case"
-                         language="{!recipient.Language__c}">
+                         relatedToType="Case">
 
     <messaging:htmlEmailBody>
         <c:EmailWireframe recipientId="{!recipient.Id}"

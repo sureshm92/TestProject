@@ -19,7 +19,6 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         
         public override void afterInsert(List<SObject> newList) {
             updateNextNotifyDateByCTP((List<Clinical_Trial_Profile__c>) newList, null);
-            updateStudySitesCCSupport(newList, null);
         }
         
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {

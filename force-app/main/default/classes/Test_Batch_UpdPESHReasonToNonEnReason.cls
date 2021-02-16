@@ -38,7 +38,6 @@ public class Test_Batch_UpdPESHReasonToNonEnReason {
         id peId = [SELECT Id FROM Participant_Enrollment__c Limit 1].id;
         pesh.ParticipantEnrollment__c = peId;
         pesh.Status__c = 'Successfully Contacted';
-        pesh.Date__c = DateTime.now();
         insert pesh;
         Test.startTest();
         Database.executeBatch(new Batch_UpdPESHReasonToNonEnReason());   
