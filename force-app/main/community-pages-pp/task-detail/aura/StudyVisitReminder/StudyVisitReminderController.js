@@ -56,12 +56,13 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
+        var reminderOption = component.get('v.task.Remind_Me__c');
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
-        if (
-            !$A.util.isUndefinedOrNull(reminderDate) &&
+       if (
+            (!$A.util.isUndefinedOrNull(reminderDate) || !$A.util.isUndefinedOrNull(reminderOption)) &&
             !(smsPeferenceSelected && smsOptIn) &&
             !(emailPeferenceSelected && emailOptIn)
         ) {
