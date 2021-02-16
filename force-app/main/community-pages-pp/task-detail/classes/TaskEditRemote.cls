@@ -149,25 +149,7 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Activity_Datetime__c = taskWrapper.activityDate;
             }
             Datetime newReminderDate;
-            /*if (taskWrapper.reminderDate != null || taskWrapper.activityDate != null || taskWrapper.visitDate != null) {
-                if(taskToUpsert.Task_Type__c == 'Visit'){
-                    if(taskToUpsert.Remind_Me__c == '1 day before'){
-                    newReminderDate = taskWrapper.visitDate.addDays(-1);
-                }
-                else if(taskToUpsert.Remind_Me__c == '4 hours before'){
-                    newReminderDate = taskWrapper.visitDate.addHours(-4);
-                }
-                else if(taskToUpsert.Remind_Me__c == '1 hour before'){
-                    newReminderDate = taskWrapper.visitDate.addHours(-1);
-                }
-                else if(taskToUpsert.Remind_Me__c == '1 Week before'){
-                    newReminderDate = taskWrapper.visitDate.addDays(-7);
-                }
-                else{
-                     newReminderDate = taskWrapper.reminderDate;
-                  }
-               }
-               else{*/
+           
                 if(taskToUpsert.Remind_Me__c == '1 day before'){
                     newReminderDate = taskWrapper.activityDate.addDays(-1);
                 }
@@ -181,7 +163,9 @@ public without sharing class TaskEditRemote {
                     newReminderDate = taskWrapper.activityDate.addDays(-7);
                 }
                 else{
-                    newReminderDate = taskWrapper.reminderDate;
+                    if(taskWrapper.reminderDate != null){
+                      newReminderDate = taskWrapper.reminderDate;
+                    }
                 }
                 //}
            // }
@@ -208,7 +192,8 @@ public without sharing class TaskEditRemote {
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
-            String jobID = system.schedule(removeSpace(taskToUpsert.Subject),str, bsptr);
+            String randStr = generateRandomString(2);
+            String jobID = system.schedule(removeSpace(taskToUpsert.Subject)+randStr,str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
@@ -230,6 +215,16 @@ public without sharing class TaskEditRemote {
             AuraHelper.throwException(e);
         }
     }
+    
+    public static String generateRandomString(Integer len) {
+    final String chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789abcdefghijklmnopqrstuvwxyz';
+    String randStr = '';
+    while (randStr.length() < len) {
+       Integer idx = Math.mod(Math.abs(Crypto.getRandomInteger()), chars.length());
+       randStr += chars.substring(idx, idx+1);
+    }
+    return randStr; 
+}
     
     @AuraEnabled
     public static void upsertTaskForVisit(String wrapper, String paramTask) {
@@ -267,7 +262,7 @@ public without sharing class TaskEditRemote {
             }
             Datetime newReminderDate;
             //= taskToUpsert.Reminder_Date__c.addDays(-1);
-            if (taskWrapper.reminderDate != null || taskWrapper.planDate !=null) {
+            if ((taskWrapper.reminderDate != null || taskWrapper.planDate !=null) && (taskWrapper.reminderOption != NULL)) {
                 if(taskToUpsert.Task_Type__c == 'Visit'){
                     if(taskWrapper.reminderOption == '1 day before'){
                         newReminderDate = taskWrapper.planDate.addDays(-1);
@@ -307,7 +302,8 @@ public without sharing class TaskEditRemote {
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
             String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
-            String jobID = system.schedule(taskToUpsert.Subject,str, bsptr);
+            String randStr = generateRandomString(2);
+            String jobID = system.schedule(taskToUpsert.Subject+randStr,str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;

@@ -39,6 +39,12 @@
                     visit: JSON.stringify(patientVisit)
                 },
                 function (returnValue) {
+                    if(!reminderOption){
+                    component.set('v.isSaveOperation', true);
+                    communityService.showSuccessToast('', message, 3000);
+                    helper.hideModal(component);
+                    component.find('spinner').hide();
+                    }
                     
                 },
                 null,
@@ -91,6 +97,7 @@
         if(task.Task_Type__c == 'Visit'){
             component.set('v.initData.activityDate',visitDate);
         }
+        if(reminderOption){
         communityService.executeAction(
             component,
             'upsertTask',
@@ -109,6 +116,8 @@
             },
             null
         );
+        }
+        
     },
 
     doIgnore: function (component, event, helper) {
