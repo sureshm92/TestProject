@@ -789,6 +789,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+	    <apexClass>FetchCallDispositions</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>FieldDescribeUtil</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1673,6 +1677,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+	    <apexClass>StudySiteInformationController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudyActionsHCP</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2065,4 +2073,83 @@
         <enabled>true</enabled>
     </classAccesses>
     <custom>true</custom>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.IQVIA_intervention_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Opt_in_for_warm_transfer__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Ready_for_Training__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_required__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.Notes__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Call_Dispositions__c.IQVIA_intervention_completed__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Call_Dispositions__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>Study_Site__c</object>
+        <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>false</allowCreate>
+        <allowDelete>false</allowDelete>
+        <allowEdit>false</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>false</modifyAllRecords>
+        <object>CC_Staff__c</object>
+		<viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+    <tabVisibilities>
+        <tab>Study_Site__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>Call_Dispositions__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
+    <tabVisibilities>
+        <tab>CC_Staff__c</tab>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
 </Profile>
