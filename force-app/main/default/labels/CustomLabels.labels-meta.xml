@@ -18425,6 +18425,13 @@ communications using the toggles below.</value>
         <value>Study Name</value>
     </labels>
     <labels>
+        <fullName>Study_Document_For_RTL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Document For RTL</shortDescription>
+        <value>Study Document</value>
+    </labels>
+    <labels>
         <fullName>Study_Site</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
