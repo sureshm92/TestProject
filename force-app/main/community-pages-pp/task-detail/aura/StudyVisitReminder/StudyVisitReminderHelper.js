@@ -62,7 +62,7 @@
                     if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate'))){
                         var reminderFrequencyForAdmintask = [
                             {
-                                label:'Custom' ,value:'Custom'
+                                label:$A.get('$Label.c.PP_Custom') ,value:'Custom'
                             }
                         ];
                         component.set('v.initData.reminderFrequencyList',reminderFrequencyForAdmintask);
