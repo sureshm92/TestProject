@@ -284,6 +284,20 @@
         <shortDescription>clientSrc</shortDescription>
         <value>clientSrc</value>
     </labels>
+      <labels>
+        <fullName>April</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>April</shortDescription>
+        <value>April</value>
+    </labels>
+     <labels>
+        <fullName>Augest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Augest</shortDescription>
+        <value>Augest</value>
+    </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc_Description</fullName>
         <language>en_US</language>
@@ -3757,6 +3771,13 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>DLIT L View screener responses</shortDescription>
         <value>View screener responses</value>
     </labels>
+      <labels>
+        <fullName>December</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>December</shortDescription>
+        <value>December</value>
+    </labels>
     <labels>
         <fullName>DRF_L_All_date_ranges</fullName>
         <language>en_US</language>
@@ -6891,6 +6912,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Initial Visit Scheduled Time</value>
     </labels>
     <labels>
+        <fullName>February</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>February</shortDescription>
+        <value>February</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Revisit_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8459,6 +8487,27 @@ The expected format is REF##### to REF########</value>
         <value>Janssen</value>
     </labels>
     <labels>
+        <fullName>January</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>January</shortDescription>
+        <value>January</value>
+    </labels>
+    <labels>
+        <fullName>July</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>July</shortDescription>
+        <value>July</value>
+    </labels>
+    <labels>
+        <fullName>June</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>June</shortDescription>
+        <value>June</value>
+    </labels>
+    <labels>
         <fullName>Learn_More</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8627,6 +8676,20 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MO_RecordUpdate</shortDescription>
         <value>Record Updated Successfully</value>
+    </labels>
+     <labels>
+        <fullName>March</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>March</shortDescription>
+        <value>March</value>
+    </labels>
+    <labels>
+        <fullName>May</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>May</shortDescription>
+        <value>May</value>
     </labels>
     <labels>
         <fullName>MO_Request_ID</fullName>
@@ -9391,6 +9454,13 @@ The expected format is REF##### to REF########</value>
         <value>No permission for this feature</value>
     </labels>
     <labels>
+        <fullName>November</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>November</shortDescription>
+        <value>November</value>
+    </labels>
+    <labels>
         <fullName>Non_Study_Specific</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9465,6 +9535,13 @@ Track and learn about rewards that you could claim for completing tasks toward s
         <protected>false</protected>
         <shortDescription>OT DPI S1 T</shortDescription>
         <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
+    </labels>
+    <labels>
+        <fullName>October</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>October</shortDescription>
+        <value>October</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S2_H</fullName>
@@ -18291,6 +18368,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Legend description</shortDescription>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
+    </labels>
+     <labels>
+        <fullName>September</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>September</shortDescription>
+        <value>September</value>
     </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>

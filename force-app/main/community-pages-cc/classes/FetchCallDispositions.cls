@@ -27,7 +27,38 @@ public without sharing class FetchCallDispositions {
             todayDate td = new todayDate();
             td.day=dy;
             td.year =Year;
-            td.month= dt.format('MMMM');
+            if(dt.format('MMMM') == 'January')
+            {
+              td.month=System.Label.January;
+            }else if(dt.format('MMMM') == 'February'){
+              td.month=System.Label.February;
+            }else if(dt.format('MMMM') == 'March'){
+              td.month=System.Label.March;
+            }else if(dt.format('MMMM') == 'April'){
+              td.month=System.Label.April;
+            }else if(dt.format('MMMM') == 'May'){
+              td.month=System.Label.May;
+            }else if(dt.format('MMMM') == 'June'){
+              td.month=System.Label.June;
+            }else if(dt.format('MMMM') == 'July'){
+              td.month=System.Label.July;
+            }else if(dt.format('MMMM') == 'Augest'){
+              td.month=System.Label.Augest;
+            }else if(dt.format('MMMM') == 'September'){
+              td.month=System.Label.September;
+            }else if(dt.format('MMMM') == 'October'){
+              td.month=System.Label.October;
+            }else if(dt.format('MMMM') == 'November'){
+              td.month=System.Label.November;
+            }else if(dt.format('MMMM') == 'December'){
+              td.month=System.Label.December;
+            }
+            else{
+              td.month=dt.format('MMMM');
+            }
+            
+            
+            //td.month= dt.format('MMMM');
             td.conName =userContact.Name;
             return td;
         }
@@ -49,10 +80,12 @@ public without sharing class FetchCallDispositions {
             
             string calldatetime='';
             string a='';
+            string month='';
             for(Call_Dispositions__c c:lstCD)
             {
                 calldatetime='';
                 a='';
+                month='';
                 DateTime dt = c.CreatedDate;
                 if(dt.format('dd') == '01' || dt.format('dd') == '21' || dt.format('dd') == '31')
                 {
@@ -70,7 +103,38 @@ public without sharing class FetchCallDispositions {
                 {
                     a='th';
                 }
-                calldatetime=calldatetime+dt.format('MMMM')+' '+dt.format('dd')+a+', '+dt.format('yyyy')+', '+dt.format('h:mm a');
+                
+                if(dt.format('MMMM') == 'January')
+                {
+                  month=System.Label.January;
+                }else if(dt.format('MMMM') == 'February'){
+                  month=System.Label.February;
+                }else if(dt.format('MMMM') == 'March'){
+                  month=System.Label.March;
+                }else if(dt.format('MMMM') == 'April'){
+                  month=System.Label.April;
+                }else if(dt.format('MMMM') == 'May'){
+                  month=System.Label.May;
+                }else if(dt.format('MMMM') == 'June'){
+                  month=System.Label.June;
+                }else if(dt.format('MMMM') == 'July'){
+                  month=System.Label.July;
+                }else if(dt.format('MMMM') == 'Augest'){
+                  month=System.Label.Augest;
+                }else if(dt.format('MMMM') == 'September'){
+                  month=System.Label.September;
+                }else if(dt.format('MMMM') == 'October'){
+                  month=System.Label.October;
+                }else if(dt.format('MMMM') == 'November'){
+                  month=System.Label.November;
+                }else if(dt.format('MMMM') == 'December'){
+                  month=System.Label.December;
+                }
+                else{
+                  month=dt.format('MMMM');
+                }
+                
+                calldatetime=calldatetime+month+' '+dt.format('dd')+a+', '+dt.format('yyyy')+', '+dt.format('h:mm a');
                 system.debug('cd-->'+c.id+' '+calldatetime);
                 lstcalldts.add(new Wrapcd(c, calldatetime));
                 lstCallDispositions.add(c);
