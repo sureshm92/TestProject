@@ -44,10 +44,10 @@
     <aura:attribute name="dayAfterDueDate" type="Datetime" />
     
     <!-- event handlers -->
-    <aura:handler name="change" value="{!v.visitData.visitDate}" action="{!c.doValidateFields}"/>
+   <!-- <aura:handler name="change" value="{!v.visitData.visitDate}" action="{!c.doValidateFields}"/>
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doValidateFields}" />
-    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />-->
     <!-- navigation 
     <lightning:navigation aura:id="navService"/>
     -->
