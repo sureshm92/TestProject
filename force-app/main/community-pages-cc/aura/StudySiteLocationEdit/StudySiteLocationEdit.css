@@ -2,12 +2,12 @@
  * Created by Nikita Abrazhevitch on 22-Aug-19.
  */
 
-.THIS .popup-address-inputs {
-    padding: 10px .75rem 0 0px;
+ .THIS .popup-address-inputs {
+    padding: 10px .75rem 0 0;
 }
 
 .THIS .driving-directions{
-    padding: 20px 8px 0 0px;
+    padding: 20px 8px 0 0;
 }
 
 .THIS .edit-address-container {
@@ -45,10 +45,6 @@
     line-height: 21px;
 }
 
-.THIS .postal-code-input {
-    margin-top: 2px;
-}
-
 .THIS .google-map-style {
     padding: 5% 0% 0% 1%;
 }
@@ -84,19 +80,36 @@
     fill: #e20000;
 }
 
+.THIS .card-locationDetails {
+    box-sizing: border-box;
+    border-radius: 4px;
+    background-color: #f8f9fb;
+    min-height: 100px;
+}
+
+.THIS .partinfo-buttons{
+    padding-top:10px;
+     display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .button-base{
+    padding: 6px 16px;
+}
+
 @media all and (max-width: 768px) {
-    
+
     .THIS.slds-gutters {
         margin-right: 0;
         margin-left: 0;
     }
-    
+
     .THIS .slvi-header-item + .slvi-header-item {
         margin-top: 16px;
     }
-    
+
      .THIS .card-locationDetails {
-     	padding-bottom: 15px;   
+     	padding-bottom: 15px;
     }
 
     .THIS .site-distance {
@@ -138,40 +151,28 @@
     .THIS .google-map-style {
         padding: 5% 0% 0% 1%;
     }
-   
+
     .THIS .slds-map_container .slds-map {
         min-width: 19.5rem;
     }
 }
 
-
-
 @media all and (max-width: 500px) {
      .THIS .slds-map_container .slds-map {
         min-width: 15.75rem;
     }
-    
+
      .THIS .edit-address-container .slds-size--1-of-2 {
         width: 100%;
     }
-    
+
     .THIS .popup-address-inputs {
         min-width: 100%;
     }
-    
-}
-.THIS .card-locationDetails {
-    box-sizing: border-box;
-    border-radius: 4px;
-    background-color: #f8f9fb;
-    min-height: 100px;
-    
-}
-.THIS .partinfo-buttons{
-    padding-top:10px;
-     display: flex;
-    justify-content: flex-end;
-}
-.THIS .button-base{
-    padding: 6px 16px;
+
+    .THIS .popup-address-inputs,
+    .THIS .slds-wrap > .slds-form-element{
+        padding-top: 15px;
+    }
+
 }

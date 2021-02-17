@@ -1640,6 +1640,13 @@
         <value>Filter page by:</value>
     </labels>
     <labels>
+        <fullName>Caller</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Caller</shortDescription>
+        <value>Caller</value>
+    </labels>
+    <labels>
         <fullName>CC_FilterPlaceholder_Country</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8249,6 +8256,27 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_My_Points</shortDescription>
         <value>My Points</value>
     </labels>
+     <labels>
+        <fullName>IQVIA_intervention_completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention completed</shortDescription>
+        <value>IQVIA intervention completed</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_intervention_required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention required</shortDescription>
+        <value>IQVIA intervention required</value>
+    </labels>
+    <labels>
+        <fullName>Inbound_Outbound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Inbound / Outbound</shortDescription>
+        <value>Inbound / Outbound</value>
+    </labels>
     <labels>
         <fullName>IncentiveProgram_Points</fullName>
         <categories>Incentive Program</categories>
@@ -9347,6 +9375,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>No active studies</shortDescription>
         <value>No active studies</value>
+    </labels>
+    <labels>
+        <fullName>Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notes</shortDescription>
+        <value>Notes</value>
     </labels>
     <labels>
         <fullName>No_permission_Visits_tab</fullName>
@@ -18875,6 +18910,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
+    </labels>
+     <labels>
+        <fullName>Type_in_your_notes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Type in your notes...</shortDescription>
+        <value>Type in your notes...</value>
     </labels>
     <labels>
         <fullName>Tab_Medical_History</fullName>

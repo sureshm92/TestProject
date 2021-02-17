@@ -7,15 +7,18 @@
     line-height: 21px;
     margin-bottom: 4px;
 }
+
 .THIS .delegate-select {
     width: 100%;
     color: #000000;
     font-size: 14px;
 }
+
 .THIS .slds-accordion__section{
     padding-top: 0px;
     padding-bottom: 0px;
 }
+
 .THIS .input-fields-labels {
     height: 21px;
     color: #444;
@@ -23,13 +26,20 @@
     font-weight: 500;
     line-height: 21px;
 }
+
+.THIS .toggle-label {
+    padding-right: 30px;
+}
+
 .THIS .criteria-body {
     margin: 0 5px 10px 35px;
     font-size: 0.875rem;
 }
+
 .THIS .collapse-wrapper .rr-collapse-panel .body {
     white-space: pre-wrap;
 }
+
 .THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
     margin-bottom: 25px;
@@ -43,6 +53,7 @@
     display: inline-block;
     margin-bottom: 20px;
 }
+
 .THIS .criteria-body {
     margin: 0 5px 10px 24px;
     font-size: 0.875rem;
@@ -79,5 +90,17 @@
     
     .THIS .ss-info-container > .slds-grid > div.slds-wrap {
         margin-bottom: 15px;
+    }
+    
+    .THIS .slds-accordion__content .ss-info-container > .slds-grid > .slds-grid:nth-of-type(5) {
+        display: flex;
+        flex-direction: column;
+    }
+    
+    .THIS .slds-accordion__content .ss-info-container > .slds-grid > .slds-grid:nth-of-type(5) .slds-grid {
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        padding: 0;
     }
 }
