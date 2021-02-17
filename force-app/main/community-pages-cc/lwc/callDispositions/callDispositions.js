@@ -11,6 +11,12 @@ import No_records_to_display from '@salesforce/label/c.No_records_to_display';
 import New_Call from '@salesforce/label/c.New_Call';
 import Call_Category from '@salesforce/label/c.Call_Category';
 import Select_Call_Catagory from '@salesforce/label/c.Select_Call_Catagory';
+import Caller from '@salesforce/label/c.Caller';
+import Inbound_Outbound from '@salesforce/label/c.Inbound_Outbound';
+import IQVIA_intervention_required from '@salesforce/label/c.IQVIA_intervention_required';
+import IQVIA_intervention_completed from '@salesforce/label/c.IQVIA_intervention_completed';
+import Notes from '@salesforce/label/c.Notes';
+import Type_in_your_notes from '@salesforce/label/c.Type_in_your_notes';
 export default class CallDispositions extends LightningElement {
     @track error;
     @track conName;
@@ -31,7 +37,13 @@ export default class CallDispositions extends LightningElement {
         No_records_to_display,
         New_Call,
         Call_Category,
-        Select_Call_Catagory
+        Select_Call_Catagory,
+        Caller,
+        Inbound_Outbound,
+        IQVIA_intervention_required,
+        IQVIA_intervention_completed,
+        Notes,
+        Type_in_your_notes
     };
     
     
