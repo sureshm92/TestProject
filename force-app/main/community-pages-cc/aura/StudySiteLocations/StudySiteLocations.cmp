@@ -58,7 +58,7 @@
                                      onsectiontoggle="{! c.handleSectionToggle }"
                                      activeSectionName="B"
                                      >
-                    <lightning:accordionSection name="SSL" label="Study Site Locations">
+                    <lightning:accordionSection name="SSL" label="{!$Label.c.CC_Study_Site_Locations}">
                         
                         <aura:set attribute="actions">
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
@@ -68,7 +68,7 @@
                                     class="apollo-btn secondary"
                                     onclick="{!c.newAccountAddress}"
                                     >
-                                <span>+</span> {!$Label.c.SS_New_Location}
+                                <span>+</span> {!$Label.c.CC_NewLocation}
                             </button>
                             <!--</div>-->
                         </aura:set>
