@@ -15764,6 +15764,13 @@ communications using the toggles below.</value>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
     </labels>
+	 <labels>
+        <fullName>PP_VisitReminder_Overflow</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_VisitReminder_Overflow</shortDescription>
+        <value>Reminder date cannot be set beyond the Visit Date.</value>
+    </labels>
     <labels>
         <fullName>PP_Visit_Date</fullName>
         <language>en_US</language>
