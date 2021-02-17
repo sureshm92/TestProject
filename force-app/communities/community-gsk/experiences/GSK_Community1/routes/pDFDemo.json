@@ -1,0 +1,10 @@
+{
+  "activeViewId" : "dced81c5-05ab-447b-b8bb-b3f0c691ffc6",
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "id" : "9c18b8bf-a7b8-461d-93af-de39c095e1dc",
+  "label" : "PDFDemo",
+  "pageAccess" : "UseParent",
+  "routeType" : "custom-pdfdemo",
+  "type" : "route",
+  "urlPrefix" : "pdfdemo"
+}
