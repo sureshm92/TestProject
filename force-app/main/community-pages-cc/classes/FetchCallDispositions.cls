@@ -42,8 +42,8 @@ public without sharing class FetchCallDispositions {
               td.month=System.Label.June;
             }else if(dt.format('MMMM') == 'July'){
               td.month=System.Label.July;
-            }else if(dt.format('MMMM') == 'Augest'){
-              td.month=System.Label.Augest;
+            }else if(dt.format('MMMM') == 'August'){
+              td.month=System.Label.August;
             }else if(dt.format('MMMM') == 'September'){
               td.month=System.Label.September;
             }else if(dt.format('MMMM') == 'October'){
@@ -119,8 +119,8 @@ public without sharing class FetchCallDispositions {
                   month=System.Label.June;
                 }else if(dt.format('MMMM') == 'July'){
                   month=System.Label.July;
-                }else if(dt.format('MMMM') == 'Augest'){
-                  month=System.Label.Augest;
+                }else if(dt.format('MMMM') == 'August'){
+                  month=System.Label.August;
                 }else if(dt.format('MMMM') == 'September'){
                   month=System.Label.September;
                 }else if(dt.format('MMMM') == 'October'){

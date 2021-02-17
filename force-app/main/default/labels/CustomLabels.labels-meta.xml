@@ -292,11 +292,11 @@
         <value>April</value>
     </labels>
      <labels>
-        <fullName>Augest</fullName>
+        <fullName>August</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>Augest</shortDescription>
-        <value>Augest</value>
+        <shortDescription>August</shortDescription>
+        <value>August</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc_Description</fullName>
@@ -1878,6 +1878,13 @@
         <value>Principal Investigator</value>
     </labels>
     <labels>
+        <fullName>CC_Study_Site_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_Phone</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1897,6 +1904,13 @@
         <protected>false</protected>
         <shortDescription>CC_TableHeader_SiteNo</shortDescription>
         <value>Site Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_NewLocation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_NewLocation</shortDescription>
+        <value>New Location</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_Status</fullName>
