@@ -153,7 +153,7 @@
                                                   onclick="{!c.doUpsertAccount}"
                                                   value="{!v.account}"
                                                   disabled = "{!!(v.isAccountDetailFilled)}"
-                                                  >Save</lightning:button
+                                                  >{!$Label.c.SS_Btn_Save}</lightning:button
                                     >
                             </span>
                         </div>

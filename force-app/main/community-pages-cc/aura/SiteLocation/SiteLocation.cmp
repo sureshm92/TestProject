@@ -62,7 +62,7 @@
                                  class="slds-col slds-size--4-of-12 manage-location-info"
                                  >
                                 <div class="ss-info-headers">
-                                    Street Address
+                                    {!$Label.c.SS_Street_Address}
                                 </div>
                                 <div class="ss-info-address">
                                     {!v.account.BillingStreet}
@@ -73,7 +73,7 @@
                                  class="slds-col slds-size_4-of-12 manage-location-info"
                                  >
                                 <div class="ss-info-headers">
-                                    City
+                                    {!$Label.c.SS_City}
                                 </div>
                                 <div class="ss-info-address">
                                     {!v.account.BillingCity}
@@ -84,7 +84,7 @@
                                  class="slds-col slds-size_4-of-12 manage-location-info"
                                  >
                                 <div class="ss-info-headers">
-                                    State
+                                    {!$Label.c.SS_State}
                                 </div>
                                 <div class="ss-info-address">
                                     {!v.account.BillingStateCode}
@@ -96,7 +96,7 @@
                                  class="slds-col slds-size--4-of-12 manage-location-info"
                                  >
                                 <div class="ss-info-headers">
-                                    Country
+                                    {!$Label.c.SS_Country}
                                 </div>
                                 <div class="ss-info-address">
                                     {!v.account.BillingCountry}
@@ -108,7 +108,7 @@
                                  class="slds-col slds-size_4-of-12 manage-location-info"
                                  >
                                 <div class="ss-info-headers">
-                                    Zip/Postal Code 
+                                    {!$Label.c.SS_Postal_Code} 
                                 </div>
                                 <div class="ss-info-address">
                                     {!v.account.BillingPostalCode}

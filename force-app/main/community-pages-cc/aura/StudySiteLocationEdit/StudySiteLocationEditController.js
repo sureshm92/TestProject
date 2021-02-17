@@ -108,6 +108,7 @@
     
     doUpsertAccount: function (component, event, helper) {
         var account = component.get('v.account');
+        var countriesLVList = component.get('v.countriesLVList');
         component.find('modalSpinner').show();
         component.set('v.isEdited',false);
        // component.set('v.isStudyInfoModified', true);
@@ -119,12 +120,16 @@
                 ssId: component.get('v.ssId')
             },
             function (returnedAccount) {
+                for(var i=0 ; i<countriesLVList.length; i++){
+                    if(countriesLVList[i].value == returnedAccount.BillingCountryCode){
+                        returnedAccount.BillingCountry = countriesLVList[i].label;
+                    }
+                }
                 component.get('v.callback')(returnedAccount);
             },
             null,
             function () {
                 component.set('v.editedAccount', account.Id);
-                console.log('>>hhhh>>>'+component.get('v.editedAccount'));
                 //component.find('spinner').hide();
             }
         );
