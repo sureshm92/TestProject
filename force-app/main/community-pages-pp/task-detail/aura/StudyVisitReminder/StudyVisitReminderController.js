@@ -181,7 +181,15 @@
         console.log('isGreaterThanToday-->'+isGreaterThanToday);
         console.log('inside condition-->'+($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate') || !isValidFields)));
         
-        if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+        if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate'))){
+            if(!isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+                   component.set('v.isValidFields', false);
+           }
+            else{
+                  component.set('v.isValidFields', true);
+           }
+        }
+        else if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
                    component.set('v.isValidFields', false);
            }
            else{
