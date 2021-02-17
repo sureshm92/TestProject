@@ -4,11 +4,9 @@
     align-content: center;
     padding-right: 15px;
 }
-
 .THIS .partinfo-footer-buttons span {
     padding-right: 15px
 }
-
 .THIS .cStudySiteLocations + .ap-section .slds-grid .slds-size_1-of-2.slds-p-around_xx-small > div:nth-child(3) {
     max-height: 195px;
     overflow: hidden;
@@ -20,32 +18,46 @@
     margin-bottom: 2px;
 }
 
+.THIS .slds-accordion__summary .slds-button,
+.THIS .slds-accordion__summary .slds-button:active,
+.THIS .slds-accordion__summary .slds-button:hover {
+    color: #000;
+    font-weight: 600;
+}
 
-    .THIS .cStudySiteLocations + .ap-section .slds-accordion__summary {
-        flex-wrap: wrap;
-    }
-    
+.THIS .slds-accordion__summary .slds-icon-text-default {
+    fill: #000;
+}
 
+.THIS .slds-accordion__summary-heading .slds-button:focus {
+    text-decoration: none;
+}
 
-    .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium {
-        padding: 1rem 0;
-    }
+.THIS .slds-accordion__summary-heading .slds-button .slds-accordion__summary-action-icon {
+    margin-bottom: 2px;
+}
 
-    
-    .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap .slds-wrap > .slds-col.slds-size_1-of-2{
-        min-width: 100%;
-    }
-    
-    
-    .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap > .slds-col .slds-form-element{
-        margin-bottom: 5px;
-    }
+.THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium {
+    padding: 1rem 0;
+}
+
+.THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap .slds-wrap > .slds-col.slds-size_1-of-2{
+    min-width: 100%;
+}
+
+.THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap > .slds-col .slds-form-element{
+    margin-bottom: 5px;
+}
 
 @media all and (max-width: 500px) {  
     
    .THIS .cStudySiteLocations + .ap-section .slds-accordion__summary-heading {
         width: 100%;
         margin-bottom: 15px;
+    }
+    
+   .THIS .slds-accordion__summary {
+        flex-wrap: wrap;
     }
         
     .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap{
@@ -54,9 +66,14 @@
     
     .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap > .slds-col{
         min-width: 100%;
+        margin-bottom: 15px;
     }
     
-    .THIS .partinfo-footer-buttons {
+    .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-p-around_medium .slds-wrap > .slds-col .slds-form-element{
+        margin-bottom: 15px;
+    }
+    
+   .THIS .partinfo-footer-buttons {
         padding-right: 10px;
         flex-direction: column-reverse;
     }

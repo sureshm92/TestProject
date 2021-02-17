@@ -2,7 +2,7 @@
  * Created by user on 20-Aug-19.
  */
 
-.THIS .cPopup .p-container .p-content {
+ .THIS .cPopup .p-container .p-content {
     padding-top: 15px;
 }
 
@@ -154,8 +154,7 @@
 }
 
 @media all and (max-width: 500px) {
-    
-        
+           
      .THIS .account_details > .slds-grid {
         display: inline-flex;
     }
@@ -179,6 +178,7 @@
 
     .THIS .account_details {
         flex-direction: column;
+        padding-left: 25px;
     }
     
    .THIS .account_details .manage-location-info {

@@ -2,3 +2,6 @@
     padding-top: 0px;
     padding-bottom: 0px;
 }
+.THIS .slds-accordion__summary .apollo-btn span {
+    font-size: 24px;
+}
