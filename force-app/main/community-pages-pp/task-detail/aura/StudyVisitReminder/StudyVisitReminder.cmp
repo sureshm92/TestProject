@@ -44,10 +44,10 @@
     <aura:attribute name="dayAfterDueDate" type="Datetime" />
     
     <!-- event handlers -->
-    <aura:handler name="change" value="{!v.visitData.visitDate}" action="{!c.doValidateFields}"/>
+   <!-- <aura:handler name="change" value="{!v.visitData.visitDate}" action="{!c.doValidateFields}"/>
     <aura:handler name="change" value="{!v.initData.activityDate}" action="{!c.doValidateFields}" />
     <aura:handler name="change" value="{!v.initData.reminderDate}" action="{!c.doValidateFields}" />
-    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />
+    <aura:handler name="change" value="{!v.task.Remind_Me__c}" action="{!c.doValidateFields}" />-->
     <!-- navigation 
     <lightning:navigation aura:id="navService"/>
     -->
@@ -325,7 +325,7 @@
                             <lightning:input aura:id="reminderDate" type="datetime" variant="label-hidden"
                                              value="{!v.initData.reminderDate}" disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
                                              max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
-                                             messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
+                                             messageWhenRangeOverflow="{!$Label.c.PP_VisitReminder_Overflow}"
                                              messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" min="{!v.initData.today}" onblur="{!c.doValidateFields}" required="true" class="container1"/>
                         </aura:if>
                     </div>

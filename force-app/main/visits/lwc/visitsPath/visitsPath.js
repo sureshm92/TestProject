@@ -530,7 +530,6 @@ export default class VisitsPath extends LightningElement {
     savePlannedDate() {
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
-        console.log('planDate-->' + this.planDate);
         if (this.showCustomDateTime == true) {
             if (
                 this.isEmpty(this.reminderDate) &&
@@ -557,19 +556,11 @@ export default class VisitsPath extends LightningElement {
         if (this.planDate) this.initData.planDate = this.planDate;
         if (this.visitId) this.initData.visitId = this.visitId;
         this.initData.createdByAdmin = this.taskDetails.createdByAdmin;
-        console.log('inside initData-->', this.initData);
-        //  if (this.reminderOption) {
-        console.log('inside this.reminderOption-->' + this.reminderOption);
-
-        // }
         if (this.emailOptIn) this.paramTask.Remind_Using_Email__c = this.emailOptIn;
         if (this.smsOptIn) this.paramTask.Remind_Using_SMS__c = this.smsOptIn;
         if (this.reminderDate) this.paramTask.ReminderDateTime = this.reminderDate;
         this.paramTask.Subject = this.patientVisitName;
-        console.log('visitTaskId-->' + this.visitTaskId);
         if (this.visitTaskId) this.paramTask.Id = this.visitTaskId;
-        console.log('paramTask-->' + JSON.stringify(this.paramTask));
-
         let context = this;
         updatePV({ visit: JSON.stringify(this.selectedPV) })
             .then(() => {
@@ -586,46 +577,43 @@ export default class VisitsPath extends LightningElement {
             .catch((error) => {
                 console.log('Error: ' + JSON.stringify(error));
             });
-        // if (this.reminderOption) {
-        createTask({
-            wrapper: JSON.stringify(this.initData),
-            paramTask: JSON.stringify(this.paramTask)
-        })
-            .then(() => {
-                console.log('inside success-->');
-                eval("$A.get('e.force:refreshView').fire();");
-                spinner.hide();
+        if (this.reminderOption) {
+            createTask({
+                wrapper: JSON.stringify(this.initData),
+                paramTask: JSON.stringify(this.paramTask)
             })
-            .catch((error) => {
-                let message = 'Unknown error';
-                if (error.body) {
-                    if (Array.isArray(error.body)) {
-                        console.log('isnide aaray');
-                        message = error.body.map((e) => e.message).join(', ');
-                    } else if (typeof error.body.message === 'string') {
-                        console.log('isnide strunf');
-                        message = error.body.message;
-                        if (message.includes('\n')) {
-                            message = message.split('\n')[0];
+                .then(() => {
+                    eval("$A.get('e.force:refreshView').fire();");
+                    spinner.hide();
+                })
+                .catch((error) => {
+                    let message = 'Unknown error';
+                    if (error.body) {
+                        if (Array.isArray(error.body)) {
+                            message = error.body.map((e) => e.message).join(', ');
+                        } else if (typeof error.body.message === 'string') {
+                            message = error.body.message;
+                            if (message.includes('\n')) {
+                                message = message.split('\n')[0];
+                            }
                         }
+                    } else {
+                        message = error.message;
                     }
-                } else {
-                    console.log('isnide else');
-                    message = error.message;
-                }
-                const event = new ShowToastEvent({
-                    title: '',
-                    message: message,
-                    variant: 'error'
+                    const event = new ShowToastEvent({
+                        title: '',
+                        message: message,
+                        variant: 'error'
+                    });
+                    this.dispatchEvent(event);
+                    console.log('Error: ' + JSON.stringify(error));
                 });
-                this.dispatchEvent(event);
-
-                console.log('Error: ' + JSON.stringify(error));
-            });
+        }
+        if (!this.reminderOption) {
+            eval("$A.get('e.force:refreshView').fire();");
+        }
         this.handleHideDialog();
         spinner.hide();
-
-        //}
     }
 
     //Scroll Arrows handlers:-------------------------------------------------------------------------------------------

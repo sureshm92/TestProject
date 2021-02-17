@@ -3117,6 +3117,20 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Fulfilled,Cancelled</value>
     </labels>
     <labels>
+        <fullName>Fulfilled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Fulfilled</shortDescription>
+        <value>Fulfilled</value>
+    </labels>
+    <labels>
+        <fullName>Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancelled</shortDescription>
+        <value>Cancelled</value>
+    </labels>
+    <labels>
         <fullName>CommunityEmailLogo</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15764,6 +15778,13 @@ communications using the toggles below.</value>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
     </labels>
+	 <labels>
+        <fullName>PP_VisitReminder_Overflow</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_VisitReminder_Overflow</shortDescription>
+        <value>Reminder date cannot be set beyond the Visit Date.</value>
+    </labels>
     <labels>
         <fullName>PP_Visit_Date</fullName>
         <language>en_US</language>
@@ -18416,6 +18437,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Study Name</shortDescription>
         <value>Study Name</value>
+    </labels>
+    <labels>
+        <fullName>Study_Document_For_RTL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Document For RTL</shortDescription>
+        <value>Study Document</value>
     </labels>
     <labels>
         <fullName>Study_Site</fullName>

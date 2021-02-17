@@ -39,6 +39,12 @@
                     visit: JSON.stringify(patientVisit)
                 },
                 function (returnValue) {
+                    if(!reminderOption){
+                    component.set('v.isSaveOperation', true);
+                    communityService.showSuccessToast('', message, 3000);
+                    helper.hideModal(component);
+                    component.find('spinner').hide();
+                    }
                     
                 },
                 null,
@@ -91,6 +97,7 @@
         if(task.Task_Type__c == 'Visit'){
             component.set('v.initData.activityDate',visitDate);
         }
+        if(reminderOption || task.Task_Type__c != 'Visit'){
         communityService.executeAction(
             component,
             'upsertTask',
@@ -109,6 +116,8 @@
             },
             null
         );
+        }
+        
     },
 
     doIgnore: function (component, event, helper) {
@@ -172,7 +181,15 @@
         console.log('isGreaterThanToday-->'+isGreaterThanToday);
         console.log('inside condition-->'+($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate') || !isValidFields)));
         
-        if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+        if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate'))){
+            if(!isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+                   component.set('v.isValidFields', false);
+           }
+            else{
+                  component.set('v.isValidFields', true);
+           }
+        }
+        else if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
                    component.set('v.isValidFields', false);
            }
            else{
