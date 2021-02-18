@@ -381,7 +381,6 @@ public without sharing class VisitResultSharingPanelRemote {
                                 Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES,
                                 Type__c = vrWrapper.value,
                                 Sharing_Countries__c = countries,
-                                Standard_Tooltip__c = vrWrapper.desLabel,
                                 Custom_Tooltip__c = vrWrapper.customTooltip
                             )
                         );
@@ -393,7 +392,6 @@ public without sharing class VisitResultSharingPanelRemote {
                     } else {
                         sharing.Sharing_Countries__c = countries;
                         sharing.Include_Countries__c = vrWrapper.type == TYPE_COUNTRIES;
-                        sharing.Standard_Tooltip__c = vrWrapper.desLabel;
                         sharing.Custom_Tooltip__c = vrWrapper.customTooltip;
                         typeVRSharingMap.put(vrWrapper.value, sharing);
                     }
