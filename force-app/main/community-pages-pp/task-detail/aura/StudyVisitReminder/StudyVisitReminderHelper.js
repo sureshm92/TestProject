@@ -135,9 +135,10 @@
         //Re-initialize the parent table to display the updates
         if (isSaveOperation) {
             component.set('v.isSaveOperation', false);
-            if (!component.get('v.isUpcoming')) {
-                component.get('v.parent').reload();
-            } else {
+            if(!component.get('v.isUpcoming')){
+               component.get('v.parent').reload();
+            }
+            else{
                 $A.get('e.force:refreshView').fire();
             }
         }
