@@ -1338,6 +1338,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PdfViewerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PermissionGroupService</apexClass>
         <enabled>true</enabled>
     </classAccesses>
