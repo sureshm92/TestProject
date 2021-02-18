@@ -320,6 +320,12 @@
                             </div>
                         </div>
                     </div>
+                    <template if:true={showTravelSupportDetails}>
+                        <div class="travelDetails">
+                            <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                            </c-visit-travel-details>
+                        </div>
+                    </template>
                 </template>
             </div>
             <div slot="footerButtons">
@@ -637,6 +643,12 @@
                             </div>
                         </div>
                     </div>
+                    <template if:true={showTravelSupportDetails}>
+                        <div class="travelDetails">
+                            <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                            </c-visit-travel-details>
+                        </div>
+                    </template>
                 </template>
             </div>
             <div slot="footerButtons" style="text-align: right">
