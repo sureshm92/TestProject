@@ -2,7 +2,9 @@
     display: inline-flex;
     font-size: 0.8125rem;
 }
-
+.THIS.rtl {
+    direction: rtl;
+}
 .THIS .uiButton {
     height: 40px;
     width: 81px;
