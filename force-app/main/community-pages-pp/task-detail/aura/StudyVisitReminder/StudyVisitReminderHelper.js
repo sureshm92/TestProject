@@ -138,6 +138,9 @@
             if(!component.get('v.isUpcoming')){
                component.get('v.parent').reload();
             }
+            else{
+                $A.get('e.force:refreshView').fire();
+            }
         }
     },
 

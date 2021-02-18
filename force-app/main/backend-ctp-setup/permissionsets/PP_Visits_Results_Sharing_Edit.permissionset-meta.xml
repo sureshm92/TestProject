@@ -19,11 +19,6 @@
         <field>Visit_Result_Type_Sharing__c.Custom_Tooltip__c</field>
         <readable>true</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Visit_Result_Type_Sharing__c.Standard_Tooltip__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Visit Results Sharing Edit</label>
     <license>Salesforce</license>

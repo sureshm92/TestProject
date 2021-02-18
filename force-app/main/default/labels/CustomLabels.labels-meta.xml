@@ -15634,6 +15634,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Remind_Using_SMS</shortDescription>
         <value>SMS</value>
     </labels>
+	 <labels>
+        <fullName>PP_ReminderPastError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ReminderPastError</shortDescription>
+        <value>Reminder ,Visit or Due date cannot be set in the past.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReminderUnderFlowError</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ReminderUnderFlowError</shortDescription>
+        <value>Value cannot be less than current date and time.</value>
+    </labels>
     <labels>
         <fullName>PP_Reminder_Date</fullName>
         <language>en_US</language>

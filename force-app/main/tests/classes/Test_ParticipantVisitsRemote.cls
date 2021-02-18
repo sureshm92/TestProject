@@ -158,6 +158,49 @@ private class Test_ParticipantVisitsRemote {
         Test.stopTest();
         System.assert(true, isExceptionThrown);
     }
+    
+     @IsTest
+    static void getParticipantVisitsDetailsWithException_test() {
+        Boolean isExceptionThrown = false;
+        Patient_Visit__c pv = [Select Id from Patient_Visit__c LIMIT 1];
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getParticipantVisitsDetails(pv.Id);
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+    
+    @IsTest
+    static void getIsVisitPathEnabledWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getIsVisitPathEnabled();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
+    
+     @IsTest
+    static void getIsRTLWithException_test() {
+        Boolean isExceptionThrown = false;
+        Test.startTest();
+        try {
+            ParticipantVisitsRemote.getIsRTL();
+        } catch (Exception e) {
+            isExceptionThrown = true;
+            System.assert(e.getTypeName() == 'System.AuraHandledException');
+        }
+        Test.stopTest();
+        System.assert(true, isExceptionThrown);
+    }
 
     @IsTest
     static void updatePatientVisitWithException_test() {

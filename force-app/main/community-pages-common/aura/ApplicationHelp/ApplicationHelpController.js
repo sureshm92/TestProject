@@ -40,17 +40,18 @@
     },
 
     openQuickReference: function (component, event, helper) {
-        if (communityService.isMobileSDK()) {
-            communityService.showWarningToast(
+        var quickReference = component.get('v.quickReference');
+        if (communityService.isMobileSDK() ) {
+          /** communityService.showWarningToast(
                 'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
-            );
-            return;
+            ); **/
+           communityService.navigateToPage('pdfdemo?resourceName='+quickReference);
+           return;
         }
-        var quickReference = component.get('v.quickReference');
-        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-        window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
+       var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+       window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
     },
 
     openGuide: function (component, event, helper) {
@@ -63,7 +64,8 @@
             return;
         }
         var userManual = component.get('v.userManual');
-        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+     //   var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+     var webViewer = $A.get('$Resource.lcins1_pdfjs') + '/web/viewer.html';
         window.open(webViewer + '?file=' + $A.get('$Resource.' + userManual), '_blank');
     },
 
