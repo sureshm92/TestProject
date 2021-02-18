@@ -75,7 +75,8 @@ public without sharing class TaskEditRemote {
             isStudyTasksEnabled =
                 ParticipantContext.getCurrentPE() != null &&
                 ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c;
-            today = Datetime.now().addMinutes(-1);
+            today = Datetime.now();
+                
         }
     }
     

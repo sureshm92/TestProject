@@ -298,7 +298,7 @@ export default class VisitsPath extends LightningElement {
     }
 
     doValidateReminder(event) {
-        this.today = new Date(new Date() - 60 * 1000);
+        this.today = new Date(new Date() + 60 * 1000);
         if (event.target.value != 'Custom' || this.reminderOption != 'Custom') {
             var visitPlanDate = new Date(this.planDate);
             var reminderdate;
@@ -556,6 +556,10 @@ export default class VisitsPath extends LightningElement {
                 communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
                 return;
             }
+        }
+        if (new Date(this.planDate) < new Date() || new Date(this.reminderDate) < new Date()) {
+            communityService.showErrorToast('', this.labels.reminderPastError, 3000);
+            return;
         }
 
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;

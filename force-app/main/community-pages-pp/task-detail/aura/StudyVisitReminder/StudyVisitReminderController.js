@@ -34,7 +34,10 @@
         var isTaskTab = component.get('v.isTaskTab') == true;
         var reminderDate = component.get('v.initData.reminderDate');
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
-      
+         if(new Date(dueDateOrplanDate) < new Date() || new Date(reminderDate) < new Date()){
+            communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderPastError'), 3000);
+            return;
+        }
         if(task.Task_Type__c == 'Visit'){
             communityService.executeAction(
                 component,
@@ -150,7 +153,7 @@
         
         //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
         //console.log(component.get('v.initData.activityDate'));
-        component.set('v.initData.today',new Date(new Date() - (60*1000)));
+        component.set('v.initData.today',new Date(new Date() + (60*1000)));
         console.log('today-->'+component.get('v.initData.today'));
          if(remindMe !== 'Custom'){
          if(remindMe === '1 Week before'){
