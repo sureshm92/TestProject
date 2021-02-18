@@ -253,7 +253,7 @@
 			</g>
 		</g>
 	</symbol>
-	<symbol id="skin_swab" name="Skin swabs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" xmlns:xlink="http://www.w3.org/1999/xlink">
+	<symbol id="skin_swab" name="Skin swabs" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"  xmlns:xlink="http://www.w3.org/1999/xlink">
 		<g id="Medical-Swab-Icon" stroke="none" stroke-width="1" fill-rule="evenodd">
 			<g id="Group-8" transform="translate(5.000000, -0.351524)">
 				<path d="M7.43192396,14.6674478 C7.43192396,14.6352745 7.71111667,14.7889914 7.71111667,14.7568181 C7.77510578,14.7889914 7.81800351,14.8068654 7.85375161,14.8247395 L7.85375161,7.08777695 L5.94122795,7.09027932 L5.94122795,14.8926609 C5.97340125,14.8676372 5.9987824,14.8604876 6.05562189,14.8175899 C6.05562189,14.8426136 6.42382738,14.6316997 6.42382738,14.6567234 C6.75270995,14.5423295 7.08516734,14.5530539 7.43192396,14.6674478 Z"></path>
