@@ -99,7 +99,7 @@
 }
 
 .THIS .personal-info-container {
-    text-align: left;
+   
 }
 
   .THIS #p-modal .p-container.large {
@@ -144,6 +144,13 @@
     height: 14px;
 }
 
+.THIS .print-icon-rtl {
+    position: absolute;
+    top: 30px;
+    right: 65px;
+    height: 14px;
+    margin-right: 780px;
+}
 .THIS .print-icon svg {
     display: none;
 }

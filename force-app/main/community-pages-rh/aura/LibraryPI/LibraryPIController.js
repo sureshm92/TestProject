@@ -113,7 +113,7 @@
         z = d.substring(y, x);
 
         var BaseUrl = z;
-        if (resource.format == 'Study Document') {
+        if (resource.format == $A.get('$Label.c.Study_Document_For_RTL')) {
             var strUrlParam = window.location.href;
             if (strUrlParam.includes('janssen'))
                 var urls =

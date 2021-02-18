@@ -95,7 +95,7 @@
                                 >
                                     <a
                                         class="slds-show slds-col"
-                                        style="padding-top: 9px; text-align: left"
+                                        style="{!(v.isRTL? 'padding-top: 9px;text-align: right;' : 'padding-top: 9px;text-align: left;')}"
                                         onclick="{!c.closeCard}"
                                         ><span>{!$Label.c.View_Less}</span></a
                                     >
@@ -114,7 +114,7 @@
                                     >
                                         <span data-gtm="BTN_Screening">
                                             <lightning:button
-                                                class="slds-button--neutral"
+                                            class="{!v.isRTL? 'vpi-status-btns-rtl slds-button--neutral': 'slds-button--neutral'}"
                                                 title="{!$Label.c.BTN_Pre_Screen_Participant}"
                                                 onclick="{!c.doPreScreening}"
                                             >

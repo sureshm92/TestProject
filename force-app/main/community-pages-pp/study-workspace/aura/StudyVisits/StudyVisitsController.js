@@ -7,11 +7,13 @@
         component.set('v.initialized', false);
         var opts = [
             { value: 'All', label: $A.get('$Label.c.Home_Page_VisitTab_Filter_Show_All') },
+            { value: 'Scheduled', label: $A.get('$Label.c.PP_Scheduled')},
             {
-                value: 'Current',
+                value: 'Pending',
                 label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Current_Visits')
             },
             { value: 'Past', label: $A.get('$Label.c.Home_Page_StudyVisit_Filter_Past_Visits') }
+            
         ];
         component.set('v.options', opts);
         communityService.executeAction(component, 'isStudySiteHasVisits', {}, function (response) {
@@ -65,10 +67,10 @@
         var indexVar = event.getSource().get('v.value');
         var visitWrapper = currentVisits[indexVar];
         var firstLoad = component.get('v.firstLoad');
-
-        if (!firstLoad) {
+        component.set('v.firstLoad',false);
+        //if (!firstLoad) {
             helper.createStudyVisitReminder(component, visitWrapper);
-        } else {
+        /*} else {
             //var title = $A.util.isUndefinedOrNull(visitWrapper.task)
               //  ? $A.get('$Label.c.PP_Create_Visit_Reminder')
                 //: $A.get('$Label.c.PP_Edit_Visit_Reminder');
@@ -81,9 +83,10 @@
                 taskType: 'Visit',
                 visitData: visitWrapper,
                 isNewTask: isNewTask,
-                isReminderOnly: true
+                isReminderOnly: true,
+                reRender :true
             };
             component.find('studyVisitReminder').reloadPopup(relaodAttributes);
-        }
+        }*/
     }
 });

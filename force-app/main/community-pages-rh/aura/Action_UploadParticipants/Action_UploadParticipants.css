@@ -1,5 +1,8 @@
 .THIS .p-container .p-content {
     padding: 0 16px 30px;
+}   
+.THIS .delegate-selectRTL{
+    margin-right: 0px !important;
 }
 
 .THIS .slds-file-selector,

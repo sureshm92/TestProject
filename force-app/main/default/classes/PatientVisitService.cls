@@ -2,7 +2,11 @@ public inherited sharing class PatientVisitService {
     public static final String VISIT_MODE_CURRENT = 'Current';
     public static final String VISIT_MODE_PAST = 'Past';
     public static final String VISIT_STATUS_PENDING = 'Pending';
+    public static final String VISIT_MODE_PENDING = 'Pending';
     public static final String VISIT_MODE_ALL = 'All';
+    public static final String VISIT_MODE_SCHEDULED = 'Scheduled';
+    public static final String VISIT_MODE_COMPLETED = 'Completed';
+    public static final String VISIT_MODE_MISSED = 'Missed';
     private static User CURRENT_USER;
 
     public List<VisitWrapper> getVisitWrappers(String visitMode) {
@@ -35,13 +39,28 @@ public inherited sharing class PatientVisitService {
             'Planned_Date__c'
         };
         String filter = DatabaseService.fieldEqual('Participant_Enrollment__c', pState.pe.Id);
-        if (visitMode != VISIT_MODE_ALL) {
+       /* if (visitMode != VISIT_MODE_ALL) {
             filter +=
                 'AND' +
                 (VISIT_MODE_CURRENT == visitMode
                     ? DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING)
                     : DatabaseService.fieldNotEqual('Status__c', VISIT_STATUS_PENDING));
+        }*/
+        if (visitMode != VISIT_MODE_ALL){   
+             if(visitMode == VISIT_MODE_SCHEDULED){
+            filter +=
+                'AND' + DatabaseService.fieldEqual('Status__c',VISIT_MODE_SCHEDULED) +' AND'+ DatabaseService.DatefieldNotEqualsNull('Planned_Date__c') ;
+       }else if(visitMode == VISIT_MODE_PENDING){
+           Datetime dt = null;
+            filter += 'AND' + DatabaseService.fieldEqual('Status__c', VISIT_STATUS_PENDING) +' AND '+ DatabaseService.DatefieldEqualsNull('Planned_Date__c') ;
+                //+ 'AND Planned_Date__c=NULL';
+                //+' AND '+ DatabaseService.fieldEqual('Planned_Date__c', null) ;
+       }else if(visitMode == VISIT_MODE_PAST ){
+        List<String> paststatusFilter = new List<String>{ VISIT_MODE_COMPLETED,VISIT_MODE_MISSED};
+          filter += 'AND' + DatabaseService.fieldInValues('Status__c', paststatusFilter);
+         }
         }
+      
         String order =
             'Visit_Number__c ' +
             (VISIT_MODE_PAST == visitMode ? ' DESC ' : 'ASC') +
@@ -90,7 +109,7 @@ public inherited sharing class PatientVisitService {
         return patientVisits;
     }
     public List<VisitWrapper> getVisitDetails(Id visitId) {
-		List<Patient_Visit__c> visits = [Select Id,Visit__c, Visit__r.Visit_Plan__c,Planned_Date__c,Completed_Date__c,Visit__r.Icons__c,Status__c from Patient_Visit__c where Id =:visitId];
+		List<Patient_Visit__c> visits = [Select Id,Visit__c,Visit_Number__c,Visit__r.Visit_Plan__c,Planned_Date__c,Completed_Date__c,Visit__r.Icons__c,Status__c from Patient_Visit__c where Id =:visitId];
         List<VisitWrapper> visitWrappers = new List<VisitWrapper>();
         if (visits == null || visits.isEmpty())
             return visitWrappers;

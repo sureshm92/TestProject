@@ -35,6 +35,17 @@ h2 {
     letter-spacing: 0;
     line-height: 24px;
 }
+.reminderDate {
+    margin-left: -118px;
+    margin-top: 5px;
+}
+.reminder {
+    margin-left: -118px;
+    margin-top: 5px;
+}
+.wi {
+    width: 209px;
+}
 
 .container {
     /* box-sizing: border-box;*/
@@ -45,9 +56,12 @@ h2 {
     background-color: #FFFFFF;
     box-shadow: 0 2px 4px 0 rgba(0,0,0,0);*/
 }
+.vis-input {
+    width: 209px;
+}
 .container1 {
-    /*height: 40px;
-    width: 360px;*/
+    height: 40px;
+    width: 418px;
 }
 .title {
     height: 60px;
@@ -69,6 +83,12 @@ h2 {
     height: 24px;
     width: 62px;
 }
+.mr_left {
+    margin-left: 12px;
+}
+.mr_left_5 {
+    margin-left: 5px;
+}
 .what-to-expect {
     height: 24px;
     width: 136px;
@@ -79,11 +99,13 @@ h2 {
     letter-spacing: 0;
     line-height: 24px;
     margin-top: -28px;
+    margin-left: 20px;
 }
 .icons-container {
     display: flex;
     overflow: hidden;
     height: 32px;
+    margin-left: 13px;
     justify-content: space-between;
 }
 
@@ -99,7 +121,11 @@ h2 {
 .icon {
     position: relative;
     display: flex;
-    padding: 4px;
+    padding-top: 6px;
+    padding-left: 10px;
+}
+.icon:hover {
+    fill: #595959 !important;
 }
 
 .icon-item {

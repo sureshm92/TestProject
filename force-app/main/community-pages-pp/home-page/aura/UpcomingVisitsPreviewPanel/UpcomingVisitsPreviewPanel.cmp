@@ -6,7 +6,14 @@
 
     <aura:attribute name="initialized" type="Boolean" />
     <aura:attribute name="visitWrappers" type="PatientVisitService.VisitWrapper[]" />
+    <aura:attribute name="currentVisits" type="PatientVisitService.VisitWrapper[]" />
     <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="isVisitPathEnabled" type="Boolean"/>
+    <aura:attribute name="firstLoad" type="Boolean" default="false" />
+    <aura:attribute name="cmpDef" type="Aura.Component" default="{!this}" />
+    <aura:dependency resource="markup://c:StudyVisitReminder" type="COMPONENT" />
+
+
 
     <div class="sv-panel rr-white-panel">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
@@ -23,11 +30,19 @@
                             <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
                             <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
                         </tr>
-                        <aura:iteration var="visitWrapper" items="{!v.visitWrappers}">
+                        <aura:iteration var="visitWrapper" items="{!v.visitWrappers}" indexVar="index">
                             <tr>
                                 <td>
                                     <p class="visit-schedule slds-hyphenate">
-                                        {!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}
+                                        <aura:if isTrue="{!not(v.isVisitPathEnabled)}">
+                                        <lightning:button variant="base"
+                                                    value="{!index}"
+                                                    onclick="{!c.createEditTask}"
+                                                     >{!visitWrapper.visit.Visit__r.Patient_Portal_Name__c}</lightning:button>
+                                            <aura:set attribute="else">
+                                               {!visitWrapper.visit.Visit__r.Patient_Portal_Name__c} 
+                                            </aura:set>
+                                        </aura:if>
                                     </p>
                                 </td>
                                 <td>
@@ -61,4 +76,5 @@
             </div>
         </aura:if>
     </div>
+    <div aura:id="visitReminder" />
 </aura:component>

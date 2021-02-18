@@ -64,5 +64,9 @@
 }
 .THIS .customTooltipWarningMessage {
     text-align: left;
-    color: red;
+    color: grey;
+    font-size: 11px;
+}
+.THIS .tooltip .slds-form-element__label {
+    display: block !important;
 }

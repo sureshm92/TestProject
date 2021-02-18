@@ -5,6 +5,7 @@
         var visitId = component.get('v.visitId');
         var visitData = component.get('v.visitData');
         var taskType = component.get('v.taskType');
+        component.set('v.isUpcoming',component.get('v.isUpcomingVisits'));
        // component.set('v.isValidFields',false);
         if (!communityService.isDummy()) {
             communityService.executeAction(
@@ -22,6 +23,7 @@
                     if (!wrapper.emailOptIn || !wrapper.smsOptIn) {
                         component.set('v.showAccountNavigation', true);
                     }
+                    
                     component.set('v.taskTypeList', wrapper.taskTypeList);
                     var task = wrapper.task;
                     if (isNewTask) {
@@ -57,7 +59,18 @@
                         );
                     }
                     component.set('v.task', task);
-                    component.set('v.task.Remind_Me__c',task.Remind_Me__c);
+                    if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate'))){
+                        var reminderFrequencyForAdmintask = [
+                            {
+                                label:$A.get('$Label.c.PP_Custom') ,value:'Custom'
+                            }
+                        ];
+                        component.set('v.initData.reminderFrequencyList',reminderFrequencyForAdmintask);
+                        component.set('v.task.Remind_Me__c','Custom');
+
+                    }else{
+                        component.set('v.task.Remind_Me__c',task.Remind_Me__c);
+                    }
                     if (!$A.util.isUndefinedOrNull(visitId)) {
                         component.set('v.task.Patient_Visit__c', visitId);
                     }
@@ -122,7 +135,9 @@
         //Re-initialize the parent table to display the updates
         if (isSaveOperation) {
             component.set('v.isSaveOperation', false);
-            component.get('v.parent').reload();
+            if(!component.get('v.isUpcoming')){
+               component.get('v.parent').reload();
+            }
         }
     },
 

@@ -2,8 +2,8 @@
  - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
-<aura:component description="StudySiteCardForPI" controller="StudyListViewController">
-    <!-- attributes: -->
+<aura:component description="StudySiteCardForPI" controller="StudyListViewController" extends="c:CommunityContext">
+    <!-- attributes: -->    
     <aura:attribute name="siteWrapper" type="Object" />
     <aura:attribute name="delegatePicklist" type="List" />
     <aura:attribute name="rerenderComponent" type="Boolean" description="false" />
@@ -21,7 +21,7 @@
         <aura:if isTrue="{!v.siteWrapper.studySite}">
             <div class="card-header">
                 <div class="pi-name">{!v.siteWrapper.PIName}</div>
-                <div class="manage-location-details">
+                <div class="manage-location-details" style="{!if(v.isRTL, 'text-align: left;','')}">
                     <span onclick="{!c.showManageLocationDetails}">
                         {!$Label.c.SS_Manage_Location_Details}</span
                     >
@@ -31,10 +31,10 @@
                 <div id="ssInformation">
                     <div
                         id="contactInformation"
-                        class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container ss-container-border"
+                        class="{!'slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-container' + if(v.isRTL,' ss-container-borderRTL',' ss-container-border')}"
                     >
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
                             <div class="rr-form-element">
                                 <lightning:input
@@ -49,12 +49,18 @@
                             </div>
                         </div>
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ss-info-details clinic-type"
-                        >
-                            {!(v.siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_4-of-12 ' + if(v.isRTL,'clinic-typeRTL ss-info-detailsRTL','clinic-type ss-info-details')}"
+                        >   
+                            <aura:if isTrue="{!v.isRTL}">
+                                {! $Label.c.SS_Site +' '+ (v.siteWrapper.studySite.Study_Site_Type__c)}
+                            <aura:set attribute="else">
+                                {!(v.siteWrapper.studySite.Study_Site_Type__c) + ' '+ $Label.c.SS_Site}   
+                            </aura:set>
+                            </aura:if>
+                            
                         </div>
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ss-info-details"
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_7-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
                             <div class="input-fields-labels">{!$Label.c.SS_Primary_Contact}</div>
                             <c:rrSelect
@@ -68,7 +74,7 @@
                             />
                         </div>
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ss-info-details"
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_5-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
                             <div class="input-fields-labels" style="display: inline-block">
                                 {!$Label.c.SS_Phone}
@@ -82,7 +88,7 @@
                             </div>
                         </div>
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ss-info-details"
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_9-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
                             <div class="input-fields-labels">{!$Label.c.SS_Email}</div>
                             <div class="rr-form-element">
@@ -95,7 +101,7 @@
                             </div>
                         </div>
                         <div
-                            class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 ss-info-details"
+                            class="{!'slds-col slds-size_1-of-1 slds-medium-size_3-of-12 ' + if(v.isRTL,'ss-info-detailsRTL','ss-info-details')}"
                         >
                             <button
                                 class="apollo-btn pi-save-btn secondary"
@@ -202,12 +208,7 @@
                                         class="apollo-btn secondary slds-align-bottom"
                                         disabled="{!action.disabled}"
                                         title="{!action.disableReason}"
-                                        style="
-                                            background-color: white;
-                                            color: #297dfd;
-                                            box-shadow: none;
-                                            display: inline-block;
-                                        "
+                                        style="{!'background-color: white;color: #297dfd;box-shadow: none;display: inline-block; ' + if(v.isRTL,'margin-left: 15px;','')}"
                                         onclick="{!c.doAction}"
                                     >
                                         {!action.label}

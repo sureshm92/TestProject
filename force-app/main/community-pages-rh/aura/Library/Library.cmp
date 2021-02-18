@@ -2,28 +2,24 @@
  - Created by user on 06-May-20.
  -->
 
-<aura:component
-    description="Library"
-    implements="forceCommunity:availableForAllPageTypes"
-    access="global"
->
+ <aura:component description="Library" implements="forceCommunity:availableForAllPageTypes" access="global"  extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
     <!--attributes:-->
     <aura:attribute name="searchText" type="String" default="" />
     <aura:attribute name="searchvalue" type="String" default="" />
-
+    
     <!--handlers:-->
     <aura:handler name="change" value="{!v.searchText}" action="{!c.SearchRecords}" />
-
-    <div class="slds-grid slds-wrap">
+    
+    <div class="slds-grid slds-wrap" style="{!v.isRTL? 'direction:rtl' :''}">
         <div class="slds-col slds-size--9-of-12">
             <c:RRNavigationPath>
                 <c:RRNPathItem label="{!$Label.c.Navigation_Resources}" />
                 <c:RRNPathItem label="{!$Label.c.Navigation_Library}" />
             </c:RRNavigationPath>
         </div>
-    </div>
-    <div class="rr-white-panel">
+    </div><br/>
+    <div class="rr-white-panel" style="{!v.isRTL? 'direction:rtl' :''}">
         <div class="slds-grid slds-wrap" style="background: #ffffff">
             <div class="slds-col slds-size--9-of-12">
                 <div class="slds-card__header-title">{!$Label.c.Navigation_Library}</div>
@@ -31,24 +27,24 @@
             <div class="slds-col slds-size--3-of-12">
                 <!--<c:rrInput valueString="{!v.searchText}" iconName="icon-search" placeholder="{!$Label.c.Library_Search}"/>-->
                 <div
-                    class="slds-form-element__control slds-input-has-icon slds-input-has-icon_left"
-                >
+                     class="slds-form-element__control slds-input-has-icon "
+                     >
                     <lightning:icon
-                        class="slds-icon slds-input__icon slds-input__icon_left slds-icon-text-default"
-                        iconName="utility:search"
-                        size="x-small"
-                    />
+                                    class="slds-icon slds-input__icon  slds-icon-text-default"
+                                    iconName="utility:search"
+                                    size="x-small"
+                                    />
                     <input
-                        class="slds-input"
-                        placeholder="{!$Label.c.Library_Search}"
-                        type="text"
-                        value="{!v.searchText}"
-                        onkeyup="{!c.SearchRecords}"
-                    />
+                           class="slds-input"
+                           placeholder="{!$Label.c.Library_Search}"
+                           type="text"
+                           value="{!v.searchText}"
+                           onkeyup="{!c.SearchRecords}"
+                           />
                 </div>
             </div>
         </div>
-    </div>
-
+    </div>  
+    
     <c:LibraryPI aura:id="childcmp" searchstring="{!v.searchvalue}" />
 </aura:component>

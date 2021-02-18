@@ -1,6 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         //component.find('spinner').show();
+        component.set('v.reRender',true);
         var params = event.getParam('arguments');
         if (params) {
             console.log('#relaodAttributes: ' + JSON.stringify(params.relaodAttributes));
@@ -13,8 +14,8 @@
             component.set('v.title', params.relaodAttributes.title);
             component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
-
         helper.initialize(component, helper);
+        //this.reRender = true;
         //Take scroll bar to top next time when the popup is displayed
         //if (!component.get('v.isReminderOnly')) {
         document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
@@ -23,12 +24,13 @@
 
     doCancel: function (component, event, helper) {
         helper.hideModal(component);
+        component.set('v.reRender',false);
     },
 
     doSave: function (component, event, helper) {
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
-        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate};
+        var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate ,'Status__c':'Scheduled'};
         if(task.Task_Type__c == 'Visit'){
             communityService.executeAction(
                 component,
@@ -37,6 +39,12 @@
                     visit: JSON.stringify(patientVisit)
                 },
                 function (returnValue) {
+                    if(!reminderOption){
+                    component.set('v.isSaveOperation', true);
+                    communityService.showSuccessToast('', message, 3000);
+                    helper.hideModal(component);
+                    component.find('spinner').hide();
+                    }
                     
                 },
                 null,
@@ -54,12 +62,13 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
+        var reminderOption = component.get('v.task.Remind_Me__c');
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;
         }
-        if (
-            !$A.util.isUndefinedOrNull(reminderDate) &&
+       if (
+            (!$A.util.isUndefinedOrNull(reminderDate) || !$A.util.isUndefinedOrNull(reminderOption)) &&
             !(smsPeferenceSelected && smsOptIn) &&
             !(emailPeferenceSelected && emailOptIn)
         ) {
@@ -88,6 +97,7 @@
         if(task.Task_Type__c == 'Visit'){
             component.set('v.initData.activityDate',visitDate);
         }
+        if(reminderOption || task.Task_Type__c != 'Visit'){
         communityService.executeAction(
             component,
             'upsertTask',
@@ -106,6 +116,8 @@
             },
             null
         );
+        }
+        
     },
 
     doIgnore: function (component, event, helper) {
@@ -126,7 +138,8 @@
         console.log('isTaskTab-->'+component.get('v.isTaskTab'));
         var remindMe = component.get('v.task.Remind_Me__c');
         var isTaskTab = component.get('v.isTaskTab') == true;
-        var reminderOptionValid = !isTaskTab?component.find('reminderOption'):component.find('taskReminderOption');
+        var isReminderOnly = component.get('v.isReminderOnly');
+        var reminderOptionValid = !isTaskTab?component.find('reminderOption'): !isReminderOnly?component.find('taskReminderOption'):component.find('taskReminderOption1');
         var isGreaterThanToday = false;
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
         var today = moment();
@@ -168,7 +181,15 @@
         console.log('isGreaterThanToday-->'+isGreaterThanToday);
         console.log('inside condition-->'+($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || $A.util.isUndefinedOrNull(component.get('v.initData.reminderDate') || !isValidFields)));
         
-        if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+        if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate'))){
+            if(!isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
+                   component.set('v.isValidFields', false);
+           }
+            else{
+                  component.set('v.isValidFields', true);
+           }
+        }
+        else if($A.util.isUndefinedOrNull(dueDateOrplanDate) || isGreaterThanToday || !isValidFields || ($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) && remindMe === 'Custom')){
                    component.set('v.isValidFields', false);
            }
            else{

@@ -8,6 +8,11 @@
     position: fixed;
 }
 
+.THIS .marginRight {
+    
+    margin-right: 0.23rem;
+}
+
 .THIS .filter-card div:first-child .slds-grid {
     margin-bottom: 0.75rem;
 }
@@ -202,6 +207,7 @@
 .THIS .slds-button_neutral {
     font-size: 1rem;
     font-weight: 600;
+    margin-right: 20px;
 }
 
 .THIS .slds-button_neutral,

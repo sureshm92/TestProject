@@ -21,17 +21,27 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
 
     public void execute(Database.BatchableContext param1, List<Trial_Match__c> matches) {
         for (Trial_Match__c match : matches) {
-            Date notifyDate = match.Matched_Date__c +
-                				Integer.valueOf(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c);
-            Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
-            if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c) && date.today() >= notifyDate) {
-                enrollmentsByTemplateByContact.put(
-                    enrollment.Participant_Contact__c,
-                    new Map<String, Id>()
-                );
-                match.Is_User_notified__c = true;
+            Integer delayDays=0;
+            if(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c != null){
+                delayDays = Integer.valueOf(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c);
             }
-
+            Date notifyDate;
+            if(match.Matched_Date__c != null){
+                notifyDate = match.Matched_Date__c + delayDays;
+            }
+            else{
+                notifyDate = date.today();
+            }
+            Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
+            if(date.today() >= notifyDate){
+                match.Is_User_notified__c = true;
+                if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c)) {
+                    enrollmentsByTemplateByContact.put(
+                        enrollment.Participant_Contact__c,
+                        new Map<String, Id>()
+                    );
+            	}
+            }
             Map<String, Id> enrollmentsByTemplate = enrollmentsByTemplateByContact.get(
                 enrollment.Participant_Contact__c
             );

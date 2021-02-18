@@ -37,6 +37,11 @@
     margin-bottom: 1%;
     padding-left: 1%;
 }
+.THIS .popup-account-nameRTL {
+    width: 100%;
+    margin-bottom: 1%;
+    padding-right: 1%;
+}
 
 .THIS .popup-account-name:first-child {
     color: #000000;
@@ -44,6 +49,13 @@
     font-size: 16px;
     font-weight: 500;
     padding-left: 60px;
+}
+.THIS .popup-account-nameRTL:first-child {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    padding-right: 60px;
 }
 
 .THIS .edit-btn {
@@ -66,6 +78,11 @@
 }
 
 .THIS .popup-account-name + .slds-grid--align-center {
+    min-height: 100%;
+    margin-top: -20px;
+    align-items: center;
+}
+.THIS .popup-account-nameRTL + .slds-grid--align-center {
     min-height: 100%;
     margin-top: -20px;
     align-items: center;
@@ -117,8 +134,17 @@
     .THIS .popup-account-name:first-child {
         padding-left: 30px;
     }
+    .THIS .popup-account-nameRTL:first-child {
+        padding-right: 30px;
+    }
 
     .THIS .popup-account-name + .slds-col {
+        min-height: 100%;
+        align-items: center;
+        margin-top: -20px;
+        max-width: 32px;
+    }
+    .THIS .popup-account-nameRTL + .slds-col {
         min-height: 100%;
         align-items: center;
         margin-top: -20px;
@@ -150,7 +176,7 @@
     .THIS .ss-info-address {
         word-wrap: break-word;
     }
-}
+}   
 
 @media all and (max-width: 500px) {
     .THIS .p-footer .p-buttons-container {
@@ -162,6 +188,9 @@
     }
 
     .THIS .popup-account-name + .slds-col {
+        min-width: 32px;
+    }
+    .THIS .popup-account-nameRTL + .slds-col {
         min-width: 32px;
     }
 

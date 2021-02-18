@@ -6,16 +6,21 @@ import { LightningElement, track, api } from 'lwc';
 //import lwcStyleResource from '@salesforce/resourceUrl/lwcCss';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import addLabel from '@salesforce/label/c.Add_Date';
+import incorrectData from '@salesforce/label/c.Incorrect_data';
 import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
+import noDateSet from '@salesforce/label/c.PP_NoDateSet';
 import emailLabel from '@salesforce/label/c.PP_Remind_Using_Email';
 import smsLabel from '@salesforce/label/c.PP_Remind_Using_SMS';
 import planDate from '@salesforce/label/c.VPN_AddDate';
 import ReminderDate from '@salesforce/label/c.PP_Reminder_Date';
 import whatToExpect from '@salesforce/label/c.Home_Page_StudyVisit_WhToEx';
 import VisitDate from '@salesforce/label/c.PP_Visit_Date';
+import visitDateandTime from '@salesforce/label/c.PP_Visit_DateTime';
+import remindMe from '@salesforce/label/c.Remind_Me';
 import ChangeNotifications from '@salesforce/label/c.PP_Change_Notification_Settings';
 import remindUsing from '@salesforce/label/c.PP_Remind_Using';
 import selDate from '@salesforce/label/c.VPN_Sel_Date';
@@ -70,12 +75,16 @@ export default class VisitsPath extends LightningElement {
         OneWeekBefore,
         CustomDate,
         reminderError,
-        detailsLabel
+        detailsLabel,
+        incorrectData,
+        noDateSet,
+        visitDateandTime,
+        remindMe
     };
 
     initialized = false;
     spinner;
-
+    @track showAccountNavigation = false;
     @track isVisitsEmpty = false;
     @track isVisitCompleted = false;
     @track isRTL;
@@ -87,7 +96,8 @@ export default class VisitsPath extends LightningElement {
 
     @track selectedPV = {
         Id: null,
-        Planned_Date__c: null
+        Planned_Date__c: null,
+        Status__c: 'Scheduled'
     };
     @track today;
     @track emailOpted;
@@ -100,12 +110,16 @@ export default class VisitsPath extends LightningElement {
     @track visitIconDetails = [];
     @track iconDetails = [];
     @track disableSave = true;
+    @track isVisitMissed = false;
+    @track reRender = true;
     // = [{ "Id": "a0M1100000DDOfGEAX", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a0M1100000DDOfQEAX", "Name": "height-and-weight", "Label__c": "Height and weight" }, { "Id": "a0M1100000DDOfVEAX", "Name": "multiple-users-2", "Label__c": "Demographics" }];
     //= [{ "Id": "a2t3O0000000xQ2QAI", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a2t3O0000000xQ1QAI", "Name": "Hand-X-Ray", "Label__c": "Hand and feet X-rays" }, { "Id": "a2t3O0000000xQ8QAI", "Name": "health_checkup", "Label__c": "Physical examination" }];
     @track visitTaskId;
     @track visitTitle;
     @track visitId;
     @track reminderDate;
+    @track completedDate;
+    @track showTravelSupportDetails = false;
     @track initData = {
         reminderDate: null,
         emailOptIn: false,
@@ -123,11 +137,14 @@ export default class VisitsPath extends LightningElement {
         ReminderDateTime: null,
         Subject: null,
         Task_Code__c: null,
-        Id: null
+        Id: null,
+        CronTriggerId__c: null,
+        Is_Reminder_Sent__c: false
     };
     @track reminderOption;
     @track emailOptIn;
     @track smsOptIn;
+    @track visitNumber;
     pathContainer;
     elementWidth;
     centredIndex;
@@ -140,6 +157,7 @@ export default class VisitsPath extends LightningElement {
 
     connectedCallback() {
         let context = this;
+        context.showTravelSupportDetails = false;
         /* Promise.all([
             loadStyle(this, lwcStyleResource)
         ]).then(() => {
@@ -206,8 +224,8 @@ export default class VisitsPath extends LightningElement {
     get reminderOptions() {
         return [
             { label: this.labels.OneHourBefore, value: '1 hour before' },
-            { label: this.labels.Onedaybefore, value: '1 day before' },
             { label: this.labels.FourHoursBefore, value: '4 hours before' },
+            { label: this.labels.Onedaybefore, value: '1 day before' },
             { label: this.labels.OneWeekBefore, value: '1 Week before' },
             { label: this.labels.CustomDate, value: 'Custom' }
         ];
@@ -236,7 +254,9 @@ export default class VisitsPath extends LightningElement {
                 };
                 if (isMissed) {
                     item.stateStatus = stateMissed;
-                    item.complDate = visitUnavailable;
+                    if (this.patientVisits[i].Planned_Date__c) {
+                        item.complDate = this.patientVisits[i].Planned_Date__c;
+                    }
                 }
 
                 this.pathItems.push(item);
@@ -274,17 +294,26 @@ export default class VisitsPath extends LightningElement {
     }
 
     doValidateReminder(event) {
-        if (event.target.value != 'Custom') {
+        if (event.target.value != 'Custom' || this.reminderOption != 'Custom') {
             var visitPlanDate = new Date(this.planDate);
             var reminderdate;
             console.log('visitPlanDate-->' + visitPlanDate);
-            if (event.target.value == '1 day before') {
+            if (event.target.value == '1 day before' || this.reminderOption == '1 day before') {
                 reminderdate = visitPlanDate - 24 * 3600 * 1000;
-            } else if (event.target.value == '1 hour before') {
+            } else if (
+                event.target.value == '1 hour before' ||
+                this.reminderOption == '1 hour before'
+            ) {
                 reminderdate = visitPlanDate - 3600 * 1000;
-            } else if (event.target.value == '4 hours before') {
+            } else if (
+                event.target.value == '4 hours before' ||
+                this.reminderOption == '4 hours before'
+            ) {
                 reminderdate = visitPlanDate - 4 * 3600 * 1000;
-            } else if (event.target.value == '1 Week before') {
+            } else if (
+                event.target.value == '1 Week before' ||
+                this.reminderOption == '1 Week before'
+            ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }
             console.log('reminderdate-->' + reminderdate);
@@ -330,18 +359,23 @@ export default class VisitsPath extends LightningElement {
         // let spinner = this.template.querySelector('c-web-spinner');
         // console.log('spinner' + spinner);
         // spinner.show();
+        //this.doValidateReminder(event);
+        this.reRender = true;
         let eventItemId = event.currentTarget.dataset.id;
         this.visitId = eventItemId;
 
         //this.patientVisitName = event.currentTarget.dataset.name;
         this.patientVisitName = event.currentTarget.dataset.name;
         this.visitTitle = event.currentTarget.dataset.title;
+        this.completedDate = event.currentTarget.dataset.completeddate;
+        console.log('completedDate-->' + this.completedDate);
         console.log('visiTitle-->' + this.visitTitle);
         //+ ' ' + 'Details';
         console.log('visitname-->' + this.patientVisitName);
         console.log('eventItemId-->' + this.visitId);
         this.getVisitDetails(this.visitId);
         this.selectedPV.Id = this.visitId;
+        this.selectedPV.Status__c = 'Scheduled';
 
         console.log('visitIconDetails-->' + this.visitIconDetails);
         console.log('iconDetails-->' + JSON.stringify(this.iconDetails));
@@ -356,7 +390,13 @@ export default class VisitsPath extends LightningElement {
                 this.visitDetails = first;
                 this.planDate = this.visitDetails.visit.Planned_Date__c;
                 this.reminderDate = this.visitDetails.reminderDate;
-                this.isVisitCompleted = this.visitDetails.visitStatus == 'Completed';
+                this.visitNumber = this.visitDetails.visit.Visit_Number__c;
+                this.showTravelSupportDetails = true;
+                console.log('visitnum-->' + this.visitNumber);
+                this.isVisitCompleted =
+                    this.visitDetails.visitStatus == 'Completed' ||
+                    this.visitDetails.visitStatus == 'Missed';
+                this.isVisitMissed = this.visitDetails.visitStatus == 'Missed';
                 if (this.visitDetails.task) {
                     this.visitTaskId = this.visitDetails.task.Id;
                 }
@@ -364,6 +404,8 @@ export default class VisitsPath extends LightningElement {
                     if (this.visitDetails.task.Remind_Me__c == 'Custom') {
                         this.showCustomDateTime = true;
                         this.reminderClass = 'mr_25';
+                    } else {
+                        this.showCustomDateTime = false;
                     }
                 }
                 if (this.visitDetails.task) {
@@ -395,6 +437,9 @@ export default class VisitsPath extends LightningElement {
                     this.emailOpted = !this.taskDetails.emailOptIn || this.isVisitCompleted;
                     this.smsOpted = !this.taskDetails.smsOptIn || this.isVisitCompleted;
                     this.today = this.taskDetails.today;
+                    if (!this.taskDetails.smsOptIn || !this.taskDetails.emailOptIn) {
+                        this.showAccountNavigation = true;
+                    }
                 }
                 //this.error = undefined;
             })
@@ -406,6 +451,8 @@ export default class VisitsPath extends LightningElement {
 
     handleHideDialog() {
         this.template.querySelector('c-web-popup').hide();
+        this.reRender = false;
+        //this.reRender = true;
     }
     doNavigateToAccountSettings() {
         window.open('account-settings', '_blank');
@@ -483,21 +530,23 @@ export default class VisitsPath extends LightningElement {
     savePlannedDate() {
         let spinner = this.template.querySelector('c-web-spinner');
         spinner.show();
-        console.log('planDate-->' + this.planDate);
         if (this.showCustomDateTime == true) {
             if (
                 this.isEmpty(this.reminderDate) &&
                 this.emailOptIn == false &&
                 this.smsOptIn == false
             ) {
-                communityService.showErrorToast('', 'Please Input Correct Data', 3000);
+                communityService.showErrorToast('', this.labels.incorrectData, 3000);
                 return;
             }
         }
-        if (this.emailOptIn == false && this.smsOptIn == false) {
-            communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
-            return;
+        if (this.reminderOption) {
+            if (this.emailOptIn == false && this.smsOptIn == false) {
+                communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
+                return;
+            }
         }
+
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
         else this.selectedPV.Planned_Date__c = null;
         if (this.reminderDate) this.initData.reminderDate = this.reminderDate;
@@ -507,19 +556,11 @@ export default class VisitsPath extends LightningElement {
         if (this.planDate) this.initData.planDate = this.planDate;
         if (this.visitId) this.initData.visitId = this.visitId;
         this.initData.createdByAdmin = this.taskDetails.createdByAdmin;
-        console.log('inside initData-->', this.initData);
-        //  if (this.reminderOption) {
-        console.log('inside this.reminderOption-->' + this.reminderOption);
-
-        // }
         if (this.emailOptIn) this.paramTask.Remind_Using_Email__c = this.emailOptIn;
         if (this.smsOptIn) this.paramTask.Remind_Using_SMS__c = this.smsOptIn;
         if (this.reminderDate) this.paramTask.ReminderDateTime = this.reminderDate;
         this.paramTask.Subject = this.patientVisitName;
-        console.log('visitTaskId-->' + this.visitTaskId);
         if (this.visitTaskId) this.paramTask.Id = this.visitTaskId;
-        console.log('paramTask-->' + JSON.stringify(this.paramTask));
-
         let context = this;
         updatePV({ visit: JSON.stringify(this.selectedPV) })
             .then(() => {
@@ -536,23 +577,43 @@ export default class VisitsPath extends LightningElement {
             .catch((error) => {
                 console.log('Error: ' + JSON.stringify(error));
             });
-        // if (this.reminderOption) {
-        createTask({
-            wrapper: JSON.stringify(this.initData),
-            paramTask: JSON.stringify(this.paramTask)
-        })
-            .then(() => {
-                console.log('inside success-->');
-                eval("$A.get('e.force:refreshView').fire();");
-                spinner.hide();
+        if (this.reminderOption) {
+            createTask({
+                wrapper: JSON.stringify(this.initData),
+                paramTask: JSON.stringify(this.paramTask)
             })
-            .catch((error) => {
-                console.log('Error: ' + JSON.stringify(error));
-            });
+                .then(() => {
+                    eval("$A.get('e.force:refreshView').fire();");
+                    spinner.hide();
+                })
+                .catch((error) => {
+                    let message = 'Unknown error';
+                    if (error.body) {
+                        if (Array.isArray(error.body)) {
+                            message = error.body.map((e) => e.message).join(', ');
+                        } else if (typeof error.body.message === 'string') {
+                            message = error.body.message;
+                            if (message.includes('\n')) {
+                                message = message.split('\n')[0];
+                            }
+                        }
+                    } else {
+                        message = error.message;
+                    }
+                    const event = new ShowToastEvent({
+                        title: '',
+                        message: message,
+                        variant: 'error'
+                    });
+                    this.dispatchEvent(event);
+                    console.log('Error: ' + JSON.stringify(error));
+                });
+        }
+        if (!this.reminderOption) {
+            eval("$A.get('e.force:refreshView').fire();");
+        }
         this.handleHideDialog();
         spinner.hide();
-
-        //}
     }
 
     //Scroll Arrows handlers:-------------------------------------------------------------------------------------------
