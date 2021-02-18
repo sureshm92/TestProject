@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="CommunityModeSwitcherMenuButtons">
+<aura:component description="CommunityModeSwitcherMenuButtons" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="type" type="String" />
     <aura:attribute name="buttonItems" type="List" />
@@ -15,23 +15,23 @@
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doRefresh}" access="public" />
 
-    <div style="width: 100%">
+    <div style="{! 'width: 100%; ' + if(v.isRTL, 'direction: rtl;','')}" >
         <aura:if isTrue="{!v.type == 'RH_Only'}">
-            <div class="more-separator">{!$Label.c.Profile_Menu_More}</div>
+            <div class="{!v.isRTL? 'more-separatorRTL':'more-separator'}">{!$Label.c.Profile_Menu_More}</div>
         </aura:if>
         <ul>
             <aura:iteration items="{!v.buttonItems}" var="buttonItem">
                 <c:uiMenuItem
                     onclick="{!c.doNavigateToItem}"
                     itemValue="{!buttonItem.page}"
-                    class="button"
+                    class="{!v.isRTL? 'buttonRTL':'button'}"
                 >
                     <div class="mode-switcher-menu-button" data-gtm="{!buttonItem.staticId}">
                         <c:RRIcon
                             class="{!'button-icon icon-'+ buttonItem.icon}"
                             iconName="{!buttonItem.icon}"
                         />
-                        <div class="button-label">{!buttonItem.label}</div>
+                        <div class="{!v.isRTL? 'button-labelRTL':'button-label'}">{!buttonItem.label}</div>
                     </div>
                 </c:uiMenuItem>
             </aura:iteration>
