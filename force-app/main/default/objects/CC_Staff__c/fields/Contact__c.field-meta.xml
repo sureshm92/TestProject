@@ -14,7 +14,7 @@
         <isOptional>false</isOptional>
     </lookupFilter>
     <referenceTo>Contact</referenceTo>
-    <relationshipLabel>CC Staffs</relationshipLabel>
+    <relationshipLabel>CC Staff</relationshipLabel>
     <relationshipName>CC_Staffs_Contact</relationshipName>
     <required>true</required>
     <trackTrending>false</trackTrending>
