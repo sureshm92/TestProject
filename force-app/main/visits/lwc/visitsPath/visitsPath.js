@@ -408,6 +408,9 @@ export default class VisitsPath extends LightningElement {
                         this.showCustomDateTime = false;
                     }
                 }
+                if (!this.visitDetails.task) {
+                    this.reminderOption = undefined;
+                }
                 if (this.visitDetails.task) {
                     this.reminderOption = this.visitDetails.task.Remind_Me__c;
                     console.log('reminderOption-->' + this.reminderOption);
