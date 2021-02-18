@@ -385,6 +385,8 @@ export default class VisitsPath extends LightningElement {
     getVisitDetails(itemId) {
         getVisitsDetails({ visitId: itemId })
             .then((result) => {
+                this.emailOptIn = false;
+                this.smsOptIn = false;
                 console.log('result-->', result);
                 const [first] = result;
                 this.visitDetails = first;
@@ -407,6 +409,10 @@ export default class VisitsPath extends LightningElement {
                     } else {
                         this.showCustomDateTime = false;
                     }
+                }
+                if (!this.visitDetails.task) {
+                    this.reminderOption = undefined;
+                    this.showCustomDateTime = false;
                 }
                 if (this.visitDetails.task) {
                     this.reminderOption = this.visitDetails.task.Remind_Me__c;
