@@ -1093,6 +1093,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>PdfViewerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>PicklistCMPwithRTAndMSPTestCls</apexClass>
         <enabled>true</enabled>
     </classAccesses>
