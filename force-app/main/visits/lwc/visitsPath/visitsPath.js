@@ -557,10 +557,6 @@ export default class VisitsPath extends LightningElement {
                 return;
             }
         }
-        if (new Date(this.planDate) < new Date() || new Date(this.reminderDate) < new Date()) {
-            communityService.showErrorToast('', this.labels.reminderPastError, 3000);
-            return;
-        }
 
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
         else this.selectedPV.Planned_Date__c = null;
