@@ -2,14 +2,14 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="RHCommunityModesList">
+<aura:component description="RHCommunityModesList" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="communityModes" type="Object" />
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent" />
 
-    <ul class="main-container">
+    <ul class="main-container" style="{!if(v.isRTL, 'direction: rtl;','')}">
         <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
                 <div
