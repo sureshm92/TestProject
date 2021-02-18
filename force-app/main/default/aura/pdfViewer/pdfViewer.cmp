@@ -1,4 +1,4 @@
-<aura:component access="GLOBAL" extensible="false" controller="PdfViewerExampleController" implements="lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
+<aura:component access="GLOBAL" extensible="false" controller="PdfViewerController" implements="lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes" extends="c:CommunityContext">
    
 	<aura:attribute access="GLOBAL" name="pdfData" type="String" description="PDF data in base64 encoded format"/>
 	
