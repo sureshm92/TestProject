@@ -385,6 +385,8 @@ export default class VisitsPath extends LightningElement {
     getVisitDetails(itemId) {
         getVisitsDetails({ visitId: itemId })
             .then((result) => {
+                this.emailOptIn = false;
+                this.smsOptIn = false;
                 console.log('result-->', result);
                 const [first] = result;
                 this.visitDetails = first;
