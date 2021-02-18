@@ -31,6 +31,13 @@
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
         var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate ,'Status__c':'Scheduled'};
+        var isTaskTab = component.get('v.isTaskTab') == true;
+        var reminderDate = component.get('v.initData.reminderDate');
+        var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
+        if(new Date(dueDateOrplanDate) < new Date() || new Date(reminderDate) < new Date()){
+            communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderPastError'), 3000);
+            return;
+        }
         if(task.Task_Type__c == 'Visit'){
             communityService.executeAction(
                 component,
@@ -143,6 +150,11 @@
         var isGreaterThanToday = false;
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
         var today = moment();
+        
+        //component.set('v.initData.activityDate',new Date(new Date(component.get('v.initData.activityDate')) - (-(3600 *1000))));
+        //console.log(component.get('v.initData.activityDate'));
+        component.set('v.initData.today',new Date(new Date() - (60*1000)));
+        console.log('today-->'+component.get('v.initData.today'));
          if(remindMe !== 'Custom'){
          if(remindMe === '1 Week before'){
              isGreaterThanToday = moment(dueDateOrplanDate).subtract(7, 'days').isBefore(today)
