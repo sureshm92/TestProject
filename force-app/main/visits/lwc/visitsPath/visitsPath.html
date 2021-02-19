@@ -321,11 +321,13 @@
                             </div>
                         </div>
                     </div>
-                    <template if:true={showTravelSupportDetails}>
-                        <div class="travelDetails">
-                            <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
-                            </c-visit-travel-details>
-                        </div>
+                    <template if:true={travelSupportEnabled}>
+                        <template if:true={showTravelSupportDetails}>
+                            <div class="travelDetails">
+                                <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                                </c-visit-travel-details>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </div>
@@ -645,11 +647,13 @@
                             </div>
                         </div>
                     </div>
-                    <template if:true={showTravelSupportDetails}>
-                        <div class="travelDetails">
-                            <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
-                            </c-visit-travel-details>
-                        </div>
+                    <template if:true={travelSupportEnabled}>
+                        <template if:true={showTravelSupportDetails}>
+                            <div class="travelDetails">
+                                <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                                </c-visit-travel-details>
+                            </div>
+                        </template>
                     </template>
                 </template>
             </div>
