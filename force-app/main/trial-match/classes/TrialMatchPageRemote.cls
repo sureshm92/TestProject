@@ -2,19 +2,19 @@
  * Created by Sravani Dasari
  */
 public without sharing class TrialMatchPageRemote {
-    static Id participantid;
+    static Id peId;
     @AuraEnabled
     public static TrialMatchContainer getMatchCTPs(String urlid) {
         if (urlid != null)
-            participantid = Id.valueOf(urlid);
+            peId = Id.valueOf(urlid);
         else
-            participantid = ParticipantContext.getCurrentParticipantId();
+            peId = ParticipantContext.getCurrentPEId();
         try {
             TrialMatchHelper helper = (TrialMatchHelper) ClassFactory.newInstance(
                 TrialMatchHelper.class
             );
             TrialMatchContainer trialMatchContainer = helper.getInitTrialMatchContainer(
-                participantid
+                peId
             );
             return trialMatchContainer;
         } catch (Exception e) {
@@ -26,11 +26,11 @@ public without sharing class TrialMatchPageRemote {
         @AuraEnabled
         public List<TrialMatchCTP> trialmatchctps;
         @AuraEnabled
-        public Id partid;
+        public Id partenrollid;
 
         public TrialMatchContainer() {
             this.trialmatchctps = new List<TrialMatchPageRemote.TrialMatchCTP>();
-            partid = participantid;
+            partenrollid = peId;
         }
     }
 

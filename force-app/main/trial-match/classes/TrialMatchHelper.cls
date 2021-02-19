@@ -16,9 +16,9 @@ public without sharing class TrialMatchHelper {
         private set;
     }
 
-    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer(Id participantid) {
+    public TrialMatchPageRemote.TrialMatchContainer getInitTrialMatchContainer(Id peId) {
         TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = this.getTrialMatchContainer(
-            participantid,
+            peId,
             null,
             true,
             true
@@ -27,7 +27,7 @@ public without sharing class TrialMatchHelper {
     }
 
     public TrialMatchPageRemote.TrialMatchContainer getTrialMatchContainer(
-        Id participantid,
+        Id peId,
         List<Trial_Match__c> trms,
         Boolean isEnrolling,
         Boolean isNotYetEnrolling
@@ -35,7 +35,7 @@ public without sharing class TrialMatchHelper {
         TrialMatchPageRemote.TrialMatchContainer trialMatchContainer = new TrialMatchPageRemote.TrialMatchContainer();
         List<Trial_Match__c> trialMatchs = trms != null
             ? trms
-            : this.getTrialMatches(participantid);
+            : this.getTrialMatches(peId);
         Set<Id> ctpId = new Set<Id>();
         Map<Id, Trial_Match__c> trialmatchesforCTP = new Map<Id, Trial_Match__c>();
         if (!trialMatchs.isEmpty()) {
@@ -158,10 +158,10 @@ public without sharing class TrialMatchHelper {
     }
 
     @TestVisible
-    private List<Trial_Match__c> getTrialMatches(Id participantid) {
+    private List<Trial_Match__c> getTrialMatches(Id peId) {
         String filter =
             'Is_Eligible__c = TRUE  AND Is_User_notified__c = TRUE AND' +
-            DatabaseService.fieldEqual('Participant_Enrollment__r.Participant__c', participantid);
+            DatabaseService.fieldEqual('Participant_Enrollment__r.id', peId);
 
         return (List<Trial_Match__c>) DatabaseService.query(
             new List<String>{
