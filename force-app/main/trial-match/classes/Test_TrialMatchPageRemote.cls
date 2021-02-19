@@ -15,6 +15,7 @@ private class Test_TrialMatchPageRemote {
             Matched_Date__c = Datetime.now().dateGmt(),
             Matching_Details__c = 'Sample Matching Details',
             Matching_Score__c = 77,
+            Is_User_notified__c = TRUE,
             Participant_Enrollment__c = testData.pe.id,
             Passed__c = false,
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'
@@ -45,7 +46,7 @@ private class Test_TrialMatchPageRemote {
         );
         System.assertEquals(
             1,
-            TrialMatchPageRemote.getMatchCTPs(testData.participantUser.id).trialmatchctps.size()
+            TrialMatchPageRemote.getMatchCTPs(testData.pe.id).trialmatchctps.size()
         );
     }
 

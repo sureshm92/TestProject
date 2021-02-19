@@ -16,6 +16,7 @@ private class Test_TrialMatchDataController {
             Matched_Date__c = Datetime.now().dateGmt(),
             Matching_Details__c = 'Sample Matching Details',
             Matching_Score__c = 77,
+            Is_User_notified__c = TRUE,
             Participant_Enrollment__c = testData.pe.id,
             Passed__c = false,
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'
@@ -25,7 +26,7 @@ private class Test_TrialMatchDataController {
             PageReference myVfPage = Page.TrialMatchData;
             Test.setCurrentPage(myVfPage);
 
-            ApexPages.currentPage().getParameters().put('id', testData.participant.id);
+            ApexPages.currentPage().getParameters().put('id', testData.pe.id);
             new TrialMatchDataController();
         }
     }
