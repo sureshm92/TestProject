@@ -1,14 +1,14 @@
 public class TrialMatchDataController {
     public List<TrialMatchWrapper> tm_list { get; set; }
-    Id participantid;
+    Id peId;
     public Boolean RTL { get; set; }
     TrialMatchPageRemote.TrialMatchContainer tmcontainer;
     public TrialMatchDataController() {
-        participantid = apexpages.currentpage().getparameters().get('id');
+        peId = apexpages.currentpage().getparameters().get('id');
         String rtl_language = System.Label.RTL_Languages;
         RTL = rtl_language.contains(UserInfo.getLanguage());
         tm_list = new List<TrialMatchWrapper>();
-        tmcontainer = TrialMatchPageRemote.getMatchCTPs(participantid);
+        tmcontainer = TrialMatchPageRemote.getMatchCTPs(peId);
         for (TrialMatchPageRemote.TrialMatchCTP tmCTP : tmcontainer.trialmatchctps) {
             TrialMatchWrapper tmWrapper = new TrialMatchWrapper();
             if (tmCTP.isEnrollingCTP)

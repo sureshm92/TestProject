@@ -4,11 +4,13 @@ import rrCommunityJs from '@salesforce/resourceUrl/rr_community_js';
 import getTravelDetails from '@salesforce/apex/TravelSupportRemote.getTravelVendors';
 import getTravelVendors from '@salesforce/apex/TravelSupportRemote.getAvailableVendorsForSS';
 import addNewBooking from '@salesforce/label/c.Home_Page_StudyVisit_Btn';
-import bookingStatus from '@salesforce/label/c.Home_Page_Travel_Support_Booking_Status_Col';
+import bookingStatus from '@salesforce/label/c.PP_Travel_Status';
+import bookingTitle from '@salesforce/label/c.PP_Travel_Booking';
 import action from '@salesforce/label/c.Home_Page_Travel_Support_Action_Col';
 import bookingDate from '@salesforce/label/c.PP_Travel_Date';
 import bookingTime from '@salesforce/label/c.PP_Travel_Time';
 import travelSupport from '@salesforce/label/c.PP_Travel_Support';
+import noTravelInfo from '@salesforce/label/c.No_Travel_Information';
 
 export default class VisitTravelDetails extends LightningElement {
     labels = {
@@ -17,7 +19,9 @@ export default class VisitTravelDetails extends LightningElement {
         action,
         bookingDate,
         bookingTime,
-        travelSupport
+        travelSupport,
+        noTravelInfo,
+        bookingTitle
     };
 
     @track travelWrapper = [];
@@ -34,6 +38,7 @@ export default class VisitTravelDetails extends LightningElement {
     @track bookingDetails = [];
     @track travelDetails = [];
     @track showVendors = false;
+    @track noTravelInformation = false;
     connectedCallback() {
         console.log('visitName-->' + this.vname);
         console.log('visitNumber-->' + this.vnum);
@@ -48,20 +53,25 @@ export default class VisitTravelDetails extends LightningElement {
                 console.log('error');
             });
 
+
+
         this.handleLoad();
         this.getTravelVendorsDetails();
     }
 
     handleLoad() {
+
         getTravelDetails({ clientId: '12345', clientSecret: '12345', isHomePage: false })
             .then((result) => {
-                console.log('travelWrapper', result);
+                console.log('result', result);
                 this.travelWrapper = result;
+                console.log('travelWrapper' + JSON.stringify(this.travelWrapper));
                 this.constructBookingData(this.travelWrapper);
             })
             .catch((error) => {
                 this.error = error;
             });
+
     }
 
     getTravelVendorsDetails() {
@@ -77,17 +87,22 @@ export default class VisitTravelDetails extends LightningElement {
     }
 
     constructBookingData(travelData) {
-        console.log('inside booking data-->', travelData);
         this.bookingDetails = travelData;
-        console.log('bookingDetails:1' + JSON.stringify(this.bookingDetails));
+        console.log('travelData' + JSON.stringify(travelData));
+        console.log(this.vname);
+        console.log(this.vnum);
+        console.log('bookingDetails--' + JSON.stringify(this.bookingDetails));
         for (let i = 0; i < this.bookingDetails.length; i++) {
             if (
                 this.bookingDetails[i].visitName == this.vname &&
                 this.bookingDetails[i].visitId == this.vnum
             ) {
+                console.log('inside if condition-->');
                 this.travelDetails.push(this.bookingDetails[i]);
             }
+            console.log('travelDetails ', this.travelDetails);
         }
-        console.log('travelDetails-->', travelDetails);
+        this.noTravelInformation = this.travelDetails.length === 0;
+
     }
 }

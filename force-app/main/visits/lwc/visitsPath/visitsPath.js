@@ -43,6 +43,8 @@ import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 import getVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getParticipantVisitsDetails';
 import getTaskEditDetails from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
+import getIsTravelSupportEnabled from '@salesforce/apex/TravelSupportRemote.getisTravelSupportEnabled';
+
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -149,6 +151,7 @@ export default class VisitsPath extends LightningElement {
     @track emailOptIn;
     @track smsOptIn;
     @track visitNumber;
+    @track travelSupportEnabled = false;
     pathContainer;
     elementWidth;
     centredIndex;
@@ -176,6 +179,13 @@ export default class VisitsPath extends LightningElement {
             })
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
+            });
+        getIsTravelSupportEnabled().then((result) => {
+            console.log('isTravelSupport', result);
+            this.travelSupportEnabled = result;
+        })
+            .catch((error) => {
+                this.error = error;
             });
 
         getCardVisits()

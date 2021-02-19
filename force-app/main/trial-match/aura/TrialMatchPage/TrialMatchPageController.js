@@ -14,7 +14,7 @@
                 null,
                 function (data) {
                     component.set('v.trialmatchCTPs', data.trialmatchctps);
-                    component.set('v.partid', data.partid);
+                    component.set('v.partenrollid', data.partenrollid);
                     component.set('v.initialized', true);
 
                     if (!String.format) {
@@ -45,9 +45,9 @@
             );
             return;
         }
-        var partid = component.get('v.partid');
+        var partenrollid = component.get('v.partenrollid');
         var pageurl = window.location.href;
-        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchData?id=' + partid, '_blank');
-        else window.open('/apex/TrialMatchData?id=' + partid, '_blank');
+        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchData?id=' + partenrollid, '_blank');
+        else window.open('/apex/TrialMatchData?id=' + partenrollid, '_blank');
     }
 });

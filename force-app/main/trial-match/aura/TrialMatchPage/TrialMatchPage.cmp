@@ -11,7 +11,7 @@
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="trialmatchCTPs" type="List" />
-    <aura:attribute name="partid" type="Id" />
+    <aura:attribute name="partenrollid" type="Id" />
 
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />

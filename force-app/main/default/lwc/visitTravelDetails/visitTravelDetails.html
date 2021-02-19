@@ -33,10 +33,10 @@
             </template>
         </div>
     </div>
-
     <table style="margin-left: 14px; margin-top: 20px">
         <thead>
             <tr class="rectangle">
+                <th>{labels.bookingTitle}</th>
                 <th>{labels.bookingStatus}</th>
                 <th>{labels.bookingDate}</th>
                 <th>{labels.bookingTime}</th>
@@ -46,6 +46,7 @@
         <tbody>
             <template for:each={travelDetails} for:item="tw">
                 <tr key={tw.visitName}>
+                    <td>{tw.title}</td>
                     <td>{tw.status}</td>
                     <td>
                         <lightning-formatted-date-time
@@ -76,4 +77,7 @@
             </template>
         </tbody>
     </table>
+    <template if:true={noTravelInformation}>
+        <div class="no-travels-message">{labels.noTravelInfo}</div>
+    </template>
 </template>

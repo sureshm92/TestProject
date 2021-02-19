@@ -9265,6 +9265,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
+	<labels>
+        <fullName>No_Travel_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No_Travel_Information</shortDescription>
+        <value>No travel information available</value>
+    </labels>
     <labels>
         <fullName>No_active_studies</fullName>
         <language>en_US</language>
@@ -15744,11 +15751,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
 communications using the toggles below.</value>
     </labels>
 	 <labels>
+        <fullName>PP_Travel_Booking</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Travel_Booking</shortDescription>
+        <value>Booking</value>
+    </labels>
+	 <labels>
         <fullName>PP_Travel_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Travel_Date</shortDescription>
         <value>Date</value>
+    </labels>
+	 <labels>
+        <fullName>PP_Travel_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Travel_Status</shortDescription>
+        <value>Status</value>
     </labels>
     <labels>
         <fullName>PP_Travel_Support</fullName>
