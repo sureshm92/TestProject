@@ -95,7 +95,6 @@
                                    currentStudy="{!v.currentStudy}"
                                    currentPi="{!v.currentPi}"
                                    recordChanged="{!v.isRecordChanged}"
-                                   isRTL="{!v.isRTL}"
                                    />   
               </aura:set>
           </aura:if>
