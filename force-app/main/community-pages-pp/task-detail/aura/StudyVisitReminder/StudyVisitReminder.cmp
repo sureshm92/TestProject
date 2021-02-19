@@ -95,7 +95,7 @@
                                                  variant="label-hidden" value="{!v.initData.activityDate}"
                                                  disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                                  class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
-                                                 dateStyle="medium" required="true" onblur="{!c.doValidateFields}"/>
+                                                 dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
                             </div>
                         </div>
                         <div class="te-col-header" style="margin-top: 15px">
@@ -300,7 +300,7 @@
                                 <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
                                     <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Missed'}" min="{!v.initData.today}" required="true" class="container1" onblur="{!c.doValidateFields}"></lightning:input>
                                     <aura:set attribute="else">
-                                        <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="container1" onblur="{!c.doValidateFields}"></lightning:input>
+                                        <lightning:input type="datetime" variant="label-hidden" value="{!v.visitData.visitDate}" disabled="{!v.visitData.visitStatus == 'Completed'}" min="{!v.initData.today}" required="true" class="container1" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}" aura:id="field"></lightning:input>
                                     </aura:set>
                                 </aura:if>
                             </aura:set>

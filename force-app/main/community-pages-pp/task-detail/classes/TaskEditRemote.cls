@@ -76,6 +76,7 @@ public without sharing class TaskEditRemote {
                 ParticipantContext.getCurrentPE() != null &&
                 ParticipantContext.getCurrentPE().Clinical_Trial_Profile__r.Tasks_Are_Available__c;
             today = Datetime.now();
+                
         }
     }
     
@@ -301,7 +302,7 @@ public without sharing class TaskEditRemote {
              }
             Integer seconds = 0;
             Batch_SchedulePatientTaskReminder bsptr = new Batch_SchedulePatientTaskReminder();
-            String str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
+            String  str = seconds +' '+taskToUpsert.ReminderDateTime.minute()+ ' ' + taskToUpsert.ReminderDateTime.hour()+' '+taskToUpsert.ReminderDateTime.day()+ ' '+taskToUpsert.ReminderDateTime.month()+' '+ '?'+' '+taskToUpsert.ReminderDateTime.year();
             String randStr = generateRandomString(2);
             String jobID = system.schedule(taskToUpsert.Subject+randStr,str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;

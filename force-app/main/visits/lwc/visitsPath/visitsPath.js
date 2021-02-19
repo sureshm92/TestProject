@@ -9,6 +9,7 @@ import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import addLabel from '@salesforce/label/c.Add_Date';
 import incorrectData from '@salesforce/label/c.Incorrect_data';
+import reminderPastError from '@salesforce/label/c.PP_ReminderPastError';
 import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
@@ -34,6 +35,7 @@ import CustomDate from '@salesforce/label/c.PP_Custom';
 import reminderError from '@salesforce/label/c.PP_Reminder_Error_Message';
 import reminderUnderFlow from '@salesforce/label/c.PP_Reminder_Underflow';
 import reminderOverFlow from '@salesforce/label/c.PP_Reminder_Overflow';
+import reminderErrorUnderFlow from '@salesforce/label/c.PP_ReminderUnderFlowError';
 import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
@@ -79,7 +81,9 @@ export default class VisitsPath extends LightningElement {
         incorrectData,
         noDateSet,
         visitDateandTime,
-        remindMe
+        remindMe,
+        reminderErrorUnderFlow,
+        reminderPastError
     };
 
     initialized = false;
@@ -294,6 +298,7 @@ export default class VisitsPath extends LightningElement {
     }
 
     doValidateReminder(event) {
+        this.today = new Date(new Date() + 60 * 1000);
         if (event.target.value != 'Custom' || this.reminderOption != 'Custom') {
             var visitPlanDate = new Date(this.planDate);
             var reminderdate;
@@ -551,6 +556,10 @@ export default class VisitsPath extends LightningElement {
                 communityService.showErrorToast('', this.labels.remindUsingRequired, 3000);
                 return;
             }
+        }
+        if (new Date(this.planDate) < new Date() || new Date(this.reminderDate) < new Date()) {
+            communityService.showErrorToast('', this.labels.reminderPastError, 3000);
+            return;
         }
 
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
