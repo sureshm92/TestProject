@@ -17,6 +17,18 @@ public without sharing class TravelSupportRemote {
     }
 
     @AuraEnabled
+    public static Boolean getisTravelSupportEnabled(){
+        try{
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+            return state.isTravelSupportEnabled;
+
+        }catch( Exception e){
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+
+    @AuraEnabled
     public static List<TravelWrapper> getTravelVendors(
         String clientId,
         String clientSecret,
@@ -79,7 +91,8 @@ public without sharing class TravelSupportRemote {
                     new TravelWrapper(
                         travelBooking.departures,
                         travelBooking.visitname,
-                        travelBooking.status
+                        travelBooking.status,
+                        travelBooking.visitId
                     )
                 );
             if (travelBooking.accommodations != null)
@@ -87,7 +100,8 @@ public without sharing class TravelSupportRemote {
                     new TravelWrapper(
                         travelBooking.accommodations,
                         travelBooking.visitname,
-                        travelBooking.status
+                        travelBooking.status,
+                        travelBooking.visitId
                     )
                 );
             if (isHomePage && travelWrappers.size() == 5) {
@@ -98,7 +112,8 @@ public without sharing class TravelSupportRemote {
                         new TravelWrapper(
                             travelBooking.returns,
                             travelBooking.visitname,
-                            travelBooking.status
+                            travelBooking.status,
+                            travelBooking.visitId
                         )
                     );
             }
@@ -130,9 +145,9 @@ public without sharing class TravelSupportRemote {
         @AuraEnabled
         public Boolean isAccommodation = false;
 
-        public TravelWrapper(Object obj, String visitName, String status) {
+        public TravelWrapper(Object obj, String visitName, String status,String visitId) {
             this.visitName = visitName;
-            //this.visitId = departure.visitid;
+            this.visitId = visitid;
             if (status == '1') {
                 this.bgc = '#E20000';
                 this.style += '#E20000;';

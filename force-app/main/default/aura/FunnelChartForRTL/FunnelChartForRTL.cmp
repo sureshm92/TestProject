@@ -1,0 +1,37 @@
+<!--
+ - Created by Srinath E on 19-Feb-21.
+ - For RTL View 
+ -->
+<aura:component description="FunnelChartForRTL" controller="DashboardRemoteNew" extends="c:CommunityContext">
+    <ltng:require styles="{!$Resource.funnel_library_css}" />
+    <ltng:require styles="{!$Resource.funnel_library_theme_css}" />
+    <ltng:require scripts="{!$Resource.funnel_library_js}" />
+
+    <aura:attribute name="funnelData" type="Object" />
+    <aura:attribute name="currentPi" type="String" />
+    <aura:attribute name="currentStudy" type="String" />
+    <aura:attribute name="childLoad" type="String" />
+    <aura:attribute name="recordChanged" type="String" default="" access="public" />
+    <aura:attribute name="loaded" type="Boolean" default="false" />
+    <aura:attribute name="isRTL" type="Boolean" />
+
+    <!-- handler -->
+    <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
+    <aura:handler name="change" value="{!v.recordChanged}" action="{!c.recordChange}" />
+
+    <!-- component body -->
+    <div class="funnel-dashborad-container">
+        <div class="funnel-dashboard-name">
+            <div>{!$Label.c.Referral_Pathway_Label}</div>
+        </div>
+
+        <div class="exampleHolder" style="position: relative; padding: 0%; z-index: 1">
+            <aura:if isTrue="{! v.loaded }">
+                <lightning:spinner alternativeText="Loading" />
+            </aura:if>
+        </div>
+        <div class="flex">
+            <div aura:id="funnelContainer" class="funnel" ></div>
+        </div>
+    </div>
+</aura:component>

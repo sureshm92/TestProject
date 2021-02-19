@@ -17,13 +17,14 @@ private class Test_TrialMatchHelper {
             Matched_Date__c = Datetime.now().dateGmt(),
             Matching_Details__c = 'Sample Matching Details',
             Matching_Score__c = 77,
+            Is_User_notified__c = TRUE,
             Participant_Enrollment__c = testData.pe.id,
             Passed__c = false,
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'
         );
         insert tm;
         System.runAs(testData.participantUser) {
-            container = new TrialMatchHelper().getInitTrialMatchContainer(testData.participant.id);
+            container = new TrialMatchHelper().getInitTrialMatchContainer(testData.pe.id);
         }
         System.assertEquals(1, container.trialmatchctps.size());
     }
