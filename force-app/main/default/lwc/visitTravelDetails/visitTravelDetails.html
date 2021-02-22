@@ -13,18 +13,20 @@
                                 icon-name="utility:chevrondown"
                                 size="xx-small"
                                 class="slds-p-left_x-small"
-                            ></lightning-icon>
+                            >
+                            </lightning-icon>
                             <!--<c-web-icon color="blue" icon-name="icon-chevron-down"></c-web-icon>-->
                         </button>
                     </span>
                     <div class="dropdown-content">
-                        <p class="slds-float_left">
+                        <p>
                             <template for:each={vendors} for:item="vendor">
                                 <p class="sv-element" data-gtm="BTN_Link_Vendor" key={vendor.Name}>
                                     <lightning-formatted-url
                                         value={vendor.Link_Vendor__c}
                                         label={vendor.Name}
-                                    ></lightning-formatted-url>
+                                    >
+                                    </lightning-formatted-url>
                                 </p>
                             </template>
                         </p>

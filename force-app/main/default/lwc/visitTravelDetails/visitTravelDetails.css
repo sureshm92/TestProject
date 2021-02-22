@@ -2,6 +2,12 @@
     position: relative;
     display: inline-block;
 }
+.sv-element {
+    /* padding: 4px 10px;*/
+    margin-right: 120px;
+    padding-bottom: 4px;
+    white-space: nowrap;
+}
 
 .dropdown-content {
     display: none;

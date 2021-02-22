@@ -568,7 +568,7 @@ export default class VisitsPath extends LightningElement {
             }
         }
         if (new Date(this.planDate) < new Date() || new Date(this.reminderDate) < new Date()) {
-            communityService.showErrorToast('', this.labels.reminderPastError, 3000);
+            communityService.showErrorToast('', this.labels.reminderErrorUnderFlow, 3000);
             return;
         }
 
