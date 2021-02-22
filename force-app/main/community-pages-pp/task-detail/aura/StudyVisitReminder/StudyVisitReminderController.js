@@ -35,7 +35,7 @@
         var reminderDate = component.get('v.initData.reminderDate');
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
          if(new Date(dueDateOrplanDate) < new Date() || new Date(reminderDate) < new Date()){
-            communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderPastError'), 3000);
+            communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderUnderFlowError'), 3000);
             return;
         }
         if(task.Task_Type__c == 'Visit'){
