@@ -14,7 +14,7 @@
             return;           
        }
          var device = $A.get("$Browser.formFactor");
-         if(device=='PHONE'){
+         if(device=='PHONE' &&  resource.RecordType.DeveloperName=='Study_Document'){
         try{
          communityService.executeAction(component, 'getBase64Resource', {
           resourceId: resource.Id,
