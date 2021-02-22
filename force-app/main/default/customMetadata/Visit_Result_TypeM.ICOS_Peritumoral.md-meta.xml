@@ -1,18 +1,18 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-    <label>Inducible co-stimulator</label>
+    <label>ICOS(Peritumoral)</label>
     <protected>false</protected>
     <values>
         <field>Description_Label_Api_Name__c</field>
-        <value xsi:type="xsd:string">ICOS_Description</value>
+        <value xsi:type="xsd:string">ICOS_Description_Peritumoral</value>
     </values>
     <values>
         <field>Display_Order__c</field>
-        <value xsi:type="xsd:double">4.0</value>
+        <value xsi:type="xsd:double">5.0</value>
     </values>
     <values>
         <field>Visit_Result_Code__c</field>
-        <value xsi:type="xsd:string">ICOS</value>
+        <value xsi:type="xsd:string">ICOSP</value>
     </values>
     <values>
         <field>Visit_Result_Group__c</field>
@@ -20,7 +20,7 @@
     </values>
     <values>
         <field>Visit_Result_Label__c</field>
-        <value xsi:type="xsd:string">Inducible co-stimulator</value>
+        <value xsi:type="xsd:string">ICOS(Peritumoral)</value>
     </values>
     <values>
         <field>Visit_Result_Type__c</field>
