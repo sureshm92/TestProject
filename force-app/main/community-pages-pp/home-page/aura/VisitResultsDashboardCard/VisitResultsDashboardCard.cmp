@@ -66,8 +66,9 @@
                         <div class="{!if(v.isRTL, 'visit-results-itemRTL', 'visit-results-item')}">
                             <span class="visit-result-item-value"
                                 >{!visitResultWrapper.value == null ?
-                                v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Result_No_Data:'-':visitResultWrapper.recordtype
-                                =='Biomarker' ?visitResultWrapper.value==1.0
+                                v.visitReportHeader=='Biomarkers'?$Label.c.Visit_Result_No_Data:'-':and(visitResultWrapper.recordtype
+                                =='Biomarker', visitResultWrapper.isConversion)
+                                ?visitResultWrapper.value==1.0
                                 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0
                                 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span
                             >

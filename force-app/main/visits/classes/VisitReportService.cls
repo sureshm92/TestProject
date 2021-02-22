@@ -60,8 +60,11 @@ public inherited sharing class VisitReportService {
             Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = visitResultSharingServiceInt.getVisitResultTypeSharingMap(
                 pe.Clinical_Trial_Profile__c
             );
-            if(visitResultTypeSharingByType!=null && visitResultTypeSharingByType.values().size()>0){
-                TranslateHelper.translate(visitResultTypeSharingByType.values(),language);
+            if (
+                visitResultTypeSharingByType != null &&
+                visitResultTypeSharingByType.values().size() > 0
+            ) {
+                TranslateHelper.translate(visitResultTypeSharingByType.values(), language);
             }
             for (
                 Visit_Result_Type_Sharing__c objVisitResultType : visitResultTypeSharingByType.values()
@@ -284,13 +287,18 @@ public inherited sharing class VisitReportService {
                 VisitReportService.VISIT_RES_RECORD_TYPE_BIO
             )
         ) {
-            String biomarkerValue = '';
-            if (visitResult.Actual_Value__c == -1.0) {
-                biomarkerValue = System.Label.Biomarkers_Negative;
-            } else if (visitResult.Actual_Value__c == 1.0) {
-                biomarkerValue = System.Label.Biomarkers_Positive;
-            } else if (visitResult.Actual_Value__c == 0.0) {
-                biomarkerValue = System.Label.Biomarkers_Unknown;
+            String biomarkerValue = String.valueof(visitResult.Actual_Value__c);
+            if (
+                !String.isBlank(visitResult.Result_Type__c) &&
+                !visitResult.Result_Type__c.contains('ICOS')
+            ) {
+                if (visitResult.Actual_Value__c == -1.0) {
+                    biomarkerValue = System.Label.Biomarkers_Negative;
+                } else if (visitResult.Actual_Value__c == 1.0) {
+                    biomarkerValue = System.Label.Biomarkers_Positive;
+                } else if (visitResult.Actual_Value__c == 0.0) {
+                    biomarkerValue = System.Label.Biomarkers_Unknown;
+                }
             }
             reportRowWrappers.add(new VisitReportContainerRemote.VisitValueWrapper(biomarkerValue));
         } else {
