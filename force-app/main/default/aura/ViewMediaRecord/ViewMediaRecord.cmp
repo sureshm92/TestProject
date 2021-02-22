@@ -291,7 +291,7 @@ childpopup="true"
 </button>
 <aura:if isTrue="{!v.footerbutton}">
  <div class="slds-float_right">
-     <button
+     <button style="{!if(v.isRTL, 'margin-left: 15px;','')}"
              class="apollo-btn secondary"
              onclick="{!c.CancelRequest}"
              data-gtm="BTN_CancelInvitePopUp"
