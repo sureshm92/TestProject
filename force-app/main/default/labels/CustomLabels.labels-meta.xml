@@ -15653,7 +15653,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_ReminderUnderFlowError</shortDescription>
-        <value>Value cannot be less than current date and time.</value>
+        <value>Value should be greater than current date and time.</value>
     </labels>
     <labels>
         <fullName>PP_Reminder_Date</fullName>
