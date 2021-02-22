@@ -1,8 +1,8 @@
 <!--
- - Created by Srinath E on 19-Feb-21.
- - For RTL View 
+ - - Created by Srinath E on 19-Feb-21.
+ - For RTL View  
  -->
-<aura:component description="FunnelChartForRTL" controller="DashboardRemoteNew" extends="c:CommunityContext">
+ <aura:component description="FunnelChartForRTL" controller="DashboardRemoteNew" >
     <ltng:require styles="{!$Resource.funnel_library_css}" />
     <ltng:require styles="{!$Resource.funnel_library_theme_css}" />
     <ltng:require scripts="{!$Resource.funnel_library_js}" />
@@ -13,7 +13,7 @@
     <aura:attribute name="childLoad" type="String" />
     <aura:attribute name="recordChanged" type="String" default="" access="public" />
     <aura:attribute name="loaded" type="Boolean" default="false" />
-    <aura:attribute name="isRTL" type="Boolean" />
+    <aura:method name="RTLRendering" action="{!c.recordChange}" />
 
     <!-- handler -->
     <aura:handler name="change" value="{!v.childLoad}" action="{!c.recordChange}" />
