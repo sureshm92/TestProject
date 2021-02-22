@@ -59,7 +59,7 @@
                         );
                     }
                     component.set('v.task', task);
-                    if(component.get('v.initData.createdByAdmin') && $A.util.isUndefinedOrNull(component.get('v.initData.activityDate')) || !$A.util.isUndefinedOrNull(component.get('v.initData.reminderDate'))){
+                    if(component.get('v.initData.createdByAdmin')){
                         var reminderFrequencyForAdmintask = [
                             {
                                 label:$A.get('$Label.c.PP_Custom') ,value:'Custom'
@@ -67,7 +67,7 @@
                         ];
                         component.set('v.initData.reminderFrequencyList',reminderFrequencyForAdmintask);
                         if(!$A.util.isUndefinedOrNull(component.get('v.task'))){
-                           component.set('v.task.Remind_Me__c','Custom');
+                            component.set('v.task.Remind_Me__c','Custom');
                         }
                     }else{
                         component.set('v.task.Remind_Me__c',task.Remind_Me__c);
