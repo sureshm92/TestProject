@@ -90,10 +90,25 @@ fi
 
 # accepts one argument - the variable name with creds to the org.
 function login_to_org() {
-    echo "[INFO] Logging in to org for $1..."
+   
     #echo "${!1}" > authFile
-     echo "$INF70" > authFile
-    sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store
+    
+    #if [[ $flag == 'deploy' ]]; then
+    if expr "${flag}" : "deploy" >/dev/null; then
+    
+         echo "[INFO] Logging in to org for $1..."
+         #Removing dot from from branch name string
+         orgVariable=$(echo $1 | sed -e 's/\.//g') 
+         echo "${!orgVariable}" > authFile
+         sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store
+    elif expr "${flag}" : "validate" >/dev/null; then 
+       echo "[INFO] Logging in to org for Validation"
+       echo "$INF70" > authFile
+       sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store   
+    else
+       echo "[INFO] None of the condition met for validate or deploy"
+    fi
+     
     rm -rf authFile
     sfdx force:auth:list | grep TargetOrg || (echo "[ERROR] Not authorizd to Salesforce Org."; false )  # since sfdx 7.83 it's sfdx force:org:list
 }
@@ -304,7 +319,8 @@ function full_deploy_or_validation() {  # being done in 2 deployments due to amo
     echo -e "#\n[INFO] Deploying $text most types, EXCLUDING following types:\n$DIRS_TO_MOVE."
     generate_log_basename
     set -x
-    time sfdx force:source:deploy -u TargetOrg -p force-app $flag -w $TMOUT_VAL_FULL >> $LOG_BASENAME.sfdx.log 2>&1
+    #time sfdx force:source:deploy -u TargetOrg -p force-app $flag -w $TMOUT_VAL_FULL >> $LOG_BASENAME.sfdx.log 2>&1
+    time sfdx force:source:deploy -u TargetOrg -p force-app $flag -w $TMOUT_VAL_FULL 
     set +x
 
     echo "[INFO] modifying .forceignore for deployment from $TMP_PKG_DIR."
@@ -313,7 +329,8 @@ function full_deploy_or_validation() {  # being done in 2 deployments due to amo
     echo -e "#\n#\n#\n#\n#\n[INFO] Deploying $text only following types:\n$DIRS_TO_MOVE."
     generate_log_basename
     set -x
-    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" $flag -w $TMOUT_VAL_FULL >> $LOG_BASENAME.sfdx.log 2>&1
+    #time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" $flag -w $TMOUT_VAL_FULL >> $LOG_BASENAME.sfdx.log 2>&1
+    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" $flag -w $TMOUT_VAL_FULL
     set +x
 
     echo -e "#\n[INFO] done."
@@ -400,7 +417,8 @@ function deploy_without_testlevel() {  # Not yet tested
     copy_listed_and_associated_files_and_fill_RunSpecifiedTests_list
     generate_log_basename
     set -x
-    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -w $TMOUT_DPL_FULL >> $LOG_BASENAME.sfdx.log 2>&1 || RC=$?
+    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -w $TMOUT_DPL_FULL || RC=$?
+    #time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -w $TMOUT_DPL_FULL >> $LOG_BASENAME.sfdx.log 2>&1 || RC=$?
     set +x
 }
 
