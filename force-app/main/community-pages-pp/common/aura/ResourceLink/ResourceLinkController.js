@@ -13,6 +13,6 @@
 
     doNavigateDefault: function (component, event, helper) {
         const resourceWrapper = component.get('v.resourceWrapper');
-        helper.viewResource(resourceWrapper.resource, resourceWrapper.translations[0].languageCode);
+        helper.viewResource(component,resourceWrapper.resource, resourceWrapper.translations[0].languageCode);
     }
 });

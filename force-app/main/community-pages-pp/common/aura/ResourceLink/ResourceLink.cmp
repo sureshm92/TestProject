@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ResourceLink">
+<aura:component description="ResourceLink" controller="PdfViewerController" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="resourceWrapper" type="Object" />
 
