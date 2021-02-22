@@ -9,6 +9,13 @@
         component.set('v.piCTPPicklist', piData.piCTPPicklist);
         component.set('v.currentPi', piData.selectedPi);
         component.set('v.currentStudy', piData.selectedCTP);
+      
+      
+        setTimeout(function(){
+            var childComponent = component.find("funnelRTL");
+            var message = childComponent.RTLRendering();
+        }, 3000);
+
     },
 
     refreshDataOnStudyChange: function (component, event, helper) {

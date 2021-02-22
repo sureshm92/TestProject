@@ -1,7 +1,6 @@
 <!--
  - Created by Alexey Moseev.
  - Updated by Sumit/Sabir/Mari.
- - Updated by E Srinath for RTL.
  -->
 
  <aura:component description="DashboardPINew" controller="DashboardRemoteNew" extends="c:CommunityContext">
@@ -81,33 +80,29 @@
                                                 />
         </div>
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
-          <aura:if isTrue="{!v.isRTL}">
-			<c:FunnelChartForRTL
+            <aura:if isTrue="{!v.isRTL}" >
+                  
+                <c:FunnelChartForRTL aura:id="funnelRTL"
+                                     childLoad="{!v.currentStudy+v.currentPi}"
+                                     currentStudy="{!v.currentStudy}"
+                                     currentPi="{!v.currentPi}"
+                                     recordChanged="{!v.isRecordChanged}"
+                                   	
+                                     />
+              
+                <aura:set attribute="else">
+                   
+                     <c:FunnelChart
                                    childLoad="{!v.currentStudy+v.currentPi}"
                                    currentStudy="{!v.currentStudy}"
                                    currentPi="{!v.currentPi}"
                                    recordChanged="{!v.isRecordChanged}"
-                                   isRTL="{!v.isRTL}"
-                                   />
-              <aura:set attribute="else">
-               <c:FunnelChart
-                                   childLoad="{!v.currentStudy+v.currentPi}"
-                                   currentStudy="{!v.currentStudy}"
-                                   currentPi="{!v.currentPi}"
-                                   recordChanged="{!v.isRecordChanged}"
-                                   />   
-              </aura:set>
-          </aura:if>
-                    <c:FunnelChartForRTL
-                                   childLoad="{!v.currentStudy+v.currentPi}"
-                                   currentStudy="{!v.currentStudy}"
-                                   currentPi="{!v.currentPi}"
-                                   recordChanged="{!v.isRecordChanged}"
-                                   isRTL="{!v.isRTL}"
-                                   />
-                    
-                    
-            
+                                   
+                                   />  
+                </aura:set>
+            </aura:if>              
+                 
+                  
         </div>
         <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
             <div
