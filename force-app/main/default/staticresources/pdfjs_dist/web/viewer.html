@@ -38,6 +38,25 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 
     <script src="viewer.js"></script>
+    
+  <script>
+    if (window.addEventListener) {
+             window.addEventListener("message", handleMessage, false);
+    }else{
+     
+        window.attachEvent("onmessage", handleMessage);
+    }
+
+    function handleMessage(evt){
+      var raw = atob(evt.data);
+      var uint8Array = new Uint8Array(raw.length);
+      for (var i = 0; i < raw.length; i++) {
+        uint8Array[i] = raw.charCodeAt(i);
+      }
+      PDFViewerApplication.open(uint8Array);
+    }
+
+</script>
 
   </head>
 
