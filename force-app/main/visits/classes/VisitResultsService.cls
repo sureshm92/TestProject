@@ -156,6 +156,12 @@ public inherited sharing class VisitResultsService {
                         visitResultTypeDescriptionMap.get(selectedVisitGroup)
                     );
                 }
+                if(!String.isBlank(selectedVisitGroup) && selectedVisitGroup.contains('ICOS')){
+                    objVisitResultWrapper.isConversion=false;
+                }
+                else{
+                    objVisitResultWrapper.isConversion=true;
+                }
                 wrappers.add(objVisitResultWrapper);
             }
         }
@@ -401,6 +407,8 @@ public inherited sharing class VisitResultsService {
         public String visitDate;
         @AuraEnabled
         public Date dateVisited;
+        @AuraEnabled
+        public boolean isConversion;
 
         public VisitResultWrapper(Visit_Result__c visitResult, String name, String description) {
             this(visitResult, name, description, null);

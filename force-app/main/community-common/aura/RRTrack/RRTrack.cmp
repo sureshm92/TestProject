@@ -42,6 +42,5 @@
         class="visit-result-actual-value"
     >
         {!if(!v.value, v.wrapper.value + ' ' + v.wrapper.measurement, v.value)}
-        {!if(and(v.resultType=='Biomarkers',!v.value),$Label.c.Visit_Result_No_Data,'')}
     </div>
 </aura:component>
