@@ -15,6 +15,20 @@
             component.set('v.isReminderOnly', params.relaodAttributes.isReminderOnly);
         }
         helper.initialize(component, helper);
+         communityService.executeAction(
+            component,
+            'getisTravelSupportEnabled',
+            {
+            },
+            function (returnValue) {
+			component.set('v.isTravelSupportEnabled',returnValue);
+             console.log('ret-->'+returnValue);
+            },
+            null,
+            function () {
+            }
+        );
+
         //this.reRender = true;
         //Take scroll bar to top next time when the popup is displayed
         //if (!component.get('v.isReminderOnly')) {

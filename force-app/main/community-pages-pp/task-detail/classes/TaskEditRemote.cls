@@ -204,6 +204,18 @@ public without sharing class TaskEditRemote {
         }
     }
     
+     @AuraEnabled
+    public static Boolean getisTravelSupportEnabled(){
+        try{
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+            return state.isTravelSupportEnabled;
+
+        }catch( Exception e){
+            AuraHelper.throwException(e);
+        }
+        return null;
+    }
+    
     @AuraEnabled
     public static void updatePatientVisits(String visit){
          try {
