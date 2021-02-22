@@ -3087,6 +3087,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Are you sure you want to cancel the request?</value>
     </labels>
     <labels>
+        <fullName>Cancelled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Cancelled</shortDescription>
+        <value>Cancelled</value>
+    </labels>
+    <labels>
         <fullName>Case_Owner_Email_For_User_Lockout</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3115,20 +3122,6 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Closed_Requests</shortDescription>
         <value>Fulfilled,Cancelled</value>
-    </labels>
-    <labels>
-        <fullName>Fulfilled</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Fulfilled</shortDescription>
-        <value>Fulfilled</value>
-    </labels>
-    <labels>
-        <fullName>Cancelled</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Cancelled</shortDescription>
-        <value>Cancelled</value>
     </labels>
     <labels>
         <fullName>CommunityEmailLogo</fullName>
@@ -6924,6 +6917,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Powered by IQVIA © 2020. All rights reserved.</value>
     </labels>
     <labels>
+        <fullName>Fulfilled</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Fulfilled</shortDescription>
+        <value>Fulfilled</value>
+    </labels>
+    <labels>
         <fullName>GMap_Not_Available</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8003,6 +8003,34 @@ The expected format is REF##### to REF########</value>
         <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
     </labels>
     <labels>
+        <fullName>ICOS_Description_Intratumoral</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS Description Intratumoral</shortDescription>
+        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
+        <fullName>ICOS_Description_Peritumoral</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS Description Peritumoral</shortDescription>
+        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
+    </labels>
+    <labels>
+        <fullName>ICOS_Intratumoral</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS(Intratumoral)</shortDescription>
+        <value>ICOS(Intratumoral)</value>
+    </labels>
+    <labels>
+        <fullName>ICOS_Peritumoral</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ICOS(Peritumoral)</shortDescription>
+        <value>ICOS(Peritumoral)</value>
+    </labels>
+    <labels>
         <fullName>ID</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8148,7 +8176,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Last_Earned</shortDescription>
         <value>Last Earned:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>IncentiveProgram_Last_EarnedRTL</fullName>
         <categories>Incentive Program</categories>
         <language>en_US</language>
@@ -8244,7 +8272,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Total_Points</shortDescription>
         <value>Total:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>IncentiveProgram_TotalRTL</fullName>
         <categories>Incentive Program</categories>
         <language>en_US</language>
@@ -8260,7 +8288,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_Total_Points</shortDescription>
         <value>Total Points:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>IncentiveProgram_Total_PointsRTL</fullName>
         <categories>Incentive Program</categories>
         <language>en_US</language>
@@ -9265,7 +9293,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>No_Travel_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15341,7 +15369,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Customize search text</shortDescription>
         <value>Search</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Date_Unavailable</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15369,7 +15397,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Details</shortDescription>
         <value>Details</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_DueDateandTime</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15504,7 +15532,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Nickname</shortDescription>
         <value>Nickname</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_NoDateSet</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15641,7 +15669,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Remind_Using_SMS</shortDescription>
         <value>SMS</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_ReminderPastError</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15699,7 +15727,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP_Save_Changes</shortDescription>
         <value>Save Changes</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Scheduled</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15735,7 +15763,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PP Task Success Toast</shortDescription>
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Time_Unavailable</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15750,21 +15778,21 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent. Additionally you can choose to receive optional
 communications using the toggles below.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Travel_Booking</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Travel_Booking</shortDescription>
         <value>Booking</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Travel_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Travel_Date</shortDescription>
         <value>Date</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_Travel_Status</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15813,7 +15841,7 @@ communications using the toggles below.</value>
         <shortDescription>PP_Valid_Phone</shortDescription>
         <value>Please enter a valid mobile number.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PP_VisitReminder_Overflow</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15827,7 +15855,7 @@ communications using the toggles below.</value>
         <shortDescription>PP_Visit_Date</shortDescription>
         <value>Visit Date</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PP_Visit_DateTime</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18466,19 +18494,19 @@ communications using the toggles below.</value>
         <value>Variable</value>
     </labels>
     <labels>
+        <fullName>Study_Document_For_RTL</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Document For RTL</shortDescription>
+        <value>Study Document</value>
+    </labels>
+    <labels>
         <fullName>Study_Name</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Study Name</shortDescription>
         <value>Study Name</value>
-    </labels>
-    <labels>
-        <fullName>Study_Document_For_RTL</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Study Document For RTL</shortDescription>
-        <value>Study Document</value>
     </labels>
     <labels>
         <fullName>Study_Site</fullName>
