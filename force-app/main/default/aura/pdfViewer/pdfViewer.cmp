@@ -25,7 +25,7 @@
     <a href="javascript:void(0)" onclick="{!c.doSomething}">
             Click me to do Something 
 </a> -->
-    <iframe aura:id="pdfFrame" id="pp" src="/resource/lcins1_pdfjs/web/viewer.html" style="
+    <iframe aura:id="pdfFrame" id="pp" src="/resource/pdfjs_dist/web/viewer.html" style="
     height: 600px;
 " class="{!v.blr+'  pdfFrame'}" onload="{!c.loadpdf}"> </iframe>
   

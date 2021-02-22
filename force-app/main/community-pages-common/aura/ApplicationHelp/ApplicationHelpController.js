@@ -64,8 +64,7 @@
             return;
         }
         var userManual = component.get('v.userManual');
-     //   var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-     var webViewer = $A.get('$Resource.lcins1_pdfjs') + '/web/viewer.html';
+        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
         window.open(webViewer + '?file=' + $A.get('$Resource.' + userManual), '_blank');
     },
 
