@@ -9,6 +9,7 @@
     <aura:attribute name="title" type="String" />
     <aura:attribute name="visitId" type="String" />
     <aura:attribute name="taskId" type="String" />
+    <aura:attribute name="isTravelSupportEnabled" type="Boolean" default="false"/>
     <aura:attribute name="taskType" type="String" description="Visit; Medication; Not Selected; Survey" />
     <aura:attribute name="visitData" type="Object" description="Wrapper from c:StudyVisits" />
     <aura:attribute name="taskData" type="Object" description="Wrapper from c:TasksTab" />
@@ -352,6 +353,11 @@
                                          onchange="{!c.setAttributeValue}"  class="mr_10" onblur="{!c.doValidateFields}"/>
                     </div>
                 </div>
+                    <aura:if isTrue="{!v.isTravelSupportEnabled}">
+                     <div style="margin-left:-20px;">
+                      <c:visitTravelDetails vname="{!v.visitData.visit.Name}" vnum="{!v.visitData.visit.Visit_Number__c}"></c:visitTravelDetails>
+                        </div>   
+                    </aura:if>
                     </div>
             </aura:if>
         </aura:if>
