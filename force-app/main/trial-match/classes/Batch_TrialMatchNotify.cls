@@ -14,7 +14,10 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
                 	Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c,
                     Participant_Enrollment__r.Participant_Contact__c
                 FROM Trial_Match__c
-                WHERE Is_Eligible__c = TRUE AND Is_User_notified__c = FALSE AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Trial_Match_Is_Available__c = TRUE
+                WHERE Is_Eligible__c = TRUE AND Is_User_notified__c = FALSE AND 
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.Trial_Match_Is_Available__c = TRUE AND
+                (Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling' OR 
+                 Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'On Hold')
             ]
         );
     }
