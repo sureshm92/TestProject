@@ -113,6 +113,12 @@
     cursor: pointer;
     color: blue;
 }
+.THIS .custom-file-uploadRTL {
+    display: inline-block;
+    padding: 6px 17px 0px 0px;
+    cursor: pointer;
+    color: blue;
+}
 
 .THIS .hideInput {
     position: absolute !important;
@@ -139,6 +145,16 @@
     font-family: 'Proxima Nova';
     font-size: 17px;
     margin-left: 18px;
+    max-width: 76%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+.THIS .usernameRTL {
+    height: 20px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 17px;
+    margin-right: 18px;
     max-width: 76%;
     overflow: hidden;
     text-overflow: ellipsis;
@@ -226,6 +242,10 @@
 
 .THIS .photo-label {
     text-align: left;
+    width: 100%;
+}
+.THIS .photo-labelRTL {
+    text-align: right;
     width: 100%;
 }
 .THIS .photo-label-rtl {
