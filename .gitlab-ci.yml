@@ -227,7 +227,7 @@ FullDeploy:
       - schedules
       - web
     variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
   except:
       - merge_requests
   stage: Deploy
@@ -239,7 +239,7 @@ DeltaDeploy:
     refs:
       - pushes
     variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
   except:
       - merge_requests
   stage: Deploy
