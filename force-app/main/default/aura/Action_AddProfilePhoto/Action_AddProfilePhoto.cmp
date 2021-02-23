@@ -13,6 +13,7 @@
 <aura:component
     controller="ProfilePictureController"
     implements="flexipage:availableForAllPageTypes,force:hasRecordId,forceCommunity:availableForAllPageTypes"
+    extends="c:CommunityContext"
 >
     <!-- Id of the Record the page hosting this component is showing -->
     <aura:attribute name="recordId" type="Id" />
@@ -52,10 +53,10 @@
             </aura:if>
         </div>
 
-        <div class="{!v.isRTLLanguage?'photo-label-rtl':'photo-label'}">
-            <p class="username">{!v.username}</p>
+        <div class="{!v.isRTL? 'photo-labelRTL':'photo-label'}">
+            <p class="{!v.isRTL? 'usernameRTL':'username'}">{!v.username}</p>
             <aura:if isTrue="{!!v.isDelegate}">
-                <label for="file-upload" class="custom-file-upload">
+                <label for="file-upload" class="{!v.isRTL? 'custom-file-uploadRTL':'custom-file-upload'}">
                     <aura:if isTrue="{!v.hasProfilePic}">
                         <span class="profileLabel"> {!$Label.c.PP_AddProfilePhoto}</span>
 

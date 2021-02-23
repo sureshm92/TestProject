@@ -1,4 +1,4 @@
-<aura:component controller="SubscribeToReferralNetworkRemote">
+<aura:component controller="SubscribeToReferralNetworkRemote" extends="c:CommunityContext">
     <aura:attribute name="sObjectType" type="String" access="public" />
     <aura:attribute name="showmenu" type="boolean" access="public" default="false" />
     <aura:attribute name="displayedRefNetworks" type="List" access="public" />
@@ -13,7 +13,7 @@
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div aura:id="referral" onmouseleave="{!c.closeSearch}">
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="{!v.showSpinner}" fixed="true" />
-        <div class="alert-count-condition1">{!v.header}</div>
+        <div class="{!v.isRTL? 'alert-count-condition1RTL':'alert-count-condition1'}">{!v.header}</div>
         <lightning:input
             onchange="{!c.bulkSearch}"
             onclick="{!c.bulkSearch}"
