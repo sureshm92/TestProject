@@ -48,7 +48,7 @@
         var isTaskTab = component.get('v.isTaskTab') == true;
         var reminderDate = component.get('v.initData.reminderDate');
         var dueDateOrplanDate = !isTaskTab?component.get('v.visitData.visitDate'):component.get('v.initData.activityDate');
-         if(new Date(dueDateOrplanDate) < new Date() || new Date(reminderDate) < new Date()){
+         if(new Date(dueDateOrplanDate) < new Date()){
             communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderUnderFlowError'), 3000);
             return;
         }
@@ -83,7 +83,14 @@
         var smsPeferenceSelected = component.get('v.task.Remind_Using_SMS__c');
         var emailOptIn = component.get('v.emailOptIn');
         var smsOptIn = component.get('v.smsOptIn');
-        var reminderOption = component.get('v.task.Remind_Me__c');
+        var reminderOption = component.get('v.task.Remind_Me__c'); 
+        if(reminderOption === 'Custom'){
+            if(new Date(reminderDate) < new Date()){
+            communityService.showErrorToast('', $A.get('$Label.c.PP_ReminderUnderFlowError'), 3000);
+            return;
+ 
+            }
+        }
         if (!task.Subject) {
             communityService.showErrorToast('', $A.get('$Label.c.Empty_TaskName'), 3000);
             return;

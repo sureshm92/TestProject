@@ -179,11 +179,12 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
             upsert taskToUpsert;
-            String cronTriggerId;
+            String cronTriggerId;String cronTriggerIdExpired;
             if(taskToUpsert.Id != null){
-               Task[] tsk =  [Select Id,CronTriggerId__c,Is_Reminder_Sent__c from Task where Id =: taskToUpsert.Id];
+               Task[] tsk =  [Select Id,CronTriggerId__c,Is_Reminder_Sent__c,CronTriggerIdExpired__c from Task where Id =: taskToUpsert.Id];
                 if(tsk.size() >0){
                     cronTriggerId = tsk[0].CronTriggerId__c;
+                    cronTriggerIdExpired = tsk[0].CronTriggerIdExpired__c;
                 }
             }
             if(taskToUpsert.ReminderDateTime != null){
@@ -197,6 +198,19 @@ public without sharing class TaskEditRemote {
             String jobID = system.schedule(removeSpace(taskToUpsert.Subject)+randStr,str, bsptr);
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
+            update taskToUpsert;
+            }
+            if(taskToUpsert.Activity_Datetime__c != null){
+            if(!String.isEmpty(cronTriggerIdExpired)){
+              System.abortJob(cronTriggerIdExpired);
+             } 
+            Integer expireSeconds = 0;
+            Batch_SchedulePatientTaskExpire bspte = new Batch_SchedulePatientTaskExpire();
+            String cronstr = expireSeconds +' '+taskToUpsert.Activity_Datetime__c.minute()+ ' ' + taskToUpsert.Activity_Datetime__c.hour()+' '+taskToUpsert.Activity_Datetime__c.day()+ ' '+taskToUpsert.Activity_Datetime__c.month()+' '+ '?'+' '+taskToUpsert.Activity_Datetime__c.year();
+            String randStrexpiry = generateRandomString(2);
+            String expiryjobID = system.schedule(removeSpace(taskToUpsert.Subject)+randStrexpiry,cronstr, bspte);
+            taskToUpsert.CronTriggerIdExpired__c = expiryjobID;
+            taskToUpsert.Status = 'Open';
             update taskToUpsert;
             }
         } catch (Exception e) {
