@@ -105,6 +105,7 @@ export default class VisitsPath extends LightningElement {
         Planned_Date__c: null,
         Status__c: 'Scheduled'
     };
+    @track sdhVisitName;
     @track today;
     @track emailOpted;
     @track smsOpted;
@@ -257,6 +258,7 @@ export default class VisitsPath extends LightningElement {
                     visitName: this.patientVisits[i].Portal_Name__c
                         ? this.patientVisits[i].Portal_Name__c
                         : this.patientVisits[i].Name,
+                    sdhName: this.patientVisits[i].Name,
                     isPending: !isCompleted && !isMissed,
                     icon: isMissed ? iconMissed : iconCalendar,
                     complDate: isCompleted ? this.patientVisits[i].Completed_Date__c : null,
@@ -382,6 +384,7 @@ export default class VisitsPath extends LightningElement {
         //this.patientVisitName = event.currentTarget.dataset.name;
         this.patientVisitName = event.currentTarget.dataset.name;
         this.visitTitle = event.currentTarget.dataset.title;
+        this.sdhVisitName = event.currentTarget.dataset.sdhname;
         this.completedDate = event.currentTarget.dataset.completeddate;
         console.log('completedDate-->' + this.completedDate);
         console.log('visiTitle-->' + this.visitTitle);
@@ -567,9 +570,16 @@ export default class VisitsPath extends LightningElement {
                 return;
             }
         }
-        if (new Date(this.planDate) < new Date() || new Date(this.reminderDate) < new Date()) {
+        if (new Date(this.planDate) < new Date()) {
             communityService.showErrorToast('', this.labels.reminderErrorUnderFlow, 3000);
             return;
+        }
+        if (this.reminderOption == 'Custom') {
+            if (new Date(this.reminderDate) < new Date()) {
+                communityService.showErrorToast('', this.labels.reminderErrorUnderFlow, 3000);
+                return;
+            }
+
         }
 
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;

@@ -51,6 +51,7 @@
                                                 onclick={handleOpenDialog}
                                                 data-id={pathItem.id}
                                                 data-name={pathItem.visitName}
+                                                data-sdhname={pathItem.sdhName}
                                                 data-title={pathItem.headerTitle}
                                                 data-completeddate={pathItem.complDate}
                                                 >{pathItem.visitName}</a
@@ -324,7 +325,7 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
                                 </c-visit-travel-details>
                             </div>
                         </template>
@@ -650,7 +651,7 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={patientVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
                                 </c-visit-travel-details>
                             </div>
                         </template>
