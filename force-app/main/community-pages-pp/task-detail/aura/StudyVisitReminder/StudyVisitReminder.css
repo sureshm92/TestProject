@@ -84,12 +84,17 @@
     margin-top: -28px;
 }
 
+.THIS .containerAdmin {
+    height: 40px;
+    width: 209px;
+}
+
 .THIS .container {
     height: 40px;
     width: 209px;
 }
 .THIS .reminderDate {
-    margin-left: -113px;
+    margin-left: -99px;
     margin-top: 5px;
 }
 .THIS .reminder {

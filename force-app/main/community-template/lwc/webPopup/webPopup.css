@@ -158,8 +158,8 @@
 @media all and (min-width: 768px) {
     .p-container.medium {
         /*width: 600px;*/
-       /* height: 693px;*/
-        width: 668px;
+        /* height: 693px;*/
+        width: 700px;
         overflow: hidden;
     }
 }
