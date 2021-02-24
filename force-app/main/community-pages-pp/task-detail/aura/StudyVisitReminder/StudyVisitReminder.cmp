@@ -88,16 +88,32 @@
                             <!-- Due Date -->
                             <div
                                  class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
-                                <div class="label">{!$Label.c.PP_DueDateandTime}
+                                <div class="label"><aura:if isTrue="{!v.initData.createdByAdmin}">
+                                    {!$Label.c.Due_Date}
+                                    <aura:set attribute="else">
+                                    {!$Label.c.PP_DueDateandTime}
+                                    </aura:set>
+                                    </aura:if>
                                     <abbr title="required" class="slds-required">*</abbr
                                         >
                                 </div>
-                                <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
+                                <aura:if isTrue="{!v.initData.createdByAdmin}">
+                                 <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                                                 variant="label-hidden" value="{!v.initData.activityDate}"
+                                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit containerAdmin' : 'containerAdmin'}"
+                                                 dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
+                              <aura:set attribute="else">
+                                     <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
                                                  variant="label-hidden" value="{!v.initData.activityDate}"
                                                  disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                                  class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
                                                  dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
-                            </div>
+           
+                                    </aura:set>
+                                
+                                </aura:if>
+                                                </div>
                         </div>
                         <div class="te-col-header" style="margin-top: 15px">
                             <b> {!$Label.c.Task_Reminder_Details}</b>
