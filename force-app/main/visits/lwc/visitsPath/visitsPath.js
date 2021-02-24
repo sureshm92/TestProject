@@ -3,7 +3,7 @@
  */
 
 import { LightningElement, track, api } from 'lwc';
-//import lwcStyleResource from '@salesforce/resourceUrl/lwcCss';
+import lwcStyleResource from '@salesforce/resourceUrl/lwcCss';
 import { loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -166,14 +166,13 @@ export default class VisitsPath extends LightningElement {
     connectedCallback() {
         let context = this;
         context.showTravelSupportDetails = false;
-        /* Promise.all([
-            loadStyle(this, lwcStyleResource)
-        ]).then(() => {
-            console.log('Files loaded.');
-        })
-            .catch(error => {
+        Promise.all([loadStyle(this, lwcStyleResource)])
+            .then(() => {
+                console.log('Files loaded.');
+            })
+            .catch((error) => {
                 console.log(error.body.message);
-            });*/
+            });
         getisRTL()
             .then(function (data) {
                 context.isRTL = data;
