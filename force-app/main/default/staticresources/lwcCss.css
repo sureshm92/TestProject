@@ -1,0 +1,53 @@
+/*.slds-input.slds-combobox__input{
+     color: #000000 !important;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 40px !important;
+    display: inline-flex;
+    align-items: center;
+    font-weight:600 !important;
+}
+.slds-select , .slds-input {
+    color: #000000 !important;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 40px !important;
+    display: inline-flex;
+    align-items: center;
+    font-weight:600 !important;
+}*/
+.slds-input {
+    color: #000000 !important;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 40px !important;
+    display: inline-flex;
+    align-items: center;
+    font-weight:500 !important;
+}
+.slds-form-element__help, .slds-form-element__helper {
+    display: block;
+    white-space: nowrap;
+    
+}
+.slds-datepicker table {
+    table-layout: fixed !important;
+    width:300px !important;
+}
+ 
+.slds-datepicker{
+    max-width : none !important; 
+    position:fixed !important;
+}
+
+
+/*.slds-dropdown{
+    position:fixed !important;
+}*/
+
