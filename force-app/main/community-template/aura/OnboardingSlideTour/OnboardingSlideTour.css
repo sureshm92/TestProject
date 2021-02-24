@@ -93,6 +93,10 @@
     margin: 15px 0 25px;
     text-align: right;
 }
+.THIS .tour-btn-groupRTL {
+    margin: 15px 0 25px;
+    text-align: left;
+}
 
 .THIS .ti-width-limiter {
     width: 100%;

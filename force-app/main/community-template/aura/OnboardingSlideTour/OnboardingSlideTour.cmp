@@ -118,7 +118,7 @@
                             />
                         </div>
                     </div>
-                    <div class="tour-btn-group">
+                    <div class="{!v.isRTL? 'tour-btn-groupRTL':'tour-btn-group'}" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
                         <button
                             class="apollo-btn tertiary"
                             style="{!if(v.isRTL , 'margin-left: 16px;', '')}"
