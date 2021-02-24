@@ -198,13 +198,20 @@
                                     <!--  <lightning:formattedText
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
                                 />-->
-                                    <lightning:formattedDateTime
+                                    <aura:if isTrue="{!v.initData.activityDate}">
+                                         <lightning:formattedDateTime
                                                                  value="{!v.initData.activityDate}"
                                                                  year="numeric"
                                                                  month="short"
                                                                  day="2-digit"
                                                                  timeZone="UTC"
                                                                  />
+                                        <aura:set attribute="else">
+                                          {!$Label.c.PP_Date_Unavailable}
+
+                                       </aura:set>
+                                    </aura:if>
+                                   
                                 </b>
                             </div>
                         </div>
