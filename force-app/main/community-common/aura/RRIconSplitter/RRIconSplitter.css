@@ -43,3 +43,23 @@
     flex-shrink: 0;
     width: 32px;
 }
+.THIS .icon .tooltiptext {
+    visibility: hidden;
+    background-color: black;
+    color: #fff;
+    border-radius: 6px;
+    padding: 5px 0;
+
+    /* Position the tooltip */
+    position: absolute;
+    top: 50%;
+    z-index: 1;
+    left: 0;
+    right: 0;
+    width: 1200px;
+    overflow: visible;
+    font-size: 5px;
+}
+.THIS .icon:hover .tooltiptext {
+    visibility: visible;
+}
