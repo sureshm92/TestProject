@@ -157,7 +157,7 @@ SonarCheck:
       if [[ ! -s $FILENAME_AM_STR ]]; then
         echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
       elif  [[ $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ ^FORMAL ]]; then
-            bash -x scripts/ci/sfdx.wrapper.sh validate_RunAllTestsInOrg "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+            bash -x scripts/ci/sfdx.wrapper.sh validate_RunLocalTests "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
       else
         #echo "[INFO] Please see logs in artifact validate.sfdx.log."
            set -x

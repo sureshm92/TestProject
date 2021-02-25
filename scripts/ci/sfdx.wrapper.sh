@@ -387,8 +387,9 @@ function validate_RunLocalTests() {
     copy_listed_and_associated_files_and_fill_RunSpecifiedTests_list
     generate_log_basename
     set -x
-    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -c -w $TMOUT_VAL_LOCAL \
-        --testlevel RunLocalTests >> $LOG_BASENAME.sfdx.log 2>&1 || RC=$?
+    #time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -c -w $TMOUT_VAL_LOCAL \
+    #    --testlevel RunLocalTests >> $LOG_BASENAME.sfdx.log 2>&1 || RC=$?
+    time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -c -w $TMOUT_VAL_LOCAL --testlevel RunLocalTests
     set +x
 }
 
