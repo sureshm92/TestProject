@@ -9,6 +9,14 @@
     height: 40px;
     width: 81px;
 }
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 80%;
+}
 
 .THIS .csubmit {
     height: 40px;
