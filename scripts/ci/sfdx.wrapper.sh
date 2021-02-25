@@ -391,14 +391,14 @@ function validate_RunLocalTests() {
     set +x
 }
 
-# function validate_RunAllTestsInOrg() {
-#     echo "[DEBUG] ==== ${FUNCNAME[0]} ===="
-#     copy_listed_and_associated_files_and_fill_RunSpecifiedTests_list
-#     set -x
-#     time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -c -w $TMOUT_VAL_ALL_ORG \
-#         --testlevel RunAllTestsInOrg
-#     set +x
-# }
+ function validate_RunAllTestsInOrg() {
+     echo "[DEBUG] ==== ${FUNCNAME[0]} ===="
+     copy_listed_and_associated_files_and_fill_RunSpecifiedTests_list
+     set -x
+     time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -c -w $TMOUT_VAL_ALL_ORG \
+         --testlevel RunAllTestsInOrg
+     set +x
+ }
 
 # DEPLOYMENT FUNCTIONS
 # full deployment is being done in function full_deploy_or_validation

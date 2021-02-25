@@ -156,9 +156,11 @@ SonarCheck:
 
       if [[ ! -s $FILENAME_AM_STR ]]; then
         echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
+      elif  [[ $CI_COMMIT_REF_NAME =~ ^FORMAL ]]; then
+            bash -x scripts/ci/sfdx.wrapper.sh validate_RunAllTestsInOrg "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
       else
-        echo "[INFO] Please see logs in artifact validate.sfdx.log."
-        set -x
+        #echo "[INFO] Please see logs in artifact validate.sfdx.log."
+           set -x
            chmod 777 ./scripts/ci/sfdx.wrapper.sh
    
           bash -x scripts/ci/sfdx.wrapper.sh validate_RunSpecifiedTests "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
@@ -192,7 +194,9 @@ SonarCheck:
         if [[ $CI_PIPELINE_SOURCE == @(schedule|web) ]]; then
              echo "[INFO] Running full deployment if pipeline was started by schedule or 'Run' button on web interface."
              bash -x scripts/ci/sfdx.wrapper.sh deploy_full "$CI_COMMIT_REF_NAME"
-        else 
+        elif  [[ $CI_COMMIT_REF_NAME =~ ^FORMAL ]]; then
+            bash -x scripts/ci/sfdx.wrapper.sh deploy_full "$CI_COMMIT_REF_NAME"
+        else
            populate_file_list $CI_COMMIT_BEFORE_SHA HEAD 
            if [[ ! -s $FILENAME_AM_STR ]]; then
                echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
