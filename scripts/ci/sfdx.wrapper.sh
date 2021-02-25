@@ -106,7 +106,8 @@ function login_to_org() {
        echo "$INF70" > authFile
        sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store   
     else
-       echo "[INFO] None of the condition met for validate or deploy"
+      echo "[ERROR] No Org Credentials Found"
+      exit 1
     fi
      
     rm -rf authFile
