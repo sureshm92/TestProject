@@ -17600,6 +17600,14 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
+     <labels>
+        <fullName>RH_Export_Error</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No record found for Export</shortDescription>
+        <value>No record found for Export</value>
+    </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
         <language>en_US</language>

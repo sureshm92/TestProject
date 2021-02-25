@@ -124,7 +124,7 @@ public inherited sharing class PatientVisitService {
         }
         if (visitPlanId != null) {
             iconDetails = [
-                SELECT Id, Name, Label__c
+                SELECT Id, Name, Label__c,Description__c
                 FROM Icon_Details__c
                 WHERE Visit_Plan__c = :visitPlanId
             ];
@@ -176,7 +176,7 @@ public inherited sharing class PatientVisitService {
         }
         if (visitPlanId != null) {
             iconDetails = [
-                SELECT Id, Name, Label__c
+                SELECT Id, Name, Label__c,Description__c
                 FROM Icon_Details__c
                 WHERE Visit_Plan__c = :visitPlanId
             ];
