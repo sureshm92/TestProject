@@ -88,16 +88,32 @@
                             <!-- Due Date -->
                             <div
                                  class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}">
-                                <div class="label">{!$Label.c.PP_DueDateandTime}
+                                <div class="label"><aura:if isTrue="{!v.initData.createdByAdmin}">
+                                    {!$Label.c.Due_Date}
+                                    <aura:set attribute="else">
+                                    {!$Label.c.PP_DueDateandTime}
+                                    </aura:set>
+                                    </aura:if>
                                     <abbr title="required" class="slds-required">*</abbr
                                         >
                                 </div>
-                                <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
+                                <aura:if isTrue="{!v.initData.createdByAdmin}">
+                                 <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
+                                                 variant="label-hidden" value="{!v.initData.activityDate}"
+                                                 disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
+                                                 class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit containerAdmin' : 'containerAdmin'}"
+                                                 dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
+                              <aura:set attribute="else">
+                                     <lightning:input aura:id="field" type="datetime" min="{!v.initData.today}"
                                                  variant="label-hidden" value="{!v.initData.activityDate}"
                                                  disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                                  class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit container1' : 'container1'}"
                                                  dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
-                            </div>
+           
+                                    </aura:set>
+                                
+                                </aura:if>
+                                                </div>
                         </div>
                         <div class="te-col-header" style="margin-top: 15px">
                             <b> {!$Label.c.Task_Reminder_Details}</b>
@@ -116,9 +132,7 @@
                                                     options="{!v.initData.reminderFrequencyList}" class="wi"/>
                             </div>
                             <!--Reminder Date-->
-                           
-                        </div>
-                         <div class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign', '')}">
+                             <div class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign', ' reminderDate')}">
                                 <!--{!$Label.c.Home_Page_StudyVisit_Completed_On}-->
                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">{!$Label.c.PP_Reminder_Date}<abbr title="required" class="slds-required">*</abbr
@@ -131,7 +145,10 @@
                                                      messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" onblur="{!c.doValidateFields}" required="true" class="container1"/>
                                 </aura:if>
                             </div>
-                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':''}"></div>
+
+                           
+                        </div>
+                                                <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':''}"></div>
                         <div class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}">
                             <div class="slds-grid te-form slds-gutters slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
@@ -198,13 +215,19 @@
                                     <!--  <lightning:formattedText
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
                                 />-->
-                                    <lightning:formattedDateTime
+                                    <aura:if isTrue="{!v.initData.activityDate}">
+                                         <lightning:formattedDateTime
                                                                  value="{!v.initData.activityDate}"
                                                                  year="numeric"
                                                                  month="short"
                                                                  day="2-digit"
                                                                  timeZone="UTC"
                                                                  />
+                                        <aura:set attribute="else">
+                                          {!$Label.c.PP_Date_Unavailable}
+                                       </aura:set>
+                                    </aura:if>
+                                   
                                 </b>
                             </div>
                         </div>
@@ -213,7 +236,7 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div
-                                 class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                 class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
                                  >
                                 <lightning:combobox aura:id="taskReminderOption1"  label="{!$Label.c.Remind_Me}"
                                                     placeholder="Select"
@@ -221,7 +244,8 @@
                                                     onchange="{!c.doValidateFields}"
                                                     options="{!v.initData.reminderFrequencyList}" class="wi"/>
                                 <div class="{!(v.task.Remind_Me__c == 'Custom')?'slds-p-top_small':''}"></div>
-                                
+                            </div>
+                                                            <div class="slds-col slds-size_1-of-2 reminderDate">
                                  <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">{!$Label.c.PP_Reminder_Date} <abbr title="required" class="slds-required">*</abbr
                                         ></div>
@@ -232,8 +256,8 @@
                                                      messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                                      messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" class="container1" onblur="{!c.doValidateFields}" required="true"/>
                                 </aura:if>
+                                </div>
 
-                            </div>
                             <!--Reminder Date-->
                             
                         </div>
@@ -317,9 +341,7 @@
                                             disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}" 
                                             options="{!v.initData.reminderFrequencyList}" class="wi"/>                
                     </div>
-                    
-                </div>
-                    <div class="slds-p-top_x-small">
+                     <div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
                         <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                             <div class="label">{!$Label.c.PP_Reminder_Date}<abbr title="required" class="slds-required">*</abbr
                                 ></div>
@@ -330,6 +352,9 @@
                                              messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}" dateStyle="medium" min="{!v.initData.today}" onblur="{!c.doValidateFields}" required="true" class="container1"/>
                         </aura:if>
                     </div>
+                    
+                </div>
+                   
                 <div class="slds-grid slds-p-top_x-small">
                      <div class="slds-p-top_large"></div>
                         <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}">{!$Label.c.PP_Remind_Using}
