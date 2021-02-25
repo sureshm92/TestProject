@@ -154,14 +154,15 @@
                 </div>
                 <div class="slds-col slds-grid slds-size_1-of-1">
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <aura:if isTrue="{!v.isRTL}">
-                                <div class="label slds-text-align_right">
+                        <div class="rr-form-element rightAlign">
+                         
+                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
                                     {!$Label.c.Requested_Start_Date}<abbr
                                                                           title="required"
                                                                           class="slds-required"
                                                                           ></abbr>
                                 </div>
+                                 <div class="rr-form-element rightAlign">
                                 <lightning:input
                                                  type="date"
                                                  value="{!v.startdt}"
@@ -170,25 +171,8 @@
                                                  onchange="{!c.startdateController}"
                                                  dateStyle="medium"
                                                  />
-                                <aura:set attribute="else">
-                                    <div class="label slds-text-align_left">
-                                        {!$Label.c.Requested_Start_Date}<abbr
-                                                                              title="required"
-                                                                              class="slds-required"
-                                                                              ></abbr>
-                                    </div>
-                                    <lightning:input
-                                                     type="date"
-                                                     value="{!v.startdt}"
-                                                     aura:id="startdtId"
-                                                     placeholder="{!$Label.c.Select}"
-                                                     onchange="{!c.startdateController}"
-                                                     dateStyle="medium"
-                                                     />
-                                </aura:set>
-                            </aura:if>
-                            
-                            
+                                </div>
+                             
                         </div>
                         <div
                              class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate"
@@ -198,9 +182,9 @@
                     </div>
                     
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="rr-form-element">
-                            <aura:if isTrue="{!v.isRTL}">
-                                <div class="label slds-text-align_right">
+                        <div class="rr-form-element rightAlign">
+                          
+                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
                                     {!$Label.c.Requested_End_Date}<abbr
                                                                         title="required"
                                                                         class="slds-required"
@@ -216,25 +200,8 @@
                                                  dateStyle="medium"
                                                  />
                                 
-                                <aura:set attribute="else">
-                                    <div class="label slds-text-align_left">
-                                        {!$Label.c.Requested_End_Date}<abbr
-                                                                            title="required"
-                                                                            class="slds-required"
-                                                                            ></abbr>
-                                    </div>
-                                    
-                                    <lightning:input
-                                                     type="date"
-                                                     value="{!v.enddt}"
-                                                     aura:id="enddtId"
-                                                     placeholder="{!$Label.c.Select}"
-                                                     onchange="{!c.enddateController}"
-                                                     dateStyle="medium"
-                                                     />
-                                    
-                                </aura:set>
-                            </aura:if>
+                              
+                          
                             
                         </div>
                         <div
