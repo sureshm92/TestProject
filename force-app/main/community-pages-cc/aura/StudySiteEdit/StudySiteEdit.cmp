@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <span
-                                        class="slds-col slds-size--3-of-12 slds-grid slds-wrap"
+                                        class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap"
                                         style="padding-left: 0px"
                                     >
                                         <div class="input-fields-labels">
@@ -110,7 +110,7 @@
                                         </div>
                                     </span>
 
-                                    <span class="slds-col slds-size--3-of-12 slds-grid slds-wrap">
+                                    <span class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap">
                                         <div class="input-fields-labels">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>
