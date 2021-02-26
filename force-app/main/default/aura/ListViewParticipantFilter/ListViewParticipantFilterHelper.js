@@ -237,7 +237,7 @@
                             toastEvent.setParams({
                                 duration: 400,
                                 type: 'error',
-                                message: 'No record found for Export'
+                                message: $A.get('$Label.c.RH_Export_Error')
                             });
                             toastEvent.fire();
                         }
