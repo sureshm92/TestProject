@@ -22,7 +22,7 @@ before_script:
       echo "[INFO] Logging in to org for $1..."
       #echo "${!1}" > authFile
      # echo "${!INF70}" > authFile
-       echo "$INF70" > authFile
+       echo "$INF61" > authFile
       sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true
       rm -rf authFile
     }
