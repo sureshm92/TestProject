@@ -356,7 +356,7 @@ public without sharing class NewMediaOutReach {
             }
             ctpprofileId = usrLst.profileId;
             //system.debug('ctpprofileId>>'+ctpprofileId);
-            if (ctpprofileId != null) {
+           /* if (ctpprofileId != null) {
                 objPermission = [
                     SELECT Id, SObjectType, PermissionsRead, PermissionsCreate
                     FROM ObjectPermissions
@@ -369,7 +369,7 @@ public without sharing class NewMediaOutReach {
                         )
                     LIMIT 1
                 ];
-            }
+            } */
 
             List<Media_Outreach__c> medialst = new List<Media_Outreach__c>();
             string typeval;
