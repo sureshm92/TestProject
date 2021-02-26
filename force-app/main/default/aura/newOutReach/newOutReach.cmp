@@ -162,7 +162,7 @@
                                                                           class="slds-required"
                                                                           ></abbr>
                                 </div>
-                                 <div class="rr-form-element rightAlign">
+                                
                                 <lightning:input
                                                  type="date"
                                                  value="{!v.startdt}"
@@ -173,7 +173,7 @@
                                                  />
                                 </div>
                              
-                        </div>
+                       
                         <div
                              class="slds-text-color--error slds-p-top--x-small slds-col--padded-small startenddate"
                              >
