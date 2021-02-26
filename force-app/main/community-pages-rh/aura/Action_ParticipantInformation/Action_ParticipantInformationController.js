@@ -144,7 +144,6 @@
             helper.createUserForPatient(component,event,helper);
         }*/
         var userInfo = component.get('v.userInfo');
-        var contactInfo = component.get('v.contactInfo');
         var userInfoJSON=null;
         var contactInfoJSON=null;
         //if user is available, update user language else update contact language. 
@@ -152,7 +151,7 @@
             userInfo.LanguageLocaleKey=contactInfo.Language__c;
             userInfoJSON = JSON.stringify(userInfo);
         }else{
-            contactInfoJSON = JSON.stringify(contactInfo);
+            contactInfoJSON = JSON.stringify(component.get('v.contactInfo'));
         }
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
