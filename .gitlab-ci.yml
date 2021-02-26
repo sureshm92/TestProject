@@ -231,19 +231,19 @@ FullDeploy:
       - schedules
       - web
     variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter|^FORMAL/
   except:
       - merge_requests
   stage: Deploy
   timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
 
-DeltaDeploy:
+Deploy:
   extends: .deploy_script
   only:
     refs:
       - pushes
     variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter|^FORMAL/
   except:
       - merge_requests
   stage: Deploy
