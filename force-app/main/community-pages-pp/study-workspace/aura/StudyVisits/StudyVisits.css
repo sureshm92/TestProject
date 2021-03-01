@@ -86,6 +86,8 @@
 
 .THIS .cRRIconSplitter .icons-row {
     margin-right: 1rem;
+    position: relative;
+    width: 200px;
 }
 
 .THIS .svl-icon {
@@ -124,13 +126,17 @@
     display: none;
 }
 
+.THIS .uiScrollerWrapper.scrollable {
+    overflow: visible;
+}
+
 @media (max-width: 768px) {
     .THIS .rr-table .tableHeader {
         display: none;
     }
 
-    .THIS .rr-table {
-        margin: 1rem 1rem 0;
+    .THIS .uiScrollerWrapper.scrollable {
+        padding-left: 1rem;
     }
 
     .THIS .rr-table tr {
@@ -179,20 +185,24 @@
     .THIS .cRRIconSplitter.icons-container {
         overflow: visible;
     }
+
+    .THIS .cRRIconSplitter .icons-row {
+        width: 100%;
+    }
+
 }
 
 @media (any-pointer: coarse) {
-    .THIS .uiScrollerWrapper.scrollable {
-        overflow: hidden;
-    }
-
     .THIS .rr-table {
         font-size: 1rem;
-        padding: 2px 1.5rem;
     }
 
-    .THIS .cRRIconSplitter.icons-container {
+    .THIS .icons-container.cRRIconSplitter {
         overflow: visible;
+    }
+
+    .THIS .cRRIconSplitter .icons-row {
+        width: 95%;
     }
 
     .THIS .cRRTable.rr-table tr td .icon {
@@ -205,18 +215,39 @@
         margin: 8px;
     }
 
-    .THIS .cRRTable.rr-table tr td .icon:hover:after {
-        content: attr(title);
-        position: absolute;
-        bottom: 100%;
-        left: -25%;
-        color: #444;
-        background-color: #fff;
-        border: 1px solid #d9d9d9;
-        border-radius: 4px;
-        padding: 5px 8px;
-        z-index: 1000;
-        box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
-        min-width: 95px;
+}
+
+@media screen and (max-width: 800px) and (min-width: 600px) {
+    .THIS .cRRIconSplitter .icons-row {
+        width: 65%;
+    }
+
+}
+
+
+@media (max-width: 468px) {
+
+    .THIS  .cRRTable.rr-table tr td .icon {
+        position: static;
+
+    }
+
+    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+7) .tooltiptext {
+        bottom: 70%
+    }
+
+    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+13) .tooltiptext {
+        bottom: 40%
+    }
+
+    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+19) .tooltiptext {
+        bottom: 20%
     }
 }
+
+@media (max-width: 350px) {
+    .THIS .cRRIconSplitter .icon .tooltiptext {
+        left: -35px;
+    }
+}
+
