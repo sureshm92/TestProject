@@ -47,6 +47,7 @@ public without sharing class PETriggerBuffer {
                     Principal_Investigator__r.Full_Name__c,
                     Principal_Investigator__r.Phone,
                     Suppress_Participant_Emails__c,
+                	Study_Site_Number__c,
                     Clinical_Trial_Profile__c,
                     Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,

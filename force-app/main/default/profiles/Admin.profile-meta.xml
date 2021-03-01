@@ -189,6 +189,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>Batch_FixReferralAcceptedEPR</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>Batch_FollowUpReminder</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -222,6 +226,10 @@
     </classAccesses>
     <classAccesses>
         <apexClass>Batch_PEToPSE</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>Batch_PE_ExternalKeyWF_Update</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4923,6 +4931,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.External_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.External_Key_WF__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
