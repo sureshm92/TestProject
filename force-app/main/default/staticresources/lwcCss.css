@@ -45,7 +45,11 @@
     max-width : none !important; 
     position:fixed !important;
 }
-
+.wi .slds-dropdown {
+    font-size:14px;
+    font-family: 'Proxima Nova';
+    color:#000000;
+}
 
 /*.slds-dropdown{
     position:fixed !important;
