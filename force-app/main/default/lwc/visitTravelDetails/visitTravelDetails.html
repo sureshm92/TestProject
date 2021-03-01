@@ -21,17 +21,21 @@
                         </button>
                     </span>
                     <div class="dropdown-content">
-                        <p>
-                            <template for:each={vendors} for:item="vendor">
-                                <p class="sv-element" data-gtm="BTN_Link_Vendor" key={vendor.Name}>
-                                    <lightning-formatted-url
+                        <template for:each={vendors} for:item="vendor">
+                            <div class="slds-clearfix" data-gtm="BTN_Link_Vendor" key={vendor.Name}>
+                                <div class="slds-float_left bg">
+                                    <!--<lightning-formatted-url
                                         value={vendor.Link_Vendor__c}
                                         label={vendor.Name}
                                     >
-                                    </lightning-formatted-url>
-                                </p>
-                            </template>
-                        </p>
+                                    </lightning-formatted-url>-->
+
+                                    <a href={vendor.Link_Vendor__c} target="_blank"
+                                        >{vendor.Name}</a
+                                    >
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </template>
