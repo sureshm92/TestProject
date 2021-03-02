@@ -228,7 +228,6 @@
     },
     doUpdateCancel: function (component, event, helper) {
         var userInfo = component.get('v.userInfo');
-        var contactInfo = component.get('v.contactInfo');
         var userInfoJSON;
         var contactInfoJSON;
         //if user is available, update user language else update contact language. REF-2930
@@ -237,7 +236,7 @@
             userInfoJSON = JSON.stringify(userInfo);
         }else{
             userInfoJSON = null; 
-            contactInfoJSON = JSON.stringify(contactInfo);
+            contactInfoJSON = JSON.stringify(component.get('v.contactInfo'));
         }
         var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
