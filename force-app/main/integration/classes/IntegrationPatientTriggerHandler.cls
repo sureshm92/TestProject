@@ -21,7 +21,9 @@ public with sharing class IntegrationPatientTriggerHandler {
     private static void updatePatients(List<Integration_Patient__c> integrationPatients) {
         List<String> externalKeys = new List<String>();
         for (Integration_Patient__c patient : integrationPatients) {
-            externalKeys.add(patient.External_ID__c);
+            if(!(patient.External_ID__c.endsWith('~') || patient.External_ID__c.contains('~~'))){
+                externalKeys.add(patient.External_ID__c);
+            }
             patient.Work_Status__c = PATIENT_WORK_STATUS_FAILED;
         }
 
