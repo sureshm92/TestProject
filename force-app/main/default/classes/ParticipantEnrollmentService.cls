@@ -1775,7 +1775,7 @@ public without sharing class ParticipantEnrollmentService {
                 IsSubjectIDverifiedInSDH__c,
                 (SELECT Id, Date__c, Status__c FROM Participant_Enrollment_Status_History__r)
             FROM Participant_Enrollment__c
-            WHERE External_Key__c IN :externalKeys
+            WHERE External_Key_WF__c IN :externalKeys
             LIMIT 10000
         ];
     }

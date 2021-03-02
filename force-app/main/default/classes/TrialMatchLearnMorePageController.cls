@@ -14,6 +14,7 @@ public without sharing class TrialMatchLearnMorePageController {
    //  Clinical_Trial_Profile__c cobj=  [Select Id,Study_Content__c,Study_Title__c  from Clinical_Trial_Profile__c where Id=: VId];a0A1D000005RPuhUAG
        if(CTPId != ''){
         Clinical_Trial_Profile__c cobj=  [Select Id,Study_Content__c,Study_Title__c,CommunityTemplate__c  from Clinical_Trial_Profile__c where Id=: CTPId limit 1];
+        TranslateHelper.translate(cobj);
         htmlformattedString=cobj.Study_Content__c;
         imgUrl=cobj.CommunityTemplate__c + '.png';
         studyTitle=cobj.Study_Title__c;

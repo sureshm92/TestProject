@@ -16,7 +16,9 @@ public with sharing class IntegrationVisitTriggerHandler {
     public static void updateVisits(List<Integration_Visit__c> integrationVisits) {
         Set<String> externalKeys = new Set<String>();
         for (Integration_Visit__c integrationVisit : integrationVisits) {
-            externalKeys.add(integrationVisit.USUBJID__c);
+		if(!(integrationVisit.USUBJID__c.endsWith('~') || integrationVisit.USUBJID__c.contains('~~'))){
+            		externalKeys.add(integrationVisit.USUBJID__c);
+		}
             integrationVisit.Work_Status__c = 'Failed';
         }
         List<Participant_Enrollment__c> enrollments = [
@@ -29,7 +31,7 @@ public with sharing class IntegrationVisitTriggerHandler {
                     ORDER BY Visit_Number__c DESC
                 )
             FROM Participant_Enrollment__c
-            WHERE External_Key__c IN :externalKeys
+            WHERE External_Key_WF__c IN :externalKeys
         ];
         Map<String, Participant_Enrollment__c> peMap = new Map<String, Participant_Enrollment__c>();
         for (Participant_Enrollment__c pe : enrollments)
