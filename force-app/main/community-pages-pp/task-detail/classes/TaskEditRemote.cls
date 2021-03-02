@@ -90,7 +90,7 @@ public without sharing class TaskEditRemote {
                 if (task.Activity_Datetime__c != null)
                     wrapper.activityDate = task.Activity_Datetime__c;
                 if (task.Reminder_Date__c != null)
-                    wrapper.reminderDate = task.Reminder_Date__c;
+                    wrapper.reminderDate = task.ReminderDateTime;
                 wrapper.createdByAdmin = createdByAdmin(task);
             }
             return wrapper;

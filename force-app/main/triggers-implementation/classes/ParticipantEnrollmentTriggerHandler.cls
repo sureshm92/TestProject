@@ -160,10 +160,32 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             if (pe.Study_Site__c != null) {
                 Study_Site__c ss = (Study_Site__c) PETriggerBuffer.getSObject(pe.Study_Site__c);
                 if (ss != null) {
+                    String ExternalKey;
                     pe.PI_Contact__c = ss.Principal_Investigator__c;
                     pe.Clinical_Trial_Profile__c = ss.Clinical_Trial_Profile__c;
                     nctNumber = ss.Clinical_Trial_Profile__r.NCT_Number__c;
                     protocolId= ss.Clinical_Trial_Profile__r.Protocol_ID__c;
+                    if(protocolId != null){
+                       ExternalKey = protocolId+'~'; 
+                    }
+                    else{
+                       ExternalKey = '~';
+                    }
+                    if(ss.Study_Site_Number__c != null){
+                        ExternalKey = ExternalKey + ss.Study_Site_Number__c+'~';
+                    }
+                    else
+                    {
+                        ExternalKey = ExternalKey + '~';
+                    }
+                    if(pe.Screening_ID__c != null){
+                        ExternalKey = ExternalKey + pe.Screening_ID__c;
+                    }
+                    else
+                    {
+                        ExternalKey = ExternalKey + '';
+                    }
+                    pe.External_Key_WF__c = ExternalKey;
                     visitOpt = ss.Clinical_Trial_Profile__r.Shareback_Settings_On_Participant_Level__c;
                 }
             }
