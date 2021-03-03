@@ -2,9 +2,12 @@
     doInit: function (component, event, helper) {
         let currentCommunityMode = communityService.getCurrentCommunityMode();
         var rtl_language = $A.get('$Label.c.RTL_Languages');
-        var paramLanguage = communityService.getUrlParameter('lanCode');
-        var RTL = rtl_language.includes(paramLanguage);
-        if (!RTL) {
+        var paramLanguage = communityService.getUrlParameter('language');
+        var RTL;
+        if (paramLanguage) {
+            RTL = rtl_language.includes(paramLanguage);
+            component.set('v.isRTL', RTL);
+        } else {
             RTL = component.get('v.isRTL');
         }
         if (currentCommunityMode) {

@@ -10,6 +10,7 @@
                 width: 715px;
                 text-align: center;
                 position: running(headerRight);
+            	font-family: Arial Unicode MS;
                 margin-left: 938px;
                 margin-right: 33px;
             }
@@ -18,6 +19,7 @@
                 margin-top: 15px;
                 height: 130px;
                 width: 715px;
+            	font-family: Arial Unicode MS;
                 position: running(headerLeft);
             }
 
@@ -25,11 +27,13 @@
             .ltr {
                 margin-left: 20px;
                 margin-right: 40px;
+            	font-family: Arial Unicode MS;
             }
 
             .rtl {
                 margin-left: 60px;
                 margin-right: 60px;
+            	font-family: Arial Unicode MS;
             }
         </style>
         <apex:stylesheet value="{!if(isRTL == true, $Resource.TrailMatchLearnMoreRTL, $Resource.TrialMatchLearmoreLTR)}" />
@@ -47,7 +51,7 @@
         <div id="logo">
             <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" alt="logo" />
         </div>
-        <div style="margin-left: 160px;margin-right: 160px;text-align:center;">
+        <div style="margin-left: 160px;margin-right: 160px;text-align:center;font-family: Arial Unicode MS;">
             <h1 style="font-size:20px;color:#3333ff;">
                 <apex:outputtext dir="RTL" value=" {!studyTitle} " />
             </h1>
