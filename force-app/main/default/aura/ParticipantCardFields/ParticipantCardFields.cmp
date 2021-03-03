@@ -25,6 +25,7 @@
     <aura:handler event="c:ViewMore" action="{!c.viewMore}" />
 
     <!-- component body: -->
+    <div class="{!v.isRTL? 'arabic':'english'}"></div>
     <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
         <div class="vpi-fields">
             <!-- PI fields: -->
@@ -261,7 +262,7 @@
             </aura:if>
         </div>
     </div>
-
+    </div>
     <aura:if isTrue="{!v.userMode != 'Participant'}">
         <a
             aura:id="showViewMore"
