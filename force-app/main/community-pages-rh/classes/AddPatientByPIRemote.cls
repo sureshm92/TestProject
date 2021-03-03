@@ -301,6 +301,7 @@ public without sharing class AddPatientByPIRemote {
                 newContact.MailingStateCode = participant.Mailing_State_Code__c;
                 newContact.MailingCountry = participant.Mailing_Country__c;
                 newContact.MailingState = participant.Mailing_State__c;
+                newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
                 if ('Home' == participantDelegate.Phone_Type__c) {
                     newContact.HomePhone = participantDelegate.Phone__c;
                 }
@@ -319,7 +320,10 @@ public without sharing class AddPatientByPIRemote {
                         Email,
                         MailingCity,
                         MailingCountryCode,
-                        MailingStateCode
+                    	MailingState,
+                    	MailingCountry,
+                        MailingStateCode,
+                    	MailingPostalCode
                     FROM Contact
                     WHERE Id = :ddInfo.contactId
                 ];
@@ -328,6 +332,11 @@ public without sharing class AddPatientByPIRemote {
             if (ddInfo == null || ddInfo.participantId == null) {
                 participantDelegate.Contact__c = newContact.Id;
                 participantDelegate.Adult__c = true;
+                participantDelegate.Mailing_Country__c = newContact.MailingCountry;
+                participantDelegate.Mailing_Country_Code__c = newContact.MailingCountryCode;
+                participantDelegate.Mailing_State__c = newContact.MailingState;
+                participantDelegate.Mailing_State_Code__c = newContact.MailingStateCode;
+				participantDelegate.Mailing_Zip_Postal_Code__c = newContact.MailingPostalCode;
                 if (
                     String.isBlank(participantDelegate.Phone__c) &&
                     !String.isBlank(participant.Phone__c)
