@@ -314,7 +314,7 @@
         </aura:if>
         <aura:if isTrue="{!v.reRender}">
             <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
-                <div style="margin-left:20px;">
+                <div>
                 <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
                 <div style="margin-left:-8px;"><c:RRIconSplitter class="svl-icon" icons="{!v.visitData.iconDetails}" /></div>
                 <div class="slds-grid slds-p-top_x-small">
