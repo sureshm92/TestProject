@@ -152,7 +152,8 @@
                         <div class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}">
                             <div class="slds-grid te-form slds-gutters slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                    {!$Label.c.PP_Remind_Using}
+                                    {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr
+                                >
                                     <aura:if isTrue="{!v.showAccountNavigation}">
                                         <a onclick="{!c.doNavigateToAccountSettings}" style="margin-left:10px;">{!$Label.c.PP_Change_Notification_Settings}</a>                    </aura:if>
                                     
@@ -263,7 +264,8 @@
                         </div>
                         <div class="{!'slds-grid' + if(v.isRTL, 'task-rtl rightAlign1', '')}">
                                                            </div>
-                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label'}">{!$Label.c.PP_Remind_Using}
+                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label'}">{!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr
+                                >
                             <aura:if isTrue="{!v.showAccountNavigation}">
                                 <!--Account settings-->
                                 <a onclick="{!c.doNavigateToAccountSettings}"
@@ -357,7 +359,8 @@
                    
                 <div class="slds-grid slds-p-top_x-small">
                      <div class="slds-p-top_large"></div>
-                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}">{!$Label.c.PP_Remind_Using}
+                        <div class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}">{!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr
+                                >
                             <aura:if isTrue="{!v.showAccountNavigation}">
                                 <!--Account settings-->
                                 <a onclick="{!c.doNavigateToAccountSettings}"
