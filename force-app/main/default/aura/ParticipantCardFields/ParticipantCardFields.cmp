@@ -25,7 +25,7 @@
     <aura:handler event="c:ViewMore" action="{!c.viewMore}" />
 
     <!-- component body: -->
-    <div class="{!v.isRTL? 'arabic':'english'}"></div>
+    <div class="{!v.isRTL? 'arabic':'english'}">
     <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
         <div class="vpi-fields">
             <!-- PI fields: -->
