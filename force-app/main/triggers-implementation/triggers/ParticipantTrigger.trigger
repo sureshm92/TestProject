@@ -15,6 +15,9 @@ trigger ParticipantTrigger on Participant__c(
     TriggerHandlerExecutor.execute(
         ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
+    );
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.CheckBecomesAdultHandler.class);
     TriggerHandlerExecutor.execute(
         ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class

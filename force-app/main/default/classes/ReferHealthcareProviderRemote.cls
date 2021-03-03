@@ -366,6 +366,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
                     newContact.MailingCountry = participantObj.Mailing_Country__c;
                     newContact.MailingState = participantObj.Mailing_State__c;
+                    newContact.MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c;
                     if ('Home' == participantObj.Phone_Type__c) {
                         newContact.HomePhone = participantObj.Phone__c;
                     }
@@ -384,7 +385,8 @@ global without sharing class ReferHealthcareProviderRemote {
                             Email,
                             MailingCity,
                             MailingCountryCode,
-                            MailingStateCode
+                            MailingStateCode,
+                        	MailingPostalCode
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
@@ -402,7 +404,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         Phone__c = participantObj.Phone__c,
                         Mailing_City__c = newContact.MailingCity,
                         Mailing_Country_Code__c = newContact.MailingCountryCode,
-                        Mailing_State_Code__c = newContact.MailingStateCode
+                        Mailing_State_Code__c = newContact.MailingStateCode,
+                        Mailing_Zip_Postal_Code__c = newContact.MailingPostalCode
                     );
                     insert participantDelegate;
                 }
