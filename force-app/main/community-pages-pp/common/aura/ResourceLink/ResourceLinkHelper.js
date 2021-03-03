@@ -46,7 +46,7 @@
                     '?file=' +
                     fileURL +
                     '&fileName=' +
-                    encodeURIComponent($A.get('$Label.c.Report_Document_Name'))
+                    encodeURIComponent(resource.Title__c)
             });
             urlEvent.fire();
             }      

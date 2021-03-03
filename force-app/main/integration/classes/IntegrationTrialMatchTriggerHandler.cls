@@ -17,7 +17,9 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
         List<String> protocolIds = new List<String>();
 
         for (Integration_Trial_Match__c integrationTrialMatch : newList) {
-            externalKeys.add(integrationTrialMatch.Participant_Enrollment_External_ID__c);
+			if(!(integrationTrialMatch.Participant_Enrollment_External_ID__c.endsWith('~') || integrationTrialMatch.Participant_Enrollment_External_ID__c.contains('~~'))){
+            			externalKeys.add(integrationTrialMatch.Participant_Enrollment_External_ID__c);
+			}
             protocolIds.add(integrationTrialMatch.Protocol_ID__c);
         }
 
@@ -32,7 +34,7 @@ public with sharing class IntegrationTrialMatchTriggerHandler extends TriggerHan
         List<Participant_Enrollment__c> participantEnrollments = [
             SELECT Id, External_Key__c
             FROM Participant_Enrollment__c
-            WHERE External_Key__c IN :externalKeys
+            WHERE External_Key_WF__c IN :externalKeys
         ];
         for (Participant_Enrollment__c pe : participantEnrollments)
             peByExtKey.put(pe.External_Key__c, pe);

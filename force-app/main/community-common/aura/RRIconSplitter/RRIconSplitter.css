@@ -1,16 +1,16 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
-.THIS.icons-container {
+/* .THIS.icons-container {
     display: flex;
     overflow: hidden;
     height: 32px;
     justify-content: space-between;
 }
-
+*/
 .THIS .icons-row {
     display: flex;
-    /*flex-wrap: wrap;*/
+    flex-wrap: wrap;
 }
 
 .THIS .icons-row .icon:last-child .dots {
@@ -20,6 +20,7 @@
 .THIS .icon {
     position: relative;
     display: flex;
+    overflow: visible;
 }
 
 .THIS .icon-item {
@@ -39,7 +40,46 @@
     fill: #595959 !important;
 }
 
+.THIS .icons-row .icon .svl-icon {
+    cursor: default;
+}
+
 .THIS .free-space {
     flex-shrink: 0;
     width: 32px;
+}
+
+.THIS .icon .tooltiptext {
+    visibility: hidden;
+    background-color: #444;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+    width: 300px;
+
+    /* Position the tooltip */
+    position: absolute;
+    bottom: 100%;
+    z-index: 1;
+    left: -10%;
+    overflow: visible;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 1rem;
+}
+
+.THIS .icon:hover .tooltiptext {
+    visibility: visible;
+}
+
+
+@media (max-width: 468px) {
+
+    .THIS.icons-container .icons-row .icon {
+        position: static;
+    }
+
+    .THIS .icon .tooltiptext {
+        left: 0;
+    }
 }

@@ -26,11 +26,10 @@
                         <div class="dots">...</div>
                     </div>
                     <aura:set attribute="else">
-                        <div
-                            class="icon"
-                            style="{!'background-color: ' + v.backgroundColor}"
-                            title="{!icon.Label__c}"
-                        >
+                        <div class="icon" style="{!'background-color: ' + v.backgroundColor}">
+                            <span class="tooltiptext"
+                                >{!icon.Label__c+'\n'+icon.Description__c}</span
+                            >
                             <c:RRIcon
                                 resource="{!$Resource.Icons_legend}"
                                 iconName="{!icon.Name}"

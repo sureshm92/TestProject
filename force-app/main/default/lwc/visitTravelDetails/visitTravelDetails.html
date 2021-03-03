@@ -9,27 +9,33 @@
                     <span>
                         <button class="slds-button slds-button_neutral button-menu-small-default">
                             <span class="labels">{labels.addNewBooking}</span>
-                            <lightning-icon
-                                icon-name="utility:chevrondown"
+                            <!--<lightning-icon
                                 size="xx-small"
                                 class="slds-p-left_x-small"
+                                src={iconBlueUrl}
                             >
-                            </lightning-icon>
-                            <!--<c-web-icon color="blue" icon-name="icon-chevron-down"></c-web-icon>-->
+                            </lightning-icon>-->
+                            <div class="mr8">
+                                <c-web-icon color="blue" icon-name="trianglearrowdown"></c-web-icon>
+                            </div>
                         </button>
                     </span>
                     <div class="dropdown-content">
-                        <p>
-                            <template for:each={vendors} for:item="vendor">
-                                <p class="sv-element" data-gtm="BTN_Link_Vendor" key={vendor.Name}>
-                                    <lightning-formatted-url
+                        <template for:each={vendors} for:item="vendor">
+                            <div class="slds-clearfix" data-gtm="BTN_Link_Vendor" key={vendor.Name}>
+                                <div class="slds-float_left bg">
+                                    <!--<lightning-formatted-url
                                         value={vendor.Link_Vendor__c}
                                         label={vendor.Name}
                                     >
-                                    </lightning-formatted-url>
-                                </p>
-                            </template>
-                        </p>
+                                    </lightning-formatted-url>-->
+
+                                    <a href={vendor.Link_Vendor__c} target="_blank"
+                                        >{vendor.Name}</a
+                                    >
+                                </div>
+                            </div>
+                        </template>
                     </div>
                 </div>
             </template>

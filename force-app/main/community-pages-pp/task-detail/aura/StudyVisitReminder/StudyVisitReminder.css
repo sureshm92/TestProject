@@ -3,6 +3,11 @@
     max-width: 1140px;
     margin: 25px auto -80px;
 }
+.THIS .slds-dropdown {
+    font-size: 16px;
+    font-family: 'Proxima Nova';
+    color: #000000;
+}
 .THIS .mr_8 {
     margin-left: -8px;
 }
@@ -22,7 +27,6 @@
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
-    margin-left: 16px;
 }
 .THIS .slds-datepicker table {
     table-layout: fixed;
@@ -269,6 +273,14 @@
     opacity: 0.4;
 }
 
+.THIS .cRRIconSplitter .icon .tooltiptext {
+    bottom: 0;
+    left: 0;
+    transform: translate(0, 100%);
+    z-index: 3;
+}
+
+
 @media only screen and (max-width: 500px) and (orientation: portrait) {
     .THIS .rr-white-panel {
         padding: 20px 0;
@@ -285,13 +297,14 @@
     .THIS .p-buttons-container > div {
         display: flex;
         flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .THIS .p-buttons-container .slds-button:nth-of-type(1) {
-        order: 4;
-        margin-left: 10px;
+        order: 3;
         width: 40%;
     }
+
     .THIS .p-buttons-container .slds-button:nth-of-type(2) {
         order: 1;
         min-width: 25%;
@@ -304,11 +317,35 @@
         margin-left: 10px;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(4) {
-        order: 3;
+        order: 4;
         width: 56%;
         margin-bottom: 1rem;
-        margin-left: 0;
+        margin-left: 10px;
     }
+
+    .THIS .p-buttons-container > .right {
+        flex-direction: row-reverse;
+    }
+
+    .THIS .p-buttons-container .slds-button.tertiary + .slds-button.primary {
+        width: 50%;
+        margin-left: 15px;
+        order: 4;
+    }
+
+    .THIS .title {
+        max-width: 85%;
+    }
+
+    .THIS .container1 {
+        height: auto;
+        width: 100%
+    }
+
+    .THIS.cPopup #p-modal .p-container .p-mobile-close {
+        top: -10px;
+    }
+
 }
 
 @media only screen and (max-width: 360px) and (orientation: portrait) {
