@@ -4,26 +4,26 @@
 }
 .sv-element {
     /* padding: 4px 10px;*/
-   /* margin-right: 120px;*/
+    /* margin-right: 120px;*/
     padding-bottom: 4px;
     white-space: nowrap;
 }
 
-.bg{
-	padding-bottom: 4px;
+.bg {
+    padding-bottom: 4px;
     white-space: nowrap;
-	font-family:'Proxima Nova';
-	font-size:14px;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
 }
-.bg a{
-		color:grey !important;
-		font-size:14px;
+.bg a {
+    color: #444 !important;
+    font-size: 16px;
+    padding: 4px 16px;
+    display: inline-block;
 }
 
-
-.dropdown-content div:hover{
-	background-color: #eef5ff;
-	
+.dropdown-content div:hover {
+    background-color: #eef5ff;
 }
 
 .dropdown-content {
@@ -32,10 +32,10 @@
     background-color: #f9f9f9;
     min-width: 160px;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-    padding: 12px 16px;
+    padding: 12px 0;
     z-index: 1;
     width: 147px;
-	color:grey;
+    color: grey;
 }
 .no-travels-message {
     margin-bottom: 1.5em;
@@ -57,7 +57,7 @@
 }
 .button-menu-small-default {
     height: 32px;
-    width: 147px;
+    width: 175px;
 }
 .mr8 {
     margin-top: 8px;
@@ -69,7 +69,7 @@
 }
 .labels {
     height: 24px;
-    width: 113px;
+    width: 142px;
     transform: rotate(-360deg);
     color: #0768fd;
     font-family: 'Proxima Nova';
