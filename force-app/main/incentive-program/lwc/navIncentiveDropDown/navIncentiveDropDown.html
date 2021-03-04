@@ -7,21 +7,11 @@
     <div class="nidd-container">
         <div class="slds-p-around_medium">
             <div class="nidd-total slds-p-around_xx-small"> 
-                <template if:true={isRtl}>
-                        {labels.ptsLabel}  {totalPoints} {labels.totalLabel}
-                </template>
-                <template if:false={isRtl}>
                         {labels.totalLabel} {totalPoints} {labels.ptsLabel}
-                </template>
-            </div>
+             </div>
             <div class="nidd-last slds-p-around_xx-small">
-                <template if:true={isRtl}>
-                        {labels.ptsLabel} {lastPoints} {labels.lastEarnedLabel}
-                </template>
-                <template if:false={isRtl}>
-                    {labels.lastEarnedLabel} {lastPoints} {labels.ptsLabel} 
-                </template>
-            </div>
+                         {labels.lastEarnedLabel} {lastPoints} {labels.ptsLabel} 
+             </div>
             <div class="apollo-btn tertiary" onclick={doViewDetails} data-gtm="BTN_view_details_incentive">
                 {labels.viewDetailsLabel}
             </div>
