@@ -1941,21 +1941,6 @@
         <value>Search for a phone number</value>
     </labels>
     <labels>
-   
-        <fullName>CC_TableHeader_Status</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>CC_TableHeader_Status</shortDescription>
-        <value>Site Status</value>
-    </labels>
-    <labels>
-        <fullName>CC_search_for_a_participant</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_search_for_a_participant</shortDescription>
-        <value>Search for a phone number</value>
-    </labels>
-    <labels>
         <fullName>CPD_About_you</fullName>
         <categories>Covid19</categories>
         <language>en_US</language>
@@ -17109,41 +17094,6 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
         <value>Receive SMS notifications</value>
-    </labels>
-    <labels>
-        <fullName>RH_Others</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Others</shortDescription>
-        <value>Others</value>
-    </labels>
-    <labels>
-        <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
-        <value>PI/Site staff country is not the same as Site country</value>
-    </labels>
-    <labels>
-        <fullName>RH_Reset</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Reset</shortDescription>
-        <value>Reset</value>
-    </labels>
-    <labels>
-        <fullName>RH_Sex</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Sex</shortDescription>
-        <value>Sex</value>
-    </labels>
-    <labels>
-        <fullName>RH_StudyInfo</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Study Info</shortDescription>
-        <value>Study Info</value>
     </labels>
     <labels>
         <fullName>RH_Others</fullName>
