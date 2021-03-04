@@ -58,6 +58,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Ready_for_Training__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Completed_training__c</field>
             </layoutItems>
             <layoutItems>
@@ -75,6 +79,14 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Enable_for_Call_Center_Support__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>IQVIA_intervention_required__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Opt_in_for_warm_transfer__c</field>
             </layoutItems>
         </layoutColumns>
         <layoutColumns>
@@ -352,6 +364,17 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CREATED_DATE</fields>
+        <fields>Caller__c</fields>
+        <fields>Call_Category__c</fields>
+        <fields>IQVIA_intervention_required__c</fields>
+        <fields>IQVIA_intervention_completed__c</fields>
+        <relatedList>Call_Dispositions__c.Study_Site__c</relatedList>
+        <sortField>NAME</sortField>
+        <sortOrder>Desc</sortOrder>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>PI__c</fields>
         <fields>HCP__c</fields>
         <fields>HCP_outreach_Status__c</fields>
@@ -384,10 +407,5 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    <summaryLayout>
-        <masterLabel>00h1I000002zie3</masterLabel>
-        <sizeX>4</sizeX>
-        <sizeY>0</sizeY>
-        <summaryLayoutStyle>Default</summaryLayoutStyle>
-    </summaryLayout>
+    
 </Layout>
