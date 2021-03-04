@@ -13,9 +13,11 @@
         let parent = component.get('v.parent');
         searchText = searchText.trim();
         if (!searchText || !selectedSearchOption) {
-            communityService.showErrorToast('Error', 'Search text required!');
+            //communityService.showErrorToast('Error', $A.get('$Label.c.CC_SearchTxtRequired'));
+            component.set('v.containsSerchTxt', false);
             return;
         } else {
+            component.set('v.containsSerchTxt', true);
             parent.callDatabaseSearch(selectedSearchOption, searchText, sortType);
         }
     }

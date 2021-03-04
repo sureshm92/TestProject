@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Layout xmlns="http://soap.sforce.com/2006/04/metadata">
-    <excludeButtons>RequestUseSfdc</excludeButtons>
     <excludeButtons>Submit</excludeButtons>
     <layoutSections>
         <customLabel>true</customLabel>
@@ -12,7 +11,7 @@
                 <behavior>Required</behavior>
                 <field>Name</field>
             </layoutItems>
-			 <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Parent_Account__c</field>
             </layoutItems>
@@ -60,7 +59,7 @@
                 <behavior>Edit</behavior>
                 <field>Participant_Opt_In_Status_Emails__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Participant_Phone_Opt_In_Permit_Phone__c</field>
             </layoutItems>
@@ -364,6 +363,11 @@
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
+        <fields>CC_Staff_Status__c</fields>
+        <relatedList>CC_Staff__c.Contact__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
         <fields>Notification_Type__c</fields>
         <fields>Status__c</fields>
         <fields>WhatId__c</fields>
@@ -378,10 +382,4 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    <summaryLayout>
-        <masterLabel>00h54000002IFaQ</masterLabel>
-        <sizeX>4</sizeX>
-        <sizeY>0</sizeY>
-        <summaryLayoutStyle>Default</summaryLayoutStyle>
-    </summaryLayout>
 </Layout>

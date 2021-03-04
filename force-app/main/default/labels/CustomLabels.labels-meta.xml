@@ -284,6 +284,20 @@
         <shortDescription>clientSrc</shortDescription>
         <value>clientSrc</value>
     </labels>
+      <labels>
+        <fullName>April</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>April</shortDescription>
+        <value>April</value>
+    </labels>
+     <labels>
+        <fullName>August</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>August</shortDescription>
+        <value>August</value>
+    </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc_Description</fullName>
         <language>en_US</language>
@@ -1556,6 +1570,41 @@
         <value>Submit Your Question</value>
     </labels>
     <labels>
+        <fullName>CC_Receive_Study_Site_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
+        <value>Receive Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Save_All_And_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Save_All_And_Close</shortDescription>
+        <value>Save All and Close</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone</shortDescription>
+        <value>Study Site Phone</value>
+    </labels>
+    <labels>
+        <fullName>CC_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Email</shortDescription>
+        <value>Study Site Email</value>
+    </labels>
+    <labels>
+        <fullName>CC_Training_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Training_Complete</shortDescription>
+        <value>Training Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_Btn_ExportAll</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1598,6 +1647,34 @@
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>CC_FilterPanel_Label</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPanel_Label</shortDescription>
+        <value>Filter page by:</value>
+    </labels>
+    <labels>
+        <fullName>Caller</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Caller</shortDescription>
+        <value>Caller</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>CC_FilterPlaceholder_StudyName</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_FilterPlaceholder_StudyName</shortDescription>
+        <value>Study Name</value>
+    </labels>
+    <labels>
         <fullName>CC_HomePageLabel</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1609,7 +1686,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Max100</shortDescription>
-        <value>max.100</value>
+        <value>max.100 per page</value>
     </labels>
     <labels>
         <fullName>CC_Name</fullName>
@@ -1675,11 +1752,18 @@
         <value>Start typing...</value>
     </labels>
     <labels>
+        <fullName>CC_SearchTxtRequired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Error message to be shown on the UI in case search text is missing</shortDescription>
+        <value>Search text is required!</value>
+    </labels>
+    <labels>
         <fullName>CC_SiteNumber</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_SiteNumber</shortDescription>
-        <value>Site Number (exact match)</value>
+        <value>Site Number (exact match)</value>  
     </labels>
     <labels>
         <fullName>CC_Site_Contact</fullName>
@@ -1694,6 +1778,13 @@
         <protected>true</protected>
         <shortDescription>CC_Site_Phone_Number</shortDescription>
         <value>Site Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>CC_SortVariant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Sort variants seperated by semi-colon(;)</shortDescription>
+        <value>Site Alphabetical (a-z); Site Alphabetical (z-a); Site Number (Ascending); Site Number (Descending)</value>
     </labels>
     <labels>
         <fullName>CC_Study</fullName>
@@ -1717,6 +1808,34 @@
         <value>Study Site</value>
     </labels>
     <labels>
+        <fullName>CC_Opt_in_for_Warm_Transfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Opt_in_for_Warm_Transfer</shortDescription>
+        <value>Opt in for Warm Transfer</value>
+    </labels>
+    <labels>
+        <fullName>CC_Suppress_PI_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Suppress_PI_Email</shortDescription>
+        <value>Study Site PI Emails have to be suppressed if Study PI Emails are</value>
+    </labels>
+    <labels>
+        <fullName>CC_Success_Save_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Success_Save_Message</shortDescription>
+        <value>Information was successfully saved</value>
+    </labels>
+	    <labels>
+        <fullName>CC_Site_Information_Form_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Information_Form_Complete</shortDescription>
+        <value>Site Information Form Complete</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_CTP</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1738,11 +1857,32 @@
         <value>Country</value>
     </labels>
     <labels>
+        <fullName>Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Dispositions</shortDescription>
+        <value>Call Dispositions</value>
+    </labels>
+    <labels>
+        <fullName>Call_Category</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Category</shortDescription>
+        <value>Call Category</value>
+    </labels>
+    <labels>
         <fullName>CC_TableHeader_PI</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_PI</shortDescription>
         <value>Principal Investigator</value>
+    </labels>
+    <labels>
+        <fullName>CC_Study_Site_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_Phone</fullName>
@@ -1766,6 +1906,42 @@
         <value>Site Number</value>
     </labels>
     <labels>
+        <fullName>CC_NewLocation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_NewLocation</shortDescription>
+        <value>New Location</value>
+    </labels>
+    <labels>
+        <fullName>CC_TableHeader_Status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CC_TableHeader_Status</shortDescription>
+        <value>Site Status</value>
+    </labels>
+    <labels>      
+        <fullName>CC_TablePlaceholderTxt</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_TablePlaceholderTxt</shortDescription>
+        <value>Please initiate search!</value>
+    </labels>
+	<labels>
+        <fullName>CC_Toggle_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Toggle_Information</shortDescription>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
+    </labels>
+    <labels>
+        <fullName>CC_search_for_a_participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_search_for_a_participant</shortDescription>
+        <value>Search for a phone number</value>
+    </labels>
+    <labels>
+   
         <fullName>CC_TableHeader_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3645,6 +3821,13 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>DLIT L View screener responses</shortDescription>
         <value>View screener responses</value>
     </labels>
+      <labels>
+        <fullName>December</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>December</shortDescription>
+        <value>December</value>
+    </labels>
     <labels>
         <fullName>DRF_L_All_date_ranges</fullName>
         <language>en_US</language>
@@ -4239,12 +4422,14 @@ By using our website, you are accepting our use of cookies.</value>
 
         Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
-    <labels>
+     <labels>
         <fullName>Email_Body_Initial_CC</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Initial_CC</shortDescription>
-        <value>Welcome to IQVIA Referal Hub</value>
+        <value>You have been invited to use IQVIA&apos;s Referral Hub Call Center Interface.
+&lt;br&gt;
+Please click the button below to register. This is a required step to gain access to the information that you will need to process calls.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Initial_Delegate</fullName>
@@ -6784,6 +6969,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Initial Visit Scheduled Time</value>
     </labels>
     <labels>
+        <fullName>February</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>February</shortDescription>
+        <value>February</value>
+    </labels>
+    <labels>
         <fullName>FD_PE_Field_Revisit_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8192,6 +8384,27 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_My_Points</shortDescription>
         <value>My Points</value>
     </labels>
+     <labels>
+        <fullName>IQVIA_intervention_completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention completed</shortDescription>
+        <value>IQVIA intervention completed</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_intervention_required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention required</shortDescription>
+        <value>IQVIA intervention required</value>
+    </labels>
+    <labels>
+        <fullName>Inbound_Outbound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Inbound / Outbound</shortDescription>
+        <value>Inbound / Outbound</value>
+    </labels>
     <labels>
         <fullName>IncentiveProgram_Points</fullName>
         <categories>Incentive Program</categories>
@@ -8390,6 +8603,27 @@ The expected format is REF##### to REF########</value>
         <value>Janssen</value>
     </labels>
     <labels>
+        <fullName>January</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>January</shortDescription>
+        <value>January</value>
+    </labels>
+    <labels>
+        <fullName>July</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>July</shortDescription>
+        <value>July</value>
+    </labels>
+    <labels>
+        <fullName>June</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>June</shortDescription>
+        <value>June</value>
+    </labels>
+    <labels>
         <fullName>Learn_More</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8558,6 +8792,20 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MO_RecordUpdate</shortDescription>
         <value>Record Updated Successfully</value>
+    </labels>
+     <labels>
+        <fullName>March</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>March</shortDescription>
+        <value>March</value>
+    </labels>
+    <labels>
+        <fullName>May</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>May</shortDescription>
+        <value>May</value>
     </labels>
     <labels>
         <fullName>MO_Request_ID</fullName>
@@ -9273,6 +9521,13 @@ The expected format is REF##### to REF########</value>
         <value>No access</value>
     </labels>
     <labels>
+        <fullName>New_Call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Call</shortDescription>
+        <value>New Call</value>
+    </labels>
+    <labels>
         <fullName>No_Case_Assign</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9293,6 +9548,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
+     <labels>
+        <fullName>No_records_to_display</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>No records to display</shortDescription>
+        <value>No records to display</value>
+    </labels>
     <labels>
         <fullName>No_Travel_Information</fullName>
         <language>en_US</language>
@@ -9308,11 +9570,25 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
+        <fullName>Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notes</shortDescription>
+        <value>Notes</value>
+    </labels>
+    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>No_permission_Visits_tab</shortDescription>
         <value>No permission for this feature</value>
+    </labels>
+    <labels>
+        <fullName>November</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>November</shortDescription>
+        <value>November</value>
     </labels>
     <labels>
         <fullName>Non_Study_Specific</fullName>
@@ -9389,6 +9665,13 @@ Track and learn about rewards that you could claim for completing tasks toward s
         <protected>false</protected>
         <shortDescription>OT DPI S1 T</shortDescription>
         <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
+    </labels>
+    <labels>
+        <fullName>October</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>October</shortDescription>
+        <value>October</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S2_H</fullName>
@@ -16030,7 +16313,7 @@ communications using the toggles below.</value>
         <fullName>PWS_Initial_Visit_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>PWS_Initial_Visit_Name</shortDescription>
+        <shortDescription>PWS_Initial_Visit_Card_Name</shortDescription>
         <value>Initial Visit</value>
     </labels>
     <labels>
@@ -16574,6 +16857,13 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
+     <labels>
+        <fullName>Previous_Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous Call Dispositions</shortDescription>
+        <value>Previous Call Dispositions</value>
+    </labels>
     <labels>
         <fullName>Pulse</fullName>
         <language>en_US</language>
@@ -16779,6 +17069,13 @@ communications using the toggles below.</value>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
+        <fullName>RH_Masked_Display_IQVIA_User</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Masked_Display_IQVIA_User</shortDescription>
+        <value>- IQVIA</value>
+    </labels>
+    <labels>
         <fullName>RH_Masked_IQVIA_User</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16812,6 +17109,41 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH_OPT_IN_STATUS_SMS</shortDescription>
         <value>Receive SMS notifications</value>
+    </labels>
+    <labels>
+        <fullName>RH_Others</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Others</shortDescription>
+        <value>Others</value>
+    </labels>
+    <labels>
+        <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_PI/Site staff country is not the same as Site country</shortDescription>
+        <value>PI/Site staff country is not the same as Site country</value>
+    </labels>
+    <labels>
+        <fullName>RH_Reset</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Reset</shortDescription>
+        <value>Reset</value>
+    </labels>
+    <labels>
+        <fullName>RH_Sex</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Sex</shortDescription>
+        <value>Sex</value>
+    </labels>
+    <labels>
+        <fullName>RH_StudyInfo</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study Info</shortDescription>
+        <value>Study Info</value>
     </labels>
     <labels>
         <fullName>RH_Others</fullName>
@@ -17825,6 +18157,13 @@ communications using the toggles below.</value>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
     </labels>
+     <labels>
+        <fullName>Select_Call_Catagory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Call Category</shortDescription>
+        <value>Select Call Catagory</value>
+    </labels>
     <labels>
         <fullName>SS_Location_Address</fullName>
         <language>en_US</language>
@@ -18027,6 +18366,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>STP MRR T1</shortDescription>
         <value>Total</value>
+    </labels>
+    <labels>
+        <fullName>switcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>switcher</shortDescription>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>STP_MRR_T2</fullName>
@@ -18371,6 +18717,13 @@ communications using the toggles below.</value>
         <shortDescription>Legend description</shortDescription>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
+     <labels>
+        <fullName>September</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>September</shortDescription>
+        <value>September</value>
+    </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
         <language>en_US</language>
@@ -18523,6 +18876,20 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+	    <labels>
+        <fullName>Study_Site_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Information</shortDescription>
+        <value>Study Site Information</value>
+    </labels>
+    <labels>
+        <fullName>Study_Site_Locations</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>Study_Site_phone_number</fullName>
@@ -18983,6 +19350,13 @@ communications using the toggles below.</value>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
     </labels>
+     <labels>
+        <fullName>Type_in_your_notes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Type in your notes...</shortDescription>
+        <value>Type in your notes...</value>
+    </labels>
     <labels>
         <fullName>Tab_Medical_History</fullName>
         <language>en_US</language>
@@ -18990,6 +19364,7 @@ communications using the toggles below.</value>
         <shortDescription>Tab_Medical_History</shortDescription>
         <value>Medical History</value>
     </labels>
+   
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
         <language>en_US</language>

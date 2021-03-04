@@ -124,7 +124,7 @@ public without sharing class CommunityService {
         return [
             SELECT Id, userCommunityMode__c, userCommunytyType__c
             FROM Contact
-            WHERE Id IN :userContactIds
+            WHERE Id IN :userContactIds FOR UPDATE
         ];
     }
 

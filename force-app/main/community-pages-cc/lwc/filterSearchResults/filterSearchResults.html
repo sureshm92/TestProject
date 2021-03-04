@@ -1,3 +1,56 @@
 <template>
     <c-builder-stub></c-builder-stub>
+    <div class="slds-grid slds-grid_reverse">
+        <div class="fsr-country slds-col slds-size_2-of-6">
+            <!--<div class="slds-form-element__control">-->
+            <input
+                id="country"
+                name="country"
+                list="countryResultSet"
+                placeholder={label.countryPlaceholderTxt}
+                class="slds-input"
+                type="text"
+                data-study-id="country"
+                onchange={handleCountryChange}
+            />
+            <datalist id="countryResultSet" data-study-id="country">
+                <template for:each={filterCountryList} for:item="item">
+                    <option key={item.key} value={item.value}>{item.value}</option>
+                </template>
+            </datalist>
+            <lightning-button
+                name="forCountry"
+                variant="base"
+                class="frs-txt-reset"
+                onclick={resetFilterTxt}
+            ></lightning-button>
+            <!--</div>-->
+        </div>
+        <div class="fsr-study slds-col slds-size_2-of-6">
+            <!--<div class="slds-form-element__control">-->
+            <input
+                id="studyName"
+                name="studyName"
+                list="studyResultSet"
+                placeholder={label.studyPlaceholderTxt}
+                class="slds-input"
+                type="text"
+                data-study-id="studyName"
+                onchange={handleStudyChange}
+            />
+            <datalist id="studyResultSet" data-study-id="studyName">
+                <template for:each={filterStudyList} for:item="item">
+                    <option key={item.key} value={item.value}>{item.value}</option>
+                </template>
+            </datalist>
+            <lightning-button
+                name="forStudyName"
+                variant="base"
+                class="frs-txt-reset"
+                onclick={resetFilterTxt}
+            ></lightning-button>
+            <!--</div>-->
+        </div>
+        <label class="fsr-label" for="studyName"> {label.filterPanelLabel} </label>
+    </div>
 </template>
