@@ -68,7 +68,7 @@
     }
 
     .THIS .svl-label {
-        max-width: 100%;
+        min-width: 100%;
         padding-right: 25px;
     }
 
