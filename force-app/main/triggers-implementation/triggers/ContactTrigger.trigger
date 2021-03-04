@@ -19,4 +19,5 @@ trigger ContactTrigger on Contact(
     TriggerHandlerExecutor.execute(ContactTriggerHandler.SetShowTourDefaultHandler.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.PopulateOverrideFields.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForCCContactHandler.class);
+    TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
 }
