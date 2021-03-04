@@ -114,14 +114,8 @@ public without sharing class ContactTriggerHandler {
             }
             if(participantsToUpdate.size()>0){
                 TriggerHandlerExecutor.bypassHandler(
-                    ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
-                );
-                TriggerHandlerExecutor.bypassHandler(
                     ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
                 );
-                TriggerHandlerExecutor.bypassHandler(
-                    ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
-                ); 
                 update participantsToUpdate;
             }
         }
