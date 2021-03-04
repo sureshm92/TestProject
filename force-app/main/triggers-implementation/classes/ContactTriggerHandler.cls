@@ -5,7 +5,7 @@
 
 public without sharing class ContactTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-
+	//public static Boolean noUpdateOnParticipantRecord = false;
     public class UpdateParticipantAndUserEmailsOnEmailChangeHandler extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateParticipantAndUserEmailsOnEmailChange(newList, (Map<Id, Contact>) oldMap);
@@ -50,8 +50,77 @@ public without sharing class ContactTriggerHandler {
         }
     }
 
+    public class UpdateParticipantDetailsHandler extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            updateParticipantDetailsHandler((List<Contact>)newList, (Map<Id, Contact>) oldMap);
+        }
+    }
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
 
+    @TestVisible
+    private static void updateParticipantDetailsHandler(List<Contact> newList, Map<Id, Contact> oldMap){
+        Map<ID, Contact> updatedContactsMap = new Map<Id, Contact>();
+        for(Contact c : newList){
+            Boolean isUpdateNeeded= false;
+            if(c.MailingCountry!= oldMap.get(c.Id).MailingCountry){
+                isUpdateNeeded = true;
+            }
+            if(c.MailingCountryCode!= oldMap.get(c.Id).MailingCountryCode){
+                isUpdateNeeded = true;
+            }
+            if(c.MailingState!= oldMap.get(c.Id).MailingState){
+                isUpdateNeeded = true;
+            }
+            if(c.MailingStateCode!= oldMap.get(c.Id).MailingStateCode){
+                isUpdateNeeded = true;
+            }
+            if(c.MailingPostalCode!= oldMap.get(c.Id).MailingPostalCode){
+                isUpdateNeeded = true;
+            }                             
+            if(isUpdateNeeded){
+                updatedContactsMap.put(c.Id,c);                                  
+            }
+        }
+        if(updatedContactsMap.size()>0){
+            List<Participant__c> participantsToUpdate = new List<Participant__c>();
+            for(Participant__c participant: [SELECT Id,Contact__c,Mailing_Country_Code__c,Mailing_Country__c,
+                                             Mailing_State_Code__c,Mailing_State__c,Mailing_Zip_Postal_Code__c 
+                                             FROM Participant__c WHERE Contact__c IN :updatedContactsMap.keySet()]){
+                Boolean isUpdateNeeded= false;
+                if(participant.Mailing_Country__c!= updatedContactsMap.get(participant.Contact__c).MailingCountry){
+                    participant.Mailing_Country__c = updatedContactsMap.get(participant.Contact__c).MailingCountry;
+                    isUpdateNeeded = true;
+                }
+                if(participant.Mailing_Country_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingCountryCode){
+                    participant.Mailing_Country_Code__c = updatedContactsMap.get(participant.Contact__c).MailingCountryCode;
+                    isUpdateNeeded = true;
+                }
+                if(participant.Mailing_State__c!= updatedContactsMap.get(participant.Contact__c).MailingState){
+                    participant.Mailing_State__c = updatedContactsMap.get(participant.Contact__c).MailingState;
+                    isUpdateNeeded = true;
+                }
+                if(participant.Mailing_State_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingStateCode){
+                    participant.Mailing_State_Code__c = updatedContactsMap.get(participant.Contact__c).MailingStateCode;
+                    isUpdateNeeded = true;
+                }
+                if(participant.Mailing_Zip_Postal_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingPostalCode){
+                    participant.Mailing_Zip_Postal_Code__c = updatedContactsMap.get(participant.Contact__c).MailingPostalCode;
+                    isUpdateNeeded = true;
+                }                             
+                if(isUpdateNeeded){
+                    participantsToUpdate.add(participant);                                  
+                }
+            }
+            if(participantsToUpdate.size()>0){
+                TriggerHandlerExecutor.bypassHandler(
+                    ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
+                );
+                update participantsToUpdate;
+            }
+        }
+    }
+    
     @TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(
         List<Contact> newList,
