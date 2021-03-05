@@ -39,6 +39,9 @@
     background: none;
     border: none;
 }
+.rtl{
+right:607px !important;
+}
 
 .p-container > .slds-button:after {
     content: '';

@@ -80,7 +80,8 @@ export default class WebPopup extends LightningElement {
         return (
             'slds-button slds-button--icon-inverse' +
             (this.showClose ? '' : ' slds-hide') +
-            (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '')
+            (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '') +
+            (this.isRTL ? ' rtl' : '')
         );
     }
 
