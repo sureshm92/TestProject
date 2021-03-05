@@ -101,13 +101,13 @@ h2 {
     margin-top: -28px;
     margin-left: 20px;
 }
-.icons-container {
+/*.icons-container {
     display: flex;
     overflow: hidden;
     height: 32px;
     margin-left: 13px;
     justify-content: space-between;
-}
+}*/
 
 .icons-row {
     display: flex;
@@ -121,6 +121,7 @@ h2 {
 .icon {
     position: relative;
     display: flex;
+    overflow: visible;
     padding-top: 6px;
     padding-left: 10px;
 }
@@ -427,6 +428,28 @@ h2 {
     margin-left: 5px;
     display: flex;
     padding-top: 15px;
+}
+.icon .tooltiptext {
+    visibility: hidden;
+    background-color: #444;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+    width: 300px;
+
+    /* Position the tooltip */
+    position: absolute;
+    top: 100%;
+    z-index: 1;
+    left: -10%;
+    overflow: visible;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 1rem;
+}
+
+.icon:hover .tooltiptext {
+    visibility: visible;
 }
 
 .add-date {
