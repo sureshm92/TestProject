@@ -3,7 +3,7 @@
         <div class="travel-support slds-float_left slds-col slds-size_1-of-2">
             {labels.travelSupport}
         </div>
-        <div class="slds-col slds-size_1-of-2 mr">
+        <div class={addNewClass}>
             <template if:true={showVendors}>
                 <div class="dropdown">
                     <span>
@@ -30,9 +30,7 @@
                                     >
                                     </lightning-formatted-url>-->
 
-                                    <a href={vendor.Link_Vendor__c} target="_blank"
-                                        >{vendor.Name}</a
-                                    >
+                                    <a href={vendor.Link_Vendor__c} target="_blank">{vendor.Name}</a>
                                 </div>
                             </div>
                         </template>
@@ -57,35 +55,23 @@
                     <td>{tw.title}</td>
                     <td>{tw.status}</td>
                     <td>
-                        <lightning-formatted-date-time
-                            value={tw.dateAndTime}
-                            year="numeric"
-                            month="short"
-                            day="2-digit"
-                            time-zone="UTC"
-                        >
+                        <lightning-formatted-date-time value={tw.dateAndTime} year="numeric" month="short" day="2-digit"
+                            time-zone="UTC">
                         </lightning-formatted-date-time>
                     </td>
                     <td>
-                        <lightning-formatted-date-time
-                            value={tw.dateAndTime}
-                            hour="numeric"
-                            minute="numeric"
-                            time-zone="UTC"
-                        >
+                        <lightning-formatted-date-time value={tw.dateAndTime} hour="numeric" minute="numeric"
+                            time-zone="UTC">
                         </lightning-formatted-date-time>
                     </td>
                     <td>
-                        <lightning-formatted-url
-                            value={tw.link}
-                            label="View"
-                        ></lightning-formatted-url>
+                        <lightning-formatted-url value={tw.link} label="View"></lightning-formatted-url>
                     </td>
                 </tr>
             </template>
         </tbody>
     </table>
     <template if:true={noTravelInformation}>
-        <div class="no-travels-message">{labels.noTravelInfo}</div>
+        <div class={noTravelClass}>{labels.noTravelInfo}</div>
     </template>
 </template>
