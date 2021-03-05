@@ -39,6 +39,9 @@ export default class VisitTravelDetails extends LightningElement {
     @track travelDetails = [];
     @track showVendors = false;
     @track noTravelInformation = false;
+    @api isrtl;
+    @track addNewClass = 'slds-col slds-size_1-of-2';
+    @track noTravelClass = 'no-travels-message';
     connectedCallback() {
         console.log('visitName-->' + this.vname);
         console.log('visitNumber-->' + this.vnum);
@@ -52,15 +55,19 @@ export default class VisitTravelDetails extends LightningElement {
             .catch((error) => {
                 console.log('error');
             });
-
-
+        if (this.isrtl) {
+            this.addNewClass = 'slds-col slds-size_1-of-2 mr_rtl';
+            this.noTravelClass = 'no-travels-message_rtl';
+        } else {
+            this.addNewClass = 'slds-col slds-size_1-of-2 mr';
+            this.noTravelClass = 'no-travels-message';
+        }
 
         this.handleLoad();
         this.getTravelVendorsDetails();
     }
 
     handleLoad() {
-
         getTravelDetails({ clientId: '12345', clientSecret: '12345', isHomePage: false })
             .then((result) => {
                 console.log('result', result);
@@ -71,7 +78,6 @@ export default class VisitTravelDetails extends LightningElement {
             .catch((error) => {
                 this.error = error;
             });
-
     }
 
     getTravelVendorsDetails() {
@@ -103,6 +109,5 @@ export default class VisitTravelDetails extends LightningElement {
             console.log('travelDetails ', this.travelDetails);
         }
         this.noTravelInformation = this.travelDetails.length === 0;
-
     }
 }
