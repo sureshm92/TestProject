@@ -7,6 +7,7 @@ import { LightningElement, api } from 'lwc';
 import dateLabel from '@salesforce/label/c.IncentiveProgram_Date';
 import taskLabel from '@salesforce/label/c.IncentiveProgram_Task';
 import ptsLabel from '@salesforce/label/c.IncentiveProgram_Pts';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 import pointsEarnedLabel from '@salesforce/label/c.IncentiveProgram_Points_Earned';
 
 export default class IncentivesMyPointsTable extends LightningElement {
@@ -16,5 +17,15 @@ export default class IncentivesMyPointsTable extends LightningElement {
         ptsLabel,
         pointsEarnedLabel
     };
+    rtl;
     @api completedTasks;
+    connectedCallback() {
+        getisRTL()
+        .then((data) => {
+            this.rtl = data === true? 'rtl': '';
+        })
+        .catch(function(error) {
+            console.error('Error: ' + JSON.stringify(error));
+        });
+    }
 }

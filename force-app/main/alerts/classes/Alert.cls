@@ -86,7 +86,7 @@ public class Alert {
                 objectsMap.put(sobj.Id, sobj);
         }
 
-        String userName = [SELECT FirstName FROM Contact WHERE Id = :contactId].FirstName;
+        String userName = [SELECT FirstName, LastName FROM Contact WHERE Id = :contactId].LastName; //REF-3110 Updated by Sumit Surve
         if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Participant__c> participants = [
                 SELECT Id, First_Name__c

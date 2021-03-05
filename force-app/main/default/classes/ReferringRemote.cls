@@ -297,6 +297,7 @@ public without sharing class ReferringRemote {
                     newContact.MailingStateCode = participant.Mailing_State_Code__c;
                     newContact.MailingCountry = participant.Mailing_Country__c;
                     newContact.MailingState = participant.Mailing_State__c;
+                    newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
                     if ('Home' == participantDelegate.Phone_Type__c) {
                         newContact.HomePhone = participantDelegate.Phone__c;
                     }
@@ -309,12 +310,17 @@ public without sharing class ReferringRemote {
                 } else {
                     newContact = [
                         SELECT  Id,  FirstName, LastName,   Email, MailingCity, MailingCountryCode
-                        ,MailingStateCode  FROM Contact  WHERE Id = :delegateDuplicateInfo.contactId ];
+                        ,MailingStateCode, MailingState, MailingPostalCode, MailingCountry  FROM Contact  WHERE Id = :delegateDuplicateInfo.contactId ];
                     createDelegateuser = false;
                 }
                 if (delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null) {
                     participantDelegate.Contact__c = newContact.Id;
                     participantDelegate.Adult__c = true;
+                    participantDelegate.Mailing_Country__c = newContact.MailingCountry;
+                	participantDelegate.Mailing_Country_Code__c = newContact.MailingCountryCode;
+                	participantDelegate.Mailing_State__c = newContact.MailingState;
+                	participantDelegate.Mailing_State_Code__c = newContact.MailingStateCode;
+					participantDelegate.Mailing_Zip_Postal_Code__c = newContact.MailingPostalCode;
                     if (
                         String.isBlank(participantDelegate.Phone__c) && !String.isBlank(participant.Phone__c)
                     ) {

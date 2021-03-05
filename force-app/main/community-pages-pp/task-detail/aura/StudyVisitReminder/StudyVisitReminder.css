@@ -1,22 +1,35 @@
+.THIS .rr-white-panel.padding {
+    padding: 1rem 0 0;
+}
+
+.THIS #body {
+    padding: 0 8px;
+}
+
 .THIS .te-task-panel {
     min-height: 400px;
     max-width: 1140px;
     margin: 25px auto -80px;
 }
+
 .THIS .slds-dropdown {
     font-size: 16px;
     font-family: 'Proxima Nova';
     color: #000000;
 }
+
 .THIS .mr_8 {
     margin-left: -8px;
 }
+
 .THIS .slds-button {
     z-index: 1000;
 }
+
 .THIS .vis-input {
     width: 209px;
 }
+
 .THIS .title {
     height: 60px;
     /* width: 190px; */
@@ -27,12 +40,13 @@
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
-    margin-left: 16px;
 }
+
 .THIS .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
+
 .THIS .slds-form-element__help {
     white-space: nowrap;
     position: absolute;
@@ -41,6 +55,7 @@
 .THIS .mr_10 {
     margin-top: 10px;
 }
+
 .THIS .slds-input.slds-combobox__input {
     color: #000000;
     font-family: 'Proxima Nova';
@@ -52,6 +67,7 @@
     align-items: center;
     font-weight: 500;
 }
+
 .THIS .slds-input {
     color: #000000;
     font-family: 'Proxima Nova';
@@ -63,6 +79,7 @@
     align-items: center;
     font-weight: 500;
 }
+
 .THIS .label {
     height: 24px;
     width: 209.13px;
@@ -73,10 +90,12 @@
     line-height: 24px;
     padding-bottom: 20px;
 }
+
 .THIS .container1 {
     height: 40px;
     width: 418px;
 }
+
 .THIS .what-to-expect {
     height: 24px;
     width: 136px;
@@ -98,55 +117,68 @@
     height: 40px;
     width: 209px;
 }
+
 .THIS .reminderDate {
     margin-left: -99px;
     margin-top: 5px;
 }
+
 .THIS .reminder {
     margin-left: -111px;
     margin-top: 5px;
 }
+
 .THIS .wi {
     width: 209px;
 }
+
 .THIS .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
+
 .THIS .rightAlign .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
+
 .THIS .rightAlign .slds-input {
     padding-right: 2px;
 }
+
 .THIS .rightAlign .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
+
 .THIS .rightAlign .slds-input__icon_right {
     margin-right: 12.5rem;
 }
+
 .THIS .rightAlign1 .slds-datepicker table {
     table-layout: fixed;
     width: 300px;
 }
+
 .THIS .rightAlign1 .slds-input {
     padding-right: 2px;
 }
+
 .THIS .rightAlign1 .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
     height: auto !important;
     line-height: inherit !important;
 }
+
 .THIS .rightAlign1 .slds-input__icon_right {
     margin-right: 10.5rem;
 }
+
 .THIS .task-rtl-remind {
     direction: rtl !important;
     text-align: right;
@@ -274,6 +306,22 @@
     opacity: 0.4;
 }
 
+.THIS.cPopup .p-container .p-footer {
+    padding: 15px 24px 30px;
+}
+
+.THIS .cRRIconSplitter .icon .tooltiptext {
+    bottom: 0;
+    left: 0;
+    transform: translate(0, 100%);
+    z-index: 3;
+}
+
+.THIS .te-col-header-info + .te-form > .slds-col:first-child input {
+    width: 418px;
+}
+
+
 @media only screen and (max-width: 500px) and (orientation: portrait) {
     .THIS .rr-white-panel {
         padding: 20px 0;
@@ -290,13 +338,14 @@
     .THIS .p-buttons-container > div {
         display: flex;
         flex-wrap: wrap;
+        justify-content: flex-end;
     }
 
     .THIS .p-buttons-container .slds-button:nth-of-type(1) {
-        order: 4;
-        margin-left: 10px;
+        order: 3;
         width: 40%;
     }
+
     .THIS .p-buttons-container .slds-button:nth-of-type(2) {
         order: 1;
         min-width: 25%;
@@ -309,11 +358,39 @@
         margin-left: 10px;
     }
     .THIS .p-buttons-container .slds-button:nth-of-type(4) {
-        order: 3;
+        order: 4;
         width: 56%;
         margin-bottom: 1rem;
-        margin-left: 0;
+        margin-left: 10px;
     }
+
+    .THIS .p-buttons-container > .right {
+        flex-direction: row-reverse;
+    }
+
+    .THIS .p-buttons-container .slds-button.tertiary + .slds-button.primary {
+        width: 50%;
+        margin-left: 15px;
+        order: 4;
+    }
+
+    .THIS .title {
+        max-width: 85%;
+    }
+
+    .THIS .container1 {
+        height: auto;
+        width: 100%
+    }
+
+    .THIS.cPopup #p-modal .p-container .p-mobile-close {
+        top: -10px;
+    }
+
+    .THIS .te-form > .slds-col:first-child input {
+        width: 100%;
+    }
+
 }
 
 @media only screen and (max-width: 360px) and (orientation: portrait) {

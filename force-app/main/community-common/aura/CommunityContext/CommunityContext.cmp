@@ -7,6 +7,7 @@
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
+    <aura:attribute name="language" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="isMobileApp" type="Boolean" />
     {!v.body}

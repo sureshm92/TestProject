@@ -109,6 +109,7 @@
                             component.set('v.participantDelegate', returnValue.participantDelegate);
                             component.set('v.participant', pe.Participant__r);
                             component.set('v.userInfo', returnValue.userInfo);
+                            component.set('v.contactInfo', returnValue.contactInfo);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -143,6 +144,16 @@
             helper.createUserForPatient(component,event,helper);
         }*/
         var userInfo = component.get('v.userInfo');
+        var contactInfo  = component.get('v.contactInfo');
+        var userInfoJSON=null;
+        var contactInfoJSON=null;
+        //if user is available, update user language else update contact language. 
+        if(userInfo!=null && userInfo!== undefined){
+            userInfo.LanguageLocaleKey=contactInfo.Language__c;
+            userInfoJSON = JSON.stringify(userInfo);
+        }else{
+            contactInfoJSON = JSON.stringify(contactInfo);
+        }
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
@@ -158,7 +169,8 @@
                 participantJSON: JSON.stringify(participant),
                 peJSON: JSON.stringify(pe),
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-                userInfoJSON: JSON.stringify(userInfo)
+                userInfoJSON: userInfoJSON,
+                contactInfoJSON: contactInfoJSON 
             },
             function (returnvalue) {
                 if (component.get('v.saveAndChangeStep')) {
@@ -217,6 +229,17 @@
     },
     doUpdateCancel: function (component, event, helper) {
         var userInfo = component.get('v.userInfo');
+        var contactInfo  = component.get('v.contactInfo');
+        var userInfoJSON;
+        var contactInfoJSON;
+        //if user is available, update user language else update contact language. REF-2930
+        if(userInfo!=null && userInfo!== undefined){
+            userInfo.LanguageLocaleKey=contactInfo.Language__c;
+            userInfoJSON = JSON.stringify(userInfo);
+        }else{
+            userInfoJSON = null; 
+            contactInfoJSON = JSON.stringify(contactInfo);
+        }
         var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
@@ -292,7 +315,8 @@
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
             delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-            userInfoJSON: JSON.stringify(userInfo)
+            userInfoJSON: userInfoJSON, 
+            contactInfoJSON: contactInfoJSON 
         };
         if (statusDetailValid) {
             if (usermode == 'CC') {
@@ -306,7 +330,8 @@
                 pathWrapperJSON: JSON.stringify(pathWrapper),
                 peId: pe.Id,
                 delegateJSON: JSON.stringify(component.get('v.participantDelegate')),
-                userInfoJSON: JSON.stringify(userInfo),
+                userInfoJSON: userInfoJSON, 
+                contactInfoJSON: contactInfoJSON, 
                 historyToUpdate: isStatusChanged,
                 notesToBeAdded: notesToBeAdded,
                 outcome: outcome

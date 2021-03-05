@@ -1,0 +1,111 @@
+<aura:component
+                description="Action_StudySiteInformation"
+                controller="StudySiteInformationController" 
+                >
+    <ltng:require
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  />
+    
+    <aura:attribute name="parentComp" type="Aura.Component" />
+    <aura:attribute name="studyInformation" type="String" />
+    <aura:attribute name="delegateList" type="List" />
+    <aura:attribute name="siteInfoComplete" type="Boolean" default="false"/>
+    <aura:attribute name="trainingComplete" type="Boolean" default="false"/>
+    <aura:attribute name="supressEmail" type="Boolean" default="false"/>
+    <aura:attribute name="optIn" type="Boolean" default="false"/>
+    <aura:attribute name="isModifiedInfo" type="Boolean" default="true"/>
+    <aura:attribute name="isAccountModified" type="Boolean" default="true" />
+    <aura:attribute name="isCDValitated" type="Boolean" default="true" />
+    <aura:attribute name="editedAccount" type="String" />
+    <aura:attribute name="isEdited" type="Boolean" default="false" />
+    <aura:attribute name="isStudyInfoModified" type="Boolean" default="false" />
+    <aura:attribute name="newCall" type="Boolean" default="false" />
+    <aura:attribute name="notes" type="String" default=""/>
+    <aura:attribute name="callbound" type="String" default="Inbound"/>
+    <aura:attribute name="callcategory" type="String"/>
+    <aura:attribute name="interventionReq" type="Boolean" default="false"/>
+    <aura:attribute name="CD" type="object" access="public" />
+    <aura:attribute name="hasNewCall" type="Boolean" default="false" />
+    <aura:method name="execute" action="{!c.doExecute}" access="public"/>
+    
+    <aura:attribute name="CmpOpen" type="Boolean" default="false" />
+    <aura:registerEvent name="CloseSSInfoEvent" type="c:CloseSSInfoEvent" />
+    <aura:handler name="CloseCCSSInfoEvent" event="c:CloseCCSSInfoEvent" action="{!c.doClosePopups}"/>
+    <!-- component body: -->
+    
+    <aura:if isTrue="{!v.CmpOpen}">
+        <c:Popup
+                 aura:id="dialog"
+                 title="{!v.studyInformation.siteName}"
+                 size="large"
+                 showScroll="true"
+                 showHeader="true"
+                 showFooter="true"
+                 actionpopupcc="true"
+                 >
+            <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false" />
+            
+            <c:StudySiteEdit 
+                             studyInformation="{!v.studyInformation}"
+                             delegateList="{!v.delegateList}"
+                             siteInfoComplete = "{!v.siteInfoComplete}"
+                             trainingComplete = "{!v.trainingComplete}"
+                             supressEmail = "{!v.supressEmail}"
+                             isModifiedInfo = "{!v.isModifiedInfo}"
+                             isStudyInfoModified = "{!v.isStudyInfoModified}"/>
+            
+            <c:StudySiteLocations 
+                                  piId = "{!v.studyInformation.piId}" 
+                                  studySite ="{!v.studyInformation}"
+                                  isAccountModified = "{!v.isAccountModified}"
+                                  isEdited = "{!v.isEdited}"
+                                  isStudyInfoModified = "{!v.isStudyInfoModified}"
+                                  editedAccount = "{!v.editedAccount}"/>
+            
+            <c:CallDispositionSection 
+                                      hasNewCall="{!v.hasNewCall}"
+                                      siteId="{!v.studyInformation.siteId}" 
+                                      isCDValitated="{!v.isCDValitated}"
+                                      aura:id="childCmp"
+                                      isStudyInfoModified = "{!v.isStudyInfoModified}"
+                                      newCall ="{!v.newCall}"
+                                      notes="{!v.notes}"
+                                      callbound="{!v.callbound}"
+                                      callcategory="{!v.callcategory}"
+                                      interventionReq="{!v.interventionReq}"
+                                      CD="{!v.CD}"
+                                      />
+            
+            <aura:set attribute="footerButtons">
+                <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+                        <span>
+                            <lightning:button class="apollo-btn tertiary"
+                                              disabled="{!v.isEdited}"
+                                              onclick="{!c.doCancel}"
+                                              >{!$Label.c.BTN_Cancel}</lightning:button
+                                >
+                            
+                           <lightning:button
+                                              class="apollo-btn secondary" onclick="{!c.doSave}" 
+                                              disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
+                                                (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                              >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                         </span>
+                        <!--<lightning:button
+                                          class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
+                                          disabled = "{!!(v.isStudyInfoModified &amp;&amp;
+                                                      (v.isModifiedInfo &amp;&amp;
+                                                      v.isAccountModified &amp;&amp; 
+                                                      v.isCDValitated))}"
+                                          >{!$Label.c.CC_Save_All_And_Close}</lightning:button>-->
+                           <lightning:button
+                                          class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
+                                          disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
+                                            (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                          >{!$Label.c.CC_Save_All_And_Close}</lightning:button>
+                </div>
+            </aura:set>
+        </c:Popup>
+    </aura:if>
+    
+</aura:component>
