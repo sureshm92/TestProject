@@ -1,9 +1,9 @@
 <messaging:emailTemplate subject="{!$Label.Email_Subject_Visit_Task_Reminder}"
                          recipientType="Contact"
-                         relatedToType="Participant_Enrollment__c"
+                         relatedToType="Task" 
                          language="{!recipient.Language__c}">
 
-    <messaging:htmlEmailBody>
+    <messaging:htmlEmailBody >
         <c:EmailWireframe recipientId="{!recipient.Id}"
                          sourceId="{!relatedTo.Id}"
                          header="{!$Label.Email_Header_Visit_Task_Reminder}"
@@ -14,7 +14,7 @@
         </c:EmailWireframe>
     </messaging:htmlEmailBody>
 
-    <messaging:plainTextEmailBody>
+    <messaging:plainTextEmailBody >
         <c:EmailWireframeText recipientId="{!recipient.Id}"
                              sourceId="{!relatedTo.Id}"
                              header="{!$Label.Email_Header_Visit_Task_Reminder}"
