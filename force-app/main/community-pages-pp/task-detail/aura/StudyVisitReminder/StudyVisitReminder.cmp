@@ -99,7 +99,7 @@
                                 </div>
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
                                     <lightning:input aura:id="field" type="date" min="{!v.initData.today}"
-                                                     variant="label-hidden" value="{!v.initData.activityDate}"
+                                                     variant="label-hidden" value="{!v.initData.activityDateWOTime}"
                                                      disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                                      class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit containerAdmin' : 'containerAdmin'}"
                                                      dateStyle="medium" required="true" onblur="{!c.doValidateFields}" messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"/>
