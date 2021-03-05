@@ -49,6 +49,9 @@
         component.hide();
         var closeCallback = component.get('v.closeCallback');
         if (closeCallback) closeCallback();
+        console.log('>>>closeCallback111>>>'+closeCallback);
+        console.log('>>>childpopup111>>>'+component.get('v.childpopup'));
+        console.log('>>>actionpopupcc>>>'+component.get('v.actionpopupcc'));
         if (component.get('v.childpopup')) {
             var cmpEvent = component.getEvent('cmpEvent');
             cmpEvent.setParams({
@@ -56,5 +59,11 @@
             });
             cmpEvent.fire();
         }
+        if (component.get('v.actionpopupcc')) { 
+            //alert('h');
+            var cmpEvents = component.getEvent('CloseCCSSInfoEvent');
+            cmpEvents.fire();//alert('fire');
+        }
+         
     }
 });

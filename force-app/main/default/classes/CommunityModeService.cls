@@ -140,6 +140,7 @@ public without sharing class CommunityModeService {
             }
             modes.add(modeItem);
         }
+        System.debug('>>modes>>'+modes);
         return modes;
     }
 
@@ -345,7 +346,11 @@ public without sharing class CommunityModeService {
         List<CommunityModes.RHCommunityModeItem> rhModes,
         List<CommunityModes.PPCommunityModeItem> ppModes
     ) {
-        if (rhModes.isEmpty()) {
+        if(rhModes.isEmpty() && ppModes.isEmpty())
+        {
+            return CommunityModes.MODE_TYPE_CC;
+        }
+        else if (rhModes.isEmpty()) {
             return CommunityModes.MODE_TYPE_PP_ONLY;
         } else if (ppModes.isEmpty()) {
             if (rhModes.size() == 1 && rhModes[0].subItems.size() < 2) {

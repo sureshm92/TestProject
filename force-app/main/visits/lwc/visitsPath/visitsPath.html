@@ -139,11 +139,17 @@
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
                                                 <div class="icon" key={icon.Id}>
+                                                    <template if:true={icon.Label__c}>
+                                                        <span class="tooltiptext">
+                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                        </span>
+                                                    </template>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
                                                         icon-height="20"
                                                         icon-color="#A9A9A9"
                                                         icon-width="20"
+                                                        tooltip-class-name=" tooltip"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -286,7 +292,9 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}
+                                {labels.remindUsing}<abbr title="required" class="slds-required"
+                                    >*</abbr
+                                >
                                 <template if:true={showAccountNavigation}>
                                     <a onclick={doNavigateToAccountSettings} style="margin: 10px"
                                         >{labels.ChangeNotifications}</a
@@ -466,11 +474,17 @@
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
                                                 <div class="icon" key={icon.Id}>
+                                                    <template if:true={icon.Label__c}>
+                                                        <span class="tooltiptext">
+                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                        </span>
+                                                    </template>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
                                                         icon-height="20"
                                                         icon-color="#A9A9A9"
                                                         icon-width="20"
+                                                        tooltip-class-name=" tooltip"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -613,7 +627,9 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}
+                                {labels.remindUsing}<abbr title="required" class="slds-required"
+                                    >*</abbr
+                                >
                                 <template if:true={showAccountNavigation}>
                                     <a onclick={doNavigateToAccountSettings} style="margin: 10px"
                                         >{labels.ChangeNotifications}</a

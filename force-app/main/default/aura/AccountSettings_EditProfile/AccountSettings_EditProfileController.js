@@ -6,7 +6,7 @@
         } else {
             component.set('v.isDelegate', false);
         }
-
+		console.log('>>>userMode>>'+component.get('v.userMode'));
         communityService.executeAction(
             component,
             'getInitData',
@@ -15,7 +15,7 @@
             },
             function (returnValue) {
                 let initData = JSON.parse(returnValue);
-                console.log('initData', initData);
+                console.log('initData', JSON.stringify(initData));
                 initData.password = {
                     old: '',
                     new: '',
@@ -52,7 +52,8 @@
                 component.set('v.contact', initData.myContact);
                 component.set('v.delegateContact', initData.delegateContact);
                 component.set('v.hasProfilePic', initData.hasProfilePic);
-                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI') {
+                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI' ||
+                   component.get('v.userMode') == 'CC') {
                     component.set('v.disableSave', true);
                 }
                 if (component.get('v.userMode') === 'Participant') {
@@ -78,7 +79,8 @@
                         }
                     }
                 }
-                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI') {
+                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI'||
+                   component.get('v.userMode') == 'CC') {
                     component.set('v.userEmail', initData.myContact.Email);
                 }
                 // console.log('initData.myContact.Email',initData.myContact.Email);
@@ -291,8 +293,9 @@
         else component.set('v.disableSave', true);
     },
     doCheckFieldsValidity: function (component, event, helper) {
+        console.log('coming inside field check>>');
         event.preventDefault();
-        debugger;
+        
         var numbers = /^[0-9]*$/;
         let personWrapper = component.get('v.personWrapper');
         var homephoneField = component.find('pField2');
@@ -351,10 +354,15 @@
                     component.set('v.disableSave', false);
                 }
             }
-        } else if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI') {
+        } else if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI' 
+                   || component.get('v.userMode') == 'CC') {
+            console.log('>>>personWrapper>'+JSON.stringify(personWrapper));
             if (!personWrapper.firstName || !personWrapper.lastName) {
                 component.set('v.disableSave', true);
             }
+            let mobilePhoneValid_Participant =
+                personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
+            let homePhoneValid_Participant = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
             if (personWrapper.homePhone) {
                 if (!numbers.test(personWrapper.homePhone)) {
                     homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
@@ -368,6 +376,14 @@
                 component.set('v.disableSave', false);
             }
             homephoneField.reportValidity();
+            if (
+                !personWrapper.firstName ||
+                !personWrapper.lastName ||
+                mobilePhoneValid_Participant === false || 
+                homePhoneValid_Participant === false
+            ) {
+                component.set('v.disableSave', true);
+            }
         }
         if (personWrapper.mailingCC !== component.get('v.previousCC')) {
             let statesByCountryMap = component.get('v.statesByCountryMap');
@@ -376,7 +392,7 @@
             component.set('v.previousCC', personWrapper.mailingCC);
             personWrapper.mailingSC = null;
             component.set('v.personWrapper', personWrapper);
-
+            
             component.set('v.reRender', false);
             component.set('v.reRender', true);
         }

@@ -17,6 +17,7 @@ export default class WebIcon extends LightningElement {
     @api iconHeight;
     @api printMode = false;
     @api resource;
+    @api tooltipClassName = '';
     resourcePath;
 
     renderedCallback() {
@@ -49,6 +50,10 @@ export default class WebIcon extends LightningElement {
 
         if (this.iconHeight) svgElement.style.height = this.iconHeight + 'px';
         if (this.iconWidth) svgElement.style.width = this.iconWidth + 'px';
+        if (this.tooltipClassName) {
+            console.log('this.tooltipClassName-' + this.tooltipClassName);
+            svgElement.className.baseVal = svgElement.className.baseVal + this.tooltipClassName;
+        }
     }
 
     get icon() {
