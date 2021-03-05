@@ -45,6 +45,14 @@
     color: #999;
     margin-left: 13rem;
 }
+.no-travels-message_rtl {
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+    font-size: 1rem;
+    color: #999;
+    margin-left: 13rem;
+    margin-right: 13rem;
+}
 .rectangle {
     box-sizing: border-box;
     height: 31px;
@@ -67,6 +75,11 @@
 .mr {
     margin-top: 40px;
     margin-left: 160px;
+}
+.mr_rtl {
+    margin-top: 40px;
+    margin-left: 160px;
+    margin-right: 302px;
 }
 .labels {
     height: 24px;

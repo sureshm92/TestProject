@@ -48,6 +48,10 @@ public without sharing class SendEmailToParticipant {
         ) {
             whatId = task.WhatId;
         }
+        if(((patientNotificationType != null) && patientNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE)) || ((delegateNotificationType != null) && delegateNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE) ))
+        {
+            whatId  = task.Id;  // Task Id for Visit and Task Reminders 
+        }
 
         if (
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&

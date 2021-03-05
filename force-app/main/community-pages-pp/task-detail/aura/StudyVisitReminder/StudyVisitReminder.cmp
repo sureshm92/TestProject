@@ -121,7 +121,7 @@
                         <div class="slds-grid slds-gutters slds-wrap">
                             <!-- Due Date -->
                             <div
-                                class="{!'slds-col slds-size_1-of-1 slds-medium-size_1-of-2 ' + if(v.isRTL, 'task-rtl rightAlign', '')}"
+                                class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-p-top_medium"
                             >
                                 <div class="label">
                                     <aura:if isTrue="{!v.initData.createdByAdmin}">
@@ -138,7 +138,7 @@
                                         type="date"
                                         min="{!v.initData.today}"
                                         variant="label-hidden"
-                                        value="{!v.initData.activityDate}"
+                                        value="{!v.initData.activityDateWOTime}"
                                         disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                         class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit containerAdmin' : 'containerAdmin'}"
                                         dateStyle="medium"
@@ -186,7 +186,7 @@
                             </div>
                             <!--Reminder Date-->
                             <div
-                                class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign', ' reminderDate')}"
+                                class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, ' reminderDate_rtl', ' reminderDate')}"
                             >
                                 <!--{!$Label.c.Home_Page_StudyVisit_Completed_On}-->
                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
@@ -222,17 +222,30 @@
                         >
                             <div class="slds-grid te-form slds-gutters slds-wrap">
                                 <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                    {!$Label.c.PP_Remind_Using}<abbr
-                                        title="required"
-                                        class="slds-required"
-                                        >*</abbr
-                                    >
-                                    <aura:if isTrue="{!v.showAccountNavigation}">
-                                        <a
-                                            onclick="{!c.doNavigateToAccountSettings}"
-                                            style="margin-left: 10px"
-                                            >{!$Label.c.PP_Change_Notification_Settings}</a
-                                        >
+                                    <aura:if isTrue="{!v.isRTL}">
+                                        <aura:if isTrue="{!v.showAccountNavigation}">
+                                            <a
+                                                onclick="{!c.doNavigateToAccountSettings}"
+                                                style="margin-right: 10px"
+                                                >{!$Label.c.PP_Change_Notification_Settings}</a
+                                            >
+                                        </aura:if>
+                                        <abbr title="required" class="slds-required">*</abbr
+                                        >{!$Label.c.PP_Remind_Using}
+                                        <aura:set attribute="else">
+                                            {!$Label.c.PP_Remind_Using}<abbr
+                                                title="required"
+                                                class="slds-required"
+                                                >*</abbr
+                                            >
+                                            <aura:if isTrue="{!v.showAccountNavigation}">
+                                                <a
+                                                    onclick="{!c.doNavigateToAccountSettings}"
+                                                    style="margin-left: 10px"
+                                                    >{!$Label.c.PP_Change_Notification_Settings}</a
+                                                >
+                                            </aura:if>
+                                        </aura:set>
                                     </aura:if>
                                 </div>
                             </div>
@@ -286,9 +299,7 @@
                         <div
                             class="slds-grid te-form slds-gutters slds-wrap slds-form-element__label"
                         >
-                            <div
-                                class="{! 'slds-col slds-size_1-of-1 slds-medium-size_1-of-2'+ if(v.isRTL, 'task-rtl', '')}"
-                            >
+                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <lightning:formattedText value="{!$Label.c.Task_Name}" />
                                 <br />
                                 <div class="slds-p-top_small"></div>
@@ -337,7 +348,9 @@
                                     class="{!(v.task.Remind_Me__c == 'Custom')?'slds-p-top_small':''}"
                                 ></div>
                             </div>
-                            <div class="slds-col slds-size_1-of-2 reminderDate">
+                            <div
+                                class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, ' reminderDate_rtl', ' reminderDate')}"
+                            >
                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">
                                         {!$Label.c.PP_Reminder_Date}
@@ -362,18 +375,34 @@
 
                             <!--Reminder Date-->
                         </div>
-                        <div class="{!'slds-grid' + if(v.isRTL, 'task-rtl rightAlign1', '')}"></div>
                         <div
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label'}"
                         >
-                            {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required"
-                                >*</abbr
-                            >
-                            <aura:if isTrue="{!v.showAccountNavigation}">
-                                <!--Account settings-->
-                                <a onclick="{!c.doNavigateToAccountSettings}" style="margin: 10px"
-                                    >{!$Label.c.PP_Change_Notification_Settings}</a
-                                >
+                            <aura:if isTrue="{!v.isRTL}">
+                                <aura:if isTrue="{!v.showAccountNavigation}">
+                                    <!--Account settings-->
+                                    <a
+                                        onclick="{!c.doNavigateToAccountSettings}"
+                                        style="margin-right: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}</a
+                                    > </aura:if
+                                ><abbr title="required" class="slds-required">*</abbr>
+                                {!$Label.c.PP_Remind_Using}
+                                <aura:set attribute="else">
+                                    {!$Label.c.PP_Remind_Using}<abbr
+                                        title="required"
+                                        class="slds-required"
+                                        >*</abbr
+                                    >
+                                    <aura:if isTrue="{!v.showAccountNavigation}">
+                                        <!--Account settings-->
+                                        <a
+                                            onclick="{!c.doNavigateToAccountSettings}"
+                                            style="margin: 10px"
+                                            >{!$Label.c.PP_Change_Notification_Settings}</a
+                                        >
+                                    </aura:if>
+                                </aura:set>
                             </aura:if>
                         </div>
                         <div class="slds-grid te-form slds-gutters slds-wrap">
@@ -458,7 +487,8 @@
                                             required="true"
                                             class="container1"
                                             onblur="{!c.doValidateFields}"
-                                        ></lightning:input>
+                                        >
+                                        </lightning:input>
                                         <aura:set attribute="else">
                                             <lightning:input
                                                 type="datetime"
@@ -493,7 +523,9 @@
                                 class="wi"
                             />
                         </div>
-                        <div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
+                        <div
+                            class="{!'slds-col slds-size_1-of-2 slds-p-top_x-small' + if(v.isRTL,' reminderDate_visrtl',' vis_reminder')}"
+                        >
                             <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                 <div class="label">
                                     {!$Label.c.PP_Reminder_Date}<abbr
@@ -526,14 +558,32 @@
                         <div
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}"
                         >
-                            {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required"
-                                >*</abbr
-                            >
-                            <aura:if isTrue="{!v.showAccountNavigation}">
-                                <!--Account settings-->
-                                <a onclick="{!c.doNavigateToAccountSettings}" style="margin: 10px"
-                                    >{!$Label.c.PP_Change_Notification_Settings}</a
-                                >
+                            <aura:if isTrue="{!v.isRTL}">
+                                <aura:if isTrue="{!v.showAccountNavigation}">
+                                    <!--Account settings-->
+                                    <a
+                                        onclick="{!c.doNavigateToAccountSettings}"
+                                        style="margin-right: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}</a
+                                    >
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    {!$Label.c.PP_Remind_Using}
+                                </aura:if>
+                                <aura:set attribute="else">
+                                    {!$Label.c.PP_Remind_Using}<abbr
+                                        title="required"
+                                        class="slds-required"
+                                        >*</abbr
+                                    >
+                                    <aura:if isTrue="{!v.showAccountNavigation}">
+                                        <!--Account settings-->
+                                        <a
+                                            onclick="{!c.doNavigateToAccountSettings}"
+                                            style="margin: 10px"
+                                            >{!$Label.c.PP_Change_Notification_Settings}</a
+                                        >
+                                    </aura:if>
+                                </aura:set>
                             </aura:if>
                         </div>
                     </div>
@@ -566,12 +616,26 @@
                         </div>
                     </div>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
-                        <div style="margin-left: -20px">
-                            <c:visitTravelDetails
-                                vname="{!v.visitData.visit.Name}"
-                                vnum="{!v.visitData.visit.Visit_Number__c}"
-                            ></c:visitTravelDetails>
-                        </div>
+                        <aura:if isTrue="{!v.isRTL}">
+                            <div style="margin-left: -20px" class="tbl">
+                                <c:visitTravelDetails
+                                    vname="{!v.visitData.visit.Name}"
+                                    vnum="{!v.visitData.visit.Visit_Number__c}"
+                                    isrtl="{!v.isRTL}"
+                                >
+                                </c:visitTravelDetails>
+                            </div>
+                            <aura:set attribute="else">
+                                <div style="margin-left: -20px">
+                                    <c:visitTravelDetails
+                                        vname="{!v.visitData.visit.Name}"
+                                        vnum="{!v.visitData.visit.Visit_Number__c}"
+                                        isrtl="{!v.isRTL}"
+                                    >
+                                    </c:visitTravelDetails>
+                                </div>
+                            </aura:set>
+                        </aura:if>
                     </aura:if>
                 </div>
             </aura:if>
