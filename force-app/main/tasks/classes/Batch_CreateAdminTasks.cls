@@ -52,14 +52,15 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
 
             List<Task> tasks = new List<Task>();
             for (User user : users) {
+                TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
+                Time eodTime = Time.newInstance(23,59, 0, 0);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
-                    if (taskConfig.endTime != null)
-                        activityDT = Datetime.newInstance(
-                            taskConfig.endTime,
-                            Datetime.now().time()
-                        );
-
+                    Integer offsetSeconds;
+                    if (taskConfig.endTime != null){
+                        offsetSeconds = userTZ.getOffset(taskConfig.endTime) / 1000;
+                        activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime).addSeconds(-offsetSeconds);
+                    }
                     Datetime reminderDT_GMT;
                     Datetime reminderDT;
                     if (taskConfig.reminderDate != null) {

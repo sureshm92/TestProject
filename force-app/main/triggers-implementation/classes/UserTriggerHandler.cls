@@ -103,7 +103,7 @@ public without sharing class UserTriggerHandler {
         List<Participant__c> participants = [
             SELECT Id, Contact__c
             FROM Participant__c
-            WHERE Contact__c IN :userContactIds
+            WHERE Contact__c IN :userContactIds FOR UPDATE
         ];
         Map<Id, Id> participantByContact = new Map<Id, Id>();
         for (Participant__c participant : participants)

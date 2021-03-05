@@ -13,8 +13,11 @@
     <aura:attribute name="setValueAsSelected" type="Boolean" default="true" />
     <aura:attribute name="resetVal" type="Boolean" />
     <aura:attribute name="hasResult" type="Boolean" />
+    <aura:attribute name="containsSerchTxt" type="Boolean" default="true" />
 
     <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
+    <aura:handler name="change" value="{!v.searchText}" action="{!c.doCheckSearchTxt}" />
+    <aura:method name="getSearchParams" action="{!c.doSearch}" access="PUBLIC" />
 
     <!--body-->
     <div class="ssp-header">
@@ -41,6 +44,7 @@
                             iconName="icon-search"
                             disabled="{!v.sectionDisabled}"
                             placeholder="{!v.searchTextPlaceHolder}"
+                            errorMessage="{!if(v.containsSerchTxt, '' , $Label.c.CC_SearchTxtRequired)}"
                         />
                     </div>
                     <div class="ssp-button-search slds-size_1-of-6">
@@ -78,7 +82,7 @@
                     </div>
                 </span>
             </div>
-            <div class="slds-col">
+            <div class="slds-col" style="display: none">
                 <lightning:button
                     class="apollo-btn secondary"
                     label="{!$Label.c.CC_Btn_ExportAll}"

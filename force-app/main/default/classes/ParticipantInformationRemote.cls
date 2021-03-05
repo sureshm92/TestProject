@@ -117,7 +117,8 @@ public without sharing class ParticipantInformationRemote {
         String participantJSON,
         String peJSON,
         String delegateJSON,
-        String userInfoJSON
+        String userInfoJSON,
+        String contactInfoJSON 
     ) {
         Participant_Enrollment__c pe = AddPatientByPIRemote.updatePatientInfo(
             participantJSON,
@@ -144,7 +145,12 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
-        updateUserLanguage(userInfoJSON);
+        //If user is available then updated user language else update contact language
+        if(userInfoJSON!=null){
+           updateUserLanguage(userInfoJSON);
+        }else{
+            updateParticipantContactLanguage(contactInfoJSON); 
+        }   
         return pe;
     }
 
@@ -185,7 +191,7 @@ public without sharing class ParticipantInformationRemote {
             );
             if (!actionAssignContactPermissions.isEmpty()) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            }
+            }       
             return returnUsers;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
@@ -690,7 +696,7 @@ public without sharing class ParticipantInformationRemote {
             String createdbyName = '';
              
             if(isCCUser){
-                createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
+               createdbyName=UserInfo.getName() +'('+ System.Label.RH_Masked_IQVIA_User + ')' ;         
             }
             else{
                 createdbyName =UserInfo.getName();
@@ -1074,7 +1080,8 @@ public without sharing class ParticipantInformationRemote {
         String userInfoJSON,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        String contactInfoJSON
     ) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -1103,7 +1110,12 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
-        updateUserLanguage(userInfoJSON);
+         //If user is available then updated user language else update contact language
+        if(userInfoJSON!=null){
+           updateUserLanguage(userInfoJSON);
+        }else{
+           updateParticipantContactLanguage(contactInfoJSON); 
+        }  
 
         return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
@@ -1119,7 +1131,8 @@ public without sharing class ParticipantInformationRemote {
         String userInfoJSON,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        String contactInfoJSON
     ) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -1148,7 +1161,12 @@ public without sharing class ParticipantInformationRemote {
                 }
             }
         }
-        updateUserLanguage(userInfoJSON);
+        //If user is available then updated user language else update contact language
+        if(userInfoJSON!=null){ 
+           updateUserLanguage(userInfoJSON);
+        }else{
+           updateParticipantContactLanguage(contactInfoJSON); 
+        } 
 
         return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
@@ -1166,7 +1184,20 @@ public without sharing class ParticipantInformationRemote {
             }
         }
     }
-
+	//Update Participant Contact language for not invited Participants
+	public static void updateParticipantContactLanguage(String contactJSON) {
+        if (!String.isBlank(contactJSON)) {
+            try {
+                Contact ContactL = (Contact) JSON.deserialize(contactJSON, Contact.class);
+                if (ContactL != null) {
+                    update ContactL;
+                }
+            } catch (Exception e) {
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            }
+        }
+    }
+    
     public class UpdateResponse {
         @AuraEnabled
         public Participant_Enrollment__c pe;

@@ -60,14 +60,14 @@
                     </div>
                     <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
                         <aura:if isTrue="{!v.isUserLoggedIn}">
-                            <button class="apollo-btn primary" onclick="{!c.doGoBack}">
+                            <button class="apollo-btn primary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
                                 {!$Label.c.BTN_Close}
                             </button>
                         </aura:if>
                         <aura:set attribute="else">
                             <aura:if isTrue="{!!v.isPortalTC}">
                                 <aura:if isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}">
-                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}">
+                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
                                         {!$Label.c.BTN_Back}
                                     </button>
                                 </aura:if>

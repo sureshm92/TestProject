@@ -26,6 +26,11 @@ th {
     padding: 10px;
 }
 
+.rtl {
+    padding: 10px;
+    text-align: right;
+}
+
 tbody {
     display: block;
     overflow: auto;

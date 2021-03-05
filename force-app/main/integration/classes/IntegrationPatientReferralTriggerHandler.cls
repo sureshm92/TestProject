@@ -385,7 +385,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Phone__c = contactDelegate.Phone,
             Mailing_City__c = contactDelegate.MailingCity,
             Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
-            Mailing_State_Code__c = contactDelegate.MailingStateCode,
+            Mailing_State__c = contactDelegate.MailingState,
+            Mailing_Zip_Postal_Code__c = contactDelegate.MailingPostalCode,
             Phone_Type__c = phoneType
         );
         if (phoneType == 'Home') {
