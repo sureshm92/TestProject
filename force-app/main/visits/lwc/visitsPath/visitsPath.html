@@ -14,20 +14,13 @@
                             <div onclick={handleScrollLeft} class="arrow-border">
                                 <i>
                                     <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18"></c-web-icon>
                                     </span>
                                 </i>
                             </div>
                         </div>
-                        <div
-                            class="slds-col"
-                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
-                        >
+                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
                             <div class="slds-grid vis-path">
                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
@@ -37,25 +30,16 @@
                                                 <div class="state-ico-wrapper-large"></div>
                                                 <div class="state-ico-wrapper-middle"></div>
                                                 <div class="state-ico-wrapper">
-                                                    <c-web-icon
-                                                        icon-width="13"
-                                                        icon-height="14"
-                                                        icon-name={pathItem.icon}
-                                                        icon-color="white"
-                                                    ></c-web-icon>
+                                                    <c-web-icon icon-width="13" icon-height="14"
+                                                        icon-name={pathItem.icon} icon-color="white"></c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
                                         <div class="state-label">
-                                            <a
-                                                onclick={handleOpenDialog}
-                                                data-id={pathItem.id}
-                                                data-name={pathItem.visitName}
-                                                data-sdhname={pathItem.sdhName}
+                                            <a onclick={handleOpenDialog} data-id={pathItem.id}
+                                                data-name={pathItem.visitName} data-sdhname={pathItem.sdhName}
                                                 data-title={pathItem.headerTitle}
-                                                data-completeddate={pathItem.complDate}
-                                                >{pathItem.visitName}</a
-                                            >
+                                                data-completeddate={pathItem.complDate}>{pathItem.visitName}</a>
                                         </div>
                                         <div class="state-label">
                                             <template if:false={pathItem.isPending}>
@@ -63,26 +47,16 @@
                                                     {labels.noDateSet}
                                                 </template>
                                                 <template if:true={pathItem.complDate}>
-                                                    <lightning-formatted-date-time
-                                                        value={pathItem.complDate}
-                                                        year="numeric"
-                                                        month="short"
-                                                        day="2-digit"
-                                                        time-zone="UTC"
-                                                    >
+                                                    <lightning-formatted-date-time value={pathItem.complDate}
+                                                        year="numeric" month="short" day="2-digit" time-zone="UTC">
                                                     </lightning-formatted-date-time>
                                                 </template>
                                             </template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time
-                                                            value={pathItem.planDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone="UTC"
-                                                        >
+                                                        <lightning-formatted-date-time value={pathItem.planDate}
+                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
                                                         </lightning-formatted-date-time>
                                                         <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>
                                                             <c-web-icon icon-name="pencil-2" icon-color="#999"
@@ -107,13 +81,8 @@
                             <div onclick={handleScrollRight} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18" class=""></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -144,13 +113,9 @@
                                                             {icon.Label__c}<br />{icon.Description__c}
                                                         </span>
                                                     </template>
-                                                    <c-web-icon
-                                                        icon-name={icon.Name}
-                                                        icon-height="20"
-                                                        icon-color="#A9A9A9"
-                                                        icon-width="20"
-                                                        tooltip-class-name=" tooltip"
-                                                    ></c-web-icon>
+                                                    <c-web-icon icon-name={icon.Name} icon-height="20"
+                                                        icon-color="#A9A9A9" icon-width="20"
+                                                        tooltip-class-name=" tooltip"></c-web-icon>
                                                 </div>
                                             </template>
                                         </template>
@@ -161,74 +126,37 @@
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
                                 <div class="label">
-                                    {labels.visitDateandTime}<abbr
-                                        title="required"
-                                        class="slds-required"
-                                        >*</abbr
-                                    >
+                                    {labels.visitDateandTime}<abbr title="required" class="slds-required">*</abbr>
                                 </div>
                                 <template if:false={isVisitCompleted}>
-                                    <lightning-input
-                                        type="datetime"
-                                        label={labels.visitDateandTime}
-                                        value={planDate}
-                                        autocomplete="off"
-                                        onchange={handleDateChange}
-                                        name="planDate"
-                                        disabled={isVisitCompleted}
-                                        variant="label-hidden"
-                                        min={today}
-                                        message-when-range-underflow={labels.reminderErrorUnderFlow}
-                                        class="container1"
-                                        onblur={doValidateReminder}
-                                        required
-                                    >
+                                    <lightning-input type="datetime" label={labels.visitDateandTime} value={planDate}
+                                        autocomplete="off" onchange={handleDateChange} name="planDate"
+                                        disabled={isVisitCompleted} variant="label-hidden" min={today}
+                                        message-when-range-underflow={labels.reminderErrorUnderFlow} class="container1"
+                                        onblur={doValidateReminder} required>
                                     </lightning-input>
                                 </template>
                                 <template if:true={isVisitCompleted}>
                                     <template if:true={isVisitMissed}>
-                                        <lightning-input
-                                            type="datetime"
-                                            label={labels.visitDateandTime}
-                                            value={planDate}
-                                            autocomplete="off"
-                                            onchange={handleDateChange}
-                                            name="planDate"
-                                            disabled={isVisitCompleted}
-                                            variant="label-hidden"
-                                            class="container1"
-                                            min={today}
-                                            onblur={doValidateReminder}
-                                            required
-                                        >
+                                        <lightning-input type="datetime" label={labels.visitDateandTime}
+                                            value={planDate} autocomplete="off" onchange={handleDateChange}
+                                            name="planDate" disabled={isVisitCompleted} variant="label-hidden"
+                                            class="container1" min={today} onblur={doValidateReminder} required>
                                         </lightning-input>
                                     </template>
                                     <template if:false={isVisitMissed}>
-                                        <lightning-input
-                                            type="date"
-                                            value={completedDate}
-                                            variant="label-hidden"
-                                            disabled="true"
-                                            class="vis-input"
-                                        ></lightning-input>
+                                        <lightning-input type="date" value={completedDate} variant="label-hidden"
+                                            disabled="true" class="vis-input"></lightning-input>
                                     </template>
                                 </template>
                             </div>
                         </div>
                         <div class="slds-grid slds-p-top_small mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
-                                <lightning-combobox
-                                    name="reminder"
-                                    label={labels.remindMe}
-                                    placeholder="Select"
-                                    value={reminderOption}
-                                    onchange={handleDateChange}
-                                    options={reminderOptions}
-                                    disabled={isVisitCompleted}
-                                    onblur={doValidateReminder}
-                                    dropdown-alignment="auto"
-                                    class="wi"
-                                >
+                                <lightning-combobox name="reminder" label={labels.remindMe} placeholder="Select"
+                                    value={reminderOption} onchange={handleDateChange} options={reminderOptions}
+                                    disabled={isVisitCompleted} onblur={doValidateReminder} dropdown-alignment="auto"
+                                    class="wi">
                                 </lightning-combobox>
                             </div>
                             <!--<div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
@@ -263,28 +191,14 @@
                             <div class="slds-col slds-size_1-of-2 slds-p-top_medium reminderDate">
                                 <template if:true={showCustomDateTime}>
                                     <div class="label">
-                                        {labels.ReminderDate}<abbr
-                                            title="required"
-                                            class="slds-required"
-                                            >*</abbr
-                                        >
+                                        {labels.ReminderDate}<abbr title="required" class="slds-required">*</abbr>
                                     </div>
-                                    <lightning-input
-                                        type="datetime"
-                                        value={reminderDate}
-                                        autocomplete="off"
-                                        onchange={handleDateChange}
-                                        name="reminderDate"
-                                        disabled={isVisitCompleted}
-                                        variant="label-hidden"
-                                        required
-                                        min={today}
-                                        max={planDate}
-                                        class="container1"
+                                    <lightning-input type="datetime" value={reminderDate} autocomplete="off"
+                                        onchange={handleDateChange} name="reminderDate" disabled={isVisitCompleted}
+                                        variant="label-hidden" required min={today} max={planDate} class="container1"
                                         message-when-range-overflow={labels.reminderOverFlow}
                                         message-when-range-underflow={labels.reminderUnderFlow}
-                                        onblur={doValidateReminder}
-                                    >
+                                        onblur={doValidateReminder}>
                                     </lightning-input>
                                 </template>
                             </div>
@@ -292,41 +206,22 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}<abbr title="required" class="slds-required"
-                                    >*</abbr
-                                >
+                                {labels.remindUsing}<abbr title="required" class="slds-required">*</abbr>
                                 <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
+                                    <a onclick={doNavigateToAccountSettings}
+                                        style="margin: 10px">{labels.ChangeNotifications}</a>
                                 </template>
                             </div>
                         </div>
                         <div class="slds-grid mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
+                                <lightning-input type="checkbox" value={emailOptIn} label={labels.emailLabel}
+                                    disabled={emailOpted} checked={emailOptIn} name="emailOptin"
+                                    onchange={handleDateChange} onblur={doValidateReminder} class="mr_10">
                                 </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
+                                <lightning-input type="checkbox" value={smsOptIn} label={labels.smsLabel}
+                                    disabled={smsOpted} checked={smsOptIn} name="smsOptIn" class="mr_10"
+                                    onchange={handleDateChange} onblur={doValidateReminder}>
                                 </lightning-input>
                             </div>
                         </div>
@@ -334,7 +229,7 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber} isrtl={isRTL}>
                                 </c-visit-travel-details>
                             </div>
                         </template>
@@ -346,11 +241,7 @@
                     <button class="apollo-btn tertiary" onclick={handleHideDialog}>
                         {labels.cancelBTNLabel}
                     </button>
-                    <button
-                        class="apollo-btn primary"
-                        onclick={savePlannedDate}
-                        disabled={disableSave}
-                    >
+                    <button class="apollo-btn primary" onclick={savePlannedDate} disabled={disableSave}>
                         {labels.saveBTNLabel}
                     </button>
                 </div>
@@ -367,20 +258,13 @@
                             <div onclick={handleScrollRightRTL} class="arrow-border">
                                 <i>
                                     <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-right" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18"></c-web-icon>
                                     </span>
                                 </i>
                             </div>
                         </div>
-                        <div
-                            class="slds-col"
-                            style="overflow-x: hidden; padding-right: 0; padding-left: 0"
-                        >
+                        <div class="slds-col" style="overflow-x: hidden; padding-right: 0; padding-left: 0">
                             <div class="slds-grid vis-path">
                                 <template for:each={pathItems} for:item="pathItem">
                                     <div key={pathItem.id} class={pathItem.state}>
@@ -390,15 +274,17 @@
                                                 <div class="state-ico-wrapper-largeRTL"></div>
                                                 <div class="state-ico-wrapper-middleRTL"></div>
                                                 <div class="state-ico-wrapperRTL">
-                                                    <c-web-icon
-                                                        icon-name={pathItem.icon}
-                                                        icon-color="white"
-                                                    >
+                                                    <c-web-icon icon-name={pathItem.icon} icon-color="white">
                                                     </c-web-icon>
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="state-labelRTL">{pathItem.visitName}</div>
+                                        <div class="state-labelRTL">
+                                            <a onclick={handleOpenDialog} data-id={pathItem.id}
+                                                data-name={pathItem.visitName} data-sdhname={pathItem.sdhName}
+                                                data-title={pathItem.headerTitle}
+                                                data-completeddate={pathItem.complDate}>{pathItem.visitName}</a>
+                                        </div>
                                         <div class="state-labelRTL">
                                             <template if:false={pathItem.isPending}>
                                                 <template if:true={pathItem.complDate}>
@@ -406,18 +292,12 @@
                                                 </template>
                                                 <template if:false={pathItem.complDate}>
                                                     {labels.noDateSet}
-                                                </template></template
-                                            >
+                                                </template></template>
                                             <template if:true={pathItem.isPending}>
                                                 <template if:true={pathItem.planDate}>
                                                     <div class="date-edit">
-                                                        <lightning-formatted-date-time
-                                                            value={pathItem.planDate}
-                                                            year="numeric"
-                                                            month="short"
-                                                            day="2-digit"
-                                                            time-zone="UTC"
-                                                        >
+                                                        <lightning-formatted-date-time value={pathItem.planDate}
+                                                            year="numeric" month="short" day="2-digit" time-zone="UTC">
                                                         </lightning-formatted-date-time>
                                                         <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>
                                                             <c-web-icon icon-name="pencil-2" icon-color="#999"
@@ -442,13 +322,8 @@
                             <div onclick={handleScrollLeftRTL} class="arrow-border">
                                 <i>
                                     <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
+                                        <c-web-icon icon-name="icon-chevron-left" icon-color="#297DFD" icon-width="18"
+                                            icon-height="18" class=""></c-web-icon>
                                     </span>
                                 </i>
                             </div>
@@ -461,13 +336,13 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-footer="true" custom-buttons="true">
+        <c-web-popup show-footer="true" show-scroll="false" custom-buttons="true" show-close="true">
             <div slot="body">
-                <div class="title">{visitTitle}</div>
+                <div class="title_rtl">{visitTitle}</div>
                 <template if:true={reRender}>
                     <div>
-                        <p class="what-to-expect">{labels.whatToExpect}</p>
-                        <div class="icons-container mr_left_5">
+                        <p class="what-to-expect_rtl">{labels.whatToExpect}</p>
+                        <div class="icons-container_rtl mr_left_5">
                             <div class="icons-row">
                                 <lightning-layout multiple-rows="false">
                                     <template if:true={iconDetails}>
@@ -479,13 +354,9 @@
                                                             {icon.Label__c}<br />{icon.Description__c}
                                                         </span>
                                                     </template>
-                                                    <c-web-icon
-                                                        icon-name={icon.Name}
-                                                        icon-height="20"
-                                                        icon-color="#A9A9A9"
-                                                        icon-width="20"
-                                                        tooltip-class-name=" tooltip"
-                                                    ></c-web-icon>
+                                                    <c-web-icon icon-name={icon.Name} icon-height="20"
+                                                        icon-color="#A9A9A9" icon-width="20"
+                                                        tooltip-class-name=" tooltip"></c-web-icon>
                                                 </div>
                                             </template>
                                         </template>
@@ -495,75 +366,39 @@
                         </div>
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
-                                <div class="label">
-                                    {labels.visitDateandTime}<abbr
-                                        title="required"
-                                        class="slds-required"
-                                        >*</abbr
-                                    >
+                                <div class="label label_rtl">
+                                    {labels.visitDateandTime}<abbr title="required" class="slds-required">*</abbr>
                                 </div>
                                 <template if:false={isVisitCompleted}>
-                                    <lightning-input
-                                        type="datetime"
-                                        label={labels.visitDateandTime}
-                                        value={planDate}
-                                        autocomplete="off"
-                                        onchange={handleDateChange}
-                                        name="planDate"
-                                        disabled={isVisitCompleted}
-                                        variant="label-hidden"
-                                        min={today}
-                                        message-when-range-underflow={labels.reminderErrorUnderFlow}
-                                        class="container1"
-                                        onblur={doValidateReminder}
-                                        required
-                                    >
+                                    <lightning-input type="datetime" label={labels.visitDateandTime} value={planDate}
+                                        autocomplete="off" onchange={handleDateChange} name="planDate"
+                                        disabled={isVisitCompleted} variant="label-hidden" min={today}
+                                        message-when-range-underflow={labels.reminderErrorUnderFlow} class="container1"
+                                        onblur={doValidateReminder} required>
                                     </lightning-input>
                                 </template>
                                 <template if:true={isVisitCompleted}>
                                     <template if:true={isVisitMissed}>
-                                        <lightning-input
-                                            type="datetime"
-                                            label={labels.visitDateandTime}
-                                            value={planDate}
-                                            autocomplete="off"
-                                            onchange={handleDateChange}
-                                            name="planDate"
-                                            disabled={isVisitCompleted}
-                                            variant="label-hidden"
-                                            class="container1"
-                                            min={today}
-                                            onblur={doValidateReminder}
-                                            required
-                                        >
+                                        <lightning-input type="datetime" label={labels.visitDateandTime}
+                                            value={planDate} autocomplete="off" onchange={handleDateChange}
+                                            name="planDate" disabled={isVisitCompleted} variant="label-hidden"
+                                            class="container1" min={today} onblur={doValidateReminder} required>
                                         </lightning-input>
                                     </template>
                                     <template if:false={isVisitMissed}>
-                                        <lightning-input
-                                            type="date"
-                                            value={completedDate}
-                                            variant="label-hidden"
-                                            disabled="true"
-                                            class="vis-input"
-                                        ></lightning-input>
+                                        <lightning-input type="date" value={completedDate} variant="label-hidden"
+                                            disabled="true" class="vis-input"></lightning-input>
                                     </template>
                                 </template>
                             </div>
                         </div>
                         <div class="slds-grid slds-p-top_small mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
-                                <lightning-combobox
-                                    name="reminder"
-                                    label={labels.remindMe}
-                                    placeholder="Select"
-                                    value={reminderOption}
-                                    onchange={handleDateChange}
-                                    options={reminderOptions}
-                                    disabled={isVisitCompleted}
-                                    onblur={doValidateReminder}
-                                    dropdown-alignment="auto"
-                                    class="wi"
-                                >
+                                <div class="label label_rtl_remind">{labels.remindMe}</div>
+                                <lightning-combobox name="reminder" variant="label-hidden" placeholder="Select"
+                                    value={reminderOption} onchange={handleDateChange} options={reminderOptions}
+                                    disabled={isVisitCompleted} onblur={doValidateReminder} dropdown-alignment="auto"
+                                    class="wi">
                                 </lightning-combobox>
                             </div>
                             <!--<div class="slds-col slds-size_1-of-2 slds-p-top_x-small reminderDate">
@@ -595,31 +430,17 @@
                                 </template>
                             </div>-->
 
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_medium reminderDate">
+                            <div class="slds-col slds-size_1-of-2 slds-p-top_medium reminderDate_rtl">
                                 <template if:true={showCustomDateTime}>
-                                    <div class="label">
-                                        {labels.ReminderDate}<abbr
-                                            title="required"
-                                            class="slds-required"
-                                            >*</abbr
-                                        >
+                                    <div class="label mr_reminderDate_rtl">
+                                        {labels.ReminderDate}<abbr title="required" class="slds-required">*</abbr>
                                     </div>
-                                    <lightning-input
-                                        type="datetime"
-                                        value={reminderDate}
-                                        autocomplete="off"
-                                        onchange={handleDateChange}
-                                        name="reminderDate"
-                                        disabled={isVisitCompleted}
-                                        variant="label-hidden"
-                                        required
-                                        min={today}
-                                        max={planDate}
-                                        class="container1"
+                                    <lightning-input type="datetime" value={reminderDate} autocomplete="off"
+                                        onchange={handleDateChange} name="reminderDate" disabled={isVisitCompleted}
+                                        variant="label-hidden" required min={today} max={planDate} class="container1"
                                         message-when-range-overflow={labels.reminderOverFlow}
                                         message-when-range-underflow={labels.reminderUnderFlow}
-                                        onblur={doValidateReminder}
-                                    >
+                                        onblur={doValidateReminder}>
                                     </lightning-input>
                                 </template>
                             </div>
@@ -627,41 +448,22 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}<abbr title="required" class="slds-required"
-                                    >*</abbr
-                                >
                                 <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
-                                </template>
+                                    <a onclick={doNavigateToAccountSettings}
+                                        style="margin: 10px">{labels.ChangeNotifications}</a> </template><abbr
+                                    title="required" class="slds-required">*</abbr>
+                                {labels.remindUsing}
                             </div>
                         </div>
                         <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
+                            <div class="slds-col slds-size_1-of-2 mr_right">
+                                <lightning-input type="checkbox" value={emailOptIn} label={labels.emailLabel}
+                                    disabled={emailOpted} checked={emailOptIn} name="emailOptin"
+                                    onchange={handleDateChange} onblur={doValidateReminder} class="mr_10">
                                 </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
+                                <lightning-input type="checkbox" value={smsOptIn} label={labels.smsLabel}
+                                    disabled={smsOpted} checked={smsOptIn} name="smsOptIn" class="mr_10 mr_left6"
+                                    onchange={handleDateChange} onblur={doValidateReminder}>
                                 </lightning-input>
                             </div>
                         </div>
@@ -669,7 +471,7 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber} isrtl={isRTL}>
                                 </c-visit-travel-details>
                             </div>
                         </template>
@@ -680,7 +482,7 @@
                 <button class="apollo-btn tertiary" onclick={handleHideDialog}>
                     {labels.cancelBTNLabel}
                 </button>
-                <button class="apollo-btn primary" onclick={savePlannedDate} disabled={disableSave}>
+                <button class="apollo-btn primary mar_right_rtl" onclick={savePlannedDate} disabled={disableSave}>
                     {labels.saveBTNLabel}
                 </button>
             </div>
