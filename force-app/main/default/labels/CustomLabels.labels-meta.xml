@@ -5164,9 +5164,11 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is an email to remind you of your task: ##TaskName.
+        <value>This is an email to remind you of your upcoming task:
 
-            Please login to update the status of your task.</value>
+##TaskName
+
+&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
@@ -5229,7 +5231,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the clinical research study: ##StudyName. If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.
+
+&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -9588,6 +9594,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>None</shortDescription>
         <value>None</value>
+    </labels>
+    <labels>
+        <fullName>Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not_Available</shortDescription>
+        <value>Not Available</value>
     </labels>
     <labels>
         <fullName>Not_Invited</fullName>

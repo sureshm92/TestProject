@@ -67,18 +67,29 @@ public without sharing class ParametersProviderService {
     ) {
         Map<String, String> valueByParam = new Map<String, String>();
         String userLanguage = String.isNotEmpty(language) ? language : UserInfo.getLanguage();
-
+        User userObj;
         Map<String, String> paramsMap = getParamsMap(providerName);
         for (String paramName : paramsMap.keySet()) {
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sourceObject, fieldPath);
+            if(paramsMap.get('ContactID')!= null){
+            Object contactIdValue = SObjectHelper.getSObjectFieldValue(sourceObject, paramsMap.get('ContactID'));
+            userObj=[Select Id , LocaleSidKey from User where ContactId= :contactIdValue+''];
+            }
             String valueStr;
             if (value instanceof Date) {
                 valueStr = UserService.formatDate((Date) value, userLanguage);
             } else if (value instanceof Datetime) {
-                valueStr = UserService.formatDateTime((Date) value, userLanguage);
+                valueStr = UserService.formatDateTime((Datetime) value, userObj==null?userLanguage: userObj.LocaleSidKey);
             } else {
                 valueStr = (value != null ? value : '') + '';
+            }
+            if(paramName=='Taskdate')
+            {
+                if(valueStr=='')
+                {
+                    valueStr=System.Label.Not_Available;
+                }
             }
             valueByParam.put(paramName, valueStr);
         }
