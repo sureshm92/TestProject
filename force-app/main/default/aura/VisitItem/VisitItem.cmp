@@ -29,7 +29,11 @@
             <div class="slds-text-title slds-text-color_default">{!v.visit.Visit_Schedule__c}</div>
         </td>
         <td>
-            <c:RRIconSplitter value="{!v.visit.Icons__c}" backgroundColor="{!v.currentRowColor}" />
+            <c:RRIconSplitter
+                value="{!v.visit.Icons__c}"
+                backgroundColor="{!v.currentRowColor}"
+                boolRTL="{!v.isRTL}"
+            />
         </td>
         <aura:if isTrue="{!!v.isDisable}">
             <td>

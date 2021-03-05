@@ -16,3 +16,6 @@
     height: 60px;
     width: 60px;
 }
+.tooltip:hover {
+    fill: #595959 !important;
+}

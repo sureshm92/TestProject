@@ -31,18 +31,10 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button
-                                            class="apollo-btn secondary"
-                                            onclick={clickedSecondary}
-                                            tabindex="0"
-                                        >
+                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button
-                                            class="apollo-btn primary"
-                                            onclick={clickedPrimary}
-                                            tabindex="-1"
-                                        >
+                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
                                             {primaryButtonLabel}
                                         </button>
                                     </template>
@@ -61,7 +53,7 @@
                 <div class={containerSizeClass}>
                     <slot name="headerButtons"></slot>
                     <div class={iconButtonClass} onclick={doCancel}>
-                        <c-web-icon icon-name="icon-close"></c-web-icon>
+                        <!--<c-web-icon icon-name="icon-close"></c-web-icon>-->
                     </div>
                     <!-- title: -->
                     <div class={divHeaderClass}>
@@ -82,18 +74,10 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button
-                                            class="apollo-btn secondary"
-                                            onclick={clickedSecondary}
-                                            tabindex="0"
-                                        >
+                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button
-                                            class="apollo-btn primary"
-                                            onclick={clickedPrimary}
-                                            tabindex="-1"
-                                        >
+                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
                                             {primaryButtonLabel}
                                         </button>
                                     </template>

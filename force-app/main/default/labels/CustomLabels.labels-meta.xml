@@ -5164,9 +5164,11 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>This is an email to remind you of your task: ##TaskName.
+        <value>This is an email to remind you of your upcoming task:
 
-            Please login to update the status of your task.</value>
+##TaskName
+
+&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
@@ -5229,7 +5231,11 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>This is a quick email to remind you of your upcoming visit for the clinical research study: ##StudyName. If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.
+
+&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
@@ -8173,13 +8179,6 @@ The expected format is REF##### to REF########</value>
         <value>HLA</value>
     </labels>
     <labels>
-        <fullName>ICOS_Description</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>ICOS Description</shortDescription>
-        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
-    </labels>
-    <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8198,14 +8197,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ICOS(Intratumoral)</shortDescription>
-        <value>ICOS(Intratumoral)</value>
+        <value>ICOS (Intratumoral)</value>
     </labels>
     <labels>
         <fullName>ICOS_Peritumoral</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ICOS(Peritumoral)</shortDescription>
-        <value>ICOS(Peritumoral)</value>
+        <value>ICOS (Peritumoral)</value>
     </labels>
     <labels>
         <fullName>ID</fullName>
@@ -8508,13 +8507,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
-    </labels>
-    <labels>
-        <fullName>Inducible_co_stimulator</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Inducible co-stimulator</shortDescription>
-        <value>ICOS</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
@@ -9588,6 +9580,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>None</shortDescription>
         <value>None</value>
+    </labels>
+    <labels>
+        <fullName>Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Not_Available</shortDescription>
+        <value>Not Available</value>
     </labels>
     <labels>
         <fullName>Not_Invited</fullName>

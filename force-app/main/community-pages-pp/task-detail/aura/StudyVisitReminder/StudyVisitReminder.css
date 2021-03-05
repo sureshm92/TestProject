@@ -80,6 +80,7 @@
     font-weight: 500;
 }
 
+
 .THIS .label {
     height: 24px;
     width: 209.13px;
@@ -119,10 +120,26 @@
 }
 
 .THIS .reminderDate {
-    margin-left: -99px;
+    margin-left: -112px;
     margin-top: 5px;
 }
+.THIS .tbl table{
+    width:80%;
+}
 
+.THIS .reminderDate_rtl{
+    margin-top:5px;
+    margin-right:-16px;
+}
+.THIS .reminderDate_visrtl{
+    margin-left: -99px;
+    margin-top: 5px;
+    margin-right: -171px;
+}
+.THIS .vis_reminder{
+    margin-left:-99px;
+    margin-top:5px;
+}
 .THIS .reminder {
     margin-left: -111px;
     margin-top: 5px;
