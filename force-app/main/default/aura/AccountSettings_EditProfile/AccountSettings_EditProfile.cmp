@@ -1,5 +1,5 @@
 <!--Created by Deeksha on 27.05.2020-->
-<aura:component controller="AccountSettingsController" description="AccountSettings">
+<aura:component controller="AccountSettingsController" description="AccountSettings" extends="c:CommunityContext">
     <!-- attributes:  -->
     <aura:attribute name="initData" type="Object" access="private" />
     <aura:attribute name="userMode" type="String" required="true" />
@@ -188,9 +188,9 @@
                     <div
                         class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
                     >
-                        <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 smallName"
-                        >
+                    <div
+                    class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
+                    >
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
                                     aura:id="pField"
@@ -495,6 +495,7 @@
                                 <aura:if isTrue="{!v.userMode != 'Participant'}">
                                     <lightning:input
                                         aura:id="pField2"
+                                        dir="{!v.isRTL? 'rtl':''}"
                                         type="tel"
                                         label="{!$Label.c.PG_AS_F_Phone_number}"
                                         value="{!v.personWrapper.homePhone}"
