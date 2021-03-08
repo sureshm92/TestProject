@@ -207,10 +207,8 @@
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
                                 {labels.remindUsing}<abbr title="required" class="slds-required">*</abbr>
-                                <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings}
-                                        style="margin: 10px">{labels.ChangeNotifications}</a>
-                                </template>
+                                <a onclick={doNavigateToAccountSettings}
+                                    style="margin: 10px">{labels.ChangeNotifications}</a>
                             </div>
                         </div>
                         <div class="slds-grid mr_left_5">
@@ -448,10 +446,9 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings}
-                                        style="margin: 10px">{labels.ChangeNotifications}</a> </template><abbr
-                                    title="required" class="slds-required">*</abbr>
+                                <a onclick={doNavigateToAccountSettings}
+                                    style="margin: 10px">{labels.ChangeNotifications}</a><abbr title="required"
+                                    class="slds-required">*</abbr>
                                 {labels.remindUsing}
                             </div>
                         </div>

@@ -5175,9 +5175,11 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>This is an email to remind you of ##ParticipantFirstName&apos;s task: ##TaskName.
+        <value>This is an email to remind you of ##ParticipantFirstName&#39;s task:
 
-            Please login to update the status of this task.</value>
+##TaskName
+
+&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
@@ -5242,7 +5244,11 @@ If you are unable to make this appointment, please contact the Study Team.  Plea
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>This is a quick email to remind you of ##PatientFirstName&apos;s upcoming visit for the clinical research study: ##StudyName. If ##PatientFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
+        <value>This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.
+
+&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+
+ If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>

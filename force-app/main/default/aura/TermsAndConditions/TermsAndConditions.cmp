@@ -23,7 +23,7 @@
     <div class="{!v.isRTL? 'arabic':'english'}">
         <c:RRSpinner size="medium" aura:id="mainSpinner" />
         <div class="rr-body-content rr-min-body-height" style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}">
-            <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1180px;')}" >
+            <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
                 <div class="main-header">{!v.title}</div>
                 <aura:if isTrue="{!v.tcData}">
                     <aura:if isTrue="{!v.tcData.tc}">
