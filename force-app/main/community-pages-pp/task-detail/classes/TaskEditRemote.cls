@@ -30,6 +30,8 @@ public without sharing class TaskEditRemote {
         @AuraEnabled
         public Datetime today;
         @AuraEnabled
+        public Date activityDateWOTime;
+        @AuraEnabled
         public Datetime activityDate;
         @AuraEnabled
         public Datetime reminderDate;
@@ -87,8 +89,11 @@ public without sharing class TaskEditRemote {
             if (taskId != null) {
                 Task task = TaskService.getInstance().getTask(taskId);
                 wrapper.task = task;
-                if (task.Activity_Datetime__c != null)
+                if (task.Activity_Datetime__c != null){
                     wrapper.activityDate = task.Activity_Datetime__c;
+                    wrapper.activityDateWOTime = task.Activity_Datetime__c.date();
+                }
+                    
                 if (task.Reminder_Date__c != null)
                     wrapper.reminderDate = task.ReminderDateTime;
                 wrapper.createdByAdmin = createdByAdmin(task);

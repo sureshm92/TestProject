@@ -56,6 +56,7 @@
 <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
 <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
 <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
+<aura:attribute name="contactInfo" type="Object" /> 
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
 
@@ -137,16 +138,16 @@ showFooter="true"
              disabled="true"
              data-gtm="BTN_Invite_To_PP"
              >
-             <div class="slds-grid slds-wrap">
-                <div class="slds-col slds-size_1-of-1">
-                    {!$Label.c.Invited_to_Patient_Portal}
-                </div>
-                <div class="slds-col slds-size_1-of-1">
-                    <!--(<ui:outputDate value="{!v.invitedon}"/>)-->
-                    <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>
-                </div>
-            </div>
-</button>
+         <div class="slds-grid slds-wrap">
+             <div class="slds-col slds-size_1-of-1">
+                 {!$Label.c.Invited_to_Patient_Portal}
+             </div>
+             <div class="slds-col slds-size_1-of-1">
+                 <!--(<ui:outputDate value="{!v.invitedon}"/>)-->
+                 <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>
+             </div>
+         </div>
+     </button>
  </aura:if>
  <aura:if
           isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
@@ -168,15 +169,15 @@ showFooter="true"
                      disabled="true"
                      data-gtm="BTN_Invite_To_PP"
                      >
-                     <div class="slds-grid slds-wrap">
-                        <div class="slds-col slds-size_1-of-1">
-                            {!$Label.c.Sent_to_Study_Hub}</div>
-                        <div class="slds-col slds-size_1-of-1">
-                            <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
-                            <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>
-                        </div>
-                    </div>
-</button>   
+                 <div class="slds-grid slds-wrap">
+                     <div class="slds-col slds-size_1-of-1">
+                         {!$Label.c.Sent_to_Study_Hub}</div>
+                     <div class="slds-col slds-size_1-of-1">
+                         <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
+                         <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>
+                     </div>
+                 </div>
+             </button>   
          </aura:set>                 
      </aura:if>
      
@@ -202,6 +203,7 @@ showFooter="true"
                                      pe="{!v.pe}"
                                      participantDelegate="{!v.participantDelegate}"
                                      userInfo="{!v.userInfo}"
+                                     contactInfo="{!v.contactInfo}"
                                      isInvited="{!v.isInvited}"
                                      formData="{!v.formData}"
                                      updateMode="true"
@@ -211,8 +213,8 @@ showFooter="true"
              <!--1936-->
              
              <aura:if isTrue="{!v.init}">
-                    <div
-                      class="slds-grid slds-wrap">
+                 <div
+                 class="slds-grid slds-wrap">
                  <div
                       class="slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
                       style="margin-bottom: 5px"
@@ -229,7 +231,7 @@ showFooter="true"
                      <div class="slds-size_1-of-1 slds-item_label">
                          {!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}
                      </div>
-                    </div></div>
+                 </div></div>
              </aura:if>
              <!--<aura:if isTrue="{!v.pe.Permit_IQVIA_to_contact_about_study__c}">-->
              <aura:if isTrue="{!v.init}">
@@ -379,7 +381,7 @@ showFooter="true"
                class="{!'slds-button slds-button&#45;&#45;icon-inverse'}"
                >
  <!--<c:RRIcon iconName="icon-print" class="print-icon"/> -->
-  <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16" /> 
+ <img class="print-icon" src="{!$Resource.icon_printIcon}" width="16" height="16" />
 </lightning:button>
 </aura:set>
 </aura:if> 

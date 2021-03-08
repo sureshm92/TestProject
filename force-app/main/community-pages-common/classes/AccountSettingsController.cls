@@ -111,7 +111,7 @@ public without sharing class AccountSettingsController {
                 initData.myContact,
                 initData.participant
             );
-            if (initData.participant.Adult__c || (userMode == 'PI' || userMode == 'HCP')) {
+            if (initData.participant.Adult__c || (userMode == 'PI' || userMode == 'HCP' || userMode == 'CC')) {
                 initData.userName = UserInfo.getUserName();
                 User uval = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
                 initData.delegateContact = [SELECT Id FROM Contact WHERE Id = :uval.ContactId];

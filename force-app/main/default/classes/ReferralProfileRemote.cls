@@ -15,6 +15,7 @@ public without sharing class ReferralProfileRemote {
         Boolean isEnrolled;
         Boolean containsFile; //REF-2654
         User userInfo;
+        Contact contactInfo; 
     }
 
     class StatusStep {
@@ -122,6 +123,14 @@ public without sharing class ReferralProfileRemote {
                 WHERE ContactId = :pe.Participant_Contact__c
             ];
             initData.userInfo = participantUsers.isEmpty() ? null : participantUsers[0];
+            
+             List<Contact> participantContacts = [
+                SELECT Id, Language__c
+                FROM contact
+                WHERE id = :pe.Participant_Contact__c
+             	];
+        	initData.contactInfo = participantContacts.isEmpty() ? null : participantContacts[0];
+            
             if (pe == null)
                 throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;

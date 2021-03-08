@@ -3,7 +3,7 @@
  - Updated by Sumit Surve on 13.07.2020
  -->
 
-<aura:component description="HelpTopics" controller="HelpController">
+<aura:component description="HelpTopics" controller="HelpController" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
     <!-- attributes: -->
     <aura:attribute name="userMode" type="String" access="public" />
@@ -52,7 +52,7 @@
                 <aura:if
                     isTrue="{!(!v.selectedTopicSettings.submitRequired &amp;&amp; !empty(v.selectedTopic) &amp;&amp; (v.userMode == 'PI' || v.userMode == 'HCP'))}"
                 >
-                    <div class="ht-panel">
+                    <div class="ht-panel" style="{!if(v.isRTL, 'float: right;','')}">
                         <lightning:radioGroup
                             name="didSolveRG"
                             label="{!$Label.c.PG_HLP_T_Did_this_solve_your_problem}"
