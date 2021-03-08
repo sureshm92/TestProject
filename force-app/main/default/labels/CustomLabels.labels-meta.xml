@@ -8179,13 +8179,6 @@ The expected format is REF##### to REF########</value>
         <value>HLA</value>
     </labels>
     <labels>
-        <fullName>ICOS_Description</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>ICOS Description</shortDescription>
-        <value>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells. White blood cells are part of the immune system (your body’s natural defense system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</value>
-    </labels>
-    <labels>
         <fullName>ICOS_Description_Intratumoral</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8204,14 +8197,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ICOS(Intratumoral)</shortDescription>
-        <value>ICOS(Intratumoral)</value>
+        <value>ICOS (Intratumoral)</value>
     </labels>
     <labels>
         <fullName>ICOS_Peritumoral</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>ICOS(Peritumoral)</shortDescription>
-        <value>ICOS(Peritumoral)</value>
+        <value>ICOS (Peritumoral)</value>
     </labels>
     <labels>
         <fullName>ID</fullName>
@@ -8514,13 +8507,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
-    </labels>
-    <labels>
-        <fullName>Inducible_co_stimulator</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Inducible co-stimulator</shortDescription>
-        <value>ICOS</value>
     </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
