@@ -80,8 +80,12 @@ public without sharing class ParametersProviderService {
             if (value instanceof Date) {
                 valueStr = UserService.formatDate((Date) value, userLanguage);
             } else if (value instanceof Datetime) {
-              //  valueStr = UserService.formatDateTime((Datetime) value, userObj==null?userLanguage: userObj.LocaleSidKey);
-              valueStr = UserService.formatDateTimebyZone((Datetime) value, userObj==null?userLanguage: userObj.LocaleSidKey,userObj.LocaleSidKey);
+                if(userObj==null){
+               valueStr = UserService.formatDateTime((Datetime) value, userLanguage);
+                }
+                else{
+              valueStr = UserService.formatDateTimebyZone((Datetime) value, userObj.LocaleSidKey,userObj.LocaleSidKey);
+                }
             } else {
                 valueStr = (value != null ? value : '') + '';
             }
