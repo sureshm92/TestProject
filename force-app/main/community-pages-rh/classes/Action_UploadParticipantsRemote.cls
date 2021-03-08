@@ -15,12 +15,17 @@ public without sharing class Action_UploadParticipantsRemote {
         'PHONE TYPE',
         'ALTERNATIVE PHONE',
         'ALT. PHONE TYPE',
-        'STREET ADDRESS',
-        'CITY',
+        //'STREET ADDRESS',
+        //'CITY',
         'STATE',
         'POSTAL CODE',
-        'COUNTRY',
-        'LANGUAGE'
+       // 'COUNTRY',
+        'LANGUAGE',
+        'DELEGATE FIRST NAME',
+        'DELEGATE LAST NAME',
+        'DELEGATE EMAIL',
+        'DELEGATE PHONE NUMBER',
+        'DELEGATE PHONE TYPE'
     };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String>{
         'FIRST NAME',
@@ -98,7 +103,8 @@ public without sharing class Action_UploadParticipantsRemote {
                     finalCSVLines.put(totalRowCount, line);
                 }
             }
-
+			system.debug('>>finalCSVLines>>'+finalCSVLines);
+            system.debug('>>csvFileLines>>'+csvFileLines);
             Database.executeBatch(
                 new UploadParticipantsBatch(
                     finalCSVLines.values(),
@@ -113,7 +119,7 @@ public without sharing class Action_UploadParticipantsRemote {
                     allowPhone,
                     allowSMS
                 ),
-                2
+                7
             );
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
