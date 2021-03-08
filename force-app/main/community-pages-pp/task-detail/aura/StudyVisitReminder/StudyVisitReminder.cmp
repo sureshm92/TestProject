@@ -315,7 +315,7 @@
                                             year="numeric"
                                             month="short"
                                             day="2-digit"
-                                            timeZone="UTC"
+                                            timeZone="{!$Locale.timezone}"
                                         />
                                         <aura:set attribute="else">
                                             {!$Label.c.PP_Date_Unavailable}
