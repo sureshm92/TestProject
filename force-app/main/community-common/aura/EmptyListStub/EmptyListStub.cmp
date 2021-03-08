@@ -1,7 +1,7 @@
 <!--
  - Created by D.Yasinskyi on 16.02.2018.
  -->
-<aura:component description="EmptyListStub">
+<aura:component description="EmptyListStub" extends="c:CommunityContext">
     <aura:attribute name="id" type="String" />
     <aura:attribute name="class" type="String" />
     <aura:attribute name="iconName" type="String" description="sad/happy/neutral" default="sad" />
@@ -19,7 +19,11 @@
                     class="{!v.class}"
                 />
             </aura:if>
-            <div id="{!v.id}" class="{!'message ' + v.class}" style="{! 'color: ' + v.color + ';'}">
+            <div
+                id="{!v.id}"
+                class="{!'message ' + v.class}"
+                style="{! 'color: ' + v.color + ';' + v.isRTL ? 'direction: rtl;' : ''}"
+            >
                 {!v.message}
             </div>
         </div>
