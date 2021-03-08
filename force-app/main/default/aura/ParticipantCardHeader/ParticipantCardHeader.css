@@ -57,14 +57,14 @@
 .THIS .objective-link {
     white-space: nowrap;
     font-size: 1rem;
-    width: 150px;
+    width: 540px;
     display: inline-block;
     text-align: right;
 }
 .THIS .objective-linkRTL {
     white-space: nowrap;
     font-size: 1rem;
-    width: 150px;
+    width: 540px;
     display: inline-block;
     text-align: left;
 }
