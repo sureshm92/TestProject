@@ -228,14 +228,9 @@
                                             style="margin-right: 10px"
                                             >{!$Label.c.PP_Change_Notification_Settings}</a
                                         >
-                                        <abbr title="required" class="slds-required">*</abbr
-                                        >{!$Label.c.PP_Remind_Using}
+                                        {!$Label.c.PP_Remind_Using}
                                         <aura:set attribute="else">
-                                            {!$Label.c.PP_Remind_Using}<abbr
-                                                title="required"
-                                                class="slds-required"
-                                                >*</abbr
-                                            >
+                                            {!$Label.c.PP_Remind_Using}
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
@@ -381,14 +376,9 @@
                                     style="margin-right: 10px"
                                     >{!$Label.c.PP_Change_Notification_Settings}</a
                                 >
-                                <abbr title="required" class="slds-required">*</abbr>
                                 {!$Label.c.PP_Remind_Using}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PP_Remind_Using}<abbr
-                                        title="required"
-                                        class="slds-required"
-                                        >*</abbr
-                                    >
+                                    {!$Label.c.PP_Remind_Using}
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
@@ -558,14 +548,9 @@
                                     style="margin-right: 10px"
                                     >{!$Label.c.PP_Change_Notification_Settings}</a
                                 >
-                                <abbr title="required" class="slds-required">*</abbr>
                                 {!$Label.c.PP_Remind_Using}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PP_Remind_Using}<abbr
-                                        title="required"
-                                        class="slds-required"
-                                        >*</abbr
-                                    >
+                                    {!$Label.c.PP_Remind_Using}
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
