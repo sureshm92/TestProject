@@ -5,7 +5,7 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
- .mr_reminderDate_rtl {
+.mr_reminderDate_rtl {
     margin-right: -43px;
 }
 .mr_10 {
@@ -147,7 +147,7 @@ h2 {
     margin-top: -28px;
     margin-right: 20px;
 }
-.icons-container {
+/*.icons-container {
     display: flex;
     overflow: hidden;
     height: 32px;
@@ -162,7 +162,7 @@ h2 {
     margin-right: 20px;
     justify-content: space-between;
 }
-
+*/
 .icons-row {
     display: flex;
     flex-wrap: wrap;
@@ -495,11 +495,16 @@ h2 {
     position: absolute;
     top: 100%;
     z-index: 1;
-    left: -10%;
     overflow: visible;
     font-size: 1rem;
     line-height: 1.5;
     padding: 1rem;
+}
+._rtl {
+    right: -10% !important;
+}
+._ltr {
+    left: -10% !important;
 }
 
 .icon:hover .tooltiptext {
