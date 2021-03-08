@@ -84,7 +84,7 @@ public without sharing class ParametersProviderService {
                valueStr = UserService.formatDateTime((Datetime) value, userLanguage);
                 }
                 else{
-              valueStr = UserService.formatDateTimebyZone((Datetime) value, userObj.LocaleSidKey,userObj.LocaleSidKey);
+              valueStr = UserService.formatDateTimebyZone((Datetime) value, userObj.LocaleSidKey,userObj.TimeZoneSidKey);
                 }
             } else {
                 valueStr = (value != null ? value : '') + '';
