@@ -1,6 +1,6 @@
 /**
  * Created by Yehor Dobrovolskyi
- * test
+ * testing for formal
  */
 public with sharing class ArticleService {
     public static final String HEALTH_DAY_NAME_LOGO = 'HealthDay.png';
