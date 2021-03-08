@@ -126,6 +126,16 @@ public class UserService {
         return dt.format(dateFormat);
     }
 
+    public static String formatDateTimebyZone(Datetime dt, String locale,String timeZone)
+    {
+         if (dt == null)
+            return '';
+        String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
+        if (dateFormat == null) 
+            return dt.format(); 
+        return dt.format(dateFormat,timeZone);
+    } 
+
     public static String formatDate(Date d, String locale) {
         if (d == null)
             return '';
