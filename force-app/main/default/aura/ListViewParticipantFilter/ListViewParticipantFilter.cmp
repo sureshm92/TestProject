@@ -565,8 +565,8 @@
                                             value="{!obj.priorityReferral}"
                                             onchange="{!c.handlePriorityReferral}"
                                         >
-                                            <option value="Yes">Yes</option>
-                                            <option value="No">No</option>
+                                            <option value="Yes">{!$Label.c.BTN_Yes}</option>
+                                            <option value="No">{!$Label.c.BTN_No}</option>
                                         </lightning:select>
                                     </div>
                                 </th>
