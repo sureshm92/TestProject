@@ -103,8 +103,11 @@
             communityService.showErrorToast('', $A.get('$Label.c.PP_Remind_Using_Required'), 3000);
             return;
         }
-        var isValidFields =
-            helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
+        var isValidFields = true;
+        if(!component.get('v.initData.createdByAdmin')){
+             isValidFields = helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component);
+ 
+        }
         if (!component.get('v.isValidFields') || !isValidFields) {
             var showToast = true;
             if (!component.get('v.isNewTask')) {
