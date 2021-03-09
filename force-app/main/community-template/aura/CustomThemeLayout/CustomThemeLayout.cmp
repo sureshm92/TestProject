@@ -83,7 +83,7 @@
                                     <div
                                         onclick="{!c.onClickHelp}"
                                         class="helpNavigationCSS"
-                                        title="Help"
+                                        title="{!$Label.c.Navigation_Help}"
                                     >
                                         <c:RRIcon
                                             iconName="help"
