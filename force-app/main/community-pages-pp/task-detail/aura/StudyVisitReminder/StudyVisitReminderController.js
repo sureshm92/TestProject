@@ -200,10 +200,21 @@
              }
          }
          }else{
+               if(!component.get('v.initData.createdByAdmin')){
               if(!$A.util.isUndefinedOrNull(reminderOptionValid)){
                 reminderOptionValid.setCustomValidity(' ');
              reminderOptionValid.reportValidity(); 
+              }
              }
+             else{
+                  if($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate'))){
+                      component.set('v.isValidFields',false);
+                  }
+                  else{
+                      component.set('v.isValidFields',true);
+                  }
+                  
+              }
          }
        
         var isValidFields = helper.doValidateDueDate(component, helper) && helper.doValidateReminder(component) ;

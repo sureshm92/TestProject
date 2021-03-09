@@ -59,10 +59,11 @@
                 null
             );
         }
-        //else if (!firstLoad) {
+        else{
         //function (component, title, taskData, isReminderOnly)
         helper.createStudyVisitReminder(component, title, taskData, false);
-        /*} else {
+        } 
+        /*else {
             //function(component, taskData, title, isOpenTask, isReminderOnly)
             component
                 .find('studyVisitReminder')
