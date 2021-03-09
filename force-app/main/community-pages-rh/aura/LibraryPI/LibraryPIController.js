@@ -83,7 +83,9 @@
 					resource.resourceId;
 				url += '&ret=' + communityService.createRetString();
 				communityService.navigateToPage(url);
-        }
+			}
+		}
+		
     },
     filterLanguage: function (component, event, helper) {
         component.find('mainSpinner').show();
