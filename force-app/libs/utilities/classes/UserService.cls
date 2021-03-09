@@ -116,6 +116,7 @@ public class UserService {
         'zh_HK' => 'yyyy-M-d ah:mm',
         'zh_TW' => 'yyyy/M/d a h:mm'
     };
+        public static String contactIDvalue;  
 
     public static String formatDateTime(Datetime dt, String locale) {
         if (dt == null)
@@ -125,6 +126,16 @@ public class UserService {
             return dt.format();
         return dt.format(dateFormat);
     }
+
+    public static String formatDateTimebyZone(Datetime dt, String locale,String timeZone)
+    {
+         if (dt == null)
+            return '';
+        String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
+        if (dateFormat == null) 
+            return dt.format(); 
+        return dt.format(dateFormat,timeZone);
+    } 
 
     public static String formatDate(Date d, String locale) {
         if (d == null)

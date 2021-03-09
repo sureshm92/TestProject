@@ -74,13 +74,23 @@ public without sharing class ParametersProviderService {
             Object value = SObjectHelper.getSObjectFieldValue(sourceObject, fieldPath);
             if(paramsMap.get('ContactID')!= null){
             Object contactIdValue = SObjectHelper.getSObjectFieldValue(sourceObject, paramsMap.get('ContactID'));
-            userObj=[Select Id , LocaleSidKey from User where ContactId= :contactIdValue+''];
+                if(UserService.contactIDvalue!=null){
+            userObj=[Select Id , LocaleSidKey,TimeZoneSidKey from User where ContactId= :UserService.contactIDvalue+''];
+                }
+                else{
+                       userObj=[Select Id , LocaleSidKey,TimeZoneSidKey from User where ContactId= :contactIdValue+''];
+                }
             }
             String valueStr;
             if (value instanceof Date) {
                 valueStr = UserService.formatDate((Date) value, userLanguage);
             } else if (value instanceof Datetime) {
-                valueStr = UserService.formatDateTime((Datetime) value, userObj==null?userLanguage: userObj.LocaleSidKey);
+                if(userObj==null){
+               valueStr = UserService.formatDateTime((Datetime) value, userLanguage);
+                }
+                else{
+              valueStr = UserService.formatDateTimebyZone((Datetime) value, userObj.LocaleSidKey,userObj.TimeZoneSidKey);
+                }
             } else {
                 valueStr = (value != null ? value : '') + '';
             }
