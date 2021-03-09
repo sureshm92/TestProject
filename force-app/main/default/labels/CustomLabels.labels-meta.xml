@@ -9370,6 +9370,13 @@ The expected format is REF##### to REF########</value>
         <value>Media Outreach Requests</value>
     </labels>
     <labels>
+        <fullName>Browser_Title_Media_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Media Outreach</shortDescription>
+        <value>Media Outreach</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>

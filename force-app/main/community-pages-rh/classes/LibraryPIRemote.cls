@@ -379,4 +379,24 @@ public without sharing class LibraryPIRemote {
 
         return null;
     }
+	//This method returns the base64 values of the resource document 
+    @AuraEnabled
+    public static String getBase64Resource( String resourceId,String language)
+    {
+        ContentDocumentLinkService contentDocumentLinkService = (ContentDocumentLinkService) ClassFactory.newInstance(
+            ContentDocumentLinkService.class
+        );
+        ContentDocumentLink cdl = contentDocumentLinkService.getCDLForResource(
+            resourceId,
+            language
+        );
+        if (cdl != null) {
+           
+            return EncodingUtil.base64Encode(
+                cdl.ContentDocument.LatestPublishedVersion.VersionData
+            );
+           
+        }
+        return null;
+    }
 }

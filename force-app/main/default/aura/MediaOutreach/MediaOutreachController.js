@@ -24,5 +24,8 @@
         }
         component.set('v.SelectedmediaList', component.get('v.mediaList')[rowIndex]);
         component.find('OpenOutreach').execute();
+    },
+    init: function(component, event, helper) {        
+        document.title = $A.get("{!$Label.c.Browser_Title_Media_Outreach}");
     }
 });

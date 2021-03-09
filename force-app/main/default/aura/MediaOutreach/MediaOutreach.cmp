@@ -21,6 +21,7 @@
 
 <!-- handlers:-->
 <aura:handler name="init" value="{!this}" action="{!c.DoInit}" />
+<aura:handler value="{!this}" name="init" action="{!c.init}"/>
 
 <!-- component body:-->
 <div class="slds-var-p-around_x-large" style="padding-left: 0rem; padding-right: 0rem">
