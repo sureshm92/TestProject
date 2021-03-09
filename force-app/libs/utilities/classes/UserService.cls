@@ -116,6 +116,7 @@ public class UserService {
         'zh_HK' => 'yyyy-M-d ah:mm',
         'zh_TW' => 'yyyy/M/d a h:mm'
     };
+        public static String contactIDvalue;  
 
     public static String formatDateTime(Datetime dt, String locale) {
         if (dt == null)
