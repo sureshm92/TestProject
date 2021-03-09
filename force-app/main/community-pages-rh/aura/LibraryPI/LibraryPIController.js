@@ -31,13 +31,58 @@
             urlEvent.setParams({ url: urlLink });
             urlEvent.fire();
         } else {
-            var url =
-                'resources?resourceType=' +
-                resource.recordTypeDevName +
-                '&resId=' +
-                resource.resourceId;
-            url += '&ret=' + communityService.createRetString();
-            communityService.navigateToPage(url);
+            // This change is made to open the study document (under library section) in new window for mobile browsers
+            var device = $A.get("$Browser.formFactor");
+            if (device=='PHONE' && resource.recordTypeDevName=='Study_Document') {
+                component.find('mainSpinner').show();
+                try{
+                    communityService.executeAction(component, 'getBase64Resource', {
+                        resourceId:resource.resourceId,
+                        language: null 
+                    },
+                    function (returnValue) {         
+                        let urlEvent = $A.get('e.force:navigateToURL');            
+                        let byteCharacters = atob(returnValue);
+                        let byteNumbers = new Array(byteCharacters.length);
+                        for (let i = 0; i < byteCharacters.length; i++) {
+                            byteNumbers[i] = byteCharacters.charCodeAt(i); 
+                        }
+                        let ieEDGE = navigator.userAgent.match(/Edge/g);
+                        let ie = navigator.userAgent.match(/.NET/g);
+                        let oldIE = navigator.userAgent.match(/MSIE/g);
+                        let bytes = new Uint8Array(byteNumbers); //use this if data is raw bytes else directly pass resData
+                        let blob = new window.Blob([bytes], {type : 'application/pdf'});
+                        let absoluteURL = window.location.origin;
+                           if (ie || oldIE || ieEDGE) {
+                            window.navigator.msSaveBlob(blob, fileName + '.pdf');
+                        } else {
+                            let fileURL = URL.createObjectURL(blob);                           
+                            let urlViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+                            urlEvent.setParams({
+                                url:
+                                absoluteURL +
+                                urlViewer +
+                                '?file=' +
+                                fileURL +
+                                '&fileName=' +
+                                encodeURIComponent(resource.Title__c)
+                            });
+                            urlEvent.fire();
+                        }   
+                        component.find('mainSpinner').hide();               
+          			});     
+                }catch(e)
+                {
+                    throw new AuraHandledException('Something went wrong: '  + e.getMessage());  
+                }
+            }else{ 
+				var url =
+					'resources?resourceType=' +
+					resource.recordTypeDevName +
+					'&resId=' +
+					resource.resourceId;
+				url += '&ret=' + communityService.createRetString();
+				communityService.navigateToPage(url);
         }
     },
     filterLanguage: function (component, event, helper) {
