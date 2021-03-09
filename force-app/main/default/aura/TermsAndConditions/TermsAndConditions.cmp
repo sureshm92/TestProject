@@ -17,7 +17,8 @@
     <aura:attribute name="isUserLoggedIn" type="Boolean" default="false" />
     
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}" />
-    
+    <aura:handler value="{!this}" name="init" action="{!c.init}"/>
+
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="{!v.isRTL? 'arabic':'english'}">

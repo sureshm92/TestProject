@@ -16,5 +16,8 @@
         component.set('v.searchvalue', txtsearch);
         var LibraryPI = component.find('childcmp');
         var search = LibraryPI.LibraryPIMethod();
+    },
+    init: function(component, event, helper) {        
+        document.title = $A.get("{!$Label.c.Navigation_Library}");
     }
 });
