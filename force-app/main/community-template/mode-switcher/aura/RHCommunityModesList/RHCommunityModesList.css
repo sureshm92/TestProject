@@ -13,6 +13,10 @@
 .THIS .mode-sub-item:hover {
     cursor: pointer;
 }
+.THIS .main-box:hover,
+.THIS .mode-sub-itemRTL:hover {
+    cursor: pointer;
+}
 
 .THIS .selected {
     color: #0768fd !important;
@@ -31,6 +35,20 @@
     line-height: 48px;
     border-bottom: 1px solid #f8f9fb;
     padding-left: 32px;
+}
+.THIS .mode-sub-itemRTL {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    color: #444444;
+    font-size: 16px;
+    font-weight: normal;
+    height: 48px;
+    width: 100%;
+    letter-spacing: 0;
+    line-height: 48px;
+    border-bottom: 1px solid #f8f9fb;
+    padding-right: 32px;
 }
 
 .THIS .mode-icon {
