@@ -1,8 +1,7 @@
 public without sharing class UploadParticipantsDelegateHelper {
     
     public static ErrorPatientDelegateWrapper createDelegateRecords(List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList,Study_Site__c studySiteDetails, 
-    List<List<String>> csvLines, Set<Id> successfullyInsertedContactSetParent,Map<Id,Id> participantToPERid) {
-
+    List<List<String>> csvLines) {
         Map<Integer,Contact> mapContact = new Map<Integer,Contact>();
         Map<Integer,Integer> mapContactTrack = new Map<Integer,Integer>();
         Map<Integer,Participant__c> mapParticipant = new Map<Integer,Participant__c>();

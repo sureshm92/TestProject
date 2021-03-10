@@ -195,7 +195,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Integer,Participant__c> mapParticipant = new Map<Integer,Participant__c>();
             Map<Integer,Contact> mapDuplicateContact = new Map<Integer,Contact>();
             Map<Integer,Participant__c> mapDuplicateParticipant = new Map<Integer,Participant__c>();
-            Map<Id,Id> participantToPERid = new Map<Id,Id>();
 
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrapList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
@@ -802,6 +801,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_IQVIA_to_contact_about_study__c = doContact
                         );
                 mapPER.put(trackIndex.get(i),participantEnrollment);
+                    for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
+                        if(trackIndex.get(i) == d.totalRecordCount){
+                            d.mainparticipant = mapDuplicateParticipant.get(trackIndex.get(i));
+                            delegateWithpartList.add(d);
+                        }
+                    }
                 }else{
                     errorRecordCount++;
                     Integer errorIndex = trackIndex.get(i);
@@ -844,7 +849,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }else{
                     newlyCreatedPER.add(perSR[k].getId());
                     PERecIds.add(perSR[k].getId());
-                    participantToPERid.put(mapPER.get(countIndexPER).Participant__c,perSR[k].getId());
                     if(duplicateContactUsersMap.get(mapPER.get(countIndexPER).Participant_Contact__c) == null){
                         createUsersMap.put(mapPER.get(countIndexPER).Participant_Contact__c,mapPER.get(countIndexPER).PI_Contact__c);
                     }
@@ -887,15 +891,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 update conListtoBeUpdated;
             }
 
-            //call UploadParticipantsDelegateHelper class to create delegates
-            if (!delegateWithpartList.isEmpty()){
-                UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
-                 UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines,successfullyInsertedContactSet,participantToPERid);
-                listOfFailedRecordsWithMsg.addALL(wrap.listOfFailedRecordsWithMsg);
-                listOfFailedRecords.addALL(wrap.listOfFailedRecords);
-                errorRecordCount = errorRecordCount + wrap.errorRecordCount;
-
-            }
+            
                 
             //Create user for newly created contacts
             if (createUsers) {
@@ -911,6 +907,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
             //user creation ends
 
+            //call UploadParticipantsDelegateHelper class to create delegates
+            if (!delegateWithpartList.isEmpty()){
+                UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
+                 UploadParticipantsDelegateHelper.createDelegateRecords(delegateWithpartList, studySiteDetails,csvLines);
+                listOfFailedRecordsWithMsg.addALL(wrap.listOfFailedRecordsWithMsg);
+                listOfFailedRecords.addALL(wrap.listOfFailedRecords);
+                errorRecordCount = errorRecordCount + wrap.errorRecordCount;
+
+            }
             
                
         } catch (Exception exp) {
