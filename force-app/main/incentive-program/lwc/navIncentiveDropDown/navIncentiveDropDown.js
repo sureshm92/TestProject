@@ -22,7 +22,7 @@ export default class NavIncentiveDropDown extends LightningElement {
     connectedCallback() {
         getisRTL()
         .then((data) => {
-            this.isRTL = data === true? 'rtl': '';
+            this.isRtl = data === true? 'nidd-total slds-p-around_xx-small rtl': 'nidd-total slds-p-around_xx-small';
         })
         .catch(function(error) {
             console.error('Error: ' + JSON.stringify(error));
