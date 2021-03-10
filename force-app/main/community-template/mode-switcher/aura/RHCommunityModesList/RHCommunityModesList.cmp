@@ -19,10 +19,19 @@
                 >
                     <aura:if isTrue="{!modeGroup.isCollapsed}">
                         <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
-                            <c:RRIcon
-                                iconName="icon-chevron-right"
-                                class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"
-                            />
+                            <aura:if isTrue="{!v.isRTL}">
+                                <c:RRIcon
+                                    iconName="icon-chevron-left"
+                                    class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"
+                                />
+                            <aura:set attribute="else">
+                                <c:RRIcon
+                                    iconName="icon-chevron-right"
+                                    class="{!'mode-icon ' + if(modeGroup.isSelected,'selected ','')}"
+                                />
+                            </aura:set>
+                            </aura:if>
+                            
                         </div>
                         <aura:set attribute="else">
                             <div class="{!'icon-box ' + if(modeGroup.isGroup, 'icon-unset','')}">
@@ -47,7 +56,7 @@
                                 <div
                                     data-group-id="{!subItem.itemType}"
                                     data-delegate-id="{!subItem.itemId}"
-                                    class="{!'mode-sub-item ' + if(subItem.isSelected,'selected','')}"
+                                    class="{! if(v.isRTL,'mode-sub-itemRTL ','mode-sub-item ') + if(subItem.isSelected,'selected','')}"
                                 >
                                     <div class="item-title">{!subItem.title}</div>
                                     <aura:if isTrue="{!subItem.isSelected}">
