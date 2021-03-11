@@ -34,7 +34,7 @@
     
     <aura:method name="refreshChildTable" action="{!c.doInit}" access="public">
     </aura:method>
-
+    <meta charset="UTF-8">
     <div class="slds-grid slds-wrap">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div
