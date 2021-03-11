@@ -144,6 +144,10 @@ public class UserService {
          if (dt == null)
             return '';
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
+        if( timeZone !=null &&  dateFormat == null)
+        {
+            return dt.format('dd/MM/yyyy hh:mm a',timeZone);
+        }
         if (dateFormat == null) 
             return dt.format(); 
         return dt.format(dateFormat,timeZone);
