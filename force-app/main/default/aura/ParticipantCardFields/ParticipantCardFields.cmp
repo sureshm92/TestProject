@@ -23,7 +23,7 @@
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
     <aura:handler event="c:ViewMore" action="{!c.viewMore}" />
-
+    <meta charset="UTF-8"/>
     <!-- component body: -->
     <div class="{!v.isRTL? 'arabic':'english'}">
     <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
