@@ -4794,6 +4794,11 @@
         <field>Notification__c.WhatId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.RemindUsing__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Onboarding_Slide__mdt.Body__c</field>

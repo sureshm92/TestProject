@@ -22,6 +22,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                     Reminder_Schedule__r.Use_Final_Template__c,
                     Visible_For__c,
                     WhatId,
+                    Remind_Using_Email__c,
                     WhoId
                 FROM Task
                 WHERE
