@@ -19,7 +19,7 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
     };
 
-    static public List<String> notificationTypeFirstEmail = new List<String>{
+     static public List<String> notificationTypeFirstEmail = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
@@ -30,6 +30,16 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_DEL_REACTIVATED_GSK_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
+    };
+
+     static public List<String> taskAndVisitReminderTypes = new List<String>{
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
+
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -309,8 +319,17 @@ public without sharing class NotificationService {
                                     n.Recipient__c
                                 )
                             ) {
-                                emailNotifications.add(n);
-                                sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                                if(taskAndVisitReminderTypes.contains(n.Notification_Type__c)){
+                                    if(n.RemindUsing__c == 'Email'){
+                                        emailNotifications.add(n);
+                                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                                    }
+                                   
+                                }
+                                else{
+                                    emailNotifications.add(n);
+                                    sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                                }
                             } else {
                                 sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                             }
