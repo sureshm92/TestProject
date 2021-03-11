@@ -29,6 +29,13 @@
     letter-spacing: 0;
     line-height: 30px;
 }
+.imph-pointsRtl {
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    margin-right: 10px;
+    line-height: 30px;
+}
 .imph-points strong {
     font-weight: 600;
 }
