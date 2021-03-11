@@ -123,7 +123,8 @@ public class UserService {
         'zu_ZA' => 'MM/dd/yyyy HH:mm',
         'cy_GB' => 'dd/MM/yyyy HH:mm',
         'my_MM' => 'dd-MM-yyyy HH:mm',
-        'es_US' => 'dd/MM/yyyy hh:mm a'
+        'es_US' => 'dd/MM/yyyy hh:mm a',
+        'Default' => 'MM/dd/yyyy, hh:mm a'
 
 
 
@@ -136,7 +137,7 @@ public class UserService {
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
         if (dateFormat == null)
             return dt.format();
-        return dt.format(dateFormat);
+        return dt.format(dateFormat); 
     }
 
     public static String formatDateTimebyZone(Datetime dt, String locale,String timeZone)
@@ -144,6 +145,10 @@ public class UserService {
          if (dt == null)
             return '';
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
+        if( timeZone !=null &&  dateFormat == null)
+        {
+            return dt.format(DATE_FORMAT_BY_LOCALE.get('Default'),timeZone);
+        }
         if (dateFormat == null) 
             return dt.format(); 
         return dt.format(dateFormat,timeZone);
