@@ -138,6 +138,7 @@ public without sharing class ParticipantDuplicateService {
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE
@@ -166,6 +167,7 @@ public without sharing class ParticipantDuplicateService {
                     Date_of_Birth__c,
                     Secondary_Source__c,
                     ZIP_Code__c,
+                    Adult__c,
                     Mailing_Zip_Postal_Code__c
                 FROM Participant__c
                 WHERE
@@ -310,6 +312,7 @@ public without sharing class ParticipantDuplicateService {
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE Contact__c IN :delegatesContactIs
