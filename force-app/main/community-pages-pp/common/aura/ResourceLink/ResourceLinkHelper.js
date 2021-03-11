@@ -10,7 +10,7 @@
                 100
             ); **/
             if(resource.RecordType.DeveloperName=='Video') communityService.navigateToPage(url);
-            communityService.navigateToPage('pdfdemo?resId=' + resource.Id+'&lang=' + languageCode);
+            communityService.navigateToPage('mobile-pdf-viewer?resId=' + resource.Id+'&lang=' + languageCode);
             return;           
        }
          var device = $A.get("$Browser.formFactor");
