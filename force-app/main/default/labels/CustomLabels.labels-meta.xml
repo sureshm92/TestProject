@@ -17902,6 +17902,22 @@ communications using the toggles below.</value>
         <shortDescription>No record found for Export</shortDescription>
         <value>No record found for Export</value>
     </labels>
+      <labels>
+        <fullName>RH_PI</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_PI</shortDescription>
+        <value>PI</value>
+    </labels>
+      <labels>
+        <fullName>RH_HCP</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_HCP</shortDescription>
+        <value>HCP</value>
+    </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
         <language>en_US</language>

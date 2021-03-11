@@ -16,13 +16,13 @@
                 //@krishna Mahto - For REF-1390- start
                 if (
                     field.field == 'Initial_visit_scheduled_date__c' &&
-                    stepWrapper.cardTitle == 'Contact Attempt'
+                    stepWrapper.cardTitle == $A.get('$Label.c.PWS_Contact_Card_Name')
                 ) {
                     ivsd = true;
                 }
                 if (
                     field.field == 'Initial_visit_scheduled_time__c' &&
-                    stepWrapper.cardTitle == 'Contact Attempt'
+                    stepWrapper.cardTitle == $A.get('$Label.c.PWS_Contact_Card_Name')
                 ) {
                     ivst = true;
                 }

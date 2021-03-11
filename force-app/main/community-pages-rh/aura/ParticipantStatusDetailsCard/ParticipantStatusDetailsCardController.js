@@ -23,7 +23,7 @@
         console.log('********stepWrapper.Status ' + stepWrapper.status);
         if (
             stepWrapper.cardTitle != null &&
-            stepWrapper.cardTitle == 'Contact Attempt' &&
+            stepWrapper.cardTitle == $A.get('$Label.c.PWS_Contact_Card_Name') &&
             stepWrapper.isCurrentStep == true &&
             component.get('v.isDateTimeFieldsAvailable') == true
         ) {
