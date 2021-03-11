@@ -51,10 +51,10 @@
                 </div>
                 <div class="vpi-field">
                     <div class="label">{!$Label.c.PE_Source}</div>
-                    <aura:if isTrue="{!v.pe.Referral_Source__c == 'HCP'}">
+                    <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_HCP}">
                         <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
                         <aura:set attribute="else">
-                            <aura:if isTrue="{!v.pe.Referral_Source__c == 'PI'}">
+                            <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_PI}">
                                 <div class="value">{!v.pe.PI_Contact__r.Name}</div>
                                 <aura:set attribute="else">
                                     <div class="value">{!v.pe.Source_Type__c}</div>
