@@ -3,6 +3,27 @@
  */
 
 public without sharing class ParticipantTriggerHandler {
+    
+    public static Map<Id,Contact> contactsOfNewParticipants = new Map<Id,Contact>();
+    public static List<Contact> getContactsList(List<Participant__c> newList){
+        if(contactsOfNewParticipants.isEmpty()){
+            Set<Id> contactIds = new Set<Id>(); 
+            for (Participant__c participant : newList) {
+                if (participant.Contact__c != null)
+                    contactIds.add(participant.Contact__c);
+            }
+            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
+        }
+        return contactsOfNewParticipants.values();
+    }
+    
+    public static Map<Id,Contact> getContactsMap(Set<Id> contactIds){
+        if(contactsOfNewParticipants.isEmpty()){
+            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
+        }
+        return contactsOfNewParticipants;
+    }
+    
     // Handlers: -------------------------------------------------------------------------------------------------------
 
     public class CreateContactsForParticipantsHandler extends TriggerHandler {
@@ -18,6 +39,9 @@ public without sharing class ParticipantTriggerHandler {
     public class UpdateContactDetailsFromParticipant extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             updateContactDetailsFromParticipant((List<Participant__c>)newList, (Map<Id, Participant__c>)oldMap);
+        }
+        public override void afterInsert(List<SObject> newList) {
+            updateContactDetailsFromParticipant((List<Participant__c>)newList, new Map<Id, Participant__c>());
         }
     }
     
@@ -121,33 +145,55 @@ public without sharing class ParticipantTriggerHandler {
     @TestVisible
     private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
         List<Contact> updateContacts = new List<Contact>();
+        Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
+        
         for(Participant__c part : newList){
-            Boolean updateNeeded= false;
-            Contact updateContact = new Contact(Id = part.Contact__c);
-            if(part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c){
-                updateContact.MailingCountryCode = part.Mailing_Country_Code__c;
-                updateNeeded = true;
+            if(oldMap.isEmpty() && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(!oldMap.containsKey(part.Id) && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
+            }else if(part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c && part.Contact__c!=null){
+                updateContactsMap.put(part.Contact__c,part);
             }
-            if(part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c){
-                updateContact.MailingCountry = part.Mailing_Country__c;
-                updateNeeded = true;
-            }
-            if(part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c){
-                updateContact.MailingStateCode = part.Mailing_State_Code__c;
-                updateNeeded = true;
-            }
-            if(part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c){
-                updateContact.MailingState = part.Mailing_State__c;
-                updateNeeded = true;
-            }
-            if(part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
-                updateContact.MailingPostalCode = part.Mailing_Zip_Postal_Code__c;
-                updateNeeded = true;
-            }
-            updateContacts.add(updateContact);
         }
-        if(updateContacts.size()>0)
-            update updateContacts;
+        
+        //for(Contact con: [SELECT Id,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet() ]){
+        for(Contact con: getContactsList(newList)){
+            if(updateContactsMap.containsKey(con.Id)){
+                Boolean updateNeeded= false;
+                if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
+                    con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
+                    updateNeeded= true;
+                }if(con.MailingCountry != updateContactsMap.get(con.Id).Mailing_Country__c){
+                    con.MailingCountry = updateContactsMap.get(con.Id).Mailing_Country__c;
+                    updateNeeded= true;
+                }if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
+                    con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
+                    updateNeeded= true;
+                }if(con.MailingState != updateContactsMap.get(con.Id).Mailing_State__c){
+                    con.MailingState = updateContactsMap.get(con.Id).Mailing_State__c;
+                    updateNeeded= true;
+                }if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
+                    con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
+                    updateNeeded= true;
+                }
+                if(updateNeeded == true){
+                    updateContacts.add(con);
+                }
+            }
+        }
+        if(updateContacts.size()>0){
+            update updateContacts;   
+        }
+
     }
     
     @TestVisible
@@ -238,9 +284,7 @@ public without sharing class ParticipantTriggerHandler {
                 contactIds.add(participant.Contact__c);
         }
         List<User> users = [SELECT Id, ContactId, Email FROM User WHERE ContactId IN :contactIds];
-        Map<Id, Contact> contactsByContactIdMap = new Map<Id, Contact>(
-            [SELECT Id, Email FROM Contact WHERE Id IN :contactIds]
-        );
+        Map<Id, Contact> contactsByContactIdMap = getContactsMap(contactIds);
         Map<Id, User> usersByContactIdMap = new Map<Id, User>();
         for (User user : users) {
             usersByContactIdMap.put(user.ContactId, user);
