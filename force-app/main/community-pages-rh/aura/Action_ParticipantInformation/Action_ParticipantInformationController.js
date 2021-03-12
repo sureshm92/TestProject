@@ -47,7 +47,12 @@
             }
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
-            component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
+			
+			let fNameInitial = (pe.Participant__r.First_Name__c===null||pe.Participant__r.First_Name__c===undefined)?'':pe.Participant__r.First_Name__c.substring(0,1).toUpperCase()+ ' ';
+            let mNameInitial = (pe.Participant__r.Middle_Name__c===null||pe.Participant__r.Middle_Name__c===undefined)?'':pe.Participant__r.Middle_Name__c.substring(0,1).toUpperCase()+' ';
+            let lNameInitial = (pe.Participant__r.Last_Name__c===null||pe.Participant__r.Last_Name__c===undefined)?'':pe.Participant__r.Last_Name__c.substring(0,1).toUpperCase();
+			
+            component.set('v.popUpTitle', fNameInitial + mNameInitial + lNameInitial); 
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
             // if (component.get('v.isInvited')) {
@@ -181,6 +186,11 @@
                     callback(pe);
                 }
                 component.set('v.pe', returnvalue);
+                let fNameInitial = (pe.Participant__r.First_Name__c===null||pe.Participant__r.First_Name__c===undefined)?'':pe.Participant__r.First_Name__c.substring(0,1).toUpperCase()+ ' ';
+                let mNameInitial = (pe.Participant__r.Middle_Name__c===null||pe.Participant__r.Middle_Name__c===undefined)?'':pe.Participant__r.Middle_Name__c.substring(0,1).toUpperCase()+' ';
+                let lNameInitial = (pe.Participant__r.Last_Name__c===null||pe.Participant__r.Last_Name__c===undefined)?'':pe.Participant__r.Last_Name__c.substring(0,1).toUpperCase();
+                
+                component.set('v.popUpTitle', fNameInitial + mNameInitial + lNameInitial);				
                 component.set('v.participant', returnvalue.Participant__r);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
