@@ -286,11 +286,11 @@ public class TestDataFactory {
         );
         insert referralNetwork;
 
-        Contact_Referral_Network__c contactReferralNetwork = new Contact_Referral_Network__c(
+       /* Contact_Referral_Network__c contactReferralNetwork = new Contact_Referral_Network__c(
             ContactId__c = hcpContact.Id,
             ReferralNetworkId__c = referralNetwork.Id
         );
-        insert contactReferralNetwork;
+        insert contactReferralNetwork;*/
 
         Contact_Therapeutic_Area__c contactTherapeuticArea = new Contact_Therapeutic_Area__c(
             ContactId__c = hcpContact.Id,
