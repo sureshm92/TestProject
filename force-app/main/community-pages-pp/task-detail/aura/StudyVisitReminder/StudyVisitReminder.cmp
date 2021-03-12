@@ -38,6 +38,7 @@
     <aura:attribute name="isEditable" type="Boolean" default="true" />
     <aura:attribute name="isEnrolled" type="Boolean" />
     <aura:attribute name="jsonInitData" type="String" />
+    <aura:attribute name="showVendors" type="Boolean" default="false" />
     <!-- Reminder Attributes -->
     <aura:attribute name="emailOptIn" type="Boolean" />
     <aura:attribute name="smsOptIn" type="Boolean" />
@@ -591,7 +592,7 @@
                     </div>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div style="margin-left: -20px" class="tbl">
+                            <div style="margin-left: -20px" class="{!if(v.showVendors,'tbl',' ')}">
                                 <c:visitTravelDetails
                                     vname="{!v.visitData.visit.Name}"
                                     vnum="{!v.visitData.visit.Visit_Number__c}"
