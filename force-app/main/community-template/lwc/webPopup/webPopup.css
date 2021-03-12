@@ -39,6 +39,9 @@
     background: none;
     border: none;
 }
+.rtl{
+right:607px !important;
+}
 
 .p-container > .slds-button:after {
     content: '';
@@ -132,7 +135,7 @@
 .p-container {
     width: calc(100% - 30px);
     max-height: 100%;
-    overflow: hidden;
+ /*   overflow: hidden; */
 }
 
 .p-container .p-mobile-close {
@@ -160,7 +163,7 @@
         /*width: 600px;*/
         /* height: 693px;*/
         width: 700px;
-        overflow: hidden;
+      /*  overflow: hidden; */
     }
 }
 

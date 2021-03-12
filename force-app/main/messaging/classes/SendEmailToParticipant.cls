@@ -48,16 +48,27 @@ public without sharing class SendEmailToParticipant {
         ) {
             whatId = task.WhatId;
         }
+        if(((patientNotificationType != null) && patientNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE)) || ((delegateNotificationType != null) && delegateNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE) ))
+        {
+            whatId  = task.Id;  // Task Id for Visit and Task Reminders 
+        }
 
         if (
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
-            patientNotificationType != null
+            patientNotificationType != null 
         ) {
+            String remindusing;
+            if(task.Remind_Using_Email__c){
+                 remindUsing = 'Email';
+            }
+
+            
             notifications.add(
                 new Notification__c(
                     Recipient__c = paCont.Id,
                     WhatId__c = whatId,
-                    Notification_Type__c = patientNotificationType
+                    Notification_Type__c = patientNotificationType,
+                    RemindUsing__c = remindUsing
                 )
             );
         }
@@ -65,13 +76,18 @@ public without sharing class SendEmailToParticipant {
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES) &&
             delegateNotificationType != null
         ) {
+            String remindusing;
+            if(task.Remind_Using_Email__c){
+                 remindUsing = 'Email';
+            }
             if (delegates != null && !delegates.isEmpty()) {
                 for (Contact delContact : delegates) {
                     notifications.add(
                         new Notification__c(
                             Recipient__c = delContact.Id,
                             WhatId__c = whatId,
-                            Notification_Type__c = delegateNotificationType
+                            Notification_Type__c = delegateNotificationType,
+                            RemindUsing__c = remindUsing
                         )
                     );
                 }

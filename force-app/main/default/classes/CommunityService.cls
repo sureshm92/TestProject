@@ -8,12 +8,21 @@ public without sharing class CommunityService {
     public static final String JANSSEN_COMMUNITY_TEMPLATE = 'Janssen';
 
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
+    public static final String CC_COMMUNITY_USER_PROFILE_NAME = 'IQVIA Call Center Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [
         SELECT Id
         FROM Profile
         WHERE Name = :COMMUNITY_USER_PROFILE_NAME
     ]
     .Id;
+    
+    public static final Id CC_COMMUNITY_USER_PROFILE_ID = [
+        SELECT Id
+        FROM Profile
+        WHERE Name = :CC_COMMUNITY_USER_PROFILE_NAME
+    ]
+    .Id;
+
     public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
     public static final Id SPNL_USER_PROFILE_ID = [
         SELECT Id
@@ -124,7 +133,7 @@ public without sharing class CommunityService {
         return [
             SELECT Id, userCommunityMode__c, userCommunytyType__c
             FROM Contact
-            WHERE Id IN :userContactIds
+            WHERE Id IN :userContactIds FOR UPDATE
         ];
     }
 
@@ -168,6 +177,14 @@ public without sharing class CommunityService {
         List<User> newPortalUsers = new List<User>();
         for (Contact cont : contacts)
             newPortalUsers.add(createUser(cont, null, null, null));
+        insert newPortalUsers;
+    }
+    
+    public void createCCPortalUsers(Set<Id> contactIds) {
+        List<Contact> contacts = getContacts(contactIds);
+        List<User> newPortalUsers = new List<User>();
+        for (Contact cont : contacts)
+            newPortalUsers.add(createCCUser(cont, null, null, null));
         insert newPortalUsers;
     }
 
@@ -413,5 +430,40 @@ public without sharing class CommunityService {
                 PatientDelegateService.updatePermissionSets(allContactIds);
             }
         }
+    }
+    
+    public static User createCCUser(Contact cont, String locale, String language, String timeZone) {
+        if (locale == null)
+            locale = 'en_US';
+        if (language == null) {
+            if (cont.Language__c == null) {
+                language = 'en_US';
+            } else {
+                language = cont.Language__c;
+            }
+        }
+        if (timeZone == null)
+            timeZone = 'America/Los_Angeles';
+        String newUserName = getAvailableUserName(cont.Email);
+        User newUser = new User(
+            ProfileId = CC_COMMUNITY_USER_PROFILE_ID,
+            Username = newUserName,
+            Email = cont.Email,
+            EmailEncodingKey = 'UTF-8',
+            LocaleSidKey = locale,
+            LanguageLocaleKey = language,
+            TimeZoneSidKey = timeZone,
+            ContactId = cont.Id,
+            LastName = cont.LastName,
+            FirstName = cont.FirstName,
+            Alias = 'test', //todo
+            IsActive = true
+        );
+
+        Database.DMLOptions dlo = new Database.DMLOptions();
+        dlo.EmailHeader.triggerUserEmail = true;
+        dlo.EmailHeader.triggerAutoResponseEmail = true;
+        newUser.setOptions(dlo);
+        return newUser;
     }
 }

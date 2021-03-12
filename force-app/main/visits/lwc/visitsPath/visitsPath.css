@@ -5,8 +5,14 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
+.mr_reminderDate_rtl {
+    margin-right: -43px;
+}
 .mr_10 {
     margin-top: 10px;
+}
+.mar_right_rtl {
+    margin-right: 10px;
 }
 .mr_25 {
     margin-top: 25px;
@@ -38,6 +44,10 @@ h2 {
 .reminderDate {
     margin-left: -105px;
     margin-top: -12px;
+}
+.reminderDate_rtl {
+    margin-right: -105px;
+    margin-top: -16px;
 }
 .reminder {
     margin-left: -118px;
@@ -75,6 +85,27 @@ h2 {
     margin-top: -25px;
     margin-left: 16px;
 }
+.label_rtl_remind {
+    margin-right: -143px;
+}
+.title_rtl {
+    height: 60px;
+    /* width: 190px; */
+    color: #000;
+    font-family: Proxima Nova;
+    font-size: 30px;
+    font-weight: 600;
+    letter-spacing: 0;
+    white-space: nowrap;
+    margin-top: -25px;
+    margin-left: 450px;
+}
+.label_rtl {
+    margin-right: -79px;
+}
+.mr_right {
+    margin-right: -245px;
+}
 .group-6 {
     height: 694px;
     width: 668px;
@@ -85,6 +116,9 @@ h2 {
 }
 .mr_left {
     margin-left: 12px;
+}
+.mr_left6 {
+    margin-left: 6px;
 }
 .mr_left_5 {
     margin-left: 5px;
@@ -101,14 +135,34 @@ h2 {
     margin-top: -28px;
     margin-left: 20px;
 }
-.icons-container {
+.what-to-expect_rtl {
+    height: 24px;
+    width: 136px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 20px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: -28px;
+    margin-right: 20px;
+}
+/*.icons-container {
     display: flex;
     overflow: hidden;
     height: 32px;
     margin-left: 13px;
     justify-content: space-between;
 }
-
+.icons-container_rtl {
+    display: flex;
+    overflow: hidden;
+    height: 32px;
+    margin-left: 13px;
+    margin-right: 20px;
+    justify-content: space-between;
+}
+*/
 .icons-row {
     display: flex;
     flex-wrap: wrap;
@@ -121,6 +175,7 @@ h2 {
 .icon {
     position: relative;
     display: flex;
+    overflow: visible;
     padding-top: 6px;
     padding-left: 10px;
 }
@@ -428,6 +483,33 @@ h2 {
     display: flex;
     padding-top: 15px;
 }
+.icon .tooltiptext {
+    visibility: hidden;
+    background-color: #444;
+    color: #fff;
+    border-radius: 4px;
+    padding: 5px;
+    width: 300px;
+
+    /* Position the tooltip */
+    position: absolute;
+    top: 100%;
+    z-index: 3;
+    overflow: visible;
+    font-size: 1rem;
+    line-height: 1.5;
+    padding: 1rem;
+}
+._rtl {
+    right: -10% !important;
+}
+._ltr {
+    left: -10% !important;
+}
+
+.icon:hover .tooltiptext {
+    visibility: visible;
+}
 
 .add-date {
     color: #297dfd;
@@ -614,6 +696,9 @@ h2 {
         right: -21px;
         width: 39px;
         height: 38px;
+    }
+    .mr_16 {
+        margin-right: 16px;
     }
 
     .width-basis {

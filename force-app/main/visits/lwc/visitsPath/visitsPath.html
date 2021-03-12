@@ -139,11 +139,17 @@
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
                                                 <div class="icon" key={icon.Id}>
+                                                    <template if:true={icon.Label__c}>
+                                                        <span class="tooltiptext _ltr">
+                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                        </span>
+                                                    </template>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
                                                         icon-height="20"
                                                         icon-color="#A9A9A9"
                                                         icon-width="20"
+                                                        tooltip-class-name=" tooltip"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -286,14 +292,10 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}<abbr title="required" class="slds-required"
-                                    >*</abbr
+                                {labels.remindUsing}
+                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                    >{labels.ChangeNotifications}</a
                                 >
-                                <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
-                                </template>
                             </div>
                         </div>
                         <div class="slds-grid mr_left_5">
@@ -328,7 +330,11 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details
+                                    vname={sdhVisitName}
+                                    vnum={visitNumber}
+                                    isrtl={isRTL}
+                                >
                                 </c-visit-travel-details>
                             </div>
                         </template>
@@ -392,7 +398,17 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="state-labelRTL">{pathItem.visitName}</div>
+                                        <div class="state-labelRTL">
+                                            <a
+                                                onclick={handleOpenDialog}
+                                                data-id={pathItem.id}
+                                                data-name={pathItem.visitName}
+                                                data-sdhname={pathItem.sdhName}
+                                                data-title={pathItem.headerTitle}
+                                                data-completeddate={pathItem.complDate}
+                                                >{pathItem.visitName}</a
+                                            >
+                                        </div>
                                         <div class="state-labelRTL">
                                             <template if:false={pathItem.isPending}>
                                                 <template if:true={pathItem.complDate}>
@@ -455,24 +471,30 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-footer="true" custom-buttons="true">
+        <c-web-popup show-footer="true" show-scroll="false" custom-buttons="true" show-close="true">
             <div slot="body">
-                <div class="title">{visitTitle}</div>
+                <div class="title_rtl">{visitTitle}</div>
                 <template if:true={reRender}>
                     <div>
-                        <p class="what-to-expect">{labels.whatToExpect}</p>
-                        <div class="icons-container mr_left_5">
+                        <p class="what-to-expect_rtl">{labels.whatToExpect}</p>
+                        <div class="icons-container_rtl mr_left_5">
                             <div class="icons-row">
-                                <lightning-layout multiple-rows="false">
+                                <lightning-layout multiple-rows="false" class="mr_16">
                                     <template if:true={iconDetails}>
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
                                                 <div class="icon" key={icon.Id}>
+                                                    <template if:true={icon.Label__c}>
+                                                        <span class="tooltiptext _rtl">
+                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                        </span>
+                                                    </template>
                                                     <c-web-icon
                                                         icon-name={icon.Name}
                                                         icon-height="20"
                                                         icon-color="#A9A9A9"
                                                         icon-width="20"
+                                                        tooltip-class-name=" tooltip"
                                                     ></c-web-icon>
                                                 </div>
                                             </template>
@@ -483,7 +505,7 @@
                         </div>
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-col slds-size_1-of-1 slds-p-top_x-small">
-                                <div class="label">
+                                <div class="label label_rtl">
                                     {labels.visitDateandTime}<abbr
                                         title="required"
                                         class="slds-required"
@@ -540,9 +562,10 @@
                         </div>
                         <div class="slds-grid slds-p-top_small mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
+                                <div class="label label_rtl_remind">{labels.remindMe}</div>
                                 <lightning-combobox
                                     name="reminder"
-                                    label={labels.remindMe}
+                                    variant="label-hidden"
                                     placeholder="Select"
                                     value={reminderOption}
                                     onchange={handleDateChange}
@@ -583,9 +606,11 @@
                                 </template>
                             </div>-->
 
-                            <div class="slds-col slds-size_1-of-2 slds-p-top_medium reminderDate">
+                            <div
+                                class="slds-col slds-size_1-of-2 slds-p-top_medium reminderDate_rtl"
+                            >
                                 <template if:true={showCustomDateTime}>
-                                    <div class="label">
+                                    <div class="label mr_reminderDate_rtl">
                                         {labels.ReminderDate}<abbr
                                             title="required"
                                             class="slds-required"
@@ -615,18 +640,14 @@
 
                         <div class="slds-grid slds-p-top_x-small mr_left_5">
                             <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}<abbr title="required" class="slds-required"
-                                    >*</abbr
+                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                    >{labels.ChangeNotifications}</a
                                 >
-                                <template if:true={showAccountNavigation}>
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
-                                </template>
+                                {labels.remindUsing}
                             </div>
                         </div>
                         <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2">
+                            <div class="slds-col slds-size_1-of-2 mr_right">
                                 <lightning-input
                                     type="checkbox"
                                     value={emailOptIn}
@@ -646,7 +667,7 @@
                                     disabled={smsOpted}
                                     checked={smsOptIn}
                                     name="smsOptIn"
-                                    class="mr_10"
+                                    class="mr_10 mr_left6"
                                     onchange={handleDateChange}
                                     onblur={doValidateReminder}
                                 >
@@ -657,7 +678,11 @@
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
                             <div class="travelDetails">
-                                <c-visit-travel-details vname={sdhVisitName} vnum={visitNumber}>
+                                <c-visit-travel-details
+                                    vname={sdhVisitName}
+                                    vnum={visitNumber}
+                                    isrtl={isRTL}
+                                >
                                 </c-visit-travel-details>
                             </div>
                         </template>
@@ -668,7 +693,11 @@
                 <button class="apollo-btn tertiary" onclick={handleHideDialog}>
                     {labels.cancelBTNLabel}
                 </button>
-                <button class="apollo-btn primary" onclick={savePlannedDate} disabled={disableSave}>
+                <button
+                    class="apollo-btn primary mar_right_rtl"
+                    onclick={savePlannedDate}
+                    disabled={disableSave}
+                >
                     {labels.saveBTNLabel}
                 </button>
             </div>

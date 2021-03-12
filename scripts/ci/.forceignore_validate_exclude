@@ -6,4 +6,4 @@ force-app/unpackaged
 force-app/main/default/objects/Contact/recordTypes/*
 
 # Exclude community
-force-app/communities
+#force-app/communities

@@ -9,20 +9,21 @@
     white-space: nowrap;
 }
 
-.bg {
+.bg{
     padding-bottom: 4px;
     white-space: nowrap;
-    font-family: 'Proxima Nova';
+    font-family:'Proxima Nova';
     font-size: 16px;
 }
-.bg a {
-    color: #444 !important;
+.bg a{
+    color: #444!important;
     font-size: 16px;
     padding: 4px 16px;
     display: inline-block;
 }
 
-.dropdown-content div:hover {
+
+.dropdown-content div:hover{
     background-color: #eef5ff;
 }
 
@@ -35,7 +36,7 @@
     padding: 12px 0;
     z-index: 1;
     width: 147px;
-    color: grey;
+    color:grey;
 }
 .no-travels-message {
     margin-bottom: 1.5em;
@@ -43,6 +44,14 @@
     font-size: 1rem;
     color: #999;
     margin-left: 13rem;
+}
+.no-travels-message_rtl {
+    margin-bottom: 1.5em;
+    margin-top: 1.5em;
+    font-size: 1rem;
+    color: #999;
+    margin-left: 13rem;
+    margin-right: 13rem;
 }
 .rectangle {
     box-sizing: border-box;
@@ -66,6 +75,11 @@
 .mr {
     margin-top: 40px;
     margin-left: 160px;
+}
+.mr_rtl {
+    margin-top: 40px;
+    margin-left: 160px;
+    margin-right: 302px;
 }
 .labels {
     height: 24px;

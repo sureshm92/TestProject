@@ -4,14 +4,15 @@
 
 @IsTest
 private class Test_VisitResultSharingPanelRemote {
+
     @IsTest
     static void testAll() {
         Test.startTest();
         TestData.loadTestData();
 
         TestData testData = new TestData();
-        Test.stopTest();
 
+        Test.stopTest();
         List<Visit_Result_Type_Sharing__c> visitResultTypeSharings = new List<Visit_Result_Type_Sharing__c>();
         visitResultTypeSharings.add(
             new Visit_Result_Type_Sharing__c(
@@ -38,7 +39,7 @@ private class Test_VisitResultSharingPanelRemote {
             )
         );
         insert visitResultTypeSharings;
-
+        
         testData.ctp.Shareback_Settings_on_StudySites__c = true;
         update testData.ctp;
 
@@ -123,6 +124,7 @@ private class Test_VisitResultSharingPanelRemote {
             FROM Study_Site__c
             WHERE Id = :testData.ss.Id
         ];
+        
 
         System.assertEquals(false, testCTP.Visit_Data_Shareback__c);
         System.assertEquals(false, testSS.Visit_Results_Sharing__c);

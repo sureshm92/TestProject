@@ -71,10 +71,11 @@
 .THIS .icon:hover .tooltiptext {
     visibility: visible;
 }
-
+.THIS .rtl {
+    right: 0 !important;
+}
 
 @media (max-width: 468px) {
-
     .THIS.icons-container .icons-row .icon {
         position: static;
     }

@@ -8,17 +8,17 @@
         <table>
             <thead>
                 <tr>
-                    <th>{labels.dateLabel}</th>
-                    <th>{labels.taskLabel}</th>
+                    <th class={rtl}>{labels.dateLabel}</th>
+                    <th class={rtl}>{labels.taskLabel}</th>
                     <th>{labels.pointsEarnedLabel}</th>
                 </tr>
             </thead>
             <tbody>
                 <template for:each={completedTasks} for:item="task">
-                    <tr key={task.id}>
-                        <td>{task.dateCompleted}</td>
-                        <td>{task.description}</td>
-                        <td>{task.points} {labels.ptsLabel}</td>
+                    <tr key={task.id} >
+                        <td class={rtl}>{task.dateCompleted}</td>
+                        <td class={rtl}>{task.description}</td>
+                        <td class={rtl}>{task.points} {labels.ptsLabel}</td>
                     </tr>
                 </template>
             </tbody>

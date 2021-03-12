@@ -48,6 +48,7 @@ public without sharing virtual class EmailTemplateProvider {
         this.recipientId = recipientId;
         this.recipientName = recipientName;
         this.recipientLanguage = recipientLanguage;
+        UserService.contactIDvalue=recipientId;
         if (shareTemplate == 'Yes')
             this.isShareTemplate = true;
         if (String.isNotEmpty(outputMode))
@@ -63,6 +64,7 @@ public without sharing virtual class EmailTemplateProvider {
         parameters.put('RecipientName', getUserName());
         parameters.put('RecipientFirstName', recipientFirstName);
         parameters.put('GuestName', TranslateHelper.getLabelValue(Label.Email_Guest_User_Name));
+        //Cookie counter = new Cookie('recipientId', this.recipientId,null,-1,true);
 
         initCRCommunityUrl();
 

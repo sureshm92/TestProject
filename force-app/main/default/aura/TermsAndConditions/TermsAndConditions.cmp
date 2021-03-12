@@ -17,13 +17,14 @@
     <aura:attribute name="isUserLoggedIn" type="Boolean" default="false" />
     
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}" />
-    
+    <aura:handler value="{!this}" name="init" action="{!c.init}"/>
+
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="{!v.isRTL? 'arabic':'english'}">
         <c:RRSpinner size="medium" aura:id="mainSpinner" />
         <div class="rr-body-content rr-min-body-height" style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}">
-            <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1180px;')}" >
+            <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
                 <div class="main-header">{!v.title}</div>
                 <aura:if isTrue="{!v.tcData}">
                     <aura:if isTrue="{!v.tcData.tc}">
@@ -60,14 +61,14 @@
                     </div>
                     <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
                         <aura:if isTrue="{!v.isUserLoggedIn}">
-                            <button class="apollo-btn primary" onclick="{!c.doGoBack}">
+                            <button class="apollo-btn primary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
                                 {!$Label.c.BTN_Close}
                             </button>
                         </aura:if>
                         <aura:set attribute="else">
                             <aura:if isTrue="{!!v.isPortalTC}">
                                 <aura:if isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}">
-                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}">
+                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
                                         {!$Label.c.BTN_Back}
                                     </button>
                                 </aura:if>

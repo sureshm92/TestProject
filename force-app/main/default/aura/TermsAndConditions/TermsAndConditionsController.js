@@ -170,5 +170,8 @@
         $A.util.removeClass(bottomLine[0], 'bottom-line-with-cookie');
         let paddingForCookie = document.getElementsByClassName('padding-for-cookie-policy');
         $A.util.removeClass(paddingForCookie[0], 'padding-for-cookie-policy');
+    },
+    init: function(component, event, helper) {        
+        document.title = $A.get("{!$Label.c.BTN_View_terms_and_conditions_participant}");
     }
 });

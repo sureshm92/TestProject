@@ -69,6 +69,7 @@ public without sharing class StudySiteTriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setCCSupport(newList);
         }
+        
     }
     
     public class AssignCommunityPermissionsForUser extends TriggerHandler {
@@ -446,7 +447,7 @@ public without sharing class StudySiteTriggerHandler {
             ctpsMap.put(ctp.Id, ctp);
         }
         for (Study_Site__c site : newList) {
-            if (!site.Enable_for_Call_Center_Support__c)
+            if (!site.Enable_for_Call_Center_Support__c )
                 site.Enable_for_Call_Center_Support__c = ctpsMap.get(site.Clinical_Trial_Profile__c)
                 .Enable_for_Call_Center_Support__c;
         }

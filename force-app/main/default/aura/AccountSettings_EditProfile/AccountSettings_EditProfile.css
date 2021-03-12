@@ -208,6 +208,9 @@
 .THIS .smallName {
     width: 115px;
 }
+.THIS .smallNameRTL {
+    width: fit-content;
+}
 
 .THIS .nickname {
     max-width: 263px;
@@ -312,6 +315,9 @@
     .THIS .nickname + .smallName + .rr-form-element {
         min-width: 200px;
     }
+    .THIS .nickname + .smallNameRTL + .rr-form-element {
+        min-width: 200px;
+    }
 
     .THIS .contactDesc {
         width: 100%;
@@ -327,6 +333,9 @@
     .THIS .smallName {
         min-width: 100%;
     }
+    .THIS .smallNameRTL {
+        min-width: 100%;
+    }
 
     .THIS.cPopup .p-container .p-footer {
         padding: 15px 15px 30px;
@@ -340,6 +349,11 @@
     .THIS .nickname,
     .THIS .longName,
     .THIS .smallName {
+        max-width: 100%;
+    }
+    .THIS .nickname,
+    .THIS .longName,
+    .THIS .smallNameRTL {
         max-width: 100%;
     }
 
