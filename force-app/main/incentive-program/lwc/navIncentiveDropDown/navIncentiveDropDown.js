@@ -7,7 +7,6 @@ import totalLabel from '@salesforce/label/c.IncentiveProgram_Total';
 import lastEarnedLabel from '@salesforce/label/c.IncentiveProgram_Last_Earned';
 import ptsLabel from '@salesforce/label/c.IncentiveProgram_Pts';
 import viewDetailsLabel from '@salesforce/label/c.IncentiveProgram_View_Details';
-import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 export default class NavIncentiveDropDown extends LightningElement {
     labels = {
         totalLabel,
@@ -18,15 +17,10 @@ export default class NavIncentiveDropDown extends LightningElement {
     @api isRtl;
     @api totalPoints;
     @api lastPoints;
+    rtlStyle;
 
     connectedCallback() {
-        getisRTL()
-        .then((data) => {
-            this.isRtl = data === true? 'nidd-total slds-p-around_xx-small rtl': 'nidd-total slds-p-around_xx-small';
-        })
-        .catch(function(error) {
-            console.error('Error: ' + JSON.stringify(error));
-        });
+        this.rtlStyle = this.isRtl == true? 'nidd-total slds-p-around_xx-small rtl': 'nidd-total slds-p-around_xx-small';
     }
     doViewDetails() {
         console.log('viewDetails');
