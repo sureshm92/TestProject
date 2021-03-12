@@ -20,12 +20,13 @@ export default class IncentivesMyPointsHeader extends LightningElement {
         redeemPointsDisclaimerLabel2
     };
     @api totalPoints;
-    isRTL;
+    isRTL;imphRtl;
     connectedCallback() {
         getisRTL()
         .then((data) => {
             console.log(data);
             this.isRTL = (data == true? 'imph-pointsRtl': 'imph-points');
+            this.imphRtl = (data == true? 'imph-iconRtl': 'imph-icon');
         })
         .catch(function(error) {
             console.error('Error: ' + JSON.stringify(error));
