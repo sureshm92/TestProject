@@ -287,7 +287,12 @@
                     component.set('v.participant.Adult__c', !isNeedGuardian);
 
                     if (isNeedGuardian) {
+                        component.set('v.enableGuardian', true);//REF-3070
                         helper.setDelegate(component);
+                    }
+                    //REF-3070
+                    else{
+                        component.set('v.enableGuardian', false);
                     }
                 }
             },
