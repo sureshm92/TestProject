@@ -12,7 +12,7 @@ public without sharing class ParticipantTriggerHandler {
                 if (participant.Contact__c != null)
                     contactIds.add(participant.Contact__c);
             }
-            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
+            getContactsMap(contactIds);
         }
         return contactsOfNewParticipants.values();
     }
