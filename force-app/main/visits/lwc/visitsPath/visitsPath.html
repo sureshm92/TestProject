@@ -414,7 +414,13 @@
                                         <div class="state-labelRTL">
                                             <template if:false={pathItem.isPending}>
                                                 <template if:true={pathItem.complDate}>
-                                                    {pathItem.complDate}
+                                                    <lightning-formatted-date-time
+                                                        value={pathItem.complDate}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone="UTC"
+                                                    ></lightning-formatted-date-time>
                                                 </template>
                                                 <template if:false={pathItem.complDate}>
                                                     {labels.noDateSet}
