@@ -280,7 +280,7 @@ public without sharing class ContactTriggerHandler {
         }
         if (!toCreateUser.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createPortalUsers(toCreateUser);
+                .createCCPortalUsers(toCreateUser);
 
         if (!toActivateUser.isEmpty())
             CommunityService.ActivateUsers(toActivateUser);
