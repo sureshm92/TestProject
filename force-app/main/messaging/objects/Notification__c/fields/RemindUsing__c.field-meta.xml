@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Status__c</fullName>
+    <fullName>RemindUsing__c</fullName>
     <externalId>false</externalId>
-    <label>Status</label>
+    <label>RemindUsing</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Picklist</type>
@@ -11,24 +11,14 @@
         <valueSetDefinition>
             <sorted>false</sorted>
             <value>
-                <fullName>Active</fullName>
+                <fullName>Email</fullName>
                 <default>false</default>
-                <label>Active</label>
+                <label>Email</label>
             </value>
             <value>
-                <fullName>On Hold</fullName>
+                <fullName>SMS</fullName>
                 <default>false</default>
-                <label>On Hold</label>
-            </value>
-            <value>
-                <fullName>Disconnected</fullName>
-                <default>false</default>
-                <label>Disconnected</label>
-            </value>
-            <value>
-                <fullName>Withdrawn</fullName>
-                <default>false</default>
-                <label>Withdrawn</label>
+                <label>SMS</label>
             </value>
         </valueSetDefinition>
     </valueSet>

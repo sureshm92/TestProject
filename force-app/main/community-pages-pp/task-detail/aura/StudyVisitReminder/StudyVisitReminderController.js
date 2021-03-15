@@ -35,7 +35,9 @@
         document.getElementsByClassName('with-scroll')[0].scrollTop = 0;
         //}
     },
-
+    hasVendors: function(component,event,helper){
+       component.set('v.showVendors',event.detail.showVendors);
+    },
     doCancel: function (component, event, helper) {
         helper.hideModal(component);
         component.set('v.reRender',false);

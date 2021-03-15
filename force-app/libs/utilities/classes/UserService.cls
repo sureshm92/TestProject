@@ -11,7 +11,7 @@ public class UserService {
         'ar_KW' => 'dd/MM/yyyy hh:mm a',
         'ar_LB' => 'dd/MM/yyyy hh:mm a',
         'ar_SA' => 'dd/MM/yyyy hh:mm a',
-        'bg_BG' => 'dd.MM.yyyy HH:mm a',
+        'bg_BG' => 'dd.MM.yyyy hh:mm a',
         'ca' => 'dd/MM/yyyy HH:mm',
         'ca_ES' => 'dd/MM/yyyy HH:mm',
         'ca_ES_EURO' => 'dd/MM/yyyy HH:mm',
@@ -37,7 +37,7 @@ public class UserService {
         'en_ID' => 'M/d/yyyy h:mm a',
         'en_IE' => 'dd/MM/yyyy HH:mm',
         'en_IE_EURO' => 'dd/MM/yyyy HH:mm',
-        'en_NZ' => 'dd/MM/yyyy, HH:mm a',
+        'en_NZ' => 'dd/MM/yyyy, hh:mm a',
         'en_SG' => 'M/d/yyyy h:mm a',
         'en_US' => 'MM/dd/yyyy, hh:mm a',
         'en_ZA' => 'yyyy/MM/dd, HH:mm',
@@ -123,7 +123,8 @@ public class UserService {
         'zu_ZA' => 'MM/dd/yyyy HH:mm',
         'cy_GB' => 'dd/MM/yyyy HH:mm',
         'my_MM' => 'dd-MM-yyyy HH:mm',
-        'es_US' => 'dd/MM/yyyy hh:mm a'
+        'es_US' => 'dd/MM/yyyy hh:mm a',
+        'Default' => 'MM/dd/yyyy, hh:mm a'
 
 
 
@@ -136,7 +137,7 @@ public class UserService {
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
         if (dateFormat == null)
             return dt.format();
-        return dt.format(dateFormat);
+        return dt.format(dateFormat); 
     }
 
     public static String formatDateTimebyZone(Datetime dt, String locale,String timeZone)
@@ -144,6 +145,10 @@ public class UserService {
          if (dt == null)
             return '';
         String dateFormat = DATE_FORMAT_BY_LOCALE.get(locale);
+        if( timeZone !=null &&  dateFormat == null)
+        {
+            return dt.format(DATE_FORMAT_BY_LOCALE.get('Default'),timeZone);
+        }
         if (dateFormat == null) 
             return dt.format(); 
         return dt.format(dateFormat,timeZone);

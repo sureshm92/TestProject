@@ -33,6 +33,10 @@ public without sharing class ParticipantDuplicateService {
             return ((Contact) duplicate).FirstName;
         }
 
+        public String getLastName() {
+            return ((Participant__c) duplicate).Last_Name__c;
+           }
+
         public Integer getYearOfBirth() {
             if (isParticipant()) {
                 Participant__c participant = (Participant__c) duplicate;
@@ -138,6 +142,7 @@ public without sharing class ParticipantDuplicateService {
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE
@@ -166,6 +171,7 @@ public without sharing class ParticipantDuplicateService {
                     Date_of_Birth__c,
                     Secondary_Source__c,
                     ZIP_Code__c,
+                    Adult__c,
                     Mailing_Zip_Postal_Code__c
                 FROM Participant__c
                 WHERE
@@ -310,6 +316,7 @@ public without sharing class ParticipantDuplicateService {
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE Contact__c IN :delegatesContactIs
@@ -371,7 +378,7 @@ public without sharing class ParticipantDuplicateService {
                             System.debug('>>> BY in the system: ' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
-                                duplicate.getFirstName() == participant.First_Name__c
+                                duplicate.getFirstName() == participant.First_Name__c && duplicate.getLastName() == participant.Last_Name__c
                             ) {
                                 setDuplicate(participant, duplicate);
                                 continue;

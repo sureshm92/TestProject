@@ -494,7 +494,7 @@ h2 {
     /* Position the tooltip */
     position: absolute;
     top: 100%;
-    z-index: 1;
+    z-index: 3;
     overflow: visible;
     font-size: 1rem;
     line-height: 1.5;
@@ -696,6 +696,9 @@ h2 {
         right: -21px;
         width: 39px;
         height: 38px;
+    }
+    .mr_16 {
+        margin-right: 16px;
     }
 
     .width-basis {
