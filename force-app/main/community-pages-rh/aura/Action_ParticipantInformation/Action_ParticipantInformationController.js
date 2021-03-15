@@ -47,7 +47,8 @@
             }
             if (params.actions)
                 component.set('v.actions', JSON.parse(JSON.stringify(params.actions)));
-            component.set('v.popUpTitle', pe.Participant__r.Full_Name__c);
+			
+			helper.setPopUpName(component, pe);	
             component.set('v.rootComponent', params.rootComponent);
             if (params.callback) component.set('v.callback', params.callback);
             // if (component.get('v.isInvited')) {
@@ -181,6 +182,7 @@
                     callback(pe);
                 }
                 component.set('v.pe', returnvalue);
+				helper.setPopUpName(component, returnvalue);				
                 component.set('v.participant', returnvalue.Participant__r);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
