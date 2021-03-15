@@ -166,34 +166,35 @@ public without sharing class ParticipantTriggerHandler {
         }
         
         //for(Contact con: [SELECT Id,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet() ]){
-        for(Contact con: getContactsList(newList)){
-            if(updateContactsMap.containsKey(con.Id)){
-                Boolean updateNeeded= false;
-                if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
-                    con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
-                    updateNeeded= true;
-                }if(con.MailingCountry != updateContactsMap.get(con.Id).Mailing_Country__c){
-                    con.MailingCountry = updateContactsMap.get(con.Id).Mailing_Country__c;
-                    updateNeeded= true;
-                }if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
-                    con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
-                    updateNeeded= true;
-                }if(con.MailingState != updateContactsMap.get(con.Id).Mailing_State__c){
-                    con.MailingState = updateContactsMap.get(con.Id).Mailing_State__c;
-                    updateNeeded= true;
-                }if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
-                    con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
-                    updateNeeded= true;
-                }
-                if(updateNeeded == true){
-                    updateContacts.add(con);
-                }
-            }
-        }
-        if(updateContacts.size()>0){
-            update updateContacts;   
-        }
-
+        if(!updateContactsMap.isEmpty()){
+			for(Contact con: getContactsList(newList)){
+				if(updateContactsMap.containsKey(con.Id)){
+					Boolean updateNeeded= false;
+					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
+						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
+						updateNeeded= true;
+					}if(con.MailingCountry != updateContactsMap.get(con.Id).Mailing_Country__c){
+						con.MailingCountry = updateContactsMap.get(con.Id).Mailing_Country__c;
+						updateNeeded= true;
+					}if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
+						con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
+						updateNeeded= true;
+					}if(con.MailingState != updateContactsMap.get(con.Id).Mailing_State__c){
+						con.MailingState = updateContactsMap.get(con.Id).Mailing_State__c;
+						updateNeeded= true;
+					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
+						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
+						updateNeeded= true;
+					}
+					if(updateNeeded == true){
+						updateContacts.add(con);
+					}
+				}
+			}
+			if(updateContacts.size()>0){
+				update updateContacts;   
+			}
+		}
     }
     
     @TestVisible
