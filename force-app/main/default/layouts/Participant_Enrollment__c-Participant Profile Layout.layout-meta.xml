@@ -542,6 +542,9 @@
         <relatedList>Participant_Enrollment_Status_History__c.ParticipantEnrollment__c</relatedList>
     </relatedLists>
     <relatedLists>
+        <relatedList>RelatedEntityHistoryList</relatedList>
+    </relatedLists>
+    <relatedLists>
         <fields>NAME</fields>
         <relatedList>Patient_Visit__c.Participant_Enrollment__c</relatedList>
     </relatedLists>

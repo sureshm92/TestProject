@@ -218,6 +218,7 @@
                         <div
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':''}"
                         ></div>
+                        <aura:if isTrue="{!v.task.Remind_Me__c}">
                         <div
                             class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}"
                         >
@@ -229,9 +230,9 @@
                                             style="margin-right: 10px"
                                             >{!$Label.c.PP_Change_Notification_Settings}</a
                                         >
-                                        {!$Label.c.PP_Remind_Using}
+                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PP_Remind_Using}
                                         <aura:set attribute="else">
-                                            {!$Label.c.PP_Remind_Using}
+                                            {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr>
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
@@ -268,7 +269,7 @@
                                     onblur="{!c.doValidateFields}"
                                 />
                             </div>
-                        </div>
+                        </div></aura:if>
 
                         <!--</aura:if>-->
                     </div>
@@ -367,6 +368,7 @@
 
                             <!--Reminder Date-->
                         </div>
+                        <aura:if isTrue="{!v.task.Remind_Me__c}">
                         <div
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label'}"
                         >
@@ -376,10 +378,11 @@
                                     onclick="{!c.doNavigateToAccountSettings}"
                                     style="margin-right: 10px"
                                     >{!$Label.c.PP_Change_Notification_Settings}</a
-                                >
+                                ><abbr title="required" class="slds-required">*</abbr>
                                 {!$Label.c.PP_Remind_Using}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PP_Remind_Using}
+                                    
+                                    {!$Label.c.PP_Remind_Using} <abbr title="required" class="slds-required">*</abbr>
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
@@ -420,9 +423,10 @@
                                 />
                             </div>
                         </div>
-
+</aura:if>
                         <!--</aura:if>-->
                     </div>
+                        
                     <!-- Reminder Section rr-white-panel min-height: 220px; -->
                 </div>
                 <!-- Reminder Section te-task-panel -->
@@ -536,7 +540,7 @@
                             </aura:if>
                         </div>
                     </div>
-
+<aura:if isTrue="{!v.task.Remind_Me__c}">
                     <div class="slds-grid slds-p-top_x-small">
                         <div class="slds-p-top_large"></div>
                         <div
@@ -544,14 +548,16 @@
                         >
                             <aura:if isTrue="{!v.isRTL}">
                                 <!--Account settings-->
+                                
                                 <a
                                     onclick="{!c.doNavigateToAccountSettings}"
                                     style="margin-right: 10px"
                                     >{!$Label.c.PP_Change_Notification_Settings}</a
                                 >
+                                <abbr title="required" class="slds-required">*</abbr>
                                 {!$Label.c.PP_Remind_Using}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PP_Remind_Using}
+                                    {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr>
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
@@ -589,7 +595,7 @@
                                 onblur="{!c.doValidateFields}"
                             />
                         </div>
-                    </div>
+                    </div> </aura:if>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
                             <div style="margin-left: -20px" class="{!if(v.showVendors,'tbl',' ')}">
@@ -597,6 +603,7 @@
                                     vname="{!v.visitData.visit.Name}"
                                     vnum="{!v.visitData.visit.Visit_Number__c}"
                                     isrtl="{!v.isRTL}"
+                                    onhasVendors="{!c.hasVendors}"
                                 >
                                 </c:visitTravelDetails>
                             </div>
