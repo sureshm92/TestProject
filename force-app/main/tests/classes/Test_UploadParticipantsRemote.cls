@@ -22,13 +22,13 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -60,16 +60,16 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
 		csvFileLines.add(
-            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -102,13 +102,13 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tstk,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            'Test1,Tst,Test2,tst1Test,Male,1980-11-11,tst1@tseststest.tstk,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
 		
         Test.startTest();
@@ -141,13 +141,13 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines2.add(
-            'Test1,Tst,Test2,tst2Test,Male,1980/11/11,tst@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            'Test1,Tst,Test2,tst2Test,Male,1980/11/11,tst@tseststest.tst,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -179,13 +179,13 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines.add(
-            'Test3,Tests,Test24,tst3Test,Male,11.12.1980,+1123456879,Mobile,+1133556789,Home,Test str,New York,New York,,United States,en_US'
+            'Test3,Tests,Test24,tst3Test,Male,11.12.1980,+1123456879,Mobile,+1133556789,Home,Test str,New York,New York,,United States,en_U,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -218,13 +218,13 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines2.add(
-            ',,,,,1980/17/11,tst@tseststest.tst,,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US'
+            ',,,,,1980/17/11,tst@tseststest.tst,,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,TestD,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -257,10 +257,10 @@ public class Test_UploadParticipantsRemote {
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         csvFileLines2.add(
-            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language'
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
         );
         Test.startTest();
         System.runAs(tstData.piUser) {
@@ -280,4 +280,45 @@ public class Test_UploadParticipantsRemote {
         List<Participant__c> participants = [SELECT Id FROM Participant__c];
         System.assert(!participants.isEmpty());
     }
+
+    @IsTest
+    public static void testUpdateParticipantsRemote8() {
+        TestData tstData = new TestData();
+        List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
+        List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
+
+        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+            tstData.ss.Id
+        );
+
+        List<String> csvFileLines = new List<String>();
+        csvFileLines.add(
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
+        );
+        csvFileLines.add(
+            'First Name,Middle Name,Last Name,Nickname,Sex,Date of Birth,Email Address,Phone,Phone Type,Phone2,Phone Type2,Street Address,City,State,Postal Code,Country,Language,Delegate First Name,Delegate Last Name,Delegate Email,Delegate Phone Number,Delegate Phone Type'
+        );
+        csvFileLines.add(
+            'Test1,Tst,Test2,tst1Test,Male,2018-11-11,tst1@tseststest.tstk,+1123456789,Mobile,+1133456789,Home,Test str,New York,New York,12121,United States,en_US,DelegD,testd@qqqjjj.qqq,+1133456789,Work'
+        );
+		
+        Test.startTest();
+        System.runAs(tstData.piUser) {
+            Action_UploadParticipantsRemote.uploadParticipants(
+                csvFileLines,
+                'TestFile',
+                tstData.ss.Id,
+                statuses[2].value,
+                false,
+                false,
+                false,
+                false,
+                false
+            );
+        }
+        Test.stopTest();
+        List<Participant__c> participants = [SELECT Id FROM Participant__c];
+        System.assert(!participants.isEmpty());
+    }
+
 }
