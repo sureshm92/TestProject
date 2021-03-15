@@ -86,6 +86,10 @@ export default class VisitTravelDetails extends LightningElement {
                 console.log('travelVendors', result);
                 this.vendors = result;
                 this.showVendors = result.length != 0;
+                const lwcEvent = new CustomEvent('hasVendors', {
+                    detail: { showVendors: this.showVendors }
+                });
+                this.dispatchEvent(lwcEvent);
             })
             .catch((error) => {
                 this.error = error;

@@ -47,7 +47,7 @@
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             ); **/
-           communityService.navigateToPage('pdfdemo?resourceName='+quickReference);
+           communityService.navigateToPage('mobile-pdf-viewer?resourceName='+quickReference);
            return;
         }
        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';

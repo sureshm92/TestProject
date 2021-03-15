@@ -697,6 +697,9 @@ h2 {
         width: 39px;
         height: 38px;
     }
+    .mr_16 {
+        margin-right: 16px;
+    }
 
     .width-basis {
         flex-basis: 0;

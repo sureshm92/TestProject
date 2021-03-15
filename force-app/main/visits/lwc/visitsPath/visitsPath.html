@@ -289,43 +289,45 @@
                                 </template>
                             </div>
                         </div>
-
-                        <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}
-                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                    >{labels.ChangeNotifications}</a
-                                >
+                        <template if:true={reminderOption}>
+                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                                <div class="slds-form-element__label mr_left">
+                                    {labels.remindUsing}
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                        >{labels.ChangeNotifications}</a
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
-                                </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
-                                </lightning-input>
+                            <div class="slds-grid mr_left_5">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={emailOptIn}
+                                        label={labels.emailLabel}
+                                        disabled={emailOpted}
+                                        checked={emailOptIn}
+                                        name="emailOptin"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                        class="mr_10"
+                                    >
+                                    </lightning-input>
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled={smsOpted}
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
@@ -412,7 +414,13 @@
                                         <div class="state-labelRTL">
                                             <template if:false={pathItem.isPending}>
                                                 <template if:true={pathItem.complDate}>
-                                                    {pathItem.complDate}
+                                                    <lightning-formatted-date-time
+                                                        value={pathItem.complDate}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone="UTC"
+                                                    ></lightning-formatted-date-time>
                                                 </template>
                                                 <template if:false={pathItem.complDate}>
                                                     {labels.noDateSet}
@@ -479,7 +487,7 @@
                         <p class="what-to-expect_rtl">{labels.whatToExpect}</p>
                         <div class="icons-container_rtl mr_left_5">
                             <div class="icons-row">
-                                <lightning-layout multiple-rows="false">
+                                <lightning-layout multiple-rows="false" class="mr_16">
                                     <template if:true={iconDetails}>
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
@@ -637,43 +645,45 @@
                                 </template>
                             </div>
                         </div>
-
-                        <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-form-element__label mr_left">
-                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                    >{labels.ChangeNotifications}</a
-                                >
-                                {labels.remindUsing}
+                        <template if:true={reminderOption}>
+                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                                <div class="slds-form-element__label mr_left">
+                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                        >{labels.ChangeNotifications}</a
+                                    >
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    {labels.remindUsing}
+                                </div>
                             </div>
-                        </div>
-                        <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2 mr_right">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
-                                </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10 mr_left6"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
-                                </lightning-input>
+                            <div class="slds-grid mr_left_5">
+                                <div class="slds-col slds-size_1-of-2 mr_right">
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={emailOptIn}
+                                        label={labels.emailLabel}
+                                        disabled={emailOpted}
+                                        checked={emailOptIn}
+                                        name="emailOptin"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                        class="mr_10"
+                                    >
+                                    </lightning-input>
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled={smsOpted}
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10 mr_left6"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
