@@ -1,4 +1,4 @@
-public without sharing class UploadParticipantsDelegateHelper {
+public without sharing class UploadParticipantsDelegateHelper { 
     
     public static ErrorPatientDelegateWrapper createDelegateRecords(List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList,Study_Site__c studySiteDetails, 
     List<List<String>> csvLines) {
@@ -43,13 +43,20 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
             /*if a Phone number has been provided for minor, we will use that as delegate phone number; addtionally, we have a Primary Delegate phone number - 
             if one is provided there additionally, we will store it as alternate phone number for the delegate.*/
-            if(!pWrapper.mainparticipant.Adult__c) {
+            if(!pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)) {
+                participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
+                participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                participantDelegate.Alternative_Phone_Type__c = 'Home';
+                
+            }else if(!pWrapper.mainparticipant.Adult__c && String.isBlank(pWrapper.DelegatePhoneNo)){
+                participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
+                participantDelegate.Phone_Type__c = 'Home';
+                participantDelegate.Alternative_Phone_Number__c = pWrapper.ParticipantPhoneNo;
+                participantDelegate.Alternative_Phone_Type__c = 'Home';
+            }else if(pWrapper.mainparticipant.Adult__c && String.isBlank(pWrapper.DelegatePhoneNo)){
                 participantDelegate.Phone__c = pWrapper.ParticipantPhoneNo;
                 participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
-                if(!String.isBlank(pWrapper.DelegatePhoneNo)) {
-                    participantDelegate.Alternative_Phone_Number__c = pWrapper.DelegatePhoneNo;
-                    participantDelegate.Alternative_Phone_Type__c = pWrapper.DelegatePhoneType;
-                }
             }
             //Patient Delegate initiation 
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
