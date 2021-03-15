@@ -165,7 +165,7 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
         
-        //for(Contact con: [SELECT Id,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet() ]){
+
         if(!updateContactsMap.isEmpty()){
 			for(Contact con: getContactsList(newList)){
 				if(updateContactsMap.containsKey(con.Id)){
