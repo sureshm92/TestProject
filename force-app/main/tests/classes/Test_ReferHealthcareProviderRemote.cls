@@ -54,4 +54,19 @@ private class Test_ReferHealthcareProviderRemote {
         Test.stopTest();
         System.assert(!result.listWrapp.isEmpty());
     }
+	
+    @IsTest
+    static void testDuplicatePDelegatesQeryFormedCorrectly() {
+        Test.startTest();
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>',null,'<fname>','<lname>');
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>',null,null,null);
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>',null,'<fname>',null);
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>',null,null,'<lname>');
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>','<email>',null,null);
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>','<email>',null,'<lname>');
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>','<email>','<fname>',null);
+        ReferHealthcareProviderRemote.checkDuplicatePDelegates('<participantId>','<email>','<fname>','<lname>');
+        Test.stopTest();
+    }
+	
 }
