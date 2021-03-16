@@ -126,8 +126,6 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 newContact.MailingStateCode = participant.Mailing_State_Code__c;
                 newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                newContact.MailingCountry = participant.Mailing_Country__c;
-                newContact.MailingState = participant.Mailing_State__c;
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
             }
