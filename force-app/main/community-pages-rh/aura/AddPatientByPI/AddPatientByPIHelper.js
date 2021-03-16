@@ -248,7 +248,11 @@
                     }
 
                     if (isNeedGuardian) {
+                        component.find('checkbox-delegate').getElement().disabled = true; //REF-3070
                         helper.setDelegate(component);
+                    }
+                    else{
+                        component.find('checkbox-delegate').getElement().disabled = false; //REF-3070
                     }
                 }
             },
