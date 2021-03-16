@@ -188,7 +188,7 @@ public without sharing class MyTeamRemote {
             FROM Patient_Delegate__c
             WHERE
                 Contact__c IN :delegateContactsMap.keySet()
-                AND Participant__c = :ParticipantContext.getCurrentParticipant().Id
+                AND Participant__c = :ParticipantContext.getCurrentParticipant().Id AND Status__c != 'Withdrawn'
         ];
         List<DelegateWrapper> delegates = new List<DelegateWrapper>();
         for (Patient_Delegate__c pd : patientDelegates) {
