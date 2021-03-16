@@ -381,10 +381,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             FirstName,
                             LastName,
                             Email,
-                            MailingCity,
-                            MailingCountryCode,
-                            MailingStateCode,
-                        	MailingPostalCode
+                            MailingCity
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
