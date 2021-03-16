@@ -10,20 +10,37 @@
             <template if:false={isVisitsEmpty}>
                 <div class="path-section">
                     <div class="slds-grid">
-                        <div class="slds-col arrow-left" style="padding-right: 0">
-                            <div onclick={handleScrollLeft} class="arrow-border">
-                                <i>
-                                    <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-left" style="padding-right: 0">
+                                <div onclick={handleScrollLeft} class="arrow-border">
+                                    <i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-left" style="padding-right: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                         <div
                             class="slds-col"
                             style="overflow-x: hidden; padding-right: 0; padding-left: 0"
@@ -103,21 +120,39 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-col arrow-right" style="padding-left: 0">
-                            <div onclick={handleScrollRight} class="arrow-border">
-                                <i>
-                                    <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-right" style="padding-left: 0">
+                                <div onclick={handleScrollRight} class="arrow-border">
+                                    <i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-right" style="padding-left: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                     </div>
                 </div>
             </template>
@@ -365,20 +400,37 @@
             <template if:false={isVisitsEmpty}>
                 <div class="path-section">
                     <div class="slds-grid">
-                        <div class="slds-col arrow-leftRTL" style="padding-left: 0">
-                            <div onclick={handleScrollRightRTL} class="arrow-border">
-                                <i>
-                                    <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-leftRTL" style="padding-left: 0">
+                                <div onclick={handleScrollRightRTL} class="arrow-border">
+                                    <i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-leftRTL" style="padding-left: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                         <div
                             class="slds-col"
                             style="overflow-x: hidden; padding-right: 0; padding-left: 0"
@@ -456,21 +508,39 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-col arrow-rightRTL" style="padding-right: 0">
-                            <div onclick={handleScrollLeftRTL} class="arrow-border">
-                                <i>
-                                    <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-rightRTL" style="padding-right: 0">
+                                <div onclick={handleScrollLeftRTL} class="arrow-border">
+                                    <i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-rightRTL" style="padding-right: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                     </div>
                 </div>
             </template>
@@ -486,8 +556,8 @@
                     <div>
                         <p class="what-to-expect_rtl">{labels.whatToExpect}</p>
                         <div class="icons-container_rtl mr_left_5">
-                            <div class="icons-row">
-                                <lightning-layout multiple-rows="false" class="mr_16">
+                            <div class="icons-row mr_16">
+                                <lightning-layout multiple-rows="false">
                                     <template if:true={iconDetails}>
                                         <template for:each={iconDetails} for:item="icon">
                                             <template if:true={icon.Name}>
