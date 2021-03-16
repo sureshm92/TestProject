@@ -6,7 +6,7 @@
     <inlineHelpText>Checked when share the above information with IQVIA and its affiliates checkbox is checked in the front end</inlineHelpText>
     <label>Permit personal information storage</label>
     <trackFeedHistory>true</trackFeedHistory>
-    <trackHistory>false</trackHistory>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
