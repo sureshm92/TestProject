@@ -19,7 +19,7 @@ public without sharing class ParticipantTriggerHandler {
     
     public static Map<Id,Contact> getContactsMap(Set<Id> contactIds){
         if(contactsOfNewParticipants.isEmpty()){
-            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
+            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingStateCode,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
         }
         return contactsOfNewParticipants;
     }
