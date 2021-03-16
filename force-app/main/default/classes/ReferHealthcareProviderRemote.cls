@@ -401,9 +401,9 @@ global without sharing class ReferHealthcareProviderRemote {
                         Email__c = newContact.Email,
                         Phone__c = participantObj.Phone__c,
                         Mailing_City__c = newContact.MailingCity,
-                        Mailing_Country_Code__c = newContact.MailingCountryCode,
-                        Mailing_State_Code__c = newContact.MailingStateCode,
-                        Mailing_Zip_Postal_Code__c = newContact.MailingPostalCode
+                        Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c,
+                        Mailing_State_Code__c = participantObj.Mailing_State_Code__c,
+                        Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c
                     );
                     insert participantDelegate;
                 }
