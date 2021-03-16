@@ -19,7 +19,7 @@ public without sharing class ParticipantTriggerHandler {
     
     public static Map<Id,Contact> getContactsMap(Set<Id> contactIds){
         if(contactsOfNewParticipants.isEmpty()){
-            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
+            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingStateCode,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
         }
         return contactsOfNewParticipants;
     }
@@ -126,8 +126,6 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 newContact.MailingStateCode = participant.Mailing_State_Code__c;
                 newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                newContact.MailingCountry = participant.Mailing_Country__c;
-                newContact.MailingState = participant.Mailing_State__c;
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
             }
@@ -146,9 +144,9 @@ public without sharing class ParticipantTriggerHandler {
     private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
         List<Contact> updateContacts = new List<Contact>();
         Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
-        
+        Boolean isOldMapEmpty = oldMap.isEmpty();
         for(Participant__c part : newList){
-            if(oldMap.isEmpty() && part.Contact__c!=null){
+            if(isOldMapEmpty && part.Contact__c!=null){
                 updateContactsMap.put(part.Contact__c,part);
             }else if(!oldMap.containsKey(part.Id) && part.Contact__c!=null){
                 updateContactsMap.put(part.Contact__c,part);
@@ -173,14 +171,8 @@ public without sharing class ParticipantTriggerHandler {
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
 						updateNeeded= true;
-					}if(con.MailingCountry != updateContactsMap.get(con.Id).Mailing_Country__c){
-						con.MailingCountry = updateContactsMap.get(con.Id).Mailing_Country__c;
-						updateNeeded= true;
 					}if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
 						con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
-						updateNeeded= true;
-					}if(con.MailingState != updateContactsMap.get(con.Id).Mailing_State__c){
-						con.MailingState = updateContactsMap.get(con.Id).Mailing_State__c;
 						updateNeeded= true;
 					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
 						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
