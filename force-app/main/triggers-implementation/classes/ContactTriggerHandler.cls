@@ -88,16 +88,8 @@ public without sharing class ContactTriggerHandler {
                                              Mailing_State_Code__c,Mailing_State__c,Mailing_Zip_Postal_Code__c 
                                              FROM Participant__c WHERE Contact__c IN :updatedContactsMap.keySet()]){
                 Boolean isUpdateNeeded= false;
-                if(participant.Mailing_Country__c!= updatedContactsMap.get(participant.Contact__c).MailingCountry){
-                    participant.Mailing_Country__c = updatedContactsMap.get(participant.Contact__c).MailingCountry;
-                    isUpdateNeeded = true;
-                }
                 if(participant.Mailing_Country_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingCountryCode){
                     participant.Mailing_Country_Code__c = updatedContactsMap.get(participant.Contact__c).MailingCountryCode;
-                    isUpdateNeeded = true;
-                }
-                if(participant.Mailing_State__c!= updatedContactsMap.get(participant.Contact__c).MailingState){
-                    participant.Mailing_State__c = updatedContactsMap.get(participant.Contact__c).MailingState;
                     isUpdateNeeded = true;
                 }
                 if(participant.Mailing_State_Code__c!= updatedContactsMap.get(participant.Contact__c).MailingStateCode){
