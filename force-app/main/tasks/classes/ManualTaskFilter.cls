@@ -11,7 +11,7 @@ public without sharing class ManualTaskFilter {
     private static final String PARTICIPANT_QUERY =
         'SELECT Id, Contact__c ' + 'FROM Participant__c WHERE Contact__c != NULL ';
 
-	private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Contact__c,Participant__c FROM Therapeutic_Area_Patient__c WHERE '; //PEH-3247
+	private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Contact__c,Participant__c FROM Therapeutic_Area_Patient__c WHERE '; 
     public static final String SEPARATOR = '\',\'';
 
     @AuraEnabled
