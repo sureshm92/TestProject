@@ -11,8 +11,7 @@ public without sharing class ManualTaskFilter {
     private static final String PARTICIPANT_QUERY =
         'SELECT Id, Contact__c ' + 'FROM Participant__c WHERE Contact__c != NULL ';
 
-    private static final String THERAPEUTIC_QUERY = 'SELECT Participant__c FROM Therapeutic_Area_Patient__c WHERE ';
-
+	private static final String THERAPEUTIC_QUERY = 'SELECT Participant__r.Contact__c,Participant__c FROM Therapeutic_Area_Patient__c WHERE '; 
     public static final String SEPARATOR = '\',\'';
 
     @AuraEnabled
@@ -98,14 +97,14 @@ public without sharing class ManualTaskFilter {
         if (!areas.isEmpty())
             filters.add(fieldJoin('Therapeutic_Area__c', areas));
         if (!countries.isEmpty())
-            filters.add(DatabaseService.fieldInValues('Mailing_Country_Code__c', getCountryCode()));
-        String filterString = filters.isEmpty() ? '' : ' AND ' + String.join(filters, ' AND ');
-
-        String pQuery = PARTICIPANT_QUERY + filterString;
-        List<Participant__c> participants = (List<Participant__c>) Database.query(pQuery);
-
-        for (Participant__c participant : participants) {
-            participantByContactIds.put(participant.Contact__c, new List<Id>{ participant.Id });
+            filters.add(DatabaseService.fieldInValues('Participant__r.Mailing_Country_Code__c', getCountryCode())); 
+        String filterString = filters.isEmpty() ? '' : String.join(filters, ' AND ');
+        
+        String pQuery = THERAPEUTIC_QUERY + filterString;
+        List<Therapeutic_Area_Patient__c> TAPatient = (List<Therapeutic_Area_Patient__c>) Database.query(pQuery);
+        
+        for (Therapeutic_Area_Patient__c tap : TAPatient) {
+            participantByContactIds.put(tap.participant__r.Contact__c, new List<Id>{ tap.participant__c });
         }
 
         return participantByContactIds;
