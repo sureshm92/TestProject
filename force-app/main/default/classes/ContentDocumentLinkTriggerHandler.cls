@@ -13,5 +13,6 @@ public with sharing class ContentDocumentLinkTriggerHandler extends TriggerHandl
         contentDocumentLinkService.createURLsForImagesOnResources(newList);
         platformEventService.remindEventFire((List<ContentDocumentLink>) newList);
         contentDocumentLinkService.restrictFiles(newList); //REF-2654
+        contentDocumentLinkService.addFileNamesAndCalculateSize(newList);//REF-3232 
     }
 }
