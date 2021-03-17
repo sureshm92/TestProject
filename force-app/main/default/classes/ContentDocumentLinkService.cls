@@ -342,7 +342,10 @@ public with sharing class ContentDocumentLinkService {
             system.debug('Exception in ContentDocumentLink_Handler class :' + ex.getMessage());
         }
     }
-	//START REF-3232 
+	//End
+	//
+	
+    //START REF-3232
     public void addFileNamesAndCalculateSize(List<ContentDocumentLink> lstCntLinks)
     {  
         map<Id, List<String>> mapContentDocument = new map<Id, List<String>>(); 
