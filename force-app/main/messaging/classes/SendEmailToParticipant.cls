@@ -58,7 +58,7 @@ public without sharing class SendEmailToParticipant {
             patientNotificationType != null 
         ) {
             String remindusing;
-            if(task.Remind_Using_Email__c){
+            if(task.Remind_Using_Email__c || task.CreatedByAdmin__c == true){
                  remindUsing = 'Email';
             }
 
@@ -77,7 +77,7 @@ public without sharing class SendEmailToParticipant {
             delegateNotificationType != null
         ) {
             String remindusing;
-            if(task.Remind_Using_Email__c){
+            if(task.Remind_Using_Email__c || task.CreatedByAdmin__c == true){
                  remindUsing = 'Email';
             }
             if (delegates != null && !delegates.isEmpty()) {
