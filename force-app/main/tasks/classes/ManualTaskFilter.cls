@@ -97,7 +97,7 @@ public without sharing class ManualTaskFilter {
         if (!areas.isEmpty())
             filters.add(fieldJoin('Therapeutic_Area__c', areas));
         if (!countries.isEmpty())
-            filters.add(DatabaseService.fieldInValues('Participant__r.Mailing_Country_Code__c', getCountryCode())); // PEH-3247
+            filters.add(DatabaseService.fieldInValues('Participant__r.Mailing_Country_Code__c', getCountryCode())); 
         String filterString = filters.isEmpty() ? '' : String.join(filters, ' AND ');
         
         String pQuery = THERAPEUTIC_QUERY + filterString;
