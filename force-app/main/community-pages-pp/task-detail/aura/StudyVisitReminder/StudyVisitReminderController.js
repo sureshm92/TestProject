@@ -212,7 +212,7 @@
               }
              }
              else{
-                  if($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate'))){
+                  if($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) || helper.doValidateReminder(component) === false){
                       component.set('v.isValidFields',false);
                   }
                   else{
