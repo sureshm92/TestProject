@@ -255,7 +255,10 @@ public without sharing class ParticipantTriggerHandler {
                 contactIds.add(participant.Contact__c);
         }
         List<User> users = [SELECT Id, ContactId, Email FROM User WHERE ContactId IN :contactIds];
-        Map<Id, Contact> contactsByContactIdMap = new Map<Id, Contact>([SELECT Id,email FROM Contact WHERE Id IN:contactIds]);
+        Map<Id, Contact> contactsByContactIdMap = new Map<Id, Contact>(
+            [SELECT Id, Email FROM Contact WHERE Id IN :contactIds]
+        );
+
         Map<Id, User> usersByContactIdMap = new Map<Id, User>();
         for (User user : users) {
             usersByContactIdMap.put(user.ContactId, user);
