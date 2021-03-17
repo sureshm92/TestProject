@@ -342,5 +342,143 @@ public with sharing class ContentDocumentLinkService {
             system.debug('Exception in ContentDocumentLink_Handler class :' + ex.getMessage());
         }
     }
-	//End
+	//START REF-3232 
+    public void addFileNamesAndCalculateSize(List<ContentDocumentLink> lstCntLinks)
+    {  
+        map<Id, List<String>> mapContentDocument = new map<Id, List<String>>(); 
+        map<Id, List<Integer>> mapContentDocumentSize = new map<Id, List<Integer>>();
+        list<Participant__c> plist = new list<Participant__c>();
+        set<Id> linkedEntityIdSet = new set<Id>();
+
+        try{
+            for(ContentDocumentLink clIterator : lstCntLinks){
+                linkedEntityIdSet.add(clIterator.LinkedEntityId);
+            }
+            
+            for(ContentDocumentLink clIterator : [Select Id, ContentDocument.Title, ContentDocument.ContentSize, ContentDocument.FileExtension, LinkedEntityId FROM ContentDocumentLink Where LinkedEntityId IN : linkedEntityIdSet]){
+                strObjPrefix = String.valueOf(clIterator.LinkedEntityId).substring(0, 3);  
+                if(strObjPrefix == Participant__c.sObjectType.getDescribe().getKeyPrefix()) {
+                    if(mapContentDocument.containsKey(clIterator.LinkedEntityId))
+                    {
+                        List<String> participantDocs = mapContentDocument.get(clIterator.LinkedEntityId);   
+                        List<Integer> docSize = mapContentDocumentSize.get(clIterator.LinkedEntityId);  
+                        participantDocs.add(clIterator.ContentDocument.title + '.' + clIterator.ContentDocument.FileExtension);
+                        docSize.add(clIterator.ContentDocument.ContentSize);
+                        mapContentDocument.put(clIterator.LinkedEntityId, participantDocs);
+                        mapContentDocumentSize.put(clIterator.LinkedEntityId, docSize);
+                    }else{                    
+                        List<String> participantDocs = new List<String>();
+                        List<Integer> docSize = new List<Integer>();
+                        participantDocs.add(clIterator.ContentDocument.Title + '.'+ clIterator.ContentDocument.FileExtension);
+                        mapContentDocument.put(clIterator.LinkedEntityId, participantDocs);
+                        docSize.add(clIterator.ContentDocument.ContentSize);
+                        mapContentDocumentSize.put(clIterator.LinkedEntityId, docSize);
+                    }															
+                }
+            }
+            
+            for(Participant__c participant : [Select Id, Participant_File_Names__c, Participant_Files_Size__c FROM Participant__c where Id IN : mapContentDocument.keySet()])
+            {
+                String filenamesStr;
+                Decimal totalsize = 0;
+                List<String> filenames = mapContentDocument.get(participant.Id);
+                List<Integer> totalFileSize = mapContentDocumentSize.get(participant.Id);
+                filenamesStr = String.join(filenames, ';');
+                
+                for(Integer tfs : totalFileSize){
+                    totalsize += tfs;
+                }
+                totalsize = totalsize.divide((1024*1024),2);
+                participant.Participant_Files_Size__c = totalsize;              
+                participant.Participant_File_Names__c = filenamesStr;
+                plist.add(participant);
+            }
+            update plist;
+        }catch(Exception ex){
+            system.debug('Exception in ContentDocumentLink_Handler class- addFileNamesAndCalculateSize method :' + ex.getMessage());
+        }
+    }
+    
+    public void deleteFileNamesAndCalculateSize(List<ContentDocument> documents) {
+        map<Id, List<String>> mapContentDocument = new map<Id, List<String>>(); 
+        map<Id, List<Integer>> mapContentDocumentSize = new map<Id, List<Integer>>();
+        list<Participant__c> plist = new list<Participant__c>();
+        set<Id> linkedEntityIdSet = new set<Id>();
+        Set<Id> documentsIds = new Map<Id, ContentDocument>(documents).keySet();
+        String filenamesStr = '';
+        Decimal totalsize = 0;
+        
+        try{		
+            List<ContentDocumentLink> links = [
+                SELECT Id, LinkedEntityId
+                FROM ContentDocumentLink
+                WHERE ContentDocumentId IN :documentsIds
+            ];
+            
+            for(ContentDocumentLink clIterator : links){
+                linkedEntityIdSet.add(clIterator.LinkedEntityId);
+            }
+            
+            List<ContentDocumentLink> clIteratorlist= [Select Id, ContentDocumentId, ContentDocument.Title, ContentDocument.ContentSize, ContentDocument.FileExtension, LinkedEntityId FROM ContentDocumentLink Where LinkedEntityId IN :linkedEntityIdSet AND ContentDocumentId NOT IN :documentsIds];
+            
+            if(!clIteratorlist.isEmpty()){
+                for(ContentDocumentLink clIterator : clIteratorlist){
+                    strObjPrefix = String.valueOf(clIterator.LinkedEntityId).substring(0, 3);  
+                    if(strObjPrefix == Participant__c.sObjectType.getDescribe().getKeyPrefix()) {
+                        if(mapContentDocument.containsKey(clIterator.LinkedEntityId))
+                        {
+                            List<String> participantDocs = mapContentDocument.get(clIterator.LinkedEntityId);   
+                            List<Integer> docSize = mapContentDocumentSize.get(clIterator.LinkedEntityId);  
+                            participantDocs.add(clIterator.ContentDocument.title + '.' + clIterator.ContentDocument.FileExtension);
+                            docSize.add(clIterator.ContentDocument.ContentSize);
+                            if(!participantDocs.isEmpty()){
+                                mapContentDocument.put(clIterator.LinkedEntityId, participantDocs);
+                            }
+                            if(!docSize.isEmpty()){
+                                mapContentDocumentSize.put(clIterator.LinkedEntityId, docSize);
+                            }
+                        }else{                    
+                            List<String> participantDocs = new List<String>();
+                            List<Integer> docSize = new List<Integer>();
+                            participantDocs.add(clIterator.ContentDocument.Title + '.'+ clIterator.ContentDocument.FileExtension);
+                            mapContentDocument.put(clIterator.LinkedEntityId, participantDocs);
+                            docSize.add(clIterator.ContentDocument.ContentSize);
+                            mapContentDocumentSize.put(clIterator.LinkedEntityId, docSize);
+                        }															
+                    }
+                }
+            }
+            
+            if(!clIteratorlist.isEmpty()){
+            for(Participant__c participant : [Select Id, Participant_File_Names__c, Participant_Files_Size__c FROM Participant__c where Id IN : mapContentDocument.keySet()])
+            { 
+                List<String> filenames = mapContentDocument.get(participant.Id);
+                List<Integer> totalFileSize = mapContentDocumentSize.get(participant.Id);
+                filenamesStr = String.join(filenames, ';');
+                
+                for(Integer tfs : totalFileSize){
+                    totalsize += tfs;
+                }
+                totalsize = totalsize.divide((1024*1024),2);
+                participant.Participant_Files_Size__c = totalsize;     
+                participant.Participant_File_Names__c = filenamesStr;
+                plist.add(participant);
+            }
+            update plist;
+            }
+            
+            else{
+                for(Participant__c participant : [Select Id, Participant_File_Names__c, Participant_Files_Size__c FROM Participant__c where Id IN : linkedEntityIdSet])
+                {
+                    participant.Participant_Files_Size__c = totalsize;     
+                    participant.Participant_File_Names__c = filenamesStr;
+                    plist.add(participant);
+            	}
+            	update plist;
+            }
+        }catch(Exception ex){
+            system.debug('Exception in ContentDocumentLink_Handler class- deleteFileNamesAndCalculateSize method :' + ex.getMessage());
+        }	
+	}
+    //END
 }
