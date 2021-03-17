@@ -9,8 +9,9 @@ private class Test_Batch_UpdateTrialsNewWorkflowFields {
         TestData.loadTestData();
         TestData td = new TestData();
         td.ss.Study_Site_Type__c = 'Traditional';
-        update td.ss;
         Test.startTest();
+        update td.ss;
+        
         Database.executeBatch(new Batch_UpdateTrialsNewWorkflowFields());
         Test.stopTest();
         List<Clinical_Trial_Profile__c> clinicalTrialProfiles = [

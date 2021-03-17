@@ -177,8 +177,6 @@ global without sharing class ReferHealthcareProviderRemote {
                     hp.contactPhoneType = participants[0].Phone_Type__c;
                     hp.firstName = participants[0].First_Name__c;
                     hp.lastName = participants[0].Last_Name__c;
-                    contacts[0].FirstName = participants[0].First_Name__c;
-                    contacts[0].LastName = participants[0].Last_Name__c;
                     firstName = participants[0].First_Name__c;
                     lastName = participants[0].Last_Name__c;
                     update contacts[0];
@@ -383,10 +381,7 @@ global without sharing class ReferHealthcareProviderRemote {
                             FirstName,
                             LastName,
                             Email,
-                            MailingCity,
-                            MailingCountryCode,
-                            MailingStateCode,
-                        	MailingPostalCode
+                            MailingCity
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
@@ -403,9 +398,9 @@ global without sharing class ReferHealthcareProviderRemote {
                         Email__c = newContact.Email,
                         Phone__c = participantObj.Phone__c,
                         Mailing_City__c = newContact.MailingCity,
-                        Mailing_Country_Code__c = newContact.MailingCountryCode,
-                        Mailing_State_Code__c = newContact.MailingStateCode,
-                        Mailing_Zip_Postal_Code__c = newContact.MailingPostalCode
+                        Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c,
+                        Mailing_State_Code__c = participantObj.Mailing_State_Code__c,
+                        Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c
                     );
                     insert participantDelegate;
                 }
@@ -834,20 +829,33 @@ global without sharing class ReferHealthcareProviderRemote {
             '\' AND Contact__r.Email = \'' +
             email +
             '\'';
-        if (firstName != null)
+        if(firstName !=null || lastName !=null){	
             duplicateDelegatesQuery +=
-                ' AND (Contact__r.FirstName = \'' +
-                firstName +
-                '\' OR Contact__r.FirstName = \'' +
-                firstName.toLowerCase() +
-                '\')';
-        if (lastName != null)
-            duplicateDelegatesQuery +=
-                ' AND (Contact__r.LastName = \'' +
-                lastName +
-                '\' OR Contact__r.LastName = \'' +
-                lastName.toLowerCase() +
-                '\')';
+                'AND Contact__c IN (SELECT Contact__c FROM Participant__c WHERE ';
+            
+            if(firstName != null){
+                duplicateDelegatesQuery +=
+                    '( First_Name__c = \'' +
+                    firstName +
+                    '\' OR First_Name__c = \'' +
+                    firstName.toLowerCase() +
+                    '\')';
+            }
+            if(firstName !=null && lastName !=null){
+                duplicateDelegatesQuery += ' AND ';
+            }
+            if (lastName != null){
+                duplicateDelegatesQuery +=
+                    ' ( Last_Name__c = \'' +
+                    lastName +
+                    '\' OR Last_Name__c = \'' +
+                    lastName.toLowerCase() +
+                    '\')';
+            }
+            if(firstName !=null || lastName !=null){
+                duplicateDelegatesQuery += ' ) ';
+            }
+        }
         return Database.query(duplicateDelegatesQuery);
     }
 }

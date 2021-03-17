@@ -1,0 +1,33 @@
+<aura:component
+    access="GLOBAL"
+    extensible="false"
+    controller="PdfViewerController"
+    implements="lightning:isUrlAddressable,forceCommunity:availableForAllPageTypes"
+    extends="c:CommunityContext"
+>
+    <aura:attribute
+        access="GLOBAL"
+        name="pdfData"
+        type="String"
+        description="PDF data in base64 encoded format"
+    />
+
+    <aura:attribute name="hideDiv" type="String" default="" />
+    <aura:attribute name="hideDivResource" type="String" default="" />
+
+    <aura:attribute name="isResourceVisible" type="boolean" default="false" />
+
+    <ui:button aura:id="button" class="button" label="Back" press="{!c.backToPreviousPage}" />
+
+    <iframe
+        aura:id="pdfFrame"
+        id="pp"
+        src="/resource/pdfjs_dist/web/viewer.html"
+        style="height: 600px"
+        class="{!v.hideDiv+' pdfFrame'}"
+        onload="{!c.loadpdf}"
+    >
+    </iframe>
+
+    <iframe id="frame" width="100%" height="600px" frameborder="0" class="{!v.hideDivResource}" />
+</aura:component>

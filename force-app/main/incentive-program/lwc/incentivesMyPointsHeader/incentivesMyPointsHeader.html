@@ -8,14 +8,14 @@
         <div class="slds-col slds-size_1-of-3">
             <div class="imph-title">{labels.myPointsLabel}</div>
             <div class="imph-subtitle">
-                <div class="imph-icon">
+                <div class={imphRtl}>
                     <c-web-icon
                         icon-name="icon-star-solid"
                         icon-color="#DF216D"
                         icon-size="small"
                     ></c-web-icon>
                 </div>
-                <div class="imph-points">
+                <div class={isRTL}>
                     {labels.totalPointsLabel} <strong>{totalPoints}</strong>
                 </div>
             </div>

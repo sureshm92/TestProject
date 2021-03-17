@@ -115,6 +115,8 @@ public with sharing class CTPNotificationTriggerHandler {
             if (ctp.Status__c == ClinicalTrialProfileService.STATUS_COMPLETED)
                 completedCTPIds.add(ctp.Id);
         }
-        Database.executeBatch(new Batch_UpdatePETrialCompleteAndSendNotify(completedCTPIds), 10);
+		if(!completedCTPIds.isEmpty()){
+			Database.executeBatch(new Batch_UpdatePETrialCompleteAndSendNotify(completedCTPIds), 10);
+		}
     }
 }

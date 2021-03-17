@@ -185,7 +185,7 @@
              if (component.get('v.initialized') && component.get('v.isMobileApp') ) {
                 let urlPDF2 = doc.output('datauristring');             
  		  		var res = urlPDF2.split(",");
-          		communityService.navigateToPage('pdfdemo?pdfData='+res[1]);              
+          		communityService.navigateToPage('mobile-pdf-viewer?pdfData='+res[1]);              
                 return; 
             }
             let urlPDF = doc.output('bloburi');

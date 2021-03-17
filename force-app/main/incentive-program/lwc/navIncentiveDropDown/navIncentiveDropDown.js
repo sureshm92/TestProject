@@ -7,7 +7,6 @@ import totalLabel from '@salesforce/label/c.IncentiveProgram_Total';
 import lastEarnedLabel from '@salesforce/label/c.IncentiveProgram_Last_Earned';
 import ptsLabel from '@salesforce/label/c.IncentiveProgram_Pts';
 import viewDetailsLabel from '@salesforce/label/c.IncentiveProgram_View_Details';
-
 export default class NavIncentiveDropDown extends LightningElement {
     labels = {
         totalLabel,
@@ -18,7 +17,11 @@ export default class NavIncentiveDropDown extends LightningElement {
     @api isRtl;
     @api totalPoints;
     @api lastPoints;
-  
+    rtlStyle;
+
+    connectedCallback() {
+        this.rtlStyle = this.isRtl == true? 'nidd-total slds-p-around_xx-small rtl': 'nidd-total slds-p-around_xx-small';
+    }
     doViewDetails() {
         console.log('viewDetails');
         const navigateToIncentivesEvent = new CustomEvent('navigatetoincentives', {

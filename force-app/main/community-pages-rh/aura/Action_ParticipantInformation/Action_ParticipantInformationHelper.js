@@ -45,4 +45,11 @@
         });
         toastEvent.fire();
     },
+    setPopUpName: function (component, pe){
+        let fNameInitial = (pe.Participant__r.First_Name__c===null||pe.Participant__r.First_Name__c===undefined)?'':pe.Participant__r.First_Name__c.substring(0,1).toUpperCase()+ ' ';
+        let mNameInitial = (pe.Participant__r.Middle_Name__c===null||pe.Participant__r.Middle_Name__c===undefined)?'':pe.Participant__r.Middle_Name__c.substring(0,1).toUpperCase()+' ';
+        let lNameInitial = (pe.Participant__r.Last_Name__c===null||pe.Participant__r.Last_Name__c===undefined)?'':pe.Participant__r.Last_Name__c.substring(0,1).toUpperCase();
+        
+        component.set('v.popUpTitle', fNameInitial + mNameInitial + lNameInitial);
+    },	
 })

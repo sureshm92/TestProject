@@ -10,7 +10,8 @@
     
     <!--handlers:-->
     <aura:handler name="change" value="{!v.searchText}" action="{!c.SearchRecords}" />
-    
+    <aura:handler value="{!this}" name="init" action="{!c.init}"/>
+
     <div class="slds-grid slds-wrap" style="{!v.isRTL? 'direction:rtl' :''}">
         <div class="slds-col slds-size--9-of-12">
             <c:RRNavigationPath>

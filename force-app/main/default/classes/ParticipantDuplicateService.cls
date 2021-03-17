@@ -33,6 +33,10 @@ public without sharing class ParticipantDuplicateService {
             return ((Contact) duplicate).FirstName;
         }
 
+        public String getLastName() {
+            return ((Participant__c) duplicate).Last_Name__c;
+           }
+
         public Integer getYearOfBirth() {
             if (isParticipant()) {
                 Participant__c participant = (Participant__c) duplicate;
@@ -133,17 +137,18 @@ public without sharing class ParticipantDuplicateService {
                 Last_Name__c,
                 Email__c,
                 Phone__c,
-                Day_of_Birth__c,
+               /* Day_of_Birth__c REF-3113*/
                 Birth_Year__c,
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE
                 Email__c IN :emails
                 OR Phone__c IN :phones
-                OR Day_of_Birth__c IN :birthDates
+                /*OR Day_of_Birth__c IN :birthDates REF-3113*/
                 OR ZIP_Code__c IN :zipCodes
                 OR Last_Name__c IN :lastNames
         ];
@@ -161,11 +166,12 @@ public without sharing class ParticipantDuplicateService {
                     Last_Name__c,
                     Email__c,
                     Phone__c,
-                    Day_of_Birth__c,
+                     /* Day_of_Birth__c REF-3113*/
                     Birth_Year__c,
                     Date_of_Birth__c,
                     Secondary_Source__c,
                     ZIP_Code__c,
+                    Adult__c,
                     Mailing_Zip_Postal_Code__c
                 FROM Participant__c
                 WHERE
@@ -197,7 +203,7 @@ public without sharing class ParticipantDuplicateService {
                 zipParticipants.add(participant);
                 participantsByZipMap.put(participant.ZIP_Code__c, zipParticipants);
             }
-            if (participant.Day_of_Birth__c != null) {
+            /*if (participant.Day_of_Birth__c != null) {
                 List<Participant__c> doBParticipants = participantsByDoBMap.get(
                     participant.Day_of_Birth__c
                 );
@@ -205,7 +211,7 @@ public without sharing class ParticipantDuplicateService {
                     doBParticipants = new List<Participant__c>();
                 doBParticipants.add(participant);
                 participantsByDoBMap.put(participant.Day_of_Birth__c, doBParticipants);
-            }
+            } REF-3113*/
             if (!String.isBlank(participant.Date_of_Birth__c)) {
                 List<Participant__c> doBParticipants = participantsByDoBStringsMap.get(
                     participant.Date_of_Birth__c
@@ -231,16 +237,17 @@ public without sharing class ParticipantDuplicateService {
         List<Contact> existedContacts = [
             SELECT Id, FirstName, LastName, Email, Phone, Birthdate, MailingPostalCode
             FROM Contact
-            WHERE Email IN :emails OR Phone IN :phones OR MailingPostalCode IN :zipCodes
-        ];
+            WHERE (Email IN :emails OR Phone IN :phones OR MailingPostalCode IN :zipCodes) AND userCommunityMode__c != 'CC'
+        ];/* REF-3113*/
         List<Contact> existedDelegateContacts = [
             SELECT Id, FirstName, LastName, Email, Phone, Birthdate, MailingPostalCode
             FROM Contact
             WHERE
-                Email IN :delegatesEmail
-                OR FirstName IN :delegatesFirstName
-                OR LastName IN :delegatesLastName
-        ];
+            (Email IN :delegatesEmail
+            OR FirstName IN :delegatesFirstName
+            OR LastName IN :delegatesLastName)
+            AND userCommunityMode__c != 'CC'
+        ];/* REF-3113*/
         Map<String, Contact> contactsByEmailMap = new Map<String, Contact>();
         Map<String, Contact> contactsByPhoneMap = new Map<String, Contact>();
         Map<String, List<Contact>> contactsByZipMap = new Map<String, List<Contact>>();
@@ -310,6 +317,7 @@ public without sharing class ParticipantDuplicateService {
                 Date_of_Birth__c,
                 Secondary_Source__c,
                 ZIP_Code__c,
+                Adult__c,
                 Mailing_Zip_Postal_Code__c
             FROM Participant__c
             WHERE Contact__c IN :delegatesContactIs
@@ -371,7 +379,7 @@ public without sharing class ParticipantDuplicateService {
                             System.debug('>>> BY in the system: ' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
-                                duplicate.getFirstName() == participant.First_Name__c
+                                duplicate.getFirstName() == participant.First_Name__c && duplicate.getLastName() == participant.Last_Name__c
                             ) {
                                 setDuplicate(participant, duplicate);
                                 continue;

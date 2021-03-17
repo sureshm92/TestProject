@@ -10,20 +10,37 @@
             <template if:false={isVisitsEmpty}>
                 <div class="path-section">
                     <div class="slds-grid">
-                        <div class="slds-col arrow-left" style="padding-right: 0">
-                            <div onclick={handleScrollLeft} class="arrow-border">
-                                <i>
-                                    <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-left" style="padding-right: 0">
+                                <div onclick={handleScrollLeft} class="arrow-border">
+                                    <i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-left" style="padding-right: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                         <div
                             class="slds-col"
                             style="overflow-x: hidden; padding-right: 0; padding-left: 0"
@@ -103,21 +120,39 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-col arrow-right" style="padding-left: 0">
-                            <div onclick={handleScrollRight} class="arrow-border">
-                                <i>
-                                    <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-right" style="padding-left: 0">
+                                <div onclick={handleScrollRight} class="arrow-border">
+                                    <i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-right" style="padding-left: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                     </div>
                 </div>
             </template>
@@ -289,43 +324,45 @@
                                 </template>
                             </div>
                         </div>
-
-                        <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-form-element__label mr_left">
-                                {labels.remindUsing}
-                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                    >{labels.ChangeNotifications}</a
-                                >
+                        <template if:true={reminderOption}>
+                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                                <div class="slds-form-element__label mr_left">
+                                    {labels.remindUsing}
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                        >{labels.ChangeNotifications}</a
+                                    >
+                                </div>
                             </div>
-                        </div>
-                        <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
-                                </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
-                                </lightning-input>
+                            <div class="slds-grid mr_left_5">
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={emailOptIn}
+                                        label={labels.emailLabel}
+                                        disabled={emailOpted}
+                                        checked={emailOptIn}
+                                        name="emailOptin"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                        class="mr_10"
+                                    >
+                                    </lightning-input>
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled={smsOpted}
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>
@@ -363,20 +400,37 @@
             <template if:false={isVisitsEmpty}>
                 <div class="path-section">
                     <div class="slds-grid">
-                        <div class="slds-col arrow-leftRTL" style="padding-left: 0">
-                            <div onclick={handleScrollRightRTL} class="arrow-border">
-                                <i>
-                                    <span>
-                                        <c-web-icon
-                                            icon-name="icon-chevron-right"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-leftRTL" style="padding-left: 0">
+                                <div onclick={handleScrollRightRTL} class="arrow-border">
+                                    <i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-leftRTL" style="padding-left: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span>
+                                            <c-web-icon
+                                                icon-name="icon-chevron-right"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                         <div
                             class="slds-col"
                             style="overflow-x: hidden; padding-right: 0; padding-left: 0"
@@ -412,7 +466,13 @@
                                         <div class="state-labelRTL">
                                             <template if:false={pathItem.isPending}>
                                                 <template if:true={pathItem.complDate}>
-                                                    {pathItem.complDate}
+                                                    <lightning-formatted-date-time
+                                                        value={pathItem.complDate}
+                                                        year="numeric"
+                                                        month="short"
+                                                        day="2-digit"
+                                                        time-zone="UTC"
+                                                    ></lightning-formatted-date-time>
                                                 </template>
                                                 <template if:false={pathItem.complDate}>
                                                     {labels.noDateSet}
@@ -448,21 +508,39 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-col arrow-rightRTL" style="padding-right: 0">
-                            <div onclick={handleScrollLeftRTL} class="arrow-border">
-                                <i>
-                                    <span class="arrow-borders-right" style="padding-left: 2px">
-                                        <c-web-icon
-                                            icon-name="icon-chevron-left"
-                                            icon-color="#297DFD"
-                                            icon-width="18"
-                                            icon-height="18"
-                                            class=""
-                                        ></c-web-icon>
-                                    </span>
-                                </i>
-                            </div>
-                        </div>
+                        <template if:false={isLessThan5}>
+                            <div class="slds-col arrow-rightRTL" style="padding-right: 0">
+                                <div onclick={handleScrollLeftRTL} class="arrow-border">
+                                    <i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>
+                                </div></div
+                        ></template>
+                        <template if:true={isLessThan5}>
+                            <div class="slds-col arrow-rightRTL" style="padding-right: 0">
+                                <div class="arrow-border">
+                                    <!--<i>
+                                        <span class="arrow-borders-right" style="padding-left: 2px">
+                                            <c-web-icon
+                                                icon-name="icon-chevron-left"
+                                                icon-color="#297DFD"
+                                                icon-width="18"
+                                                icon-height="18"
+                                                class=""
+                                            ></c-web-icon>
+                                        </span>
+                                    </i>-->
+                                </div>
+                            </div></template
+                        >
                     </div>
                 </div>
             </template>
@@ -478,7 +556,7 @@
                     <div>
                         <p class="what-to-expect_rtl">{labels.whatToExpect}</p>
                         <div class="icons-container_rtl mr_left_5">
-                            <div class="icons-row">
+                            <div class="icons-row mr_16">
                                 <lightning-layout multiple-rows="false">
                                     <template if:true={iconDetails}>
                                         <template for:each={iconDetails} for:item="icon">
@@ -637,43 +715,45 @@
                                 </template>
                             </div>
                         </div>
-
-                        <div class="slds-grid slds-p-top_x-small mr_left_5">
-                            <div class="slds-form-element__label mr_left">
-                                <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                    >{labels.ChangeNotifications}</a
-                                >
-                                {labels.remindUsing}
+                        <template if:true={reminderOption}>
+                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                                <div class="slds-form-element__label mr_left">
+                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
+                                        >{labels.ChangeNotifications}</a
+                                    >
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    {labels.remindUsing}
+                                </div>
                             </div>
-                        </div>
-                        <div class="slds-grid mr_left_5">
-                            <div class="slds-col slds-size_1-of-2 mr_right">
-                                <lightning-input
-                                    type="checkbox"
-                                    value={emailOptIn}
-                                    label={labels.emailLabel}
-                                    disabled={emailOpted}
-                                    checked={emailOptIn}
-                                    name="emailOptin"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                    class="mr_10"
-                                >
-                                </lightning-input>
-                                <lightning-input
-                                    type="checkbox"
-                                    value={smsOptIn}
-                                    label={labels.smsLabel}
-                                    disabled={smsOpted}
-                                    checked={smsOptIn}
-                                    name="smsOptIn"
-                                    class="mr_10 mr_left6"
-                                    onchange={handleDateChange}
-                                    onblur={doValidateReminder}
-                                >
-                                </lightning-input>
+                            <div class="slds-grid mr_left_5">
+                                <div class="slds-col slds-size_1-of-2 mr_right">
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={emailOptIn}
+                                        label={labels.emailLabel}
+                                        disabled={emailOpted}
+                                        checked={emailOptIn}
+                                        name="emailOptin"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                        class="mr_10"
+                                    >
+                                    </lightning-input>
+                                    <lightning-input
+                                        type="checkbox"
+                                        value={smsOptIn}
+                                        label={labels.smsLabel}
+                                        disabled={smsOpted}
+                                        checked={smsOptIn}
+                                        name="smsOptIn"
+                                        class="mr_10 mr_left6"
+                                        onchange={handleDateChange}
+                                        onblur={doValidateReminder}
+                                    >
+                                    </lightning-input>
+                                </div>
                             </div>
-                        </div>
+                        </template>
                     </div>
                     <template if:true={travelSupportEnabled}>
                         <template if:true={showTravelSupportDetails}>

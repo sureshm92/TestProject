@@ -299,12 +299,14 @@
                                 >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_AS_F_Email_address}
                         </div>
-
+                        
+                        <!-- REF-3070  Added disabled-->
                         <lightning:input
                             aura:id="emailInput"
                             type="text"
                             value="{!v.participant.Email__c}"
                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                            disabled="{!v.needsGuardian}"
                             onblur="{!c.doCheckFields}"
                             messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                         />
@@ -316,11 +318,13 @@
                                 >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
                             >{!$Label.c.PG_Ref_L_Re_enter_email_address}
                         </div>
+                        <!-- REF-3070 Added disabled-->
                         <lightning:input
                             aura:id="emailParticipantRepeatField"
                             type="text"
                             value="{!v.emailParticipantRepeat}"
                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                            disabled="{!v.needsGuardian}"
                             onblur="{!c.doCheckFields}"
                             messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                         />
@@ -341,10 +345,12 @@
                                 >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                         </div>
+                        <!-- REF-3070 Added disabled-->
                         <lightning:input
                             type="text"
                             value="{!v.participant.Phone__c}"
                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                            disabled="{!v.needsGuardian}"
                             onblur="{!c.doCheckFields}"
                         />
                     </div>
@@ -361,11 +367,13 @@
                                 >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
+                        <!-- REF-3070  Added disabled-->
                         <c:rrSelect
                             options="{!v.formData.phoneTypeLVList}"
                             value="{!v.participant.Phone_Type__c}"
                             placeholder="{!$Label.c.PG_AC_Select}"
                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                            disabled="{!v.needsGuardian}"
                             onchange="{!c.doCheckFields}"
                         />
                     </div>
@@ -440,11 +448,13 @@
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                 >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                             </div>
+                            <!-- REF-3070 Added disabled-->
                             <lightning:input
                                 aura:id="phoneInput"
                                 type="text"
                                 value="{!v.participant.Phone__c}"
                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}"
                                 onblur="{!c.doCheckFields}"
                             />
                         </div>
@@ -463,12 +473,14 @@
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                 >{!$Label.c.PG_AP_F_Phone_Type}
                             </div>
+                            <!-- REF-3070 Added disabled-->
                             <c:rrSelect
                                 aura:id="phoneTypeInput"
                                 options="{!v.formData.phoneTypeLVList}"
                                 value="{!v.participant.Phone_Type__c}"
                                 placeholder="{!$Label.c.PG_AC_Select}"
                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}"
                                 onchange="{!c.doCheckFields}"
                             />
                         </div>
@@ -487,11 +499,13 @@
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                 >{!$Label.c.PG_AS_F_Email_address}
                             </div>
+                            <!-- REF-3070 Added disabled-->
                             <lightning:input
                                 aura:id="emailInput"
                                 type="text"
                                 value="{!v.participant.Email__c}"
                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                disabled="{!!v.participant.Adult__c}"
                                 onblur="{!c.doCheckFields}"
                             />
                         </div>

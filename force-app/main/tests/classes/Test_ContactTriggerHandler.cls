@@ -24,11 +24,13 @@ public class Test_ContactTriggerHandler {
             Contact__c = partContact.Id
         );
         insert participant;
+        Test.startTest();
         partContact.MailingStateCode = null;
         partContact.MailingState = null;
         partContact.MailingPostalCode = '3733';
         update partContact;
         Participant__c newValPart = [SELECT Id,Mailing_Zip_Postal_Code__c FROM Participant__c WHERE Id =:participant.Id];
+        Test.stopTest();
         system.assertEquals(newValPart.Mailing_Zip_Postal_Code__c, partContact.MailingPostalCode);
     }
 }

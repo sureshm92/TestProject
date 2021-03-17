@@ -2,14 +2,16 @@
 public class Test_RHPEUpdateParticipantStatus {
     @isTest
     static void updatePEStatus() {
-        TestData.loadTestData();
+       /* TestData.loadTestData();
         TestData testDataInstance = new TestData();
         testDataInstance.ss.Study_Site_Type__c = 'Virtual';
+       
         update testDataInstance.ss;
         List<Participant_Enrollment__c> pelist = new List<Participant_Enrollment__c>();
-        pelist.add(testDataInstance.pe);
+        pelist.add(testDataInstance.pe);*/
+         Test.startTest();
         Test.setMock(HttpCalloutMock.class, new RHPECalloutMock());
-        Test.startTest();
+        
         Batch_RHPEUpdateParticipantStatus c = new Batch_RHPEUpdateParticipantStatus();
         Database.executeBatch(c);
         c.getType();
