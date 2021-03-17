@@ -1,11 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>High_Priority__c</fullName>
+    <fullName>CreatedByAdmin__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>High Priority</label>
-    <trackFeedHistory>false</trackFeedHistory>
-    <trackHistory>true</trackHistory>
-    <trackTrending>false</trackTrending>
+    <label>CreatedByAdmin</label>
     <type>Checkbox</type>
 </CustomField>

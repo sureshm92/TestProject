@@ -605,8 +605,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 delegateWrap.DelegatePhoneNo = DelegatePhoneNo;
                                 delegateWrap.DelegatePhoneType = DelegatePhoneType;
                             }else{
-                                delegateWrap.DelegatePhoneNo = Phone;
-                                delegateWrap.DelegatePhoneType = PhoneType;
+                                delegateWrap.DelegatePhoneNo = '';
+                                delegateWrap.DelegatePhoneType = '';
                             }
 
                             delegateWrap.totalRecordCount = totalRecordCount;
@@ -859,7 +859,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
             }
             //Participant Enrollment insertion ends.
-
             //Delete the contacts which were newly created but their participant/enrollment were not created.
                 List<Contact> conDelete = new List<Contact>();
                 for(Id i: contactsToBeDeleted){
@@ -869,7 +868,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         conDelete.add(c);
                     }
                 }
+                try{
                 delete conDelete;
+                }
+                catch(Exception e){
+                    system.debug(e);
+                }
             //deletion of contacts ends.
 
             //Update the contact with Participant Name and correct account Id
@@ -930,7 +934,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
     global void finish(Database.BatchableContext BC) {
         //delete the temporary account
+        try{
         delete tempAccount;
+        } catch (Exception exp) {
+            system.debug('ERROR during deleting records: ' + exp.getMessage());
+        }
+
+
         // Added By Krishna For REF-2183 -Start
         if (PERecIds != null && !PERecIds.IsEmpty()) {
             UploadParticipantsBatchHelper obj = new UploadParticipantsBatchHelper(PERecIds);

@@ -325,6 +325,25 @@
     .THIS .sdv-top-bar .rr-all-content {
         padding: 0 10px;
     }
+
+    .THIS #sd-selected-tab-container .rr-width-limiter.side-padding{
+        padding-left: 0;
+        padding-right: 0;
+        overflow-x: visible;
+    }
+
+    .THIS #sd-selected-tab-container .rr-width-limiter-half.side-padding{
+        padding-left: 0;
+        padding-right: 0;
+    }
+
+    .THIS .rr-width-limiter.side-padding .sv-body {
+        margin: 0 10px;
+    }
+
+    .THIS .rr-width-limiter-half.side-padding .sv-body {
+        margin: 0 20px;
+    }
 }
 
 @media (max-width: 768px) {
@@ -380,8 +399,6 @@
 
     .THIS .navigation .cRRNavigationPath.navigation-path {
         font-size: 0.875rem;
-        margin-bottom: 0.5rem;
-        margin-left: 1rem;
     }
 
     .THIS .links .apollo-btn {
@@ -396,5 +413,13 @@
 
     .THIS #sd-selected-tab-container {
         padding: 0;
+    }
+
+    .THIS .sdv-top-bar .title {
+        padding: 10px 0;
+    }
+
+    .THIS .rr-width-limiter.side-padding .sv-body {
+        margin: 0 1rem;
     }
 }

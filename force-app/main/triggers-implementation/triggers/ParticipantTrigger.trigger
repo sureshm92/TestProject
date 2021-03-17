@@ -12,6 +12,7 @@ trigger ParticipantTrigger on Participant__c(
     after undelete
 ) {
     //TriggerHandlerExecutor.execute(ParticipantTriggerHandler.CheckDuplicatesHandler.class);
+    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
     TriggerHandlerExecutor.execute(
         ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
     );
@@ -25,7 +26,6 @@ trigger ParticipantTrigger on Participant__c(
     TriggerHandlerExecutor.execute(
         ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
     );
-    TriggerHandlerExecutor.execute(ParticipantTriggerHandler.PrepareCityStateFieldsHandler.class);
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdateNameOnPE.class);
     TriggerHandlerExecutor.execute(ParticipantTriggerHandler.UpdateParticipantAge.class);
 }
