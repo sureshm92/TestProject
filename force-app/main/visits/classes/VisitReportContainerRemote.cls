@@ -136,7 +136,9 @@ public inherited sharing class VisitReportContainerRemote {
 
     public class VisitDateColumnWrapper extends VisitDataWrapper {
         public VisitDateColumnWrapper(Date resultDate) {
-            this.value = resultDate.format();
+             DateTime dt = DateTime.newInstance(resultDate.year(), resultDate.month(),resultDate.day());
+             // this.value = resultDate.format();
+             this.value =UserService.formatDatebyLocale(dt,UserContext.getUser().LocaleSidKey);
         }
         public VisitDateColumnWrapper(String value) {
             this.value = value;

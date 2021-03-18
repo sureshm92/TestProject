@@ -85,7 +85,9 @@ public without sharing class TrialMatchHelper {
                 String day = String.valueOf(matdate.day()).length() == 1
                     ? '0' + String.valueOf(matdate.day())
                     : String.valueOf(matdate.day());
-                tmctp.matchDate = day + '-' + getMonth(matdate) + '-' + matdate.year();
+              //  tmctp.matchDate = day + '-' + getMonth(matdate) + '-' + matdate.year();
+                DateTime dt = DateTime.newInstance(matdate.year(), matdate.month(),matdate.day());
+                tmctp.matchDate = UserService.formatDatebyLocale(dt,UserContext.getUser().LocaleSidKey);
                 tmctp.matchedDate = trialmatches.get(ctp.id).Matched_Date__c;
             } else {
                 tmctp.matchDate = '';
