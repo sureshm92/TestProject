@@ -221,7 +221,8 @@ public inherited sharing class VisitReportService {
         if (pe.Enrolled_DateTime__c != null) {
             Datetime dT = pe.Enrolled_DateTime__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-            result.enrollmentDate = myDate.format();
+           // result.enrollmentDate = myDate.format();
+            result.enrollmentDate = UserService.formatDatebyLocale(dT,UserContext.getUser().LocaleSidKey);
         }
         //PEH-1986: Show status if Trial is not yet completed
         if (!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
