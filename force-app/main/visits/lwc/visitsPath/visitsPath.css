@@ -147,22 +147,25 @@ h2 {
     margin-top: -28px;
     margin-right: 20px;
 }
-/*.icons-container {
+
+.icons-container {
     display: flex;
-    overflow: hidden;
-    height: 32px;
+    overflow: visible;
+    min-height: 32px;
+    max-width: 60%;
     margin-left: 13px;
     justify-content: space-between;
 }
 .icons-container_rtl {
     display: flex;
     overflow: hidden;
-    height: 32px;
+    min-height: 32px;
+    max-width: 60%;
     margin-left: 13px;
     margin-right: 20px;
     justify-content: space-between;
 }
-*/
+
 .icons-row {
     display: flex;
     flex-wrap: wrap;
@@ -493,18 +496,18 @@ h2 {
 
     /* Position the tooltip */
     position: absolute;
-    top: 100%;
-    z-index: 3;
+    top: 125%;
+    z-index: 1000;
     overflow: visible;
     font-size: 1rem;
     line-height: 1.5;
     padding: 1rem;
 }
-._rtl {
-    right: -10% !important;
+.tooltiptext._rtl {
+    right: -50%;
 }
-._ltr {
-    left: -10% !important;
+.tooltiptext._ltr {
+    left: -50%;
 }
 
 .icon:hover .tooltiptext {
@@ -559,11 +562,6 @@ h2 {
         min-width: 225px;
     }
 
-    .state .state-label {
-        display: block;
-        font-weight: 600;
-    }
-
     .state .state-ico-wrapper {
         width: 40px;
         height: 42px;
@@ -589,6 +587,70 @@ h2 {
         width: 18px;
         height: 20px;
     }
+
+    .container1 {
+        width: 100%;
+    }
+
+    .icons-row {
+        position: relative;
+    }
+
+    .title,
+    .mr_left_5 {
+        margin-left: 0;
+    }
+
+    .mr_left_5 .slds-col {
+       padding-left: 0;
+    }
+
+    .what-to-expect {
+        margin-left: 3px;
+    }
+
+    .icon {
+        padding-left: 5px;
+        margin: 8px;
+        position: static;
+    }
+
+    .icons-container,
+    .icons-container_rtl {
+        max-width: 100%
+    }
+
+    .icon .tooltiptext {
+        top: 40px;
+    }
+
+    .icon:nth-of-type(n+8) .tooltiptext {
+        top: 85px
+    }
+
+    .icon:nth-of-type(n+15) .tooltiptext {
+        top: 125px
+    }
+
+    .icon:nth-of-type(n+22) .tooltiptext {
+        top: 165px
+    }
+
+    .icon:nth-of-type(n+25) .tooltiptext {
+        top: 205px
+    }
+
+    .tooltiptext._ltr {
+        left: -10px;
+    }
+
+    .tooltiptext._rtl {
+        right: -10px;
+    }
+    table {
+        margin-left: 0;
+    }
+
 }
 
 @media only screen and (min-width: 650px) and (max-width: 800px) and (orientation: portrait) {
