@@ -107,6 +107,7 @@
                                     <abbr title="required" class="slds-required">*</abbr>
                                 </div>
                                 <lightning:input
+                                    aura:id="taskName"
                                     name="taskName"
                                     label="{!$Label.c.Task_Name}"
                                     value="{!v.task.Subject}"
