@@ -13714,7 +13714,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG NTM L Already Exists</shortDescription>
-        <value>already exists.  Name populated from existing database values.</value>
+        <value>already exists.</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Permission_level_will_apply_to_all_studies</fullName>
@@ -16001,6 +16001,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_RequiredErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_RequiredErrorMessage</shortDescription>
+        <value>Complete this field.</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16041,7 +16048,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
-        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
+        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Time_Unavailable</fullName>
