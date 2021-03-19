@@ -162,6 +162,7 @@ export default class VisitsPath extends LightningElement {
     nextScrollRight;
     fromLeftCorner;
     fromRightCorner;
+    @track isLessThan5 = false;
 
     connectedCallback() {
         let context = this;
@@ -192,6 +193,7 @@ export default class VisitsPath extends LightningElement {
             .then(function (data) {
                 context.patientVisits = data;
                 context.isVisitsEmpty = data.length === 0;
+                context.isLessThan5 = data.length === 5 || data.length <= 5;
                 context.constructPathItems();
                 context.initialized = true;
             })

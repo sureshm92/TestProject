@@ -214,6 +214,11 @@
     width: 100%;
 }
 
+.THIS .cRRNavigationPath.navigation-path {
+    margin-left: 0;
+    padding-top: 1rem;
+}
+
 @media all and (-ms-high-contrast: none), (-ms-high-contrast: active) {
     .THIS .helpNavigationCSS:hover {
         background-color: rgba(255, 255, 255, 0);
@@ -284,7 +289,7 @@
     }
 
     .THIS .cRRNavigationPath.navigation-path {
-        margin-bottom: 1rem;
+        margin-left: 10px;
     }
 
     .THIS .apollo-btn,
@@ -383,11 +388,11 @@
     }
 
     .THIS
-        .arrow-left
-        + .slds-col
-        > .vis-path.slds-grid
-        > .slds-col:nth-of-type(n + 2)
-        .state-label {
+    .arrow-left
+    + .slds-col
+    > .vis-path.slds-grid
+    > .slds-col:nth-of-type(n + 2)
+    .state-label {
         padding-right: 36px;
     }
 
@@ -401,11 +406,6 @@
     .THIS .slvi-top-container-hcp .slds-wrap div:last-child {
         display: flex;
         justify-content: flex-end;
-    }
-
-    .THIS .cRRNavigationPath.navigation-path {
-        margin-left: 0;
-        margin-top: 1rem;
     }
 
     /*Added to overcome mobile view issue*/
@@ -427,6 +427,10 @@
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
+    }
+
+    .THIS .cRRNavigationPath.navigation-path {
+        margin-left: 0;
     }
 }
 

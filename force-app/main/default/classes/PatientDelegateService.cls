@@ -37,13 +37,14 @@ public without sharing class PatientDelegateService {
                 'Participant__r.Last_Name__c',
                 'Contact__c',
                 'Contact__r.Participant_Opt_In_Status_Emails__c',
-                'Contact__r.Participant_Opt_In_Status_SMS__c'
+                'Contact__r.Participant_Opt_In_Status_SMS__c',
+                'Status__c'
             },
             Patient_Delegate__c.getSObjectType(),
             DatabaseService.fieldEqual(
                 'Contact__c',
                 CommunityService.getInstance().getCurrentContactId()
-            )
+            ) + ' AND ' + DatabaseService.fieldNotEqual('Status__c', 'Withdrawn')  
         );
         isDelegate = participantsPDList.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();

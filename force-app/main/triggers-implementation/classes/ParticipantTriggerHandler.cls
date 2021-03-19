@@ -3,27 +3,7 @@
  */
 
 public without sharing class ParticipantTriggerHandler {
-    
-    public static Map<Id,Contact> contactsOfNewParticipants = new Map<Id,Contact>();
-    public static List<Contact> getContactsList(List<Participant__c> newList){
-        if(contactsOfNewParticipants.isEmpty()){
-            Set<Id> contactIds = new Set<Id>(); 
-            for (Participant__c participant : newList) {
-                if (participant.Contact__c != null)
-                    contactIds.add(participant.Contact__c);
-            }
-            getContactsMap(contactIds);
-        }
-        return contactsOfNewParticipants.values();
-    }
-    
-    public static Map<Id,Contact> getContactsMap(Set<Id> contactIds){
-        if(contactsOfNewParticipants.isEmpty()){
-            contactsOfNewParticipants = new Map<Id,Contact>([SELECT Id,email,MailingState,MailingStateCode,MailingCountry,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:contactIds]);
-        }
-        return contactsOfNewParticipants;
-    }
-    
+	
     // Handlers: -------------------------------------------------------------------------------------------------------
 
     public class CreateContactsForParticipantsHandler extends TriggerHandler {
@@ -126,8 +106,6 @@ public without sharing class ParticipantTriggerHandler {
                 newContact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 newContact.MailingStateCode = participant.Mailing_State_Code__c;
                 newContact.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;
-                newContact.MailingCountry = participant.Mailing_Country__c;
-                newContact.MailingState = participant.Mailing_State__c;
                 contactsToInsert.add(newContact);
                 participantsByEmail.put(participant.Email__c, participant);
             }
@@ -146,9 +124,9 @@ public without sharing class ParticipantTriggerHandler {
     private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
         List<Contact> updateContacts = new List<Contact>();
         Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
-        
+        Boolean isOldMapEmpty = oldMap.isEmpty();
         for(Participant__c part : newList){
-            if(oldMap.isEmpty() && part.Contact__c!=null){
+            if(isOldMapEmpty && part.Contact__c!=null){
                 updateContactsMap.put(part.Contact__c,part);
             }else if(!oldMap.containsKey(part.Id) && part.Contact__c!=null){
                 updateContactsMap.put(part.Contact__c,part);
@@ -167,20 +145,13 @@ public without sharing class ParticipantTriggerHandler {
         
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: getContactsList(newList)){
-				if(updateContactsMap.containsKey(con.Id)){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
 						updateNeeded= true;
-					}if(con.MailingCountry != updateContactsMap.get(con.Id).Mailing_Country__c){
-						con.MailingCountry = updateContactsMap.get(con.Id).Mailing_Country__c;
-						updateNeeded= true;
 					}if(con.MailingStateCode != updateContactsMap.get(con.Id).Mailing_State_Code__c){
 						con.MailingStateCode = updateContactsMap.get(con.Id).Mailing_State_Code__c;
-						updateNeeded= true;
-					}if(con.MailingState != updateContactsMap.get(con.Id).Mailing_State__c){
-						con.MailingState = updateContactsMap.get(con.Id).Mailing_State__c;
 						updateNeeded= true;
 					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
 						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
@@ -190,7 +161,6 @@ public without sharing class ParticipantTriggerHandler {
 						updateContacts.add(con);
 					}
 				}
-			}
 			if(updateContacts.size()>0){
 				update updateContacts;   
 			}
@@ -285,7 +255,10 @@ public without sharing class ParticipantTriggerHandler {
                 contactIds.add(participant.Contact__c);
         }
         List<User> users = [SELECT Id, ContactId, Email FROM User WHERE ContactId IN :contactIds];
-        Map<Id, Contact> contactsByContactIdMap = getContactsMap(contactIds);
+        Map<Id, Contact> contactsByContactIdMap = new Map<Id, Contact>(
+            [SELECT Id, Email FROM Contact WHERE Id IN :contactIds]
+        );
+
         Map<Id, User> usersByContactIdMap = new Map<Id, User>();
         for (User user : users) {
             usersByContactIdMap.put(user.ContactId, user);
