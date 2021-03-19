@@ -47,7 +47,7 @@
 }
 
 .THIS .cRRTable.rr-table tr td.sv-t-name {
-    width: 30%;
+    width: 25%;
 }
 
 .THIS .cRRTable.rr-table tr td.sv-t-reminder {
@@ -68,8 +68,12 @@
     width: 10%;
 }
 
+.THIS .sv-t-visittime {
+    width: 15%;
+}
+
 .THIS .sv-t-time {
-    width: 20%;
+    width: 10%;
 }
 
 .THIS .sv-t-completed-date {
@@ -87,7 +91,10 @@
 .THIS .cRRIconSplitter .icons-row {
     margin-right: 1rem;
     position: relative;
-    width: 200px;
+}
+
+.THIS .cRRIconSplitter .icon .tooltiptext {
+    left: -50px;
 }
 
 .THIS .svl-icon {
@@ -229,19 +236,10 @@
 
     .THIS  .cRRTable.rr-table tr td .icon {
         position: static;
-
     }
 
-    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+7) .tooltiptext {
-        bottom: 70%
-    }
-
-    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+13) .tooltiptext {
-        bottom: 40%
-    }
-
-    .THIS  .cRRTable.rr-table tr td .icon:nth-of-type(n+19) .tooltiptext {
-        bottom: 20%
+    .THIS .cRRIconSplitter .icon .tooltiptext {
+        left: -10%;
     }
 }
 

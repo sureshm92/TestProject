@@ -71,6 +71,11 @@
 .THIS .icon:hover .tooltiptext {
     visibility: visible;
 }
+
+.THIS .icon .tooltiptitle {
+    font-size: 18px;
+}
+
 .THIS .rtl {
     right: 0 !important;
 }
