@@ -154,7 +154,7 @@
         if (isNewTask && !isReminderOnly) {
             message = successToastArray[0].trim();
         } else if (isNewTask && isReminderOnly) {
-            message = successToastArray[2].trim();
+            message = successToastArray[4].trim();
         } else if (!isNewTask && isReminderOnly) {
             message = successToastArray[1].trim();
         } else if (!isNewTask && !isReminderOnly) {
