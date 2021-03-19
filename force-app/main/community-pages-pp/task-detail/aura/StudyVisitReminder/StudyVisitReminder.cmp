@@ -216,7 +216,7 @@
                             </div>
                         </div>
                         <div
-                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':''}"
+                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':'slds-p-top_medium'}"
                         ></div>
                         <aura:if isTrue="{!v.task.Remind_Me__c}">
                         <div
@@ -299,7 +299,12 @@
                                 <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:formattedText value="{!$Label.c.Due_Date }" />
+                                <aura:if isTrue="{!v.initData.createdByAdmin}">
+                                 <lightning:formattedText value="{!$Label.c.Due_Date }" />
+                                 <aura:set attribute="else">
+                                  <lightning:formattedText value="{!$Label.c.PP_DueDateandTime }" />
+                                 </aura:set>
+                                </aura:if>
                                 <br />
                                 <div class="slds-p-top_small"></div>
                                 <b>
@@ -307,6 +312,7 @@
                                     value="{!not(v.isTaskTab) ? v.visitData.completedOrPlannedDate : v.initData.activityDate}"
                                 />-->
                                     <aura:if isTrue="{!v.initData.activityDate}">
+                                        <aura:if isTrue="{!v.initData.createdByAdmin}">
                                         <lightning:formattedDateTime
                                             value="{!v.initData.activityDate}"
                                             year="numeric"
@@ -314,6 +320,19 @@
                                             day="2-digit"
                                             timeZone="{!$Locale.timezone}"
                                         />
+                                        <aura:set attribute="else">
+                                            <lightning:formattedDateTime
+                                            value="{!v.initData.activityDate}"
+                                            year="numeric"
+                                            month="short"
+                                            day="2-digit"
+                                            hour="numeric"
+                                            minute="numeric"    
+                                            timeZone="{!$Locale.timezone}"
+                                        />
+                                        </aura:set>
+                                        </aura:if>
+                                        
                                         <aura:set attribute="else">
                                             {!$Label.c.PP_Date_Unavailable}
                                         </aura:set>
@@ -326,7 +345,7 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div
-                                class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
                             >
                                 <lightning:combobox
                                     aura:id="taskReminderOption1"
@@ -342,7 +361,7 @@
                                 ></div>
                             </div>
                             <div
-                                class="{!'slds-col slds-size_1-of-2' + if(v.isRTL, ' reminderDate_rtl', ' reminderDate')}"
+                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, ' reminderDate_rtl', ' reminderDate')}"
                             >
                                 <aura:if isTrue="{!(v.task.Remind_Me__c == 'Custom')}">
                                     <div class="label">
@@ -370,7 +389,7 @@
                         </div>
                         <aura:if isTrue="{!v.task.Remind_Me__c}">
                         <div
-                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label'}"
+                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_medium'}"
                         >
                             <aura:if isTrue="{!v.isRTL}">
                                 <!--Account settings-->
@@ -496,7 +515,7 @@
                             </aura:if>
                         </div>
                     </div>
-                    <div class="slds-grid slds-p-top_x-small">
+                    <div class="slds-grid slds-p-top_large">
                         <div
                             class="{!'slds-col slds-size_1-of-2 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}"
                         >
@@ -541,7 +560,7 @@
                         </div>
                     </div>
 <aura:if isTrue="{!v.task.Remind_Me__c}">
-                    <div class="slds-grid slds-p-top_x-small">
+                    <div class="slds-grid slds-p-top_large">
                         <div class="slds-p-top_large"></div>
                         <div
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}"
@@ -598,7 +617,7 @@
                     </div> </aura:if>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div style="margin-left: -20px" class="{!if(v.showVendors,'tbl',' ')}">
+                            <div style="margin-left: -20px;margin-top:-10px;" class="{!if(v.showVendors,'tbl',' ')}">
                                 <c:visitTravelDetails
                                     vname="{!v.visitData.visit.Name}"
                                     vnum="{!v.visitData.visit.Visit_Number__c}"
@@ -608,7 +627,7 @@
                                 </c:visitTravelDetails>
                             </div>
                             <aura:set attribute="else">
-                                <div style="margin-left: -20px">
+                                <div style="margin-left: -20px;margin-top:-10px;">
                                     <c:visitTravelDetails
                                         vname="{!v.visitData.visit.Name}"
                                         vnum="{!v.visitData.visit.Visit_Number__c}"
