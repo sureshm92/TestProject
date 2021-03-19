@@ -75,6 +75,7 @@
     font-weight: 600;
     color: #000;
     display: inline-block;
+    width: 70%;
 }
 
 .THIS.rtl .vpi-tile-title {

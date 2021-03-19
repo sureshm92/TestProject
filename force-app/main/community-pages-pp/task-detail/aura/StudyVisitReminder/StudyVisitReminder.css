@@ -30,6 +30,14 @@
     width: 209px;
 }
 
+.THIS .cRRIconSplitter .icons-row {
+    max-width: 60%;
+}
+
+.THIS .cRRIconSplitter .icon {
+    position: relative;
+}
+
 .THIS .title {
     height: 60px;
     /* width: 190px; */
@@ -337,6 +345,41 @@
 
 .THIS .te-col-header-info + .te-form > .slds-col:first-child input {
     width: 418px;
+}
+
+@media (max-width: 468px) {
+    .THIS .cRRIconSplitter .icon {
+        position: static;
+    }
+
+    .THIS .cRRIconSplitter .icons-row {
+        max-width: 100%;
+        width: 100%;
+    }
+
+    .THIS .cRRIconSplitter .icons-row .icon .tooltiptext {
+        top: 40px;
+        bottom: auto;
+        transform: none;
+        z-index: 1000;
+    }
+
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+7) .tooltiptext {
+        top: 70px
+    }
+
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+13) .tooltiptext {
+        top: 110px
+    }
+
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+19) .tooltiptext {
+        top: 140px
+    }
+
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+25) .tooltiptext {
+        top: 180px
+    }
+
 }
 
 
