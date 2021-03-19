@@ -2,10 +2,9 @@
  * Created by Leonid Bartenev
  */
 
-.THIS {
+ .THIS {
     padding: 0 16px;
 }
-
 .THIS > div {
     display: flex;
     justify-content: space-between;
@@ -57,7 +56,15 @@
 .THIS .objective-link {
     white-space: nowrap;
     font-size: 1rem;
-    width: 540px;
+    width: 545px;
+    display: inline-block;
+    text-align: right;
+}
+
+.THIS .objective-linkGSK {
+    white-space: nowrap;
+    font-size: 1rem;
+    width: 510px;
     display: inline-block;
     text-align: right;
 }
@@ -69,13 +76,20 @@
     text-align: left;
 }
 
+.THIS .objective-linkRTLGSK {
+    white-space: nowrap;
+    font-size: 1rem;
+    width: 500px;
+    display: inline-block;
+    text-align: left;
+}
+
 .THIS .vpi-title,
 .THIS .vpi-tile-title {
     font-size: 1.125rem;
     font-weight: 600;
     color: #000;
     display: inline-block;
-    width: 70%;
 }
 
 .THIS.rtl .vpi-tile-title {
