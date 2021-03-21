@@ -5164,22 +5164,22 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
 
-##TaskName
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
-&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&#39;s task:
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&#39;s task:&lt;/span&gt;
 
-##TaskName
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
-&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span  style=&quot;color:black;&quot;&gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
@@ -5233,22 +5233,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
-If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
- If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -13714,7 +13714,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG NTM L Already Exists</shortDescription>
-        <value>already exists.  Name populated from existing database values.</value>
+        <value>already exists.</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Permission_level_will_apply_to_all_studies</fullName>
@@ -16001,6 +16001,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_RequiredErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_RequiredErrorMessage</shortDescription>
+        <value>Complete this field.</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16041,7 +16048,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
-        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
+        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Time_Unavailable</fullName>

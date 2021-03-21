@@ -176,7 +176,7 @@
                                                 <div class="icon" key={icon.Id}>
                                                     <template if:true={icon.Label__c}>
                                                         <span class="tooltiptext _ltr">
-                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                            <span class="tooltiptitle">{icon.Label__c}</span><br/>{icon.Description__c}
                                                         </span>
                                                     </template>
                                                     <c-web-icon
@@ -250,7 +250,7 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-grid slds-p-top_small mr_left_5">
+                        <div class="slds-grid slds-p-top_large mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
                                 <lightning-combobox
                                     name="reminder"
@@ -325,7 +325,7 @@
                             </div>
                         </div>
                         <template if:true={reminderOption}>
-                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                            <div class="slds-grid slds-p-top_large mr_left_5">
                                 <div class="slds-form-element__label mr_left">
                                     {labels.remindUsing}
                                     <abbr title="required" class="slds-required">*</abbr>
@@ -638,7 +638,7 @@
                                 </template>
                             </div>
                         </div>
-                        <div class="slds-grid slds-p-top_small mr_left_5">
+                        <div class="slds-grid slds-p-top_large mr_left_5">
                             <div class="slds-col slds-size_1-of-2">
                                 <div class="label label_rtl_remind">{labels.remindMe}</div>
                                 <lightning-combobox
@@ -716,7 +716,7 @@
                             </div>
                         </div>
                         <template if:true={reminderOption}>
-                            <div class="slds-grid slds-p-top_x-small mr_left_5">
+                            <div class="slds-grid slds-p-top_large mr_left_5">
                                 <div class="slds-form-element__label mr_left">
                                     <a onclick={doNavigateToAccountSettings} style="margin: 10px"
                                         >{labels.ChangeNotifications}</a

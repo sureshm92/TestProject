@@ -57,16 +57,23 @@
 .THIS .objective-link {
     white-space: nowrap;
     font-size: 1rem;
-    width: 540px;
+   /* width: 540px; */
     display: inline-block;
     text-align: right;
+    margin-top: 2px;
 }
 .THIS .objective-linkRTL {
     white-space: nowrap;
     font-size: 1rem;
-    width: 540px;
+   /*  width: 540px; */
     display: inline-block;
     text-align: left;
+    margin-top: 2px;
+}
+
+.THIS .slds-media__body > div:first-child {
+    display: flex;
+    justify-content: space-between;
 }
 
 .THIS .vpi-title,
@@ -75,6 +82,7 @@
     font-weight: 600;
     color: #000;
     display: inline-block;
+    width: 80%;
 }
 
 .THIS.rtl .vpi-tile-title {
@@ -142,6 +150,10 @@
         padding: 0;
     }
 
+    .THIS .slds-media__body > div:first-child {
+        flex-wrap: wrap;
+    }
+
     .THIS .vpi-title {
         width: 50%;
         line-height: 1.25;
@@ -151,6 +163,11 @@
     .THIS .slds-has-block-links--space2,
     .THIS .slds-has-block-links--space3 {
         right: 0;
+    }
+
+    .THIS .sponsor-name {
+        height: auto;
+        white-space: normal;
     }
 
     /*.THIS .custom-plus {
