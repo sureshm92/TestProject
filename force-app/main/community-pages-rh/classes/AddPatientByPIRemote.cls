@@ -373,6 +373,7 @@ public without sharing class AddPatientByPIRemote {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
+					ptDelegateRef.Primary_Delegate__c = true;
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                         .templateName;
                     if (

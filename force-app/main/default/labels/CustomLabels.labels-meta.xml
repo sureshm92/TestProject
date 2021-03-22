@@ -869,6 +869,13 @@
         <shortDescription>BTN Confirm</shortDescription>
         <value>Confirm</value>
     </labels>
+	 <labels>
+        <fullName>BTN_Create_New_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Create_New_Delegate</shortDescription>
+        <value>Create New Delegate</value>
+    </labels>
     <labels>
         <fullName>BTN_Create_New_Task</fullName>
         <language>en_US</language>
@@ -1386,6 +1393,13 @@
         <protected>false</protected>
         <shortDescription>BTN Undo exclusion and refer to this study</shortDescription>
         <value>Undo exclusion and refer to this study</value>
+    </labels>
+	 <labels>
+        <fullName>BTN_Updating_Existing_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Updating_Existing_Delegate</shortDescription>
+        <value>Update Existing Delegate</value>
     </labels>
     <labels>
         <fullName>BTN_Upload_Patient</fullName>
@@ -3483,6 +3497,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Create</shortDescription>
         <value>Create</value>
+    </labels>
+	 <labels>
+        <fullName>Create_Update_Delegate_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create_Update_Delegate_Info</shortDescription>
+        <value>We see that you have changed some information. Please confirm whether you are trying to update the existing delegate or create a new primary delegate</value>
     </labels>
     <labels>
         <fullName>Create_Users_Allow_Several_Minutes</fullName>
@@ -14468,6 +14489,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG Ref L Please select your referral source</shortDescription>
         <value>Please select your referral source</value>
+    </labels>
+	 <labels>
+        <fullName>PG_Ref_L_Primary_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Primary_Delegate_Information</shortDescription>
+        <value>Primary Delegate/Caregiver Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Primary_daytime_telephone_number</fullName>
