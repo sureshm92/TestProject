@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, hepler) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
@@ -10,7 +10,7 @@
         component.set('v.statesLVList', states);
         component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
         window.setTimeout(function(){
-            var charSize;
+            var charSize; 
         if((component.get('v.pe.Referral_Source__c') == 'PI') && component.get('v.pe.MRN_Id__c'))
         {
            charSize = component.get('v.pe.MRN_Id__c').length;
@@ -54,12 +54,12 @@
     },
 
     doCheckFields: function (component, event, helper) {
-        console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
+         console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
         console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
         console.log('doCheckFields');
         var helpText = component.find('helpText');
         var participant = component.get('v.participant');
-        var participantDelegate = component.get('v.participantDelegate');
+       // var participantDelegate = component.get('v.participantDelegate');
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
@@ -92,6 +92,44 @@
             : null;
         helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
         helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
+        var participantDelegateOld = component.get('v.participantDelegate');
+        let checkDuplicateDelegate;
+        console.log('>>participantDelegateOld>>'+JSON.stringify(participantDelegateOld));
+        
+        if(participantDelegateOld && participantDelegateOld.First_Name__c &&
+          participantDelegateOld.Last_Name__c &&
+          participantDelegateOld.Email__c)
+        {
+            var getAuraFromCalled = event.getSource();
+            if(getAuraFromCalled.getLocalId() == 'DelegateEmail' || 
+              getAuraFromCalled.getLocalId() == 'DelegateFirstName' ||
+              getAuraFromCalled.getLocalId() == 'DelegateLastName')
+            {
+                checkDuplicateDelegate  = true;
+            }
+        }
+        else if(participantDelegateOld && (!participantDelegateOld.First_Name__c ||
+          !participantDelegateOld.Last_Name__c ||
+          !participantDelegateOld.Email__c))
+        {
+            component.set('v.useThisDelegate', true);
+        }
+        if(component.get('v.fromActionParticipant')){
+        var DelegateEmail = component.find('DelegateEmail');
+        var DelegateEmailValue = DelegateEmail ? DelegateEmail.get('v.value') : null ; 
+        }
+        helper.checkValidEmail(DelegateEmail, DelegateEmailValue);
+        component.find('spinner').show(); 
+        if(checkDuplicateDelegate)
+        {
+         	helper.checkExistingValidDelegateEmail(component, event,DelegateEmail
+                                                   ,DelegateEmailValue,participantDelegateOld);
+        }
+         
+         var setTimeForEmail = setTimeout(function (){
+        var participantDelegate = component.get('v.participantDelegate');
+             
+        component.find('spinner').hide(); 
         if (pe.MRN_Id__c) {
             component.set('v.disableSourceId', true);
         } else {
@@ -114,6 +152,7 @@
         let isVisitPlanNotRequired = !component.get('v.visitPlanAvailable') || !visitPlanRequired;
         component.set('v.screeningRequired', screeningIdRequired);
         component.set('v.visitPlanRequired', visitPlanRequired);
+        console.log('>>dataStamp>>>'+dataStamp+'>>isFinalUpdate>>'+isFinalUpdate+'>>updateMode>>'+updateMode);
         if (updateMode && !isFinalUpdate && dataStamp) {
             var oldPE = JSON.parse(dataStamp);
             var isRemovedValue =
@@ -122,11 +161,11 @@
                 (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                 (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
                 needsGuardian ||
-                (oldPE.Participant__r.Phone__c && !participant.Phone__c.trim()) ||
+                /*(oldPE.Participant__r.Phone__c && !participant.Phone__c.trim())  || */
                 needsGuardian ||
                 (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c.trim()) ||
                 needsGuardian ||
-                (oldPE.Participant__r.Email__c && !participant.Email__c) ||
+              /*  (oldPE.Participant__r.Email__c && !participant.Email__c)  || */
                 (oldPE.Participant__r.Mailing_Country_Code__c &&
                     !participant.Mailing_Country_Code__c) ||
                 (stateRequired &&
@@ -139,26 +178,22 @@
                 (oldPE.MRN_Id__c && !pe.MRN_Id__c);
             console.log('IsRemovedValue', isRemovedValue);
             isValid = !isRemovedValue;
-            if (component.get('v.fromActionParticipant') && !isRemovedValue) {
-                console.log("component.get('v.fromActionParticipant') && !isRemovedValue");
-                console.log('isValid0' + isValid);
-                console.log('CHECK8', participantDelegate);
+            if (component.get('v.fromActionParticipant') && !isRemovedValue) { 
+                console.log('>>ParticipantEmail>>' +!participant.Email__c);
+                //checking the id of participant because from Apex controller we are sending an instance if Delegatenot found 
                 if (
-                    !participantDelegate &&
+                    !participantDelegate.Id &&
                     (!participant.Phone__c || !participant.Phone_Type__c || !participant.Email__c)
                 ) {
+                    
+                    console.log('CHECK00>>', participantDelegate);
                     console.log(
-                        'CHECK0',
-                        !needsGuardian &&
-                            !participant.Phone__c &&
-                            !participant.Phone_Type__c &&
-                            !participant.Email__c
-                    );
-                    console.log('CHECK00', participantDelegate);
-                    console.log(
-                        'CHECK000',
+                        'CHECK000>>',
                         !participant.Phone__c && !participant.Phone_Type__c && !participant.Email__c
                     );
+                    if(!participantDelegate.Email__c.trim() || 
+                      !(component.find('DelegateEmail').get('v.validity').valid) ||
+					  !participantDelegate.Phone__c.trim())
                     isValid = false;
                 } else {
                     if (participant.Gender__c) {
@@ -187,13 +222,15 @@
                 }
                 if (
                     participantDelegate &&
-                    (!participantDelegate.Phone__c.trim() ||
-                        !participantDelegate.First_Name__c.trim() ||
-                        !participantDelegate.Last_Name__c.trim())
+                    ((participantDelegate.Phone__c && !participantDelegate.Phone__c.trim()) ||
+                      (participantDelegate.First_Name__c &&  !participantDelegate.First_Name__c.trim()) ||
+                       (participantDelegate.Last_Name__c && !participantDelegate.Last_Name__c.trim()) 
+                    )
                 ) {
                     isValid = false;
+                    console.log('isValid22>>' + isValid);
                 }
-                console.log('isValid1' + isValid);
+                console.log('isValid1>>?' + isValid);
             }
         } else if (updateMode && isFinalUpdate) {
             isValid =
@@ -247,8 +284,7 @@
 
             //(!stateRequired || (stateRequired && (participant.Mailing_State_Code__c !== '' || participant.Mailing_State_Code__c !== undefined || participant.Mailing_State_Code__c !== null)));
         } else if (!updateMode) {
-            debugger;
-
+          //  debugger;
             isValid =
                 helper.checkValidEmail(emailParticipantCmp, participant.Email__c) &&
                 helper.checkValidEmail(emailParticipantReapetCmp, emailParticipantRepeat);
@@ -300,9 +336,9 @@
                             (emailParticipantRepeat &&
                                 participant.Email__c &&
                                 component.find('emailInput').get('v.validity').valid)) &&
-                        (!participantDelegate || participantDelegate.Phone__c.trim()) &&
-                        (!participantDelegate || participantDelegate.First_Name__c.trim()) &&
-                        (!participantDelegate || participantDelegate.Last_Name__c.trim()) &&
+                        (!participantDelegate || (participantDelegate.phone__c && participantDelegate.Phone__c.trim())) &&
+                        (!participantDelegate || (participantDelegate.First_Name__c && participantDelegate.First_Name__c.trim())) &&
+                        (!participantDelegate || (participantDelegate.Last_Name__c && participantDelegate.Last_Name__c.trim())) &&
                         participant.Mailing_Zip_Postal_Code__c &&
                         pe &&
                         pe.Participant_Status__c &&
@@ -316,21 +352,121 @@
                 isValid = false;
             }
         }
+        console.log('>>isvalid before>>'+isValid)  ;  
+        var ParticipantEmailField = component.find('emailInputParticipant');
+        var ParticipantPhoneField = component.find("phoneInputParticipant");
+        console.log('>>>participant>>>'+JSON.stringify(participant)); 
+        var completeInfoField = $A.get("$Label.c.Complete_field_Info");
+             
+       if(participant.Adult__c && !$A.util.isEmpty(ParticipantPhoneField)
+             && !$A.util.isEmpty(ParticipantEmailField)){
+          if((!participant.Email__c || (!participant.Email__c && !participant.Email__c.trim())) 
+              && (participantDelegate && (!participantDelegate.Email__c.trim() || 
+              !(component.find('DelegateEmail').get('v.validity').valid)))){
+                isValid = false;
+             	ParticipantEmailField.setCustomValidity(completeInfoField);
+             }
+            else{
+                    ParticipantEmailField.setCustomValidity('');                      
+              } 
+        if((!participant.Phone__c || (!participant.Phone__c && !participant.Phone__c.trim()))
+            && (participantDelegate &&
+            !participantDelegate.Phone__c.trim())){
+            isValid = false;
+            ParticipantPhoneField.setCustomValidity(completeInfoField);
+        	}
+        else{
+         	 ParticipantPhoneField.setCustomValidity('');
+         }
+         ParticipantEmailField.reportValidity();
+		 ParticipantPhoneField.reportValidity(); 
+     } 
 
-        if (!component.find('emailInput').get('v.validity').valid) {
+       /* if (!component.find('emailInput').get('v.validity').valid) {
             console.log('EMAILAIF');
             isValid = false;
-        }
+        } */
         if (participant.Alternative_Phone_Number__c && !participant.Alternative_Phone_Type__c) {
             isValid = false;
         }
         if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
             isValid = false;
         }
-        if (participant.Phone__c && !participant.Phone_Type__c) {
+       /* if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
-        }
+        } */   
+         console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
 
+        if(component.get('v.fromActionParticipant')){
+            var DelegateFnameField = component.find('DelegateFirstName');
+            var DelegateLnameField = component.find('DelegateLastName');
+            var DelegateEmailField = component.find('DelegateEmail');
+            var DelegatePhoneField = component.find('DelegatePhoneName'); 
+                 if(!participant.Adult__c)
+                 {
+                     if(!participantDelegate.Phone__c.trim() ||
+                       !participantDelegate.First_Name__c.trim() ||
+                      !participantDelegate.Last_Name__c.trim() ||
+                      !participantDelegate.Email__c.trim() || 
+                      !(component.find('DelegateEmail').get('v.validity').valid)){
+                         isValid = false;
+                     }
+                 }
+            else {
+                if(!(!participantDelegate.Phone__c.trim() &&
+                   !participantDelegate.First_Name__c.trim() &&
+                   !participantDelegate.Last_Name__c.trim() &&
+                   !participantDelegate.Email__c.trim())){
+                    if($A.util.isEmpty(participantDelegate.Phone__c.trim()))
+                    {
+                         DelegatePhoneField.setCustomValidity(completeInfoField);
+                        isValid = false;
+                    }
+                    else{
+                        DelegatePhoneField.setCustomValidity('');
+                    }
+                    if($A.util.isEmpty(participantDelegate.First_Name__c.trim()))
+                    {
+                         DelegateFnameField.setCustomValidity(completeInfoField);
+                        isValid = false;
+                    }
+                     else{
+                        DelegateFnameField.setCustomValidity('');
+                    }
+                    if($A.util.isEmpty(participantDelegate.Last_Name__c.trim()))
+                    {
+                        DelegateLnameField.setCustomValidity(completeInfoField);
+                        isValid = false;
+                    }
+                     else{
+                        DelegateLnameField.setCustomValidity('');
+                    }
+                    if($A.util.isEmpty(participantDelegate.Email__c.trim()))
+                    {
+                        DelegateEmailField.setCustomValidity(completeInfoField);
+                        isValid = false;
+                    }
+                     else if(!(component.find('DelegateEmail').get('v.validity').valid)){
+                          isValid = false;
+                        
+                    }
+                         else{
+                             DelegateEmailField.setCustomValidity('');
+                         }
+                }
+                else{
+                   DelegatePhoneField.setCustomValidity(''); 
+                    DelegateFnameField.setCustomValidity('');
+                    DelegateLnameField.setCustomValidity('');
+                    DelegateEmailField.setCustomValidity('');
+                }
+                DelegatePhoneField.reportValidity();
+                    DelegateFnameField.reportValidity();
+                    DelegateLnameField.reportValidity();
+                    DelegateEmailField.reportValidity();
+            }
+           
+   		}
         component.set('v.isValid', isValid);
         console.log('isValid5' + isValid);
 
@@ -340,6 +476,8 @@
         }
 
         return isValid;
+         },checkDuplicateDelegate == true ? 2000 : 0);
+       
     },
 
     doCheckDateOfBith: function (component, event, helper) {
@@ -405,5 +543,10 @@
 
     hideHelp: function (component) {
         component.set('hideHelp', false);
-    }
+    },
+    
+     approveDelegate: function (component, event, helper) {
+          component.set('v.isEmailConfrmBtnClick',true);
+        component.set('v.useThisDelegate', true); 
+    },
 });

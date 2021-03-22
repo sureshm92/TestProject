@@ -251,45 +251,45 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 
                 
 
-                FirstName = headerIndexes.get('FIRST NAME') != null &&
-                    csvRecordData[headerIndexes.get('FIRST NAME')] != null
-                    ? csvRecordData[headerIndexes.get('FIRST NAME')].trim()
+                FirstName = headerIndexes.get('PARTICIPANT FIRST NAME') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT FIRST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT FIRST NAME')].trim()
                     : '';
-                MiddleName = headerIndexes.get('MIDDLE NAME') != null &&
-                    csvRecordData[headerIndexes.get('MIDDLE NAME')] != null
-                    ? csvRecordData[headerIndexes.get('MIDDLE NAME')].trim()
+                MiddleName = headerIndexes.get('PARTICIPANT MIDDLE NAME') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT MIDDLE NAME')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT MIDDLE NAME')].trim()
                     : '';
-                LastName = headerIndexes.get('LAST NAME') != null &&
-                    csvRecordData[headerIndexes.get('LAST NAME')] != null
-                    ? csvRecordData[headerIndexes.get('LAST NAME')].trim()
+                LastName = headerIndexes.get('PARTICIPANT LAST NAME') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT LAST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT LAST NAME')].trim()
                     : '';
-                Nickname = headerIndexes.get('NICKNAME') != null &&
-                    csvRecordData[headerIndexes.get('NICKNAME')] != null
-                    ? csvRecordData[headerIndexes.get('NICKNAME')].trim()
+                Nickname = headerIndexes.get('PARTICIPANT NICKNAME') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT NICKNAME')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT NICKNAME')].trim()
                     : '';
-                Sex = headerIndexes.get('SEX') != null &&
-                    csvRecordData[headerIndexes.get('SEX')] != null
-                    ? csvRecordData[headerIndexes.get('SEX')].trim()
+                Sex = headerIndexes.get('PARTICIPANT SEX') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT SEX')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT SEX')].trim()
                     : null;
-                DateOfBirth = headerIndexes.get('DATE OF BIRTH') != null &&
-                    csvRecordData[headerIndexes.get('DATE OF BIRTH')] != null
-                    ? csvRecordData[headerIndexes.get('DATE OF BIRTH')].trim()
+                DateOfBirth = headerIndexes.get('PARTICIPANT DATE OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT DATE OF BIRTH')].trim()
                     : null;
-                EmailAddress = headerIndexes.get('EMAIL ADDRESS') != null &&
-                    csvRecordData[headerIndexes.get('EMAIL ADDRESS')] != null
-                    ? csvRecordData[headerIndexes.get('EMAIL ADDRESS')].trim()
+                EmailAddress = headerIndexes.get('PARTICIPANT EMAIL ADDRESS') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT EMAIL ADDRESS')].trim()
                     : null;
-                Phone = headerIndexes.get('PHONE') != null &&
-                    csvRecordData[headerIndexes.get('PHONE')] != null
-                    ? csvRecordData[headerIndexes.get('PHONE')].trim()
+                Phone = headerIndexes.get('PARTICIPANT PHONE') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT PHONE')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT PHONE')].trim()
                     : null;
                 PhoneType = headerIndexes.get('PHONE TYPE') != null &&
                     csvRecordData[headerIndexes.get('PHONE TYPE')] != null
                     ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim()
                     : null;
-                Phone2 = headerIndexes.get('ALTERNATIVE PHONE') != null &&
-                    csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')] != null
-                    ? csvRecordData[headerIndexes.get('ALTERNATIVE PHONE')].trim()
+                Phone2 = headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE')].trim()
                     : null;
                 PhoneType2 = headerIndexes.get('ALT. PHONE TYPE') != null &&
                     csvRecordData[headerIndexes.get('ALT. PHONE TYPE')] != null
@@ -309,25 +309,25 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     : null;
 
                 //Picking Delegate information
-                DelegateFirstName = headerIndexes.get('DELEGATE FIRST NAME') != null &&
-                    csvRecordData[headerIndexes.get('DELEGATE FIRST NAME')] != null
-                    ? csvRecordData[headerIndexes.get('DELEGATE FIRST NAME')].trim()
+                DelegateFirstName = headerIndexes.get('PRIMARY DELEGATE FIRST NAME') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE FIRST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE FIRST NAME')].trim()
                     : null;
-                DelegateLastName = headerIndexes.get('DELEGATE LAST NAME') != null &&
-                    csvRecordData[headerIndexes.get('DELEGATE LAST NAME')] != null
-                    ? csvRecordData[headerIndexes.get('DELEGATE LAST NAME')].trim()
+                DelegateLastName = headerIndexes.get('PRIMARY DELEGATE LAST NAME') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE LAST NAME')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE LAST NAME')].trim()
                     : null;
-                DelegateEmail = headerIndexes.get('DELEGATE EMAIL') != null &&
-                    csvRecordData[headerIndexes.get('DELEGATE EMAIL')] != null
-                    ? csvRecordData[headerIndexes.get('DELEGATE EMAIL')].trim()
+                DelegateEmail = headerIndexes.get('PRIMARY DELEGATE EMAIL') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE EMAIL')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE EMAIL')].trim()
                     : null;
-                DelegatePhoneNo = headerIndexes.get('DELEGATE PHONE NUMBER') != null &&
-                    csvRecordData[headerIndexes.get('DELEGATE PHONE NUMBER')] != null
-                    ? csvRecordData[headerIndexes.get('DELEGATE PHONE NUMBER')].trim()
+                DelegatePhoneNo = headerIndexes.get('PRIMARY DELEGATE PHONE NUMBER') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE NUMBER')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE NUMBER')].trim()
                     : null;
-                DelegatePhoneType = headerIndexes.get('DELEGATE PHONE TYPE') != null &&
-                    csvRecordData[headerIndexes.get('DELEGATE PHONE TYPE')] != null
-                    ? csvRecordData[headerIndexes.get('DELEGATE PHONE TYPE')].trim()
+                DelegatePhoneType = headerIndexes.get('PRIMARY DELEGATE PHONE TYPE') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')].trim()
                     : null;
 
                 if (!String.isEmpty(EmailAddress)) {
@@ -571,30 +571,32 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     if(createParticipant){
                         Boolean hasDelegateErrors = false;
+                        Boolean isDelegateAvailable = false;
                         if(!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName)) {
-                        String regexExclude = System.Label.RH_Email_Invalid_Characters;
-                        String regexInclude = System.Label.RH_Email_Validation_Pattern;
-                        Boolean isValidEmail;
-                        Pattern regexExcludePattern = Pattern.compile(regexExclude);
-                        Pattern regexIncludePattern = Pattern.compile(regexInclude);
-                        Matcher regexExcludeMatcher = regexExcludePattern.matcher(DelegateEmail);
-                        Matcher regexIncludeMatcher = regexIncludePattern.matcher(DelegateEmail);
-                        if (regexExcludeMatcher.find()) {
-                            hasDelegateErrors = true;
-                            listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Delegate Email');
-                            } else if (!regexIncludeMatcher.find()) {
+                            isDelegateAvailable = true;
+                            String regexExclude = System.Label.RH_Email_Invalid_Characters;
+                            String regexInclude = System.Label.RH_Email_Validation_Pattern;
+                            Boolean isValidEmail;
+                            Pattern regexExcludePattern = Pattern.compile(regexExclude);
+                            Pattern regexIncludePattern = Pattern.compile(regexInclude);
+                            Matcher regexExcludeMatcher = regexExcludePattern.matcher(DelegateEmail);
+                            Matcher regexIncludeMatcher = regexIncludePattern.matcher(DelegateEmail);
+                            if (regexExcludeMatcher.find()) {
                                 hasDelegateErrors = true;
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: invalid field - Delegate Email');
+                                } else if (!regexIncludeMatcher.find()) {
+                                    hasDelegateErrors = true;
 
-                                listOfFailedRecordsWithMsg.add(
-                                    '' +
-                                    totalRecordCount +
-                                    ', ' +
-                                    'ERROR: invalid field - Delegate Email'
-                                );
-                            }
+                                    listOfFailedRecordsWithMsg.add(
+                                        '' +
+                                        totalRecordCount +
+                                        ', ' +
+                                        'ERROR: invalid field - Delegate Email'
+                                    );
+                                }
                         }
 
-                        if (!hasDelegateErrors) {
+                        if (!hasDelegateErrors && isDelegateAvailable) {
                             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper delegateWrap = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
                             delegateWrap.DelegateFirstName = DelegateFirstName;
                             delegateWrap.DelegateLastName = DelegateLastName;

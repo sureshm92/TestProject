@@ -113,7 +113,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static Participant_Enrollment__c updatePatientInfoWithDelegate(
+    public static DelegateInfo updatePatientInfoWithDelegate(
         String participantJSON,
         String peJSON,
         String delegateJSON,
@@ -131,27 +131,119 @@ public without sharing class ParticipantInformationRemote {
         ];
         pe.Participant__r.Adult__c = part.Adult__c;
         pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
+        
+        DelegateInfo objDelegateInfo = new DelegateInfo();
+		objDelegateInfo.particpantEnrollment =  pe;
 
         if (!String.isBlank(delegateJSON)) {
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(
                 delegateJSON,
                 Participant__c.class
             );
-            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
+            ID perAccountId = [SELECT ID,Study_Site__c,Study_Site__r.Site__c From Participant_Enrollment__c 
+                           WHERE ID=:pe.Id].Study_Site__r.Site__c;
+            Contact objcon ; 
+            if(String.isBlank(delegateParticipant.Id))
+            {
+                 objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
+                                             LastName = delegateParticipant.Last_Name__c,
+                                             Email = delegateParticipant.Email__c,
+                                             Phone = delegateParticipant.Phone__c,
+                                             userCommunytyType__c = 'Participant',
+                                             userCommunityMode__c = 'Participant',
+                                             AccountId = perAccountId);
+                insert objcon;
+                delegateParticipant.Contact__c = objcon.id;
+                delegateParticipant.Site__c = perAccountId;
+            }
+            system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
+            //system.debug('>>exxce>>>'+0/0);
+            if (delegateParticipant != null) {
+                try {
+                    if(String.isNotBlank(delegateParticipant.First_Name__c)
+                       && String.isNotBlank(delegateParticipant.Last_Name__c) && String.isNotBlank(delegateParticipant.Email__c))
+                    upsert delegateParticipant;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+            Id participantConId = [SELECT Contact__c,id from Participant__c where id=:delegateParticipant.id].contact__c;
+            Map<Id,Patient_Delegate__c> mapParticipantIdToPatientDelegate = new Map<Id,Patient_Delegate__c> (); 
+            for(Patient_Delegate__c objPateintDel : [SELECT ID,Participant__c,Contact__c,Primary_Delegate__c
+                                                    from Patient_Delegate__c  Where Participant__c = :pe.Participant__c])
+            {
+                if(objPateintDel.Contact__c == participantConId)
+                {
+                    if(String.isBlank(delegateParticipant.First_Name__c)
+                       && String.isBlank(delegateParticipant.Last_Name__c) && String.isBlank(delegateParticipant.Email__c))
+                    {
+                        objPateintDel.Primary_Delegate__c = false;
+                    }
+                    else{
+                        objPateintDel.Primary_Delegate__c = True;
+                    }
+                    
+                }
+                else{
+                    objPateintDel.Primary_Delegate__c = false;
+                }
+                    mapParticipantIdToPatientDelegate.put(objPateintDel.Contact__c,objPateintDel);
+                
+            }
+           system.debug('>>>mapParticipantIdToPatientDelegate before if>>'+mapParticipantIdToPatientDelegate.values());
+            if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
+            {
+                mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
+                                                                                                ,Primary_Delegate__c = True
+                                                                                                ,Participant__c=pe.Participant__c
+                                                                                                ,Status__c = 'Active'));
+            }  
+            system.debug('>>>mapParticipantIdToPatientDelegate>>'+mapParticipantIdToPatientDelegate.values());
+          //  system.debug('<>>exception>>>'+0/0);
+             if(!mapParticipantIdToPatientDelegate.isEmpty())  
+              upsert mapParticipantIdToPatientDelegate.values();
+                
+            
+            List<Participant__c> Primarydelegates = [
+                SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c
+                FROM Participant__c
+                WHERE
+                    Contact__c IN (
+                        SELECT Contact__c
+                        FROM Patient_Delegate__c
+                        WHERE
+                            Participant__c = :pe.Participant__c
+                           // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        	AND Primary_Delegate__c = TRUE
+                           )
+            ];
+           if(!Primarydelegates.isEmpty())
+            objDelegateInfo.DelegateParticipant  = Primarydelegates[0];
+           else
+           {
+              objDelegateInfo.DelegateParticipant =  new Participant__c(First_Name__c='',
+                                                                  Last_Name__c='',
+                                                                  Phone__c='',
+                                                                  Email__c='');
+           }
+               
+            
+          /*  if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
                     system.debug('No delegate was provided');
                 }
-            }
+            } */
         }
+        }
+    
         //If user is available then updated user language else update contact language
         if(userInfoJSON!=null){
            updateUserLanguage(userInfoJSON);
         }else{
             updateParticipantContactLanguage(contactInfoJSON); 
         }   
-        return pe;
+        return objDelegateInfo;
     }
 
     @AuraEnabled
@@ -1102,14 +1194,78 @@ public without sharing class ParticipantInformationRemote {
                 delegateJSON,
                 Participant__c.class
             );
-            if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
+            ID perAccountId = [SELECT ID,Study_Site__c,Study_Site__r.Site__c From Participant_Enrollment__c 
+                           WHERE ID=:pe.Id].Study_Site__r.Site__c;
+            Contact objcon ; 
+            if(String.isBlank(delegateParticipant.Id))
+            {
+                 objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
+                                             LastName = delegateParticipant.Last_Name__c,
+                                             Email = delegateParticipant.Email__c,
+                                             Phone = delegateParticipant.Phone__c,
+                                             userCommunytyType__c = 'Participant',
+                                             userCommunityMode__c = 'Participant',
+                                             AccountId = perAccountId);
+                insert objcon;
+                delegateParticipant.Contact__c = objcon.id;
+                delegateParticipant.Site__c = perAccountId;
+            }
+            system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
+            //system.debug('>>exxce>>>'+0/0);
+            
+            if (delegateParticipant != null) {
+                try {
+                     if(String.isNotBlank(delegateParticipant.First_Name__c)
+                       && String.isNotBlank(delegateParticipant.Last_Name__c) && String.isNotBlank(delegateParticipant.Email__c))
+                    upsert delegateParticipant;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+             system.debug('>>delegateParticipant>>'+delegateParticipant);
+             Id participantConId = [SELECT Contact__c,id from Participant__c where id=:delegateParticipant.id].contact__c;
+                
+            
+            Map<Id,Patient_Delegate__c> mapParticipantIdToPatientDelegate = new Map<Id,Patient_Delegate__c> (); 
+            for(Patient_Delegate__c objPateintDel : [SELECT ID,Participant__c,Contact__c,Primary_Delegate__c
+                                                    from Patient_Delegate__c  Where Participant__c = :pe.Participant__c])
+            {
+                if(objPateintDel.Contact__c == participantConId)
+                {
+                    if(String.isBlank(delegateParticipant.First_Name__c)
+                       && String.isBlank(delegateParticipant.Last_Name__c) && String.isBlank(delegateParticipant.Email__c))
+                    {
+                        objPateintDel.Primary_Delegate__c = false;
+                    }
+                    else{
+                        objPateintDel.Primary_Delegate__c = True;
+                    }
+                }
+                else{
+                    objPateintDel.Primary_Delegate__c = false;
+                }
+                    mapParticipantIdToPatientDelegate.put(objPateintDel.Contact__c,objPateintDel);
+                
+            }
+            if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
+            {
+                mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
+                                                                                                ,Primary_Delegate__c = True
+                                                                                                ,Participant__c=pe.Participant__c
+                                                                                                ,Status__c = 'Active'));
+            }  
+             if(!mapParticipantIdToPatientDelegate.isEmpty())  
+              upsert mapParticipantIdToPatientDelegate.values();
+               
+            
+          /*  if (delegateParticipant != null && !String.isBlank(delegateParticipant.Id)) {
                 try {
                     update delegateParticipant;
                 } catch (Exception exp) {
                     system.debug('No delegate was provided');
                 }
-            }
+            } */
         }
+       }
          //If user is available then updated user language else update contact language
         if(userInfoJSON!=null){
            updateUserLanguage(userInfoJSON);
@@ -1119,7 +1275,87 @@ public without sharing class ParticipantInformationRemote {
 
         return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
-
+    
+     @AuraEnabled
+    public static DelegateInfo checkExisitingParticipant(String strFirstName
+                                                        ,String strLastName,String strDelegateEmail,
+                                                        Id participantId)
+    {
+       // system.debug('>>coming in checking details>>'+0/0);
+       List<Participant__c> lstdelegateParticipants = [
+                    SELECT Id, First_Name__c,Email__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c
+                    FROM Participant__c
+                    WHERE
+                        (First_Name__c = :strFirstName
+                        OR First_Name__c = :strFirstName.toLowerCase())
+                        AND (Last_Name__c = :strLastName
+                        OR Last_Name__c = :strLastName.toLowerCase())
+                        AND (Email__c = :strDelegateEmail
+                        OR Email__c = :strDelegateEmail.toLowerCase())
+                ];
+        if(!lstdelegateParticipants.isEmpty())
+        {
+            Participant__c objTempParticipant = lstdelegateParticipants[0];
+            DelegateInfo objDelegate = new DelegateInfo();
+            objDelegate.PartcipantId = objTempParticipant.Id;
+            objDelegate.email = objTempParticipant.Email__c;
+            objDelegate.firstName = objTempParticipant.First_Name__c;
+            objDelegate.lastName = objTempParticipant.Last_Name__c;
+            objDelegate.isDuplicateDelegate = false;
+            
+            objDelegate.participantPhoneNumber = objTempParticipant.Phone__c;
+            objDelegate.DelegateParticipant = objTempParticipant;
+            List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(
+                        participantId,
+                		String.escapeSingleQuotes(strDelegateEmail),
+                        String.escapeSingleQuotes(strFirstName),
+                        String.escapeSingleQuotes(strLastName)
+                        
+                    );
+           
+            system.debug('>>>duplicateDelegates>>'+duplicateDelegates);
+          //  system.debug('>>>excepton>>'+0/0);
+                    if (!duplicateDelegates.isEmpty()) {
+                        objDelegate.isDuplicate = true;
+                    } else {
+                        objDelegate.isDuplicate = false;
+                    }
+            
+            return objDelegate;
+        }  
+        else return Null; 
+    }
+    
+     public static List<Patient_Delegate__c> checkDuplicatePDelegates(
+        String participantId,
+        String email,
+        String firstName,
+        String lastName
+    ) {
+        String duplicateDelegatesQuery =
+            'SELECT Id FROM Patient_Delegate__c WHERE Participant__c = \'' +
+            participantId +
+            '\' AND Contact__r.Email = \'' +
+            email +
+            '\'';
+        if (firstName != null)
+            duplicateDelegatesQuery +=
+                ' AND (Contact__r.FirstName = \'' +
+                firstName +
+                '\' OR Contact__r.FirstName = \'' +
+                firstName.toLowerCase() +
+                '\')';
+        if (lastName != null)
+            duplicateDelegatesQuery +=
+                ' AND (Contact__r.LastName = \'' +
+                lastName +
+                '\' OR Contact__r.LastName = \'' +
+                lastName.toLowerCase() +
+                '\')';
+        duplicateDelegatesQuery += ' AND Primary_Delegate__c = True';
+        system.debug('>>>duplicateDelegates>>'+duplicateDelegatesQuery);
+        return Database.query(duplicateDelegatesQuery);
+    }
     //CC
     @AuraEnabled
     public static String updatePatientInfoAndStatusWithDelegateCC(
@@ -1325,9 +1561,19 @@ public without sharing class ParticipantInformationRemote {
         @AuraEnabled
         public String lastName { get; set; }
         @AuraEnabled
+        public Boolean isDuplicateDelegate { get; set; }
+        @AuraEnabled
         public Boolean isDuplicate { get; set; }
         @AuraEnabled
         public String contactId { get; set; }
+        @AuraEnabled
+        public String PartcipantId {get;set;}
+        @AuraEnabled
+        public String participantPhoneNumber {get;set;}
+        @AuraEnabled
+        public Participant__c DelegateParticipant {get;set;}
+        @AuraEnabled
+        public Participant_Enrollment__c particpantEnrollment {get;set;}
     }
 
     public class DelegateConnectedInfo {
