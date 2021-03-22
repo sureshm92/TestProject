@@ -176,7 +176,7 @@
                                                 <div class="icon" key={icon.Id}>
                                                     <template if:true={icon.Label__c}>
                                                         <span class="tooltiptext _ltr">
-                                                            {icon.Label__c}<br />{icon.Description__c}
+                                                            <span class="tooltiptitle">{icon.Label__c}</span><br/>{icon.Description__c}
                                                         </span>
                                                     </template>
                                                     <c-web-icon

@@ -371,6 +371,7 @@
         component.set('v.participant.Mailing_State_Code__c', null);
         component.set('v.participant.Mailing_State__c', null);
         component.checkFields();
+        $A.enqueueAction(component.get('c.doCheckDateOfBith'));
     },
 
     doStateChange: function (component, event, helper) {
@@ -385,6 +386,7 @@
             }
         }
         component.checkFields();
+        $A.enqueueAction(component.get('c.doCheckDateOfBith'));
     },
 
     doRefreshEmailInput: function (component, event, helper) {

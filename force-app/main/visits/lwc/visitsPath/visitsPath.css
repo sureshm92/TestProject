@@ -503,6 +503,12 @@ h2 {
     line-height: 1.5;
     padding: 1rem;
 }
+
+.icon .tooltiptitle {
+    font-size: 18px;
+    font-weight: 600;
+}
+
 .tooltiptext._rtl {
     right: -50%;
 }
