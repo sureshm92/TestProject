@@ -34,6 +34,20 @@ public without sharing class PatientDelegateTriggerHandler {
             createDelegateAssignmentNotification(newList);
         }
     }
+    
+    public class CreatePrimaryDelegateForMinor extends TriggerHandler{
+        public override void beforeInsert(List<SObject> newList){
+            checkPrimaryDelegate(newList);
+        }
+        
+        public override void beforeDelete(List<SObject> newList){
+            notDeletePrimaryDelegate(newList);
+        }
+        
+       // public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
+       //     updatePrimaryDelegate(newList,(Map<Id, Patient_Delegate__c>) oldMap);
+       // }
+    }
 
     public class CreateReactivatedNotification extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -45,7 +59,7 @@ public without sharing class PatientDelegateTriggerHandler {
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
-            participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
+            participantDelegate.Status__c = PATIENT_DELEGATE_DISCONNECTED_STATUS;
         }
     }
 
@@ -193,5 +207,86 @@ public without sharing class PatientDelegateTriggerHandler {
             List<Notification__c>.class
         );
         insert newNotifications;
+    }
+    
+     public static void checkPrimaryDelegate (List<Patient_Delegate__c> patientDelegates){
+        Map<Id, List<Patient_Delegate__c>> pdMap = new Map<Id, List<Patient_Delegate__c>>();
+        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c> ();
+        Set<Id> participantIdList = new Set<Id> ();
+        for(Patient_Delegate__c pd : patientDelegates){
+            participantIdList.add(pd.Participant__c);
+        }
+        For(Participant__c pList: [SELECT Id,Adult__c,(SELECT Id,Primary_Delegate__c
+                                                       FROM Participants__r)
+                                   FROM Participant__c
+                                   WHERE Id IN: participantIdList])
+        {
+            pdMap.put(pList.Id, pList.Participants__r); 
+        }
+        for(Id p : pdMap.keySet()){
+            for(Patient_Delegate__c pdList : patientDelegates){
+                if(pdList.Primary_Delegate__c == True){
+                    for(Patient_Delegate__c pdel: pdMap.get(p)){
+                        pdel.Primary_Delegate__c = False;
+                        updatedList.add(pdel);
+                    }
+                }
+            }
+        }
+        update updatedList;
+    }
+    
+    public static void notDeletePrimaryDelegate(List <Patient_Delegate__c> patientDelegates){
+        for(Patient_Delegate__c pd: patientDelegates){
+            if(pd.Primary_Delegate__c == True){
+                pd.addError('Cannot delete Primary Delegate');
+            }
+        }
+    }
+    
+    public static void updatePrimaryDelegate(
+        List<Patient_Delegate__c> patientDelegates,
+        Map<Id, Patient_Delegate__c> oldMap
+    ){
+        Map<Id, List<Patient_Delegate__c>> pdMap = new Map<Id, List<Patient_Delegate__c>>();
+        List<Patient_Delegate__c> updatedList = new List<Patient_Delegate__c> ();
+        List<Patient_Delegate__c> errorList = new List<Patient_Delegate__c> ();
+        Set<Id> participantIdList = new Set<Id> ();
+        for(Patient_Delegate__c pd : patientDelegates){
+            participantIdList.add(pd.Participant__c);
+        }
+        For(Participant__c pList: [SELECT Id,Adult__c,(SELECT Id,Primary_Delegate__c
+                                                       FROM Participants__r)
+                                   FROM Participant__c
+                                   WHERE Id IN: participantIdList])
+        {
+            pdMap.put(pList.Id, pList.Participants__r); 
+        }
+        for(Id p : pdMap.keySet()){
+            for(Patient_Delegate__c pdList : patientDelegates){
+                if(pdList.Primary_Delegate__c == True){
+                    if(oldMap.get(pdList.Id).Primary_Delegate__c == False ){
+                        for(Patient_Delegate__c pdel: pdMap.get(p)){
+                            pdel.Primary_Delegate__c = False;
+                            updatedList.add(pdel);
+                        }
+                        
+                    }   
+                }
+                else{
+                    if(oldMap.get(pdList.Id).Primary_Delegate__c == True ){
+                        pdList.addError('Select any other primary delegate');
+                        break;
+                    }
+                }
+                if(updatedList.contains(pdList)){
+                    integer a = updatedList.indexOf(pdList);
+                    updatedList.remove(a);
+                }
+            }
+        }
+        if(!updatedList.isEmpty()){
+            update updatedList;
+        }
     }
 }

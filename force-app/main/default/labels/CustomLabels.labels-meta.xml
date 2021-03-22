@@ -15720,6 +15720,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>No Date Entered</value>
     </labels>
     <labels>
+        <fullName>PP_DelegateAlreadyExists</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateAlreadyExists</shortDescription>
+        <value>Delegate already exists, please use the activate button to add the delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_DelegateTasks</fullName>
         <language>en_US</language>
         <protected>true</protected>
