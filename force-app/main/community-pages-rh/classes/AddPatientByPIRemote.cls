@@ -170,7 +170,7 @@ public without sharing class AddPatientByPIRemote {
             AuraHelper.throwException(e);
         }
     }
-
+ 
     @Future
     private static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
@@ -192,7 +192,7 @@ public without sharing class AddPatientByPIRemote {
             participantJSON,
             Participant__c.class
         );
-
+        Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         if (
             participant.Email__c != null &&
             participant.First_Name__c != null &&
@@ -200,43 +200,52 @@ public without sharing class AddPatientByPIRemote {
         ) {
             List<Participant__c> newPartcipantObjs = [
                 SELECT
-                    Id,
-                    First_Name__c,
-                    Last_Name__c,
-                    Suffix__c,
-                    Middle_Name__c,
-                    Nickname__c,
-                    Date_of_Birth__c,
-                    Gender__c,
-                    Email__c,
-                    Phone_Type__c,
-                    Phone__c,
-                    Mailing_Zip_Postal_Code__c,
-                    Mailing_Country_Code__c,
-                    Mailing_State_Code__c
+                Id,
+                First_Name__c,
+                Last_Name__c,
+                Suffix__c,
+                Middle_Name__c,
+                Nickname__c,
+                Date_of_Birth__c,
+                Gender__c,
+                Email__c,
+                Contact__c,
+                Phone_Type__c,
+                Phone__c,
+                Mailing_Zip_Postal_Code__c,
+                Mailing_Country_Code__c,
+                Mailing_State_Code__c
                 FROM Participant__c
                 WHERE
-                    Email__c = :participant.Email__c
-                    AND First_Name__c = :participant.First_Name__c
-                    AND Last_Name__c = :participant.Last_Name__c
+                Email__c = :participant.Email__c
+                AND First_Name__c = :participant.First_Name__c
+                AND Last_Name__c = :participant.Last_Name__c
+                LIMIT :limitRows
             ];
+            List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
-                Participant__c newPartcipantObj = newPartcipantObjs[0];
-                newPartcipantObj.First_Name__c = participant.First_Name__c;
-                newPartcipantObj.Last_Name__c = participant.Last_Name__c;
-                newPartcipantObj.Suffix__c = participant.Suffix__c;
-                newPartcipantObj.Middle_Name__c = participant.Middle_Name__c;
-                newPartcipantObj.Nickname__c = participant.Nickname__c;
-                newPartcipantObj.Date_of_Birth__c = participant.Date_of_Birth__c;
-                newPartcipantObj.Gender__c = participant.Gender__c;
-                newPartcipantObj.Email__c = participant.Email__c;
-                newPartcipantObj.Phone__c = participant.Phone__c;
-                newPartcipantObj.Phone_Type__c = participant.Phone_Type__c;
-                newPartcipantObj.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
-                newPartcipantObj.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
-                newPartcipantObj.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-
-                update newPartcipantObj;
+                for(Participant__c partici: newPartcipantObjs){                  
+                    if(partici.Date_of_Birth__c != null && partici.Date_of_Birth__c == participant.Date_of_Birth__c){
+                        partici.First_Name__c = participant.First_Name__c;
+                        partici.Last_Name__c = participant.Last_Name__c;
+                        partici.Suffix__c = participant.Suffix__c;
+                        partici.Middle_Name__c = participant.Middle_Name__c;
+                        partici.Nickname__c = participant.Nickname__c;
+                        partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                        partici.Gender__c = participant.Gender__c;
+                        partici.Email__c = participant.Email__c;
+                        partici.Phone__c = participant.Phone__c;
+                        partici.Phone_Type__c = participant.Phone_Type__c;
+                        partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                        partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                        partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                        participantPatient.add(partici);
+                    }
+                } 
+                if(!participantPatient.isEmpty()){
+                    update participantPatient;
+                }
+                
             }
         }
     }
@@ -373,6 +382,7 @@ public without sharing class AddPatientByPIRemote {
                     Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
+					ptDelegateRef.Primary_Delegate__c = true;
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                         .templateName;
                     if (

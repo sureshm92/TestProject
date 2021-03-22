@@ -869,6 +869,13 @@
         <shortDescription>BTN Confirm</shortDescription>
         <value>Confirm</value>
     </labels>
+	 <labels>
+        <fullName>BTN_Create_New_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Create_New_Delegate</shortDescription>
+        <value>Create New Delegate</value>
+    </labels>
     <labels>
         <fullName>BTN_Create_New_Task</fullName>
         <language>en_US</language>
@@ -1386,6 +1393,13 @@
         <protected>false</protected>
         <shortDescription>BTN Undo exclusion and refer to this study</shortDescription>
         <value>Undo exclusion and refer to this study</value>
+    </labels>
+	 <labels>
+        <fullName>BTN_Updating_Existing_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BTN_Updating_Existing_Delegate</shortDescription>
+        <value>Update Existing Delegate</value>
     </labels>
     <labels>
         <fullName>BTN_Upload_Patient</fullName>
@@ -3370,6 +3384,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Complete By</value>
     </labels>
     <labels>
+        <fullName>Complete_field_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Complete_field_Info</shortDescription>
+        <value>Complete this field</value>
+    </labels>
+    <labels>
         <fullName>Contact_Attempted</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3483,6 +3504,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>Create</shortDescription>
         <value>Create</value>
+    </labels>
+	 <labels>
+        <fullName>Create_Update_Delegate_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Create_Update_Delegate_Info</shortDescription>
+        <value>We see that you have changed some information. Please confirm whether you are trying to update the existing delegate or create a new primary delegate</value>
     </labels>
     <labels>
         <fullName>Create_Users_Allow_Several_Minutes</fullName>
@@ -5164,22 +5192,22 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Task Reminder Type Not Selected</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of your upcoming task:&lt;/span&gt;
 
-##TaskName
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
-&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Task_Reminder_Type_Not_Selected_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&#39;s task:
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&#39;s task:&lt;/span&gt;
 
-##TaskName
+&lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
-&lt;div&gt;Due Date &amp; Time: &lt;span &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;&lt;/span&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span  style=&quot;color:black;&quot;&gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Trial_Alert</fullName>
@@ -5233,22 +5261,22 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a an email to remind you of your upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
-If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt;If you are unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Visit_Task_Reminder_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
-&lt;div&gt;Visit Date &amp; Time : &lt;span style=&quot;font-size:24px;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
- If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
+&lt;span style=&quot;color:black;&quot;&gt; If ##ParticipantFirstName is unable to make this appointment, please contact the Study Team.  Please login for additional details.&lt;/span&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Welcome_to_Study_Delegate</fullName>
@@ -8725,6 +8753,34 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+    </labels>
+    <labels>
+        <fullName>MO_Print</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Print</shortDescription>
+        <value>Print</value>
+    </labels>
+    <labels>
+        <fullName>MO_RTL_Radio</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_RTL_Radio</shortDescription>
+        <value>Radio</value>
+    </labels>
+    <labels>
+        <fullName>MO_Social_Media</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO Social Media</shortDescription>
+        <value>Social Media</value>
+    </labels>
+    <labels>
+        <fullName>MO_Television</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Television</shortDescription>
+        <value>Television</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -13714,7 +13770,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG NTM L Already Exists</shortDescription>
-        <value>already exists.  Name populated from existing database values.</value>
+        <value>already exists.</value>
     </labels>
     <labels>
         <fullName>PG_NTM_L_Permission_level_will_apply_to_all_studies</fullName>
@@ -14440,6 +14496,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG Ref L Please select your referral source</shortDescription>
         <value>Please select your referral source</value>
+    </labels>
+	 <labels>
+        <fullName>PG_Ref_L_Primary_Delegate_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Primary_Delegate_Information</shortDescription>
+        <value>Primary Delegate/Caregiver Information</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Primary_daytime_telephone_number</fullName>
@@ -15657,6 +15720,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>No Date Entered</value>
     </labels>
     <labels>
+        <fullName>PP_DelegateAlreadyExists</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DelegateAlreadyExists</shortDescription>
+        <value>Delegate already exists, please use the activate button to add the delegate.</value>
+    </labels>
+    <labels>
         <fullName>PP_DelegateTasks</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16001,6 +16071,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_RequiredErrorMessage</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_RequiredErrorMessage</shortDescription>
+        <value>Complete this field.</value>
+    </labels>
+    <labels>
         <fullName>PP_Save_Changes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16041,7 +16118,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Task Success Toast</shortDescription>
-        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.</value>
+        <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Time_Unavailable</fullName>

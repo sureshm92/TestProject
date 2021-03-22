@@ -4,5 +4,6 @@ public with sharing class ContentDocumentTriggerHandler extends TriggerHandler {
             ContentDocumentLinkService.class
         );
         contentDocumentLinkService.removeURLsFromImagesOnResources(oldList);
+        contentDocumentLinkService.deleteFileNamesAndCalculateSize(oldList); //REF-3232
     }
 }

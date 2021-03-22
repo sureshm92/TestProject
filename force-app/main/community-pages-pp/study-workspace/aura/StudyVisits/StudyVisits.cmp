@@ -101,7 +101,7 @@
                                     </aura:set>
                                 </aura:if>
                             </td>
-                            <td class="">
+                            <td class="sv-t-visittime">
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
                                 >

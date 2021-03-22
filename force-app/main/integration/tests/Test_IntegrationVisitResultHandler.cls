@@ -123,7 +123,7 @@ private class Test_IntegrationVisitResultHandler {
 			USUBJID__c = '1~2~3',
 			VISIT__c = 'New Visit',
 			VSDTC__c = Date.today(),
-			TESTCD__c = 'ICOS',
+			TESTCD__c = 'ICOSP',
 			Vital_or_Lab__c = 'Biomarker',
 			STUDYID__c = '10',
 			STRESN__c = 1,
