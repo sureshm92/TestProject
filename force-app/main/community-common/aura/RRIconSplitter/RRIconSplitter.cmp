@@ -30,7 +30,7 @@
                         <div class="icon" style="{!'background-color: ' + v.backgroundColor}">
                             <aura:if isTrue="{!and(icon.Label__c!='',icon.Label__c!=null)}">
                                 <span class="{!v.boolRTL?'rtl tooltiptext':'tooltiptext'}">
-                                    <div class="tooltiptitle">{!icon.Label__c}</div>{!icon.Description__c}
+                                    <span class="tooltiptitle">{!icon.Label__c}</span><br/>{!icon.Description__c}
                                 </span>
                             </aura:if>
                             <c:RRIcon
