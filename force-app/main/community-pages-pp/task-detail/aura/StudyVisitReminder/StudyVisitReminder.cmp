@@ -618,7 +618,7 @@
                     </div> </aura:if>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div style="margin-left: -20px;margin-top:-10px;" class="{!if(v.showVendors,'tbl',' ')}">
+                            <div class="{!if(v.showVendors,'tbl',' ')}">
                                 <c:visitTravelDetails
                                     vname="{!v.visitData.visit.Name}"
                                     vnum="{!v.visitData.visit.Visit_Number__c}"
@@ -628,7 +628,7 @@
                                 </c:visitTravelDetails>
                             </div>
                             <aura:set attribute="else">
-                                <div style="margin-left: -20px;margin-top:-10px;">
+                                <div>
                                     <c:visitTravelDetails
                                         vname="{!v.visitData.visit.Name}"
                                         vnum="{!v.visitData.visit.Visit_Number__c}"
