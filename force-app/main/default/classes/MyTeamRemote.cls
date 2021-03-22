@@ -715,6 +715,12 @@ public without sharing class MyTeamRemote {
         }
         return hasDelegateLevels;
     }
+    @AuraEnabled
+    public static Boolean isExistingDelegate(String delegate){
+        Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
+        return PatientDelegateService.getInstance().delegateAlreadyExists(contactDelegate);
+        
+    }
 
     @AuraEnabled
     public static void savePatientDelegate(String delegate) {

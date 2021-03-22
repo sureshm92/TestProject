@@ -50,8 +50,7 @@
         <div class="slds-coll slds-size--2-of-12 formatForMobile">{!$Label.c.Library_Format}</div>
         <div class="slds-coll slds-size--2-of-12">{!$Label.c.Library_Version_Date}</div>
     </div>
-    <div  style="{!v.isRTL? 'direction:rtl' :''}">
-        <div class="rr-white-panel" style="margin-top: 0px">
+     <div class="rr-white-panel" style="{!if(v.isRTL, 'direction: rtl;','')}" >
             <lightning:accordion
                                  aura:id="accordion"
                                  allowMultipleSectionsOpen="true"
@@ -166,6 +165,5 @@
                     </lightning:accordionSection>
                 </aura:iteration>
             </lightning:accordion>
-        </div>
     </div>
 </aura:component>

@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
-({
+ ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -163,6 +163,19 @@
         // if(component.get('v.isInvited')){
         //     communityService.executeAction(component, 'updateUserLanguage', {userJSON: JSON.stringify(userInfo)})
         // }
+        var participantDelegateUseExisiting = component.get('v.participantDelegateUseExisiting');
+       if(!$A.util.isEmpty(component.get('v.BtnClicked')))
+       {
+            if(component.get('v.BtnClicked') == 'newRecord'){
+                component.set('v.participantDelegate.Id',null);
+            }
+           else if( component.get('v.BtnClicked') == 'useExistingRecord'){
+               component.set('v.participantDelegate.Id',participantDelegateUseExisiting.Id);
+               component.set('v.participantDelegate.Contact__c',participantDelegateUseExisiting.Contact__c);
+           }  
+           
+       }
+        console.log('>>>>participantDeegtae beforesve called>>>'+component.get('v.participantDelegate'));
         communityService.executeAction(
             component,
             'updatePatientInfoWithDelegate',
@@ -181,9 +194,13 @@
                 if (callback) {
                     callback(pe);
                 }
-                component.set('v.pe', returnvalue);
-				helper.setPopUpName(component, returnvalue);				
-                component.set('v.participant', returnvalue.Participant__r);
+                console.log('>>returnValuefromSave>>'+JSON.stringify(returnvalue));
+                console.log('>>returnValuefromSave participan>>'+JSON.stringify(returnvalue.particpantEnrollment.Participant__r));
+                component.set('v.pe', returnvalue.particpantEnrollment);
+				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
+                component.set('v.participant', returnvalue.particpantEnrollment.Participant__r);
+                if(!$A.util.isEmpty(returnvalue.DelegateParticipant))
+                 component.set('v.participantDelegate', returnvalue.DelegateParticipant);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -306,6 +323,17 @@
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
         }
+        var participantDelegateUseExisiting = component.get('v.participantDelegateUseExisiting');
+       if(!$A.util.isEmpty(component.get('v.BtnClicked')))
+       {
+            if(component.get('v.BtnClicked') == 'newRecord'){
+                component.set('v.participantDelegate.Id',null);
+            }
+           else if( component.get('v.BtnClicked') == 'useExistingRecord'){
+               component.set('v.participantDelegate.Id',participantDelegateUseExisiting.Id);
+               component.set('v.participantDelegate.Contact__c',participantDelegateUseExisiting.Contact__c);
+           }  
+       }
         component.find('spinner').show();
         var actionName;
         if (usermode == 'CC') {
