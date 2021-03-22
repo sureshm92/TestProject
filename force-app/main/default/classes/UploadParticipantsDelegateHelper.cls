@@ -23,6 +23,12 @@ public without sharing class UploadParticipantsDelegateHelper {
             delegateContact.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
             delegateContact.userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT;
             delegateContact.userCommunityIsDelegate__c = true;
+            delegateContact.MailingCountryCode = pWrapper.mainparticipant.Mailing_Country_Code__c;
+            delegateContact.MailingStateCode = pWrapper.mainparticipant.Mailing_State_Code__c;
+            delegateContact.MailingCountry = pWrapper.mainparticipant.Mailing_Country__c;
+            delegateContact.MailingState = pWrapper.mainparticipant.Mailing_State__c;
+            delegateContact.MailingPostalCode = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
+
             if('Home' == pWrapper.DelegatePhoneType) {
                 delegateContact.HomePhone = pWrapper.DelegatePhoneNo;
             }
@@ -41,8 +47,13 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Email__c = pWrapper.DelegateEmail;
             participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
             participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
-            /*if a Phone number has been provided for minor, we will use that as delegate phone number; addtionally, we have a Primary Delegate phone number - 
-            if one is provided there additionally, we will store it as alternate phone number for the delegate.*/
+            participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
+            participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
+            participantDelegate.Mailing_Country__c = pWrapper.mainparticipant.Mailing_Country__c;
+            participantDelegate.Mailing_State__c = pWrapper.mainparticipant.Mailing_State__c;
+            participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
+
+            /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
             if(!pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)) {
                 participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
                 participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
@@ -93,8 +104,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             else {
                 errorwrap.errorRecordCount++;
                 Database.Error error = saveRes[i].getErrors().get(0);
-                errorwrap.listOfFailedRecordsWithMsg.add('' +countIndex +', ERROR on Participant Contact record insert: ' +error.getFields() +' ' + error.getMessage() );
-                errorwrap.listOfFailedRecords.add(('' + csvLines.get(countIndex - 1)).removeStart('(').removeEnd(')') +', ' +countIndex);
+                errorwrap.listOfFailedRecordsWithMsg.add('' +countIndex +', ERROR on Delegate Contact record insert: ' +error.getFields() +' ' + error.getMessage() );
+                errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines,countIndex));
                 mapParticipant.remove(countIndex);
             }
         }
@@ -118,12 +129,12 @@ public without sharing class UploadParticipantsDelegateHelper {
                 errorwrap.listOfFailedRecordsWithMsg.add(
                                     '' +
                                     countIndexParticipant +
-                                    ', ERROR on Participant record insert: ' +
+                                    ', ERROR on Delegate Participant record insert: ' +
                                     error.getFields() +
                                     ' ' +
                                     error.getMessage()
                                 );
-                errorwrap.listOfFailedRecords.add(('' + csvLines.get(countIndexParticipant - 1)).removeStart('(').removeEnd(')') +', ' +countIndexParticipant);
+                errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines,countIndexParticipant));
                 mapParticipant.remove(countIndexParticipant);
             }
         }
@@ -158,8 +169,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                                         ' ' +
                                         error.getMessage()
                                     );
-                    errorwrap.listOfFailedRecords.add(
-                        ('' + csvLines.get(countIndexParticipant - 1)).removeStart('(').removeEnd(')') +', ' +countIndexParticipant);
+                    errorwrap.listOfFailedRecords.add(getCleanMessage(csvLines,countIndexParticipant));
                 }
             }
         }
@@ -181,6 +191,19 @@ public without sharing class UploadParticipantsDelegateHelper {
         }
        return errorwrap;
     }
+
+    //This is a genric method which will be used to resolve data truncation issue in output file.
+    public static String getCleanMessage(List<List<String>> csvString, Integer count){
+        String cleanMessage;
+        String strValue = '';
+        for(String str : csvString.get(count - 1))
+        {
+            strValue = String.isNotBlank(strValue) ? strValue + ',' +str : str;
+        }
+        cleanMessage = ('' + strValue).removeStart('(').removeEnd(')') + ', ' + count;
+        return cleanMessage;
+    }
+
 
     public class ErrorPatientDelegateWrapper {
         public SET<String> listOfFailedRecordsWithMsg = new Set<String>();
