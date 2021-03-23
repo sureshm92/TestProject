@@ -183,6 +183,7 @@ public without sharing class ReferringRemote {
                                   WHERE Clinical_Trial_Profile__c =: trialId AND 
                                   Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c = TRUE AND
                                   Resource__r.Resource_Type__c = 'Patient Authorization Template' AND
+                                  Visible_To_RP__c = TRUE AND
                                   (Resource__r.Language__c =: language OR Resource__r.Language__c = 'en_US')
                                   ORDER BY CreatedDate DESC ];
         Id resId;
