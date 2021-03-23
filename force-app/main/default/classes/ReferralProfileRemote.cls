@@ -135,8 +135,8 @@ public without sharing class ReferralProfileRemote {
                 throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
 
-            List<Participant__c> delegates = [
-                SELECT Id, First_Name__c, Last_Name__c, Phone__c
+           List<Participant__c> delegates = [
+                SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c
                 FROM Participant__c
                 WHERE
                     Contact__c IN (
@@ -144,12 +144,20 @@ public without sharing class ReferralProfileRemote {
                         FROM Patient_Delegate__c
                         WHERE
                             Participant__c = :pe.Participant__c
-                            AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                    )
+                           // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        	AND Primary_Delegate__c = TRUE
+                           )
             ];
-            if (!delegates.isEmpty())
+            system.debug('pe.Participant__c>>'+pe.Participant__c);
+            if (!delegates.isEmpty()){
                 initData.participantDelegate = delegates[0];
-
+           }
+            else {
+                initData.participantDelegate  = new Participant__c(First_Name__c='',
+                                                                  Last_Name__c='',
+                                                                  Phone__c='',
+                                                                  Email__c='');
+            }  
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
             if (initData.visitPlanLVList.size() == 1) {
                 initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;

@@ -3,7 +3,6 @@
     margin-left: 25px;
     margin-top: 13px;
     margin-bottom: 9px;
-    
 }
 
 .THIS.cLibrary.rr-white-panel {
@@ -11,10 +10,10 @@
     border-width: 0 1px 1px 1px;
     border-radius: 0 5px 5px 0;
 }
-.THIS.arabic {
-    direction: rtl;
-}
 
+.THIS .RTL {
+    direction: rtl
+}
 .THIS .slds-accordion__summary-heading > button > span {
     order: 2;
 }
@@ -29,8 +28,6 @@
     background-color: #f8f9fb;
     border-left: 1px solid #e9e9e9;
     border-right: 1px solid #e9e9e9;
-        direction: rtl;
-
 }
 
 .THIS .slds-accordion__summary-heading > button > lightning-primitive-icon {
@@ -167,7 +164,6 @@
 
     .THIS .slds-scrollable_y::-webkit-scrollbar:vertical {
         width: 1rem;
-        direction: rtl;
     }
 
     .THIS .slds-scrollable_y::-webkit-scrollbar-thumb {
@@ -229,7 +225,6 @@
         display: flex;
         flex-direction: column;
         padding: 1rem 0 1rem 25px;
-
     }
 
     .THIS.rr-white-panel .resource-container:first-child {

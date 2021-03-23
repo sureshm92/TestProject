@@ -36,6 +36,11 @@
     direction: rtl;
 }
 
+.THIS.rtl .apollo-btn.primary.dark .rr-icon-default {
+    margin-left: 10px;
+    margin-right: 0;
+}
+
 .THIS .cPSECard.rr-white-panel {
     padding: 16px;
 }

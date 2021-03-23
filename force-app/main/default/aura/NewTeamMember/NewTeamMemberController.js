@@ -90,6 +90,7 @@
             },
             function (returnValue) {
                 let contactData = JSON.parse(returnValue);
+                console.log('contactData',contactData);
                 let userMode = component.get('v.userMode');
                 let parentId = component.get('v.parentId');
                 component.set('v.delegate', contactData.delegates[0]);
@@ -180,7 +181,22 @@
         delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
 
         if (component.get('v.userMode') === 'Participant') {
+            console.log('JSON.stringify(delegate.delegateContact)'+JSON.stringify(delegate.delegateContact))
             communityService.executeAction(
+                component,
+                'isExistingDelegate',
+                {
+                    delegate: JSON.stringify(delegate.delegateContact)
+                },
+                function (returnValue) {
+                    component.set('v.isDelegateExisting',returnValue);
+                    if(component.get('v.isDelegateExisting')){
+                     communityService.showToast('error', 'error', $A.get('$Label.c.PP_DelegateAlreadyExists'));
+                     component.find('mainSpinner').hide();
+                      return ;
+                      }
+                    else{
+                        communityService.executeAction(
                 component,
                 'savePatientDelegate',
                 {
@@ -206,6 +222,13 @@
                     component.find('mainSpinner').hide();
                 }
             );
+                    }
+                },
+                function () {
+                    
+                }
+            );
+            
         } else
             component
                 .find('saveDelegateLevelChanges')
