@@ -468,11 +468,21 @@
                             class="{!'slds-col slds-size_1-of-1 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}"
                         >
                             <div class="label">
-                                {!$Label.c.PP_Visit_DateTime}<abbr
+                                <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                                    {!$Label.c.PP_Visit_Date}<abbr
                                     title="required"
                                     class="slds-required"
                                     >*</abbr
                                 >
+                                <aura:set attribute="else">
+                                    {!$Label.c.PP_Visit_DateTime}<abbr
+                                    title="required"
+                                    class="slds-required"
+                                    >*</abbr
+                                >
+                                 </aura:set>
+                                </aura:if>
+                                
                             </div>
                             <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
                                 <lightning:input
