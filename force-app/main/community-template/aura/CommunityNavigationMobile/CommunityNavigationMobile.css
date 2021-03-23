@@ -69,6 +69,109 @@
     overflow: hidden;
     text-overflow: ellipsis;
 }
+
+/* SIDEBAR MENU - SUBMENU */
+@media screen and (min-width: 769px) and (max-width: 1139px){
+
+    .THIS .cUiHeaderMenu.cCommunityResourcesNavigation {
+        display: flex;
+        flex-direction: column;
+        justify-content: flex-start;
+        width: 100%;
+    }
+
+    .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        border: none;
+        background-color: transparent;
+        box-shadow: none;
+        width: 100%;
+        color: #fff;
+        height: 90px;
+        position: static;
+        display: flex;
+        visibility: visible;
+        opacity: 1;
+        display: none;
+
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content.open .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        display: block;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content.open .cUiHeaderMenu .uiPopupTrigger .arrow-down{
+        transform: scaleY(-1);
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content:hover,
+    .THIS .nav-menu > .nav-menu-item-content:active {
+        background-color:transparent;
+        cursor: default;
+    }
+
+    .THIS .uiPopupTrigger {
+        padding-left: 60px;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content .uiPopupTrigger:hover,
+    .THIS .nav-menu > .nav-menu-item-content .uiPopupTrigger:active {
+        background-color: rgba(255, 255, 255, 0.15);
+        cursor: pointer;
+    }
+
+    .THIS .nav-menu>.nav-menu-item-content .navigation-icon.cRRIcon.rr-icon-default {
+        margin-left: 20px;
+        margin-top: 15px;
+        position: absolute;
+    }
+
+    .THIS .nav-menu > .nav-menu-item-content .navigation-icon.cRRIcon.rr-icon-default {
+        margin-left: 20px;
+    }
+
+    .THIS .cCommunityResourcesNavigation .header-menu-link {
+        padding: 16px 0;
+        justify-content: flex-start;
+    }
+
+    .THIS .cCommunityResourcesNavigation .header-menu-link:hover {
+        background-color: transparent;
+        cursor: default
+    }
+
+    .THIS .nav-menu-item-content span {
+        font-size: 13px;
+    }
+
+    .THIS .menu-popup-panel {
+        width: 100%;
+    }
+
+    .THIS .cUiHeaderMenu .menu-popup-panel ul li {
+        padding-left: 60px;
+        font-size: .875rem;
+    }
+
+    .THIS .cUiHeaderMenu .menu-popup-panel li:hover:not(.active) {
+        background: rgba(255, 255, 255, 0.15);
+    }
+
+    .THIS .menu-popup-panel ul li a{
+        color: #fff
+    }
+
+    .THIS .nav-menu-item-content {
+        display: flex;
+        align-items: flex-start;
+        position: relative;
+    }
+
+
+
+}
+
+
+
 @media screen and (max-width: 768px) {
     .THIS.rr-overlay {
         display: none;
