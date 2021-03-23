@@ -4,16 +4,16 @@
 
 public without sharing class Action_UploadParticipantsRemote {
     public static final List<String> HEADER_COLUMNS = new List<String>{
-        'FIRST NAME',
-        'MIDDLE NAME',
-        'LAST NAME',
-        'NICKNAME',
-        'SEX',
-        'DATE OF BIRTH',
-        'EMAIL ADDRESS',
-        'PHONE',
+        'PARTICIPANT FIRST NAME',
+        'PARTICIPANT MIDDLE NAME',
+        'PARTICIPANT LAST NAME',
+        'PARTICIPANT NICKNAME',
+        'PARTICIPANT SEX',
+        'PARTICIPANT DATE OF BIRTH',
+        'PARTICIPANT EMAIL ADDRESS',
+        'PARTICIPANT PHONE',
         'PHONE TYPE',
-        'ALTERNATIVE PHONE',
+        'PARTICIPANT ALTERNATIVE PHONE',
         'ALT. PHONE TYPE',
         //'STREET ADDRESS',
         //'CITY',
@@ -21,16 +21,16 @@ public without sharing class Action_UploadParticipantsRemote {
         'POSTAL CODE',
        // 'COUNTRY',
         'LANGUAGE',
-        'DELEGATE FIRST NAME',
-        'DELEGATE LAST NAME',
-        'DELEGATE EMAIL',
-        'DELEGATE PHONE NUMBER',
-        'DELEGATE PHONE TYPE'
+        'PRIMARY DELEGATE FIRST NAME',
+        'PRIMARY DELEGATE LAST NAME',
+        'PRIMARY DELEGATE EMAIL',
+        'PRIMARY DELEGATE PHONE NUMBER',
+        'PRIMARY DELEGATE PHONE TYPE'
     };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String>{
-        'FIRST NAME',
-        'LAST NAME',
-        'PHONE',
+        'PARTICIPANT FIRST NAME',
+        'PARTICIPANT LAST NAME',
+        'PARTICIPANT PHONE',
         'COUNTRY',
         'STATE',
         'POSTAL CODE'
