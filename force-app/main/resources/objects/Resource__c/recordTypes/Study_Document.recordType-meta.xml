@@ -1186,7 +1186,7 @@
             <fullName>Study Document</fullName>
             <default>false</default>
         </values>
-        <value>
+        <values>
             <fullName>Training</fullName>
             <default>false</default>
         </values>
