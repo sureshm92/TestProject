@@ -153,7 +153,11 @@
                         emailDelegateRepeatValid &&
                         delegateParticipant.Email__c == emailDelegateRepeat)) &&
                 agreePolicy);
-        component.set('v.allRequiredCompleted', isValid);
+		if(isValid == undefined){
+            component.set('v.allRequiredCompleted', false);
+        }else{
+			component.set('v.allRequiredCompleted', isValid);
+		}
 
         if (!needsDelegate && emailCmp && emailRepeatCmp) {
             if (
