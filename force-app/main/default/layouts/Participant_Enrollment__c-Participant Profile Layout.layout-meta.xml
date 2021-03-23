@@ -563,6 +563,9 @@
         <fields>LAST_UPDATE</fields>
         <relatedList>Participant_Site_History__c.Participant_Enrollment__c</relatedList>
     </relatedLists>
+	<relatedLists>
+        <relatedList>RelatedFileList</relatedList>
+    </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Form_Results__c.Participant_Enrollment__c</relatedList>

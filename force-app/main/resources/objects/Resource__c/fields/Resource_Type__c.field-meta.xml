@@ -21,6 +21,11 @@
                 <default>false</default>
                 <label>Training</label>
             </value>
+            <value>
+                <fullName>Patient Authorization Template</fullName>
+                <default>false</default>
+                <label>Patient Authorization Template</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
