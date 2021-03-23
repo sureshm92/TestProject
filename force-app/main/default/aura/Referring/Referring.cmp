@@ -618,7 +618,7 @@
                                                     label="{!$Label.c.PG_AS_F_Email_address}"
                                                     value="{!v.participant.Email__c}"
                                                     required="{!!v.needsGuardian}"
-                                                    disabled="{!v.needsGuardian}"    
+                                                    disabled="{!!v.participant.Adult__c}"   
                                                     onblur="{!c.doCheckfields}"
                                                     messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                                 />
@@ -636,7 +636,7 @@
                                                     value="{!v.emailRepeat}"
                                                     pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                     required="{!!v.needsGuardian}"
-                                                    disabled="{!v.needsGuardian}"    
+                                                    disabled="{!!v.participant.Adult__c}"   
                                                     onblur="{!c.doCheckfields}"
                                                     messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                                 />
@@ -652,7 +652,7 @@
                                                     label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
                                                     value="{!v.participant.Phone__c}"
                                                     required="{!!v.needsGuardian}"
-                                                    disabled="{!v.needsGuardian}"
+                                                    disabled="{!!v.participant.Adult__c}"
                                                     onblur="{!c.doCheckfields}"
                                                 />
                                             </div>
@@ -670,7 +670,7 @@
                                                 <c:rrSelect
                                                     options="{!v.phoneTypes}"
                                                     value="{!v.participant.Phone_Type__c}"
-                                                    disabled="{!v.needsGuardian}"
+                                                    disabled="{!!v.participant.Adult__c}"
                                                     useSentenceFont="false"
                                                 />
                                             </div>
