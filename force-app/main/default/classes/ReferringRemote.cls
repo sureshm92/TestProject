@@ -479,16 +479,15 @@ public without sharing class ReferringRemote {
                         FROM Participant_Enrollment__c
                         WHERE Participant__c = :participantId
                     ];
-                        ContentVersion objConVersion=[Select Id,Study_Protocol_Id__c From ContentVersion WHERE ContentDocumentId=:contentDocId];
-                        System.debug('objConVersion-'+objConVersion);
+                        ContentVersion objConVersion=[Select Id From ContentVersion WHERE ContentDocumentId=:contentDocId];
                         //objConVersion.Form_Type__c=ParticipantEnrollmentService.CONTENTVERSION_AUTHORIZATION;
-                        if(particpantEnrollList.size() > 0){
+                        /*if(particpantEnrollList.size() > 0){
                             objConVersion.Study_Protocol_Id__c= particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c;
                         }
                         System.debug('objConVersion-'+objConVersion);
-                        update objConVersion;
+                        update objConVersion;*/
                         ContentDocumentLink objConDocLink=new ContentDocumentLink(ContentDocumentId=contentDocId,LinkedEntityId=particpantEnrollList[0].Id,ShareType = 'V');
-                        System.debug('participantId--'+participantId);
+                        //System.debug('participantId--'+participantId);
                         insert  objConDocLink;
                     }
 

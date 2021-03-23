@@ -45,9 +45,9 @@
                 <behavior>Edit</behavior>
                 <field>Study_Sponsor__c</field>
             </layoutItems>
-			<layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
-                <field>Link_to_Patient_Authorization_Template__c</field>
+                <field>Patient_Auth_Upload_Required__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
