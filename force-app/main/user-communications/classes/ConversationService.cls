@@ -177,7 +177,7 @@ public without sharing class ConversationService {
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Contact__r.Full_Name__c, Participant__c
             FROM Patient_Delegate__c
-            WHERE Participant__c IN :participantIds
+            WHERE Participant__c IN :participantIds AND Status__c ='Active'
             ORDER BY Participant__c
         ];
         List<Id> delegateContactIds = new List<Id>();
