@@ -476,7 +476,8 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :participantContIds
+            WHERE Participant__r.Contact__c IN :participantContIds AND
+            Status__c = 'Active'
         ];
 
         Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
@@ -510,7 +511,11 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
             pdFields,
             Patient_Delegate__c.getSObjectType(),
-            DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds)
+            DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds) + ' AND ' +
+                    DatabaseService.fieldInValues(
+                        'Status__c',
+                        new List<String>{'Active'}
+                    )
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
@@ -532,7 +537,8 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> delegatesList = [
             SELECT Id, Participant__c, Contact__c
             FROM Patient_Delegate__c
-            WHERE Participant__c IN :participantIds
+            WHERE Participant__c IN :participantIds AND
+            Status__c = 'Active'
         ];
         Map<Id, List<Id>> delegatedContactsByParticipantMap = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : delegatesList) {
