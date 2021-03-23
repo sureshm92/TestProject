@@ -17,6 +17,7 @@ public without sharing class ReferringRemote {
         public List<LabelValueItem> phoneTypes;
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
+		public String contentDoc;
     }
 
     public class AccountWrapper {
@@ -34,11 +35,16 @@ public without sharing class ReferringRemote {
         Id peId,
         Id hcpeId,
         String userMode,
-        String delegateId
+        String delegateId,
+        String language
     ) {
         //try{
         InitData initData = new InitData();
         initData.trial = TrialService.getInstance().getTrialImpl(trialId);
+		
+		//ContentDocumentLink 
+        initData.contentDoc = getContentDocumentLink(trialId, language);
+		
         //localize pes
         if (initData.trial.Link_to_Pre_screening__c != null) {
             initData.trial.Link_to_Pre_screening__c = CommunityFacadeRemote.getLocalizedURL(
@@ -169,6 +175,76 @@ public without sharing class ReferringRemote {
 
         return '' + needsGuardian;
     }
+	
+    public static String getContentDocumentLink(Id trialId, String language){
+        system.debug('language'+language);
+        List<Res_study__c>  st = [SELECT Id,Resource__r.Id,Resource__r.Language__c
+                                  FROM Res_study__c 
+                                  WHERE Clinical_Trial_Profile__c =: trialId AND 
+                                  Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c = TRUE AND
+                                  Resource__r.Resource_Type__c = 'Patient Authorization Template' AND
+                                  Visible_To_RP__c = TRUE AND
+                                  (Resource__r.Language__c =: language OR Resource__r.Language__c = 'en_US')
+                                  ORDER BY CreatedDate DESC ];
+        Id resId;
+        
+        if(st.size()>0){
+            for(Res_study__c sr: st){
+                if(sr.Resource__r.Language__c == language){
+                    resId = sr.Resource__r.Id;
+                    break;
+                }
+                else if(sr.Resource__r.Language__c == 'en_US' ){
+                    resId = sr.Resource__r.Id;
+                }
+            }
+        }
+        
+        List<ContentDocument> entries = new List<ContentDocument>();
+        
+        if( resId != NULL){
+            List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: resId];
+            
+            Set<Id> documentIds = new Set<Id>();
+            for (ContentDocumentLink cdl : cdls) {
+                documentIds.add(cdl.ContentDocumentId);
+            }
+            List<ContentDocument> documents = [SELECT Id, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+                                               ORDER BY CreatedDate DESC LIMIT 1];
+            String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
+            return JSON.serialize(new resourceWrapper(st[0], documents, basefileUrl));
+        }  
+        else
+            return null;
+    }
+    
+    public class resourceWrapper{
+        @AuraEnabled public Res_study__c st;
+        @AuraEnabled public List<ContentDocument> attachments;
+        @AuraEnabled public String baseURL;
+        
+        public resourceWrapper(Res_study__c st, List<ContentDocument> attachments, String baseURL){
+            this.st = st;
+            this.attachments = attachments;
+            this.baseURL = baseURL;
+        }
+    } 
+    
+    
+    @AuraEnabled
+    public static void deleteFile(String contentDocId){
+        System.debug('contentDocId--'+contentDocId);
+        try{
+            if(!String.isBlank(contentDocId)){
+                ContentDocument objCon=[Select Id From ContentDocument WHERE Id=:contentDocId];
+                delete objCon;
+            } 
+        } 
+        catch (Exception e) {
+            AuraHelper.throwException(e);
+        }
+    }
+
 
     @AuraEnabled
     public static void saveParticipant(
@@ -177,7 +253,8 @@ public without sharing class ReferringRemote {
         String participantJSON,
         String participantDelegateJSON,
         String delegateId,
-        String ddInfo
+        String ddInfo,
+		String contentDocId
     ) {
         try {
             Participant__c participant = (Participant__c) JSON.deserialize(
@@ -389,7 +466,32 @@ public without sharing class ReferringRemote {
                     }
                 }
             }
-        } catch (Exception e) {
+			
+             System.debug('contentDocId--'+contentDocId);
+                    if(!String.isBlank(contentDocId)){
+                        List<Participant_Enrollment__c> particpantEnrollList = [
+                        SELECT
+                            Id,
+                            Study_Site__r.Study_Site_Type__c,
+                            Study_Site__r.Suppress_Participant_Emails__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                            Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c
+                        FROM Participant_Enrollment__c
+                        WHERE Participant__c = :participantId
+                    ];
+                        ContentVersion objConVersion=[Select Id From ContentVersion WHERE ContentDocumentId=:contentDocId];
+                        //objConVersion.Form_Type__c=ParticipantEnrollmentService.CONTENTVERSION_AUTHORIZATION;
+                        /*if(particpantEnrollList.size() > 0){
+                            objConVersion.Study_Protocol_Id__c= particpantEnrollList[0].Study_Site__r.Clinical_Trial_Profile__r.Protocol_ID__c;
+                        }
+                        System.debug('objConVersion-'+objConVersion);
+                        update objConVersion;*/
+                        ContentDocumentLink objConDocLink=new ContentDocumentLink(ContentDocumentId=contentDocId,LinkedEntityId=particpantEnrollList[0].Id,ShareType = 'V');
+                        //System.debug('participantId--'+participantId);
+                        insert  objConDocLink;
+                    }
+
+		} catch (Exception e) {
             AuraHelper.throwException(e);
         }
     }
