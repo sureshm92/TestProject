@@ -113,6 +113,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>AuthFormPreviewController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>BaselineSurveyRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2687,6 +2691,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Participating_in_Rocket_Referral__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Auth_Upload_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8083,6 +8092,10 @@
     </pageAccesses>
     <pageAccesses>
         <apexPage>TrialMatchLearnMorePage</apexPage>
+        <enabled>true</enabled>
+    </pageAccesses>
+    <pageAccesses>
+        <apexPage>SignedAuthorizationFormPreview</apexPage>
         <enabled>true</enabled>
     </pageAccesses>
     <recordTypeVisibilities>

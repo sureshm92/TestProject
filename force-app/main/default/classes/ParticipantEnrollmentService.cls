@@ -590,6 +590,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
+        'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',

@@ -14251,6 +14251,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L All fields are required.</shortDescription>
         <value>All fields are required.</value>
     </labels>
+	<labels>
+        <fullName>PG_Ref_L_Authorization_Form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Authorization_Form</shortDescription>
+        <value>Note : You must have a signed authorization from the patient giving permission for their contact information and pre-screening data be shared with IQVIA and study doctors</value>
+    </labels>
     <labels>
         <fullName>PG_Ref_L_Congratulations</fullName>
         <language>en_US</language>
@@ -14285,6 +14292,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
         <value>Please ensure that the delegate&apos;s information, especially email address, is correct before connecting to patient.</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Download_Authorization</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Download_Authorization</shortDescription>
+        <value>Download Authorization Form Template</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Download_Authorization_Form_Template_First_Part</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Download Authorization Form Template First Part</shortDescription>
+        <value>Download an</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Download_Authorization_Form_Template_Last_Part</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Download Authorization Form Template Last Part</shortDescription>
+        <value>here or on the resources page</value>
+    </labels>
+    <labels>
+        <fullName>PG_Ref_L_Download_Authorization_Form_Template_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Download Authorization Form Template Link</shortDescription>
+        <value>authorization form template</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl</fullName>
@@ -14342,6 +14377,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
         <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</shortDescription>
+        <value>My patient, and/or patient&apos;s legal guardian if applicable, agrees to share the contact information below and patient&apos;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
@@ -14412,6 +14454,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
         <value>Receive information about clinical study opportunities.</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Patient_Authorization</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_Patient_Authorization</shortDescription>
+        <value>Patient Authorization</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Permit_IQVIA_Confirmation</fullName>
@@ -14531,6 +14580,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
+    </labels>
+	<labels>
+        <fullName>PG_Ref_L_Signed_Authorization_Form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG Ref L Signed Authorization Form</shortDescription>
+        <value>You must have a signed authorization from the patient giving permission for their contact information and pre-screening data be shared with IQVIA and study doctors.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Text_To_Delete_Plan</fullName>
@@ -18623,6 +18679,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Showing Participant - call center</shortDescription>
         <value>Showing</value>
+    </labels>
+	<labels>
+        <fullName>Signed_Auth_Form</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Signed_Auth_Form</shortDescription>
+        <value>Signed Authorization Form</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
