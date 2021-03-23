@@ -495,4 +495,38 @@ public without sharing class ReferralProfileRemote {
             return (Map<String, Object>) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static String getAuthForm(Id peId){
+        
+        List<ContentDocument> entries = new List<ContentDocument>();
+        
+        List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId];
+        
+        Set<Id> documentIds = new Set<Id>();
+        if(cdls.size() > 0){
+            for (ContentDocumentLink cdl : cdls) {
+                documentIds.add(cdl.ContentDocumentId);
+            }
+            List<ContentDocument> documents = [SELECT Id, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+                                               ORDER BY CreatedDate DESC LIMIT 1];
+            String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
+            return JSON.serialize(new AuthFormWrapper(peId, documents, basefileUrl));
+        }
+        else{
+            return null;
+        }
+    }
+
+    public class AuthFormWrapper{
+        @AuraEnabled public Id peId;
+        @AuraEnabled public List<ContentDocument> attachments;
+        @AuraEnabled public String baseURL;
+        
+        public AuthFormWrapper(Id peId, List<ContentDocument> attachments, String baseURL){
+            this.peId = peId;
+            this.attachments = attachments;
+            this.baseURL = baseURL;
+        }
+    } 
+
 }

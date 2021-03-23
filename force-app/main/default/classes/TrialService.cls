@@ -43,7 +43,8 @@ public without sharing class TrialService {
         'Visit_Schedule_Is_Available__c',
         'Participant_Workflow_Final_Step__c',
         'Initial_Visit_Required__c',
-        'Final_Consent_Required__c'
+        'Final_Consent_Required__c',
+        'Patient_Auth_Upload_Required__c'
     };
 
     private static TrialService instance;

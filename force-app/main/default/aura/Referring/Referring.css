@@ -23,6 +23,16 @@
     fill: #e63f5b;
 }
 
+.THIS .part-header{
+    size: 16px; 
+    margin-top: 65px;
+}
+
+.THIS .part-header-removed{
+    size: 16px; 
+    margin-top: 20px;
+}
+
 .THIS .pe-button {
     color: #297dfd;
     font-size: 13px;
