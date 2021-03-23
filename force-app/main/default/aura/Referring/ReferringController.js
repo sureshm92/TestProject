@@ -61,6 +61,7 @@
                     component.set('v.participant', {
                         sobjectType: 'Participant__c'
                     });
+                    component.set('v.participant.Adult__c', true);
                     component.set('v.genders', initData.genders);
                     component.set('v.phoneTypes', initData.phoneTypes);
                     component.set('v.counries', initData.countries);
