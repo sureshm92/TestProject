@@ -42,7 +42,7 @@ private without sharing class Test_ReferringRemote {
                 JSON.serialize(participant),
                 JSON.serialize(participantDelegate),
                 null,
-                null
+                null,null
             );
             ReferringRemote.setfailedReferral(
                 JSON.serialize(pe),
@@ -71,7 +71,7 @@ private without sharing class Test_ReferringRemote {
                 testDataInstance.pe.Id,
                 testDataInstance.hcpEnrollment.Id,
                 CommunityService.USER_MODE_HCP,
-                null
+                null,null
             );
         }
         Test.stopTest();
