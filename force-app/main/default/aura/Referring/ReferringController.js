@@ -54,7 +54,7 @@
                     component.set('v.accessUserLevel', initData.delegateAccessLevel);
                     component.set('v.authRequired',initData.trial.Patient_Auth_Upload_Required__c);
                     component.set('v.contentDoc',JSON.parse(initData.contentDoc));
-                    if(initData.trial.Patient_Auth_Upload_Required__c){
+                    if(initData.trial.Patient_Auth_Upload_Required__c && component.get('v.contentDoc') != null){
                         component.set('v.fileRequired',false);
                     }
                     component.set(
@@ -130,7 +130,7 @@
     },
     
     doStillInterested: function (component, event, helper) {
-        if(component.get('v.authRequired')){
+        if(component.get('v.authRequired') && component.get('v.contentDoc') != null){
             component.set('v.authorizationForm',true);
         }
         else{
