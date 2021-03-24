@@ -729,7 +729,7 @@ private class Test_BaseCRCPCommunity {
                 testData.pe.Id,
                 testData.hcpEnrollment.Id,
                 CommunityService.USER_MODE_HCP,
-                null
+                null,null
             );
             ReferringRemote.InitData refInitData = (ReferringRemote.InitData) JSON.deserialize(
                 refInitDataJSON,
@@ -754,7 +754,7 @@ private class Test_BaseCRCPCommunity {
                     JSON.serialize(participant2),
                     null,
                     null,
-                    null
+                    null,null
                 );
             } catch (Exception e) {
                 System.debug('error');

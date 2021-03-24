@@ -57,6 +57,11 @@
 <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
 <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
 <aura:attribute name="contactInfo" type="Object" /> 
+<aura:attribute name="BtnClicked" type="String" />
+<aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
+<aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
+
+
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
 
@@ -208,6 +213,9 @@ showFooter="true"
                                      formData="{!v.formData}"
                                      updateMode="true"
                                      isValid="{!v.isValid}"
+                                     BtnClicked="{!v.BtnClicked}"
+                                     isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
+                                     participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
                                      />
              
              <!--1936-->
@@ -400,7 +408,7 @@ showFooter="true"
             <span style="{!v.isRTL? 'margin-left:15px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
-                           disabled="{!!v.isValid}"
+                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick}"
                            onclick="{!c.doUpdate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
@@ -420,7 +428,7 @@ showFooter="true"
  <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
-                   disabled="{!!v.isValid || ! v.statusDetailValid}"
+                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick}"
                    onclick="{!c.doUpdateCancel}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >

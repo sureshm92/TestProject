@@ -454,7 +454,7 @@
         </aura:if>
         <aura:if isTrue="{!v.reRender}">
             <aura:if isTrue="{!v.task.Task_Type__c == 'Visit'}">
-                <div>
+                <div class="dateInputs">
                     <p class="what-to-expect">{!$Label.c.Home_Page_StudyVisit_WhToEx}</p>
                     <div style="margin-left: -8px">
                         <c:RRIconSplitter
@@ -468,11 +468,21 @@
                             class="{!'slds-col slds-size_1-of-1 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}"
                         >
                             <div class="label">
-                                {!$Label.c.PP_Visit_DateTime}<abbr
+                                <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                                    {!$Label.c.PP_Visit_Date}<abbr
                                     title="required"
                                     class="slds-required"
                                     >*</abbr
                                 >
+                                <aura:set attribute="else">
+                                    {!$Label.c.PP_Visit_DateTime}<abbr
+                                    title="required"
+                                    class="slds-required"
+                                    >*</abbr
+                                >
+                                 </aura:set>
+                                </aura:if>
+                                
                             </div>
                             <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
                                 <lightning:input
@@ -618,7 +628,7 @@
                     </div> </aura:if>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div style="margin-left: -20px;margin-top:-10px;" class="{!if(v.showVendors,'tbl',' ')}">
+                            <div class="{!if(v.showVendors,'tbl',' ')}">
                                 <c:visitTravelDetails
                                     vname="{!v.visitData.visit.Name}"
                                     vnum="{!v.visitData.visit.Visit_Number__c}"
@@ -628,7 +638,7 @@
                                 </c:visitTravelDetails>
                             </div>
                             <aura:set attribute="else">
-                                <div style="margin-left: -20px;margin-top:-10px;">
+                                <div>
                                     <c:visitTravelDetails
                                         vname="{!v.visitData.visit.Name}"
                                         vnum="{!v.visitData.visit.Visit_Number__c}"

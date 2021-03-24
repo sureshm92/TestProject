@@ -34,7 +34,10 @@ public without sharing class ParticipantDuplicateService {
         }
 
         public String getLastName() {
+            if (isParticipant()) {
             return ((Participant__c) duplicate).Last_Name__c;
+            }
+            return null;
            }
 
         public Integer getYearOfBirth() {
@@ -129,7 +132,8 @@ public without sharing class ParticipantDuplicateService {
         }
 
         //Find participants
-        List<Participant__c> existedParticipants = [
+        List<Participant__c> existedParticipants = new List<Participant__c>();
+        List<Participant__c> participantExistedInSystem = [
             SELECT
                 Id,
                 Contact__c,
@@ -152,6 +156,11 @@ public without sharing class ParticipantDuplicateService {
                 OR ZIP_Code__c IN :zipCodes
                 OR Last_Name__c IN :lastNames
         ];
+        for(Participant__c partici: participantExistedInSystem){
+            if(partici.Date_of_Birth__c != null){
+                existedParticipants.add(partici);
+            }
+        }
         List<Participant__c> existedParticipantDelegates = new List<Participant__c>();
         if (
             !delegatesEmail.isEmpty() &&
@@ -312,7 +321,7 @@ public without sharing class ParticipantDuplicateService {
                 Last_Name__c,
                 Email__c,
                 Phone__c,
-                Day_of_Birth__c,
+                //Day_of_Birth__c,
                 Birth_Year__c,
                 Date_of_Birth__c,
                 Secondary_Source__c,
@@ -379,18 +388,19 @@ public without sharing class ParticipantDuplicateService {
                             System.debug('>>> BY in the system: ' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
-                                duplicate.getFirstName() == participant.First_Name__c && duplicate.getLastName() == participant.Last_Name__c
+                                duplicate.getFirstName().toLowerCase() == participant.First_Name__c.toLowerCase() && duplicate.getLastName().toLowerCase() == participant.Last_Name__c.toLowerCase()
                             ) {
                                 setDuplicate(participant, duplicate);
                                 continue;
                             }
-                        } else if (
+                        } 
+                        /*else if (
                             participantAge > 18 &&
                             duplicate.getFirstName() == participant.First_Name__c
                         ) {
                             setDuplicate(participant, duplicate);
                             continue;
-                        }
+                        } REF-3252*/
                     } else {
                         if (duplicate.getFirstName() == participant.First_Name__c) {
                             setDuplicate(participant, duplicate);

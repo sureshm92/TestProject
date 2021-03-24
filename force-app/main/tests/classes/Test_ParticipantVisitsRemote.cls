@@ -182,7 +182,7 @@ private class Test_ParticipantVisitsRemote {
             ParticipantVisitsRemote.getIsVisitPathEnabled();
         } catch (Exception e) {
             isExceptionThrown = true;
-            System.assert(e.getTypeName() == 'System.AuraHandledException');
+            System.assert(e.getTypeName() == 'System.NullPointerException');
         }
         Test.stopTest();
         System.assert(true, isExceptionThrown);
