@@ -127,6 +127,7 @@ public class Test_PatientDelegateService {
         List<Contact> delegateContacts;
         Participant__c participant;
         Boolean isDelegate;
+        Boolean delegateAlreadyExisting;
         Id userId;
         List<Id> delUserIds;
         List<Id> delConIds;
@@ -146,6 +147,7 @@ public class Test_PatientDelegateService {
             delegateContacts = PatientDelegateService.getInstance().getDelegates();
             participant = PatientDelegateService.getInstance().getParticipant();
             isDelegate = PatientDelegateService.getInstance().isDelegate();
+            delegateAlreadyExisting = PatientDelegateService.getInstance().delegateAlreadyExists(conDel[0]);
             userId = PatientDelegateService.getInstance().getParticipantUserId();
             delUserIds = PatientDelegateService.getInstance().getDelegatedUsersIds();
             delConIds = PatientDelegateService.getInstance().getDelegatedContactIds();
