@@ -10,5 +10,6 @@
     <aura:attribute name="language" type="String" />
     <aura:attribute name="isRTL" type="Boolean" />
     <aura:attribute name="isMobileApp" type="Boolean" />
+    <aura:attribute name="communityName" type="String" />
     {!v.body}
 </aura:component>
