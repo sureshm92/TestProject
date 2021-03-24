@@ -7,6 +7,6 @@
         component.set('v.isRTL', rtl_language.includes(communityService.getLanguage()));
         component.set('v.language', communityService.getLanguage());
         component.set('v.isMobileApp', communityService.isMobileSDK());
-        component.set('v.communityName', communityService.getCurrentCommunityName());
+        // component.set('v.communityName', communityService.getCurrentCommunityName());
     }
 });
