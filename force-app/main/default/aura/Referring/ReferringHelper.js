@@ -290,6 +290,7 @@
                     component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
                     component.set('v.participant.Adult__c', !isNeedGuardian);
 
+                    /*
                     if (isNeedGuardian) {
                         component.set('v.enableGuardian', true);//REF-3070
                         helper.setDelegate(component);
@@ -298,6 +299,18 @@
                     else{
                         component.set('v.enableGuardian', false);
                     }
+                    */
+                }
+                //REF-3070
+                if (isNeedGuardian) {
+                        component.set('v.enableGuardian', true);
+                    	component.set('v.participant.Email__c', ''); 
+                    	component.set('v.emailRepeat', '');
+                    	component.set('v.participant.Phone__c', '');
+                    	component.set('v.participant.Phone_Type__c', '');
+                        helper.setDelegate(component);
+                }else{
+                    component.set('v.enableGuardian', false);
                 }
             },
             null,
