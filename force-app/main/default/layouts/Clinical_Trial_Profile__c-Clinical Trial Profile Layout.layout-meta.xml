@@ -57,10 +57,7 @@
                 <behavior>Edit</behavior>
                 <field>Study_Sponsor__c</field>
             </layoutItems>
-			<layoutItems>
-                <behavior>Edit</behavior>
-                <field>Patient_Auth_Upload_Required__c</field>
-            </layoutItems>
+			
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
     </layoutSections>
@@ -202,6 +199,10 @@
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Patient_Auth_Upload_Required__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
