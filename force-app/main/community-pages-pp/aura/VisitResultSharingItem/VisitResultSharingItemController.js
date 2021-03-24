@@ -22,6 +22,9 @@
         } else {
             visitResult.countryCodes = '';
             visitResult.type = 'Disabled';
+            visitResult.isCustomToolTipEnabled = false;
+
+
         }
 
         component.set('v.visitResult', visitResult);
