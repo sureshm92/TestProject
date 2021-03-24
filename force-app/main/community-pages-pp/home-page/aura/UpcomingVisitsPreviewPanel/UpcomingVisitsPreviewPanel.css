@@ -122,38 +122,34 @@
     text-overflow: ellipsis;
 }
 
-.THIS .cRRIconSplitter .icon:nth-of-type(n+7) {
+.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(n+7) {
     display: none;
 }
 
-.THIS  .cRRTable.rr-table tr td .cRRIconSplitter .icon:nth-of-type(6) {
+.THIS  .cRRTable.rr-table tr td.visitIcons .cRRIconSplitter .icon:nth-of-type(6) {
     pointer-events: none;
     cursor: not-allowed;
     position: relative;
 }
 
-.THIS .cRRIconSplitter .icon:nth-of-type(6) .icon-item{
+.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(6) .icon-item{
     visibility: hidden;
 }
 
-.THIS .cRRIconSplitter .icon:nth-of-type(6):after {
+.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(6):after {
     content: '...';
     position: absolute;
     left: 10px;
-    bottom: 3px;
+    bottom: -3px;
     font-size: 1.5rem;
 }
 
-.THIS .icons-container.cRRIconSplitter {
+.THIS .visitIcons .icons-container.cRRIconSplitter {
     overflow: visible;
 }
 
-.THIS .cRRIconSplitter .icons-row {
+.THIS .visitIcons .cRRIconSplitter .icons-row {
     position: relative;
-    padding-right: 20px;
-    height: 40px;
-    width: 250px;
-    flex-wrap: nowrap;
 }
 
 

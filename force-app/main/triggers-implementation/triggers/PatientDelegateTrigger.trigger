@@ -23,4 +23,7 @@ trigger PatientDelegateTrigger on Patient_Delegate__c(
     TriggerHandlerExecutor.execute(
         PatientDelegateTriggerHandler.CreateReactivatedNotification.class
     );
+    TriggerHandlerExecutor.execute(
+        PatientDelegateTriggerHandler.CreatePrimaryDelegateForMinor.class
+    );
 }

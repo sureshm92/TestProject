@@ -135,8 +135,8 @@ public without sharing class ReferralProfileRemote {
                 throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
 
-            List<Participant__c> delegates = [
-                SELECT Id, First_Name__c, Last_Name__c, Phone__c
+           List<Participant__c> delegates = [
+                SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c
                 FROM Participant__c
                 WHERE
                     Contact__c IN (
@@ -144,12 +144,20 @@ public without sharing class ReferralProfileRemote {
                         FROM Patient_Delegate__c
                         WHERE
                             Participant__c = :pe.Participant__c
-                            AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                    )
+                           // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        	AND Primary_Delegate__c = TRUE
+                           )
             ];
-            if (!delegates.isEmpty())
+            system.debug('pe.Participant__c>>'+pe.Participant__c);
+            if (!delegates.isEmpty()){
                 initData.participantDelegate = delegates[0];
-
+           }
+            else {
+                initData.participantDelegate  = new Participant__c(First_Name__c='',
+                                                                  Last_Name__c='',
+                                                                  Phone__c='',
+                                                                  Email__c='');
+            }  
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
             if (initData.visitPlanLVList.size() == 1) {
                 initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
@@ -487,4 +495,38 @@ public without sharing class ReferralProfileRemote {
             return (Map<String, Object>) AuraHelper.throwException(e);
         }
     }
+    @AuraEnabled
+    public static String getAuthForm(Id peId){
+        
+        List<ContentDocument> entries = new List<ContentDocument>();
+        
+        List<ContentDocumentLink> cdls = [SELECT Id, ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId];
+        
+        Set<Id> documentIds = new Set<Id>();
+        if(cdls.size() > 0){
+            for (ContentDocumentLink cdl : cdls) {
+                documentIds.add(cdl.ContentDocumentId);
+            }
+            List<ContentDocument> documents = [SELECT Id, Title,ContentSize, CreatedDate, FileExtension, ContentModifiedDate FROM ContentDocument WHERE Id IN :documentIds 
+                                               ORDER BY CreatedDate DESC LIMIT 1];
+            String basefileUrl = URL.getSalesforceBaseUrl().toExternalForm();
+            return JSON.serialize(new AuthFormWrapper(peId, documents, basefileUrl));
+        }
+        else{
+            return null;
+        }
+    }
+
+    public class AuthFormWrapper{
+        @AuraEnabled public Id peId;
+        @AuraEnabled public List<ContentDocument> attachments;
+        @AuraEnabled public String baseURL;
+        
+        public AuthFormWrapper(Id peId, List<ContentDocument> attachments, String baseURL){
+            this.peId = peId;
+            this.attachments = attachments;
+            this.baseURL = baseURL;
+        }
+    } 
+
 }
