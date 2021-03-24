@@ -55,7 +55,7 @@
  <aura:attribute name="hadDiscussion" type="Boolean" />
  <aura:attribute name="stillInterested" type="Boolean" />
  <aura:attribute name="frameHeight" type="Integer" default="500" />
- <aura:attribute name="authorizationForm" type="Boolean" />
+ <aura:attribute name="authorizationForm" type="Boolean" default="false"/>
  <aura:attribute name="authRequired" type="Boolean"/>
  <aura:attribute name="fileRequired" type="Boolean" default="true" />
 
@@ -892,7 +892,7 @@
                                              </div>
                                          </div>
                                      </aura:if>
-                                     <aura:if isTrue="{!(!v.authRequired &amp;&amp; !v.authorizationForm)}">
+                                     <aura:if isTrue="{!(!v.authorizationForm)}">
 
                                      <div
                                          class="rr-form-element slds-no-label"
