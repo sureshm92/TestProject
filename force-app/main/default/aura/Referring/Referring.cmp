@@ -245,7 +245,7 @@
                                      {!$Label.c.BTN_Yes}
                                  </button>
                                  <button
-                                     class="{!'apollo-btn tertiary ' + if(v.authorizationForm == false, ' selected', '')}"
+                                     class="apollo-btn tertiary"
                                      onclick="{!c.doHadDiscussionNotInterested}"
                                  >
                                      {!$Label.c.BTN_No}
