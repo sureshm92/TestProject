@@ -11,7 +11,9 @@
     padding-bottom: 15px;
     font-size: 13px;
 }
-
+.THIS.RTL {
+    direction: rtl;
+}
 .THIS .slp-counter-txt {
     padding-top: 20px;
 }
