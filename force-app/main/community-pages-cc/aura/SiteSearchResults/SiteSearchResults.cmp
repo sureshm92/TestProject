@@ -1,4 +1,4 @@
-<aura:component description="SiteSearchResults">
+<aura:component description="SiteSearchResults" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
     <!--attributes-->
     <aura:attribute name="parent" type="Aura.Component" />
@@ -36,13 +36,27 @@
     <div class="ssr-container slds-grid slds-grid_vertical">
         <div class="slds-col">
             <aura:if isTrue="{!!empty(v.resultSet)}">
-                <c:filterSearchResults
-                    aura:id="filterSearchResults"
-                    filterCountryList="{!v.filterCountryList}"
-                    filterStudyList="{!v.filterStudyList}"
-                    onstudyfilterchange="{!c.handleStudyFilterChange}"
-                    oncountryfilterchange="{!c.handleCountryFilterChange}"
-                />
+                <aura:if isTrue="{!v.isRTL}">
+                    <c:filterSearchResults 
+                                           style="{!if(v.isRTL, 'direction: rtl;','')}"
+                                           aura:id="filterSearchResults"
+                                           filterCountryList="{!v.filterCountryList}"
+                                           filterStudyList="{!v.filterStudyList}"
+                                           onstudyfilterchange="{!c.handleStudyFilterChange}"
+                                           oncountryfilterchange="{!c.handleCountryFilterChange}"
+                                           />
+                    <aura:set attribute="else">
+                        <c:filterSearchResults
+                                               aura:id="filterSearchResults"
+                                               filterCountryList="{!v.filterCountryList}"
+                                               filterStudyList="{!v.filterStudyList}"
+                                               onstudyfilterchange="{!c.handleStudyFilterChange}"
+                                               oncountryfilterchange="{!c.handleCountryFilterChange}"
+                                               />
+                    </aura:set>
+                </aura:if>
+
+               
             </aura:if>
         </div>
         <div class="ssr-resultsPanel slds-col">
@@ -52,7 +66,7 @@
                 targetList="{!v.resultSet}"
             />
             <aura:if isTrue="{!and(!empty(v.resultSet), empty(v.filteredResultSet))}">
-                <div class="table-scroll">
+                <div class="table-scroll" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
                     <c:RRTable>
                         <tr class="table-header">
                             <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>
@@ -92,7 +106,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!and(!empty(v.resultSet), !empty(v.filteredResultSet))}">
-                <div class="table-scroll">
+                <div class="table-scroll" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
                     <c:RRTable>
                         <tr class="table-header">
                             <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>
