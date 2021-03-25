@@ -115,7 +115,7 @@ cache:
 SonarCheck:
   allow_failure: true
   tags:
-    - docker
+    - RHPP
   only:
    - merge_requests
   except:
@@ -209,7 +209,7 @@ SonarCheck:
 
 VALIDATE:
   tags:
-    - docker
+    - RHPP
   only:
     - merge_requests
   except:
