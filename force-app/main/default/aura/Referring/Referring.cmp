@@ -238,14 +238,14 @@
                              </div>
                              <div class="buttons">
                                  <button
-                                     class="apollo-btn tertiary"
+                                     class="{!'apollo-btn tertiary ' + if(v.authorizationForm == true, ' selected', '')}"
                                      onclick="{!c.doStillInterested}"
                                      style="{!if(v.isRTL, 'margin-left: 1%;','')}"
                                  >
                                      {!$Label.c.BTN_Yes}
                                  </button>
                                  <button
-                                     class="apollo-btn tertiary"
+                                     class="{!'apollo-btn tertiary ' + if(v.authorizationForm == false, ' selected', '')}"
                                      onclick="{!c.doHadDiscussionNotInterested}"
                                  >
                                      {!$Label.c.BTN_No}
@@ -551,14 +551,57 @@
                                      class="slds-col slds-size_1-of-1 slds-large-size_1-of-6"
                                  ></div>
                                  <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                     <div
-                                         class="rr-form-element"
-                                         style="size: 16px; margin-top: 65px"
-                                     >
-                                         <label
-                                             >{!$Label.c.PG_Ref_L_Participant_Information}</label
-                                         >
-                                     </div>
+                                        <aura:if isTrue="{!v.authorizationForm}">
+                                                <div
+                                                     class="rr-form-element part-header"
+                                                     >
+                                                    <b><label
+                                                              >{!$Label.c.PG_Ref_L_Patient_Authorization}</label
+                                                        ></b>
+                                                    <div
+                                                         class="rr-form-element slds-no-label"
+                                                         style="margin-top: 15px"
+                                                         >
+                                                        <div class="rr-cb-container">
+                                                            <lightning:input
+                                                                             type="checkbox"
+                                                                             label=""
+                                                                             checked="{!v.agreePolicy}"
+                                                                             onchange="{!c.doCheckfields}"
+                                                                             />
+                                                        </div>
+                                                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                                            {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
+                                                        </div>
+                                                    </div>
+                                                <div>
+                                                    <lightning:fileUpload label="Signed Authorization Form *"
+                                                                            name="fileUploader"
+                                                                            multiple="false"
+                                                                            disabled="{!v.disableFile}"
+                                                                            onuploadfinished="{!c.handleUploadFinished}" />
+                                                    <a>{!v.fileName}</a>
+                                                </div>
+                                                <aura:if isTrue="{!v.disableFile}">
+                                                    <div>
+                                                        <lightning:buttonIcon iconName="utility:delete"  alternativeText="Delete" title="Delete" onclick="{!c.handleDeleteFile}"/>
+                                                    </div>
+                                                </aura:if>
+                                                <br></br>
+                                                <div>
+                                                    <a href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}">
+                                                        {!$Label.c.PG_Ref_L_Download_Authorization}</a>
+                                                </div>
+                                                    
+                                            </div>
+                                        </aura:if>
+                                    <div
+                                            class="{! v.authorizationForm ? 'part-header-removed' : 'part-header' }"
+                                                 >
+                                        <label>
+                                            {!$Label.c.PG_Ref_L_Participant_Information}
+                                        </label>
+                                    </div>
                                      <div
                                          class="slds-grid slds-gutters slds-wrap rr-form-element"
                                      >
@@ -673,7 +716,7 @@
                                                  value="{!v.emailRepeat}"
                                                  pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!!v.needsGuardian}"
-                                                 disabled="{!v.enableGuardian}"
+                                                 disabled="{!v.enableGuardian}"   
                                                  onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                              />
