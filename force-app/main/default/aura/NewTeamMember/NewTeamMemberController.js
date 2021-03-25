@@ -94,6 +94,8 @@
                 let userMode = component.get('v.userMode');
                 let parentId = component.get('v.parentId');
                 component.set('v.delegate', contactData.delegates[0]);
+                console.log('isActive--->'+component.get('v.delegate.isActive'));
+                component.set('v.isDelegateActive',component.get('v.delegate.isActive'));
                 if (userMode !== 'HCP') {
                     component.set('v.currentTab', 'by-study');
                 } else {
@@ -190,8 +192,14 @@
                 },
                 function (returnValue) {
                     component.set('v.isDelegateExisting',returnValue);
+                    console.log('inside save-->'+component.get('v.delegate.isActive'))
                     if(component.get('v.isDelegateExisting')){
-                     communityService.showToast('error', 'error', $A.get('$Label.c.PP_DelegateAlreadyExists'));
+                        if(component.get('v.delegate.isActive') == false){
+                            communityService.showToast('error', 'error', $A.get('$Label.c.PP_DelegateAlreadyExists'));
+                      }
+                        else{
+                             communityService.showToast('error', 'error', $A.get('$Label.c.PP_ActiveDelegateError'));
+                        }
                      component.find('mainSpinner').hide();
                       return ;
                       }
