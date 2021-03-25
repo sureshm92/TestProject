@@ -1,22 +1,22 @@
 <aura:component
-    description="SiteListPage"
-    implements="forceCommunity:availableForAllPageTypes"
-    controller="SiteListPageRemote"
-    extends="c:CommunityContext"
->
+                description="SiteListPage"
+                implements="forceCommunity:availableForAllPageTypes"
+                controller="SiteListPageRemote"
+                extends="c:CommunityContext"
+                >
     <ltng:require
-        scripts="{!join(',', $Resource.rr_community_js)}"
-        afterScriptsLoaded="{!c.doInit}"
-    />
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  afterScriptsLoaded="{!c.doInit}"
+                  />
     <!--attributes-->
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
     <aura:attribute
-        name="emptyListMessage"
-        type="String"
-        access="private"
-        default="{!$Label.c.PG_VP_L_No_Items}"
-    />
+                    name="emptyListMessage"
+                    type="String"
+                    access="private"
+                    default="{!$Label.c.PG_VP_L_No_Items}"
+                    />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="searchText" type="String" default="" />
     <aura:attribute name="selectedSearchOption" type="String" default="" />
@@ -26,10 +26,10 @@
     <aura:attribute name="sectionDisabled" type="Boolean" default="true" />
     <aura:attribute name="searched" type="Boolean" default="false" />
     <aura:attribute
-        name="searchTextPlaceHolder"
-        type="String"
-        default="{!$Label.c.CC_Btn_Search}"
-    />
+                    name="searchTextPlaceHolder"
+                    type="String"
+                    default="{!$Label.c.CC_Btn_Search}"
+                    />
     <aura:attribute name="resultSet" type="List" />
     <aura:attribute name="filteredResultSet" type="List" default="[]" />
     <aura:attribute name="filterStudyList" type="List" />
@@ -57,39 +57,39 @@
     </aura:method>
     <!--component body:-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" showSpinner="true" />
-
+    
     <aura:if isTrue="{!v.isInitialized}">
         <c:RRNavigationPath>
             <c:RRNPathItem label="{!$Label.c.CC_HomePageLabel}" />
         </c:RRNavigationPath>
-
+        
         <c:SiteSearchPanel
-            aura:id="searchPanel"
-            selectedSearchOption="{!v.selectedSearchOption}"
-            searchText="{!v.searchText}"
-            searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
-            searchList="{!v.searchList}"
-            sectionDisabled="{!v.sectionDisabled}"
-            parent="{!this}"
-            sortType="{!v.sortType}"
-            sortVariants="{!v.sortVariants}"
-            resetVal="{!v.resetVal}"
-            hasResult="{!empty(v.resultSet)}"
-        />
+                           aura:id="searchPanel"
+                           selectedSearchOption="{!v.selectedSearchOption}"
+                           searchText="{!v.searchText}"
+                           searchTextPlaceHolder="{!v.searchTextPlaceHolder}"
+                           searchList="{!v.searchList}"
+                           sectionDisabled="{!v.sectionDisabled}"
+                           parent="{!this}"
+                           sortType="{!v.sortType}"
+                           sortVariants="{!v.sortVariants}"
+                           resetVal="{!v.resetVal}"
+                           hasResult="{!empty(v.resultSet)}"
+                           />
         <c:SiteSearchResults
-            aura:id="searchResults"
-            parent="{!this}"
-            searched="{!v.searched}"
-            resultSet="{!v.resultSet}"
-            filteredResultSet="{!v.filteredResultSet}"
-            filterStudyList="{!v.filterStudyList}"
-            filterCountryList="{!v.filterCountryList}"
-            tmpFilterCountryList="{!v.tmpFilterCountryList}"
-            tmpFilterStudyList="{!v.tmpFilterStudyList}"
-        />
+                             aura:id="searchResults"
+                             parent="{!this}"
+                             searched="{!v.searched}"
+                             resultSet="{!v.resultSet}"
+                             filteredResultSet="{!v.filteredResultSet}"
+                             filterStudyList="{!v.filterStudyList}"
+                             filterCountryList="{!v.filterCountryList}"
+                             tmpFilterCountryList="{!v.tmpFilterCountryList}"
+                             tmpFilterStudyList="{!v.tmpFilterStudyList}"
+                             />
         <!-- pagination -->
         <aura:if isTrue="{!and(not(empty(v.resultSet)), empty(v.filteredResultSet)) }">
-            <div class="slp-counter slds-grid slds-grid_align-spread">
+            <div class="slp-counter slds-grid slds-grid_align-spread" style="{!if(v.isRTL, 'direction: rtl;','')}">
                 <div class="slp-counter-txt slds-col">
                     {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
                     v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,
@@ -99,11 +99,11 @@
                 </div>
                 <div class="slds-col">
                     <c:RRPaginationRemote
-                        entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                        currentPage="{!v.paginationData.currentPage}"
-                        allRecordsCount="{!v.paginationData.allRecordsCount}"
-                        onchange="{!c.doPageNavigation}"
-                    />
+                                          entriesOnPage="{!v.paginationData.pageRecordsCount}"
+                                          currentPage="{!v.paginationData.currentPage}"
+                                          allRecordsCount="{!v.paginationData.allRecordsCount}"
+                                          onchange="{!c.doPageNavigation}"
+                                          />
                 </div>
             </div>
         </aura:if>
