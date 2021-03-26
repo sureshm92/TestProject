@@ -741,6 +741,7 @@
         <fields>Resource__c.Countries__c</fields>
         <fields>Resource__c.Type__c</fields>
         <fields>Resource__c.Title__c</fields>
+        <fields>Resource__c.Resource_Type__c</fields>
         <fields>NAME</fields>
         <relatedList>Res_study__c.Clinical_Trial_Profile__c</relatedList>
     </relatedLists>

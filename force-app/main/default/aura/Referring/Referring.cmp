@@ -584,13 +584,21 @@
                                                                               onuploadfinished="{!c.handleUploadFinished}" />
                                                         <div class="slds-grid slds-gutters slds-wrap">
                                                             <div class="slds-col slds-size--2-of-5">
-                                                                    <a onclick="{!c.openModel}">{!v.fileName}
+                                                                    <a style= "padding-top: 5px;"
+                                                                        onclick="{!c.openModel}">
+                                                                        {!v.fileName}
                                                                     </a>
                                                             </div>
                                                             <div class="slds-col slds-size--1-of-5">
-                                                                <aura:if isTrue="{!v.disableFile}">
-                                                                    <lightning:buttonIcon iconName="utility:delete"  alternativeText="Delete" title="Delete" onclick="{!c.handleDeleteFile}"/>
-                                                                </aura:if>
+                                                                    <aura:if isTrue="{!v.disableFile}">
+                                                                    
+                                                                            <lightning:buttonIcon iconName="utility:delete"  
+                                                                                                  alternativeText="Delete" 
+                                                                                                  title="Delete" 
+                                                                                                  size= "small"
+                                                                                                  onclick="{!c.handleDeleteFile}"/>
+                                                                            
+                                                                    </aura:if>
                                                             </div>
                                                         </div>
                                                     </div>
