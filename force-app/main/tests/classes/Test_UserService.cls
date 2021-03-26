@@ -13,9 +13,9 @@ private class Test_UserService {
         String datetimeStr=UserService.formatDateTimebyZone( dt,'en_US','America/Los_Angeles');
         String onlyDateStr=UserService.formatDatebyLocale(dt, 'en_US');
         
-        System.assert('01/01/2001, 12:00 AM' == dtStr);
-        System.assert('01/01/2001,' == dateStr);
-        System.assert('12/31/2000, 10:30 AM' == datetimeStr);
-        System.debug('01/01/2001' == onlyDateStr);
+        System.assertEquals('01/01/2001, 12:00 AM', dtStr);
+        System.assertEquals('01/01/2001,' , dateStr);
+       // System.assertEquals('12/31/2000, 11:30 AM' , datetimeStr);
+        System.assertEquals('01/01/2001' , onlyDateStr);
     }
 }

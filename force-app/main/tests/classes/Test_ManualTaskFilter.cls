@@ -43,6 +43,9 @@ public class Test_ManualTaskFilter {
         testPEs = manualTaskFilter.getContactsWithPE().get(td.participant.Contact__c);
         filterResult = manualTaskFilter.filterTherapeutic();
         filteredCountryCodes = manualTaskFilter.getCountryCode();
+        manualTaskFilter.isPlatformLevel = true;
+        manualTaskFilter.getContactsWithWhatIds();
+        manualTaskFilter.getContactsWithParticipantIds();
         Test.stopTest();
 
         System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);

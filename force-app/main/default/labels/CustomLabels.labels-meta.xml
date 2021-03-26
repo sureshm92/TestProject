@@ -15676,6 +15676,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             However &quot;Functional&quot; cookies can be turned on or off below.</value>
     </labels>
     <labels>
+        <fullName>PP_ActiveDelegateError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ActiveDelegateError</shortDescription>
+        <value>Delegate already exists.</value>
+    </labels>
+    <labels>
         <fullName>PP_AddProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
