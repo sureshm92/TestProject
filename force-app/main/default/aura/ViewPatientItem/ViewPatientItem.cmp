@@ -114,10 +114,10 @@
                                 
                                 <aura:If isTrue="{!v.openmodel}">
                                     
-                                    <div  class="slds-modal slds-fade-in-open slds-modal_large slds-backdrop ">
+                                    <div  class="slds-modal slds-fade-in-open slds-modal_lmedium slds-backdrop ">
                                         <div class="slds-modal__container ">
-                                            <div class="slds-modal__header">
-                                                <b>File Name : {!$Label.c.Signed_Auth_Form}</b> 
+                                            <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
+                                                
                                                 <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
                                                     <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
                                                 </button>

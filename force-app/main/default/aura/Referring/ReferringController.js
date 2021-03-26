@@ -241,7 +241,6 @@
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
         var uploadedFiles = event.getParam("files");
-        console.log(uploadedFiles[0].documentId);
         component.set("v.fileName",uploadedFiles[0].name);
         component.set("v.disableFile",true);
         component.set("v.contentDocId",uploadedFiles[0].documentId);
@@ -361,5 +360,12 @@
         component.find('delegate-phone').focus();
         component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
-    }
+    },
+    
+    openModel : function(component, event, helper){ 
+         component.set('v.openmodel',true);
+    },
+    closeModal:function(component,event,helper){    
+        component.set('v.openmodel',false);
+    },
 });
