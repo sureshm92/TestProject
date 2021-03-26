@@ -35,11 +35,12 @@
 .THIS .visitIcons {
     max-width: 180px;
 }
-
+/*
 .THIS .cRRIconSplitter .icon .tooltiptext {
-    left: -125px;
+    left: auto;
+    right: 0;
 }
-
+*/
 .THIS .leftIcon {
     display: inline-block;
 }
@@ -230,13 +231,25 @@
 
 }
 
-@media all and (max-width: 468px) {
+@media all and (min-width: 769px)  {
 
-    .THIS  .cRRTable.rr-table tr td .cRRIconSplitter .icon {
-        position: static;
+    .THIS .cRRIconSplitter .icon .tooltiptext {
+        left: auto;
+        right: 0;
     }
+}
+
+@media all and (max-width: 768px) {
 
     .THIS .cRRIconSplitter .icon .tooltiptext {
         left: -10%;
+        right: auto;
+    }
+}
+
+@media all and (max-width: 468px) {
+
+    .THIS .cRRTable.rr-table tr td .cRRIconSplitter .icon {
+        position: static;
     }
 }
