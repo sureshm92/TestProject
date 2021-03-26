@@ -34,7 +34,7 @@ import OneWeekBefore from '@salesforce/label/c.PP_One_Week_Before';
 import CustomDate from '@salesforce/label/c.PP_Custom';
 import reminderError from '@salesforce/label/c.PP_Reminder_Error_Message';
 import reminderUnderFlow from '@salesforce/label/c.PP_Reminder_Underflow';
-import reminderOverFlow from '@salesforce/label/c.PP_Reminder_Overflow';
+import reminderOverFlow from '@salesforce/label/c.PP_VisitReminder_Overflow';
 import reminderErrorUnderFlow from '@salesforce/label/c.PP_ReminderUnderFlowError';
 import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
