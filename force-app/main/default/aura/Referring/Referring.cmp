@@ -836,7 +836,7 @@
                                              style="size: 16px; margin-top: 15px"
                                          >
                                              <label
-                                                 >{!$Label.c.PG_Ref_L_Delegate_Information}</label
+                                                 >{!$Label.c.PG_Ref_L_Primary_Delegate_Information}</label
                                              >
                                          </div>
                                          <div
