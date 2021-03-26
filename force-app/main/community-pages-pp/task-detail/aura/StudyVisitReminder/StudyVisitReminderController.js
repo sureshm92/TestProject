@@ -202,14 +202,22 @@
              if(!$A.util.isUndefinedOrNull(reminderOptionValid)){
                 reminderOptionValid.setCustomValidity(' ');
              reminderOptionValid.reportValidity(); 
+                 if(isReminderOnly && !component.get('v.initData.createdByAdmin')){
+                 component.set('v.isValidFields',true);
+                  }
              }
+             
          }
          }else{
                if(!component.get('v.initData.createdByAdmin')){
+                    if(isReminderOnly){
+                 component.set('v.isValidFields',true);
+                  }
               if(!$A.util.isUndefinedOrNull(reminderOptionValid)){
                 reminderOptionValid.setCustomValidity(' ');
              reminderOptionValid.reportValidity(); 
               }
+                    
              }
              else{
                   if($A.util.isUndefinedOrNull(component.get('v.initData.reminderDate')) || helper.doValidateReminder(component) === false){
