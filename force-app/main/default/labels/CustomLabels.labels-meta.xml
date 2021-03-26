@@ -14312,7 +14312,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Download Authorization Form Template Last Part</shortDescription>
-        <value>here or on the resources page</value>
+        <value>here</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Download_Authorization_Form_Template_Link</fullName>
