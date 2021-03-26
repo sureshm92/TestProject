@@ -47,7 +47,7 @@
     <aura:attribute name="emailDelegate" type="String" />
 
     <!-- private attributes: -->
-    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private" />
+    <aura:attribute name="screeningRequired" type="Boolean" default="false"   />
     <aura:attribute name="todayDate" type="Date" access="private" />
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
     <aura:attribute name="dataStamp" type="String" access="private" />
@@ -759,7 +759,7 @@
                         </div>
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
-                        >
+                        > 
                             <div class="label">
                                 <aura:if isTrue="{!v.screeningRequired}">
                                     <abbr title="required" class="slds-required">*</abbr>
