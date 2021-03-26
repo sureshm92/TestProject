@@ -3,6 +3,7 @@
     <fullName>Patient_Auth_Upload_Required__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
+    <inlineHelpText>Form has to be uploaded as a Study Resource document</inlineHelpText>
     <label>Patient Auth. Upload Required</label>
     <trackFeedHistory>false</trackFeedHistory>
     <trackHistory>false</trackHistory>
