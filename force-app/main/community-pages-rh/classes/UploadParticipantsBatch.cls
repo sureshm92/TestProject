@@ -200,6 +200,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
 
+            //Variable to update the contact and participant records which were identified as duplicates.
+            Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
                     continue;
@@ -501,6 +504,23 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 }
 
                 if (!hasErrors) {
+
+                    //code block to fetch mailing state and country code
+
+                    String countryName = uploadUser.Contact.MailingCountry;
+                    String stateName = State;
+                    String cc;
+                    String sc;
+
+                    if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName)){ 
+                                            cc = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName);
+                                        }
+                                    
+                    if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(cc) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(cc).containsKey(stateName)){
+                                            sc =CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(cc).get(stateName);
+                                        }
+                                    
+
                     Contact participantContact = new Contact(
                         FirstName = FirstName,
                         LastName = LastName,
@@ -538,7 +558,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             : Language),
                         Mailing_State__c = State,
                         Mailing_Country__c = uploadUser.Contact.MailingCountry,
-                        Mailing_Zip_Postal_Code__c = PostalCode
+                        Mailing_Zip_Postal_Code__c = PostalCode,
+                        Mailing_Country_Code__c = cc,
+                        Mailing_State_Code__c =sc
                     );
                     participant.Adult__c =
                         ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
@@ -567,6 +589,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         participant.Phone__c = '';
                         participant.Phone_Type__c = '';
                         participant.Email__c = '';
+                        participant.Alternative_Phone_Number__c = '';
+                        participant.Alternative_Phone_Type__c = '';
                     }
 
                     if(createParticipant){
@@ -640,6 +664,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
 
                             if(participantDuplicate != null){
+                                participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
                                 trackIndex.put(participantDuplicate.Contact__c,totalRecordCount);
                             }else {
@@ -810,6 +836,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         }
                     }
                 }else{
+                    participantUpdateMap.remove(contactParticipantMap.get(i).Id);
                     errorRecordCount++;
                     Integer errorIndex = trackIndex.get(i);
                                     listOfFailedRecordsWithMsg.add(
@@ -895,6 +922,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
             if(!conListtoBeUpdated.isEmpty()){
                 update conListtoBeUpdated;
+            }
+
+            if(!participantUpdateMap.isEmpty()){
+                update participantUpdateMap.values();
             }
 
             
