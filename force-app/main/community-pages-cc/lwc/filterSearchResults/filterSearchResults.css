@@ -20,6 +20,29 @@
     cursor: pointer;
 }
 
+
+.frs-txt-reset-cnt-RTL {
+    content: url(/resource/1611822084000/searchResetIcon);
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin-top: 9px;
+    margin-left: -18px;
+    left: 339px;
+    cursor: pointer;
+}
+
+.frs-txt-reset-srs-RTL {
+    content: url(/resource/1611822084000/searchResetIcon);
+    position: absolute;
+    width: 14px;
+    height: 14px;
+    margin-top: 9px;
+    margin-left: -18px;
+    left: 100px;
+    cursor: pointer;
+}
+
 .fsr-label {
     color: #595959;
     font-family: 'Proxima Nova';
