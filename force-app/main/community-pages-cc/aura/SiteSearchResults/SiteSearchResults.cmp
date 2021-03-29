@@ -39,6 +39,7 @@
                 <aura:if isTrue="{!v.isRTL}">
                     <c:filterSearchResults 
                                            style="{!if(v.isRTL, 'direction: rtl;','')}"
+                                           isRTL="{!v.isRTL}"
                                            aura:id="filterSearchResults"
                                            filterCountryList="{!v.filterCountryList}"
                                            filterStudyList="{!v.filterStudyList}"

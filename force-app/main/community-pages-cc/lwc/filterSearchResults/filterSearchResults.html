@@ -1,6 +1,6 @@
 <template>
     <c-builder-stub></c-builder-stub>
-    <div class="slds-grid slds-grid_reverse">
+    <div class={marginRTL}>
         <div class="fsr-country slds-col slds-size_2-of-6">
             <!--<div class="slds-form-element__control">-->
             <input
@@ -21,7 +21,7 @@
             <lightning-button
                 name="forCountry"
                 variant="base"
-                class="frs-txt-reset"
+                class={countryRTL}
                 onclick={resetFilterTxt}
             ></lightning-button>
             <!--</div>-->
@@ -46,7 +46,7 @@
             <lightning-button
                 name="forStudyName"
                 variant="base"
-                class="frs-txt-reset"
+                class={studySiteRTL}
                 onclick={resetFilterTxt}
             ></lightning-button>
             <!--</div>-->

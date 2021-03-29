@@ -14,12 +14,17 @@ export default class FilterSearchResults extends LightningElement {
     initialized = false;
     @api filterCountryList;
     @api filterStudyList;
+    @api isRTL;
+    countryRTL;studySiteRTL;marginRTL;
 
     renderedCallback() {
         if (this.initialized) {
             console.log('renderedCallback');
             return;
         }
+        this.countryRTL = this.isRTL? 'frs-txt-reset-cnt-RTL': 'frs-txt-reset';
+        this.studySiteRTL = this.isRTL? 'frs-txt-reset-srs-RTL': 'frs-txt-reset';
+        this.marginRTL = this.isRTL? 'slds-grid slds-grid_reverse slds-m-left_medium': 'slds-grid slds-grid_reverse';
         this.initialized = true;
         let studyName = this.template.querySelector('datalist[data-study-id=studyName]').id;
         this.template
