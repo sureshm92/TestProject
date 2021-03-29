@@ -129,18 +129,20 @@ public without sharing class ParticipantTriggerHandler {
             if(part.Contact__c!=null){
                 if(isOldMapEmpty){
                     updateContactsMap.put(part.Contact__c,part);
-                }else if(!oldMap.containsKey(part.Id)){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else if(oldMap.get(part.Id)!=null && part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else if(oldMap.get(part.Id)!=null && part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else if(oldMap.get(part.Id)!=null && part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else if(oldMap.get(part.Id)!=null && part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c){
-                    updateContactsMap.put(part.Contact__c,part);
-                }else if(oldMap.get(part.Id)!=null && part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
-                    updateContactsMap.put(part.Contact__c,part);
+                }else {
+                    if(!oldMap.containsKey(part.Id)){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Country_Code__c != oldMap.get(part.Id).Mailing_Country_Code__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Country__c != oldMap.get(part.Id).Mailing_Country__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Mailing_State_Code__c != oldMap.get(part.Id).Mailing_State_Code__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Mailing_State__c != oldMap.get(part.Id).Mailing_State__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }
                 }
             }
         }
