@@ -12,6 +12,8 @@
         description="PDF data in base64 encoded format"
     />
 
+    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="true" />
+
     <aura:attribute name="hideDiv" type="String" default="" />
     <aura:attribute name="hideDivResource" type="String" default="" />
 
