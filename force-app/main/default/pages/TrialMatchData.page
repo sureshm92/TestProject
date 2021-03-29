@@ -62,13 +62,11 @@
                         {!trialMatch.StudyCodeName}
                     </div>
                     <div style="font-size: 14px;
-                                float:right;
                                 color: #000000;
                                 line-height: 21px;{!if(RTL == true, 'float:left;display:none;', 'float:right;')}">
                         {!$Label.Matched_of}&nbsp;{!trialMatch.matchDate}
                     </div>
                     <div style="font-size: 14px;
-                                float:right;
                                 color: #000000;
                                 line-height: 21px;{!if(RTL == true, 'float:left;', 'float:right;display:none;')}">
                         {!trialMatch.matchDate}&nbsp;{!$Label.Matched_of}
@@ -79,7 +77,7 @@
                                 font-size: 13px;
                                 padding-top: 15px;
                                 line-height: 24px;
-                               {!if(RTL == true, 'float:right;text-align: right;', 'float:left;text-align:left;')}">
+                               {!if(RTL == true, 'float:right;text-align: right;width: 90%;', 'float:left;text-align:left;width: 90%;')}">
                         {!trialMatch.OfficialTitle}
                     </div>
                 </div>
