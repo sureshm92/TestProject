@@ -46,10 +46,6 @@
     height: auto;
 }
 
-.THIS .cRRTable.rr-table tr td.sv-t-name {
-    width: 25%;
-}
-
 .THIS .cRRTable.rr-table tr td.sv-t-reminder {
     color: #297dfd;
     cursor: pointer;
@@ -62,6 +58,10 @@
 
 .THIS .cRRIconSplitter .icon-item:first-child {
     margin-left: 0;
+}
+
+.THIS .sv-t-name {
+    width: 20%;
 }
 
 .THIS .sv-t-status {
@@ -81,7 +81,7 @@
 }
 
 .THIS .sv-t-icons {
-    width: 30%;
+    width: 35%;
 }
 
 .THIS .cRRIconSplitter .dots {
