@@ -1,6 +1,5 @@
 ({
     loadpdf: function (component, event, helper) {
-        //alert('loadPdf');
         var pdfjsframe = component.find('pdfFrame');    
         var idParamValue = helper.getURLParameterValue().pdfData;
         var resId = helper.getURLParameterValue().resId;
@@ -16,9 +15,7 @@
             helper.loadpdf(component, event);
         } else {
             if (typeof resId !== 'undefined') {
-                component.set('v.hideDivResource', 'slds-hide');  
-               
-               // alert('returnValue:::11');            
+                component.set('v.hideDivResource', 'slds-hide');                        
                 communityService.executeAction(
                     component,
                     'getBase64Resource',
