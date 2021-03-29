@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 .THIS .rr-card {
-    margin-top: 50px;
+    margin-top: 140px;
     border-bottom: 1px solid #d9d9d9;
     min-height: 40px;
 }
@@ -111,7 +111,7 @@
 
 .THIS .mrr-alert {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 150px;
     min-height: 500px;
 }
 
