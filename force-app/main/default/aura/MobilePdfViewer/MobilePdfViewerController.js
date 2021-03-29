@@ -16,7 +16,9 @@
             helper.loadpdf(component, event);
         } else {
             if (typeof resId !== 'undefined') {
-                component.set('v.hideDivResource', 'slds-hide');              
+                component.set('v.hideDivResource', 'slds-hide');  
+               
+               // alert('returnValue:::11');            
                 communityService.executeAction(
                     component,
                     'getBase64Resource',
@@ -25,13 +27,15 @@
                         language: lang
                     },
                     function (returnValue) {
-                        alert('returnValue:::'+returnValue);
+                        component.find('spinner').hide();
+                       
                         component.set('v.pdfData', returnValue);
                         helper.loadpdf(component, event);
                     }
                 );
             } else {
-                component.set('v.isResourceVisible', 'false');               
+                component.set('v.isResourceVisible', 'false');     
+                          
                 try {                   
                     var resourceName = helper.getURLParameterValue().resourceName;
                     var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';                  
@@ -42,6 +46,8 @@
                         '?file=' +
                         $A.get('$Resource.' + resourceName);
                     component.set('v.hideDiv', 'slds-hide');
+                    component.find('spinner').hide();
+                   
                 } catch (err) {
                     alert(err.message);
                 }
