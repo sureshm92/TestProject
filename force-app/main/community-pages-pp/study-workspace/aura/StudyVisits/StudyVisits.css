@@ -200,6 +200,7 @@
 }
 
 @media (any-pointer: coarse) {
+
     .THIS .rr-table {
         font-size: 1rem;
     }
@@ -225,6 +226,7 @@
 }
 
 @media screen and (max-width: 800px) and (min-width: 600px) {
+
     .THIS .cRRIconSplitter .icons-row {
         width: 65%;
     }
@@ -244,6 +246,7 @@
 }
 
 @media (max-width: 350px) {
+
     .THIS .cRRIconSplitter .icon .tooltiptext {
         left: -35px;
     }
