@@ -25,7 +25,7 @@
 
 .THIS .part-header{
     size: 16px; 
-    margin-top: 65px;
+    margin-top: 75px;
 }
 
 .THIS .part-header-removed{
@@ -105,7 +105,7 @@
     font-weight: 600;
     line-height: 60px;
     text-align: left;
-    padding: 35px 0 0;
+    padding: 50px 0 0;
 }
 .THIS .pe-large-headerRTL {
     font-size: 24px;
@@ -180,7 +180,7 @@
     width: 64px;
     height: 64px;
     fill: black;
-    margin-top: 30px;
+    margin-top: 80px;
 }
 
 .THIS .big-alert .message {
@@ -259,7 +259,7 @@
 
 .THIS .ref-alert {
     text-align: center;
-    padding-top: 30px;
+    padding-top: 100px;
     min-height: 500px;
 }
 
@@ -418,6 +418,8 @@
     .THIS .ssi-site-distance,
     .THIS .ssi-site-type {
         text-align: right;
+        padding: -10%;
+
     }
 }
 .THIS .sub-title {
