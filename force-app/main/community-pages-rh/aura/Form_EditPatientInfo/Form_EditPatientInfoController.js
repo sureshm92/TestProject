@@ -91,7 +91,7 @@
             ? emailParticipantReapetCmp.get('v.value')
             : null;
         //REF-3070
-        if(needsGuardian){
+        if(!participant.Adult__c){
             component.set('v.participant.Email__c', '');
             component.set('v.emailParticipantRepeat', '');
             component.set('v.participant.Phone__c', '');
