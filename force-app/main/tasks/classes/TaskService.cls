@@ -234,7 +234,8 @@ public without sharing class TaskService {
 
     public List<Task> getOpenTasks() {
         expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
-        return getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER);
+        String filter = getOpenTasksFilter()+ ' AND (Start_Date__c=null OR Start_Date__c <= TODAY)';
+        return getTasksCommon(filter, OPEN_TASKS_ORDER);
     }
 
     public List<Task> getPreviewTasks() {
