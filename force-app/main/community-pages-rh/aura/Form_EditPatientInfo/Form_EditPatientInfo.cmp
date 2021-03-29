@@ -47,7 +47,7 @@
     <aura:attribute name="emailDelegate" type="String" />
 
     <!-- private attributes: -->
-    <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private" />
+    <aura:attribute name="screeningRequired" type="Boolean" default="false"   />
     <aura:attribute name="todayDate" type="Date" access="private" />
     <aura:attribute name="statesLVList" type="LabelValueItem[]" access="private" />
     <aura:attribute name="dataStamp" type="String" access="private" />
@@ -358,7 +358,7 @@
                                     }
                                 "
                                 class="slds-required"
-                                >{!v.participant.Adult__c ? '*' : ''}</abbr
+                                >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_AS_F_Email_address}
                         </div>
 
@@ -377,7 +377,7 @@
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
                         <div class="label">
                             <abbr title="required" class="slds-required"
-                                >{!v.participant.Adult__c || v.participant.Email__c ? '*' : ''}</abbr
+                                >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
                             >{!$Label.c.PG_Ref_L_Re_enter_email_address}
                         </div>
                          <!-- REF-3070 Added disabled-->
@@ -404,7 +404,7 @@
                                     }
                                 "
                                 class="slds-required"
-                                >{!v.participant.Adult__c ? '*' : ''}</abbr
+                                >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                         </div>
                         <!-- REF-3070 Added disabled-->
@@ -426,7 +426,7 @@
                                     }
                                 "
                                 class="slds-required"
-                                >{!v.participant.Adult__c ? '*' : ''}</abbr
+                                >{!!v.needsGuardian ? '*' : ''}</abbr
                             >{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
                         <!-- REF-3070  Added disabled-->
@@ -759,7 +759,7 @@
                         </div>
                         <div
                             class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
-                        >
+                        > 
                             <div class="label">
                                 <aura:if isTrue="{!v.screeningRequired}">
                                     <abbr title="required" class="slds-required">*</abbr>

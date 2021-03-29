@@ -333,6 +333,13 @@ global without sharing class ReferHealthcareProviderRemote {
                 Participant__c.class
             );
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
+            Boolean boolisUserCreated;
+            Id ContactId;
+            IF(delegateId != null){
+                ContactId = [SELECT ID, Contact__c FROM Patient_Delegate__c WHERE ID=:delegateId].Contact__c;
+                List<User> lstUser = [SELECT ID,Email from User where ContactId =:ContactId ];
+                boolisUserCreated = lstUser.isEmpty() ? false : true;
+            }
             if (delegateId == null) {
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
@@ -420,7 +427,14 @@ global without sharing class ReferHealthcareProviderRemote {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
                 }
-            } else {
+            } 
+            else{
+                if(!boolisUserCreated) {
+                if(ContactId != Null){
+                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
+                }
+            }
                 update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
             }
         } catch (Exception e) {

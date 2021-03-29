@@ -94,16 +94,29 @@
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.delegateParticipant');
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
+        //REF-3070
+        let delegateParticipantemail = component.get('v.delegateParticipant.Email__c')!== undefined ? true : false;
         let emailDelegateCmp = component.find('emailDelegateField');
         let emailDelegateRepeatCmp = component.find('emailDelegateRepeatField');
-        let emailDelegateVaild =
-            needsDelegate &&
-            emailDelegateCmp &&
-            helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
-        let emailDelegateRepeatValid =
-            needsDelegate &&
-            emailDelegateRepeatCmp &&
-            helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
+        //REF-3070
+        let emailDelegateVaild = false;        
+        if(delegateParticipantemail){
+            emailDelegateVaild = needsDelegate &&
+                    emailDelegateCmp &&
+                    helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
+        }else{
+            emailDelegateVaild = false;
+        }    
+
+        let emailDelegateRepeatValid = false;        
+        if(emailDelegateRepeat && emailDelegateRepeat !== undefined){ 
+            emailDelegateRepeatValid = 
+                needsDelegate &&
+                emailDelegateRepeatCmp &&
+            	helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
+        }else {
+            emailDelegateRepeatValid = false;
+        }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
 
@@ -268,7 +281,7 @@
         );
     },
 
-    checkParticipantNeedsGuardian: function (component, helper) {
+    checkParticipantNeedsGuardian: function (component, event, helper) {
         var spinner = component.find('mainSpinner');
         spinner.show();
         var participant = component.get('v.participant');
@@ -281,25 +294,28 @@
                 participantJSON: JSON.stringify(participant)
             },
             function (returnValue) {
-                console.log('isNeedGuardian: ' + returnValue);
                 var isNeedGuardian = returnValue == 'true';
-                console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
                 if (isNeedGuardian != component.get('v.needsGuardian')) {
                     component.set('v.needsGuardian', isNeedGuardian);
                     component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
                     component.set('v.participant.Adult__c', !isNeedGuardian);
-
-                    if (isNeedGuardian) {
-                        component.set('v.enableGuardian', true);//REF-3070
-                        helper.setDelegate(component);
-                    }
-                    //REF-3070
-                    else{
-                        component.set('v.enableGuardian', false);
-                    }
                 }
-            },
+                //REF-3070
+                if (isNeedGuardian) {
+                   		component.set('v.needsGuardian', true);
+                        component.set('v.enableGuardian', true);
+                    	component.set('v.participant.Email__c', ''); 
+                    	component.set('v.emailRepeat', '');
+                    	component.set('v.participant.Phone__c', '');
+                    	component.set('v.participant.Phone_Type__c', '');
+                        helper.setDelegate(component);
+                }else{
+                    component.set('v.enableGuardian', false);
+                    component.set('v.needsGuardian', false);
+                }     
+                helper.checkFields(component, event, helper);
+            } ,         
             null,
             function () {
                 spinner.hide();

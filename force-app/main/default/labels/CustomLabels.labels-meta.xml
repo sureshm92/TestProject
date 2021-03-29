@@ -14312,7 +14312,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG Ref L Download Authorization Form Template Last Part</shortDescription>
-        <value>here or on the resources page</value>
+        <value>here</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Download_Authorization_Form_Template_Link</fullName>
@@ -15674,6 +15674,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
             Please check your cookie settings below and turn on any cookies you&apos;re happy with.
             &quot;Strictly necessary&quot; cookies can&apos;t be turned off.
             However &quot;Functional&quot; cookies can be turned on or off below.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ActiveDelegateError</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_ActiveDelegateError</shortDescription>
+        <value>Delegate already exists.</value>
     </labels>
     <labels>
         <fullName>PP_AddProfilePhoto</fullName>

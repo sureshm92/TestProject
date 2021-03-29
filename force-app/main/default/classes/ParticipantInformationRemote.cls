@@ -140,6 +140,16 @@ public without sharing class ParticipantInformationRemote {
                 delegateJSON,
                 Participant__c.class
             );
+            
+             Boolean delFound = String.isBlank(delegateParticipant.First_Name__c) && 
+                String.isBlank(delegateParticipant.Last_Name__c) &&
+                String.isBlank(delegateParticipant.Email__c) &&
+                String.isBlank(delegateParticipant.Phone__c);
+            
+            if((String.isBlank(delegateParticipant.Id) && !delFound) ||
+              (!String.isBlank(delegateParticipant.Id) && delFound) ||
+              (!String.isBlank(delegateParticipant.Id) && !delFound)){
+            
             ID perAccountId = [SELECT ID,Study_Site__c,Study_Site__r.Site__c From Participant_Enrollment__c 
                            WHERE ID=:pe.Id].Study_Site__r.Site__c;
             Contact objcon ; 
@@ -234,7 +244,8 @@ public without sharing class ParticipantInformationRemote {
                     system.debug('No delegate was provided');
                 }
             } */
-        }
+            	}
+        	}
         }
     
         //If user is available then updated user language else update contact language
@@ -1194,6 +1205,14 @@ public without sharing class ParticipantInformationRemote {
                 delegateJSON,
                 Participant__c.class
             );
+            Boolean delFound = String.isBlank(delegateParticipant.First_Name__c) && 
+                String.isBlank(delegateParticipant.Last_Name__c) &&
+                String.isBlank(delegateParticipant.Email__c) &&
+                String.isBlank(delegateParticipant.Phone__c);
+            
+            if((String.isBlank(delegateParticipant.Id) && !delFound) ||
+              (!String.isBlank(delegateParticipant.Id) && delFound) ||
+              (!String.isBlank(delegateParticipant.Id) && !delFound)){
             ID perAccountId = [SELECT ID,Study_Site__c,Study_Site__r.Site__c From Participant_Enrollment__c 
                            WHERE ID=:pe.Id].Study_Site__r.Site__c;
             Contact objcon ; 
@@ -1264,7 +1283,7 @@ public without sharing class ParticipantInformationRemote {
                     system.debug('No delegate was provided');
                 }
             } */
-        }
+            }}
        }
          //If user is available then updated user language else update contact language
         if(userInfoJSON!=null){
@@ -1274,7 +1293,7 @@ public without sharing class ParticipantInformationRemote {
         }  
 
         return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
-    }
+        }
     
      @AuraEnabled
     public static DelegateInfo checkExisitingParticipant(String strFirstName

@@ -76,6 +76,8 @@
  <aura:attribute name="disableFile" type="Boolean" default="false" />
  <aura:attribute name="contentDocId" type="String"/>
  <aura:attribute name="contentDoc" type="String"/>
+ <aura:attribute name="openmodel" type="boolean" default="false"/>
+ <aura:attribute name="closeModel" type="boolean" default="false"/>
 
  <!-- handlers: -->
  <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -129,7 +131,7 @@
      <!-- page content -->
      <div
          class="rr-body-content"
-         style="{!'min-height: 500px; position: relative; padding-bottom: 100px ' + if(v.isRTL,'direction: rtl;','')}"
+         style="{!'min-height: 500px; position: relative; padding-bottom: 100px; padding-top: 50px ' + if(v.isRTL,'direction: rtl;','')}"
      >
          <!-- Select source -->
          <aura:if isTrue="{!v.currentState == 'Select Source'}">
@@ -238,7 +240,7 @@
                              </div>
                              <div class="buttons">
                                  <button
-                                     class="apollo-btn tertiary"
+                                     class="{!'apollo-btn tertiary ' + if(v.authorizationForm == true, ' selected', '')}"
                                      onclick="{!c.doStillInterested}"
                                      style="{!if(v.isRTL, 'margin-left: 1%;','')}"
                                  >
@@ -551,14 +553,95 @@
                                      class="slds-col slds-size_1-of-1 slds-large-size_1-of-6"
                                  ></div>
                                  <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                     <div
-                                         class="rr-form-element"
-                                         style="size: 16px; margin-top: 65px"
-                                     >
-                                         <label
-                                             >{!$Label.c.PG_Ref_L_Participant_Information}</label
-                                         >
-                                     </div>
+                                        <aura:if isTrue="{!v.authorizationForm}">
+                                                <div
+                                                     class="rr-form-element part-header"
+                                                     >
+                                                    <b><label
+                                                              >{!$Label.c.PG_Ref_L_Patient_Authorization}</label
+                                                        ></b>
+                                                    <div
+                                                         class="rr-form-element slds-no-label"
+                                                         style="margin-top: 15px"
+                                                         >
+                                                        <div class="rr-cb-container">
+                                                            <lightning:input
+                                                                             type="checkbox"
+                                                                             label=""
+                                                                             checked="{!v.agreePolicy}"
+                                                                             onchange="{!c.doCheckfields}"
+                                                                             />
+                                                        </div>
+                                                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                                            {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
+                                                        </div>
+                                                    </div>
+                                                    <div>
+                                                        <lightning:fileUpload label="{!$Label.c.Signed_Auth_Form}"
+                                                                              name="fileUploader"
+                                                                              multiple="false"
+                                                                              disabled="{!v.disableFile}"
+                                                                              onuploadfinished="{!c.handleUploadFinished}" />
+                                                        <div class="slds-grid slds-gutters slds-wrap">
+                                                            <div class="slds-col slds-size--2-of-5">
+                                                                    <a style= "padding-top: 5px;"
+                                                                        onclick="{!c.openModel}">
+                                                                        {!v.fileName}
+                                                                    </a>
+                                                            </div>
+                                                            <div class="slds-col slds-size--1-of-5">
+                                                                    <aura:if isTrue="{!v.disableFile}">
+                                                                    
+                                                                            <lightning:buttonIcon iconName="utility:delete"  
+                                                                                                  alternativeText="Delete" 
+                                                                                                  title="Delete" 
+                                                                                                  size= "small"
+                                                                                                  onclick="{!c.handleDeleteFile}"/>
+                                                                            
+                                                                    </aura:if>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                <br></br>
+                                                <div>
+                                                    <a href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}">
+                                                        {!$Label.c.PG_Ref_L_Download_Authorization}</a>
+                                                </div>
+                                                    
+                                            </div>
+                                        </aura:if>
+                                     <aura:If isTrue="{!v.openmodel}">
+                                         
+                                         <div  class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop " >
+                                             <div class="slds-modal__container ">
+                                                 <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
+                                                     
+                                                     <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
+                                                         <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
+                                                     </button>
+                                                 </div>
+                                                 <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
+                                                     <!--  Write Your Content here  -->
+                                                     <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
+                                                         <span>
+                                                             <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
+                                                                     
+                                                                     src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.contentDocId}"  frameborder="0"  >
+                                                             </iframe>               
+                                                         </span>
+                                                     </div>
+                                                     <br/>
+                                                 </div>
+                                             </div>
+                                         </div>    
+                                     </aura:If>
+                                    <div
+                                            class="{! v.authorizationForm ? 'part-header-removed' : 'part-header' }"
+                                                 >
+                                        <label>
+                                            {!$Label.c.PG_Ref_L_Participant_Information}
+                                        </label>
+                                    </div>
                                      <div
                                          class="slds-grid slds-gutters slds-wrap rr-form-element"
                                      >
@@ -655,7 +738,7 @@
                                                  label="{!$Label.c.PG_AS_F_Email_address}"
                                                  value="{!v.participant.Email__c}"
                                                  required="{!!v.needsGuardian}"
-                                                 disabled="{!!v.participant.Adult__c}"   
+                                                 disabled="{!v.enableGuardian}"   
                                                  onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                              />
@@ -673,7 +756,7 @@
                                                  value="{!v.emailRepeat}"
                                                  pattern="{!$Label.c.RH_Email_Validation_Pattern}"
                                                  required="{!!v.needsGuardian}"
-                                                 disabled="{!!v.participant.Adult__c}"   
+                                                 disabled="{!v.enableGuardian}"   
                                                  onblur="{!c.doCheckfields}"
                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
                                              />
@@ -689,7 +772,7 @@
                                                  label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
                                                  value="{!v.participant.Phone__c}"
                                                  required="{!!v.needsGuardian}"
-                                                 disabled="{!!v.participant.Adult__c}"
+                                                 disabled="{!v.enableGuardian}"
                                                  onblur="{!c.doCheckfields}"
                                              />
                                          </div>
@@ -707,7 +790,7 @@
                                              <c:rrSelect
                                                  options="{!v.phoneTypes}"
                                                  value="{!v.participant.Phone_Type__c}"
-                                                 disabled="{!!v.participant.Adult__c}"
+                                                 disabled="{!v.enableGuardian}"
                                                  useSentenceFont="false"
                                              />
                                          </div>
@@ -793,7 +876,7 @@
                                              style="size: 16px; margin-top: 15px"
                                          >
                                              <label
-                                                 >{!$Label.c.PG_Ref_L_Delegate_Information}</label
+                                                 >{!$Label.c.PG_Ref_L_Primary_Delegate_Information}</label
                                              >
                                          </div>
                                          <div

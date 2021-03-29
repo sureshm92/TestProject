@@ -68,7 +68,7 @@
                     component.set('v.participant', {
                         sobjectType: 'Participant__c'
                     });
-                    component.set('v.participant.Adult__c', true);
+                    component.set('v.enableGuardian', false);
                     component.set('v.genders', initData.genders);
                     component.set('v.phoneTypes', initData.phoneTypes);
                     component.set('v.counries', initData.countries);
@@ -225,7 +225,7 @@
     
     doCheckDateOfBith: function (component, event, helper) {
         helper.checkParticipantNeedsGuardian(component, helper);
-        helper.checkFields(component, event, helper);
+        //helper.checkFields(component, event, helper); REF-3070
     },
     
     doNeedsGuardian: function (component, event, helper) {
@@ -241,7 +241,6 @@
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
         var uploadedFiles = event.getParam("files");
-        console.log(uploadedFiles[0].documentId);
         component.set("v.fileName",uploadedFiles[0].name);
         component.set("v.disableFile",true);
         component.set("v.contentDocId",uploadedFiles[0].documentId);
@@ -361,5 +360,12 @@
         component.find('delegate-phone').focus();
         component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
-    }
+    },
+    
+    openModel : function(component, event, helper){ 
+         component.set('v.openmodel',true);
+    },
+    closeModal:function(component,event,helper){    
+        component.set('v.openmodel',false);
+    },
 });

@@ -231,6 +231,9 @@ public without sharing class PatientDelegateTriggerHandler {
                         updatedList.add(pdel);
                     }
                 }
+                else if(pdMap.get(p).size()==0){
+                    pdList.Primary_Delegate__c = True;
+                }
             }
         }
         update updatedList;

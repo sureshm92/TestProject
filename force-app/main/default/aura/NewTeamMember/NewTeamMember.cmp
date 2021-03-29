@@ -19,6 +19,7 @@
     />
     <aura:attribute name="isStaff" type="Boolean" access="private" />
     <aura:attribute name="isDelegateExisting" type="Boolean" default="false"/>
+    <aura:attribute name="isDelegateActive" type="Boolean" default="false"/>
     <aura:attribute name="isInitialized" type="Boolean" default="false" />
     <aura:attribute name="delegate" type="Object" access="private" />
     <aura:attribute name="delegateOptions" type="List" access="private" />

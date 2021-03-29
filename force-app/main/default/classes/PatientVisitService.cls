@@ -60,6 +60,13 @@ public inherited sharing class PatientVisitService {
         List<String> paststatusFilter = new List<String>{ VISIT_MODE_COMPLETED,VISIT_MODE_MISSED};
           filter += 'AND' + DatabaseService.fieldInValues('Status__c', paststatusFilter);
          }
+         else{
+            if(visitMode == VISIT_MODE_CURRENT){
+                List<String> currentstatusFilter = new List<String>{ VISIT_MODE_COMPLETED,VISIT_MODE_MISSED};
+                 filter +=
+            'AND' + DatabaseService.fieldNotInValues('Status__c', currentstatusFilter);
+            }
+        }
         }
       
         String order =

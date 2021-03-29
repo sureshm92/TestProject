@@ -90,6 +90,13 @@
         let emailValueRepeat = emailParticipantReapetCmp
             ? emailParticipantReapetCmp.get('v.value')
             : null;
+        //REF-3070
+        if(!participant.Adult__c){
+            component.set('v.participant.Email__c', '');
+            component.set('v.emailParticipantRepeat', '');
+            component.set('v.participant.Phone__c', '');
+            component.set('v.participant.Phone_Type__c', '');
+        }    
         helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
         helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
         var participantDelegateOld = component.get('v.participantDelegate');
