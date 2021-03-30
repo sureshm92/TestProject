@@ -13,10 +13,12 @@
         <valueSettings>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Successfully Contacted</valueName>
         </valueSettings>
         <valueSettings>
             <controllingFieldValue>Unable to Reach</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Contact Attempted</valueName>
         </valueSettings>
         <valueSettings>
@@ -24,6 +26,7 @@
             <controllingFieldValue>Eligibility Failed</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Eligibility Passed</valueName>
         </valueSettings>
         <valueSettings>
@@ -40,6 +43,7 @@
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Screening Passed</valueName>
         </valueSettings>
         <valueSettings>
@@ -49,6 +53,7 @@
             <controllingFieldValue>Screening Failed</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Screening In Progress</valueName>
         </valueSettings>
         <valueSettings>
@@ -70,6 +75,7 @@
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Enrollment Success</valueName>
         </valueSettings>
         <valueSettings>
@@ -94,6 +100,7 @@
             <controllingFieldValue>Enrollment Failed</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Treatment Period Started</valueName>
         </valueSettings>
         <valueSettings>
@@ -108,6 +115,7 @@
             <controllingFieldValue>Treatment Period Started</controllingFieldValue>
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Follow-Up Period Started</valueName>
         </valueSettings>
         <valueSettings>
@@ -123,6 +131,7 @@
             <controllingFieldValue>Successfully Contacted</controllingFieldValue>
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Participation Complete</valueName>
         </valueSettings>
         <valueSettings>
@@ -139,6 +148,7 @@
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Trial Complete</valueName>
         </valueSettings>
         <valueSettings>
@@ -156,6 +166,7 @@
             <controllingFieldValue>Follow-Up Period Started</controllingFieldValue>
             <controllingFieldValue>Contact Attempted</controllingFieldValue>
             <controllingFieldValue>Participation Complete</controllingFieldValue>
+            <controllingFieldValue>Received</controllingFieldValue>
             <valueName>Drop Out</valueName>
         </valueSettings>
         <valueSettings>
