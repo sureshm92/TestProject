@@ -847,6 +847,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                     );
                                     listOfFailedRecords.add(getCleanMessage(csvLines,errorIndex));
                 }
+                 for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
+                        if(trackIndex.get(i) == d.totalRecordCount){
+                            d.mainparticipant = mapDuplicateParticipant.get(trackIndex.get(i));
+                            delegateWithpartList.add(d);
+                        }
+                    }
             }
 
             //Insert all Participant enrollment records.
