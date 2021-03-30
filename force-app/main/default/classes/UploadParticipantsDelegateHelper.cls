@@ -10,6 +10,10 @@ public without sharing class UploadParticipantsDelegateHelper {
         Set<Id> successfullyInsertedContactSet = new Set<Id>();
         Integer trackingNumberSuccess = 0;
         ErrorPatientDelegateWrapper errorwrap = new ErrorPatientDelegateWrapper();
+        //Used for update the contact and participant records which were identified as duplicates.
+        List<Contact> contactUpdateList = new List<Contact>();
+        List<Participant__c> participantUpdateList = new List<Participant__c>();
+
         for(ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {   
             //Contact initiation 
             Contact delegateContact = new Contact();
@@ -25,8 +29,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             delegateContact.userCommunityIsDelegate__c = true;
             delegateContact.MailingCountryCode = pWrapper.mainparticipant.Mailing_Country_Code__c;
             delegateContact.MailingStateCode = pWrapper.mainparticipant.Mailing_State_Code__c;
-            delegateContact.MailingCountry = pWrapper.mainparticipant.Mailing_Country__c;
-            delegateContact.MailingState = pWrapper.mainparticipant.Mailing_State__c;
+            //delegateContact.MailingCountry = pWrapper.mainparticipant.Mailing_Country__c;
+           // delegateContact.MailingState = pWrapper.mainparticipant.Mailing_State__c;
             delegateContact.MailingPostalCode = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
 
             if('Home' == pWrapper.DelegatePhoneType) {
@@ -49,8 +53,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
-            participantDelegate.Mailing_Country__c = pWrapper.mainparticipant.Mailing_Country__c;
-            participantDelegate.Mailing_State__c = pWrapper.mainparticipant.Mailing_State__c;
+            //participantDelegate.Mailing_Country__c = pWrapper.mainparticipant.Mailing_Country__c;
+            //participantDelegate.Mailing_State__c = pWrapper.mainparticipant.Mailing_State__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
 
             /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
@@ -85,6 +89,15 @@ public without sharing class UploadParticipantsDelegateHelper {
             }
             else {
                 duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
+                /*//For update Contact records
+                Contact updateContact = new Contact(); 
+                updateContact.Id = ddInfo.contactId;
+                //For update Participant records
+                Participant__c updateParticipant = new Participant__c(); 
+                updateParticipant.Id = ddInfo.participantId;
+                updateParticipant.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
+                contactUpdateList.add(updateContact);
+                participantUpdateList.add(updateParticipant);*/
             }
         }
 
@@ -189,6 +202,14 @@ public without sharing class UploadParticipantsDelegateHelper {
         if(!conListtoBeUpdated.isEmpty()) {
             update conListtoBeUpdated;
         }
+        /*if(!contactUpdateList.isEmpty()){
+            update contactUpdateList;
+        }
+
+        if(!participantUpdateList.isEmpty()){
+            update participantUpdateList;
+        }*/
+
        return errorwrap;
     }
 

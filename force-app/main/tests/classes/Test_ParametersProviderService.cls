@@ -6,7 +6,9 @@
 public with sharing class Test_ParametersProviderService {
     @TestSetup
     static void testSetup() {
+        test.startTest();
         TestData.loadTestData();
+        test.stopTest();
     }
 
     @IsTest
