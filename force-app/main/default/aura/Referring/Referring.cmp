@@ -582,7 +582,7 @@
                                                                               multiple="false"
                                                                               disabled="{!v.disableFile}"
                                                                               onuploadfinished="{!c.handleUploadFinished}" />
-                                                        <div class="slds-grid slds-gutters slds-wrap">
+                                                        <div class="slds-grid slds-gutters slds-wrap" style= "padding-top:5px;">
                                                             <div class="slds-col slds-size--2-of-5">
                                                                     <a style= "padding-top: 5px;"
                                                                         onclick="{!c.openModel}">
