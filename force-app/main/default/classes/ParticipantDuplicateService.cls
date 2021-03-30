@@ -379,12 +379,17 @@ public without sharing class ParticipantDuplicateService {
 
                 if (duplicate != null) {
                     Integer birthYear = getYearOfBirthForParticipant(participant);
+                    Integer participantAge = System.today().year() - birthYear;
+                    Integer birthYearInTheSystem = duplicate.getYearOfBirth();
                     System.debug('>>> BY: ' + birthYear);
-                    if (birthYear != null) {
-                        Integer participantAge = System.today().year() - birthYear;
+                    if (participantAge > 18 && duplicate.getFirstName() == participant.First_Name__c && birthYearInTheSystem == null) 
+                        {
+                            setDuplicate(participant, duplicate);
+                            continue;
+                        }
+                    if (birthYear != null && birthYearInTheSystem != null) {
+                        
                         System.debug('>>> Participant age: ' + participantAge);
-                        Integer birthYearInTheSystem = duplicate.getYearOfBirth();
-                        if (birthYearInTheSystem != null) {
                             System.debug('>>> BY in the system: ' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
@@ -393,7 +398,7 @@ public without sharing class ParticipantDuplicateService {
                                 setDuplicate(participant, duplicate);
                                 continue;
                             }
-                        } 
+                          
                         /*else if (
                             participantAge > 18 &&
                             duplicate.getFirstName() == participant.First_Name__c
