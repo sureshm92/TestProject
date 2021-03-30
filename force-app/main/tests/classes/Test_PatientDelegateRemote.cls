@@ -21,6 +21,11 @@ public class Test_PatientDelegateRemote {
                         .get(0)
                         .First_Name__c;
                 }
+                when 'getFirstNameBlankTest' {
+                    return [SELECT Id FROM Participant__c WHERE First_Name__c = '']
+                        .get(0)
+                        .First_Name__c;
+                }
                 when 'getDelegateContact' {
                     return [SELECT Id, FirstName FROM Contact WHERE FirstName = 'James'].get(0);
                 }
@@ -70,6 +75,45 @@ public class Test_PatientDelegateRemote {
         }
        
         System.assertEquals(true, name != null ? true : false);
+    }
+ 
+    @IsTest
+    static void getFirstNameBlankTest() {
+        Test.startTest();
+        TestData.loadTestData();
+        TestData testData = new TestData();
+         Test.stopTest();
+        User dataUser = testData.createDelegateData();
+        insert dataUser;
+        system.debug('dataUser1>>'+dataUser);
+        
+        Account studySiteAccount = new Account();
+            studySiteAccount.Name = 'Study Site Account';
+            studySiteAccount.BillingLatitude = 41.766594;
+            studySiteAccount.BillingLongitude = -74.991509;
+            studySiteAccount.BillingCountry = 'United States';
+        insert studySiteAccount;
+       Contact delegatecontact = new Contact(
+            FirstName = 'Joy',
+            LastName = 'JoyDad',
+            Email = 'Joypatient@somemail.com',
+            AccountId = studySiteAccount.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PI,
+            userCommunytyType__c = CommunityService.USER_MODE_PI,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegatecontact;
+        
+        delegatecontact.userCommunityDelegateId__c = dataUser.Id;
+        update delegatecontact;
+        system.debug('delegatecontact>>'+delegatecontact);
+         
+        String name;
+        System.runAs(dataUser) {
+            name = PatientDelegateRemote.getYourPatientFirstName();
+        }
+       
+        System.assertEquals(true, name == null ? true : false);
     }
 
     @IsTest
