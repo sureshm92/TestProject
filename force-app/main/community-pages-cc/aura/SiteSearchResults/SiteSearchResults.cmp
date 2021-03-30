@@ -154,6 +154,7 @@
     </div>
     <aura:if isTrue="{!v.onclickName}">
         <c:Action_StudySiteInformation
+            isRTL="{!v.isRTL}"
             studyInformation="{!v.studyInformation}"
             aura:id="OpenStudySiteInfoAction"
             parentComp="{!this}"

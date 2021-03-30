@@ -23,6 +23,13 @@
     margin-left: -16px;
 }
 
+.THIS .ssp-selectRTL {
+    position: relative;
+    width: 200px;
+    margin-top: -3px;
+    margin-left: 9px;
+}
+
 .THIS .ssp-button-search {
     margin-left: 16px;
 }
