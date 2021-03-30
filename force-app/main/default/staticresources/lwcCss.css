@@ -40,11 +40,17 @@
     table-layout: fixed !important;
     width:300px !important;
 }
- 
+
 .slds-datepicker{
     max-width : none !important; 
     position:fixed !important;
 }
+.slds-has-error .slds-form-element__help {
+    line-height: 1;
+    width: 200px;
+    white-space: normal;
+}
+
 .wi .slds-dropdown {
     font-size:16px;
     font-family: 'Proxima Nova';
