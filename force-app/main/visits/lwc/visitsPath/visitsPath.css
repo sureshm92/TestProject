@@ -53,6 +53,9 @@ h2 {
     margin-left: -118px;
     margin-top: 5px;
 }
+.errorMargin {
+    margin-top: 15px;
+}
 .wi {
     width: 209px;
 }

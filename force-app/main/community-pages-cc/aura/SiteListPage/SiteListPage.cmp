@@ -65,6 +65,7 @@
         
         <c:SiteSearchPanel
                            aura:id="searchPanel"
+                           isRTL="{!v.isRTL}"
                            selectedSearchOption="{!v.selectedSearchOption}"
                            searchText="{!v.searchText}"
                            searchTextPlaceHolder="{!v.searchTextPlaceHolder}"

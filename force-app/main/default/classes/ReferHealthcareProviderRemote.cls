@@ -430,7 +430,7 @@ global without sharing class ReferHealthcareProviderRemote {
             } 
             else{
                 if(!boolisUserCreated) {
-                if(ContactId != Null){
+                if(ContactId != Null && createUser){
                  ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
                 }

@@ -131,7 +131,7 @@
      <!-- page content -->
      <div
          class="rr-body-content"
-         style="{!'min-height: 500px; position: relative; padding-bottom: 100px; padding-top: 50px ' + if(v.isRTL,'direction: rtl;','')}"
+         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;' + if(v.isRTL,'direction: rtl;','')}"
      >
          <!-- Select source -->
          <aura:if isTrue="{!v.currentState == 'Select Source'}">
@@ -582,7 +582,7 @@
                                                                               multiple="false"
                                                                               disabled="{!v.disableFile}"
                                                                               onuploadfinished="{!c.handleUploadFinished}" />
-                                                        <div class="slds-grid slds-gutters slds-wrap">
+                                                        <div class="slds-grid slds-gutters slds-wrap" style= "padding-top:5px;">
                                                             <div class="slds-col slds-size--2-of-5">
                                                                     <a style= "padding-top: 5px;"
                                                                         onclick="{!c.openModel}">
