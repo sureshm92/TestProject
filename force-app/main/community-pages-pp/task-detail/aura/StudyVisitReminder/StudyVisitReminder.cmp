@@ -114,7 +114,7 @@
                                     required="true"
                                     variant="label-hidden"
                                     disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
-                                    class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : ''}"
+                                    class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : 'taskClass'}"
                                     onblur="{!c.doValidateFields}"
                                 />
                             </div>
