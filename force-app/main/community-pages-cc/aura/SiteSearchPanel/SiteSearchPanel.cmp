@@ -14,6 +14,7 @@
     <aura:attribute name="resetVal" type="Boolean" />
     <aura:attribute name="hasResult" type="Boolean" />
     <aura:attribute name="containsSerchTxt" type="Boolean" default="true" />
+    <aura:attribute name="isRTL" type="Boolean" />
 
     <aura:handler name="change" value="{!v.sortType}" action="{!c.doUpdateSortType}" />
     <aura:handler name="change" value="{!v.searchText}" action="{!c.doCheckSearchTxt}" />
