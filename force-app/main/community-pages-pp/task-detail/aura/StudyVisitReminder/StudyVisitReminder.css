@@ -57,6 +57,13 @@
     width: 300px;
 }
 
+.THIS .taskClass > .slds-form-element__help{
+    margin-top:4px;
+}
+.THIS .wi > .slds-form-element__help{
+    margin-top:4px;
+}
+
 .THIS .slds-form-element__help {
     position: absolute;
     width: 200px;
