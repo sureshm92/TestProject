@@ -215,6 +215,7 @@ VALIDATE:
     url: https://quintilesimscmo--inf70.lightning.force.com/lightning/setup/SetupOneHome/home 
   only:
     - merge_requests
+    - INT7.0
   except:
     - push
     - commit
