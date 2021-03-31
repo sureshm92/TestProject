@@ -36,7 +36,7 @@
                                 color: #000000;
                                 font-size: 14px;
                                 line-height: 21px;
-                                {!if(RTL == true, 'float:right;width: 40%;', 'float:left;width: 70%;display:none;')}">
+                                {!if(RTL == true, 'float:right;text-align: right;width: 70%;', 'float:left;text-align:left;width: 70%;display:none;')}">
                         {!trialMatch.TherapeuticArea} : {!$Label.TrialSearch_Therapeutic_area} 
                     </div>
 
@@ -57,7 +57,7 @@
                     <div style="color: #000000;
                                 font-size: 17px;
                                 line-height: 21px;
-                                {!if(RTL == true, 'float:right;width: 37%', 'float:left;width: 70%;')}
+                                {!if(RTL == true, 'float:right;text-align: right;width: 70%', 'float:left;text-align:left;width: 70%;')}
                                 ">
                         {!trialMatch.StudyCodeName}
                     </div>
