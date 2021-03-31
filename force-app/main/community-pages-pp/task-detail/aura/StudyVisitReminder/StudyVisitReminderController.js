@@ -198,20 +198,31 @@
                reminderOptionValid.setCustomValidity($A.get('$Label.c.PP_Reminder_Error_Message'));
                reminderOptionValid.reportValidity();  
              }
+             if(isReminderOnly && !component.get('v.initData.createdByAdmin')){
+                          component.set('v.isValidFields',false);
+             }
+
          }else{
              if(!$A.util.isUndefinedOrNull(reminderOptionValid)){
                 reminderOptionValid.setCustomValidity(' ');
-             reminderOptionValid.reportValidity(); 
+                reminderOptionValid.reportValidity(); 
                  if(isReminderOnly && !component.get('v.initData.createdByAdmin')){
-                 component.set('v.isValidFields',true);
+                        if(helper.doValidateReminder(component) === true){
+                          component.set('v.isValidFields',true);
+                        }else{
+                          component.set('v.isValidFields',false);
+                        }
                   }
              }
-             
          }
          }else{
                if(!component.get('v.initData.createdByAdmin')){
                     if(isReminderOnly){
-                 component.set('v.isValidFields',true);
+                        if(helper.doValidateReminder(component) === true){
+                          component.set('v.isValidFields',true);
+                        }else{
+                          component.set('v.isValidFields',false);
+                        }
                   }
               if(!$A.util.isUndefinedOrNull(reminderOptionValid)){
                 reminderOptionValid.setCustomValidity(' ');
