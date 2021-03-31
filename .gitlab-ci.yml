@@ -210,12 +210,6 @@ SonarCheck:
 VALIDATE:
   tags:
     - RHPP
-  environment:    
-  name: INT70
-    url: https://quintilesimscmo--int70.lightning.force.com/lightning/page/home 
-  environment:
-    name: INF70
-    url: https://quintilesimscmo--inf70.lightning.force.com/lightning/setup/SetupOneHome/home 
   only:
     - merge_requests
   except:
@@ -241,12 +235,6 @@ FullDeploy:
 
 DeltaDeploy:
   extends: .deploy_script
-  environment:    
-  name: INT70
-    url: https://quintilesimscmo--int70.lightning.force.com/lightning/page/home
-  environment:
-    name: INF70
-    url: https://quintilesimscmo--inf70.lightning.force.com/lightning/setup/SetupOneHome/home 
   only:
     refs:
       - pushes
