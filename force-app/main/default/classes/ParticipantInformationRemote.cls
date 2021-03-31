@@ -495,9 +495,9 @@ public without sharing class ParticipantInformationRemote {
             }
 
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
+            system.debug('needsInvite: ' + needsInvite);
+            toCreateUser.put(participant.Contact__c, null);
             if (needsInvite) {
-                system.debug('needsInvite: ' + needsInvite);
-                toCreateUser.put(participant.Contact__c, null);
                 actionAssignContactPermissions.addPermission(
                     participant.Contact__c,
                     permissionSetName
@@ -580,7 +580,7 @@ public without sharing class ParticipantInformationRemote {
             if (!actionAssignContactPermissions.isEmpty() && needsInvite == true) {
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }
-            if (!actionAssignContactPermissions.isEmpty() && needsInvite == false) {
+            /*if (!actionAssignContactPermissions.isEmpty() && needsInvite == false) {
                 TriggerHandlerExecutor.bypassHandler(
                     PatientDelegateTriggerHandler.CreateReactivatedNotification.class
                 );
@@ -588,7 +588,7 @@ public without sharing class ParticipantInformationRemote {
                     PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                 );
                 ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            }
+            }*/
         } catch (Exception exp) {
             throw new AuraHandledException(exp.getMessage() + '\n' + exp.getStackTraceString());
         }

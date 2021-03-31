@@ -687,6 +687,7 @@
                                     type="text"
                                     value="{!v.participant.Alternative_Phone_Number__c}"
                                     onblur="{!c.doCheckFields}"
+                                    disabled="{!!v.participant.Adult__c}"
                                 />
                             </div>
                             <div
@@ -698,7 +699,7 @@
                                     value="{!v.participant.Alternative_Phone_Type__c}"
                                     placeholder="{!$Label.c.PG_AC_Select}"
                                     onchange="{!c.doCheckFields}"
-                                    disabled="{!!v.participant.Alternative_Phone_Number__c}"
+                                    disabled="{!!v.participant.Alternative_Phone_Number__c || !v.participant.Adult__c}"
                                 />
                             </div>
                             <div
