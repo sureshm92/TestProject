@@ -113,6 +113,8 @@ cache:
 
 # Validation: ------------------------------------------------------------------
 SonarCheck:
+  tags:
+    - RHPP
   allow_failure: true
   only:
    - merge_requests
@@ -206,6 +208,8 @@ SonarCheck:
 
 
 VALIDATE:
+  tags:
+    - RHPP
   only:
     - merge_requests
   except:
