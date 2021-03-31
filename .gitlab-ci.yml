@@ -116,9 +116,6 @@ SonarCheck:
   allow_failure: true
   tags:
     - RHPP
-  environment:
-    name: INT70
-    url: https://quintilesimscmo--int70.lightning.force.com/lightning/page/home 
   only:
    - merge_requests
   except:
@@ -238,9 +235,6 @@ FullDeploy:
 
 DeltaDeploy:
   extends: .deploy_script
-  environment:
-    name: INT70
-    url: https://quintilesimscmo--int70.lightning.force.com/lightning/page/home 
   only:
     refs:
       - pushes
