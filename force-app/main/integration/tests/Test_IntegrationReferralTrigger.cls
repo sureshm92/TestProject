@@ -4,9 +4,9 @@
 @IsTest
 private class Test_IntegrationReferralTrigger {
 
-	@TestSetup
-	private static void testSetup(){
-		List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
+    @TestSetup
+    private static void testSetup(){
+        List<Terms_And_Conditions__c> tcList = new List<Terms_And_Conditions__c>();
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(
                 Active__c = true
         );
@@ -124,10 +124,10 @@ private class Test_IntegrationReferralTrigger {
         hcpEnrollment.Status__c = HCPEnrollmentService.HCP_S_ACTIVATED;
         update hcpEnrollment;
         
-	}
-	
-	@IsTest
-	private static void testNewAndAdditionalParticipant() {
+    }
+    
+    @IsTest
+    private static void testNewAndAdditionalParticipant() {
         Test.startTest();
         Study_Site__c studySite = [SELECT Id, Primary_Key_ePR__c FROM Study_Site__c];
         System.debug('>>> ' + studySite.Primary_Key_ePR__c);
@@ -140,6 +140,7 @@ private class Test_IntegrationReferralTrigger {
             siteSelected__c = '123',
             Address_State__c = 'New York',
             referralID__c = '453453',
+            BirthDate__c = '2003-02-19', 
             Address_ZipCode__c = '34545',
             Address_Country__c = 'US',
             Language_Preference__c = 'en_US',
@@ -157,6 +158,7 @@ private class Test_IntegrationReferralTrigger {
             phone__c = '123578910',
             protocolId__c = 'tt123456789',
             siteSelected__c = '123',
+            BirthDate__c = '2003-02-19', 
             Address_State__c = 'New York',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -192,6 +194,7 @@ private class Test_IntegrationReferralTrigger {
             protocolId__c = 'tt123456789',
             siteSelected__c = '123',
             birthYear__c = '1982',
+            BirthDate__c = '2003-02-19', 
             Address_State__c = 'New York',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -212,6 +215,7 @@ private class Test_IntegrationReferralTrigger {
             protocolId__c = 'tt123456789',
             siteSelected__c = '123',
             birthYear__c = '1982',
+            BirthDate__c = '2003-02-19', 
             Address_State__c = 'New York',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
@@ -241,7 +245,8 @@ private class Test_IntegrationReferralTrigger {
             Address_State__c = 'New York',
             referralID__c = '453453',
             Address_ZipCode__c = '34545', 
-            Address_Country__c = 'US', 
+            Address_Country__c = 'US',
+            BirthDate__c = '2003-02-19', 
             Language_Preference__c = 'en_US', 
             Referred_Date__c = '2019-10-02T10:00:00-05:00', 
             Data_Source__c = 'Company', 
