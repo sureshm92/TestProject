@@ -34,6 +34,10 @@
             <default>false</default>
         </values>
         <values>
+            <fullName>Randomization Success</fullName>
+            <default>false</default>
+        </values>        
+        <values>
             <fullName>Received</fullName>
             <default>false</default>
         </values>
