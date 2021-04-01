@@ -43,7 +43,7 @@ h2 {
 }
 .reminderDate {
     margin-left: -105px;
-    margin-top: -12px;
+    margin-top: 5px;
 }
 .reminderDate_rtl {
     margin-right: -105px;
@@ -86,7 +86,7 @@ h2 {
     letter-spacing: 0;
     white-space: nowrap;
     margin-top: -25px;
-    margin-left: 16px;
+    margin-left: 8px;
 }
 .label_rtl_remind {
     margin-right: -143px;
@@ -125,6 +125,7 @@ h2 {
 }
 .mr_left_5 {
     margin-left: 5px;
+    padding-top: .5rem;
 }
 .what-to-expect {
     height: 24px;
@@ -136,7 +137,7 @@ h2 {
     letter-spacing: 0;
     line-height: 24px;
     margin-top: -28px;
-    margin-left: 20px;
+    margin-left: 10px;
 }
 .what-to-expect_rtl {
     height: 24px;
