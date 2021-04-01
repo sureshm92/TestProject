@@ -224,7 +224,7 @@
     },
     
     doCheckDateOfBith: function (component, event, helper) {
-        helper.checkParticipantNeedsGuardian(component, helper);
+        helper.checkParticipantNeedsGuardian(component, event, helper);
         //helper.checkFields(component, event, helper); REF-3070
     },
     

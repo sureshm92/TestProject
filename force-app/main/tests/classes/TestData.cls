@@ -160,6 +160,38 @@ public class TestData {
         User delegateUser = CommunityService.createUser(delegate, null, null, null);
         return delegateUser;
     }
+ 
+    public User createDelegateData() {
+        Contact delegatecontact = new Contact(
+            FirstName = 'Joy',
+            LastName = 'JoyDad',
+            Email = 'Joypatient@somemail.com',
+            AccountId = participant.Contact__r.AccountId,
+            Current_Participant_Enrollment__c = pe.Id,
+            userCommunityMode__c = CommunityService.USER_MODE_PI,
+            userCommunytyType__c = CommunityService.USER_MODE_PI,
+            UserCommunityIsDelegate__c = true
+        );
+        insert delegatecontact;
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Joy',
+            Last_Name__c = 'JoyDad',
+            Email__c = 'Joypatient@somemail.com',
+            Contact__c = delegatecontact.Id
+        );
+        insert p;
+
+        Patient_Delegate__c patientDelegate = new Patient_Delegate__c(
+            Contact__c = delegatecontact.Id,
+            Contact__r = delegatecontact,
+            Participant__c = p.Id,
+            Participant__r = p
+        );
+        insert patientDelegate;
+
+        User PatientUser = CommunityService.createUser(delegatecontact, null, null, null);
+        return PatientUser;
+    }
 
     public void createSSTravelVendors() {
         TravelVendor__c tv = new TravelVendor__c(Name = 'Test TV', Link_Vendor__c = 'Some link');
