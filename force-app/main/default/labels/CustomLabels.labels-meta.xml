@@ -14256,7 +14256,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PG_Ref_L_Authorization_Form</shortDescription>
-        <value>Note : You must have a signed authorization from the patient giving permission for their contact information and pre-screening data be shared with IQVIA and study doctors</value>
+        <value>Note : You must have a signed authorization from the patient giving permission for their contact information and pre-screening data to be shared with IQVIA and study doctors</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_Congratulations</fullName>
