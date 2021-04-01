@@ -216,7 +216,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
             //populate Participant Code
-            if(oldMap == null){
+            if(pe.Participant_Key__c == null ){
                  if(protocolId != null && participantName != null){
                      pe.Participant_Key__c = participantName + ' ' + protocolId;
                 }
