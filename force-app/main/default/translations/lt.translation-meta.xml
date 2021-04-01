@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>ŽLA</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+</Translations>
