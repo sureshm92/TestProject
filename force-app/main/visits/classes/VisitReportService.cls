@@ -55,7 +55,9 @@ public inherited sharing class VisitReportService {
             patientVisits
         );
         Set<String> notAccessResultType = visitResultSharingServiceInt.getNotAccessResultType();
+        Map<String, Visit_Result__c> accessVisitResultMap = new Map<String, Visit_Result__c>();
         Map<String, String> visitResultTypeSharingWithDesMap = new Map<String, String>();
+        Set<String> biomarkerLabDes = new Set<String>();
         if (pe.Clinical_Trial_Profile__c != null) {
             Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = visitResultSharingServiceInt.getVisitResultTypeSharingMap(
                 pe.Clinical_Trial_Profile__c
@@ -75,6 +77,11 @@ public inherited sharing class VisitReportService {
                         objVisitResultType.Custom_Tooltip__c
                     );
                 }
+            }
+        }
+        for (Patient_Visit__c objVisit : patientVisits) {
+            for (Visit_Result__c objVisitResult : objVisit.Visit_Results__r) {
+                accessVisitResultMap.put(objVisitResult.Result_Type__c, objVisitResult);
             }
         }
         for (Patient_Visit__c patientVisit : patientVisits) {
@@ -128,18 +135,58 @@ public inherited sharing class VisitReportService {
                                 } else {
                                     if (
                                         visitResultWrapper.visitResultTypeM.Visit_Result_Type__c !=
-                                        VISIT_RES_BIOMARKER_TYPE
+                                        VISIT_RES_BIOMARKER_TYPE ||
+                                        (accessVisitResultMap.containsKey(
+                                            visitResultWrapper.visitResultTypeM.DeveloperName
+                                        ))
                                     ) {
-                                        reportHeaderWrappers.add(
-                                            new VisitReportContainerRemote.VisitHeaderWrapper(
+                                        if (
+                                            accessVisitResultMap.containsKey(
                                                 visitResultWrapper.visitResultTypeM.DeveloperName
                                             )
-                                        );
-                                        reportRowWrappers.add(
-                                            new VisitReportContainerRemote.VisitValueWrapper(
-                                                '______'
-                                            )
-                                        );
+                                        ) {
+                                            Visit_Result__c objVisitRes = accessVisitResultMap.get(
+                                                visitResultWrapper.visitResultTypeM.DeveloperName
+                                            );
+                                            if (
+                                                VisitReportService.VISIT_RECORD_TYPE_LABS.equalsIgnoreCase(
+                                                    visitResultGroupM.Visit_Results_Mode__c
+                                                )
+                                            ) {
+                                                reportHeaderWrappers.add(
+                                                    new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                        objVisitRes
+                                                    )
+                                                );
+                                            } else {
+                                                reportHeaderWrappers.add(
+                                                    new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                        objVisitRes.Result_Type__c,
+                                                        objVisitRes.Measurement__c
+                                                    )
+                                                );
+                                            }
+                                        } else {
+                                            reportHeaderWrappers.add(
+                                                new VisitReportContainerRemote.VisitHeaderWrapper(
+                                                    visitResultWrapper.visitResultTypeM.DeveloperName
+                                                )
+                                            );
+                                        }
+                                        if (
+                                            visitResultWrapper.visitResultTypeM.Visit_Result_Type__c !=
+                                            VISIT_RES_BIOMARKER_TYPE
+                                        ) {
+                                            reportRowWrappers.add(
+                                                new VisitReportContainerRemote.VisitValueWrapper(
+                                                    '______'
+                                                )
+                                            );
+                                        } else {
+                                            reportRowWrappers.add(
+                                                new VisitReportContainerRemote.VisitValueWrapper('')
+                                            );
+                                        }
                                     }
                                 }
                                 if (
@@ -151,19 +198,35 @@ public inherited sharing class VisitReportService {
                                     (visitResultWrapper.visitResultTypeM.Visit_Result_Type__c !=
                                     VISIT_RES_BIOMARKER_TYPE)
                                 ) {
-                                    labsDescription.add(
-                                        new VisitReportContainerRemote.LabsNameDescriptionWrapper(
-                                            visitResultWrapper.visitResultTypeM,
-                                            language,
-                                            visitResultTypeSharingWithDesMap.containsKey(
-                                                    visitResultWrapper.visitResultTypeM.DeveloperName
-                                                )
-                                                ? visitResultTypeSharingWithDesMap.get(
-                                                      visitResultWrapper.visitResultTypeM.DeveloperName
-                                                  )
-                                                : ''
-                                        )
-                                    );
+                                    if (
+                                        !biomarkerLabDes.contains(
+                                            visitResultWrapper.visitResultTypeM.DeveloperName
+                                        ) ||
+                                        visitResultWrapper.visitResultTypeM.Visit_Result_Type__c !=
+                                        VISIT_RES_BIOMARKER_TYPE
+                                    ) {
+                                        labsDescription.add(
+                                            new VisitReportContainerRemote.LabsNameDescriptionWrapper(
+                                                visitResultWrapper.visitResultTypeM,
+                                                language,
+                                                visitResultTypeSharingWithDesMap.containsKey(
+                                                        visitResultWrapper.visitResultTypeM.DeveloperName
+                                                    )
+                                                    ? visitResultTypeSharingWithDesMap.get(
+                                                          visitResultWrapper.visitResultTypeM.DeveloperName
+                                                      )
+                                                    : ''
+                                            )
+                                        );
+                                    }
+                                    if (
+                                        visitResultWrapper.visitResultTypeM.Visit_Result_Type__c ==
+                                        VISIT_RES_BIOMARKER_TYPE
+                                    ) {
+                                        biomarkerLabDes.add(
+                                            visitResultWrapper.visitResultTypeM.DeveloperName
+                                        );
+                                    }
                                 }
                             }
                         }
@@ -171,6 +234,10 @@ public inherited sharing class VisitReportService {
                             if (result.containsKey(visitResultGroupM.DeveloperName)) {
                                 result.get(visitResultGroupM.DeveloperName)
                                     .visitResultsWrapper.add(reportRowWrappers);
+                                if (visitResultGroupM.DeveloperName == VISIT_RES_BIOMARKER_TYPE) {
+                                    result.get(visitResultGroupM.DeveloperName)
+                                        .labsDescription.addAll(labsDescription);
+                                }
                             } else {
                                 VisitReportContainerRemote.ReportDataTableWrapper reportDataTableWrapper = this.getReportDataTableWrapper(
                                     reportHeaderWrappers,
@@ -221,8 +288,11 @@ public inherited sharing class VisitReportService {
         if (pe.Enrolled_DateTime__c != null) {
             Datetime dT = pe.Enrolled_DateTime__c;
             Date myDate = Date.newInstance(dT.year(), dT.month(), dT.day());
-           // result.enrollmentDate = myDate.format();
-            result.enrollmentDate = UserService.formatDatebyLocale(dT,UserContext.getUser().LocaleSidKey);
+            // result.enrollmentDate = myDate.format();
+            result.enrollmentDate = UserService.formatDatebyLocale(
+                dT,
+                UserContext.getUser().LocaleSidKey
+            );
         }
         //PEH-1986: Show status if Trial is not yet completed
         if (!PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)) {
