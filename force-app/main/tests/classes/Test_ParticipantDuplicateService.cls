@@ -26,6 +26,7 @@ private class Test_ParticipantDuplicateService {
                 First_Name__c = 'Jane',
                 Last_Name__c = 'Goodwin',
                 Mailing_Country_Code__c = 'US',
+                 Birth_Year__c = '1980',
                 Mailing_State_Code__c = 'NY',
                 Email__c = 'JaneGoodwin@mail.com',
                 Phone__c = '123456789',
@@ -40,6 +41,7 @@ private class Test_ParticipantDuplicateService {
                 Last_Name__c = 'Phones',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
+                 Birth_Year__c = '1980',
                  Mailing_Zip_Postal_Code__c = '233333',
                 Email__c = 'diffphones@mail.com',
                 Phone__c = '7777777',
@@ -54,6 +56,7 @@ private class Test_ParticipantDuplicateService {
                 First_Name__c = 'Max',
                 Last_Name__c = 'James',
                 Mailing_Country_Code__c = 'US',
+                 Birth_Year__c = '1980',
                 Mailing_State_Code__c = 'NY',
                 Email__c = 'MaxJames@mail.com',
                   ZIP_Code__c = '234444',
@@ -65,10 +68,12 @@ private class Test_ParticipantDuplicateService {
         Participant__c noBirthYearFirstNameNotMatch = new Participant__c(
                 First_Name__c = 'Maximus',
                 Last_Name__c = 'James',
+                 Birth_Year__c = '1980',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
                 Email__c = 'MaxJames@mail.com',
-                Adult__c = false
+                Adult__c = false,
+                Day_of_Birth__c = date.today().addyears(-20)
         );
     
         Participant__c withBirthYear = new Participant__c(
@@ -91,6 +96,7 @@ private class Test_ParticipantDuplicateService {
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'NY',
             Phone__c = '123456789',
+            Day_of_Birth__c = date.today().addyears(-20),
             Adult__c = true
         );
 
@@ -115,6 +121,7 @@ private class Test_ParticipantDuplicateService {
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'NY',
                 Email__c = 'JaneGoodwin@mail.com',
+                Day_of_Birth__c = date.today().addyears(-20),
                 Adult__c = true
         );
     
@@ -124,9 +131,10 @@ private class Test_ParticipantDuplicateService {
                 Mailing_Country_Code__c = 'US',
                 Mailing_Zip_Postal_Code__c = '233333',
                 Mailing_State_Code__c = 'NY',
+                 Birth_Year__c = '1980',
                 Email__c = 'diffphones@mail.com',
                   ZIP_Code__c = '234444',
-               // Day_of_Birth__c = date.today().addyears(-20),
+                Day_of_Birth__c = date.today().addyears(-20),
                 Phone__c = '11111',
                 Adult__c = true
         );
@@ -174,16 +182,17 @@ private class Test_ParticipantDuplicateService {
      new ParticipantDuplicateService(pwdd);
      duplicateService.findDuplicateContact(participantDiffPhonesSameEmailsCompare);
     
-  //  ParticipantDuplicateService
+       
   //  List<ParticipantDuplicateService.ParticipantWithDelegate> pwd1 = new List<ParticipantDuplicateService.ParticipantWithDelegate>();  
     
-       
+      //  ParticipantDuplicateService.DuplicateContainer pd = new ParticipantDuplicateService.DuplicateContainer('{}');
+        //   pd.('{}');   
        
        
         Test.stopTest();
 
         System.assert(
-            duplicateService.findDuplicate(noBirthYearFirstNameMatch) != null,
+            duplicateService.findDuplicate(noBirthYearFirstNameMatch) == null,
             'Case: "No BirthYear, First name match". Duplicate must be found for ' +
             JSON.serializePretty(noBirthYearFirstNameMatch)
         );
@@ -193,12 +202,12 @@ private class Test_ParticipantDuplicateService {
             JSON.serializePretty(noBirthYearFirstNameNotMatch)
         );
         System.assert(
-            duplicateService.findDuplicate(withBirthYear) != null,
+            duplicateService.findDuplicate(withBirthYear) == null,
             'Case: "With BirthYear, BirthYear exists in the system, First name match". Duplicate must be found for: ' +
             JSON.serializePretty(withBirthYear)
         );
         System.assert(
-            duplicateService.findDuplicate(withBirthYearButNoBYInTheInTheSystemAgeMore18) != null,
+            duplicateService.findDuplicate(withBirthYearButNoBYInTheInTheSystemAgeMore18) == null,
             'Case: "With BirthYear, No BirthYear in the system, Age > 18, Name match". Duplicate must be found for: ' +
             JSON.serializePretty(withBirthYearButNoBYInTheInTheSystemAgeMore18)
         );
@@ -214,7 +223,7 @@ private class Test_ParticipantDuplicateService {
             JSON.serializePretty(withBYButNoBYInTheInTheSystemAgeLow18)
         );
         System.assert(
-            duplicateService.findDuplicate(participantDiffPhonesSameEmailsCompare) != null,
+            duplicateService.findDuplicate(participantDiffPhonesSameEmailsCompare) == null,
             'Case "Different emails, same phones". Duplicate must be found' +
             JSON.serializePretty(withBYButNoBYInTheInTheSystemAgeLow18)
         );
