@@ -205,7 +205,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Active'));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
             system.debug('>>>mapParticipantIdToPatientDelegate>>'+mapParticipantIdToPatientDelegate.values());
           //  system.debug('<>>exception>>>'+0/0);
@@ -1270,7 +1270,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Active'));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
              if(!mapParticipantIdToPatientDelegate.isEmpty())  
               upsert mapParticipantIdToPatientDelegate.values();

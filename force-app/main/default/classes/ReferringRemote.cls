@@ -428,6 +428,7 @@ public without sharing class ReferringRemote {
                         ptDelegateRef.Participant__c = participantId;
                         ptDelegateRef.Contact__c = newContact.Id;
                         ptDelegateRef.Primary_Delegate__c = True;
+                        ptDelegateRef.Status__c = 'Disconnected';
                         String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                             .templateName;
                         if (
