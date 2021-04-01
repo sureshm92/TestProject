@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>Человеческий лейкоцитарный антиген</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>Нью-Йоркская плоскоклеточная карцинома пищевода-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>Лиганд 1 белка программируемой смерти клеток</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+</Translations>
