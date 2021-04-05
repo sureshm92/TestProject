@@ -59,7 +59,9 @@ public without sharing class PatientDelegateTriggerHandler {
     @TestVisible
     private static void setDefaultPatientStatus(List<Patient_Delegate__c> newList) {
         for (Patient_Delegate__c participantDelegate : newList) {
-            participantDelegate.Status__c = PATIENT_DELEGATE_DISCONNECTED_STATUS;
+            if(participantDelegate.Status__c == NULL){
+                participantDelegate.Status__c = PATIENT_DELEGATE_ACTIVE_STATUS;
+            }
         }
     }
 
@@ -224,16 +226,16 @@ public without sharing class PatientDelegateTriggerHandler {
             pdMap.put(pList.Id, pList.Participants__r); 
         }
         for(Id p : pdMap.keySet()){
-            for(Patient_Delegate__c pdList : patientDelegates){
-                if(pdList.Primary_Delegate__c == True){
-                    for(Patient_Delegate__c pdel: pdMap.get(p)){
+            for(Patient_Delegate__c pdel: pdMap.get(p) ){
+                for(Patient_Delegate__c pdList : patientDelegates){
+                    if(pdList.Primary_Delegate__c == True && pdList.Participant__c == p){
                         pdel.Primary_Delegate__c = False;
                         updatedList.add(pdel);
                     }
                 }
-                else if(pdMap.get(p).size()==0){
+                /*else if(pdMap.get(p).size()==0){
                     pdList.Primary_Delegate__c = True;
-                }
+                }*/
             }
         }
         update updatedList;

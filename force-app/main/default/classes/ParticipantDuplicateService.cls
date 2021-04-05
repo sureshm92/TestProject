@@ -49,7 +49,7 @@ public without sharing class ParticipantDuplicateService {
         }
 
         public Participant__c getParticipant() {
-            if (isParticipant() || Test.isRunningTest())
+            if (isParticipant())
                 return (Participant__c) duplicate;
             return null;
         }

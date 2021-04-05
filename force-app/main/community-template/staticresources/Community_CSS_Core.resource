@@ -570,6 +570,11 @@ lightning-datepicker lightning-button-icon .slds-button svg {
     display: none;
 }
 
+.mr_left_5 > .slds-col {
+    padding: .5rem .25rem;
+}
+
+
 .slds-datepicker__filter_month > div:first-child .slds-button:after {
     content: '';
     position: absolute;
@@ -596,11 +601,29 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 .slds-datepicker td,
 .slds-datepicker th{
     font-size: 1rem;
+    padding: 2px .25rem;
 }
 
 .slds-datepicker td:not(.slds-disabled-text),
 .slds-datepicker th{
     color: #000;
+}
+
+.slds-datepicker__filter {
+    padding: .4rem .25rem 2px;
+}
+
+.slds-datepicker .slds-shrink-none {
+    padding-top: 5px;
+}
+
+.slds-datepicker .slds-shrink-none .slds-form-element {
+    display: flex;
+    align-items: center;
+}
+
+.slds-datepicker__month + .slds-button {
+    padding-bottom: .5rem;
 }
 
 .slds-datepicker__filter_month .slds-align-middle,
@@ -661,6 +684,11 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 .slds-radio [type=radio]:checked+.slds-radio__label .slds-radio--faux:after {
     background: #297dfd;
 }
+
+.slds-listbox__option .slds-media__body {
+    font-size: 1rem;
+}
+
 /*-------------------------------------------------------- Output -------------------------------------------------------------*/
 
 .rr-output-field{
