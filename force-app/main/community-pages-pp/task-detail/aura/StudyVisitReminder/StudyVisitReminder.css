@@ -83,6 +83,14 @@
     padding-top: 15px;
 }
 
+.THIS .dateInputs .slds-p-top_large > .slds-p-top_large {
+    padding-top: 10px;
+}
+
+.THIS .dateInputs .slds-p-top_large .slds-p-top_medium {
+    padding-top: 0;
+}
+
 .THIS .slds-input.slds-combobox__input {
     color: #000000;
     font-family: 'Proxima Nova';
@@ -399,6 +407,35 @@
     .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+25) .tooltiptext {
         top: 180px
     }
+
+    .THIS .te-col-header-info+.te-form>.slds-col:first-child input {
+        width: 100%;
+    }
+
+    .THIS .te-task-panel {
+        margin: 25px auto;
+    }
+
+
+    .THIS .slds-grid.te-form,
+    .THIS .dateInputs .slds-grid.slds-p-top_large {
+        flex-direction: column;
+    }
+
+    .THIS .reminderDate,
+    .THIS .vis_reminder {
+        margin: 1rem 0 0;
+    }
+
+    .THIS .reminderDate .slds-input,
+    .THIS .vis_reminder .slds-input {
+        min-width: 175px;
+    }
+
+    .THIS .te-task-panel .slds-checkbox {
+        padding-bottom: 20px;
+    }
+
 
 }
 
