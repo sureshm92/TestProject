@@ -383,6 +383,7 @@ public without sharing class AddPatientByPIRemote {
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
 					ptDelegateRef.Primary_Delegate__c = true;
+                    ptDelegateRef.Status__c = 'Disconnected';
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                         .templateName;
                     if (
