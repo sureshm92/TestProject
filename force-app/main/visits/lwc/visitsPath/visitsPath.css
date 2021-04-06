@@ -117,9 +117,7 @@ h2 {
     height: 24px;
     width: 62px;
 }
-.mr_left {
-    margin-left: 12px;
-}
+
 .mr_left6 {
     margin-left: 6px;
 }
@@ -606,13 +604,34 @@ h2 {
         position: relative;
     }
 
+    .mr_left_5.slds-grid{
+        flex-direction: column;
+    }
+
     .title,
-    .mr_left_5 {
+    table {
         margin-left: 0;
+    }
+
+    .reminderDate {
+        margin-left: 0;
+        margin-top: 15px;
     }
 
     .mr_left_5 .slds-col {
        padding-left: 0;
+    }
+
+    .mr_left_5 > .slds-size_1-of-2 {
+        padding-top: 0
+    }
+
+    .mr_left_5 > .slds-size_1-of-2 > .mr_10 {
+        margin-top: 20px;
+    }
+
+    .mr_left_5 > .slds-size_1-of-2 > .mr_10:nth-child(1) {
+        margin-top: 0;
     }
 
     .what-to-expect {
@@ -657,9 +676,7 @@ h2 {
     .tooltiptext._rtl {
         right: -10px;
     }
-    table {
-        margin-left: 0;
-    }
+
 
 }
 

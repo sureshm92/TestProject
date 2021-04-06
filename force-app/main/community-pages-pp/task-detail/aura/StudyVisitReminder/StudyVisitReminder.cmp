@@ -239,8 +239,8 @@
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
-                                                >{!$Label.c.PP_Change_Notification_Settings}</a
-                                            >
+                                                >{!$Label.c.PP_Change_Notification_Settings}
+                                            </a>
                                         </aura:set>
                                     </aura:if>
                                 </div>
@@ -409,9 +409,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
@@ -596,9 +596,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
