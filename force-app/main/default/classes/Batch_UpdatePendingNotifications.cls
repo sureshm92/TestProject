@@ -14,7 +14,8 @@ public class Batch_UpdatePendingNotifications implements
                     IsDelegate__c,
                     RemindUsing__c
                 FROM Notification__c
-                WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING and Notification_Type__c = 'Message_to_PT_New_Study_eRP_VT_Type'
+                WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING and Notification_Type__c IN('Message_to_PT_New_Study_eRP_VT_Type', 'Message_to_PI_SS_Was_Changed_Type','Message_to_PT_Enrollment_Success_Type','Message_to_PT_Ref_Status_Update_Type','Message_to_PT_SS_Was_Changed_Type')
+
             ]
         );
     }
