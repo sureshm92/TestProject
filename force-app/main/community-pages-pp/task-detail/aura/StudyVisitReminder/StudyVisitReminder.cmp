@@ -239,8 +239,8 @@
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
-                                                >{!$Label.c.PP_Change_Notification_Settings}</a
-                                            >
+                                                >{!$Label.c.PP_Change_Notification_Settings}
+                                            </a>
                                         </aura:set>
                                     </aura:if>
                                 </div>
@@ -410,8 +410,8 @@
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
                                         style="margin-left: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
@@ -597,8 +597,8 @@
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
                                         style="margin-left: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
