@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
- ({
+({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -29,18 +29,7 @@
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
             var status = pe.Participant_Status__c;
-            if(statusList.includes(status) && (pe.Study_Hub_Log__c == null ||
-                                               pe.Study_Hub_Log__c != null &&
-                                               pe.Study_Hub_Log__r.Response_Status_Code__c != 201)){
-                component.set('v.promoteToSHStatus',true);
-            }
-            else{
-                if(status == 'Eligibility Passed'){
-                    helper.getPESH(component,event,helper) ;
-                } else
-                    component.set('v.promoteToSHStatus',false);
-            }
-            
+           	helper.getPESH(component,event,statusList,helper) ;
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
                 helper.getInvitedDate(component,event,helper);
@@ -74,6 +63,10 @@
                     // component.set('v.participantPath', returnValue.steps);
                     component.set('v.isFinalUpdate', false);
                     component.set('v.initialized', true);
+                    if(returnValue.steps != null && returnValue.steps != undefined){
+                        component.set('v.promoteToSHStatus',(returnValue.sendToSH==true)?true:false);
+                        component.set('v.dateofSH',returnValue.sendToSHDate); 
+                    }
                     setTimeout(
                         $A.getCallback(function () {
                             var formComponent = component.find('editForm');
@@ -239,6 +232,12 @@
     },
     doCancel: function (component, event, helper) {
         var comp = component.find('dialog');
+        if (component.get('v.isListView') == true) {
+            var p = component.get('v.parent');
+            if(p !=undefined){
+                p.refreshTable();
+            }
+        }
         comp.hide();
     },
     checkTabs: function (component, event, helper) {
@@ -478,8 +477,10 @@
                     var returnValue = JSON.parse(returnValueJSON);
                     component.set('v.updateInProgress', true);
                     component.set('v.participantPath', returnValue.participantPath);
-                    
+
                     component.set('v.pe', returnValue.pe);
+                    component.set('v.promoteToSHStatus',(returnValue.participantPath.sendToSH==true)?true:false);
+                    component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');
                     if (callback) {
                         callback(pe);

@@ -173,7 +173,7 @@ public without sharing class ListViewParticipantController {
                 'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,' +
                 'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Clinical_Trial_Profile__r.Protocol_ID__c,Participant__r.Ethnicity__c,' +
                 'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Participant__r.Alternative_Phone_Number__c, Participant__r.Alternative_Phone_Type__c,' +
-                'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
+                'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c,(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c WHERE ';
 
             String sortBy = ' ORDER BY ';
             if (FilterList[0].Sortby == 'Ascending') {
@@ -352,12 +352,8 @@ public without sharing class ListViewParticipantController {
                 if (OrgSelectedIds.size() > 0) {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
-                        if (
-                            pshStatus.contains(pe.Participant_Status__c) &&
-                            (pe.Study_Hub_Log__c == null ||
-                            pe.Study_Hub_Log__c != null &&
-                            pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
-                        ) {
+                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);
+                        if (allowedForSH) {
                             isChekedSelected = true;
                             isLocked = false;
                             if (pe.Initial_visit_scheduled_date__c != null) {
@@ -376,12 +372,8 @@ public without sharing class ListViewParticipantController {
                         }
                     } else {
                         //PeChecklist.add(false);
-                        if (
-                            pshStatus.contains(pe.Participant_Status__c) &&
-                            (pe.Study_Hub_Log__c == null ||
-                            pe.Study_Hub_Log__c != null &&
-                            pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
-                        ) {
+                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);
+                        if (allowedForSH) {
                             isChekedSelected = false;
                             isLocked = false;
                             if (pe.Initial_visit_scheduled_date__c != null) {
@@ -401,12 +393,8 @@ public without sharing class ListViewParticipantController {
                     }
                 } else {
                     //PeChecklist.add(false);
-                    if (
-                        pshStatus.contains(pe.Participant_Status__c) &&
-                        (pe.Study_Hub_Log__c == null ||
-                        pe.Study_Hub_Log__c != null &&
-                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201)
-                    ) {
+                    Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);
+                    if (allowedForSH) {
                         isChekedSelected = false;
                         isLocked = false;
                         if (pe.Initial_visit_scheduled_date__c != null) {
@@ -473,6 +461,34 @@ public without sharing class ListViewParticipantController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+
+    @TestVisible
+    private static Boolean ifAllowedForSH(
+        Participant_Enrollment__c pe,
+        List<String> pshStatus
+    ){
+        return ifAllowedForSH(pe, pshStatus, false);
+    }
+    
+    public static Boolean ifAllowedForSH(
+        Participant_Enrollment__c pe,
+        List<String> pshStatus,Boolean eligibilityStatusPresent
+    ){
+        Boolean isAllowedForSH = false;
+        Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null 
+                                        || (pe.Study_Hub_Log__c != null &&
+                                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
+        Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
+            !pe.Participant_Enrollment_Status_History__r.isEmpty();
+
+        if(pshStatus.contains(pe.Participant_Status__c) 
+           && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
+               (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){
+                   isAllowedForSH = true;
+               }
+        return isAllowedForSH;
+    }
+    
     @TestVisible
     private static String getAdditionalFilter(
         String mode,
