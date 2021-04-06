@@ -175,7 +175,6 @@
            }  
            
        }
-        console.log('>>>>participantDeegtae beforesve called>>>'+component.get('v.participantDelegate'));
         communityService.executeAction(
             component,
             'updatePatientInfoWithDelegate',
@@ -201,6 +200,7 @@
                 component.set('v.participant', returnvalue.particpantEnrollment.Participant__r);
                 if(!$A.util.isEmpty(returnvalue.DelegateParticipant))
                  component.set('v.participantDelegate', returnvalue.DelegateParticipant);
+                component.set('v.BtnClicked','');
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -334,6 +334,7 @@
                component.set('v.participantDelegate.Contact__c',participantDelegateUseExisiting.Contact__c);
            }  
        }
+        console.log('>>>participantDelegate in savecancel>>'+JSON.stringify(component.get('v.participantDelegate')));
         component.find('spinner').show();
         var actionName;
         if (usermode == 'CC') {
@@ -341,6 +342,7 @@
         } else {
             actionName = 'updatePatientInfoWithDelegate';
         }
+        
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
@@ -376,6 +378,7 @@
                 if (callback) {
                     callback(pe);
                 }
+                component.set('v.BtnClicked','');
                 component.find('spinner').hide();
                 var comp = component.find('dialog');
                 if (usermode === 'CC') {
