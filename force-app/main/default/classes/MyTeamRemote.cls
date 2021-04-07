@@ -741,8 +741,8 @@ public without sharing class MyTeamRemote {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
-                contactDelegate.MailingCountry = participant.Mailing_Country__c;
-                contactDelegate.MailingState = participant.Mailing_State__c;
+                //contactDelegate.MailingCountry = participant.Mailing_Country__c;
+                //contactDelegate.MailingState = participant.Mailing_State__c;
                 contactDelegate.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;                
                 contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH'
                     ? CommunityService.IQVIA_NETWORK_NAME
