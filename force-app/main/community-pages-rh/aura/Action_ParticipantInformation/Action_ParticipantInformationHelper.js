@@ -1,14 +1,30 @@
 ({
-    getPESH : function(component,event,helper) {
+    getPESH : function(component,event,statusList,helper) {
         var params = event.getParam('arguments');
-        var pe = JSON.parse(JSON.stringify(params.pe));
+        var pe = params.pe;
+        var status = pe.Participant_Status__c;
         communityService.executeAction(
             component,
             'getPESHrecord',
             {
                 peId : pe.Id
             }, function (returnValue) {
-                component.set('v.dateofSH',returnValue);
+            var returnVal = JSON.parse(returnValue);    
+            var status = returnVal.currentStatus;
+            component.set('v.dateofSH',returnVal.dateOfSH);
+            if(status == 'Eligibility Passed'){
+                component.set('v.promoteToSHStatus',false);
+            }else if(statusList.includes(status) 
+                     && (returnValue==null || returnValue == undefined 
+                     || (returnValue!=null && returnValue != undefined 
+                         && returnVal.shLogStatus != 201))
+                    ){
+                component.set('v.promoteToSHStatus',true);
+            }
+            else{
+                    component.set('v.promoteToSHStatus',false);
+            }
+                
             });
     },
      getpeshdate : function(component,event,helper) {
@@ -19,8 +35,10 @@
             {
                 peId : pe.Id
             }, function (returnValue) {
-                component.set('v.dateofSH',returnValue);
+                var returnVal = JSON.parse(returnValue);
+                component.set('v.dateofSH',returnVal.dateOfSH);
                 component.set('v.status','Eligibility Passed');
+                component.set('v.promoteToSHStatus',false);
             });
     },
     getInvitedDate : function(component,event,helper){

@@ -116,6 +116,8 @@ SonarCheck:
   tags:
     - RHPP
   allow_failure: true
+  tags:
+    - RHPP
   only:
    - merge_requests
   except:
