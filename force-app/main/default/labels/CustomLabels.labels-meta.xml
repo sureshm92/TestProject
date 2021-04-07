@@ -9314,6 +9314,14 @@ The expected format is REF##### to REF########</value>
         <value>You cannot enter more than 200 characters</value>
     </labels>
     <labels>
+        <fullName>MessagecommunitiesforPI</fullName>
+        <categories>comma seperated</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MessagecommunitiesforPI</shortDescription>
+        <value>GSK</value>
+    </labels>
+    <labels>
         <fullName>MetabolicPanel</fullName>
         <language>en_US</language>
         <protected>false</protected>
