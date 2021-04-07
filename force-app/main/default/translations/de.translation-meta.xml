@@ -12,4 +12,12 @@
         <label>PD-L1</label>
         <name>Programmed_death_ligand_1</name>
     </customLabels>
+    <customLabels>
+        <label>Der induzierbare Kostimulator (ICOS) ist ein Protein, das auf der Oberfläche von weißen Blutkörperchen und von Krebszellen vorkommt. Weiße Blutkörperchen sind ein Bestandteil des Immunsystems (natürliches Abwehrsystem des Körpers). Die ICOS-Proteine spielen eine wichtige Rolle für das Immunsystem. Dieser Test misst die ICOS-Menge in Ihrem Blut. Wenn Sie einen hohen ICOS-Spiegel im Blut haben, sind bestimmte Behandlungsmöglichkeiten unter Umständen besser für Sie geeignet. Dieser Test kann die Ärzte dabei unterstützen, die für Sie wirksamen Krebsbehandlungen zu prognostizieren.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Der induzierbare Kostimulator (ICOS) ist ein Protein, das auf der Oberfläche von weißen Blutkörperchen und von Krebszellen vorkommt. Weiße Blutkörperchen sind ein Bestandteil des Immunsystems (natürliches Abwehrsystem des Körpers). Die ICOS-Proteine spielen eine wichtige Rolle für das Immunsystem. Dieser Test misst die ICOS-Menge in Ihrem Blut. Wenn Sie einen hohen ICOS-Spiegel im Blut haben, sind bestimmte Behandlungsmöglichkeiten unter Umständen besser für Sie geeignet. Dieser Test kann die Ärzte dabei unterstützen, die für Sie wirksamen Krebsbehandlungen zu prognostizieren.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
 </Translations>

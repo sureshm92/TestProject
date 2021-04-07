@@ -12,4 +12,12 @@
         <label>PD-L1</label>
         <name>Programmed_death_ligand_1</name>
     </customLabels>
+    <customLabels>
+        <label>El coestimulador inducible (ICOS) es una proteína que se encuentra en la superficie de los glóbulos blancos y en las células cancerosas. Los glóbulos blancos son parte del sistema inmunológico (el sistema de defensa natural de su cuerpo). Las proteínas ICOS juegan un papel importante en el manejo del sistema inmunológico. Este análisis mide la cantidad de ICOS en su sangre. Algunos tipos de tratamientos pueden ser más adecuados para usted si tiene niveles más altos de ICOS en la sangre. Esta prueba puede ayudar a los médicos a predecir qué tratamientos contra el cáncer pueden funcionar para usted.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>El coestimulador inducible (ICOS) es una proteína que se encuentra en la superficie de los glóbulos blancos y en las células cancerosas. Los glóbulos blancos son parte del sistema inmunológico (el sistema de defensa natural de su cuerpo). Las proteínas ICOS juegan un papel importante en el manejo del sistema inmunológico. Este análisis mide la cantidad de ICOS en su sangre. Algunos tipos de tratamientos pueden ser más adecuados para usted si tiene niveles más altos de ICOS en la sangre. Esta prueba puede ayudar a los médicos a predecir qué tratamientos contra el cáncer pueden funcionar para usted.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
 </Translations>
