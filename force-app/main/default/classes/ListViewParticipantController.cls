@@ -1,13 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 04-07-2021
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
- * Modifications Log 
- * Ver   Date         Author                               Modification
- * 1.0   04-07-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
-**/
 public without sharing class ListViewParticipantController {
     public static final List<String> EXCLUDED_STATUSES_COMMON = new List<String>{
         ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
