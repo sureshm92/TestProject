@@ -83,6 +83,10 @@
     padding-top: 15px;
 }
 
+.THIS .dateInputs .slds-p-top_large {
+    padding-top: 5px;
+}
+
 .THIS .dateInputs .slds-p-top_large > .slds-p-top_large {
     padding-top: 10px;
 }
