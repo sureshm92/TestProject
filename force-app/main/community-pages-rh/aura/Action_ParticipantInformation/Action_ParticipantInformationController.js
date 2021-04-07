@@ -193,8 +193,6 @@
                 if (callback) {
                     callback(pe);
                 }
-                console.log('>>returnValuefromSave>>'+JSON.stringify(returnvalue));
-                console.log('>>returnValuefromSave participan>>'+JSON.stringify(returnvalue.particpantEnrollment.Participant__r));
                 component.set('v.pe', returnvalue.particpantEnrollment);
 				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
                 component.set('v.participant', returnvalue.particpantEnrollment.Participant__r);
@@ -243,7 +241,6 @@
     },
     checkTabs: function (component, event, helper) {
         var checking = event.getSource();
-        console.log('checking', checking.getLocalId());
         component.set('v.checkTabs', checking.getLocalId());
     },
     doUpdateCancel: function (component, event, helper) {
@@ -272,8 +269,6 @@
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('##Save isStatusChanged1: ' + isStatusChanged);
-        console.log('##Save statusDetailValid: ' + statusDetailValid);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
         var outcome = null;
@@ -318,7 +313,6 @@
                 outcome = null;
             }
         }
-        console.log('##Save isStatusChanged2: ' + isStatusChanged);
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
@@ -334,7 +328,6 @@
                component.set('v.participantDelegate.Contact__c',participantDelegateUseExisiting.Contact__c);
            }  
        }
-        console.log('>>>participantDelegate in savecancel>>'+JSON.stringify(component.get('v.participantDelegate')));
         component.find('spinner').show();
         var actionName;
         if (usermode == 'CC') {
@@ -414,7 +407,6 @@
         }*/
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('##isStatusChanged1: ' + isStatusChanged);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
         var outcome = null;
@@ -457,7 +449,6 @@
                 outcome = null;
             }
         }
-        console.log('##isStatusChanged2: ' + isStatusChanged);
         if (statusDetailValid) {
             component.find('spinner').show();
             var actionName;
@@ -466,7 +457,6 @@
             } else {
                 actionName = 'updatePatientStatus';
             }
-            console.log(JSON.stringify(pathWrapper));
             communityService.executeAction(
                 component,
                 actionName,
