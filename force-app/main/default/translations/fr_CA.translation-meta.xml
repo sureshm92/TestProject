@@ -12,4 +12,12 @@
         <label>PD-L1</label>
         <name>Programmed_death_ligand_1</name>
     </customLabels>
+    <customLabels>
+        <label>Le costimulateur inductible (ICOS) est une protéine présente à la surface des globules blancs et des cellules cancéreuses. Les globules blancs font partie du système immunitaire (le système de défense naturel de l&apos;organisme). Les protéines ICOS jouent un rôle important dans la gestion du système immunitaire. Ce test mesure la quantité de protéines ICOS dans le sang. Certains types de traitements pourraient mieux vous convenir si vous avez des niveaux d&apos;ICOS élevés dans le sang. Ce test pourrait aider les médecins à prédire quels traitements contre le cancer pourraient fonctionner pour vous.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Le costimulateur inductible (ICOS) est une protéine présente à la surface des globules blancs et des cellules cancéreuses. Les globules blancs font partie du système immunitaire (le système de défense naturel de l&apos;organisme). Les protéines ICOS jouent un rôle important dans la gestion du système immunitaire. Ce test mesure la quantité de protéines ICOS dans le sang. Certains types de traitements pourraient mieux vous convenir si vous avez des niveaux d&apos;ICOS élevés dans le sang. Ce test pourrait aider les médecins à prédire quels traitements contre le cancer pourraient fonctionner pour vous.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
 </Translations>
