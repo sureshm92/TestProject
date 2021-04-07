@@ -436,6 +436,9 @@ public without sharing class ListViewParticipantController {
                 if (initialVisitScheduleTime != '' && initialVisitScheduleTime != null) {
                     initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
                 }
+                if(pe.Participant_Status__c==Label.Eligibility_Passed){
+                   pe.Participant_Status__c=label.Sent_to_Study_Hub;
+                }
                 wpws.add(
                     new WrapPageWithSelection(
                         pe,
@@ -479,7 +482,7 @@ public without sharing class ListViewParticipantController {
                                         || (pe.Study_Hub_Log__c != null &&
                                         pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
         Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
-            !pe.Participant_Enrollment_Status_History__r.isEmpty();
+        !pe.Participant_Enrollment_Status_History__r.isEmpty();
 
         if(pshStatus.contains(pe.Participant_Status__c) 
            && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
@@ -609,7 +612,7 @@ public without sharing class ListViewParticipantController {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                new LabelValueItem(label.Sent_to_Study_Hub, 'Eligibility Passed'),
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
@@ -656,7 +659,7 @@ public without sharing class ListViewParticipantController {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                new LabelValueItem(label.Sent_to_Study_Hub, 'Eligibility Passed'),
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
