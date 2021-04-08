@@ -483,8 +483,9 @@ public without sharing class ReferralProfileRemote {
                         SELECT Contact__c
                         FROM Patient_Delegate__c
                         WHERE
-                            Participant__c = :pe.Participant__c
-                            AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        Participant__c = :pe.Participant__c
+                        // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                         AND Primary_Delegate__c = TRUE // as per REF-2298
                     )
             ];
             if (!delegates.isEmpty()) {

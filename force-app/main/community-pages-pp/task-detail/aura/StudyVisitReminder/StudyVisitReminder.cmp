@@ -161,6 +161,7 @@
                                             required="true"
                                             onblur="{!c.doValidateFields}"
                                             messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                            messageWhenBadInput="Invalid entry."
                                         />
                                     </aura:set>
                                 </aura:if>
@@ -208,6 +209,7 @@
                                         max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                        messageWhenBadInput="Invalid entry."
                                         dateStyle="medium"
                                         onblur="{!c.doValidateFields}"
                                         required="true"
@@ -237,8 +239,8 @@
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
-                                                >{!$Label.c.PP_Change_Notification_Settings}</a
-                                            >
+                                                >{!$Label.c.PP_Change_Notification_Settings}
+                                            </a>
                                         </aura:set>
                                     </aura:if>
                                 </div>
@@ -378,6 +380,7 @@
                                         max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                        messageWhenBadInput="Invalid entry."
                                         dateStyle="medium"
                                         class="container1"
                                         onblur="{!c.doValidateFields}"
@@ -406,9 +409,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
@@ -518,6 +521,7 @@
                                                 class="container1"
                                                 onblur="{!c.doValidateFields}"
                                                 messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                                messageWhenBadInput="Invalid entry."
                                                 aura:id="field"
                                             ></lightning:input>
                                         </aura:set>
@@ -561,6 +565,7 @@
                                     max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
                                     messageWhenRangeOverflow="{!$Label.c.PP_VisitReminder_Overflow}"
                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                    messageWhenBadInput="Invalid entry."
                                     dateStyle="medium"
                                     min="{!v.initData.today}"
                                     onblur="{!c.doValidateFields}"
@@ -591,9 +596,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>

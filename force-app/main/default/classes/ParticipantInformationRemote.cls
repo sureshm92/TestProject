@@ -1,7 +1,7 @@
 /**
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
-
+    
 public without sharing class ParticipantInformationRemote {
     @AuraEnabled
     public static AddPatientByPIRemote.FormData getInitData() {
@@ -132,6 +132,11 @@ public without sharing class ParticipantInformationRemote {
         pe.Participant__r.Adult__c = part.Adult__c;
         pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
         
+         Participant__c participantObj = (Participant__c) JSON.deserialize(
+                participantJSON,
+                Participant__c.class
+            );
+        system.debug('>>>participantObj>>>'+participantObj);
         DelegateInfo objDelegateInfo = new DelegateInfo();
 		objDelegateInfo.particpantEnrollment =  pe;
 
@@ -155,16 +160,27 @@ public without sharing class ParticipantInformationRemote {
             Contact objcon ; 
             if(String.isBlank(delegateParticipant.Id))
             {
-                 objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
-                                             LastName = delegateParticipant.Last_Name__c,
-                                             Email = delegateParticipant.Email__c,
-                                             Phone = delegateParticipant.Phone__c,
-                                             userCommunytyType__c = 'Participant',
-                                             userCommunityMode__c = 'Participant',
-                                             AccountId = perAccountId);
+                objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
+                                      LastName = delegateParticipant.Last_Name__c,
+                                      Email = delegateParticipant.Email__c,
+                                      Phone = delegateParticipant.Phone__c,
+                                      AccountId = perAccountId,
+                                      userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+                                      userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+                                      Language__c = UserInfo.getLanguage(),
+                                      Second_Choice_Language__c = '',
+                                      Third_Choice_Language__c = '',
+                                      userCommunityIsDelegate__c = true,
+                                      MailingCountryCode = participantObj.Mailing_Country_Code__c,
+                                      MailingStateCode = participantObj.Mailing_State_Code__c,
+                                      MailingCountry = participantObj.Mailing_Country__c,
+                                      MailingState = participantObj.Mailing_State__c,
+                                      MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c);
                 insert objcon;
                 delegateParticipant.Contact__c = objcon.id;
-                delegateParticipant.Site__c = perAccountId;
+                delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
+                delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
+                delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
             //system.debug('>>exxce>>>'+0/0);
@@ -205,7 +221,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Active'));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
             system.debug('>>>mapParticipantIdToPatientDelegate>>'+mapParticipantIdToPatientDelegate.values());
           //  system.debug('<>>exception>>>'+0/0);
@@ -1186,12 +1202,13 @@ public without sharing class ParticipantInformationRemote {
         String outcome,
         String contactInfoJSON
     ) {
+        Participant__c participantObj;
         try {
-            Participant__c participant = (Participant__c) JSON.deserialize(
+             participantObj = (Participant__c) JSON.deserialize(
                 participantJSON,
                 Participant__c.class
             );
-            update participant;
+            update participantObj;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -1199,7 +1216,7 @@ public without sharing class ParticipantInformationRemote {
             peJSON,
             Participant_Enrollment__c.class
         );
-
+    
         if (!String.isBlank(delegateJSON)) {
             Participant__c delegateParticipant = (Participant__c) JSON.deserialize(
                 delegateJSON,
@@ -1222,15 +1239,26 @@ public without sharing class ParticipantInformationRemote {
                                              LastName = delegateParticipant.Last_Name__c,
                                              Email = delegateParticipant.Email__c,
                                              Phone = delegateParticipant.Phone__c,
-                                             userCommunytyType__c = 'Participant',
-                                             userCommunityMode__c = 'Participant',
-                                             AccountId = perAccountId);
+                                             AccountId = perAccountId,
+                                      userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT,
+                                      userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+                                      Language__c = UserInfo.getLanguage(),
+                                      Second_Choice_Language__c = '',
+                                      Third_Choice_Language__c = '',
+                                      userCommunityIsDelegate__c = true,
+                                      MailingCountryCode = participantObj.Mailing_Country_Code__c,
+                                      MailingStateCode = participantObj.Mailing_State_Code__c,
+                                      MailingCountry = participantObj.Mailing_Country__c,
+                                      MailingState = participantObj.Mailing_State__c,
+                                      MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c);
                 insert objcon;
                 delegateParticipant.Contact__c = objcon.id;
-                delegateParticipant.Site__c = perAccountId;
+                // delegateParticipant.Site__c = perAccountId;
+                delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
+                delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
+                delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
-            //system.debug('>>exxce>>>'+0/0);
             
             if (delegateParticipant != null) {
                 try {
@@ -1270,7 +1298,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Active'));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
              if(!mapParticipantIdToPatientDelegate.isEmpty())  
               upsert mapParticipantIdToPatientDelegate.values();

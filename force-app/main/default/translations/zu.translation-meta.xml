@@ -12,4 +12,12 @@
         <label>PD-L1</label>
         <name>Programmed_death_ligand_1</name>
     </customLabels>
+    <customLabels>
+        <label>I-co-stimulator engabonakali (ICOS) iyiphrotheni etholakala phezu kwamaseli amhlophe egazi nakwamanye amaseli omdlavuza. Amaseli amhlophe egazi ayingxenye yamasosha omzimba (isistimu yemvelo yomzimba yokuzivikela). Amaphrotheni e-ICOS adlala indima ebalulekile ekulawuleni amasosha omzimba. Lokhu kuhlola kukala umthamo we-ICOS egazini lakho. Ezinye izinhlobo zokwelashwa zingase zikufanele kakhudlwana uma unamazinga aphezulu e-ICOS akhona egazini lakho. Lokhu kuhlola kungasiza odokotela babikezele ukuthi yikuphi ukwelashwa komdlavuza okungasebenzela kahle wena.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>I-co-stimulator engabonakali (ICOS) iyiphrotheni etholakala phezu kwamaseli amhlophe egazi nakwamanye amaseli omdlavuza. Amaseli amhlophe egazi ayingxenye yamasosha omzimba (isistimu yemvelo yomzimba yokuzivikela). Amaphrotheni e-ICOS adlala indima ebalulekile ekulawuleni amasosha omzimba. Lokhu kuhlola kukala umthamo we-ICOS egazini lakho. Ezinye izinhlobo zokwelashwa zingase zikufanele kakhudlwana uma unamazinga aphezulu e-ICOS akhona egazini lakho. Lokhu kuhlola kungasiza odokotela babikezele ukuthi yikuphi ukwelashwa komdlavuza okungasebenzela kahle wena.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
 </Translations>

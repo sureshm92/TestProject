@@ -132,8 +132,7 @@ public without sharing class ParticipantDuplicateService {
         }
 
         //Find participants
-        List<Participant__c> existedParticipants = new List<Participant__c>();
-        List<Participant__c> participantExistedInSystem = [
+        List<Participant__c> existedParticipants = [
             SELECT
                 Id,
                 Contact__c,
@@ -156,11 +155,11 @@ public without sharing class ParticipantDuplicateService {
                 OR ZIP_Code__c IN :zipCodes
                 OR Last_Name__c IN :lastNames
         ];
-        for(Participant__c partici: participantExistedInSystem){
+        /*for(Participant__c partici: participantExistedInSystem){
             if(partici.Date_of_Birth__c != null){
                 existedParticipants.add(partici);
             }
-        }
+        }*/
         List<Participant__c> existedParticipantDelegates = new List<Participant__c>();
         if (
             !delegatesEmail.isEmpty() &&

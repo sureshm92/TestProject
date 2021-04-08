@@ -17,7 +17,7 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                     Participant__r.Contact__c,
                     Study_Site__r.Principal_Investigator__r.Id
                 FROM Participant_Enrollment__c
-                WHERE Participant__r.Adult__c = FALSE AND Participant__c != NULL
+                WHERE Participant__r.Adult__c = FALSE AND Participant__c != NULL 
             ]
         );
     }
@@ -94,10 +94,22 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
         List<Participant__c> participants
     ) {
         List<Age_of_Majority__mdt> ageOfMajorities = [
-            SELECT Country_Code__c, State_Code__c, Age__c
+            SELECT Country_Code__c, State_Code__c, Age__c,MasterLabel
             FROM Age_of_Majority__mdt
             ORDER BY Country_Code__c NULLS LAST, State_Code__c NULLS LAST
         ];
+        List<String> lstUS_StateCode = new List<String>();
+        List<String> lstNonUSCode = new List<String>();
+        for (Age_of_Majority__mdt stcode : ageOfMajorities) {
+               if(stcode.Country_Code__c =='US' && stcode.State_Code__c!=null)
+               {
+                   lstUS_StateCode.add(stcode.State_Code__c);
+               }
+               if(stcode.Country_Code__c !='US' && stcode.Country_Code__c !=null)
+               {
+                   lstNonUSCode.add(stcode.Country_Code__c);
+               }
+         }
 
         List<Participant__c> nowAdultParticipantOrBecomeSooner = new List<Participant__c>();
         for (Participant__c prt : participants) {
@@ -127,7 +139,6 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                     Date.newInstance(2000, Date.today().month(), Date.today().day())
                     ? Date.today().year() - birthDate.year()
                     : Date.today().year() - birthDate.year() - 1;
-
                 for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
                     if (
                         (prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c &&
@@ -135,14 +146,67 @@ public with sharing class Batch_CreateBecomeAdultNotification extends Batch_Sche
                         String.isBlank(ageOfMajority.State_Code__c))) ||
                         (String.isBlank(ageOfMajority.Country_Code__c))
                     ) {
-                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
-                        if (
-                            (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) ||
-                            prt.Adult__c
-                        ) {
-                            nowAdultParticipantOrBecomeSooner.add(prt);
-                            break;
+                        
+                        if(prt.Mailing_Country_Code__c=='US')
+                       {
+                               if(lstUS_StateCode.contains(prt.Mailing_State_Code__c ))
+                               {
+                                   if(prt.Mailing_State_Code__c == ageOfMajority.State_Code__c)
+                                   {
+                                       
+                                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+
+                                        if (
+                                        (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) ||
+                                        prt.Adult__c
+                                        ) { 
+                                        nowAdultParticipantOrBecomeSooner.add(prt);
+                                        break;
+                                        }
+                                       
+                                   }
+                               }else{
+                                        
+                                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+
+                                        if (
+                                        (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) ||
+                                        prt.Adult__c
+                                        ) { 
+                                        nowAdultParticipantOrBecomeSooner.add(prt);
+                                        break;
+                                        }
+                               }
+                        }else{
+                            if(lstNonUSCode.contains(prt.Mailing_Country_Code__c ))
+                               {
+                                   if(prt.Mailing_Country_Code__c == ageOfMajority.Country_Code__c)
+                                   {
+                                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+
+                                        if (
+                                        (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) ||
+                                        prt.Adult__c
+                                        ) { 
+                                        nowAdultParticipantOrBecomeSooner.add(prt);
+                                        break;
+                                        }
+                                       
+                                   }
+                               }else{
+                                        prt.Adult__c = participantAge >= ageOfMajority.Age__c;
+
+                                        if (
+                                        (participantAgePlus7Days >= ageOfMajority.Age__c && !prt.Adult__c) ||
+                                        prt.Adult__c
+                                        ) { 
+                                        nowAdultParticipantOrBecomeSooner.add(prt);
+                                        break;
+                                        }
+                               }
+                        
                         }
+                       
                     }
                 }
             } catch (Exception e) {
