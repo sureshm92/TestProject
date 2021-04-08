@@ -571,9 +571,8 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 }
 
 .mr_left_5 > .slds-col {
-    padding: .5rem .25rem;
+    padding: .25rem;
 }
-
 
 .slds-datepicker__filter_month > div:first-child .slds-button:after {
     content: '';
@@ -601,7 +600,7 @@ lightning-datepicker lightning-button-icon .slds-button svg {
 .slds-datepicker td,
 .slds-datepicker th{
     font-size: 1rem;
-    padding: 2px .25rem;
+    padding: 0 .25rem;
 }
 
 .slds-datepicker td:not(.slds-disabled-text),
