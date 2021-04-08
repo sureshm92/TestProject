@@ -452,7 +452,7 @@ public with sharing class ContentDocumentLinkService {
                 }
             }
             
-            if(!clIteratorlist.isEmpty()){
+            if(!clIteratorlist.isEmpty() && !mapContentDocument.keySet().isEmpty()){
             for(Participant__c participant : [Select Id, Participant_File_Names__c, Participant_Files_Size__c FROM Participant__c where Id IN : mapContentDocument.keySet()])
             { 
                 List<String> filenames = mapContentDocument.get(participant.Id);
