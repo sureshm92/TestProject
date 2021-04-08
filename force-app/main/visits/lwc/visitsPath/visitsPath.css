@@ -5,6 +5,13 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
+
+
+
+.webPopup .p-content.with-scroll {
+    padding-bottom: 50px;
+}
+
 .mr_reminderDate_rtl {
     margin-right: -43px;
 }
@@ -43,7 +50,7 @@ h2 {
 }
 .reminderDate {
     margin-left: -105px;
-    margin-top: 5px;
+    padding-top: 3px;
 }
 .reminderDate_rtl {
     margin-right: -105px;
@@ -123,8 +130,9 @@ h2 {
 }
 .mr_left_5 {
     margin-left: 5px;
-    padding-top: .5rem;
+    padding-top: .25rem;
 }
+
 .what-to-expect {
     height: 24px;
     width: 136px;
@@ -620,10 +628,6 @@ h2 {
 
     .mr_left_5 .slds-col {
        padding-left: 0;
-    }
-
-    .mr_left_5 > .slds-size_1-of-2 {
-        padding-top: 0
     }
 
     .mr_left_5 > .slds-size_1-of-2 > .mr_10 {
