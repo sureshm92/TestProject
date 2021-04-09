@@ -5,6 +5,13 @@
 /**
  * Created by Igor Malyuta on 12.04.2019.
  */
+
+
+
+.webPopup .p-content.with-scroll {
+    padding-bottom: 50px;
+}
+
 .mr_reminderDate_rtl {
     margin-right: -43px;
 }
@@ -43,7 +50,7 @@ h2 {
 }
 .reminderDate {
     margin-left: -105px;
-    margin-top: 5px;
+    padding-top: 3px;
 }
 .reminderDate_rtl {
     margin-right: -105px;
@@ -117,16 +124,15 @@ h2 {
     height: 24px;
     width: 62px;
 }
-.mr_left {
-    margin-left: 12px;
-}
+
 .mr_left6 {
     margin-left: 6px;
 }
 .mr_left_5 {
     margin-left: 5px;
-    padding-top: .5rem;
+    padding-top: .25rem;
 }
+
 .what-to-expect {
     height: 24px;
     width: 136px;
@@ -606,13 +612,30 @@ h2 {
         position: relative;
     }
 
+    .mr_left_5.slds-grid{
+        flex-direction: column;
+    }
+
     .title,
-    .mr_left_5 {
+    table {
         margin-left: 0;
+    }
+
+    .reminderDate {
+        margin-left: 0;
+        margin-top: 15px;
     }
 
     .mr_left_5 .slds-col {
        padding-left: 0;
+    }
+
+    .mr_left_5 > .slds-size_1-of-2 > .mr_10 {
+        margin-top: 20px;
+    }
+
+    .mr_left_5 > .slds-size_1-of-2 > .mr_10:nth-child(1) {
+        margin-top: 0;
     }
 
     .what-to-expect {
@@ -657,9 +680,7 @@ h2 {
     .tooltiptext._rtl {
         right: -10px;
     }
-    table {
-        margin-left: 0;
-    }
+
 
 }
 

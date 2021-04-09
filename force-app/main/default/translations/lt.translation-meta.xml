@@ -12,4 +12,12 @@
         <label>PD-L1</label>
         <name>Programmed_death_ligand_1</name>
     </customLabels>
+    <customLabels>
+        <label>Indukuojamas kostimuliatorius (angl. Inducible co-stimulator, ICOS) yra baltymas, esantis baltųjų kraujo ląstelių paviršiuje ir vėžinėse ląstelėse. Baltosios kraujo ląstelės yra imuninės sistemos dalis (natūrali Jūsų kūno gynybos sistema). ICOS baltymai vaidina svarbų vaidmenį valdant imuninę sistemą. Šis tyrimas nustato ICOS kiekį Jūsų kraujyje. Kai kurie gydymo tipai gali būti Jums tinkamesni, jei kraujyje yra didesnis ICOS lygis. Šis testas gali padėti gydytojams numatyti, kokie vėžio gydymo būdai gali būti naudingi Jums.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Indukuojamas kostimuliatorius (angl. Inducible co-stimulator, ICOS) yra baltymas, esantis baltųjų kraujo ląstelių paviršiuje ir vėžinėse ląstelėse. Baltosios kraujo ląstelės yra imuninės sistemos dalis (natūrali Jūsų kūno gynybos sistema). ICOS baltymai vaidina svarbų vaidmenį valdant imuninę sistemą. Šis tyrimas nustato ICOS kiekį Jūsų kraujyje. Kai kurie gydymo tipai gali būti Jums tinkamesni, jei kraujyje yra didesnis ICOS lygis. Šis testas gali padėti gydytojams numatyti, kokie vėžio gydymo būdai gali būti naudingi Jums.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
 </Translations>

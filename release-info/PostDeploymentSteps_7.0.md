@@ -19,3 +19,7 @@ Click on App Launcher Icon -> Click on Batch Create Panel -> Click on PatientTas
 
 ## 5.System Administrator profile configuration(needs to be done in fomral and UAT)
 1.setup-->Profiles-->System Administrator-->object Setting-->Visit_Results-->check Biomarker checkbox in Assigned record types column.
+
+## 6. Go to Developer Console.Click on Debug -> Open Execute Anonymous Window.
+Batch_UpdatePendingNotifications upn = new Batch_UpdatePendingNotifications();
+Database.executeBatch(upn);This needs to be done in production once.
