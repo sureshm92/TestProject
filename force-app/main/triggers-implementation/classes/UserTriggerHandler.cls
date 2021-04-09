@@ -27,12 +27,6 @@ public without sharing class UserTriggerHandler {
         }
     }
 
-    public class UpdateUserRoleHandler extends TriggerHandler {
-        public override void beforeInsert(List<SObject> newList) {
-            updateUserRoleToSPNL(newList);
-        }
-    }
-
     public class AssignCommunityPermissionSetToUserHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             assignCommunityPermissionSetToUser(newList);
@@ -82,15 +76,7 @@ public without sharing class UserTriggerHandler {
         if (changeEmailContacts.size() > 0)
             update changeEmailContacts;
     }
-
-    @TestVisible
-    private static void updateUserRoleToSPNL(List<User> newList) {
-        for (User us : newList) {
-            if (us.ProfileId == CommunityService.SPNL_USER_PROFILE_ID) {
-                us.UserRoleId = CommunityService.SPNL_ROLE;
-            }
-        }
-    }
+	
 
     @TestVisible
     private static void createCompleteYourProfileTask(List<User> newList) {
