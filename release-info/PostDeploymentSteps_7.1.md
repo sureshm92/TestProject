@@ -7,6 +7,6 @@
 2.After script is executed, run the below query on workbench by clicking on  Queries->SOQL Query and see the result on workbench:
 SELECT Id FROM User WHERE Profile.Name = 'IQVIA SPNL'
 
-3.If zero records are found from above query then open salesforce->Setup->All Profiles->IQVIA SPNL->Click on Delete->Ok.
+3.If zero records are found from above query then open salesforce->Setup->All Profiles->Open 'IQVIA SPNL'->Click on Delete->Ok.
 
 
