@@ -203,7 +203,7 @@ private class Test_Batch_RemoveDuplicateDelegates {
                 WHERE Participant__r.Last_Name__c = 'ParticipantWithDuplicateDelegates'
             ]
         );
-        System.assertEquals(6, patientDelegates.size());
+        System.assertEquals(3, patientDelegates.size());
 
         patientDelegates = new List<Patient_Delegate__c>(
             [

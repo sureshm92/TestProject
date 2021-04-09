@@ -15926,6 +15926,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_Invalid_Entry</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Invalid_Entry</shortDescription>
+        <value>Invalid Entry.</value>
+    </labels>
+    <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15973,6 +15980,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Participant</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Participant</shortDescription>
+        <value>Participant</value>
     </labels>
     <labels>
         <fullName>PP_Password_Management</fullName>
@@ -19722,6 +19736,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>This Participant has reached legal age of emancipation</shortDescription>
         <value>This participant has reached the legal age of emancipation. Please update and verify the participant details with the participant.</value>
+    </labels>
+    <labels>
+        <fullName>TimezoneDisclaimer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TimezoneDisclaimer</shortDescription>
+        <value>Please be sure your preferred time zone is set to your local time in the Location tab under Account Settings.</value>
     </labels>
     <labels>
         <fullName>Title_Contact_PT_Reminder_Push</fullName>

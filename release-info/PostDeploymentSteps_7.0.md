@@ -22,4 +22,4 @@ Click on App Launcher Icon -> Click on Batch Create Panel -> Click on PatientTas
 
 ## 6. Go to Developer Console.Click on Debug -> Open Execute Anonymous Window.
 Batch_UpdatePendingNotifications upn = new Batch_UpdatePendingNotifications();
-Database.executeBatch(upn);
+Database.executeBatch(upn);This needs to be done in production once.

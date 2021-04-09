@@ -35,7 +35,7 @@ public with sharing class Test_PatientDelegateTriggerHandler {
         System.debug('ptDelegateRef.Status__c'+ptDelegateRef.Status__c);
 
         system.assertEquals(
-            PatientDelegateTriggerHandler.PATIENT_DELEGATE_DISCONNECTED_STATUS,
+            PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS,
             ptDelegateRef.Status__c
         );
 
