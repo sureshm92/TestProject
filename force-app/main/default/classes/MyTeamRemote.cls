@@ -729,7 +729,7 @@ public without sharing class MyTeamRemote {
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
             Boolean isNewContact = contactDelegate.Id == null;
             if (isNewContact) {
-                User user = [SELECT Contact.AccountId FROM User WHERE Id = :UserInfo.getUserId()];
+                User user = [SELECT Contact.AccountId,ContactId FROM User WHERE Id = :UserInfo.getUserId()];
                 Participant__c participant = ParticipantService.getInstance()
                     .getState()
                     .participant;
@@ -761,8 +761,14 @@ public without sharing class MyTeamRemote {
                     Mailing_State_Code__c = contactDelegate.MailingStateCode
                 );
                 insert participantDelegate;
-
-                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                List<User> participantUser = new List<User>();
+                if(user.ContactId != null){
+                  participantUser = [
+               SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
+              FROM User
+              WHERE ContactId =:user.ContactId];
+               }
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, participantUser[0].TimeZoneSidKey);
                 insert delegateUser;
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
