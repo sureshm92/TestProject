@@ -1,0 +1,25 @@
+
+String profileName = 'Minimum Access - Salesforce';
+Id minaccessprofileId = [SELECT Id from Profile WHERE Name=:profileName][0].Id;
+List<User> SPNLUsers = [SELECT Id,ProfileId FROM User WHERE Profile.Name = 'IQVIA SPNL'];
+for(User u:SPNLUsers){
+    system.debug('@Before chnage User :'+u);
+    u.ProfileId = minaccessprofileId;
+}
+
+    TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class);
+    TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class);
+    TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class);
+    TriggerHandlerExecutor.bypassHandler(
+        UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(UserTriggerHandler.AssignPendingTasksHandler.class);
+
+update SPNLUsers;
+
+List<User> minAccessUsers = [SELECT Id,ProfileId FROM User WHERE Profile.Name=:profileName ];
+for(User u:minAccessUsers){
+    system.debug('@After chnage User :'+u);
+    
+}
+
