@@ -15926,6 +15926,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_Invalid_Entry</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Invalid_Entry</shortDescription>
+        <value>Invalid Entry.</value>
+    </labels>
+    <labels>
         <fullName>PP_L_Account_Setting_Preferred_Lng</fullName>
         <language>en_US</language>
         <protected>false</protected>
