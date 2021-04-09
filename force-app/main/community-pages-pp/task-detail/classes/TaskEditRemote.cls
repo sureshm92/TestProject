@@ -183,8 +183,10 @@ public without sharing class TaskEditRemote {
             }
             taskToUpsert.Reminder_Date__c = newReminderDate;
             taskToUpsert.ReminderDateTime = newReminderDate;
+            taskToUpsert.Is_Reminder_Sent__c = false;
+            taskToUpsert.Status = 'Open';
             upsert taskToUpsert;
-            String cronTriggerId;String cronTriggerIdExpired;
+            /*String cronTriggerId;String cronTriggerIdExpired;
             if(taskToUpsert.Id != null){
                Task[] tsk =  [Select Id,CronTriggerId__c,Is_Reminder_Sent__c,CronTriggerIdExpired__c from Task where Id =: taskToUpsert.Id];
                 if(tsk.size() >0){
@@ -217,7 +219,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.CronTriggerIdExpired__c = expiryjobID;
             taskToUpsert.Status = 'Open';
             update taskToUpsert;
-            }
+            }*/
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -319,6 +321,8 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Remind_Using_Email__c = taskWrapper.emailOptIn;
                 taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
                 taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
+                taskToUpsert.Is_Reminder_Sent__c = false;
+
             }
             if(taskToUpsert.Id!=null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId){
                 update taskToUpsert;
@@ -327,7 +331,7 @@ public without sharing class TaskEditRemote {
                 insert taskToUpsert;
             }
             //upsert taskToUpsert;
-            if(taskToUpsert.ReminderDateTime != null){
+           /* if(taskToUpsert.ReminderDateTime != null){
             if(!String.isEmpty(taskToUpsert.CronTriggerId__c)){
              System.abortJob(taskToUpsert.CronTriggerId__c);
              }
@@ -339,7 +343,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.CronTriggerId__c = jobID;
             taskToUpsert.Is_Reminder_Sent__c = false;
             update taskToUpsert;
-            }
+            }*/
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }

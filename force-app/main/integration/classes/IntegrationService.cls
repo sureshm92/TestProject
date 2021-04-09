@@ -12,6 +12,7 @@ public without sharing class IntegrationService {
         public String rrid;
         public SubjectDetails subjectDetails;
         public ReferralDetails referralDetails;
+        public PatientDelegateDetails patientDelegateDetails; //REF-2882 
         public AuditLog auditLog;
         public string One_Key_ID;
         public string Site_Number;
@@ -40,6 +41,16 @@ public without sharing class IntegrationService {
         public Time InitialVisitScheduledTime;
         public String CountryName;
     }
+    
+    // START REF-2882
+    public class PatientDelegateDetails {
+        public String FirstName;
+        public String LastName;
+        public String Email;
+        public String Phone;
+        public String State;
+        public String Country;
+    }//END
 
     public class SubjectDetails {
         public String FirstName;
@@ -295,7 +306,22 @@ public without sharing class IntegrationService {
             FROM Participant_Enrollment__c
             WHERE Id = :participantEnrollmentId
         ];
-
+		
+        // START REF-2882
+       List<Patient_Delegate__c> lstpatientDel = [
+            SELECT
+                Id,
+            	Contact__c
+            	FROM Patient_Delegate__c 
+            	WHERE Participant__c =: pe.Participant__r.Id
+            	AND Primary_Delegate__c = True ORDER BY CreatedDate ASC LIMIT 1               
+        ]; //END
+        
+        List<Participant__c> lstParticipant = new List<Participant__c>();
+        if(!lstpatientDel.isEmpty()){
+			lstParticipant = [Select Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Mailing_State__c, Mailing_Country__c FROM Participant__c where Contact__c =: lstpatientDel[0].Contact__c LIMIT 1];
+		}
+        
         if (!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c))
             return null;
 
@@ -325,7 +351,19 @@ public without sharing class IntegrationService {
         referralDetails.CountryName = pe.Study_Site__r.Site__r.BillingCountry;
         if (setAcceptedDate)
             referralDetails.AcceptedDate = Date.today();
-
+		
+        PatientDelegateDetails patientDelegateDetails = new PatientDelegateDetails();
+        // START Added by Sumit S REF-2882
+        if(!lstParticipant.isEmpty()){
+		patientDelegateDetails.FirstName = lstParticipant[0].First_Name__c;
+		patientDelegateDetails.LastName = lstParticipant[0].Last_Name__c;
+		patientDelegateDetails.Email = lstParticipant[0].Email__c;
+		patientDelegateDetails.Phone = lstParticipant[0].Phone__c;
+		patientDelegateDetails.State = lstParticipant[0].Mailing_State__c;
+		patientDelegateDetails.Country = lstParticipant[0].Mailing_Country__c; 
+        }
+        //END
+        
         SubjectDetails subjectDetails = new SubjectDetails();
         subjectDetails.FirstName = pe.Participant__r.First_Name__c;
         subjectDetails.LastName = pe.Participant__r.Last_Name__c;
@@ -343,6 +381,7 @@ public without sharing class IntegrationService {
         integrationMessage.rrid = pe.Id;
         integrationMessage.subjectDetails = subjectDetails;
         integrationMessage.referralDetails = referralDetails;
+        integrationMessage.patientDelegateDetails = patientDelegateDetails; //REF-2882
         integrationMessage.auditLog = auditLog;
         integrationMessage.One_Key_ID = pe.Study_Site__r.Principal_Investigator__r.OneKeyID__c;
         integrationMessage.Site_Number = pe.Study_Site__r.Study_Site_Number__c; //Added by vicky REF-2653

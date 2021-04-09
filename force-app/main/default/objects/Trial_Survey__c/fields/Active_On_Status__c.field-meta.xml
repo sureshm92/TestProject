@@ -72,6 +72,11 @@
                 <label>Drop Out</label>
             </value>
             <value>
+                <fullName>Randomization Success</fullName>
+                <default>false</default>
+                <label>Randomization Success</label>
+            </value>            
+            <value>
                 <fullName>Enrolled</fullName>
                 <default>false</default>
                 <isActive>false</isActive>
@@ -135,5 +140,10 @@
             <controllingFieldValue>unchecked</controllingFieldValue>
             <valueName>Drop Out</valueName>
         </valueSettings>
+        <valueSettings>
+            <controllingFieldValue>unchecked</controllingFieldValue>
+            <controllingFieldValue>checked</controllingFieldValue>
+            <valueName>Randomization Success</valueName>
+        </valueSettings>        
     </valueSet>
 </CustomField>

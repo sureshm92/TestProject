@@ -216,7 +216,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
             }
             //populate Participant Code
-            if(oldMap == null){
+            if(pe.Participant_Key__c == null ){
                  if(protocolId != null && participantName != null){
                      pe.Participant_Key__c = participantName + ' ' + protocolId;
                 }
@@ -637,10 +637,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
                 pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                if(pe.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen)
-                    pe.Source_Type__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen;
-                else    
-                    pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }

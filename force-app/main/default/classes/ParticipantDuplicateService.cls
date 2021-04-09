@@ -49,7 +49,7 @@ public without sharing class ParticipantDuplicateService {
         }
 
         public Participant__c getParticipant() {
-            if (isParticipant() || Test.isRunningTest())
+            if (isParticipant())
                 return (Participant__c) duplicate;
             return null;
         }
@@ -132,8 +132,7 @@ public without sharing class ParticipantDuplicateService {
         }
 
         //Find participants
-        List<Participant__c> existedParticipants = new List<Participant__c>();
-        List<Participant__c> participantExistedInSystem = [
+        List<Participant__c> existedParticipants = [
             SELECT
                 Id,
                 Contact__c,
@@ -156,11 +155,11 @@ public without sharing class ParticipantDuplicateService {
                 OR ZIP_Code__c IN :zipCodes
                 OR Last_Name__c IN :lastNames
         ];
-        for(Participant__c partici: participantExistedInSystem){
+        /*for(Participant__c partici: participantExistedInSystem){
             if(partici.Date_of_Birth__c != null){
                 existedParticipants.add(partici);
             }
-        }
+        }*/
         List<Participant__c> existedParticipantDelegates = new List<Participant__c>();
         if (
             !delegatesEmail.isEmpty() &&
@@ -376,16 +375,15 @@ public without sharing class ParticipantDuplicateService {
                         contactsByPhoneMap.get(participant.Phone__c)
                     );
                 }
-
-                if (duplicate != null) {
+                    if (duplicate != null) {
                     Integer birthYear = getYearOfBirthForParticipant(participant);
-                    System.debug('>>> BY: ' + birthYear);
+                    //System.debug('>>> BY:' + birthYear);
                     if (birthYear != null) {
                         Integer participantAge = System.today().year() - birthYear;
-                        System.debug('>>> Participant age: ' + participantAge);
+                        //System.debug('>>> Participant age: ' + participantAge);
                         Integer birthYearInTheSystem = duplicate.getYearOfBirth();
                         if (birthYearInTheSystem != null) {
-                            System.debug('>>> BY in the system: ' + birthYearInTheSystem);
+                            System.debug('>>> BY in the system:' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
                                 duplicate.getFirstName().toLowerCase() == participant.First_Name__c.toLowerCase() && duplicate.getLastName().toLowerCase() == participant.Last_Name__c.toLowerCase()
@@ -394,13 +392,11 @@ public without sharing class ParticipantDuplicateService {
                                 continue;
                             }
                         } 
-                        /*else if (
-                            participantAge > 18 &&
-                            duplicate.getFirstName() == participant.First_Name__c
-                        ) {
+                        else if (participantAge > 18 && duplicate.getFirstName() == participant.First_Name__c) 
+                        {
                             setDuplicate(participant, duplicate);
                             continue;
-                        } REF-3252*/
+                        }
                     } else {
                         if (duplicate.getFirstName() == participant.First_Name__c) {
                             setDuplicate(participant, duplicate);

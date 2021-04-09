@@ -15,7 +15,7 @@ private class Test_UserService {
         
         System.assertEquals('01/01/2001, 12:00 AM', dtStr);
         System.assertEquals('01/01/2001,' , dateStr);
-       // System.assertEquals('12/31/2000, 11:30 AM' , datetimeStr);
+       // System.assertEquals('12/31/2000, 11:30 AM' , datetimeStr); 
         System.assertEquals('01/01/2001' , onlyDateStr);
     }
 }

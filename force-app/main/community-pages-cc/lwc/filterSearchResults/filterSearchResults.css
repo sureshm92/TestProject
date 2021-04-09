@@ -20,15 +20,14 @@
     cursor: pointer;
 }
 
-
 .frs-txt-reset-cnt-RTL {
     content: url(/resource/1611822084000/searchResetIcon);
     position: absolute;
     width: 14px;
     height: 14px;
     margin-top: 9px;
-    margin-left: -18px;
-    left: 339px;
+    margin-right: -258px;
+   
     cursor: pointer;
 }
 
@@ -38,8 +37,8 @@
     width: 14px;
     height: 14px;
     margin-top: 9px;
-    margin-left: -18px;
-    left: 100px;
+    margin-right: 221px;
+    
     cursor: pointer;
 }
 

@@ -341,6 +341,19 @@ global without sharing class ReferHealthcareProviderRemote {
                 boolisUserCreated = lstUser.isEmpty() ? false : true;
             }
             if (delegateId == null) {
+                String countryCode = participantObj.Mailing_Country_Code__c;
+                String stateCode = participantObj.Mailing_State_Code__c;
+                String countryName;
+                String stateName;
+
+                if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){
+                    countryName = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode);
+                }
+
+                if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(countryCode) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(countryCode).containsKey(stateCode)){
+                    stateName =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(countryCode).get(stateCode);
+                }
+
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
@@ -358,7 +371,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.AccountId = [
                         SELECT AccountId 
                         FROM Contact
-                        WHERE Id =: participantObj.Contact__c 
+                            WHERE Id =: participantObj.Contact__c 
                         LIMIT 1
                         FOR UPDATE].AccountId;
                     newContact.Language__c = UserInfo.getLanguage();
@@ -369,8 +382,8 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.userCommunityIsDelegate__c = true;
                     newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
-                    newContact.MailingCountry = participantObj.Mailing_Country__c;
-                    newContact.MailingState = participantObj.Mailing_State__c;
+                    newContact.MailingCountry = countryName;
+                    newContact.MailingState = stateName;
                     newContact.MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c;
                     if ('Home' == participantObj.Phone_Type__c) {
                         newContact.HomePhone = participantObj.Phone__c;
@@ -430,7 +443,7 @@ global without sharing class ReferHealthcareProviderRemote {
             } 
             else{
                 if(!boolisUserCreated) {
-                if(ContactId != Null){
+                if(ContactId != Null && createUser){
                  ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
                 }
