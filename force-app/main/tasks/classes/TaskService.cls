@@ -239,7 +239,7 @@ public without sharing class TaskService {
     }
 
     public List<Task> getPreviewTasks() {
-        List<Task> tasks = getTasksCommon(getOpenTasksFilter(), OPEN_TASKS_ORDER);
+        List<Task> tasks = getOpenTasks();
         List<Task> resTasks = new List<Task>();
         for (Integer i = 0; i < tasks.size(); i++) {
             if( tasks[i].Activity_Datetime__c != NULL){
