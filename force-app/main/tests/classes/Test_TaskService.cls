@@ -62,7 +62,7 @@ private class Test_TaskService {
                 task.Visible_For__c
             );
         }
-        Test.stopTest();
+        //Test.stopTest();
         System.assertEquals(3, testOpenTasks.size());
         System.assertEquals(3, testPreviewTasks.size());
 
