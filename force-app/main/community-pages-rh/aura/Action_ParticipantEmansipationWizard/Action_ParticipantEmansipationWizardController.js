@@ -53,7 +53,7 @@
                         !pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c
                     ) {
                         component.set('v.Invite', true);
-                        component.set('v.NoInvite', true);
+                        component.set('v.NoInvite', false);
                     }
                     if (
                         !pe.Study_Site__r.Suppress_Participant_Emails__c &&
