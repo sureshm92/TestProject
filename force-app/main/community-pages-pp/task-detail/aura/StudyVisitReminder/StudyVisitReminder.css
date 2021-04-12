@@ -75,8 +75,8 @@
     margin-top: 4px;
 }
 
-.THIS .mr_10 {
-    margin-top: 10px;
+.THIS .slds-checkbox {
+    padding-bottom: 10px;
 }
 
 .THIS .dateInputs > .slds-p-top_x-small:nth-of-type(4) {
@@ -84,7 +84,11 @@
 }
 
 .THIS .dateInputs .slds-p-top_large {
-    padding-top: 5px;
+    padding-top: 15px;
+}
+
+.THIS .dateInputs .slds-p-top_large:nth-child(4) {
+    padding-bottom: 15px;
 }
 
 .THIS .dateInputs .slds-p-top_large > .slds-p-top_large {
@@ -160,24 +164,24 @@
 
 .THIS .reminderDate {
     margin-left: -112px;
-    margin-top: 5px;
+    margin-top: -1px;
 }
 .THIS .tbl table{
     width:80%;
 }
 
 .THIS .reminderDate_rtl{
-    margin-top:5px;
+    margin-top: -1px;
     margin-right:-16px;
 }
 .THIS .reminderDate_visrtl{
     margin-left: -99px;
-    margin-top: 5px;
+    margin-top: -1px;
     margin-right: -171px;
 }
 .THIS .vis_reminder{
     margin-left:-99px;
-    margin-top:5px;
+    margin-top: -1px;
 }
 .THIS .reminder {
     margin-left: -111px;
@@ -335,9 +339,6 @@
     text-align: right;
 }
 
-.THIS .slds-checkbox {
-    padding-bottom: 10px;
-}
 
 .THIS .te-col-changeNotif {
     font-size: 14px;
@@ -378,7 +379,22 @@
     width: 418px;
 }
 
+@media (max-width: 768px) {
+
+    .THIS .slds-form-element__help {
+        margin-top: 3px;
+    }
+
+    .THIS .slds-checkbox {
+        padding-bottom: 15px;
+    }
+
+}
 @media (max-width: 468px) {
+
+    .THIS .p-header.normal {
+        padding-top: 40px;
+    }
 
     .THIS .cRRIconSplitter .icon {
         position: static;

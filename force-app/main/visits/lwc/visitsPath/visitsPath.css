@@ -133,6 +133,22 @@ h2 {
     padding-top: .25rem;
 }
 
+.mr_left_5:nth-child(5) {
+    margin-bottom: 20px;
+}
+
+.mr_left_5 > .slds-form-element__label.mr_left {
+    padding-left: .25rem;
+}
+
+.slds-grid.mr_left_5:last-child {
+    padding-top:0;
+}
+
+.slds-grid.mr_left_5:last-child .mr_10 {
+    margin: 0 0 10px;
+}
+
 .what-to-expect {
     height: 24px;
     width: 136px;
@@ -562,6 +578,12 @@ h2 {
         > .slds-col:nth-of-type(n + 2)
         .state-labelRTL {
         padding-right: 0px;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .slds-grid.mr_left_5:last-child .mr_10 {
+        margin: 0 0 20px;
     }
 }
 
