@@ -389,6 +389,15 @@
         padding-bottom: 15px;
     }
 
+    .THIS .slds-form-element:first-child .slds-checkbox {
+        padding-top: 5px;
+    }
+
+    .THIS [type="datetime-local"]  {
+        width: 250px;
+        min-width: 250px;
+    }
+
 }
 @media (max-width: 468px) {
 
@@ -468,8 +477,7 @@
         padding: 5px 1rem;
     }
 
-    .THIS .slds-select,
-    .THIS .slds-input {
+    .THIS .slds-select {
         min-width: 95%;
     }
 

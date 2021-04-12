@@ -137,10 +137,6 @@ h2 {
     margin-bottom: 20px;
 }
 
-.mr_left_5 > .slds-form-element__label.mr_left {
-    padding-left: .25rem;
-}
-
 .slds-grid.mr_left_5:last-child {
     padding-top:0;
 }
@@ -646,6 +642,7 @@ h2 {
     .reminderDate {
         margin-left: 0;
         margin-top: 15px;
+        min-width: 100%;
     }
 
     .mr_left_5 .slds-col {
