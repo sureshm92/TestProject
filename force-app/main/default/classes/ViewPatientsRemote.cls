@@ -368,7 +368,7 @@ public without sharing class ViewPatientsRemote {
         Map<Id,Integer> cmap = new Map<Id, Integer>();
         for(participant__c p : [Select id,(Select id from ContentDocumentLinks) from participant__c where id=:participantIds]) 
              cmap.put(p.id, p.ContentDocumentLinks.size());
-        system.debug(cmap);
+       // system.debug(cmap);
         Map<Id, User> usersMapId = new Map<Id, User>(
             [SELECT Id, ContactId FROM User WHERE ContactId IN :idParticipants]
         );
