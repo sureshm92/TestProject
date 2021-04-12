@@ -72,7 +72,8 @@ private class Test_TaskService {
 
         Task ignoreTask = [SELECT Id, Status FROM Task WHERE Id = :taskIgnore.Id];
         System.assertEquals(TaskService.TASK_STATUS_IGNORED, ignoreTask.Status);
-
+        
+        Test.stopTest();
         Task cypTask = [
             SELECT Id, Status
             FROM Task
