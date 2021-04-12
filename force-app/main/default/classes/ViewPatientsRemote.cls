@@ -357,10 +357,18 @@ public without sharing class ViewPatientsRemote {
         List<PEWrapper> resultList = new List<PEWrapper>();
         List<ParticipantItem> participantItems = new List<ParticipantItem>();
         Set<Id> idParticipants = new Set<Id>();
+        Set<Id> participantIds = new Set<Id>();
+        Map<Id,Id> peParticipantMap = new Map<Id,Id>();
         Set<Id> idParticipantsOnUser = new Set<Id>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
             idParticipants.add(pe.Participant_Contact__c);
+            peParticipantMap.put(pe.Participant__c,pe.Id);
+            participantIds.add(pe.Participant__c);
         }
+        Map<Id,Integer> cmap = new Map<Id, Integer>();
+        for(participant__c p : [Select id,(Select id from ContentDocumentLinks) from participant__c where id=:participantIds]) 
+             cmap.put(p.id, p.ContentDocumentLinks.size());
+        system.debug(cmap);
         Map<Id, User> usersMapId = new Map<Id, User>(
             [SELECT Id, ContactId FROM User WHERE ContactId IN :idParticipants]
         );
@@ -371,6 +379,7 @@ public without sharing class ViewPatientsRemote {
             PEWrapper newPeWrapper;
             if (userMode == CommunityService.USER_MODE_HCP) {
                 newPeWrapper = new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions);
+                newPeWrapper.pItem.containsFile =  cmap.containsKey(pe.Id)? cmap.get(pe.Id)>0 : false;
                 resultList.add(newPeWrapper);
                 participantItems.add(newPeWrapper.pItem);
             } else {
