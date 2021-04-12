@@ -53,6 +53,7 @@ global without sharing class ReferHealthcareProviderRemote {
             SELECT Id, Contact__c, Status__c
             FROM Patient_Delegate__c
             WHERE Participant__c = :participantId
+            AND (Status__c =  'Active'  OR Status__c = 'Disconnected')
         ]) {
             mapDel.put(pdel.Contact__c, pdel);
         }
@@ -327,12 +328,20 @@ global without sharing class ReferHealthcareProviderRemote {
                     ddInfo,
                     HealthcareProvider.class
                 );
-            System.debug('delegateDuplicate>>>>>>>' + delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(
                 participant,
                 Participant__c.class
             );
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
+            List<Patient_Delegate__c> lstPatientDelegate = new List<Patient_Delegate__c> ();
+            if(delegateDuplicate != Null && delegateDuplicate.contactId != Null 
+               &&  delegateDuplicate.participantId != Null){
+                   lstPatientDelegate = [SELECT ID,Status__c from Patient_Delegate__c 
+                                        Where Participant__c =:participantObj.id
+                                        AND Contact__c =: delegateDuplicate.contactId AND 
+                                        Status__c = 'Withdrawn' ];
+               }
+            system.debug('>>>lstPatientDelegate>>'+lstPatientDelegate); 
             Boolean boolisUserCreated;
             Id ContactId;
             IF(delegateId != null){
@@ -431,11 +440,17 @@ global without sharing class ReferHealthcareProviderRemote {
                         Phone__c = null
                     );
                 }
-
+				
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                if(lstPatientDelegate.isEmpty()){
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
-                insert ptDelegateRef;
+                }
+                else{
+                    ptDelegateRef.ID = lstPatientDelegate[0].ID;
+                    ptDelegateRef.Status__c = DEL_ACTIVE;
+                }
+                upsert ptDelegateRef;
                 if (createUser) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
@@ -853,9 +868,10 @@ global without sharing class ReferHealthcareProviderRemote {
         String duplicateDelegatesQuery =
             'SELECT Id FROM Patient_Delegate__c WHERE Participant__c = \'' +
             participantId +
-            '\' AND Contact__r.Email = \'' +
+            '\' AND Contact__r.Email = \'' + 
             email +
-            '\'';
+             '\' AND (Status__c = \'Active\' OR Status__c = \'Disconnected\')';
+             
         if(firstName !=null || lastName !=null){	
             duplicateDelegatesQuery +=
                 'AND Contact__c IN (SELECT Contact__c FROM Participant__c WHERE ';
