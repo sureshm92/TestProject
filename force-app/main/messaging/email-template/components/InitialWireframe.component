@@ -17,7 +17,7 @@
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!IF(communityTemplate == 'Default',$Label.Email_Signature_Patient_New,$Label.Email_Signature_Patient)}"
+                      signature="{!IF(communityTemplate == 'Default',IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),$Label.Email_Signature_Patient)}"
                       communityTemplate="{!communityTemplate}"
                       >
         <!-- Inner body -->
@@ -34,7 +34,7 @@
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!IF(communityTemplate == 'Default',$Label.Email_Signature_Patient_New,$Label.Email_Signature_Patient)}"
+                      signature="{!IF(communityTemplate == 'Default',IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),$Label.Email_Signature_Patient)}"
                       communityTemplate="{!communityTemplate}"
                      >
         <!-- Inner body -->
@@ -58,7 +58,7 @@
                       sourceId="{!sourceId}"
                       header="{!$Label.Email_Header_Initial_Patient}"
                       greeting="{!$Label.Email_User_Greeting_FirstName}"
-                      signature="{!IF(communityTemplate == 'Default',$Label.Email_Signature_Patient_New,$Label.Email_Signature_Patient)}"
+                      signature="{!IF(communityTemplate == 'Default',IF(checkVisitedCommunity,$Label.Email_Signature_Patient_Short,$Label.Email_Signature_Patient_New),$Label.Email_Signature_Patient)}"
                       communityTemplate="{!communityTemplate}"
                      >
         <!-- Inner body -->
