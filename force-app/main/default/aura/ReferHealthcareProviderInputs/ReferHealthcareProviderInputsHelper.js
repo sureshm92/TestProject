@@ -133,7 +133,7 @@
                 lastName: lastName,
                 participantId: null
             },
-            function (returnValue) {
+            function (returnValue) { 
                 if (returnValue.firstName) {
                     if (sharingObject.sObjectType == 'Object') {
                         if (
@@ -174,8 +174,9 @@
                 } else {
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
+                    component.set('v.useThisDelegate', true);
                     parent.find('spinner').hide();
-                }
+                } 
             }
         );
     }
