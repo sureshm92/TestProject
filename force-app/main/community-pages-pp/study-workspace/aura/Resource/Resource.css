@@ -63,3 +63,9 @@
         min-width: auto;
     }
 }
+
+@media (max-width: 468px) {
+    .THIS .resource-footer {
+        margin-bottom: 25px;
+    }
+}
