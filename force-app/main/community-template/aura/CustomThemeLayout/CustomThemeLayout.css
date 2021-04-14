@@ -351,6 +351,12 @@
         height: 20px;
     }
 
+
+    .THIS [name="planDate"],
+    .THIS [name="reminderDate"] {
+        width: 250px;
+    }
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -567,8 +573,4 @@
         z-index: 0 !important;
     }
 
-
-    .THIS .reminderDate .container1 .slds-input {
-        min-width: 175px;
-    }
 }

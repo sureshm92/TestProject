@@ -23,3 +23,11 @@ Click on App Launcher Icon -> Click on Batch Create Panel -> Click on PatientTas
 ## 6. Go to Developer Console.Click on Debug -> Open Execute Anonymous Window.
 Batch_UpdatePendingNotifications upn = new Batch_UpdatePendingNotifications();
 Database.executeBatch(upn);This needs to be done in production once.
+
+##7. Post Deployment steps for Delay Trial Match in Production only once, No need to run for formal or UAT :
+
+1.	Login to Salesforce as a admin who has the EST time zone(America/New_York).
+2.	Go to Batch control panel
+3.	Reschedule(stop it and run it again) the TrialMatchNotify batch
+
+

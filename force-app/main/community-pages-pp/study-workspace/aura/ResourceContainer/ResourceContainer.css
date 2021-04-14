@@ -148,17 +148,11 @@
 
 @media screen and (max-width: 500px) {
     .THIS.width-limiter {
-        margin: 0;
         padding: 25px 15px;
     }
 
     .THIS.mainCard {
         padding: 0 15px;
-        margin: 0 16px;
-    }
-
-    .THIS .rr-white-panel {
-        padding-bottom: 25px;
     }
 
     .THIS .videoSubmit {
