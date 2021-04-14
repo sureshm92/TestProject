@@ -1190,7 +1190,7 @@ public without sharing class ParticipantInformationRemote {
     }
 
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegate(
+    public static void updatePatientInfoAndStatusWithDelegate(
         String participantJSON,
         String peJSON,
         String pathWrapperJSON,
@@ -1208,7 +1208,7 @@ public without sharing class ParticipantInformationRemote {
                 participantJSON,
                 Participant__c.class
             );
-            update participantObj;
+             update participantObj;
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -1320,7 +1320,22 @@ public without sharing class ParticipantInformationRemote {
            updateParticipantContactLanguage(contactInfoJSON); 
         }  
 
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        
+        }
+
+        @AuraEnabled
+        public static String updatePatientStatusHelper(
+            String peJSON,
+            String pathWrapperJSON,
+            Boolean historyToUpdate,
+            Boolean notesToBeAdded,
+            String outcome
+        ) {
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
+                peJSON,
+                Participant_Enrollment__c.class
+            );
+            return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
         }
     
      @AuraEnabled
@@ -1405,7 +1420,7 @@ public without sharing class ParticipantInformationRemote {
     }
     //CC
     @AuraEnabled
-    public static String updatePatientInfoAndStatusWithDelegateCC(
+    public static void updatePatientInfoAndStatusWithDelegateCC(
         String participantJSON,
         String peJSON,
         String pathWrapperJSON,
@@ -1450,10 +1465,22 @@ public without sharing class ParticipantInformationRemote {
         }else{
            updateParticipantContactLanguage(contactInfoJSON); 
         } 
-
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
     }
-    //
+    
+    @AuraEnabled
+        public static String updatePatientStatusCCHelper(
+            String peJSON,
+            String pathWrapperJSON,
+            Boolean historyToUpdate,
+            Boolean notesToBeAdded,
+            String outcome
+        ) {
+            Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
+                peJSON,
+                Participant_Enrollment__c.class
+            );
+            return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        }
 
     public static void updateUserLanguage(String userJSON) {
         if (!String.isBlank(userJSON)) {
