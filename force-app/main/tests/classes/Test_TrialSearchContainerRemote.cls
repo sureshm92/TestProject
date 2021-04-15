@@ -4,8 +4,14 @@
 
 @IsTest
 private class Test_TrialSearchContainerRemote {
+    @TestSetup
+    static void init() {
+        TestData.loadTestData();
+    }
+
     @IsTest
     static void getSearchCTPs_test() {
+        Test.startTest();
         TrialSearchContainerRemote.TrialSearchContainer container = makeTsContainer();
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(
@@ -15,11 +21,13 @@ private class Test_TrialSearchContainerRemote {
                 .then(container)
                 .build()
         );
+        Test.stopTest();
         System.assertEquals(1, TrialSearchContainerRemote.getSearchCTPs().trialTDOs.size());
     }
 
     @IsTest
     static void getFilterSearchCTPs_test() {
+        Test.startTest();
         TrialSearchContainerRemote.TrialSearchContainer container = makeTsContainer();
         ClassFactory.clearStubTypesByClassNamesMap();
         ClassFactory.putStubTypeByClassName(
@@ -29,6 +37,7 @@ private class Test_TrialSearchContainerRemote {
                 .then(container)
                 .build()
         );
+        Test.stopTest();
         System.assertEquals(
             1,
             TrialSearchContainerRemote.getFilterSearchCTPs(null, null, null).trialTDOs.size()
@@ -76,7 +85,6 @@ private class Test_TrialSearchContainerRemote {
     }
 
     private static TrialSearchContainerRemote.TrialSearchContainer makeTsContainer() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         TrialSearchContainerRemote.TrialSearchContainer container;
         System.runAs(testData.participantUser) {
