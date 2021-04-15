@@ -15,7 +15,6 @@
         // var stateRequired = component.get('v.statesLVList')[0];
         var numbers = /^[0-9]*$/;
         var phoneField = component.find('pField2');
-        var stateField = component.find('pField3');
         let isValid =
             participant.First_Name__c &&
             participant.Last_Name__c &&
@@ -89,7 +88,6 @@
            
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
-            console.log('par',copyParticipant);
         } else {
             let participant = {
                 sobjectType: 'Participant__c',
