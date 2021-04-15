@@ -463,6 +463,11 @@ global without sharing class ReferHealthcareProviderRemote {
                         .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
                 }
             }
+                 if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                );
+            }
                 update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
             }
         } catch (Exception e) {
