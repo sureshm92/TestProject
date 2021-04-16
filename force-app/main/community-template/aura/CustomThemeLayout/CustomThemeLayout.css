@@ -98,6 +98,10 @@
 /*    margin-bottom: 8px; */
 }
 
+.THIS .slds-form-element__icon {
+    padding-top: 2px;
+}
+
 .THIS .slds-form-element__label:empty {
     height: 0;
     margin-bottom: 0;
