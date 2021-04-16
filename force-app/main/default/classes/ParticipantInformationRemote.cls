@@ -1564,16 +1564,21 @@ public without sharing class ParticipantInformationRemote {
     }
     
     @AuraEnabled
-    public static Date getPESHrecord(Id peId){
-        List<Participant_Enrollment_Status_History__c> pesh = [Select 
-                             Date__c 
-                             From Participant_Enrollment_Status_History__c 
-                             WHERE ParticipantEnrollment__c =: peId 
-                            AND Status__c = 'Eligibility Passed' ORDER By Date__c DESC];
-        Date statusChangedDate = Date.valueOf(pesh[0].Date__c);
-        return statusChangedDate;
+    public static String getPESHrecord(Id peId){
+        List<Participant_Enrollment__c> pe = [SELECT Id,Participant_Status__c,
+                                              Study_Hub_Log__r.Response_Status_Code__c,
+                                              (SELECT Date__c From Participant_Enrollment_Status_History__r 
+                             WHERE Status__c = 'Eligibility Passed' ORDER By Date__c DESC LIMIT 1) 
+                             FROM Participant_Enrollment__c WHERE Id=:peId];
+        peStudyHubInfo peshinfo = new peStudyHubInfo();
+        peshinfo.currentStatus = pe.isEmpty()?null:pe[0].Participant_Status__c;
+        if(!pe.isEmpty() && pe[0].Participant_Enrollment_Status_History__r!=null && !pe[0].Participant_Enrollment_Status_History__r.isEmpty()){
+               peshinfo.dateOfSH = Date.valueOf(pe[0].Participant_Enrollment_Status_History__r[0].Date__c);
+           }
+        peshinfo.shLogStatus = pe.isEmpty()?null:pe[0].Study_Hub_Log__r.Response_Status_Code__c;
+        return JSON.serialize(peshinfo);
     }
-
+    
     @AuraEnabled
     public static string getUser(Id contactId){
         List<user> lstUser = [SELECT id,CreatedDate, ContactId FROM user WHERE ContactId = :contactid];
@@ -1635,5 +1640,14 @@ public without sharing class ParticipantInformationRemote {
     public class PIDelegateLevelInfo {
         @AuraEnabled
         public Boolean isDisabled { get; set; }
+    }
+    
+    public class peStudyHubInfo {
+        @AuraEnabled
+        public String currentStatus { get; set; }
+        @AuraEnabled
+        public Date dateOfSH { get; set; }
+        @AuraEnabled
+        public Decimal shLogStatus { get; set; }
     }
 }

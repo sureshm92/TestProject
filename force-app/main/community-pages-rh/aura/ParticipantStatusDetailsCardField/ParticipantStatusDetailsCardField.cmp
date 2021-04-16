@@ -58,8 +58,6 @@
                 aura:id="fieldInput"
                 label="{!v.field.title}"
                 type="date"
-                min="{!if(v.field.onlyFutureDate,v.todayDate,'')}"
-                max="{!if(v.field.onlyPastDate,v.todayDate,'')}"
                 value="{!v.field.value}"
                 disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
                 required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"

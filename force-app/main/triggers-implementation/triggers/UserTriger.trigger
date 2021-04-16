@@ -14,7 +14,6 @@ trigger UserTriger on User(
     TriggerHandlerExecutor.execute(UserTriggerHandler.UpdateEmailOnRelatedContactsHandler.class);
     TriggerHandlerExecutor.execute(UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class);
     TriggerHandlerExecutor.execute(UserTriggerHandler.CreateCompleteYourProfileTaskHandler.class);
-    TriggerHandlerExecutor.execute(UserTriggerHandler.UpdateUserRoleHandler.class);
     TriggerHandlerExecutor.execute(
         UserTriggerHandler.AssignCommunityPermissionSetToUserHandler.class
     );
