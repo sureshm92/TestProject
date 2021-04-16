@@ -10,10 +10,11 @@ private class Test_TrialSurveyTriggerHandler {
             return;
 
         TestData.loadTestData();
+        Test.startTest();
         TestData testData = new TestData();
 
         Integer taskSize;
-        Test.startTest();
+        
         Trial_Survey__c ts = new Trial_Survey__c(
             Active_On_Status__c = PEStatusState.PE_STATUS_RECEIVED,
             Clinical_Trial_Profile__c = testData.ctp.Id,
@@ -27,7 +28,7 @@ private class Test_TrialSurveyTriggerHandler {
         insert invitation;
         taskSize = TaskService.getInstance()
             .createSurveyTasks(new Map<Id, String>{ invitation.Id => 'Patient only' });
-        delete ts;
+        TrialSurveyTriggerHandler.doExpire(new List<Trial_Survey__c>{ts});
         Test.stopTest();
         System.assertEquals(1, taskSize);
     }
