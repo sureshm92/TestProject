@@ -28,10 +28,13 @@
         let titleCode = component.get('v.titleCode');
         if (titleCode === 'PrivacyPolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'));
+            document.title =$A.get('$Label.c.PG_TC_H_Privacy_Policy');
         } else if (titleCode === 'CookiePolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
+            document.title = $A.get('$Label.c.PG_TC_H_Cookie_Policy');
         } else {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
+            document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
         component.find('mainSpinner').show();
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
