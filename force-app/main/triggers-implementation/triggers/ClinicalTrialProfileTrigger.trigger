@@ -14,5 +14,8 @@ trigger ClinicalTrialProfileTrigger on Clinical_Trial_Profile__c(
     TriggerHandlerExecutor.execute(
         ClinicalTrialProfileTriggerHandler.UpdateClinicalTrialProfile.class
     );
+    TriggerHandlerExecutor.execute(
+        ClinicalTrialProfileTriggerHandler.manageBypassedFieldsForTMDH.class
+    );
     TriggerHandlerExecutor.execute(CTPNotificationTriggerHandler.CreateNotificationHandler.class);
 }
