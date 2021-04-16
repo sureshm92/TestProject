@@ -181,7 +181,7 @@ public without sharing class ParticipantInformationRemote {
                                                  OR LastName = :strLastName.toLowerCase())
                                             AND (Email = :strDelegateEmail
                                                  OR Email = :strDelegateEmail.toLowerCase())
-                                            AND userCommunityMode__c != 'CC'];
+                                                 AND userCommunityMode__c != 'CC'];
                 if(lstContact.isEmpty()){
                 objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
                                       LastName = delegateParticipant.Last_Name__c,
@@ -202,7 +202,9 @@ public without sharing class ParticipantInformationRemote {
                 }
                 else{
                   objcon = lstContact[0];
-                  objcon.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT ;
+                  String strCommunityType = objcon.userCommunytyType__c;
+                   strCommunityType =  String.isBlank(strCommunityType) ? CommunityService.USER_MODE_PARTICIPANT : strCommunityType + ';' + CommunityService.USER_MODE_PARTICIPANT;
+                  objcon.userCommunytyType__c = strCommunityType ;
                 }
                 upsert objcon;
                 delegateParticipant.Contact__c = objcon.id;
@@ -1306,7 +1308,9 @@ public without sharing class ParticipantInformationRemote {
                 }
                 else{
                   objcon = lstContact[0];
-                  objcon.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT ;
+                  String strCommunityType = objcon.userCommunytyType__c;
+                  strCommunityType =  String.isBlank(strCommunityType) ? CommunityService.USER_MODE_PARTICIPANT : strCommunityType + ';' + CommunityService.USER_MODE_PARTICIPANT;
+                 objcon.userCommunytyType__c = strCommunityType ;
                 }
                 upsert objcon;
                 delegateParticipant.Contact__c = objcon.id;
@@ -1406,8 +1410,7 @@ public without sharing class ParticipantInformationRemote {
             objDelegate.firstName = objTempParticipant.First_Name__c;
             objDelegate.lastName = objTempParticipant.Last_Name__c;
             objDelegate.isDuplicateDelegate = false;
-            
-            objDelegate.participantPhoneNumber = objTempParticipant.Phone__c;
+            objDelegate.participantPhoneNumber = String.isBlank(objTempParticipant.Phone__c) ? '' : objTempParticipant.Phone__c;
             objDelegate.DelegateParticipant = objTempParticipant;
             List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(
                         participantId,
@@ -1426,8 +1429,39 @@ public without sharing class ParticipantInformationRemote {
                     }
             
             return objDelegate;
-        }  
-        else return Null; 
+        }
+        else{
+            List<Contact> lstContact = [SELECT Id, 
+                                        FirstName, 
+                                        LastName, Name, Email, Phone,  
+                                        userCommunytyType__c FROM Contact WHERE userCommunityMode__c != 'CC' AND
+                                        (FirstName = :strFirstName
+                                         OR FirstName = :strFirstName.toLowerCase())
+                                        AND (LastName = :strLastName
+                                             OR LastName = :strLastName.toLowerCase())
+                                        AND (Email = :strDelegateEmail
+                                             OR Email = :strDelegateEmail.toLowerCase())
+                                       ];
+            if(!lstContact.isEmpty()){
+             Participant__c objTempParticipant = new Participant__c();
+             Contact objTempCon = lstContact[0];
+            DelegateInfo objDelegate = new DelegateInfo();
+            objDelegate.PartcipantId = Null;
+            objDelegate.email = objTempCon.Email;
+            objDelegate.firstName = objTempCon.FirstName;
+            objDelegate.lastName = objTempCon.LastName;
+            objDelegate.isDuplicateDelegate = false;
+            objDelegate.participantPhoneNumber = String.isBlank(objTempCon.Phone) ? '' : objTempCon.Phone ;
+            objDelegate.DelegateParticipant = objTempParticipant;
+            objDelegate.isDuplicate = false;
+                
+            return objDelegate;      
+            }
+            
+             else return Null; 
+            
+        }
+       
     }
     
      public static List<Patient_Delegate__c> checkDuplicatePDelegates(
