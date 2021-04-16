@@ -403,6 +403,7 @@
             isValid = false;
         } */   
          console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
+        // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
 
         if(component.get('v.fromActionParticipant')){
             var DelegateFnameField = component.find('DelegateFirstName');
@@ -419,12 +420,13 @@
                          isValid = false;
                      }
                  }
-            else {
-                if(!(!participantDelegate.Phone__c.trim() &&
+            else {               
+                if(!((!participantDelegate.Phone__c || !participantDelegate.Phone__c.trim()) &&
                    !participantDelegate.First_Name__c.trim() &&
                    !participantDelegate.Last_Name__c.trim() &&
-                   !participantDelegate.Email__c.trim())){
-                    if($A.util.isEmpty(participantDelegate.Phone__c.trim()))
+                   !participantDelegate.Email__c.trim())){ 
+                    if(($A.util.isEmpty(participantDelegate.Phone__c)) ||
+                       ($A.util.isEmpty(participantDelegate.Phone__c.trim())))
                     {
                          DelegatePhoneField.setCustomValidity(completeInfoField);
                         isValid = false;
