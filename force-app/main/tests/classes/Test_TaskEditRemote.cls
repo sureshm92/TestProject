@@ -98,12 +98,13 @@ private class Test_TaskEditRemote {
             TaskEditRemote.deleteTask(task2);
             
         }
-        Test.stopTest();
         List<Task> testTask = [
             SELECT Id, Status, Reminder_Date__c,ReminderDateTime
             FROM Task
             WHERE Subject = 'test'
         ];
+        Test.stopTest();
+        
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
         //System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testTask[0].Status);
@@ -232,12 +233,13 @@ private class Test_TaskEditRemote {
             TaskEditRemote.ignoreTask(task.Id);
             
         }
-        Test.stopTest();
-        List<Task> testTask = [
+         List<Task> testTask = [
             SELECT Id, Status, Reminder_Date__c,ReminderDateTime
             FROM Task
             WHERE Subject = 'test'
         ];
+        Test.stopTest();
+       
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
         //System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testTask[0].Status);
