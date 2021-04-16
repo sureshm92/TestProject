@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 10-Apr-20.
  */
 
-({
+ ({
     showHideProvider: function (component) {
         var parent = component.get('v.parent');
         var showProvider = parent.get('v.showReferringProvider');
@@ -134,6 +134,7 @@
                 participantId: null
             },
             function (returnValue) { 
+                console.log('>>>returnValue>>'+JSON.stringify(returnValue));
                 if (returnValue.firstName) {
                     if (sharingObject.sObjectType == 'Object') {
                         if (
@@ -172,6 +173,9 @@
                     }
                     parent.find('spinner').hide();
                 } else {
+                    if (sharingObject.sObjectType == 'Object') {
+                         component.set('v.duplicateDelegateInfo',null);
+                    }
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
                     component.set('v.useThisDelegate', true);

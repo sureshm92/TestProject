@@ -60,9 +60,7 @@ h2 {
     margin-left: -118px;
     margin-top: 5px;
 }
-.errorMargin {
-    margin-top: 15px;
-}
+
 .wi {
     width: 209px;
 }
@@ -133,12 +131,17 @@ h2 {
     padding-top: .25rem;
 }
 
-.mr_left_5:nth-child(5) {
-    margin-bottom: 20px;
+.mr_left_5:last-child {
+    padding-top: 0;
 }
 
-.slds-grid.mr_left_5:last-child {
-    padding-top:0;
+.mr_left_5:nth-child(3) .slds-has-error .slds-form-element__help {
+    height: 15px;
+}
+
+.mr_left_5:nth-child(5) {
+    margin-bottom: 20px;
+    padding-top: 20px;
 }
 
 .slds-grid.mr_left_5:last-child .mr_10 {
