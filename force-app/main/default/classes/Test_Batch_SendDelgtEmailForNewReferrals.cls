@@ -2,13 +2,14 @@
 public class Test_Batch_SendDelgtEmailForNewReferrals {
     @isTest
     private static void ReceivedPIsCreated_NoBatchNotificationsCreated() {
-        initData();
-        Test.startTest();
+        //initData();
+       Test.startTest();
         DataBase.executeBatch(new Batch_SendDelegateEmailForNewReferrals());
         Test.stopTest();
     }
 
     private static void initData() {
+     Test.startTest();
         delete [SELECT Id FROM Participant__c];
         delete [SELECT Id FROM Resource__c];
         delete [SELECT Id FROM Resource_Action__c];
@@ -280,5 +281,6 @@ public class Test_Batch_SendDelgtEmailForNewReferrals {
             )
         );
         insert resourceActions;
+         Test.stopTest();
     }
 }
