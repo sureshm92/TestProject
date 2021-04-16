@@ -167,7 +167,7 @@
                                 </aura:if>
                             </div>
                         </div>
-                        <div class="te-col-header" style="margin-top: 15px">
+                        <div class="te-col-header" style="margin-top: 30px">
                             <b> {!$Label.c.Task_Reminder_Details}</b>
                         </div>
                         <!-- Task Reminder Details -->

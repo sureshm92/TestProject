@@ -145,6 +145,9 @@ public without sharing class ParticipantInformationRemote {
                 delegateJSON,
                 Participant__c.class
             );
+            String strFirstName = delegateParticipant.First_Name__c;
+            String strLastName = delegateParticipant.Last_Name__c;
+            String strDelegateEmail =  delegateParticipant.Email__c; 
             
              Boolean delFound = String.isBlank(delegateParticipant.First_Name__c) && 
                 String.isBlank(delegateParticipant.Last_Name__c) &&
@@ -160,6 +163,26 @@ public without sharing class ParticipantInformationRemote {
             Contact objcon ; 
             if(String.isBlank(delegateParticipant.Id))
             {
+             List<Contact> lstContact = [SELECT FirstName,
+                                            LastName,
+                                            Email,
+                                            MailingCity,
+                                            MailingCountryCode,
+                                            MailingState,
+                                            MailingCountry,
+                                            MailingStateCode,
+                                            MailingPostalCode,
+                                            userCommunytyType__c,
+                                            userCommunityMode__c FROM Contact
+                                            WHERE 
+                                            (FirstName = :strFirstName
+                                             OR FirstName = :strFirstName.toLowerCase())
+                                            AND (LastName = :strLastName
+                                                 OR LastName = :strLastName.toLowerCase())
+                                            AND (Email = :strDelegateEmail
+                                                 OR Email = :strDelegateEmail.toLowerCase())
+                                                 AND userCommunityMode__c != 'CC'];
+                if(lstContact.isEmpty()){
                 objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
                                       LastName = delegateParticipant.Last_Name__c,
                                       Email = delegateParticipant.Email__c,
@@ -176,7 +199,14 @@ public without sharing class ParticipantInformationRemote {
                                       MailingCountry = participantObj.Mailing_Country__c,
                                       MailingState = participantObj.Mailing_State__c,
                                       MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c);
-                insert objcon;
+                }
+                else{
+                  objcon = lstContact[0];
+                  String strCommunityType = objcon.userCommunytyType__c;
+                   strCommunityType =  String.isBlank(strCommunityType) ? CommunityService.USER_MODE_PARTICIPANT : strCommunityType + ';' + CommunityService.USER_MODE_PARTICIPANT;
+                  objcon.userCommunytyType__c = strCommunityType ;
+                }
+                upsert objcon;
                 delegateParticipant.Contact__c = objcon.id;
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
                 delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
@@ -1222,6 +1252,10 @@ public without sharing class ParticipantInformationRemote {
                 delegateJSON,
                 Participant__c.class
             );
+            String strFirstName = delegateParticipant.First_Name__c;
+            String strLastName = delegateParticipant.Last_Name__c;
+            String strDelegateEmail =  delegateParticipant.Email__c;  
+            
             Boolean delFound = String.isBlank(delegateParticipant.First_Name__c) && 
                 String.isBlank(delegateParticipant.Last_Name__c) &&
                 String.isBlank(delegateParticipant.Email__c) &&
@@ -1235,6 +1269,26 @@ public without sharing class ParticipantInformationRemote {
             Contact objcon ; 
             if(String.isBlank(delegateParticipant.Id))
             {
+                List<Contact> lstContact = [SELECT FirstName,
+                                            LastName,
+                                            Email,
+                                            MailingCity,
+                                            MailingCountryCode,
+                                            MailingState,
+                                            MailingCountry,
+                                            MailingStateCode,
+                                            MailingPostalCode,
+                                            userCommunytyType__c,
+                                            userCommunityMode__c FROM Contact
+                                            WHERE 
+                                            (FirstName = :strFirstName
+                                             OR FirstName = :strFirstName.toLowerCase())
+                                            AND (LastName = :strLastName
+                                                 OR LastName = :strLastName.toLowerCase())
+                                            AND (Email = :strDelegateEmail
+                                                 OR Email = :strDelegateEmail.toLowerCase())
+                                            AND userCommunityMode__c != 'CC'];
+                if(lstContact.isEmpty()){
                  objcon = new Contact (FirstName = delegateParticipant.First_Name__c,
                                              LastName = delegateParticipant.Last_Name__c,
                                              Email = delegateParticipant.Email__c,
@@ -1251,7 +1305,14 @@ public without sharing class ParticipantInformationRemote {
                                       MailingCountry = participantObj.Mailing_Country__c,
                                       MailingState = participantObj.Mailing_State__c,
                                       MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c);
-                insert objcon;
+                }
+                else{
+                  objcon = lstContact[0];
+                  String strCommunityType = objcon.userCommunytyType__c;
+                  strCommunityType =  String.isBlank(strCommunityType) ? CommunityService.USER_MODE_PARTICIPANT : strCommunityType + ';' + CommunityService.USER_MODE_PARTICIPANT;
+                 objcon.userCommunytyType__c = strCommunityType ;
+                }
+                upsert objcon;
                 delegateParticipant.Contact__c = objcon.id;
                 // delegateParticipant.Site__c = perAccountId;
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
@@ -1349,8 +1410,7 @@ public without sharing class ParticipantInformationRemote {
             objDelegate.firstName = objTempParticipant.First_Name__c;
             objDelegate.lastName = objTempParticipant.Last_Name__c;
             objDelegate.isDuplicateDelegate = false;
-            
-            objDelegate.participantPhoneNumber = objTempParticipant.Phone__c;
+            objDelegate.participantPhoneNumber = String.isBlank(objTempParticipant.Phone__c) ? '' : objTempParticipant.Phone__c;
             objDelegate.DelegateParticipant = objTempParticipant;
             List<Patient_Delegate__c> duplicateDelegates = checkDuplicatePDelegates(
                         participantId,
@@ -1369,8 +1429,39 @@ public without sharing class ParticipantInformationRemote {
                     }
             
             return objDelegate;
-        }  
-        else return Null; 
+        }
+        else{
+            List<Contact> lstContact = [SELECT Id, 
+                                        FirstName, 
+                                        LastName, Name, Email, Phone,  
+                                        userCommunytyType__c FROM Contact WHERE userCommunityMode__c != 'CC' AND
+                                        (FirstName = :strFirstName
+                                         OR FirstName = :strFirstName.toLowerCase())
+                                        AND (LastName = :strLastName
+                                             OR LastName = :strLastName.toLowerCase())
+                                        AND (Email = :strDelegateEmail
+                                             OR Email = :strDelegateEmail.toLowerCase())
+                                       ];
+            if(!lstContact.isEmpty()){
+             Participant__c objTempParticipant = new Participant__c();
+             Contact objTempCon = lstContact[0];
+            DelegateInfo objDelegate = new DelegateInfo();
+            objDelegate.PartcipantId = Null;
+            objDelegate.email = objTempCon.Email;
+            objDelegate.firstName = objTempCon.FirstName;
+            objDelegate.lastName = objTempCon.LastName;
+            objDelegate.isDuplicateDelegate = false;
+            objDelegate.participantPhoneNumber = String.isBlank(objTempCon.Phone) ? '' : objTempCon.Phone ;
+            objDelegate.DelegateParticipant = objTempParticipant;
+            objDelegate.isDuplicate = false;
+                
+            return objDelegate;      
+            }
+            
+             else return Null; 
+            
+        }
+       
     }
     
      public static List<Patient_Delegate__c> checkDuplicatePDelegates(

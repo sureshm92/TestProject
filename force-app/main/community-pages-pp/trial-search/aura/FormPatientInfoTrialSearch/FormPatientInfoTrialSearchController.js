@@ -22,9 +22,15 @@
             participant.Gender__c &&
             participant.Phone__c &&
             numbers.test(participant.Phone__c) &&
-            participant.Email__c &&
+            participant.Email__c &&  participant.Mailing_Country_Code__c &&  
             component.get('v.sendFor') !== '' &&
-            component.find('emailInput').get('v.validity').valid;
+            component.find('emailInput').get('v.validity').valid;     
+       
+        if(!participant.Mailing_State_Code__c && participant.Mailing_Country_Code__c=='US')
+        {
+            isValid =false;
+        }
+
         if (isValid) {
             component.set('v.isValid', true);
             if (numbers.test(participant.Phone__c) && participant.Phone__c) {
@@ -69,7 +75,7 @@
         var participant = component.get('v.participantInfo');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
         component.set('v.statesLVList', states);
-        component.set('v.participant.Mailing_State_Code__c', null);
+       // component.set('v.participant.Mailing_State_Code__c', null);
         component.checkFields();
     },
 
@@ -79,6 +85,7 @@
 
     changeFor: function (component, event, helper) {
         if (component.get('v.sendFor') === 'Me') {
+           
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
         } else {
