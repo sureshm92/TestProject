@@ -14,7 +14,7 @@ public class Batch_UpdatePendingNotifications implements
                     IsDelegate__c,
                     RemindUsing__c
                 FROM Notification__c
-                WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING and Notification_Type__c IN('Message_to_PT_New_Study_eRP_VT_Type', 'Message_to_PI_SS_Was_Changed_Type','Message_to_PT_Enrollment_Success_Type','Message_to_PT_Ref_Status_Update_Type','Message_to_PT_SS_Was_Changed_Type')
+                WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING and Notification_Type__c IN('Message_to_PT_New_Study_eRP_VT_Type', 'Message_to_PI_SS_Was_Changed_Type','Message_to_PT_Enrollment_Success_Type','Message_to_PT_Ref_Status_Update_Type','Message_to_PT_SS_Was_Changed_Type','Message_to_PI_Patient_Become_Adult_Type','Message_to_PT_New_Study_HCP_VT_Type','Message_to_PT_Drop_Out_Type','Message_to_PT_COI_Ctp_Start_Enroll_Type','Message_To_PT_New_Message_Type')
 
             ]
         );
@@ -22,10 +22,11 @@ public class Batch_UpdatePendingNotifications implements
     public void execute(Database.BatchableContext bc, List<Notification__c> scope){
         List<Notification__c> notificationsTobeUpdated = new List<Notification__c>();
         for (Notification__c n : scope) {
-		    n.Status__c = 'Processed';
+            n.Status__c = 'Processed';
             notificationsTobeUpdated.add(n);
             }
-        update notificationsTobeUpdated;
+        Database.SaveResult[] saveResultList = Database.update(notificationsTobeUpdated, false);
+        //update notificationsTobeUpdated;
     }
     public void finish(Database.BatchableContext bc){
         
