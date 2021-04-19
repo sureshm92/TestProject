@@ -1,6 +1,5 @@
 @IsTest
 public class TestCPDonor {
-    /* Remove
    @IsTest
     static void testAll() {
     
@@ -50,7 +49,7 @@ public class TestCPDonor {
     
         List<PicklistEntry> pleList = Translation__c.Language__c.getDescribe().getPicklistValues();
         Translation__c studyTranslation = new Translation__c(
-                Language__c = pleList[0].value,
+                Language__c = 'en_US',
                 Record_Id__c = study.Id,
                 Field_Name__c = 'Study_Title__c',
                 Value__c = 'Some translated value'
@@ -169,7 +168,7 @@ public class TestCPDonor {
                 acceptedTermsAndConditions__c = '2019-10-02T10:00:00-05:00'
         );*/
 
-    /* List<Integration_Site_Staff__c> issList = new List<Integration_Site_Staff__c>();
+     List<Integration_Site_Staff__c> issList = new List<Integration_Site_Staff__c>();
         Integration_Site_Staff__c iss = new Integration_Site_Staff__c(
                 Address_Country__c = 'US',
                 Zip_Postal_Code__c = '12312',
@@ -202,8 +201,8 @@ public class TestCPDonor {
 
         issList.add(iss);
         issList.add(iss2);
-        //insert(issList);*/
-    /* Remove
+        //insert(issList);
+    
         test.stopTest();
         CPDonorReferralFormController.getStudySites('Test');
         CPDonorReferralFormController.getPickListValuesIntoList();
@@ -219,10 +218,15 @@ public class TestCPDonor {
         formResult.Participant_Enrollment__c = ipr3.Participant_Enrollment__c;
         insert formResult;
         createAttachment(formResult.Id);
-        SurveyResponseViewController.getSurveyResponse(ipr3.Participant_Enrollment__c);
+        //SurveyResponseViewController.getSurveyResponse(ipr3.Participant_Enrollment__c);
+
+        CPDonorReferralFormController.getStateMapByCountry();
+        CPDonorReferralFormController.CreateDummyCovidAccount(ipr2);
+        CPDonorReferralFormController.updateStudySite('','','','','','','');
+
     }
 
-   /*@IsTest
+  /* @IsTest
     static void testCPDonorReferralFormController() 
     {
         //TestData.createPIDelegateUser();
@@ -239,7 +243,7 @@ public class TestCPDonor {
 
         Test.stopTest();
     }*/
-    /* Remove
+    
     private static Integration_Patient_Referral__c createIntegrationPatientReferral()
     {
         Integration_Patient_Referral__c newIntegrationPatientReferral = new Integration_Patient_Referral__c();
@@ -296,5 +300,4 @@ public class TestCPDonor {
         insert att;
         return att;
     }
-    Remove */
 }
