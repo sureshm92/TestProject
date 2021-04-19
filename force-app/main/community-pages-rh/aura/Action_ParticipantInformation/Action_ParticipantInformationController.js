@@ -361,35 +361,56 @@
                 notesToBeAdded: notesToBeAdded,
                 outcome: outcome
             };
+
         }
+        
         communityService.executeAction(
             component,
             actionName,
             actionParams,
             function () {
-                var callback = component.get('v.callback');
-                if (callback) {
-                    callback(pe);
+                var actionName1;
+                if (usermode == 'CC') {
+                    actionName1 = component.get("c.updatePatientStatusCCHelper");
+                } else {
+                    actionName1 = component.get("c.updatePatientStatusHelper");
                 }
-                component.set('v.BtnClicked','');
+                actionName1.setParams({
+                    peJSON: JSON.stringify(pe),
+                    pathWrapperJSON: JSON.stringify(pathWrapper),
+                    historyToUpdate: isStatusChanged,
+                    notesToBeAdded: notesToBeAdded,
+                    outcome: outcome
+                });
+                component.find('spinner').show();
+                actionName1.setCallback(this, $A.getCallback(function(response) {
+                    var response = response.getReturnValue();
+                    var callback = component.get('v.callback');
+                    if (callback) {
+                        callback(pe);
+                    }
+                    component.set('v.BtnClicked','');
+                    
+                    var comp = component.find('dialog');
+                    if (usermode === 'CC') {
+                        var cmpEvent = component.getEvent('callcenter');
+                        cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
+                        cmpEvent.fire();
+                    }
+                    if (component.get('v.isListView') == true) {
+                        var p = component.get('v.parent');
+                        p.refreshTable();
+                    }
+                    comp.hide();
+                    
                 component.find('spinner').hide();
-                var comp = component.find('dialog');
-                if (usermode === 'CC') {
-                    var cmpEvent = component.getEvent('callcenter');
-                    cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
-                    cmpEvent.fire();
-                }
-                if (component.get('v.isListView') == true) {
-                    var p = component.get('v.parent');
-                    p.refreshTable();
-                }
-                comp.hide();
+                }));
+                $A.enqueueAction(actionName1);
             },
             null,
             function () {
                 component.set('v.participantPath', null);
                 component.set('v.isStatusChanged', false);
-                component.find('spinner').hide();
             }
         );
     },
