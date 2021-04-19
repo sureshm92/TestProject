@@ -20,11 +20,13 @@ public without sharing class AuthFormPreviewController {
                                          ContentDocument.LatestPublishedVersion.LanguageCode__c,
                                          ContentDocument.LatestPublishedVersion.fileType
                                          FROM ContentDocument WHERE ID = :resourceId];
-        this.pdfBlobDataInBase64StringFormat = EncodingUtil.base64Encode(
-            cdlList[0].LatestPublishedVersion.VersionData
-        );
-        this.fileType = cdlList[0].LatestPublishedVersion.fileType;
         
+        if(!cdlList.isEmpty()){
+            this.pdfBlobDataInBase64StringFormat = EncodingUtil.base64Encode(
+                cdlList[0].LatestPublishedVersion.VersionData
+            );
+            this.fileType = cdlList[0].LatestPublishedVersion.fileType;
+        }
         this.executeJS = true;
         }
 }
