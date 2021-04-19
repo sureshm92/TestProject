@@ -76,4 +76,65 @@ private class Test_ReferralProfileRemote {
         List<User> testUser = [SELECT Id, Account.Name FROM User WHERE ContactId = :newCont.Id];
         System.assertEquals('Test Account Name', testUser[0].Account.Name);
     }
+    @isTest
+    private static void newScreeningId_Test(){
+         TestData.loadTestData();
+        TestData testData = new TestData();
+        String srcstr = 'testdata';
+        Participant_Enrollment__c part = [
+            SELECT
+                Id,
+                Medical_Record_Review_Status__c,
+                MRR_Survey_Results_URL__c,
+                Medical_Record_Review_Completed_by__c,
+                Pre_screening_Status__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
+        Test.startTest();
+        ReferralProfileRemote.savePEScreeningId(part.Id, 'dummy');
+        Test.stopTest();
+    }
+    @isTest
+    private static void contentDoc(){
+        
+        TestData.loadTestData();
+        TestData testData = new TestData();
+        String srcstr = 'testdata';
+        Test.startTest();
+        Participant_Enrollment__c part = [
+            SELECT
+            Id,
+            Medical_Record_Review_Status__c,
+            MRR_Survey_Results_URL__c,
+            Medical_Record_Review_Completed_by__c,
+            Pre_screening_Status__c
+            FROM Participant_Enrollment__c
+            LIMIT 1
+        ];
+
+        ContentVersion contentVersion_1 = new ContentVersion(
+            Title = 'Penguins',
+            PathOnClient = 'Penguins.jpg',
+            VersionData = Blob.valueOf('Test Content'),
+            IsMajorVersion = true
+        );
+        insert contentVersion_1; 
+        List<ContentDocument> documents = [
+            SELECT Id, Title, LatestPublishedVersionId 
+            FROM ContentDocument
+        ];
+        
+        ContentDocumentLink contentlink=new ContentDocumentLink();
+        contentlink.LinkedEntityId=part.id;
+        contentlink.ShareType= 'V';
+        contentlink.LinkedEntityId = part.Id; 
+        contentlink.ContentDocumentId=documents[0].Id;
+        contentlink.Visibility = 'AllUsers'; 
+        insert contentlink;
+
+        ReferralProfileRemote.getAuthForm(part.Id);
+        Test.stopTest();
+    }
+    
 }

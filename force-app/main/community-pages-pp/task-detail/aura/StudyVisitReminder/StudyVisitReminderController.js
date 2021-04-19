@@ -1,7 +1,10 @@
 ({
     doInit: function (component, event, helper) {
+        
         //component.find('spinner').show();
+        
         component.set('v.reRender',true);
+        communityService.executeValidParams= false;
         var params = event.getParam('arguments');
         if (params) {
             console.log('#relaodAttributes: ' + JSON.stringify(params.relaodAttributes));
@@ -44,6 +47,7 @@
     },
 
     doSave: function (component, event, helper) {
+        communityService.executeValidParams= false;
         var task = component.get('v.task');
         var visitDate = component.get('v.visitData.visitDate');
         var patientVisit = {'sobjectType' : 'Patient_Visit__c', 'Id':component.get('v.visitData.visit.Id'),'Planned_Date__c' :visitDate ,'Status__c':'Scheduled'};
