@@ -40,7 +40,7 @@ public class Test_MedicalPreviewController {
 
         PageReference singlePage = Page.RRPDFViewer;
         Test.setCurrentPage(singlePage);
-        RRPDFViewerController controller = new RRPDFViewerController();
+        MedicalPreviewController controller = new MedicalPreviewController();
         ApexPages.currentPage().getParameters().put('resourceId', resources[0].Id);
 
         Test.startTest();
