@@ -11,7 +11,7 @@ private class Test_Batch_AssignLanguagePreferences {
         td.participant.Preferred_Language__c = null;
         td.participant.Language_Preference_Code__c = 'en_US';
         
-        //update td.participant;
+        update td.participant;
         Test.startTest();
         Batch_AssignLanguagePreferences.run();
         Test.stopTest();
