@@ -94,7 +94,7 @@
                                                         iconName="single-neutral"
                                                     />
                                                 </div>
-                                                <div class="profileEmail">{!v.minorUserName}</div>
+                                                <div class="profileEmail">{!$Label.c.PG_AS_F_Username}: {!v.minorUserName}</div>
                                             </div>
                                         </aura:set>
                                     </aura:if>
