@@ -813,6 +813,7 @@ private class Test_BaseCRCPCommunity {
                 null
             );
             MedicalRecordReviewLogItemController.changeStatusToExcludeFromReferring(testData.pe.Id);
+            MedicalRecordReviewLogItemController.undoChangeStatusToExcludeFromReferring(testData.pe.Id);
             ExcelController excelController = new ExcelController();
             excelController.getPEList();
             excelController.getHCPEList();
