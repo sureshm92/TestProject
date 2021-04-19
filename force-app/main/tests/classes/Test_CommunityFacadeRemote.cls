@@ -75,6 +75,10 @@ private class Test_CommunityFacadeRemote {
             localizedUrl = CommunityFacadeRemote.getLocalizedURL('https://login.salesforce.com/');
             contactChangeMode = CommunityFacadeRemote.changeMode('HCP', null, null, null);
             testTcAccepted = CommunityFacadeRemote.isTCAccepted();
+            CommunityFacadeRemote.checkStudyMessage();
+            CommunityFacadeRemote.isDummyMode();
+            CommunityFacadeRemote.getCommunityUserVisibility();
+            CommunityFacadeRemote.isCurrentSessionMobileApp();
             communityData = (CommunityData) JSON.deserialize(
                 CommunityFacadeRemote.getCommunityData(),
                 CommunityData.class

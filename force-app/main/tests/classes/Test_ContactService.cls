@@ -62,9 +62,8 @@ private without sharing class Test_ContactService {
         ContactService.updateNextNotifyDate(conId, dt);
         Contact delCon = [SELECT Id, LastName FROM Contact WHERE Id = :pdUser.ContactId];
         ContactService.updateNextNotifyDate(delCon.Id, dt);
-        Test.stopTest();
-
         Contact testCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :conId];
+        Test.stopTest();
         Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
         System.assertEquals(Datetime.now().date(), testCont.Next_Notify_Date__c);
         System.assertEquals(null, testDelCont.Next_Notify_Date__c);
