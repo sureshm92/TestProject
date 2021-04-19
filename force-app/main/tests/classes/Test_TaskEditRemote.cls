@@ -3,9 +3,14 @@
  */
 @IsTest
 private class Test_TaskEditRemote {
+    @TestSetup
+    static void makeData() {
+        Test.startTest();
+        TestData.loadTestData();
+        Test.stopTest();
+    }
     @IsTest
     static void getInitTaskEditDataWrapper() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
@@ -69,60 +74,51 @@ private class Test_TaskEditRemote {
             TaskEditRemote.TaskEditDataWrapper taskWrapper = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper.reminderOption = '1 day before';
             taskWrapper.activityDate = dateNow.addDays(3);
-             TaskEditRemote.upsertTask(
-                JSON.serialize(taskWrapper),
-                JSON.serialize(task2)
-            );
+            TaskEditRemote.upsertTask(JSON.serialize(taskWrapper), JSON.serialize(task2));
             TaskEditRemote.TaskEditDataWrapper taskWrapper1 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper1.reminderOption = '4 hours before';
             taskWrapper1.activityDate = dateNow.addDays(3);
-             TaskEditRemote.upsertTask(
-                JSON.serialize(taskWrapper1),
-                JSON.serialize(task3)
-            );
+            TaskEditRemote.upsertTask(JSON.serialize(taskWrapper1), JSON.serialize(task3));
             TaskEditRemote.TaskEditDataWrapper taskWrapper2 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper2.reminderOption = '1 hour before';
             taskWrapper2.activityDate = dateNow.addDays(3);
-            TaskEditRemote.upsertTask(
-                JSON.serialize(taskWrapper2),
-                JSON.serialize(task4)
-            );
+            TaskEditRemote.upsertTask(JSON.serialize(taskWrapper2), JSON.serialize(task4));
             TaskEditRemote.TaskEditDataWrapper taskWrapper3 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper3.reminderOption = '1 Week before';
             taskWrapper3.activityDate = dateNow.addDays(10);
-             TaskEditRemote.upsertTask(
-                JSON.serialize(taskWrapper3),
-                JSON.serialize(task5)
-            );
+            TaskEditRemote.upsertTask(JSON.serialize(taskWrapper3), JSON.serialize(task5));
             TaskEditRemote.markAsCompleted(task.Id);
             TaskEditRemote.deleteTask(task2);
-            
         }
         List<Task> testTask = [
-            SELECT Id, Status, Reminder_Date__c,ReminderDateTime
+            SELECT Id, Status, Reminder_Date__c, ReminderDateTime
             FROM Task
             WHERE Subject = 'test'
         ];
         Test.stopTest();
-        
+
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
         //System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testTask[0].Status);
         //System.assert(testTask2.isEmpty());
     }
-    
+
     @IsTest
-    static void updatePatientVisitTest(){
+    static void updatePatientVisitTest() {
         Patient_Visit__c pv = new Patient_Visit__c();
         pv.Planned_Date__c = datetime.now();
         insert pv;
         pv.Planned_Date__c = datetime.now().addDays(2);
         TaskEditRemote.updatePatientVisits(JSON.serialize(pv));
+        try {
+            TaskEditRemote.updatePatientVisits('');
+        } catch (Exception e) {
+            e.getMessage();
+        }
     }
-    
+
     @IsTest
     static void getInitTaskEditDataWrapperForVisit() {
-        TestData.loadTestData();
         TestData testData = new TestData();
         Datetime dateNow = Datetime.now();
 
@@ -134,7 +130,7 @@ private class Test_TaskEditRemote {
             task.Reminder_Date__c = dateNow;
             task.ReminderDateTime = dateNow;
             task.Task_Type__c = 'Visit';
-           // task.Activity_Datetime__c = Datetime.now().addDays(1);
+            // task.Activity_Datetime__c = Datetime.now().addDays(1);
             task.OwnerId = testData.participantUser.Id;
             task.Visible_For__c = 'Owner;Delegates';
             Task task2 = new Task();
@@ -183,66 +179,134 @@ private class Test_TaskEditRemote {
             TaskEditRemote.TaskEditDataWrapper taskWrapper = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper.planDate = task.Reminder_Date__c.addDays(1);
             taskWrapper.reminderOption = '4 hours before';
-            TaskEditRemote.upsertTaskForVisit(
-                JSON.serialize(taskWrapper),
-                JSON.serialize(task)
-            );
-            
+            TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper), JSON.serialize(task));
+
             TaskEditRemote.getTaskEditData(task2.Id);
             task2.Reminder_Date__c = task2.Reminder_Date__c.addDays(1);
             task2.ReminderDateTime = task2.Reminder_Date__c.addDays(1);
             TaskEditRemote.TaskEditDataWrapper taskWrapper2 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper2.planDate = task2.Reminder_Date__c.addDays(1);
             taskWrapper2.reminderOption = '1 hour before';
-            TaskEditRemote.upsertTaskForVisit(
-                JSON.serialize(taskWrapper2),
-                JSON.serialize(task2)
-            );
+            TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper2), JSON.serialize(task2));
             TaskEditRemote.getTaskEditData(task3.Id);
             task3.Reminder_Date__c = task3.Reminder_Date__c.addDays(1);
             task3.ReminderDateTime = task3.Reminder_Date__c.addDays(1);
             TaskEditRemote.TaskEditDataWrapper taskWrapper3 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper3.planDate = task3.Reminder_Date__c.addDays(1);
             taskWrapper3.reminderOption = '1 day before';
-            TaskEditRemote.upsertTaskForVisit(
-                JSON.serialize(taskWrapper3),
-                JSON.serialize(task3)
-            );
+            TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper3), JSON.serialize(task3));
             TaskEditRemote.getTaskEditData(task4.Id);
             task4.Reminder_Date__c = task4.Reminder_Date__c.addDays(1);
             task4.ReminderDateTime = task4.Reminder_Date__c.addDays(1);
             TaskEditRemote.TaskEditDataWrapper taskWrapper4 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper4.planDate = task4.Reminder_Date__c.addDays(1);
             taskWrapper4.reminderOption = '1 Week before';
-            TaskEditRemote.upsertTaskForVisit(
-                JSON.serialize(taskWrapper4),
-                JSON.serialize(task4)
-            );
-            
+            TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper4), JSON.serialize(task4));
+
             TaskEditRemote.TaskEditDataWrapper taskWrapper5 = new TaskEditRemote.TaskEditDataWrapper();
             taskWrapper5.reminderDate = task4.Reminder_Date__c.addDays(1);
             //taskWrapper4.reminderOption = '1 Week before';
-            TaskEditRemote.upsertTaskForVisit(
-                JSON.serialize(taskWrapper5),
-                JSON.serialize(task5)
-            );
-            
+            TaskEditRemote.upsertTaskForVisit(JSON.serialize(taskWrapper5), JSON.serialize(task5));
+
             TaskEditRemote.markAsCompleted(task.Id);
             TaskEditRemote.deleteTask(task2);
-            TaskEditRemote.removeSpace('Test Task');
             TaskEditRemote.ignoreTask(task.Id);
-            
+            TaskEditRemote.getisTravelSupportEnabled();
         }
-         List<Task> testTask = [
-            SELECT Id, Status, Reminder_Date__c,ReminderDateTime
+        List<Task> testTask = [
+            SELECT Id, Status, Reminder_Date__c, ReminderDateTime
             FROM Task
             WHERE Subject = 'test'
         ];
         Test.stopTest();
-       
+
         List<Task> testTask2 = [SELECT Id FROM Task WHERE Subject = 'test2'];
         //System.assertEquals(dateNow.addDays(1), testTask[0].Reminder_Date__c);
         //System.assertEquals(TaskService.TASK_STATUS_COMPLETED, testTask[0].Status);
         //System.assert(testTask2.isEmpty());
+    }
+
+    @IsTest
+    static void testCatalogTasks() {
+        TestData testData = new TestData();
+        Datetime dateNow = Datetime.now();
+
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            Patient_Visit__c pv = new Patient_Visit__c();
+            pv.Planned_Date__c = datetime.now();
+            insert pv;
+
+            List<Task> tasks = new List<Task>();
+            Task task = new Task();
+            task.Subject = 'test';
+            task.Reminder_Date__c = dateNow;
+            task.ReminderDateTime = dateNow;
+            task.Activity_Datetime__c = Datetime.now().addDays(1);
+            task.OwnerId = testData.participantUser.Id;
+            task.Visible_For__c = 'Owner';
+            task.Task_Code__c = TaskService.TASK_CODE_COMPLETE_YOUR_PROFILE;
+            task.Patient_Visit__c = pv.Id;
+            tasks.add(task);
+
+            insert tasks;
+
+            TaskEditRemote.upsertTask(
+                JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()),
+                JSON.serialize(task)
+            );
+
+            task.Task_Type__c = TaskService.TASK_TYPE_SURVEY;
+            TaskEditRemote.upsertTask(
+                JSON.serialize(new TaskEditRemote.TaskEditDataWrapper()),
+                JSON.serialize(task)
+            );
+        }
+    }
+
+    @IsTest
+    static void testExceptions() {
+        Patient_Visit__c pv = new Patient_Visit__c();
+        pv.Planned_Date__c = datetime.now();
+        insert pv;
+        Test.startTest();
+        try {
+            TaskEditRemote.getTaskEditData('');
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        try {
+            TaskEditRemote.upsertTask('', '');
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        try {
+            TaskEditRemote.getisTravelSupportEnabled();
+            Integer i = 1 / 0;
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        try {
+            TaskEditRemote.upsertTaskForVisit('', '');
+        } catch (Exception e) {
+            e.getMessage();
+        }
+
+        try {
+            TaskEditRemote.deleteTask(new Task());
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        try {
+            TaskEditRemote.ignoreTask(pv.Id);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        try {
+            TaskEditRemote.markAsCompleted(pv.Id);
+        } catch (Exception e) {
+            e.getMessage();
+        }
+        Test.stopTest();
     }
 }
