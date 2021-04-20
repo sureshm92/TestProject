@@ -1,6 +1,6 @@
 @IsTest
-public class Test_MedicalPreviewController {
-   @TestSetup
+public class Test_AuthFormPreviewController {
+ @TestSetup
     public static void setup() {
         Resource__c singleResource = (Resource__c) TestDataFactory.getSObject(
             Resource__c.getSObjectType(),
@@ -33,30 +33,18 @@ public class Test_MedicalPreviewController {
 
     @IsTest
     public static void initData_Positive_Test() {
-             try{
-
         List<Resource__c> resources = [SELECT Id, Title__c FROM Resource__c];
-       // System.assertEquals(1, resources.size());
-        //List<ContentVersion> versions = [SELECT Id, Title, VersionData FROM ContentVersion];
-        //System.assertEquals(1, versions.size());
+        System.assertEquals(1, resources.size());
+        List<ContentVersion> versions = [SELECT Id, Title, VersionData FROM ContentVersion];
+        System.assertEquals(1, versions.size());
 
-        PageReference singlePage = Page.RRPDFViewer;
+        PageReference singlePage = Page.SignedAuthorizationFormPreview;
         Test.setCurrentPage(singlePage);
-        MedicalPreviewController controller1 = new MedicalPreviewController();
+        AuthFormPreviewController controller = new AuthFormPreviewController();
         ApexPages.currentPage().getParameters().put('resourceId', resources[0].Id);
-        Test.startTest();
-        controller1.initData();
-        Test.stopTest();
-        }
-        catch(Exception e)
-        {
-        }
 
-       // System.assertEquals(resources[0].Title__c, controller.fileName);
-        //System.assertEquals(
-        //    EncodingUtil.base64Encode(versions[0].VersionData),
-         //   controller.pdfBlobDataInBase64StringFormat
-        //);
-       // System.assertEquals(true, controller.executeJS);
+        Test.startTest();
+        controller.initData();
+        Test.stopTest();
     }
 }
