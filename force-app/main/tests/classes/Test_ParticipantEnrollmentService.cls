@@ -104,6 +104,14 @@ public class Test_ParticipantEnrollmentService {
         ParticipantEnrollmentService.updateParticipantStateById(
             new List<Id>{ testData.participant.Id }
         );
+        ParticipantEnrollmentService.getPreScreeningsAllByTrial();
+        ParticipantEnrollmentService.getPreScreeningsPassedByTrial();
+        ParticipantEnrollmentService.getMRRAllByTrial();
+        ParticipantEnrollmentService.getMRRPassedByTrial();
+        ParticipantEnrollmentService.getReferredByTrial();
+        
+        
+        //getPreScreeningsPassedByTrial
         Test.stopTest();
         System.assertEquals(new List<Id>{ ctpId }, filterData.trialIds);
         System.assertEquals('Participant', filter.mode);
