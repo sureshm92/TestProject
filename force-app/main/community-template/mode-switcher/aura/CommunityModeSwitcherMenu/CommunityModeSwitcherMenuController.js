@@ -68,13 +68,25 @@
                         const comData = JSON.parse(returnValue);
                         component.set('v.currentMode', comData.currentMode);
                         component.set('v.communityModes', comData.communityModes);
+                        
                         if (comData.currentMode.template.needRedirect) {
-                            var networkId = comData.currentMode.template.networkId;
+                            var networkId;
+                            if(navigateTo == 'account-settings' || navigateTo == 'my-team'){
+                                 networkId = comData.currentMode.template.networkId;
+                            comData.currentMode.template.redirectURL =
+                                comData.currentMode.template.currentCommunityURL +
+                                '/servlet/networks/switch?networkId=' +
+                                networkId +
+                                '&startURL=';
+                            }else{
+                                 networkId = comData.currentMode.template.networkId;
                             comData.currentMode.template.redirectURL =
                                 comData.currentMode.template.currentCommunityURL +
                                 '/servlet/networks/switch?networkId=' +
                                 networkId +
                                 '&startURL=/s/';
+                            }
+                           
                         }
                         communityService.setCurrentCommunityMode(comData.currentMode, navigateTo);
                         if (comData.currentMode.template.needRedirect) return;

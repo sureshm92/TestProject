@@ -8,8 +8,8 @@
     controller="TaskEditRemote"
     extends="c:CommunityContext"
 >
-    <ltng:require scripts="{!$Resource.moment_js}" afterScriptsLoaded="{!c.doInit}" />
-
+    <ltng:require scripts="{!$Resource.moment_js}" styles="{!$Resource.tooltipCss}" afterScriptsLoaded="{!c.doInit}" />
+	
     <aura:attribute name="title" type="String" />
     <aura:attribute name="visitId" type="String" />
     <aura:attribute name="taskId" type="String" />
@@ -161,12 +161,13 @@
                                             required="true"
                                             onblur="{!c.doValidateFields}"
                                             messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                            messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                         />
                                     </aura:set>
                                 </aura:if>
                             </div>
                         </div>
-                        <div class="te-col-header" style="margin-top: 15px">
+                        <div class="te-col-header" style="margin-top: 30px">
                             <b> {!$Label.c.Task_Reminder_Details}</b>
                         </div>
                         <!-- Task Reminder Details -->
@@ -184,7 +185,11 @@
                                     onchange="{!c.doValidateFields}"
                                     options="{!v.initData.reminderFrequencyList}"
                                     class="wi"
+                                    fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                                 />
+                                
+                              
+
                             </div>
                             <!--Reminder Date-->
                             <div
@@ -208,6 +213,7 @@
                                         max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                        messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                         dateStyle="medium"
                                         onblur="{!c.doValidateFields}"
                                         required="true"
@@ -237,8 +243,8 @@
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
                                                 style="margin-left: 10px"
-                                                >{!$Label.c.PP_Change_Notification_Settings}</a
-                                            >
+                                                >{!$Label.c.PP_Change_Notification_Settings}
+                                            </a>
                                         </aura:set>
                                     </aura:if>
                                 </div>
@@ -356,7 +362,9 @@
                                     onchange="{!c.doValidateFields}"
                                     options="{!v.initData.reminderFrequencyList}"
                                     class="wi"
+                                    fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                                 />
+                                
                                 <div
                                     class="{!(v.task.Remind_Me__c == 'Custom')?'slds-p-top_small':''}"
                                 ></div>
@@ -378,6 +386,7 @@
                                         max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                        messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                         dateStyle="medium"
                                         class="container1"
                                         onblur="{!c.doValidateFields}"
@@ -406,9 +415,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>
@@ -518,6 +527,7 @@
                                                 class="container1"
                                                 onblur="{!c.doValidateFields}"
                                                 messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                                messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                                 aura:id="field"
                                             ></lightning:input>
                                         </aura:set>
@@ -539,7 +549,9 @@
                                 disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
                                 options="{!v.initData.reminderFrequencyList}"
                                 class="wi"
+                                fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                             />
+                            
                         </div>
                         <div
                             class="{!'slds-col slds-size_1-of-2 slds-p-top_x-small' + if(v.isRTL,' reminderDate_visrtl',' vis_reminder')}"
@@ -561,6 +573,7 @@
                                     max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
                                     messageWhenRangeOverflow="{!$Label.c.PP_VisitReminder_Overflow}"
                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
+                                    messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                     dateStyle="medium"
                                     min="{!v.initData.today}"
                                     onblur="{!c.doValidateFields}"
@@ -591,9 +604,9 @@
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}</a
-                                    >
+                                        style="margin-left: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}
+                                    </a>
                                 </aura:set>
                             </aura:if>
                         </div>

@@ -90,7 +90,8 @@
                 studySiteId: parent.get('v.pe.Study_Site__c'),
                 isConnected: isConnected,
                 duplicateDelegateInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
-                NoInvite: component.get('v.NoInvite')
+                //NoInvite: component.get('v.NoInvite')
+                NoInvite : parent.get('v.pe.Is_Virtual_Study_Site__c')
             },
             function (returnValue) {
                 component.set('v.delegateItem.isConnected', returnValue.isConnected);

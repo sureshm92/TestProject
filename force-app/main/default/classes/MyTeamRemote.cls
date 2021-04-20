@@ -729,7 +729,7 @@ public without sharing class MyTeamRemote {
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
             Boolean isNewContact = contactDelegate.Id == null;
             if (isNewContact) {
-                User user = [SELECT Contact.AccountId FROM User WHERE Id = :UserInfo.getUserId()];
+                User user = [SELECT Contact.AccountId,ContactId,TimeZoneSidKey FROM User WHERE Id = :UserInfo.getUserId()];
                 Participant__c participant = ParticipantService.getInstance()
                     .getState()
                     .participant;
@@ -740,29 +740,36 @@ public without sharing class MyTeamRemote {
                 contactDelegate.userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT;
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 contactDelegate.MailingCountryCode = participant.Mailing_Country_Code__c;
+                if(participant.Mailing_State_Code__c != null){
                 contactDelegate.MailingStateCode = participant.Mailing_State_Code__c;
-                contactDelegate.MailingCountry = participant.Mailing_Country__c;
-                contactDelegate.MailingState = participant.Mailing_State__c;
+                }
+                //contactDelegate.MailingCountry = participant.Mailing_Country__c;
+                //contactDelegate.MailingState = participant.Mailing_State__c;
                 contactDelegate.MailingPostalCode = participant.Mailing_Zip_Postal_Code__c;                
                 contactDelegate.Landing_Community__c = Site.getMasterLabel() == 'IQVIA RH'
                     ? CommunityService.IQVIA_NETWORK_NAME
                     : Site.getMasterLabel();
                 insert contactDelegate;
-
                 Participant__c participantDelegate = new Participant__c(
                     Adult__c = true,
                     Contact__c = contactDelegate.Id,
                     First_Name__c = contactDelegate.FirstName,
                     Last_Name__c = contactDelegate.LastName,
                     Email__c = contactDelegate.Email,
-                    Phone__c = contactDelegate.Phone,
-                    Mailing_City__c = contactDelegate.MailingCity,
-                    Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
-                    Mailing_State_Code__c = contactDelegate.MailingStateCode
+                    Phone__c = contactDelegate.Phone
+                    //Mailing_City__c = contactDelegate.MailingCity,
+                    //Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
+                    //Mailing_State_Code__c = contactDelegate.MailingStateCode
                 );
+                participantDelegate.Mailing_Country_Code__c = contactDelegate.MailingCountryCode;
+                participantDelegate.Mailing_Country__c = CountryStateUtil.getCountryName(contactDelegate.MailingCountryCode);
+                if(contactDelegate.MailingStateCode != null){
+                participantDelegate.Mailing_State_Code__c = contactDelegate.MailingStateCode;
+                }
+                participantDelegate.Mailing_City__c = contactDelegate.MailingCity;
                 insert participantDelegate;
-
-                User delegateUser = CommunityService.createUser(contactDelegate, null, null, null);
+                List<User> participantUser = new List<User>();
+                User delegateUser = CommunityService.createUser(contactDelegate, null, null, user.TimeZoneSidKey);
                 insert delegateUser;
             } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;

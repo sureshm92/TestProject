@@ -316,6 +316,8 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                             ptDelegateRef.Contact__c = cnt.Id;
                         }
                     }
+                    ptDelegateRef.Primary_Delegate__c = True;
+                    ptDelegateRef.Status__c = 'Disconnected';
                     if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                         ptDelegateRefs.add(ptDelegateRef);
                         if (

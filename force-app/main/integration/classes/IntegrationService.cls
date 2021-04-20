@@ -308,19 +308,19 @@ public without sharing class IntegrationService {
         ];
 		
         // START REF-2882
-        List<Patient_Delegate__c> lstpatientDel = [
+       List<Patient_Delegate__c> lstpatientDel = [
             SELECT
                 Id,
-            	Contact__r.FirstName,
-            	Contact__r.LastName,
-            	Contact__r.Email,
-            	Contact__r.Phone,
-            	Contact__r.MailingState,
-            	Contact__r.MailingCountry
+            	Contact__c
             	FROM Patient_Delegate__c 
-            	WHERE Participant__c =: pe.Participant__r.Id AND Status__c = 'Active' 
+            	WHERE Participant__c =: pe.Participant__r.Id
             	AND Primary_Delegate__c = True ORDER BY CreatedDate ASC LIMIT 1               
         ]; //END
+        
+        List<Participant__c> lstParticipant = new List<Participant__c>();
+        if(!lstpatientDel.isEmpty()){
+			lstParticipant = [Select Id, First_Name__c, Last_Name__c, Email__c, Phone__c, Mailing_State__c, Mailing_Country__c FROM Participant__c where Contact__c =: lstpatientDel[0].Contact__c LIMIT 1];
+		}
         
         if (!StudySiteService.SS_TYPE_VT_INTEGRATION.contains(pe.Study_Site__r.Study_Site_Type__c))
             return null;
@@ -354,13 +354,13 @@ public without sharing class IntegrationService {
 		
         PatientDelegateDetails patientDelegateDetails = new PatientDelegateDetails();
         // START Added by Sumit S REF-2882
-        if(!lstpatientDel.isEmpty()){
-		patientDelegateDetails.FirstName = lstpatientDel[0].Contact__r.FirstName;
-		patientDelegateDetails.LastName = lstpatientDel[0].Contact__r.LastName;
-		patientDelegateDetails.Email = lstpatientDel[0].Contact__r.Email;
-		patientDelegateDetails.Phone = lstpatientDel[0].Contact__r.Phone;
-		patientDelegateDetails.State = lstpatientDel[0].Contact__r.MailingState;
-		patientDelegateDetails.Country = lstpatientDel[0].Contact__r.MailingCountry; 
+        if(!lstParticipant.isEmpty()){
+		patientDelegateDetails.FirstName = lstParticipant[0].First_Name__c;
+		patientDelegateDetails.LastName = lstParticipant[0].Last_Name__c;
+		patientDelegateDetails.Email = lstParticipant[0].Email__c;
+		patientDelegateDetails.Phone = lstParticipant[0].Phone__c;
+		patientDelegateDetails.State = lstParticipant[0].Mailing_State__c;
+		patientDelegateDetails.Country = lstParticipant[0].Mailing_Country__c; 
         }
         //END
         

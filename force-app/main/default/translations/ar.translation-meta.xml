@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>HLA</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+    <customLabels>
+        <label>المحفز المشارك المحرض (ICOS) هو بروتين يوجد على سطح خلايا الدم البيضاء والخلايا السرطانية. خلايا الدم البيضاء هي جزء من جهاز المناعة (نظام الدفاع الطبيعي لجسمك). تسهم بروتينات المحفز المشارك المحرض بدور مهم في إدارة جهاز المناعة. يقيس هذا الاختبار كمية بروتينات المحفز المشارك المحرض في دمك. قد تكون بعض أنواع العلاجات أكثر ملاءمة بالنسبة لك إذا كانت لديك مستويات أعلى من بروتينات المحفز المشارك المحرض في دمك. قد يساعد هذا الاختبار الأطباء في توقع أي علاجات السرطان قد تناسبك.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>المحفز المشارك المحرض (ICOS) هو بروتين يوجد على سطح خلايا الدم البيضاء والخلايا السرطانية. خلايا الدم البيضاء هي جزء من جهاز المناعة (نظام الدفاع الطبيعي لجسمك). تسهم بروتينات المحفز المشارك المحرض بدور مهم في إدارة جهاز المناعة. يقيس هذا الاختبار كمية بروتينات المحفز المشارك المحرض في دمك. قد تكون بعض أنواع العلاجات أكثر ملاءمة بالنسبة لك إذا كانت لديك مستويات أعلى من بروتينات المحفز المشارك المحرض في دمك. قد يساعد هذا الاختبار الأطباء في توقع أي علاجات السرطان قد تناسبك.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
+</Translations>
