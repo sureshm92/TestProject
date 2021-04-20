@@ -478,17 +478,19 @@ public without sharing class ListViewParticipantController {
         List<String> pshStatus,Boolean eligibilityStatusPresent
     ){
         Boolean isAllowedForSH = false;
-        Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null 
-                                        || (pe.Study_Hub_Log__c != null &&
-                                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
-        Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
-        !pe.Participant_Enrollment_Status_History__r.isEmpty();
+        if(pe!=null){
+            Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null 
+                                             || (pe.Study_Hub_Log__c != null &&
+                                                 pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
+            Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
+                !pe.Participant_Enrollment_Status_History__r.isEmpty();
 
-        if(pshStatus.contains(pe.Participant_Status__c) 
-           && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
-               (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){
-                   isAllowedForSH = true;
-               }
+            if(pshStatus.contains(pe.Participant_Status__c) 
+               && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
+                   (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){
+                       isAllowedForSH = true;
+                   }
+        }
         return isAllowedForSH;
     }
     
