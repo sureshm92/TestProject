@@ -140,7 +140,7 @@ public without sharing class CommunityModeService {
             }
             modes.add(modeItem);
         }
-        System.debug('>>modes>>'+modes);
+        System.debug('>>modes>>' + modes);
         return modes;
     }
 
@@ -346,11 +346,9 @@ public without sharing class CommunityModeService {
         List<CommunityModes.RHCommunityModeItem> rhModes,
         List<CommunityModes.PPCommunityModeItem> ppModes
     ) {
-        if(rhModes.isEmpty() && ppModes.isEmpty())
-        {
+        if (rhModes.isEmpty() && ppModes.isEmpty()) {
             return CommunityModes.MODE_TYPE_CC;
-        }
-        else if (rhModes.isEmpty()) {
+        } else if (rhModes.isEmpty()) {
             return CommunityModes.MODE_TYPE_PP_ONLY;
         } else if (ppModes.isEmpty()) {
             if (rhModes.size() == 1 && rhModes[0].subItems.size() < 2) {
@@ -578,9 +576,15 @@ public without sharing class CommunityModeService {
             List<Participant_Enrollment__c> pastPEList = pePastMap.get(userParticipant.Id);
             Boolean hasPastStudies = pastPEList != null && pastPEList.size() > 0;
             //PEH-2038: For prospect view check the Landing_Community__c
-            CommunityTemplate initTemplate =  !String.isBlank(userParticipant.Contact__r.Landing_Community__c) ?
-                    CommunityTemplateService.getTemplateByCommunityName(userParticipant.Contact__r.Landing_Community__c) :
-                    CommunityTemplateService.getTemplateByCommunityName(UserContext.getCurrentCommunityName());
+            CommunityTemplate initTemplate = !String.isBlank(
+                    userParticipant.Contact__r.Landing_Community__c
+                )
+                ? CommunityTemplateService.getTemplateByCommunityName(
+                      userParticipant.Contact__r.Landing_Community__c
+                  )
+                : CommunityTemplateService.getTemplateByCommunityName(
+                      UserContext.getCurrentCommunityName()
+                  );
             CommunityMode mode = new CommunityMode(
                 USER_MODE_PARTICIPANT,
                 userParticipant.First_Name__c +
@@ -790,9 +794,9 @@ public without sharing class CommunityModeService {
         List<Id> ssDelegateIds = new List<Id>();
 
         List<Site_Staff__c> siteStaffs = [
-            SELECT Id, Study_Site__c,is_Invited__c
+            SELECT Id, Study_Site__c, is_Invited__c
             FROM Site_Staff__c
-            WHERE Site_Contact__c = :contactId and is_Invited__c=true
+            WHERE Site_Contact__c = :contactId AND is_Invited__c = TRUE
         ];
         for (Site_Staff__c staff : siteStaffs)
             ssDelegateIds.add(staff.Study_Site__c);
