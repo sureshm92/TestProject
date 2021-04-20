@@ -102,23 +102,35 @@ private class Test_ParticipantInformationRemote {
         participant.Email__c = 'Test011@mail.ru';
         participant.First_Name__c = 'testName1';
         participant.Last_Name__c = 'testLastName1';
+        participant.Date_of_Birth__c = '2000-04-18';
         insert participant;
         Test.startTest();
         System.runAs(testData.piUser) {
-                    AddPatientByPIRemote.updateParticipant(JSON.serialize(testData.participant));
+            AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         }
         Test.stopTest();
     }
     @IsTest
     static void testCreateParticipantDelegate() {
-         TestData testData = new TestData();
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        TestData testData = new TestData();
         Participant__c participant = new Participant__c();
         participant.Email__c = 'Test01@mail.ru';
         participant.First_Name__c = 'testName';
         participant.Last_Name__c = 'testLastName';
         participant.Suffix__c = 'S';
         participant.Middle_Name__c = 'Mr';
-
+        insert participant;
+        
         Participant__c participantDel = new Participant__c();
         participantDel.Email__c = 'Test01@mail.ru';
         participantDel.First_Name__c = 'testName';
@@ -126,12 +138,18 @@ private class Test_ParticipantInformationRemote {
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
         Test.startTest();
-        System.runAs(testData.piUser) {
+        System.runAs(testData.piUser){
             try {
+                AddPatientByPIRemote.createParticipantDelegate(
+                    JSON.serialize(participantDel),
+                    null,
+                    participant.Id,
+                    JSON.serialize(participant),
+                    true
+                );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
-            }catch(exception e) {system.debug('teste');}
-            Test.stopTest();
-        }
+            }catch(exception e) {system.debug('teste');}}
+        Test.stopTest();
     } 
 
     @IsTest
