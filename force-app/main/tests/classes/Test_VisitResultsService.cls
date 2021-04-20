@@ -28,18 +28,36 @@ private class Test_VisitResultsService {
 
         TestData testData = new TestData();
         testData.ctp.Shareback_Availability_Timing__c = 1;
+        testData.ctp.Shareback_Settings_Countries__c = 'US';
+        testData.ctp.Participant_Visit_Result_Group__c = 'Hematology';
         update testData.ctp;
 
         Test.startTest();
+        testData.pe.Clinical_Trial_Profile__c = testData.ctp.id;
+        update testData.pe;
+        testData.participant.Mailing_Country_Code__c = 'US';
+        update testData.participant;
+        System.runAs(testData.participantUser) {
+            List<Visit_Result_Type_Sharing__c> vrslist = new List<Visit_Result_Type_Sharing__c>();
         Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
             Clinical_Trial_Profile__c = testData.ctp.Id,
             Include_Countries__c = true,
-            Type__c = 'Calcium',
-            Sharing_Countries__c = 'US'
+            Type__c = 'WBC_Count',
+            Sharing_Countries__c = 'US',
+            Custom_Tooltip__c='Test 123 Custom Tool tip'
         );
-        insert vrts;
-
-        testData.ss.Visit_Results_Sharing__c = true;
+            vrslist.add(vrts);
+            Visit_Result_Type_Sharing__c vrts1 = new Visit_Result_Type_Sharing__c(
+            Clinical_Trial_Profile__c = testData.ctp.Id,
+            Include_Countries__c = false,
+            Type__c = 'WBC_Count',
+            Sharing_Countries__c = 'UK',
+            Custom_Tooltip__c='Test Custom Tool tip'
+        );
+            vrslist.add(vrts1);
+        insert vrslist;
+        }
+		testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
 
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');

@@ -35,6 +35,7 @@ public class TestData {
                 Status__c,
                 Balance__c,
                 Contact__c,
+            	Mailing_Country_Code__c,
                 Contact__r.AccountId
             FROM Participant__c
             WHERE Last_Name__c = 'ParticipantTD'
@@ -107,7 +108,7 @@ public class TestData {
                 Initial_visit_occurred_flag__c,
                 Initial_visit_scheduled_flag__c,
                 Screening_ID__c,
-            	Participant__c,
+                Participant__c,
                 Medical_Record_Review_Completed_Date__c,
                 Study_Site__r.Principal_Investigator__c,
                 Study_Site__r.Principal_Investigator__r.Name,
