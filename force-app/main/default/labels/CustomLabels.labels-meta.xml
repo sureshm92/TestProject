@@ -8768,6 +8768,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
+     <labels>
+        <fullName>Minor_Access_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minor Access Error Message</shortDescription>
+        <value>Minors cannot be granted access</value>
+    </labels>
     <labels>
         <fullName>MO_Print</fullName>
         <language>en_US</language>

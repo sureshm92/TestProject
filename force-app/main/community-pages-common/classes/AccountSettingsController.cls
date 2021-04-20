@@ -687,6 +687,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c;
                 nickname = participant.Nickname__c;
+                List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
                 peList = [
                     SELECT Id
                     FROM Participant_Enrollment__c
