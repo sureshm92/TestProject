@@ -95,8 +95,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             } else if (
                  ctp.Recruitment_Status__c == 'Closed Follow-up / In Analysis' ||
                  ctp.Recruitment_Status__c == 'Completed' ||
-                 ctp.Recruitment_Status__c == 'Closed to Enrollment') &&
-                ctp.Override_Status_Updated_By__c != 'IQVIA SPNL'
+                 ctp.Recruitment_Status__c == 'Closed to Enrollment'
             ) {
                 ctp.Override_Recruitment_Status__c = 'Enrollment Closed';
             } else if (ctp.Recruitment_Status__c == 'Discontinued') {
