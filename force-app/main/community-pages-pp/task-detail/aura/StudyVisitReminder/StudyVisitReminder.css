@@ -75,12 +75,33 @@
     margin-top: 4px;
 }
 
-.THIS .mr_10 {
-    margin-top: 10px;
+.THIS .slds-checkbox {
+    padding-bottom: 10px;
 }
 
 .THIS .dateInputs > .slds-p-top_x-small:nth-of-type(4) {
     padding-top: 15px;
+}
+
+.THIS .dateInputs .slds-p-top_large {
+    padding-top: 15px;
+}
+
+.THIS .dateInputs .slds-p-top_large:nth-child(4) {
+    padding-bottom: 15px;
+    padding-top: 25px;
+}
+
+.THIS .dateInputs .slds-p-top_large > .slds-p-top_large {
+    padding-top: 10px;
+}
+
+.THIS .dateInputs .slds-p-top_large .slds-p-top_medium {
+    padding-top: 0;
+}
+
+.THIS .rr-white-panel > .slds-p-top_medium {
+    margin-top: 5px;
 }
 
 .THIS .slds-input.slds-combobox__input {
@@ -148,24 +169,24 @@
 
 .THIS .reminderDate {
     margin-left: -112px;
-    margin-top: 5px;
+    margin-top: -1px;
 }
 .THIS .tbl table{
     width:80%;
 }
 
 .THIS .reminderDate_rtl{
-    margin-top:5px;
+    margin-top: -1px;
     margin-right:-16px;
 }
 .THIS .reminderDate_visrtl{
     margin-left: -99px;
-    margin-top: 5px;
+    margin-top: -1px;
     margin-right: -171px;
 }
 .THIS .vis_reminder{
     margin-left:-99px;
-    margin-top:5px;
+    margin-top: -1px;
 }
 .THIS .reminder {
     margin-left: -111px;
@@ -293,10 +314,6 @@
     font-weight: 600;
 }
 
-.THIS .rr-white-panel > .slds-grid.slds-wrap > .slds-col:first-child {
-    margin-bottom: 0.75rem;
-}
-
 .THIS .slds-form-element__label {
     font-size: 14px;
     color: #444;
@@ -323,9 +340,6 @@
     text-align: right;
 }
 
-.THIS .slds-checkbox {
-    padding-bottom: 10px;
-}
 
 .THIS .te-col-changeNotif {
     font-size: 14px;
@@ -366,7 +380,31 @@
     width: 418px;
 }
 
+@media (max-width: 768px) {
+
+    .THIS .slds-form-element__help {
+        margin-top: 3px;
+    }
+
+    .THIS .slds-checkbox {
+        padding-bottom: 15px;
+    }
+
+    .THIS .slds-form-element:first-child .slds-checkbox {
+        padding-top: 5px;
+    }
+
+    .THIS [type="datetime-local"]  {
+        width: 250px;
+        min-width: 250px;
+    }
+
+}
 @media (max-width: 468px) {
+
+    .THIS .p-header.normal {
+        padding-top: 40px;
+    }
 
     .THIS .cRRIconSplitter .icon {
         position: static;
@@ -400,6 +438,42 @@
         top: 180px
     }
 
+    .THIS .te-col-header-info+.te-form>.slds-col:first-child input {
+        width: 100%;
+    }
+
+    .THIS .te-task-panel {
+        margin: 25px auto;
+    }
+
+    .THIS .rr-white-panel > .slds-p-top-medium {
+        margin-top: 10px;
+    }
+
+    .THIS .te-form {
+        margin-bottom: 15px;
+    }
+
+    .THIS .slds-grid.te-form,
+    .THIS .dateInputs .slds-grid.slds-p-top_large {
+        flex-direction: column;
+    }
+
+    .THIS .reminderDate,
+    .THIS .vis_reminder {
+        margin: 1rem 0 0;
+    }
+
+    .THIS .reminderDate .slds-input,
+    .THIS .vis_reminder .slds-input {
+        min-width: 175px;
+    }
+
+    .THIS .te-task-panel .slds-checkbox {
+        padding-bottom: 20px;
+    }
+
+
 }
 
 
@@ -411,8 +485,7 @@
         padding: 5px 1rem;
     }
 
-    .THIS .slds-select,
-    .THIS .slds-input {
+    .THIS .slds-select {
         min-width: 95%;
     }
 

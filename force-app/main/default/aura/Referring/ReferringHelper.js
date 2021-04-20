@@ -314,7 +314,7 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
                 }     
-                helper.checkFields(component, event, helper);
+                helper.checkFields(component, event, helper, true);
             } ,         
             null,
             function () {

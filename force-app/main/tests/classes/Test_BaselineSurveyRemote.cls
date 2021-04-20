@@ -40,7 +40,7 @@ private class Test_BaselineSurveyRemote {
         System.runAs(testDataInstance.participantUser) {
             invitationId = SurveyService.getInstance().getSurveyInvitationId('000', '111');
             BaselineSurveyRemote.getBaselineSurveyURL(
-                CommunityService.USER_MODE_PARTICIPANT,
+                CommunityService.USER_MODE_PI,
                 invitationId
             );
             checkId = invitationId != null ? true : false;

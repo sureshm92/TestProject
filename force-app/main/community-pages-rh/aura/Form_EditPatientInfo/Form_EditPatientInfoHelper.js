@@ -23,17 +23,17 @@
                 function (returnValue) {
                     console.log('>>retunrParticiapnt>>'+JSON.stringify(returnValue));
                     if(returnValue){
-                         console.log('>>coming inr eturn value>>');
-                        component.set('v.participantDelegate.First_Name__c',returnValue.DelegateParticipant.First_Name__c);
-                        component.set('v.participantDelegate.Last_Name__c',returnValue.DelegateParticipant.Last_Name__c);
-                        component.set('v.participantDelegate.Email__c',returnValue.DelegateParticipant.Email__c);
-                        component.set('v.participantDelegate.Phone__c',returnValue.DelegateParticipant.Phone__c);
+                        
+                        component.set('v.participantDelegate.First_Name__c',returnValue.firstName);
+                        component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
+                        component.set('v.participantDelegate.Email__c',returnValue.email);
+                        component.set('v.participantDelegate.Phone__c',returnValue.participantPhoneNumber);
                         component.set('v.participantDelegateUseExisiting',returnValue.DelegateParticipant);
                     
                         var DelegatePhoneField = component.find('DelegatePhoneName');
                         DelegatePhoneField.setCustomValidity('');
                         DelegatePhoneField.reportValidity();
-                      
+                      	component.set('v.recordFound',false); //we are using change handle in DulicateDelegateMessageComponent so for update the message we are marking as false and true
                         component.set('v.duplicateDelegateInfo',returnValue);
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',true);

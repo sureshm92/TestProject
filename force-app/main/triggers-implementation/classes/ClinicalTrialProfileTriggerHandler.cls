@@ -36,7 +36,21 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         public override void beforeDelete(List<SObject> oldList) {
         }
     }
+    public class manageBypassedFieldsForTMDH extends TriggerHandler {
+         public override void beforeInsert(List<SObject> newList) {
+             if (UserInfo.getName()!=label.IQVIA_Integrations_User){
+                 manageTMDHSyncForBypassedFields(newList, null); 
+             }
+         }
+        
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+           if (UserInfo.getName()!=label.IQVIA_Integrations_User){
+                manageTMDHSyncForBypassedFields(newList, (Map<Id, Clinical_Trial_Profile__c>) oldMap); 
+            }
 
+        }
+        
+    }
     private static void updateClinicalTrialProfile(
         List<SObject> newList,
         Map<Id, Clinical_Trial_Profile__c> oldMap
@@ -81,7 +95,7 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
             } else if (
                  ctp.Recruitment_Status__c == 'Closed Follow-up / In Analysis' ||
                  ctp.Recruitment_Status__c == 'Completed' ||
-                 ctp.Recruitment_Status__c == 'Enrollment Closed'
+                 ctp.Recruitment_Status__c == 'Closed to Enrollment'
             ) {
                 ctp.Override_Recruitment_Status__c = 'Enrollment Closed';
             } else if (ctp.Recruitment_Status__c == 'Discontinued') {
@@ -306,5 +320,45 @@ public with sharing class ClinicalTrialProfileTriggerHandler {
         if (!sitesToUpdate.isEmpty()) {
             update sitesToUpdate;
         }
+    }
+    public static void manageTMDHSyncForBypassedFields(List<Clinical_Trial_Profile__c> newList,Map<Id, Clinical_Trial_Profile__c> oldMap){     
+        Id profileId= userinfo.getProfileId(); 
+        String profileName=[Select Id,Name from Profile where Id=:profileId].Name;
+        List<String> TMDHBypassedFieldsList = label.TMDHBypassedFieldsforCTP.split(';');
+        for (Clinical_Trial_Profile__c ctp : newList) {
+            String bypassFieldStr= ctp.Bypass_Fields_for_TMDH__c== null ? '': ctp.Bypass_Fields_for_TMDH__c;
+            List<String> BypassFieldsforTMDHList = ctp.Bypass_Fields_for_TMDH__c ==null ? null : ctp.Bypass_Fields_for_TMDH__c.Split(';');
+            for(String strfield: TMDHBypassedFieldsList){
+                //if non IQVAI user updates the list of bypass fields except Recruitment_Status__c then add the filed in bypass custom field
+                if(!strfield.equalsIgnoreCase('Recruitment_Status__c')){ 
+                    if((oldMap == null && ctp.get(strfield)!=null) || 
+                       (oldMap !=null && ctp.get(strfield)!=oldMap.get(ctp.Id).get(strfield))){
+                           if((BypassFieldsforTMDHList==null) ||(BypassFieldsforTMDHList!=null && !BypassFieldsforTMDHList.contains(strfield))){
+                               bypassFieldStr = bypassFieldStr + ';'+strfield;
+                           } 
+                       }
+                }else{
+                    //If non IQVAI and Non System admin user is updating Recruitment_Status__c field then add the filed in bypass custom field
+                    if(!profileName.equalsIgnoreCase(label.SystemAdminProfile)){
+                        if((oldMap == null && ctp.get(strfield)!=null) || 
+                           (oldMap !=null && ctp.get(strfield)!=oldMap.get(ctp.Id).get(strfield))){
+                               if((BypassFieldsforTMDHList==null) ||(BypassFieldsforTMDHList!=null && !BypassFieldsforTMDHList.contains(strfield))){
+                                   bypassFieldStr = bypassFieldStr + ';'+strfield;
+                               } 
+                           }
+                    }
+                    //If System Admin user is upadating the Recruitment_Status__c field and if this field is already added in bypass custom field
+                    //then remove this field
+                    else if((oldMap !=null && ctp.get(strfield)!=oldMap.get(ctp.Id).get(strfield))
+                            && (BypassFieldsforTMDHList!=null && BypassFieldsforTMDHList.contains('Recruitment_Status__c'))){
+                        	bypassFieldStr = bypassFieldStr.remove('Recruitment_Status__c'); 
+                    }
+                }
+            }
+                bypassFieldStr = bypassFieldStr.removeStart(';');
+                bypassFieldStr = bypassFieldStr.removeEnd(';');
+                bypassFieldStr = bypassFieldStr.replace(';;', ';');
+                ctp.Bypass_Fields_for_TMDH__c = bypassFieldStr; 
+        } 
     }
 }

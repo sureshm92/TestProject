@@ -149,9 +149,12 @@ public class Test_ListViewParticipantController {
     }
     @IsTest
     public static void runTest() {
-        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
-        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
-        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
+        
+        Participant_Enrollment__c pe = [SELECT ID,Clinical_Trial_Profile__c,Study_Site__c FROM Participant_Enrollment__c LIMIT 1];
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c WHERE Id =:pe.Clinical_Trial_Profile__c LIMIT 1];
+		
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c WHERE Id =:pe.Study_Site__c LIMIT 1];
+        
         participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
         system.debug(p.Present_Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
@@ -304,4 +307,161 @@ public class Test_ListViewParticipantController {
             // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
         }
     }
+    @IsTest
+    public static void runTest3() {
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
+        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Present_Age__c);
+        contact con = [SELECT id FROM contact LIMIT 1];
+        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
+        lw.SelectedIds = new List<Id>{ pe.id };
+        lw.pageSize = 5;
+        lw.pageNumber = 3;
+        lw.Sortby = 'Ascending';
+        lw.Status = 'Inactive';
+        lw.Study = clinical.id;
+        lw.StudySites = '';
+        lw.Source = '';
+        lw.isHighRiskOccupation = 'true';
+        lw.isComorbidities = 'false';
+        lw.Ethnicity = '';
+        lw.AgeFrom = '0';
+        lw.AgeTo = '150';
+        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw.highPrioritySelected_NoIds = new List<id>();
+        lw.isInitialVisitScheduled = 'true';
+        lw.Sex = '';
+        lw.isExport = 'true';
+        lw.startPos = 1;
+        lw.endPos = 45000;
+
+        System.runAs(u) {
+            ListViewParticipantController.getInitData(
+                clinical.ID,
+                studySite.Id,
+                'PI',
+                null,
+                'Janssen'
+            );
+
+            ListViewParticipantController.getSSList(studySite.Id);
+
+            ListViewParticipantController.getParticipantStatus('Active');
+
+            ListViewParticipantController.getParticipantStatus('Inactive');
+
+            ListViewParticipantController.updateParticipantData(
+                new List<String>{ pe.id },
+                new List<String>{ pe.id },
+                new List<String>{ pe.id }
+            );
+
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+            );
+            LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
+
+            ListViewParticipantController.labelValueItemsHaveItem(
+                new List<LabelValueItem>{ lv },
+                'Referring Provider'
+            );
+            ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
+            sr.peList = new List<ListViewParticipantController.PEWrapper>();
+            sr.PaginationData = new PaginationData();
+            ListViewParticipantService.PEFilter pef;
+            sr.peFilter = new ListViewParticipantService.PEFilter(
+                new ListViewParticipantService.PEFilterData()
+            ); //PEFilter;
+
+            sr.peList = new List<ListViewParticipantController.PEWrapper>();
+
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'Inactive');
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
+            ListViewParticipantController.getParticipantData(pe.id, con.id);
+            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+        }
+    }
+    @IsTest
+    public static void runTest4() {
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
+        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Present_Age__c);
+        contact con = [SELECT id FROM contact LIMIT 1];
+        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
+        lw.SelectedIds = new List<Id>{ pe.id };
+        lw.pageSize = 5;
+        lw.pageNumber = 3;
+        lw.Sortby = 'Ascending';
+        lw.Status = 'Inactive';
+        lw.Study = clinical.id;
+        lw.StudySites = '';
+        lw.Source = '';
+        lw.isHighRiskOccupation = 'true';
+        lw.isComorbidities = 'false';
+        lw.Ethnicity = '';
+        lw.AgeFrom = '0';
+        lw.AgeTo = '150';
+        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw.highPrioritySelected_NoIds = new List<id>();
+        lw.isInitialVisitScheduled = 'true';
+        lw.Sex = '';
+        lw.isExport = 'true';
+        lw.startPos = 1;
+        lw.endPos = 45000;
+
+        System.runAs(u) {
+            ListViewParticipantController.getInitData(
+                clinical.ID,
+                studySite.Id,
+                'RP',
+                null,
+                'Janssen'
+            );
+
+            ListViewParticipantController.getSSList(studySite.Id);
+
+            ListViewParticipantController.getParticipantStatus('Active');
+
+            ListViewParticipantController.getParticipantStatus('Inactive');
+
+            ListViewParticipantController.updateParticipantData(
+                new List<String>{ pe.id },
+                new List<String>{ pe.id },
+                new List<String>{ pe.id }
+            );
+
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+            );
+            LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
+
+            ListViewParticipantController.labelValueItemsHaveItem(
+                new List<LabelValueItem>{ lv },
+                'Referring Provider'
+            );
+            ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
+            sr.peList = new List<ListViewParticipantController.PEWrapper>();
+            sr.PaginationData = new PaginationData();
+            ListViewParticipantService.PEFilter pef;
+            sr.peFilter = new ListViewParticipantService.PEFilter(
+                new ListViewParticipantService.PEFilterData()
+            ); //PEFilter;
+
+            sr.peList = new List<ListViewParticipantController.PEWrapper>();
+
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'Inactive');
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
+            ListViewParticipantController.getParticipantData(pe.id, con.id);
+            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+        }
+    }
+    
 }

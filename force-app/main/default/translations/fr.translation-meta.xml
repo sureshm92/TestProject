@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>HLA</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>Substance NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+    <customLabels>
+        <label>La protéine inductible de costimulation (ICOS - Inducible co-stimulator) est une protéine présente à la surface des globules blancs et sur des cellules cancéreuses. Les globules blancs font partie du système immunitaire (le système de défense naturel de l’organisme). Les protéines ICOS jouent un rôle important dans la gestion du système immunitaire. Ce test mesure le taux d’ICOS dans votre sang. Certains types de traitements pourraient s’avérer plus adaptés à votre cas si votre taux sanguin d’ICOS est élevé. Ce test doit aider les médecins à présumer quels traitements contre le cancer pourraient être efficaces pour vous.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>La protéine inductible de costimulation (ICOS - Inducible co-stimulator) est une protéine présente à la surface des globules blancs et sur des cellules cancéreuses. Les globules blancs font partie du système immunitaire (le système de défense naturel de l’organisme). Les protéines ICOS jouent un rôle important dans la gestion du système immunitaire. Ce test mesure le taux d’ICOS dans votre sang. Certains types de traitements pourraient s’avérer plus adaptés à votre cas si votre taux sanguin d’ICOS est élevé. Ce test doit aider les médecins à présumer quels traitements contre le cancer pourraient être efficaces pour vous.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
+</Translations>

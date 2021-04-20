@@ -131,7 +131,7 @@ public class Test_ResourceService {
         List<Resource__c> resources = [SELECT Id FROM Resource__c ORDER BY Title__c ASC];
         System.assertEquals(5, resources.size());
 
-        Test.startTest();
+     
         ResourceService.ResourceWrapperContainer singleResourceArticleContainer;
         ResourceService.ResourceWrapperContainer singleResourceVideoContainer;
         ResourceService.ResourceWrapperContainer singleResourceStudyDocumentContainer;
@@ -150,7 +150,7 @@ public class Test_ResourceService {
                 ResourceService.RESOURCE_RECORD_TYPE_NAME_STUDY_DOCUMENT
             );
         }
-        Test.stopTest();
+        
 
         System.assertEquals(
             'Resource 3',
@@ -167,6 +167,7 @@ public class Test_ResourceService {
     }
 
     private static void initData() {
+        Test.startTest();
         delete [SELECT Id FROM Participant__c];
         delete [SELECT Id FROM Resource__c];
         delete [SELECT Id FROM Resource_Action__c];
@@ -423,5 +424,6 @@ public class Test_ResourceService {
             )
         );
         insert resourceActions;
+        Test.stopTest();
     }
 }

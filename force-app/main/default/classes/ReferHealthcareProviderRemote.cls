@@ -53,6 +53,7 @@ global without sharing class ReferHealthcareProviderRemote {
             SELECT Id, Contact__c, Status__c
             FROM Patient_Delegate__c
             WHERE Participant__c = :participantId
+            AND (Status__c =  'Active'  OR Status__c = 'Disconnected')
         ]) {
             mapDel.put(pdel.Contact__c, pdel);
         }
@@ -327,12 +328,20 @@ global without sharing class ReferHealthcareProviderRemote {
                     ddInfo,
                     HealthcareProvider.class
                 );
-            System.debug('delegateDuplicate>>>>>>>' + delegateDuplicate);
             Participant__c participantObj = (Participant__c) JSON.deserialize(
                 participant,
                 Participant__c.class
             );
             PDWrapper delegateObj = (PDWrapper) JSON.deserialize(delegateContact, PDWrapper.class);
+            List<Patient_Delegate__c> lstPatientDelegate = new List<Patient_Delegate__c> ();
+            if(delegateDuplicate != Null && delegateDuplicate.contactId != Null 
+               &&  delegateDuplicate.participantId != Null){
+                   lstPatientDelegate = [SELECT ID,Status__c from Patient_Delegate__c 
+                                        Where Participant__c =:participantObj.id
+                                        AND Contact__c =: delegateDuplicate.contactId AND 
+                                        Status__c = 'Withdrawn' ];
+               }
+            system.debug('>>>lstPatientDelegate>>'+lstPatientDelegate); 
             Boolean boolisUserCreated;
             Id ContactId;
             IF(delegateId != null){
@@ -341,6 +350,19 @@ global without sharing class ReferHealthcareProviderRemote {
                 boolisUserCreated = lstUser.isEmpty() ? false : true;
             }
             if (delegateId == null) {
+                String countryCode = participantObj.Mailing_Country_Code__c;
+                String stateCode = participantObj.Mailing_State_Code__c;
+                String countryName;
+                String stateName;
+
+                if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){
+                    countryName = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode);
+                }
+
+                if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(countryCode) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(countryCode).containsKey(stateCode)){
+                    stateName =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(countryCode).get(stateCode);
+                }
+
                 Contact newContact;
                 if (delegateDuplicate == null || delegateDuplicate.contactId == null) {
                     newContact = new Contact();
@@ -358,7 +380,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.AccountId = [
                         SELECT AccountId 
                         FROM Contact
-                        WHERE Id =: participantObj.Contact__c 
+                            WHERE Id =: participantObj.Contact__c 
                         LIMIT 1
                         FOR UPDATE].AccountId;
                     newContact.Language__c = UserInfo.getLanguage();
@@ -369,8 +391,8 @@ global without sharing class ReferHealthcareProviderRemote {
                     newContact.userCommunityIsDelegate__c = true;
                     newContact.MailingCountryCode = participantObj.Mailing_Country_Code__c;
                     newContact.MailingStateCode = participantObj.Mailing_State_Code__c;
-                    newContact.MailingCountry = participantObj.Mailing_Country__c;
-                    newContact.MailingState = participantObj.Mailing_State__c;
+                    newContact.MailingCountry = countryName;
+                    newContact.MailingState = stateName;
                     newContact.MailingPostalCode = participantObj.Mailing_Zip_Postal_Code__c;
                     if ('Home' == participantObj.Phone_Type__c) {
                         newContact.HomePhone = participantObj.Phone__c;
@@ -418,11 +440,17 @@ global without sharing class ReferHealthcareProviderRemote {
                         Phone__c = null
                     );
                 }
-
+				
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
+                if(lstPatientDelegate.isEmpty()){
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
-                insert ptDelegateRef;
+                }
+                else{
+                    ptDelegateRef.ID = lstPatientDelegate[0].ID;
+                    ptDelegateRef.Status__c = DEL_ACTIVE;
+                }
+                upsert ptDelegateRef;
                 if (createUser) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
@@ -434,6 +462,11 @@ global without sharing class ReferHealthcareProviderRemote {
                  ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
                 }
+            }
+                 if (!createUser) {
+                TriggerHandlerExecutor.bypassHandler(
+                    PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
+                );
             }
                 update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
             }
@@ -840,9 +873,10 @@ global without sharing class ReferHealthcareProviderRemote {
         String duplicateDelegatesQuery =
             'SELECT Id FROM Patient_Delegate__c WHERE Participant__c = \'' +
             participantId +
-            '\' AND Contact__r.Email = \'' +
+            '\' AND Contact__r.Email = \'' + 
             email +
-            '\'';
+             '\' AND (Status__c = \'Active\' OR Status__c = \'Disconnected\')';
+             
         if(firstName !=null || lastName !=null){	
             duplicateDelegatesQuery +=
                 'AND Contact__c IN (SELECT Contact__c FROM Participant__c WHERE ';

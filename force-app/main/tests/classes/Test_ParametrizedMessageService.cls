@@ -12,6 +12,7 @@ public with sharing class Test_ParametrizedMessageService {
     @IsTest
     static void test() {
         String label = 'PP_Study_Site';
+        Test.startTest();
         TestData testData = new TestData();
         List<Parameters_Provider__mdt> parametersProvider = [
             SELECT Id, Parameters__c
@@ -41,8 +42,6 @@ public with sharing class Test_ParametrizedMessageService {
             label,
             'en_US'
         );
-        
-        Test.startTest();
         parametrizedMessageService.processMessages();
         Test.stopTest();
 

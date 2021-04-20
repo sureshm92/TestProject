@@ -40,6 +40,12 @@
     table-layout: fixed !important;
     width:300px !important;
 }
+lightning-primitive-bubble{
+    z-index: 10000000000 !important;
+    background-color: #444 !important;
+    font-family: "Proxima Nova" !important;
+    font-size: 14px !important;
+}
 
 .slds-datepicker{
     max-width : none !important; 
