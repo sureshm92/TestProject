@@ -33,6 +33,7 @@
     },
 
     handleSearchHelper: function (component, event, helper) {
+        console.log('insidehelper');
         component.find('Spinnerpopup').show();
         component.set('v.lstPR_no', '');
         component.set('v.lstPR_yes', '');
@@ -48,7 +49,6 @@
         component.set('v.pageSize', component.find('pageSize').get('v.value'));
         component.set('v.SortBydefault', component.find('sortby').get('v.value'));
         component.set('v.flagSet', false);
-
         var RowItemList = component.get('v.filterList');
         var pageNumber = component.get('v.PageNumber');
         var pageSize = component.find('pageSize').get('v.value');
@@ -92,6 +92,11 @@
 
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
+        var bulkaction = component.get('v.ActionSelected');
+        //alert(bulkaction);
+        var bulkStatus = component.get('v.statusSelected');
+         //alert(bulkStatus);
+       
         //console.log('########Search ' +filterValue);
         if (bol) {
             if (!communityService.isInitialized()) return;
@@ -100,7 +105,10 @@
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
+                    
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -137,11 +145,15 @@
         var filterValue = component.get('v.filterList');
         filterValue[0].startPos = filterValue[0].endPos + 1;
         filterValue[0].endPos = filterValue[0].endPos + 45000;
+        var bulkaction = component.get('v.ActionSelected');
+        var bulkStatus = component.get('v.statusSelected');
         communityService.executeAction(
             component,
             'fetchData',
             {
-                filterJSON: JSON.stringify(filterValue)
+                filterJSON: JSON.stringify(filterValue),
+                bulkAction: bulkaction,
+                BulkStatus: bulkStatus
             },
             function (returnValue1) {
                 console.log('length2 ' + returnValue1.FilterImpacts.length);
@@ -199,11 +211,15 @@
         if (bol) {
             // console.log("Sellected Filter " + (filterValue));
             if (!communityService.isInitialized()) return;
+            var bulkaction = component.get('v.ActionSelected');
+            var bulkStatus = component.get('v.statusSelected');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -503,6 +519,16 @@
         });
         toastEvent.fire();
     },
+    showToastforInvite: function (component, event, helper,count) {
+        var toastEvent = $A.get('e.force:showToast');
+        //var count = component.get('v.count');
+        toastEvent.setParams({
+            duration: 400,
+            type: 'success',
+            message: count+' '+ $A.get('$Label.c.Records_all_invited')
+        });
+        toastEvent.fire();
+    },
     showToastLimit: function (component, event, helper) {
         var toastEvent = $A.get('e.force:showToast');
         toastEvent.setParams({
@@ -604,12 +630,15 @@
         if (bol) {
             //component.set('v.oldfilterList',component.get("v.filterList"));
             if (!communityService.isInitialized()) return;
-
+            var bulkaction = component.get('v.ActionSelected');
+            var bulkStatus = component.get('v.statusSelected');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
                 },
                 function (returnValue) {
                     var result = returnValue;

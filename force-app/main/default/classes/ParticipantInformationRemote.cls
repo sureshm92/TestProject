@@ -312,7 +312,8 @@ public without sharing class ParticipantInformationRemote {
         if (sendEmails) {
             update new Contact(
                 Id = pe.Participant_Contact__c,
-                Consent_To_Inform_About_Study__c = true
+                Consent_To_Inform_About_Study__c = true,
+                Is_Patient_User_Created__c = true
             );
         }
         try {
