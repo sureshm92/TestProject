@@ -243,6 +243,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
                         participantDelegateContact.Id
                     );
                     ptDelegateRef.Contact__c = participantDelegateContact.Id;
+                    ptDelegateRef.Primary_Delegate__c = True;
+                    ptDelegateRef.Status__c = 'Disconnected';
                     if (participantsWithoutErrors.contains(ptDelegateRef.Participant__c)) {
                         ptDelegateRefs.add(ptDelegateRef);
                         if (ndc != null && ndc.siteType != 'Virtual' && ndc.siteType != 'Hybrid') {

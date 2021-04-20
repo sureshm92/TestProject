@@ -27,7 +27,7 @@ public without sharing class Batch_UpdatePERParticipantKey implements Database.B
                  }
             }
             if (lstPER.size() > 0 && lstPER!= null) {
-                Database.SaveResult[] results = Database.Update(lstPER, false);
+                //Database.SaveResult[] results = Database.Update(lstPER, false);
             }
         } catch (Exception e) {
             System.debug(e);

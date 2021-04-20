@@ -87,19 +87,21 @@ public without sharing class MessagePageRemote {
             String communityTemplate = UserContext.getCurrentCommunityTemplate().templateName;
             String piId = UserContext.getUserContactId();
             List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
+            List<String> communitiesNotInSwitcher = System.Label.MessagecommunitiesforPI.split(',');
             List<Study_Site__c> allStudies = new List<Study_Site__c>(
                 [
                     SELECT Id
                     FROM Study_Site__c
                     WHERE
-                        Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
+                        (Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate OR
+                         Clinical_Trial_Profile__r.CommunityTemplate__c in :communitiesNotInSwitcher)
                         AND (Id IN :delegatedSites
                         OR Principal_Investigator__c = :piId)
                         AND Messages_Are_Available__c = TRUE
                 ]
             );
 
-            pageData.isPageEnabled = pageData.userMode.equals(CommunityService.USER_MODE_PI) &&
+             pageData.isPageEnabled = pageData.userMode.equals(CommunityService.USER_MODE_PI) &&
                 allStudies.size() > 0
                 ? true
                 : CommunityFacadeRemote.getMessagesVisibility();

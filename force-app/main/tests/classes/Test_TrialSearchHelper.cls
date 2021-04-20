@@ -10,7 +10,7 @@ private class Test_TrialSearchHelper {
             ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
         );
         Test.startTest();
-        TestDataFactory.createInitData();
+         TestData.loadTestData();
         Test.stopTest();
     }
 

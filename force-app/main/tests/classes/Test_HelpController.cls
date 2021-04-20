@@ -86,17 +86,17 @@ public class Test_HelpController {
         } catch (Exception e) {
             fileExceptionMessage = e.getMessage();
         }
-        Test.stopTest();
-
-        System.assert(initExceptionMessage.contains('Attempt to de-reference a null object'));
-        System.assert(initDataPart.helpTopicSettings[0].userTypes.contains('PI'));
-
         Case testCase = [SELECT Id FROM Case WHERE Subject = 'Some case'];
         ContentDocumentLink testFile = [
             SELECT Id, ContentDocument.Title
             FROM ContentDocumentLink
             WHERE LinkedEntityId = :testCase.Id
         ];
+        Test.stopTest();
+        System.assert(initExceptionMessage.contains('Attempt to de-reference a null object'));
+        System.assert(initDataPart.helpTopicSettings[0].userTypes.contains('PI'));
+
+        
         System.assertEquals(file.fileName, testFile.ContentDocument.Title);
         System.assert(fileExceptionMessage.contains('Unexpected character'));
     }

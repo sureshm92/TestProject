@@ -12,6 +12,7 @@ import incorrectData from '@salesforce/label/c.Incorrect_data';
 import reminderPastError from '@salesforce/label/c.PP_ReminderPastError';
 import detailsLabel from '@salesforce/label/c.PP_Details';
 import saveBTNLabel from '@salesforce/label/c.BTN_Save';
+import timeZoneDisclaimer from '@salesforce/label/c.TimezoneDisclaimer';
 import cancelBTNLabel from '@salesforce/label/c.BTN_Cancel';
 import noDateSet from '@salesforce/label/c.PP_NoDateSet';
 import emailLabel from '@salesforce/label/c.PP_Remind_Using_Email';
@@ -85,7 +86,8 @@ export default class VisitsPath extends LightningElement {
         visitDateandTime,
         remindMe,
         reminderErrorUnderFlow,
-        reminderPastError
+        reminderPastError,
+        timeZoneDisclaimer
     };
 
     initialized = false;

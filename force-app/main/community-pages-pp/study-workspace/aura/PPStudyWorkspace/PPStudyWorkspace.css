@@ -420,6 +420,11 @@
     }
 
     .THIS .rr-width-limiter.side-padding .sv-body {
-        margin: 0 1rem;
+        margin: 0;
+    }
+
+    .THIS #sd-selected-tab-container .rr-width-limiter.side-padding {
+        padding-left: 1rem;
+        padding-right: 1rem;
     }
 }

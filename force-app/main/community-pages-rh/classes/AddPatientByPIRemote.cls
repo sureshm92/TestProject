@@ -145,6 +145,9 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
+                if(createUser){
+                    participantCon.Is_Patient_User_Created__c =true;
+                 }
                 update participantCon;
             }
 
@@ -225,22 +228,20 @@ public without sharing class AddPatientByPIRemote {
             List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
                 for(Participant__c partici: newPartcipantObjs){                  
-                    if(partici.Date_of_Birth__c != null && partici.Date_of_Birth__c == participant.Date_of_Birth__c){
-                        partici.First_Name__c = participant.First_Name__c;
-                        partici.Last_Name__c = participant.Last_Name__c;
-                        partici.Suffix__c = participant.Suffix__c;
-                        partici.Middle_Name__c = participant.Middle_Name__c;
-                        partici.Nickname__c = participant.Nickname__c;
-                        partici.Date_of_Birth__c = participant.Date_of_Birth__c;
-                        partici.Gender__c = participant.Gender__c;
-                        partici.Email__c = participant.Email__c;
-                        partici.Phone__c = participant.Phone__c;
-                        partici.Phone_Type__c = participant.Phone_Type__c;
-                        partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
-                        partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
-                        partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-                        participantPatient.add(partici);
-                    }
+                    partici.First_Name__c = participant.First_Name__c;
+                    partici.Last_Name__c = participant.Last_Name__c;
+                    partici.Suffix__c = participant.Suffix__c;
+                    partici.Middle_Name__c = participant.Middle_Name__c;
+                    partici.Nickname__c = participant.Nickname__c;
+                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    partici.Gender__c = participant.Gender__c;
+                    partici.Email__c = participant.Email__c;
+                    partici.Phone__c = participant.Phone__c;
+                    partici.Phone_Type__c = participant.Phone_Type__c;
+                    partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                    partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                    partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                    participantPatient.add(partici);
                 } 
                 if(!participantPatient.isEmpty()){
                     update participantPatient;
@@ -383,6 +384,7 @@ public without sharing class AddPatientByPIRemote {
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
 					ptDelegateRef.Primary_Delegate__c = true;
+                    ptDelegateRef.Status__c = 'Disconnected';
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                         .templateName;
                     if (

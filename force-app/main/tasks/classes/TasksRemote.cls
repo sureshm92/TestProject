@@ -111,7 +111,7 @@ public without sharing class TasksRemote {
         for (OpenTask taskWrapper : tasks) {
             switch on taskWrapper.openTask.Originator__c {
                 when 'Participant' {
-                    taskWrapper.originator = Label.Patient;
+                    taskWrapper.originator = Label.PP_Participant;
                 }
                 when 'Delegate' {
                     taskWrapper.originator = Label.Delegate;

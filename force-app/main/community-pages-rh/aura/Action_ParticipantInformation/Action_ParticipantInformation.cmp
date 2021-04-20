@@ -151,7 +151,7 @@ isListView = "{!v.isListView}"
              </div>
              <div class="slds-col slds-size_1-of-1">
                  <!--(<ui:outputDate value="{!v.invitedon}"/>)-->
-                 <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>
+                 <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>
              </div>
          </div>
      </button>
@@ -187,7 +187,7 @@ isListView = "{!v.isListView}"
                      </div>
                      <div class="slds-col slds-size_1-of-1">
                          <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
-                         <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>
+                         <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>
                      </div>
                  </div>
              </button>   
