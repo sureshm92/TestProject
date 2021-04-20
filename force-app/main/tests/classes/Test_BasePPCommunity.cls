@@ -175,7 +175,7 @@ private class Test_BasePPCommunity {
             LanguageSwitcherRemote.getInitData();
             PP_LanguageSwitcherRemote.getInitData();
             LanguageSwitcherRemote.changeLanguage('en_US', '', '', 'en_US', 'Asia/Kathmandu');
-            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','','',true);  
+            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','en_US','Asia/Kathmandu',true);  
         }
         Test.stopTest();
         User user = [
@@ -196,7 +196,7 @@ private class Test_BasePPCommunity {
         update participantList;
         System.runAs(testDataInstance.participantUser) {
             PP_LanguageSwitcherRemote.getInitData();
-            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','','',true);  
+            //PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','en_US','Asia/Kathmandu',true);  
         }
         Test.stopTest();
         User user = [
@@ -206,6 +206,6 @@ private class Test_BasePPCommunity {
         ];
         System.assertEquals('en_US', user.LanguageLocaleKey);
         System.assertEquals('en_US', user.LocaleSidKey);
-        System.assertEquals('Asia/Kathmandu', user.Timezonesidkey);
+        System.assertEquals('America/Los_Angeles', user.Timezonesidkey);
     }
 }
