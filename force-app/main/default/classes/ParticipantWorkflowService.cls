@@ -64,8 +64,13 @@ public without sharing class ParticipantWorkflowService {
         for (Participant_Workflow_Step__mdt step : steps) {
             stepsAndStates.put(step.DeveloperName, step.Additional_Notes_For_Statuses__c);
         }
+        Boolean eligibilityStatusPresent = false;
         for (String step : stepsAndStates.keySet()) {
             for (Participant_Enrollment_Status_History__c pesh : peshistories) {
+                if(pesh.Status__c == 'Eligibility Passed'){
+                    wrapper.sendToSHDate = (pesh.Date__c!=null)?Date.valueOf(pesh.Date__c):null;
+                    eligibilityStatusPresent = true;
+                }
                 if (
                     stepsAndStates.get(step) != null &&
                     stepsAndStates.get(step) != '' &&
@@ -89,7 +94,7 @@ public without sharing class ParticipantWorkflowService {
                 }
             }
         }
-
+		wrapper.sendToSH = sendToSH(wrapper, pe, eligibilityStatusPresent);
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> outcomesMap = getOutcomesMap(
             steps,
             ctp
@@ -149,6 +154,15 @@ public without sharing class ParticipantWorkflowService {
         wrapper.steps[wrapper.currentStepInd].isCurrentStep = true;
         populateDependencyActiveFields(wrapper, fieldWrappersMap);
         return wrapper;
+    }
+
+    private static Boolean sendToSH(ParticipantWorkflowWrapper wrapper, Participant_Enrollment__c pe, Boolean eligibilityStatusPresent){
+        List<String> pshStatus = new List<String>();
+        for (Promote_to_SH__mdt psl : [SELECT DeveloperName, status__c FROM Promote_to_SH__mdt]) {
+            pshStatus.add(psl.status__c);
+        }
+        return ListViewParticipantController.ifAllowedForSH(pe, pshStatus, eligibilityStatusPresent);
+			        
     }
 
     private static List<Participant_Workflow_Step__mdt> getWorkflowSteps(
@@ -1680,6 +1694,10 @@ public without sharing class ParticipantWorkflowService {
         public List<ParticipantWorkflowStepWrapper> steps;
         @AuraEnabled
         public Integer currentStepInd;
+        @AuraEnabled
+        public Date sendToSHDate;
+        @AuraEnabled
+        public Boolean sendToSH;
     }
 
     public class ParticipantWorkflowStepWrapper {

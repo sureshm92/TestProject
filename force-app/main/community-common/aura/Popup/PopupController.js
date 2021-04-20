@@ -49,6 +49,13 @@
         component.hide();
         var closeCallback = component.get('v.closeCallback');
         if (closeCallback) closeCallback();
+        var isListView = component.get('v.isListView');
+        if(isListView==true){
+            var parent = component.get('v.parent');
+            if(parent!=undefined){
+                parent.refreshTable();
+            }
+        }
         console.log('>>>closeCallback111>>>'+closeCallback);
         console.log('>>>childpopup111>>>'+component.get('v.childpopup'));
         console.log('>>>actionpopupcc>>>'+component.get('v.actionpopupcc'));

@@ -15670,6 +15670,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI Mode</shortDescription>
         <value>Investigative Site</value>
     </labels>
+      <labels>
+        <fullName>PI_Toggle_Information</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PI_Toggle_Information</shortDescription>
+        <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
+    </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
