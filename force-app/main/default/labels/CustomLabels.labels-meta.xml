@@ -1499,6 +1499,13 @@
         <shortDescription>BUN</shortDescription>
         <value>BUN</value>
     </labels>
+     <labels>
+        <fullName>Bulk_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bulk Actions</shortDescription>
+        <value>Bulk Actions</value>
+    </labels>
     <labels>
         <fullName>BUN_Description</fullName>
         <language>en_US</language>
@@ -3382,6 +3389,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Complete By Date</shortDescription>
         <value>Complete By</value>
+    </labels>
+     <labels>
+        <fullName>ContactSwitcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ContactSwitcher</shortDescription>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>Complete_field_Info</fullName>
@@ -8417,6 +8431,13 @@ The expected format is REF##### to REF########</value>
         <value>IQVIA intervention required</value>
     </labels>
     <labels>
+        <fullName>IQVIA_Integrations_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IQVIA Integrations User</shortDescription>
+        <value>IQVIA Integrations</value>
+    </labels>
+    <labels>
         <fullName>Inbound_Outbound</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8584,6 +8605,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Invite_Participant_To_Portal</shortDescription>
         <value>Invite Participant to Patient Portal</value>
+    </labels>
+     <labels>
+        <fullName>Invite_to_Patient_Portal</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Invite to Patient Portal</shortDescription>
+        <value>Invite to Patient Portal</value>
     </labels>
     <labels>
         <fullName>Invited</fullName>
@@ -17451,6 +17479,13 @@ communications using the toggles below.</value>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
     </labels>
+     <labels>
+        <fullName>Records_all_invited</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Records all invited</shortDescription>
+        <value>Participant have been invited successfully</value>
+    </labels>
     <labels>
         <fullName>RTL_Languages</fullName>
         <language>en_US</language>
@@ -19113,6 +19148,13 @@ communications using the toggles below.</value>
         <value>Suspicious Activity</value>
     </labels>
     <labels>
+        <fullName>SystemAdminProfile</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SystemAdminProfile</shortDescription>
+        <value>System Administrator</value>
+    </labels>
+    <labels>
         <fullName>Systolic</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19132,6 +19174,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Systolic Blood Pr Description</shortDescription>
         <value>Systolic blood pressure is a measure of how hard your blood is pushed against the walls of the arteries when the heart is beating and pushing out blood.</value>
+    </labels>
+    <labels>
+        <fullName>TMDHBypassedFieldsforCTP</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TMDHBypassedFieldsforCTP</shortDescription>
+        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

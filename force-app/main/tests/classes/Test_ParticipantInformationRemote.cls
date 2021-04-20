@@ -59,7 +59,7 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
-
+    
     @IsTest
     static void testUpdatePatientInfo() {
         TestData testData = new TestData();
@@ -102,22 +102,35 @@ private class Test_ParticipantInformationRemote {
         participant.Email__c = 'Test011@mail.ru';
         participant.First_Name__c = 'testName1';
         participant.Last_Name__c = 'testLastName1';
+        participant.Date_of_Birth__c = '2000-04-18';
         insert participant;
         Test.startTest();
         System.runAs(testData.piUser) {
-                    AddPatientByPIRemote.updateParticipant(JSON.serialize(testData.participant));
+            AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         }
         Test.stopTest();
     }
-  /*  @IsTest
+    @IsTest
     static void testCreateParticipantDelegate() {
+        ClassFactory.clearStubTypesByClassNamesMap();
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        TestData testData = new TestData();
         Participant__c participant = new Participant__c();
         participant.Email__c = 'Test01@mail.ru';
         participant.First_Name__c = 'testName';
         participant.Last_Name__c = 'testLastName';
         participant.Suffix__c = 'S';
         participant.Middle_Name__c = 'Mr';
-
+        insert participant;
+        
         Participant__c participantDel = new Participant__c();
         participantDel.Email__c = 'Test01@mail.ru';
         participantDel.First_Name__c = 'testName';
@@ -125,18 +138,19 @@ private class Test_ParticipantInformationRemote {
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
         Test.startTest();
-        try {
-        AddPatientByPIRemote.createParticipantDelegate(
-            JSON.serialize(participantDel),
-            null,
-            participant.Id,
-            JSON.serialize(participant),
-            true
-        );
-        ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
-          }catch(exception e) {system.debug('teste');}
+        System.runAs(testData.piUser){
+            try {
+                AddPatientByPIRemote.createParticipantDelegate(
+                    JSON.serialize(participantDel),
+                    null,
+                    participant.Id,
+                    JSON.serialize(participant),
+                    true
+                );
+                ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
+            }catch(exception e) {system.debug('teste');}}
         Test.stopTest();
-    } */
+    } 
 
     @IsTest
     static void updateStateCC() {
@@ -198,4 +212,151 @@ private class Test_ParticipantInformationRemote {
         }
         Test.stopTest();
     }
+    
+    @isTest
+    static void checkDuplicatePDelegates(){
+        TestData testData = new TestData();
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'Test01@mail.ru';
+        participant.First_Name__c = 'testName';
+        participant.Last_Name__c = 'testLastName';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        insert participant;
+        ParticipantInformationRemote.checkDuplicatePDelegates(participant.Id,
+                                                              participant.Email__c,
+                                                              participant.First_Name__c,
+                                                              participant.Last_Name__c);
+    }
+    @isTest
+    static void updateParticipantData(){
+        TestData testData = new TestData();
+        ParticipantInformationRemote.updateParticipantData(testData.pe.Id);
+    }
+    
+    @isTest
+    static void updateParticipantContactLanguage(){
+        TestData testData = new TestData();
+        ParticipantInformationRemote.updateParticipantContactLanguage(JSON.serialize(testData.piContact));
+        
+    }
+    
+    @isTest
+    static void getMedicalHistory(){
+        TestData testData = new TestData();
+        ParticipantInformationRemote.getMedicalHistory(testData.pe.Id);
+        
+    }
+    
+    @isTest
+    static void checkDelegateDuplicate(){
+        TestData testData = new TestData();
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'Test01@mail.ru';
+        participant.First_Name__c = 'testName';
+        participant.Last_Name__c = 'testLastName';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        insert participant;
+        ParticipantInformationRemote.checkDelegateDuplicate(participant.Email__c,
+                                                           participant.First_Name__c,
+                                                           participant.Last_Name__c,
+                                                           participant.Id);
+        
+    }
+    
+    @isTest
+    static void connectDelegateToPatient(){
+        TestData testData = new TestData();
+        Account a = new Account(name = 'Test');
+        insert a;
+        Clinical_Trial_Profile__c  ctp = testData.ctp;
+        Study_Site__c st= new Study_Site__c(
+            Name = 'Test Site',
+            Site__c = a.id,
+            Clinical_Trial_Profile__c = ctp.Id,
+            Principal_Investigator__c = testData.piContact.Id,
+            Study_Site_Key__c = 'AEWR5436');
+        insert st;
+        
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'Test01@mail.ru';
+        participant.First_Name__c = 'testName';
+        participant.Last_Name__c = 'testLastName';
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        insert participant;
+        
+        Participant__c participantDel = new Participant__c();
+        participantDel.Email__c = 'Test01@mail.ru';
+        participantDel.First_Name__c = 'testName';
+        participantDel.Last_Name__c = 'testLastName';
+        participantDel.Phone__c = '141241';
+        participantDel.Phone_Type__c = 'Home';
+        
+        Participant__c participantDel1 = new Participant__c();
+        participantDel1.Email__c = 'Test01@mail.ru';
+        participantDel1.First_Name__c = 'testName';
+        participantDel1.Last_Name__c = 'testLastName';
+        participantDel1.Phone__c = '141241';
+        participantDel1.Phone_Type__c = 'Home';
+        
+        ParticipantInformationRemote.connectDelegateToPatient(JSON.serialize(participant),
+                                                             JSON.serialize(participantDel),
+                                                             st.id,
+                                                             true,
+                                                             JSON.serialize(participantDel1),
+                                                             true);
+        
+    }
+    
+    @isTest
+    static void updatePatientInfoAndStatusWithDelegateCC(){
+        TestData testData = new TestData();
+        
+        Participant__c participantDel = new Participant__c();
+        participantDel.Email__c = 'Test01@mail.ru';
+        participantDel.First_Name__c = 'testName';
+        participantDel.Last_Name__c = 'testLastName';
+        participantDel.Phone__c = '141241';
+        participantDel.Phone_Type__c = 'Home';
+        
+        Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_CC
+            );
+        ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
+        ParticipantInformationRemote.updatePatientInfoAndStatusWithDelegateCC(JSON.serialize(testData.participant),
+                                                                              JSON.serialize(testData.pe),
+                                                                              JSON.serialize(path),
+                                                                              testData.pe.id, 
+                                                                              JSON.serialize(participantDel),
+                                                                              null,
+                                                                              true,
+                                                                              true,
+                                                                              'test',
+                                                                              JSON.serialize(testData.piContact));
+    }
+    
+    @isTest
+    static void checkExisitingParticipant(){
+        TestData testData = new TestData();
+        ParticipantInformationRemote.checkExisitingParticipant('Firstname',
+                                                               'Lastname',
+                                                               'Test01@mail.ru',
+                                                               testData.participant.id);
+    }
+    
+    @isTest
+    static void getPESHrecord(){
+        TestData testData = new TestData();
+        Participant_Enrollment__c pe = testData.pe;
+        pe.Participant_Status__c = 'Eligibility Passed';
+        update pe;
+        ParticipantInformationRemote.getPESHrecord(testData.pe.id);
+    }
+    
 }

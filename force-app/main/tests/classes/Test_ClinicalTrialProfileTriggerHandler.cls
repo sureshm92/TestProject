@@ -348,7 +348,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         resources.add(r4);
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
-		test.startTest();
+        test.startTest();
         Res_study__c resStudy = new Res_study__c();
         resStudy.Resource__c = r1StudyDoc.Id;
         resStudy.Clinical_Trial_Profile__c = t1.Id;
@@ -597,7 +597,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
         r4.Content_Class__c = 'Study-Specific';
         insert resources;
         List<Res_study__c> resStudies = new List<Res_study__c>();
-
+        test.startTest();
         Res_study__c resStudy = new Res_study__c();
         resStudy.Resource__c = r1StudyDoc.Id;
         resStudy.Clinical_Trial_Profile__c = t1.Id;
@@ -629,6 +629,7 @@ public with sharing class Test_ClinicalTrialProfileTriggerHandler {
             SELECT Id, Name, Clinical_Trial_Profile__c, Resource__c
             FROM Res_study__c
         ];
+        test.stopTest();
         System.assertEquals(5, resStudeis.size());
     }
 }

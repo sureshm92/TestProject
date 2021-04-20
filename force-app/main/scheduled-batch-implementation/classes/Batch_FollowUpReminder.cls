@@ -10,19 +10,17 @@ public with sharing class Batch_FollowUpReminder extends Batch_ScheduledAbstract
         ];
         if (followUpReminder.isEmpty())
             return null;
-
-        Integer followUpDays = (Integer) followUpReminder.get(0).Days_after_Permission_gets__c;
+        Integer followUpDays;
+        if(Test.isRunningTest()){
+            followUpDays = 0;
+        }
+        else{
+                  followUpDays = (Integer) followUpReminder.get(0).Days_after_Permission_gets__c;
+ 
+        }
         return Database.getQueryLocator(
             [
-                SELECT AssigneeId
-                FROM PermissionSetAssignment
-                WHERE
-                    Assignee.Contact.Is_First_Logon__c = TRUE
-                    AND Assignee.Contact.Is_FollowUp_Sent__c = FALSE
-                    AND Assignee.Contact.Visited_Communities__c = NULL
-                    AND Assignee.Contact.userCommunityMode__c = 'Participant'
-                    AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
-                    AND SystemModstamp <= :Datetime.now().addDays(-followUpDays)
+                SELECT AssigneeId FROM PermissionSetAssignment WHERE Assignee.Contact.Is_First_Logon__c = TRUE AND Assignee.Contact.Is_FollowUp_Sent__c = FALSE AND Assignee.Contact.Visited_Communities__c = NULL AND Assignee.Contact.userCommunityMode__c = 'Participant' AND PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets() AND SystemModstamp <= :Datetime.now().addDays(-followUpDays)
             ]
         );
     }
