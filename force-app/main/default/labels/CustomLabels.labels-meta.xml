@@ -708,6 +708,20 @@
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>Attestation_Confirmation_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message</shortDescription>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
+    </labels>
+    <labels>
+        <fullName>Attestation_Confirmation_Message_For_Teams</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
+        <value>I attest to this delegate being of legal age in their locale.</value>
+    </labels>
+    <labels>
         <fullName>Avaliable_Icons</fullName>
         <categories>Avaliable Icons</categories>
         <language>en_US</language>
@@ -10798,6 +10812,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Study Site Referred To</shortDescription>
         <value>Study Site Referred To</value>
+    </labels>
+    <labels>
+        <fullName>PE_Year_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Year Of Birth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
     <labels>
         <fullName>PF_MRCV_L_Physicians_Declined</fullName>
