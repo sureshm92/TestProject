@@ -173,7 +173,30 @@ private class Test_BasePPCommunity {
         TestData testDataInstance = new TestData();
         System.runAs(testDataInstance.participantUser) {
             LanguageSwitcherRemote.getInitData();
+            PP_LanguageSwitcherRemote.getInitData();
             LanguageSwitcherRemote.changeLanguage('en_US', '', '', 'en_US', 'Asia/Kathmandu');
+            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','','',true);  
+        }
+        Test.stopTest();
+        User user = [
+            SELECT Id, LanguageLocaleKey, TimeZoneSidKey, LocaleSidKey
+            FROM User
+            WHERE Id = :testDataInstance.participantUser.Id
+        ];
+        System.assertEquals('en_US', user.LanguageLocaleKey);
+        System.assertEquals('en_US', user.LocaleSidKey);
+        System.assertEquals('Asia/Kathmandu', user.Timezonesidkey);
+    }
+    @IsTest
+    static void test_LanguageSwitcherForMinor(){
+        Test.startTest();
+        TestData testDataInstance = new TestData();
+        List<Participant__c> participantList = [Select Id,Adult__c from Participant__c where Contact__c = :testDataInstance.participantUser.ContactId];
+        participantList[0].Adult__c = false;
+        update participantList;
+        System.runAs(testDataInstance.participantUser) {
+            PP_LanguageSwitcherRemote.getInitData();
+            PP_LanguageSwitcherRemote.changeLanguage('en_US','','','','','','','',true);  
         }
         Test.stopTest();
         User user = [
