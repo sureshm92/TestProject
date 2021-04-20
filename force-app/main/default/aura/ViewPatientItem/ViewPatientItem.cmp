@@ -92,12 +92,12 @@
                       (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}"
               >
          <c:ParticipantStatusPath
-                                  userMode="{!v.userMode}"
-                                  pathSteps="{!v.pathItems}"
-                                  sendToSH="{!v.sendToSH}"
-                                  sendToSHDate="{!v.sendToSHDate}"
-                                  initValReqd="{!v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c}"
-                                  sendToSHReason="{!v.sendToSHReason}"
+            userMode="{!v.userMode}"
+            pathSteps="{!v.pathItems}"
+            sendToSH="{!v.sendToSH}"
+            sendToSHDate="{!v.sendToSHDate}"
+            initValReqd="{!v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c}"
+            sendToSHReason="{!v.sendToSHReason}"
                                   />
          
          
