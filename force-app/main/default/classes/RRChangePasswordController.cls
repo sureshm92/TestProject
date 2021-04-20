@@ -352,10 +352,14 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByName.get(participant.Mailing_Country_Code__c));
                 participant.Mailing_State__c = (noState
                     ? null
-                    : stateCodeByName.get(participant.Mailing_Country_Code__c));
+                    : stateCodeByName.get(participant.Mailing_State_Code__c));
                 if (isDelegate) {
                     participant.Birth_Year__c = birthYear;
                 }
+                contact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                contact.MailingStateCode = participant.Mailing_State_Code__c;
+                contact.MailingCountry = participant.Mailing_Country__c;
+                contact.MailingState = participant.Mailing_State__c;
             }
             if (
                 (!notEnrollNow && String.isBlank(contact.FirstName)) ||
@@ -740,21 +744,23 @@ public without sharing class RRChangePasswordController {
             state = '';
             participant.Mailing_State_Code__c = '';
             if (isDelegate) {
-                isAttested = false;
-                birthYear = '';
-                participant.Birth_Year__c = '';
-                isSaveButtonDisabled = true;
+                updateFlags();
             }
         }
     }
     public void updateYearOfBirth() {
         state = participant.Mailing_State_Code__c;
         if (isDelegate) {
-            birthYear = '';
-            participant.Birth_Year__c = '';
-            isSaveButtonDisabled = true;
-            isAttested = false;
+            updateFlags();
         }
+    }
+    private void updateFlags() {
+        birthYear = '';
+        participant.Birth_Year__c = '';
+        isSaveButtonDisabled = true;
+        isAttested = false;
+        showErrorMessage = false;
+        isDisabled = false;
     }
     public void validateAgeOfMajority() {
         participant.Mailing_Country_Code__c = country;
@@ -811,6 +817,7 @@ public without sharing class RRChangePasswordController {
                 showErrorMessage = true;
                 isAttested = false;
                 isDisabled = true;
+                isSaveButtonDisabled = true;
             }
         }
     }
