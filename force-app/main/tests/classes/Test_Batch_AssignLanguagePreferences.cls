@@ -10,10 +10,11 @@ private class Test_Batch_AssignLanguagePreferences {
         TestData td = new TestData();
         td.participant.Preferred_Language__c = null;
         td.participant.Language_Preference_Code__c = 'en_US';
-        
-        update td.participant;
         Test.startTest();
+        update td.participant;
+        
         Batch_AssignLanguagePreferences.run();
         Test.stopTest();
-    }
+    } 
+     
 }

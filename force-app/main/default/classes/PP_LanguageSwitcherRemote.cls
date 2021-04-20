@@ -29,25 +29,7 @@ public without sharing class PP_LanguageSwitcherRemote {
             }
 
             List<Participant__c> participantList = new List<Participant__c>();
-            participantList = [
-                SELECT
-                    Id,
-                    First_Name__c,
-                    Middle_Name__c,
-                    Last_Name__c,
-                    Phone__c,
-                    Mailing_Zip_Postal_Code__c,
-                    Mailing_State__c,
-                    Mailing_Country__c,
-                    Mailing_Country_Code__c,
-                    Mailing_State_Code__c,
-                    Adult__c,
-                    Gender__c,
-                    Date_of_Birth__c
-                FROM Participant__c
-                WHERE Contact__c = :myContact.Id
-                LIMIT 1
-            ];
+            participantList = [SELECT Id,First_Name__c,Middle_Name__c,Last_Name__c,Phone__c,Mailing_Zip_Postal_Code__c,Mailing_State__c,Mailing_Country__c,Mailing_Country_Code__c,Mailing_State_Code__c,Adult__c,Gender__c,Date_of_Birth__c FROM Participant__c WHERE Contact__c = :myContact.Id LIMIT 1];
             boolean isMinor = false;
             if (participantList.size() > 0) {
                 if (!participantList[0].Adult__c) {
@@ -59,19 +41,7 @@ public without sharing class PP_LanguageSwitcherRemote {
             User userdetail;
             if (!isMinor) {
                 userdetail = [
-                    SELECT
-                        ContactId,
-                        LocaleSidKey,
-                        LanguageLocaleKey,
-                        TimeZoneSidKey,
-                        Contact.Language__c,
-                        Contact.Second_Choice_Language__c,
-                        Contact.Third_Choice_Language__c,
-                        Contact.MailingCountry,
-                        Contact.MailingState
-                    FROM User
-                    WHERE contactId = :myContact.Id
-                ];
+                    SELECT ContactId,LocaleSidKey,LanguageLocaleKey,TimeZoneSidKey,Contact.Language__c,Contact.Second_Choice_Language__c,Contact.Third_Choice_Language__c,Contact.MailingCountry,Contact.MailingState FROM User WHERE contactId = :myContact.Id];
             }
             //
 
@@ -133,24 +103,7 @@ public without sharing class PP_LanguageSwitcherRemote {
             }
             List<Participant__c> participantList = new List<Participant__c>();
             participantList = [
-                SELECT
-                    Id,
-                    First_Name__c,
-                    Middle_Name__c,
-                    Last_Name__c,
-                    Phone__c,
-                    Mailing_Zip_Postal_Code__c,
-                    Mailing_State__c,
-                    Mailing_Country__c,
-                    Mailing_Country_Code__c,
-                    Mailing_State_Code__c,
-                    Adult__c,
-                    Gender__c,
-                    Date_of_Birth__c
-                FROM Participant__c
-                WHERE Contact__c = :myContact.Id
-                LIMIT 1
-            ];
+                SELECT Id,First_Name__c,Middle_Name__c,Last_Name__c,Phone__c,Mailing_Zip_Postal_Code__c,Mailing_State__c,Mailing_Country__c,Mailing_Country_Code__c,Mailing_State_Code__c,Adult__c,Gender__c, Date_of_Birth__c FROM Participant__c WHERE Contact__c = :myContact.Id LIMIT 1];
             boolean isMinor = false;
             if (participantList.size() > 0) {
                 if (!participantList[0].Adult__c)
@@ -159,60 +112,27 @@ public without sharing class PP_LanguageSwitcherRemote {
             system.debug('@@ isMinor' + isMinor);
             User userdetail;
             if (!isMinor)
-                userdetail = [
-                    SELECT id, LanguageLocaleKey, LocaleSidKey, Timezonesidkey, ContactId
-                    FROM User
-                    WHERE ContactId = :myContact.Id
-                ];
+                userdetail = [SELECT id, LanguageLocaleKey, LocaleSidKey, Timezonesidkey, ContactId FROM User WHERE ContactId = :myContact.Id];
             if (isMinor) {
-                update new User(
-                    Id = userinfo.getUserId(),
-                    LanguageLocaleKey = languageKey,
-                    LocaleSidKey = localeKey,
-                    Timezonesidkey = timezoneKey
-                );
+                update new User(Id = userinfo.getUserId(),LanguageLocaleKey = languageKey,LocaleSidKey = localeKey,Timezonesidkey = timezoneKey);
                 system.debug('@@ in if');
             } else {
-                update new User(
-                    Id = userdetail.Id,
-                    LanguageLocaleKey = languageKey,
-                    LocaleSidKey = localeKey,
-                    Timezonesidkey = timezoneKey
-                );
+                update new User(Id = userdetail.Id,LanguageLocaleKey = languageKey,LocaleSidKey = localeKey,Timezonesidkey = timezoneKey);
             }
             // User user = [SELECT ContactId FROM User WHERE Id = :UserInfo.getUserId()];
 
             if (participantList.size() > 0) {
-                update new Contact(
-                    Id = myContact.Id,
-                    Second_Choice_Language__c = secondLangKey,
-                    Third_Choice_Language__c = thirdLangKey
+                update new Contact(Id = myContact.Id,Second_Choice_Language__c = secondLangKey,Third_Choice_Language__c = thirdLangKey
                 );
                 if(isUserModeParticipant == true){
-                    update new Participant__c(
-                        Id = participantList[0].id,
-                        Mailing_Zip_Postal_Code__c = zipcode,
-                        Mailing_Country__c = countryName,
-                        Mailing_State__c = stateName
-                    );
+                    update new Participant__c(Id = participantList[0].id,Mailing_Zip_Postal_Code__c = zipcode,Mailing_Country__c = countryName,Mailing_State__c = stateName);
                 }
             } else {
                 if(isUserModeParticipant == true){
-                    update new Contact(
-                        Id = myContact.Id,
-                        Second_Choice_Language__c = secondLangKey,
-                        Third_Choice_Language__c = thirdLangKey,
-                        MailingCountry = countryName,
-                        MailingState = stateName,
-                        MailingPostalCode = zipcode
-                    );
+                    update new Contact(Id = myContact.Id,Second_Choice_Language__c = secondLangKey,Third_Choice_Language__c = thirdLangKey,MailingCountry = countryName,MailingState = stateName,MailingPostalCode = zipcode);
                     
                 }else{
-                    update new Contact(
-                        Id = myContact.Id,
-                        Second_Choice_Language__c = secondLangKey,
-                        Third_Choice_Language__c = thirdLangKey
-                    );
+                    update new Contact(Id = myContact.Id,Second_Choice_Language__c = secondLangKey,Third_Choice_Language__c = thirdLangKey);
                     
                 }
             }
