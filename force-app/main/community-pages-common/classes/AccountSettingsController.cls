@@ -632,7 +632,7 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         @AuraEnabled
         public Boolean isParticipant;
         @AuraEnabled
-        public Boolean isBirthDate;
+        public Boolean showBirthDate;
         @AuraEnabled
         public String birthYear;
 
@@ -694,10 +694,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                     WHERE Participant__c = :participant.Id
                 ];
                 if (peList.size() > 0) {
-                    isBirthDate = true;
+                    showBirthDate = true;
                 } else {
                     birthYear = participant.Birth_Year__c;
-                    isBirthDate = false;
+                    showBirthDate = false;
                 }
             }
         }

@@ -542,9 +542,9 @@ public without sharing class ParticipantInformationRemote {
             }
 
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
-            system.debug('needsInvite: ' + needsInvite);
-            toCreateUser.put(participant.Contact__c, null);
-            if (needsInvite) {
+                system.debug('needsInvite: ' + needsInvite);
+                toCreateUser.put(participant.Contact__c, null);
+                if (needsInvite) {
                 actionAssignContactPermissions.addPermission(
                     participant.Contact__c,
                     permissionSetName
@@ -1658,29 +1658,44 @@ public without sharing class ParticipantInformationRemote {
     //REF-2826 End
 
 
-	@AuraEnabled
-    public static void updateParticipantData(
-        Id peId) {
-        List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c pe : [
-            SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
-            FROM Participant_Enrollment__c
-            WHERE Id = : peId
-        ]) {
-            
+    @AuraEnabled
+    public static String updateParticipantData(
+            Id peId) {
+            List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
+            for (Participant_Enrollment__c pe : [
+                SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
+                FROM Participant_Enrollment__c
+                WHERE Id = : peId
+            ]) {
+                
                 if (pe.Initial_visit_scheduled_date__c != null) {
                     pe.High_Priority__c = true;
                 } else {
                     pe.High_Priority__c = false;
                 }
-            
-            pe.Participant_Status__c = 'Eligibility Passed';
-            PEUpdateList.add(pe);
+                
+                pe.Participant_Status__c = 'Eligibility Passed';
+                pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
+                PEUpdateList.add(pe);
+            }
+            if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                update PEUpdateList;
+            }
+        Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+            peId,
+            CommunityModeService.USER_MODE_CC,
+            null,
+            ViewPatientsRemote.PE_MY_PARTICIPANTS_FIELDS
+        );
+        Clinical_Trial_Profile__c ctp = StudyTrialService.getFullTrial(
+            pe.Clinical_Trial_Profile__c
+            );
+            return JSON.serialize(
+                new UpdateResponse(
+                    pe,
+                    ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe)
+                ));
         }
-        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-            update PEUpdateList;
-        }
-    }
     
     @AuraEnabled
     public static String getPESHrecord(Id peId){

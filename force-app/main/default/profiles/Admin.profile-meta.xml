@@ -2569,11 +2569,6 @@
         <field>Clinical_Trial_Profile__c.Override_Recruitment_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Bypass_Fields_for_TMDH__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
@@ -3181,6 +3176,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PI_My_Studies_Filters__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Is_Patient_User_Created__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

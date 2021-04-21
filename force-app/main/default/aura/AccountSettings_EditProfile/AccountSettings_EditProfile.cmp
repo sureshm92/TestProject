@@ -361,7 +361,7 @@
                                 class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
                             >
                                 <aura:if
-                                    isTrue="{!and(not(v.isDelegate),!v.personWrapper.isBirthDate)}"
+                                    isTrue="{!and(not(v.isDelegate),!v.personWrapper.showBirthDate)}"
                                 >
                                     <lightning:input
                                         type="text"

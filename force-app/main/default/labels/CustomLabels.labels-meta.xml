@@ -4273,6 +4273,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Eligibility Passed</value>
     </labels>
     <labels>
+        <fullName>Eligibility_Passed_Status_Value</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Eligibility_Passed_Status_Value</shortDescription>
+        <value>Eligibility Passed</value>
+    </labels>    
+    <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17288,7 +17295,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH Initial Visit Date and time</shortDescription>
-        <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+        <value>Outcome of Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
@@ -17360,6 +17367,13 @@ communications using the toggles below.</value>
         <shortDescription>Sex</shortDescription>
         <value>Sex</value>
     </labels>
+    <labels>
+        <fullName>RH_Successfully_Contacted_Initial_Visit_Date_and_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
+        <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>    
     <labels>
         <fullName>RH_StudyInfo</fullName>
         <language>en_US</language>
@@ -19939,6 +19953,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Travel Support Link</shortDescription>
         <value>https://www.primarius.cloud/</value>
+    </labels>
+    <labels>
+        <fullName>TrialMatchMailTime</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>TrialMatch_Mail_Time</shortDescription>
+        <value>9</value>
     </labels>
     <labels>
         <fullName>TrialSearch_Alert_me_when_enrollment_starts</fullName>

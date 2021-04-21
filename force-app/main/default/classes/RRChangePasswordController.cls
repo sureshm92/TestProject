@@ -358,8 +358,8 @@ public without sharing class RRChangePasswordController {
                 }
                 contact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contact.MailingStateCode = participant.Mailing_State_Code__c;
-                contact.MailingCountry = participant.Mailing_Country__c;
-                contact.MailingState = participant.Mailing_State__c;
+                //contact.MailingCountry = participant.Mailing_Country__c;
+                //contact.MailingState = participant.Mailing_State__c;
             }
             if (
                 (!notEnrollNow && String.isBlank(contact.FirstName)) ||
@@ -781,7 +781,8 @@ public without sharing class RRChangePasswordController {
                     );
                 }
             }
-            Integer delegateAge = Date.today().year() - Integer.valueOf(participant.Birth_Year__c);
+            Integer delegateAge =
+                DateTime.now().yearGmt() - Integer.valueOf(participant.Birth_Year__c);
 
             if (
                 ageByCountryCode.get(

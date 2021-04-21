@@ -156,11 +156,10 @@ public inherited sharing class VisitResultsService {
                         visitResultTypeDescriptionMap.get(selectedVisitGroup)
                     );
                 }
-                if(!String.isBlank(selectedVisitGroup) && selectedVisitGroup.contains('ICOS')){
-                    objVisitResultWrapper.isConversion=false;
-                }
-                else{
-                    objVisitResultWrapper.isConversion=true;
+                if (!String.isBlank(selectedVisitGroup) && selectedVisitGroup.contains('ICOS')) {
+                    objVisitResultWrapper.isConversion = false;
+                } else {
+                    objVisitResultWrapper.isConversion = true;
                 }
                 wrappers.add(objVisitResultWrapper);
             }
@@ -187,6 +186,10 @@ public inherited sharing class VisitResultsService {
     }
 
     public List<Patient_Visit__c> getPatientVisitsForReport(Participant_Enrollment__c pe) {
+        //Fetch only the most recent visit for in-trial participant
+        String dataOrder = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
+            ? ' ORDER BY Completed_Date__c NULLS LAST'
+            : ' ORDER BY Completed_Date__c DESC NULLS LAST LIMIT 1';
         String visitsQuery =
             'SELECT ' +
             'Name, ' +
@@ -200,7 +203,7 @@ public inherited sharing class VisitResultsService {
             pe.Id +
             '\'' +
             ' AND Status__c = \'Completed\'' +
-            ' ORDER BY Completed_Date__c NULLS LAST';
+            dataOrder;
         return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
             .query(visitsQuery, true);
     }
