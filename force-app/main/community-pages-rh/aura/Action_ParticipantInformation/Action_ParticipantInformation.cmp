@@ -178,7 +178,13 @@ isListView = "{!v.isListView}"
                      >
                  <div class="slds-grid slds-wrap">
                      <div class="slds-col slds-size_1-of-1">
-                         {!$Label.c.Sent_to_Study_Hub}</div>
+                         <aura:if isTrue="{!v.dateofSH!=undefined}">
+                             {!$Label.c.Sent_to_Study_Hub}
+                             <aura:set attribute="else">
+                                 {!$Label.c.Send_to_Study_Hub}
+                             </aura:set>
+                         </aura:if>
+                     </div>
                      <div class="slds-col slds-size_1-of-1">
                          <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
                          <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>

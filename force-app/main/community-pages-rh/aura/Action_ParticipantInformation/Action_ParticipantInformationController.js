@@ -541,6 +541,10 @@
                 if (callback) {
                     callback(pe);
                 }
+                if (component.get('v.isListView') == true) {
+                    var p = component.get('v.parent');
+                    p.refreshTable();
+                }
             },
             null,
             function () {
@@ -599,10 +603,25 @@
             'updateParticipantData',
             {
                 peId : pe.Id
-            }, function(){
-                
+            }, function(returnValueJSON){
+                var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
+                component.set('v.participantPath', returnValue.participantPath);
+                component.set('v.pe', returnValue.pe);
                 component.find('spinner').hide();
-            });
+            },
+                null,
+                function () {
+                    var childComponent = component.find("childCmp");
+        			childComponent.refreshChildTable();
+                    component.set('v.updateInProgress', false);
+                    component.set('v.isStatusChanged', false);
+                    if (component.get('v.isListView') == true) {
+                        var p = component.get('v.parent');
+                        p.refreshTable();
+                    }
+                    component.find('spinner').hide();
+                });
         helper.getpeshdate(component,event,helper);
         helper.showToast();
     },
