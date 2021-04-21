@@ -1675,6 +1675,7 @@ public without sharing class ParticipantInformationRemote {
                 }
                 
                 pe.Participant_Status__c = 'Eligibility Passed';
+                pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
                 PEUpdateList.add(pe);
             }
             if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
