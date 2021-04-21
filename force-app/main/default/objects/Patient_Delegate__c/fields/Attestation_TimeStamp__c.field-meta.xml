@@ -5,5 +5,6 @@
     <label>Attestation TimeStamp</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
+    <trackHistory>true</trackHistory>
     <type>DateTime</type>
 </CustomField>
