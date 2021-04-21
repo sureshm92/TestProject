@@ -75,6 +75,7 @@ public class Test_ListViewParticipantController {
             Link_to_Pre_screening__c = 'some link',
             Study_Title__c = 'Some Title',
             Study_Code_Name__c = 'Some Code Name',
+            Promote_to_SH__c =true,
             Suppress_Participant_Emails__c = false
         );
         insert clinical;
@@ -106,8 +107,10 @@ public class Test_ListViewParticipantController {
             Mailing_State_Code__c = 'AL',
             age__c = 23,
             site__c = account_1.id,
+            Ethnicity__c='0- Prefer not to say',
             // Present_Age__c =
-            Adult__c = true
+            Adult__c = true,
+            Gender_Technical__c='Male'
         );
         insert participant;
 
@@ -152,7 +155,7 @@ public class Test_ListViewParticipantController {
         
         Participant_Enrollment__c pe = [SELECT ID,Clinical_Trial_Profile__c,Study_Site__c FROM Participant_Enrollment__c LIMIT 1];
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c WHERE Id =:pe.Clinical_Trial_Profile__c LIMIT 1];
-		
+        
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c WHERE Id =:pe.Study_Site__c LIMIT 1];
         
         participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
@@ -166,20 +169,21 @@ public class Test_ListViewParticipantController {
         lw.Sortby = 'Ascending';
         lw.Status = 'Active';
         lw.Study = clinical.id;
-        lw.StudySites = '';
-        lw.Source = '';
+        lw.StudySites = studySite.id;
+        lw.Source = 'Referring Provider';
         lw.isHighRiskOccupation = 'true';
-        lw.isComorbidities = 'false';
-        lw.Ethnicity = '';
+        lw.isComorbidities = 'true';
+        lw.Ethnicity = '0- Prefer not to say';
         lw.AgeFrom = '0';
-        lw.AgeTo = '25';
+        lw.AgeTo = '150';
         lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
         lw.highPrioritySelected_NoIds = new List<id>();
         lw.isInitialVisitScheduled = 'true';
-        lw.Sex = '';
+        lw.Sex = 'Male';
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
+        lw.ParticipantStatus='Received';
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -239,13 +243,13 @@ public class Test_ListViewParticipantController {
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
-        lw.SelectedIds = new List<Id>();
+        lw.SelectedIds = new List<Id>{pe.id};
         lw.pageSize = 5;
         lw.pageNumber = 3;
         lw.Sortby = 'Ascending';
         lw.Status = 'Active';
         lw.Study = clinical.id;
-        lw.StudySites = '';
+        lw.StudySites = studySite.id;
         lw.Source = '';
         lw.isHighRiskOccupation = 'true';
         lw.isComorbidities = 'false';
@@ -259,6 +263,7 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
+        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -317,7 +322,7 @@ public class Test_ListViewParticipantController {
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
-        lw.SelectedIds = new List<Id>{ pe.id };
+        lw.SelectedIds = new List<Id>{pe.id};
         lw.pageSize = 5;
         lw.pageNumber = 3;
         lw.Sortby = 'Ascending';
@@ -337,6 +342,7 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
+        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -415,6 +421,7 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
+        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
