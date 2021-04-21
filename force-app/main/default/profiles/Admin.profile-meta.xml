@@ -2569,11 +2569,6 @@
         <field>Clinical_Trial_Profile__c.Override_Recruitment_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Bypass_Fields_for_TMDH__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
