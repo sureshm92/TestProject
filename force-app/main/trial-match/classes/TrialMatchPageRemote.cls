@@ -34,6 +34,19 @@ public without sharing class TrialMatchPageRemote {
         }
     }
 
+    @AuraEnabled
+    public static String getBase64fromTrialMatchApexPage(String peId)
+    {
+
+      //  PageReference page = new PageReference(System.site.getBaseSecureUrl()+'/apex/TrialMatchData');
+      //PageReference page = Page.TrialMatchData;
+      PageReference page = Page.TrialMatchLearnMorePage;
+        page.getParameters().put('CTPId',peId);
+        Blob content = page.getContent();
+        String encoded = EncodingUtil.base64Encode(content);
+        return encoded;
+    }
+
     public class TrialMatchCTP {
         @AuraEnabled
         public Clinical_Trial_Profile__c ctp;

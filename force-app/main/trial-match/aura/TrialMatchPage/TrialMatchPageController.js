@@ -37,13 +37,27 @@
     },
 
     doGenerateReport: function (component, event, helper) {
+        var pdfData;
         if (component.get('v.isMobileApp')) {
             communityService.showWarningToast(
                 'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             );
-            return;
+            
+            communityService.executeAction(
+                component,
+                'getBase64fromTrialMatchApexPage',
+                {
+                    peId: 'a0B1F000005ILEkUAO'                  
+                },
+                function (returnValue) {
+                  alert(returnValue);
+                  communityService.navigateToPage('mobile-pdf-viewer?pdfData='+returnValue);   
+                }
+            );
+          
+           return;
         }
         var partenrollid = component.get('v.partenrollid');
         var pageurl = window.location.href;
