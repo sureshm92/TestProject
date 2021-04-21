@@ -81,6 +81,9 @@
 .THIS .button-panel-mobile {
     margin-bottom: 30px;
 }
+.THIS .attestation-messgae {
+    padding-top: 20px;
+}
 
 @media screen and (max-width: 500px) {
     .THIS .sdli-container {
