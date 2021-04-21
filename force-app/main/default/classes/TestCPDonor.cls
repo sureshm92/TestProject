@@ -2,7 +2,6 @@
 public class TestCPDonor {
    @IsTest
     static void testAll() {
-    
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
                 Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
@@ -223,7 +222,6 @@ public class TestCPDonor {
         CPDonorReferralFormController.getStateMapByCountry();
         CPDonorReferralFormController.CreateDummyCovidAccount(ipr2);
         CPDonorReferralFormController.updateStudySite('','','','','','','');
-
     }
 
   /* @IsTest
