@@ -10,6 +10,7 @@ private without sharing class Test_ReferringRemote {
         Test.startTest();
         TestData testDataInstance = new TestData();
         String checkNeeds;
+        String delAge;
         System.runAs(testDataInstance.hcpUser) {
             Participant_Enrollment__c pe = new Participant_Enrollment__c(
                 HCP__c = testDataInstance.hcpEnrollment.Id,
@@ -32,10 +33,13 @@ private without sharing class Test_ReferringRemote {
                 Last_Name__c = 'PTestDelegate',
                 Phone__c = '13413123',
                 Email__c = 'PTestDelegate@email.com',
+                Birth_Year__c = '1980',
                 Mailing_Country_Code__c = 'US',
                 Mailing_State_Code__c = 'AL'
             );
             checkNeeds = ReferringRemote.checkNeedsGuardian(JSON.serialize(participant));
+            delAge = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
+            
             ReferringRemote.saveParticipant(
                 testDataInstance.hcpEnrollment.Id,
                 JSON.serialize(pe),
@@ -56,6 +60,7 @@ private without sharing class Test_ReferringRemote {
             WHERE Email__c IN ('parttest@email.com', 'ptestdelegate@email.com')
         ];
         System.assertEquals('false', checkNeeds);
+        System.assertEquals('true', delAge);
         System.assertEquals(2, testParticipants.size());
     }
 

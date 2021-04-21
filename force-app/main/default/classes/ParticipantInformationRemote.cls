@@ -246,12 +246,15 @@ public without sharing class ParticipantInformationRemote {
                 
             }
            system.debug('>>>mapParticipantIdToPatientDelegate before if>>'+mapParticipantIdToPatientDelegate.values());
-            if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
+                if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
             {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Disconnected'));
+                                                                                                ,Status__c = 'Disconnected'
+                                                                                               ,Attestation__c = true
+                                                                                               ,Attestation_TimeStamp__c = Date.today()
+                                                                                               ,Attested_by__c = CommunityService.getInstance().getCurrentContactId()));
             }  
             system.debug('>>>mapParticipantIdToPatientDelegate>>'+mapParticipantIdToPatientDelegate.values());
           //  system.debug('<>>exception>>>'+0/0);
@@ -1355,12 +1358,15 @@ public without sharing class ParticipantInformationRemote {
                     mapParticipantIdToPatientDelegate.put(objPateintDel.Contact__c,objPateintDel);
                 
             }
-            if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
+             if(!mapParticipantIdToPatientDelegate.containsKey(participantConId))
             {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Disconnected'));
+                                                                                                ,Status__c = 'Disconnected'
+                                                                                               ,Attestation__c = true
+                                                                                               ,Attestation_TimeStamp__c = Date.today()
+                                                                                               ,Attested_by__c = CommunityService.getInstance().getCurrentContactId()));
             }  
              if(!mapParticipantIdToPatientDelegate.isEmpty())  
               upsert mapParticipantIdToPatientDelegate.values();
