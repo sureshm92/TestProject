@@ -99,7 +99,9 @@
                 console.log(temp.partList.length);
 
                 component.set('v.totalCount', temp.totalCount);
-                var csvFinalList = temp.partList;
+                var converttostr= JSON.stringify(temp.partList).trim();
+                converttostr=converttostr.replaceAll('Eligibility Passed', 'Sent to Study Hub');
+                var csvFinalList = JSON.parse(converttostr);
                 var csvtemp = component.get('v.CsvList');
                 var newarr;
                 if (!component.get('v.isFirstTime')) {

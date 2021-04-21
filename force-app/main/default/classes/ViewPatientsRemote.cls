@@ -3,6 +3,17 @@
  */
 
 public without sharing class ViewPatientsRemote {
+    public static List<String> pshStatus = new List<String>();
+    
+    public static List<String> getPshStatus(){
+        if(pshStatus.isEmpty()){
+            for (Promote_to_SH__mdt psl : [SELECT DeveloperName, status__c FROM Promote_to_SH__mdt]) {
+                pshStatus.add(psl.status__c);
+            }
+        }
+        return pshStatus;
+    }
+    
     public static final List<String> EXCLUDED_STATUSES_COMMON = new List<String>{
         ParticipantEnrollmentService.PART_STATUS_FAILED_REVIEW,
         ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL,
@@ -31,6 +42,7 @@ public without sharing class ViewPatientsRemote {
         'Clinical_Trial_Profile__r.Link_to_Pre_screening__c',
         'Clinical_Trial_Profile__r.Protocol_ID__c',
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
+        'Clinical_Trial_Profile__r.Initial_Visit_Required__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'CreatedDate',
@@ -144,7 +156,8 @@ public without sharing class ViewPatientsRemote {
         'Permit_Mail_Email_contact_for_this_study__c',
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_SMS_Text_for_this_study__c',
-        'Permit_IQVIA_to_contact_about_study__c'
+        'Permit_IQVIA_to_contact_about_study__c',
+        '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'    
     };
 
     @AuraEnabled
@@ -156,6 +169,10 @@ public without sharing class ViewPatientsRemote {
         String sponsorName
     ) {
         try {
+            List<String> pshStatus = new List<String>();
+            for (Promote_to_SH__mdt psl : [SELECT DeveloperName, status__c FROM Promote_to_SH__mdt]) {
+                pshStatus.add(psl.status__c);
+            }
             InitData initData = new InitData();
             String additionalFilter = getAdditionalFilter(userMode, false, null, sponsorName);
             initData.paginationData = new PaginationData();
@@ -655,6 +672,9 @@ public without sharing class ViewPatientsRemote {
     public class PEWrapper {
         public boolean isInvited;
         public Boolean hasEmancipatedParticipants;
+        public boolean sendToSH;
+        public Date sendToSHDate;
+        public String sendToSHReason;
         public ParticipantItem pItem;
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
@@ -675,6 +695,9 @@ public without sharing class ViewPatientsRemote {
             this.hasEmancipatedParticipants = pe.Participant__r != null
                 ? pe.Participant__r.Emancipation_in_progress__c
                 : false;
+            this.sendToSH = ListViewParticipantController.ifAllowedForSH(pe,getPshStatus(),false);
+            this.sendToSHDate = pe!=null?((pe.Participant_Enrollment_Status_History__r!=null && !pe.Participant_Enrollment_Status_History__r.isEmpty())?(pe.Participant_Enrollment_Status_History__r[0].Date__c!=null?Date.valueOf(pe.Participant_Enrollment_Status_History__r[0].Date__c):null):null):null;
+        	this.sendToSHReason = pe!=null?((pe.Participant_Enrollment_Status_History__r!=null && !pe.Participant_Enrollment_Status_History__r.isEmpty())?pe.Participant_Enrollment_Status_History__r[0].Non_Enrollment_Reason__c:null):null;
         }
     }
 
