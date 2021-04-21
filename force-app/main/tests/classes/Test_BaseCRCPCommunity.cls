@@ -611,7 +611,8 @@ private class Test_BaseCRCPCommunity {
                     ),
                     null,
                     null,
-                    true
+                    true,
+                   ''
                 );
                 //Id patientDelegateId = [SELECT ID, Contact__r.Email FROM Patient_Delegate__c WHERE Contact__r.Email='testdelegate@testdelegate.testdelegate'].Id;
             }
@@ -634,7 +635,8 @@ private class Test_BaseCRCPCommunity {
                     ),
                     patientDelegateId,
                     null,
-                    true
+                    true,
+                    ''
                 );
             }
         }
@@ -813,6 +815,7 @@ private class Test_BaseCRCPCommunity {
                 null
             );
             MedicalRecordReviewLogItemController.changeStatusToExcludeFromReferring(testData.pe.Id);
+            MedicalRecordReviewLogItemController.undoChangeStatusToExcludeFromReferring(testData.pe.Id);
             ExcelController excelController = new ExcelController();
             excelController.getPEList();
             excelController.getHCPEList();

@@ -29,8 +29,6 @@ public without sharing class UploadParticipantsDelegateHelper {
             delegateContact.userCommunityIsDelegate__c = true;
             delegateContact.MailingCountryCode = pWrapper.mainparticipant.Mailing_Country_Code__c;
             delegateContact.MailingStateCode = pWrapper.mainparticipant.Mailing_State_Code__c;
-            //delegateContact.MailingCountry = pWrapper.mainparticipant.Mailing_Country__c;
-           // delegateContact.MailingState = pWrapper.mainparticipant.Mailing_State__c;
             delegateContact.MailingPostalCode = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
 
             if('Home' == pWrapper.DelegatePhoneType) {
@@ -53,8 +51,6 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Phone_Type__c = pWrapper.DelegatePhoneType;
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
-            //participantDelegate.Mailing_Country__c = pWrapper.mainparticipant.Mailing_Country__c;
-            //participantDelegate.Mailing_State__c = pWrapper.mainparticipant.Mailing_State__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
 
             /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
@@ -76,6 +72,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             //Patient Delegate initiation 
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
             ptDelegateRef.Participant__c = pWrapper.mainparticipant.Id;
+            ptDelegateRef.Status__c = 'Disconnected';
+            ptDelegateRef.Primary_Delegate__c = true;
             //Duplicate check participant and contact records
             ReferHealthcareProviderRemote.HealthcareProvider ddInfo = 
                 ReferHealthcareProviderRemote.checkDuplicate(null, pWrapper.DelegateEmail, pWrapper.DelegateFirstName, pWrapper.DelegateLastName, null); 
@@ -89,15 +87,6 @@ public without sharing class UploadParticipantsDelegateHelper {
             }
             else {
                 duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
-                /*//For update Contact records
-                Contact updateContact = new Contact(); 
-                updateContact.Id = ddInfo.contactId;
-                //For update Participant records
-                Participant__c updateParticipant = new Participant__c(); 
-                updateParticipant.Id = ddInfo.participantId;
-                updateParticipant.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
-                contactUpdateList.add(updateContact);
-                participantUpdateList.add(updateParticipant);*/
             }
         }
 
@@ -157,6 +146,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
             ptDelegateRef.Contact__c = contactIdKey;
             ptDelegateRef.Participant__c = duplicateDelegateMainParticipantMap.get(contactIdKey);
+            ptDelegateRef.Status__c = 'Disconnected';
+            ptDelegateRef.Primary_Delegate__c = true;
             pdList.add(ptDelegateRef);
         }   
         
@@ -202,14 +193,6 @@ public without sharing class UploadParticipantsDelegateHelper {
         if(!conListtoBeUpdated.isEmpty()) {
             update conListtoBeUpdated;
         }
-        /*if(!contactUpdateList.isEmpty()){
-            update contactUpdateList;
-        }
-
-        if(!participantUpdateList.isEmpty()){
-            update participantUpdateList;
-        }*/
-
        return errorwrap;
     }
 

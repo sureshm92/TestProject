@@ -69,6 +69,12 @@
  <aura:attribute name="states" type="List" />
  <aura:attribute name="selectedState" type="String" />
  <aura:attribute name="statesByCountyMap" type="Object" />
+ <aura:attribute name="yob" type="List" />  <!--added by sumit -->
+ <aura:attribute name="attestAge" type="Boolean" default="false" />  <!--added by sumit -->
+ <aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
+ <aura:attribute name="yobBlankErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+ <aura:attribute name="delNotAdultErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+ <aura:attribute name="errorMessage" type="String" default=''/>  <!--added by sumit -->       
 
  <aura:attribute name="needsGuardian" type="Boolean" default="false" />
  <aura:attribute name="enableGuardian" type="Boolean" default="true" /> <!-- REF-3070-->
@@ -974,6 +980,59 @@
                                                  />
                                              </div>
                                          </div>
+                                         <!-- added by sumit-->
+                                         <aura:if
+                                             isTrue="{!!((v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; v.useThisDelegate)}"
+                                         >
+                                         <div
+                                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                              >
+                                             <div class="slds-col slds-size--1-of-4">
+                                                 <div class="label">
+                                                     <abbr title="required" class="slds-required"
+                                                           >{!v.needsGuardian ? '*' : ''}</abbr
+                                                         > {!$Label.c.RH_YearofBirth}
+                                                 </div>
+                                                 <c:rrSelect
+                                                             options="{!v.yob}"
+                                                             value="{!v.delegateParticipant.Birth_Year__c}"
+                                                             useSentenceFont="false"
+                                                             onchange="{!c.doCheckYearOfBith}"
+                                                             /> 
+												                                           
+                                             </div>
+                                               
+                                             <div
+                                                  class="slds-col rr-medium-up-hide"
+                                                  style="height: 20px"
+                                                  ></div>
+                                             
+                                         </div>
+                                         <div class="slds-p-top_xx-small slds-col slds-size--1-of-10 rr-error">
+                                             	 <aura:if isTrue="{!v.yobBlankErrMsg}">
+                                                 	{!$Label.c.PP_RequiredErrorMessage}
+                                                 </aura:if>
+                                                 <aura:if isTrue="{!v.delNotAdultErrMsg}">
+                                                 	{!$Label.c.RH_MinorDelegateErrMsg}
+                                                 </aura:if>
+                                             </div>
+    								 <div
+                                         class="rr-form-element slds-no-label"
+                                         style="margin-top: 20px"
+                                     >
+                                         <div class="rr-cb-container">
+                                             <lightning:input
+                                                 type="checkbox"
+                                                 label=""
+                                                 checked="{!v.attestAge}"
+                                                 onchange="{!c.doCheckYearOfBith}"
+                                             />
+                                         </div>
+                                         <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                             {!$Label.c.RH_DelegateAttestation}
+                                         </div>
+                                     </div>                                    
+                                     </aura:if>
                                      </aura:if>
                                      <aura:if isTrue="{!(!v.authorizationForm)}">
 

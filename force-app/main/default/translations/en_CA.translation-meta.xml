@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>HLA</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+    <customLabels>
+        <label>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells.White blood cells are part of the immune system (your body’s natural defence system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Inducible co-stimulator (ICOS) is a protein that is found on the surface of white blood cells and on cancer cells.White blood cells are part of the immune system (your body’s natural defence system). ICOS proteins play an important part in managing the immune system. This test measures the amount of ICOS in your blood. Some types of treatments may be more suitable for you if you have higher levels of ICOS present in your blood. This test may help doctors predict which cancer treatments may work for you.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
+</Translations>

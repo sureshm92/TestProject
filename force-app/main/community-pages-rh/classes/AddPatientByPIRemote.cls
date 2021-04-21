@@ -23,6 +23,8 @@ public without sharing class AddPatientByPIRemote {
             Contact.Language__c
         );
         @AuraEnabled
+        public List<LabelValueItem> yearOfBirth;
+        @AuraEnabled
         public List<LabelValueItem> peStatusLVList;
         @AuraEnabled
         public List<LabelValueItem> visitPlansLVList;
@@ -49,6 +51,7 @@ public without sharing class AddPatientByPIRemote {
                     initData.ctp
                 );
                 initData.userLanguage = getUserLanguage();
+                initData.yearOfBirth = ParticipantService.getYearofBirthList();
             }
             return initData;
         } catch (Exception e) {
@@ -225,22 +228,20 @@ public without sharing class AddPatientByPIRemote {
             List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
                 for(Participant__c partici: newPartcipantObjs){                  
-                    if(partici.Date_of_Birth__c != null && partici.Date_of_Birth__c == participant.Date_of_Birth__c){
-                        partici.First_Name__c = participant.First_Name__c;
-                        partici.Last_Name__c = participant.Last_Name__c;
-                        partici.Suffix__c = participant.Suffix__c;
-                        partici.Middle_Name__c = participant.Middle_Name__c;
-                        partici.Nickname__c = participant.Nickname__c;
-                        partici.Date_of_Birth__c = participant.Date_of_Birth__c;
-                        partici.Gender__c = participant.Gender__c;
-                        partici.Email__c = participant.Email__c;
-                        partici.Phone__c = participant.Phone__c;
-                        partici.Phone_Type__c = participant.Phone_Type__c;
-                        partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
-                        partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
-                        partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
-                        participantPatient.add(partici);
-                    }
+                    partici.First_Name__c = participant.First_Name__c;
+                    partici.Last_Name__c = participant.Last_Name__c;
+                    partici.Suffix__c = participant.Suffix__c;
+                    partici.Middle_Name__c = participant.Middle_Name__c;
+                    partici.Nickname__c = participant.Nickname__c;
+                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    partici.Gender__c = participant.Gender__c;
+                    partici.Email__c = participant.Email__c;
+                    partici.Phone__c = participant.Phone__c;
+                    partici.Phone_Type__c = participant.Phone_Type__c;
+                    partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                    partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                    partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                    participantPatient.add(partici);
                 } 
                 if(!participantPatient.isEmpty()){
                     update participantPatient;
@@ -383,8 +384,13 @@ public without sharing class AddPatientByPIRemote {
                     ptDelegateRef.Participant__c = mainParticipant.Id;
                     ptDelegateRef.Contact__c = newContact.Id;
 					ptDelegateRef.Primary_Delegate__c = true;
-                    String communityTemplateName = UserContext.getCurrentCommunityTemplate()
-                        .templateName;
+                    ptDelegateRef.Status__c = 'Disconnected';
+                    if (ddInfo == null || ddInfo.participantId == null){
+                        ptDelegateRef.Attestation__c = true; 
+                        ptDelegateRef.Attestation_TimeStamp__c = Date.today(); 
+                        ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                    }
+                    String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
                     if (
                         particpantEnrollList.size() > 0 &&
                         particpantEnrollList[0].Study_Site__r.Study_Site_Type__c ==
@@ -442,7 +448,7 @@ public without sharing class AddPatientByPIRemote {
     public static String getUserLanguage() {
         return UserInfo.getLanguage();
     }
-
+	
     private static void trimParticipantFields(Participant__c participant) {
         participant.Phone__c = !String.isBlank(participant.Phone__c)
             ? participant.Phone__c.trim()
@@ -461,6 +467,11 @@ public without sharing class AddPatientByPIRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
+    }
+    
+    @AuraEnabled
+    public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
+        return ReferringRemote.checkDelegateAge(participantJSON, delegateParticipantJSON);
     }
 
     @AuraEnabled

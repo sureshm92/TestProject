@@ -39,6 +39,11 @@ global without sharing class InitialWireframeController {
             : buttonLabelValue;
     }
 
+    public Boolean getCheckVisitedCommunity()
+    {
+        return ContactService.checkVisitedCommunity(getTemplateInitial().recipientId);
+    }
+
     private EmailTemplateInitial getTemplateInitial() {
         if (templateInitial == null) {
             templateInitial = EmailTemplateInitialFactory.getTemplateInitial(

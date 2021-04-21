@@ -79,3 +79,9 @@
     padding: 20px;
     color: white;
 }
+
+.THIS .rr-error
+{
+    color: #ff0031;
+    margin-bottom: 4px;
+}

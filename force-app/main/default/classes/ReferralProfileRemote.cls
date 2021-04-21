@@ -10,6 +10,7 @@ public without sharing class ReferralProfileRemote {
         Participant_Enrollment__c enrollment;
         Participant__c participantDelegate;
         List<LabelValueItem> visitPlanLVList;
+        public List<LabelValueItem> yearOfBirth;
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean isEnrolled;
@@ -163,6 +164,7 @@ public without sharing class ReferralProfileRemote {
                 initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
             }
             // initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
+            initData.yearOfBirth = ParticipantService.getYearofBirthList();
             initData.isEnrolled =
                 !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) ||
                 pe.Participant_Status__c.startsWith('Enrollment');
@@ -483,8 +485,9 @@ public without sharing class ReferralProfileRemote {
                         SELECT Contact__c
                         FROM Patient_Delegate__c
                         WHERE
-                            Participant__c = :pe.Participant__c
-                            AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        Participant__c = :pe.Participant__c
+                        // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                         AND Primary_Delegate__c = TRUE // as per REF-2298
                     )
             ];
             if (!delegates.isEmpty()) {

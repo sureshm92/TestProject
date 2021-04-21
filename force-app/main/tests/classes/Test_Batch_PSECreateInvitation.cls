@@ -13,11 +13,12 @@ private class Test_Batch_PSECreateInvitation {
         TriggerHandlerExecutor.bypassHandler(
             TaskTriggerHandler.SendImmediateEmailsForTaskCodeHandler.class
         );
-
+        Test.startTest();
         TestData.loadTestData();
+                Test.stopTest();
+
         TestData testData = new TestData();
 
-        Test.startTest();
         testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
         update testData.pe;
 
@@ -46,6 +47,5 @@ private class Test_Batch_PSECreateInvitation {
             WHERE Id = :testData.pe.Id
         ];
         new Batch_PSECreateInvitation().execute(null, enrollments);
-        Test.stopTest();
     }
 }

@@ -57,6 +57,56 @@ private class Test_CommunityModeSwitcherRemote {
     }
 
     @IsTest
+    static void testProspectView() {
+        ClassFactory.putStubTypeByClassName(
+            CommunityService.class,
+            StubBuilder.newInstance(CommunityService.class)
+                .when('createPortalUsers')
+                .then(null)
+                .when('createParticipantUsers')
+                .then(null)
+                .build()
+        );
+        TestData testData = new TestData();
+
+        Contact prospect = new Contact(
+            FirstName = 'Joy',
+            LastName = 'JoyDad',
+            Email = 'Joypatient@somemail.com',
+            AccountId = testData.participant.Contact__r.AccountId,
+            userCommunityMode__c = CommunityService.USER_MODE_PARTICIPANT,
+            userCommunytyType__c = CommunityService.USER_MODE_PARTICIPANT
+        );
+        insert prospect;
+        Participant__c p = new Participant__c(
+            First_Name__c = 'Joy',
+            Last_Name__c = 'JoyDad',
+            Email__c = 'Joypatient@somemail.com',
+            Contact__c = prospect.Id
+        );
+        insert p;
+
+        User prospectUser = CommunityService.createUser(prospect, null, null, null);
+        String initData;
+
+        Test.startTest();
+        System.runAs(prospectUser) {
+            initData = CommunityModeSwitcherRemote.getSwitcherInitData();
+        }
+
+        prospect.userCommunityMode__c = CommunityService.USER_MODE_HCP;
+        prospect.userCommunytyType__c = CommunityService.USER_MODE_HCP;
+
+        update prospect;
+        System.runAs(prospectUser) {
+            initData = CommunityModeSwitcherRemote.getSwitcherInitData();
+        }
+        Test.stopTest();
+
+        System.assertNotEquals(null, initData, '');
+    }
+
+    @IsTest
     static void testSwitcherPatientDelegate() {
         TestData testData = new TestData();
         User patientDelUser = testData.createPatientDelegate();
