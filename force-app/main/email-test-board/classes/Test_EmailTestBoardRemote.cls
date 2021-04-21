@@ -26,6 +26,16 @@ private class Test_EmailTestBoardRemote {
         Id contactId = [SELECT Id FROM Contact].Id;
         EmailTestBoardRemote.sendEmail(getWrapperJSON(), contactId, contactId, 'notification');
         EmailTestBoardRemote.sendEmail(getWrapperJSON(), contactId, contactId, '');
+        EmailTemplateDelController obj = new EmailTemplateDelController();
+        obj.commTemplateStr=CommunityTemplateService.TEMPLATE_JANSSEN;
+        obj.recipId=contactId;
+        obj.contactLanguage='English';
+        obj.getPiDelegateLevels();
+        EmailTemplateDelController obj1 = new EmailTemplateDelController();
+        obj1.commTemplateStr=CommunityTemplateService.TEMPLATE_DEFAULT;
+        obj1.recipId=contactId;
+        obj1.contactLanguage='English';
+        obj1.getPiDelegateLevels();
     }
 
     private static String getWrapperJSON() {
