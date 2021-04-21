@@ -69,6 +69,7 @@ public without sharing class ParticipantWorkflowService {
             for (Participant_Enrollment_Status_History__c pesh : peshistories) {
                 if(pesh.Status__c == 'Eligibility Passed'){
                     wrapper.sendToSHDate = (pesh.Date__c!=null)?Date.valueOf(pesh.Date__c):null;
+                    wrapper.sendToSHReason = pesh.Non_Enrollment_Reason__c;
                     eligibilityStatusPresent = true;
                 }
                 if (
@@ -130,7 +131,8 @@ public without sharing class ParticipantWorkflowService {
                 fieldWrappersMap,
                 previousStep,
                 nextStep,
-                stepsAndPesh
+                stepsAndPesh,
+                wrapper.sendToSHDate
             );
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
 
@@ -317,7 +319,8 @@ public without sharing class ParticipantWorkflowService {
         Map<String, ParticipantWorkflowFieldWrapper> fieldWrappersMap,
         Participant_Workflow_Step__mdt previousStep,
         Participant_Workflow_Step__mdt nextStep,
-        Map<String, List<Participant_Enrollment_Status_History__c>> stepsAndPesh
+        Map<String, List<Participant_Enrollment_Status_History__c>> stepsAndPesh,
+        Date sendToSHDate
     ) {
         ParticipantWorkflowStepWrapper stepWrapper = new ParticipantWorkflowStepWrapper();
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
@@ -331,7 +334,7 @@ public without sharing class ParticipantWorkflowService {
             pe.Non_Enrollment_Reason__c
         );
         stepWrapper.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
-
+        
         if (peshMap.containsKey(step.DeveloperName)) {
             List<Participant_Enrollment_Status_History__c> peshList = peshMap.get(
                 step.DeveloperName
@@ -515,8 +518,8 @@ public without sharing class ParticipantWorkflowService {
                         );
                     }
                     if (
-                        outcome.Status_Name__c == pe.Participant_Status__c &&
-                        outcome.Readonly_if_Current__c
+                        (outcome.Status_Name__c == pe.Participant_Status__c &&
+                         outcome.Readonly_if_Current__c)||(step.DeveloperName == 'Contact' && sendToSHDate !=null)
                     ) {
                         stepWrapper.outcomeEditable = false;
                     }
@@ -1698,6 +1701,8 @@ public without sharing class ParticipantWorkflowService {
         public Date sendToSHDate;
         @AuraEnabled
         public Boolean sendToSH;
+        @AuraEnabled
+        public String sendToSHReason;        
     }
 
     public class ParticipantWorkflowStepWrapper {

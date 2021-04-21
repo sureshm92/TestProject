@@ -127,6 +127,7 @@ public without sharing class ListViewParticipantController {
                 }
             }
             pe.Participant_Status__c = 'Eligibility Passed';
+            pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
             PEUpdateList.add(pe);
         }
         if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
@@ -566,8 +567,8 @@ public without sharing class ListViewParticipantController {
                     initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
                 }
                 if(pe.Participant_Status__c==Label.Eligibility_Passed){
-                   pe.Participant_Status__c=label.Sent_to_Study_Hub;
-                }
+                    pe.Participant_Status__c=label.Sent_to_Study_Hub;
+                 }
                 wpws.add(
                     new WrapPageWithSelection(
                         pe,
@@ -589,34 +590,38 @@ public without sharing class ListViewParticipantController {
             objDT.retainFilter = FilterList[0];
 
             return objDT;
-        } catch (Exception e) {
-            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+       } catch (Exception e) {
+           throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+       }
     }
-     @TestVisible   
-    private static Boolean ifAllowedForSH(  
-        Participant_Enrollment__c pe,   
-        List<String> pshStatus  
-    ){  
-        return ifAllowedForSH(pe, pshStatus, false);    
-    }   
-        
-    public static Boolean ifAllowedForSH(   
-        Participant_Enrollment__c pe,   
-        List<String> pshStatus,Boolean eligibilityStatusPresent 
-    ){  
-        Boolean isAllowedForSH = false; 
-        Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null    
-                                        || (pe.Study_Hub_Log__c != null &&  
-                                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201));   
-        Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&  
-            !pe.Participant_Enrollment_Status_History__r.isEmpty(); 
-        if(pshStatus.contains(pe.Participant_Status__c)     
-           && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) || 
-               (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){ 
-                   isAllowedForSH = true;   
-               }    
-        return isAllowedForSH;  
+
+    @TestVisible
+    private static Boolean ifAllowedForSH(
+        Participant_Enrollment__c pe,
+        List<String> pshStatus
+    ){
+        return ifAllowedForSH(pe, pshStatus, false);
+    }
+    
+    public static Boolean ifAllowedForSH(
+        Participant_Enrollment__c pe,
+        List<String> pshStatus,Boolean eligibilityStatusPresent
+    ){
+        Boolean isAllowedForSH = false;  
+        if(pe!=null){
+            Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null 
+                                             || (pe.Study_Hub_Log__c != null &&
+                                                 pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
+            Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
+                !pe.Participant_Enrollment_Status_History__r.isEmpty();
+
+            if(pshStatus.contains(pe.Participant_Status__c) 
+               && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
+                   (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){
+                       isAllowedForSH = true;
+                   }
+        }
+        return isAllowedForSH;
     }
     @TestVisible
     private static String getAdditionalFilter(
@@ -738,7 +743,7 @@ public without sharing class ListViewParticipantController {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(label.Sent_to_Study_Hub, 'Eligibility Passed'),
+                new LabelValueItem(Label.Sent_to_Study_Hub, 'Eligibility Passed'),
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
@@ -785,7 +790,7 @@ public without sharing class ListViewParticipantController {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(label.Sent_to_Study_Hub, 'Eligibility Passed'),
+                new LabelValueItem(Label.Sent_to_Study_Hub, 'Eligibility Passed'),
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
@@ -865,7 +870,8 @@ public without sharing class ListViewParticipantController {
             'Participant__r.Emancipation_in_progress__c,Participant__r.Mailing_Zip_Postal_Code__c,Participant_Status__c,' +
             'Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,Study_Site__r.Study_Site_Phone__c,' +
             'Study_Site__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,' +
-            'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c FROM Participant_Enrollment__c' +
+            'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c,' + 
+            '(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c WHERE  FROM Participant_Enrollment__c' +
             ' where id=: peId';
 
         //}
