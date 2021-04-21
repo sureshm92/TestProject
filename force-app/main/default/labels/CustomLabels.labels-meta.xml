@@ -708,6 +708,20 @@
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>Attestation_Confirmation_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message</shortDescription>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
+    </labels>
+    <labels>
+        <fullName>Attestation_Confirmation_Message_For_Teams</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
+        <value>I attest to this delegate being of legal age in their locale.</value>
+    </labels>
+    <labels>
         <fullName>Avaliable_Icons</fullName>
         <categories>Avaliable Icons</categories>
         <language>en_US</language>
@@ -8789,6 +8803,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
+     <labels>
+        <fullName>Minor_Access_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minor Access Error Message</shortDescription>
+        <value>Minors cannot be granted access</value>
+    </labels>
     <labels>
         <fullName>MO_Print</fullName>
         <language>en_US</language>
@@ -10841,6 +10862,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Study Site Referred To</shortDescription>
         <value>Study Site Referred To</value>
+    </labels>
+    <labels>
+        <fullName>PE_Year_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Year Of Birth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
     <labels>
         <fullName>PF_MRCV_L_Physicians_Declined</fullName>
