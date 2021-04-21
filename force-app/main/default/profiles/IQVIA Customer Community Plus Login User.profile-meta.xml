@@ -5664,7 +5664,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5719,7 +5719,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5794,7 +5794,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>
