@@ -7,7 +7,7 @@
 
         if (!communityService.isDummy()) {
             let ssId = communityService.getUrlParameter('ssId');
-
+			
             component.find('spinner').show();
             helper.checkCommunity(component, event, helper);
             communityService.executeAction(
@@ -47,6 +47,10 @@
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
+    },
+    
+    doCheckYearOfBith: function (component, event, helper) {
+        helper.checkGuardianAge(component, event, helper);
     },
 
     doCancel: function (component) {

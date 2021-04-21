@@ -61,6 +61,11 @@
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
 
+ <aura:attribute name="yob" type="List" /> 
+ <aura:attribute name="isFirstPrimaryDelegate" type="Boolean"  default="false"/> 
+ <aura:attribute name="isAdultDel" type="Boolean"  />    
+ <aura:attribute name="attestAge" type="Boolean"  /><!--Added by Vikrant -->
+
 
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
@@ -224,6 +229,10 @@ isListView = "{!v.isListView}"
                                      BtnClicked="{!v.BtnClicked}"
                                      isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
                                      participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
+									 yob = "{!v.yob}"
+                                     isFirstPrimaryDelegate = "{!v.isFirstPrimaryDelegate}"
+                                     isAdultDel = "{!v.isAdultDel}"
+                                     attestAge = "{!V.attestAge}"
                                      />
              
              <!--1936-->
@@ -416,7 +425,8 @@ isListView = "{!v.isListView}"
             <span style="{!v.isRTL? 'margin-left:15px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
-                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick}"
+                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
+
                            onclick="{!c.doUpdate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
@@ -436,7 +446,7 @@ isListView = "{!v.isListView}"
  <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
-                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick}"
+                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
                    onclick="{!c.doUpdateCancel}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >
