@@ -69,6 +69,8 @@
 
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
+<aura:registerEvent name="FilterKeep" type="c:CardViewFilterKeep"/>
+
 
 <aura:handler
    name="detectChildChanges"
