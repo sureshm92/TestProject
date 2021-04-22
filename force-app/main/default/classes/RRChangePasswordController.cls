@@ -287,6 +287,10 @@ public without sharing class RRChangePasswordController {
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
+            if (isParticipant) {
+                contact.MailingCountrycode = participant.Mailing_Country_Code__c;
+                contact.MailingStatecode = participant.Mailing_State_Code__c;
+            }
             update contact;
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
