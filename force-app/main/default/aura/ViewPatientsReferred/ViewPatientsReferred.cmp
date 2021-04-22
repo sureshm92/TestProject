@@ -86,6 +86,8 @@
      action="{!c.doFilterChanged}"
  />
  <aura:handler name="change" value="{!v.peFilter.sortType}" action="{!c.doSortChanged}" />
+ <aura:handler name="FilterKeep" event="c:CardViewFilterKeep" action="{!c.doFilterPagenationChanged}"/>
+
  <aura:handler
      name="change"
      value="{!v.showEmancipatedOnly}"
