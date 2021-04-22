@@ -186,6 +186,9 @@
                 var callback = component.get('v.callback');
                 if (callback) {
                     callback(pe);
+                    var compEvent = component.getEvent("FilterKeep");
+                    compEvent.fire();
+
                 }
                 component.set('v.pe', returnvalue.particpantEnrollment);
 				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
@@ -390,6 +393,9 @@
                     var callback = component.get('v.callback');
                     if (callback) {
                         callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     component.set('v.BtnClicked','');
 					component.set('v.isFirstPrimaryDelegate',false);
@@ -503,6 +509,9 @@
                     var callback = component.get('v.callback');
                     if (callback) {
                         callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
