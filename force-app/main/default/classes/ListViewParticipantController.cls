@@ -871,7 +871,7 @@ public without sharing class ListViewParticipantController {
             'Participant__r.Alternative_Phone_Number__c,Participant__r.Alternative_Phone_Type__c,Study_Site__r.Study_Site_Phone__c,' +
             'Study_Site__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,' +
             'Participant__r.IsCountry_NOT_Eligible_for_Emails__c, Participant__r.Fphone__c,' + 
-            '(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c WHERE  FROM Participant_Enrollment__c' +
+            '(SELECT Id FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1) FROM Participant_Enrollment__c ' +
             ' where id=: peId';
 
         //}
