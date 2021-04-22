@@ -78,6 +78,8 @@
 
     checkFields: function (component, event, helper, doNotCheckFields) {
         let agreePolicy = component.get('v.agreePolicy');
+        let isAdultDel = component.get('v.isAdultDel');
+        let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
         let needsDelegate = component.get('v.needsGuardian');
 
@@ -138,7 +140,7 @@
                 delegateParticipant.Last_Name__c
             );
         }
-
+        
         let isValid = false;
         isValid =
             isValid ||
@@ -162,6 +164,8 @@
                         delegateParticipant.Last_Name__c &&
                         delegateParticipant.Phone__c &&
                         delegateParticipant.Email__c &&
+                     	isAdultDel && 
+             			attestAge &&
                         emailDelegateVaild &&
                         emailDelegateRepeatValid &&
                         delegateParticipant.Email__c == emailDelegateRepeat)) &&
@@ -314,7 +318,7 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
                 }     
-                helper.checkFields(component, event, helper);
+                helper.checkFields(component, event, helper, true);
             } ,         
             null,
             function () {
@@ -322,7 +326,48 @@
             }
         );
     },
-
+	
+    //added by sumit
+    checkGuardianAge: function (component, event, helper) {
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        var participant = component.get('v.participant');
+        var delegateParticipant = component.get('v.delegateParticipant');
+        if(delegateParticipant.Birth_Year__c == ''){
+        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.delNotAdultErrMsg', false);
+            component.set('v.attestAge', false);
+            spinner.hide();
+        }else{
+            component.set('v.yobBlankErrMsg', false);
+            communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(delegateParticipant)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                    }else{
+                        component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                        component.set('v.delNotAdultErrMsg' , true);
+                    }
+                    
+                    helper.checkFields(component, event, helper, true);
+                } ,         
+                null,
+                function () {
+                    spinner.hide();
+                }
+            );
+        }    
+    },
+    
     checkSites: function (component) {
         var studySites = component.get('v.studySites');
         if (studySites.length > 0) {

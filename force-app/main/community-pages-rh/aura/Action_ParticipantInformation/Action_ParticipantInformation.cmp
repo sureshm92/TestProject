@@ -61,6 +61,11 @@
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
 
+ <aura:attribute name="yob" type="List" /> 
+ <aura:attribute name="isFirstPrimaryDelegate" type="Boolean"  default="false"/> 
+ <aura:attribute name="isAdultDel" type="Boolean"  />    
+ <aura:attribute name="attestAge" type="Boolean"  /><!--Added by Vikrant -->
+
 
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
@@ -151,7 +156,7 @@ isListView = "{!v.isListView}"
              </div>
              <div class="slds-col slds-size_1-of-1">
                  <!--(<ui:outputDate value="{!v.invitedon}"/>)-->
-                 <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit"/>
+                 <lightning:formattedDateTime value="{!v.invitedon}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>
              </div>
          </div>
      </button>
@@ -178,10 +183,16 @@ isListView = "{!v.isListView}"
                      >
                  <div class="slds-grid slds-wrap">
                      <div class="slds-col slds-size_1-of-1">
-                         {!$Label.c.Sent_to_Study_Hub}</div>
+                         <aura:if isTrue="{!v.dateofSH!=undefined}">
+                             {!$Label.c.Sent_to_Study_Hub}
+                             <aura:set attribute="else">
+                                 {!$Label.c.Send_to_Study_Hub}
+                             </aura:set>
+                         </aura:if>
+                     </div>
                      <div class="slds-col slds-size_1-of-1">
                          <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
-                         <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit"/>
+                         <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>
                      </div>
                  </div>
              </button>   
@@ -218,6 +229,10 @@ isListView = "{!v.isListView}"
                                      BtnClicked="{!v.BtnClicked}"
                                      isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
                                      participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
+									 yob = "{!v.yob}"
+                                     isFirstPrimaryDelegate = "{!v.isFirstPrimaryDelegate}"
+                                     isAdultDel = "{!v.isAdultDel}"
+                                     attestAge = "{!V.attestAge}"
                                      />
              
              <!--1936-->
@@ -410,7 +425,8 @@ isListView = "{!v.isListView}"
             <span style="{!v.isRTL? 'margin-left:15px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
-                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick}"
+                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
+
                            onclick="{!c.doUpdate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
@@ -430,7 +446,7 @@ isListView = "{!v.isListView}"
  <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
-                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick}"
+                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
                    onclick="{!c.doUpdateCancel}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >

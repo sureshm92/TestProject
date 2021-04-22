@@ -15,6 +15,7 @@ public without sharing class ReferringRemote {
         public List<LabelValueItem> countries;
         public List<LabelValueItem> genders;
         public List<LabelValueItem> phoneTypes;
+        public List<LabelValueItem> yearOfBirth; //added by sumit
         public Map<String, List<LabelValueItem>> statesByCountryMap;
         public String delegateAccessLevel;
 		public String contentDoc;
@@ -114,6 +115,7 @@ public without sharing class ReferringRemote {
         initData.countries = CountryStateUtil.getCountries();
         initData.genders = ParticipantService.getGenderLVList();
         initData.phoneTypes = ParticipantService.getPhoneTypeLVList();
+        initData.yearOfBirth = ParticipantService.getYearofBirthList(); //added by sumit
         initData.statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
         initData.delegateAccessLevel = CommunityService.getInstance()
             .getUserAccessLevel(delegateId);
@@ -176,6 +178,62 @@ public without sharing class ReferringRemote {
         return '' + needsGuardian;
     }
 	
+    @AuraEnabled
+    public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
+        Boolean isAdult = false;
+        
+        Participant__c participant = (Participant__c) JSON.deserialize(
+            participantJSON,
+            Participant__c.class
+        );
+        
+        Participant__c delegateparticipant = (Participant__c) JSON.deserialize(
+            delegateParticipantJSON,
+            Participant__c.class
+        );
+        
+        if (!String.isEmpty(delegateparticipant.Birth_Year__c)) {
+            List<Age_of_Majority__mdt> ageOfMajorities = [
+                SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
+                FROM Age_of_Majority__mdt
+            ];
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(
+                        ageOfMajority.DeveloperName,
+                        ageOfMajority.Age__c.intValue()
+                    );
+                }
+            }
+
+            Integer delegateAge = (Date.Today().Year()) - (Integer.valueof(delegateparticipant.Birth_Year__c));
+
+            if (
+                ageByCountryCode.get(
+                    participant.Mailing_Country_Code__c +
+                    '_' +
+                    participant.Mailing_State_Code__c
+                ) != null
+            ) {
+                isAdult =
+                    delegateAge >=
+                    ageByCountryCode.get(
+                        participant.Mailing_Country_Code__c +
+                        '_' +
+                        participant.Mailing_State_Code__c
+                    );
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
+                isAdult =
+                    delegateAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c);
+            } else {
+                isAdult = delegateAge >= 18;
+            }
+        }
+
+        return '' + isAdult;
+    }
+    
     public static String getContentDocumentLink(Id trialId, String language){
         system.debug('language'+language);
         List<Res_study__c>  st = [SELECT Id,Resource__r.Id,Resource__r.Language__c
@@ -428,8 +486,13 @@ public without sharing class ReferringRemote {
                         ptDelegateRef.Participant__c = participantId;
                         ptDelegateRef.Contact__c = newContact.Id;
                         ptDelegateRef.Primary_Delegate__c = True;
-                        String communityTemplateName = UserContext.getCurrentCommunityTemplate()
-                            .templateName;
+                        ptDelegateRef.Status__c = 'Disconnected';
+                        if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null){
+                            ptDelegateRef.Attestation__c = true;
+                            ptDelegateRef.Attestation_TimeStamp__c = Date.today();
+                            ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                        }    
+                        String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
                         if (
                             particpantEnrollList.size() > 0 &&
                             particpantEnrollList[0].Study_Site__r.Study_Site_Type__c ==

@@ -214,6 +214,7 @@
                                         variant="label-hidden"
                                         min={today}
                                         message-when-range-underflow={labels.reminderErrorUnderFlow}
+                                        message-when-bad-input=" "
                                         class="container1"
                                         onblur={doValidateReminder}
                                         required
@@ -264,6 +265,7 @@
                                     onblur={doValidateReminder}
                                     dropdown-alignment="auto"
                                     class="wi"
+                                    field-level-help={labels.timeZoneDisclaimer}
                                 >
                                 </lightning-combobox>
                             </div>
@@ -319,6 +321,7 @@
                                         class="container1"
                                         message-when-range-overflow={labels.reminderOverFlow}
                                         message-when-range-underflow={labels.reminderUnderFlow}
+                                        message-when-bad-input=" "
                                         onblur={doValidateReminder}
                                     >
                                     </lightning-input>
@@ -331,9 +334,9 @@
                                 <div class="slds-form-element__label mr_left">
                                     {labels.remindUsing}
                                     <abbr title="required" class="slds-required">*</abbr>
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
+                                    <a onclick={doNavigateToAccountSettings} style="margin-left: 10px"
+                                        >{labels.ChangeNotifications}
+                                    </a>
                                 </div>
                             </div>
                             <div class="slds-grid mr_left_5">
@@ -604,6 +607,7 @@
                                         variant="label-hidden"
                                         min={today}
                                         message-when-range-underflow={labels.reminderErrorUnderFlow}
+                                        message-when-bad-input=" "
                                         class="container1"
                                         onblur={doValidateReminder}
                                         required
@@ -655,6 +659,7 @@
                                     onblur={doValidateReminder}
                                     dropdown-alignment="auto"
                                     class="wi"
+                                    field-level-help={labels.timeZoneDisclaimer}
                                 >
                                 </lightning-combobox>
                             </div>
@@ -712,6 +717,7 @@
                                         class="container1"
                                         message-when-range-overflow={labels.reminderOverFlow}
                                         message-when-range-underflow={labels.reminderUnderFlow}
+                                        message-when-bad-input=" "
                                         onblur={doValidateReminder}
                                     >
                                     </lightning-input>
@@ -722,9 +728,9 @@
                             <div class={lineBreak}></div>
                             <div class="slds-grid slds-p-top_large mr_left_5">
                                 <div class="slds-form-element__label mr_left">
-                                    <a onclick={doNavigateToAccountSettings} style="margin: 10px"
-                                        >{labels.ChangeNotifications}</a
-                                    >
+                                    <a onclick={doNavigateToAccountSettings} style="margin-left: 10px"
+                                        >{labels.ChangeNotifications
+                                    </a>
                                     <abbr title="required" class="slds-required">*</abbr>
                                     {labels.remindUsing}
                                 </div>

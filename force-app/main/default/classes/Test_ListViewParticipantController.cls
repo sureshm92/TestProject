@@ -1,5 +1,6 @@
 @IsTest
 public class Test_ListViewParticipantController {
+ /**
     @testsetup
     public static void dataSetup() {
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
@@ -54,19 +55,7 @@ public class Test_ListViewParticipantController {
             insert user_1;
         }
         Test.startTest();
-        // System.runAs(user_1) {
-        /*  Account SiteAccount = new Account(
-                Name = 'Study Site Account',
-                BillingCountry = 'United States');
-            
-            insert SiteAccount;
-            
-            Contact con = new Contact(
-                FirstName = 'PITD',
-                LastName = 'PITD',
-                AccountId = SiteAccount.Id,
-                Email = 'test@con.com');
-            insert con; */
+      
 
         Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
@@ -128,24 +117,7 @@ public class Test_ListViewParticipantController {
         );
         insert pe;
 
-        /*   Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-                PI_Contact__c = contact_1.Id,
-                Initial_visit_scheduled_date__c = date.today(),
-                Study_Site__c = studySite.Id,
-                Patient_ID__c = 'SomePatientId1',
-                Referral_Source__c = 'HCP',
-                Source_Type__c = 'Referring Provider',
-                HighRisk_Indicator__c = 'Yes',
-                Participant_Status__c = 'Received',
-                Participant__c = participant.Id,
-                Screening_ID__c = 'PESCR1'
-                );
-               insert pe1; */
-
-        // }
+      
     }
     @IsTest
     public static void runTest() {
@@ -200,7 +172,7 @@ public class Test_ListViewParticipantController {
             );
 
             ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
@@ -222,7 +194,7 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
             ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            
         }
     }
 
@@ -279,7 +251,7 @@ public class Test_ListViewParticipantController {
             );
 
             ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
@@ -301,7 +273,9 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
             ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            
         }
     }
+    
+    **/
 }

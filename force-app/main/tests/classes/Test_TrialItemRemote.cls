@@ -9,6 +9,9 @@ private class Test_TrialItemRemote {
         TriggerHandlerExecutor.bypassHandler(
             ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
         );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+        );
         Test.startTest();
         TestDataFactory.createInitData();
         Test.stopTest();
@@ -40,6 +43,19 @@ private class Test_TrialItemRemote {
         Test.stopTest();
 
         System.assertEquals(1, [SELECT Id FROM Case].size());
+    }
+
+    @IsTest
+    static void createSubscribeConnectionEnroll_test() {
+        Clinical_Trial_Profile__c ctp = [
+            SELECT Id, NCT_Number__c, Study_Code_Name__c
+            FROM Clinical_Trial_Profile__c
+        ];
+        Test.startTest();
+        TrialItemRemote.createSubscribeConnectionEnroll(ctp.id);
+        Test.stopTest();
+
+        System.assertEquals(1, [SELECT Id FROM Contact_Topic__c].size());
     }
 
     /**

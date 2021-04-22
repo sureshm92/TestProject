@@ -23,21 +23,22 @@
                 function (returnValue) {
                     console.log('>>retunrParticiapnt>>'+JSON.stringify(returnValue));
                     if(returnValue){
-                         console.log('>>coming inr eturn value>>');
-                        component.set('v.participantDelegate.First_Name__c',returnValue.DelegateParticipant.First_Name__c);
-                        component.set('v.participantDelegate.Last_Name__c',returnValue.DelegateParticipant.Last_Name__c);
-                        component.set('v.participantDelegate.Email__c',returnValue.DelegateParticipant.Email__c);
-                        component.set('v.participantDelegate.Phone__c',returnValue.DelegateParticipant.Phone__c);
+                        
+                        component.set('v.participantDelegate.First_Name__c',returnValue.firstName);
+                        component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
+                        component.set('v.participantDelegate.Email__c',returnValue.email);
+                        component.set('v.participantDelegate.Phone__c',returnValue.participantPhoneNumber);
                         component.set('v.participantDelegateUseExisiting',returnValue.DelegateParticipant);
                     
                         var DelegatePhoneField = component.find('DelegatePhoneName');
                         DelegatePhoneField.setCustomValidity('');
                         DelegatePhoneField.reportValidity();
-                      
+                      	component.set('v.recordFound',false); //we are using change handle in DulicateDelegateMessageComponent so for update the message we are marking as false and true
                         component.set('v.duplicateDelegateInfo',returnValue);
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',true);
                         component.set('v.useThisDelegate', false);
+                        component.set('v.isFirstPrimaryDelegate',false);
                          
                     }
                     else if(!$A.util.isEmpty(participantDelegateOld.Id)){
@@ -46,9 +47,15 @@
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',false);
                         component.set('v.useThisDelegate', false);
+                        component.set('v.isFirstPrimaryDelegate',false);
                     }
                     else{
+                        if(!component.get('v.isFirstPrimaryDelegate')){
+                        component.set('v.participantDelegate.Birth_Year__c','');
+                        component.set('v.attestAge', false);
+                        }
                         component.set('v.participantDelegate.Id',null);
+                        component.set('v.isFirstPrimaryDelegate',true); //TO show YOB and picklist when user tries to insert new delegate
                         component.set('v.useThisDelegate', true);
                         component.set('v.isEmailConfrmBtnClick',true);
                     }
@@ -85,5 +92,32 @@
         }
 
         return isValid;
+    },
+    
+    checkDelegateAge:function(component,participant,participantDelegateOld){
+         communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(participantDelegateOld)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                  //  alert('isAdultDelegate--> ' + isAdultDelegate);
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                        component.set('v.yobBlankErrMsg', false);
+                    }else{
+                       component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                         component.set('v.yobBlankErrMsg', false);
+                        component.set('v.delNotAdultErrMsg', true);
+                       
+                    }
+                }        
+                
+            );
     }
 });

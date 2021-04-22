@@ -8,6 +8,9 @@ private class Test_SurveyResponseTriggerHandler {
 
     @IsTest
     static void taskStatusChangerPauseTest() {
+        TriggerHandlerExecutor.bypassHandler(
+            TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class
+        );
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty())
             return;
@@ -48,6 +51,9 @@ private class Test_SurveyResponseTriggerHandler {
 
     @IsTest
     static void taskStatusChangerFinishTest() {
+        TriggerHandlerExecutor.bypassHandler(
+            TermsAndConditionsTriggerHandler.ActivePortalFieldsHandler.class
+        );
         List<Survey> survey = [SELECT Id FROM Survey WHERE ActiveVersionId != NULL LIMIT 1];
         if (survey.isEmpty())
             return;

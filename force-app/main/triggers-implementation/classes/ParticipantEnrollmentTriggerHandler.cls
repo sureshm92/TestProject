@@ -550,7 +550,9 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         List<Participant_Enrollment__c> enrollments,
         Map<Id, Participant_Enrollment__c> oldMap
     ) {
-        List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
+		List<Id> petoUpdate = new List<Id>();
+       	List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
+       	List<Participant_Enrollment_Status_History__c> historiestoupdate = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
@@ -582,6 +584,19 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     oldMap.get(pe.Id).Participant_Status__c !=
                     PEStatusState.PE_STATUS_ELIGIBILITY_PASSED)
                 ) {
+                    if(oldMap != null && oldMap.get(pe.Id).Participant_Status__c!='Successfully Contacted'){
+                        histories.add(
+                            new Participant_Enrollment_Status_History__c(
+                                Date__c = pe.Participant_Status_Last_Changed_Date__c,//oldMap!=null && oldMap.get(pe.Id)!=null?oldMap.get(pe.Id).Participant_Status_Last_Changed_Date__c:pe.Participant_Status_Last_Changed_Date__c.addSeconds(-1),
+                                Status__c = 'Successfully Contacted',
+                                ParticipantEnrollment__c = pe.Id
+                            )
+                        );
+                        if(pe.Initial_visit_scheduled_flag__c== true){
+                            peToUpdate.add(pe.Id);
+                        }
+                    }
+                    
                     histories.add(
                         new Participant_Enrollment_Status_History__c(
                             Date__c = pe.Participant_Status_Last_Changed_Date__c,
@@ -606,12 +621,25 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
         }
+        
+        if(!peToUpdate.isEmpty()){
+            for(Participant_Enrollment_Status_History__c peshold: [SELECT Id,Additional_Notes__c,ParticipantEnrollment__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c FROM Participant_Enrollment_Status_History__c WHERE Status__c = 'Successfully Contacted' AND ParticipantEnrollment__c IN:peToUpdate]){
+                if(peshold.ParticipantEnrollment__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c== true && 
+                   peshold.Additional_Notes__c!=null && peshold.Additional_Notes__c!='' && !peshold.Additional_Notes__c.contains('####')){
+                    Participant_Enrollment_Status_History__c up = new Participant_Enrollment_Status_History__c();
+                    up.Additional_Notes__c =  '####'+peshold.Additional_Notes__c;
+                    up.Id = peshold.Id;
+                    histories.add(up);
+                }
+            }
+        }
+
         if (!histories.isEmpty()) {
             TriggerHandlerExecutor.bypassHandler(
                 ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class
             );
-            insert histories;
-        }
+            upsert histories;
+        }        
         createTasks(peListForTaskCreation);
         PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds);
 
@@ -637,10 +665,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             } else if (pe.Referral_Source__c != null && pe.Referral_Source__c.contains('HCP')) {
                 pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_RP;
             } else {
-                if(pe.Referral_Source__c == ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen)
-                    pe.Source_Type__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_Ciitizen;
-                else    
-                    pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
+                pe.Source_Type__c = ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR;
             }
         }
     }

@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
-({
+ ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -104,6 +104,7 @@
                             component.set('v.participant', pe.Participant__r);
                             component.set('v.userInfo', returnValue.userInfo);
                             component.set('v.contactInfo', returnValue.contactInfo);
+							component.set('v.yob',returnValue.yearOfBirth);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -168,7 +169,6 @@
            }  
            
        }
-        console.log('>>>>participantDeegtae beforesve called>>>'+component.get('v.participantDelegate'));
         communityService.executeAction(
             component,
             'updatePatientInfoWithDelegate',
@@ -187,13 +187,14 @@
                 if (callback) {
                     callback(pe);
                 }
-                console.log('>>returnValuefromSave>>'+JSON.stringify(returnvalue));
-                console.log('>>returnValuefromSave participan>>'+JSON.stringify(returnvalue.particpantEnrollment.Participant__r));
                 component.set('v.pe', returnvalue.particpantEnrollment);
 				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
                 component.set('v.participant', returnvalue.particpantEnrollment.Participant__r);
                 if(!$A.util.isEmpty(returnvalue.DelegateParticipant))
                  component.set('v.participantDelegate', returnvalue.DelegateParticipant);
+                component.set('v.BtnClicked','');
+				component.set('v.isFirstPrimaryDelegate',false);
+                 component.set('v.attestAge',false);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -242,7 +243,6 @@
     },
     checkTabs: function (component, event, helper) {
         var checking = event.getSource();
-        console.log('checking', checking.getLocalId());
         component.set('v.checkTabs', checking.getLocalId());
     },
     doUpdateCancel: function (component, event, helper) {
@@ -271,8 +271,6 @@
         var pathWrapper = component.get('v.participantPath');
         var statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('##Save isStatusChanged1: ' + isStatusChanged);
-        console.log('##Save statusDetailValid: ' + statusDetailValid);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
         var outcome = null;
@@ -317,7 +315,6 @@
                 outcome = null;
             }
         }
-        console.log('##Save isStatusChanged2: ' + isStatusChanged);
         pe.Participant__r = participant;
         if (!pe.sObjectType) {
             pe.sObjectType = 'Participant_Enrollment__c';
@@ -340,6 +337,7 @@
         } else {
             actionName = 'updatePatientInfoWithDelegate';
         }
+        
         var actionParams = {
             participantJSON: JSON.stringify(participant),
             peJSON: JSON.stringify(pe),
@@ -365,34 +363,58 @@
                 notesToBeAdded: notesToBeAdded,
                 outcome: outcome
             };
+
         }
+        
         communityService.executeAction(
             component,
             actionName,
             actionParams,
             function () {
-                var callback = component.get('v.callback');
-                if (callback) {
-                    callback(pe);
+                var actionName1;
+                if (usermode == 'CC') {
+                    actionName1 = component.get("c.updatePatientStatusCCHelper");
+                } else {
+                    actionName1 = component.get("c.updatePatientStatusHelper");
                 }
+                actionName1.setParams({
+                    peJSON: JSON.stringify(pe),
+                    pathWrapperJSON: JSON.stringify(pathWrapper),
+                    historyToUpdate: isStatusChanged,
+                    notesToBeAdded: notesToBeAdded,
+                    outcome: outcome
+                });
+                component.find('spinner').show();
+                actionName1.setCallback(this, $A.getCallback(function(response) {
+                    var response = response.getReturnValue();
+                    var callback = component.get('v.callback');
+                    if (callback) {
+                        callback(pe);
+                    }
+                    component.set('v.BtnClicked','');
+					component.set('v.isFirstPrimaryDelegate',false);
+                    component.set('v.attestAge',false);
+                    
+                    var comp = component.find('dialog');
+                    if (usermode === 'CC') {
+                        var cmpEvent = component.getEvent('callcenter');
+                        cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
+                        cmpEvent.fire();
+                    }
+                    if (component.get('v.isListView') == true) {
+                        var p = component.get('v.parent');
+                        p.refreshTable();
+                    }
+                    comp.hide();
+                    
                 component.find('spinner').hide();
-                var comp = component.find('dialog');
-                if (usermode === 'CC') {
-                    var cmpEvent = component.getEvent('callcenter');
-                    cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
-                    cmpEvent.fire();
-                }
-                if (component.get('v.isListView') == true) {
-                    var p = component.get('v.parent');
-                    p.refreshTable();
-                }
-                comp.hide();
+                }));
+                $A.enqueueAction(actionName1);
             },
             null,
             function () {
                 component.set('v.participantPath', null);
                 component.set('v.isStatusChanged', false);
-                component.find('spinner').hide();
             }
         );
     },
@@ -410,7 +432,6 @@
         }*/
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
-        console.log('##isStatusChanged1: ' + isStatusChanged);
         let steps = component.get('v.participantPath.steps');
         var notesToBeAdded = false;
         var outcome = null;
@@ -453,7 +474,6 @@
                 outcome = null;
             }
         }
-        console.log('##isStatusChanged2: ' + isStatusChanged);
         if (statusDetailValid) {
             component.find('spinner').show();
             var actionName;
@@ -462,7 +482,6 @@
             } else {
                 actionName = 'updatePatientStatus';
             }
-            console.log(JSON.stringify(pathWrapper));
             communityService.executeAction(
                 component,
                 actionName,
@@ -527,6 +546,10 @@
                 if (callback) {
                     callback(pe);
                 }
+                if (component.get('v.isListView') == true) {
+                    var p = component.get('v.parent');
+                    p.refreshTable();
+                }
             },
             null,
             function () {
@@ -585,10 +608,25 @@
             'updateParticipantData',
             {
                 peId : pe.Id
-            }, function(){
-                
+            }, function(returnValueJSON){
+                var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
+                component.set('v.participantPath', returnValue.participantPath);
+                component.set('v.pe', returnValue.pe);
                 component.find('spinner').hide();
-            });
+            },
+                null,
+                function () {
+                    var childComponent = component.find("childCmp");
+        			childComponent.refreshChildTable();
+                    component.set('v.updateInProgress', false);
+                    component.set('v.isStatusChanged', false);
+                    if (component.get('v.isListView') == true) {
+                        var p = component.get('v.parent');
+                        p.refreshTable();
+                    }
+                    component.find('spinner').hide();
+                });
         helper.getpeshdate(component,event,helper);
         helper.showToast();
     },

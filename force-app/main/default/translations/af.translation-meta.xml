@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>Menslike leukosietantigeen (human leukocyte antigen, HLA)</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+    <customLabels>
+        <label>Induseerbare kostimulator (ICOS) is ’n proteïen wat op die oppervlak van witbloedselle en kankerselle voorkom. Witbloedselle is deel van die immuunstelsel (u liggaam se natuurlike verdedigingstelsel). ICOS-proteïene speel ’n belangrike rol in die bestuur van die immuunstelsel. Hierdie toets meet die hoeveelheid ICOS in u bloed. Sommige soorte behandelings kan moontlik meer geskik wees vir u indien u hoër ICOS-vlakke in u bloed het. Hierdie toets kan dokters help voorspel watter kankerbehandelings vir u kan werk.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Induseerbare kostimulator (ICOS) is ’n proteïen wat op die oppervlak van witbloedselle en kankerselle voorkom. Witbloedselle is deel van die immuunstelsel (u liggaam se natuurlike verdedigingstelsel). ICOS-proteïene speel ’n belangrike rol in die bestuur van die immuunstelsel. Hierdie toets meet die hoeveelheid ICOS in u bloed. Sommige soorte behandelings kan moontlik meer geskik wees vir u indien u hoër ICOS-vlakke in u bloed het. Hierdie toets kan dokters help voorspel watter kankerbehandelings vir u kan werk.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
+</Translations>

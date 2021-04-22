@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Translations xmlns="http://soap.sforce.com/2006/04/metadata">
+    <customLabels>
+        <label>HLA</label>
+        <name>Human_leukocyte_antigen</name>
+    </customLabels>
+    <customLabels>
+        <label>NYESO-1</label>
+        <name>New_York_carcinoma</name>
+    </customLabels>
+    <customLabels>
+        <label>PD-L1</label>
+        <name>Programmed_death_ligand_1</name>
+    </customLabels>
+    <customLabels>
+        <label>Indukowalny kostymulator (ICOS) to białko występujące na powierzchni krwinek białych i komórek nowotworowych. Krwinki białe to część układu immunologicznego (naturalnego systemu obronnego organizmu). Białka ICOS odgrywają ważną rolę w kontrolowaniu pracy układu odpornościowego. Ten test mierzy ilość białka ICOS obecnego we krwi. Pewne sposoby leczenia mogą być bardziej odpowiednie dla osób z wyższym poziomem białka ICOS we krwi. Taki test może pomóc lekarzom w przewidzeniu, które sposoby leczenia raka mogą być u Ciebie skuteczne.</label>
+        <name>ICOS_Description_Intratumoral</name>
+    </customLabels>
+    <customLabels>
+        <label>Indukowalny kostymulator (ICOS) to białko występujące na powierzchni krwinek białych i komórek nowotworowych. Krwinki białe to część układu immunologicznego (naturalnego systemu obronnego organizmu). Białka ICOS odgrywają ważną rolę w kontrolowaniu pracy układu odpornościowego. Ten test mierzy ilość białka ICOS obecnego we krwi. Pewne sposoby leczenia mogą być bardziej odpowiednie dla osób z wyższym poziomem białka ICOS we krwi. Taki test może pomóc lekarzom w przewidzeniu, które sposoby leczenia raka mogą być u Ciebie skuteczne.</label>
+        <name>ICOS_Description_Peritumoral</name>
+    </customLabels>
+</Translations>
