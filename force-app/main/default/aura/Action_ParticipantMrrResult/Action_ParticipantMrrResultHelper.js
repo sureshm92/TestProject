@@ -13,7 +13,6 @@
                 component.set('v.mrrResult', status);
                 //component.find('dialog').scrollTop();
                 component.get('v.callback')(pe);
-                component.get('v.callback')(pe);
                 var compEvent = component.getEvent("FilterKeep");
                 compEvent.fire();
 
