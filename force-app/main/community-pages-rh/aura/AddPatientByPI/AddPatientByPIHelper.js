@@ -41,7 +41,6 @@
             component.get('v.delegateDuplicateInfo')
         );
         var ssId = communityService.getUrlParameter('ssId');
-        var isDelegate = component.get('v.createUserForDelegate');
         communityService.executeAction(
             component,
             'saveParticipant',
@@ -57,7 +56,7 @@
                 allowPhone: component.get('v.isPhone'),
                 allowSMS: component.get('v.isSMS'),
                 allowContact: component.get('v.doContact'),
-                allowDelegateContact: isDelegate
+                allowDelegateContact: component.get('v.createUserForDelegate')
             },
             function (createdPE) {
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
@@ -90,6 +89,9 @@
     checkFields: function (component, event, helper, doNotCheckFields) {
         let participant = component.get('v.participant');
         let needsDelegate = component.get('v.needsGuardian');
+        
+        let isAdultDel = component.get('v.isAdultDel');
+        let attestAge = component.get('v.attestAge');
 
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.participantDelegate');
@@ -140,7 +142,9 @@
                 delegateParticipant.First_Name__c &&
                 delegateParticipant.Last_Name__c &&
                 delegateParticipant.Phone__c &&
-                delegateParticipant.Email__c);
+                delegateParticipant.Email__c &&
+            	isAdultDel && 
+                attestAge);
 
         let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
         if (emailValidCheck)
@@ -264,6 +268,46 @@
         );
     },
 
+    checkGuardianAge: function (component, event, helper) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        var participant = component.get('v.participant');
+        var delegateParticipant = component.get('v.participantDelegate');
+        if(delegateParticipant.Birth_Year__c == '' || delegateParticipant.Birth_Year__c == null){
+        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.delNotAdultErrMsg', false);
+            component.set('v.attestAge', false);
+            spinner.hide();
+        }else{	
+            component.set('v.yobBlankErrMsg', false);
+            communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(delegateParticipant)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                    }else{
+                        component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                        component.set('v.delNotAdultErrMsg', true);
+                    }
+                    
+                    helper.checkFields(component, event, helper, true);
+                } ,         
+                null,
+                function () {
+                    spinner.hide();
+                }
+            );
+        }    
+    },
+    
     checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
         var spinner = component.find('spinner');
         spinner.show();

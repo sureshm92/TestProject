@@ -38,6 +38,7 @@
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',true);
                         component.set('v.useThisDelegate', false);
+                        component.set('v.isFirstPrimaryDelegate',false);
                          
                     }
                     else if(!$A.util.isEmpty(participantDelegateOld.Id)){
@@ -46,9 +47,15 @@
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',false);
                         component.set('v.useThisDelegate', false);
+                        component.set('v.isFirstPrimaryDelegate',false);
                     }
                     else{
+                        if(!component.get('v.isFirstPrimaryDelegate')){
+                        component.set('v.participantDelegate.Birth_Year__c','');
+                        component.set('v.attestAge', false);
+                        }
                         component.set('v.participantDelegate.Id',null);
+                        component.set('v.isFirstPrimaryDelegate',true); //TO show YOB and picklist when user tries to insert new delegate
                         component.set('v.useThisDelegate', true);
                         component.set('v.isEmailConfrmBtnClick',true);
                     }
@@ -85,5 +92,32 @@
         }
 
         return isValid;
+    },
+    
+    checkDelegateAge:function(component,participant,participantDelegateOld){
+         communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(participantDelegateOld)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                  //  alert('isAdultDelegate--> ' + isAdultDelegate);
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                        component.set('v.yobBlankErrMsg', false);
+                    }else{
+                       component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                         component.set('v.yobBlankErrMsg', false);
+                        component.set('v.delNotAdultErrMsg', true);
+                       
+                    }
+                }        
+                
+            );
     }
 });

@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
-({
+ ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -104,6 +104,7 @@
                             component.set('v.participant', pe.Participant__r);
                             component.set('v.userInfo', returnValue.userInfo);
                             component.set('v.contactInfo', returnValue.contactInfo);
+							component.set('v.yob',returnValue.yearOfBirth);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -185,6 +186,9 @@
                 var callback = component.get('v.callback');
                 if (callback) {
                     callback(pe);
+                    var compEvent = component.getEvent("FilterKeep");
+                    compEvent.fire();
+
                 }
                 component.set('v.pe', returnvalue.particpantEnrollment);
 				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
@@ -192,6 +196,8 @@
                 if(!$A.util.isEmpty(returnvalue.DelegateParticipant))
                  component.set('v.participantDelegate', returnvalue.DelegateParticipant);
                 component.set('v.BtnClicked','');
+				component.set('v.isFirstPrimaryDelegate',false);
+                 component.set('v.attestAge',false);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -387,8 +393,13 @@
                     var callback = component.get('v.callback');
                     if (callback) {
                         callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     component.set('v.BtnClicked','');
+					component.set('v.isFirstPrimaryDelegate',false);
+                    component.set('v.attestAge',false);
                     
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
@@ -498,6 +509,9 @@
                     var callback = component.get('v.callback');
                     if (callback) {
                         callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');

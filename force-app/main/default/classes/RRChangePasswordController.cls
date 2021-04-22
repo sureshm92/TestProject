@@ -287,6 +287,10 @@ public without sharing class RRChangePasswordController {
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
+            if (isParticipant) {
+                contact.MailingCountrycode = participant.Mailing_Country_Code__c;
+                contact.MailingStatecode = participant.Mailing_State_Code__c;
+            }
             update contact;
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
@@ -358,8 +362,8 @@ public without sharing class RRChangePasswordController {
                 }
                 contact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contact.MailingStateCode = participant.Mailing_State_Code__c;
-                //contact.MailingCountry = participant.Mailing_Country__c;
-                //contact.MailingState = participant.Mailing_State__c;
+                contact.MailingCountry = participant.Mailing_Country__c;
+                contact.MailingState = participant.Mailing_State__c;
             }
             if (
                 (!notEnrollNow && String.isBlank(contact.FirstName)) ||
