@@ -46,6 +46,12 @@
     height: auto;
 }
 
+.THIS .rtl.cRRTable th,
+.THIS .rtl.cRRTable td {
+    padding: 0 10px;
+    text-align: right;
+}
+
 .THIS .cRRTable.rr-table tr td.sv-t-reminder {
     color: #297dfd;
     cursor: pointer;
@@ -173,7 +179,7 @@
     }
 
     .THIS .cRRTable.rr-table tr td .sv-t-reminder .slds-button {
-        margin-top: -6px;
+        margin-top: -5px;
     }
 
     .THIS .visitsLabel {
@@ -181,6 +187,10 @@
         padding-right: 5px;
         color: #595959;
         position: relative;
+    }
+
+    .THIS .rtl .taskLabel {
+        padding: 0 0 0 5px;
     }
 
     .THIS .cRRTable.rr-table tr td:last-child {
