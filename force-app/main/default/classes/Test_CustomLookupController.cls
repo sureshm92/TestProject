@@ -1,5 +1,5 @@
 /*
-Test Class for CustomLookupController
+Test Class for test CustomLookupController
 */
 @IsTest
 public class Test_CustomLookupController {
