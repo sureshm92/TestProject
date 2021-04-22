@@ -68,6 +68,10 @@
     doPaginationChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'pagination');
     },
+    doFilterPagenationChanged: function (component, event, helper) {
+        helper.doUpdateRecords(component, event, helper, 'filter-pagination');
+    },
+
     doActiveChanged: function (component, event, helper) {
         helper.doUpdateRecords(component, event, helper, 'active');
     },
