@@ -32,6 +32,7 @@
     <aura:attribute name="currentUserContactId" type="String" access="private" default="" />
     <aura:attribute name="parentId" type="String" access="private" default="" />
     <aura:attribute name="parentFullName" type="String" access="private" default="" />
+    <aura:attribute name="isAttested" type="Boolean" access="private" default="false" />
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public" />
@@ -269,7 +270,7 @@
                                                                                 
                                                                         )}"
                                                 >
-                                                    > {!$Label.c.PG_PST_L_Delegates_Save}
+                                                    {!$Label.c.PG_PST_L_Delegates_Save}
                                                 </button>
                                             </aura:set>
                                         </aura:if>
