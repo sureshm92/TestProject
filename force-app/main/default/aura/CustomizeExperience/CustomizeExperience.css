@@ -22,7 +22,12 @@
     margin-bottom: 1rem;
     width: 120px;
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
-        0 8px 16px 0 rgba(41, 125, 253, 0.32);
+    0 8px 16px 0 rgba(41, 125, 253, 0.32);
+}
+
+.THIS .rightAlign.button.slds-pill {
+    margin-right: 0;
+    margin-left: 1rem;
 }
 
 .THIS .slds-input {
