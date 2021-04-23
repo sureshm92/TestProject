@@ -5764,7 +5764,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Mailing_Zip_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
