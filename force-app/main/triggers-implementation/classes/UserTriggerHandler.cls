@@ -78,7 +78,7 @@ public without sharing class UserTriggerHandler {
             lstContacts = [select Id,Is_Patient_User_Created__c,Language__c,userCommunytyType__c from Contact where Id IN:conId];
             for(Contact con:lstContacts)
             {
-               if(con.userCommunytyType__c.contains('Participant') && !con.Is_Patient_User_Created__c)
+               if(!con.Is_Patient_User_Created__c)
                 {
                     contactsForUpdate.add(new Contact(Id = con.Id,Is_Patient_User_Created__c=true,Language__c = usrLangKey.get(con.Id)));
                 }else{
