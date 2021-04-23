@@ -229,7 +229,7 @@
                                 <aura:if isTrue="{!(v.pe.Participant_Status__c==$Label.c.Eligibility_Passed_Status_Value)}">
                                     <lightning:input
                                                      type="text"
-                                                     value="{!$Label.c.Eligibility_Passed}"
+                                                     value="{!$Label.c.Sent_to_Study_Hub}"
                                                      disabled="true"
                                                      />
                                     <aura:set attribute="else"> 
