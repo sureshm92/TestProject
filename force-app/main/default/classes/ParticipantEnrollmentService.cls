@@ -40,8 +40,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_REFERRAL_SOURCE_EPR = 'ePR';
     public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
     public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
-    public static final String PE_REFERRAL_SOURCE_Ciitizen = 'Ciitizen';//REF-2819
-
+    public static final String PE_REFERRAL_SOURCE_Ciitizen = 'Ciitizen'; //REF-2819
 
     //Filter Data Wrapper Fields
     public static final String STUDIES_FILTER_DATA_FIELD = 'studies';
@@ -51,8 +50,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_SOURCE_TYPE_PI = 'Principal Investigator';
     public static final String PE_SOURCE_TYPE_RP = 'Referring Provider';
     public static final String PE_SOURCE_TYPE_EPR = 'Digital Recruitment';
-    public static final String PE_SOURCE_TYPE_Ciitizen = 'Ciitizen';//REF-2819
-
+    public static final String PE_SOURCE_TYPE_Ciitizen = 'Ciitizen'; //REF-2819
 
     //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
     public static final Map<String, Map<String, String>> FILTER_FIELD_MAP = new Map<String, Map<String, String>>{
@@ -591,6 +589,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
         'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
+        'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
