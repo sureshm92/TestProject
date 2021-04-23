@@ -214,7 +214,7 @@ private class Test_ParticipantInformationRemote {
     }
     
     @isTest
-    static void checkDuplicatePDelegates(){
+    static void testcheckDuplicatePDelegates(){
         TestData testData = new TestData();
         Participant__c participant = new Participant__c();
         participant.Email__c = 'Test01@mail.ru';
@@ -229,27 +229,27 @@ private class Test_ParticipantInformationRemote {
                                                               participant.Last_Name__c);
     }
     @isTest
-    static void updateParticipantData(){
+    static void testupdateParticipantData(){
         TestData testData = new TestData();
         ParticipantInformationRemote.updateParticipantData(testData.pe.Id);
     }
     
     @isTest
-    static void updateParticipantContactLanguage(){
+    static void testupdateParticipantContactLanguage(){
         TestData testData = new TestData();
         ParticipantInformationRemote.updateParticipantContactLanguage(JSON.serialize(testData.piContact));
         
     }
     
     @isTest
-    static void getMedicalHistory(){
+    static void testgetMedicalHistory(){
         TestData testData = new TestData();
         ParticipantInformationRemote.getMedicalHistory(testData.pe.Id);
         
     }
     
     @isTest
-    static void checkDelegateDuplicate(){
+    static void testcheckDelegateDuplicate(){
         TestData testData = new TestData();
         Participant__c participant = new Participant__c();
         participant.Email__c = 'Test01@mail.ru';
@@ -266,7 +266,7 @@ private class Test_ParticipantInformationRemote {
     }
     
     @isTest
-    static void connectDelegateToPatient(){
+    static void testconnectDelegateToPatient(){
         TestData testData = new TestData();
         Account a = new Account(name = 'Test');
         insert a;
@@ -311,7 +311,7 @@ private class Test_ParticipantInformationRemote {
     }
     
     @isTest
-    static void updatePatientInfoAndStatusWithDelegateCC(){
+    static void testupdatePatientInfoAndStatusWithDelegateCC(){
         TestData testData = new TestData();
         
         Participant__c participantDel = new Participant__c();
@@ -342,7 +342,7 @@ private class Test_ParticipantInformationRemote {
     }
     
     @isTest
-    static void checkExisitingParticipant(){
+    static void testcheckExisitingParticipant(){
         TestData testData = new TestData();
         ParticipantInformationRemote.checkExisitingParticipant('Firstname',
                                                                'Lastname',
@@ -351,12 +351,58 @@ private class Test_ParticipantInformationRemote {
     }
     
     @isTest
-    static void getPESHrecord(){
+    static void testgetPESHrecord(){
         TestData testData = new TestData();
         Participant_Enrollment__c pe = testData.pe;
         pe.Participant_Status__c = 'Eligibility Passed';
         update pe;
         ParticipantInformationRemote.getPESHrecord(testData.pe.id);
     }
+    
+    @isTest
+    static void testupdateParticipantAndDelegates(){
+        TestData testData = new TestData();
+        integer i=integer.valueOf(Math.random());
+        Account a = new Account(name = 'Test');
+        insert a;
+        Contact cn = New Contact(
+            LastName = 'testUser'+i,
+            FirstName = 'testName'+i,
+            email = 'testuser'+i+'@cc.vv',
+            AccountId = a.id);
+        
+        Participant__c participant = new Participant__c();
+        participant.Email__c = 'testuser'+i+'@cc.vv';
+        participant.First_Name__c = 'testName'+i;
+        participant.Last_Name__c = 'testUser'+i;
+        participant.Suffix__c = 'S';
+        participant.Middle_Name__c = 'Mr';
+        Participant__c participantDel = new Participant__c();
+        participantDel.Email__c = 'Test01@mail.ru';
+        participantDel.First_Name__c = 'testName';
+        participantDel.Last_Name__c = 'testLastName';
+        participantDel.Phone__c = '141241';
+        participantDel.Phone_Type__c = 'Home';
+        insert participantDel;
+        List<Participant__c> pdList = new List<Participant__c>();
+        pdList.add(participantDel);
+        
+        Patient_Delegate__c pd = new Patient_Delegate__c(
+            Participant__c = testData.participant.id,
+            Contact__c = testData.piContact.id);
+        insert pd;
+        List<String> pList = new List<String>();
+        pList.add(pd.id);
+        System.runAs(testData.piUser) {
+            
+        ParticipantInformationRemote.updateParticipantAndDelegates(JSON.serialize(testData.participant),
+                                                                  JSON.serialize(cn),
+                                                                  JSON.serialize(pdList),
+                                                                  pList,
+                                                                  false,
+                                                                  testData.ss.id);
+        }
+    }
+    
     
 }
