@@ -43,7 +43,7 @@
     <aura:attribute name="isEmailForPartRequired" type="Boolean"  /> 
     
      
-     <aura:attribute name="yob" type="List" /> <!--Added by Vikrant -->
+     <aura:attribute name="yob" type="List" />  <!--Added by Vikrant -->
      <aura:attribute name="attestAge" type="Boolean" default="false" /> <!--Added by Vikrant -->
      <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" /> 
      <aura:attribute name="isAdultDel" type="Boolean"  /> 
