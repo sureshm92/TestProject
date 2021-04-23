@@ -12,9 +12,6 @@
     padding-bottom: 50px;
 }
 
-.mr_reminderDate_rtl {
-    margin-right: -43px;
-}
 .mr_10 {
     margin-top: 10px;
 }
@@ -52,10 +49,12 @@ h2 {
     margin-left: -105px;
     padding-top: 3px;
 }
+
 .reminderDate_rtl {
     margin-right: -105px;
-    margin-top: -16px;
+    text-align: right;
 }
+
 .reminder {
     margin-left: -118px;
     margin-top: 5px;
@@ -93,9 +92,13 @@ h2 {
     margin-top: -25px;
     margin-left: 8px;
 }
+
 .label_rtl_remind {
-    margin-right: -143px;
+    display: flex;
+    justify-content: flex-start;
+    margin-bottom: -20px;
 }
+
 .title_rtl {
     height: 60px;
     /* width: 190px; */
@@ -112,8 +115,11 @@ h2 {
     margin-right: -79px;
 }
 .mr_right {
-    margin-right: -245px;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
 }
+
 .group-6 {
     height: 694px;
     width: 668px;
@@ -146,6 +152,14 @@ h2 {
 
 .slds-grid.mr_left_5:last-child .mr_10 {
     margin: 0 0 10px;
+}
+
+.slds-grid.mr_left_5:last-child .mr_right .mr_10.mr_left6 {
+    margin-left: 5px;
+}
+
+.label_rtl + .container1 {
+    text-align: right;
 }
 
 .what-to-expect {
@@ -572,10 +586,10 @@ h2 {
         padding-right: 36px;
     }
     .arrow-leftRTL
-        + .slds-col
-        > .vis-path.slds-grid
-        > .slds-col:nth-of-type(n + 2)
-        .state-labelRTL {
+    + .slds-col
+    > .vis-path.slds-grid
+    > .slds-col:nth-of-type(n + 2)
+    .state-labelRTL {
         padding-right: 0px;
     }
 }
@@ -583,6 +597,12 @@ h2 {
 @media screen and (max-width: 768px) {
     .slds-grid.mr_left_5:last-child .mr_10 {
         margin: 0 0 20px;
+    }
+
+    .mr_reminderDate_rtl,
+    .reminderDate_rtl + .container1 {
+        margin-right: 0;
+        text-align: right;
     }
 }
 
@@ -637,6 +657,10 @@ h2 {
         flex-direction: column;
     }
 
+    .slds-form-element__label.mr_left {
+        text-align: right;
+    }
+
     .title,
     table {
         margin-left: 0;
@@ -648,16 +672,20 @@ h2 {
         min-width: 100%;
     }
 
+    .reminderDate_rtl {
+        margin-right: 0;
+    }
+
     .mr_left_5 .slds-col {
-       padding-left: 0;
+        padding-left: 0;
     }
 
     .mr_left_5 > .slds-size_1-of-2 > .mr_10 {
-        margin-top: 20px;
+        margin: 20px 0 0;
     }
 
     .mr_left_5 > .slds-size_1-of-2 > .mr_10:nth-child(1) {
-        margin-top: 0;
+        margin: 0;
     }
 
     .what-to-expect {

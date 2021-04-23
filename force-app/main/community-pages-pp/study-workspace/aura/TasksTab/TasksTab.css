@@ -71,6 +71,12 @@
     opacity: 0.5;
 }
 
+.THIS .rtl.cRRTable th,
+.THIS .rtl.cRRTable td {
+    padding: 0 10px;
+    text-align: right;
+}
+
 .THIS .rr-link {
     color: #297dfd;
     padding: 4px 8px;
@@ -111,7 +117,20 @@
     display: none;
 }
 
+
+@media screen and (max-width: 768px) {
+    .THIS {
+        margin: 0 10px 25px;
+    }
+
+}
+
 @media screen and (max-width: 500px) {
+
+    .THIS {
+        margin: 0 0 25px;
+    }
+
     .THIS tr:first-child {
         display: none;
     }
@@ -155,5 +174,9 @@
         display: inline-block;
         padding-right: 5px;
         color: #595959;
+    }
+
+    .THIS .rtl .taskLabel {
+        padding: 0 0 0 5px;
     }
 }
