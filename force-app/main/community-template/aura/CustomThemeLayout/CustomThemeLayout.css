@@ -446,6 +446,11 @@
     .THIS .cRRNavigationPath.navigation-path {
         margin-left: 0;
     }
+
+    .THIS .right-block {
+        width: 100%;
+        flex-shrink: 1;
+    }
 }
 
 @media print {

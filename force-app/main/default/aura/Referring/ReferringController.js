@@ -71,6 +71,7 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.genders', initData.genders);
                     component.set('v.phoneTypes', initData.phoneTypes);
+                    component.set('v.yob', initData.yearOfBirth);
                     component.set('v.counries', initData.countries);
                     component.set('v.statesByCountyMap', initData.statesByCountryMap);
                     component.set('v.markers', helper.fillMarkers(component));
@@ -226,6 +227,10 @@
     doCheckDateOfBith: function (component, event, helper) {
         helper.checkParticipantNeedsGuardian(component, event, helper);
         //helper.checkFields(component, event, helper); REF-3070
+    },
+    
+    doCheckYearOfBith: function (component, event, helper) {
+        helper.checkGuardianAge(component, event, helper);
     },
     
     doNeedsGuardian: function (component, event, helper) {

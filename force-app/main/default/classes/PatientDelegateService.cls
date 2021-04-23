@@ -44,7 +44,9 @@ public without sharing class PatientDelegateService {
             DatabaseService.fieldEqual(
                 'Contact__c',
                 CommunityService.getInstance().getCurrentContactId()
-            ) + ' AND ' + DatabaseService.fieldNotEqual('Status__c', 'Withdrawn')  
+            ) +
+            ' AND ' +
+            DatabaseService.fieldNotEqual('Status__c', 'Withdrawn')
         );
         isDelegate = participantsPDList.size() > 0;
         participant = ParticipantContext.getCurrentParticipant();
@@ -245,51 +247,54 @@ public without sharing class PatientDelegateService {
     public static List<Id> getDelegatedContactIds(Id participantContactId) {
         return SObjectHelper.toIdsList(getDelegateContacts(participantContactId));
     }
-    
-    
-    public Boolean delegateAlreadyExists(Contact newDelegate){
-       Boolean isDelegateExisting = false;
-       List<Participant__c> participant = DatabaseService.getInstance()
-       .queryImpl(
-           new List<String>{
-               'Id',
-               'Contact__c',
-               'Contact__r.Current_Participant_Enrollment__c'
-           },
-           Participant__c.getSObjectType(),
-           DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
-       );
-      
-    Contact[] newDelegateContact = [
-        SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c,Email
-        FROM Contact
-        WHERE Id = :newDelegate.Id
-    ];
-  Boolean hasWithdrawn = true;
-  if(newDelegateContact.size()>0){
-      system.debug('newDelegateContact-->'+newDelegateContact);
-  List<Patient_Delegate__c>  pdList = [SELECT Id, Contact__r.Email,Contact__c,Status__c,Participant__c FROM Patient_Delegate__c where Contact__r.Email =: newDelegateContact[0].Email AND Participant__c =:participant.get(0).Id];
-  
-  for(Patient_Delegate__c pd:pdList){
-      if(pd.Status__c != 'Withdrawn'){
-          system.debug('pd-->'+pd.Status__c );
-        hasWithdrawn = false;
-      }
-  }
-}
-         for (Id contactId : getDelegatedContactIds()) {
+
+    public Boolean delegateAlreadyExists(Contact newDelegate) {
+        Boolean isDelegateExisting = false;
+        List<Participant__c> participant = DatabaseService.getInstance()
+            .queryImpl(
+                new List<String>{
+                    'Id',
+                    'Contact__c',
+                    'Contact__r.Current_Participant_Enrollment__c'
+                },
+                Participant__c.getSObjectType(),
+                DatabaseService.fieldEqual('Contact__c', CommunityService.getUserContact().Id)
+            );
+
+        Contact[] newDelegateContact = [
+            SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c, Email
+            FROM Contact
+            WHERE Id = :newDelegate.Id
+        ];
+        Boolean hasWithdrawn = true;
+        if (newDelegateContact.size() > 0) {
+            system.debug('newDelegateContact-->' + newDelegateContact);
+            List<Patient_Delegate__c> pdList = [
+                SELECT Id, Contact__r.Email, Contact__c, Status__c, Participant__c
+                FROM Patient_Delegate__c
+                WHERE
+                    Contact__r.Email = :newDelegateContact[0].Email
+                    AND Participant__c = :participant.get(0).Id
+            ];
+
+            for (Patient_Delegate__c pd : pdList) {
+                if (pd.Status__c != 'Withdrawn') {
+                    system.debug('pd-->' + pd.Status__c);
+                    hasWithdrawn = false;
+                }
+            }
+        }
+        for (Id contactId : getDelegatedContactIds()) {
             if (contactId == newDelegate.Id) {
                 isDelegateExisting = true;
-                system.debug('isDelegateExisting--> 11'+isDelegateExisting);
+                system.debug('isDelegateExisting--> 11' + isDelegateExisting);
                 break;
             }
-            
         }
         return (isDelegateExisting && (hasWithdrawn == false));
     }
-    
+
     public void createPatientDelegate(Contact newDelegate) {
-        
         List<User> delegateUser = [
             SELECT Id
             FROM User
@@ -331,7 +336,7 @@ public without sharing class PatientDelegateService {
         }
 
         Contact newDelegateContact = [
-            SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c ,Email
+            SELECT Id, UserCommunityIsDelegate__c, userCommunytyType__c, userCommunityMode__c, Email
             FROM Contact
             WHERE Id = :newDelegate.Id
         ];
@@ -345,20 +350,28 @@ public without sharing class PatientDelegateService {
         newDelegateContact.UserCommunityIsDelegate__c = true;
         update newDelegateContact;
 
-        List<Patient_Delegate__c> pdList  = new List<Patient_Delegate__c>();
-        List<Patient_Delegate__c> pdToUpsert =  new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+        List<Patient_Delegate__c> pdToUpsert = new List<Patient_Delegate__c>();
         Patient_Delegate__c pd = new Patient_Delegate__c();
         pd.Contact__c = newDelegate.Id;
         pd.Participant__c = participant.get(0).Id;
         pd.Status__c = 'Active';
-        pdList = [SELECT Id, Contact__r.Email,Contact__c,Status__c,Participant__c FROM Patient_Delegate__c where Contact__r.Email =: newDelegateContact.Email AND Participant__c =:participant.get(0).Id];
-        if(pdList.size()>0 && pdList[0].Id != null){
+        pdList = [
+            SELECT Id, Contact__r.Email, Contact__c, Status__c, Participant__c
+            FROM Patient_Delegate__c
+            WHERE
+                Contact__r.Email = :newDelegateContact.Email
+                AND Participant__c = :participant.get(0).Id
+        ];
+        if (pdList.size() > 0 && pdList[0].Id != null) {
             pdList[0].Status__c = 'Active';
             update pdList;
-        }else{
+        } else {
+            pd.Attestation__c = true;
+            pd.Attestation_TimeStamp__c = system.now();
+            pd.Attested_by__c = participant.get(0).Contact__c;
             insert pd;
         }
-
     }
 
     public void createPDAlerts(Contact contactDelegate) {
@@ -476,8 +489,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Id, Contact__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :participantContIds AND
-            Status__c = 'Active'
+            WHERE Participant__r.Contact__c IN :participantContIds AND Status__c = 'Active'
         ];
 
         Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
@@ -511,11 +523,9 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> patientDelegates = (List<Patient_Delegate__c>) DatabaseService.query(
             pdFields,
             Patient_Delegate__c.getSObjectType(),
-            DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds) + ' AND ' +
-                    DatabaseService.fieldInValues(
-                        'Status__c',
-                        new List<String>{'Active'}
-                    )
+            DatabaseService.fieldInValues('Participant__r.Contact__c', partContactsIds) +
+            ' AND ' +
+            DatabaseService.fieldInValues('Status__c', new List<String>{ 'Active' })
         );
 
         Map<Id, List<Contact>> delContactsByPartCnt = new Map<Id, List<Contact>>();
@@ -537,8 +547,7 @@ public without sharing class PatientDelegateService {
         List<Patient_Delegate__c> delegatesList = [
             SELECT Id, Participant__c, Contact__c
             FROM Patient_Delegate__c
-            WHERE Participant__c IN :participantIds AND
-            Status__c = 'Active'
+            WHERE Participant__c IN :participantIds AND Status__c = 'Active'
         ];
         Map<Id, List<Id>> delegatedContactsByParticipantMap = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : delegatesList) {

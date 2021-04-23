@@ -90,12 +90,12 @@
             },
             function (returnValue) {
                 let contactData = JSON.parse(returnValue);
-                console.log('contactData',contactData);
+                console.log('contactData', contactData);
                 let userMode = component.get('v.userMode');
                 let parentId = component.get('v.parentId');
                 component.set('v.delegate', contactData.delegates[0]);
-                console.log('isActive--->'+component.get('v.delegate.isActive'));
-                component.set('v.isDelegateActive',component.get('v.delegate.isActive'));
+                console.log('isActive--->' + component.get('v.delegate.isActive'));
+                component.set('v.isDelegateActive', component.get('v.delegate.isActive'));
                 if (userMode !== 'HCP') {
                     component.set('v.currentTab', 'by-study');
                 } else {
@@ -183,7 +183,10 @@
         delegate.delegateContact.LastName = delegate.delegateContact.LastName.trim();
 
         if (component.get('v.userMode') === 'Participant') {
-            console.log('JSON.stringify(delegate.delegateContact)'+JSON.stringify(delegate.delegateContact))
+            console.log(
+                'JSON.stringify(delegate.delegateContact)' +
+                    JSON.stringify(delegate.delegateContact)
+            );
             communityService.executeAction(
                 component,
                 'isExistingDelegate',
@@ -191,52 +194,59 @@
                     delegate: JSON.stringify(delegate.delegateContact)
                 },
                 function (returnValue) {
-                    component.set('v.isDelegateExisting',returnValue);
-                    console.log('inside save-->'+component.get('v.delegate.isActive'))
-                    if(component.get('v.isDelegateExisting')){
-                        if(component.get('v.delegate.isActive') == false){
-                            communityService.showToast('error', 'error', $A.get('$Label.c.PP_DelegateAlreadyExists'));
-                      }
-                        else{
-                             communityService.showToast('error', 'error', $A.get('$Label.c.PP_ActiveDelegateError'));
+                    component.set('v.isDelegateExisting', returnValue);
+                    console.log('inside save-->' + component.get('v.delegate.isActive'));
+                    if (component.get('v.isDelegateExisting')) {
+                        if (component.get('v.delegate.isActive') == false) {
+                            communityService.showToast(
+                                'error',
+                                'error',
+                                $A.get('$Label.c.PP_DelegateAlreadyExists')
+                            );
+                        } else {
+                            communityService.showToast(
+                                'error',
+                                'error',
+                                $A.get('$Label.c.PP_ActiveDelegateError')
+                            );
                         }
-                     component.find('mainSpinner').hide();
-                      return ;
-                      }
-                    else{
+                        component.find('mainSpinner').hide();
+                        return;
+                    } else {
                         communityService.executeAction(
-                component,
-                'savePatientDelegate',
-                {
-                    delegate: JSON.stringify(delegate.delegateContact)
-                },
-                function () {
-                    communityService.showToast(
-                        'Success',
-                        'success',
-                        $A.get('$Label.c.TST_You_have_successfully_created_permissions_for') +
-                            ' ' +
-                            delegate.delegateContact.FirstName +
-                            ' ' +
-                            delegate.delegateContact.LastName +
-                            '.'
-                    );
-                    component.refresh();
-                },
-                function () {
-                    component.find('emailInput').set('v.value', '');
-                    component.find('firstNameInput').set('v.value', '');
-                    component.find('lastNameInput').set('v.value', '');
-                    component.find('mainSpinner').hide();
-                }
-            );
+                            component,
+                            'savePatientDelegate',
+                            {
+                                delegate: JSON.stringify(delegate.delegateContact)
+                            },
+                            function () {
+                                communityService.showToast(
+                                    'Success',
+                                    'success',
+                                    $A.get(
+                                        '$Label.c.TST_You_have_successfully_created_permissions_for'
+                                    ) +
+                                        ' ' +
+                                        delegate.delegateContact.FirstName +
+                                        ' ' +
+                                        delegate.delegateContact.LastName +
+                                        '.'
+                                );
+                                component.set('v.isAttested', false);
+                                component.refresh();
+                            },
+                            function () {
+                                component.find('emailInput').set('v.value', '');
+                                component.find('firstNameInput').set('v.value', '');
+                                component.find('lastNameInput').set('v.value', '');
+                                component.set('v.isAttested', false);
+                                component.find('mainSpinner').hide();
+                            }
+                        );
                     }
                 },
-                function () {
-                    
-                }
+                function () {}
             );
-            
         } else
             component
                 .find('saveDelegateLevelChanges')

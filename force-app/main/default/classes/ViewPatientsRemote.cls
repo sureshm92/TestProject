@@ -645,7 +645,7 @@ public without sharing class ViewPatientsRemote {
             result.peFilter.participantStatus = null;
             result.peFilter.referringStatus = null;
         }
-        if (changedItem != 'pagination') {
+        if (changedItem != 'filter-pagination' && changedItem != 'pagination') {
             result.paginationData.currentPage = 1;
         }
     }

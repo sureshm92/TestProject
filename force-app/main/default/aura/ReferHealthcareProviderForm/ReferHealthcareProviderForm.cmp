@@ -18,6 +18,7 @@
     <aura:attribute name="showReferringProvider" type="Boolean" default="false" />
     <aura:attribute name="statusesDelegates" type="List" />
     <aura:attribute name="forThisProvider" type="String" />
+     <aura:attribute name="yob" type="List" /> <!-- as pe 3248 -->
 
     <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
     <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
@@ -32,6 +33,7 @@
                 pe="{!v.pe}"
                 mainComponent="{!v.parent}"
                 parent="{!this}"
+                yob = "{!v.yob}"
             />
         </aura:if>
 

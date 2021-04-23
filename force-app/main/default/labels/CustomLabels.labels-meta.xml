@@ -264,6 +264,27 @@
         <value>as a Referring Provider for all your existing and future study sites</value>
     </labels>
     <labels>
+        <fullName>AccountSetting_Birth_Day</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Day</shortDescription>
+        <value>Day</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Birth_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Month</shortDescription>
+        <value>Month</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Birth_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Year</shortDescription>
+        <value>Year</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_Cookie_Autocomplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -472,6 +493,13 @@
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
         <value>Used to store user&apos;s preferred language so that log in page may be displayed in user&apos;s preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Date_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Date Of Birth</shortDescription>
+        <value>Date Of Birth</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -706,6 +734,20 @@
         <protected>true</protected>
         <shortDescription>Asian</shortDescription>
         <value>3- Asian</value>
+    </labels>
+    <labels>
+        <fullName>Attestation_Confirmation_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message</shortDescription>
+        <value>I certify that I am over the legal age of majority in my state/country</value>
+    </labels>
+    <labels>
+        <fullName>Attestation_Confirmation_Message_For_Teams</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
+        <value>I attest to this delegate being of legal age in their locale.</value>
     </labels>
     <labels>
         <fullName>Avaliable_Icons</fullName>
@@ -8789,6 +8831,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
+     <labels>
+        <fullName>Minor_Access_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minor Access Error Message</shortDescription>
+        <value>Minors cannot be granted access</value>
+    </labels>
     <labels>
         <fullName>MO_Print</fullName>
         <language>en_US</language>
@@ -10841,6 +10890,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PE Study Site Referred To</shortDescription>
         <value>Study Site Referred To</value>
+    </labels>
+    <labels>
+        <fullName>PE_Year_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PE Year Of Birth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
     <labels>
         <fullName>PF_MRCV_L_Physicians_Declined</fullName>
@@ -18112,6 +18168,13 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
+	 <labels>
+        <fullName>RH_DelegateAttestation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateAttestation</shortDescription>
+        <value>I certify that the patient&apos;s delegate/caregiver is over the age of legal majority for their state/country</value>
+    </labels>
      <labels>
         <fullName>RH_Export_Error</fullName>
         <categories>RH</categories>
@@ -18119,6 +18182,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>No record found for Export</shortDescription>
         <value>No record found for Export</value>
+    </labels>
+	 <labels>
+        <fullName>RH_MinorDelegateErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_MinorDelegateErrMsg</shortDescription>
+        <value>This delegate is a minor and cannot be added.</value>
     </labels>
       <labels>
         <fullName>RH_PI</fullName>
@@ -18128,6 +18198,13 @@ communications using the toggles below.</value>
         <shortDescription>RH_PI</shortDescription>
         <value>PI</value>
     </labels>
+	<labels>
+        <fullName>RH_YearofBirth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_YearofBirth</shortDescription>
+        <value>Year of Birth</value>
+	</labels>
       <labels>
         <fullName>RH_HCP</fullName>
         <categories>RH</categories>
