@@ -211,6 +211,9 @@
 .THIS .smallNameRTL {
     width: fit-content;
 }
+.THIS .delegate-birthDate {
+    width: 215px;
+}
 
 .THIS .nickname {
     max-width: 263px;

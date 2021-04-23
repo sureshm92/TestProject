@@ -232,6 +232,7 @@
                                         delegate.delegateContact.LastName +
                                         '.'
                                 );
+                                component.set('v.isAttested', false);
                                 component.refresh();
                             },
                             function () {
