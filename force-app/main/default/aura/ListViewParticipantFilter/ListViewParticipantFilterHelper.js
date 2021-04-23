@@ -133,6 +133,10 @@
                     }
                     component.find('Spinnerpopup').hide();
                     component.set('v.filterList', RowItemList);
+                    component.set('v.enablePP', result.enablePP);
+                    component.set('v.enableSH', result.enableSH);
+                    console.log('Cpp--->'+result.enablePP);
+                    console.log('promote--->'+result.enableSH);
                 }
             );
             component.set('v.SelectAll', false);
@@ -660,6 +664,8 @@
                     component.find('Spinnerpopup').hide();
                     //component.set('v.oldfilterList',component.get("v.filterList"));
                     component.set('v.filterList', RowItemList);
+                    component.set('v.enablePP', result.enablePP);
+                    component.set('v.enableSH', result.enableSH);
                 }
             );
         } else {

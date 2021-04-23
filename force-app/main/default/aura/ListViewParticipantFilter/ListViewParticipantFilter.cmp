@@ -73,6 +73,8 @@
     <aura:attribute name="ActionSelected" type="string" default="null"/>
     <aura:attribute name="statusSelected" type="string" default="null"/>
     <aura:attribute name="statusChange" type="boolean" default="false"/>
+    <aura:attribute name="enablePP" type="boolean" default="false"/>
+    <aura:attribute name="enableSH" type="boolean" default="false"/>
     <aura:handler
                   name="change"
                   value="{!v.filterList[0].Status}"
@@ -362,47 +364,20 @@
                     </button>
                     <div aura:id="menu-list" class="slds-dropdown slds-dropdown_left">
                         <ul class="slds-dropdown__list" role="menu" aria-label="Show More">
+                            <aura:if isTrue="{!v.enableSH}">
                             <li class="slds-dropdown__item " >
                                 <a data-value="Send to Study Hub" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="0">
                                     <span class="slds-truncate listStyle" >{!$Label.c.Send_to_Study_Hub}</span>
                                 </a>
                             </li>
+                            </aura:if>
+                            <aura:if isTrue="{!v.enablePP}">
                             <li class="slds-dropdown__item ">
                                 <a data-value="Invite to Patient Portal" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-1">
                                     <span class="slds-truncate listStyle">{!$Label.c.Invite_to_Patient_Portal}</span>
                                 </a>
                             </li>
-                            <!--<li class="slds-dropdown__item ">
-                                <a data-value="Change Participant Status" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-1">
-                                    <span class="slds-truncate listStyle">Change Participant Status</span>
-                                </a>
-                            </li>-->
-                            <!--<li class="slds-dropdown__item slds-has-submenu" role="presentation" onmouseover="{!c.showSubMenu}" onmouseout="{!c.hideSubMenu}">
-                                <a role="menuitem" aria-haspopup="true" aria-expanded="true" tabindex="-1">
-                                    <span class="slds-truncate" title="Menu Item Three">Change Participant Status to</span>
-                                    <lightning:icon iconName="utility:right" size="x-small" alternativeText="right"/>
-                                </a>
-                                <div aura:id="sub-menu" class="slds-hide slds-dropdown slds-dropdown_submenu slds-dropdown_submenu-right" style="margin-left:1px;">
-                                    <ul class="slds-dropdown__list" aria-label="Menu Item Three">
-                                        <li class="slds-dropdown__item" >
-                                            <a data-value="Change Participant Status to" data-variablename="Received" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="Received">
-                                                <span class="slds-truncate" title="Submenu Item One">Received</span>
-                                            </a>
-                                        </li>
-                                        <li class="slds-dropdown__item" >
-                                            <a data-value="Change Participant Status to" data-variablename="Pre-Review Passed" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}"  tabindex="Pre-Review Passed">
-                                                <span class="slds-truncate">Pre-Review Passed</span>
-                                            </a>
-                                        </li>
-                                        <li class="slds-dropdown__item" >
-                                            <a data-value="Change Participant Status to" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="Contact Attempted">
-                                                <span class="slds-truncate" >Contact Attempted</span>
-                                            </a>
-                                        </li>
-                                        
-                                    </ul>
-                                </div>
-                            </li>-->
+                            </aura:if>
                         </ul>
                     </div>
                 </div>
@@ -420,9 +395,9 @@
                      </lightning:select>
                      </aura:if>-->
                      <div class="cancel-btn">
-                  		<lightning:button variant="base" label="Cancel" onclick="{!c.noAction}"/>
+                  		<lightning:button variant="base" label="{!$Label.c.Cancel}" onclick="{!c.noAction}"/>
                      </div>
-                  <lightning:button  class="apollo-btn primary" variant="brand" label="Submit" disabled="{!v.enablePromoteToSH}"  onclick="{!c.onSubmit}" />
+                  <lightning:button  class="apollo-btn primary" variant="brand" label="{!$Label.c.Submit}" disabled="{!v.enablePromoteToSH}"  onclick="{!c.onSubmit}" />
                 </aura:if>
             </div>
             
