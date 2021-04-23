@@ -41,7 +41,8 @@ public without sharing class AccountSettingsController {
                             Nickname__c,
                             Phone_Type__c,
                             Alternative_Phone_Number__c,
-                            Alternative_Phone_Type__c
+                            Alternative_Phone_Type__c,
+                            Birth_Year__c
                         FROM Participant__c
                         WHERE Contact__c = :initData.myContact.Id
                     ][0];
@@ -115,7 +116,12 @@ public without sharing class AccountSettingsController {
             User uval = [SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()];
             initData.delegateContact = [SELECT Id FROM Contact WHERE Id = :uval.ContactId];
 
-            if (initData.participant.Adult__c || (userMode == 'PI' || userMode == 'HCP' || userMode == 'CC')) {
+            if (
+                initData.participant.Adult__c ||
+                (userMode == 'PI' ||
+                userMode == 'HCP' ||
+                userMode == 'CC')
+            ) {
                 initData.delegateUserName = [
                     SELECT Id, Email, Name, Username, FullPhotoUrl
                     FROM User
@@ -219,10 +225,10 @@ public without sharing class AccountSettingsController {
         String verifyNewPassword,
         String oldPassword
     ) {
-        String errorMsg1='The passwords do not match';
-        String errorMsg2='The password you entered is too easy to guess. Enter a different one';
-        String errorMsg3='Your password cannot be null';
-        
+        String errorMsg1 = 'The passwords do not match';
+        String errorMsg2 = 'The password you entered is too easy to guess. Enter a different one';
+        String errorMsg3 = 'Your password cannot be null';
+
         PageReference pr;
         try {
             pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
@@ -236,24 +242,17 @@ public without sharing class AccountSettingsController {
                     ' ' +
                     System.Label.Pswd_ValidationMsg3_2
                 );
-            } 
-            if(ex.getMessage().contains(errorMsg1))
-            {
-               throw new AuraHandledException(System.Label.Pswd_ValidationMsg5);
             }
-            else if(ex.getMessage().contains(errorMsg2))
-            { 
-               throw new AuraHandledException(System.Label.Pswd_ValidationMsg7);
-            }
-            else if(ex.getMessage().contains(errorMsg3))
-            {
-               throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
-            }                           
-            else {
+            if (ex.getMessage().contains(errorMsg1)) {
+                throw new AuraHandledException(System.Label.Pswd_ValidationMsg5);
+            } else if (ex.getMessage().contains(errorMsg2)) {
+                throw new AuraHandledException(System.Label.Pswd_ValidationMsg7);
+            } else if (ex.getMessage().contains(errorMsg3)) {
+                throw new AuraHandledException(System.Label.Pswd_ValidationMsg8);
+            } else {
                 throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
             }
         }
-        
     }
 
     @AuraEnabled
@@ -632,6 +631,14 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
 
         @AuraEnabled
         public Boolean isParticipant;
+        @AuraEnabled
+        public Boolean showBirthDate;
+        @AuraEnabled
+        public String birthYear;
+        @AuraEnabled
+        public String birthDay;
+        @AuraEnabled
+        public String birthMonth;
 
         public PersonWrapper(Contact contact, Participant__c participant) {
             contactId = contact.Id;
@@ -684,6 +691,33 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 gender = participant.Gender__c;
                 suffix = participant.Suffix__c;
                 nickname = participant.Nickname__c;
+                List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+                peList = [
+                    SELECT Id
+                    FROM Participant_Enrollment__c
+                    WHERE Participant__c = :participant.Id
+                ];
+                if (peList.size() > 0) {
+                    showBirthDate = true;
+                } else {
+                    if (!String.isBlank(participant.Date_of_Birth__c)) {
+                        List<String> seperatedDateOfBirthList = participant.Date_of_Birth__c.split(
+                            '-'
+                        );
+                        birthYear = seperatedDateOfBirthList[0];
+                        birthMonth = seperatedDateOfBirthList[1];
+                        birthDay = seperatedDateOfBirthList[2];
+                    } else {
+                        if (String.isBlank(participant.Birth_Year__c)) {
+                            birthYear = 'YYYY';
+                        } else {
+                            birthYear = participant.Birth_Year__c;
+                        }
+                        birthMonth = 'MM';
+                        birthDay = 'DD';
+                    }
+                    showBirthDate = false;
+                }
             }
         }
 

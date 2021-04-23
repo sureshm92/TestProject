@@ -18,8 +18,8 @@
         access="private"
     />
     <aura:attribute name="isStaff" type="Boolean" access="private" />
-    <aura:attribute name="isDelegateExisting" type="Boolean" default="false"/>
-    <aura:attribute name="isDelegateActive" type="Boolean" default="false"/>
+    <aura:attribute name="isDelegateExisting" type="Boolean" default="false" />
+    <aura:attribute name="isDelegateActive" type="Boolean" default="false" />
     <aura:attribute name="isInitialized" type="Boolean" default="false" />
     <aura:attribute name="delegate" type="Object" access="private" />
     <aura:attribute name="delegateOptions" type="List" access="private" />
@@ -32,6 +32,7 @@
     <aura:attribute name="currentUserContactId" type="String" access="private" default="" />
     <aura:attribute name="parentId" type="String" access="private" default="" />
     <aura:attribute name="parentFullName" type="String" access="private" default="" />
+    <aura:attribute name="isAttested" type="Boolean" access="private" default="false" />
 
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doInit}" access="public" />
@@ -135,6 +136,20 @@
                                                 disabled="{!v.delegate.delegateContact.Id != undefined}"
                                                 value="{!v.delegate.delegateContact.LastName}"
                                             />
+                                        </div>
+                                    </div>
+                                    <div
+                                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1 slds-grid attestation-messgae"
+                                    >
+                                        <div class="slds-size_1-of-9 slds-medium-size_1-of-9">
+                                            <lightning:input
+                                                aura:id="attestationInput"
+                                                type="checkbox"
+                                                checked="{!v.isAttested}"
+                                            />
+                                        </div>
+                                        <div class="slds-size_8-of-9 slds-medium-size_8-of-9">
+                                            {!$Label.c.Attestation_Confirmation_Message_For_Teams}
                                         </div>
                                     </div>
                                     <div class="slds-col slds-size_1-of-1">
@@ -242,14 +257,18 @@
                                                     class="apollo-btn primary ntm-button"
                                                     onclick="{!c.doSaveChanges}"
                                                     disabled="{!or(
-                                                                        or(
-                                                                            not(and(
-                                                                                v.isCorrectEmail,
-                                                                                v.isCorrectContactData)),
-                                                                            empty(or(
-                                                                                     v.delegate.delegateContact.FirstName,
-                                                                                     v.delegate.delegateContact.LastName))),
-                                                                        v.delegate.delegateContact.Id == v.currentUserContactId)}"
+                                                                           or(
+                                                                                or(
+                                                                                    not(and(
+                                                                                        v.isCorrectEmail,
+                                                                                        v.isCorrectContactData)),
+                                                                                    empty(or(
+                                                                                             v.delegate.delegateContact.FirstName,
+                                                                                             v.delegate.delegateContact.LastName))),
+                                                                                v.delegate.delegateContact.Id == v.currentUserContactId),
+                                                                                not(v.isAttested)
+                                                                                
+                                                                        )}"
                                                 >
                                                     {!$Label.c.PG_PST_L_Delegates_Save}
                                                 </button>

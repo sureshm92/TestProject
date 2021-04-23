@@ -1,7 +1,7 @@
 @IsTest
 private class Test_Batch_TrialMatchNotify {
-	@IsTest
-    static void batchTrialMatch_test() {
+    @Testsetup
+    static void init(){
         TestData.loadTestData();
         TestData testData = new TestData();
         testData.ctp.Trial_Match_Is_Available__c = true;
@@ -20,6 +20,24 @@ private class Test_Batch_TrialMatchNotify {
             Therapeutic_Area__c = 'Therapeutic Area Sample test data'
         );
         insert tm;
+        Test.stopTest();
+    }
+	@IsTest
+    static void batchTrialMatch_test() {
+        Test.startTest();
+        TestData testData = new TestData();
+        testData.participantUser.TimeZoneSidKey = 'Asia/Kolkata';
+        update testData.participantUser;
+        Batch_TrialMatchNotify battm = new Batch_TrialMatchNotify();
+        battm.getBatchDescription();
+        battm.getRecommendedIntervalMode();
+        battm.getRecommendedRelaunchInterval();
+        Database.executeBatch(new Batch_TrialMatchNotify());
+        Test.stopTest();
+    }
+    @IsTest
+    static void batchTrialMatch_test1() {
+        Test.startTest();
         Database.executeBatch(new Batch_TrialMatchNotify());
         Test.stopTest();
     }

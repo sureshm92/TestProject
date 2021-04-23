@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 10-Apr-20.
  */
 
- ({
+({
     showHideProvider: function (component) {
         var parent = component.get('v.parent');
         var showProvider = parent.get('v.showReferringProvider');
@@ -55,6 +55,7 @@
             ) {
                 isDelegateInvited = true;
             }
+            console.log('>>isDelegateInvited>>'+isDelegateInvited);
             communityService.executeAction(
                 component,
                 'invitePatientDelegate',
@@ -63,7 +64,8 @@
                     delegateContact: JSON.stringify(sharingObject),
                     delegateId: sharingObject.delegateId ? sharingObject.delegateId : null,
                     ddInfo: JSON.stringify(component.get('v.duplicateDelegateInfo')),
-                    createUser: isDelegateInvited
+                    createUser: isDelegateInvited,
+                    YearOfBirth : sharingObject.Birth_Year__c != '' ? sharingObject.Birth_Year__c : ''
                 },
                 function (returnValue) {
                     var mainComponent = component.get('v.mainComponent');
@@ -134,7 +136,6 @@
                 participantId: null
             },
             function (returnValue) { 
-                console.log('>>>returnValue>>'+JSON.stringify(returnValue));
                 if (returnValue.firstName) {
                     if (sharingObject.sObjectType == 'Object') {
                         if (
@@ -144,6 +145,7 @@
                         ) {
                             component.set('v.useThisDelegate', true);
                             component.set('v.useThisDelegate', false);
+                            component.set('v.isFirstPrimaryDelegate',false);
                         } else component.set('v.useThisDelegate', true);
                         component.set('v.duplicateDelegateInfo', returnValue);
                         component.set('v.sharingObject.email', email);
@@ -151,37 +153,84 @@
                         component.find('firstNameInput').focus();
                         component.set('v.sharingObject.lastName', returnValue.lastName);
                         component.find('lastNameInput').focus();
+                        component.set('v.isFirstPrimaryDelegate',false);
                     } else if (sharingObject.sObjectType == 'Contact') {
                         component.set('v.sharingObject.Email', email);
                         component.set('v.sharingObject.FirstName', returnValue.firstName);
                         component.find('firstNameInput').focus();
                         component.set('v.sharingObject.LastName', returnValue.lastName);
                         component.find('lastNameInput').focus();
+                        component.set('v.isFirstPrimaryDelegate',false);
                     } else {
                         component.set('v.sharingObject.Email__c', email);
                         component.set('v.sharingObject.First_Name__c', returnValue.firstName);
                         component.find('firstNameInput').focus();
                         component.set('v.sharingObject.Last_Name__c', returnValue.lastName);
                         component.find('lastNameInput').focus();
+                        component.set('v.isFirstPrimaryDelegate',false);
                     }
                     component.set('v.providerFound', true);
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
+                    component.set('v.isFirstPrimaryDelegate',false);
 
                     if (returnValue.firstName && returnValue.lastName) {
                         component.set('v.isValid', true);
                     }
                     parent.find('spinner').hide();
                 } else {
-                    if (sharingObject.sObjectType == 'Object') {
-                         component.set('v.duplicateDelegateInfo',null);
-                    }
                     component.set('v.isDuplicate', returnValue.isDuplicate);
                     component.set('v.isDuplicateDelegate', returnValue.isDuplicateDelegate);
                     component.set('v.useThisDelegate', true);
+                    component.set('v.isFirstPrimaryDelegate',true);
+                    component.set('v.isAdultDel', false); 
                     parent.find('spinner').hide();
-                } 
+                }
+                 console.log('>>Finalv.useThisDelegate>>'+component.get('v.useThisDelegate'));
             }
         );
+    },
+    
+    checkGuradianAge : function(component,event,helper){
+        
+        var parent = component.get('v.parent');
+        parent.find('spinner').show();
+        var SharingObject = component.get('v.sharingObject');
+         var pe = component.get('v.pe');
+        var completeInfoField = $A.get("$Label.c.Complete_field_Info");
+        if(SharingObject.Birth_Year__c == ''){
+        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.delNotAdultErrMsg', false);
+            component.set('v.attestAge', false);
+             parent.find('spinner').hide();
+        }
+        else{
+        communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                     participantJSON: JSON.stringify(pe.Participant__r),
+                    delegateParticipantJSON: JSON.stringify(SharingObject)
+                },
+                function (returnValue) {
+                   console.log('>>>returnValue>>'+returnValue);
+                    var isAdultDelegate = returnValue == 'true';
+                    console.log('isAdultDelegate--> ' + isAdultDelegate);
+                   console.log('attestAge--> ' + component.get('v.attestAge'));
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                        component.set('v.yobBlankErrMsg', false);
+                    }else{
+                         component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                         component.set('v.yobBlankErrMsg', false);
+                        component.set('v.delNotAdultErrMsg', true);
+                    }
+                   parent.find('spinner').hide();
+                }
+            ); 
     }
+    },
+
 });

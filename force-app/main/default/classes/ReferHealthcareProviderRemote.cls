@@ -8,13 +8,17 @@ global without sharing class ReferHealthcareProviderRemote {
         public List<Healthcare_Provider__c> healthcareProviders;
         @AuraEnabled
         public List<ReferHealthcareProviderRemote.PDWrapper> listWrapp;
+        @AuraEnabled
+        public List<LabelValueItem> yearOfBirth;
 
         public initData(
             List<Healthcare_Provider__c> healthcareProviders,
-            List<ReferHealthcareProviderRemote.PDWrapper> wrap
+            List<ReferHealthcareProviderRemote.PDWrapper> wrap,
+            List<LabelValueItem> yearOfBirth
         ) {
             this.healthcareProviders = healthcareProviders;
             this.listWrapp = wrap;
+            this.yearOfBirth = yearOfBirth;
         }
     }
 
@@ -32,16 +36,18 @@ global without sharing class ReferHealthcareProviderRemote {
             FROM Healthcare_Provider__c
             WHERE Participant_Enrollment__c = :peId
         ];
-        if (healthcareProviders.isEmpty())
-            healthcareProviders.add(new Healthcare_Provider__c());
+        /*if (healthcareProviders.isEmpty())
+            healthcareProviders.add(new Healthcare_Provider__c()); */
 
         /*List<Contact> listContDelegates = PatientDelegateService.getPatientDelegates(participantId);
          if (listContDelegates.isEmpty()) listContDelegates.add(new Contact());*/
 
         List<ReferHealthcareProviderRemote.PDWrapper> wrap = getWrapPD(participantId);
+        List<LabelValueItem> yearOfBirth = ParticipantService.getYearofBirthList();
         if (wrap.isEmpty())
             wrap.add(new PDWrapper());
-        return new InitData(healthcareProviders, wrap);
+        
+        return new InitData(healthcareProviders, wrap,yearOfBirth);
     }
 
     @AuraEnabled
@@ -77,6 +83,11 @@ global without sharing class ReferHealthcareProviderRemote {
             }
         }
         return wrapPD;
+    }
+    
+ 	@AuraEnabled
+    public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
+        return ReferringRemote.checkDelegateAge(participantJSON,delegateParticipantJSON);
     }
 
     @AuraEnabled
@@ -319,7 +330,9 @@ global without sharing class ReferHealthcareProviderRemote {
         String delegateContact,
         String delegateId,
         String ddInfo,
-        Boolean createUser
+        Boolean createUser,
+        String YearOfBirth
+        
     ) {
         try {
             HealthcareProvider delegateDuplicate;
@@ -429,7 +442,8 @@ global without sharing class ReferHealthcareProviderRemote {
                         Mailing_City__c = newContact.MailingCity,
                         Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c,
                         Mailing_State_Code__c = participantObj.Mailing_State_Code__c,
-                        Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c
+                        Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c,
+                        Birth_Year__c = String.isNotBlank(YearOfBirth) ? YearOfBirth : ''
                     );
                     insert participantDelegate;
                 }
@@ -445,6 +459,9 @@ global without sharing class ReferHealthcareProviderRemote {
                 if(lstPatientDelegate.isEmpty()){
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
+                ptDelegateRef.Attestation__c = true;
+                ptDelegateRef.Attestation_TimeStamp__c = Date.today();
+                ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
                 }
                 else{
                     ptDelegateRef.ID = lstPatientDelegate[0].ID;
