@@ -415,9 +415,9 @@
              if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
                  isValid = false;
              }
-             /* if (participant.Phone__c && !participant.Phone_Type__c) {
+         if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
-        } */   
+        }    
              console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
              // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
              
