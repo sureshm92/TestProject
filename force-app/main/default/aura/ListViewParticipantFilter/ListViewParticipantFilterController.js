@@ -160,6 +160,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
@@ -245,6 +246,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",false);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
         helper.handleSearchHelper(component, event, helper);
@@ -432,10 +434,12 @@
                 component.set('v.PaginationList', updatedPaginationList);
             }
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     selectAllCheckbox: function (component, event, helper) {
@@ -496,10 +500,12 @@
             }
             component.set('v.PaginationList', updatedPaginationList);
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     onClickCardView: function (component, event, helper) {
@@ -815,6 +821,7 @@
             component.set('v.DeSelectedIds', '');
             component.set('v.count', 0);
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         } else {
             helper.showToastLimit(component, event, helper);
         }
@@ -938,7 +945,8 @@
         //component.set('v.statusSelected','Received');
          if(val == 'Invite to Patient Portal')
         {
-          component.set("v.isCheckboxhidden",true);   
+          component.set("v.isCheckboxhidden",true);
+          component.set("v.turnON",true);   
         }
         helper.handleSearchHelper(component, event, helper);
         if(val == 'Send to Study Hub')
@@ -946,6 +954,7 @@
             if(!component.get('v.PromoteToSH')){
                 component.set("v.isCheckboxhidden",true); 
             }
+            component.set("v.turnON",true);
         }
         
     },
@@ -954,6 +963,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false);
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
         helper.handleSearchHelper(component, event, helper);
     },
     
@@ -984,6 +994,7 @@
             component.set('v.DeSelectedIds', '');
             component.set('v.count', 0);
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }else {
             helper.showToastLimit(component, event, helper);
         }
