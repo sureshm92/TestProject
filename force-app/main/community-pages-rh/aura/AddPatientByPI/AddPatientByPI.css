@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.add-patient-form {
+ .THIS.add-patient-form {
     min-height: 80vh;
 }
 
@@ -42,7 +42,7 @@
 
 .THIS .rr-error
 {
-    color: #ff0031;
+     color: rgb(194, 57, 52);
 }
 
 .THIS .ap-section-title {
@@ -135,4 +135,8 @@
         margin-bottom: 20px;
         margin-left: 0;
     }
+}
+
+.THIS .slds-checkbox{
+    display: inline-flex;
 }

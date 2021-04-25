@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 10-Apr-20.
  */
 
-({
+ ({
     showHideProvider: function (component) {
         var parent = component.get('v.parent');
         var showProvider = parent.get('v.showReferringProvider');
@@ -23,6 +23,7 @@
         var sharingObject = component.get('v.sharingObject');
         var pe = component.get('v.pe');
         var parent = component.get('v.parent');
+        console.log('>>>pe>>'+JSON.stringify(pe));
         if (sharingObject.sObjectType == 'Contact') {
             helper.showHideProvider(component);
         } else if (sharingObject.sObjectType == 'Healthcare_Provider__c') {
@@ -197,12 +198,12 @@
         parent.find('spinner').show();
         var SharingObject = component.get('v.sharingObject');
          var pe = component.get('v.pe');
-        var completeInfoField = $A.get("$Label.c.Complete_field_Info");
         if(SharingObject.Birth_Year__c == ''){
         	component.set('v.yobBlankErrMsg', true);
             component.set('v.delNotAdultErrMsg', false);
             component.set('v.attestAge', false);
-             parent.find('spinner').hide();
+            component.set('v.isAdultDel', false);
+            parent.find('spinner').hide();
         }
         else{
         communityService.executeAction(
@@ -215,14 +216,19 @@
                 function (returnValue) {
                    console.log('>>>returnValue>>'+returnValue);
                     var isAdultDelegate = returnValue == 'true';
-                    console.log('isAdultDelegate--> ' + isAdultDelegate);
-                   console.log('attestAge--> ' + component.get('v.attestAge'));
                     if(isAdultDelegate){
                         component.set('v.isAdultDel', true);
                         component.set('v.delNotAdultErrMsg', false);
                         component.set('v.yobBlankErrMsg', false);
+                        if(!component.get('v.attestAge'))
+                        {
+                            component.set('v.isValid',false);
+                        }
                     }else{
                          component.set('v.isAdultDel', false); 
+                         var attestCheckbox = component.find('AttestCheckbox');
+                         attestCheckbox.setCustomValidity('');
+                         attestCheckbox.reportValidity(''); 
                         component.set('v.attestAge', false);
                          component.set('v.yobBlankErrMsg', false);
                         component.set('v.delNotAdultErrMsg', true);
@@ -230,7 +236,7 @@
                    parent.find('spinner').hide();
                 }
             ); 
-    }
+    	}
     },
 
 });
