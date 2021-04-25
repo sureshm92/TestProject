@@ -52,6 +52,10 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
+            participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
+            participantDelegate.Attestation__c = true;
+            participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+            participantDelegate.Attestation_TimeStamp__c = System.now();
 
             /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
             if(!pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)) {
@@ -225,5 +229,8 @@ public without sharing class UploadParticipantsDelegateHelper {
         public String ParticipantPhoneNo;
         public String ParticipantPhoneType;
         public Integer totalRecordCount;
+        public String DelegateAgeOfMajority;
+        public String DelegateYOB;
+        
     }
 }
