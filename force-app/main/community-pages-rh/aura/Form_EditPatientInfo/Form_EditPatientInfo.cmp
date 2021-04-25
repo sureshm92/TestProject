@@ -43,12 +43,13 @@
     <aura:attribute name="isEmailForPartRequired" type="Boolean"  /> 
     
      
-     <aura:attribute name="yob" type="List" />  <!--Added by Vikrant -->
+     <aura:attribute name="yob" type="List" /> <!--Added by Vikrant -->
      <aura:attribute name="attestAge" type="Boolean" default="false" /> <!--Added by Vikrant -->
      <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" /> 
      <aura:attribute name="isAdultDel" type="Boolean"  /> 
      <aura:attribute name="yobBlankErrMsg" type="Boolean"/>   
-    <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
+     <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
+     <aura:attribute name="isBulkImport" type="Boolean"/>
      
 
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
@@ -332,7 +333,7 @@
                             />
                         </div>
                     </div>
-                    <aura:if isTrue="{!v.isFirstPrimaryDelegate}">
+                    <aura:if isTrue="{! v.isFirstPrimaryDelegate || v.isBulkImport}">
                        <div
                          class="slds-grid slds-wrap slds-gutters rr-form-element"
                          >
@@ -362,11 +363,15 @@
                                              checked="{!v.attestAge}"
                                               onchange="{!c.doCheckFields}"
                                               aura:id="AttestCheckbox" 
+                                             required = "true"
+                                             disabled= "{!!v.isAdultDel}"
                                              />
+                             
                         </div>
-                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                             {!$Label.c.RH_DelegateAttestation}
                         </div>
+                       
                     </div> 
                        <div class="slds-col slds-size--1-of-1 rr-error">
                             <aura:if isTrue="{!v.yobBlankErrMsg}">

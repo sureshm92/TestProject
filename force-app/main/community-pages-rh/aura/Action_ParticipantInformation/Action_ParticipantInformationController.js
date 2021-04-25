@@ -105,6 +105,7 @@
                             component.set('v.userInfo', returnValue.userInfo);
                             component.set('v.contactInfo', returnValue.contactInfo);
 							component.set('v.yob',returnValue.yearOfBirth);
+                            component.set('v.isBulkImport',returnValue.isBulkImport);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -198,6 +199,7 @@
                 component.set('v.BtnClicked','');
 				component.set('v.isFirstPrimaryDelegate',false);
                  component.set('v.attestAge',false);
+                 component.set('v.isBulkImport',false);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -400,7 +402,7 @@
                     component.set('v.BtnClicked','');
 					component.set('v.isFirstPrimaryDelegate',false);
                     component.set('v.attestAge',false);
-                    
+                    component.set('v.isBulkImport',false);
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');

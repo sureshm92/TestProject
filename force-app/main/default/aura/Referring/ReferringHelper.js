@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     addEventListener: function (component, helper) {
         if (!component.serveyGizmoResultHandler) {
             component.serveyGizmoResultHandler = $A.getCallback(function (e) {
@@ -82,6 +82,7 @@
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
         let needsDelegate = component.get('v.needsGuardian');
+        let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Participant
         let participant = component.get('v.participant');
@@ -164,12 +165,16 @@
                         delegateParticipant.Last_Name__c &&
                         delegateParticipant.Phone__c &&
                         delegateParticipant.Email__c &&
-                     	isAdultDel && 
-             			attestAge &&
+
                         emailDelegateVaild &&
                         emailDelegateRepeatValid &&
                         delegateParticipant.Email__c == emailDelegateRepeat)) &&
                 agreePolicy);
+        if(isNewPrimaryDelegate)
+        {
+            if(!(isAdultDel && attestAge))
+            	isValid = false;
+        }
 		if(isValid == undefined){
             component.set('v.allRequiredCompleted', false);
         }else{
@@ -269,7 +274,15 @@
                 ) {
                     component.set('v.useThisDelegate', true);
                     component.set('v.useThisDelegate', false);
-                } else component.set('v.useThisDelegate', true);
+                     component.set('v.isNewPrimaryDelegate', false);
+                } else {
+                    component.set('v.useThisDelegate', true); 
+                    if(!component.get('v.isNewPrimaryDelegate')){
+                         component.set('v.isNewPrimaryDelegate', true);
+                        component.set('v.delegateParticipant.Birth_Year__c','');
+                    component.set('v.attestAge', false);
+                    }
+                }
                 var participantDelegate = component.get('v.delegateParticipant');
                 if (returnValue.email) {
                     participantDelegate.Email__c = returnValue.email;
@@ -337,6 +350,10 @@
         	component.set('v.yobBlankErrMsg', true);
             component.set('v.delNotAdultErrMsg', false);
             component.set('v.attestAge', false);
+           component.set('v.isAdultDel', false);
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
             spinner.hide();
         }else{
             component.set('v.yobBlankErrMsg', false);
@@ -353,9 +370,12 @@
                         component.set('v.isAdultDel', true);
                         component.set('v.delNotAdultErrMsg', false);
                     }else{
-                        component.set('v.isAdultDel', false); 
+                        component.set('v.isAdultDel', false);
                         component.set('v.attestAge', false);
                         component.set('v.delNotAdultErrMsg' , true);
+                         var attestCheckbox = component.find('checkBoxAttestation');
+                        attestCheckbox.setCustomValidity('');
+                        attestCheckbox.reportValidity('');
                     }
                     
                     helper.checkFields(component, event, helper, true);
@@ -365,7 +385,8 @@
                     spinner.hide();
                 }
             );
-        }    
+        } 
+        helper.checkFields(component, event, helper, true);
     },
     
     checkSites: function (component) {
