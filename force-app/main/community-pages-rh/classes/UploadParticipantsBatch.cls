@@ -251,8 +251,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String DelegateAlternatePhoneType = '';
                 String ParticipantPhoneNo = '';
                 String ParticipantPhoneType = '';
-                
-                
+                String ParticipantCountry = '';
+                String DelegateAgeOfMajority = ''; 
+                String DelegateYOB = '';
 
                 FirstName = headerIndexes.get('PARTICIPANT FIRST NAME') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT FIRST NAME')] != null
@@ -310,7 +311,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('LANGUAGE')] != null
                     ? csvRecordData[headerIndexes.get('LANGUAGE')].trim()
                     : null;
-
+                ParticipantCountry = headerIndexes.get('COUNTRY') != null &&
+                    csvRecordData[headerIndexes.get('COUNTRY')] != null
+                    ? csvRecordData[headerIndexes.get('COUNTRY')].trim()
+                    : null;
                 //Picking Delegate information
                 DelegateFirstName = headerIndexes.get('PRIMARY DELEGATE FIRST NAME') != null &&
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE FIRST NAME')] != null
@@ -332,7 +336,15 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')].trim()
                     : null;
-
+                DelegateAgeOfMajority = headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY')].trim()
+                    : null;
+                DelegateYOB = headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH')].trim()
+                    : null;
+                
                 if (!String.isEmpty(EmailAddress)) {
                     String regexExclude = System.Label.RH_Email_Invalid_Characters;
                     String regexInclude = System.Label.RH_Email_Validation_Pattern;
@@ -507,7 +519,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     //code block to fetch mailing state and country code
 
-                    String countryName = uploadUser.Contact.MailingCountry;
+                    //String countryName = uploadUser.Contact.MailingCountry;
+                    String countryName = ParticipantCountry;
                     String stateName = State;
                     String cc;
                     String sc;
@@ -531,8 +544,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone = Phone,
                         MobilePhone = Phone2,
                         MailingState = State,
-                        MailingCountry = uploadUser.Contact.MailingCountry,
-                        MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                        //MailingCountry = uploadUser.Contact.MailingCountry,
+                        //MailingCountryCode = uploadUser.Contact.MailingCountryCode,
+                        MailingCountry = countryName,
+                        MailingCountryCode = cc,
                         MailingPostalCode = PostalCode,
                         userCommunityMode__c = PARTICIPANT_USER_MODE,
                         Consent_To_Inform_About_Study__c = createUsers,
@@ -557,7 +572,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             ? uploadUser.Contact.Language__c
                             : Language),
                         Mailing_State__c = State,
-                        Mailing_Country__c = uploadUser.Contact.MailingCountry,
+                        //Mailing_Country__c = uploadUser.Contact.MailingCountry,
+                        Mailing_Country__c = countryName,
                         Mailing_Zip_Postal_Code__c = PostalCode,
                         Mailing_Country_Code__c = cc,
                         Mailing_State_Code__c =sc
@@ -565,6 +581,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     participant.Adult__c =
                         ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
 
+                    //This intiation done for delegate age Check
+                    Participant__c participantDelegate = new Participant__c(
+                    First_Name__c = DelegateFirstName,
+                    Last_Name__c = DelegateLastName,
+                    Phone__c = ParticipantPhoneNo,
+                    Email__c = DelegateEmail,
+                    Birth_Year__c = DelegateYOB
+                    );
+                    String isAdultDelegate = 'false';
+                    if(!String.isEmpty(DelegateYOB)){
+                        isAdultDelegate = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
+                    }
                     //START : Delegate wrapper creation
                     //This boolean will first check if participant is minor then delegate info is mandatory.
                     Boolean createParticipant = false;
@@ -576,7 +604,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         errorRecordCount++;
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate information is missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
-                    }else{
+                    }
+                    else if((DelegateAgeOfMajority == '' || DelegateAgeOfMajority == 'No') && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestion is incorrect or Missing');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+                    else if(!String.isEmpty(DelegateYOB) && !participant.Adult__c && isAdultDelegate == 'false'){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as Minor delegate cannot be inerted');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+                    else{
                         createParticipant = true;
                     }
                     
@@ -618,8 +657,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         'ERROR: invalid field - Delegate Email'
                                     );
                                 }
+                            if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
+                                //errorRecordCount++;
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
+                                //listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                                isDelegateAvailable = false;
+                            }
                         }
-
                         if (!hasDelegateErrors && isDelegateAvailable) {
                             UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper delegateWrap = new UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper();
                             delegateWrap.DelegateFirstName = DelegateFirstName;
@@ -627,7 +671,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.DelegateEmail = DelegateEmail;
                             delegateWrap.ParticipantPhoneNo = ParticipantPhoneNo;
                             delegateWrap.ParticipantPhoneType = ParticipantPhoneType;
-                            if(!String.isBlank(DelegatePhoneNo) && !String.isBlank(DelegatePhoneType)){
+                            //if(!String.isBlank(DelegatePhoneNo) && !String.isBlank(DelegatePhoneType)){
+                            if(!String.isBlank(DelegatePhoneNo)){
                                 delegateWrap.DelegatePhoneNo = DelegatePhoneNo;
                                 delegateWrap.DelegatePhoneType = DelegatePhoneType;
                             }else{
@@ -636,6 +681,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
 
                             delegateWrap.totalRecordCount = totalRecordCount;
+                            delegateWrap.DelegateAgeOfMajority = DelegateAgeOfMajority; 
+                            delegateWrap.DelegateYOB = DelegateYOB;
                             delegateWrapList.add(delegateWrap);
                         }
                         //Ends : Delegate wrapper creation
