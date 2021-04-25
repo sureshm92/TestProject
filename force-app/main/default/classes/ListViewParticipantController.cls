@@ -580,7 +580,7 @@ public without sharing class ListViewParticipantController {
                 if (initialVisitScheduleTime != '' && initialVisitScheduleTime != null) {
                     initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
                 }
-                if(pe.Participant_Status__c==Label.Eligibility_Passed){
+                if(pe.Participant_Status__c=='Eligibility Passed'){
                     pe.Participant_Status__c=label.Sent_to_Study_Hub;
                  }
                 wpws.add(

@@ -75,13 +75,35 @@
                                     </div>
                                     <aura:set attribute="else">
                                         <div class="step-status">
+                                            <aura:if isTrue="{!step.title == $Label.c.PWS_Contact_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined&amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == true}">
+                                                {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
+                                                value="{!v.participantWorkflowWrapper.sendToSHDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                timeZone="UTC"
+                                                />
+                                                <aura:set attribute="else">
+                                                    <aura:if isTrue="{!step.title == $Label.c.PWS_Eligibility_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined&amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == false}">
+                                                                                                      {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
+                                                value="{!v.participantWorkflowWrapper.sendToSHDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                timeZone="UTC"
+                                                />  
+                                            <aura:set attribute="else">        
                                             {!step.status}&nbsp;<lightning:formattedDateTime
                                                 value="{!step.dateStatus}"
                                                 year="numeric"
                                                 month="short"
                                                 day="2-digit"
                                                 timeZone="UTC"
-                                            />
+                                                />
+                                                </aura:set>
+                                                        </aura:if> 
+                                                    </aura:set>
+                                              </aura:if> 
                                         </div>
                                     </aura:set>
                                 </aura:if>
