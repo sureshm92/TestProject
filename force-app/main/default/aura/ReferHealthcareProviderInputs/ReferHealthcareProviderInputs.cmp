@@ -38,12 +38,6 @@
         action="{!c.approveDelegate}"
     />
     
-    <aura:handler
-        name="change"
-        action="{!c.checkDelegateAgeHandler}"
-        value="{!v.sharingObject.Birth_Year__c}"
-    />
-
     <div
         class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}"
     >
@@ -127,7 +121,7 @@
                                 options="{!v.yob}"
                                  value="{!v.sharingObject.Birth_Year__c}"
                                 useSentenceFont="false"
-                               onchange="{!c.checkDelegateAge}"
+                                onchange="{!c.checkDelegateAgeHandlerNew}"
                                 
                                 /> 
                     
@@ -144,9 +138,11 @@
                                          checked="{!v.attestAge}"
                                          onchange="{!c.checkFields}"
                                          aura:id="AttestCheckbox" 
+                                         disabled="{!!v.isAdultDel}"
+                                        required="true"
                                          />
                     </div>
-                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                         {!$Label.c.RH_DelegateAttestation}
                     </div>
                 </div> 

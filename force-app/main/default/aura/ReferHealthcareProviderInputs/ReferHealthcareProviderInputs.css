@@ -1,4 +1,8 @@
 .THIS .rr-error
 {
-    color: #ff0031;
+     color: rgb(194, 57, 52);
+    font-size : 0.75rem;
+}
+.THIS .slds-checkbox{
+    display: inline-flex;
 }

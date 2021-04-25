@@ -462,6 +462,9 @@ public without sharing class ReferringRemote {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                     }
+                    participantDelegate.Attestation__c = true;
+                    participantDelegate.Attestation_TimeStamp__c = system.now();
+                    participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
                     insert participantDelegate;
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
@@ -487,11 +490,11 @@ public without sharing class ReferringRemote {
                         ptDelegateRef.Contact__c = newContact.Id;
                         ptDelegateRef.Primary_Delegate__c = True;
                         ptDelegateRef.Status__c = 'Disconnected';
-                        if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null){
+                      /*  if(delegateDuplicateInfo == null || delegateDuplicateInfo.participantId == null){
                             ptDelegateRef.Attestation__c = true;
                             ptDelegateRef.Attestation_TimeStamp__c = Date.today();
                             ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
-                        }    
+                        }   */ 
                         String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
                         if (
                             particpantEnrollList.size() > 0 &&
