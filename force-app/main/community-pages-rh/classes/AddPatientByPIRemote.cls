@@ -347,6 +347,9 @@ public without sharing class AddPatientByPIRemote {
                 participantDelegate.Mailing_State__c = participant.Mailing_State__c;
                 participantDelegate.Mailing_State_Code__c = participant.Mailing_State_Code__c;
 				participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                participantDelegate.Attestation__c = true; 
+                participantDelegate.Attestation_TimeStamp__c = system.now(); 
+                participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
                 if (
                     String.isBlank(participantDelegate.Phone__c) &&
                     !String.isBlank(participant.Phone__c)
@@ -385,11 +388,11 @@ public without sharing class AddPatientByPIRemote {
                     ptDelegateRef.Contact__c = newContact.Id;
 					ptDelegateRef.Primary_Delegate__c = true;
                     ptDelegateRef.Status__c = 'Disconnected';
-                    if (ddInfo == null || ddInfo.participantId == null){
+                   /* if (ddInfo == null || ddInfo.participantId == null){
                         ptDelegateRef.Attestation__c = true; 
                         ptDelegateRef.Attestation_TimeStamp__c = Date.today(); 
                         ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
-                    }
+                    } */
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
                     if (
                         particpantEnrollList.size() > 0 &&

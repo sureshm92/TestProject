@@ -635,6 +635,10 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
         public Boolean showBirthDate;
         @AuraEnabled
         public String birthYear;
+        @AuraEnabled
+        public String birthDay;
+        @AuraEnabled
+        public String birthMonth;
 
         public PersonWrapper(Contact contact, Participant__c participant) {
             contactId = contact.Id;
@@ -696,7 +700,22 @@ return getInstituteById(hcpEnrolls[0].HCP__r.HCP_Contact__r.AccountId);
                 if (peList.size() > 0) {
                     showBirthDate = true;
                 } else {
-                    birthYear = participant.Birth_Year__c;
+                    if (!String.isBlank(participant.Date_of_Birth__c)) {
+                        List<String> seperatedDateOfBirthList = participant.Date_of_Birth__c.split(
+                            '-'
+                        );
+                        birthYear = seperatedDateOfBirthList[0];
+                        birthMonth = seperatedDateOfBirthList[1];
+                        birthDay = seperatedDateOfBirthList[2];
+                    } else {
+                        if (String.isBlank(participant.Birth_Year__c)) {
+                            birthYear = 'YYYY';
+                        } else {
+                            birthYear = participant.Birth_Year__c;
+                        }
+                        birthMonth = 'MM';
+                        birthDay = 'DD';
+                    }
                     showBirthDate = false;
                 }
             }

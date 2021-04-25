@@ -264,6 +264,27 @@
         <value>as a Referring Provider for all your existing and future study sites</value>
     </labels>
     <labels>
+        <fullName>AccountSetting_Birth_Day</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Day</shortDescription>
+        <value>Day</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Birth_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Month</shortDescription>
+        <value>Month</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Birth_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Birth Year</shortDescription>
+        <value>Year</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_Cookie_Autocomplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -472,6 +493,13 @@
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
         <value>Used to store user&apos;s preferred language so that log in page may be displayed in user&apos;s preferred language.</value>
+    </labels>
+    <labels>
+        <fullName>AccountSetting_Date_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Date Of Birth</shortDescription>
+        <value>Date Of Birth</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -17295,7 +17323,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH Initial Visit Date and time</shortDescription>
-        <value>Outcome of Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+        <value>Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>

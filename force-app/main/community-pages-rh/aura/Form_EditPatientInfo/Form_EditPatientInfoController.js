@@ -415,26 +415,32 @@
              if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
                  isValid = false;
              }
-             /* if (participant.Phone__c && !participant.Phone_Type__c) {
+         if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
-        } */   
+        }    
              console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
              // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
              
              if(component.get('v.fromActionParticipant')){
-                 if(component.get('v.isFirstPrimaryDelegate')){
-                     if(!component.get('v.attestAge')){
-                         isValid = false;
-                     }
+                 if(component.get('v.isFirstPrimaryDelegate') || component.get('v.isBulkImport')){
+                     
                      if(participantDelegateOld.Birth_Year__c == '')
                      {
                          component.set('v.yobBlankErrMsg', true);
                          component.set('v.delNotAdultErrMsg', false);
                          component.set('v.attestAge',false);
+                         component.set('v.isAdultDel',false); 
+                         var attestCheckbox = component.find('AttestCheckbox');
+                         attestCheckbox.setCustomValidity('');
+                         attestCheckbox.reportValidity('');
                          isValid = false;
                      }
                      else{
                          component.set('v.yobBlankErrMsg', false);
+                     }
+                     if(participantDelegateOld.Birth_Year__c != '' && component.get('v.attestAge') == false)
+                     {
+                         isValid = false;
                      }
                  }
                  

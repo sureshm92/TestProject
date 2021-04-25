@@ -19,13 +19,15 @@ public without sharing class Action_UploadParticipantsRemote {
         //'CITY',
         'STATE',
         'POSTAL CODE',
-       // 'COUNTRY',
+        'COUNTRY',
         'LANGUAGE',
         'PRIMARY DELEGATE FIRST NAME',
         'PRIMARY DELEGATE LAST NAME',
-        'PRIMARY DELEGATE EMAIL',
+        'PRIMARY DELEGATE EMAIL',            
         'PRIMARY DELEGATE PHONE NUMBER',
-        'PRIMARY DELEGATE PHONE TYPE'
+        'PRIMARY DELEGATE PHONE TYPE',
+        'PRIMARY DELEGATE YEAR OF BIRTH',
+        'PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY'
     };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String>{
         'PARTICIPANT FIRST NAME',

@@ -15,11 +15,8 @@ public Database.QueryLocator start(Database.BatchableContext bc) {
             lstContact = [Select Id,Is_Patient_User_Created__c,userCommunytyType__c from Contact where Id IN:conListId];
             
             for(Contact c: lstContact ){ 
-                if(c.userCommunytyType__c =='Participant')
-                {  
                   if(c.Is_Patient_User_Created__c == false){
                   cList.add(new Contact(Id = c.Id,Is_Patient_User_Created__c=true));}
-                }
             }
             if(cList.size() > 0)
             {

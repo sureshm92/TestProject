@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.rr-body-content > .rr-width-limiter {
+ .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
 .THIS.rr-body-content > .rr-width-limiterRTL {
@@ -12,7 +12,7 @@
 
 .THIS .rr-error
 {
-    color: #ff0031;
+     color: rgb(194, 57, 52);
 }
 
 .THIS .pe-button .rr-icon-default {
@@ -446,4 +446,8 @@
     .THIS lightning-map {
         height: 100%;
     }
+}
+
+.THIS .slds-checkbox{
+    display: inline-flex;
 }
