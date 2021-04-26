@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
 
@@ -115,6 +115,7 @@
         component.find('delegate-phone').focus();
         component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
+        component.set('v.isNewPrimaryDelegate',false);
         //helper.checkFields(component,event,helper, true);
     },
 

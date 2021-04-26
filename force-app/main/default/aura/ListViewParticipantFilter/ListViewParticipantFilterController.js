@@ -160,6 +160,9 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
+        var menuItem = component.find('menuItem');
+        $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
     },
     handleChangeSex: function (component, event, helper) {
@@ -243,6 +246,9 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",false);
+        var menuItem = component.find('menuItem');
+        $A.util.removeClass(menuItem, 'slds-is-open');
         helper.handleSearchHelper(component, event, helper);
     },
     handleTable: function (component, event, helper) {
@@ -336,7 +342,8 @@
                 } else {
                     component.set('v.PromoteToSH', false);
                 }
-                
+                component.set('v.enablePP', result.enablePP);
+                component.set('v.enableSH', result.enableSH);
                 var PaginationList = component.get('v.PaginationList');
                 var SelectedLength = 0;
                 var NotLockedLen = 0;
@@ -427,10 +434,12 @@
                 component.set('v.PaginationList', updatedPaginationList);
             }
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     selectAllCheckbox: function (component, event, helper) {
@@ -491,10 +500,12 @@
             }
             component.set('v.PaginationList', updatedPaginationList);
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     onClickCardView: function (component, event, helper) {
@@ -810,6 +821,7 @@
             component.set('v.DeSelectedIds', '');
             component.set('v.count', 0);
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         } else {
             helper.showToastLimit(component, event, helper);
         }
@@ -904,7 +916,9 @@
     },
     toggleVisibility : function(cmp, event, helper) {
         var menuItem = cmp.find('menuItem');
+        if(cmp.get('v.enableSH') || cmp.get('v.enablePP')){
         $A.util.toggleClass(menuItem,'slds-is-open');
+        }
     },
     hideOnBlur : function(component, event, helper){
         var myMenu = component.find('menuItem');
@@ -931,7 +945,8 @@
         //component.set('v.statusSelected','Received');
          if(val == 'Invite to Patient Portal')
         {
-          component.set("v.isCheckboxhidden",true);   
+          component.set("v.isCheckboxhidden",true);
+          component.set("v.turnON",true);   
         }
         helper.handleSearchHelper(component, event, helper);
         if(val == 'Send to Study Hub')
@@ -939,6 +954,7 @@
             if(!component.get('v.PromoteToSH')){
                 component.set("v.isCheckboxhidden",true); 
             }
+            component.set("v.turnON",true);
         }
         
     },
@@ -947,6 +963,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false);
         component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
         helper.handleSearchHelper(component, event, helper);
     },
     
@@ -977,6 +994,7 @@
             component.set('v.DeSelectedIds', '');
             component.set('v.count', 0);
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }else {
             helper.showToastLimit(component, event, helper);
         }

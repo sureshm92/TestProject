@@ -211,6 +211,9 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
                 delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
                 delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
+                delegateParticipant.Attestation__c = true;
+                delegateParticipant.Attestation_TimeStamp__c = system.now();
+                delegateParticipant.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
             //system.debug('>>exxce>>>'+0/0);
@@ -251,10 +254,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Disconnected'
-                                                                                               ,Attestation__c = true
-                                                                                               ,Attestation_TimeStamp__c = Date.today()
-                                                                                               ,Attested_by__c = CommunityService.getInstance().getCurrentContactId()));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
             system.debug('>>>mapParticipantIdToPatientDelegate>>'+mapParticipantIdToPatientDelegate.values());
           //  system.debug('<>>exception>>>'+0/0);
@@ -1322,6 +1322,9 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
                 delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
                 delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
+                delegateParticipant.Attestation__c = true;
+                delegateParticipant.Attestation_TimeStamp__c = system.now();
+                delegateParticipant.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
             
@@ -1363,10 +1366,7 @@ public without sharing class ParticipantInformationRemote {
                 mapParticipantIdToPatientDelegate.put(participantConId, new Patient_Delegate__c(Contact__c = participantConId
                                                                                                 ,Primary_Delegate__c = True
                                                                                                 ,Participant__c=pe.Participant__c
-                                                                                                ,Status__c = 'Disconnected'
-                                                                                               ,Attestation__c = true
-                                                                                               ,Attestation_TimeStamp__c = Date.today()
-                                                                                               ,Attested_by__c = CommunityService.getInstance().getCurrentContactId()));
+                                                                                                ,Status__c = 'Disconnected'));
             }  
              if(!mapParticipantIdToPatientDelegate.isEmpty())  
               upsert mapParticipantIdToPatientDelegate.values();
@@ -1563,6 +1563,11 @@ public without sharing class ParticipantInformationRemote {
         }else{
            updateParticipantContactLanguage(contactInfoJSON); 
         } 
+    }
+    //Added as per REF-3248
+    @AuraEnabled
+    public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
+        return ReferringRemote.checkDelegateAge(participantJSON,delegateParticipantJSON);
     }
     
     @AuraEnabled

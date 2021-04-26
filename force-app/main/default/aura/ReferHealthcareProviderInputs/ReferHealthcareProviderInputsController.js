@@ -1,7 +1,7 @@
 /**
  * Created by Nikita Abrazhevitch on 10-Apr-20.
  */
-({
+ ({
     checkContact: function (component, event, helper) {
         var sharingObject = component.get('v.sharingObject');
         var email = event.getSource().get('v.value');
@@ -49,11 +49,13 @@
                 component.set('v.sharingObject.email', event.getSource().get('v.value'));
                 if(component.get('v.isFirstPrimaryDelegate'))
                 {
-                    component.set('v.sharingObject.Birth_Year__c','');
+                    
+                     component.set('v.sharingObject.Birth_Year__c','');
                     component.set('v.isFirstPrimaryDelegate', false);
                     component.set('v.attestAge', false);
                     component.set('v.yobBlankErrMsg', false);
                     component.set('v.delNotAdultErrMsg', false);
+                    component.set('v.isAdultDel', false); 
                 }
             }
             if (event.getSource().getLocalId() == 'firstNameInput') {
@@ -113,16 +115,27 @@
                 component.set('v.yobBlankErrMsg', true);
                 component.set('v.delNotAdultErrMsg', false);
                 component.set('v.attestAge',false);
+                component.set('v.isAdultDel', false); 
+                var attestCheckbox = component.find('AttestCheckbox');
+                attestCheckbox.setCustomValidity('');
+                attestCheckbox.reportValidity(''); 
                 isValid = false;
             }
             else{
+                if(component.get('v.attestAge') == false)
+                    isValid = false;
                 component.set('v.yobBlankErrMsg', false);
             }
             if(!component.get('v.isAdultDel')) 
                 component.set('v.attestAge', false);
-             if(!component.get('v.attestAge')){
-                    isValid = false;
-                }
+             
+            /*if(component.get('v.attestAge') == true){
+                if(sharingObject.Birth_Year__c == '')
+               component.set('v.yobBlankErrMsg', true);
+                if(component.get('v.isAdultDel'))
+                    component.set('v.attestAge',false);
+            } */
+             
             
         }
         console.log('>>isValid  >>'+isValid);
@@ -166,7 +179,8 @@
         component.set('v.useThisDelegate', true);
     },
     
-    checkDelegateAgeHandler : function(component, event, helper){
+    checkDelegateAgeHandlerNew : function(component, event, helper){
+        console.log('>>coming in controller age>>');
         helper.checkGuradianAge(component, event, helper);
 },
     

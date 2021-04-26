@@ -74,7 +74,8 @@
  <aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
  <aura:attribute name="yobBlankErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
  <aura:attribute name="delNotAdultErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
- <aura:attribute name="errorMessage" type="String" default=''/>  <!--added by sumit -->       
+ <aura:attribute name="errorMessage" type="String" default=''/> 
+  <aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true"/> <!--added by sumit -->       
 
  <aura:attribute name="needsGuardian" type="Boolean" default="false" />
  <aura:attribute name="enableGuardian" type="Boolean" default="true" /> <!-- REF-3070-->
@@ -981,9 +982,7 @@
                                              </div>
                                          </div>
                                          <!-- added by sumit-->
-                                         <aura:if
-                                             isTrue="{!!((v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; v.useThisDelegate)}"
-                                         >
+                                         <aura:if isTrue="{!v.isNewPrimaryDelegate}">
                                          <div
                                               class="slds-grid slds-gutters slds-wrap rr-form-element"
                                               >
@@ -1025,10 +1024,13 @@
                                                  type="checkbox"
                                                  label=""
                                                  checked="{!v.attestAge}"
+                                                 required="true"
+                                                 disabled= "{!!v.isAdultDel}"
+                                                 aura:id="checkBoxAttestation" 
                                                  onchange="{!c.doCheckYearOfBith}"
                                              />
                                          </div>
-                                         <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                         <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                                              {!$Label.c.RH_DelegateAttestation}
                                          </div>
                                      </div>                                    

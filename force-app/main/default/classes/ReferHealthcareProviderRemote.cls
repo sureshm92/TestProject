@@ -44,8 +44,8 @@ global without sharing class ReferHealthcareProviderRemote {
 
         List<ReferHealthcareProviderRemote.PDWrapper> wrap = getWrapPD(participantId);
         List<LabelValueItem> yearOfBirth = ParticipantService.getYearofBirthList();
-        if (wrap.isEmpty())
-            wrap.add(new PDWrapper());
+       /* if (wrap.isEmpty())
+            wrap.add(new PDWrapper()); */
         
         return new InitData(healthcareProviders, wrap,yearOfBirth);
     }
@@ -443,7 +443,10 @@ global without sharing class ReferHealthcareProviderRemote {
                         Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c,
                         Mailing_State_Code__c = participantObj.Mailing_State_Code__c,
                         Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c,
-                        Birth_Year__c = String.isNotBlank(YearOfBirth) ? YearOfBirth : ''
+                        Birth_Year__c = String.isNotBlank(YearOfBirth) ? YearOfBirth : '',
+                        Attestation__c = true,
+                		Attestation_TimeStamp__c = system.now(),
+                		Attested_by__c = CommunityService.getInstance().getCurrentContactId()
                     );
                     insert participantDelegate;
                 }
@@ -459,9 +462,6 @@ global without sharing class ReferHealthcareProviderRemote {
                 if(lstPatientDelegate.isEmpty()){
                 ptDelegateRef.Participant__c = participantObj.Id;
                 ptDelegateRef.Contact__c = newContact.Id;
-                ptDelegateRef.Attestation__c = true;
-                ptDelegateRef.Attestation_TimeStamp__c = Date.today();
-                ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
                 }
                 else{
                     ptDelegateRef.ID = lstPatientDelegate[0].ID;

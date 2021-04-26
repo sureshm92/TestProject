@@ -17323,7 +17323,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH Initial Visit Date and time</shortDescription>
-        <value>Outcome of Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+        <value>Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
         <fullName>RH_Masked_Display_IQVIA_User</fullName>
