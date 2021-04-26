@@ -584,7 +584,7 @@ public without sharing class ViewPatientsRemote {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),
+                new LabelValueItem(Label.Sent_to_Study_Hub, 'Eligibility Passed'),
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };

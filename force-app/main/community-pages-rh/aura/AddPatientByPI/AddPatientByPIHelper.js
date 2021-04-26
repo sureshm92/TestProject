@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     initData: function (component) {
         var ss = component.get('v.ss');
         component.set('v.participant', {
@@ -66,6 +66,7 @@
                     component.set('v.createUsers', false);
                 }
                 component.find('checkbox-Contact').set('v.checked', false);
+                component.set('v.attestAge', false);
             },
             null,
             function () {
@@ -92,6 +93,7 @@
         
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
+        let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.participantDelegate');
@@ -142,9 +144,7 @@
                 delegateParticipant.First_Name__c &&
                 delegateParticipant.Last_Name__c &&
                 delegateParticipant.Phone__c &&
-                delegateParticipant.Email__c &&
-            	isAdultDel && 
-                attestAge);
+                delegateParticipant.Email__c);
 
         let isEmailValid = emailDelegateVaild && emailDelegateRepeatValid;
         if (emailValidCheck)
@@ -189,6 +189,12 @@
             }
 
         isValid = isValid && isEmailValid;
+        if(isNewPrimaryDelegate)
+        {
+            if(!(isAdultDel && attestAge))
+                isValid = false;
+            
+        }
         console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
         let editForm = component.find('editForm');
@@ -196,7 +202,7 @@
     },
 
     checkValidEmail: function (email, emailValue) {
-        debugger;
+      //  debugger;
         var isValid = false;
         var regexp = $A.get('$Label.c.RH_Email_Validation_Pattern');
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
@@ -277,6 +283,10 @@
         	component.set('v.yobBlankErrMsg', true);
             component.set('v.delNotAdultErrMsg', false);
             component.set('v.attestAge', false);
+             component.set('v.isAdultDel', false);
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
             spinner.hide();
         }else{	
             component.set('v.yobBlankErrMsg', false);
@@ -296,6 +306,9 @@
                         component.set('v.isAdultDel', false); 
                         component.set('v.attestAge', false);
                         component.set('v.delNotAdultErrMsg', true);
+                        var attestCheckbox = component.find('checkBoxAttestation');
+                        attestCheckbox.setCustomValidity('');
+                        attestCheckbox.reportValidity('');
                     }
                     
                     helper.checkFields(component, event, helper, true);
@@ -305,7 +318,8 @@
                     spinner.hide();
                 }
             );
-        }    
+        }
+        helper.checkFields(component, event, helper, true);
     },
     
     checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
@@ -320,6 +334,7 @@
                 lastName: lastName
             },
             function (returnValue) {
+                console.log('>>>returnvalue>>'+returnValue);
                 component.set('v.delegateDuplicateInfo', returnValue);
                 if (
                     returnValue.isDuplicateDelegate ||
@@ -328,7 +343,14 @@
                 ) {
                     component.set('v.useThisDelegate', true);
                     component.set('v.useThisDelegate', false);
-                } else component.set('v.useThisDelegate', true);
+                     component.set('v.isNewPrimaryDelegate', false);
+                } else{
+                    component.set('v.useThisDelegate', true);
+                    component.set('v.isNewPrimaryDelegate', true);
+                    component.set('v.participantDelegate.Birth_Year__c','');
+                    component.set('v.attestAge', false);
+                    
+                }
                 var participantDelegate = component.get('v.participantDelegate');
                 if (returnValue.email) {
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
@@ -341,6 +363,7 @@
                     participantDelegate.First_Name__c = returnValue.firstName;
 
                 component.set('v.participantDelegate', participantDelegate);
+                console.log('>>>final usethisdelegate>>'+component.get('v.useThisDelegate'));
                 helper.checkFields(component, event, helper, true);
                 component.set('v.delegateEmailWasChanged', false);
                 spinner.hide();

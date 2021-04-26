@@ -55,9 +55,9 @@
                                 </div>
                             </div>
                         </div>
-                        <aura:if isTrue="{!or(v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title=='Eligibility Passed'&amp;&amp; v.initValReqd==false,v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title=='Successfully Contacted'&amp;&amp; v.initValReqd==true)}">
+                        <aura:if isTrue="{!or(v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title==$Label.c.Eligibility_Passed&amp;&amp; v.initValReqd==false,v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title==$Label.c.Successfully_Contacted&amp;&amp; v.initValReqd==true)}">
                         <!--<aura:if isTrue="{!(v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title=='Successfully Contacted'&amp;&amp; v.initValReqd==true)}">-->
-                        <div class="vri-state-label">{!$Label.c.Eligibility_Passed}</div>
+                        <div class="vri-state-label">{!$Label.c.Sent_to_Study_Hub}</div>
                         <div class="vri-state-label">{!v.sendToSHReason}</div>
                         <div class="vri-state-label">
                             <lightning:formattedDateTime

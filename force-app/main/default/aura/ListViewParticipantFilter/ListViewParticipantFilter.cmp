@@ -75,6 +75,7 @@
     <aura:attribute name="statusChange" type="boolean" default="false"/>
     <aura:attribute name="enablePP" type="boolean" default="false"/>
     <aura:attribute name="enableSH" type="boolean" default="false"/>
+    <aura:attribute name="turnON" type="boolean" default="false"/>
     <aura:handler
                   name="change"
                   value="{!v.filterList[0].Status}"
@@ -397,7 +398,7 @@
                      <div class="cancel-btn">
                   		<lightning:button variant="base" label="{!$Label.c.Cancel}" onclick="{!c.noAction}"/>
                      </div>
-                  <lightning:button  class="apollo-btn primary" variant="brand" label="{!$Label.c.Submit}" disabled="{!v.enablePromoteToSH}"  onclick="{!c.onSubmit}" />
+                  <lightning:button  class="apollo-btn primary" variant="brand" label="{!$Label.c.Submit}" disabled="{!v.turnON}"  onclick="{!c.onSubmit}" />
                 </aura:if>
             </div>
             

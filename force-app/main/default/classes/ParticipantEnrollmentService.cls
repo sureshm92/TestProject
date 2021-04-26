@@ -590,6 +590,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
         'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
         'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
+        'Clinical_Trial_Profile__r.Initial_Visit_Required__c',    
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
@@ -674,6 +675,8 @@ public without sharing class ParticipantEnrollmentService {
         'Visit_Plan__r.Name',
         'IVRS_IWRS__c',
         'Show_Referring_Provider__c',
+        'Study_Hub_Log__c',
+        'Study_Hub_Log__r.Response_Status_Code__c',   
         'Study_Name__c',
         'Study_Site__c',
         'Study_Site__r.Name',
@@ -729,7 +732,8 @@ public without sharing class ParticipantEnrollmentService {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_Mail_Email_contact_for_this_study__c',
-        'Permit_IQVIA_to_contact_about_study__c'
+        'Permit_IQVIA_to_contact_about_study__c',
+        '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'    
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',

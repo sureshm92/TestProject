@@ -168,53 +168,62 @@ public without sharing class ListViewParticipantController {
     public static void createUserForPatientProtal(List<string> peId, Boolean sendEmails) {
         system.debug('ListSize'+peId.size());
       try {
-        List<Participant_Enrollment__c> per = [SELECT Id,
-                                               Participant_Contact__c,
-                                               PI_Contact__c,
-                                               HCP_Contact__c,HCP_Contact_HCPEnroll__c,
-                                              Clinical_Trial_Profile__r.CommunityTemplate__c 
-                                              FROM Participant_Enrollment__c 
-                                              WHERE ID IN:peId];
-        
-        List<Contact> lstContact = new List<Contact>();
-        for(Participant_Enrollment__c pe: per){
-        if (sendEmails) {
-           Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
-            lstContact.add(con);           
-         }
-        }
-        if(lstContact != null  && lstContact.size() > 0){
-          update lstContact;
-        }
-        List<User> returnUsers = new List<User>();
-        for(Participant_Enrollment__c p: per)
-        { 
-            if (p.HCP_Contact__c == null) {
-                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(
-                        new Map<Id, Id>{ p.Participant_Contact__c => p.PI_Contact__c }
-                    );               
-            } else {
-                    
-                system.debug('insideelse');
-                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(new Map<Id, Id>{ p.Participant_Contact__c => p.HCP_Contact_HCPEnroll__c});
+            List<Participant_Enrollment__c> per = [SELECT Id,
+            Participant_Contact__c,
+            PI_Contact__c,
+            HCP_Contact__c,HCP_Contact_HCPEnroll__c,
+            Clinical_Trial_Profile__r.CommunityTemplate__c 
+            FROM Participant_Enrollment__c 
+            WHERE ID IN:peId];
+
+            List<Contact> lstContact = new List<Contact>();
+            string communityTemplatename='';
+            List<User> returnUsers = new List<User>();
+            Map<Id, Id> createUsersMap = new Map<Id, Id>();
+            
+            
+            for(Participant_Enrollment__c pe: per){
+                if (sendEmails) {
+                Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
+                lstContact.add(con);           
+                }
+                if(communityTemplatename!=null){
+                communityTemplatename = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                }
+                if (pe.HCP_Contact__c == null) {
+                createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
+                }else{
+                createUsersMap.put(pe.Participant_Contact__c,pe.HCP_Contact_HCPEnroll__c);
+                }
             }
+
+            if(!lstContact.isEmpty()){
+            update lstContact;
+            }
+
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
-            String permissionSetName = CommunityTemplateService.getTemplate(
-                p.Clinical_Trial_Profile__r.CommunityTemplate__c
-            )
-                .permissionSet;
-            actionAssignContactPermissions.addPermission(
+            String permissionSetName = CommunityTemplateService.getTemplate(communityTemplatename).permissionSet; 
+
+            if (!createUsersMap.isEmpty()) {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                .createParticipantUsers(createUsersMap);
+            }
+
+
+            for(Participant_Enrollment__c p: per)
+            { 
+                actionAssignContactPermissions.addPermission(
                 p.Participant_Contact__c,
                 permissionSetName
-            );
-            if (!actionAssignContactPermissions.isEmpty()) {
-                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            }       
-        }
+                );
+
+            }
+            
+            if(!actionAssignContactPermissions.isEmpty()) {
+            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+            } 
         
-            //return returnUsers;
+           
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -571,7 +580,7 @@ public without sharing class ListViewParticipantController {
                 if (initialVisitScheduleTime != '' && initialVisitScheduleTime != null) {
                     initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
                 }
-                if(pe.Participant_Status__c==Label.Eligibility_Passed){
+                if(pe.Participant_Status__c=='Eligibility Passed'){
                     pe.Participant_Status__c=label.Sent_to_Study_Hub;
                  }
                 wpws.add(

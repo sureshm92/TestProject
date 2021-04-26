@@ -29,7 +29,6 @@
                         component.set('v.participantDelegate.Email__c',returnValue.email);
                         component.set('v.participantDelegate.Phone__c',returnValue.participantPhoneNumber);
                         component.set('v.participantDelegateUseExisiting',returnValue.DelegateParticipant);
-                    
                         var DelegatePhoneField = component.find('DelegatePhoneName');
                         DelegatePhoneField.setCustomValidity('');
                         DelegatePhoneField.reportValidity();
@@ -111,6 +110,9 @@
                         component.set('v.yobBlankErrMsg', false);
                     }else{
                        component.set('v.isAdultDel', false); 
+                        var attestCheckbox = component.find('AttestCheckbox');
+                         attestCheckbox.setCustomValidity('');
+                         attestCheckbox.reportValidity('');
                         component.set('v.attestAge', false);
                          component.set('v.yobBlankErrMsg', false);
                         component.set('v.delNotAdultErrMsg', true);
