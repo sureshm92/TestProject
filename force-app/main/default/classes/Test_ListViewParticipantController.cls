@@ -1,6 +1,6 @@
 @IsTest
 public class Test_ListViewParticipantController {
- /**
+ 
     @testsetup
     public static void dataSetup() {
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
@@ -277,5 +277,5 @@ public class Test_ListViewParticipantController {
         }
     }
     
-    **/
+    
 }

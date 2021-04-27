@@ -1,7 +1,7 @@
 public without sharing class Batch_ContactUpdateForParticipants implements Database.Batchable<SObject>{
 public Database.QueryLocator start(Database.BatchableContext bc) {
         return Database.getQueryLocator(
-            [SELECT Id,ContactId From User where ContactId!=null]
+            [SELECT Id,ContactId,Contact.userCommunityMode__c  From User where ContactId!=null and Contact.userCommunityMode__c ='Participant']
         );
     }
     public void execute(Database.BatchableContext bc, List<SObject> records) {
