@@ -50,7 +50,7 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
             }
             Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
 			// To capture the current hour of the Participant Time Zone
-			Integer currentHour = System.now().hourGmt();
+			Integer currentHour = System.now().hour();
             String batchContextTimezone=String.valueof(UserInfo.getTimeZone());
             Date currentDateInParticipantTimeZone= date.today();
             // checking if User exists for this participant or not
