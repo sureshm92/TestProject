@@ -90,6 +90,11 @@
     position: absolute; 
     right: 0;
 }
+
+.THIS .export-all-RTL{
+    position: absolute; 
+  
+}
 .THIS .button-grid {
     display: flex;
     height: 100%;
