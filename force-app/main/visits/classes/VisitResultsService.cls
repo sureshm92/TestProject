@@ -186,10 +186,14 @@ public inherited sharing class VisitResultsService {
     }
 
     public List<Patient_Visit__c> getPatientVisitsForReport(Participant_Enrollment__c pe) {
-        //Fetch only the most recent visit for in-trial participant
-        String dataOrder = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(pe.Participant_Status__c)
+        //For in-trial report
+        List<Patient_Visit__c> filteredPatientVisits = new List<Patient_Visit__c>();
+        Boolean isAlumniParticipant = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+            pe.Participant_Status__c
+        );
+        String dataOrder = isAlumniParticipant
             ? ' ORDER BY Completed_Date__c NULLS LAST'
-            : ' ORDER BY Completed_Date__c DESC NULLS LAST LIMIT 1';
+            : ' ORDER BY Visit_Number__c, Completed_Date__c';
         String visitsQuery =
             'SELECT ' +
             'Name, ' +
@@ -204,8 +208,27 @@ public inherited sharing class VisitResultsService {
             '\'' +
             ' AND Status__c = \'Completed\'' +
             dataOrder;
-        return ((DatabaseProxy) ClassFactory.newInstance(DatabaseProxy.class))
+        List<Patient_Visit__c> queryResult = ((DatabaseProxy) ClassFactory.newInstance(
+                DatabaseProxy.class
+            ))
             .query(visitsQuery, true);
+        if (!isAlumniParticipant) {
+            Integer timeSharing =
+                queryResult.size() -
+                (pe.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue());
+            for (Integer i = queryResult.size() - 1; i >= 0; i--) {
+                if (
+                    (i + 1) <= timeSharing &&
+                    queryResult.get(i).Visit_Results__r != null &&
+                    !queryResult.get(i).Visit_Results__r.isEmpty()
+                ) {
+                    filteredPatientVisits.add(queryResult.get(i));
+                    break;
+                }
+            }
+            return filteredPatientVisits;
+        }
+        return queryResult;
     }
 
     public VisitResultsContainer getVisitResultsContainer(

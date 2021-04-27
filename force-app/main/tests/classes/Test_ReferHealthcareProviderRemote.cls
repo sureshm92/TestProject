@@ -42,10 +42,17 @@ private class Test_ReferHealthcareProviderRemote {
             Email = 'pa_delegate@emil.com'
         );
         insert parDelegateContact;
-
+        Participant__c participantDelegate = new Participant__c( Adult__c = true,
+                                                                Contact__c = parDelegateContact.Id,
+                                                                First_Name__c = parDelegateContact.FirstName,
+                                                                Last_Name__c = parDelegateContact.LastName,
+                                                                Email__c = parDelegateContact.Email,
+                                                                Phone__c = '98723333');
+        insert participantDelegate;
         Patient_Delegate__c deleg = new Patient_Delegate__c();
         deleg.Participant__c = partEnroll.Participant__c;
         deleg.Contact__c = parDelegateContact.Id;
+         deleg.Status__c = 'Disconnected';
         insert deleg;
         result = ReferHealthcareProviderRemote.getInitData(
             partEnroll.Id,

@@ -259,7 +259,7 @@ public without sharing class RRChangePasswordController {
             country = participant.Mailing_Country_Code__c;
             state = participant.Mailing_State_Code__c;
         }
-        if (contact.UserCommunityIsDelegate__c) {
+        if (contact.UserCommunityIsDelegate__c && isParticipant) {
             Integer currentYear = Date.Today().Year();
             for (Integer i = currentYear; i > currentYear - 150; i--) {
                 years.add(new SelectOption(String.valueof(i), String.valueof(i)));
