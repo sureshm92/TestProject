@@ -109,7 +109,8 @@
         }
         var isValid = email && communityService.isValidEmail(email) && firstName && lastName;
         if(component.get('v.isFirstPrimaryDelegate'))
-        {	
+        {
+            if(sharingObject.sObjectType == 'Object') {
             if(sharingObject.Birth_Year__c == '')
             {
                 component.set('v.yobBlankErrMsg', true);
@@ -128,15 +129,10 @@
             }
             if(!component.get('v.isAdultDel')) 
                 component.set('v.attestAge', false);
-             
-            /*if(component.get('v.attestAge') == true){
-                if(sharingObject.Birth_Year__c == '')
-               component.set('v.yobBlankErrMsg', true);
-                if(component.get('v.isAdultDel'))
-                    component.set('v.attestAge',false);
-            } */
+        
              
             
+          }
         }
         console.log('>>isValid  >>'+isValid);
         component.set('v.isValid', isValid);
@@ -180,7 +176,7 @@
     },
     
     checkDelegateAgeHandlerNew : function(component, event, helper){
-        console.log('>>coming in controller age>>');
+        
         helper.checkGuradianAge(component, event, helper);
 },
     
