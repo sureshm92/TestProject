@@ -12,7 +12,7 @@ trigger ContactTrigger on Contact(
     after delete,
     after undelete
 ) {
-    if(Label.ContactSwitcher == '1'){
+    if(UserInfo.getUserName() != Label.UserName){
     TriggerHandlerExecutor.execute(
         ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
     );
