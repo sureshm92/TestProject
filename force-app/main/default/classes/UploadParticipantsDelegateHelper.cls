@@ -90,7 +90,17 @@ public without sharing class UploadParticipantsDelegateHelper {
                 patientDelegateMap.put(pWrapper.totalRecordCount,ptDelegateRef);
             }
             else {
-                duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
+                if(!String.isBlank(ddInfo.contactId) && pWrapper.mainparticipant.Id != null) {
+                    List<Patient_Delegate__c> checkPDel = [
+                        SELECT Id
+                        FROM Patient_Delegate__c
+                        WHERE Participant__c = :pWrapper.mainparticipant.Id AND Contact__r.Id = :ddInfo.contactId
+                    ];
+
+                    if (checkPDel.isEmpty()) {
+                        duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
+                    }
+                }    
             }
         }
 
