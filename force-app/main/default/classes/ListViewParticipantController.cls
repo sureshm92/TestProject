@@ -206,7 +206,7 @@ public without sharing class ListViewParticipantController {
 
             if (!createUsersMap.isEmpty()) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createParticipantUsers(createUsersMap);
+                .createParticipantUsersBulk(createUsersMap);
             }
 
 
