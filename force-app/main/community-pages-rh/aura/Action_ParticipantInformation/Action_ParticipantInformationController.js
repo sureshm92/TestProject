@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
- ({
+({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -629,13 +629,11 @@
                 null,
                 function () {
                     var childComponent = component.find("childCmp");
-        			childComponent.refreshChildTable();
-                    component.set('v.updateInProgress', false);
-                    component.set('v.isStatusChanged', false);
-                    if (component.get('v.isListView') == true) {
-                        var p = component.get('v.parent');
-                        p.refreshTable();
+                    if(childComponent!=undefined){
+                        childComponent.refreshChildTable();
+                        component.set('v.isStatusChanged', false);
                     }
+                    component.set('v.updateInProgress', false);
                     component.find('spinner').hide();
                 });
         helper.getpeshdate(component,event,helper);
