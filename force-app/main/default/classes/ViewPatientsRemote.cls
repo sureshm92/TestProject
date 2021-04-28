@@ -174,7 +174,7 @@ public without sharing class ViewPatientsRemote {
                 pshStatus.add(psl.status__c);
             }
             InitData initData = new InitData();
-            String additionalFilter = getAdditionalFilter(userMode, false, null, sponsorName);
+            String additionalFilter = getAdditionalFilter(userMode, false, null, sponsorName, false, false);
             initData.paginationData = new PaginationData();
             initData.peFilterData = createPEFilterData(
                 userMode == 'PI' ? 'Active' : null,
@@ -237,12 +237,20 @@ public without sharing class ViewPatientsRemote {
         Boolean emancipatedPE,
         String sponsorName
     ) {
+        Boolean isEligibilityPassed = false;
+        Boolean isSentToSH = false;
         try {
             SearchResult result = new SearchResult();
             result.peFilter = (ParticipantEnrollmentService.PEFilter) JSON.deserialize(
                 filterJSON,
                 ParticipantEnrollmentService.PEFilter.class
             );
+            if(result.peFilter.participantStatus == 'Sent to Study Hub'){
+                isSentToSH = true;
+                result.peFilter.participantStatus = 'Eligibility Passed';
+            }else if(result.peFilter.participantStatus == 'Eligibility Passed'){
+                isEligibilityPassed = true;
+            }
             result.paginationData = (PaginationData) JSON.deserialize(
                 paginationJSON,
                 PaginationData.class
@@ -251,7 +259,9 @@ public without sharing class ViewPatientsRemote {
                 userMode,
                 emancipatedPE,
                 null,
-                sponsorName
+                sponsorName,
+                isEligibilityPassed,
+                isSentToSH
             );
             updateSearchResultAccordingItemChanged(result, changedItem);
             result.peFilterData = createPEFilterData(
@@ -317,7 +327,9 @@ public without sharing class ViewPatientsRemote {
                 mode,
                 false,
                 participantId,
-                sponsorName
+                sponsorName,
+                false,
+                false
             );
             //retrieve records:
             initData.peList = ParticipantEnrollmentService.getParticipantEnrollments(
@@ -484,7 +496,9 @@ public without sharing class ViewPatientsRemote {
         String mode,
         Boolean emancipatedPE,
         Id participantId,
-        String sponsorName
+        String sponsorName,
+        Boolean isEligibilityPassed,
+        Boolean isSentToSH
     ) {
         String filter =
             ' Participant_Status__c NOT IN ' +
@@ -517,7 +531,15 @@ public without sharing class ViewPatientsRemote {
                 CommunityTemplateService.TEMPLATE_JANSSEN +
                 '\' ';
         }
-
+        if(isEligibilityPassed == true){
+			filter +=
+                'AND Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false ' +
+                ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false';
+        }else if(isSentToSH == true){
+            filter +=
+                'AND ( Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = true ' +
+                ' OR Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = true)';
+        }
         return filter;
     }
 
@@ -584,7 +606,8 @@ public without sharing class ViewPatientsRemote {
                 ),
                 new LabelValueItem(Label.Screening_Passed, 'Screening Passed'),
                 new LabelValueItem(Label.Enrollment_Success, 'Enrollment Success'),
-                new LabelValueItem(Label.Sent_to_Study_Hub, 'Eligibility Passed'),
+                new LabelValueItem(Label.Sent_to_Study_Hub, 'Sent to Study Hub'),
+                new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'),    
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };

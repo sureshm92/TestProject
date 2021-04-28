@@ -1,6 +1,6 @@
 @IsTest
 public class Test_ListViewParticipantController {
- /**
+ 
     @testsetup
     public static void dataSetup() {
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
@@ -159,11 +159,11 @@ public class Test_ListViewParticipantController {
                 'Janssen'
             );
 
-            ListViewParticipantController.getSSList(studySite.Id);
+            ListViewParticipantController.getSSList(clinical.Id,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Active');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Inactive');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Inactive');
 
             ListViewParticipantController.updateParticipantData(
                 new List<String>{ pe.id },
@@ -238,11 +238,11 @@ public class Test_ListViewParticipantController {
                 'Janssen'
             );
 
-            ListViewParticipantController.getSSList(studySite.Id);
+            ListViewParticipantController.getSSList(clinical.Id,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Active');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Inactive');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Inactive');
 
             ListViewParticipantController.updateParticipantData(
                 new List<String>{ pe.id },
@@ -277,5 +277,5 @@ public class Test_ListViewParticipantController {
         }
     }
     
-    **/
+    
 }
