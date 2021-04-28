@@ -34,6 +34,8 @@
     <aura:attribute name="spinner" type="boolean" default="FALSE" />
     <aura:attribute name="optionEthnicity" type="List" />
     <aura:attribute name="isFromDoinit" type="boolean" default="FALSE" />
+    <aura:attribute name="isSSListUpdated" type="boolean" default="false" />
+    <aura:attribute name="isInitVisitReqd" type="Boolean" default="false"/>        
     
     <aura:attribute name="oStatus" type="String" />
     <aura:attribute name="oStudy" type="String" />

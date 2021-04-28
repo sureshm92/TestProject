@@ -97,6 +97,7 @@
             sendToSH="{!v.sendToSH}"
             sendToSHDate="{!v.sendToSHDate}"
             initValReqd="{!v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c}"
+            promoteToSH ="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
             sendToSHReason="{!v.sendToSHReason}"
                                   />
          
