@@ -3,8 +3,8 @@
  */
 
 public class XLF_TweakerHelper {
-    private List<String> whitePatterns;
-    private List<String> blackPatterns;
+    @TestVisible private List<String> whitePatterns;
+    @TestVisible private List<String> blackPatterns;
 
     /**
      * constructor
