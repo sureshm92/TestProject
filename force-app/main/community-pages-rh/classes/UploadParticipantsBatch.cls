@@ -627,7 +627,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.DelegateEmail = DelegateEmail;
                             delegateWrap.ParticipantPhoneNo = ParticipantPhoneNo;
                             delegateWrap.ParticipantPhoneType = ParticipantPhoneType;
-                            if(!String.isBlank(DelegatePhoneNo) && !String.isBlank(DelegatePhoneType)){
+                            //if(!String.isBlank(DelegatePhoneNo) && !String.isBlank(DelegatePhoneType)){
+                            if(!String.isBlank(DelegatePhoneNo)){
                                 delegateWrap.DelegatePhoneNo = DelegatePhoneNo;
                                 delegateWrap.DelegatePhoneType = DelegatePhoneType;
                             }else{
