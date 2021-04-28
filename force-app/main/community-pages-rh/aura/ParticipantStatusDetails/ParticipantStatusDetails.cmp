@@ -84,7 +84,8 @@
                                                 timeZone="UTC"
                                                 />
                                                 <aura:set attribute="else">
-                                                    <aura:if isTrue="{!step.title == $Label.c.PWS_Eligibility_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined&amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == false}">
+                                                    <aura:if isTrue="{!step.title == $Label.c.PWS_Eligibility_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined
+                                                                     &amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == false&amp;&amp;v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true}">
                                                                                                       {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
                                                 value="{!v.participantWorkflowWrapper.sendToSHDate}"
                                                 year="numeric"
