@@ -102,14 +102,25 @@
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
         var selectedOptionValue = component.get('v.filterList[0].Status');
+        var studyId = component.get('v.filterList[0].Study');
         // alert(component.get("v.peFilterData.statuses"));
         component.set('v.filterList[0].Status', selectedOptionValue);
+        var params = {
+            activePE: selectedOptionValue,
+            studyId: studyId
+        };
+        if(component.get('v.isSSListUpdated')==true){
+            params = {
+                activePE: selectedOptionValue,
+                studyId: studyId,
+                isPromoteToSH: component.get('v.PromoteToSH')==false?true:false,
+                isInitVisitReqd: component.get('v.isInitVisitReqd')==true?true:false
+            }
+        }  
         communityService.executeAction(
             component,
             'getParticipantStatus',
-            {
-                activePE: selectedOptionValue
-            },
+            params,
             function (returnValue) {
                 component.set('v.peFilterData.statuses', returnValue);
                 if (
@@ -724,12 +735,14 @@
     doStudyChanged: function (component, event, helper) {
         var studyId = component.get('v.filterList[0].Study');
         component.set('v.filterList[0].Study', studyId);
+        var selectedOptionValue = component.get('v.filterList[0].Status');
         if (studyId != '') {
             communityService.executeAction(
                 component,
                 'getSSList',
                 {
-                    studyId: studyId
+                    studyId: studyId,
+                    activePE: selectedOptionValue
                 },
                 function (returnValue) {
                     component.set('v.peFilterData.studySites', returnValue.StudySites);
@@ -738,6 +751,14 @@
                     } else {
                         component.set('v.PromoteToSH', false);
                     }
+                    if (returnValue.isInitVisitReqd == false) {
+                        component.set('v.isInitVisitReqd', true);
+                    } else {
+                        component.set('v.isInitVisitReqd', false);
+                    }
+
+                    component.set('v.isSSListUpdated',true);
+                    component.set('v.peFilterData.statuses',returnValue.statusFilterData);
                 }
             );
         }

@@ -29,11 +29,19 @@ public without sharing class ParticipantInformationRemote {
 
     @AuraEnabled
     public static String getPrintInformation(String peId, String userMode, String delegateId) {
+        List<String> PE_COMMON_FIELDS_PRINT = new List<String>();
+        PE_COMMON_FIELDS_PRINT.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+        PE_COMMON_FIELDS_PRINT.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+        PE_COMMON_FIELDS_PRINT.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+        PE_COMMON_FIELDS_PRINT.add('Clinical_Trial_Profile__r.Promote_to_SH__c');
+        PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__c');
+        PE_COMMON_FIELDS_PRINT.add('Study_Hub_Log__r.Response_Status_Code__c');        
         try {
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 peId,
                 userMode,
-                delegateId
+                delegateId,
+                PE_COMMON_FIELDS_PRINT
             );
             ParticipantItem pi = new ParticipantItem(pe);
             ParticipantWorkflowService.populatePatientItemsWithPathWrappers(
