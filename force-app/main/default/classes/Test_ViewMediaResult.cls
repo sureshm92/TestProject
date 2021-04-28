@@ -3,10 +3,11 @@ public class Test_ViewMediaResult {
     @IsTest
     public static void runTest() {
         //TestData.loadTestData();
-
+		TriggerHandlerExecutor.bypassHandler(
+            UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
+        );
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
-
-        insert portalTC;
+		insert portalTC;
 
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
@@ -103,6 +104,15 @@ public class Test_ViewMediaResult {
             MO_req.Study_Site__c = participantsAccount.Id;
             MO_req.Preferred_contact_method__c = '123456789';
             lstMO.add(MO_req);
+            
+            Media_Outreach__c MO_req1 = new Media_Outreach__c();
+            MO_req1.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_req1.Requested_End_Date__c = Date.parse('5/29/2020');
+            MO_req1.Status__c = 'Requested';
+            MO_req1.Study_Name__c = studySite.Id;
+            MO_req1.Study_Site__c = participantsAccount.Id;
+            MO_req1.Alternate_Email_Phone_Number__c = '123456789';
+            lstMO.add(MO_req1);
 
             Media_Outreach__c MO_inprogress = new Media_Outreach__c();
             MO_inprogress.Requested_Start_Date__c = Date.parse('5/22/2020');
@@ -112,6 +122,15 @@ public class Test_ViewMediaResult {
             MO_inprogress.Study_Site__c = participantsAccount.Id;
             MO_inprogress.Preferred_contact_method__c = 'test@test.com';
             lstMO.add(MO_inprogress);
+            
+            Media_Outreach__c MO_inprogress1 = new Media_Outreach__c();
+            MO_inprogress1.Requested_Start_Date__c = Date.parse('5/22/2020');
+            MO_inprogress1.Requested_End_Date__c = Date.parse('5/29/2020');
+            MO_inprogress1.Status__c = 'In Progress';
+            MO_inprogress1.Study_Name__c = studySite.Id;
+            MO_inprogress1.Study_Site__c = participantsAccount.Id;
+            MO_inprogress1.Alternate_Email_Phone_Number__c = 'test@test.com';
+            lstMO.add(MO_inprogress1);
 
             Media_Outreach__c MO_fulfilled = new Media_Outreach__c();
             MO_fulfilled.Requested_Start_Date__c = Date.parse('5/22/2020');
@@ -185,6 +204,18 @@ public class Test_ViewMediaResult {
             }
             try {
                 viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_cancelled.ID);
+            } catch (exception e) {
+            }
+            try {
+                viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_req1.ID);
+            } catch (exception e) {
+            }
+            try {
+                viewMediaResult.PreferredContactsandNotes(studySite.Id, MO_inprogress1.ID);
+            } catch (exception e) {
+            }
+            try {
+                viewMediaResult.getInterdependentFilterData(lstMo, MediaOutreachServices.FILTER_FIELD_MAP);
             } catch (exception e) {
             }
         }
