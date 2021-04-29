@@ -490,7 +490,7 @@
             }
 
             if (objectRecords[i]['pe']['Participant_Status__c'] !== undefined) {
-                if(objectRecords[i]['pe']['Participant_Status__c']!=='Eligibility Passed' 
+                if(objectRecords[i]['pe']['Participant_Status__c']=='Eligibility Passed' 
                    && (objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
                        || objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
                     objectRecords[i]['pe']['Participant_Status__c'] = 'Sent to Study Hub';
