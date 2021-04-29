@@ -69,7 +69,7 @@
                                 >
                             </div>
 	                            <aura:set attribute="else">
-	                                 <div  class="slds-col dt-legend-item-RTL">
+	                                 <div  class="slds-col dt-legend-item">
                                 {!dataItem.segment}
                                 <span class="dt-legend-value"
                                     >{!' (' + dataItem.value}
