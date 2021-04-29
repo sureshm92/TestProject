@@ -54,6 +54,11 @@
     font-size: 0.875rem;
 }
 
+.THIS .rr-table tr th:nth-child(2),
+.THIS .rr-table tr td:nth-child(2) {
+       width: 11%;
+}
+
 .THIS .rr-table th.completed-by {
     width: 130px;
 }
@@ -123,6 +128,11 @@
         margin: 0 10px 25px;
     }
 
+    .THIS .rr-table tr th:nth-child(2),
+    .THIS .rr-table tr td:nth-child(2) {
+        width: 16%;
+    }
+
 }
 
 @media screen and (max-width: 500px) {
@@ -178,5 +188,10 @@
 
     .THIS .rtl .taskLabel {
         padding: 0 0 0 5px;
+    }
+
+    .THIS .rr-table tr th:nth-child(2),
+    .THIS .rr-table tr td:nth-child(2) {
+        width: auto;
     }
 }
