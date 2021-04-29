@@ -131,11 +131,12 @@ public without sharing class DashboardRemoteNew {
             this.funnelColor = funnelColor;
         }
     }
-    private static String LEESS_5_DAYS = '<5 Days';
-    private static String FROM_6_TO_10_DAYS = '6-10 Days';
-    private static String FROM_11_TO_15_DAYS = '11-15 Days';
-    private static String FROM_16_TO_20_DAYS = '16-20 Days';
-    private static String GREATER_20_DAYS = '>20 Days';
+    
+    private static String LEESS_5_DAYS = Label.DBPI_Days_Less_5;
+    private static String FROM_6_TO_10_DAYS = Label.DBPI_Days_6_To_10;
+    private static String FROM_11_TO_15_DAYS = Label.DBPI_Days_11_To_15;
+    private static String FROM_16_TO_20_DAYS  = Label.DBPI_Days_16_To_20;
+    private static String GREATER_20_DAYS = Label.DBPI_Days_Greater_20;
 
     private static Map<String, String> BarTitleLabelsMap = new Map<String, String>{
         LEESS_5_DAYS => 'PG_DBPI_Days_Less_5',
