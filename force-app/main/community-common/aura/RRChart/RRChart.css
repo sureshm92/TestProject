@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .sc-axis-label {
+ .THIS .sc-axis-label {
     color: #bfbebe;
     display: inline-block;
     float: left;
@@ -15,7 +15,9 @@
     white-space: normal;
     padding-left: 5px;
 }
-
+.THIS.arabic {
+    direction: rtl;
+}
 .THIS .sc-tooltip {
     background: rgba(44, 43, 43, 0.88);
     box-shadow: 0 0 5px #999999;
