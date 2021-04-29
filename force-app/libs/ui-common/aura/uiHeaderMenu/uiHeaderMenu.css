@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS > div:first-child {
+ .THIS > div:first-child {
     height: 100%;
 }
 
@@ -82,7 +82,10 @@
     transition: 0.4s;
     transform: none;
     margin-top: 0;
-    z-index: 10010;
+    z-index: 10010;    
+   	left: -190%;
+    direction: rtl;
+
 }
 
 .THIS .menu-popup-panel.popupTargetContainer.visible {
