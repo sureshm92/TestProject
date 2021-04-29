@@ -78,6 +78,9 @@ private class Test_IntegrationCovidPatientRefHandler {
                 Study_Site_Number__c = 'SS1',
                 Study_Site_Key__c = '1111'
         );
+        TriggerHandlerExecutor.bypassHandler(
+                UserTriggerHandler.UpdateLanguageOnRelatedContactsHandler.class
+            );
         insert studySite;
         
         studySite.Override_PI_Referral_Status__c = StudySiteService.PI_S_ACCEPTED;
