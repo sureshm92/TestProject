@@ -200,7 +200,7 @@
                                             <span class="slds-m-right--xx-small"
                                             >{!$Label.c.SS_View_Sites}</span
                                         >
-                                        <c:RRIcon iconName="icon-chevron-left" />
+                                        <c:RRIcon iconName="icon-chevron-right" />
                                     <aura:set attribute="else">
                                             <span class="slds-m-right--xx-small"
                                             >{!$Label.c.SS_View_Sites}</span
