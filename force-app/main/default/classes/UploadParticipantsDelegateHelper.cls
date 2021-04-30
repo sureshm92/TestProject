@@ -15,6 +15,13 @@ public without sharing class UploadParticipantsDelegateHelper {
         List<Participant__c> participantUpdateList = new List<Participant__c>();
 
         for(ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {   
+            
+             //Duplicate check participant and contact records
+            ReferHealthcareProviderRemote.HealthcareProvider ddInfo = 
+                ReferHealthcareProviderRemote.checkDuplicate(null, pWrapper.DelegateEmail, pWrapper.DelegateFirstName, pWrapper.DelegateLastName, null); 
+             trackingNumberSuccess++;
+            
+            
             //Contact initiation 
             Contact delegateContact = new Contact();
             delegateContact.FirstName = pWrapper.DelegateFirstName;
@@ -52,10 +59,12 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
+            if(String.isBlank(ddInfo.contactId)){
             participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
             participantDelegate.Attestation__c = true;
             participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
             participantDelegate.Attestation_TimeStamp__c = System.now();
+            }
 
             /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/
             if(!pWrapper.mainparticipant.Adult__c && !String.isBlank(pWrapper.DelegatePhoneNo)) {
@@ -74,41 +83,34 @@ public without sharing class UploadParticipantsDelegateHelper {
                 participantDelegate.Phone_Type__c = pWrapper.ParticipantPhoneType;
             }
             //Patient Delegate initiation 
+           
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
             ptDelegateRef.Participant__c = pWrapper.mainparticipant.Id;
             ptDelegateRef.Status__c = 'Disconnected';
             ptDelegateRef.Primary_Delegate__c = true;
-            //Duplicate check participant and contact records
-            ReferHealthcareProviderRemote.HealthcareProvider ddInfo = 
-                ReferHealthcareProviderRemote.checkDuplicate(null, pWrapper.DelegateEmail, pWrapper.DelegateFirstName, pWrapper.DelegateLastName, null); 
-             trackingNumberSuccess++;
-
-            if(ddInfo == null || String.isBlank(ddInfo.contactId) || ddInfo.participantId == null) {
+            
+            if(ddInfo == null || (String.isBlank(ddInfo.contactId) || ddInfo.participantId == null)) {
+                if(!String.isBlank(ddInfo.contactId)){
+                    delegateContact = new Contact(Id= ddInfo.contactId);
+                }
                 mapContact.put(pWrapper.totalRecordCount,delegateContact);
                 mapContactTrack.put(trackingNumberSuccess,pWrapper.totalRecordCount);
                 mapParticipant.put(pWrapper.totalRecordCount,participantDelegate);
                 patientDelegateMap.put(pWrapper.totalRecordCount,ptDelegateRef);
+                
             }
             else {
-                if(!String.isBlank(ddInfo.contactId) && pWrapper.mainparticipant.Id != null) {
-                    List<Patient_Delegate__c> checkPDel = [
-                        SELECT Id
-                        FROM Patient_Delegate__c
-                        WHERE Participant__c = :pWrapper.mainparticipant.Id AND Contact__r.Id = :ddInfo.contactId
-                    ];
-
-                    if (checkPDel.isEmpty()) {
-                        duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
-                    }
-                }    
-            }
+                duplicateDelegateMainParticipantMap.put(ddInfo.contactId,pWrapper.mainparticipant.Id);
+			}
         }
-
+		
+        
+       
         //Insert the non-duplicate contact and assign the contact ID's to Participant list.
         List<Contact> contactToBeInserted = mapContact.values();
         Integer countIndex;
         //START :: Contact Insertion
-        Database.SaveResult[] saveRes = Database.insert(contactToBeInserted,false);
+        Database.UpsertResult[] saveRes = Database.upsert(contactToBeInserted,false);
         for(Integer i=0;i<saveRes.size();i++) {
             List<Integer> setToListCon = new List<Integer>(mapContactTrack.values());
             countIndex = setToListCon[i];
@@ -154,12 +156,29 @@ public without sharing class UploadParticipantsDelegateHelper {
                 mapParticipant.remove(countIndexParticipant);
             }
         }
+                
         //END :: participants Insertion
+         
+        Map<String, String> dupDelMainParticipantMap = new Map<String, String>();
+        Map<String,String> dupDelegateMainParticipantMap = new Map<String, String>();
+        for(Patient_Delegate__c patientDel : [SELECT ID,Participant__c,Contact__c,Primary_Delegate__c
+                                                    from Patient_Delegate__c
+                                              		Where Participant__c IN : duplicateDelegateMainParticipantMap.values() AND Contact__r.Id IN: duplicateDelegateMainParticipantMap.keySet()])
+        {
+            dupDelegateMainParticipantMap.put(patientDel.Contact__r.Id, patientDel.Participant__r.Id);
+        }
+        
+        for(String cntId : dupDelegateMainParticipantMap.keySet()){
+            if(dupDelegateMainParticipantMap.get(cntId) != duplicateDelegateMainParticipantMap.get(cntId)){
+                dupDelMainParticipantMap.put(cntId, dupDelegateMainParticipantMap.get(cntId));
+            }
+        }			       
+        
         List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>(patientDelegateMap.values());
-        for(String contactIdKey  : duplicateDelegateMainParticipantMap.keySet()) {
+        for(String contactIdKey  : dupDelMainParticipantMap.keySet()) {
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
             ptDelegateRef.Contact__c = contactIdKey;
-            ptDelegateRef.Participant__c = duplicateDelegateMainParticipantMap.get(contactIdKey);
+            ptDelegateRef.Participant__c = dupDelMainParticipantMap.get(contactIdKey);
             ptDelegateRef.Status__c = 'Disconnected';
             ptDelegateRef.Primary_Delegate__c = true;
             pdList.add(ptDelegateRef);

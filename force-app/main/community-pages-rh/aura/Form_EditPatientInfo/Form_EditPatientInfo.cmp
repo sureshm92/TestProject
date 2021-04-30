@@ -50,6 +50,7 @@
      <aura:attribute name="yobBlankErrMsg" type="Boolean"/>   
      <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
      <aura:attribute name="isBulkImport" type="Boolean"/>
+     <aura:attribute name="isBulkImportOld" type="Boolean"/>
      
 
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
@@ -351,7 +352,7 @@
                                         /> 
                             
                         </div>
-                    
+                <aura:if isTrue="{!!v.isBulkImport}">
                     <div
                          class="rr-form-element slds-no-label slds-col"
                          style="margin-top: 30px;margin-bottom: 3px;"
@@ -371,8 +372,8 @@
                         <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                             {!$Label.c.RH_DelegateAttestation}
                         </div>
-                       
                     </div> 
+                </aura:if>
                        <div class="slds-col slds-size--1-of-1 rr-error">
                             <aura:if isTrue="{!v.yobBlankErrMsg}">
                                 {!$Label.c.PP_RequiredErrorMessage}

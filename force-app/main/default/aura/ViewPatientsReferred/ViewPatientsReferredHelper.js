@@ -236,7 +236,7 @@
             }
             if (objectRecords[i]['Participant_Status__c'] !== undefined) {
                 let pstatus = objectRecords[i]['Participant_Status__c'];
-                if(objectRecords[i]['Participant_Status__c']!=='Eligibility Passed' 
+                if(objectRecords[i]['Participant_Status__c']=='Eligibility Passed' 
                    && (objectRecords[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
                        || objectRecords[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
                     pstatus = 'Sent to Study Hub';

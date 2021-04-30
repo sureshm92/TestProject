@@ -6,6 +6,11 @@
         var isValidData = '';
         var isValidEmail = '';
         isValidEmail = this.checkValidEmail(DelegateEmail,DelegateEmailValue);
+        if($A.util.isEmpty(component.get('v.isBulkImportOld')) && component.get('v.isBulkImport'))
+        {
+            console.log('>>coming in helper 10>');
+            component.set('v.isBulkImportOld',true);
+        }
         if(isValidEmail)
         {
             var PER = JSON.parse(JSON.stringify(component.get('v.pe')));
@@ -23,7 +28,6 @@
                 function (returnValue) {
                     console.log('>>retunrParticiapnt>>'+JSON.stringify(returnValue));
                     if(returnValue){
-                        
                         component.set('v.participantDelegate.First_Name__c',returnValue.firstName);
                         component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
                         component.set('v.participantDelegate.Email__c',returnValue.email);
@@ -38,15 +42,19 @@
                         component.set('v.recordFound',true);
                         component.set('v.useThisDelegate', false);
                         component.set('v.isFirstPrimaryDelegate',false);
-                         
+                        component.set('v.isBulkImport',returnValue.isBulkImport);
                     }
                     else if(!$A.util.isEmpty(participantDelegateOld.Id)){
+                        console.log('>>>coming in 466>>>');
                         component.set('v.participantDelegate.Id',participantDelegateOld.Id);
                         component.set('v.participantDelegate.Contact__c',participantDelegateOld.Contact__c);
                         component.set('v.isEmailConfrmBtnClick',false);
                         component.set('v.recordFound',false);
                         component.set('v.useThisDelegate', false);
                         component.set('v.isFirstPrimaryDelegate',false);
+                        console.log('>>>bulkImportOdl>>'+component.get('v.isBulkImportOld'));
+                        if(component.get('v.isBulkImportOld'))
+                            component.set('v.isBulkImport',true);
                     }
                     else{
                         if(!component.get('v.isFirstPrimaryDelegate')){
@@ -57,6 +65,7 @@
                         component.set('v.isFirstPrimaryDelegate',true); //TO show YOB and picklist when user tries to insert new delegate
                         component.set('v.useThisDelegate', true);
                         component.set('v.isEmailConfrmBtnClick',true);
+                        component.set('v.isBulkImport',false);
                     }
                     console.log('>>final participant>>>'+JSON.stringify(component.get('v.participantDelegate')));
                 }
@@ -110,9 +119,11 @@
                         component.set('v.yobBlankErrMsg', false);
                     }else{
                        component.set('v.isAdultDel', false); 
+                        if(!component.get('v.isBulkImport')){
                         var attestCheckbox = component.find('AttestCheckbox');
                          attestCheckbox.setCustomValidity('');
                          attestCheckbox.reportValidity('');
+                        }
                         component.set('v.attestAge', false);
                          component.set('v.yobBlankErrMsg', false);
                         component.set('v.delNotAdultErrMsg', true);

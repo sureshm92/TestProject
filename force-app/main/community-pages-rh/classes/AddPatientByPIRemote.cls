@@ -148,6 +148,9 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
+                if(createUser){
+                    participantCon.Is_Patient_User_Created__c =true;
+                 }
                 update participantCon;
             }
 
@@ -347,9 +350,11 @@ public without sharing class AddPatientByPIRemote {
                 participantDelegate.Mailing_State__c = participant.Mailing_State__c;
                 participantDelegate.Mailing_State_Code__c = participant.Mailing_State_Code__c;
 				participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                if(String.isNotBlank(participantDelegate.Birth_Year__c)){
                 participantDelegate.Attestation__c = true; 
                 participantDelegate.Attestation_TimeStamp__c = system.now(); 
                 participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                }
                 if (
                     String.isBlank(participantDelegate.Phone__c) &&
                     !String.isBlank(participant.Phone__c)
