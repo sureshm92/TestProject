@@ -249,7 +249,7 @@
                                     <span class="slds-m-right--xx-small accordion-label"
                                     >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
                                     >
-                                    <c:RRIcon iconName="icon-chevron-left" />
+                                    <c:RRIcon iconName="icon-chevron-right" />
                                 <aura:set attribute="else">
                                     <span class="slds-m-right--xx-small accordion-label"
                                     >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
