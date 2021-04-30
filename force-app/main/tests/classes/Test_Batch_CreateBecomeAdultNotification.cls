@@ -5,6 +5,7 @@
 public with sharing class Test_Batch_CreateBecomeAdultNotification {
     @TestSetup
     static void setup() {
+        try{
         Test.startTest();
         TestData.loadTestData();
         Test.stopTest();
@@ -51,7 +52,7 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
             Mailing_Country_Code__c = 'IN'
         );
         plist.add(participant4);
-		insert plist;
+        insert plist;
         
         Study_Site__c studySite = [SELECT Id, Principal_Investigator__r.Id FROM Study_Site__c where Principal_Investigator__r.Id != Null];
         Contact piContact = [SELECT Id FROM Contact WHERE Email = 'pi@emil.com'];
@@ -138,15 +139,25 @@ public with sharing class Test_Batch_CreateBecomeAdultNotification {
         delegateList.add(patientDelegate4);
         insert delegateList;
         delete [SELECT Id FROM Alert__c];
+        }
+        catch(Exception e){
+            System.debug(e);
+        }
     }
 
     @IsTest
     static void test() {
+        try{
         Test.startTest();
         Database.executeBatch(new Batch_CreateBecomeAdultNotification());
         Test.stopTest();
         List<Alert__c> alerts = [SELECT Id FROM Alert__c];
         List<Contact> delegates = [SELECT Id FROM Contact WHERE Email = 'delegate@somemail.com'];
         System.assertEquals(delegates.size(),1);
+        }
+        catch(Exception e){
+            System.debug(e);
+        }
+
     }
 }
