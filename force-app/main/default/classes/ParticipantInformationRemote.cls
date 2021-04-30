@@ -219,9 +219,11 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
                 delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
                 delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
+                if(String.isNotBlank(delegateParticipant.Birth_Year__c)){
                 delegateParticipant.Attestation__c = true;
                 delegateParticipant.Attestation_TimeStamp__c = system.now();
                 delegateParticipant.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                }
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
             //system.debug('>>exxce>>>'+0/0);
@@ -1330,9 +1332,11 @@ public without sharing class ParticipantInformationRemote {
                 delegateParticipant.Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c;
                 delegateParticipant.Mailing_State_Code__c = participantObj.Mailing_State_Code__c;
                 delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
+                if(String.isNotBlank(delegateParticipant.Birth_Year__c)){
                 delegateParticipant.Attestation__c = true;
                 delegateParticipant.Attestation_TimeStamp__c = system.now();
                 delegateParticipant.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                }
             }
             system.debug('>>delegateParticipant11>>>'+delegateParticipant.id);
             
@@ -1422,6 +1426,7 @@ public without sharing class ParticipantInformationRemote {
        // system.debug('>>coming in checking details>>'+0/0);
        List<Participant__c> lstdelegateParticipants = [
                     SELECT Id, First_Name__c,Email__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c
+                    ,Birth_Year__c,Attestation__c
                     FROM Participant__c
                     WHERE
                         (First_Name__c = :strFirstName
@@ -1449,7 +1454,7 @@ public without sharing class ParticipantInformationRemote {
                         String.escapeSingleQuotes(strLastName)
                         
                     );
-           
+            objDelegate.isBulkImport = objTempParticipant.Attestation__c == True && String.isBlank(objTempParticipant.Birth_Year__c) ? True : false;
             system.debug('>>>duplicateDelegates>>'+duplicateDelegates);
           //  system.debug('>>>excepton>>'+0/0);
                     if (!duplicateDelegates.isEmpty()) {
@@ -1484,6 +1489,7 @@ public without sharing class ParticipantInformationRemote {
             objDelegate.participantPhoneNumber = String.isBlank(objTempCon.Phone) ? '' : objTempCon.Phone ;
             objDelegate.DelegateParticipant = objTempParticipant;
             objDelegate.isDuplicate = false;
+            objDelegate.isBulkImport = false;
                 
             return objDelegate;      
             }
@@ -1779,6 +1785,8 @@ public without sharing class ParticipantInformationRemote {
         public Participant__c DelegateParticipant {get;set;}
         @AuraEnabled
         public Participant_Enrollment__c particpantEnrollment {get;set;}
+        @AuraEnabled
+        public Boolean isBulkImport {get;set;}
     }
 
     public class DelegateConnectedInfo {

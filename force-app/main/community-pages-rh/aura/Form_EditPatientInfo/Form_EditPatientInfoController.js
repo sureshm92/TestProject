@@ -415,34 +415,12 @@
              if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
                  isValid = false;
              }
-         if (participant.Phone__c && !participant.Phone_Type__c) {
+             if (participant.Adult__c && participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
-        }    
+        } 
              console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
              // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
-             
              if(component.get('v.fromActionParticipant')){
-                 if(component.get('v.isFirstPrimaryDelegate') || component.get('v.isBulkImport')){
-                     
-                     if(participantDelegateOld.Birth_Year__c == '')
-                     {
-                         component.set('v.yobBlankErrMsg', true);
-                         component.set('v.delNotAdultErrMsg', false);
-                         component.set('v.attestAge',false);
-                         component.set('v.isAdultDel',false); 
-                         var attestCheckbox = component.find('AttestCheckbox');
-                         attestCheckbox.setCustomValidity('');
-                         attestCheckbox.reportValidity('');
-                         isValid = false;
-                     }
-                     else{
-                         component.set('v.yobBlankErrMsg', false);
-                     }
-                     if(participantDelegateOld.Birth_Year__c != '' && component.get('v.attestAge') == false)
-                     {
-                         isValid = false;
-                     }
-                 }
                  
                  var DelegateFnameField = component.find('DelegateFirstName');
                  var DelegateLnameField = component.find('DelegateLastName');
@@ -460,7 +438,7 @@
                      }
                  }
                  else {
-                     
+
                      if(!((!participantDelegate.Phone__c || !participantDelegate.Phone__c.trim()) &&
                           !participantDelegate.First_Name__c.trim() &&
                           !participantDelegate.Last_Name__c.trim() &&
@@ -506,6 +484,8 @@
                              }
                      }
                      else{
+                         component.set('v.isFirstPrimaryDelegate',false);
+                         component.set('v.isBulkImport',false);
                          DelegatePhoneField.setCustomValidity(''); 
                          DelegateFnameField.setCustomValidity('');
                          DelegateLnameField.setCustomValidity('');
@@ -515,6 +495,30 @@
                      DelegateFnameField.reportValidity();
                      DelegateLnameField.reportValidity();
                      DelegateEmailField.reportValidity();
+                 }
+                 
+                 if(component.get('v.isFirstPrimaryDelegate') || component.get('v.isBulkImport')){
+                     if(participantDelegateOld.Birth_Year__c == '')
+                     {  
+                         component.set('v.yobBlankErrMsg', true);
+                         component.set('v.delNotAdultErrMsg', false);
+                         component.set('v.attestAge',false);
+                         component.set('v.isAdultDel',false); 
+                         if(!component.get('v.isBulkImport')){
+                         var attestCheckbox = component.find('AttestCheckbox');
+                         attestCheckbox.setCustomValidity('');
+                         attestCheckbox.reportValidity('');
+                         }
+                         isValid = false;
+                     }
+                     else{
+                         component.set('v.yobBlankErrMsg', false);
+                     }
+                     if(participantDelegateOld.Birth_Year__c != '' && component.get('v.attestAge') == false
+                       &&  component.get('v.isBulkImport') == false)
+                     {
+                         isValid = false;
+                     }
                  }
                  
              }
@@ -602,6 +606,7 @@
             component.set('v.participantDelegate.Birth_Year__c','');
             component.set('v.attestAge', false);
               component.set('v.isAdultDel',false); 
+             component.set('v.isBulkImport',false);
          }
         component.set('v.isEmailConfrmBtnClick',true);
         component.set('v.useThisDelegate', true); 
