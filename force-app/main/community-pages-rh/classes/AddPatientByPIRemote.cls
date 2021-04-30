@@ -148,6 +148,9 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
+                if(createUser){
+                    participantCon.Is_Patient_User_Created__c =true;
+                 }
                 update participantCon;
             }
 
