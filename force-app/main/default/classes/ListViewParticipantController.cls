@@ -50,8 +50,7 @@ public without sharing class ListViewParticipantController {
                 ctpId = initData.peFilterData.trialIds[0];
             List<Study_Site__c> studySites = getStudySites(ctpId);
             Boolean showEligibilityPassedFilter = (studySites !=null && !studySites.isEmpty())?
-                (studySites[0].Clinical_Trial_Profile__r.Promote_to_SH__c==false 
-                 && studySites[0].Clinical_Trial_Profile__r.Initial_Visit_Required__c==false):false;
+                studySites[0].Clinical_Trial_Profile__r.Promote_to_SH__c==false:false;
             if(initData.peFilter.activePE == 'Active'){
                 if(showEligibilityPassedFilter){
                     initData.peFilterData.statuses.add(new LabelValueItem(label.Eligibility_Passed, 'Eligibility Passed'));
@@ -861,9 +860,9 @@ public without sharing class ListViewParticipantController {
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
-                if(isInitVisitReqd == false && isPromoteToSH == false){
+                if(isPromoteToSH == false){
                     statusFilterData.add(new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'));
-                }else{
+                }else {
                     statusFilterData.add(new LabelValueItem(label.Sent_to_Study_Hub, 'Sent to Study Hub'));
                 }
         } else {
