@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS .rr-white-panel {
+ .THIS .rr-white-panel {
     border: none;
 }
 
@@ -16,7 +16,14 @@
     text-align: left;
     font-size: 1rem;
 }
+.THIS .db-header-RTL {
+    font-weight: 600;
+    margin-bottom: 15px;
+    text-align: right;
+    font-size: 1rem;
+    margin-right: 5%;
 
+}
 .THIS .cFilterPanel .fp-filter-block {
     padding-top: 0;
 }
@@ -25,6 +32,7 @@
     max-width: 380px;
     margin: auto;
     margin-bottom: 30px;
+    
 }
 
 .THIS .fp-search-input img {
