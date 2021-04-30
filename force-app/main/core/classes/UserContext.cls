@@ -122,7 +122,7 @@ public without sharing class UserContext {
             if (sites.size() > 0)
                 currentCommunityName = sites[0].MasterLabel;
         }
-        if (currentCommunityName == 'IQVIA RH')
+        if (currentCommunityName == 'IQVIA RH' || currentCommunityName == 'IQVIA ReferralHub')
             currentCommunityName = 'IQVIA Referral Hub';
         return currentCommunityName;
     }

@@ -463,8 +463,10 @@ public without sharing class ReferringRemote {
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                     }
                     participantDelegate.Attestation__c = true;
+                    if(String.isNotBlank(participantDelegate.Birth_Year__c)){
                     participantDelegate.Attestation_TimeStamp__c = system.now();
                     participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                    }
                     insert participantDelegate;
                 }
                 //if(delegateDuplicateInfo == null || !delegateDuplicateInfo.isDuplicateDelegate) {
