@@ -38,7 +38,9 @@
 
     setRTL: function (component) {
         var T_Ctext = component.get('v.tcData.tc.T_C_Text__c');
+        if(T_Ctext){
         var res = '<div style=direction:rtl>' + T_Ctext + '</div>';
         component.set('v.tcData.tc.T_C_Text__c', res);
+        }
     }
 });
