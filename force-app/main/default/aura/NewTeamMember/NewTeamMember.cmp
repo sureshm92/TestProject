@@ -69,7 +69,7 @@
                 style="{!if(v.isRTL, 'direction: rtl;', '')}"
             >
                 <c:RRLink page="{!'my-team' + if(empty(v.parentId), '', '?id=' + v.parentId)}">
-                    <c:RRIcon iconName="icon-arrow-left" />
+                    <c:RRIcon iconName="{!v.isRTL? 'icon-arrow-right': 'icon-arrow-left'}" />
                     {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team :
                     $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
@@ -226,7 +226,7 @@
                                         <c:RRLink
                                             page="{!'my-team' + if(empty(v.parentId), '', '?id='+v.parentId)}"
                                         >
-                                            <c:RRIcon iconName="icon-arrow-left" />
+                                        <c:RRIcon iconName="{!v.isRTL? 'icon-arrow-right': 'icon-arrow-left'}" />
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team :
                                             $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>
