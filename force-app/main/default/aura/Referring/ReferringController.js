@@ -242,6 +242,7 @@
             component.set('v.emailDelegateRepeat', '');
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+	    helper.checkFields(component, event, helper);
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
