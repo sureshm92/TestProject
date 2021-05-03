@@ -462,8 +462,8 @@ public without sharing class ReferringRemote {
                         participantDelegate.Phone__c = participant.Phone__c;
                         participantDelegate.Phone_Type__c = participant.Phone_Type__c;
                     }
+					if(String.isNotBlank(participantDelegate.Birth_Year__c)){
                     participantDelegate.Attestation__c = true;
-                    if(String.isNotBlank(participantDelegate.Birth_Year__c)){
                     participantDelegate.Attestation_TimeStamp__c = system.now();
                     participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
                     }
