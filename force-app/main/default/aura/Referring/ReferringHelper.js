@@ -170,7 +170,7 @@
                         emailDelegateRepeatValid &&
                         delegateParticipant.Email__c == emailDelegateRepeat)) &&
                 agreePolicy);
-        if(isNewPrimaryDelegate)
+        if(needsDelegate && isNewPrimaryDelegate)
         {
             if(!(isAdultDel && attestAge))
             	isValid = false;

@@ -8,7 +8,7 @@
     top: -10px !important;
     left: 55px !important;
     margin-left: -1rem !important;
-    /**max-width: 20rem !important;**/
+    /**max-width: 20rem !important;gbhh**/
     overflow: visible !important;
     text-transform: none !important;
 }
@@ -28,8 +28,33 @@
     margin-top: -0.8rem !important;
 }
 
+.THIS .ms-help-popup-in-header-RTL:before,
+.THIS .ms-help-popup-in-header-RTL:after {
+    width: 0.8rem !important;
+    height: 0.8rem !important;
+    position: absolute;
+    -webkit-transform: rotate(45deg);
+    -ms-transform: rotate(45deg);
+    transform: rotate(45deg);
+    content: '';
+    background-color: inherit;
+    top: 50%;
+    left: -0.4rem !important;
+    margin-top: -0.8rem !important;
+}
+
 .THIS .ms-help-popup-body {
     white-space: unset !important;
     word-break: keep-all;
     overflow-wrap: break-word;
+}
+.THIS .ms-help-popup-in-header-RTL
+{
+    display: inline-block;
+    position: absolute!important;
+    top: -17px!important;
+    right: 44px!important;
+    margin-right: -1rem!important;
+    overflow: visible!important;
+    text-transform: none!important;
 }

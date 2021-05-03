@@ -8853,6 +8853,13 @@ The expected format is REF##### to REF########</value>
         <value>Interactive Advertising Bureau</value>
     </labels>
     <labels>
+        <fullName>Login_Form_Show</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Show</shortDescription>
+        <value>Show</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17617,7 +17624,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Records all invited</shortDescription>
-        <value>Participant have been invited successfully</value>
+        <value>Participants have been invited successfully</value>
     </labels>
     <labels>
         <fullName>RTL_Languages</fullName>
@@ -19334,7 +19341,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TMDHBypassedFieldsforCTP</shortDescription>
-        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c</value>
+        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c;Interventions__c</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
