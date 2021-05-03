@@ -115,7 +115,7 @@
                  </aura:if-->
                  <div class="vpi-field">
                      <div class="label">{!$Label.c.Participant_Status}</div>
-                     <aura:if isTrue="{!v.pe.Participant_Status__c == 'Eligibility Passed' &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c==true ||v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true) }">
+                     <aura:if isTrue="{!(v.pe.Participant_Status__c == 'Eligibility Passed' || v.pe.Participant_Status__c == $Label.c.Eligibility_Passed) &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c==true ||v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true) }">
                      <div class="value">{!$Label.c.Sent_to_Study_Hub}</div>
                        <aura:set attribute="else">
                          <div class="value">{!v.pe.Participant_Status__c}</div>
