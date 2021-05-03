@@ -588,7 +588,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
-        'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c', 
+        'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
+        'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
@@ -672,7 +673,7 @@ public without sharing class ParticipantEnrollmentService {
         'Visit_Plan__c',
         'Visit_Plan__r.Name',
         'IVRS_IWRS__c',
-        'Show_Referring_Provider__c',  
+        'Show_Referring_Provider__c',
         'Study_Name__c',
         'Study_Site__c',
         'Study_Site__r.Name',
@@ -728,58 +729,13 @@ public without sharing class ParticipantEnrollmentService {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_Mail_Email_contact_for_this_study__c',
-        'Permit_IQVIA_to_contact_about_study__c'   
+        'Permit_IQVIA_to_contact_about_study__c'
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',
         'Clinical_Trial_Profile__c',
         'Study_Site__c'
     };
-
-    /* Added by Sumit S Dashboard
-    public static final List<String> PE_COMMON_CUSTOM_FIELDS = new List<String>{
-            'Id',
-            'CreatedDate',
-            'Participant_Status__c',
-            'Participant__c',
-            'Participant__r.First_Name__c',
-            'Participant__r.Last_Name__c',
-            'Participant__r.Contact__c',
-            'Source_Type__c',
-            'Study_Site__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
-            'Study_Site__r.Principal_Investigator__r.Name',
-            'Clinical_Trial_Profile__c',
-            'Clinical_Trial_Profile__r.Protocol_ID__c',
-            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
-            'Clinical_Trial_Profile__r.CommunityTemplate__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
-            'Study_Site__r.Override_PI_Referral_Status__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',           
-            'HCP__r.Id'           
-    };
-
-    public static final List<String> PE_COMMON_FUNNEL_FIELDS = new List<String>{
-            'Id',
-            'Participant_Status__c',
-            'Study_Site__r.Principal_Investigator__r.Name',
-            'Study_Site__r.Study_Site_Type__c',
-            'Initial_visit_scheduled_flag__c',
-            'Initial_visit_occurred_flag__c',
-            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c'
-            
-    };*/
-
-    /*public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
-            'Id',
-            'Study_Code_Name__c'
-    };
-
-    public static final List<String> SS_FIELDS_FOR_FILTER = new List<String>{
-            'Id',
-            'Name'
-    };*/
 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(
         String userMode,
