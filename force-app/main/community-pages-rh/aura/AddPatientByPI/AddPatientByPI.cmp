@@ -291,7 +291,7 @@
                                              aura:id="checkBoxAttestation" 
                                              />
                         </div>
-                        <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                        <div class="label rr-cb-label delegateAttest" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
                             {!$Label.c.RH_DelegateAttestation}
                         </div>
                     </div> 
