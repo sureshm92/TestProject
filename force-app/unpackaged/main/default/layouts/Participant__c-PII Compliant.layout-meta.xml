@@ -136,6 +136,10 @@
                 <field>Alternative_Phone_Type__c</field>
             </layoutItems> 
             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Birth_Year__c</field>
+            </layoutItems> 
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Attestation__c</field>
             </layoutItems>
