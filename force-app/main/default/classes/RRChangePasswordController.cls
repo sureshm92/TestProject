@@ -71,6 +71,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isSaveButtonDisabled { get; set; }
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
+    public boolean isAttestationUpdated { get; set; }
 
     public Boolean mainPortal {
         get {
@@ -267,6 +268,7 @@ public without sharing class RRChangePasswordController {
             birthYear = participant.Birth_Year__c;
             isAttested = participant.Attestation__c;
             isDisabled = false;
+            isAttestationUpdated = false;
             if (!String.isBlank(participant.Birth_Year__c)) {
                 isAdult = true;
             } else {
@@ -335,6 +337,7 @@ public without sharing class RRChangePasswordController {
 
     public void showProfileAction() {
         isProfileView = true;
+        isAttestationUpdated = false;
     }
 
     public void checkPasswords() {
@@ -541,9 +544,10 @@ public without sharing class RRChangePasswordController {
                 updateHCPStatus(contact.Id);
             }
             if (isParticipant && ApexPages.getMessages().isEmpty()) {
-                if (isDelegate) {
+                if (isDelegate && !isAttestationUpdated) {
                     participant.Attestation__c = true;
                     participant.Attestation_TimeStamp__c = System.now();
+                    isAttestationUpdated = true;
                 }
                 update participant;
             }

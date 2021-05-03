@@ -17624,7 +17624,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Records all invited</shortDescription>
-        <value>Participant have been invited successfully</value>
+        <value>Participants have been invited successfully</value>
     </labels>
     <labels>
         <fullName>RTL_Languages</fullName>
