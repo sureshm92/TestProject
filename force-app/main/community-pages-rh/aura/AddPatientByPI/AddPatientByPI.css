@@ -140,3 +140,9 @@
 .THIS .slds-checkbox{
     display: inline-flex;
 }
+
+.THIS .delegateAttest{
+    font-size: 16px;
+    color: #000000;
+    font-weight: 500;
+}
