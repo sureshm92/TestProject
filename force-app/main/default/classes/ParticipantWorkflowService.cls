@@ -412,7 +412,7 @@ public without sharing class ParticipantWorkflowService {
                         );
                     }
                 }
-                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
+                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step, pe);
                 stepWrapper.stepHistory.add(historyWrapper);
             }
 
@@ -612,13 +612,17 @@ public without sharing class ParticipantWorkflowService {
 
     private static ParticipantWorkflowHistoryWrapper createHistoryWrapper(
         Participant_Enrollment_Status_History__c pesh,
-        Participant_Workflow_Step__mdt step
+        Participant_Workflow_Step__mdt step,
+        Participant_Enrollment__c pe
     ) {
         ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
         String statusString = TranslateHelper.getPickListLabel(
             Participant_Enrollment__c.Participant_Status__c,
             pesh.Status__c
         );
+        if(pesh.Status__c == 'Eligibility Passed' && pe.Clinical_Trial_Profile__r.Promote_To_SH__c ==true){
+            statusString = TranslateHelper.getLabelValue(Label.Sent_to_Study_Hub);
+        }
         String reasonString = (String.isNotBlank(pesh.Non_Enrollment_Reason__c)
             ? ' - ' +
               TranslateHelper.getPickListLabel(
@@ -1529,6 +1533,9 @@ public without sharing class ParticipantWorkflowService {
                 Participant_Enrollment__c.Participant_Status__c,
                 pesh.Status__c
             );
+            if(pesh.Status__c == 'Eligibility Passed' && pe.Clinical_Trial_Profile__r.Promote_To_SH__c ==true){
+                result.title = TranslateHelper.getLabelValue(Label.Sent_to_Study_Hub);
+            }
             result.reason = TranslateHelper.getPickListLabel(
                 Participant_Enrollment__c.Non_Enrollment_Reason__c,
                 pesh.Non_Enrollment_Reason__c
@@ -1544,7 +1551,7 @@ public without sharing class ParticipantWorkflowService {
             result.isCurrent = pe.Participant_Status__c == pesh.Status__c;
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
             result.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
-            ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step);
+            ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step, pe);
             result.stepHistory.add(historyWrapper);
         } else {
             result.title = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
