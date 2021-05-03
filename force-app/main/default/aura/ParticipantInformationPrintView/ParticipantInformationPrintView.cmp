@@ -226,7 +226,7 @@
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div class="rr-form-element slds-col slds-size--1-of-3">
                                 <div class="label">{!$Label.c.PG_AP_F_Patient_Status}</div>
-                                <aura:if isTrue="{!(v.pe.Participant_Status__c=='Eligibility Passed' &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == true || v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true))}">
+                                <aura:if isTrue="{!(v.pe.Participant_Status__c==$Label.c.Eligibility_Passed &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == true || v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true))}">
                                     <lightning:input
                                                      type="text"
                                                      value="{!$Label.c.Sent_to_Study_Hub}"
