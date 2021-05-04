@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="PSEPath">
+<aura:component description="PSEPath" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="steps" type="List" />
     <aura:attribute name="pathItems" type="List" access="private" />
@@ -48,7 +48,7 @@
                 data-gtm="BTN_Participant_Details"
             >
                 <div class="slds-col slds-size_1-of-1 slds-small-size_6-of-12">
-                        <a class="slds-show slds-col" style="padding-top:16px;text-align:left;" onclick="{!c.closeCard}"><span>{!$Label.c.View_Less}</span></a>
+                        <a class="slds-show slds-col" style="{!if(v.isRTL, 'padding-top:16px;text-align:right;','padding-top:16px;text-align:left;')}" onclick="{!c.closeCard}"><span>{!$Label.c.View_Less}</span></a>
                     <button
                         class="{!'apollo-btn secondary'}"
                         title="{!$Label.c.BTN_View_Participant_Details}"
