@@ -287,17 +287,17 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PARTICIPANT PHONE')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT PHONE')].trim()
                     : null;
-                PhoneType = headerIndexes.get('PHONE TYPE') != null &&
-                    csvRecordData[headerIndexes.get('PHONE TYPE')] != null
-                    ? csvRecordData[headerIndexes.get('PHONE TYPE')].trim()
+                PhoneType = headerIndexes.get('PARTICIPANT PHONE TYPE') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT PHONE TYPE')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT PHONE TYPE')].trim()
                     : null;
                 Phone2 = headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE') != null &&
                     csvRecordData[headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE')] != null
                     ? csvRecordData[headerIndexes.get('PARTICIPANT ALTERNATIVE PHONE')].trim()
                     : null;
-                PhoneType2 = headerIndexes.get('ALT. PHONE TYPE') != null &&
-                    csvRecordData[headerIndexes.get('ALT. PHONE TYPE')] != null
-                    ? csvRecordData[headerIndexes.get('ALT. PHONE TYPE')].trim()
+                PhoneType2 = headerIndexes.get('PARTICIPANT ALT. PHONE TYPE') != null &&
+                    csvRecordData[headerIndexes.get('PARTICIPANT ALT. PHONE TYPE')] != null
+                    ? csvRecordData[headerIndexes.get('PARTICIPANT ALT. PHONE TYPE')].trim()
                     : null;
                 State = headerIndexes.get('STATE') != null &&
                     csvRecordData[headerIndexes.get('STATE')] != null
@@ -336,13 +336,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE PHONE TYPE')].trim()
                     : null;
-                DelegateAgeOfMajority = headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY') != null &&
-                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY')] != null
-                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE IS OVER THE AGE OF LEGAL MAJORITY')].trim()
+                DelegateAgeOfMajority = headerIndexes.get('CONFIRM PRIMARY DELEGATE IS AN ADULT') != null &&
+                    csvRecordData[headerIndexes.get('CONFIRM PRIMARY DELEGATE IS AN ADULT')] != null
+                    ? csvRecordData[headerIndexes.get('CONFIRM PRIMARY DELEGATE IS AN ADULT')].trim()
                     : null;
-                DelegateYOB = headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH') != null &&
-                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH')] != null
-                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YEAR OF BIRTH')].trim()
+                DelegateYOB = headerIndexes.get('PRIMARY DELEGATE YOB') != null &&
+                    csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')] != null
+                    ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')].trim()
                     : null;
                 
                 if (!String.isEmpty(EmailAddress)) {
@@ -695,10 +695,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Participant__c participantDuplicate = duplicateService.findDuplicate(
                             participant
                         );
-
+						
                         isDuplicate = participantDuplicate != null;
+                        System.debug('isDuplicate participant ---> ' + isDuplicate);
                         Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
                         isDuplicate = isDuplicate || contactDuplicate != null;
+                        System.debug('isDuplicate contact ---> ' + isDuplicate);
                         trackingNumberSuccess++;
                         if(!isDuplicate){
                             mapContact.put(totalRecordCount,participantContact);
