@@ -129,11 +129,15 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
-        Participant__c participant = (Participant__c) JSON.deserialize(
-            participantJSON,
-            Participant__c.class
-        );
-        if (!String.isEmpty(participant.Date_of_Birth__c)) {
+        Map<String, Participant__c> newParticipantsMap; 
+        List<Map<String, Participant__c>> participantLST = (List<Map<String, Participant__c>>)JSON.deserialize(
+        participantJSON, List<Map<String, Participant__c>>.class);
+        Participant__c participantFirst;
+          for (Map<String, Participant__c> datum : participantLST)
+            {
+              newParticipantsMap = (Map<String, Participant__c>)datum;
+            }
+       
             List<Age_of_Majority__mdt> ageOfMajorities = [
                 SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
                 FROM Age_of_Majority__mdt
@@ -147,7 +151,8 @@ public without sharing class ReferringRemote {
                     );
                 }
             }
-
+            for (Participant__c participant : newParticipantsMap.values()){
+            if (!String.isEmpty(participant.Date_of_Birth__c)) {
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
@@ -174,6 +179,7 @@ public without sharing class ReferringRemote {
                 needsGuardian = participantAge < 18;
             }
         }
+    }
 
         return '' + needsGuardian;
     }

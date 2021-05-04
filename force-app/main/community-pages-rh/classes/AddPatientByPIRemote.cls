@@ -284,7 +284,15 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
             );
-
+            if(ddInfo.participantId != null){
+                participantDelegate.Id = ddInfo.participantId;
+                try {
+                         upsert participantDelegate;
+                        } catch (Exception exp) {
+                            system.debug('No delegate was provided');
+                        }
+                    }
+        
         if (
             participantDelegate != null &&
             !String.isEmpty(participantDelegate.Last_Name__c) &&
