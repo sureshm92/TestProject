@@ -104,11 +104,11 @@
                     email.setCustomValidity('');
                     isValid = true;
                 } else {
-                    email.setCustomValidity('$Label.c.RH_Email_Invalid_Error');
+                    email.setCustomValidity($A.get('$Label.c.RH_Email_Invalid_Error'));
                     isValid = false;
                 }
             } else {
-                email.setCustomValidity('$Label.c.RH_Email_Invalid_Error');
+                email.setCustomValidity($A.get('$Label.c.RH_Email_Invalid_Error'));
                 isValid = false;
             }
             email.reportValidity();
