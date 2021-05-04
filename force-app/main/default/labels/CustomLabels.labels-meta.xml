@@ -19341,7 +19341,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TMDHBypassedFieldsforCTP</shortDescription>
-        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c</value>
+        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c;Interventions__c</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>
