@@ -304,11 +304,19 @@
         var participant = component.get('v.participant');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        var participantToInsert = [];
+      if (component.get('v.states').length === 0) {
+                component.set('v.participant.Mailing_State_Code__c', ''); 
+            participantToInsert.push({participant});
+        }else{
+            participantToInsert.push({participant});
+            
+        }
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
             {
-                participantJSON: JSON.stringify(participant)
+                participantJSON: JSON.stringify(participantToInsert)
             },
             function (returnValue) {
                 var isNeedGuardian = returnValue == 'true';
