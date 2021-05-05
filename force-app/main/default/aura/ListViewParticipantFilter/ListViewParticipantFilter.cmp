@@ -110,6 +110,7 @@
     <aura:method name="refreshTable" action="{!c.handleTable}" />
     <aura:method name="handlePromoteSHMethod" action="{!c.handlePromoteSH}"/>
     <aura:method name="handleInviteToPPMethod" action="{!c.inviteToPP}"/>
+    <div class="slds-m-top_medium"></div>
     <div class="slds-card">
         <div class="filter-card slds-grid slds-wrap">
             <div class="slds-size_1-of-1 slds-large-size_9-of-12">
