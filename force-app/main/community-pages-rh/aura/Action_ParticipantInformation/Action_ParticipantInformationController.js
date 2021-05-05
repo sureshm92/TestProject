@@ -186,7 +186,7 @@
                 }
                 var callback = component.get('v.callback');
                 if (callback) {
-                    callback(pe);
+                    //callback(pe);
                     var compEvent = component.getEvent("FilterKeep");
                     compEvent.fire();
 
@@ -394,7 +394,7 @@
                     var response = response.getReturnValue();
                     var callback = component.get('v.callback');
                     if (callback) {
-                        callback(pe);
+                        //callback(pe);
                         var compEvent = component.getEvent("FilterKeep");
                         compEvent.fire();
     
@@ -510,7 +510,7 @@
                     component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');
                     if (callback) {
-                        callback(pe);
+                        //callback(pe);
                         var compEvent = component.getEvent("FilterKeep");
                         compEvent.fire();
     
@@ -632,6 +632,12 @@
                     if(childComponent!=undefined){
                         childComponent.refreshChildTable();
                         component.set('v.isStatusChanged', false);
+                    }
+                     var callback = component.get('v.callback');
+                    if (callback) {
+                        //callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
                     }
                     component.set('v.updateInProgress', false);
                     component.find('spinner').hide();
