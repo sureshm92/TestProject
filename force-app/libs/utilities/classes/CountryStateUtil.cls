@@ -11,6 +11,8 @@ public class CountryStateUtil {
     public static final Map<String, Map<String, String>> STATES_CODE_BY_NAME_MAP_Mdt = new Map<String, Map<String, String>>(); 
     public static final Map<String, String> COUNTRY_NAME_By_CODE_MAP_Mdt = new Map<String, String>();
     public static final Map<String, Map<String, String>> STATES_NAME_By_CODE_MAP_Mdt = new Map<String, Map<String, String>>();
+    public static final Map<String, String> COUNTRY_CODE_TO_NAME = new Map<String, String>(); 
+    public static final Map<String, String> COUNTRY_NAME_TO_CODE= new Map<String, String>();
 
     public static final Map<String, List<LabelValueItem>> DEPENDENT_STATES_MAP = new FieldDescribeUtil()
         .controllingToDependentValues(User.CountryCode, User.StateCode);
@@ -119,6 +121,13 @@ public class CountryStateUtil {
                 }	
 
             }
-        }   
+        } 
+        List<RH_Country_Name__mdt> countryMetaLst = [SELECT id,Country_Code__c,Country_Name__c,IsVisible__c FROM RH_Country_Name__mdt];
+        for(RH_Country_Name__mdt meta: countryMetaLst){
+            if(meta.IsVisible__c == true){
+                COUNTRY_CODE_TO_NAME.put(meta.Country_Name__c,meta.Country_Code__c);
+                COUNTRY_NAME_TO_CODE.put(meta.Country_Code__c,meta.Country_Name__c);
+            }
+        }  
     }
 }

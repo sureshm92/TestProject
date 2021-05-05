@@ -12,9 +12,6 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     after delete,
     after undelete
 ) {
-if(Label.switcher == '1'){
-    
-    system.debug('trigger running'+Label.switcher);
     TriggerHandlerExecutor.execute(PETriggerHandler.class);
     TriggerHandlerExecutor.execute(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
     TriggerHandlerExecutor.execute(
@@ -51,5 +48,5 @@ if(Label.switcher == '1'){
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
-}
+
 }

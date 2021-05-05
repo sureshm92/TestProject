@@ -233,6 +233,7 @@
         var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
