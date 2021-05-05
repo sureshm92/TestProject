@@ -142,6 +142,8 @@ public without sharing class ParticipantTriggerHandler {
                         updateContactsMap.put(part.Contact__c,part);
                     }else if(oldMap.get(part.Id)!=null && part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
                         updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
+                        updateContactsMap.put(part.Contact__c,part);
                     }
                 }
             }
@@ -149,7 +151,7 @@ public without sharing class ParticipantTriggerHandler {
         
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
@@ -159,6 +161,9 @@ public without sharing class ParticipantTriggerHandler {
 						updateNeeded= true;
 					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
 						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
+						updateNeeded= true;
+					}if(con.Phone != updateContactsMap.get(con.Id).Phone__c){
+						con.Phone = updateContactsMap.get(con.Id).Phone__c;
 						updateNeeded= true;
 					}
 					if(updateNeeded == true){
@@ -296,33 +301,42 @@ public without sharing class ParticipantTriggerHandler {
         List<Participant__c> newList,
         Map<Id, Participant__c> oldMap
     ) {
-        for (Participant__c participant : newList) {
+       for (Participant__c participant : newList) {
             String countryName = participant.Mailing_Country__c;
             String countryCode = participant.Mailing_Country_Code__c;
             String stateName = participant.Mailing_State__c;
             String stateCode = participant.Mailing_State_Code__c;
-			//Changes are done to fetch the country Code VS Country Name and State Code VS State name
-			//From Custome meta data to fix the language translation issue for State and country
+            //Changes are done to fetch the country Code VS Country Name and State Code VS State name
+            //From Custome meta data to fix the language translation issue for State and country
             if (oldMap == null) {
-                if(countryCode == null && countryName != null) {
-                    if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName)){ 
-                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName);
+                if(countryCode == null && countryName != null) { // countryname not null and country code is null
+                    if(CountryStateUtil.COUNTRY_NAME_TO_CODE.containsKey(CountryStateUtil.getCountryCode(countryName))){ 
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_TO_CODE.get(CountryStateUtil.getCountryCode(countryName));
+                        participant.Mailing_Country_Code__c = CountryStateUtil.getCountryCode(countryName);
+                        //participant.Mailing_State_Code__c = (CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))).containsKey(stateName)) ? CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))).get(stateName) : null;
                     }
-					if(participant.Mailing_Country_Code__c == null) {
-						participant.addError('Invalid Country');
-					}
-				}else if (countryCode != null && countryName == null) {
-                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){  
-                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode); 
+                    if(participant.Mailing_Country_Code__c == null) {
+                        participant.addError('Invalid Country');
                     }
-					if(participant.Mailing_Country__c == null) {
-						participant.addError('Invalid Country Code');
-					}
-				}else if (countryCode != null && countryName != null) {
-					if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(countryName) && countryCode != CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(countryName)) { 
-						participant.addError('Invalid County and Country Code');
-					}
-				}
+                }else if (countryCode != null && countryName == null) {
+                    if(CountryStateUtil.COUNTRY_CODE_TO_NAME.containsKey(CountryStateUtil.getCountryName(countryCode))){ // COUNTRY_CODE_TO_NAME---> BY supply the country code to get the country name
+                        participant.Mailing_Country__c = CountryStateUtil.getCountryName(countryCode);
+                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode));
+                    }
+                    if(participant.Mailing_Country__c == null) {
+                        participant.addError('Invalid Country Code');
+                    }
+                }else if (countryCode != null && countryName != null) {
+                    if(CountryStateUtil.COUNTRY_NAME_TO_CODE.containsKey(CountryStateUtil.getCountryCode(countryName)) && CountryStateUtil.COUNTRY_CODE_TO_NAME.containsKey(CountryStateUtil.getCountryName(countryCode))) { 
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_TO_CODE.get(CountryStateUtil.getCountryCode(countryName));
+                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode));
+                        
+                    }else{
+                        participant.addError('Invalid County and Country Code');
+                    }
+                }
+                
+                //state change has started
                 if(stateCode == null && stateName != null) {
                     if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName)){
                         participant.Mailing_State_Code__c =CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName);
@@ -331,18 +345,18 @@ public without sharing class ParticipantTriggerHandler {
                         participant.addError('Invalid State Province');
                     }
                     
-				}else if (stateCode != null && stateName == null) {
-					if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateCode)){ 
+                }else if (stateCode != null && stateName == null) {
+                    if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateCode)){ 
                         participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateCode);
                     }
 					if(participant.Mailing_State__c == null) {
 						participant.addError('Invalid State Province Code');
 					}
-				}else if (stateCode != null && stateName != null) {
-					 if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
-						participant.addError('Invalid State Province and State Province Code');
-					}
-				}
+                }else if (stateCode != null && stateName != null) {
+                    if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
+                        participant.addError('Invalid State Province and State Province Code');
+                    }
+                }
             }
             if (oldMap != null) {
                 Boolean countryNameChanged =
@@ -352,55 +366,67 @@ public without sharing class ParticipantTriggerHandler {
                 Boolean stateNameChanged = oldMap.get(participant.Id).Mailing_State__c != stateName;
                 Boolean stateCodeChanged =
                     oldMap.get(participant.Id).Mailing_State_Code__c != stateCode;
-
+                
                 if (countryCodeChanged && !countryNameChanged) {
-                    participant.Mailing_Country__c = CountryStateUtil.getCountryName(countryCode);
-                    if (participant.Mailing_Country__c == null && countryCode != null) {
-                        participant.addError('Invalid Country Code');
+                    if(CountryStateUtil.COUNTRY_CODE_TO_NAME.containsKey(CountryStateUtil.getCountryName(countryCode))){ // COUNTRY_CODE_TO_NAME---> BY supply the country code to get the country name
+                        participant.Mailing_Country__c = CountryStateUtil.getCountryName(countryCode);
+                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode));
+                    }else{
+                        if (participant.Mailing_Country__c == null && countryCode != null) {
+                            participant.addError('Invalid Country Code');
+                        }
                     }
                 } else if (!countryCodeChanged && countryNameChanged) {
-                    participant.Mailing_Country_Code__c = CountryStateUtil.getCountryCode(
-                        countryName
-                    );
-                    if (participant.Mailing_Country_Code__c == null && countryName != null) {
-                        participant.addError('Invalid Country');
+                    //COUNTRY_NAME_TO_CODE--->BY supply the country name to get the country code
+                    if(CountryStateUtil.COUNTRY_NAME_TO_CODE.containsKey(CountryStateUtil.getCountryCode(countryName))){ 
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_TO_CODE.get(CountryStateUtil.getCountryCode(countryName));
+                        participant.Mailing_Country_Code__c = CountryStateUtil.getCountryCode(countryName);
+                        
+                        //participant.Mailing_State_Code__c = (CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))).containsKey(stateName)) ? CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode))).get(stateName) : null;
+                        
+                    }else{
+                        if (participant.Mailing_Country_Code__c == null && countryName != null) {
+                            participant.addError('Invalid Country');
+                        }
                     }
                 } else if (countryCodeChanged && countryNameChanged) {
-                    if (countryCode != CountryStateUtil.getCountryCode(countryName)) {
+                    if(CountryStateUtil.COUNTRY_NAME_TO_CODE.containsKey(CountryStateUtil.getCountryCode(countryName)) && CountryStateUtil.COUNTRY_CODE_TO_NAME.containsKey(CountryStateUtil.getCountryName(countryCode))) { 
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_TO_CODE.get(CountryStateUtil.getCountryCode(countryName));
+                        participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_TO_NAME.get(CountryStateUtil.getCountryName(countryCode));
+                        
+                    }else{
                         participant.addError('Invalid County and Country Code');
                     }
                 }
-
+                
+                // state change has started
                 if (stateCodeChanged && !stateNameChanged) {
-                    participant.Mailing_State__c = CountryStateUtil.getStateName(
-                        participant.Mailing_Country_Code__c,
-                        stateCode
-                    );
-                    if (participant.Mailing_State__c == null && stateCode != null) {
+                    if(CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateCode)){ 
+                        
+                        participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateCode);
+                        
+                    }
+                    if (participant.Mailing_State__c == null && stateCode != null) { //&& stateCode != null
                         participant.addError('Invalid State Province Code');
                     }
                 } else if (!stateCodeChanged && stateNameChanged) {
-                    participant.Mailing_State_Code__c = CountryStateUtil.getStateCode(
-                        participant.Mailing_Country_Code__c,
-                        stateName
-                    );
-                    if (participant.Mailing_State_Code__c == null && stateName != null) {
+                    system.debug('INSIDEstatecode>>'+CountryStateUtil.getCountryName(countryCode));
+                    if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName)){
+                        participant.Mailing_State_Code__c =CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName);
+                    }
+                    if (participant.Mailing_State_Code__c == null && stateName != null) { //&& stateName != null
+                        
                         participant.addError('Invalid State Province');
                     }
                 } else if (stateCodeChanged && stateNameChanged) {
-                    if (
-                        stateCode !=
-                        CountryStateUtil.getStateCode(
-                            participant.Mailing_Country_Code__c,
-                            stateName
-                        )
-                    ) {
+                    if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
                         participant.addError('Invalid State Province and State Province Code');
                     }
                 }
             }
         }
     }
+
 
     @TestVisible
     private static Id getParticipantAccountId() {

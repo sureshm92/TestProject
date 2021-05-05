@@ -22,6 +22,7 @@
  <aura:attribute name="studySitesPending" type="List" />
  <aura:attribute name="studySiteMarkers" type="List" />
  <aura:attribute name="participant" type="Object" />
+ <aura:attribute name="participantToInsert" type="Object"/>
  <aura:attribute name="delegateParticipant" type="Object" />
  <aura:attribute name="emailRepeat" type="String" />
  <aura:attribute name="emailDelegateRepeat" type="String" />
