@@ -8,6 +8,7 @@ import { loadStyle } from 'lightning/platformResourceLoader';
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import addLabel from '@salesforce/label/c.Add_Date';
+import selectLabel from '@salesforce/label/c.Select';
 import incorrectData from '@salesforce/label/c.Incorrect_data';
 import reminderPastError from '@salesforce/label/c.PP_ReminderPastError';
 import detailsLabel from '@salesforce/label/c.PP_Details';
@@ -87,7 +88,8 @@ export default class VisitsPath extends LightningElement {
         remindMe,
         reminderErrorUnderFlow,
         reminderPastError,
-        timeZoneDisclaimer
+        timeZoneDisclaimer,
+        selectLabel
     };
 
     initialized = false;
