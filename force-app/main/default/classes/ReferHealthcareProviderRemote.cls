@@ -443,11 +443,13 @@ global without sharing class ReferHealthcareProviderRemote {
                         Mailing_Country_Code__c = participantObj.Mailing_Country_Code__c,
                         Mailing_State_Code__c = participantObj.Mailing_State_Code__c,
                         Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c,
-                        Birth_Year__c = String.isNotBlank(YearOfBirth) ? YearOfBirth : '',
-                        Attestation__c = true,
-                		Attestation_TimeStamp__c = system.now(),
-                		Attested_by__c = CommunityService.getInstance().getCurrentContactId()
+                        Birth_Year__c = String.isNotBlank(YearOfBirth) ? YearOfBirth : ''
                     );
+                    if(String.isNotBlank(YearOfBirth)){
+                    participantDelegate.Attestation__c = true;
+                	participantDelegate.Attestation_TimeStamp__c = system.now();
+                	participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                    }
                     insert participantDelegate;
                 }
                 if (!participantObj.Adult__c) {
