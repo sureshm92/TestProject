@@ -257,7 +257,7 @@
                                 <lightning-combobox
                                     name="reminder"
                                     label={labels.remindMe}
-                                    placeholder="Select"
+                                    placeholder={labels.selectLabel}
                                     value={reminderOption}
                                     onchange={handleDateChange}
                                     options={reminderOptions}
@@ -651,7 +651,7 @@
                                 <lightning-combobox
                                     name="reminder"
                                     variant="label-hidden"
-                                    placeholder="Select"
+                                    placeholder={labels.selectLabel}
                                     value={reminderOption}
                                     onchange={handleDateChange}
                                     options={reminderOptions}
