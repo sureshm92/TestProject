@@ -3,6 +3,13 @@
         var params = event.getParam('arguments');
         var pe = params.pe;
         var status = pe.Participant_Status__c;
+        var statusLists = [];
+        statusLists.push('Contact Attempted');
+        statusLists.push('Eligibility Failed');
+        statusLists.push('Pre-review Failed');
+        statusLists.push('Pre-review Passed');
+        statusLists.push('Received');
+        statusLists.push('Successfully Contacted');
         communityService.executeAction(
             component,
             'getPESHrecord',
@@ -14,7 +21,7 @@
             component.set('v.dateofSH',returnVal.dateOfSH);
             if(status == 'Eligibility Passed'){
                 component.set('v.promoteToSHStatus',false);
-            }else if(statusList.includes(status) 
+            }else if(statusLists.includes(status) 
                      && (returnValue==null || returnValue == undefined 
                      || (returnValue!=null && returnValue != undefined 
                          && returnVal.shLogStatus != 201))
