@@ -93,10 +93,9 @@
     </div>
     <div
         class="{!'slds-col ' + if(v.printMode, 'slds-size--2-of-12', 'slds-size--3-of-12 slds-large-size--2-of-12')}"
-        style="margin-top: 23px"
     >
         <button
-            class="apollo-btn secondary slds-button"
+            class="apollo-btn secondary slds-button connectPatient"
             onclick="{!c.doConnectDisconnect}"
             disabled="{!(v.sharingObject.Id || v.sharingObject.delegateId) ? v.actionDisabled : v.printMode 
                       || (!v.isValid || v.actionDisabled || v.isDuplicate || v.isDuplicateDelegate 
