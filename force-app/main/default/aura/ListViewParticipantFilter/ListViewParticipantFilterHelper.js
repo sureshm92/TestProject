@@ -312,11 +312,9 @@
         csvStringResult = '';
         csvStringResult += header + columnDivider;
         csvStringResult += lineDivider;
-        console.log('@@@@@@ ' + objectRecords.length);
+      
         
         for (var i = 0; i < objectRecords.length; i++) {
-            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-
             if (
                 objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Protocol_ID__c'] !== undefined
             ) {
@@ -368,7 +366,6 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-             //console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Participant__r"]["First_Name__c"]));
             if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['First_Name__c'] + '"' + ',';
