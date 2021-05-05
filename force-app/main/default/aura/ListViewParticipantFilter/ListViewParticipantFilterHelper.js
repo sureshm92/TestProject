@@ -312,10 +312,9 @@
         csvStringResult = '';
         csvStringResult += header + columnDivider;
         csvStringResult += lineDivider;
-        console.log('@@@@@@ ' + objectRecords.length);
+      
+          
         for (var i = 0; i < objectRecords.length; i++) {
-            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-
             if (
                 objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Protocol_ID__c'] !== undefined
             ) {
@@ -367,39 +366,38 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-
-            if (objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['First_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Last_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Last_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Last_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Email__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Email__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Email__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Phone__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Phone__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Phone__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
             if (
-                objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Number__c'] !==
+                objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Number__c'] !==
                 undefined
             ) {
                 csvStringResult +=
@@ -411,7 +409,7 @@
                 csvStringResult += '" "' + ',';
             }
             if (
-                objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Type__c'] !== undefined
+                objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Type__c'] !== undefined
             ) {
                 csvStringResult +=
                     '"' +
@@ -422,7 +420,7 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] !== undefined) {
                 csvStringResult +=
                     '"' +
                     objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] +
@@ -432,14 +430,14 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Present_Age__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Present_Age__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Present_Age__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Ethnicity__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Ethnicity__c'] !== undefined) {
                 var val = objectRecords[i]['pe']['Participant__r']['Ethnicity__c'];
                 var arr = val.split(';');
                 // var str = [];
@@ -462,7 +460,7 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['BMI__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['BMI__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['BMI__c'] + '"' + ',';
             } else {
