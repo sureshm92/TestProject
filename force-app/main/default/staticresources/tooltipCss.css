@@ -1,6 +1,6 @@
 lightning-primitive-bubble{
     z-index: 10000000000 !important;
-    background-color: #444 !important;
+    /*background-color: #444 !important;*/
     font-family: "Proxima Nova" !important;
     font-size: 14px !important;
 }
