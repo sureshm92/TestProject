@@ -8853,6 +8853,13 @@ The expected format is REF##### to REF########</value>
         <value>Interactive Advertising Bureau</value>
     </labels>
     <labels>
+        <fullName>Login_Form_Show</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Show</shortDescription>
+        <value>Show</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15852,6 +15859,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Change preferences here</value>
     </labels>
     <labels>
+        <fullName>PP_ChangesSuccessfullySaved</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangesSuccessfullySaved</shortDescription>
+        <value>Changes are successfully saved.</value>
+    </labels>
+    <labels>
         <fullName>PP_Condition_of_Interest_title</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16331,6 +16345,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Please submit your article or video as a website link.</value>
     </labels>
     <labels>
+        <fullName>PP_TaskCreationSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_TaskCreationSuccess</shortDescription>
+        <value>Task created successfully.</value>
+    </labels>
+    <labels>
         <fullName>PP_Task_Success_Toast</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -16417,11 +16438,25 @@ communications using the toggles below.</value>
         <value>Please enter a valid mobile number.</value>
     </labels>
     <labels>
+        <fullName>PP_VisitReminderUpdated</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_VisitReminderUpdated</shortDescription>
+        <value>Visit reminder updated.</value>
+    </labels>
+    <labels>
         <fullName>PP_VisitReminder_Overflow</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_VisitReminder_Overflow</shortDescription>
         <value>Reminder date cannot be set beyond the Visit Date.</value>
+    </labels>
+    <labels>
+        <fullName>PP_VisitScheduledSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_VisitScheduledSuccess</shortDescription>
+        <value>Visit scheduled successfully.</value>
     </labels>
     <labels>
         <fullName>PP_Visit_Date</fullName>
@@ -17617,7 +17652,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Records all invited</shortDescription>
-        <value>Participant have been invited successfully</value>
+        <value>Participants have been invited successfully</value>
     </labels>
     <labels>
         <fullName>RTL_Languages</fullName>
@@ -19334,7 +19369,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>TMDHBypassedFieldsforCTP</shortDescription>
-        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c</value>
+        <value>Brief_Summary__c;Study_Sponsor__c;Condition_s_Therapeutic_Area__c;NCT_Number__c;Protocol_ID__c;Study_Phase__c;Study_Title__c;Study_Type__c;Official_Title__c;Study_Code_Name__c;Recruitment_Status__c;Interventions__c</value>
     </labels>
     <labels>
         <fullName>TST_Complete_Your_Question</fullName>

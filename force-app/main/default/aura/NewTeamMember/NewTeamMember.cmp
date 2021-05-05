@@ -69,7 +69,7 @@
                 style="{!if(v.isRTL, 'direction: rtl;', '')}"
             >
                 <c:RRLink page="{!'my-team' + if(empty(v.parentId), '', '?id=' + v.parentId)}">
-                    <c:RRIcon iconName="icon-arrow-left" />
+                    <c:RRIcon iconName="{!v.isRTL? 'icon-arrow-right': 'icon-arrow-left'}" />
                     {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team :
                     $Label.c.PG_PST_L_Delegates_Back}
                 </c:RRLink>
@@ -149,7 +149,9 @@
                                                     checked="{!v.isAttested}"
                                                 />
                                             </div>
-                                            <div class="slds-size_8-of-9 slds-medium-size_8-of-9">
+                                            <div
+                                                class="slds-size_8-of-9 slds-medium-size_8-of-9 confirmation-message"
+                                            >
                                                 {!$Label.c.Attestation_Confirmation_Message_For_Teams}
                                             </div>
                                         </div>
@@ -226,7 +228,9 @@
                                         <c:RRLink
                                             page="{!'my-team' + if(empty(v.parentId), '', '?id='+v.parentId)}"
                                         >
-                                            <c:RRIcon iconName="icon-arrow-left" />
+                                            <c:RRIcon
+                                                iconName="{!v.isRTL? 'icon-arrow-right': 'icon-arrow-left'}"
+                                            />
                                             {!v.isStaff ? $Label.c.PG_NTM_BTN_Back_to_My_Team :
                                             $Label.c.PG_PST_L_Delegates_Back}
                                         </c:RRLink>

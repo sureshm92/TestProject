@@ -449,13 +449,13 @@ public without sharing class ListViewParticipantController {
             //Invite to PP
             if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                
-                filter += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
+                filter += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
                 filter += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c !=' + '\'' + system.Label.Janssen_Community_Template_Name + '\'';
                 filter += 'AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE ';
                    
             }else{
                 filterpp = filter;
-                filterpp += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
+                filterpp += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
                 filterpp += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c !=' + '\'' + system.Label.Janssen_Community_Template_Name + '\'';
                 filterpp += 'AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE ';
             }

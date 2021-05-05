@@ -2,14 +2,14 @@
  - Created by Olga Skrynnikova on 6/16/2020.
  -->
 
-<aura:component description="UnifiedStructurePP_RH">
+<aura:component description="UnifiedStructurePP_RH" extends="c:CommunityContext">
     <!-- attributes: -->
     <aura:attribute name="communityModes" type="Object" />
 
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent" />
 
-    <ul class="container">
+    <ul class="container" style="{!if(v.isRTL, 'direction:rtl;','')}">
         <li data-group-id="{!'pp'}" onclick="{!c.doToggleGroup}">
             <div class="item-container">
                 <aura:if isTrue="{!v.communityModes.isPPItemsCollapsed}">
@@ -63,15 +63,17 @@
                         {!$Label.c.Referral_Hub_Views}
                     </div>
                     <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
-                        <div class="icon-settings-box">
-                            <c:menuItemButton
+                        <div class="icon-settings-box" style="{!if(v.isRTL, 'margin-left: 10px;','')}">
+                            <div style="{!if(v.isRTL, 'margin-left: 20px;','')}">
+                                <c:menuItemButton
                                 class="icon-delegate"
                                 iconName="delegate"
                                 navigateTo="my-team"
                                 onclick="{!c.doOnClick}"
                                 modes="{!v.communityModes.rhModeItems}"
                             />
-                            <div style="margin-left: 21px">
+                            </div>
+                            <div style="{!if(v.isRTL, 'margin-left: 21px;','margin-left: 21px;')}">
                                 <c:menuItemButton
                                     class="icon-cog"
                                     iconName="cog"

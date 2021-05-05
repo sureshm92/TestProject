@@ -180,16 +180,13 @@
                                 <lightning:combobox
                                     aura:id="taskReminderOption"
                                     label="{!$Label.c.Remind_Me}"
-                                    placeholder="Select"
+                                    placeholder="{!$Label.c.Select}"
                                     value="{!v.task.Remind_Me__c}"
                                     onchange="{!c.doValidateFields}"
                                     options="{!v.initData.reminderFrequencyList}"
                                     class="wi"
                                     fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                                 />
-                                
-                              
-
                             </div>
                             <!--Reminder Date-->
                             <div
@@ -357,14 +354,14 @@
                                 <lightning:combobox
                                     aura:id="taskReminderOption1"
                                     label="{!$Label.c.Remind_Me}"
-                                    placeholder="Select"
+                                    placeholder="{!$Label.c.Select}"
                                     value="{!v.task.Remind_Me__c}"
                                     onchange="{!c.doValidateFields}"
                                     options="{!v.initData.reminderFrequencyList}"
                                     class="wi"
                                     fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                                 />
-                                
+
                                 <div
                                     class="{!(v.task.Remind_Me__c == 'Custom')?'slds-p-top_small':''}"
                                 ></div>
@@ -543,7 +540,7 @@
                             <lightning:combobox
                                 aura:id="reminderOption"
                                 label="{!$Label.c.Remind_Me}"
-                                placeholder="Select"
+                                placeholder="{!$Label.c.Select}"
                                 value="{!v.task.Remind_Me__c}"
                                 onchange="{!c.doValidateFields}"
                                 disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
