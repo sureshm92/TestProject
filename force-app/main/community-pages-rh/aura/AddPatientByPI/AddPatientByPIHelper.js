@@ -233,14 +233,12 @@
         var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
-        var participantToInsert = [];
-        participantToInsert.push({participant});
         
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
             {
-                participantJSON: JSON.stringify(participantToInsert)
+                participantJSON: JSON.stringify(participant)
             },
             function (returnValue) {
                 console.log('isNeedGuardian: ' + returnValue);
