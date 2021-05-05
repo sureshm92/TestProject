@@ -313,7 +313,7 @@
         csvStringResult += header + columnDivider;
         csvStringResult += lineDivider;
       
-        
+          
         for (var i = 0; i < objectRecords.length; i++) {
             if (
                 objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Protocol_ID__c'] !== undefined
