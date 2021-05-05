@@ -12,6 +12,10 @@
     font-weight: 600;
 }
 
+.THIS .cReferHealthcareProviderInputs:nth-child(6) {
+    order: 7;
+}
+
 @media all and (max-width: 768px) {
     .THIS .apollo-btn.secondary {
         margin-bottom: 15px;

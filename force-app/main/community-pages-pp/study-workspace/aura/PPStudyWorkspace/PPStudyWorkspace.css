@@ -337,9 +337,6 @@
         padding-right: 0;
     }
 
-    .THIS .rr-width-limiter.side-padding .sv-body {
-        margin: 0 10px;
-    }
 
     .THIS .rr-width-limiter-half.side-padding .sv-body {
         margin: 0 20px;
@@ -373,7 +370,7 @@
     }
 
     .THIS #sd-selected-tab-container {
-        padding: 0 6px;
+        padding: 0 16px;
     }
 }
 

@@ -271,7 +271,6 @@
                                         data-resource-mode="Documents"
                                         class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
                                         onclick="{!c.doAction}"
-                                        style="margin-right: 150px"
                                     >
                                         {!$Label.c.Resource_Tab_Study_Documents}
                                     </button>
@@ -281,7 +280,6 @@
                                             data-resource-mode="Documents"
                                             class="{!'apollo-btn text ' + if(v.resourceMode == 'Documents', ' current', '')}"
                                             onclick="{!c.doAction}"
-                                            style="margin-left: 160px"
                                         >
                                             {!$Label.c.Resource_Tab_Study_Documents}
                                         </button>
