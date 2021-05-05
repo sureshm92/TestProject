@@ -109,6 +109,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
+                <field>Attested_by__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
                 <field>Attestation_TimeStamp__c</field>
             </layoutItems>
         </layoutColumns>
