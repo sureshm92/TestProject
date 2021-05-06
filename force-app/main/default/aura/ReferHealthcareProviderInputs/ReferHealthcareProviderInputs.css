@@ -23,4 +23,8 @@
     .THIS.rr-form-element {
         padding-right: 10px;
     }
+
+    .THIS > .slds-size--2-of-10 {
+        max-width: 50%;
+    }
 }
