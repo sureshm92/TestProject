@@ -498,7 +498,7 @@
                  }
                  
                  if(component.get('v.isFirstPrimaryDelegate') || component.get('v.isBulkImport')){
-                     if(participantDelegateOld.Birth_Year__c == '')
+                    if($A.util.isEmpty(participantDelegateOld.Birth_Year__c))
                      {  
                          component.set('v.yobBlankErrMsg', true);
                          component.set('v.delNotAdultErrMsg', false);

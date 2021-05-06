@@ -215,6 +215,41 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             }
 
             upsert newParticipantsMap.values();
+            //Insert PE
+            List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
+            Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
+            Set<Id> delegateIds = new Set<Id>();
+            List<Participant__c> delegateParticipants = new List<Participant__c>();
+            for (Integration_Patient_Referral__c ipr : newList) {
+                Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
+                system.debug('participantEnrollment>>'+participant.Id);
+                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
+                participant.Site__c = ss.Site__c;
+                if (ss != null)
+                    peList.add(createPE(ipr, participant.Id, ss.Id));
+            }
+            List<String> PEErrorMsg = new List<String>();
+            List<Database.SaveResult> saveResults = Database.insert(peList, false);
+            Set<Id> participantsWithoutErrors = new Set<Id>();
+            for (Integer i = 0; i < saveResults.size(); i++) {
+                Participant_Enrollment__c pe = peList[i];
+                Database.SaveResult sr = saveResults[i];
+                Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
+                if (ipr != null) {
+                    if (sr.isSuccess()) {
+                        participantsWithoutErrors.add(pe.Participant__c);
+                        ipr.Success__c = true;
+                        ipr.Participant_Enrollment__c = sr.getId();
+                    } else {
+                        ipr.Success__c = false;
+                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
+                        if(ipr.Error_Message__C != null){
+                        PEErrorMsg.add(ipr.Error_Message__C);
+                            }
+                     }
+                }
+            }
+                   
             set<string> emails = new Set<string>();
             set<string> firstname = new Set<string>();
             List<Contact> newDelegateContacts = new List<Contact>();
@@ -227,7 +262,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 emails.add(con.Email);
                 firstname.add(con.FirstName);
             }
-            List<String> errorsLog = new List<String>();
+            //List<String> errorsLog = new List<String>();
             List<Contact> cntList = new List<Contact>();
             cntList = [
                 SELECT Id, FirstName, Email, Phone
@@ -235,28 +270,19 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 WHERE Email IN :emails
                 LIMIT :limitRows
             ];
-            if (!cntList.isEmpty()) {
+            /*if (!cntList.isEmpty()) {
                 errorsLog.add('Duplicate FirstName or Email;');
-            }
-            if (!newDelegateContacts.isEmpty() && cntList.isEmpty() && errorsLog.isEmpty()) {
+            }*/
+            if (!newDelegateContacts.isEmpty() && cntList.isEmpty() && PEErrorMsg.isEmpty()) {
                 insert newDelegateContacts;
             }
-            //Insert PE
-            List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-            Map<Id, Id> participantIdByParticipantDelegateContactId = new Map<Id, Id>();
-            Set<Id> delegateIds = new Set<Id>();
-            List<Participant__c> delegateParticipants = new List<Participant__c>();
-            for (Integration_Patient_Referral__c ipr : newList) {
-                Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
-                Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
-                participant.Site__c = ss.Site__c;
-                if (ss != null)
-                    peList.add(createPE(ipr, participant.Id, ss.Id));
-
+            
+                for (Integration_Patient_Referral__c ipr : newList) {
+                     Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(
                     ipr.referralID__c
                 );
-                if (participantDelegateContactAndSiteType != null && cntList.isEmpty()) {
+                if (participantDelegateContactAndSiteType != null && cntList.isEmpty() && PEErrorMsg.isEmpty()) {
                     Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                     delegateParticipants.add(
                         createDelegateParticipant(
@@ -275,23 +301,6 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                         participantIdByParticipantDelegateContactId.put(con.Id, participant.Id);
                         delegateIds.add(con.Id);
-                    }
-                }
-            }
-            List<Database.SaveResult> saveResults = Database.insert(peList, false);
-            Set<Id> participantsWithoutErrors = new Set<Id>();
-            for (Integer i = 0; i < saveResults.size(); i++) {
-                Participant_Enrollment__c pe = peList[i];
-                Database.SaveResult sr = saveResults[i];
-                Integration_Patient_Referral__c ipr = newMap.get(pe.Referral_ID__c);
-                if (ipr != null) {
-                    if (sr.isSuccess()) {
-                        participantsWithoutErrors.add(pe.Participant__c);
-                        ipr.Success__c = true;
-                        ipr.Participant_Enrollment__c = sr.getId();
-                    } else {
-                        ipr.Success__c = false;
-                        ipr.Error_Message__C = 'Participant Enrollment Duplicate Error';
                     }
                 }
             }
@@ -330,7 +339,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                         }
                     }
                 }
-                if (!delegateParticipants.isEmpty() && cntList.isEmpty() && errorsLog.isEmpty()) {
+                if (!delegateParticipants.isEmpty() && cntList.isEmpty() && PEErrorMsg.isEmpty()) {
                     insert delegateParticipants;
                 }
                 if (!ptDelegateRefs.isEmpty()) {

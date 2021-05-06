@@ -413,8 +413,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'value is not correct - Gender');
                 }
-
-                Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+                //State is not mandatory 
+               /* Map<String, List<LabelValueItem>> statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
                 if (
                     statesByCountryMap.get(uploadUser.Contact.MailingCountryCode) != null &&
                     !statesByCountryMap.get(uploadUser.Contact.MailingCountryCode).isEmpty() &&
@@ -428,7 +428,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         ', ' +
                         'mandatory field is empty - State'
                     );
-                }
+                }*/
                 if (String.isEmpty(PostalCode)) {
                     hasErrors = true;
 
@@ -580,7 +580,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     );
                     participant.Adult__c =
                         ReferringRemote.checkNeedsGuardian(JSON.serialize(participant)) == 'false';
-
                     //This intiation done for delegate age Check
                     Participant__c participantDelegate = new Participant__c(
                     First_Name__c = DelegateFirstName,
@@ -590,7 +589,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Birth_Year__c = DelegateYOB
                     );
                     String isAdultDelegate = 'false';
-                    if(!String.isEmpty(DelegateYOB)){
+                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() || DelegateYOB.length() == 4)){
                         isAdultDelegate = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
                     }
                     //START : Delegate wrapper creation
@@ -605,7 +604,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate information is missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
-                    else if((DelegateAgeOfMajority == '' || DelegateAgeOfMajority == 'No') && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
+                    else if( DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
                         errorRecordCount++;
                         listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestion is incorrect or Missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
@@ -657,10 +656,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         'ERROR: invalid field - Delegate Email'
                                     );
                                 }
-                            if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
-                                //errorRecordCount++;
+                            else if(!DelegateYOB.isNumeric() || DelegateYOB.length() != 4){
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate Year of birth is not correct');
+                                isDelegateAvailable = false;
+                            }
+                            else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
-                                //listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                                isDelegateAvailable = false;
+                            }
+                            else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
                                 isDelegateAvailable = false;
                             }
                         }
@@ -671,7 +676,6 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.DelegateEmail = DelegateEmail;
                             delegateWrap.ParticipantPhoneNo = ParticipantPhoneNo;
                             delegateWrap.ParticipantPhoneType = ParticipantPhoneType;
-                            //if(!String.isBlank(DelegatePhoneNo) && !String.isBlank(DelegatePhoneType)){
                             if(!String.isBlank(DelegatePhoneNo)){
                                 delegateWrap.DelegatePhoneNo = DelegatePhoneNo;
                                 delegateWrap.DelegatePhoneType = DelegatePhoneType;
@@ -697,10 +701,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         );
 						
                         isDuplicate = participantDuplicate != null;
-                        System.debug('isDuplicate participant ---> ' + isDuplicate);
                         Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
                         isDuplicate = isDuplicate || contactDuplicate != null;
-                        System.debug('isDuplicate contact ---> ' + isDuplicate);
                         trackingNumberSuccess++;
                         if(!isDuplicate){
                             mapContact.put(totalRecordCount,participantContact);

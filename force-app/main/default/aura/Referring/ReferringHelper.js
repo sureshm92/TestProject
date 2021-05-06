@@ -304,11 +304,18 @@
         var participant = component.get('v.participant');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        if (component.get('v.states').length === 0) {
+        component.set('v.participant.Mailing_State_Code__c', ''); 
+        component.set('v.participantToInsert', participant); 
+        }else{
+        component.set('v.participantToInsert', participant); 
+        }
+        var participantToInsert = component.get('v.participantToInsert');
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
             {
-                participantJSON: JSON.stringify(participant)
+                participantJSON: JSON.stringify(participantToInsert)
             },
             function (returnValue) {
                 var isNeedGuardian = returnValue == 'true';
@@ -342,6 +349,12 @@
 	
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
         var spinner = component.find('mainSpinner');
         spinner.show();
         var participant = component.get('v.participant');
