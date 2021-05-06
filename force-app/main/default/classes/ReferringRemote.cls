@@ -129,7 +129,7 @@ public without sharing class ReferringRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         Boolean needsGuardian = false;
-        Participant__c participant = (Participant__c) JSON.deserialize(
+         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
         );
@@ -147,7 +147,7 @@ public without sharing class ReferringRemote {
                     );
                 }
             }
-
+        
             Date birthDate = Date.valueOf(participant.Date_of_Birth__c);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
@@ -174,7 +174,7 @@ public without sharing class ReferringRemote {
                 needsGuardian = participantAge < 18;
             }
         }
-
+    
         return '' + needsGuardian;
     }
 	
