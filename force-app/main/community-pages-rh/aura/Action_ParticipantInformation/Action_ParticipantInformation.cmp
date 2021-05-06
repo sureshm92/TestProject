@@ -268,7 +268,7 @@ isListView = "{!v.isListView}"
                       class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top: 15px"
                           >
                          <lightning:input
                                           type="checkbox"
@@ -287,7 +287,7 @@ isListView = "{!v.isListView}"
                       class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top:15px"
                           >
                          <lightning:input
                                           type="checkbox"
@@ -307,7 +307,7 @@ isListView = "{!v.isListView}"
                       style="padding-bottom: 10px"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top:15px"
                           >
                          <lightning:input
                                           type="checkbox"
