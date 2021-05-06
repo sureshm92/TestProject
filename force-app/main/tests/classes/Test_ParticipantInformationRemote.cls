@@ -41,9 +41,17 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 testData.pe.Id,
-                CommunityService.USER_MODE_PI
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
             );
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
                 testData.ctp,
@@ -65,9 +73,17 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 testData.pe.Id,
-                CommunityService.USER_MODE_PI
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
             );
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
                 testData.ctp,
@@ -157,9 +173,17 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 testData.pe.Id,
-                CommunityService.USER_MODE_CC
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
             );
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
                 testData.ctp,
@@ -182,9 +206,17 @@ private class Test_ParticipantInformationRemote {
         TestData testData = new TestData();
         Test.startTest();
         System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 testData.pe.Id,
-                CommunityService.USER_MODE_CC
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
             );
             ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
                 testData.ctp,
@@ -320,15 +352,24 @@ private class Test_ParticipantInformationRemote {
         participantDel.Last_Name__c = 'testLastName';
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
-        
-        Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+		System.runAs(testData.piUser) {        
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 testData.pe.Id,
-                CommunityService.USER_MODE_CC
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
             );
         ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
                 testData.ctp,
                 pe
             );
+        
         ParticipantInformationRemote.updatePatientInfoAndStatusWithDelegateCC(JSON.serialize(testData.participant),
                                                                               JSON.serialize(testData.pe),
                                                                               JSON.serialize(path),
@@ -339,6 +380,7 @@ private class Test_ParticipantInformationRemote {
                                                                               true,
                                                                               'test',
                                                                               JSON.serialize(testData.piContact));
+        }
     }
     
     @isTest
