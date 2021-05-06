@@ -468,9 +468,21 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             LastName = ipr.Delegate_Last_Name__c,
             Email = ipr.Delegate_Email_Address__c,
             MailingCountryCode = ipr.Address_Country__c,
-            MailingState = ipr.Delegate_Mailing_State__c,
+            MailingState = ipr.Delegate_Mailing_State__c==null && (ipr.Address_State__c!=null && 
+                                                                   (ipr.Delegate_Zip_Postal_Code__c == null 
+                                                                    ||(ipr.Delegate_Zip_Postal_Code__c!=null 
+                                                                       && (ipr.Delegate_Zip_Postal_Code__c == ipr.Address_ZipCode__c)
+                                                                      )
+                                                                   )
+                                                                  )?ipr.Address_State__c :ipr.Delegate_Mailing_State__c,
             MailingCity = ipr.Delegate_Mailing_City__c,
-            MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c,
+            MailingPostalCode = ipr.Delegate_Zip_Postal_Code__c==null && (ipr.Address_ZipCode__c!=null && 
+                                                                          (ipr.Delegate_Mailing_State__c == null 
+                                                                           ||(ipr.Delegate_Mailing_State__c!=null 
+                                                                              && (ipr.Delegate_Mailing_State__c == ipr.Address_State__c)
+                                                                             )
+                                                                          )
+                                                                         )?ipr.Address_ZipCode__c :ipr.Delegate_Zip_Postal_Code__c,
             AccountId = participantAccount.Id
         );
         if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
