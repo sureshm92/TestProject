@@ -38,7 +38,7 @@
     
     <aura:if isTrue="{!v.isJanssen}">
         
-        <div class="slds-col slds-size_1-of-1 DiversityMessage">
+        <div class="slds-col slds-size_1-of-1 navigation-breadcrumbs-mes">
             <img src="{!$Resource.icon_circle}"
                                 class="check"/>{!$Label.c.Diversity_Message}</div>
     </aura:if>

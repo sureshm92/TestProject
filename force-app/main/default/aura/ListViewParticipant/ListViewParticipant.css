@@ -47,6 +47,17 @@
     margin-bottom: 20px;
 }
 
+
+.THIS .navigation-breadcrumbs {
+    font-weight: 600;
+    font-size: 13px;
+}
+
+.THIS .navigation-breadcrumbs-mes {
+    font-weight: 700;
+    font-size: 13px;
+}
+
 .THIS.ListViewHead > span:first-child {
 	font-size: 13px;
 	font-weight: 600;
