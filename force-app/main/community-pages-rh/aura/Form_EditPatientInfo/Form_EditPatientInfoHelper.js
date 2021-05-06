@@ -103,6 +103,12 @@
     },
     
     checkDelegateAge:function(component,participant,participantDelegateOld){
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('AttestCheckbox');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
          communityService.executeAction(
                 component,
                 'checkDelegateAge',
