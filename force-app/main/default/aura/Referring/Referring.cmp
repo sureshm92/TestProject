@@ -139,7 +139,7 @@
      <!-- page content -->
      <div
          class="rr-body-content"
-         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;' + if(v.isRTL,'direction: rtl;','')}"
+         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'direction: rtl;','')}"
      >
          <!-- Select source -->
          <aura:if isTrue="{!v.currentState == 'Select Source'}">

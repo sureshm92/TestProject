@@ -349,6 +349,12 @@
 	
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
         var spinner = component.find('mainSpinner');
         spinner.show();
         var participant = component.get('v.participant');

@@ -5755,6 +5755,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Attested_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Condition_of_Interest_s__c</field>
         <readable>true</readable>
     </fieldPermissions>

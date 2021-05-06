@@ -394,11 +394,12 @@
         justify-content: space-between;
     }
 
-    .THIS .partinfo-footer-buttons > .slds-button_neutral {
-        width: 100%;
+    .THIS .partinfo-footer-buttons > span > span {
+        width: 50%
     }
+
     .THIS .partinfo-footer-buttons > span .slds-button_neutral {
-        width: 47%;
+        width: 100%;
     }
 
     .THIS .IQVIA_contact-patient-container {

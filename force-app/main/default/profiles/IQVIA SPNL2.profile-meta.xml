@@ -2135,6 +2135,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Attested_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Attestation__c</field>
         <readable>true</readable>
     </fieldPermissions>
