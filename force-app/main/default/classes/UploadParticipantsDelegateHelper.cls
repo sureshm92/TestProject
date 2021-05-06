@@ -59,8 +59,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
-            participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
             if(String.isBlank(ddInfo.contactId)){
+            participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
             participantDelegate.Attestation__c = true;
             participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
             participantDelegate.Attestation_TimeStamp__c = System.now();
