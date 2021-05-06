@@ -3,6 +3,12 @@
 echo "Clean up previous scratch org"
 sfdx force:org:delete -p
 
+# Rename community for deployment (IQVIA_Referral_Hub_C -> IQVIA_Referral_Hub1)
+echo "Change IQVIA_Referral_Hub_C -> IQVIA_Referral_Hub1"
+sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
+mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C.site-meta.xml force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-meta.xml
+mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1
+
 echo "Move communities"
 mv ./force-app/communities ./
 
@@ -17,12 +23,13 @@ sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 
 sfdx force:source:push -f
 
-echo "Return communities"
-mv ./communities ./force-app/
-
-if [ $? = 0 ] ; then
+if [ $? = 0 ]; 
+then
+    echo "Return communities"
+    mv ./communities ./force-app/
+    
     echo "Post setup in progress..."
-
+    
     sfdx force:source:push -f
 
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
@@ -60,7 +67,15 @@ if [ $? = 0 ] ; then
     sfdx force:user:permset:assign --permsetname SurveyCreator
 
     echo "Push completed successfully!"
-fi
-if [ $? != 0 ] ; then
+else
+    echo "Return communities"
+    mv ./communities ./force-app/
+    
     echo "Push not completed properly, check logs and try again"
 fi
+
+# Reset the community name (from: IQVIA_Referral_Hub1 -> to: IQVIA_Referral_Hub_C)
+echo "Change IQVIA_Referral_Hub1 -> IQVIA_Referral_Hub_C"
+sed -i 's/IQVIA_Referral_Hub1/IQVIA_Referral_Hub_C/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
+mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1.site-meta.xml force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C.site-meta.xml
+mv force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub1 force-app/communities/community-iqvia/experiences/IQVIA_Referral_Hub_C
