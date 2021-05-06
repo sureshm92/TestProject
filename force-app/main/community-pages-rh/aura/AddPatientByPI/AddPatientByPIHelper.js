@@ -233,6 +233,7 @@
         var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
@@ -278,6 +279,12 @@
     checkGuardianAge: function (component, event, helper) {
         var spinner = component.find('spinner');
         spinner.show();
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
         var participant = component.get('v.participant');
         var delegateParticipant = component.get('v.participantDelegate');
         if(delegateParticipant.Birth_Year__c == '' || delegateParticipant.Birth_Year__c == null){

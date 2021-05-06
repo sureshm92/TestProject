@@ -119,6 +119,13 @@ public class CountryStateUtil {
                 }	
 
             }
-        }   
+        } 
+        List<RH_Country_Name__mdt> countryMetaLst = [SELECT id,Country_Code__c,Country_Name__c,IsVisible__c FROM RH_Country_Name__mdt];
+        for(RH_Country_Name__mdt meta: countryMetaLst){
+            if(meta.IsVisible__c == true){
+                COUNTRY_CODE_BY_NAME_MAP_Mdt.put(meta.Country_Name__c,meta.Country_Code__c);
+                COUNTRY_NAME_By_CODE_MAP_Mdt.put(meta.Country_Code__c,meta.Country_Name__c);
+            }
+        }  
     }
 }

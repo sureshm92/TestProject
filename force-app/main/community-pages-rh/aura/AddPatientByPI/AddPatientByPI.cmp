@@ -278,7 +278,7 @@
                     
                     <div
                          class="rr-form-element slds-no-label slds-col"
-                         style="margin-top: 31px"
+                         style="margin-top: 30px"
                          >
                         <div class="rr-cb-container">
                             <lightning:input
@@ -326,7 +326,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="slds-grid slds-gutters slds-wrap">
+              <!--  <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
                                 <span class="slds-form-element__label-for-checkbox" style="{!if(v.isRTL, 'margin-right: 7px;','')}"
@@ -334,7 +334,7 @@
                                 >
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
@@ -351,7 +351,7 @@
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-76">
                                         <span class="slds-checkbox_faux"></span>
                                         <span class="slds-form-element__label-for-checkbox" style="{!if(v.isRTL, 'margin-right: 5px;','')}"
-                                            >{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span
+                                            >{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}&nbsp;{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span
                                         >
                                     </label>
                                 </div>

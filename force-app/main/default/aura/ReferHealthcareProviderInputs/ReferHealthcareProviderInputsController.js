@@ -129,7 +129,12 @@
             }
             if(!component.get('v.isAdultDel')) 
                 component.set('v.attestAge', false);
-        
+            if(component.get('v.attestAge'))
+                {
+                    var attestCheckbox = component.find('AttestCheckbox');
+                    attestCheckbox.setCustomValidity('');
+                    attestCheckbox.reportValidity(''); 
+                }
              
             
           }

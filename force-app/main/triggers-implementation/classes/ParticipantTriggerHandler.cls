@@ -142,6 +142,8 @@ public without sharing class ParticipantTriggerHandler {
                         updateContactsMap.put(part.Contact__c,part);
                     }else if(oldMap.get(part.Id)!=null && part.Mailing_Zip_Postal_Code__c != oldMap.get(part.Id).Mailing_Zip_Postal_Code__c){
                         updateContactsMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
+                        updateContactsMap.put(part.Contact__c,part);
                     }
                 }
             }
@@ -149,7 +151,7 @@ public without sharing class ParticipantTriggerHandler {
         
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
@@ -159,6 +161,9 @@ public without sharing class ParticipantTriggerHandler {
 						updateNeeded= true;
 					}if(con.MailingPostalCode != updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c){
 						con.MailingPostalCode = updateContactsMap.get(con.Id).Mailing_Zip_Postal_Code__c;
+						updateNeeded= true;
+					}if(con.Phone != updateContactsMap.get(con.Id).Phone__c){
+						con.Phone = updateContactsMap.get(con.Id).Phone__c;
 						updateNeeded= true;
 					}
 					if(updateNeeded == true){
@@ -401,6 +406,8 @@ public without sharing class ParticipantTriggerHandler {
             }
         }
     }
+
+
 
     @TestVisible
     private static Id getParticipantAccountId() {

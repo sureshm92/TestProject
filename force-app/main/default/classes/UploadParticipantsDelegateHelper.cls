@@ -59,8 +59,8 @@ public without sharing class UploadParticipantsDelegateHelper {
             participantDelegate.Mailing_Country_Code__c = pWrapper.mainparticipant.Mailing_Country_Code__c;
             participantDelegate.Mailing_State_Code__c = pWrapper.mainparticipant.Mailing_State_Code__c;
             participantDelegate.Mailing_Zip_Postal_Code__c = pWrapper.mainparticipant.Mailing_Zip_Postal_Code__c;
-            if(String.isBlank(ddInfo.contactId)){
             participantDelegate.Birth_Year__c = pWrapper.DelegateYOB;
+            if(String.isBlank(ddInfo.contactId)){
             participantDelegate.Attestation__c = true;
             participantDelegate.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
             participantDelegate.Attestation_TimeStamp__c = System.now();
@@ -88,7 +88,6 @@ public without sharing class UploadParticipantsDelegateHelper {
             ptDelegateRef.Participant__c = pWrapper.mainparticipant.Id;
             ptDelegateRef.Status__c = 'Disconnected';
             ptDelegateRef.Primary_Delegate__c = true;
-            
             if(ddInfo == null || (String.isBlank(ddInfo.contactId) || ddInfo.participantId == null)) {
                 if(!String.isBlank(ddInfo.contactId)){
                     delegateContact = new Contact(Id= ddInfo.contactId);
@@ -161,19 +160,21 @@ public without sharing class UploadParticipantsDelegateHelper {
          
         Map<String, String> dupDelMainParticipantMap = new Map<String, String>();
         Map<String,String> dupDelegateMainParticipantMap = new Map<String, String>();
-        for(Patient_Delegate__c patientDel : [SELECT ID,Participant__c,Contact__c,Primary_Delegate__c
-                                                    from Patient_Delegate__c
-                                              		Where Participant__c IN : duplicateDelegateMainParticipantMap.values() AND Contact__r.Id IN: duplicateDelegateMainParticipantMap.keySet()])
-        {
-            dupDelegateMainParticipantMap.put(patientDel.Contact__r.Id, patientDel.Participant__r.Id);
-        }
-        
-        for(String cntId : dupDelegateMainParticipantMap.keySet()){
-            if(dupDelegateMainParticipantMap.get(cntId) != duplicateDelegateMainParticipantMap.get(cntId)){
-                dupDelMainParticipantMap.put(cntId, dupDelegateMainParticipantMap.get(cntId));
+        if(!duplicateDelegateMainParticipantMap.isEmpty()) {
+            for(Patient_Delegate__c patientDel : [SELECT ID,Participant__c,Contact__c,Primary_Delegate__c
+                                                        from Patient_Delegate__c
+                                                        Where Participant__c IN : duplicateDelegateMainParticipantMap.values() AND Contact__r.Id IN: duplicateDelegateMainParticipantMap.keySet()])
+            {
+                dupDelegateMainParticipantMap.put(patientDel.Contact__r.Id, patientDel.Participant__r.Id);
             }
-        }			       
-        
+            
+            for(String cntId : duplicateDelegateMainParticipantMap.keySet()){
+                if(duplicateDelegateMainParticipantMap.get(cntId) != null && !(dupDelegateMainParticipantMap.keySet().contains(cntId)) && (dupDelegateMainParticipantMap.get(cntId) != duplicateDelegateMainParticipantMap.get(cntId))){
+                    dupDelMainParticipantMap.put(cntId, duplicateDelegateMainParticipantMap.get(cntId));
+                }
+            }
+        }    
+
         List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>(patientDelegateMap.values());
         for(String contactIdKey  : dupDelMainParticipantMap.keySet()) {
             Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();

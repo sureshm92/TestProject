@@ -447,7 +447,7 @@ isListView = "{!v.isListView}"
             </span>
      </aura:if>
  </span>
- <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
+ <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:0'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
                    disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
