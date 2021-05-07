@@ -426,18 +426,23 @@ public without sharing class ParticipantService {
         }
         return participants;
     }
-    public static String getFormattedTime(User userVal) {
-        if (userVal == null) {
-            userVal = [SELECT Id, timezonesidkey FROM User WHERE Id = :UserInfo.getUserId()];
-        }
+    public static String getFormattedTime() {
+        User userVal = [SELECT Id, timezonesidkey FROM User WHERE Id = :UserInfo.getUserId()];
+        return getFormattedTimeImpl(userVal);
+    }
+    public static String getFormattedTimeImpl(User userVal) {
         String userTimeZoneValue = '';
         String strDateTimeValue = '';
-        String timeZoneValue = UserInfo.getTimeZone().getDisplayName();
-        if (!String.isBlank(timeZoneValue)) {
-            userTimeZoneValue = userval.timezonesidkey + ' ' + timeZoneValue;
-        }
-        if (!String.isBlank(userTimeZoneValue)) {
-            strDateTimeValue = System.now().format('dd/MMM/yyyy HH:mm:ss') + userTimeZoneValue;
+        try {
+            String timeZoneValue = UserInfo.getTimeZone().getDisplayName();
+            if (!String.isBlank(timeZoneValue)) {
+                userTimeZoneValue = userval.timezonesidkey + ' ' + timeZoneValue;
+            }
+            if (!String.isBlank(userTimeZoneValue)) {
+                strDateTimeValue = System.now().format('dd/MMM/yyyy HH:mm:ss') + userTimeZoneValue;
+            }
+        } catch (Exception e) {
+            System.debug('Exception e --' + e.getMessage());
         }
         return strDateTimeValue;
     }

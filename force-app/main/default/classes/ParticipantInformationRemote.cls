@@ -238,9 +238,7 @@ public without sharing class ParticipantInformationRemote {
                     delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
                     if (String.isNotBlank(delegateParticipant.Birth_Year__c)) {
                         delegateParticipant.Attestation__c = true;
-                        delegateParticipant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
-                            null
-                        );
+                        delegateParticipant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                         delegateParticipant.Attested_by__c = CommunityService.getInstance()
                             .getCurrentContactId();
                     }
@@ -1405,9 +1403,7 @@ public without sharing class ParticipantInformationRemote {
                     delegateParticipant.Mailing_Zip_Postal_Code__c = participantObj.Mailing_Zip_Postal_Code__c;
                     if (String.isNotBlank(delegateParticipant.Birth_Year__c)) {
                         delegateParticipant.Attestation__c = true;
-                        delegateParticipant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
-                            null
-                        );
+                        delegateParticipant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                         delegateParticipant.Attested_by__c = CommunityService.getInstance()
                             .getCurrentContactId();
                     }

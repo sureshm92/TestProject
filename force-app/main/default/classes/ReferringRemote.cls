@@ -509,9 +509,7 @@ public without sharing class ReferringRemote {
                     }
                     if (String.isNotBlank(participantDelegate.Birth_Year__c)) {
                         participantDelegate.Attestation__c = true;
-                        participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
-                            null
-                        );
+                        participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                         participantDelegate.Attested_by__c = CommunityService.getInstance()
                             .getCurrentContactId();
                     }

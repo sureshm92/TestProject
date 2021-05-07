@@ -68,9 +68,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                 participantDelegate.Attestation__c = true;
                 participantDelegate.Attested_by__c = CommunityService.getInstance()
                     .getCurrentContactId();
-                participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
-                    null
-                );
+                participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
             }
 
             /*if a Phone number has been provided for minor, we will use that as delegate's alternate phone number with phone type as Home; REF-3242*/

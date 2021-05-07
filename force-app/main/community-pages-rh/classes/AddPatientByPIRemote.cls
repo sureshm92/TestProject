@@ -359,9 +359,7 @@ public without sharing class AddPatientByPIRemote {
                 participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
                 if (String.isNotBlank(participantDelegate.Birth_Year__c)) {
                     participantDelegate.Attestation__c = true;
-                    participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
-                        null
-                    );
+                    participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
                     participantDelegate.Attested_by__c = CommunityService.getInstance()
                         .getCurrentContactId();
                 }
