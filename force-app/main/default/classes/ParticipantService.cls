@@ -38,7 +38,7 @@ public without sharing class ParticipantService {
         public String communityName;
         @AuraEnabled
         public String payCardLink;
-        @AuraEnabled 
+        @AuraEnabled
         public Boolean isVisitPathEnabled;
         @AuraEnabled
         public Boolean isTravelSupportEnabled;
@@ -313,18 +313,18 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
     }
-	
+
     public static List<LabelValueItem> getYearofBirthList() {
         List<LabelValueItem> yearOfBirth = new List<LabelValueItem>();
         Integer currentYear = System.Today().year();
         Integer firstYear = currentYear - 149;
         yearOfBirth.add(new LabelValueItem('', ''));
-        for(Integer i= firstYear; i <= currentYear; i++){
+        for (Integer i = firstYear; i <= currentYear; i++) {
             yearOfBirth.add(new LabelValueItem(String.valueOf(i), String.valueOf(i)));
-        }        
+        }
         return yearOfBirth;
     }
-    
+
     public static List<LabelValueItem> getPrefixList() {
         List<LabelValueItem> prefix = new List<LabelValueItem>();
         prefix.add(new LabelValueItem(Label.PP_Prefix_Mr, 'Mr.'));
@@ -425,5 +425,20 @@ public without sharing class ParticipantService {
             }
         }
         return participants;
+    }
+    public static String getFormattedTime(User userVal) {
+        if (userVal == null) {
+            userVal = [SELECT Id, timezonesidkey FROM User WHERE Id = :UserInfo.getUserId()];
+        }
+        String userTimeZoneValue = '';
+        String strDateTimeValue = '';
+        String timeZoneValue = UserInfo.getTimeZone().getDisplayName();
+        if (!String.isBlank(timeZoneValue)) {
+            userTimeZoneValue = userval.timezonesidkey + ' ' + timeZoneValue;
+        }
+        if (!String.isBlank(userTimeZoneValue)) {
+            strDateTimeValue = System.now().format('dd/MMM/yyyy HH:mm:ss') + userTimeZoneValue;
+        }
+        return strDateTimeValue;
     }
 }
