@@ -365,8 +365,9 @@ public without sharing class RRChangePasswordController {
                 }
                 contact.MailingCountryCode = participant.Mailing_Country_Code__c;
                 contact.MailingStateCode = participant.Mailing_State_Code__c;
-                contact.MailingCountry = participant.Mailing_Country__c;
-                contact.MailingState = participant.Mailing_State__c;
+                // for country or states values update by code
+               // contact.MailingCountry = participant.Mailing_Country__c;
+              //  contact.MailingState = participant.Mailing_State__c;
             }
             if (
                 (!notEnrollNow && String.isBlank(contact.FirstName)) ||

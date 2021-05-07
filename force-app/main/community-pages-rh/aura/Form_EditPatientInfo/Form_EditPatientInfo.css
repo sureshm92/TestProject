@@ -50,6 +50,10 @@
     margin-top: 20px;
 }
 
+.THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
+    white-space: nowrap;
+}
+
 .THIS .ap-buttons {
     display: flex;
     justify-content: flex-end;
@@ -69,11 +73,6 @@
     margin-top: 0;
 }
 
-.THIS .rr-form-element label,
-.THIS .rr-form-element .label {
-    white-space: nowrap;
-}
-
 .THIS .slds-form-element__icon {
     padding-top: 0;
     margin-left: 3px;
@@ -88,4 +87,14 @@
     color: rgb(194, 57, 52);
     margin-bottom: 4px;
     font-size : 0.75rem;
+}
+
+@media all and (max-width: 480px){
+    .THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
+        margin-top: 30px;
+    }
+
+    .THIS .ap-section > .slds-grid.rr-form-element .slds-size--2-of-10 {
+        min-width: 50%;
+    }
 }
