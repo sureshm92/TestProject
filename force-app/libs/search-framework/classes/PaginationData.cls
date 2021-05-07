@@ -50,7 +50,7 @@ public without sharing class PaginationData {
         allPagesDecimal = allPagesDecimal.round(System.RoundingMode.UP);
         pagesCount = allPagesDecimal.intValue();
         if (currentPage > pagesCount)
-            currentPage = 1;
+           if(pagesCount == 0){currentPage = 1;}else{currentPage = pagesCount;}
         offset = (currentPage - 1) * pageRecordsCount;
         endOffset = offset + pageRecordsCount;
         if (endOffset > allRecordsCount)
