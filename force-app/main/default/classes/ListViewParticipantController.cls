@@ -498,6 +498,31 @@ public without sharing class ListViewParticipantController {
             //String Query = queryString  + filter;
             system.debug('query--> ' + Query);
             peList = Database.query(Query);
+			
+			if(peList.size() == 0 && totalRecords != 0)
+            {
+                     pNumber = pNumber -1;
+                      offset = (pNumber - 1) * pSize;
+                   recordEnd = pSize * pNumber;
+                   peList.clear();
+                   Query ='';
+                    if (Boolean.ValueOf(FilterList[0].isExport)) {
+                    String strTemp =
+                        ' AND PerCounter__c >=' +
+                        Integer.valueOf(FilterList[0].startPos) +
+                        ' AND PerCounter__c <=' +
+                        Integer.valueOf(FilterList[0].endPos);
+                    filter = filter + strTemp;
+                    sortBy = ' order by PerCounter__c asc';
+                    OffsetLimit = ' LIMIT 49500';
+                } else {
+                    OffsetLimit = ' LIMIT ' + pSize + ' OFFSET ' + offset;
+                }
+                
+                Query = queryString + filter + sortBy + OffsetLimit;
+                peList = Database.query(Query);
+               
+            }
 
             PeDataTableWrapper objDT = new PeDataTableWrapper();
             objDT.pageSize = pSize;
