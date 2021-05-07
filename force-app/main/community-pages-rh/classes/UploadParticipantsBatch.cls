@@ -589,7 +589,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Birth_Year__c = DelegateYOB
                     );
                     String isAdultDelegate = 'false';
-                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() || DelegateYOB.length() == 4)){
+                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() && DelegateYOB.length() == 4)){
                         isAdultDelegate = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
                     }
                     //START : Delegate wrapper creation
@@ -656,12 +656,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         'ERROR: invalid field - Delegate Email'
                                     );
                                 }
-                            else if(!DelegateYOB.isNumeric() || DelegateYOB.length() != 4){
+                            else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4)){
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate Year of birth is not correct');
-                                isDelegateAvailable = false;
-                            }
-                            else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
                                 isDelegateAvailable = false;
                             }
                             else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
