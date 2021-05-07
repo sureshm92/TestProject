@@ -71,7 +71,7 @@ public without sharing class RRChangePasswordController {
     public Boolean isSaveButtonDisabled { get; set; }
     public boolean onLoad { get; set; }
     public boolean showErrorMessage { get; set; }
-    public static boolean isAttestationUpdated =false;
+    public static boolean isAttestationUpdated = false;
 
     public Boolean mainPortal {
         get {
@@ -237,7 +237,7 @@ public without sharing class RRChangePasswordController {
                     Mailing_Zip_Postal_Code__c,
                     Mailing_Country_Code__c,
                     Mailing_State_Code__c,
-                    Birth_Year__c,
+                    Birth_Year__c
                 FROM Participant__c
                 WHERE Contact__c = :contact.Id
             ];
@@ -551,7 +551,7 @@ public without sharing class RRChangePasswordController {
                     participant.Attested_By__c = contact.id;
                     isAttestationUpdated = true;
                 }
-                if(isDelegate){
+                if (isDelegate) {
                     participant.Attestation__c = true;
                 }
                 update participant;
