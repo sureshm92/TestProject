@@ -248,6 +248,11 @@
     margin-right: 10.5rem;
 }
 
+
+.THIS .slds-p-top_largetask-rtl {
+    margin-top: 24px;
+}
+
 .THIS .task-rtl-remind {
     direction: rtl !important;
     text-align: right;
