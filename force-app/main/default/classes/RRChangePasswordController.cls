@@ -546,7 +546,9 @@ public without sharing class RRChangePasswordController {
             if (isParticipant && ApexPages.getMessages().isEmpty()) {
                 if (isDelegate && !isAttestationUpdated) {
                     participant.Attestation__c = true;
-                    participant.Attestation_TimeStamp__c = System.now();
+                    participant.Attestation_TimeStamp__c = ParticipantService.getFormattedTime(
+                        userVal
+                    );
                     isAttestationUpdated = true;
                 }
                 update participant;
