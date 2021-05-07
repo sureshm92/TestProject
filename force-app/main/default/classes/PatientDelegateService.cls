@@ -368,7 +368,7 @@ public without sharing class PatientDelegateService {
             update pdList;
         } else {
             pd.Attestation__c = true;
-            pd.Attestation_TimeStamp__c = system.now();
+            pd.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
             pd.Attested_by__c = participant.get(0).Contact__c;
             insert pd;
         }
