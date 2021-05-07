@@ -46,6 +46,10 @@
 .THIS .step-info {
     text-align: left;
 }
+.THIS .step-infoRTL {
+    text-align: right;
+    margin-right: 4%;
+}
 
 .THIS .step-title {
     color: #000000;
