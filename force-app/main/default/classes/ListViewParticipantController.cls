@@ -490,15 +490,8 @@ public without sharing class ListViewParticipantController {
             } else {
                 OffsetLimit = ' LIMIT ' + pSize + ' OFFSET ' + offset;
             }
-            
-            
             String Query = queryString + filter + sortBy + OffsetLimit;
-            system.debug('querystring-->' + Query);
-            system.debug(lstActive + ';;' + siteIds + ';;' + lstSourceType + ';;;');
-            //String Query = queryString  + filter;
-            system.debug('query--> ' + Query);
             peList = Database.query(Query);
-			
 			if(peList.size() == 0 && totalRecords != 0)
             {
                      pNumber = pNumber -1;
@@ -521,8 +514,8 @@ public without sharing class ListViewParticipantController {
                 
                 Query = queryString + filter + sortBy + OffsetLimit;
                 peList = Database.query(Query);
-               
             }
+			
 
             PeDataTableWrapper objDT = new PeDataTableWrapper();
             objDT.pageSize = pSize;
