@@ -11,6 +11,10 @@
 .THIS.rtl {
     direction: rtl;
 }
+.THIS.cPopup .btnRTL {
+    right: 93.5% !important;
+    top: 0% !important;
+}
 .THIS.cPopup .p-container .p-content {
     padding: 0 10px 20px 10px;
 }

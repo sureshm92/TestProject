@@ -30,6 +30,11 @@ th {
     padding: 10px;
     text-align: right !important;
 }
+.rtlPoints {
+    padding: 10px;
+    text-align: right !important;
+    margin-left: 14px;
+}
 
 tbody {
     display: block;
