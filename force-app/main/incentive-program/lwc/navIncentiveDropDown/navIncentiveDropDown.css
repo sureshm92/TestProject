@@ -6,7 +6,7 @@
     display: block;
     position: absolute;
     color: black;
-    left: auto;
+    left: initial;
     right: 0;
     border: 1px solid #d9d9d9;
     border-radius: 0;
