@@ -126,6 +126,9 @@
 .THIS .hide-survey-header {
     display: none;
 }
+.THIS .rtlButton{
+    margin-left: 1%;
+}
 .THIS.cPopup .btnRTL {
     right: 95% !important;
     top: 0% !important;
