@@ -98,8 +98,9 @@
                 </div>
             </div>
         </aura:if>
-        <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">
-         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel slds-border_top" style="{!if(v.isRTL,'padding-right:15px;','')}">
+        <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">  
+         <div class="{!'divider'+if(v.isRTL,' mr_left_10',' mr_right_15')}"></div>
+         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
             <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
                 <div class="ah-item-label create-ticket-for">{!$Label.c.PP_CreateTicketFor}</div>
                 <div class="ah-item-sublabel-ticket">{!$Label.c.PP_UsefulInfo}</div>   
@@ -111,16 +112,16 @@
              </div>
         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
 
-            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-4 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from-rtl',' from')}" >
+            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from-rtl',' from')}" >
                {!$Label.c.PP_From}
             </div>
-            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-4 slds-small-size--1-of-4 slds-large-size--1-of-4 mr_24">
+            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 mr_24">
                <c:rrInput disabled="true" valueString="{!v.currentYOB}"/> 
             </div>
-            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-4 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from',' from mr_36')}">
+            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from',' from mr_36')}">
                {!$Label.c.PP_To}
             </div>
-            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-4 slds-small-size--1-of-4 slds-large-size--1-of-4 padding_left"> 
+            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 padding_left"> 
                 <c:rrSelect options="{!v.yearOfBirthPicklistvalues}" value="{!v.yearOfBirth}" onchange="{!c.doCheckYearOfBith}" placeholder="{!$Label.c.PP_SelectYear}"/>
                         <div class="rr-error" aura:id="error">
                                 <aura:if isTrue="{!v.showError}">
