@@ -11,6 +11,7 @@
     float: left;
     margin-right: 5px;
 }
+.THIS .cAction_ParticipantMrrResult.cPopup  { /*@noflip*/ direction : ltr; }
 
 .THIS .rr-secondary-text {
     color: #666666;
