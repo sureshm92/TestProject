@@ -676,7 +676,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 isDelegateAvailable = false;
                             }
                             else if(participant.Adult__c && DelegateAgeOfMajority != 'Yes' && !String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName)){
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate were not brought in as Attestation is incorrect or Missing');
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate was not brought in as Attestation is incorrect or Missing');
                                 isDelegateAvailable = false;
                             }
                         }
