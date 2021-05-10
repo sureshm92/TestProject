@@ -6,10 +6,17 @@
         svg4everybody();
     },
     doInit: function (component, event, helper) {
+        console.log('>>>userMode>>'+component.get('v.userMode'));
+        if (communityService.getCurrentCommunityMode().currentDelegateId) {
+            component.set('v.isDelegate', true);
+        } else {
+            component.set('v.isDelegate', false);
+        }
         var showTour = communityService.showTourOnLogin();
         component.set('v.showTour', showTour);
         var userMode = component.get('v.userMode');
-
+        let isMobileApp = communityService.isMobileSDK();
+        component.set('v.isMobileApp',isMobileApp);
         communityService.executeAction(
             component,
             'getInitData',
@@ -21,39 +28,42 @@
                 component.set('v.videoLink', initData.videoLink);
                 component.set('v.userManual', initData.userManual);
                 component.set('v.quickReference', initData.quickReference);
+                component.set('v.yearOfBirthPicklistvalues',initData.yearOfBirth);
+                component.set('v.usrName',initData.usrName);
+                component.set('v.currentYOB',initData.currentYearOfBirth);
             }
         );
     },
-
+    
     showVideo: function (component, event, helper) {
         component.find('videoModal').show();
     },
-
+    
     setTour: function (component, event, helper) {
         var showOnLogin = component.get('v.showTour');
         var action = component.find('switchShowOnLoginModeAction');
         action.execute(showOnLogin);
     },
-
+    
     showTour: function (component, event, helper) {
         communityService.showTour();
     },
-
+    
     openQuickReference: function (component, event, helper) {
         var quickReference = component.get('v.quickReference');
         if (communityService.isMobileSDK() ) {
-          /** communityService.showWarningToast(
+            /** communityService.showWarningToast(
                 'Warning!',
                 $A.get('$Label.c.Pdf_Not_Available'),
                 100
             ); **/
-           communityService.navigateToPage('mobile-pdf-viewer?resourceName='+quickReference);
-           return;
+            communityService.navigateToPage('mobile-pdf-viewer?resourceName='+quickReference);
+            return;
         }
-       var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-       window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
+        var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
+        window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
     },
-
+    
     openGuide: function (component, event, helper) {
         if (communityService.isMobileSDK()) {
             communityService.showWarningToast(
@@ -67,9 +77,186 @@
         var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
         window.open(webViewer + '?file=' + $A.get('$Resource.' + userManual), '_blank');
     },
-
+    
     stopVideo: function (component, event, helper) {
         var video = document.getElementById('video-tour');
         video.pause();
+    },
+    navigateToAccountSettings:function (component, event, helper) {
+        window.open('account-settings', '_blank');
+        window.focus();
+    },
+    doCheckYearOfBith:function (component, event, helper) {
+        component.set('v.showError',false);
+        console.log('yearOfBirth--->'+component.get('v.yearOfBirth'));
+        component.set('v.showValidValue',false);
+        var spinner = component.find('spinner');
+        spinner.show();
+        communityService.executeAction(
+            component,
+            'validateAgeOfMajority',
+            {
+                birthYear: component.get('v.yearOfBirth')
+            },
+            function (returnValue) {
+                var isAdultDelegate = returnValue == 'true';
+                if(isAdultDelegate){
+                    console.log('isAdult');
+                    console.log('yearOfBirth--->inside adult'+component.get('v.yearOfBirth'));
+                    component.set('v.showError',false);
+                    component.set('v.disableSave',false);
+                }else{
+                    console.log('not adult');
+                    console.log('yearOfBirth--->inside not adult'+component.get('v.yearOfBirth'));
+                    //component.set('v.yearOfBirth',null);
+                    if(component.get('v.yearOfBirth') !== ''){
+                       component.set('v.showError',true);
+                    }
+                    if(component.get('v.yearOfBirth') === ''){
+                       component.set('v.showValidValue',true); 
+                    }
+                   component.set('v.disableSave',true);
+                }
+                
+               /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
+                    component.set('v.disableSave',true);
+               }
+               else{
+                  component.set('v.disableSave',false);
+               }*/
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+                  component.set('v.disableSave',true);   
+                }
+                else{
+                     component.set('v.disableSave',false);
+               }
+
+
+            } ,         
+            null,
+            function () {
+                spinner.hide();
+            }
+        );
+    },
+    doCreateYOBCase:function (component, event, helper) {
+        var spinner = component.find('spinner');
+        spinner.show(); 
+        communityService.executeAction(
+            component,
+            'createYOBCase',
+            {
+                yob:component.get('v.yearOfBirth'),
+                username:component.get('v.changeUserName'),
+                userEmail:component.get('v.userEmail'),
+                currentYob:component.get('v.currentYOB')
+            },
+            function (returnValue) {
+                var message = '';
+                if(component.get('v.yearOfBirth') && !component.get('v.changeUserName')){
+                    message = $A.get('$Label.c.PP_YOBSuccess');
+                }
+                else if(component.get('v.changeUserName') && !component.get('v.yearOfBirth')){
+                    message = $A.get('$Label.c.PP_UsernameSuccess');
+                }
+                 else if(component.get('v.yearOfBirth') && component.get('v.changeUserName') ||component.get('v.userEmail') ){
+                      message =  $A.get('$Label.c.PP_Ticket_Success_Toast');  
+                    }
+                communityService.showToast(
+                    'Success!',
+                    'success',
+                    message,
+                    100
+                );
+              communityService.navigateToPage('help');
+            } ,         
+            null,
+            function () {
+                spinner.hide();
+            }
+        );
+    },
+    setSelectedVal:function (component, event, helper) {
+        component.set('v.userEmail',event.getParam("value"));
+        console.log('val--->'+event.getParam("value"));
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+                  component.set('v.disableSave',true);   
+                }
+                else{
+                     component.set('v.disableSave',false);
+               }
+
+        
+        /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
+                    component.set('v.disableSave',true);
+               }
+               else{
+                     component.set('v.disableSave',false);
+               }*/
+    },
+    
+    doChangeUserName:function (component, event, helper) {
+        var sourceEvt = event.getSource();
+        console.log('usernametoemail--->'+event.getSource().get('v.checked'));
+        component.set('v.changeUserName',sourceEvt.get('v.checked'));
+        var spinner = component.find('spinner');
+        if(component.get('v.changeUserName')){
+            console.log('inside--->'+component.get('v.changeUserName'));
+            spinner.show();
+        communityService.executeAction(
+            component,
+            'validateUsername',
+            {
+            },
+            function (returnValue) {
+                console.log('usernames',returnValue);
+                var usernames = returnValue;
+                component.set('v.userNamesList',usernames);
+                console.log('userNamesList--->'+component.get('v.userNamesList')[0]);
+                if(returnValue.length > 1){
+                    component.set('v.showUserNames',true);
+                    component.set('v.value',component.get('v.usrName'));
+                    component.set('v.userEmail',component.get('v.value'));
+
+                }
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+                  component.set('v.disableSave',true);   
+                }
+                else{
+                     component.set('v.disableSave',false);
+               }
+                /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
+                    component.set('v.disableSave',true);
+               }
+               else{
+                     component.set('v.disableSave',false);
+               }*/
+            } ,         
+            null,
+            function () {
+                spinner.hide();
+            }
+        );
+        }
+        else{
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || (!(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+
+                   component.set('v.disableSave',true);   
+                }
+                else{
+                     component.set('v.disableSave',false);
+               }
+
+            
+            console.log('inside--->111'+component.get('v.changeUserName'));
+            /*if(!component.get('v.yearOfBirth') || component.get('v.showError')){
+                component.set('v.disableSave',true);
+            }
+            else{
+                component.set('v.disableSave',false);
+            }*/
+            component.set('v.showUserNames',false);
+        }
+        
     }
 });

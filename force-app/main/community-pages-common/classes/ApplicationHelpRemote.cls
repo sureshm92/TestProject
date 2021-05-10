@@ -3,10 +3,23 @@
  */
 
 public without sharing class ApplicationHelpRemote {
+    public static final String TECH_SUPPORT_QUEUE_NAME = 'Tech_Support_Case_Queue';
+    public static final String CASE_TYPE_TECHSUPPORT = 'Technical Support';
+    public static final String CASE_ORIGIN_HELP = 'Help';
+    public static final String CASE_TYPE = 'YOB and Username';
+
+
+
     public class InitData {
         String videoLink;
         String userManual;
         String quickReference;
+        List<LabelValueItem> yearOfBirth;
+        String currentYearOfBirth;
+        Contact myContact;
+        Participant__c participant;
+        String usrName;
+
     }
 
     @AuraEnabled
@@ -14,6 +27,19 @@ public without sharing class ApplicationHelpRemote {
         try {
             InitData initData = new InitData();
             String userLanguage = UserInfo.getLanguage();
+            ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+            initData.myContact = AccountSettingsController.getCurrentContact();
+            if (initData.myContact.userCommunityDelegateId__c != null) {
+                initData.myContact = ContactService.getContact(
+                    initData.myContact.userCommunityDelegateId__c
+                );
+            }
+            system.debug('userContact-->' + initData.myContact);
+            if(initData.myContact.Id != NULL){
+                if(UserContext.isParticipant()){
+                initData.participant = [SELECT Id,Birth_Year__c FROM Participant__c WHERE Contact__c = :initData.myContact.Id][0];
+                }
+                }
             String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
             List<Guides_Setting__mdt> guidesSettings = [
                 SELECT
@@ -61,6 +87,21 @@ public without sharing class ApplicationHelpRemote {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;
                     initData.quickReference = setting.Participant_Quick_Reference__c;
+                    initData.yearOfBirth = ParticipantService.getYearofBirthList();
+                    initData.usrName = UserInfo.getUserName();
+                    if(!String.isEmpty(state.participant.Date_of_Birth__c)){
+                      initData.currentYearOfBirth = state.participant.Date_of_Birth__c.split('-')[0];
+                    }
+                    else{
+                       if(!state.isDelegate){
+                           if(initData.participant != NULL && initData.participant.Birth_Year__c != NULL)
+                        initData.currentYearOfBirth = initData.participant.Birth_Year__c;
+                        }  
+                        else{
+                         initData.currentYearOfBirth = ' '; 
+                        }
+                    }
+                    
                 }
                 if (setting.Language__c != userLanguage) {
                     initData.videoLink = null;
@@ -71,6 +112,116 @@ public without sharing class ApplicationHelpRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    
+    @AuraEnabled
+    public static String validateAgeOfMajority(String birthYear) {
+      ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
+      Boolean isAdult = false;
+      if (!String.isEmpty(birthYear)) {
+            List<Age_of_Majority__mdt> ageOfMajorities = [
+                SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
+                FROM Age_of_Majority__mdt
+       ];
+      Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(
+                        ageOfMajority.DeveloperName,
+                        ageOfMajority.Age__c.intValue()
+                    );
+                }
+            }
+
+           Integer participantAge = (Date.Today().Year()) - (Integer.valueof(birthYear));
+
+            if (
+                ageByCountryCode.get(
+                    state.participant.Mailing_Country_Code__c +
+                    '_' +
+                    state.participant.Mailing_State_Code__c
+                ) != null
+            ) {
+                isAdult =
+                    participantAge >=
+                    ageByCountryCode.get(
+                        state.participant.Mailing_Country_Code__c +
+                        '_' +
+                        state.participant.Mailing_State_Code__c
+                    );
+            } else if (ageByCountryCode.get(state.participant.Mailing_Country_Code__c) != null) {
+                isAdult =
+                    participantAge >= ageByCountryCode.get(state.participant.Mailing_Country_Code__c);
+            } else {
+                isAdult = participantAge >= 18;
+            }
+        }
+
+        return '' + isAdult;
+
+        
+    }
+    
+    @AuraEnabled
+    public static List<LabelValueItem> validateUsername() {
+        List<LabelValueItem> userNames = new List<LabelValueItem>();
+        List<User> loggedInUser = [Select Id,Email,Username from User where Email = :UserInfo.getUserEmail()];
+        for(User usr:loggedInUser){
+            userNames.add(new LabelValueItem(usr.Username,usr.Username));
+        }
+        return userNames;
+    }
+    @AuraEnabled
+    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob){
+        List<Case> caseList = new List<Case>();
+        String descValue = '';
+        String sub='';
+        List<User> usr = [Select Id ,ContactId from User where Id=:UserInfo.getUserId()];
+        List<Contact> conList = [SELECT Id, Name FROM Contact WHERE Id =:usr[0].ContactId LIMIT 1];
+            List<Group> groupList = [
+                SELECT Id, Name
+                FROM Group
+                WHERE developerName = :TECH_SUPPORT_QUEUE_NAME
+                LIMIT 1
+            ];
+        String separator = '';
+        
+        if (!conList.isEmpty() && !groupList.isEmpty()) {
+            if(!String.isEmpty(yob)){
+                if(currentYob == null){
+                    currentYob = '';
+                }
+                if(username!= null && username == true){
+                   separator = ','; 
+                }
+                   descValue = Label.PP_ChangeYOB_DntTranslate+' '+currentYob+' '+Label.PP_To_DntTranslate+' '+yob + separator; 
+                   sub = Label.PP_YOBUpdateDntTranslate;
+            }
+               
+            if(username!= null && username == true){
+                if(userEmail == null){
+                    userEmail= '';
+                }
+                descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
+                sub = Label.PP_UsrNameUpdateDntTranslate;
+            }
+             if(!String.isEmpty(yob) && username!= null && username == true){
+                
+                sub = Label.PP_YOBUsrUpdateDntTranslate;
+            }   
+            Case yobCase = new Case(
+                        subject = sub,
+                        ContactId = conList[0].Id,
+                        Description = descValue,
+                        ownerId = groupList[0].Id,
+                        Type = CASE_TYPE,
+                        Origin = CASE_ORIGIN_HELP
+                    );
+                    caseList.add(yobCase);
+        }
+        insert caseList;
+        
+    }
+
     /*@AuraEnabled
 	   public static String getPdfDonload(String titleName) {
 	    Id recId =[Select Id FROM Resource__c WHERE Title__c=: titleName].Id;

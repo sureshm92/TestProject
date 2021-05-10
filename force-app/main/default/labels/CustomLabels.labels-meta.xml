@@ -15838,6 +15838,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Photo</value>
     </labels>
     <labels>
+        <fullName>PP_ChangeUsrname_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeUsrname_DntTranslate</shortDescription>
+        <value>I want to match my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB</shortDescription>
+        <value>I want to change my year of birth from</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB_DntTranslate</shortDescription>
+        <value>I want to change my year of birth from</value>
+    </labels>
+    <labels>
         <fullName>PP_Change_Notification</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -15878,6 +15899,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_CreateTicketFor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CreateTicketFor</shortDescription>
+        <value>Create Ticket For</value>
     </labels>
     <labels>
         <fullName>PP_Create_Task_Reminder</fullName>
@@ -15973,11 +16001,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Due Date and Time</value>
     </labels>
     <labels>
+        <fullName>PP_DuplicateUsernames</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DuplicateUsernames</shortDescription>
+        <value>Duplicate usernames are associated with your email. Please choose one of the following to use.</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditAllInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditAllInfo</shortDescription>
+        <value>Edit all other information in</value>
+    </labels>
+    <labels>
         <fullName>PP_EditProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EditProfilePhoto</shortDescription>
         <value>Add Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditYOB</shortDescription>
+        <value>Edit YOB (Year of Birth)</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
@@ -15994,6 +16043,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Edit Visit Reminder</shortDescription>
         <value>Edit Visit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_EmailMatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailMatch</shortDescription>
+        <value>I would like my username &amp; email to match</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16017,6 +16073,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>4 hours before</value>
     </labels>
     <labels>
+        <fullName>PP_From</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_From</shortDescription>
+        <value>From</value>
+    </labels>
+    <labels>
         <fullName>PP_General_Info</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16036,6 +16099,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP HLP T2 Feedback</shortDescription>
         <value>This form is for providing feedback about how our features can be improved and should not be used to report content on the IQVIA™ Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>PP_HelpResponse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_HelpResponse</shortDescription>
+        <value>To update all other information, please go to your</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -16073,6 +16143,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_InvalidYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidYear</shortDescription>
+        <value>Invalid year of birth</value>
+    </labels>
+    <labels>
         <fullName>PP_Invalid_Entry</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16092,6 +16169,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
         <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_MatchMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchMyEmailAddress</shortDescription>
+        <value>I want to match my username</value>
     </labels>
     <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
@@ -16324,6 +16408,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Scheduled</value>
     </labels>
     <labels>
+        <fullName>PP_SelectUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectUsername</shortDescription>
+        <value>Select Username to use</value>
+    </labels>
+    <labels>
+        <fullName>PP_SelectYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectYear</shortDescription>
+        <value>Select Year</value>
+    </labels>
+    <labels>
         <fullName>PP_Share_Article</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16360,11 +16458,46 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
+        <fullName>PP_Ticket_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Ticket_Success_Toast</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB &amp; Username.</value>
+    </labels>
+    <labels>
         <fullName>PP_Time_Unavailable</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
         <value>No Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>PP_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To</shortDescription>
+        <value>to</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToEmailAddressDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToEmailAddressDntTranslate</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToMyEmailAddress</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_To_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To_DntTranslate</shortDescription>
+        <value>to</value>
     </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>
@@ -16417,11 +16550,53 @@ communications using the toggles below.</value>
         <value>Please enter a valid URL.</value>
     </labels>
     <labels>
+        <fullName>PP_UpdateProfileResp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UpdateProfileResp</shortDescription>
+        <value>&gt; Contact Information &gt; Edit &gt; Save</value>
+    </labels>
+    <labels>
         <fullName>PP_Upload_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Upload_Photo</shortDescription>
         <value>Upload Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsefulInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsefulInfo</shortDescription>
+        <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_User_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UserAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameAndEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your Username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsrNameUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameUpdateDntTranslate</shortDescription>
+        <value>Username Update</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -16488,6 +16663,27 @@ communications using the toggles below.</value>
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
  ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUpdateDntTranslate</shortDescription>
+        <value>YOB Update</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
+        <value>YOB Update,Username Update</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
