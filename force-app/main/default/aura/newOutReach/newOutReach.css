@@ -5,6 +5,20 @@
 .THIS.rtl {
     direction: rtl;
 }
+.THIS .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .slds-datepicker .slds-day {
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+.THIS.cPopup .btnRTL {
+    right: 93.5% !important;
+    top: 0% !important;
+}
 .THIS .uiButton {
     height: 40px;
     width: 81px;
@@ -15,7 +29,7 @@
 }
 
 .THIS .rightAlign .slds-input__icon_right {
-    margin-right: 80%;
+    margin-right: 87%;
 }
 
 .THIS .csubmit {

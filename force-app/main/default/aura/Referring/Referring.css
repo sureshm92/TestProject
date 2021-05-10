@@ -13,6 +13,23 @@
 .THIS .rr-error{
     color: #e20000;
 }
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 81%;
+}
+.THIS .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .slds-datepicker .slds-day {
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
 
 .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
     white-space: nowrap;
