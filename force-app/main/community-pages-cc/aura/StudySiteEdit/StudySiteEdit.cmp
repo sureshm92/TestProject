@@ -1,4 +1,4 @@
-<aura:component description="StudySiteEdit" controller="StudySiteInformationController">
+<aura:component description="StudySiteEdit" controller="StudySiteInformationController" extends="c:CommunityContext">
     <aura:attribute name="studyInformation" type="String" />
     <aura:attribute name="delegateList" type="List" />
     <aura:attribute name="siteInfoComplete" type="Boolean" default="false" />
@@ -94,9 +94,9 @@
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <span
                                         class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap"
-                                        style="padding-left: 0px"
+                                        style="{!if(v.isRTL,'padding-right: 0px;','padding-left: 0px;')}"
                                     >
-                                        <div class="input-fields-labels">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
                                             {!$Label.c.CC_Receive_Study_Site_Email}
                                         </div>
                                         <div>
@@ -111,7 +111,7 @@
                                     </span>
 
                                     <span class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap">
-                                        <div class="input-fields-labels">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>
                                         <lightning:input

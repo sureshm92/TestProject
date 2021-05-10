@@ -589,7 +589,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Birth_Year__c = DelegateYOB
                     );
                     String isAdultDelegate = 'false';
-                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() || DelegateYOB.length() == 4)){
+                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() && DelegateYOB.length() == 4)){
                         isAdultDelegate = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
                     }
                     //START : Delegate wrapper creation
@@ -601,17 +601,28 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }else if((!String.isEmpty(DelegateEmail) || !String.isEmpty(DelegateFirstName) || !String.isEmpty(DelegateLastName)) && (String.isEmpty(DelegateEmail) || String.isEmpty(DelegateFirstName) || String.isEmpty(DelegateLastName))){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate information is missing');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate information is missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
-                    else if( DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
+                    else if(!participant.Adult__c && DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestion is incorrect or Missing');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestation  is incorrect or Missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
+                    else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4) && !participant.Adult__c && isAdultDelegate == 'false'){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as delegate Year of birth is not correct');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+                    else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4) && !participant.Adult__c && isAdultDelegate != 'false'){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as delegate Year of birth is not correct');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+
                     else if(!String.isEmpty(DelegateYOB) && !participant.Adult__c && isAdultDelegate == 'false'){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as Minor delegate cannot be inerted');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as Minor delegate cannot be inserted');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
                     else{
@@ -656,7 +667,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         'ERROR: invalid field - Delegate Email'
                                     );
                                 }
-                            else if(!DelegateYOB.isNumeric() || DelegateYOB.length() != 4){
+                            else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4)){
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate Year of birth is not correct');
                                 isDelegateAvailable = false;
                             }
@@ -664,8 +675,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
                                 isDelegateAvailable = false;
                             }
-                            else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
+                            else if(participant.Adult__c && DelegateAgeOfMajority != 'Yes' && !String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName)){
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate were not brought in as Attestation is incorrect or Missing');
                                 isDelegateAvailable = false;
                             }
                         }

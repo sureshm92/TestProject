@@ -26,6 +26,13 @@
     font-weight: 500;
     line-height: 21px;
 }
+.THIS .input-fields-labelsRTL {
+    height: 21px;
+    color: #444;
+    font-size: 0.875rem;
+    font-weight: 500;
+    line-height: 21px;
+}
 
 .THIS .toggle-label {
     padding-right: 30px;
@@ -53,6 +60,11 @@
     display: inline-block;
     margin-bottom: 20px;
 }
+.THIS .slds-checkbox_faux{ 
+    margin-right:auto; 
+} 
+@if(isRTL) 
+{ .THIS .slds-checkbox_faux{ margin-right:0px;  } }
 
 .THIS .criteria-body {
     margin: 0 5px 10px 24px;
@@ -72,6 +84,10 @@
     .THIS .slds-accordion__content .ss-info-container > .slds-grid > .slds-grid:nth-of-type(5) .input-fields-labels {
         padding: 10px 10px 0 0;
     }
+    .THIS .slds-accordion__content .ss-info-container > .slds-grid > .slds-grid:nth-of-type(5) .input-fields-labelsRTL {
+        padding: 10px 0px 0 10px;
+    }
+    
 }
 
 @media all and (max-width: 768px) {

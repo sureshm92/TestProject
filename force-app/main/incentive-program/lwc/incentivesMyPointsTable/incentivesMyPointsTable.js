@@ -18,11 +18,13 @@ export default class IncentivesMyPointsTable extends LightningElement {
         pointsEarnedLabel
     };
     rtl;
+    rtlPointsEarned;
     @api completedTasks;
     connectedCallback() {
         getisRTL()
         .then((data) => {
             this.rtl = data === true? 'rtl': '';
+            this.rtlPointsEarned = data === true? 'rtlPoints': '';
         })
         .catch(function(error) {
             console.error('Error: ' + JSON.stringify(error));

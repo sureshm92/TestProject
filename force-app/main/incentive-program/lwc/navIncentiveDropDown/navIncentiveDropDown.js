@@ -18,9 +18,11 @@ export default class NavIncentiveDropDown extends LightningElement {
     @api totalPoints;
     @api lastPoints;
     rtlStyle;
+    niddContainerStyle;
 
     connectedCallback() {
         this.rtlStyle = this.isRtl == true? 'nidd-total slds-p-around_xx-small rtl': 'nidd-total slds-p-around_xx-small';
+        this.niddContainerStyle = this.isRtl == true? 'nidd-containerRTL': 'nidd-container';
     }
     doViewDetails() {
         console.log('viewDetails');
