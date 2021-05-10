@@ -346,11 +346,11 @@ public without sharing class ParticipantTriggerHandler {
 				}else if (stateCode != null && stateName != null) {
 					 if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
 						participant.addError('Invalid State Province and State Province Code');
-                    }
+					}
                     if(participant.Mailing_State_Code__c != null){
-                        participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
-                        }
-				} 
+                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    }
+				}
             }
             if (oldMap != null) {
                 String countryCodeTemp = CountryStateUtil.getCountryCode(countryName);
