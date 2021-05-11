@@ -7943,6 +7943,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Provider&apos;s last name</value>
     </labels>
     <labels>
+        <fullName>Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Heart Rate</shortDescription>
+        <value>Heart rate</value>
+    </labels>
+    <labels>
+        <fullName>Heart_Rate_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Heart Rate Description</shortDescription>
+        <value>Heart rate is a measurement of how many beats you take per minute.</value>
+    </labels>
+    <labels>
         <fullName>Height</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8500,8 +8514,8 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_My_Points</shortDescription>
         <value>My Points</value>
     </labels>
-     <labels>
-        <fullName>IQVIA_intervention_completed</fullName>
+    <labels>
+    <fullName>IQVIA_intervention_completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IQVIA intervention completed</shortDescription>
@@ -8690,7 +8704,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invite_Participant_To_Portal</shortDescription>
         <value>Invite Participant to Patient Portal</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Invite_to_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8873,8 +8887,8 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
-     <labels>
-        <fullName>Minor_Access_Error_Message</fullName>
+    <labels>
+    <fullName>Minor_Access_Error_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Minor Access Error Message</shortDescription>
@@ -9560,7 +9574,7 @@ The expected format is REF##### to REF########</value>
         <value>Media Outreach Requests</value>
     </labels>
     <labels>
-        <fullName>Browser_Title_Media_Outreach</fullName>
+    <fullName>Browser_Title_Media_Outreach</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Media Outreach</shortDescription>
@@ -9728,8 +9742,8 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
-     <labels>
-        <fullName>No_records_to_display</fullName>
+    <labels>
+       <fullName>No_records_to_display</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>No records to display</shortDescription>
@@ -14392,7 +14406,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L All fields are required.</shortDescription>
         <value>All fields are required.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14434,7 +14448,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
         <value>Please ensure that the delegate&apos;s information, especially email address, is correct before connecting to patient.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Download_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14519,7 +14533,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
         <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14596,7 +14610,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Patient_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14687,7 +14701,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Please select your referral source</shortDescription>
         <value>Please select your referral source</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PG_Ref_L_Primary_Delegate_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14722,7 +14736,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Signed_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15796,7 +15810,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI Mode</shortDescription>
         <value>Investigative Site</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>PI_Toggle_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17212,7 +17226,7 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Previous_Call_Dispositions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17499,7 +17513,7 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>RH_StudyInfo</fullName>
         <language>en_US</language>
@@ -17647,7 +17661,7 @@ communications using the toggles below.</value>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Records_all_invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18266,7 +18280,7 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>RH_DelegateAttestation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18528,8 +18542,8 @@ communications using the toggles below.</value>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
     </labels>
-     <labels>
-        <fullName>Select_Call_Catagory</fullName>
+    <labels>
+      <fullName>Select_Call_Catagory</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Select Call Category</shortDescription>
@@ -18940,7 +18954,7 @@ communications using the toggles below.</value>
         <shortDescription>Showing Participant - call center</shortDescription>
         <value>Showing</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Signed_Auth_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19095,8 +19109,8 @@ communications using the toggles below.</value>
         <shortDescription>Legend description</shortDescription>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
-     <labels>
-        <fullName>September</fullName>
+    <labels>
+       <fullName>September</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>September</shortDescription>
@@ -19255,7 +19269,7 @@ communications using the toggles below.</value>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
     </labels>
-	    <labels>
+    <labels>
         <fullName>Study_Site_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19742,8 +19756,8 @@ communications using the toggles below.</value>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
     </labels>
-     <labels>
-        <fullName>Type_in_your_notes</fullName>
+    <labels>
+       <fullName>Type_in_your_notes</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Type in your notes...</shortDescription>
@@ -19756,7 +19770,7 @@ communications using the toggles below.</value>
         <shortDescription>Tab_Medical_History</shortDescription>
         <value>Medical History</value>
     </labels>
-   
+
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
         <language>en_US</language>
@@ -20347,8 +20361,8 @@ communications using the toggles below.</value>
         <shortDescription>Unable to Reach</shortDescription>
         <value>Unable to Reach</value>
     </labels>
-     <labels>
-        <fullName>UserName</fullName>
+    <labels>
+       <fullName>UserName</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>UserName</shortDescription>
@@ -20458,6 +20472,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Glucose</shortDescription>
         <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Heart Rate</shortDescription>
+        <value>Heart Rate</value>
     </labels>
     <labels>
         <fullName>VR_Height</fullName>
