@@ -19,6 +19,7 @@
 <aura:attribute name="containsFile" type="Boolean" default="false"/> 
 <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
 <aura:attribute name="callback" type="Object" access="private" />
+<aura:attribute name="callbackDOB" type="Object" access="private" />     
 <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
 <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private" />
 <aura:attribute name="initialized" type="Boolean" default="false" access="private" />
@@ -60,7 +61,10 @@
 <aura:attribute name="BtnClicked" type="String" />
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
-
+<aura:attribute name="needsDelegate" type="Boolean" default="false" />
+     
+ 
+     
  <aura:attribute name="yob" type="List" /> 
  <aura:attribute name="isFirstPrimaryDelegate" type="Boolean"  default="false"/> 
  <aura:attribute name="isAdultDel" type="Boolean"  />    
@@ -79,6 +83,10 @@
    action="{!c.checkChildChanges}"
    />
 
+<aura:method name="checkParticipantDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+     
 <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}" />
 
 <!-- methods -->
@@ -232,11 +240,13 @@ isListView = "{!v.isListView}"
                                      BtnClicked="{!v.BtnClicked}"
                                      isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
                                      participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
-									 yob = "{!v.yob}"
+                                     yob = "{!v.yob}"
                                      isFirstPrimaryDelegate = "{!v.isFirstPrimaryDelegate}"
                                      isAdultDel = "{!v.isAdultDel}"
                                      attestAge = "{!V.attestAge}"
                                      isBulkImport = "{!v.isBulkImport}"
+                                     needsDelegate="{!v.needsDelegate}"
+									 parentComponent="{!this}"
                                      />
              
              <!--1936-->
