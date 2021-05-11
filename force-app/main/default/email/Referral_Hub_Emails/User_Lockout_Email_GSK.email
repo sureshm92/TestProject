@@ -1,0 +1,26 @@
+<messaging:emailTemplate subject="{!$Label.Email_Subject_Reset_Your_Password}"
+                         recipientType="Contact"
+                         relatedToType="Community"
+                         language="{!recipient.Language__c}">
+
+    <messaging:htmlEmailBody >
+        <c:EmailWireframe recipientId="{!recipient.Id}"
+                          header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
+                          greeting="{!$Label.Email_User_Greeting}"
+                          signature="{!$Label.Email_Signature}"
+                          communityTemplate="GSK">
+            <c:Paragraph emailLabel="{!$Label.Email_Body_User_Lockout}"/>
+        </c:EmailWireframe>
+    </messaging:htmlEmailBody>
+
+    <messaging:plainTextEmailBody >
+        <c:EmailWireframeText recipientId="{!recipient.Id}"
+                              header="{!$Label.Email_Header_Thank_You_For_Your_Interest}"
+                              greeting="{!$Label.Email_User_Greeting}"
+                              signature="{!$Label.Email_Signature}"
+                              communityTemplate="GSK">
+            <c:ParagraphText emailLabel="{!$Label.Email_Body_User_Lockout}"/>
+        </c:EmailWireframeText>
+    </messaging:plainTextEmailBody>
+
+</messaging:emailTemplate>
