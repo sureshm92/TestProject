@@ -1,6 +1,8 @@
 <aura:component 
                 description="StudySiteLocations" 
-                controller="StudySiteInformationController">
+                controller="StudySiteInformationController"
+                extends="c:LightningService"
+                implements="flexipage:availableForAllPageTypes">
     <!-- attributes: -->
     <aura:attribute name="studySite" type="Object" />
     <aura:attribute name="studySiteAccounts" type="List" />
@@ -65,7 +67,7 @@
                             <button
                                     data-site-id="{!v.studySite.siteId}"
                                     id="addNewLocation"
-                                    class="apollo-btn secondary"
+                                    class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"                                                                  
                                     onclick="{!c.newAccountAddress}"
                                     >
                                 <span>+</span> {!$Label.c.CC_NewLocation}
