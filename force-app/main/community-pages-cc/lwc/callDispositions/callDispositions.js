@@ -3,7 +3,12 @@ import { getRecord } from 'lightning/uiRecordApi';
 import USER_ID from '@salesforce/user/Id';
 import NAME_FIELD from '@salesforce/schema/User.Name';
 import getcalls from '@salesforce/apex/FetchCallDispositions.getcalls';
+import { getPicklistValues } from 'lightning/uiObjectInfoApi';
+import { getObjectInfo } from 'lightning/uiObjectInfoApi';
 import gettodaydate from '@salesforce/apex/FetchCallDispositions.gettodaydate';
+import CALLDISPOSTION_OBJ from '@salesforce/schema/Call_Dispositions__c';
+import CATEGORY_FIELD from '@salesforce/schema/Call_Dispositions__c.Call_Category__c';
+import INBOUND_FIELD from '@salesforce/schema/Call_Dispositions__c.Inbound_Outbound__c';
 import {refreshApex} from '@salesforce/apex';
 import Previous_Call_Dispositions from '@salesforce/label/c.Previous_Call_Dispositions';
 import View_More from '@salesforce/label/c.View_More';
@@ -46,8 +51,45 @@ export default class CallDispositions extends LightningElement {
         Type_in_your_notes
     };
     
+    @wire(getObjectInfo, { objectApiName: CALLDISPOSTION_OBJ })
+
+    calldispositionObj;
+
+    @wire(getPicklistValues,
+        {
+
+            recordTypeId: '$calldispositionObj.data.defaultRecordTypeId',
+
+            fieldApiName: CATEGORY_FIELD
+
+        }
+
+    )
+
+    categoryoptions({ error, data }) {
+        if(data)
+            this.callcategorys = data.values;
     
-    get callcategorys() {
+    }
+
+    @wire(getPicklistValues,
+        {
+
+            recordTypeId: '$calldispositionObj.data.defaultRecordTypeId',
+
+            fieldApiName: INBOUND_FIELD
+
+        }
+
+    )
+
+    boundoptions({ error, data }) {
+        if(data)
+            this.callboundoptions = data.values;
+     
+    }
+    
+   /* get callcategorys() {
         return [
             { label: 'Welcome Call Complete', value: 'Welcome Call Complete' },
             { label: 'First Referral Call Complete', value: 'First Referral Call Complete' },
@@ -63,7 +105,7 @@ export default class CallDispositions extends LightningElement {
             { label: 'Inbound', value: 'Inbound' },
             { label: 'Outbound', value: 'Outbound' },
         ];
-    }
+    }  */
     onCheckboxChange(event) {
         this.InterventionRequired = event.target.checked;
         const value = event.target.checked;
