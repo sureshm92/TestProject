@@ -927,4 +927,15 @@ private class Test_BaseCRCPCommunity {
         System.assertEquals(1, wrap.startPos);
         Test.stopTest();
     }
+    @IsTest
+    static void helpRemoteTest() {
+        TestData testData = new TestData();
+        Test.startTest();
+        System.runAs(testData.participantUser) {
+            ApplicationHelpRemote.validateAgeOfMajority('1995');
+            ApplicationHelpRemote.validateUsername();
+            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
+        }
+        Test.stopTest();
+    }
 }
