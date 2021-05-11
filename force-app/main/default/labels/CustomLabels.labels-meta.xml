@@ -7929,7 +7929,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Provider&apos;s email address</value>
     </labels>
     <labels>
-        <fullName>HealthCare_Providers_First_Name</fullName>
+    <fullName>HealthCare_Providers_First_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare Providers First Name</shortDescription>
@@ -8515,7 +8515,7 @@ The expected format is REF##### to REF########</value>
         <value>My Points</value>
     </labels>
     <labels>
-    <fullName>IQVIA_intervention_completed</fullName>
+        <fullName>IQVIA_intervention_completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IQVIA intervention completed</shortDescription>
@@ -8888,7 +8888,7 @@ The expected format is REF##### to REF########</value>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
     <labels>
-    <fullName>Minor_Access_Error_Message</fullName>
+        <fullName>Minor_Access_Error_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Minor Access Error Message</shortDescription>
@@ -9574,7 +9574,7 @@ The expected format is REF##### to REF########</value>
         <value>Media Outreach Requests</value>
     </labels>
     <labels>
-    <fullName>Browser_Title_Media_Outreach</fullName>
+        <fullName>Browser_Title_Media_Outreach</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Media Outreach</shortDescription>
@@ -9743,7 +9743,7 @@ The expected format is REF##### to REF########</value>
         <value>Check back periodically for helpful links</value>
     </labels>
     <labels>
-       <fullName>No_records_to_display</fullName>
+        <fullName>No_records_to_display</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>No records to display</shortDescription>
@@ -18543,7 +18543,7 @@ communications using the toggles below.</value>
         <value>Location</value>
     </labels>
     <labels>
-      <fullName>Select_Call_Catagory</fullName>
+        <fullName>Select_Call_Catagory</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Select Call Category</shortDescription>
@@ -19110,7 +19110,7 @@ communications using the toggles below.</value>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
     <labels>
-       <fullName>September</fullName>
+        <fullName>September</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>September</shortDescription>
@@ -19757,7 +19757,7 @@ communications using the toggles below.</value>
         <value>Healthcare Provider</value>
     </labels>
     <labels>
-       <fullName>Type_in_your_notes</fullName>
+        <fullName>Type_in_your_notes</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Type in your notes...</shortDescription>
@@ -19770,7 +19770,6 @@ communications using the toggles below.</value>
         <shortDescription>Tab_Medical_History</shortDescription>
         <value>Medical History</value>
     </labels>
-
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
         <language>en_US</language>
@@ -20362,7 +20361,7 @@ communications using the toggles below.</value>
         <value>Unable to Reach</value>
     </labels>
     <labels>
-       <fullName>UserName</fullName>
+        <fullName>UserName</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>UserName</shortDescription>
