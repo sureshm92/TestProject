@@ -29,6 +29,7 @@
     <aura:attribute name="userLanguage" type="String" />
     <aura:attribute name="createUsers" type="Boolean" default="false" />
     <aura:attribute name="needsGuardian" type="Boolean" default="false" />
+    <aura:attribute name="needsDelegate" type="Boolean" default="false" />
     <aura:attribute name="parentComponent" type="Aura.Component" />
     <aura:attribute name="emailParticipantRepeat" type="String" />
     <aura:attribute name="isAdult" type="Boolean" default="false" />
@@ -485,7 +486,7 @@
                                     }
                                 "
                                 class="slds-required"
-                                >{!!v.needsGuardian ? '*' : ''}</abbr
+                                ><!--{!!v.needsGuardian ? '*' : ''}-->{!!v.participantDelegate &amp;&amp; v.participant.Adult__c ? '*' : ''}</abbr
                             >{!$Label.c.PG_AP_F_Phone_Type}
                         </div>
                         <!-- REF-3070  Added disabled-->
@@ -570,7 +571,7 @@
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                 >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                       <aura:set attribute="else">
-                                          <aura:if isTrue= "{!!v.participantDelegate.Phone__c}">
+                                          <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
                                        <abbr
                                     title="required"
                                     class="slds-required"
@@ -596,7 +597,7 @@
                                                      aura:id="phoneInputParticipant"
                                                      type="text"
                                                      value="{!v.participant.Phone__c}"
-                                                     required="{!!v.participantDelegate.Phone__c}"
+                                                     required="{!!v.participantDelegate}"
                                                      disabled="{!!v.participant.Adult__c}"
                                                      onblur="{!c.doCheckFields}"
                                                      />
@@ -607,6 +608,16 @@
                             class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                         >
                             <div class="label">
+                                <!--<abbr
+                                    title="required"
+                                    style="
+                                         {
+                                            !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                        }
+                                    "
+                                    class="slds-required"
+                                    >{!!v.needsGuardian ? '*' : ''}</abbr
+                               >--><aura:if isTrue="{! !v.fromActionParticipant}" >
                                 <abbr
                                     title="required"
                                     style="
@@ -616,7 +627,17 @@
                                     "
                                     class="slds-required"
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
-                                >{!$Label.c.PG_AP_F_Phone_Type}
+                                >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
+                                      <aura:set attribute="else">
+                                          <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
+                                       <abbr
+                                    title="required"
+                                    class="slds-required"
+                                    >*</abbr
+                                ></aura:if>{!$Label.c.PG_AP_F_Phone_Type}
+                                          </aura:set>
+                                      
+                                </aura:if>
                             </div>
                              <!-- REF-3070 Added disabled-->
                             <c:rrSelect
@@ -645,7 +666,7 @@
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
                                 >{!$Label.c.PG_AS_F_Email_address} 
                                 <aura:set attribute="else">
-                                    <aura:if isTrue = "{!!v.participantDelegate.Email__c}">
+                                    <aura:if isTrue = "{!!v.participantDelegate.Email__c &amp;&amp; v.participant.Adult__c}">
                                  <abbr
                                     title="required"
                                     class="slds-required"
