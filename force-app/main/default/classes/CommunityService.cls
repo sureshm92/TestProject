@@ -97,6 +97,15 @@ public without sharing class CommunityService {
     public static Id getUserId() {
         return UserContext.getUserId();
     }
+    
+    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
+        Map<String,Integer> lengthByFieldName = new Map<String,Integer>();
+        for(String field : fieldNames){
+            Integer length = so.getSObjectType().getDescribe().fields.getMap().get(field).getDescribe().length;
+            lengthByFieldName.put(field,length);
+        }
+        return lengthByFieldName;
+    }
 
     //Todo remove this:
     public String getParticipantId() {
