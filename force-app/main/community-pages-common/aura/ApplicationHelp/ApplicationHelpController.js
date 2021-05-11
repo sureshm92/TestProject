@@ -6,7 +6,6 @@
         svg4everybody();
     },
     doInit: function (component, event, helper) {
-        console.log('>>>userMode>>'+component.get('v.userMode'));
         if (communityService.getCurrentCommunityMode().currentDelegateId) {
             component.set('v.isDelegate', true);
         } else {
@@ -31,6 +30,7 @@
                 component.set('v.yearOfBirthPicklistvalues',initData.yearOfBirth);
                 component.set('v.usrName',initData.usrName);
                 component.set('v.currentYOB',initData.currentYearOfBirth);
+                component.set('v.currentContactEmail',initData.usrEmail);
             }
         );
     },
@@ -83,13 +83,13 @@
         video.pause();
     },
     navigateToAccountSettings:function (component, event, helper) {
-        window.open('account-settings', '_blank');
-        window.focus();
+        //window.open('account-settings', '_blank');
+        communityService.navigateToPage('account-settings');
+        //window.focus();
     },
     doCheckYearOfBith:function (component, event, helper) {
         component.set('v.showError',false);
-        console.log('yearOfBirth--->'+component.get('v.yearOfBirth'));
-        component.set('v.showValidValue',false);
+        //component.set('v.showValidValue',false);
         var spinner = component.find('spinner');
         spinner.show();
         communityService.executeAction(
@@ -101,19 +101,15 @@
             function (returnValue) {
                 var isAdultDelegate = returnValue == 'true';
                 if(isAdultDelegate){
-                    console.log('isAdult');
-                    console.log('yearOfBirth--->inside adult'+component.get('v.yearOfBirth'));
                     component.set('v.showError',false);
                     component.set('v.disableSave',false);
                 }else{
-                    console.log('not adult');
-                    console.log('yearOfBirth--->inside not adult'+component.get('v.yearOfBirth'));
                     //component.set('v.yearOfBirth',null);
                     if(component.get('v.yearOfBirth') !== ''){
                        component.set('v.showError',true);
                     }
                     if(component.get('v.yearOfBirth') === ''){
-                       component.set('v.showValidValue',true); 
+                       //component.set('v.showValidValue',true); 
                     }
                    component.set('v.disableSave',true);
                 }
@@ -124,7 +120,7 @@
                else{
                   component.set('v.disableSave',false);
                }*/
-               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || /*component.get('v.showValidValue')|| */  component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
                   component.set('v.disableSave',true);   
                 }
                 else{
@@ -178,7 +174,6 @@
     },
     setSelectedVal:function (component, event, helper) {
         component.set('v.userEmail',event.getParam("value"));
-        console.log('val--->'+event.getParam("value"));
                if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
                   component.set('v.disableSave',true);   
                 }
@@ -197,11 +192,9 @@
     
     doChangeUserName:function (component, event, helper) {
         var sourceEvt = event.getSource();
-        console.log('usernametoemail--->'+event.getSource().get('v.checked'));
         component.set('v.changeUserName',sourceEvt.get('v.checked'));
         var spinner = component.find('spinner');
         if(component.get('v.changeUserName')){
-            console.log('inside--->'+component.get('v.changeUserName'));
             spinner.show();
         communityService.executeAction(
             component,
@@ -209,14 +202,15 @@
             {
             },
             function (returnValue) {
-                console.log('usernames',returnValue);
                 var usernames = returnValue;
                 component.set('v.userNamesList',usernames);
-                console.log('userNamesList--->'+component.get('v.userNamesList')[0]);
-                if(returnValue.length > 1){
+                if(returnValue.length > 0){
                     component.set('v.showUserNames',true);
                     component.set('v.value',component.get('v.usrName'));
                     component.set('v.userEmail',component.get('v.value'));
+                    var duplicateInfoHeader = returnValue.length > 1 ? $A.get('$Label.c.PP_DuplicateUsernames'):$A.get('$Label.c.PP_UsrNameLabel');
+                    duplicateInfoHeader = duplicateInfoHeader.replace('##Email',component.get('v.currentContactEmail'));
+                    component.set('v.duplicateUsrLabel',duplicateInfoHeader);
 
                 }
                if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
@@ -239,7 +233,7 @@
         );
         }
         else{
-               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showValidValue') || component.get('v.showError') || (!(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
+               if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) /*|| component.get('v.showValidValue') */|| component.get('v.showError') || (!(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
 
                    component.set('v.disableSave',true);   
                 }
@@ -248,7 +242,6 @@
                }
 
             
-            console.log('inside--->111'+component.get('v.changeUserName'));
             /*if(!component.get('v.yearOfBirth') || component.get('v.showError')){
                 component.set('v.disableSave',true);
             }

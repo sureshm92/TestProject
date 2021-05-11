@@ -16592,6 +16592,13 @@ communications using the toggles below.</value>
         <value>Success! A ticket has been created for you to change your Username.</value>
     </labels>
     <labels>
+        <fullName>PP_UsrNameLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameLabel</shortDescription>
+        <value>Username associated with your email &lt;b&gt;##Email&lt;/b&gt;.</value>
+    </labels>
+    <labels>
         <fullName>PP_UsrNameUpdateDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>

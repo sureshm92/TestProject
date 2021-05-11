@@ -19,6 +19,7 @@ public without sharing class ApplicationHelpRemote {
         Contact myContact;
         Participant__c participant;
         String usrName;
+        String usrEmail;
 
     }
 
@@ -89,6 +90,7 @@ public without sharing class ApplicationHelpRemote {
                     initData.quickReference = setting.Participant_Quick_Reference__c;
                     initData.yearOfBirth = ParticipantService.getYearofBirthList();
                     initData.usrName = UserInfo.getUserName();
+                    initData.usrEmail = UserInfo.getUserEmail();
                     if(!String.isEmpty(state.participant.Date_of_Birth__c)){
                       initData.currentYearOfBirth = state.participant.Date_of_Birth__c.split('-')[0];
                     }
@@ -164,6 +166,8 @@ public without sharing class ApplicationHelpRemote {
     @AuraEnabled
     public static List<LabelValueItem> validateUsername() {
         List<LabelValueItem> userNames = new List<LabelValueItem>();
+        //Contact con = AccountSettingsController.getCurrentContact();
+        //List<User> loggedInUser = [Select Id,Email,Username from User where Email = :con.Email];
         List<User> loggedInUser = [Select Id,Email,Username from User where Email = :UserInfo.getUserEmail()];
         for(User usr:loggedInUser){
             userNames.add(new LabelValueItem(usr.Username,usr.Username));
@@ -199,7 +203,7 @@ public without sharing class ApplicationHelpRemote {
                
             if(username!= null && username == true){
                 if(userEmail == null){
-                    userEmail= '';
+                    userEmail= UserInfo.getUserName();
                 }
                 descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
                 sub = Label.PP_UsrNameUpdateDntTranslate;
@@ -221,6 +225,8 @@ public without sharing class ApplicationHelpRemote {
         insert caseList;
         
     }
+    
+   
 
     /*@AuraEnabled
 	   public static String getPdfDonload(String titleName) {

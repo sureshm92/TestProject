@@ -3,8 +3,8 @@
  */
 
 .THIS .duplicate-usernames {
-  height: 34px;
-  width: 419px;
+  height: 51px;
+  width: fit-content;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 14px;
@@ -56,9 +56,9 @@
 
 .THIS .rr-error
 {
-     color: red;
+    color: red;
     font-size:14px;
-    white-space:nowrap;
+    width:120px;
 }
 
 .THIS .username-email {
@@ -224,6 +224,12 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    .THIS .cRrSelect .slds-select_container .slds-select  {
+    width:fit-content;
+}
+    .THIS .ah-item-sublabel-ticket {
+        width:350px;
+    }
      .THIS .cRrInput.rri-container input{
         height:40px !important;
     }
@@ -255,7 +261,7 @@
 @media all and (max-width: 500px) {
     
     .THIS .duplicate-usernames {
-        width:400px;
+        width:fit-content;
     }
     .THIS.ah-main-container {
         margin-top: 0;
@@ -305,6 +311,9 @@
         width:100px;
         white-space:normal;
     }
+    .THIS .update-all{
+        white-space:normal;
+    }
 }
 @media all and (device-width: 1366px) and (device-height: 1024px) and (orientation:landscape) {
    .THIS .cRrSelect .slds-select_container .slds-select {
@@ -315,6 +324,9 @@
     }
     .THIS .rr-error {
         width:100px;
+        white-space:normal;
+    }
+    .THIS .update-all{
         white-space:normal;
     }
 }

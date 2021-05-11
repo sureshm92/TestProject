@@ -22,8 +22,10 @@
     <aura:attribute name="showError" type="Boolean" default="false"/>
     <aura:attribute name="showUserNames" type="Boolean" default="false"/>
     <aura:attribute type="String" name="yearOfBirth"/>
+    <aura:attribute type="String" name="duplicateUsrLabel"/>
     <aura:attribute type="List" name="yearOfBirthPicklistvalues" default="[]"/>
     <aura:attribute type="List" name="userNamesList" default="[]"/>
+    <aura:attribute type="String" name="currentContactEmail"/>
     <aura:attribute name="userMode" type="String" required="true" />
     <aura:attribute name="videoLink" type="String" access="private" default="" />
     <aura:attribute name="userManual" type="String" access="private" default="" />
@@ -128,7 +130,7 @@
                                     {!$Label.c.Minor_Access_Error_Message}
                                 </aura:if>
                              <aura:if isTrue="{!v.showValidValue}">
-                                   {!$Label.c.PP_InvalidYear}
+                                   <!--{!$Label.c.PP_InvalidYear}-->
                                 </aura:if>
              </div>
 
@@ -153,7 +155,7 @@
            </div>
         <div class="slds-grid ah-item-panel-usr" style="{!if(v.isRTL,'padding-right:15px;','')}">
                 <p class="duplicate-usernames">
-                    {!$Label.c.PP_DuplicateUsernames}
+                    <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
             </p> 
         </div>
 
@@ -183,7 +185,7 @@
     </div>
     <aura:set attribute="else">
         <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">
-           {!$Label.c.PP_HelpResponse}<br></br>
+           {!$Label.c.PP_HelpResponse}<br></br> 
            <span class="update-all"><a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}&nbsp;</b></a>
             {!$Label.c.PP_UpdateProfileResp}</span>
     </div>
