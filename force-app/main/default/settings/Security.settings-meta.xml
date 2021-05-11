@@ -40,7 +40,6 @@
         <referrerPolicy>true</referrerPolicy>
         <requireHttpOnly>false</requireHttpOnly>
         <requireHttps>true</requireHttps>
-        <securityCentralKillSession>true</securityCentralKillSession>
         <sessionTimeout>TwentyFourHours</sessionTimeout>
     </sessionSettings>
 </SecuritySettings>

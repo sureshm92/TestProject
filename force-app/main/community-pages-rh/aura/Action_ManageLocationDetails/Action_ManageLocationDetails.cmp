@@ -26,7 +26,7 @@
         >
             <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
             <div class="slds-grid slds-grid_vertical">
-                <div class="slds-grid slds-wrap location-title-btn">
+                <div class="{!v.isRTL? 'slds-grid slds-wrap location-title-btnRTL':'slds-grid slds-wrap location-title-btn'}">
                     <div class="slds-col my-location-label">{!$Label.c.SS_My_Locations}</div>
                     <div class="slds-col slds-grid slds-grid_align-end">
                         <button
@@ -59,7 +59,7 @@
                                                 {!account.Name + ' ' + $Label.c.SS_Location}
                                             </div>
                                             <div
-                                                class="slds-col slds-size--1-of-2 slds-grid slds-grid_align-end edit-btn"
+                                                class="{! 'slds-col slds-size--1-of-2 slds-grid slds-grid_align-end ' + if(v.isRTL,'edit-btnRTL','edit-btn')}"
                                                 onclick="{!c.editAccountAddress}"
                                                 data-index="{!accIndex}"
                                             >

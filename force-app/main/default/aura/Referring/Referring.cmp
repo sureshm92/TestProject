@@ -116,7 +116,7 @@
          <aura:if isTrue="{!v.currentState == 'Screening'}">
              <div class="buttons-area">
                  <div class="rr-width-limiter buttons-block">
-                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}">
+                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}" style="{!if(v.isRTL,'margin-left: 1%;','')}">
                          <div>{!$Label.c.BTN_Stat_Over}</div>
                      </div>
                      <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
@@ -666,7 +666,7 @@
                                              class="slds-col rr-medium-up-hide"
                                              style="height: 20px"
                                          ></div>
-                                         <div class="slds-col slds-size--1-of-2">
+                                         <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
                                              <div class="label">
                                                  <abbr title="required" class="slds-required"
                                                      >*</abbr

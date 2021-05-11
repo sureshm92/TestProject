@@ -19,6 +19,7 @@
         <aura:attribute name="frameHeight" type="String" default="500px" />
         <aura:attribute name="isInvited" type="boolean" />
         <aura:attribute name="callback" type="Function" />
+        <aura:attribute name="isRTL" type="boolean" default="false"/>
     </aura:method>
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
