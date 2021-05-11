@@ -35,7 +35,7 @@
                                      onsectiontoggle="{! c.callhandleSectionToggle }"
                                      activeSectionName="A"
                                      >
-                    <lightning:accordionSection name="CD" label="Call Dispositions">
+                    <lightning:accordionSection name="CD" label="{!$Label.c.Call_Dispositions}">
                         
                         <aura:set attribute="actions">
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
@@ -44,7 +44,7 @@
                                     class="apollo-btn secondary"
                                     onclick="{!c.handleNewCall}"
                                     >
-                                <span>+  &nbsp;</span> New Call
+                                <span>+  &nbsp;</span>{!$Label.c.New_Call}
                             </button>
                             <!--</div>-->
                         </aura:set>
