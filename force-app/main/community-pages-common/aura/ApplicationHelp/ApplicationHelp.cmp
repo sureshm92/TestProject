@@ -102,7 +102,7 @@
             </div>
         </aura:if>
         <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">  
-         <div class="{!'divider'+if(v.isRTL,' mr_left_10',' mr_right_15')}"></div>
+         <div class="{!'divider'+if(v.isRTL,' mr_right_15',' mr_left_10')}"></div>
          <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
             <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
                 <div class="ah-item-label create-ticket-for">{!$Label.c.PP_CreateTicketFor}</div>
