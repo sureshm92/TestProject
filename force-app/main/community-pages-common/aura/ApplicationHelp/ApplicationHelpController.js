@@ -145,8 +145,7 @@
                 yob:component.get('v.yearOfBirth'),
                 username:component.get('v.changeUserName'),
                 userEmail:component.get('v.userEmail'),
-                currentYob:component.get('v.currentYOB'),
-                haveMultipleUsernames:component.get('v.isMultipleUser')
+                currentYob:component.get('v.currentYOB')
             },
             function (returnValue) {
                 var message = '';
@@ -210,8 +209,6 @@
                     component.set('v.value',component.get('v.usrName'));
                     component.set('v.userEmail',component.get('v.value'));
                     var duplicateInfoHeader = returnValue.length > 1 ? $A.get('$Label.c.PP_DuplicateUsernames'):$A.get('$Label.c.PP_UsrNameLabel');
-                    var multipleUsernames = returnValue.length > 1? true:false;
-                    component.set('v.isMultipleUser',multipleUsernames);
                     duplicateInfoHeader = duplicateInfoHeader.replace('##Email',component.get('v.currentContactEmail'));
                     component.set('v.duplicateUsrLabel',duplicateInfoHeader);
 

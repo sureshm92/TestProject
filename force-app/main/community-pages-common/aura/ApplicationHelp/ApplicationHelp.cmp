@@ -15,7 +15,6 @@
     <aura:attribute name="usrName" type="String"/>
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="showValidValue" type="Boolean" default="false"/>
-    <aura:attribute name="isMultipleUser" type="Boolean" default="false"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
     <aura:attribute name="userEmail" type="String"/>
     <aura:attribute name="changeUserName" type="boolean"/>

@@ -171,7 +171,7 @@ public without sharing class ApplicationHelpRemote {
         return userNames;
     }
     @AuraEnabled
-    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob,Boolean haveMultipleUsernames){
+    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob){
         List<Case> caseList = new List<Case>();
         String descValue = '';
         String sub='';
@@ -201,12 +201,8 @@ public without sharing class ApplicationHelpRemote {
                 if(userEmail == null){
                     userEmail= UserInfo.getUserName();
                 }
-                if(haveMultipleUsernames != null && haveMultipleUsernames == true){
-                    descValue += Label.PP_MergeUsersDntTranslate+' '+userEmail;
-                }
-                else{
-                    descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
-                }
+                
+                descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
                 sub = Label.PP_UsrNameUpdateDntTranslate;
             }
              if(!String.isEmpty(yob) && username!= null && username == true){
