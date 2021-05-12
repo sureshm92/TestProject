@@ -81,7 +81,11 @@
         padding-right: 10px;
         flex-direction: column-reverse;
     }
-    
+    .THIS.cPopup .btnRTL {
+        right: 95% !important;
+        top: 0% !important;
+    }
+
     .THIS .partinfo-footer-buttons > span {
         display: flex;
         justify-content: stretch;

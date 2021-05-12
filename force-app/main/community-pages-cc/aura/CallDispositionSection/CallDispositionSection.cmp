@@ -1,4 +1,5 @@
-<aura:component description="CallDispositionSection" >
+<aura:component description="CallDispositionSection" extends="c:LightningService"
+implements="flexipage:availableForAllPageTypes">
     <!-- attributes: -->
     
     <aura:attribute name="sectionOpen" type="Boolean" default="false"/>
@@ -41,7 +42,7 @@
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
                             <button
                                     id="addNewLocation"
-                                    class="apollo-btn secondary"
+                					class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"
                                     onclick="{!c.handleNewCall}"
                                     >
                                 <span>+  &nbsp;</span>{!$Label.c.New_Call}
