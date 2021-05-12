@@ -16005,7 +16005,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_DuplicateUsernames</shortDescription>
-        <value>Duplicate usernames are associated with your email. Please choose one of the following to use.</value>
+        <value>Duplicate usernames are associated with your email  &lt;b&gt;##Email&lt;/b&gt;. Please choose one of the following to use.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>

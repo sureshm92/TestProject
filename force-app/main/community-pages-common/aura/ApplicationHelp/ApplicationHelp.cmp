@@ -181,7 +181,7 @@
                     
     </div> 
     <aura:if isTrue="{!v.isMobileApp}">
-    <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;','padding-left:20px;')}">{!$Label.c.PP_EditAllInfo}<a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}</b></a>
+    <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">{!$Label.c.PP_EditAllInfo}<a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}</b></a>
     </div>
     <aura:set attribute="else">
         <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">
