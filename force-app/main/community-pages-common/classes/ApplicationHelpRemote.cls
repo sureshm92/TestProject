@@ -6,10 +6,9 @@ public without sharing class ApplicationHelpRemote {
     public static final String TECH_SUPPORT_QUEUE_NAME = 'Tech_Support_Case_Queue';
     public static final String CASE_TYPE_TECHSUPPORT = 'Technical Support';
     public static final String CASE_ORIGIN_HELP = 'Help';
-    public static final String CASE_TYPE = 'YOB and Username';
-
-
-
+    
+    
+    
     public class InitData {
         String videoLink;
         String userManual;
@@ -210,14 +209,14 @@ public without sharing class ApplicationHelpRemote {
                 sub = Label.PP_YOBUsrUpdateDntTranslate;
             }   
             Case yobCase = new Case(
-                        subject = sub,
-                        ContactId = conList[0].Id,
-                        Description = descValue,
-                        ownerId = groupList[0].Id,
-                        Type = CASE_TYPE,
-                        Origin = CASE_ORIGIN_HELP
-                    );
-                    caseList.add(yobCase);
+                subject = sub,
+                ContactId = conList[0].Id,
+                Description = descValue,
+                ownerId = groupList[0].Id,
+                Type = sub,
+                Origin = CASE_ORIGIN_HELP
+            );
+            caseList.add(yobCase);
         }
         insert caseList;
         
