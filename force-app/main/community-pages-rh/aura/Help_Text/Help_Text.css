@@ -11,6 +11,8 @@
     /**max-width: 20rem !important;gbhh**/
     overflow: visible !important;
     text-transform: none !important;
+    min-width: 382px;
+
 }
 
 .THIS .ms-help-popup-in-header:before,
@@ -52,9 +54,10 @@
 {
     display: inline-block;
     position: absolute!important;
-    top: -17px!important;
+    top: -4px!important;
     right: 44px!important;
     margin-right: -1rem!important;
     overflow: visible!important;
     text-transform: none!important;
+    min-width: 382px;
 }

@@ -32,7 +32,7 @@
             </div>
         </div>
         </aura:if>
-        <aura:if isTrue="{!!v.isRTL}">
+      <!--  <aura:if isTrue="{!!v.isRTL}">
               <aura:if isTrue="{!v.tooltip}" >
         <div
         aura:id="divHelp"
@@ -46,8 +46,8 @@
         </div>
     </div>
             </aura:if>
-</aura:if>
-        <!--<div
+</aura:if>-->
+        <div
              aura:id="divHelp"
              class="slds-popover slds-popover_tooltip slds-nubbin_left-top ms-help-popup-in-header slds-hide"
              role="tooltip"
@@ -57,7 +57,7 @@
             <div class="slds-popover__body ms-help-popup-body">
                 <ui:outputText value="{!v.text}" />
             </div>
-        </div> -->
+        </div>
     </div>
     
 </aura:component>
