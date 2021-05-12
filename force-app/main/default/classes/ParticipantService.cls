@@ -317,7 +317,7 @@ public without sharing class ParticipantService {
     public static List<LabelValueItem> getYearofBirthList() {
         List<LabelValueItem> yearOfBirth = new List<LabelValueItem>();
         Integer currentYear = System.Today().year();
-        Integer firstYear = currentYear - 149;
+        Integer firstYear = currentYear - 150;
         if(!UserContext.isParticipant()){
                     yearOfBirth.add(new LabelValueItem('', ''));
         }

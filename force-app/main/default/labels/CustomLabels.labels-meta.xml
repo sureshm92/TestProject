@@ -16178,6 +16178,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I want to match my username</value>
     </labels>
     <labels>
+        <fullName>PP_MergeUsersDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsersDntTranslate</shortDescription>
+        <value>I have duplicate usernames. I want to use my username.</value>
+    </labels>
+    <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
         <language>en_US</language>
         <protected>true</protected>

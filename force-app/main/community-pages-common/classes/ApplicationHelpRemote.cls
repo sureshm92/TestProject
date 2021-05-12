@@ -94,14 +94,10 @@ public without sharing class ApplicationHelpRemote {
                     if(!String.isEmpty(state.participant.Date_of_Birth__c)){
                       initData.currentYearOfBirth = state.participant.Date_of_Birth__c.split('-')[0];
                     }
-                    else{
-                       if(!state.isDelegate){
-                           if(initData.participant != NULL && initData.participant.Birth_Year__c != NULL)
+                    else if(initData.participant != NULL && initData.participant.Birth_Year__c != NULL){
                         initData.currentYearOfBirth = initData.participant.Birth_Year__c;
-                        }  
-                        else{
-                         initData.currentYearOfBirth = ' '; 
-                        }
+                    }else{
+                        initData.currentYearOfBirth = ' '; 
                     }
                     
                 }
@@ -168,14 +164,14 @@ public without sharing class ApplicationHelpRemote {
         List<LabelValueItem> userNames = new List<LabelValueItem>();
         //Contact con = AccountSettingsController.getCurrentContact();
         //List<User> loggedInUser = [Select Id,Email,Username from User where Email = :con.Email];
-        List<User> loggedInUser = [Select Id,Email,Username from User where Email = :UserInfo.getUserEmail()];
+        List<User> loggedInUser = [Select Id,Email,Username,createddate from User where Email = :UserInfo.getUserEmail() order by createddate];
         for(User usr:loggedInUser){
             userNames.add(new LabelValueItem(usr.Username,usr.Username));
         }
         return userNames;
     }
     @AuraEnabled
-    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob){
+    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob,Boolean haveMultipleUsernames){
         List<Case> caseList = new List<Case>();
         String descValue = '';
         String sub='';
@@ -205,7 +201,12 @@ public without sharing class ApplicationHelpRemote {
                 if(userEmail == null){
                     userEmail= UserInfo.getUserName();
                 }
-                descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
+                if(haveMultipleUsernames != null && haveMultipleUsernames == true){
+                    descValue += Label.PP_MergeUsersDntTranslate+' '+userEmail;
+                }
+                else{
+                    descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
+                }
                 sub = Label.PP_UsrNameUpdateDntTranslate;
             }
              if(!String.isEmpty(yob) && username!= null && username == true){
