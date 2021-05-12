@@ -934,7 +934,9 @@ private class Test_BaseCRCPCommunity {
         System.runAs(testData.participantUser) {
             ApplicationHelpRemote.validateAgeOfMajority('1995');
             ApplicationHelpRemote.validateUsername();
-            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
+            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994',true);
+            ApplicationHelpRemote.createYOBCase('1995',false,'test1992@fmail.com','1994',false);
+            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994',false);
         }
         Test.stopTest();
     }
