@@ -525,7 +525,7 @@
                          <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
                              <div class="slds-grid slds-wrap">
                                  <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                     <div class="rr-big-title inverse" style="margin-top: 30px">
+                                     <div class="rr-big-title inverse" style="margin-top: 70px">
                                          {!$Label.c.PG_Ref_L_Congratulations}
                                      </div>
                                      <div class="rr-title inverse" style="margin-bottom: 20px">
