@@ -44,7 +44,7 @@
   letter-spacing: 0;
 }
 .THIS .from-rtl {
-  padding-top:5px;
+  padding-top:8px;
   height: 19px;
   width: 41px;
   color: #444444;
@@ -253,7 +253,8 @@
 }
 
  .THIS .btn-mr{
-        padding-right:150px;
+        padding-right:8px;
+        padding-left:10px;
     }
 .THIS .btn-ml{
         padding-left:150px;
@@ -268,8 +269,8 @@
         padding-top: 0;
     }
     .THIS .btn-mr{
-        padding-left:0;
-        padding-right:0;
+        padding-left:10px;
+        padding-right:8px;
     }
 
     .THIS .ah-button {
@@ -314,6 +315,9 @@
     .THIS .update-all{
         white-space:normal;
     }
+    .THIS .mr_36{
+        padding-right:0;
+    }
 }
 @media all and (device-width: 1366px) and (device-height: 1024px) and (orientation:landscape) {
    .THIS .cRrSelect .slds-select_container .slds-select {
@@ -328,5 +332,8 @@
     }
     .THIS .update-all{
         white-space:normal;
+    }
+    .THIS .mr_36{
+        padding-right:0;
     }
 }

@@ -175,7 +175,6 @@ public without sharing class ApplicationHelpRemote {
         String descValue = '';
         String sub='';
         List<User> usr = [Select Id ,ContactId from User where Id=:UserInfo.getUserId()];
-        List<Contact> conList = [SELECT Id, Name FROM Contact WHERE Id =:usr[0].ContactId LIMIT 1];
             List<Group> groupList = [
                 SELECT Id, Name
                 FROM Group
@@ -183,8 +182,8 @@ public without sharing class ApplicationHelpRemote {
                 LIMIT 1
             ];
         String separator = '';
-        
-        if (!conList.isEmpty() && !groupList.isEmpty()) {
+     
+        if (!usr.isEmpty() && !groupList.isEmpty()) {
             if(!String.isEmpty(yob)){
                 if(currentYob == null){
                     currentYob = '';
@@ -210,7 +209,7 @@ public without sharing class ApplicationHelpRemote {
             }   
             Case yobCase = new Case(
                 subject = sub,
-                ContactId = conList[0].Id,
+                ContactId = usr[0].ContactId,
                 Description = descValue,
                 ownerId = groupList[0].Id,
                 Type = sub,
