@@ -62,6 +62,10 @@
     padding-right: 5%;
 }
 
+.THIS .button-RTL {
+	margin-left: 28rem!important;
+}
+
 .THIS .account_details {
     width: 90%;
     flex-direction: row;

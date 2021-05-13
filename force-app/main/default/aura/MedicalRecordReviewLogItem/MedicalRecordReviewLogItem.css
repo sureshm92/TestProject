@@ -11,7 +11,9 @@
 .THIS.mrrli-container .mrrli-info .mrrli-info-bottom {
     display: flex;
 }
-
+.THIS .button-RTL {
+    margin: 15px;
+}
 /*.THIS.mrrli-container .mrrli-buttons button{*/
 /*    height: 40px;*/
 /*}*/

@@ -283,7 +283,7 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
             );
-        if (ddInfo.participantId != null) {
+        if (ddInfo != null && ddInfo.participantId != null) {
             participantDelegate.Id = ddInfo.participantId;
             try {
                 upsert participantDelegate;

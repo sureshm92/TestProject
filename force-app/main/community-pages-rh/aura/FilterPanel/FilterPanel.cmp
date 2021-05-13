@@ -57,7 +57,7 @@
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
-                <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
+                <div class="{!v.isRTL? 'fp-filters-labelRTL rr-large-down-hide':'fp-filters-label rr-large-down-hide'}">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
                     <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">

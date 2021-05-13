@@ -116,7 +116,7 @@
          <aura:if isTrue="{!v.currentState == 'Screening'}">
              <div class="buttons-area">
                  <div class="rr-width-limiter buttons-block">
-                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}">
+                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}" style="{!if(v.isRTL,'margin-left: 1%;','')}">
                          <div>{!$Label.c.BTN_Stat_Over}</div>
                      </div>
                      <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
@@ -525,7 +525,7 @@
                          <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
                              <div class="slds-grid slds-wrap">
                                  <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                     <div class="rr-big-title inverse" style="margin-top: 30px">
+                                     <div class="rr-big-title inverse" style="margin-top: 70px">
                                          {!$Label.c.PG_Ref_L_Congratulations}
                                      </div>
                                      <div class="rr-title inverse" style="margin-bottom: 20px">
@@ -666,7 +666,7 @@
                                              class="slds-col rr-medium-up-hide"
                                              style="height: 20px"
                                          ></div>
-                                         <div class="slds-col slds-size--1-of-2">
+                                         <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
                                              <div class="label">
                                                  <abbr title="required" class="slds-required"
                                                      >*</abbr
