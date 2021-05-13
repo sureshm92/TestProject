@@ -1015,6 +1015,30 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
+
+            //for Adult participants which have delegates for one study but not for other REF-3566
+            else if(delegateWithpartList.isEmpty()){
+                Set<Id> existingParticipantId = new Set<Id>();
+                For(Participant__c p:mapDuplicateParticipant.values()){
+                    existingParticipantId.add(p.id);
+                }
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                if (!existingParticipantId.isEmpty()  && !duplicateContactIds.isEmpty()) {
+                  
+                    For(Patient_Delegate__c pd:[SELECT Id,
+                                                Primary_Delegate__c
+                                                FROM Patient_Delegate__c
+                                                WHERE Participant__c IN: existingParticipantId 
+                                               ]) {
+                                                   if(pd.Primary_Delegate__c == True){
+                                                       pd.Primary_Delegate__c = False;
+                                                       pdList.add(pd);
+                                                   }
+                                               }
+                    update pdList;
+                }
+            }
+            //
             
                
         } catch (Exception exp) {
