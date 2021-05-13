@@ -1866,6 +1866,11 @@ public without sharing class ParticipantInformationRemote {
         ];
         return String.ValueOf(Date.valueOf(lstUser[0].CreatedDate));
     }
+    
+    @AuraEnabled
+    public static String checkNeedsGuardian(String participantJSON) {
+        return ReferringRemote.checkNeedsGuardian(participantJSON);
+    }
 
     /**
      * This wapper class is created to accomodate the requirements of REF-1192
