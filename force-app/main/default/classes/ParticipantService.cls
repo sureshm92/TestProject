@@ -436,12 +436,17 @@ public without sharing class ParticipantService {
         String userTimeZoneValue = '';
         String strDateTimeValue = '';
         try {
-            String timeZoneValue = UserInfo.getTimeZone().getDisplayName();
+            String timeZoneValue = TimeZone.getTimeZone(String.valueof(userval.timezonesidkey))
+                .getDisplayName();
             if (!String.isBlank(timeZoneValue)) {
                 userTimeZoneValue = userval.timezonesidkey + ' ' + timeZoneValue;
             }
             if (!String.isBlank(userTimeZoneValue)) {
-                strDateTimeValue = System.now().format('dd/MMM/yyyy HH:mm:ss') + userTimeZoneValue;
+                strDateTimeValue =
+                    System.now()
+                        .format('dd/MMM/yyyy HH:mm:ss', String.valueof(userval.timezonesidkey)) +
+                    ' ' +
+                    userTimeZoneValue;
             }
         } catch (Exception e) {
             System.debug('Exception e --' + e.getMessage());

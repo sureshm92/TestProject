@@ -122,7 +122,7 @@
                         <div class="{!'p-footer p-variant-' + v.variant}">
                             <div
                                 class="p-buttons-container"
-                                style="{!if(v.isRTL == true,'float:right;direction:rtl;','')}"
+                                style="{!if(v.isRTL == true,'float:left;direction:rtl;','')}"
                             >
                                 <aura:if isTrue="{!empty(v.footerButtons)}">
                                     <button

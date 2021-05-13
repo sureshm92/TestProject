@@ -54,9 +54,10 @@
             />
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">
+                <div class="label2">{!v.field.title}</div>
             <lightning:input
                 aura:id="fieldInput"
-                label="{!v.field.title}"
+                label=""
                 type="date"
                 value="{!v.field.value}"
                 disabled="{!v.field.readonly || !v.editable || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
@@ -66,9 +67,10 @@
             />
         </aura:if>
         <aura:if isTrue="{!v.field.type=='time'}">
+                <div class="label2">{!v.field.title}</div>
             <lightning:input
                 aura:id="fieldInput"
-                label="{!v.field.title}"
+                label=""
                 type="time"
                 value="{!v.field.value}"
                 min="05:00:00.000Z"

@@ -12,6 +12,13 @@
     font-size: 16px;
     font-weight: 500;
 }
+.THIS .my-location-labelRTL {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: 500;
+    margin-right: 1.5%;
+}
 
 .THIS .locationContainer {
     box-sizing: border-box;
@@ -26,7 +33,14 @@
     align-items: center;
     padding-left: 10px;
 }
-
+.THIS .location-title-btnRTL {
+    align-items: center;
+    padding-right: 10px;
+}
+.THIS .cPopup .btnRTL {
+    right: 95% !important;
+    top: 0% !important;
+}
 .THIS .p-header h2 {
     font-size: 20px;
     font-weight: 500;
@@ -63,6 +77,13 @@
     font-family: 'Proxima Nova';
     font-size: 14px;
     cursor: pointer;
+}
+.THIS .edit-btnRTL {
+    color: #2e7ceb;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    cursor: pointer;
+    padding-left: 1%;
 }
 
 .THIS .manage-location-info {

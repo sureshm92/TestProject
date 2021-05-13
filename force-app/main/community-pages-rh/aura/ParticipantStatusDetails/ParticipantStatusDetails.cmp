@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
- <aura:component description="ParticipantStatusDetails" controller="ParticipantWorkflowService">
+ <aura:component description="ParticipantStatusDetails" controller="ParticipantWorkflowService" extends="c:CommunityContext">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--attributes-->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
@@ -61,7 +61,7 @@
                                     <c:RRIcon iconName="icon-close" />
                                 </aura:if>
                             </div>
-                            <div class="step-info">
+                            <div class="{!v.isRTL? 'step-infoRTL':'step-info'}">
                                 <div class="step-title">{!step.title}</div>
                                 <aura:if isTrue="{!step.title == 'Initial Visit'}">
                                     <div class="step-status">
