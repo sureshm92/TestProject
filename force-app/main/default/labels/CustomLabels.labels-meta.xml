@@ -17451,6 +17451,13 @@ communications using the toggles below.</value>
         <value>Pulse</value>
     </labels>
     <labels>
+        <fullName>Quick_Reference_Card</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quick Reference Card</shortDescription>
+        <value>Quick Reference Card</value>
+    </labels>
+    <labels>
         <fullName>RBC_Count</fullName>
         <language>en_US</language>
         <protected>false</protected>
