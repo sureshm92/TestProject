@@ -1,7 +1,7 @@
 <apex:page sidebar="false" showHeader="false" readOnly="true" controller="ExcelController" contentType="application/vnd.ms-excel#ExportExcel.xls" cache="true">    
-    <!--<head>
+    <head>
         <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
-    </head>-->
+    </head>
     <!-- pe -->
     <apex:dataTable value="{!peList}" var="pe">
         <apex:repeat value="{!peFieldsList}" var="field">
