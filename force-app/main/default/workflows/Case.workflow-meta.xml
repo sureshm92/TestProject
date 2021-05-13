@@ -41,7 +41,7 @@
         </actions>
         <active>true</active>
         <description>Send a notification to Product Owners, Business Admins, and Support team when a ticket is created with &quot;Problem&quot; type.</description>
-        <formula>AND ( OR(ISPICKVAL( Type , &quot;Problem&quot;),ISPICKVAL( Type , &quot;Privacy&quot;)) , NOT(ISPICKVAL( Owner:User.Profile.UserType, &quot;IQVIA Customer Community Plus&quot;)),TEXT( Origin)!=&apos;Opt Out&apos; )</formula>
+        <formula>AND ( OR(ISPICKVAL( Type , &quot;Problem&quot;),ISPICKVAL( Type , &quot;Privacy&quot;)) , NOT(ISPICKVAL( Owner:User.Profile.UserType, &quot;IQVIA Customer Community Plus&quot;)),TEXT( Origin)!=&apos;Opt Out&apos;,TEXT(Origin)!= &apos;Help&apos; )</formula>
         <triggerType>onCreateOnly</triggerType>
     </rules>
     <rules>
