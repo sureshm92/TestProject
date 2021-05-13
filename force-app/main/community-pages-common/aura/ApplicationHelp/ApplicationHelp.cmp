@@ -120,7 +120,7 @@
             <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 mr_24">
                <c:rrInput disabled="true" valueString="{!v.currentYOB}"/> 
             </div>
-            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from',' from mr_36')}">
+            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from-rtl btn-mr',' from mr_36')}">
                {!$Label.c.PP_To}
             </div>
             <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 padding_left"> 
@@ -129,9 +129,7 @@
                                 <aura:if isTrue="{!v.showError}">
                                     {!$Label.c.Minor_Access_Error_Message}
                                 </aura:if>
-                             <aura:if isTrue="{!v.showValidValue}">
-                                   <!--{!$Label.c.PP_InvalidYear}-->
-                                </aura:if>
+                            
              </div>
 
             </div>
@@ -143,23 +141,23 @@
             </div>
         
            </div>
-           <div class="slds-grid ah-item-panel">
+           <div class="slds-grid slds-size--1-of-1 ah-item-panel">
                <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
                <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
                    {!$Label.c.PP_EmailMatch}</span></label>
 
         </div>
         <aura:if isTrue="{!v.showUserNames}">
-           <div class="slds-grid ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;font-size:16px;','font-size:16px;')}"><b>{!$Label.c.PP_SelectUsername}
+           <div class="slds-grid slds-size--1-of-1 ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;font-size:16px;','font-size:16px;')}"><b>{!$Label.c.PP_SelectUsername}
                </b>
            </div>
-        <div class="slds-grid ah-item-panel-usr" style="{!if(v.isRTL,'padding-right:15px;','')}">
+        <div class="slds-grid slds-size--1-of-1 ah-item-panel-usr" style="{!if(v.isRTL,'padding-right:15px;','')}">
                 <p class="duplicate-usernames">
                     <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
             </p> 
         </div>
 
-         <div class="slds-grid ah-item-panel">
+         <div class="slds-grid slds-size--1-of-1 ah-item-panel">
               <lightning:radioGroup name="radioGroup"
                           variant="label-hidden"
                           options="{! v.userNamesList }"
@@ -168,7 +166,6 @@
                </div>
             </aura:if></aura:if>
     </div>
-        <!-- ah-item-panel<div class="{!'slds-grid ah-item-panel'+if(v.isRTL,' btn-mr',' btn-ml')}"  style="{!if(v.isRTL,'padding-right:150px;','padding-left:150px;')}">-->
 
         <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">
             
@@ -186,7 +183,6 @@
     <aura:set attribute="else">
         <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">
             {!$Label.c.PP_HelpResponse} &nbsp;
-           <!-- <br></br> -->
            <span class="update-all"><a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}&nbsp;</b></a>
             {!$Label.c.PP_UpdateProfileResp}</span>
     </div>
