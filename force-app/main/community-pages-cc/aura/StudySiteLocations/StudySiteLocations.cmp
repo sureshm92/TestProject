@@ -5,6 +5,7 @@
                 implements="flexipage:availableForAllPageTypes">
     <!-- attributes: -->
     <aura:attribute name="studySite" type="Object" />
+    <aura:attribute name="isRTL" type="boolean" />
     <aura:attribute name="studySiteAccounts" type="List" />
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="locationWasChanged" type="Boolean" default="false" />
@@ -31,14 +32,14 @@
     </aura:method>-->
     <aura:method name="tabClosed" action="{!c.tabClosed}" />
     <aura:method
-        name="handleSectionToggle"
-        action="{!c.handleSectionToggle}"
-        description="controller function"
-    />
+                 name="handleSectionToggle"
+                 action="{!c.handleSectionToggle}"
+                 description="controller function"
+                 />
     <aura:method name="refreshTable" action="{!c.refreshTable}" />
     <aura:method name="closeTab" action="{!c.closeTab}" />
     <aura:handler name="CloseEvent" event="c:CloseEditLocations" action="{!c.CloseOtherAccTab}" />
-
+    
     <aura:registerEvent name="CloseEvent" type="c:CloseEditLocations" />
     
     
@@ -66,7 +67,8 @@
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
                             <button
                                     data-site-id="{!v.studySite.siteId}"
-                                    id="addNewLocation"
+                                    id="addNewLocation"                                  
+                                    
                                     class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"                                                                  
                                     onclick="{!c.newAccountAddress}"
                                     >
@@ -77,40 +79,40 @@
                         
                         <aura:if isTrue="{!v.editLocation}">
                             <c:StudySiteLocationEdit 
-                                aura:id="editLocation" 
-                                countriesLVList="{!v.countriesLVList}"
-                                locationtype="nl"
-                                statesByCountryMap="{!v.statesByCountryMap}"
-                                parent="{!this}"
-                                isAccountModified="{!v.isAccountModified}"
-                                account="{!v.account}"
-                                isEdited="{!v.isEdited}"
-                                editedAccount="{!v.editedAccount}"
-                            />
+                                                     aura:id="editLocation" 
+                                                     countriesLVList="{!v.countriesLVList}"
+                                                     locationtype="nl"
+                                                     statesByCountryMap="{!v.statesByCountryMap}"
+                                                     parent="{!this}"
+                                                     isAccountModified="{!v.isAccountModified}"
+                                                     account="{!v.account}"
+                                                     isEdited="{!v.isEdited}"
+                                                     editedAccount="{!v.editedAccount}"
+                                                     />
                         </aura:if>
                         <div class="slds-grid slds-grid_vertical">
                             <aura:if isTrue="{!v.studySiteAccounts}">
                                 <div class="slds-grid slds-wrap">
                                     <aura:iteration
-                                        items="{!v.studySiteAccounts}"
-                                        var="account"
-                                        indexVar="accIndex"
-                                    >
+                                                    items="{!v.studySiteAccounts}"
+                                                    var="account"
+                                                    indexVar="accIndex"
+                                                    >
                                         
                                         <c:SiteLocation 
-                                            aura:id="siteloc" 
-                                            gparent="{! this }"
-                                            account="{!account}" 
-                                            studySite="{!v.studySite}" 
-                                            accIndex="{!accIndex}" 
-                                            studySiteAccounts="{!v.studySiteAccounts}"
-                                            countriesLVList="{!v.countriesLVList}"
-                                            statesByCountryMap="{!v.statesByCountryMap}"
-                                            isAccountModified="{!v.isAccountModified}"
-                                            isEdited = "{!v.isEdited}"
-                                            isStudyInfoModified = "{!v.isStudyInfoModified}"
-                                            editedAccount = "{!v.editedAccount}"
-                                        />
+                                                        aura:id="siteloc" 
+                                                        gparent="{! this }"
+                                                        account="{!account}" 
+                                                        studySite="{!v.studySite}" 
+                                                        accIndex="{!accIndex}" 
+                                                        studySiteAccounts="{!v.studySiteAccounts}"
+                                                        countriesLVList="{!v.countriesLVList}"
+                                                        statesByCountryMap="{!v.statesByCountryMap}"
+                                                        isAccountModified="{!v.isAccountModified}"
+                                                        isEdited = "{!v.isEdited}"
+                                                        isStudyInfoModified = "{!v.isStudyInfoModified}"
+                                                        editedAccount = "{!v.editedAccount}"
+                                                        />
                                         
                                     </aura:iteration>
                                 </div>
