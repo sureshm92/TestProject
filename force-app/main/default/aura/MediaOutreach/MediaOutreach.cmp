@@ -6,6 +6,7 @@
  description="MediaOutReach data table"
  implements="forceCommunity:availableForAllPageTypes"
  access="global"
+ extends="c:CommunityContext"
  >
 <meta charset="utf-8"/>
 <!-- attributes:-->
@@ -31,7 +32,7 @@
      <div class="db-qal-title">{!Status_item}</div>
      <div class="db-qal-items slds-grid slds-wrap">
          <table
-                class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
+                class="{!'slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout '+ if(v.isRTL,'rightAlign','')}"
                 >
              <thead>
                  <tr class="slds-line-height_reset">

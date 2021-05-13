@@ -158,6 +158,10 @@
     margin-right: 10px;
     line-height: 40px;
 }
+.THIS .fp-filters-labelRTL {
+    white-space: nowrap;
+    line-height: 40px;
+}
 
 .THIS .fp-filters-container .rrs-container {
     display: inline-block;
@@ -169,7 +173,7 @@
     display: inline-block;
     /*max-width: 245px;*/
     max-width: 210px;
-    margin: 5px;
+    margin-right: 0.3% !important;
 }
 
 .THIS .fp-page-info {

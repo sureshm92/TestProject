@@ -2,6 +2,7 @@
 <aura:component
     controller="MedicalRecordReviewLogItemController"
     description="MedicalRecordReviewLogItem"
+    extends="c:CommunityContext"
 >
     <!-- attributes: -->
     <aura:attribute name="participantEnrollment" type="SObject" required="true" />
@@ -75,8 +76,8 @@
                 <div class="slds-grid slds-wrap">
                     <div class="slds-col">
                         <button
-                            class="apollo-btn secondary"
-                            onclick="{!c.excludeFromReferring}"
+                        class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"
+                        onclick="{!c.excludeFromReferring}"
                             disabled="{!v.actions.excludeFromReferring.disabled}"
                             title="{!v.actions.excludeFromReferring.disableReason}"
                         >

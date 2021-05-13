@@ -128,6 +128,10 @@
         }
     },
     
+	doCheckDateOfBith: function (component, event, helper) {
+        helper.checkParticipantNeedsGuardian(component, helper, event);
+    },
+     
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
@@ -170,6 +174,12 @@
            }  
            
        }
+        
+        if(!component.get('v.participant.Adult__c')){
+             component.set('v.participant.Email__c', '');
+             component.set('v.participant.Phone__c', '');
+             component.set('v.participant.Phone_Type__c', '');
+        }
         communityService.executeAction(
             component,
             'updatePatientInfoWithDelegate',
