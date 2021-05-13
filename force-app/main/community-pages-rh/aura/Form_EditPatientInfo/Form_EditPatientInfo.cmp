@@ -1,5 +1,5 @@
 <!--
- - Created by Leonid Bartenev
+ - Created by Leonid Bartenev 
  -->
 
  <aura:component description="Form_EditPatientInfo" extends="c:CommunityContext"  controller="ParticipantInformationRemote">
