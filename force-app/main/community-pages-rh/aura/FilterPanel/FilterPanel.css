@@ -148,7 +148,6 @@
     margin-right: 5px;
 }
 .THIS .fp-filters-containerRTL {
-    margin: -5px;
     overflow: hidden;
     display: inline-flex;
     width: -webkit-fill-available;
