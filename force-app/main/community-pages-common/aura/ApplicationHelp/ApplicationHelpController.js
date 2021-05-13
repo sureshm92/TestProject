@@ -61,7 +61,7 @@
             return;
         }
         var webViewer = $A.get('$Resource.pdfjs_dist') + '/web/viewer.html';
-        window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference), '_blank');
+        window.open(webViewer + '?file=' + $A.get('$Resource.' + quickReference)+'&fileName=' + $A.get('$Label.c.Quick_Reference_Card'), '_blank');
     },
     
     openGuide: function (component, event, helper) {
