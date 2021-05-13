@@ -1,8 +1,8 @@
 /**
- * Created by user on 20-Aug-19.
- */
+* Created by user on 20-Aug-19.
+*/
 
- .THIS .cPopup .p-container .p-content {
+.THIS .cPopup .p-container .p-content {
     padding-top: 15px;
 }
 
@@ -63,7 +63,7 @@
 }
 
 .THIS .button-RTL {
-	margin-left: 28rem!important;
+    margin-right:410px;
 }
 
 .THIS .account_details {
@@ -116,7 +116,7 @@
 
 .THIS .label-block {
     font-size: 1rem;
-  /*  height: 49px; */
+    /*  height: 49px; */
     color: #595959;
 }
 
@@ -135,33 +135,33 @@
     .THIS .locationContainer {
         padding: 8px 11px 13px;
     }
-
+    
     .THIS .popup-account-name:first-child {
         padding-left: 0;
     }
-
+    
     .THIS .popup-account-name + .slds-col {
         min-height: 100%;
         align-items: center;
         margin-top: -20px;
         max-width: 32px;
     }
-
+    
     .THIS .p-footer .p-buttons-container {
         display: flex;
         flex-direction: row;
     }
-
+    
     .THIS .p-footer .p-buttons-container .apollo-btn {
         margin: 15px 15px 0 0;
     }
-
+    
     .THIS .account_details {
         flex-direction: column;
         width: 90%;
         padding-left: 0;
     }
-
+    
 }
 
 @media all and (max-width: 600px) {
@@ -174,19 +174,19 @@
     .THIS .p-footer .p-buttons-container {
         flex-direction: column;
     }
-
+    
     .THIS .p-footer .p-buttons-container .apollo-btn {
         margin: 15px 0 0 0;
     }
-
+    
     .THIS .popup-account-name + .slds-col {
         min-width: 32px;
     }
-
+    
     .THIS .account_details {
         width: 80%;
     }    
-        
+    
     .THIS .slds-accordion__summary {
         padding-bottom: 15px;
     }
@@ -210,6 +210,6 @@
     
     .THIS .partinfo-buttons {
         padding-top: 0;
-    	margin: 20px 0;
+        margin: 20px 0;
     }
 }

@@ -434,6 +434,22 @@ public without sharing class AddPatientByPIRemote {
                     .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
             }
         }
+
+        //REF-3566
+         else{
+             if (participantId != null ) {
+                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                 For(Patient_Delegate__c pd : [SELECT Id,
+                                               Primary_Delegate__c
+                                               FROM Patient_Delegate__c
+                                               WHERE Participant__c =: participantId 
+                                              ]) {
+                                                  pd.Primary_Delegate__c = False;
+                                                  pdList.add(pd);
+                                              }
+                 update pdList;
+             }
+        }
     }
 
     @AuraEnabled
