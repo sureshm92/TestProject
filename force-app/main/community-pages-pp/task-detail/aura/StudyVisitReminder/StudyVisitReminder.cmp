@@ -8,8 +8,12 @@
     controller="TaskEditRemote"
     extends="c:CommunityContext"
 >
-    <ltng:require scripts="{!$Resource.moment_js}" styles="{!$Resource.tooltipCss}" afterScriptsLoaded="{!c.doInit}" />
-	
+    <ltng:require
+        scripts="{!$Resource.moment_js}"
+        styles="{!$Resource.tooltipCss}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+    <aura:attribute name="maxLengthData" type="Object" />
     <aura:attribute name="title" type="String" />
     <aura:attribute name="visitId" type="String" />
     <aura:attribute name="taskId" type="String" />
@@ -116,6 +120,7 @@
                                     disabled="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit'}"
                                     class="{!v.initData.createdByAdmin || v.task.Task_Type__c == 'Visit' ? 'disabledVisit' : 'taskClass'}"
                                     onblur="{!c.doValidateFields}"
+                                    maxlength="{!v.maxLengthData.Subject}"
                                 />
                             </div>
                         </div>
