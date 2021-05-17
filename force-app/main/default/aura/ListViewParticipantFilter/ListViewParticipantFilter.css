@@ -16,6 +16,7 @@
     line-height: 22px;
     font-style: inherit;
     height: 22px;
+    font-weight: 500 !important;
 }
 .THIS .buttonstyle{
     white-space: nowrap;
@@ -31,7 +32,7 @@
 }
 .THIS .received {
   height: 27px;
-  width: 66px;
+  width: 220px;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -49,7 +50,7 @@
 }
 .THIS .referred {
   height: 27px;
-  width: 62px;
+  width: 220px;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -60,6 +61,7 @@
    height: 92px;
   width: 240px;
 }
+
 .THIS .marginRight {
     
     margin-right: 0.23rem;
@@ -90,7 +92,6 @@
     position: absolute; 
     right: 0;
 }
-
 .THIS .export-all-RTL{
     position: absolute; 
     margin-right: 70px;
@@ -312,6 +313,7 @@
 }
 
 .THIS .tableSettings span {
+    font-weight: 600;
     padding: 0 1rem 0 0;
 }
 
@@ -789,4 +791,29 @@
     .THIS.ListViewHead span:first-child {
         width: 40%;
     }
+}
+
+.THIS .slds-select_container:after {
+    content: '';
+    background: url(/resource/1571137334000/SelectMenuTriangleDown);
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background-repeat: no-repeat;
+    background-size: 16px 16px;
+    width: 16px;
+    height: 16px;
+}
+.THIS .slds-select_container .slds-select {
+    padding-right: 25px;
+    margin-top: 3px;
+    position: relative;
+    font-size: 1rem;
+}
+.THIS .slds-select_container::before {
+    border-bottom: none;
+}
+
+.THIS .slds-select_container::after {
+    border-top: none;
 }
