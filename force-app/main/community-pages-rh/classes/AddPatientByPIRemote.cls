@@ -169,7 +169,8 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 participantId,
                 participantJSON,
-                allowDelegateContact
+                allowDelegateContact,
+                TaskService.invitationsVisibleTemp // added this to hold the value of this param in future method
             );
             //Moved history Creation to Trigger
         } catch (Exception e) {
@@ -260,7 +261,8 @@ public without sharing class AddPatientByPIRemote {
         String delegateDuplicateInfo,
         String participantId,
         String participantJSON,
-        Boolean createDelegateuser
+        Boolean createDelegateuser,
+        Map<Id,String> invitationsVisibleTemp 
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -432,6 +434,11 @@ public without sharing class AddPatientByPIRemote {
                 });*/
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                     .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
+                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
+                }
             }
         }
 
@@ -481,7 +488,7 @@ public without sharing class AddPatientByPIRemote {
     public static String getUserLanguage() {
         return UserInfo.getLanguage();
     }
-
+	
     private static void trimParticipantFields(Participant__c participant) {
         participant.Phone__c = !String.isBlank(participant.Phone__c)
             ? participant.Phone__c.trim()
@@ -501,7 +508,7 @@ public without sharing class AddPatientByPIRemote {
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
     }
-
+    
     @AuraEnabled
     public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
         return ReferringRemote.checkDelegateAge(participantJSON, delegateParticipantJSON);
