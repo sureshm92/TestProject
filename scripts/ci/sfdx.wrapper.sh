@@ -418,6 +418,7 @@ function deploy_without_testlevel() {  # Not yet tested
     generate_log_basename
     set -x
     time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -w $TMOUT_DPL_FULL || RC=$?
+    sfdx force:apex:test:run -u TargetOrg -w $TMOUT_TEST_LOCAL --resultformat human --codecoverage --testlevel RunLocalTests
     #time sfdx force:source:deploy -u TargetOrg -p "$TMP_PKG_DIR" -w $TMOUT_DPL_FULL >> $LOG_BASENAME.sfdx.log 2>&1 || RC=$?
     set +x
 }
