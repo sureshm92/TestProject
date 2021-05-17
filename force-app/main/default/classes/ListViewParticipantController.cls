@@ -214,6 +214,29 @@ public without sharing class ListViewParticipantController {
                                )
                            );
                        }
+                    
+                    if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
+                        oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
+                        oParticipantStatus == 'In Wash Out Period') &&
+                       (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING ||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT)){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = Date.today(),
+                                   Status__c = PEStatusState.PE_STATUS_SCREENING_PASSED,
+                                   ParticipantEnrollment__c = pe.Id
+                               )
+                           );
+                       }
                 }
                 if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
                     update PEUpdateList;
@@ -363,7 +386,7 @@ public without sharing class ListViewParticipantController {
                                          }
                    availableStatusLists.addall(availableStatusList);
          StatusList.add(
-                new LabelValueItem(Label.Select_a_status, 'null'));
+                new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
         for (String st :  availableStatusList){
             String t = st.replaceAll('[\\s\\-()]', '_');
             if (t == 'Contacted___Not_Suitable'){

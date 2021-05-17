@@ -953,19 +953,12 @@
         }
     },
     selectAction : function(component, event, helper) {
-        component.set("v.isActionSelected",true);
+        
         var val = event.currentTarget.getAttribute("data-value");
         component.set('v.ActionSelected',val);
-        if(val == 'Change Participant Status')
-        {
-            component.set("v.statusChange",true);  
-            var selectedItem = event.currentTarget;
-            var Status= selectedItem.dataset.variablename;
-            component.set('v.statusSelected',Status);
-            component.set("v.isCheckboxhidden",true); 
-        }
         if(val == 'Invite to Patient Portal')
         {
+            component.set("v.isActionSelected",true);
             component.set("v.isCheckboxhidden",true);  
             component.set("v.turnON",true);  
              helper.handleSearchHelper(component, event, helper);
@@ -973,6 +966,7 @@
        
         if(val == 'Send to Study Hub')
         {
+            component.set("v.isActionSelected",true);
             if(!component.get('v.PromoteToSH')){
                 component.set("v.isCheckboxhidden",true); 
             }

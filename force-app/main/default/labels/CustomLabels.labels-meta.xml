@@ -4136,6 +4136,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Declined Consent</value>
     </labels>
     <labels>
+        <fullName>Declined_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Declined_Final_Consent</shortDescription>
+        <value>Declined Final Consent</value>
+    </labels>
+    <labels>
         <fullName>Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8886,6 +8893,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>ListView_Change_Status</shortDescription>
         <value>Please select a status in the filter criteria</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Select_a_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Select_a_Status</shortDescription>
+        <value>Select a status</value>
     </labels>
     <labels>
         <fullName>ListView_Current_Status</fullName>
