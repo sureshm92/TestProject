@@ -173,6 +173,7 @@
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
         component.set("v.turnON",true);
+        component.set('v.statusSelected',null);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
@@ -258,6 +259,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set('v.statusSelected',null);
         component.set("v.turnON",false);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
@@ -1022,6 +1024,7 @@
     },
     noAction : function(component, event, helper) {
         helper.setDefault(component, event, helper);
+        component.set('v.statusSelected',null);
     },
     
     inviteToPP : function(component,event,helper){
