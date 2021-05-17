@@ -933,10 +933,12 @@ private class Test_BaseCRCPCommunity {
         Test.startTest();
         System.runAs(testData.participantUser) {
             ApplicationHelpRemote.validateAgeOfMajority('1995');
-            ApplicationHelpRemote.validateUsername();
+            ApplicationHelpRemote.validateAgeOfMajority('2021');
+            List<LabelValueItem> lb = ApplicationHelpRemote.validateUsername();
             ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
             ApplicationHelpRemote.createYOBCase('1995',false,'test1992@fmail.com','1994');
             ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
+            System.assert(lb!=null);
         }
         Test.stopTest();
     }
