@@ -3,6 +3,8 @@
  */
 
 public without sharing class TaskService {
+    public static Map<Id, String> invitationsVisibleTemp = new Map<Id, String>(); 
+    public static Boolean createSurveyTaskforDelOnly =false; 
     public class TaskServiceException extends Exception {
     }
 
@@ -120,6 +122,14 @@ public without sharing class TaskService {
                     '\'' +
                     delegatesVisibility +
                     ')';
+            }else if(ParticipantContext.getCurrentContact()!=null){ //Added for Minor Participant's Delegates
+                commonFilter =
+                '(' +
+                'Owner_Contact__c = \'' +
+                ParticipantContext.getCurrentContact().Id +
+                '\'' +
+                delegatesVisibility +
+                ')';
             }
         } else {
             // TODO Depricated (all delegates decoupled now)
@@ -147,7 +157,12 @@ public without sharing class TaskService {
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
-            tasks = new List<Task>();
+            //Added for Minor Participant's Delegates
+             tasks = (List<Task>) DatabaseService.query(
+                DEFAULT_FIELDS,
+                Task.getSObjectType(),
+                commonFilter
+            ); 
         } else {
             tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
@@ -283,7 +298,25 @@ public without sharing class TaskService {
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
     }
-
+    //This method will be called to recall the createSurveyTasks method to create survey task for delegate  
+    //for which survey tasks didn't get created in first attempt due to unavailability of delegate record as
+    //Delegate records gets created after PER record creation and this method gets fired in PER Insert/update
+    //This Scenario will only incounter when we create partcipant with delegate and Trial survey task creation gets fired while insert only.
+    public static void createSurveyTasksforDelegate(Map<Id, String> invitationsVisible, Boolean isCalledFromAsyncMethod) { 
+        taskService.createSurveyTaskforDelOnly = true;
+        if(isCalledFromAsyncMethod){
+            TaskService.getInstance().createSurveyTasks(invitationsVisible);
+        }else{
+            //Calling Async Method to avoid 101 SOQL limit exception
+            TaskService.createSurveyTasksAsync(invitationsVisible);
+        }
+        
+    }
+    
+    @future
+    public static void createSurveyTasksAsync(Map<Id, String> invitationsVisible) { 
+        TaskService.getInstance().createSurveyTasks(invitationsVisible);
+    }
     public Integer createSurveyTasks(Map<Id, String> invitationsVisible) {
         List<SurveyInvitation> surveyInvitation = [
             SELECT
@@ -345,6 +378,11 @@ public without sharing class TaskService {
                     tmpConfigs.add(new TaskConfig(partUserId, partContactId));
                 }
                 when 'Each Delegate' {
+                    //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
+                    if(patientDelContactIds.IsEmpty()){
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));//PEH-3338
+						continue;
+                    }
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null)
                             continue;
@@ -357,7 +395,15 @@ public without sharing class TaskService {
                     }
                 }
                 when 'Patient and each Delegate' {
-                    tmpConfigs.add(new TaskConfig(partUserId, partContactId));
+                    //Skip creating task for Participant if this method is recalled to create task for delegate only.
+                    if(!TaskService.createSurveyTaskforDelOnly){ 
+                        tmpConfigs.add(new TaskConfig(partUserId, partContactId));
+                    }
+                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
+                    if(patientDelContactIds.IsEmpty()){
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
+						continue;
+                    }
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null)
                             continue;
