@@ -381,11 +381,11 @@ public without sharing class TaskService {
                 when 'Each Delegate' {
                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
                     if(patientDelContactIds.IsEmpty()){
-                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));//PEH-3338
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
                     }
                     for (Id pdId : patientDelContactIds) {
                         if (delContactUser.get(pdId) == null){
-                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));//PEH-3338
+                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
                             continue;
                         }   
 
