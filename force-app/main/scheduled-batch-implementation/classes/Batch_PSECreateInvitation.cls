@@ -29,7 +29,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE
                     Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPANT
                     AND Days_After_Enrolled__c IN :daysSet
-                    AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = False) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
+                    AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = FALSE) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
             ]
         );
     }
