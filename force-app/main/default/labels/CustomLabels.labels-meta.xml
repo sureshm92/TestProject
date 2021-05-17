@@ -3340,6 +3340,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>6- Caucasian/White</value>
     </labels>
     <labels>
+        <fullName>Change_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change_Participant_Status</shortDescription>
+        <value>Change Participant Status</value>
+    </labels>
+    <labels>
         <fullName>Closed_Requests</fullName>
         <categories>Media OutReach</categories>
         <language>en_US</language>
@@ -4127,6 +4134,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Declined Consent</shortDescription>
         <value>Declined Consent</value>
+    </labels>
+    <labels>
+        <fullName>Declined_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Declined_Final_Consent</shortDescription>
+        <value>Declined Final Consent</value>
     </labels>
     <labels>
         <fullName>Delegate</fullName>
@@ -8865,6 +8879,48 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Link Interactive Advertising Bureau</shortDescription>
         <value>Interactive Advertising Bureau</value>
+    </labels>
+    <labels>
+        <fullName>ListView_ChangeStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_ChangeStatus</shortDescription>
+        <value>Change Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Change_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Change_Status</shortDescription>
+        <value>Please select a status in the filter criteria</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Select_a_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Select_a_Status</shortDescription>
+        <value>Select a status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Current_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Current_Status</shortDescription>
+        <value>Current Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_New_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_New_Status</shortDescription>
+        <value>New Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Status_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Status_Not_Available</shortDescription>
+        <value>This status cannot be changed.</value>
     </labels>
     <labels>
         <fullName>Login_Form_Show</fullName>
