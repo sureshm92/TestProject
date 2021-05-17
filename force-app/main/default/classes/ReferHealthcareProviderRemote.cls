@@ -365,9 +365,10 @@ global without sharing class ReferHealthcareProviderRemote {
             system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
             Boolean boolisUserCreated;
             Id ContactId;
+            Patient_Delegate__c delContact; 
             if (delegateId != null) {
-                ContactId = [SELECT ID, Contact__c FROM Patient_Delegate__c WHERE ID = :delegateId]
-                .Contact__c;
+                delContact = [SELECT ID, Contact__c,Is_Created_by_Bulk_Import__c FROM Patient_Delegate__c WHERE ID=:delegateId]; // Changed query to fetch Is_Created_by_Bulk_Import__c field
+                ContactId =delContact == null ? null : delContact.Contact__c; 
                 List<User> lstUser = [SELECT ID, Email FROM User WHERE ContactId = :ContactId];
                 boolisUserCreated = lstUser.isEmpty() ? false : true;
             }
@@ -490,6 +491,11 @@ global without sharing class ReferHealthcareProviderRemote {
                     if (ContactId != null && createUser) {
                         ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                             .createParticipantUsers(new Map<Id, Id>{ ContactId => null });
+                        //User of the patient delegate created when we click on connect to Patient for bulk import
+                        //so creating survey task for the delegate when user gets created
+                            if(delContact.Is_Created_by_Bulk_Import__c){
+                                createSurveyTaskforpatientDelegate(participantObj.id);
+                            }
                     }
                 }
                 if (!createUser) {
@@ -933,5 +939,32 @@ global without sharing class ReferHealthcareProviderRemote {
             }
         }
         return Database.query(duplicateDelegatesQuery);
+    }
+    //Create survey task for Patient delegates which got created via bulk import. 
+    public static void createSurveyTaskforpatientDelegate(id participantId){
+        Map<Id, String> invitationsVisibleMap = new Map<Id, String>();
+         List<SurveyInvitation> surveyInvitationList = [
+            SELECT
+                Id,
+                ExpireDateTime__c,
+                Participant_Enrollment__r.Participant_Contact__c,
+                Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                Reminder_Schedule__c,
+                Reminder_Schedule__r.First_Reminder_day__c,
+                Survey.Name,
+             	Trial_Survey__r.Whose_response_needed__c
+            FROM SurveyInvitation
+            WHERE
+                Participant_Enrollment__r.Participant__c =: participantId
+             	AND Participant_Enrollment__r.Is_Created_by_Bulk_Import__c = TRUE
+                AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+        ];
+        for(surveyInvitation sr: surveyInvitationList){
+            invitationsVisibleMap.put(sr.id,sr.Trial_Survey__r.Whose_response_needed__c);
+        }
+        if (invitationsVisibleMap != null && !invitationsVisibleMap.isEmpty()){
+                //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,false);
+            }
     }
 }
