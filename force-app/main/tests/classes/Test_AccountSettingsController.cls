@@ -34,7 +34,9 @@ private class Test_AccountSettingsController {
         String sObjectName = 'Contact';
         Schema.SObjectType t = Schema.getGlobalDescribe().get(sObjectName); // obtain sObject description from the schema
         Sobject so = t.newSObject();
-        CommunityService.getMaxLength(so,fieldNames);
+        Map<String,Integer> m = CommunityService.getMaxLength(so,fieldNames);
+        System.assert(m != null);
+        
     }
 
     @IsTest
