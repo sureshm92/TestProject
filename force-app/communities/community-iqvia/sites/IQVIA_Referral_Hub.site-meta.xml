@@ -14,6 +14,11 @@
     <clickjackProtectionLevel>SameOriginOnly</clickjackProtectionLevel>
     <contentSniffingProtection>true</contentSniffingProtection>
     <cspUpgradeInsecureRequests>true</cspUpgradeInsecureRequests>
+    <customWebAddresses>
+        <certificate>clinicalresearch_com</certificate>
+        <domainName>cp.clinicalresearch.com</domainName>
+        <primary>false</primary>
+    </customWebAddresses>
     <enableAuraRequests>true</enableAuraRequests>
     <favoriteIcon>iqvia_favicon</favoriteIcon>
     <fileNotFoundPage>FileNotFound</fileNotFoundPage>

@@ -378,6 +378,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (!delegateUsersToCreate.isEmpty()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(delegateUsersToCreate);
+                        if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                            //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                            TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,false);
+                        }
                 }
             }
         }
