@@ -29,6 +29,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE
                     Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPANT
                     AND Days_After_Enrolled__c IN :daysSet
+                    AND Participant_Contact__c IN (SELECT ContactId FROM User WHERE IsActive = TRUE)
             ]
         );
     }
@@ -37,26 +38,6 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Database.BatchableContext param1,
         List<Participant_Enrollment__c> enrollments
     ) {
-        /***** Changes for Minor Participant's Delegate Starts *****/
-        //Removed the user filter from the query in QueryLocator in start method as minor participant dont have user
-        //Removing the participant Enrollment record if it came in the enrollments for inActive user.
-        Set<id> contId = new Set<id>();
-        for (Participant_Enrollment__c pe : enrollments) {
-            contId.add(pe.Participant_Contact__c);
-        }
-        Set<id> contIdToBypass = new Set<id>();
-        for(User u: [Select Id, contactId from user where contactId in : contId and IsActive = FALSE]){
-            contIdToBypass.add(u.contactId);
-        }
-
-        Integer ListSize = enrollments.Size();
-        //Remove the inactive users PER from list. 
-        for (Integer i = ListSize-1; i >= 0; i--) {
-            if(contIdToBypass.contains(enrollments[i].Participant_Contact__c)){
-                enrollments.Remove(i);
-            }
-        }
-         /***** Changes for Minor Participant's Delegate ends *****/
         List<Trial_Survey__c> trialSurveys = [
             SELECT
                 Id,
