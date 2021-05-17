@@ -8,7 +8,7 @@
             <field>Participant_Contact__c</field>
             <type>contactLookup</type>
         </recipients>
-        <senderAddress>updates@mail.clinicalresearch.com</senderAddress>
+        <senderAddress>akanksha.gupta@quintiles.com</senderAddress>
         <senderType>OrgWideEmailAddress</senderType>
         <template>Emails_to_Patients/Email_to_VT_ePR_Patient_Clinical_study_referral_NEW</template>
     </alerts>

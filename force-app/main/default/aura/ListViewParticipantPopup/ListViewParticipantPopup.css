@@ -1,0 +1,54 @@
+.THIS .current-status{
+    height: 24px;
+    width: 88px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.THIS .received {
+  height: 24px;
+  width: 220px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .new-status {
+  height: 24px;
+  width: 70px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .referred {
+  height: 24px;
+  width: 220px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .partinfo-footer-buttons {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.THIS .slds-form-element__label {
+    font-size:14px;
+}
+.THIS .notes{
+    width: 464px;
+    padding-left: 6px;
+}
+.THIS .apollo-btn.secondary,
+.THIS .slds-button_neutral {
+    font-size: 1rem;
+    font-weight: 600;
+    margin-right: 10px;
+}
