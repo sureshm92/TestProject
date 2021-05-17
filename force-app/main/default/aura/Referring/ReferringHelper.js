@@ -333,10 +333,12 @@
                     	component.set('v.emailRepeat', '');
                     	component.set('v.participant.Phone__c', '');
                     	component.set('v.participant.Phone_Type__c', '');
+                    	component.set('v.participant.Adult__c', false);
                         helper.setDelegate(component);
                 }else{
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
+                    component.set('v.participant.Adult__c', true);
                 }     
                 helper.checkFields(component, event, helper, true);
             } ,         
