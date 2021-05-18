@@ -244,6 +244,8 @@ public without sharing class ParticipantService {
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
             participantWithDelegate
         );
+
+        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             participant = participantFromDatabase;
