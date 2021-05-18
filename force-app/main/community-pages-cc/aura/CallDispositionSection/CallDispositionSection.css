@@ -5,3 +5,6 @@
 .THIS .slds-accordion__summary .apollo-btn span {
     font-size: 24px;
 }
+.THIS .button-RTL {
+	margin-left: 28rem!important;
+}

@@ -1,7 +1,7 @@
 <!--
  - Created by D.Yasinskyi on 02.03.2018.
  -->
-<aura:component description="ReferringClinicEnrollmentItem" extends="c:CommunityContext">
+ <aura:component description="ReferringClinicEnrollmentItem" extends="c:CommunityContext">
     <!-- attributes: -->    
     <aura:attribute name="enrollmentData" type="Object" required="true" />
     <aura:attribute name="parent" type="Aura.Component" required="true" />
@@ -112,26 +112,26 @@
                     >
                         <div class="slds-col">
                             <lightning:buttonMenu
-                                class="{!'apollo-btn primary button-menu slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass + (v.isLastElement ? ' last-iteration' : '')}"
-                                disabled="{!action.disabled}"
-                                title="{!action.disableReason}"
-                                label="{!$Label.c.BTN_Main_Activate}"
-                                variant="container"
-                                alternativeText="{!$Label.c.BTN_Main_Activate}"
-                                onselect="{! c.doAction }"
-                            >
+                                                  class="{!' apollo-btn primary button-menu slds-size_1-of-2 slds-medium-size_4-of-12 slds-large-size_4-of-12 ' + action.cssClass + (v.isLastElement ? ' last-iteration' : '') + (v.isRTL ? ' xyg' : '')}"
+                                                  disabled="{!action.disabled}"
+                                                  title="{!action.disableReason}"
+                                                  label="{!$Label.c.BTN_Main_Activate}"
+                                                  variant="container"
+                                                  alternativeText="{!$Label.c.BTN_Main_Activate}"
+                                                  onselect="{! c.doAction }"
+                                                  >
                                 <aura:iteration items="{!v.enrollmentData.buttonList}" var="action">
                                     <aura:if
-                                        isTrue="{!action.id == 'hcpActivate' || action.id == 'hcpActivateForAll'}"
-                                    >
+                                             isTrue="{!action.id == 'hcpActivate' || action.id == 'hcpActivateForAll'}"
+                                             >
                                         <div
-                                            data-gtm="{!action.id == 'hcpActivate' ? 'BTN_ActivateOne' : 'BTN_ActivateAll'}"
-                                        >
+                                             data-gtm="{!action.id == 'hcpActivate' ? 'BTN_ActivateOne' : 'BTN_ActivateAll'}"
+                                             >
                                             <lightning:menuItem
-                                                class="button-menu-item"
-                                                value="{!action.id}"
-                                                label="{!action.label}"
-                                            />
+                                                                class="button-menu-item"
+                                                                value="{!action.id}"
+                                                                label="{!action.label}"
+                                                                />
                                         </div>
                                     </aura:if>
                                 </aura:iteration>
