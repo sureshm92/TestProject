@@ -967,7 +967,7 @@ global without sharing class ReferHealthcareProviderRemote {
         }
         if (invitationsVisibleMap != null && !invitationsVisibleMap.isEmpty()){
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
-                TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleMap,false);
+                TaskService.createSurveyTasksforDelegate(invitationsVisibleMap,false);
             }
     }
 }
