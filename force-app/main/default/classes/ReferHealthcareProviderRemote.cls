@@ -960,7 +960,10 @@ global without sharing class ReferHealthcareProviderRemote {
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
         ];
         for(surveyInvitation sr: surveyInvitationList){
-            invitationsVisibleMap.put(sr.id,sr.Trial_Survey__r.Whose_response_needed__c);
+            if(sr.Trial_Survey__r.Whose_response_needed__c=='Each Delegate' || 
+            sr.Trial_Survey__r.Whose_response_needed__c=='Patient and each Delegate'){
+             invitationsVisibleMap.put(sr.id,sr.Trial_Survey__r.Whose_response_needed__c);
+         } 
         }
         if (invitationsVisibleMap != null && !invitationsVisibleMap.isEmpty()){
                 //Recalling createSurveyTasks method to create survey task for Patient Delegates
