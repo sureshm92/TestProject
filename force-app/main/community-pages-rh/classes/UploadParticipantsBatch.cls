@@ -831,7 +831,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact
+                            Permit_IQVIA_to_contact_about_study__c = doContact,
+                            Is_Created_by_Bulk_Import__c = true
                         );
                 mapPER.put(i,participantEnrollment);
             }
@@ -888,7 +889,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact
+                            Permit_IQVIA_to_contact_about_study__c = doContact,
+                            Is_Created_by_Bulk_Import__c = true
                         );
                 mapPER.put(trackIndex.get(i),participantEnrollment);
                     for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
@@ -1015,9 +1017,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
-
-            //for Adult participants which have delegates for one study but not for other REF-3566
-            else if(delegateWithpartList.isEmpty()){
+            
+             //for Adult participants which have delegates for one study but not for other REF-3566
+             else if(delegateWithpartList.isEmpty()){
                 Set<Id> existingParticipantId = new Set<Id>();
                 For(Participant__c p:mapDuplicateParticipant.values()){
                     existingParticipantId.add(p.id);
