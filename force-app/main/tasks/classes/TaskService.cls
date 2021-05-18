@@ -90,7 +90,7 @@ public without sharing class TaskService {
         return getTasksCommon(filter, null);
     }
 
-    public List<Task> getTasksCommon(String filter, String sortOrder) {
+    public List<Task> getTasksCommon(String filter, String sortOrder) { 
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
 
@@ -248,7 +248,7 @@ public without sharing class TaskService {
     }
 
     public List<Task> getOpenTasks() {
-        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));        																			
         String filter = getOpenTasksFilter()+ ' AND (Start_Date__c=null OR Start_Date__c <= TODAY)';
         return getTasksCommon(filter, OPEN_TASKS_ORDER);
     }
@@ -315,6 +315,7 @@ public without sharing class TaskService {
     
     @future
     public static void createSurveyTasksAsync(Map<Id, String> invitationsVisible) { 
+        taskService.createSurveyTaskforDelOnly = true;
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
     public Integer createSurveyTasks(Map<Id, String> invitationsVisible) {
@@ -380,12 +381,13 @@ public without sharing class TaskService {
                 when 'Each Delegate' {
                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
                     if(patientDelContactIds.IsEmpty()){
-                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));//PEH-3338
-						continue;
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
                     }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null)
+                        if (delContactUser.get(pdId) == null){
+                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
                             continue;
+                        }   
 
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
@@ -402,12 +404,13 @@ public without sharing class TaskService {
                      //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
                     if(patientDelContactIds.IsEmpty()){
                         TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
-						continue;
                     }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null)
+                        if (delContactUser.get(pdId) == null){
+                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
                             continue;
-
+                        }
+                            
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
                             : null;
