@@ -2,7 +2,7 @@
     "activeViewId": "3ea16143-cb57-409d-b2e2-4f00a9d25b6b",
     "appPageId": "bba5a031-1171-48c8-a781-59cc257aaa94",
     "id": "2eff5793-a99a-4ad0-bbc1-9699e5f6fe14",
-    "configurationTags": ["allow-in-static-site"],
+    "configurationTags": [],
     "label": "Privacy Policy",
     "pageAccess": "UseParent",
     "routeType": "custom-privacy-policy",
