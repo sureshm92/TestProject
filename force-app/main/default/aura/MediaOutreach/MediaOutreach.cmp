@@ -134,7 +134,7 @@
                                      <div class="slds-truncate wraptext oName">
                                          <span class="outreachTitle"
                                                >{!$Label.c.MO_Media_Type}:</span
-                                             ><span>{!item.fMediaType__c}</span>
+                                             ><span>{!item.Media_Type__c}</span>
                                      </div>
                                  </td>
                                  <td>
@@ -227,7 +227,7 @@
                                      <div class="slds-truncate wraptext oName">
                                          <span class="outreachTitle"
                                                >{!$Label.c.MO_Media_Type}:</span
-                                             ><span>{!item.fMediaType__c}</span>
+                                             ><span>{!item.Media_Type__c}</span>
                                      </div>
                                  </td>
                                  <td>
@@ -325,7 +325,7 @@
                                      <div class="slds-truncate wraptext">
                                          <span class="outreachTitle"
                                                >{!$Label.c.MO_Media_Type}:</span
-                                             >{!item.fMediaType__c}
+                                             >{!item.Media_Type__c}
                                      </div>
                                  </td>
                                  <td>
