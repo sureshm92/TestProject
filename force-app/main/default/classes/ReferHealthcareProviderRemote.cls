@@ -958,6 +958,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 Participant_Enrollment__r.Participant__c =: participantId
              	AND Participant_Enrollment__r.Is_Created_by_Bulk_Import__c = TRUE
                 AND Participant_Enrollment__r.Clinical_Trial_Profile__r.Tasks_Are_Available__c = TRUE
+                AND Trial_Survey__r.Active_On_Status__c !=NULL
         ];
         for(surveyInvitation sr: surveyInvitationList){
             if(sr.Trial_Survey__r.Whose_response_needed__c=='Each Delegate' || 
