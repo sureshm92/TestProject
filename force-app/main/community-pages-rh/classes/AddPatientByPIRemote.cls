@@ -192,16 +192,17 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
+     @Future
     @TestVisible
-    private static void updateParticipant(String participantJSON) {
+    public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         if (
-            participant.Email__c != null &&
+            (participant.Email__c != null 
+            ||participant.Phone__c != Null) &&
             participant.First_Name__c != null &&
             participant.Last_Name__c != null
         ) {
@@ -224,7 +225,8 @@ public without sharing class AddPatientByPIRemote {
                     Mailing_State_Code__c
                 FROM Participant__c
                 WHERE
-                    Email__c = :participant.Email__c
+                    (Email__c = :participant.Email__c 
+                    OR Phone__c =: participant.Phone__c )
                     AND First_Name__c = :participant.First_Name__c
                     AND Last_Name__c = :participant.Last_Name__c
                 LIMIT :limitRows
