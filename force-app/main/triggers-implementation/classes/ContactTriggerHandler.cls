@@ -80,14 +80,17 @@ public without sharing class ContactTriggerHandler {
             } 
             if(c.Language__c != oldMap.get(c.Id).Language__c){
                 isUpdateNeeded = true;
-            }                             
+            } 
+            if(c.Phone != oldMap.get(c.Id).Phone){
+                isUpdateNeeded = true;
+            }                            
             if(isUpdateNeeded){
                 updatedContactsMap.put(c.Id,c);                                  
             }
         }
         if(updatedContactsMap.size()>0){
             List<Participant__c> participantsToUpdate = new List<Participant__c>();
-            for(Participant__c participant: [SELECT Id,Contact__c,Mailing_Country_Code__c,Preferred_Language__c,
+            for(Participant__c participant: [SELECT Id,Contact__c,Mailing_Country_Code__c,Preferred_Language__c,Phone__c,
                                              Mailing_State_Code__c,Mailing_Zip_Postal_Code__c 
                                              FROM Participant__c WHERE Contact__c IN :updatedContactsMap.keySet()]){
                 Boolean isUpdateNeeded= false;
@@ -106,7 +109,11 @@ public without sharing class ContactTriggerHandler {
                 if(participant.Preferred_Language__c != updatedContactsMap.get(participant.Contact__c).Language__c){
                     participant.Preferred_Language__c = updatedContactsMap.get(participant.Contact__c).Language__c;
                     isUpdateNeeded = true;
-                }                             
+                }  
+                if(participant.Phone__c != updatedContactsMap.get(participant.Contact__c).Phone){
+                    participant.Phone__c = updatedContactsMap.get(participant.Contact__c).Phone;
+                    isUpdateNeeded = true;
+                }                            
                 if(isUpdateNeeded){
                     participantsToUpdate.add(participant);                                  
                 }
