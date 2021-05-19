@@ -82,7 +82,7 @@ public without sharing class ListViewParticipantController {
                 Name,
                 Clinical_Trial_Profile__c,
                 Clinical_Trial_Profile__r.Promote_to_SH__c,
-            	Clinical_Trial_Profile__r.Initial_Visit_Required__c,
+                Clinical_Trial_Profile__r.Initial_Visit_Required__c,
                 Principal_Investigator__c,
                 Override_PI_Referral_Status__c
             FROM Study_Site__c
@@ -122,74 +122,199 @@ public without sharing class ListViewParticipantController {
         List<string> yesHighPriorityList,
         List<string> noHighPriorityList
     ) {
-    try{
-        List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c pe : [
-            SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
-            FROM Participant_Enrollment__c
-            WHERE Id IN :peIdList
-        ]) {
-            if (yesHighPriorityList.contains(pe.id)) {
-                pe.High_Priority__c = true;
-            } else if (noHighPriorityList.contains(pe.id)) {
-                pe.High_Priority__c = false;
-            } else {
-                if (pe.Initial_visit_scheduled_date__c != null) {
+        try{
+            List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
+            for (Participant_Enrollment__c pe : [
+                SELECT Id, Participant_Status__c, High_Priority__c, Initial_visit_scheduled_date__c
+                FROM Participant_Enrollment__c
+                WHERE Id IN :peIdList
+            ]) {
+                if (yesHighPriorityList.contains(pe.id)) {
                     pe.High_Priority__c = true;
-                } else {
+                } else if (noHighPriorityList.contains(pe.id)) {
                     pe.High_Priority__c = false;
+                } else {
+                    if (pe.Initial_visit_scheduled_date__c != null) {
+                        pe.High_Priority__c = true;
+                    } else {
+                        pe.High_Priority__c = false;
+                    }
                 }
+                pe.Participant_Status__c = 'Eligibility Passed';
+                pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
+                PEUpdateList.add(pe);
             }
-            pe.Participant_Status__c = 'Eligibility Passed';
-            pe.Participant_Status_Last_Changed_Date__c = DateTime.now();
-            PEUpdateList.add(pe);
+            if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                update PEUpdateList;
+            }
         }
-        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-            update PEUpdateList;
-        }
-       }
-         catch (Exception e) {
+        catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
     
     //Added for Bulk Action- Status Update
     @AuraEnabled
-    public static void updateParticipantStatus(List<string> peIdList, 
-                                               String StatusToUpdate,
-                                              String Notes,
-                                              String reason){
-                                              
-       /** List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
-        for (Participant_Enrollment__c pe : [
-            SELECT Id, Participant_Status__c, Last_Status_Changed_Notes__c, Non_Enrollment_Reason__c
-            FROM Participant_Enrollment__c
-            WHERE Id IN :peIdList
-        ]){
-            pe.Participant_Status__c = StatusToUpdate;
-            pe.Last_Status_Changed_Notes__c = Notes;
-            pe.Non_Enrollment_Reason__c = reason;
-            PEUpdateList.add(pe);
+    public static void updateParticipantStatus(
+        List<string> peIdList, 
+        String StatusToUpdate,
+        String Notes,
+        String reason,
+        String studyId,
+        String oParticipantStatus,
+        Boolean finalconsent){ 
+            Savepoint sp = Database.setSavepoint();
+            try {
+                Set<Id> SSId = new Set<Id>(); 
+                Set<Id> planIds = new Set<Id>(); 
+                Map<ID,ID> MapSitePlan = new Map<ID,ID>(); 
+                Map<ID,Incentive_Plan_Task__c> MapPlanTask = new Map<Id,Incentive_Plan_Task__c>();  
+                List<Incentive_Plan_Task__c> incentiveTasks = new  List<Incentive_Plan_Task__c>();  
+                List<Completed_Incentive_Task__c> lstIncentiveTsk = new List<Completed_Incentive_Task__c>();                    
+                List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
+                
+                List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
+                List<Participant_Enrollment__c> PEIncentiveList = new List<Participant_Enrollment__c>();
+                for (Participant_Enrollment__c pe : [
+                    SELECT Id,
+                    Name,
+                    Participant_Status__c,
+                    Study_Site__c,
+                    Last_Status_Changed_Notes__c,
+                    Non_Enrollment_Reason__c,
+                    Participant_Status_Last_Changed_Date__c,
+                    Final_consent__c,
+                    Non_Referral_Notes__c,
+                    Non_Referral_Reason__c
+                    FROM Participant_Enrollment__c
+                    WHERE Id IN :peIdList
+                ]){
+                    pe.Participant_Status__c = StatusToUpdate;
+                    pe.Non_Referral_Notes__c = Notes;
+                    pe.Non_Enrollment_Reason__c = reason;
+                    pe.Final_consent__c = finalconsent;
+                    PEUpdateList.add(pe);
+                    
+                    if(pe.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1)
+                    {
+                        PEIncentiveList.add(pe);
+                    }
+                    SSId.add(pe.Study_Site__c);
+                    
+                    if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
+                        oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
+                        oParticipantStatus == 'In Wash Out Period') &&
+                       (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING ||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT)){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = PEStatusState.PE_STATUS_SCREENING_PASSED,
+                                   ParticipantEnrollment__c = pe.Id
+                               )
+                           );
+                       }
+                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
+                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = pe.Participant_Status__c,
+                                   Notes__c = pe.Non_Referral_Notes__c,
+                                   ParticipantEnrollment__c = pe.Id,
+                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
+                               )
+                           );
+                       }
+                    
+                    
+                }
+                if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                    TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                );
+                    update PEUpdateList;
+                } 
+                
+                if(histories != null && !histories.isEmpty()){
+                    insert histories;
+                }
+                
+                if (oParticipantStatus == PEStatusState.PE_STATUS_RECEIVED &&
+                    (StatusToUpdate == PEStatusState.PE_STATUS_CONTACT_ATTEMPTED ||
+                     StatusToUpdate == PEStatusState.PE_STATUS_SUCCESSFULLY_CONTACTED ||
+                     StatusToUpdate == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+                     StatusToUpdate == PEStatusState.PE_STATUS_UNABLE_TO_REACH)) 
+                {
+                    if(PEIncentiveList.size() > 0 ||  !PEIncentiveList.isEmpty())
+                    {    ID ContacId = UserContext.getUserContactId();
+                     for (Study_Incentive_Plan__c studyIncentivePlan : [
+                         SELECT Id, Incentive_Plan__c, Clinical_Trial_Profile__c, Study_Site__c
+                         FROM Study_Incentive_Plan__c
+                         WHERE
+                         Study_Site__c IN:SSId
+                         AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != :CommunityTemplateService.TEMPLATE_JANSSEN
+                     ]){
+                         planIds.add(studyIncentivePlan.Incentive_Plan__c);
+                         MapSitePlan.put(studyIncentivePlan.Study_Site__c,studyIncentivePlan.Incentive_Plan__c);
+                     }
+                     if (!planIds.isEmpty()){
+                         incentiveTasks = [
+                             SELECT Id, Points__c, Enabled__c, IQVIA_Supported__c,Incentive_Plan__c
+                             FROM Incentive_Plan_Task__c
+                             WHERE Incentive_Plan__c IN :planIds AND Enabled__c=TRUE AND Incentive_Task_Catalog__c = :IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY
+                         ];
+                         if(!incentiveTasks.isEmpty()){
+                             for(Incentive_Plan_Task__c ipt:incentiveTasks){
+                                 MapPlanTask.put(ipt.Incentive_Plan__c,ipt);
+                             }
+                             for(Participant_Enrollment__c per :PEIncentiveList)
+                             {
+                                 if(MapSitePlan.containsKey(per.Study_Site__c)){
+                                     Incentive_Plan_Task__c pt = MapPlanTask.get(MapSitePlan.get(per.Study_Site__c));
+                                     Completed_Incentive_Task__c completedIncentiveTask = new Completed_Incentive_Task__c();
+                                     completedIncentiveTask.Completed_By__c = ContacId;
+                                     completedIncentiveTask.Completed_Date__c = Datetime.now();
+                                     completedIncentiveTask.Incentive_Task_Catalog__c = IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY;
+                                     completedIncentiveTask.Points__c = pt.Points__c;
+                                     completedIncentiveTask.Completed_For__c = per.Name;
+                                     lstIncentiveTsk.add(completedIncentiveTask);
+                                 }
+                             }
+                             Insert lstIncentiveTsk;
+                         } 
+                         
+                     }
+                    }  
+                } 
+            }catch (Exception e) {
+                Database.rollback(sp);
+                throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+            }
         }
-        if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-            update PEUpdateList;
-        } **/
-        
-    }
 
-    //Added for Bulk Action- Invite to PP
+      //Added for Bulk Action- Invite to PP
     @AuraEnabled
     public static void createUserForPatientProtal(List<string> peId, Boolean sendEmails) {
         system.debug('ListSize'+peId.size());
       try {
-            List<Participant_Enrollment__c> per = [SELECT Id,
-            Participant_Contact__c,
-            PI_Contact__c,
-            HCP_Contact__c,HCP_Contact_HCPEnroll__c,
-            Clinical_Trial_Profile__r.CommunityTemplate__c 
-            FROM Participant_Enrollment__c 
-            WHERE ID IN:peId];
-
+          List<Participant_Enrollment__c> per = [SELECT Id,
+                                                 Participant_Contact__c,
+                                                 PI_Contact__c,
+                                                 HCP_Contact__c,HCP_Contact_HCPEnroll__c,
+                                                 Clinical_Trial_Profile__r.CommunityTemplate__c 
+                                                 FROM Participant_Enrollment__c 
+                                                 WHERE ID IN:peId];
+          
             List<Contact> lstContact = new List<Contact>();
             string communityTemplatename='';
             List<User> returnUsers = new List<User>();
@@ -210,43 +335,142 @@ public without sharing class ListViewParticipantController {
                 createUsersMap.put(pe.Participant_Contact__c,pe.HCP_Contact_HCPEnroll__c);
                 }
             }
-
+    
             if(!lstContact.isEmpty()){
-            update lstContact;
+              update lstContact;
             }
-
+    
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(communityTemplatename).permissionSet; 
-
+    
             if (!createUsersMap.isEmpty()) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsersBulk(createUsersMap);
             }
-
-
+    
+    
             for(Participant_Enrollment__c p: per)
             { 
                 actionAssignContactPermissions.addPermission(
                 p.Participant_Contact__c,
                 permissionSetName
                 );
-
+    
             }
             
             if(!actionAssignContactPermissions.isEmpty()) {
             ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
-            } 
-        
-           
+            }     
+      
+      
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
      
+
+    //list of available statuses
+    @AuraEnabled
+    public static List<LabelValueItem> getAvailableStatuses(String status, Id StudyId){
+        List<String> availableStatusLists = new List<String>();
+         List<String> availableStatusList = new List<String>();
+        List<LabelValueItem> StatusList = new List<LabelValueItem>();
+        String availableStatus;
+        
+        Boolean isPromoteToSH = [SELECT Promote_to_SH__c
+                                 FROM Clinical_Trial_Profile__c 
+                                 WHERE Id =: StudyId].Promote_to_SH__c;
+        For(List_View_Status__mdt lvs : [SELECT Managed_in_SH__c,Available_Statuses__c
+                                         FROM List_View_Status__mdt
+                                         WHERE Managed_in_SH__c =: isPromoteToSH 
+                                         AND Participant_Status__c =: status])
+                                         {
+                                             availableStatusList=lvs.Available_Statuses__c.split(',');  
+                                         }
+                   availableStatusLists.addall(availableStatusList);
+         StatusList.add(
+                new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
+        for (String st :  availableStatusList){
+            String t = st.replaceAll('[\\s\\-()]', '_');
+            if (t == 'Contacted___Not_Suitable'){
+                t = 'Contacted_Not_Suitable';
+            }
+            StatusList.add(
+                new LabelValueItem(TranslateHelper.getLabelValue(t) , st));
+        }
+        return StatusList;
+    }
+    
+   
+    //Getting the Reason and Notes for popup
+    @AuraEnabled
+    public static statusWrapper statusDetail(String newStatus,Id studyId){
+        statusWrapper stWrap = new statusWrapper();
+        stWrap.notesRequiredMap = new Map<String, Boolean>();
+        stWrap.reasonMap = new Map<String, List<LabelValueItem>>();
+        List<LabelValueItem> reasonsList = new List<LabelValueItem>();
+        For(Participant_Workflow_Outcome__mdt outcome : [
+            SELECT 
+            Status_Name__c,
+            Reasons_List__c,
+            Step__c
+            FROM Participant_Workflow_Outcome__mdt
+            WHERE Status_Name__c =: newStatus]){
+                stWrap.Step = outcome.Step__c;
+                stWrap.reason = TranslateHelper.getPickListLabel(
+                    Participant_Enrollment__c.Non_Enrollment_Reason__c,
+                    newStatus
+                );
+                if(outcome.Reasons_List__c == null) {
+                    stWrap.notesRequiredMap.put(outcome.Status_Name__c + ';', false);
+                } else {
+                    for (String reason : outcome.Reasons_List__c.split(';')) {
+                        String reasonNoDecoration = reason.remove('*');
+                        reasonsList.add(
+                            new LabelValueItem(
+                                TranslateHelper.getPickListLabel(
+                                    Participant_Enrollment__c.Non_Enrollment_Reason__c,
+                                    reasonNoDecoration
+                                ),
+                                reasonNoDecoration
+                            )
+                        );
+                        stWrap.notesRequiredMap.put(
+                            outcome.Status_Name__c +
+                            ';' +
+                            reasonNoDecoration,
+                            reason.contains('*')
+                        );
+                    }
+                }
+                stWrap.reasonMap.put(outcome.Status_Name__c, reasonsList);
+            }
+            
+            stWrap.finalConsent = [Select Final_Consent_Required__c 
+                                   From Clinical_Trial_Profile__c 
+                                   WHERE Id = : studyId].Final_Consent_Required__c;
+        return stWrap;
+    }
+    
+    public class statusWrapper{
+        @AuraEnabled
+        public String reason;
+        @AuraEnabled
+        public Map<String, List<LabelValueItem>> reasonMap;
+        @AuraEnabled
+        public Map<String, Boolean> notesRequiredMap;
+        @AuraEnabled
+        public String notes;
+        @AuraEnabled
+        public Boolean finalConsent;
+        @AuraEnabled
+        public String Step;
+    }
+     
     @AuraEnabled
     public static PeDataTableWrapper fetchData(String filterJSON,
                                                String bulkAction,
-                                               String BulkStatus) {
+                                               String statusChangeto) {
         try {
             List<ListWrapper> FilterList = (List<ListWrapper>) JSON.deserialize(
                 filterJSON,
@@ -277,14 +501,14 @@ public without sharing class ListViewParticipantController {
             //OrgSelectedIds=FilterList[0].SelectedIds;
             Integer pSize = (Integer) FilterList[0].pageSize;
             Integer pNumber = (Integer) FilterList[0].pageNumber;
-			String participantStatus;
+            String participantStatus;
 
             Integer offset = (pNumber - 1) * pSize;
             Integer recordEnd = pSize * pNumber;
 
             String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE';
             String queryString =
-                'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
+                'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Participant_ID_randomized_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
                 'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
                 'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Clinical_Trial_Profile__r.Protocol_ID__c,Participant__r.Ethnicity__c,' +
                 'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Participant__r.Alternative_Phone_Number__c, Participant__r.Alternative_Phone_Type__c,' +
@@ -317,7 +541,7 @@ public without sharing class ListViewParticipantController {
                     '\'' +
                     FilterList[0].ParticipantStatus +
                     '\'';
-                if(participantStatus == 'Eligibility Passed'){
+                    if(participantStatus == 'Eligibility Passed'){
                     filter +=
                         'AND Study_Site__r.Clinical_Trial_Profile__r.Initial_Visit_Required__c = false ' +
                         ' AND Study_Site__r.Clinical_Trial_Profile__r.Promote_to_SH__c = false ';
@@ -441,10 +665,10 @@ public without sharing class ListViewParticipantController {
                     '\'';
             }
             
-            
 
-          
-            
+
+
+
             //filters for Bulk Action
             //Invite to PP
             if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
@@ -459,21 +683,15 @@ public without sharing class ListViewParticipantController {
                 filterpp += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c !=' + '\'' + system.Label.Janssen_Community_Template_Name + '\'';
                 filterpp += 'AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE ';
             }
-            
-            //Change Status
-            if(bulkAction != Null && bulkAction == 'Change Participant Status to'){
-                            }
                             
                system.debug('querystringcount-->' + qCountString + filter);
             
-                
+            
             if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                 QueryCountPPchk = qCountString + filter;
-             }else{
+            }else{
                 QueryCountPPchk = qCountString + filterpp;
-             }
-              
-
+            }
             String QueryCount = qCountString + filter;
             Integer totalRecords = Database.countQuery(QueryCount);
             Integer totalRecordCountPP = Database.countQuery(QueryCountPPchk);
@@ -490,6 +708,8 @@ public without sharing class ListViewParticipantController {
             } else {
                 OffsetLimit = ' LIMIT ' + pSize + ' OFFSET ' + offset;
             }
+            
+            
             String Query = queryString + filter + sortBy + OffsetLimit;
             peList = Database.query(Query);
 			if(peList.size() == 0 && totalRecords != 0)
@@ -515,7 +735,6 @@ public without sharing class ListViewParticipantController {
                 Query = queryString + filter + sortBy + OffsetLimit;
                 peList = Database.query(Query);
             }
-			
 
             PeDataTableWrapper objDT = new PeDataTableWrapper();
             objDT.pageSize = pSize;
@@ -550,7 +769,14 @@ public without sharing class ListViewParticipantController {
                             isChekedSelected = false;
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
-                             }else{ isLocked = true;}
+                             }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
+                               if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                                isLocked = true;
+                               }else
+                               {isLocked = false;}
+                             }else{
+                                 isLocked = true;
+                             }
                             if (pe.High_Priority__c) {
                                 priorityReferral = 'Yes';
                             } else {
@@ -559,7 +785,7 @@ public without sharing class ListViewParticipantController {
                         }
                     } else {
                         //PeChecklist.add(false);
-                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);
+                       Boolean allowedForSH = ifAllowedForSH(pe,pshStatus); 
                         if (allowedForSH) {
                             isChekedSelected = false;
                             isLocked = false;
@@ -572,7 +798,14 @@ public without sharing class ListViewParticipantController {
                             isChekedSelected = false;
                            if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
-                             }else{ isLocked = true;}
+                             }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
+                                if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                                isLocked = true;
+                               }else
+                               {isLocked = false;}
+                             }else{
+                                 isLocked = true;
+                             }
                             if (pe.High_Priority__c) {
                                 priorityReferral = 'Yes';
                             } else {
@@ -595,7 +828,14 @@ public without sharing class ListViewParticipantController {
                         isChekedSelected = false;
                        if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
-                             }else{ isLocked = true;}
+                             }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
+                                if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                                isLocked = true;
+                               }else
+                               {isLocked = false;}
+                             }else{
+                                 isLocked = true;
+                             }
                         if (pe.High_Priority__c) {
                             priorityReferral = 'Yes';
                         } else {
@@ -657,38 +897,38 @@ public without sharing class ListViewParticipantController {
             objDT.retainFilter = FilterList[0];
 
             return objDT;
-       } catch (Exception e) {
-           throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-       }
-    }
-
-    @TestVisible
-    private static Boolean ifAllowedForSH(
-        Participant_Enrollment__c pe,
-        List<String> pshStatus
-    ){
-        return ifAllowedForSH(pe, pshStatus, false);
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
     }
     
-    public static Boolean ifAllowedForSH(
-        Participant_Enrollment__c pe,
-        List<String> pshStatus,Boolean eligibilityStatusPresent
-    ){
-        Boolean isAllowedForSH = false;  
+    @TestVisible   
+    private static Boolean ifAllowedForSH(  
+        Participant_Enrollment__c pe,   
+        List<String> pshStatus  
+    ){  
+        return ifAllowedForSH(pe, pshStatus, false);    
+    }   
+        
+    public static Boolean ifAllowedForSH(   
+        Participant_Enrollment__c pe,   
+        List<String> pshStatus,Boolean eligibilityStatusPresent 
+    ){  
+        Boolean isAllowedForSH = false; 
         if(pe!=null){
-            Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null 
-                                             || (pe.Study_Hub_Log__c != null &&
-                                                 pe.Study_Hub_Log__r.Response_Status_Code__c != 201));
-            Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&
-                !pe.Participant_Enrollment_Status_History__r.isEmpty();
+        Boolean logNotPresentOrFailed = (pe.Study_Hub_Log__c == null    
+                                        || (pe.Study_Hub_Log__c != null &&  
+                                        pe.Study_Hub_Log__r.Response_Status_Code__c != 201));   
+        Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&  
+            !pe.Participant_Enrollment_Status_History__r.isEmpty(); 
 
-            if(pshStatus.contains(pe.Participant_Status__c) 
-               && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) ||
-                   (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){
-                       isAllowedForSH = true;
-                   }
+        if(pshStatus.contains(pe.Participant_Status__c)     
+           && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) || 
+               (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){ 
+                   isAllowedForSH = true;   
+               }    
         }
-        return isAllowedForSH;
+        return isAllowedForSH;  
     }
     @TestVisible
     private static String getAdditionalFilter(
@@ -839,7 +1079,7 @@ public without sharing class ListViewParticipantController {
         filterData.ethnicity = pEthnicity;
         return filterData;
     }
-
+    
     @AuraEnabled
     public static List<LabelValueItem> getParticipantStatus(String studyId, String activePE){
         List<Clinical_Trial_Profile__c> ctps = new List<Clinical_Trial_Profile__c>();
@@ -854,7 +1094,7 @@ public without sharing class ListViewParticipantController {
         }
         return getParticipantStatus(activePE, isPromoteToSH, isInitVisitReqd);
     }
-    
+
     @AuraEnabled
     public static List<LabelValueItem> getParticipantStatus(String activePE, Boolean isPromoteToSH, Boolean isInitVisitReqd) {
         // ListViewParticipantService.PEFilterData filterData = new ListViewParticipantService.PEFilterData();
@@ -878,7 +1118,7 @@ public without sharing class ListViewParticipantController {
                 new LabelValueItem(Label.Ready_to_Screen, 'Ready to Screen'),
                 new LabelValueItem(Label.Randomization_Success, 'Randomization Success')
             };
-                if(isPromoteToSH == false){
+            if(isPromoteToSH == false){
                     statusFilterData.add(new LabelValueItem(Label.Eligibility_Passed, 'Eligibility Passed'));
                 }else {
                     statusFilterData.add(new LabelValueItem(label.Sent_to_Study_Hub, 'Sent to Study Hub'));

@@ -73,11 +73,13 @@
     <aura:attribute name="isCheckboxhidden" type="boolean" default="false"/>
     <aura:attribute name="isActionSelected" type="boolean" default="false"/>
     <aura:attribute name="ActionSelected" type="string" default="null"/>
-    <aura:attribute name="statusSelected" type="string" default="null"/>
+    <aura:attribute name="statusSelected" type="string"/>
+    <aura:attribute name="StatusChangeto" type="string" default="null"/>
     <aura:attribute name="statusChange" type="boolean" default="false"/>
     <aura:attribute name="enablePP" type="boolean" default="false"/>
     <aura:attribute name="enableSH" type="boolean" default="false"/>
     <aura:attribute name="turnON" type="boolean" default="false"/>
+    <aura:attribute name="availableStatuses" type="List" default="null"/>
     <aura:handler
                   name="change"
                   value="{!v.filterList[0].Status}"
@@ -110,6 +112,7 @@
     <aura:method name="refreshTable" action="{!c.handleTable}" />
     <aura:method name="handlePromoteSHMethod" action="{!c.handlePromoteSH}"/>
     <aura:method name="handleInviteToPPMethod" action="{!c.inviteToPP}"/>
+    <aura:method name="changeStatusTo" action="{!c.changeStatusTo}"/>
     <div class="slds-m-top_medium"></div>
     <div class="slds-card">
         <div class="filter-card slds-grid slds-wrap">
@@ -376,33 +379,48 @@
                             </li>
                             </aura:if>
                             <aura:if isTrue="{!v.enablePP}">
-                            <li class="slds-dropdown__item ">
-                                <a data-value="Invite to Patient Portal" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-1">
-                                    <span class="slds-truncate listStyle">{!$Label.c.Invite_to_Patient_Portal}</span>
-                                </a>
-                            </li>
+                             <li class="slds-dropdown__item ">
+                                    <a data-value="Invite to Patient Portal" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-1">
+                                        <span class="slds-truncate listStyle">{!$Label.c.Invite_to_Patient_Portal}</span>
+                                    </a>
+                                </li>
+                            </aura:if>
+                            <aura:if isTrue="{!v.TotalRecords > 0}">
+                                <li class="slds-dropdown__item ">
+                                    <a data-value="Change Participant Status" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-2">
+                                        <span class="slds-truncate listStyle">{!$Label.c.Change_Participant_Status}</span>
+                                    </a>
+                                </li>
+
                             </aura:if>
                         </ul>
                     </div>
                 </div>
                 </aura:if>
                 <!-- menu end -->
-                 <aura:if isTrue="{!v.isActionSelected}">
-                <lightning:button disabled="true" onclick="" class="buttonstyle">
-                    {!v.ActionSelected}
-                     </lightning:button>
-                      <!--<aura:if isTrue="{!v.statusChange}">
-                     <lightning:select name="select1" label="Participant Status" value="{!v.statusSelected}">
-                         <option value="Received">Received</option>
-                         <option value="Pre-Review Passed">Pre-Review Passed</option>
-                         <option value="Contact Attempted">Contact Attempted</option>
-                     </lightning:select>
-                     </aura:if>-->
-                     <div class="cancel-btn">
-                  		<lightning:button variant="base" label="{!$Label.c.Cancel}" onclick="{!c.noAction}"/>
-                     </div>
-                  <lightning:button  class="apollo-btn primary" variant="brand" label="{!$Label.c.Submit}" disabled="{!v.turnON}"  onclick="{!c.onSubmit}" />
+                  <aura:if isTrue="{!v.isActionSelected}">
+                    <lightning:button disabled="true" onclick="" class="buttonstyle">
+                        {!v.ActionSelected}
+                    </lightning:button>
+                    <aura:if isTrue="{!v.statusChange}">
+                        <lightning:select name="select1" 
+                                          label="Participant Status" 
+                                          value="{!v.statusSelected}"
+                                          onchange="{!c.doValueChangeStatus}">
+                            <aura:iteration items="{!v.availableStatuses}" var="opt">
+                                <option value="{!opt.value}" >
+                                     <aura:unescapedHtml value="{!opt.label}" />
+                                </option>
+                            </aura:iteration>
+                        </lightning:select>
+                        
+                    </aura:if>
+                    <div class="cancel-btn">
+                        <lightning:button variant="base" label="{!$Label.c.Cancel}" onclick="{!c.noAction}"/>
+                    </div>
+                    <lightning:button  class="apollo-btn primary" variant="brand" label="{!$Label.c.Submit}" disabled="{!v.turnON}"  onclick="{!c.onSubmit}" />
                 </aura:if>
+
             </div>
             
             <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2" style="text-align: end">
@@ -689,66 +707,15 @@
                 </div>
             </div>
         </aura:if>
-        <!--<aura:if isTrue="{!v.isOpen}">
-            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-                <div class="slds-modal__container">
-                    <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                        <div class="slds-grid slds-wrap">
-                            <div class="slds-col slds-size_11-of-12">
-                                <div class="slds-text-heading_medium"><b>Change Status</b></div>
-                        
-                            </div>
-                            <div class="slds-col slds-size_1-of-12" >
-                                <lightning:icon  class="pointer" iconName="utility:close" alternativeText="Utility image" size="x-small" onclick="{! c.closeModel }" title="Image" />
-                            </div>
-                        </div>
-                        <div style="padding:6px;padding-top:20px;">
-                            <div class="slds-grid slds-wrap">
-                                <div class="slds-col slds-size_1-of-2">
-                                    <div class="current-status">
-                                    Current Status
-                                     </div>
-                                  <div class="received">
-                                    Received
-                                    </div>
-                                   
-                                   <div class="new-status">
-                                    New Status
-                                    </div>
-                                      <div class="referred">
-                                    Referred
-                                    </div>
-                                     <div style="padding-top:7px" class="reason">
-                                    <lightning:select name="select1" label="Reason" required="true">
-                                        <option value="">choose one...</option>
-                                        <option value="1">one</option>
-                                        <option value="2">two</option>
-                                        <option value="3">three</option>
-                                    </lightning:select>
-                                         </div>
-                                    <div>
-                                     <lightning:input type="checkbox" label="Final Consent Obtained" name="input2" checked="true" required="true"/>
-                                </div>
-                                    </div>
-                                <div class="slds-col slds-size_1-of-2">
-                                    
-                                </div>
-                                
-                            </div>
-                        </div>
-                        <div style="padding:6px;">
-                            <lightning:textarea name="input6" value="Type here..." label="Notes (optional)" maxlength="60" />
-                        </div>
-                        <br></br>
-                        <br></br>
-                        <div style="float:right;">
-                            <lightning:button class="apollo-btn tertiary" label="Cancel"  onclick="{! c.closeModel }"/>
-                            <lightning:button class="apollo-btn primary" label="Submit" onclick="{! c.onSubmitofStatusUpdate }" />
-                        </div>
-                    </div>
-                </div>
-            </section>
-            <div class="slds-backdrop slds-backdrop_open"></div>
-        </aura:if>-->
+        <aura:if isTrue="{!v.isOpen}">
+            <c:ListViewParticipantPopup 
+                                        aura:id = "openStatusPopup"
+                                        statusSelected = "{!v.statusSelected}"
+                                        oParticipantStatus = "{!v.oParticipantStatus}"
+                                        oStudy = "{!v.oStudy}"
+                                        parentComp="{!this}"
+                                        SelectedIds = "{!v.SelectedIds}"/>
+        </aura:if>
+
     </div>
 </aura:component>

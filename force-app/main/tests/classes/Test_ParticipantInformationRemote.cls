@@ -161,7 +161,8 @@ private class Test_ParticipantInformationRemote {
                     null,
                     participant.Id,
                     JSON.serialize(participant),
-                    true
+                    true,
+                    null
                 );
                 ParticipantInformationRemote.getDelegates(String.valueOf(participant.Id));
             }catch(exception e) {system.debug('teste');}}

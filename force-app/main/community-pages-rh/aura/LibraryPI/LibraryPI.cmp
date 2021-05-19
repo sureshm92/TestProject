@@ -25,7 +25,13 @@
         <div class="slds-coll slds-size--2-of-12">
             <c:uiHeaderMenu aura:id="menuId" class="language-filter">
                 <aura:set attribute="title">
-                    <span class="language-title">{!$Label.c.Library_Language}</span>
+                    <aura:if isTrue="{!v.isRTL}">
+                        <span class="language-title-RTL">{!$Label.c.Library_Language}</span>                        
+                        <aura:set attribute="else">
+                            <span class="language-title">{!$Label.c.Library_Language}</span>
+                        </aura:set>
+                    </aura:if>
+
                     <img
                          class="language-filter-icon"
                          src="{!$Resource.icon_filterBlue}"

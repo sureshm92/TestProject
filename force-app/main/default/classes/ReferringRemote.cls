@@ -565,7 +565,9 @@ public without sharing class ReferringRemote {
 
                 //}
                 if (createDelegateuser) {
-                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },
+                    TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                    );
                 }
             } else if (
                 !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
@@ -648,10 +650,17 @@ public without sharing class ReferringRemote {
     }
 
     @Future
-    public static void createParticipantUsers(Map<Id, Id> usersToCreate) {
+    public static void createParticipantUsers(Map<Id, Id> usersToCreate,
+                                              Map<Id,String> invitationsVisibleTemp
+                                             ) {
         if (usersToCreate != null && !usersToCreate.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsers(usersToCreate);
+                //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
+                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
+                }
     }
 
     @AuraEnabled
