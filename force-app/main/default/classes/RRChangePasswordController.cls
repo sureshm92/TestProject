@@ -783,7 +783,7 @@ public without sharing class RRChangePasswordController {
             isDisabled = true;
             isSaveButtonDisabled = true;
         }
-        if (!String.isBlank(participant.Birth_Year__c)) {
+        else if (!String.isBlank(participant.Birth_Year__c)) {
             isAdult = false;
             birthYear = participant.Birth_Year__c;
             List<Age_of_Majority__mdt> ageOfMajorities = [
