@@ -778,7 +778,11 @@ public without sharing class RRChangePasswordController {
     public void validateAgeOfMajority() {
         participant.Mailing_Country_Code__c = country;
         participant.Mailing_State_Code__c = state;
-        if (!String.isBlank(participant.Birth_Year__c)) {
+        if (String.isBlank(participant.Birth_Year__c)) {
+            isAttested = false;
+            isDisabled = true;
+            isSaveButtonDisabled = true;
+        } else if (!String.isBlank(participant.Birth_Year__c)) {
             isAdult = false;
             birthYear = participant.Birth_Year__c;
             List<Age_of_Majority__mdt> ageOfMajorities = [
