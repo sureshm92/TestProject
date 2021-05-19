@@ -80,6 +80,7 @@
     <aura:attribute name="enableSH" type="boolean" default="false"/>
     <aura:attribute name="turnON" type="boolean" default="false"/>
     <aura:attribute name="availableStatuses" type="List" default="null"/>
+    <aura:attribute name="bulkStatusUpdate" type="Boolean" />
     <aura:handler
                   name="change"
                   value="{!v.filterList[0].Status}"
@@ -385,7 +386,7 @@
                                     </a>
                                 </li>
                             </aura:if>
-                            <aura:if isTrue="{!v.TotalRecords > 0}">
+                            <aura:if isTrue="{!(v.TotalRecords > 0 &amp;&amp; v.bulkStatusUpdate)}">
                                 <li class="slds-dropdown__item ">
                                     <a data-value="Change Participant Status" onmousedown="{!c.itemclick}" onclick="{!c.selectAction}" tabindex="-2">
                                         <span class="slds-truncate listStyle">{!$Label.c.Change_Participant_Status}</span>
