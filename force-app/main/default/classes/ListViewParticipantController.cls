@@ -201,20 +201,6 @@ public without sharing class ListViewParticipantController {
                     }
                     SSId.add(pe.Study_Site__c);
                     
-                    
-                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED ||
-                       pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
-                           histories.add(
-                               new Participant_Enrollment_Status_History__c(
-                                   Date__c = Date.today(),
-                                   Status__c = pe.Participant_Status__c,
-                                   Notes__c = pe.Non_Referral_Notes__c,
-                                   ParticipantEnrollment__c = pe.Id,
-                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
-                               )
-                           );
-                       }
-                    
                     if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
@@ -231,14 +217,31 @@ public without sharing class ListViewParticipantController {
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT)){
                            histories.add(
                                new Participant_Enrollment_Status_History__c(
-                                   Date__c = Date.today(),
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
                                    Status__c = PEStatusState.PE_STATUS_SCREENING_PASSED,
                                    ParticipantEnrollment__c = pe.Id
                                )
                            );
                        }
+                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
+                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = pe.Participant_Status__c,
+                                   Notes__c = pe.Non_Referral_Notes__c,
+                                   ParticipantEnrollment__c = pe.Id,
+                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
+                               )
+                           );
+                       }
+                    
+                    
                 }
                 if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                    TriggerHandlerExecutor.bypassHandler(
+                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                );
                     update PEUpdateList;
                 } 
                 
