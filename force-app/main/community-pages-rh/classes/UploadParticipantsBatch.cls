@@ -202,6 +202,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+            //List created to handle REF-3951
+            List<Participant__c> participantPatient = new List<Participant__c>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -727,6 +729,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                             if(participantDuplicate != null){
                                 participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                //Added for REF-3951
+                                if(participantDuplicate.Email__c != NULL ||
+                                   participantDuplicate.Phone__c != NULL){
+                                       participantDuplicate.Email__c = EmailAddress;
+                                       participantDuplicate.Phone__c = Phone;
+                                       participantPatient.add(participantDuplicate);
+                                   }
+                                //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
                                 trackIndex.put(participantDuplicate.Contact__c,totalRecordCount);
@@ -737,7 +747,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
                         }
                     }
-                    
+
                 } else {
                     errorRecordCount++;
                     listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
@@ -987,13 +997,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             if(!conListtoBeUpdated.isEmpty()){
                 update conListtoBeUpdated;
             }
-
+            
+            //REF-3951
+            if(!participantPatient.isEmpty()){
+                update participantPatient;
+            }
+           
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();
             }
+            
 
             
-                
             //Create user for newly created contacts
             if (createUsers) {
 
@@ -1018,15 +1033,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
             }
             
-             //for Adult participants which have delegates for one study but not for other REF-3566
-             else if(delegateWithpartList.isEmpty()){
+            //for Adult participants which have delegates for one study but not for other REF-3566
+            else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){
                 Set<Id> existingParticipantId = new Set<Id>();
                 For(Participant__c p:mapDuplicateParticipant.values()){
                     existingParticipantId.add(p.id);
                 }
                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
                 if (!existingParticipantId.isEmpty()  && !duplicateContactIds.isEmpty()) {
-                  
                     For(Patient_Delegate__c pd:[SELECT Id,
                                                 Primary_Delegate__c
                                                 FROM Patient_Delegate__c
