@@ -782,6 +782,7 @@ public without sharing class RRChangePasswordController {
             isAttested = false;
             isDisabled = true;
             isSaveButtonDisabled = true;
+            showErrorMessage = false;
         } else if (!String.isBlank(participant.Birth_Year__c)) {
             isAdult = false;
             birthYear = participant.Birth_Year__c;
