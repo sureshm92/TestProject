@@ -356,7 +356,14 @@ public without sharing class ReferringRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-
+            if(delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null){
+                participantDelegate.Id = delegateDuplicateInfo.participantId;
+                try {
+                    upsert participantDelegate;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+            }
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c) JSON.deserialize(
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
