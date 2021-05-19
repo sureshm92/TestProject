@@ -5025,6 +5025,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Informed_Consent_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5976,6 +5981,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant__c.ZIP_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    	<fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Is_Created_by_Bulk_Import__c</field>
         <readable>true</readable>
     </fieldPermissions>
 	<fieldPermissions>
