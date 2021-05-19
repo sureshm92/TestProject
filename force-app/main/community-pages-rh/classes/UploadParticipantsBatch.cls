@@ -199,7 +199,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrapList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
-            
+
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
             Set<String> duplicateRowCheckSet = new Set<String>();
@@ -1034,7 +1034,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
             }
 
-
+               
         } catch (Exception exp) {
             system.debug(
                 'ERROR during CSV parsing: ' +
