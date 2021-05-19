@@ -6,5 +6,5 @@
 	<label>Is Created by Bulk Import</label>
 	<trackHistory>false</trackHistory>
 	<trackTrending>false</trackTrending>
-	<type>Checkbox</type>
+	<type>Checkbox</type> 
 </CustomField>
