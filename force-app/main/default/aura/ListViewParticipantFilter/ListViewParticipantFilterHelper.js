@@ -505,7 +505,7 @@
             csvStringResult += lineDivider;
         }
         var hiddenElement = document.createElement('a');
-        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
+        hiddenElement.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csvStringResult);
         hiddenElement.target = '_self'; //
         hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
         document.body.appendChild(hiddenElement); // Required for FireFox browser
