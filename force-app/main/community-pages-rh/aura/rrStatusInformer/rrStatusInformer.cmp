@@ -1,5 +1,5 @@
 <!--Created by D.Yasinskyi on 16.04.2018-->
-<aura:component description="rrStatusInformer">
+<aura:component description="rrStatusInformer" extends="c:CommunityContext">
     <!--=============================================================================================================-->
     <aura:attribute name="status" type="Boolean" default="false" required="true" />
     <aura:attribute name="title" type="String" required="true" />
@@ -8,14 +8,23 @@
         <div class="si-container">
             <div class="si-icon">
                 <c:RRIcon
-                    class="slds-align_absolute-center"
-                    color="{! if(v.status, '#00c221', '#e20000')}"
-                    iconName="{! if(v.status, 'icon-check-solid', 'icon-close-solid')}"
-                />
+                          class="slds-align_absolute-center"
+                          color="{! if(v.status, '#00c221', '#e20000')}"
+                          iconName="{! if(v.status, 'icon-check-solid', 'icon-close-solid')}"
+                          />
             </div>
-            <div class="{!'rr-sentence-font si-title' + if(v.status, ' success', '')}">
-                {!v.title}
-            </div>
+            <aura:if isTrue="{!v.isRTL}">
+                <div class="{!'rr-sentence-font si-titleRTL' + if(v.status, ' success', '')}">
+                    {!v.title}
+                </div>
+                <aura:set attribute="else">
+                    <div class="{!'rr-sentence-font si-title' + if(v.status, ' success', '')}">
+                        {!v.title}
+                    </div>
+                </aura:set>
+            </aura:if>
+            
+            
         </div>
     </aura:if>
 </aura:component>
