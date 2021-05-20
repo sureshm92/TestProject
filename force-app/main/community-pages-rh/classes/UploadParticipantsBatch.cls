@@ -199,9 +199,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrapList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
-
+            
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+            Set<String> duplicateRowCheckSet = new Set<String>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -344,6 +345,21 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')].trim()
                     : null;
+
+                //Participant row check in same sheet
+                //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
+                String duplicateKey = FirstName+LastName+DateOfBirth+Phone+PostalCode;
+                if(!duplicateRowCheckSet.contains(duplicateKey)){
+                    duplicateRowCheckSet.add(duplicateKey);
+                }else{
+                    hasErrors = true;
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount + ', ' +
+                        'Participant Duplicate row found in the Sheet'
+                    );
+                }
+
                 
                 if (!String.isEmpty(EmailAddress)) {
                     String regexExclude = System.Label.RH_Email_Invalid_Characters;
@@ -1015,7 +1031,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
-            
+
                
         } catch (Exception exp) {
             system.debug(

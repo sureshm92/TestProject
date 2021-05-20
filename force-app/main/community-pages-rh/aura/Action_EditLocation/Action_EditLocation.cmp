@@ -222,7 +222,7 @@
                 </div>
             </aura:if>
             <aura:set attribute="footerButtons">
-                <form class="slds-form slds-form_horizontal">
+                <div class="slds-form slds-form_horizontal">
                     <button class="{! 'apollo-btn secondary ' + if(v.isRTL,'rtlButton','')}" onclick="{!c.doCancel}">
                         {!$Label.c.BTN_Cancel}
                     </button>
@@ -242,7 +242,7 @@
                     >
                         {!$Label.c.SS_Save_New_Account}
                     </button>
-                </form>
+                </div>
             </aura:set>
         </c:Popup>
     </div>
