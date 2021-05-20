@@ -196,12 +196,14 @@ public without sharing class ContactService {
                 contentLangByResId.get(content.LinkedEntityId).add(content.ContentDocument.Title);
             }
         }
-
-        List<Participant_Enrollment_Status_History__c> peshList = [
+        List<Participant_Enrollment_Status_History__c> peshList = new List<Participant_Enrollment_Status_History__c>();
+        if(!peList.isEmpty()){
+          peshList = [
             SELECT ParticipantEnrollment__c, Status__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c IN :peList
         ];
+        }
         Map<Id, Set<String>> historyStatusesByPEIdMap = new Map<Id, Set<String>>();
         for (Participant_Enrollment_Status_History__c pesh : peshList) {
             Set<String> statuses = historyStatusesByPEIdMap.get(pesh.ParticipantEnrollment__c);

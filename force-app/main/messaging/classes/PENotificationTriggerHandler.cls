@@ -274,6 +274,7 @@ public without sharing class PENotificationTriggerHandler {
                 peIds.add(pe.Id);
             }
         }
+        if(!peIds.isEmpty()){
         for (Participant_Enrollment__c pe : [
             SELECT
                 Id,
@@ -316,6 +317,7 @@ public without sharing class PENotificationTriggerHandler {
                     );
                 }
             }
+        }
         }
         if (!notificationList.isEmpty())
             insert notificationList;
