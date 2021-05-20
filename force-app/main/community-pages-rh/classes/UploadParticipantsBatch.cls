@@ -204,6 +204,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
             //List created to handle REF-3951
             List<Participant__c> participantPatient = new List<Participant__c>();
+          
+            Set<String> duplicateRowCheckSet = new Set<String>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -346,6 +348,21 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')].trim()
                     : null;
+
+                //Participant row check in same sheet
+                //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
+                String duplicateKey = FirstName+LastName+DateOfBirth+Phone+PostalCode;
+                if(!duplicateRowCheckSet.contains(duplicateKey)){
+                    duplicateRowCheckSet.add(duplicateKey);
+                }else{
+                    hasErrors = true;
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount + ', ' +
+                        'Participant Duplicate row found in the Sheet'
+                    );
+                }
+
                 
                 if (!String.isEmpty(EmailAddress)) {
                     String regexExclude = System.Label.RH_Email_Invalid_Characters;
@@ -729,7 +746,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                             if(participantDuplicate != null){
                                 participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
-                                //Added for REF-3951
+                                                                //Added for REF-3951
                                 if(participantDuplicate.Email__c != NULL ||
                                    participantDuplicate.Phone__c != NULL){
                                        participantDuplicate.Email__c = EmailAddress;
@@ -747,7 +764,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
                         }
                     }
-
+                    
                 } else {
                     errorRecordCount++;
                     listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
@@ -997,18 +1014,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             if(!conListtoBeUpdated.isEmpty()){
                 update conListtoBeUpdated;
             }
-            
+
             //REF-3951
             if(!participantPatient.isEmpty()){
                 update participantPatient;
             }
-           
+
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();
             }
-            
 
             
+                
             //Create user for newly created contacts
             if (createUsers) {
 
@@ -1032,10 +1049,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
-            
+
             //for Adult participants which have delegates for one study but not for other REF-3566
-            else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){
-                Set<Id> existingParticipantId = new Set<Id>();
+ else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){                
+     Set<Id> existingParticipantId = new Set<Id>();
                 For(Participant__c p:mapDuplicateParticipant.values()){
                     existingParticipantId.add(p.id);
                 }
