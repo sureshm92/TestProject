@@ -1,3 +1,13 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 05-20-2021
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+ * Modifications Log 
+ * Ver   Date         Author                               Modification
+ * 1.0   05-20-2021   ChangeMeIn@UserSettingsUnder.SFDoc   Initial Version
+**/
 public without sharing class UploadParticipantsDelegateHelper {
     public static ErrorPatientDelegateWrapper createDelegateRecords(
         List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList,
@@ -103,6 +113,7 @@ public without sharing class UploadParticipantsDelegateHelper {
                 ptDelegateRef.Participant__c = pWrapper.mainparticipant.Id;
                 ptDelegateRef.Status__c = 'Disconnected';
                 ptDelegateRef.Primary_Delegate__c = true;
+                ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
                 if (
                     ddInfo == null || (String.isBlank(ddInfo.contactId) || ddInfo.participantId == null)
                 ) {
@@ -227,6 +238,7 @@ public without sharing class UploadParticipantsDelegateHelper {
             ptDelegateRef.Participant__c = dupDelMainParticipantMap.get(contactIdKey);
             ptDelegateRef.Status__c = 'Disconnected';
             ptDelegateRef.Primary_Delegate__c = true;
+            ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
             pdList.add(ptDelegateRef);
         }
 
@@ -323,6 +335,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         ptDelegateRef.Participant__c = mainparticipantId;
         ptDelegateRef.Status__c = 'Disconnected';
         ptDelegateRef.Primary_Delegate__c = true;
+        ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
         return ptDelegateRef;
     }
 
