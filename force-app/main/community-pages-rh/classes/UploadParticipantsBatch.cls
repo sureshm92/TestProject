@@ -199,9 +199,10 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrapList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
-
+            
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+            Set<String> duplicateRowCheckSet = new Set<String>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -344,6 +345,21 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')].trim()
                     : null;
+
+                //Participant row check in same sheet
+                //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
+                String duplicateKey = FirstName+LastName+DateOfBirth+Phone+PostalCode;
+                if(!duplicateRowCheckSet.contains(duplicateKey)){
+                    duplicateRowCheckSet.add(duplicateKey);
+                }else{
+                    hasErrors = true;
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount + ', ' +
+                        'Participant Duplicate row found in the Sheet'
+                    );
+                }
+
                 
                 if (!String.isEmpty(EmailAddress)) {
                     String regexExclude = System.Label.RH_Email_Invalid_Characters;
@@ -831,8 +847,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact,
-                            Is_Created_by_Bulk_Import__c = true
+                            Permit_IQVIA_to_contact_about_study__c = doContact
                         );
                 mapPER.put(i,participantEnrollment);
             }
@@ -889,8 +904,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact,
-                            Is_Created_by_Bulk_Import__c = true
+                            Permit_IQVIA_to_contact_about_study__c = doContact
                         );
                 mapPER.put(trackIndex.get(i),participantEnrollment);
                     for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
@@ -1017,7 +1031,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
-            
+
                
         } catch (Exception exp) {
             system.debug(
