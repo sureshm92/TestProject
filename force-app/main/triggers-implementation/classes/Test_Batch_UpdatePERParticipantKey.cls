@@ -189,12 +189,12 @@ public class Test_Batch_UpdatePERParticipantKey  {
         );
 
         peList.add(pe2);
-
-        insert peList;
-      
         Test.startTest();
+        insert peList;
+        Test.stopTest();
+       
         Batch_UpdatePERParticipantKey  b = new Batch_UpdatePERParticipantKey();
         Database.executeBatch(b);
-        Test.stopTest();
+       
     }
 }
