@@ -52,7 +52,6 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
 
     //Logic-------------------------------------------------------------------------------------------------------------
    
-    @Future
     private static void sendToEPR(List<Id> ids) {
        /** List<Participant_Enrollment_Status_History__c> newList=[S]
         List<Id> ids = new List<Id>();
