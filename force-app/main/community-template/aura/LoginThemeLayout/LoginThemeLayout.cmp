@@ -13,6 +13,13 @@
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
+    <lightning:messageChannel
+        type="UsernameMessageChannel__c"
+        onMessage="{!c.handleMessage}"
+        scope="APPLICATION"
+    />
+    <aura:attribute name="showUsrName" type="Boolean" default="false" />
+
     <!-- attributes: -->
     <aura:attribute name="title" type="String" />
     <aura:attribute name="subTitle" type="String" />
@@ -20,14 +27,18 @@
     <aura:attribute name="translatedTitle" type="String" />
     <aura:attribute name="translatedSubTitle" type="String" />
     <aura:attribute name="isRTL" type="Boolean" default="true" />
+    <aura:attribute name="msg" type="String" />
+    <aura:handler
+        name="usrEvt"
+        event="c.userNameEvent"
+        action="{!c.handlerComponentEvent}"
+        phase="bubble"
+    ></aura:handler>
     <!--handlers: -->
     <!--  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/> -->
     <!-- component body: -->
     <aura:if isTrue="{!v.languageChecked}">
-        <div
-            class="all-content"
-            style="{!'background-image: url(' + $Resource.rr_community_icons + '/doctor-bg_small.png), linear-gradient(135deg, #25095b 0%,#176ba4 100%);'}"
-        >
+        <div class="all-content">
             <div class="body-cell">
                 <div class="logo-block">
                     <div class="login-title">{!v.translatedTitle}</div>

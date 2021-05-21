@@ -2,13 +2,17 @@
     handleForgotPassword: function (component, event, helpler) {
         helpler.handleForgotPassword(component, event, helpler);
     },
+    setUserName: function (component, event, helpler) {
+        alert('setUserName' + event.getParam('usr'));
+        component.set('v.usrval', event.getParam('usr'));
+        helpler.publishMC(component, event, helpler);
+    },
     onKeyUp: function (component, event, helpler) {
         //checks for "enter" key
         if (event.getParam('keyCode') === 13) {
             helpler.handleForgotPassword(component, event, helpler);
         }
     },
-
     setExpId: function (component, event, helper) {
         var expId = event.getParam('expid');
         if (expId) {

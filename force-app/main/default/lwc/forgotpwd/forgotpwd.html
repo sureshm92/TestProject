@@ -1,0 +1,39 @@
+<template>
+    <template if:false={showEmailSent}>
+        <div>
+            <div>
+                <div class="">
+                    <label>{labels.usrnameLabel}</label>
+                    <lightning-input
+                        type="text"
+                        value={usrnameval}
+                        class=""
+                        onkeyup={onKeyUp}
+                    ></lightning-input>
+                    <template if:true={showError}>
+                        <div class="email-not-associated" style="color: red">{errorMessage}</div>
+                    </template>
+                </div>
+                <div style="height: 50px; margin-top: 30px">
+                    <button
+                        class="apollo-btn primary"
+                        onclick={handleForgotPassword}
+                        style="width: 100%"
+                    >
+                        {labels.sendLabel}
+                    </button>
+                </div>
+                <!--<div style="display: flex; justify-content: center">
+                    <a class="rr-link" onclick={goBack}>{labels.cancelLabel}</a>
+                </div>-->
+            </div>
+        </div>
+    </template>
+    <template if:true={showEmailSent}>
+        <div class="email-sent">{labels.emailsent}</div>
+        <div class="we-sent-a-message-to">{labels.emailsentsubtitle} {usernameval}</div>
+        <div style="display: flex; justify-content: center">
+            <a href="/.." class="rr-link">{labels.backtologin}</a>
+        </div>
+    </template>
+</template>
