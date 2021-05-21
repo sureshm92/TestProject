@@ -4,7 +4,14 @@
  .THIS.rr-white-panel {
     padding: 16px 0 0;
 }
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
 
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 80%;
+}
 .THIS .p-container.large {
     height: 650px;
 }
