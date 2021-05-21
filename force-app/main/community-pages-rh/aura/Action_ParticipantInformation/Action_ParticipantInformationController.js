@@ -244,7 +244,7 @@
             return;
         }
         var pe = component.get('v.pe');
-        window.open('patient-info-pv?id=' + pe.Id, '_blank');
+        window.open('patient-info-pv?id=' + pe.Id, '_blank', 'noopener');
     },
     doCancel: function (component, event, helper) {
         var comp = component.find('dialog');
