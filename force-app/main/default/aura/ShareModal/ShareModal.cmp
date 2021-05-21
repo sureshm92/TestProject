@@ -24,7 +24,7 @@
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <c:Popup aura:id="shareModal" title="{!v.shareModalTitle}" size="small">
+    <c:PopupRTL aura:id="shareModal" title="{!v.shareModalTitle}" size="small">
         <div class="modal-dialog-body">{!v.modalDialogBody}</div>
         <div class="s-input">
             <div class="{!if(v.isRTL,'rr-form-element rtl-email','rr-form-element')}">
@@ -63,5 +63,5 @@
                 </aura:set>
             </aura:if>
         </aura:set>
-    </c:Popup>
+    </c:PopupRTL>
 </aura:component>

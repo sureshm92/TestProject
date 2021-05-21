@@ -33,7 +33,6 @@
     },
 
     handleSearchHelper: function (component, event, helper) {
-        console.log('insidehelper');
         component.find('Spinnerpopup').show();
         component.set('v.lstPR_no', '');
         component.set('v.lstPR_yes', '');
@@ -113,7 +112,7 @@
                     component.set('v.PaginationList', result.FilterImpacts);
                     component.set('v.PageNumber', result.pageNumber);
                     component.set('v.TotalRecords', result.totalRecords);
-                   
+                    component.set('v.bulkStatusUpdate',result.bulkStatusUpdate);
                     component.set('v.filterList[0].perRecordCount', result.totalRecords);
                     component.set('v.RecordStart', result.recordStart);
                     component.set('v.RecordEnd', result.recordEnd);
@@ -505,7 +504,7 @@
             csvStringResult += lineDivider;
         }
         var hiddenElement = document.createElement('a');
-        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
+        hiddenElement.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csvStringResult);
         hiddenElement.target = '_self'; //
         hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
         document.body.appendChild(hiddenElement); // Required for FireFox browser

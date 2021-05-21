@@ -1,0 +1,156 @@
+<!-- - Created by D.Yasinskyi on 05.03.2018.-->
+<aura:component description="PopupRTL" extends="c:CommunityContext">
+    <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doInit}" />
+    <!-- attributes: -->
+    <aura:attribute name="childpopup" type="boolean" default="false" access="public" />
+    <aura:attribute name="actionpopupcc" type="boolean" default="false" access="public" />
+    <aura:attribute name="title" type="String" required="true" />
+    <aura:attribute
+        name="showModal"
+        type="Boolean"
+        default="false"
+        description="show or hide popup"
+    />
+    <aura:attribute name="headerText" type="String" description="text before popup body" />
+    <aura:attribute name="footerText" type="String" description="text under popup body" />
+    <aura:attribute
+        name="variant"
+        type="String"
+        default="normal"
+        description="normal;success;warning;error"
+    />
+    <aura:attribute name ="parent" type ="Object"  description="list parent from participant modal" />
+    <aura:attribute name ="isListView" type ="Boolean" default="{!true}" description="opened participant modal from list view" />
+    <aura:attribute name="size" type="String" description="small;large;medium" />
+
+    <aura:attribute name="primaryButtonLabel" type="String" default="Ok" />
+    <aura:attribute name="secondaryButtonLabel" type="String" default="Cancel" />
+    <aura:attribute
+        name="footerButtons"
+        type="Aura.Component[]"
+        description="custom buttons array, inset of standard button set"
+    />
+    <aura:attribute
+        name="headerButtons"
+        type="Aura.Component[]"
+        description="custom buttons array if needed left to the close button"
+    />
+
+    <aura:attribute name="showHeader" type="Boolean" default="{!true}" />
+    <aura:attribute name="showFooter" type="Boolean" default="{!true}" />
+    <aura:attribute name="showClose" type="Boolean" default="{!true}" />
+    <aura:attribute name="showScroll" type="Boolean" default="{!false}" />
+
+    <aura:attribute
+        name="primaryButtonClicked"
+        type="Boolean"
+        default="false"
+        description="if primary(Ok) button clicked, this value will change"
+    />
+    <aura:attribute
+        name="secondaryButtonClicked"
+        type="Boolean"
+        default="false"
+        description="if secondary(cancel) button clicked, this value will change"
+    />
+    <aura:attribute
+        name="closeButtonClicked"
+        type="Boolean"
+        default="false"
+        description="if close button or Esc button clicked, this value will change"
+    />
+    <aura:attribute name="closeCallback" type="Object" />
+
+    <!-- handlers: -->
+    <aura:handler name="change" value="{!v.showModal}" action="{!c.showChanged}" />
+
+    <!-- Events:-->
+    <aura:registerEvent name="cmpEvent" type="c:MediaOutreachCancelReqEvt" />
+    <aura:registerEvent name="CloseCCSSInfoEvent" type="c:CloseCCSSInfoEvent" />
+    <!-- methods: -->
+    <aura:method name="show" action="{!c.show}" />
+    <aura:method name="hide" action="{!c.hide}" />
+    <aura:method name="cancel" action="{!c.doCancel}" />
+    <aura:method name="showSpinner" action="{!c.showSpinner}" />
+    <aura:method name="hideSpinner" action="{!c.hideSpinner}" />
+
+    <div class="{!v.isRTL? 'arabic':''}">
+        <div id="p-modal" class="{!if(v.showModal, 'transition-show', '')}">
+            <div class="{! 'p-container ' + v.size}">
+                <aura:if isTrue="{!!empty(v.headerButtons)}"> {!v.headerButtons} </aura:if>
+                <lightning:button
+                    onclick="{!c.doCancel}"
+                    name="Close"
+                    class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close') + if(v.isRTL, ' btnRTL')}"
+                >
+                    <c:RRIcon iconName="icon-close" class="close-icon" />
+                </lightning:button>
+
+                <!-- title: -->
+                <div
+                    class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}"
+                    style="{!if(v.isRTL,'direction:rtl;text-align:right;margin-right:10px;')}"
+                >
+                    <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">
+                        <aura:unescapedHtml value="{!v.title}" />
+                    </h2>
+                </div>
+                <div style="position: relative">
+                    <!-- dialog body: -->
+                    <div class="{!'p-content'+ if(v.showScroll,' with-scroll','')}">
+                        <div
+                            id="label"
+                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                        >
+                            <label>{!v.headerText}</label>
+                        </div>
+                        <div
+                            id="body"
+                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                        >
+                            {!v.body}
+                        </div>
+                        <div
+                            id="footer"
+                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                        >
+                            <label>{!v.footerText}</label>
+                        </div>
+                    </div>
+                    <!-- dialog footer: -->
+                    <aura:if isTrue="{!v.showFooter}">
+                        <div class="{!'p-footer p-variant-' + v.variant}">
+                            <div
+                                class="p-buttons-container"
+                                style="{!if(v.isRTL == true,'float:left;direction:rtl;','')}"
+                            >
+                                <aura:if isTrue="{!empty(v.footerButtons)}">
+                                    <button
+                                        class="apollo-btn secondary"
+                                        onclick="{!c.clickedSecondary}"
+                                        tabindex="0"
+                                    >
+                                        {!v.secondaryButtonLabel}
+                                    </button>
+                                    <button
+                                        class="apollo-btn primary"
+                                        onclick="{!c.clickedPrimary}"
+                                        tabindex="1"
+                                    >
+                                        {!v.primaryButtonLabel}
+                                    </button>
+                                    <aura:set attribute="else"> {!v.footerButtons} </aura:set>
+                                </aura:if>
+                            </div>
+                        </div>
+                    </aura:if>
+                </div>
+            </div>
+        </div>
+        <div
+            id="backdrop"
+            aura:id="backdrop"
+            class="{!'slds-backdrop ' + if(v.showModal, 'slds-backdrop--open', '' )}"
+        ></div>
+    </div>
+</aura:component>

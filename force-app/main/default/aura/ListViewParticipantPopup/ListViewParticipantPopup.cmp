@@ -31,24 +31,27 @@
              actionpopupcc="true"
              >
         <c:RRSpinner aura:id="spinner" size="medium" showSpinner="false" />
-        <div style="padding-left:6px;">
+        <div style="padding-left:16px;">
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-2">
-                    <div class="current-status">
-                        {!$Label.c.ListView_Current_Status}
+                    <div>
+                        <div class="current-status">
+                            {!$Label.c.ListView_Current_Status}
+                        </div>
+                        <div class="received">
+                            {!v.oParticipantStatus}
+                        </div>
                     </div>
-                    <div class="received">
-                        {!v.oParticipantStatus}
-                    </div>
-                    
-                    <div class="new-status">
-                       {!$Label.c.ListView_New_Status}
-                    </div>
-                    <div class="referred">
-                        {!v.statusSelected}
+                    <div style="padding-top:10px;">
+                        <div class="new-status">
+                            {!$Label.c.ListView_New_Status}
+                        </div>
+                        <div class="referred">
+                            {!v.statusSelected}
+                        </div>
                     </div>
                     <div style="padding-top:7px" class="reason">
-                         
+                        
                         <lightning:select
                                           aura:id="reasonList"
                                           name="rrs-select"
@@ -71,7 +74,7 @@
                         </lightning:select>
                     </div>
                     <aura:if isTrue= "{!v.finalConsent}">
-                        <div>
+                        <div class="checkbox_finalConsent">
                             <lightning:input type="checkbox" 
                                              label="{!$Label.c.FD_PE_Field_Final_Consent}" 
                                              name="input2" 
@@ -79,9 +82,6 @@
                                              onchange="{!c.onBooleanValueChange}"/>
                         </div>
                     </aura:if>
-                </div>
-                <div class="slds-col slds-size_1-of-2">
-                    
                 </div>
                 
             </div>
