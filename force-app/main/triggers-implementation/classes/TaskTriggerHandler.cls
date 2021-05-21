@@ -17,11 +17,7 @@ public without sharing class TaskTriggerHandler {
 
     public class SendImmediateEmailsForTaskCodeHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            //processSendImmediateEmails(newList);
-            //
-            List<Id> idsList= new List<Id>();
-            for(SObject obj : newList) idsList.add(obj.Id);
-            processSendImmediateEmails(idsList);
+            processSendImmediateEmails(newList);
         }
     }
 
@@ -101,8 +97,7 @@ public without sharing class TaskTriggerHandler {
     }
 
     @TestVisible
-    private static void processSendImmediateEmails(List<Id> taskIds) {
-         List<Task> tasks=[Select OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId from Task Where Id IN :taskIds ];
+    private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
 
@@ -291,16 +286,10 @@ public without sharing class TaskTriggerHandler {
 
     @TestVisible
     private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks) {
-        Boolean surveyTaskIncluded = false;
         Set<String> catalogCodes = new Set<String>();
-        for (Task task : tasks){
-            if (task.Task_Code__c != null){
+        for (Task task : tasks)
+            if (task.Task_Code__c != null)
                 catalogCodes.add(task.Task_Code__c);
-            }
-            if(task.Task_Code__c == TaskService.TASK_CODE_COMPLETE_SURVEY){
-                surveyTaskIncluded = true;
-            }
-        }
         List<Task_Catalog__mdt> cards = [
             SELECT
                 Id,
