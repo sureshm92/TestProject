@@ -335,14 +335,16 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
+         List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
         for (SurveyInvitation inv : surveyInvitation)
             contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
-
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Id, Contact__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :contactIds
-        ];
+        if(!contactIds.isEmpty()){
+              patientDelegates = [
+                SELECT Id, Contact__c, Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN :contactIds
+            ];
+        }
         Set<Id> delContactIds = new Set<Id>();
         Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
@@ -551,7 +553,10 @@ public without sharing class TaskService {
     }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
+        List<User> users = new List<User> ();
+        if(!contactIds.isEmpty()) {
+          users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
+        }
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
         for (User u : users)
             contactUserMap.put(u.ContactId, u.Id);

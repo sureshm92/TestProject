@@ -61,7 +61,10 @@ public without sharing class PETriggerBuffer {
                 WHERE Id IN :ssIds
             ]
         );
+        if(!hcpeIds.isEmpty()){
         buffer.putAll([SELECT Id, HCP_Contact__c FROM HCP_Enrollment__c WHERE Id IN :hcpeIds]);
+        }
+        if(!participantIds.isEmpty()){
         buffer.putAll(
             [
                 SELECT
@@ -85,6 +88,8 @@ public without sharing class PETriggerBuffer {
                 WHERE Id IN :participantIds
             ]
         );
+        }
+        if(!ctpIds.isEmpty()){
         buffer.putAll(
             [
                 SELECT
@@ -101,5 +106,6 @@ public without sharing class PETriggerBuffer {
                 WHERE Id IN :ctpIds
             ]
         );
+        }
     }
 }

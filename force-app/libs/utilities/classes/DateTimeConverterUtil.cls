@@ -9,11 +9,14 @@ public without sharing class DateTimeConverterUtil {
     }
 
     public static Map<Id, TimeZone> getUsersTimezoneMap(Set<Id> contactIds) {
-        List<User> users = [
-            SELECT Id, TimeZoneSidKey
-            FROM User
-            WHERE ContactId IN :contactIds AND IsActive = TRUE
-        ];
+         List<User> users = new  List<User> ();
+        if(!contactIds.isEmpty()) {
+            users = [
+                SELECT Id, TimeZoneSidKey
+                FROM User
+                WHERE ContactId IN :contactIds AND IsActive = TRUE
+            ];
+        }
         Map<Id, TimeZone> userMap = new Map<Id, TimeZone>();
         for (User u : users)
             userMap.put(u.Id, TimeZone.getTimeZone(u.TimeZoneSidKey));
