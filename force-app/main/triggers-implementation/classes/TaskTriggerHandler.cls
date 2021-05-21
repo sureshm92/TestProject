@@ -101,7 +101,6 @@ public without sharing class TaskTriggerHandler {
     }
 
     @TestVisible
-    @Future
     private static void processSendImmediateEmails(List<Id> taskIds) {
          List<Task> tasks=[Select OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId from Task Where Id IN :taskIds ];
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
