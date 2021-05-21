@@ -4,7 +4,7 @@
 
 <aura:component
     description="Action_ParticipantEmansipationWizard"
-    controller="ParticipantInformationRemote"
+    controller="ParticipantInformationRemote" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -75,7 +75,7 @@
                                 class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
                                 style="position: relative"
                             >
-                                <div class="state-ico-wrapper">
+                             <div class="{! if(v.isRTL, 'state-ico-wrapperRTL' , 'state-ico-wrapper')}"> 
                                     <aura:if isTrue="{! !empty(pathItem.iconName)}">
                                         <c:RRIcon iconName="{!pathItem.iconName}" />
                                     </aura:if>
