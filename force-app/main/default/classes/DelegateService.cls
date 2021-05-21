@@ -33,13 +33,18 @@ public without sharing class DelegateService {
 
     public DelegateService() {
         Set<Id> siteIds = new Set<Id>();
-        for (Site_Staff__c del : [
-            SELECT Id, Study_Site__c
-            FROM Site_Staff__c
-            WHERE Site_Contact__c = :CommunityService.getUserContact().Id
-        ]) {
-            siteIds.add(del.Study_Site__c);
+        System.debug('>>>>iddasdad332>>'+CommunityService.getUserContact().Id);
+        if(String.isNotBlank(CommunityService.getUserContact().Id)) {
+            system.debug('>>comign inside>>');
+            for (Site_Staff__c del : [
+                SELECT Id, Study_Site__c
+                FROM Site_Staff__c
+                WHERE Site_Contact__c = :CommunityService.getUserContact().Id
+            ]) {
+                siteIds.add(del.Study_Site__c);
+            }
         }
+        system.debug('>>siteIds>>'+siteIds);
         piDelegateParents = new Set<Id>();
         List<Site_Staff__c> piStaffs = [
             SELECT
@@ -89,9 +94,9 @@ public without sharing class DelegateService {
                     .put(siteStaff.Study_Site__c, siteStaff);
             }
         }
-
-        hcpDelegatesList = [
-            SELECT
+        if(String.isNotBlank(CommunityService.getUserContact().Id)){
+            hcpDelegatesList = [
+                SELECT
                 Id,
                 Referring_Provider__r.Full_Name__c,
                 Referring_Provider__c,
@@ -100,9 +105,10 @@ public without sharing class DelegateService {
                 Referring_Provider__r.Salutation,
                 Referring_Provider__r.Title,
                 Referring_Provider__r.Suffix
-            FROM RP_Delegate_Relationship__c
-            WHERE Delegate__c = :CommunityService.getUserContact().Id
-        ];
+                FROM RP_Delegate_Relationship__c
+                WHERE Delegate__c = :CommunityService.getUserContact().Id
+            ];
+        }
         hcpDelegateLevelMap = new Map<Id, String>();
         for (RP_Delegate_Relationship__c delegate : hcpDelegatesList) {
             hcpDelegateLevelMap.put(

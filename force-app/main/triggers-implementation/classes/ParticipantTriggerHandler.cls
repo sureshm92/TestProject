@@ -194,11 +194,13 @@ public without sharing class ParticipantTriggerHandler {
         if (!contacts.isEmpty()) {
             update contacts;
         }
-        List<Participant_Enrollment__c> peList = [
-            SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
-            FROM Participant_Enrollment__c
+        List<Participant_Enrollment__c> peList = new  List<Participant_Enrollment__c>();
+        if(!newList.isEmpty()){         
+           peList =[ SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
+            FROM Participant_Enrollment__c 
             WHERE Participant__c IN :newList
         ];
+        }
         if (!peList.isEmpty()) {
             for (Participant_Enrollment__c pe : peList) {
                 pe.Participant_Name__c = participantMap.get(pe.Participant__c).First_Name__c;
