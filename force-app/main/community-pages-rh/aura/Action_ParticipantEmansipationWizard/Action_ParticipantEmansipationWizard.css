@@ -1,7 +1,7 @@
 /**
  * Created by Aleksey Moseev
  */
-.THIS.rr-white-panel {
+ .THIS.rr-white-panel {
     padding: 16px 0 0;
 }
 
@@ -138,6 +138,19 @@
     justify-content: center;
 }
 
+.THIS .state-ico-wrapperRTL {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    position: absolute;
+    top: -10px;
+    left: -9px;
+    line-height: 1;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .THIS .state-ico-wrapper .rr-icon-default {
     width: 14px;
     height: 14px;
@@ -145,14 +158,30 @@
     fill: white;
 }
 
+.THIS .state-ico-wrapperRTL .rr-icon-default {
+    width: 14px;
+    height: 14px;
+    padding: 0;
+    fill: white;
+}
 .THIS .vpi-state.current .state-ico-wrapper {
     width: 28px;
     height: 28px;
     top: -15px;
     left: -14px;
 }
-
+.THIS .vpi-state.current .state-ico-wrapperRTL {
+    width: 28px;
+    height: 28px;
+    top: -15px;
+    left: 65px;
+}
 .THIS .vpi-state.current .state-ico-wrapper .rr-icon-default {
+    width: 24px;
+    height: 24px;
+    padding: 1px;
+}
+.THIS .vpi-state.current .state-ico-wrapperRTL .rr-icon-default {
     width: 24px;
     height: 24px;
     padding: 1px;
@@ -161,15 +190,22 @@
 .THIS .vpi-state.neutral .state-ico-wrapper {
     background-color: #b5b5b5;
 }
-
+.THIS .vpi-state.neutral .state-ico-wrapperRTL {
+    background-color: #b5b5b5;
+}
 .THIS .vpi-state.neutral .state-ico-wrapper .cRRIcon {
+    display: none;
+}
+.THIS .vpi-state.neutral .state-ico-wrapperRTL .cRRIcon {
     display: none;
 }
 
 .THIS .vpi-state.success .state-ico-wrapper {
     background-color: #00c221;
 }
-
+.THIS .vpi-state.success .state-ico-wrapperRTL {
+    background-color: #00c221;
+}
 .THIS .vpi-state.in_progress .state-ico-wrapper {
     background-color: #005ff1;
 }
@@ -177,7 +213,9 @@
 .THIS .vpi-state.failure .state-ico-wrapper {
     background-color: #e20000;
 }
-
+.THIS .vpi-state.failure .state-ico-wrapperRTL {
+    background-color: #e20000;
+}
 /* status names */
 
 .THIS .vpi-state.neutral .vri-state-label {
@@ -326,13 +364,23 @@
         top: -15px;
         left: -14px;
     }
+     .THIS .state-ico-wrapperRTL {
+        width: 28px;
+        height: 28px;
+        top: -15px;
+        left: 65px;
+    }
 
     .THIS .state-ico-wrapper .rr-icon-default {
         width: 24px;
         height: 24px;
         padding: 1px;
     }
-
+    .THIS .state-ico-wrapperRTL .rr-icon-default {
+        width: 24px;
+        height: 24px;
+        padding: 1px;
+    }
     .THIS .vpi-refid-field {
         display: inline-block;
         vertical-align: middle;
