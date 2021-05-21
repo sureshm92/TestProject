@@ -218,12 +218,12 @@
                                         onblur="{!c.doCheckFields}"
                                     />
                                 </div>
-                                <div class="rr-form-element slds-col slds-size--1-of-3'">
-                                    <div class="label">
+                                <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element slds-col slds-size--1-of-3'}">
+                                    <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
                                         {!$Label.c.PG_AS_F_Date_of_Birth}<abbr
-                                            title="required"
-                                            class="slds-required"
-                                            >*</abbr
+                                                                               title="required"
+                                                                               class="slds-required"
+                                                                               >*</abbr
                                         >
                                     </div>
                                     <lightning:input
