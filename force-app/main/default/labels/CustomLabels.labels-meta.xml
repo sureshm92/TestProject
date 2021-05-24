@@ -21148,7 +21148,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Result Date</shortDescription>
-        <value>Results from</value>
+        <value>Results for</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date On</shortDescription>
+        <value>on</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>
