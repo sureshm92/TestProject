@@ -9,6 +9,7 @@
         spinner.show();
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
+        var status = component.get('v.peFilter.participantStatus');
         for (var key in filter) {
             if (key != 'searchText' && filter[key] == '') {
                 filter[key] = null;
@@ -34,12 +35,16 @@
                 var result = JSON.parse(returnValue);
                 component.set('v.skipUpdate', true);
                 component.set('v.pageList', result.peList);
+                if(result.peFilter.participantStatus == 'Eligibility Passed' && status == 'Sent to Study Hub'){
+                    result.peFilter.participantStatus = 'Sent to Study Hub';
+                }
                 component.set('v.peFilter', result.peFilter);
                 component.set('v.peFilterData', result.peFilterData);
                 component.set(
                     'v.paginationData.allRecordsCount',
                     result.paginationData.allRecordsCount
                 );
+                component.set('v.statusChanged',false);
                 component.set('v.paginationData.currentPage', result.paginationData.currentPage);
                 component.set(
                     'v.paginationData.currentPageCount',
