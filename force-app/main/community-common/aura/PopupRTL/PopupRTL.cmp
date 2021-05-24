@@ -1,5 +1,5 @@
 <!-- - Created by D.Yasinskyi on 05.03.2018.-->
-<aura:component description="Popup" extends="c:CommunityContext">
+<aura:component description="PopupRTL" extends="c:CommunityContext">
     <ltng:require scripts="{!$Resource.svg4everybody}" afterScriptsLoaded="{!c.doInit}" />
     <!-- attributes: -->
     <aura:attribute name="childpopup" type="boolean" default="false" access="public" />
@@ -122,7 +122,7 @@
                         <div class="{!'p-footer p-variant-' + v.variant}">
                             <div
                                 class="p-buttons-container"
-                                style="{!if(v.isRTL == true,'float:right;direction:rtl;','')}"
+                                style="{!if(v.isRTL == true,'float:left;direction:rtl;','')}"
                             >
                                 <aura:if isTrue="{!empty(v.footerButtons)}">
                                     <button

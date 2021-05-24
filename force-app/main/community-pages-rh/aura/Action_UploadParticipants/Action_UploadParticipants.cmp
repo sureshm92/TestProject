@@ -37,7 +37,7 @@
     </aura:method>
 
     <div class="mrc-invite-popup uploadParticipants">
-        <c:Popup
+        <c:PopupRTL
             aura:id="uploadParticipantsDialog"
             title="{!$Label.c.SS_Upload_Participants}"
             size="medium"
@@ -291,6 +291,6 @@
                     </div>
                 </div>
             </aura:set>
-        </c:Popup>
+        </c:PopupRTL>
     </div>
 </aura:component>

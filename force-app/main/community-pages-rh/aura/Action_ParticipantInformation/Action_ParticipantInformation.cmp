@@ -105,7 +105,7 @@
 </aura:method>
 
 <!-- component body: -->
-<c:Popup
+<c:PopupRTL
 aura:id="dialog"
 title="{!v.popUpTitle}"
 size="large"
@@ -467,5 +467,5 @@ isListView = "{!v.isListView}"
     </span>
 </div>
 </aura:set>
-</c:Popup>
+</c:PopupRTL>
 </aura:component>

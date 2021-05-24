@@ -4,7 +4,7 @@
 
 <aura:component
     description="Action_ParticipantEmansipationWizard"
-    controller="ParticipantInformationRemote"
+    controller="ParticipantInformationRemote" extends="c:CommunityContext"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
@@ -75,7 +75,7 @@
                                 class="{!'slds-col width-basis vpi-line-div ' + pathItem.right}"
                                 style="position: relative"
                             >
-                                <div class="state-ico-wrapper">
+                             <div class="{! if(v.isRTL, 'state-ico-wrapperRTL' , 'state-ico-wrapper')}"> 
                                     <aura:if isTrue="{! !empty(pathItem.iconName)}">
                                         <c:RRIcon iconName="{!pathItem.iconName}" />
                                     </aura:if>
@@ -218,12 +218,12 @@
                                         onblur="{!c.doCheckFields}"
                                     />
                                 </div>
-                                <div class="rr-form-element slds-col slds-size--1-of-3'">
-                                    <div class="label">
+                                <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element slds-col slds-size--1-of-3'}">
+                                    <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
                                         {!$Label.c.PG_AS_F_Date_of_Birth}<abbr
-                                            title="required"
-                                            class="slds-required"
-                                            >*</abbr
+                                                                               title="required"
+                                                                               class="slds-required"
+                                                                               >*</abbr
                                         >
                                     </div>
                                     <lightning:input
