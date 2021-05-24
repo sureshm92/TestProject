@@ -136,6 +136,10 @@ public without sharing class PatientDelegateService {
     }
 
     public static List<Patient_Delegate__c> getPDelegates(List<Id> participantContactIds) {
+        if(participantContactIds.size()==0)
+        {
+            return new List<Patient_Delegate__c>();
+        }
         return DatabaseService.query(
             new List<String>{
                 'Id',
@@ -201,11 +205,14 @@ public without sharing class PatientDelegateService {
     }*/
 
     public static Map<Id, List<Id>> getDelegatedParticipantIdsMap(List<Id> contactIds) {
-        List<Patient_Delegate__c> pdList = [
-            SELECT Id, Participant__c, Contact__c
-            FROM Patient_Delegate__c
-            WHERE Contact__c IN :contactIds AND Status__c = 'Active'
-        ];
+        List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c> ();
+        if(!contactIds.isEmpty()){
+              pdList = [
+                SELECT Id, Participant__c, Contact__c
+                FROM Patient_Delegate__c
+                WHERE Contact__c IN :contactIds AND Status__c = 'Active'
+            ];
+        }
         Map<Id, List<Id>> resMap = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : pdList) {
             List<Id> participantIds = resMap.get(pd.Contact__c);
@@ -486,12 +493,18 @@ public without sharing class PatientDelegateService {
     public static Map<Id, List<Id>> getDelegateContactIdsByPAContactIs(
         List<Id> participantContIds
     ) {
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Id, Contact__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :participantContIds AND Status__c = 'Active'
-        ];
-
+        if(participantContIds.size()==0)
+        {
+            return new Map<Id, List<Id>>();
+        }
+         List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
+        if(!participantContIds.isEmpty()){
+              patientDelegates = [
+                SELECT Id, Contact__c, Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN :participantContIds AND Status__c = 'Active'
+            ];
+        }
         Map<Id, List<Id>> delContIdsByPAContId = new Map<Id, List<Id>>();
         if (patientDelegates.isEmpty())
             return delContIdsByPAContId;
@@ -704,6 +717,8 @@ public without sharing class PatientDelegateService {
         return getPastPEIdsListByContactIdMap(new List<Id>{ contactId }).get(contactId);
     }
 
+    
+    
     public static void updatePermissionSets(Set<Id> contactIds) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Patient_Delegate__c[] pdList = [
@@ -763,21 +778,24 @@ public without sharing class PatientDelegateService {
 
         //get permission sets for delegated contacts
         Map<Id, Set<String>> delegatedContactPermissionsMap = new Map<Id, Set<String>>();
-        List<User> delegatedUsers = [
-            SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
-            FROM User
-            WHERE ContactId IN :delegatedContacts
-        ];
-        for (User usr : delegatedUsers) {
-            Set<String> permSets = new Set<String>();
-            for (PermissionSetAssignment psa : usr.PermissionSetAssignments) {
-                if (communityPermissionSets.contains(psa.PermissionSet.Name)) {
-                    permSets.add(psa.PermissionSet.Name);
+         List<User> delegatedUsers = new List<User> ();
+        if(!delegatedContacts.isEmpty()){
+              delegatedUsers = [
+                SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User
+                WHERE ContactId IN :delegatedContacts
+            ];
+        
+            for (User usr : delegatedUsers) {
+                Set<String> permSets = new Set<String>();
+                for (PermissionSetAssignment psa : usr.PermissionSetAssignments) {
+                    if (communityPermissionSets.contains(psa.PermissionSet.Name)) {
+                        permSets.add(psa.PermissionSet.Name);
+                    }
                 }
+                delegatedContactPermissionsMap.put(usr.ContactId, permSets);
             }
-            delegatedContactPermissionsMap.put(usr.ContactId, permSets);
         }
-
         for (Id contactId : contactIds) {
             //assign own permission sets:
             Id ownParticipantId = participantIdByContactIdMap.get(contactId);
