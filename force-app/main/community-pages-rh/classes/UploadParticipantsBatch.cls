@@ -193,6 +193,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Integer,Contact> mapContact = new Map<Integer,Contact>();
             Map<Integer,Integer> mapContactTrack = new Map<Integer,Integer>();
             Map<Integer,Participant__c> mapParticipant = new Map<Integer,Participant__c>();
+            Map<Integer,String> mapParticipantFov = new Map<Integer,String>();
+            Map<Integer,String> mapParticipantFovTime = new Map<Integer,String>();
+            Map<Integer,String> mapParticipantFovampm = new Map<Integer,String>();
             Map<Integer,Contact> mapDuplicateContact = new Map<Integer,Contact>();
             Map<Integer,Participant__c> mapDuplicateParticipant = new Map<Integer,Participant__c>();
 
@@ -244,6 +247,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String PhoneType2 = '';
                 String State = '';
                 String PostalCode = '';
+                String FOV = '';
+                String FOVTime = '';
+                String FOVampm = '';
                 String Language = '';
                 //Delegate Information
                 String DelegateFirstName = '';
@@ -311,6 +317,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('POSTAL CODE')] != null
                     ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim()
                     : null;
+                FOV =  headerIndexes.get('INITIAL VISIT DATE') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT DATE')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT DATE')].trim()
+                    : null;
+               FOVTime =  headerIndexes.get('INITIAL VISIT TIME') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT TIME')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT TIME')].trim()
+                    : null;  
+               FOVampm  =  headerIndexes.get('INITIAL VISIT TIME AM/PM') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT TIME AM/PM')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT TIME AM/PM')].trim()
+                    : null;  
                 Language = headerIndexes.get('LANGUAGE') != null &&
                     csvRecordData[headerIndexes.get('LANGUAGE')] != null
                     ? csvRecordData[headerIndexes.get('LANGUAGE')].trim()
@@ -533,6 +551,127 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         'Language, Incorrect value'
                     );
                 }
+                   /** FOV update code changes -velu REF-3302**/
+                   if (!String.isEmpty(FOV) || !String.isEmpty(FOVTime) || !String.isEmpty(FOVampm)) {
+                    
+                    String resultFovDate = null;
+                    String resultFovtime = null;
+                    String resultFOVampm = null;
+                       try {
+                           Integer year;
+                           Integer month;
+                           Integer day;
+                           Date daysInMonth;
+                          if (FOV.contains('/')) {
+                               List<String> vals = FOV.split('/');
+                               if(vals.size() == 3)
+                               {
+                                   year = Integer.valueOf(vals[2]);
+                                   month = Integer.valueOf(vals[0]);
+                                   day = Integer.valueOf(vals[1]);
+                                   String yr = String.ValueOf(year);
+                                   
+                                   if(day >= 1 && day <= 31 && month >= 1 && month <= 12 && yr.length() == 4){
+                                       daysInMonth = Date.newInstance(year, month + 1, 1);
+                                       daysInMonth = daysInMonth.addDays(-1);
+                                       if (daysInMonth.day() < day) {
+                                       resultFovDate = null;
+                                       } else {
+                                       resultFovDate = FOV;
+                                       }
+                                     }else{ resultFovDate = null;}  
+                               }else{
+                                  resultFovDate = null;
+                               }
+                               
+                           } else if (FOV.contains('-')) {
+                               List<String> vals = FOV.split('-');
+                                if(vals.size() == 3)
+                               {
+                                   year = Integer.valueOf(vals[2]);
+                                   month = Integer.valueOf(vals[0]);
+                                   day = Integer.valueOf(vals[1]);
+                                   String yr = String.ValueOf(year);
+                                   
+                                   if(day >= 1 && day <= 31 && month >= 1 && month <= 12 && yr.length() == 4){
+                                       daysInMonth = Date.newInstance(year, month + 1, 1);
+                                       daysInMonth = daysInMonth.addDays(-1);
+                                       if (daysInMonth.day() < day) {
+                                       resultFovDate = null;
+                                       } else { 
+                                       resultFovDate = FOV;
+                                       }
+                                     }else{ resultFovDate = null;}
+                               }else{
+                                   resultFovDate = null;
+                               }
+                           
+                         }else{
+                              resultFovDate = null;
+                           }
+                           
+                       } catch (Exception exp) {
+                           resultFovDate = null;
+                       }
+                   
+                       
+                       if (FOVTime.contains(':')) {
+                             List<String> valstime = new List<String>();
+                             valstime = FOVTime.split(':');
+                              if(valstime.size() == 2)
+                               {
+                                  if(Integer.ValueOf(valstime[0]) >= 1 && Integer.ValueOf(valstime[0]) <= 12 && Integer.ValueOf(valstime[1]) >= 0 && Integer.ValueOf(valstime[1]) <= 59)
+                                     {
+                                        resultFovtime=FOVTime;
+                                     }else{
+                                     resultFovtime = null;
+                                     }                                
+                               }else{
+                                resultFovtime = null;
+                               }
+                        } else if (FOVTime.contains(';')) {
+                              List<String> valstime = new List<String>();
+                              valstime = FOVTime.split(';');
+                              if(valstime.size() == 2)
+                               {
+                                  if(Integer.ValueOf(valstime[0]) >= 1 && Integer.ValueOf(valstime[0]) <= 12 && Integer.ValueOf(valstime[1]) >= 0 && Integer.ValueOf(valstime[1]) <= 59)
+                                     {
+                                         resultFovtime=FOVTime;
+                                     }else{
+                                     resultFovtime = null;
+                                     }     
+                               }else{
+                                resultFovtime = null;
+                               }
+                        
+                        }else{
+                           resultFovtime = null;
+                        }
+                        
+                        if(FOVampm == 'AM' || FOVampm == 'am' || FOVampm == 'PM' || FOVampm == 'pm' || FOVampm == 'Am' || FOVampm == 'Pm' ||
+                            FOVampm == 'aM' || FOVampm == 'pM')
+                        {
+                           resultFOVampm = FOVampm;
+                        }else{
+                           resultFOVampm = null;
+                        }
+                        
+                       if(resultFovDate == null || resultFovtime == null || resultFOVampm == null)
+                       {
+                           
+                           hasErrors = true;
+
+                           listOfFailedRecordsWithMsg.add(
+                           '' +
+                           totalRecordCount +
+                           ', ' +
+                           'FOV, Date/Time Incorrect value'
+                           );
+                       }
+                   
+                   
+               } 
+
 
                 if (!hasErrors) {
 
@@ -738,6 +877,27 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             mapContact.put(totalRecordCount,participantContact);
                             mapContactTrack.put(trackingNumberSuccess,totalRecordCount);
                             mapParticipant.put(totalRecordCount,participant);
+                            if(FOV !=null && FOV !='' && FOV !='null'){
+                                         
+                                if (FOV.contains('/')) {
+                                   List<String> valdate = FOV.split('/');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }else {
+                                   List<String> valdate = FOV.split('-');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }
+                               mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                               mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                         }else{
+                              
+                           mapParticipantFov.put(totalRecordCount,null);
+                           mapParticipantFovTime.put(totalRecordCount,null);
+                           mapParticipantFovampm.put(totalRecordCount,null);
+                         }
                         }else{
                             if(contactDuplicate != null){
                                 mapDuplicateContact.put(totalRecordCount,contactDuplicate);
@@ -761,6 +921,25 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 //This block is for the records whose contact exists but there is no Participant and PER record.
                                 participant.Contact__c = contactDuplicate.Id;
                                 mapParticipant.put(totalRecordCount,participant);
+                                if(FOV !=null && FOV !='' && FOV !='null'){
+                                    if (FOV.contains('/')) {
+                                       List<String> valdate = FOV.split('/');
+                                       string FOVDate='';
+                                       FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                       mapParticipantFov.put(totalRecordCount,FOVDate);
+                                  }else {
+                                       List<String> valdate = FOV.split('-');
+                                       string FOVDate='';
+                                       FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                       mapParticipantFov.put(totalRecordCount,FOVDate);
+                                  }
+                                   mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                                   mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                             }else{
+                               mapParticipantFov.put(totalRecordCount,null);
+                               mapParticipantFovTime.put(totalRecordCount,null);
+                               mapParticipantFovampm.put(totalRecordCount,null);
+                             }
                             }
                         }
                     }
@@ -846,6 +1025,43 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             //Create Participant Enrollment record map
             Map<Integer, Participant_Enrollment__c> mapPER = new Map<Integer, Participant_Enrollment__c>();
             for(Integer i:mapParticipant.keySet()){
+                     /** FOV update code changes -velu **/
+                     String fovTime = mapParticipantFovTime.get(i);
+                     string fovAMPM = mapParticipantFovampm.get(i);
+                     string fovhr='';
+                     string fovmin='';
+                     
+                     List<String> valstime = new List<String>();
+                     if(fovTime !=null && fovAMPM !=null){
+                     
+                          if (fovTime.contains(':')){
+                              valstime = fovTime.split(':');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }else if(fovTime.contains(';')) {
+                               valstime = fovTime.split(';');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }
+                          
+                          if(fovAMPM == 'am' || fovAMPM == 'AM' || fovAMPM == 'Am' || fovAMPM == 'aM'){
+                                 if(fovhr == '12')
+                                     fovhr ='0';
+                          }else{
+                                     if(fovhr == '1' || fovhr == '01'){
+                                     fovhr ='13';}else if(fovhr == '2' || fovhr == '02'){
+                                     fovhr ='14';}else if(fovhr == '3' || fovhr == '03'){
+                                     fovhr ='15';}else if(fovhr == '4' || fovhr == '04'){
+                                     fovhr ='16';}else if(fovhr == '5' || fovhr == '05'){
+                                     fovhr ='17';}else if(fovhr == '6' || fovhr == '06'){
+                                     fovhr ='18';}else if(fovhr == '7' || fovhr == '07'){
+                                     fovhr ='19';}else if(fovhr == '8' || fovhr == '08'){
+                                     fovhr ='20';}else if(fovhr == '9' || fovhr == '09'){
+                                     fovhr ='21';}else if(fovhr == '10' || fovhr == '010'){
+                                     fovhr ='22';}else if(fovhr == '11' || fovhr == '011'){
+                                     fovhr ='23';}
+                          }
+                     }
                 Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
                             Participant_Status__c = selectedStatus,
                             Study_Site__c = studySiteDetails.Id,
@@ -859,7 +1075,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
-                            Is_Created_by_Bulk_Import__c = true
+                            Is_Created_by_Bulk_Import__c = true,
+                            Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(i)) !=null ? Date.ValueOf(mapParticipantFov.get(i)):null,
+                            Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(i)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
                 mapPER.put(i,participantEnrollment);
             }
