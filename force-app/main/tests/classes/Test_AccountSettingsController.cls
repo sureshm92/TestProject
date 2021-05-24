@@ -26,6 +26,18 @@ private class Test_AccountSettingsController {
         TestData.loadTestData();
         Test.stopTest();
     }
+    
+    @IsTest
+    static void getMaxLength(){
+        List<String> fieldNames = new List<String>();
+        fieldNames.add('FirstName');
+        String sObjectName = 'Contact';
+        Schema.SObjectType t = Schema.getGlobalDescribe().get(sObjectName); // obtain sObject description from the schema
+        Sobject so = t.newSObject();
+        Map<String,Integer> m = CommunityService.getMaxLength(so,fieldNames);
+        System.assert(m != null);
+        
+    }
 
     @IsTest
     static void getInitData() {

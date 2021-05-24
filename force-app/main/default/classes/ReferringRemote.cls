@@ -603,6 +603,23 @@ public without sharing class ReferringRemote {
                 }
             }
 
+            //REF-3566
+            else if(participantDelegate == null){
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                For(Patient_Delegate__c pd:[SELECT Id,
+                                            Primary_Delegate__c
+                                            FROM Patient_Delegate__c
+                                            WHERE Participant__c =: participantId 
+                                           ]) {
+                                               if(pd.Primary_Delegate__c == True){
+                                                   pd.Primary_Delegate__c = False;
+                                                   pdList.add(pd);
+                                               }
+                                           }
+                update pdList;
+                
+            }
+
             System.debug('contentDocId--' + contentDocId);
             if (!String.isBlank(contentDocId)) {
                 List<Participant_Enrollment__c> particpantEnrollList = [

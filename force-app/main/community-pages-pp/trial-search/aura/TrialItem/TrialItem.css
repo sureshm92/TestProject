@@ -93,6 +93,10 @@
     padding: 5px 20px 5px 15px;
 }
 
+.THIS .cPopup .p-container .p-header {
+    max-height: 60vh;
+}
+
 .THIS .modal-pop {
     min-width: 800px;
 }

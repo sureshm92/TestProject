@@ -15,6 +15,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         //Used for update the contact and participant records which were identified as duplicates.
         List<Contact> contactUpdateList = new List<Contact>();
         List<Participant__c> participantUpdateList = new List<Participant__c>();
+        
         //For Duplicate Row check in same sheet
         Set<String> duplicateRowCheckSet = new Set<String>();
         Map<String,String> duplicateRowMap = new Map<String,String>();

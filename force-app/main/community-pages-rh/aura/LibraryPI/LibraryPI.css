@@ -116,6 +116,12 @@
     padding-right: 5px;
 }
 
+.THIS .language-title-RTL {
+    color: black;
+    font-size: 16px;
+    padding-right: -7%;
+}
+
 .THIS .language-filter .header-menu-link {
     justify-content: unset;
     padding: 0px;
