@@ -199,9 +199,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWrapList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
-
+            
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+            //List created to handle REF-3951
+            List<Participant__c> participantPatient = new List<Participant__c>();
+          
+            Set<String> duplicateRowCheckSet = new Set<String>();
 
             for (List<String> csvRecordData : csvChunkLines) {
                 if (csvRecordData == null || csvRecordData.isEmpty()) {
@@ -344,6 +348,21 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')] != null
                     ? csvRecordData[headerIndexes.get('PRIMARY DELEGATE YOB')].trim()
                     : null;
+
+                //Participant row check in same sheet
+                //String duplicateKey = FirstName+LastName+DateOfBirth+EmailAddress+Phone+PostalCode;
+                String duplicateKey = FirstName+LastName+DateOfBirth+Phone+PostalCode;
+                if(!duplicateRowCheckSet.contains(duplicateKey)){
+                    duplicateRowCheckSet.add(duplicateKey);
+                }else{
+                    hasErrors = true;
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount + ', ' +
+                        'Participant Duplicate row found in the Sheet'
+                    );
+                }
+
                 
                 if (!String.isEmpty(EmailAddress)) {
                     String regexExclude = System.Label.RH_Email_Invalid_Characters;
@@ -589,7 +608,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     Birth_Year__c = DelegateYOB
                     );
                     String isAdultDelegate = 'false';
-                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() || DelegateYOB.length() == 4)){
+                    if(!String.isEmpty(DelegateYOB) && (DelegateYOB.isNumeric() && DelegateYOB.length() == 4)){
                         isAdultDelegate = ReferringRemote.checkDelegateAge(JSON.serialize(participant), JSON.serialize(participantDelegate));
                     }
                     //START : Delegate wrapper creation
@@ -601,17 +620,28 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }else if((!String.isEmpty(DelegateEmail) || !String.isEmpty(DelegateFirstName) || !String.isEmpty(DelegateLastName)) && (String.isEmpty(DelegateEmail) || String.isEmpty(DelegateFirstName) || String.isEmpty(DelegateLastName))){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate information is missing');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate information is missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
-                    else if( DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
+                    else if(!participant.Adult__c && DelegateAgeOfMajority != 'Yes' && (!String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName))){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestion is incorrect or Missing');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought in as Delegate Attestation  is incorrect or Missing');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
+                    else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4) && !participant.Adult__c && isAdultDelegate == 'false'){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as delegate Year of birth is not correct');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+                    else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4) && !participant.Adult__c && isAdultDelegate != 'false'){
+                        errorRecordCount++;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as delegate Year of birth is not correct');
+                        listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
+                    }
+
                     else if(!String.isEmpty(DelegateYOB) && !participant.Adult__c && isAdultDelegate == 'false'){
                         errorRecordCount++;
-                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as Minor delegate cannot be inerted');
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Participant and Delegate were not brought as Minor delegate cannot be inserted');
                         listOfFailedRecords.add(getCleanMessage(csvLines,totalRecordCount));
                     }
                     else{
@@ -656,7 +686,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                         'ERROR: invalid field - Delegate Email'
                                     );
                                 }
-                            else if(!DelegateYOB.isNumeric() || DelegateYOB.length() != 4){
+                            else if(!String.isEmpty(DelegateYOB) && (!DelegateYOB.isNumeric() || DelegateYOB.length() != 4)){
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate Year of birth is not correct');
                                 isDelegateAvailable = false;
                             }
@@ -664,8 +694,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                 listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
                                 isDelegateAvailable = false;
                             }
-                            else if(!String.isEmpty(DelegateYOB) && participant.Adult__c && isAdultDelegate == 'false'){
-                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate not inserted as it is minor');
+                            else if(participant.Adult__c && DelegateAgeOfMajority != 'Yes' && !String.isEmpty(DelegateEmail) && !String.isEmpty(DelegateFirstName) && !String.isEmpty(DelegateLastName)){
+                                listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate was not brought in as Attestation is incorrect or Missing');
                                 isDelegateAvailable = false;
                             }
                         }
@@ -716,6 +746,14 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
                             if(participantDuplicate != null){
                                 participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                                                //Added for REF-3951
+                                if(participantDuplicate.Email__c != NULL ||
+                                   participantDuplicate.Phone__c != NULL){
+                                       participantDuplicate.Email__c = EmailAddress;
+                                       participantDuplicate.Phone__c = Phone;
+                                       participantPatient.add(participantDuplicate);
+                                   }
+                                //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
                                 trackIndex.put(participantDuplicate.Contact__c,totalRecordCount);
@@ -820,7 +858,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact
+                            Permit_IQVIA_to_contact_about_study__c = doContact,
+                            Is_Created_by_Bulk_Import__c = true
                         );
                 mapPER.put(i,participantEnrollment);
             }
@@ -877,7 +916,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Mail_Email_contact_for_this_study__c = allowEmail,
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
-                            Permit_IQVIA_to_contact_about_study__c = doContact
+                            Permit_IQVIA_to_contact_about_study__c = doContact,
+                            Is_Created_by_Bulk_Import__c = true
                         );
                 mapPER.put(trackIndex.get(i),participantEnrollment);
                     for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
@@ -975,6 +1015,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 update conListtoBeUpdated;
             }
 
+            //REF-3951
+            if(!participantPatient.isEmpty()){
+                update participantPatient;
+            }
+
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();
             }
@@ -1004,6 +1049,29 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
+
+            //for Adult participants which have delegates for one study but not for other REF-3566
+ else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){                
+     Set<Id> existingParticipantId = new Set<Id>();
+                For(Participant__c p:mapDuplicateParticipant.values()){
+                    existingParticipantId.add(p.id);
+                }
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                if (!existingParticipantId.isEmpty()  && !duplicateContactIds.isEmpty()) {
+                    For(Patient_Delegate__c pd:[SELECT Id,
+                                                Primary_Delegate__c
+                                                FROM Patient_Delegate__c
+                                                WHERE Participant__c IN: existingParticipantId 
+                                               ]) {
+                                                   if(pd.Primary_Delegate__c == True){
+                                                       pd.Primary_Delegate__c = False;
+                                                       pdList.add(pd);
+                                                   }
+                                               }
+                    update pdList;
+                }
+            }
+            //
             
                
         } catch (Exception exp) {

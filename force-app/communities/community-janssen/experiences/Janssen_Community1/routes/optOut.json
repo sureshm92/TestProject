@@ -2,7 +2,7 @@
     "activeViewId": "1a1ef4a0-a2be-42c7-a436-68eb475d9e9a",
     "appPageId": "5bf37374-2b32-4433-ad3c-73208f1ef38a",
     "id": "fa75a933-80f4-4451-a0e2-0f00992676e5",
-    "configurationTags": ["allow-in-static-site"],
+    "configurationTags": [],
     "label": "Opt Out",
     "pageAccess": "Public",
     "routeType": "custom-opt-out",

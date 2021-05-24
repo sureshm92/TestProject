@@ -194,11 +194,13 @@ public without sharing class ParticipantTriggerHandler {
         if (!contacts.isEmpty()) {
             update contacts;
         }
-        List<Participant_Enrollment__c> peList = [
-            SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
-            FROM Participant_Enrollment__c
+        List<Participant_Enrollment__c> peList = new  List<Participant_Enrollment__c>();
+        if(!newList.isEmpty()){         
+           peList =[ SELECT Id, Participant__c, Participant_Name__c, Participant_Surname__c
+            FROM Participant_Enrollment__c 
             WHERE Participant__c IN :newList
         ];
+        }
         if (!peList.isEmpty()) {
             for (Participant_Enrollment__c pe : peList) {
                 pe.Participant_Name__c = participantMap.get(pe.Participant__c).First_Name__c;
@@ -347,9 +349,13 @@ public without sharing class ParticipantTriggerHandler {
 					 if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(participant.Mailing_Country_Code__c) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).containsKey(stateName) && stateCode != CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(stateName)){
 						participant.addError('Invalid State Province and State Province Code');
 					}
+                    if(participant.Mailing_State_Code__c != null){
+                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    }
 				}
             }
             if (oldMap != null) {
+                String countryCodeTemp = CountryStateUtil.getCountryCode(countryName);
                 Boolean countryNameChanged =
                     oldMap.get(participant.Id).Mailing_Country__c != countryName;
                 Boolean countryCodeChanged =
@@ -357,30 +363,41 @@ public without sharing class ParticipantTriggerHandler {
                 Boolean stateNameChanged = oldMap.get(participant.Id).Mailing_State__c != stateName;
                 Boolean stateCodeChanged =
                     oldMap.get(participant.Id).Mailing_State_Code__c != stateCode;
-
+                
                 if (countryCodeChanged && !countryNameChanged) {
-                    participant.Mailing_Country__c = CountryStateUtil.getCountryName(countryCode);
-                    if (participant.Mailing_Country__c == null && countryCode != null) {
+                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode);
+                        //participant.Mailing_Country_Code__c = CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(CountryStateUtil.getCountryName(countryCode));
+                    }else{
+                        if (participant.Mailing_Country__c == null && countryCode != null) {
                         participant.addError('Invalid Country Code');
+                        }
                     }
                 } else if (!countryCodeChanged && countryNameChanged) {
-                    participant.Mailing_Country_Code__c = CountryStateUtil.getCountryCode(
-                        countryName
-                    );
-                    if (participant.Mailing_Country_Code__c == null && countryName != null) {
+                    if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCodeTemp)){
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCodeTemp);
+                        participant.Mailing_Country_Code__c = countryCodeTemp;
+                    }else{
+                        if (participant.Mailing_Country_Code__c == null && countryName != null) {
                         participant.addError('Invalid Country');
+                    }
                     }
                 } else if (countryCodeChanged && countryNameChanged) {
                     if (countryCode != CountryStateUtil.getCountryCode(countryName)) {
                         participant.addError('Invalid County and Country Code');
+                    }else{
+                        if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCodeTemp)) { 
+                        participant.Mailing_Country__c = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCodeTemp);
+                        }
+                        
                     }
                 }
-
+                
+                // state change has started
                 if (stateCodeChanged && !stateNameChanged) {
-                    participant.Mailing_State__c = CountryStateUtil.getStateName(
-                        participant.Mailing_Country_Code__c,
-                        stateCode
-                    );
+                    if(participant.Mailing_State_Code__c != null){
+                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    }
                     if (participant.Mailing_State__c == null && stateCode != null) {
                         participant.addError('Invalid State Province Code');
                     }
@@ -389,6 +406,10 @@ public without sharing class ParticipantTriggerHandler {
                         participant.Mailing_Country_Code__c,
                         stateName
                     );
+                    //Getting the mailing state code by passing the state Name
+                    if(participant.Mailing_State_Code__c != null){
+                    participant.Mailing_State__c =CountryStateUtil.STATES_NAME_By_CODE_MAP_Mdt.get(participant.Mailing_Country_Code__c).get(participant.Mailing_State_Code__c);
+                    }
                     if (participant.Mailing_State_Code__c == null && stateName != null) {
                         participant.addError('Invalid State Province');
                     }

@@ -356,7 +356,14 @@ public without sharing class ReferringRemote {
                     participantDelegate.Secondary_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
                 }
             }
-
+            if(delegateDuplicateInfo != null && delegateDuplicateInfo.participantId != null){
+                participantDelegate.Id = delegateDuplicateInfo.participantId;
+                try {
+                    upsert participantDelegate;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+            }
             Participant_Enrollment__c enrollment = (Participant_Enrollment__c) JSON.deserialize(
                 pEnrollmentJSON,
                 Participant_Enrollment__c.class
@@ -565,7 +572,9 @@ public without sharing class ReferringRemote {
 
                 //}
                 if (createDelegateuser) {
-                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                    createParticipantUsers(new Map<Id, Id>{ newContact.Id => null },
+                    TaskService.invitationsVisibleTemp //Added to hold the value of this parameter in future Method
+                    );
                 }
             } else if (
                 !String.isBlank(hcpEnrollment.Study_Site__c) && !String.isBlank(participant.Id)
@@ -592,6 +601,23 @@ public without sharing class ReferringRemote {
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
+            }
+
+            //REF-3566
+            else if(participantDelegate == null){
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                For(Patient_Delegate__c pd:[SELECT Id,
+                                            Primary_Delegate__c
+                                            FROM Patient_Delegate__c
+                                            WHERE Participant__c =: participantId 
+                                           ]) {
+                                               if(pd.Primary_Delegate__c == True){
+                                                   pd.Primary_Delegate__c = False;
+                                                   pdList.add(pd);
+                                               }
+                                           }
+                update pdList;
+                
             }
 
             System.debug('contentDocId--' + contentDocId);
@@ -631,10 +657,17 @@ public without sharing class ReferringRemote {
     }
 
     @Future
-    public static void createParticipantUsers(Map<Id, Id> usersToCreate) {
+    public static void createParticipantUsers(Map<Id, Id> usersToCreate,
+                                              Map<Id,String> invitationsVisibleTemp
+                                             ) {
         if (usersToCreate != null && !usersToCreate.isEmpty())
             ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsers(usersToCreate);
+                //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
+                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
+                }
     }
 
     @AuraEnabled

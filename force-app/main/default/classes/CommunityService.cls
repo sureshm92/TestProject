@@ -97,6 +97,15 @@ public without sharing class CommunityService {
     public static Id getUserId() {
         return UserContext.getUserId();
     }
+    
+    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
+        Map<String,Integer> lengthByFieldName = new Map<String,Integer>();
+        for(String field : fieldNames){
+            Integer length = so.getSObjectType().getDescribe().fields.getMap().get(field).getDescribe().length;
+            lengthByFieldName.put(field,length);
+        }
+        return lengthByFieldName;
+    }
 
     //Todo remove this:
     public String getParticipantId() {
@@ -130,7 +139,9 @@ public without sharing class CommunityService {
     }
 
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
-        return [
+        List<User> lstUser = new List<User> ();
+        if(!contactIds.isEmpty()){
+            lstUser = [
             SELECT
                 Id,
                 Name,
@@ -143,9 +154,11 @@ public without sharing class CommunityService {
             FROM User
             WHERE
                 //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                ContactId IN :contactIds
+                ContactId IN :contactIds];
+    }
+        return  lstUser;
             //AND email != null
-        ];
+       
     }
 
     public static Boolean isUserModeValid(String userMode) {

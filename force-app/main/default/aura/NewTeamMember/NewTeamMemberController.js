@@ -9,6 +9,20 @@
                 communityService.navigateToHome();
 
             component.set('v.userMode', userMode);
+             var fields = ["FirstName","LastName"];
+        var sObj = {'sobjectType':'Contact'};
+        communityService.executeAction(
+            component,
+            'getMaxLength',
+            {
+                so:JSON.stringify(sObj),
+                fieldNames: fields
+            },
+            function (returnValue) {
+                component.set('v.maxLengthData',returnValue);
+                
+                });
+
 
             if (userMode === 'PI' || userMode === 'HCP') component.set('v.isStaff', true);
             else component.set('v.isStaff', false);

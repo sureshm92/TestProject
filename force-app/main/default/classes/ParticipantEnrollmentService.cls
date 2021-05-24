@@ -1763,12 +1763,15 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static void updateParticipantState(List<Participant__c> participants) {
-        List<Participant_Enrollment__c> enrollments = [
-            SELECT Id, Participant__c, Participant_Status__c
-            FROM Participant_Enrollment__c
-            WHERE Participant__c IN :participants
-            ORDER BY Participant__c
-        ];
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c> ();
+        if(!participants.isEmpty()){
+             enrollments = [
+                SELECT Id, Participant__c, Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c IN :participants
+                ORDER BY Participant__c
+            ];
+        }
         Map<Id, List<Participant_Enrollment__c>> peByParticipant = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : enrollments) {
             Id partId = pe.Participant__c;

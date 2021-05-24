@@ -92,12 +92,13 @@
          ? emailParticipantReapetCmp.get('v.value')
          : null;
          //REF-3070
-         if(!participant.Adult__c){
+         if((!participant.Adult__c) && (component.get('v.fromAddParticipantPage'))){
              component.set('v.participant.Email__c', '');
              component.set('v.emailParticipantRepeat', '');
              component.set('v.participant.Phone__c', '');
              component.set('v.participant.Phone_Type__c', '');
-         }    
+         } 
+         
          helper.checkValidEmail(emailParticipantCmp, emailValueFirst);
          helper.checkValidEmail(emailParticipantReapetCmp, emailValueRepeat);
          var participantDelegateOld = component.get('v.participantDelegate');
@@ -140,8 +141,8 @@
          }
          console.log('>>participantDelegateOld>>'+participantDelegateOld);
          //console.log('>>participantDelegateOld brtchyear>>'+participantDelegateOld.Birth_Year__c);
-         if(component.get('v.fromActionParticipant')){
-             if(participantDelegateOld.Birth_Year__c) {
+         if(component.get('v.fromActionParticipant') ){
+             if(!$A.util.isEmpty(participantDelegateOld.Birth_Year__c)) {
                  console.log('>>coming YOB>>');
                  checkDuplicateDelegate = true;
                  helper.checkDelegateAge(component,participant,participantDelegateOld);
@@ -181,11 +182,11 @@
                      (oldPE.Participant__r.Last_Name__c && !participant.Last_Name__c) ||
                      (oldPE.Participant__r.Date_of_Birth__c && !participant.Date_of_Birth__c) ||
                      (oldPE.Participant__r.Gender__c && !participant.Gender__c) ||
-                     needsGuardian ||
+                     //needsGuardian ||
                      /*(oldPE.Participant__r.Phone__c && !participant.Phone__c.trim())  || */
-                     needsGuardian ||
-                     (oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c.trim()) ||
-                     needsGuardian ||
+                     //needsGuardian ||
+                     //(participant.Adult__c && oldPE.Participant__r.Phone_Type__c && !participant.Phone_Type__c.trim()) ||
+                     //needsGuardian ||
                      /*  (oldPE.Participant__r.Email__c && !participant.Email__c)  || */
                      (oldPE.Participant__r.Mailing_Country_Code__c &&
                       !participant.Mailing_Country_Code__c) ||
@@ -415,11 +416,12 @@
              if (!updateMode && participant.Email__c && !emailParticipantRepeat) {
                  isValid = false;
              }
-             if (participant.Adult__c && participant.Phone__c && !participant.Phone_Type__c) {
+             if (participant.Phone__c && !participant.Phone_Type__c) {
             isValid = false;
         } 
              console.log('>>>participantDelegate>>>'+JSON.stringify(participantDelegate));
              // console.log('>>>delegate phone>>>'+participantDelegate.Phone__c.trim());
+           var isAllFieldsDeleted = false;
              if(component.get('v.fromActionParticipant')){
                  
                  var DelegateFnameField = component.find('DelegateFirstName');
@@ -536,16 +538,24 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        console.log('IN doCheckDateOfBith');
-        component.set('v.isAdult', false);
+        component.find('spinner').show();
         let parent = component.get('v.parentComponent');
-        if (parent && parent.checkDateOfBith) {
+        if (parent!=null && parent.checkDateOfBith) {
             console.log('Parent checkDateOfBith');
-            parent.checkDateOfBith(function () {
-                component.set('v.isAdult', true);
+            parent.checkDateOfBith(function(result) {
+                component.set('v.participant.Adult__c', result);
+                 $A.enqueueAction(component.get('c.doCheckFields'));
+                component.find('spinner').hide(); 
             });
+        }else {
+            if(parent!=null && parent.checkParticipantDateOfBith){
+                parent.checkParticipantDateOfBith(function(result) {
+                    component.set('v.participant.Adult__c', result);
+                    $A.enqueueAction(component.get('c.doCheckFields'));
+                    component.find('spinner').hide(); 
+                });
+            }
         }
-        $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');
     },
 

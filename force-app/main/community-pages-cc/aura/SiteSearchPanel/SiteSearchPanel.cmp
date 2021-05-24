@@ -74,7 +74,7 @@
             <div class="slds-col">
                 <span style="display: flex">
                     <label class="ssp-label">{!$Label.c.PG_FP_L_Sort_by}</label>
-                    <div class="ssp-sort-list">
+                    <div class="{!v.isRTL? 'ssp-sort-listRTL':'ssp-sort-list'}">
                         <c:rrSelect
                             value="{!v.sortType}"
                             options="{!v.sortVariants}"

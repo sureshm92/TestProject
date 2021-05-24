@@ -17,7 +17,18 @@ public without sharing class PatientDelegateTriggerHandler {
 
     public class UpdatePermissionSetAssignments extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            updatePermissionSets(newList);
+             List<Patient_Delegate__c> lstPd = (Patient_Delegate__c[])newList;
+            List<Patient_Delegate__c> tempListPD = new List<Patient_Delegate__c> ();
+            for(Patient_Delegate__c objPd : lstPd)
+            {
+                if(objPd.Status__c == PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS)
+                {
+                    tempListPD.add(objPd);
+                    break;
+                }
+            }
+            if(!tempListPD.isEmpty())
+            	updatePermissionSets(newList);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {

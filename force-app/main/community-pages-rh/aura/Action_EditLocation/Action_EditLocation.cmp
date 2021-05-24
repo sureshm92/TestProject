@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
-<aura:component description="Action_EditLocation" controller="Action_EditLocationRemote">
+<aura:component description="Action_EditLocation" controller="Action_EditLocationRemote" extends="c:CommunityContext">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -222,25 +222,27 @@
                 </div>
             </aura:if>
             <aura:set attribute="footerButtons">
-                <button class="apollo-btn secondary" onclick="{!c.doCancel}">
-                    {!$Label.c.BTN_Cancel}
-                </button>
-                <button
-                    class="apollo-btn primary"
-                    onclick="{!c.doUpsertAccount}"
-                    disabled="{!!v.isAccountModified ? !v.isAccountModified :
-                                                   !v.account.Name ? true :
-                                                   !v.account.BillingStreet? true :
-                                                   !v.account.BillingCity ? true : false}"
-                    title="{!!v.isAccountModified ? $Label.c.SS_No_Changes_Message :
-                                                !v.account.Name  ? $Label.c.SS_Fill_Location_Name :
-                                                !v.account.BillingStreet  ? $Label.c.SS_Fill_Address  :
-                                                !v.account.BillingCity ? $Label.c.SS_Fill_City :
-                                                $Label.c.SS_Save_Changes}"
-                    value="{!v.account}"
-                >
-                    {!$Label.c.SS_Save_New_Account}
-                </button>
+                <div class="slds-form slds-form_horizontal">
+                    <button class="{! 'apollo-btn secondary ' + if(v.isRTL,'rtlButton','')}" onclick="{!c.doCancel}">
+                        {!$Label.c.BTN_Cancel}
+                    </button>
+                    <button
+                        class="apollo-btn primary"
+                        onclick="{!c.doUpsertAccount}"
+                        disabled="{!!v.isAccountModified ? !v.isAccountModified :
+                                                    !v.account.Name ? true :
+                                                    !v.account.BillingStreet? true :
+                                                    !v.account.BillingCity ? true : false}"
+                        title="{!!v.isAccountModified ? $Label.c.SS_No_Changes_Message :
+                                                    !v.account.Name  ? $Label.c.SS_Fill_Location_Name :
+                                                    !v.account.BillingStreet  ? $Label.c.SS_Fill_Address  :
+                                                    !v.account.BillingCity ? $Label.c.SS_Fill_City :
+                                                    $Label.c.SS_Save_Changes}"
+                        value="{!v.account}"
+                    >
+                        {!$Label.c.SS_Save_New_Account}
+                    </button>
+                </div>
             </aura:set>
         </c:Popup>
     </div>

@@ -70,6 +70,39 @@
         });
         toastEvent.fire();
     },
+    
+    checkParticipantNeedsGuardian: function (component, helper, event) {
+        var spinner = component.find('spinner');
+      //  spinner.show();
+        var participant = component.get('v.participant');
+        var params = event.getParam('arguments');
+        console.log('>>>coming in method>>'+JSON.stringify(params));
+        component.set('v.callbackDOB', params.callback);
+        var callback = component.get('v.callbackDOB');
+        communityService.executeAction(
+            component,
+            'checkNeedsGuardian',
+            {
+                participantJSON: JSON.stringify(participant)
+            },
+            function (returnValue) {
+                console.log('isNeedGuardian:>>>> ' + returnValue);
+                var isNeedGuardian = returnValue == 'true';
+                if (callback) {
+                    callback(!isNeedGuardian);
+                }
+
+                if (isNeedGuardian != component.get('v.needsDelegate')) {
+                    component.set('v.needsDelegate', isNeedGuardian);
+                }
+            },
+            null,
+            function () {
+              //  spinner.hide();
+            }
+        );
+    },
+    
     setPopUpName: function (component, pe){
         let fNameInitial = (pe.Participant__r.First_Name__c===null||pe.Participant__r.First_Name__c===undefined)?'':pe.Participant__r.First_Name__c.substring(0,1).toUpperCase()+ ' ';
         let mNameInitial = (pe.Participant__r.Middle_Name__c===null||pe.Participant__r.Middle_Name__c===undefined)?'':pe.Participant__r.Middle_Name__c.substring(0,1).toUpperCase()+' ';

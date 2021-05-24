@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS {
+ .THIS {
     font-family: 'Proxima Nova';
 }
 
@@ -12,6 +12,16 @@
     top: 0;
     width: 1px;
     height: 1px;
+}
+
+.THIS .logo-container-RTL {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    flex-shrink: 0;
+    margin-right: -9px;
+
 }
 
 .THIS .slds-backdrop {
@@ -42,6 +52,16 @@
     align-items: center;
     margin-right: 15px;
     flex-shrink: 0;
+}
+
+.THIS .logo-container-RTL {
+    height: 50px;
+    display: flex;
+    align-items: center;
+    margin-left: 15px;
+    flex-shrink: 0;
+    margin-right: -9px;
+
 }
 
 .THIS .layout-header {

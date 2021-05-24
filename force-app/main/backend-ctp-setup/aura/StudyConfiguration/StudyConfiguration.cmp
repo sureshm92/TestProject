@@ -2,206 +2,206 @@
  - Created by Nargiz Mamedova on 12/6/2019.
  -->
 
-<aura:component
-    description="StudyConfiguration"
-    implements="force:hasRecordId,flexipage:availableForAllPageTypes"
-    controller="StudyConfigurationRemote"
+ <aura:component
+ description="StudyConfiguration"
+ implements="force:hasRecordId,flexipage:availableForAllPageTypes"
+ controller="StudyConfigurationRemote"
 >
-    <!-- attributes: -->
-    <aura:attribute name="ctp" type="Object" />
-    <aura:attribute name="delay_days" type="String" />
-    <aura:attribute name="user_has_permission" type="String" default="Edit" />
-    <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
+ <!-- attributes: -->
+ <aura:attribute name="ctp" type="Object" />
+ <aura:attribute name="delay_days" type="String" />
+ <aura:attribute name="user_has_permission" type="String" default="Edit" />
+ <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
-    <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+ <!-- handlers: -->
+ <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
-    <!-- application events: -->
-    <aura:registerEvent name="appEvent" type="c:TaskToggleEvent" />
+ <!-- application events: -->
+ <aura:registerEvent name="appEvent" type="c:TaskToggleEvent" />
 
-    <!-- component body: -->
-    <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
-        <aura:set attribute="else">
-            <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}" />
-        </aura:set>
-        <c:RRSpinner aura:id="spinner" showSpinner="true" />
-        <div class="panel">
-            <div class="vrs-panel" style="position: relative">
-                <div class="group-container">
-                    <div class="group-title">Visit Configuration</div>
-                    <div class="global-data">
-                        <div class="global-element">
-                            <lightning:input
-                                aura:id="stToggle"
-                                type="toggle"
-                                label="Status Timeline"
-                                name="statusTimelineToggle"
-                                checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Status Timeline</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                aura:id="vsToggle"
-                                type="toggle"
-                                label="Visit Schedule"
-                                name="visitScheduleToggle"
-                                checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
-                                onchange="{!c.saveCTP}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px; margin-right: 20px">Visit Schedule</div>
-                        </div>
-                    </div>
-                    <div class="group-title">Study Documents Configuration</div>
-                    <div class="global-data">
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Study Documents"
-                                name="studyDocumentsToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Study_Documents_Are_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Study Documents</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Video and Articles"
-                                name="videoArticlesToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Video and Articles</div>
-                        </div>
-                    </div>
-                    <div class="group-title">Travel Support</div>
-                    <div class="global-data">
-                        <div class="global-element">
-                            <lightning:input
-                                aura:id="tvToggle"
-                                type="toggle"
-                                label="Post-enrollment"
-                                name="travelVendorToggle"
-                                onchange="{!c.savePostEnrollment}"
-                                checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Post-enrollment</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                aura:id="cToggle"
-                                type="toggle"
-                                label="Consent through Enrolled/Randomized"
-                                name="consentToggle"
-                                onchange="{!c.saveConsentThroughEnrolledOrRandomized}"
-                                checked="{!v.ctp.Enrolled_Or_Randomized_Consent_Available__c}"
-                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Consent through Enrolled/Randomized</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                aura:id="ruToggle"
-                                type="toggle"
-                                label="Pre-consent"
-                                name="ReceivedUntilConsent"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Received_Until_Consent_Is_Available__c}"
-                                disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Pre-consent</div>
-                        </div>
-                    </div>
-                    <div class="group-title">Others</div>
-                    <div class="global-data">
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Tasks"
-                                name="tasksToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Tasks_Are_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Tasks</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Relevant Links"
-                                name="RelevantLinksToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Relevant_Links_Are_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Relevant Links</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Payment"
-                                name="PaymentToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Payment_Is_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Payment</div>
-                        </div>
-                        <div class="global-element">
-                            <lightning:input
-                                type="toggle"
-                                label="Trial Match"
-                                name="TrialMatchToggle"
-                                onchange="{!c.saveCTP}"
-                                checked="{!v.ctp.Trial_Match_Is_Available__c}"
-                                variant="label-hidden"
-                            />
-                            <div style="margin-left: 10px">Trial Match</div>
-                        </div>
-                        <aura:if isTrue="{!v.ctp.Trial_Match_Is_Available__c}">
-                            <div style="margin-left: 20px" class="global-element">
-                                <div style="margin-bottom: 10px">Delayed No.of Days</div>
-                                <div style="margin-left: 10px; margin-right: 10px" >
-                                    <lightning:input 
-                                                     aura:id="delayedDays"
-                                                     type="number" 
-                                                     variant="label-hidden" 
-                                                     min = "1"
-                                                     max = "100"
-                                                     value="{!v.ctp.Delayed_No_Of_Days__c}"
-                                                     messageWhenRangeUnderflow="Please enter a number greater than 0."
-                                                     messageWhenBadInput="Please enter only numbers."
-                                                     messageWhenRangeOverflow="Please enter a number less than 100."
-                                                     > 
-                                    </lightning:input>
-                                </div>
-                                <lightning:buttonIcon
-                                                  class="delay-save"
-                                                  variant="bare"
-                                                  name="saveDelayDays"
-                                                  alternativeText="Save"
-                                                  iconName="utility:save"
-                                                  onclick="{!c.saveCTP}"
-                                                  size="large"
-                                                  />
-                            </div>
-                        </aura:if>
-                    </div>
-                </div>
-                <aura:if isTrue="{!v.user_has_permission == 'View'}">
-                    <div class="overlay"></div>
-                </aura:if>
-            </div>
-        </div>
-    </aura:if>
+ <!-- component body: -->
+ <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+ <aura:if isTrue="{!v.user_has_permission != 'Disabled'}">
+     <aura:set attribute="else">
+         <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}" />
+     </aura:set>
+     <c:RRSpinner aura:id="spinner" showSpinner="true" />
+     <div class="panel">
+         <div class="vrs-panel" style="position: relative">
+             <div class="group-container">
+                 <div class="group-title">Visit Configuration</div>
+                 <div class="global-data">
+                     <div class="global-element">
+                         <lightning:input
+                             aura:id="stToggle"
+                             type="toggle"
+                             label="Status Timeline"
+                             name="statusTimelineToggle"
+                             checked="{!not(v.ctp.Visit_Schedule_Is_Available__c)}"
+                             onchange="{!c.saveCTP}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Status Timeline</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             aura:id="vsToggle"
+                             type="toggle"
+                             label="Visit Schedule"
+                             name="visitScheduleToggle"
+                             checked="{!v.ctp.Visit_Schedule_Is_Available__c}"
+                             onchange="{!c.saveCTP}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px; margin-right: 20px">Visit Schedule</div>
+                     </div>
+                 </div>
+                 <div class="group-title">Study Documents Configuration</div>
+                 <div class="global-data">
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Study Documents"
+                             name="studyDocumentsToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Study_Documents_Are_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Study Documents</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Video and Articles"
+                             name="videoArticlesToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Video_And_Articles_Are_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Video and Articles</div>
+                     </div>
+                 </div>
+                 <div class="group-title">Travel Support</div>
+                 <div class="global-data">
+                     <div class="global-element">
+                         <lightning:input
+                             aura:id="tvToggle"
+                             type="toggle"
+                             label="Post-enrollment"
+                             name="travelVendorToggle"
+                             onchange="{!c.savePostEnrollment}"
+                             checked="{!v.ctp.Travel_Vendor_Is_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Post-enrollment</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             aura:id="cToggle"
+                             type="toggle"
+                             label="Consent through Enrolled/Randomized"
+                             name="consentToggle"
+                             onchange="{!c.saveConsentThroughEnrolledOrRandomized}"
+                             checked="{!v.ctp.Enrolled_Or_Randomized_Consent_Available__c}"
+                             disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Consent through Enrolled/Randomized</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             aura:id="ruToggle"
+                             type="toggle"
+                             label="Pre-consent"
+                             name="ReceivedUntilConsent"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Received_Until_Consent_Is_Available__c}"
+                             disabled="{!!v.ctp.Travel_Vendor_Is_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Pre-consent</div>
+                     </div>
+                 </div>
+                 <div class="group-title">Others</div>
+                 <div class="global-data">
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Tasks"
+                             name="tasksToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Tasks_Are_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Tasks</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Relevant Links"
+                             name="RelevantLinksToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Relevant_Links_Are_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Relevant Links</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Payment"
+                             name="PaymentToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Payment_Is_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Payment</div>
+                     </div>
+                     <div class="global-element">
+                         <lightning:input
+                             type="toggle"
+                             label="Trial Match"
+                             name="TrialMatchToggle"
+                             onchange="{!c.saveCTP}"
+                             checked="{!v.ctp.Trial_Match_Is_Available__c}"
+                             variant="label-hidden"
+                         />
+                         <div style="margin-left: 10px">Trial Match</div>
+                     </div>
+                     <aura:if isTrue="{!v.ctp.Trial_Match_Is_Available__c}">
+                         <div style="margin-left: 20px" class="global-element">
+                             <div style="margin-bottom: 10px">Delay (in days)</div>
+                             <div style="margin-left: 10px; margin-right: 10px" >
+                                 <lightning:input 
+                                                  aura:id="delayedDays"
+                                                  type="number" 
+                                                  variant="label-hidden" 
+                                                  min = "1"
+                                                  max = "100"
+                                                  value="{!v.ctp.Delayed_No_Of_Days__c}"
+                                                  messageWhenRangeUnderflow="Please enter a number greater than 0."
+                                                  messageWhenBadInput="Please enter only numbers."
+                                                  messageWhenRangeOverflow="Please enter a number less than 100."
+                                                  > 
+                                 </lightning:input>
+                             </div>
+                             <lightning:buttonIcon
+                                               class="delay-save"
+                                               variant="bare"
+                                               name="saveDelayDays"
+                                               alternativeText="Save"
+                                               iconName="utility:save"
+                                               onclick="{!c.saveCTP}"
+                                               size="large"
+                                               />
+                         </div>
+                     </aura:if>
+                 </div>
+             </div>
+             <aura:if isTrue="{!v.user_has_permission == 'View'}">
+                 <div class="overlay"></div>
+             </aura:if>
+         </div>
+     </div>
+ </aura:if>
 </aura:component>

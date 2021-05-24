@@ -141,8 +141,10 @@
 .THIS.as-container .as-password .as-password-button {
     margin-top: 20px;
 }
+
 .THIS .rightAlign input {
     text-align: right;
+    direction: rtl;
 }
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input {

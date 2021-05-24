@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
- <aura:component description="ParticipantStatusDetails" controller="ParticipantWorkflowService">
+ <aura:component description="ParticipantStatusDetails" controller="ParticipantWorkflowService" extends="c:CommunityContext">
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!--attributes-->
     <aura:attribute name="pe" type="Participant_Enrollment__c"/>
@@ -15,9 +15,9 @@
     <aura:attribute name="childChanges" type="List" default="[]"/>
     -->
     <!-- Component is going to register for event
-		 Event will be handled by Action_ParticipantInformation -->
+   Event will be handled by Action_ParticipantInformation -->
     <aura:registerEvent name="detectChildChanges" type="c:DetectChildChanges" />
-
+    
     <aura:method name="fieldChanged" action="{!c.doFieldChanged}" access="public">
         <aura:attribute name="fieldName" type="String" />
         <aura:attribute name="value" type="String" />
@@ -25,9 +25,9 @@
         <aura:attribute name="fieldMap" type="Object" />
     </aura:method>
     <!-- This aura method will be called from Child comonents:
-			ParticipantStatusDetailsCard and 
-			ParticipantStatusDetailsCardField
-		to notify changes made in UI -->
+   ParticipantStatusDetailsCard and 
+   ParticipantStatusDetailsCardField
+  to notify changes made in UI -->
     <aura:method name="notifyParent" action="{!c.doNotifyParent}" access="public">
         <aura:attribute name="changesMap" type="Map" />
     </aura:method>
@@ -38,22 +38,22 @@
     <div class="slds-grid slds-wrap">
         <c:RRSpinner aura:id="spinner" size="medium"/>
         <div
-            class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3 slds-p-horizontal--medium"
-        >
+             class="slds-col slds-max-small-size_1-of-1 slds-size--1-of-3 slds-p-horizontal--medium"
+             >
             <aura:iteration
-                items="{!v.participantWorkflowWrapper.steps}"
-                var="step"
-                indexVar="stepInd"
-            >
+                            items="{!v.participantWorkflowWrapper.steps}"
+                            var="step"
+                            indexVar="stepInd"
+                            >
                 <aura:if isTrue="{!v.NotCCMode}">
                     <div>
                         <button
-                            class="apollo-btn secondary step-btn"
-                            data-step-ind="{!stepInd}"
-                            onclick="{!c.doChangeStep}"
-                            disabled="{!step.state=='neutral' || v.updateInProgress}"
-                        >
-                            <div class="{!'step-status-icon icon-' + step.state}">
+                                class="apollo-btn secondary step-btn"
+                                data-step-ind="{!stepInd}"
+                                onclick="{!c.doChangeStep}"
+                                disabled="{!step.state=='neutral' || v.updateInProgress}"
+                                >
+                            <div class="{!v.isRTL? 'step-status-iconRTL icon-' + step.state :'step-status-icon icon-' + step.state}">                                
                                 <aura:if isTrue="{!step.state=='success'}">
                                     <c:RRIcon iconName="icon-check" />
                                 </aura:if>
@@ -61,67 +61,67 @@
                                     <c:RRIcon iconName="icon-close" />
                                 </aura:if>
                             </div>
-                            <div class="step-info">
+                            <div class="{!v.isRTL? 'step-infoRTL':'step-info'}">
                                 <div class="step-title">{!step.title}</div>
                                 <aura:if isTrue="{!step.title == 'Initial Visit'}">
                                     <div class="step-status">
                                         <lightning:formattedDateTime
-                                            value="{!step.dateStatus}"
-                                            year="numeric"
-                                            month="short"
-                                            day="2-digit"
-                                            timeZone="UTC"
-                                        />
+                                                                     value="{!step.dateStatus}"
+                                                                     year="numeric"
+                                                                     month="short"
+                                                                     day="2-digit"
+                                                                     timeZone="UTC"
+                                                                     />
                                     </div>
                                     <aura:set attribute="else">
                                         <div class="step-status">
                                             <aura:if isTrue="{!step.title == $Label.c.PWS_Contact_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined&amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == true}">
                                                 {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
-                                                value="{!v.participantWorkflowWrapper.sendToSHDate}"
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                timeZone="UTC"
-                                                />
+                                                                                                                value="{!v.participantWorkflowWrapper.sendToSHDate}"
+                                                                                                                year="numeric"
+                                                                                                                month="short"
+                                                                                                                day="2-digit"
+                                                                                                                timeZone="UTC"
+                                                                                                                />
                                                 <aura:set attribute="else">
                                                     <aura:if isTrue="{!step.title == $Label.c.PWS_Eligibility_Name &amp;&amp;v.participantWorkflowWrapper.sendToSH != true&amp;&amp;v.participantWorkflowWrapper.sendToSHDate != undefined
                                                                      &amp;&amp;v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c == false&amp;&amp;v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true}">
-                                                                                                      {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
-                                                value="{!v.participantWorkflowWrapper.sendToSHDate}"
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                timeZone="UTC"
-                                                />  
-                                            <aura:set attribute="else">        
-                                            {!step.status}&nbsp;<lightning:formattedDateTime
-                                                value="{!step.dateStatus}"
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                timeZone="UTC"
-                                                />
+                                                        {!$Label.c.Sent_to_Study_Hub}&nbsp;<lightning:formattedDateTime
+                                                                                                                        value="{!v.participantWorkflowWrapper.sendToSHDate}"
+                                                                                                                        year="numeric"
+                                                                                                                        month="short"
+                                                                                                                        day="2-digit"
+                                                                                                                        timeZone="UTC"
+                                                                                                                        />  
+                                                        <aura:set attribute="else">        
+                                                            {!step.status}&nbsp;<lightning:formattedDateTime
+                                                                                                             value="{!step.dateStatus}"
+                                                                                                             year="numeric"
+                                                                                                             month="short"
+                                                                                                             day="2-digit"
+                                                                                                             timeZone="UTC"
+                                                                                                             />
+                                                        </aura:set>
+                                                    </aura:if> 
                                                 </aura:set>
-                                                        </aura:if> 
-                                                    </aura:set>
-                                              </aura:if> 
+                                            </aura:if> 
                                         </div>
                                     </aura:set>
                                 </aura:if>
                             </div>
                         </button>
                     </div>
-
+                    
                     <aura:set attribute="else">
                         <aura:if isTrue="{!step.title =='Received' || step.title =='Contact'}">
                             <div>
                                 <button
-                                    class="apollo-btn secondary step-btn"
-                                    data-step-ind="{!stepInd}"
-                                    onclick="{!c.doChangeStep}"
-                                    disabled="{!step.state=='neutral' || v.updateInProgress}"
-                                >
-                                    <div class="{!'step-status-icon icon-' + step.state}">
+                                        class="apollo-btn secondary step-btn"
+                                        data-step-ind="{!stepInd}"
+                                        onclick="{!c.doChangeStep}"
+                                        disabled="{!step.state=='neutral' || v.updateInProgress}"
+                                        >
+                                    <div class="{!v.isRTL? 'step-status-iconRTL icon-' + step.state :'step-status-icon icon-' + step.state}">
                                         <aura:if isTrue="{!step.state=='success'}">
                                             <c:RRIcon iconName="icon-check" />
                                         </aura:if>
@@ -134,28 +134,28 @@
                                         <aura:if isTrue="{!step.title == 'Initial Visit'}">
                                             <div class="step-status">
                                                 <lightning:formattedDateTime
-                                                    value="{!step.dateStatus}"
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                    timeZone="UTC"
-                                                />
+                                                                             value="{!step.dateStatus}"
+                                                                             year="numeric"
+                                                                             month="short"
+                                                                             day="2-digit"
+                                                                             timeZone="UTC"
+                                                                             />
                                             </div>
                                             <aura:set attribute="else">
                                                 <div class="step-status">
                                                     {!step.status}&nbsp;<lightning:formattedDateTime
-                                                        value="{!step.dateStatus}"
-                                                        year="numeric"
-                                                        month="short"
-                                                        day="2-digit"
-                                                        timeZone="UTC"
-                                                    />
+                                                                                                     value="{!step.dateStatus}"
+                                                                                                     year="numeric"
+                                                                                                     month="short"
+                                                                                                     day="2-digit"
+                                                                                                     timeZone="UTC"
+                                                                                                     />
                                                 </div>
                                             </aura:set>
                                         </aura:if>
                                     </div>
                                 </button></div
-                        ></aura:if>
+                                ></aura:if>
                     </aura:set>
                 </aura:if>
             </aura:iteration>
@@ -165,27 +165,27 @@
                 <aura:if isTrue="{!v.NotCCMode}">
                     <div style="{!if(step.isCurrentStep ,'display: block','display: none')}">
                         <c:ParticipantStatusDetailsCard
-                            aura:id="stepCard"
-                            participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
-                            stepWrapper="{!step}"
-                            partInfoForm="{!v.parent}"
-                            parent="{!this}"
-                            updateInProgress="{!v.updateInProgress}"
-                        />
+                                                        aura:id="stepCard"
+                                                        participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
+                                                        stepWrapper="{!step}"
+                                                        partInfoForm="{!v.parent}"
+                                                        parent="{!this}"
+                                                        updateInProgress="{!v.updateInProgress}"
+                                                        />
                     </div>
                     <aura:set attribute="else">
                         <aura:if isTrue="{!step.title =='Received' || step.title =='Contact'}">
                             <div
-                                style="{!if(step.isCurrentStep ,'display: block','display: none')}"
-                            >
+                                 style="{!if(step.isCurrentStep ,'display: block','display: none')}"
+                                 >
                                 <c:ParticipantStatusDetailsCard
-                                    aura:id="stepCard"
-                                    participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
-                                    stepWrapper="{!step}"
-                                    partInfoForm="{!v.parent}"
-                                    parent="{!this}"
-                                    updateInProgress="{!v.updateInProgress}"
-                                />
+                                                                aura:id="stepCard"
+                                                                participantWorkflowWrapper="{!v.participantWorkflowWrapper}"
+                                                                stepWrapper="{!step}"
+                                                                partInfoForm="{!v.parent}"
+                                                                parent="{!this}"
+                                                                updateInProgress="{!v.updateInProgress}"
+                                                                />
                             </div>
                         </aura:if>
                     </aura:set>

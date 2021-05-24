@@ -263,6 +263,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 firstname.add(con.FirstName);
             }
             //List<String> errorsLog = new List<String>();
+            List<Contact> updateDelegateContacts = new List<Contact>();
             List<Contact> cntList = new List<Contact>();
             cntList = [
                 SELECT Id, FirstName, Email, Phone
@@ -276,7 +277,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             if (!newDelegateContacts.isEmpty() && cntList.isEmpty() && PEErrorMsg.isEmpty()) {
                 insert newDelegateContacts;
             }
-            
+            contact contactUpdate ;
                 for (Integration_Patient_Referral__c ipr : newList) {
                      Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
                 ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(
@@ -298,13 +299,29 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 }
                 if (!cntList.isEmpty()) {
                     for (Contact con : cntList) {
+                        contactUpdate = new contact();
+                        contactUpdate.Id = con.Id;
+                        if ('Home' == ipr.Delegate_Phone_Number_Type__c) {
+                            contactUpdate.HomePhone = ipr.Delegate_Daytime_Phone_Number__c;
+                            contactUpdate.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
+                        }
+                        if ('Mobile' == ipr.Delegate_Phone_Number_Type__c) {
+                            contactUpdate.MobilePhone = ipr.Delegate_Daytime_Phone_Number__c;
+                            contactUpdate.HomePhone = ipr.Delegate_Alternative_Phone_Number__c;
+                        } else {
+                            contactUpdate.Phone = ipr.Delegate_Daytime_Phone_Number__c;
+                            contactUpdate.MobilePhone = ipr.Delegate_Alternative_Phone_Number__c;
+                        }
+                        updateDelegateContacts.add(contactUpdate);
                         Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
                         participantIdByParticipantDelegateContactId.put(con.Id, participant.Id);
                         delegateIds.add(con.Id);
                     }
                 }
             }
-
+            if (!updateDelegateContacts.isEmpty()) {
+                upsert updateDelegateContacts;
+                }
             if (!delegateIds.isEmpty()) {
                 List<Patient_Delegate__c> ptDelegateRefs = new List<Patient_Delegate__c>();
                 Map<Id, Id> delegateUsersToCreate = new Map<Id, Id>();
@@ -378,6 +395,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 if (!delegateUsersToCreate.isEmpty()) {
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(delegateUsersToCreate);
+                        if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                            //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                            TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,false);
+                        }
                 }
             }
         }
