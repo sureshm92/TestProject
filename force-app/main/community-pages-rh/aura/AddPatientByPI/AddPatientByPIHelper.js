@@ -243,8 +243,8 @@
             function (returnValue) {
                 console.log('isNeedGuardian: ' + returnValue);
                 var isNeedGuardian = returnValue == 'true';
-                if (!isNeedGuardian && callback) {
-                    callback();
+                if (callback) {
+                    callback(!isNeedGuardian);
                 }
                 console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
