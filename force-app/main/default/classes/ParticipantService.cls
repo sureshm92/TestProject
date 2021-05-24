@@ -245,11 +245,10 @@ public without sharing class ParticipantService {
         ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
         participantWithDelegate.participant = participant;
         participantWithDelegate.delegate = participantDelegate;
-		system.debug('>>beforeduplciteService>'+limits.getQueries());
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
             participantWithDelegate
         );
-        system.debug('>>AfterduplciteService>'+limits.getQueries());
+        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             participant = participantFromDatabase;
