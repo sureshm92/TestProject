@@ -393,7 +393,7 @@
 }
 
 .THIS.arabic .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2,
-.THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2{
+.THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2 {
     width: auto!important;
 }
 
