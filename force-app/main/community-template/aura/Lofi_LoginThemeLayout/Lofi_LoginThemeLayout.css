@@ -9,7 +9,7 @@
 }
 
 .THIS .body-content {
-    width: 450px;
+    width: 320px;
     margin: 0 auto;
 }
 
@@ -53,26 +53,6 @@
     letter-spacing: 0;
 }
 
-.THIS .rr-link-section {
-    width: 450px;
-    margin: 0 auto;
-}
-
-.THIS .rr-link {
-    color: #0768fd;
-    display: inline-flex;
-    align-items: center;
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 19px;
-    margin: 1em;
-    padding: 1em;
-}
-
-.THIS .rr-link:hover {
-    text-decoration: none;
-}
-
 .THIS .logo-row {
     display: inline-flex;
 }
@@ -110,14 +90,12 @@
 }
 
 .THIS .footer {
-    position: fixed;
-    bottom: 0.5em;
     color: #000000;
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
-    margin: 1em;
     width: 50%;
+    margin-top: -3em;
 }

@@ -26,15 +26,11 @@ global without sharing class RRLoginRemote {
                 WHERE UserName = :username
                 LIMIT 1
             ];
-            //  Integer counter=0;
-            //  List<Participant_Enrollment__c> loginUserPEs = [SELECT Id,Participant_Status__c FROM Participant_Enrollment__c WHERE Participant_Contact__c = : loginUser.ContactId ];
-            //   for(Participant_Enrollment__c eachpe :loginUserPEs){if(PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(eachpe.Participant_Status__c)){counter++;}}
+
             //No participant enrollment and UserCommunityIsDelegate__c to ensure the
             //contact is a prospect and delegate of a certain contact
-
             if (
-                /**(loginUserPEs.isEmpty() && loginUser.Contact.UserCommunityIsDelegate__c)||(counter==loginUserPEs.size()) ||**/ (!loginUser.isEmpty() &&
-                loginUser[0].Contact.userCommunityMode__c == 'Participant')
+                !loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c == 'Participant'
             ) {
                 Contact c = new Contact(
                     Id = loginUser[0].ContactId,
@@ -170,8 +166,7 @@ global without sharing class RRLoginRemote {
                     );
             }
         }
-        Auth.AuthConfiguration authConfig = getAuthConfig();
-        return '**url' + authConfig.getForgotPasswordUrl();
+        return '**url' + getForgotPasswordUrl();
     }
 
     @AuraEnabled
@@ -222,5 +217,161 @@ global without sharing class RRLoginRemote {
         return communityName;
     }
 
-    //@Krishna Mahto - PEH-1910 - Prod Issue fix- End
+    @AuraEnabled
+    public static Boolean isUserPasswordLocked(String userName) {
+        try {
+            if (!String.isBlank(userName)) {
+                List<User> portalUser = [
+                    SELECT Id, TimeZoneSidKey, isPasswordLocked__c
+                    FROM User
+                    WHERE Username = :userName
+                    LIMIT 1
+                ];
+                if (!portalUser.isEmpty()) {
+                    UserLogin usrLogin = [
+                        SELECT IsPasswordLocked
+                        FROM UserLogin
+                        WHERE UserId = :portalUser[0].Id
+                    ];
+                    List<LoginHistory> history = [
+                        SELECT Id, Status, LoginTime
+                        FROM LoginHistory
+                        WHERE UserId = :portalUser[0].Id
+                        ORDER BY LoginTime DESC
+                        LIMIT 100
+                    ];
+                    if (usrLogin.IsPasswordLocked) {
+                        DateTime lockoutTime = null;
+                        for (LoginHistory loginAttempt : history) {
+                            if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
+                                lockoutTime = loginAttempt.LoginTime;
+                            }
+                        }
+                        if (!portalUser[0].isPasswordLocked__c) {
+                            portalUser[0].isPasswordLocked__c = true;
+                            Database.update(portalUser[0]);
+                            Site.forgotPassword(username);
+                        }
+                        return true;
+                    }
+                }
+            }
+            return false;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage());
+        }
+    }
+
+    @AuraEnabled
+    public static Map<String, String> communityLogin(
+        String userName,
+        String password,
+        String startUrl
+    ) {
+        //Key: startUrl, lockoutError, wrongPasswordError, exception
+        Map<String, String> returnMap = new Map<String, String>();
+        try {
+            ApexPages.PageReference pageRef = Site.login(userName, password, startUrl);
+            List<User> loginUser = [
+                SELECT
+                    Id,
+                    ContactId,
+                    Contact.Email,
+                    Contact.Current_Participant_Enrollment__c,
+                    Contact.userCommunityDelegateId__c,
+                    Contact.UserCommunityIsDelegate__c,
+                    Contact.userCommunityMode__c,
+                    Contact.Landing_Community__c
+                FROM User
+                WHERE UserName = :username
+                LIMIT 1
+            ];
+            //PEH-2038 & PEH-2008: When porspect who is a delegate of a participant logs in to the community,
+            //set the Landing_Community__c based on the Site
+            //set userCommunityDelegateId__c to null
+            //set Current_Participant_Enrollment__c to null
+            if (
+                !loginUser.isEmpty() && loginUser[0].Contact.userCommunityMode__c == 'Participant'
+            ) {
+                Contact c = new Contact(
+                    Id = loginUser[0].ContactId,
+                    Current_Participant_Enrollment__c = null,
+                    userCommunityDelegateId__c = null,
+                    Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
+                        ? CommunityService.IQVIA_NETWORK_NAME
+                        : Site.getMasterLabel()
+                );
+                update c;
+            }
+            returnMap.put('startUrl', pageRef.getUrl());
+        } catch (Exception ex) {
+            List<User> u = [
+                SELECT Id, TimeZoneSidKey, isPasswordLocked__c
+                FROM User
+                WHERE Username = :username
+            ];
+            if (!u.isEmpty()) {
+                UserLogin ul = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId = :u[0].Id];
+                List<LoginHistory> history = [
+                    SELECT Id, Status, LoginTime
+                    FROM LoginHistory
+                    WHERE UserId = :u[0].Id
+                    ORDER BY LoginTime DESC
+                    LIMIT 100
+                ];
+                if (ul.IsPasswordLocked) {
+                    DateTime lockoutTime = null;
+                    for (LoginHistory loginAttempt : history) {
+                        if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
+                            lockoutTime = loginAttempt.LoginTime;
+                        }
+                    }
+                    if (!u[0].isPasswordLocked__c) {
+                        u[0].isPasswordLocked__c = true;
+                        Database.update(u[0]);
+                        Site.forgotPassword(username);
+                    }
+                    returnMap.put(
+                        'lockoutError',
+                        Label.PG_Login_Lockout_Error_Message.replace(
+                            '##LockoutEndTime',
+                            lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
+                        )
+                    );
+                } else if (!history.isEmpty() && history[0].Status == 'Invalid Password') {
+                    Integer attempts = 0;
+                    if (u[0].isPasswordLocked__c) {
+                        u[0].isPasswordLocked__c = false;
+                        Database.update(u[0]);
+                    }
+                    while (
+                        attempts < history.size() &&
+                        history[attempts].Status == 'Invalid Password'
+                    ) {
+                        attempts++;
+                    }
+                    if (attempts > 5) {
+                        attempts = math.mod(attempts, 5);
+                    }
+                    String forgotPasswordLink =
+                        '<a class="no-float" href="' +
+                        getForgotPasswordUrl() +
+                        '">' +
+                        Label.PG_Login_L_here_link +
+                        '</a>';
+                    returnMap.put(
+                        'wrongPasswordError',
+                        Label.PG_Login_Wrong_Password_Error_Message.replace(
+                                '##AttemptsLeft',
+                                String.valueOf(5 - attempts)
+                            )
+                            .replace('##ForgotPasswordLink', forgotPasswordLink)
+                    );
+                }
+            }
+            returnMap.put('exception', ex.getMessage());
+            return returnMap;
+        }
+        return returnMap;
+    }
 }

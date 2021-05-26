@@ -91,29 +91,15 @@
                 <div class="body-content">
                     <div class="body-components">{!v.body}</div>
                 </div>
-                <div class="rr-link-section slds-grid">
-                    <div class="slds-col slds-size--1-of-2">
-                        <a class="rr-link slds-align_absolute-center" onclick=""
-                            >{!$Label.c.PG_Login_L_Forgot_your_password}</a
-                        >
-                    </div>
-                    <div class="slds-col slds-size--1-of-2">
-                        <a class="rr-link slds-align_absolute-center" onclick=""
-                            >{!$Label.c.PG_Unable_To_Login}</a
-                        >
-                    </div>
-                </div>
+            </div>
+            <div class="slds-grid slds-grid_reverse slds-large-size_1-of-1">
                 <footer class="footer slds-grid">
-                    <div class="slds-col slds-size--1-of-4">
+                    <div class="slds-col">
                         <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                     </div>
-                    <div class="slds-col slds-size--1-of-4">
-                        {!$Label.c.Lofi_Login_Footer_Optimized}
-                    </div>
-                    <div class="slds-col slds-size--1-of-4">
-                        {!$Label.c.Lofi_Login_Footer_Policies}
-                    </div>
-                    <div class="slds-col slds-size--1-of-4">© IQVIA</div>
+                    <div class="slds-col">{!$Label.c.Lofi_Login_Footer_Optimized}</div>
+                    <div class="slds-col">{!$Label.c.Lofi_Login_Footer_Policies}</div>
+                    <div class="slds-col">© IQVIA</div>
                 </footer>
             </div>
         </div>
