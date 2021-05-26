@@ -67,7 +67,8 @@
                             <!--<div class="slds-col slds-grid slds-grid_align-end">-->
                             <button
                                     data-site-id="{!v.studySite.siteId}"
-                                    id="addNewLocation"                                  
+                                    id="addNewLocation"
+                                    
                                     
                                     class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"                                                                  
                                     onclick="{!c.newAccountAddress}"
