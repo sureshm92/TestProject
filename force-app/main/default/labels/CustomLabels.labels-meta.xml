@@ -12981,6 +12981,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See All</value>
     </labels>
     <labels>
+        <fullName>PG_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Lockout</shortDescription>
+        <value>Locked Out!</value>
+    </labels>
+    <labels>
+        <fullName>PG_Lockout_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Lockout Error Message</shortDescription>
+        <value>You have been locked out of your account because of several failed login attempts. Please wait for 15 minutes before trying to log back in again.</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>

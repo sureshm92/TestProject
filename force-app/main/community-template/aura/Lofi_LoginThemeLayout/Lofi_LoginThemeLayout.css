@@ -99,3 +99,34 @@
     width: 50%;
     margin-top: -3em;
 }
+.THIS .p-header h2 {
+    min-width: 275px;
+    line-height: 22px !important;
+    padding-left: 10px;
+    font-weight: normal !important;
+}
+
+.THIS .p-container .p-content {
+    padding-top: 0 !important;
+}
+.THIS .p-container .rtlBody {
+    direction: rtl;
+}
+.THIS .p-header .rtlHeader {
+    direction: rtl;
+}
+.THIS .p-header .rtlHeader {
+    direction: rtl;
+}
+.THIS .p-header .rtlHeader h2 {
+    padding-right: 10px;
+    padding-left: 0px;
+}
+@media all and (min-width: 768px) {
+    .THIS .p-container.medium {
+        /*width: 600px;*/
+        /* height: 693px;*/
+        width: 500px !important;
+        /*  overflow: hidden; */
+    }
+}
