@@ -36,7 +36,7 @@
     
     <aura:if isTrue="{!v.CmpOpen}">
         <div class="" style="{!if(v.isRTL, 'direction: rtl;','')}">
-        <c:Popup
+        <c:PopupRTL
                  aura:id="dialog"
                  title="{!v.studyInformation.siteName}"
                  size="large"
@@ -113,7 +113,7 @@
                     </span>
                 </div>
             </aura:set>
-        </c:Popup>
+        </c:PopupRTL>
         </div>
     </aura:if>
     
