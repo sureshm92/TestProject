@@ -15994,6 +15994,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Create Visit Reminder</value>
     </labels>
     <labels>
+        <fullName>PP_CriteriaNotMet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CriteriaNotMet</shortDescription>
+        <value>Password is not meeting criteria</value>
+    </labels>
+    <labels>
         <fullName>PP_Custom</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16129,11 +16136,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>If you have a medical emergency, please contact your local emergency services.</value>
     </labels>
     <labels>
+        <fullName>PP_EnterNewPassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EnterNewPassword</shortDescription>
+        <value>Enter New Password</value>
+    </labels>
+    <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_File_Size_Exceeded</shortDescription>
         <value>File size cannot exceed 3MB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ForgotPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ForgotPwd</shortDescription>
+        <value>Forgot Password?</value>
     </labels>
     <labels>
         <fullName>PP_Four_Hours_Before</fullName>
@@ -16213,6 +16234,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_IncludeAnythree</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_IncludeAnythree</shortDescription>
+        <value>And include any 3 below</value>
+    </labels>
+    <labels>
         <fullName>PP_InvalidYear</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16248,6 +16276,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I want to match my username</value>
     </labels>
     <labels>
+        <fullName>PP_MeetingCriteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MeetingCriteria</shortDescription>
+        <value>Password is meeting criteria</value>
+    </labels>
+    <labels>
         <fullName>PP_MergeUsersDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16260,6 +16295,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_MessagePatternMismatch</shortDescription>
         <value>Phone number must be numeric.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MustInclude</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MustInclude</shortDescription>
+        <value>Must Include Atleast</value>
+    </labels>
+    <labels>
+        <fullName>PP_NewPwdPlaceHolder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdPlaceHolder</shortDescription>
+        <value>Enter new password here...</value>
     </labels>
     <labels>
         <fullName>PP_Nickname</fullName>
@@ -16297,11 +16346,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant</value>
     </labels>
     <labels>
+        <fullName>PP_PasswordCriteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordCriteria</shortDescription>
+        <value>Password Criteria</value>
+    </labels>
+    <labels>
         <fullName>PP_Password_Management</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordsMatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordsMatch</shortDescription>
+        <value>Passwords are matching</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordsMismatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordsMismatch</shortDescription>
+        <value>Passwords are not matching</value>
     </labels>
     <labels>
         <fullName>PP_Paste_URL</fullName>
@@ -16379,6 +16449,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
         <value>Data Updated Successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReenterPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ReenterPwd</shortDescription>
+        <value>Re-Enter password here...</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using</fullName>
@@ -16504,6 +16581,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Share Article</shortDescription>
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_SpecialCharacters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SpecialCharacters</shortDescription>
+        <value>Special characters(s)</value>
     </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
