@@ -1,0 +1,59 @@
+<template>
+    <c-web-popup
+        show-footer="true"
+        show-scroll="true"
+        custom-buttons="true"
+        show-close="true"
+        class="unableToLoginPopup"
+        show-header="true"
+        title={labels.unableToLogin}
+        title-image-url={favIconUrl}
+        show-title-image="true"
+        is-r-t-l={isRTLLanguage}
+        is-guest-user="true"
+    >
+        <div slot="body" class={fontDirectionAndStyle}>
+            <!--<div class="titleFont"><img src={favIconUrl} />&nbsp; {labels.unableToLogin}</div>-->
+            <div class="subtitle_lineHeight">
+                <b>{labels.unableToLogin1}</b>
+            </div>
+            <br />
+            <div class="section_lineHeight">
+                {labels.unableToLogin2}
+                <span
+                    ><a class="SFDC_links" onclick={redirectToForgotPassword}>
+                        {labels.loginLinkForgot}
+                    </a>
+                </span>
+                {labels.unableToLogin3}
+            </div>
+            <br />
+            <div class="subtitle_lineHeight">
+                <b> {labels.unableToLogin4}</b>
+            </div>
+            <br />
+            <div class="section_lineHeight">
+                {labels.unableToLogin5}
+                <a class="SFDC_links" href="mailto:support@mail.clinicalresearch.com ">
+                    {labels.unableToLogin6} </a
+                >{labels.unableToLogin7}
+            </div>
+            <br />
+            <div class="subtitle_lineHeight">
+                <b> {labels.unableToLogin8}</b>
+            </div>
+            <br />
+            <div class="section_lineHeight">
+                {labels.unableToLogin9}
+                <a class="SFDC_links" href="mailto:support@mail.clinicalresearch.com ">
+                    {labels.unableToLogin6} </a
+                >{labels.unableToLogin10}
+            </div>
+        </div>
+        <div slot="footerButtons">
+            <div class={footerDiv}>
+                <button class="apollo-btn primary" onclick={closeModal}>{labels.okButton}</button>
+            </div>
+        </div>
+    </c-web-popup>
+</template>

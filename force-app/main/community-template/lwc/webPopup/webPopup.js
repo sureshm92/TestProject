@@ -8,6 +8,7 @@ import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 export default class WebPopup extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
     @api title;
+    @api titleImageUrl = '';
     @api headerText; //text before popup body
     @api footerText; //text under popup body
     @api variant = 'normal'; //normal;success;warning;error
@@ -21,11 +22,13 @@ export default class WebPopup extends LightningElement {
     @api showFooter = false;
     @api showClose = false;
     @api showScroll = false;
+    @api showTitleImage = false;
 
     @api closeCallback;
 
     @track showModal = false;
-    @track isRTL;
+    @api isRTL;
+    @api isGuestUser = false;
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
@@ -42,15 +45,17 @@ export default class WebPopup extends LightningElement {
     }
 
     connectedCallback() {
-        console.log('inside webPopUp-->')
+        console.log('inside webPopUp-->');
         let context = this;
-        getisRTL()
-            .then(function (data) {
-                context.isRTL = data;
-            })
-            .catch(function (error) {
-                console.error('Error: ' + JSON.stringify(error));
-            });
+        if (!context.isGuestUser) {
+            getisRTL()
+                .then(function (data) {
+                    context.isRTL = data;
+                })
+                .catch(function (error) {
+                    console.error('Error: ' + JSON.stringify(error));
+                });
+        }
     }
     //Inner methods-----------------------------------------------------------------------------------------------------
     clickedPrimary() {
