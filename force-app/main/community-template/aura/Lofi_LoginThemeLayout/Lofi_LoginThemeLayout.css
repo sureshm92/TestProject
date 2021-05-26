@@ -8,6 +8,14 @@
     background-color: rgb(255, 255, 255);
 }
 
+.THIS.all-content-rtl {
+    top: 0;
+    left: 0;
+    font-family: 'Proxima Nova';
+    background-color: rgb(255, 255, 255);
+    direction: rtl;
+}
+
 .THIS .body-content {
     width: 320px;
     margin: 0 auto;

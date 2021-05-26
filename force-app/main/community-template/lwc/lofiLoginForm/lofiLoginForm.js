@@ -4,8 +4,8 @@ import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
-import unableToLogin from '@salesforce/label/c.PG_Unable_To_Login';
-import forgotPassword from '@salesforce/label/c.PG_Login_L_Forgot_your_password';
+import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
+import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
@@ -13,6 +13,7 @@ import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @api rtlStyle;
     @api floatInput;
+    @api addIconMargin;
     @track isMobileApp;
     @track isRTL;
 
@@ -38,11 +39,18 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 this.isRTL = label.rtlLanguages.includes(language);
                 this.isMobileApp = communityService.isMobileSDK();
                 if (this.isRTL) {
-                    this.rtlStyle = 'direction: rtl';
-                    this.floatInput = 'float: right';
-                    console.log('RTL applied: ' + this.rtlStyle);
+                    this.rtlStyle = 'direction: rtl;';
+                    this.floatInput = 'float: right;';
+                    this.addIconMargin = 'margin-right: -2.2em;';
+                    console.log(
+                        'RTL inline styles applied: ' +
+                            this.rtlStyle +
+                            this.floatInput +
+                            this.addIconMargin
+                    );
                 } else {
                     this.floatInput = 'float: left';
+                    this.addIconMargin = 'margin-left: -2.2em;';
                 }
                 this.initialized = true;
             })
@@ -61,47 +69,71 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
             this.template.querySelector('img').src = this.eyeIcon;
-            this.template.querySelector('img').style = 'padding-top: 9px;';
+            //this.template.querySelector('img').style = 'padding-top: 9px;';
+            this.addIconMargin = this.isRTL
+                ? 'padding-top: 9px; margin-right: -2.2em;'
+                : 'padding-top: 9px; margin-left: -2.2em;';
             this.passwordInputType = 'text';
         } else {
             this.template.querySelector('img').src = this.eyeHidden;
-            this.template.querySelector('img').style = '';
+            //this.template.querySelector('img').style = '';
+            this.addIconMargin = this.isRTL ? 'margin-right: -2.2em;' : 'margin-left: -2.2em;';
             this.passwordInputType = 'password';
         }
         this.isEyeHidden = !isEyeHidden;
     }
     handleLogin() {
-        let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
-        let password = this.template.querySelector('lightning-input[data-id=password]').value;
-        this.spinner = this.template.querySelector('c-web-spinner');
-        this.spinner.show();
-        communityLogin({ userName: userName, password: password, startUrl: '' })
-            .then((result) => {
-                //Key: startUrl, lockoutError, wrongPasswordError, exception
-                this.spinner.hide();
-                console.log(JSON.stringify(result));
-                if (result.startUrl) {
-                    //re-direct to homepage
-                    location.href = result.startUrl;
-                } else if (result.lockoutError) {
-                    //handle lockout error
-                    alert(result.lockoutError);
-                } else if (result.wrongPasswordError) {
-                    //handle wrong password error
-                    alert(result.wrongPasswordError);
-                } else if (result.exception) {
-                    //handle system exception
-                    alert(result.exception);
-                } else {
-                    //handle unknown error
-                    alert('Unknown error');
-                }
-            })
-            .catch((error) => {
-                console.log(JSON.stringify(error));
-                this.error = error;
-                this.spinner.hide();
-            });
+        let userName = this.template.querySelector('lightning-input[data-id=userName]');
+        let password = this.template.querySelector('lightning-input[data-id=password]');
+        if (userName.value !== '') {
+            userName.setCustomValidity('');
+        } else {
+            userName.setCustomValidity('Please enter username');
+        }
+        if (password.value !== '') {
+            password.setCustomValidity('');
+        } else {
+            password.setCustomValidity('Please enter password');
+        }
+        //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
+        const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
+            (validSoFar, inputCmp) => {
+                inputCmp.reportValidity();
+                return validSoFar && inputCmp.checkValidity();
+            },
+            true
+        );
+        if (allValid) {
+            this.spinner = this.template.querySelector('c-web-spinner');
+            this.spinner.show();
+            communityLogin({ userName: userName.value, password: password.value, startUrl: '' })
+                .then((result) => {
+                    //Key: startUrl, lockoutError, wrongPasswordError, exception
+                    this.spinner.hide();
+                    console.log(JSON.stringify(result));
+                    if (result.startUrl) {
+                        //re-direct to homepage
+                        location.href = result.startUrl;
+                    } else if (result.lockoutError) {
+                        //handle lockout error
+                        alert(result.lockoutError);
+                    } else if (result.wrongPasswordError) {
+                        //handle wrong password error
+                        alert(result.wrongPasswordError);
+                    } else if (result.exception) {
+                        //handle system exception
+                        alert(result.exception);
+                    } else {
+                        //handle unknown error
+                        alert('Unknown error');
+                    }
+                })
+                .catch((error) => {
+                    console.log(JSON.stringify(error));
+                    this.error = error;
+                    this.spinner.hide();
+                });
+        }
     }
     handleForgotPassword() {
         let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
