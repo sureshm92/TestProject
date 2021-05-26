@@ -26,13 +26,5 @@
             action.setCallback(this, function (a) {});
             $A.enqueueAction(action);
         }
-    },
-    publishMC: function (component, event, helpler) {
-        alert('publishing--->');
-        var message = {
-            recordId: component.get('v.usrval')
-        };
-        alert('inside' + JSON.stringify(message));
-        component.find('usermessagechannel').publish(message);
     }
 });
