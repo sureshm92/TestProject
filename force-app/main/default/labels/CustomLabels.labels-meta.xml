@@ -7968,7 +7968,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Heart Rate Description</shortDescription>
-        <value>Heart rate is a measurement of how many beats you take per minute.</value>
+        <value>Heart rate is a measurement of the number of times your heart beats per minute.</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
@@ -21148,7 +21148,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Result Date</shortDescription>
-        <value>Results from</value>
+        <value>Results for</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date On</shortDescription>
+        <value>on</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>

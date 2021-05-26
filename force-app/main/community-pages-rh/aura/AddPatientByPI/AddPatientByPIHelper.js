@@ -243,8 +243,8 @@
             function (returnValue) {
                 console.log('isNeedGuardian: ' + returnValue);
                 var isNeedGuardian = returnValue == 'true';
-                if (!isNeedGuardian && callback) {
-                    callback();
+                if (callback) {
+                    callback(!isNeedGuardian);
                 }
                 console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
@@ -342,7 +342,6 @@
                 lastName: lastName
             },
             function (returnValue) {
-                console.log('>>>returnvalue>>'+returnValue);
                 component.set('v.delegateDuplicateInfo', returnValue);
                 if (
                     returnValue.isDuplicateDelegate ||
@@ -369,9 +368,10 @@
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
                     participantDelegate.First_Name__c = returnValue.firstName;
+                if(returnValue.DelegateYOB)
+                    participantDelegate.Birth_Year__c = returnValue.DelegateYOB;
 
                 component.set('v.participantDelegate', participantDelegate);
-                console.log('>>>final usethisdelegate>>'+component.get('v.useThisDelegate'));
                 helper.checkFields(component, event, helper, true);
                 component.set('v.delegateEmailWasChanged', false);
                 spinner.hide();

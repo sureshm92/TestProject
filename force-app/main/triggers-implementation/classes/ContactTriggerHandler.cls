@@ -109,11 +109,11 @@ public without sharing class ContactTriggerHandler {
                 if(participant.Preferred_Language__c != updatedContactsMap.get(participant.Contact__c).Language__c){
                     participant.Preferred_Language__c = updatedContactsMap.get(participant.Contact__c).Language__c;
                     isUpdateNeeded = true;
-                }  
+                } 
                 if(participant.Phone__c != updatedContactsMap.get(participant.Contact__c).Phone){
                     participant.Phone__c = updatedContactsMap.get(participant.Contact__c).Phone;
                     isUpdateNeeded = true;
-                }                            
+                }                             
                 if(isUpdateNeeded){
                     participantsToUpdate.add(participant);                                  
                 }

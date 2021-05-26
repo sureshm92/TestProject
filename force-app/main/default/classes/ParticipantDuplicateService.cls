@@ -295,12 +295,15 @@ public without sharing class ParticipantDuplicateService {
         }
 
         //Find Participant Delegates
-        List<Patient_Delegate__c> patientDelegates = [
+         List<Patient_Delegate__c> patientDelegates = new List<Patient_Delegate__c>();
+        if(participantsByIds.keySet().size() != 0){
+            patientDelegates = [
             SELECT Id, Participant__c, Contact__c
             FROM Patient_Delegate__c
             WHERE Participant__c IN :participantsByIds.keySet()
             ORDER BY LastModifiedDate DESC
         ];
+        }
         Map<Id, List<Id>> delegateContactIdsByPatientIds = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pt : patientDelegates) {
             if (!delegateContactIdsByPatientIds.containsKey(pt.Participant__c))
@@ -312,7 +315,9 @@ public without sharing class ParticipantDuplicateService {
                 delegateContactIdsByPatientIds.get(pt.Participant__c).add(pt.Contact__c);
             delegatesContactIs.add(pt.Contact__c);
         }
-        List<Participant__c> delegateParticipants = [
+        List<Participant__c> delegateParticipants =new List<Participant__c>();
+        if(!delegatesContactIs.isEmpty()){
+         delegateParticipants = [
             SELECT
                 Id,
                 Contact__c,
@@ -330,6 +335,7 @@ public without sharing class ParticipantDuplicateService {
             FROM Participant__c
             WHERE Contact__c IN :delegatesContactIs
         ];
+        }
         Map<Id, Participant__c> delegatesByContactIds = new Map<Id, Participant__c>();
         for (Participant__c delegate : delegateParticipants) {
             delegatesByContactIds.put(delegate.Contact__c, delegate);
@@ -599,7 +605,7 @@ public without sharing class ParticipantDuplicateService {
         } catch (Exception e) {
             throw new ParticipantDuplicateServiceException(
                 'Can not extract year from field value: ' + str
-            );
+            ); 
         }
     }
 
