@@ -33,8 +33,8 @@ global without sharing class LightningForgotPasswordController {
             if (!Site.isValidUsername(username)) {
                 return Label.Site.invalid_email;
             }
-            //aura.redirect(checkEmailRef);
-            return checkEmailUrl;
+            aura.redirect(checkEmailRef);
+            return null;
         } catch (Exception ex) {
             return ex.getMessage();
         }
