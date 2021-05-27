@@ -39,7 +39,6 @@ export default class UnableToLogin extends NavigationMixin(LightningElement) {
     userId;
     @api show(userName) {
         this.template.querySelector('.unableToLoginPopup').show();
-        alert(userName);
         this.userId = userName;
     }
     closeModal() {
