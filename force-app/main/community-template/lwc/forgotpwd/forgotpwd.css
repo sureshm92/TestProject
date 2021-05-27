@@ -6,6 +6,7 @@
     font-size: 16px !important;
     letter-spacing: 0;
     line-height: 24px !important;
+    margin-top: 10px !important;
 }
 .forgot-password {
     height: 29px !important;
@@ -13,10 +14,23 @@
     color: #000000 !important;
     font-family: 'Proxima Nova' !important;
     font-size: 24px !important;
-    font-weight: 500 !important;
+    font-weight: 600 !important;
     letter-spacing: 0 !important;
     line-height: 29px !important;
+    /*padding-bottom: 40px !important;*/
 }
+.forgot-pwd {
+    height: 29px !important;
+    width: 251px !important;
+    color: #000000 !important;
+    font-family: 'Proxima Nova' !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
+    padding-bottom: 40px !important;
+}
+
 .email-sent {
     height: 29px;
     width: 251px;
@@ -33,10 +47,32 @@
 }
 .we-sent-a-message-to {
     height: 48px;
-    width: 286px;
+    width: 290px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
+}
+.btn {
+    width: 290px !important;
+    height: 36px !important;
+}
+.container-forgot {
+    box-sizing: border-box;
+    height: 38px;
+    width: 290px;
+    border: 1px solid #d9d9d9;
+    border-radius: 4px;
+    background-color: #ffffff;
+    box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
+}
+.usr-label {
+    height: 24px;
+    width: 64px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 36px;
 }

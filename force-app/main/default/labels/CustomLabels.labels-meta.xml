@@ -15987,6 +15987,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Photo</value>
     </labels>
     <labels>
+        <fullName>PP_CantReuseOldPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CantReuseOldPwd</shortDescription>
+        <value>You cannot reuse this old password.</value>
+    </labels>
+    <labels>
         <fullName>PP_ChangeUsrname_DntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16206,6 +16213,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_EmailMatch</shortDescription>
         <value>I would like my username &amp; email to match</value>
+    </labels>
+    <labels>
+        <fullName>PP_EmailSent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailSent</shortDescription>
+        <value>We sent a message to ##emailhandle so you can pick your new password.</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16788,6 +16802,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PP URL Error</shortDescription>
         <value>Please enter a valid URL.</value>
+    </labels>
+    <labels>
+        <fullName>PP_USrPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USrPlaceholder</shortDescription>
+        <value>Enter username here...</value>
     </labels>
     <labels>
         <fullName>PP_UpdateProfileResp</fullName>

@@ -320,8 +320,14 @@ public without sharing class RRChangePasswordController {
                         System.Label.Pswd_ValidationMsg3
                     );
                     failingPageResponse = m.getDetail();
+
                 } else {
+                    if(m.getDetail().contains(System.Label.PP_CantReuseOldPwd) && !Site.getPathPrefix().startsWith('/gsk')){
+                        failingPageResponse = System.Label.PP_CantReuseOldPwd;
+                    }else{
                     failingPageResponse = null;
+                    }
+
                 }
             }
 

@@ -7,20 +7,20 @@ export default class Lockout extends LightningElement {
         lockoutErrorMessage,
         lockoutLabel
     };
-    @api miliSecondsLeft = 120000;
+    @api milliSecondsLeft;
     countDownValue;
     @api isRTLLanguage = false;
 
     connectedCallback() {
         let context = this;
-        this.isRTLLanguage = true;
         var timer = setInterval(function () {
             // Time calculations for days, hours, minutes and seconds
             var minutes =
-                '' + Math.floor((context.miliSecondsLeft % (1000 * 60 * 60)) / (1000 * 60));
-            var seconds = '' + Math.floor((context.miliSecondsLeft % (1000 * 60)) / 1000);
-            if (minutes == 0 && seconds == 0) {
+                '' + Math.floor((context.milliSecondsLeft % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = '' + Math.floor((context.milliSecondsLeft % (1000 * 60)) / 1000);
+            if (minutes === '0' && seconds === '0') {
                 clearInterval(timer);
+                context.dispatchEvent(new CustomEvent('unlock'));
             }
             if (minutes.length == 1) {
                 minutes = '0' + minutes;
@@ -29,7 +29,7 @@ export default class Lockout extends LightningElement {
                 seconds = '0' + seconds;
             }
             context.countDownValue = minutes + ':' + seconds;
-            context.miliSecondsLeft = context.miliSecondsLeft - 1000;
+            context.milliSecondsLeft = context.milliSecondsLeft - 1000;
         }, 1000);
     }
     get lockoutDiv() {

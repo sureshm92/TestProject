@@ -21,6 +21,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @track isRTL;
     @track inError;
     @track errorMsg;
+    timeLeft = 900000;
+    isLockOut = false;
 
     passwordInputType = 'password';
     isEyeHidden = true;
@@ -133,6 +135,10 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         location.href = result.startUrl;
                     } else if (result.lockoutError) {
                         //handle lockout error
+                        if (result.TimeDifference) {
+                            this.timeLeft = Number(result['TimeDifference']);
+                            this.isLockOut = true;
+                        }
                     } else if (result.wrongPasswordError) {
                         //handle wrong password error
                         this.inError = true;
@@ -159,24 +165,43 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (userName) {
             isUserPasswordLocked({ userName: userName })
                 .then((result) => {
-                    console.log('##result: ' + result);
-                    if (result) {
-                        alert('Redirect to lockout screen');
-                        return;
+                    console.log('##result: ' + JSON.stringify(result));
+                    if (result.TimeDifference) {
+                        this.timeLeft = result['TimeDifference'];
+                        this.isLockOut = true;
+                    } else {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Forgot_Password'
+                            }
+                        });
                     }
                 })
                 .catch((error) => {
+                    console.log(error);
                     this.error = error;
                 });
+        } else {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    name: 'Forgot_Password'
+                }
+            });
         }
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Forgot_Password'
-            }
-        });
     }
-    handleUnableToLogin() {}
+    handleShowTimer(event) {
+        this.timeLeft = event.detail;
+        this.isLockOut = true;
+    }
+    handleUnableToLogin() {
+        let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        this.template.querySelector('c-unable-to-login').show(userName);
+    }
+    handleUnlock(event) {
+        this.isLockOut = false;
+    }
     onKeyUp(event) {
         if (event.which == 13) {
             this.handleLogin();
