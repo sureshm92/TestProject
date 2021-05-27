@@ -16774,6 +16774,13 @@ communications using the toggles below.</value>
         <value>Please enter a valid URL.</value>
     </labels>
     <labels>
+        <fullName>PP_USrPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USrPlaceholder</shortDescription>
+        <value>Enter username here...</value>
+    </labels>
+    <labels>
         <fullName>PP_UpdateProfileResp</fullName>
         <language>en_US</language>
         <protected>true</protected>
