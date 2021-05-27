@@ -3,7 +3,6 @@
  */
 
 import { LightningElement, api, track } from 'lwc';
-import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 export default class WebPopup extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
@@ -26,9 +25,8 @@ export default class WebPopup extends LightningElement {
 
     @api closeCallback;
 
-    @track showModal = false;
+    @api showModal = false;
     @api isRTL;
-    @api isGuestUser = false;
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
@@ -44,19 +42,6 @@ export default class WebPopup extends LightningElement {
         this.doCancel();
     }
 
-    connectedCallback() {
-        console.log('inside webPopUp-->');
-        let context = this;
-        if (!context.isGuestUser) {
-            getisRTL()
-                .then(function (data) {
-                    context.isRTL = data;
-                })
-                .catch(function (error) {
-                    console.error('Error: ' + JSON.stringify(error));
-                });
-        }
-    }
     //Inner methods-----------------------------------------------------------------------------------------------------
     clickedPrimary() {
         this.hide();

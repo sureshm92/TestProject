@@ -6,6 +6,9 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
 import unableToLogin from '@salesforce/label/c.Lofi_Unable_to_Login';
 import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
+import userName from '@salesforce/label/c.PG_AS_F_Username';
+import password from '@salesforce/label/c.PG_Login_F_Password';
+import login from '@salesforce/label/c.PG_Login_Title';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
@@ -16,18 +19,25 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @api addIconMargin;
     @track isMobileApp;
     @track isRTL;
+    @track inError;
+    @track errorMsg;
 
     passwordInputType = 'password';
     isEyeHidden = true;
 
     eyeIcon = LOFI_LOGIN_ICONS + '/eye-icon.svg';
     eyeHidden = LOFI_LOGIN_ICONS + '/eye-hidden.svg';
+    exclamation = LOFI_LOGIN_ICONS + '/status-exclamation.svg';
+
     initialized = false;
     spinner;
     label = {
         unableToLogin,
         forgotPassword,
-        rtlLanguages
+        rtlLanguages,
+        userName,
+        password,
+        login
     };
 
     connectedCallback() {
@@ -65,6 +75,13 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
             });
     }
 
+    onInputChange(event) {
+        if (event.target.value !== '') {
+            this.template
+                .querySelector('lightning-input[data-id="' + event.target.label + '"]')
+                .setCustomValidity('');
+        }
+    }
     changeImgSrc() {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
@@ -116,16 +133,18 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         location.href = result.startUrl;
                     } else if (result.lockoutError) {
                         //handle lockout error
-                        alert(result.lockoutError);
                     } else if (result.wrongPasswordError) {
                         //handle wrong password error
-                        alert(result.wrongPasswordError);
+                        this.inError = true;
+                        this.errorMsg = result.wrongPasswordError;
                     } else if (result.exception) {
                         //handle system exception
-                        alert(result.exception);
+                        this.inError = true;
+                        this.errorMsg = result.exception;
                     } else {
                         //handle unknown error
-                        alert('Unknown error');
+                        this.inError = true;
+                        this.errorMsg = 'Unknown error!';
                     }
                 })
                 .catch((error) => {

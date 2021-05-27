@@ -60,3 +60,12 @@
 .rr-link:hover {
     text-decoration: none;
 }
+
+.error-container {
+    height: 24px;
+    width: 90%;
+    color: #e20000;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}

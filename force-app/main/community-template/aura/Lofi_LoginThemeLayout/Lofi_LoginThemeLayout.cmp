@@ -29,8 +29,10 @@
                     <div class="slds-align_absolute-center">
                         <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo.svg'}" />
                     </div>
-                    <div class="logo-sub-title">{!$Label.c.Lofi_Logo_Subtitle}</div>
-                    <div class="slds-grid slds-wrap slds-gutters">
+                    <div class="logo-sub-title slds-align_absolute-center">
+                        {!$Label.c.Lofi_Logo_Subtitle}
+                    </div>
+                    <div class="slds-align_absolute-center slds-grid slds-wrap slds-gutters">
                         <aura:if isTrue="{!!v.isRTL}">
                             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
                                 <img
