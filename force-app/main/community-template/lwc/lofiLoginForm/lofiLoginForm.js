@@ -15,6 +15,9 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @api floatInput;
     @track isMobileApp;
     @track isRTL;
+    userName = '';
+    timeLeft = 900000;
+    isLockOut = false;
 
     passwordInputType = 'password';
     isEyeHidden = true;
@@ -71,11 +74,11 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         this.isEyeHidden = !isEyeHidden;
     }
     handleLogin() {
-        let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        this.userName = this.template.querySelector('lightning-input[data-id=userName]').value;
         let password = this.template.querySelector('lightning-input[data-id=password]').value;
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
-        communityLogin({ userName: userName, password: password, startUrl: '' })
+        communityLogin({ userName: this.userName, password: password, startUrl: '' })
             .then((result) => {
                 //Key: startUrl, lockoutError, wrongPasswordError, exception
                 this.spinner.hide();
@@ -85,7 +88,10 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     location.href = result.startUrl;
                 } else if (result.lockoutError) {
                     //handle lockout error
-                    alert(result.lockoutError);
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                    }
                 } else if (result.wrongPasswordError) {
                     //handle wrong password error
                     alert(result.wrongPasswordError);
@@ -104,28 +110,47 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
             });
     }
     handleForgotPassword() {
-        let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
-        if (userName) {
-            isUserPasswordLocked({ userName: userName })
+        this.userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        if (this.userName) {
+            isUserPasswordLocked({ userName: this.userName })
                 .then((result) => {
-                    console.log('##result: ' + result);
-                    if (result) {
-                        alert('Redirect to lockout screen');
-                        return;
+                    console.log('##result: ' + JSON.stringify(result));
+                    if (result.TimeDifference) {
+                        this.timeLeft = result['TimeDifference'];
+                        this.isLockOut = true;
+                    } else {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Forgot_Password'
+                            }
+                        });
                     }
                 })
                 .catch((error) => {
+                    console.log(error);
                     this.error = error;
                 });
+        } else {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    name: 'Forgot_Password'
+                }
+            });
         }
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                name: 'Forgot_Password'
-            }
-        });
     }
-    handleUnableToLogin() {}
+    handleShowTimer(event) {
+        this.timeLeft = event.detail;
+        this.isLockOut = true;
+    }
+    handleUnableToLogin() {
+        this.userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        this.template.querySelector('c-unable-to-login').show(this.userName);
+    }
+    handleUnlock(event) {
+        this.isLockOut = false;
+    }
     onKeyUp(event) {
         if (event.which == 13) {
             this.handleLogin();

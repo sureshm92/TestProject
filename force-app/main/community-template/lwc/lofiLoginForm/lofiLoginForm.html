@@ -1,47 +1,57 @@
 <template>
-    <c-web-spinner fixed="true"></c-web-spinner>
-    <div class="form-header" style={rtlStyle}>Login</div>
-    <div style={rtlStyle}>
-        <label class="input-label" for="userName">Username</label>
-        <lightning-input
-            id="userName"
-            data-id="userName"
-            type="email"
-            label="Username"
-            variant="label-hidden"
-            placeholder="Enter username here..."
-            class="input-box"
-        ></lightning-input>
-        <label class="input-label" for="password">Password</label>
-        <div>
-            <span onkeyup={onKeyUp}>
-                <lightning-input
-                    id="password"
-                    data-id="password"
-                    type={passwordInputType}
-                    variant="label-hidden"
-                    label="Password"
-                    placeholder="Enter password here..."
-                    class="input-box"
-                    style={floatInput}
-                ></lightning-input>
-            </span>
-            <span onclick={changeImgSrc}>
-                <img class="icon-position" src={eyeHidden} />
-            </span>
+    <template if:false={isLockOut}>
+        <c-web-spinner fixed="true"></c-web-spinner>
+        <div class="form-header" style={rtlStyle}>Login</div>
+        <div style={rtlStyle}>
+            <label class="input-label" for="userName">Username</label>
+            <lightning-input
+                id="userName"
+                data-id="userName"
+                type="email"
+                label="Username"
+                variant="label-hidden"
+                placeholder="Enter username here..."
+                class="input-box"
+            ></lightning-input>
+            <label class="input-label" for="password">Password</label>
+            <div>
+                <span onkeyup={onKeyUp}>
+                    <lightning-input
+                        id="password"
+                        data-id="password"
+                        type={passwordInputType}
+                        variant="label-hidden"
+                        label="Password"
+                        placeholder="Enter password here..."
+                        class="input-box"
+                        style={floatInput}
+                    ></lightning-input>
+                </span>
+                <span onclick={changeImgSrc}>
+                    <img class="icon-position" src={eyeHidden} />
+                </span>
+            </div>
+            <button class="form-button" onclick={handleLogin}>Login</button>
         </div>
-        <button class="form-button" onclick={handleLogin}>Login</button>
-    </div>
-    <div class="slds-grid" style={rtlStyle}>
-        <div class="slds-col slds-size--1-of-2">
-            <a class="rr-link slds-align_absolute-center" onclick={handleForgotPassword}
-                >{label.forgotPassword}</a
-            >
+        <div class="slds-grid" style={rtlStyle}>
+            <div class="slds-col slds-size--1-of-2">
+                <a class="rr-link slds-align_absolute-center" onclick={handleForgotPassword}
+                    >{label.forgotPassword}</a
+                >
+            </div>
+            <div class="slds-col slds-size--1-of-2">
+                <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
+                    >{label.unableToLogin}</a
+                >
+
+                <c-unable-to-login
+                    is-r-t-l-language={isRTL}
+                    onunabletologin={handleShowTimer}
+                ></c-unable-to-login>
+            </div>
         </div>
-        <div class="slds-col slds-size--1-of-2">
-            <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
-                >{label.unableToLogin}</a
-            >
-        </div>
-    </div>
+    </template>
+    <template if:true={isLockOut}>
+        <c-lockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-lockout>
+    </template>
 </template>
