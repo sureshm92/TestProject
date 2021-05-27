@@ -8930,6 +8930,14 @@ The expected format is REF##### to REF########</value>
         <value>This status cannot be changed.</value>
     </labels>
     <labels>
+        <fullName>Lofi_Forgot_Password</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Forgot Password</shortDescription>
+        <value>Forgot Password?</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Login_Footer_Optimized</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8977,6 +8985,14 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Lofi Logo Subtitle</shortDescription>
         <value>Connecting professionals, patients and clinical researchers for better healthcare</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Unable_to_Login</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Unable to Login</shortDescription>
+        <value>Unable to Login?</value>
     </labels>
     <labels>
         <fullName>Login_Form_Show</fullName>
