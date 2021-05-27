@@ -39,8 +39,9 @@
     background: none;
     border: none;
 }
-.rtl{
-right:607px !important;
+.rtl {
+    right: unset !important;
+    left: 10%;
 }
 
 .p-container > .slds-button:after {
@@ -66,19 +67,18 @@ right:607px !important;
 }
 
 .p-header h2 {
-   /* font-size: 24px;
+    /* font-size: 24px;
     font-weight: 500;
     line-height: 30px;
     width: 90%;*/
     height: 60px;
     width: 190px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 30px;
     font-weight: 600;
     letter-spacing: 0;
     line-height: 60px;
-    
 }
 .p-header h2RTL {
     font-size: 24px;
@@ -135,7 +135,7 @@ right:607px !important;
 .p-container {
     width: calc(100% - 30px);
     max-height: 100%;
- /*   overflow: hidden; */
+    /*   overflow: hidden; */
 }
 
 .p-container .p-mobile-close {
@@ -163,7 +163,7 @@ right:607px !important;
         /*width: 600px;*/
         /* height: 693px;*/
         width: 700px;
-      /*  overflow: hidden; */
+        /*  overflow: hidden; */
     }
 }
 

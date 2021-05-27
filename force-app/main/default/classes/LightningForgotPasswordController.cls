@@ -1,6 +1,6 @@
 global without sharing class LightningForgotPasswordController {
     public LightningForgotPasswordController() {
-    }
+    } 
 
     @AuraEnabled
     public static String forgotPassword(String username, String checkEmailUrl) {
@@ -22,10 +22,15 @@ global without sharing class LightningForgotPasswordController {
                             lockoutTime = loginAttempt.LoginTime;
                         }
                     }
-                    return Label.PG_Login_Lockout_Error_Message.replace(
+                    if(Site.getPathPrefix().startsWith('/gsk')){
+                      return Label.PG_Login_Lockout_Error_Message.replace(
                         '##LockoutEndTime',
                         lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
-                    );
+                    );  
+                    }else{
+                        return null;
+                    }
+                    
                 }
             }
             Site.forgotPassword(username);
@@ -33,8 +38,14 @@ global without sharing class LightningForgotPasswordController {
             if (!Site.isValidUsername(username)) {
                 return Label.Site.invalid_email;
             }
-            aura.redirect(checkEmailRef);
-            return null;
+            if(Site.getPathPrefix().startsWith('/gsk')){
+                aura.redirect(checkEmailRef);
+                return null;
+            }else
+            {
+                return checkEmailUrl;
+            }
+            
         } catch (Exception ex) {
             return ex.getMessage();
         }

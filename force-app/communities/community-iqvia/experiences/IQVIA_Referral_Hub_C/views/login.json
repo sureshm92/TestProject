@@ -5,18 +5,9 @@
   "label" : "Login",
   "regions" : [ {
     "components" : [ {
-      "componentAttributes" : {
-        "forgotPasswordLabel" : "Forgot your password?",
-        "forgotPasswordUrl" : "/ForgotPassword",
-        "loginButtonLabel" : "Log in",
-        "passwordLabel" : "Password",
-        "selfRegisterLabel" : "Not a member?",
-        "selfRegisterUrl" : "/SelfRegister",
-        "startUrl" : "",
-        "usernameLabel" : "Email"
-      },
-      "componentName" : "c:RRLoginForm",
-      "id" : "ecfbb8b3-561e-43e4-a047-41ed448a4f21",
+      "componentAttributes" : { },
+      "componentName" : "c:lofiLoginForm",
+      "id" : "b1b75f01-0569-4193-8b8b-2274ff4b277c",
       "renderPriority" : "NEUTRAL",
       "renditionMap" : { },
       "type" : "component"
@@ -27,8 +18,8 @@
   }, {
     "components" : [ {
       "componentAttributes" : {
+        "customHeadTags" : "",
         "description" : "",
-        "metaTags" : "",
         "title" : "Login"
       },
       "componentName" : "forceCommunity:seoAssistant",
