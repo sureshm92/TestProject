@@ -16192,6 +16192,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I would like my username &amp; email to match</value>
     </labels>
     <labels>
+        <fullName>PP_EmailSent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailSent</shortDescription>
+        <value>We sent a message to ##emailhandle so you can pick your new password.</value>
+    </labels>
+    <labels>
         <fullName>PP_Emergency</fullName>
         <language>en_US</language>
         <protected>true</protected>

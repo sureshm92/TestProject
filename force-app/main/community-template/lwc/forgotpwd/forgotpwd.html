@@ -32,9 +32,9 @@
     <template if:true={showEmailSent}>
         <div style="margin-top: 40px" class={rtlStyleClass}>
             <div class="forgot-password">{labels.emailsent}</div>
-            <div class="we-sent-a-message-to">{labels.emailsentsubtitle} {usrnameval}</div>
+            <div class="we-sent-a-message-to">{emailMessage}</div>
             <div>
-                <div style="height: 50px; margin-top: 40px">
+                <div style="height: 50px; margin-top: 70px;">
                     <button class="apollo-btn primary" style="width: 100%" onclick={goBack}>
                         {labels.backtologin}
                     </button>
