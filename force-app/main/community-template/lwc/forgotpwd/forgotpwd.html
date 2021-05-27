@@ -23,7 +23,7 @@
                         onclick={handleForgotPassword}
                         
                     >
-                        {labels.sendLabel}
+                        {labels.sendEmailLabel}
                     </button>
                 </div>
                 <div style="height: 50px; margin-top: 20px;" class="slds-align_absolute-center">
@@ -37,7 +37,7 @@
     <template if:true={showEmailSent}>
         <div style="margin-top: 40px" class={rtlStyleClass}>
             <div class="forgot-password">{labels.emailsent}</div>
-            <div class="we-sent-a-message-to">{emailMessage}</div>
+            <div class="we-sent-a-message-to">{labels.emailsentsubtitle}</div>
             <div>
                 <div style="height: 50px; margin-top: 70px;">
                     <button class="apollo-btn primary" style="width: 100%" onclick={goBack}>

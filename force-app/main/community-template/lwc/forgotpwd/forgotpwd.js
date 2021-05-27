@@ -7,6 +7,7 @@ import cancelLabel from '@salesforce/label/c.BTN_Cancel';
 import backtologin from '@salesforce/label/c.Link_Back_To_Login';
 import emailsent from '@salesforce/label/c.PG_Email_Sent_Title';
 import emailsentsubtitle from '@salesforce/label/c.PP_EmailSent';
+import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
 import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPassword';
 import setExperienceId from '@salesforce/apex/LightningForgotPasswordController.setExperienceId';
@@ -25,7 +26,8 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
         emailsentsubtitle,
         rtlLanguageLabel,
         forgotLabel,
-        usrPlaceholder
+        usrPlaceholder,
+        sendEmailLabel
     };
     @track showEmailSent = false;
     @track usernameLabel = 'Username';
