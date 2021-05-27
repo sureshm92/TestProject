@@ -401,7 +401,6 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
         }
     }
     @TestVisible
-    @Future
     private static void createStudyAlerts(
         List<Id> newHistories
     ) {

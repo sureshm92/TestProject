@@ -291,6 +291,9 @@
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
                     participantDelegate.First_Name__c = returnValue.firstName;
+                if(returnValue.DelegateYOB)
+                    participantDelegate.Birth_Year__c = returnValue.DelegateYOB;
+                
                 helper.checkFields(component, event, helper, true);
                 component.set('v.delegateParticipant', participantDelegate);
                 spinner.hide();
