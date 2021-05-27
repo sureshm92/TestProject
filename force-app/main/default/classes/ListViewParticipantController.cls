@@ -398,7 +398,7 @@ public without sharing class ListViewParticipantController {
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(communityTemplatename).permissionSet; 
     
-            if (!createUsersMap.isEmpty()) {
+            if (!createUsersMap.isEmpty() && !Test.isRunningTest() ){
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsersBulk(createUsersMap);
             }

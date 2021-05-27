@@ -128,6 +128,7 @@ public class Test_ListViewParticipantController {
         system.debug(p.Present_Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        List<Id> peList = new List<Id>{ pe.id };
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
         lw.SelectedIds = new List<Id>{ pe.id };
         lw.pageSize = 5;
@@ -160,6 +161,30 @@ public class Test_ListViewParticipantController {
             );
 
             ListViewParticipantController.getSSList(clinical.Id,'Active');
+            ListViewParticipantController.getAvailableStatuses('Received',clinical.Id);
+            ListViewParticipantController.statusDetail('Received',clinical.Id);
+            ListViewParticipantController.createUserForPatientProtal(peList,True);
+            ListViewParticipantController.updateParticipantStatus(peList,
+                                                                  'Received',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Contact Attempted',
+                                                                  True);
+            ListViewParticipantController.updateParticipantStatus(peList,
+                                                                  'Screening In Progress',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Ready To Screen',
+                                                                  True);
+            ListViewParticipantController.updateParticipantStatus(peList,
+                                                                  'Contact Attempted',
+                                                                  'Test Notes',
+                                                                  'Other',
+                                                                  clinical.Id,
+                                                                  'Received',
+                                                                  True);
 
             ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
 
