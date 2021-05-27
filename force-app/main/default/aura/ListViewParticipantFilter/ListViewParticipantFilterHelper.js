@@ -33,7 +33,6 @@
     },
 
     handleSearchHelper: function (component, event, helper) {
-        console.log('insidehelper');
         component.find('Spinnerpopup').show();
         component.set('v.lstPR_no', '');
         component.set('v.lstPR_yes', '');
@@ -113,7 +112,7 @@
                     component.set('v.PaginationList', result.FilterImpacts);
                     component.set('v.PageNumber', result.pageNumber);
                     component.set('v.TotalRecords', result.totalRecords);
-                   
+                    component.set('v.bulkStatusUpdate',result.bulkStatusUpdate);
                     component.set('v.filterList[0].perRecordCount', result.totalRecords);
                     component.set('v.RecordStart', result.recordStart);
                     component.set('v.RecordEnd', result.recordEnd);

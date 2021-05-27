@@ -139,7 +139,9 @@ public without sharing class CommunityService {
     }
 
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
-        return [
+        List<User> lstUser = new List<User> ();
+        if(!contactIds.isEmpty()){
+            lstUser = [
             SELECT
                 Id,
                 Name,
@@ -152,9 +154,11 @@ public without sharing class CommunityService {
             FROM User
             WHERE
                 //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                ContactId IN :contactIds
+                ContactId IN :contactIds];
+    }
+        return  lstUser;
             //AND email != null
-        ];
+       
     }
 
     public static Boolean isUserModeValid(String userMode) {

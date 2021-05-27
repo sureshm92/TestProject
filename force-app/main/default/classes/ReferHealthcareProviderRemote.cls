@@ -148,7 +148,7 @@ global without sharing class ReferHealthcareProviderRemote {
             List<Contact> contacts = Database.query(contactQuery);
             if (contacts.isEmpty() && !String.isBlank(firstName) && !String.isBlank(lastName)) {
                 delegateParticipants = [
-                    SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c
+                    SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c, Contact__c,Birth_Year__c
                     FROM Participant__c
                     WHERE
                         (First_Name__c = :firstName
@@ -179,7 +179,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 List<Participant__c> participants;
                 if (delegateParticipants.isEmpty()) {
                     participants = [
-                        SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c
+                        SELECT Id, First_Name__c, Last_Name__c, Phone__c, Phone_Type__c,Birth_Year__c
                         FROM Participant__c
                         WHERE Contact__c = :contacts[0].Id
                     ];
@@ -187,6 +187,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     participants = delegateParticipants;
                 if (!participants.isEmpty()) {
                     hp.participantId = participants[0].Id;
+                    hp.DelegateYOB =  participants[0].Birth_Year__c;
                     hp.contactPhoneNumber = participants[0].Phone__c;
                     hp.contactPhoneType = participants[0].Phone_Type__c;
                     hp.firstName = participants[0].First_Name__c;
@@ -868,6 +869,8 @@ global without sharing class ReferHealthcareProviderRemote {
         public String contactPhoneNumber { get; set; }
         @AuraEnabled
         public String contactPhoneType { get; set; }
+        @AuraEnabled
+        public String DelegateYOB { get; set; }
     }
 
     public class PDWrapper {

@@ -25,7 +25,7 @@
             <aura:if isTrue="{!v.initialized}">
                 <div class="visit-result-panel-title">{!v.visitResultsContainer.groupName}</div>
                 <div class="visit-result-panel-date">
-                    {!$Label.c.Visit_Results_Tab_Result_Date + ' '}
+                    {!$Label.c.Visit_Results_Tab_Result_Date + ' ' + v.visitResultsContainer.visitName+ ' ' +$Label.c.Visit_Results_Tab_Result_Date_On +' '}
                     <aura:if isTrue="{!v.isVisitResultAvailable}">
                         <lightning:formattedDateTime
                             value="{!v.visitResultsContainer.dateVisited}"

@@ -33,11 +33,15 @@ public class Test_ParticipantEnrollmentTriggerHandler {
             PEhistorty.add(history);
         }
         insert PEhistorty;
+        
+        List<Id> peshIdsList=new List<Id>();
+        for(Participant_Enrollment_Status_History__c obj: PEhistorty) 
+            peshIdsList.add(obj.Id);
 
         Test.startTest();
         ParticipantEnrollmentTriggerHandler.deactivateDeceasedUsers(enrollments, oldMap);
         ParticipantEnrollmentSHTriggerHandler.updateEnrollmentStatus(PEhistorty);
-        ParticipantEnrollmentSHTriggerHandler.createStudyAlerts(PEhistorty);
+        ParticipantEnrollmentSHTriggerHandler.createStudyAlerts(peshIdsList);
         for (Participant_Enrollment_Status_History__c peh : PEhistorty) {
             peh.Status__c = PEStatusState.PE_STATUS_ELIGIBILITY_PASSED;
             PEhistortyaccepted.add(peh);

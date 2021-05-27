@@ -165,6 +165,9 @@ public without sharing class ListViewParticipantController {
         Boolean finalconsent){ 
             Savepoint sp = Database.setSavepoint();
             try {
+                if(StatusToUpdate == 'Sent to Study Hub' || StatusToUpdate == 'Initial Visit'){
+                    StatusToUpdate = 'Eligibility Passed';
+                }
                 Set<Id> SSId = new Set<Id>(); 
                 Set<Id> planIds = new Set<Id>(); 
                 Map<ID,ID> MapSitePlan = new Map<ID,ID>(); 
@@ -193,6 +196,7 @@ public without sharing class ListViewParticipantController {
                     pe.Non_Referral_Notes__c = Notes;
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
+                    pe.Participant_Status_Last_Changed_Date__c = system.now();
                     PEUpdateList.add(pe);
                     
                     if(pe.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1)
@@ -200,6 +204,60 @@ public without sharing class ListViewParticipantController {
                         PEIncentiveList.add(pe);
                     }
                     SSId.add(pe.Study_Site__c);
+                    
+                    if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+                        );
+                        
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            PENotificationTriggerHandler.CreateNotificationHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+                        );
+                        update PEUpdateList;
+                    } 
                     
                     if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
@@ -238,12 +296,7 @@ public without sharing class ListViewParticipantController {
                     
                     
                 }
-                if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-                    TriggerHandlerExecutor.bypassHandler(
-                    ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
-                );
-                    update PEUpdateList;
-                } 
+               
                 
                 if(histories != null && !histories.isEmpty()){
                     insert histories;
@@ -271,7 +324,9 @@ public without sharing class ListViewParticipantController {
                          incentiveTasks = [
                              SELECT Id, Points__c, Enabled__c, IQVIA_Supported__c,Incentive_Plan__c
                              FROM Incentive_Plan_Task__c
-                             WHERE Incentive_Plan__c IN :planIds AND Enabled__c=TRUE AND Incentive_Task_Catalog__c = :IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY
+                             WHERE Incentive_Plan__c IN :planIds 
+                             AND Enabled__c=TRUE 
+                             AND Incentive_Task_Catalog__c = :IncentiveTaskCatalog.INCENTIVE_TASK_MADE_CONTACT_ATTEMPT_WITHIN_1_DAY
                          ];
                          if(!incentiveTasks.isEmpty()){
                              for(Incentive_Plan_Task__c ipt:incentiveTasks){
@@ -343,7 +398,7 @@ public without sharing class ListViewParticipantController {
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(communityTemplatename).permissionSet; 
     
-            if (!createUsersMap.isEmpty()) {
+            if (!createUsersMap.isEmpty() && !Test.isRunningTest() ){
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsersBulk(createUsersMap);
             }
@@ -367,29 +422,53 @@ public without sharing class ListViewParticipantController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-     
-
+   
     //list of available statuses
     @AuraEnabled
     public static List<LabelValueItem> getAvailableStatuses(String status, Id StudyId){
-        List<String> availableStatusLists = new List<String>();
-         List<String> availableStatusList = new List<String>();
+        List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
+        List<String> availableStatusList = new List<String>();
         List<LabelValueItem> StatusList = new List<LabelValueItem>();
         String availableStatus;
         
-        Boolean isPromoteToSH = [SELECT Promote_to_SH__c
-                                 FROM Clinical_Trial_Profile__c 
-                                 WHERE Id =: StudyId].Promote_to_SH__c;
-        For(List_View_Status__mdt lvs : [SELECT Managed_in_SH__c,Available_Statuses__c
-                                         FROM List_View_Status__mdt
-                                         WHERE Managed_in_SH__c =: isPromoteToSH 
-                                         AND Participant_Status__c =: status])
-                                         {
-                                             availableStatusList=lvs.Available_Statuses__c.split(',');  
-                                         }
-                   availableStatusLists.addall(availableStatusList);
-         StatusList.add(
-                new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
+        Clinical_Trial_Profile__c ctp = [SELECT 
+                                         Promote_to_SH__c,
+                                         Initial_Visit_Required__c,
+                                         Participant_Workflow_Final_Step__c
+                                         FROM Clinical_Trial_Profile__c 
+                                         WHERE Id =: StudyId];
+        
+        Boolean isPromoteToSH = ctp.Promote_to_SH__c;
+        Boolean isInitialVisit = ctp.Initial_Visit_Required__c;
+        String finalStep = ctp.Participant_Workflow_Final_Step__c;
+        
+        if(availableStatusLists.contains(status)){
+            For(List_View_Status__mdt lvs : [SELECT 
+                                             Managed_in_SH__c,
+                                             Initial_Visit__c,
+                                             Available_Statuses__c
+                                             FROM List_View_Status__mdt
+                                             WHERE Managed_in_SH__c =: isPromoteToSH 
+                                             AND Initial_Visit__c =: isInitialVisit
+                                             AND Participant_Status__c =: status])
+            {
+                availableStatusList=lvs.Available_Statuses__c.split(',');  
+            }
+            
+        } else{
+            For(List_View_Status__mdt lvs : [SELECT 
+                                             Participant_Workflow_Final_Step__c,
+                                             Available_Statuses__c
+                                             FROM List_View_Status__mdt
+                                             WHERE Participant_Workflow_Final_Step__c =:finalStep
+                                             AND Participant_Status__c =: status])
+            {
+                availableStatusList=lvs.Available_Statuses__c.split(',');  
+            }
+        }
+        
+        StatusList.add(
+            new LabelValueItem(Label.ListView_Select_a_Status, 'null'));
         for (String st :  availableStatusList){
             String t = st.replaceAll('[\\s\\-()]', '_');
             if (t == 'Contacted___Not_Suitable'){
@@ -664,10 +743,6 @@ public without sharing class ListViewParticipantController {
                     FilterList[0].Sex +
                     '\'';
             }
-            
-
-
-
 
             //filters for Bulk Action
             //Invite to PP
@@ -748,7 +823,8 @@ public without sharing class ListViewParticipantController {
             for (Promote_to_SH__mdt psl : pshList) {
                 pshStatus.add(psl.status__c);
             }
-
+            
+            Boolean studySitePSH = false;
             Decimal pshLimit;
             pshLimit = [SELECT DeveloperName, Limit__c FROM Promote_to_SH_Limit__mdt LIMIT 1]
             .Limit__c;
@@ -757,6 +833,7 @@ public without sharing class ListViewParticipantController {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
                         Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
+                        studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH) {
                             isChekedSelected = true;
                             isLocked = false;
@@ -786,6 +863,7 @@ public without sharing class ListViewParticipantController {
                     } else {
                         //PeChecklist.add(false);
                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus); 
+                        studySitePSH = ifAllowedForSH(pe,pshStatus); 
                         if (allowedForSH) {
                             isChekedSelected = false;
                             isLocked = false;
@@ -816,6 +894,7 @@ public without sharing class ListViewParticipantController {
                 } else {
                     //PeChecklist.add(false);
                     Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
+                        studySitePSH = ifAllowedForSH(pe,pshStatus); 
                         if (allowedForSH)  {
                         isChekedSelected = false;
                         isLocked = false;
@@ -887,10 +966,28 @@ public without sharing class ListViewParticipantController {
                 );
                 PromotetoSH = pe.Clinical_Trial_Profile__r.Promote_to_SH__c;
             }
+            
+            objDT.bulkStatusUpdate = false;
+            //Added for SH studies
+            if (
+                !String.isEmpty(FilterList[0].ParticipantStatus) &&
+                FilterList[0].ParticipantStatus != 'null' 
+            ){
+                Boolean isPromoteToSH = [SELECT Promote_to_SH__c
+                                 FROM Clinical_Trial_Profile__c 
+                                 WHERE Id =: FilterList[0].Study].Promote_to_SH__c;
+                List<List_View_Status__mdt> metadataList = [SELECT Managed_in_SH__c,Available_Statuses__c
+                                         FROM List_View_Status__mdt
+                                         WHERE Managed_in_SH__c =: isPromoteToSH 
+                                         AND Participant_Status__c =: FilterList[0].ParticipantStatus];
+                if(!metadataList.isEmpty()){
+                    objDT.bulkStatusUpdate = true;
+                }
+            }
 
             //objDT.isChecked =PeChecklist;
             objDT.IsPromoteToSH = PromotetoSH;
-            objDT.enableSH = PromotetoSH;
+            objDT.enableSH = PromotetoSH && studySitePSH ? true : false;
             objDT.OrginalidSelected = OrgSelectedIds;
             objDT.FilterImpacts = wpws;
             objDT.IsPromoteToSHLimit = pshLimit;
@@ -922,7 +1019,7 @@ public without sharing class ListViewParticipantController {
         Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&  
             !pe.Participant_Enrollment_Status_History__r.isEmpty(); 
 
-        if(pshStatus.contains(pe.Participant_Status__c)     
+        if(pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true && (pe.Study_Site__r.Study_Site_Type__c == 'Hybrid' || pe.Study_Site__r.Study_Site_Type__c == 'Virtual') && pshStatus.contains(pe.Participant_Status__c)         
            && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) || 
                (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){ 
                    isAllowedForSH = true;   
@@ -1363,6 +1460,8 @@ public without sharing class ListViewParticipantController {
         public Boolean enableSH { get; set; }
         @AuraEnabled
         public Boolean enablePP { get; set; }
+        @AuraEnabled
+        public Boolean bulkStatusUpdate { get; set; }
     }
     public class WrapPageWithSelection {
         @AuraEnabled

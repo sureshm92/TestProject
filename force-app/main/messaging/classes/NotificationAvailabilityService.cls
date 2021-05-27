@@ -40,13 +40,17 @@ public without sharing class NotificationAvailabilityService {
         allPermissions = new List<String>(CommunityTemplateService.getAllPermissionSets());
 
         permissionSetsByConIdMap = new Map<Id, List<String>>();
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId = :contacts];
-        List<PermissionSetAssignment> userPerSetAssignments = [
-            SELECT Id, AssigneeId, Assignee.ContactId, PermissionSet.Name
-            FROM PermissionSetAssignment
-            WHERE AssigneeId IN :users AND PermissionSet.Name IN :allPermissions
-        ];
-
+        List<User> users = new List<User> ();
+        List<PermissionSetAssignment> userPerSetAssignments = new List<PermissionSetAssignment> ();
+        if(!contacts.isEmpty())
+        	  users = [SELECT Id, ContactId FROM User WHERE ContactId = :contacts];
+        if(!users.isEmpty()){
+            userPerSetAssignments = [
+                SELECT Id, AssigneeId, Assignee.ContactId, PermissionSet.Name
+                FROM PermissionSetAssignment
+                WHERE AssigneeId IN :users AND PermissionSet.Name IN :allPermissions
+            ];
+        }
         for (PermissionSetAssignment perAssign : userPerSetAssignments) {
             Id assigneeContactId = perAssign.Assignee.ContactId;
             if (!permissionSetsByConIdMap.containsKey(assigneeContactId))
@@ -437,14 +441,16 @@ public without sharing class NotificationAvailabilityService {
         for (Id contactId : contactIds) {
             resultMap.put(contactId, false);
         }
-        for (Study_Site__c site : [
-            SELECT Id, Principal_Investigator__c
-            FROM Study_Site__c
-            WHERE
+        if(!contactIds.isEmpty()){
+            for (Study_Site__c site : [
+                SELECT Id, Principal_Investigator__c
+                FROM Study_Site__c
+                WHERE
                 Suppress_Study_Site_PI_Emails__c = FALSE
                 AND Principal_Investigator__c IN :contactIds
-        ]) {
-            resultMap.put(site.Principal_Investigator__c, true);
+            ]) {
+                resultMap.put(site.Principal_Investigator__c, true);
+            }
         }
         return resultMap;
     }
@@ -456,14 +462,16 @@ public without sharing class NotificationAvailabilityService {
         for (Id contactId : contactIds) {
             resultMap.put(contactId, false);
         }
-        for (Site_Staff__c staff : [
-            SELECT Id, Site_Contact__c
-            FROM Site_Staff__c
-            WHERE
+        if(!contactIds.isEmpty()){
+            for (Site_Staff__c staff : [
+                SELECT Id, Site_Contact__c
+                FROM Site_Staff__c
+                WHERE
                 Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
                 AND Site_Contact__c IN :contactIds
-        ]) {
-            resultMap.put(staff.Site_Contact__c, true);
+            ]) {
+                resultMap.put(staff.Site_Contact__c, true);
+            }
         }
         return resultMap;
     }

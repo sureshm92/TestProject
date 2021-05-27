@@ -9,7 +9,7 @@
 }
 .THIS .received {
   height: 24px;
-  width: 220px;
+  width: 350px;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -27,7 +27,7 @@
 }
 .THIS .referred {
   height: 24px;
-  width: 220px;
+  width: 350px;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 16px;
@@ -43,12 +43,18 @@
     font-size:14px;
 }
 .THIS .notes{
+    padding-top: 10px;
     width: 464px;
-    padding-left: 6px;
+    padding-left: 16px;
 }
 .THIS .apollo-btn.secondary,
 .THIS .slds-button_neutral {
     font-size: 1rem;
     font-weight: 600;
     margin-right: 10px;
+}
+.THIS .checkbox_finalConsent{
+    height: 24px;
+    width: 190px;
+    padding-bottom:10px;
 }

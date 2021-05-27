@@ -538,24 +538,24 @@
     },
 
     doCheckDateOfBith: function (component, event, helper) {
-        console.log('IN doCheckDateOfBith');
-        //component.set('v.isAdult', false);
-        component.set('v.participant.Adult__c', false);
+        component.find('spinner').show();
         let parent = component.get('v.parentComponent');
         if (parent!=null && parent.checkDateOfBith) {
             console.log('Parent checkDateOfBith');
-            parent.checkDateOfBith(function () {
-                //component.set('v.isAdult', true);
-                component.set('v.participant.Adult__c', true);
+            parent.checkDateOfBith(function(result) {
+                component.set('v.participant.Adult__c', result);
+                 $A.enqueueAction(component.get('c.doCheckFields'));
+                component.find('spinner').hide(); 
             });
         }else {
             if(parent!=null && parent.checkParticipantDateOfBith){
-                parent.checkParticipantDateOfBith(function () {
-                    component.set('v.participant.Adult__c', true);
+                parent.checkParticipantDateOfBith(function(result) {
+                    component.set('v.participant.Adult__c', result);
+                    $A.enqueueAction(component.get('c.doCheckFields'));
+                    component.find('spinner').hide(); 
                 });
             }
         }
-        $A.enqueueAction(component.get('c.doCheckFields'));
         console.log('END doCheckDateOfBith');
     },
 
