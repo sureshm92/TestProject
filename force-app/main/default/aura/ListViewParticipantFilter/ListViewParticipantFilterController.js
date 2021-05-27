@@ -1003,7 +1003,7 @@
                             //component.set('v.StatusChangeto',returnValue[1]);
                             helper.handleSearchHelper(component, event, helper);
                             
-                            component.set("v.isCheckboxhidden",true);
+                            //component.set("v.isCheckboxhidden",true);
                             component.set("v.turnON",true);
                         }else{
                             communityService.showToast(
@@ -1062,7 +1062,12 @@
    doValueChangeStatus: function (component, event, helper) {
        //alert(component.get('v.statusSelected'));
        component.set('v.StatusChangeto',component.get('v.statusSelected'));
-       component.set("v.isCheckboxhidden",true);
+       if(component.get('v.StatusChangeto') != null && component.get('v.StatusChangeto') != 'null'
+         && component.get('v.StatusChangeto') != ''){
+            component.set("v.isCheckboxhidden",true);
+       }else{
+           component.set("v.isCheckboxhidden",false);
+       }
        component.set("v.turnON",true);
        helper.handleSearchHelper(component, event, helper);
     },
@@ -1073,6 +1078,7 @@
         component.set('v.lstPR_yes', '');
         component.set('v.SelectedIds', '');
         component.set('v.DeSelectedIds', '');
+        component.set('v.statusSelected',null);
         component.set('v.count', 0);
         component.set('v.enablePromoteToSH', true);
     },

@@ -741,13 +741,14 @@ public without sharing class ViewPatientsRemote {
     ) {
         CsvWrapper wrap = new CsvWrapper();
         List<Participant_Enrollment__c> lstPER = new List<Participant_Enrollment__c>();
+        List<Participant_Enrollment__c> lstPERs = new List<Participant_Enrollment__c>();
         String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
         String queryString =
             'SELECT Id,Name,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
             'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,' +
             'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,' +
             'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,' +
-            'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,High_Priority__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
+            'Initial_visit_scheduled_flag__c,Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,High_Priority__c,Comorbidities__c FROM Participant_Enrollment__c WHERE ';
 
         String filter = '';
         filter =
@@ -764,8 +765,20 @@ public without sharing class ViewPatientsRemote {
         system.debug('@@@@@@@@ ' + Query);
         lstPER = Database.query(Query);
         Integer totalCount = Database.countQuery(queryCount);
+        List<String> FOVTime =new List<String>();
+        for(Participant_Enrollment__c per:lstPER ){
+           String Fovtim =String.ValueOf(per.Initial_visit_scheduled_time__c);
+           if(Fovtim  !='' && Fovtim  !=null){
+           FOVTime.add(Fovtim.replace('.000Z', ''));
+           }else{
+           FOVTime.add('');
+           }
+           lstPERs.add(per);
+        }
 
-        wrap.partList = lstPER;
+
+        wrap.partList = lstPERs;
+        wrap.initialVisitScheduleTime=FOVTime;
         wrap.startPos = startPos;
         wrap.endPos = endPos;
         wrap.totalCount = totalCount;
@@ -775,6 +788,8 @@ public without sharing class ViewPatientsRemote {
     public class CsvWrapper {
         @AuraEnabled
         public List<Participant_Enrollment__c> partList { get; set; }
+        @AuraEnabled
+        public List<String> initialVisitScheduleTime { get; set; }
         @AuraEnabled
         public List<Id> studies { get; set; }
         @AuraEnabled

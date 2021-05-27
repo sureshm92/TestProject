@@ -3,6 +3,8 @@
         component.find('dialog').show();
         var newStatus = component.get('v.statusSelected').trim();
         var studyId = component.get('v.oStudy');
+        component.set('v.notesRequired',false);
+        component.set('v.finalConsent',false);
         communityService.executeAction(
             component,
             'statusDetail',

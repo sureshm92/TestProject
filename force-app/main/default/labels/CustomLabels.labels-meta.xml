@@ -7968,7 +7968,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Heart Rate Description</shortDescription>
-        <value>Heart rate is a measurement of how many beats you take per minute.</value>
+        <value>Heart rate is a measurement of the number of times your heart beats per minute.</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
@@ -8675,6 +8675,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
     </labels>
+	<labels>
+        <fullName>Initial_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
@@ -8907,6 +8914,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>ListView_Current_Status</shortDescription>
         <value>Current Status</value>
+    </labels>
+	<labels>
+        <fullName>ListView_GroupStatuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_GroupStatuses</shortDescription>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
     </labels>
     <labels>
         <fullName>ListView_New_Status</fullName>
