@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
- <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote" extends="c:CommunityContext">
+ <aura:component implements="forceCommunity:themeLayout" controller="CommunityFacadeRemote" extends="c:CommunityContext">  
     <ltng:require
                   styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
                   scripts="{!$Resource.rr_community_js}"
@@ -55,25 +55,23 @@
                                  />
                         </div>
                         <aura:if isTrue="{!v.isRTL}">
-                              <div class="logo-container-RTL">
-                            <img
-                                 src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
-                                 class="title-logo"
-                                 onclick="{!c.doGoHome}"
-                                 />
-                        </div>
-                            <aura:set attribute="else">
-                                <div class="logo-container">
-                                    <img
-                                         src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
-                                         class="title-logo"
-                                         onclick="{!c.doGoHome}"
-                                         />
-                                </div>
-                            </aura:set>
-                        </aura:if>
-
-                      
+                            <div class="logo-container-RTL">
+                          <img
+                               src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                               class="title-logo"
+                               onclick="{!c.doGoHome}"
+                               />
+                      </div>
+                          <aura:set attribute="else">
+                              <div class="logo-container">
+                                  <img
+                                       src="{!if(v.currentMode.userMode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                                       class="title-logo"
+                                       onclick="{!c.doGoHome}"
+                                       />
+                              </div>
+                          </aura:set>
+                      </aura:if>                   
                         
                         <div class="navigation-block">
                             <c:CommunityNavigation

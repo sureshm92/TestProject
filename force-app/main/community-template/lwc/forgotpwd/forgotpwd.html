@@ -1,0 +1,48 @@
+<template>
+    <template if:false={showEmailSent}>
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <span class="forgot-password">{labels.forgotLabel}</span>
+            <div>
+                <div>
+                    <!--<label class="label">{labels.usrnameLabel}</label>-->
+                    <lightning-input
+                        type="text"
+                        value={usrnameval}
+                        class=""
+                        onkeyup={onKeyUp}
+                        label={labels.usrnameLabel}
+                    ></lightning-input>
+                    <template if:true={showError}>
+                        <div class="email-not-associated" style="color: red">{errorMessage}</div>
+                    </template>
+                </div>
+                <div style="height: 50px; margin-top: 30px">
+                    <button
+                        class="apollo-btn primary"
+                        onclick={handleForgotPassword}
+                        style="width: 100%"
+                    >
+                        {labels.sendLabel}
+                    </button>
+                </div>
+                <!--<div style="display: flex; justify-content: center">
+                    <a class="rr-link" onclick={goBack}>{labels.cancelLabel}</a>
+                </div>-->
+            </div>
+        </div>
+    </template>
+    <template if:true={showEmailSent}>
+        <!--<span class="forgot-password">Email Sent</span>-->
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <div class="forgot-password">{labels.emailsent}</div>
+            <div class="we-sent-a-message-to">{labels.emailsentsubtitle} {usrnameval}</div>
+            <div>
+                <div style="height: 50px; margin-top: 30px">
+                    <button class="apollo-btn primary" style="width: 100%" onclick={goBack}>
+                        {labels.backtologin}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

@@ -747,7 +747,8 @@ public without sharing class ListViewParticipantController {
             for (Promote_to_SH__mdt psl : pshList) {
                 pshStatus.add(psl.status__c);
             }
-
+            
+            Boolean studySitePSH = false;
             Decimal pshLimit;
             pshLimit = [SELECT DeveloperName, Limit__c FROM Promote_to_SH_Limit__mdt LIMIT 1]
             .Limit__c;
@@ -755,7 +756,8 @@ public without sharing class ListViewParticipantController {
                 if (OrgSelectedIds.size() > 0) {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
-                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
+                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus); 
+                        studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH) {
                             isChekedSelected = true;
                             isLocked = false;
@@ -785,6 +787,7 @@ public without sharing class ListViewParticipantController {
                     } else {
                         //PeChecklist.add(false);
                        Boolean allowedForSH = ifAllowedForSH(pe,pshStatus); 
+                       studySitePSH = ifAllowedForSH(pe,pshStatus); 
                         if (allowedForSH) {
                             isChekedSelected = false;
                             isLocked = false;
@@ -814,7 +817,8 @@ public without sharing class ListViewParticipantController {
                     }
                 } else {
                     //PeChecklist.add(false);
-                    Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
+                    Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);
+                    studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH)  {
                         isChekedSelected = false;
                         isLocked = false;
@@ -907,7 +911,7 @@ public without sharing class ListViewParticipantController {
 
             //objDT.isChecked =PeChecklist;
             objDT.IsPromoteToSH = PromotetoSH;
-            objDT.enableSH = PromotetoSH;
+            objDT.enableSH = PromotetoSH && studySitePSH ? true : false;
             objDT.OrginalidSelected = OrgSelectedIds;
             objDT.FilterImpacts = wpws;
             objDT.IsPromoteToSHLimit = pshLimit;
@@ -939,7 +943,7 @@ public without sharing class ListViewParticipantController {
         Boolean eligibilyPassedStatusPresent = (eligibilityStatusPresent== true)?true:pe.Participant_Enrollment_Status_History__r!=null &&  
             !pe.Participant_Enrollment_Status_History__r.isEmpty(); 
 
-        if(pshStatus.contains(pe.Participant_Status__c)     
+        if(pe.Clinical_Trial_Profile__r.Promote_to_SH__c == true && (pe.Study_Site__r.Study_Site_Type__c == 'Hybrid' || pe.Study_Site__r.Study_Site_Type__c == 'Virtual') && pshStatus.contains(pe.Participant_Status__c)     
            && ((pe.Participant_Status__c!='Eligibility Passed' && !eligibilyPassedStatusPresent) || 
                (pe.Participant_Status__c!='Eligibility Passed' && eligibilyPassedStatusPresent && logNotPresentOrFailed))){ 
                    isAllowedForSH = true;   

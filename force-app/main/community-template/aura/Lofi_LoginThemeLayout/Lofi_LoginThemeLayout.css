@@ -8,6 +8,14 @@
     background-color: rgb(255, 255, 255);
 }
 
+.THIS.all-content-rtl {
+    top: 0;
+    left: 0;
+    font-family: 'Proxima Nova';
+    background-color: rgb(255, 255, 255);
+    direction: rtl;
+}
+
 .THIS .body-content {
     width: 320px;
     margin: 0 auto;
@@ -70,6 +78,56 @@
 .THIS .janssen-logo {
     font-size: 22px;
     font-weight: 600;
+}
+.THIS .forgot-password {
+    height: 29px !important;
+    width: 251px !important;
+    color: #000000 !important;
+    font-family: 'Proxima Nova' !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
+}
+.THIS .email-sent {
+    height: 29px;
+    width: 251px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 29px;
+}
+.THIS .we-sent-a-message-to {
+    height: 48px;
+    width: 286px;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: 40px;
+}
+
+.THIS .label {
+    height: 24px;
+    width: 64px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .slds-form-element__label {
+    height: 24px;
+    width: 100px;
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
 }
 
 .THIS .header-title {

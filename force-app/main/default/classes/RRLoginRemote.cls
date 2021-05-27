@@ -218,7 +218,8 @@ global without sharing class RRLoginRemote {
     }
 
     @AuraEnabled
-    public static Boolean isUserPasswordLocked(String userName) {
+    public static Map<String, Long> isUserPasswordLocked(String userName) {
+        Map<String, Long> passwordLockMap = new Map<String, Long>();
         try {
             if (!String.isBlank(userName)) {
                 List<User> portalUser = [
@@ -245,6 +246,10 @@ global without sharing class RRLoginRemote {
                         for (LoginHistory loginAttempt : history) {
                             if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
                                 lockoutTime = loginAttempt.LoginTime;
+                                passwordLockMap.put(
+                                    'TimeDifference',
+                                    lockOutTime.addMinutes(15).getTime() - System.now().getTime()
+                                );
                             }
                         }
                         if (!portalUser[0].isPasswordLocked__c) {
@@ -252,11 +257,12 @@ global without sharing class RRLoginRemote {
                             Database.update(portalUser[0]);
                             Site.forgotPassword(username);
                         }
-                        return true;
+
+                        return passwordLockMap;
                     }
                 }
             }
-            return false;
+            return passwordLockMap;
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
@@ -336,6 +342,12 @@ global without sharing class RRLoginRemote {
                         Label.PG_Login_Lockout_Error_Message.replace(
                             '##LockoutEndTime',
                             lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
+                        )
+                    );
+                    returnMap.put(
+                        'TimeDifference',
+                        String.valueof(
+                            lockOutTime.addMinutes(15).getTime() - System.now().getTime()
                         )
                     );
                 } else if (!history.isEmpty() && history[0].Status == 'Invalid Password') {

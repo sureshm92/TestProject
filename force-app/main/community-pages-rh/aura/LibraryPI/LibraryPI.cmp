@@ -31,7 +31,6 @@
                             <span class="language-title">{!$Label.c.Library_Language}</span>
                         </aura:set>
                     </aura:if>
-
                     <img
                          class="language-filter-icon"
                          src="{!$Resource.icon_filterBlue}"
