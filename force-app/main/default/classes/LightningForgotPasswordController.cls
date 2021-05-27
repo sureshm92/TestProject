@@ -1,6 +1,6 @@
 global without sharing class LightningForgotPasswordController {
     public LightningForgotPasswordController() {
-    }
+    } 
 
     @AuraEnabled
     public static String forgotPassword(String username, String checkEmailUrl) {
