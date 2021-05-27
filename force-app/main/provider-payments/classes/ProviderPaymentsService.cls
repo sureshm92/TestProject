@@ -24,15 +24,17 @@ public without sharing class ProviderPaymentsService {
             }
         }
         Map<Id, Study_Site__c> studySitesMap = new Map<Id, Study_Site__c>();
-        for (Study_Site__c ss : [
-            SELECT Id, Billable_Code_CRM_Number__c, Protocol_ID__c, Principal_Investigator__c
-            FROM Study_Site__c
-            WHERE
+        if(!studySiteIds.isEmpty()){
+            for (Study_Site__c ss : [
+                SELECT Id, Billable_Code_CRM_Number__c, Protocol_ID__c, Principal_Investigator__c
+                FROM Study_Site__c
+                WHERE
                 Id IN :studySiteIds
                 AND Clinical_Trial_Profile__r.Sponsor_Pays_for_Referral_Activity__c = 'Yes'
                 AND Billable_Code_CRM_Number__c != NULL
-        ]) {
-            studySitesMap.put(ss.Id, ss);
+            ]) {
+                studySitesMap.put(ss.Id, ss);
+            }
         }
         List<Participant_Enrollment__c> peWithReimbursableActivities = new List<Participant_Enrollment__c>();
         Set<Id> providerContactIds = new Set<Id>();

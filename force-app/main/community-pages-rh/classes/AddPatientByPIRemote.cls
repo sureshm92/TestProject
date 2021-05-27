@@ -194,7 +194,7 @@ public without sharing class AddPatientByPIRemote {
 
     @Future
     @TestVisible
-    private static void updateParticipant(String participantJSON) {
+    public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
