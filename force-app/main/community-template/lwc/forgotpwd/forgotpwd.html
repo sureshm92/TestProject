@@ -1,43 +1,40 @@
 <template>
     <template if:false={showEmailSent}>
         <div style="margin-top: 40px" class={rtlStyleClass}>
-            <span class="forgot-password">{labels.forgotLabel}</span>
+            <div class="forgot-pwd">{labels.forgotLabel}</div>
             <div>
                 <div>
-                    <!--<label class="label">{labels.usrnameLabel}</label>-->
-                    <lightning-input
+                    <label class="usr-label">{labels.usrnameLabel}</label>
+                    <input
                         type="text"
                         value={usrnameval}
-                        class=""
                         onkeyup={onKeyUp}
+                        class="container-forgot"
                         label={labels.usrnameLabel}
-                    ></lightning-input>
+                        placeholder={userPlaceholder}
+                    ></input>
                     <template if:true={showError}>
-                        <div class="email-not-associated" style="color: red">{errorMessage}</div>
+                        <div class="email-not-associated">{errorMessage}</div>
                     </template>
                 </div>
                 <div style="height: 50px; margin-top: 30px">
                     <button
-                        class="apollo-btn primary"
+                        class="apollo-btn primary btn"
                         onclick={handleForgotPassword}
-                        style="width: 100%"
+                        
                     >
                         {labels.sendLabel}
                     </button>
                 </div>
-                <!--<div style="display: flex; justify-content: center">
-                    <a class="rr-link" onclick={goBack}>{labels.cancelLabel}</a>
-                </div>-->
             </div>
         </div>
     </template>
     <template if:true={showEmailSent}>
-        <!--<span class="forgot-password">Email Sent</span>-->
         <div style="margin-top: 40px" class={rtlStyleClass}>
             <div class="forgot-password">{labels.emailsent}</div>
             <div class="we-sent-a-message-to">{labels.emailsentsubtitle} {usrnameval}</div>
             <div>
-                <div style="height: 50px; margin-top: 30px">
+                <div style="height: 50px; margin-top: 40px">
                     <button class="apollo-btn primary" style="width: 100%" onclick={goBack}>
                         {labels.backtologin}
                     </button>

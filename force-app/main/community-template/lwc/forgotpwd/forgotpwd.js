@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import usrnameLabel from '@salesforce/label/c.PG_Login_F_User_Name';
 import forgotLabel from '@salesforce/label/c.PP_ForgotPwd';
 import sendLabel from '@salesforce/label/c.BTN_Send';
+import usrPlaceholder from '@salesforce/label/c.PP_USrPlaceholder';
 import cancelLabel from '@salesforce/label/c.BTN_Cancel';
 import backtologin from '@salesforce/label/c.Link_Back_To_Login';
 import emailsent from '@salesforce/label/c.PG_Email_Sent_Title';
@@ -23,7 +24,8 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
         emailsent,
         emailsentsubtitle,
         rtlLanguageLabel,
-        forgotLabel
+        forgotLabel,
+        usrPlaceholder
     };
     @track showEmailSent = false;
     @track usernameLabel = 'Username';
@@ -45,6 +47,10 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
             .catch((error) => {
                 console.log(error.body.message);
             });
+        if (!this.usrnameval) {
+            this.usrnameval = '';
+            this.userPlaceholder = ' ' + this.labels.usrPlaceholder + ' ';
+        }
         this.initialize();
     }
 
@@ -56,7 +62,7 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     }
 
     handleForgotPassword() {
-        this.usrnameval = this.template.querySelector('lightning-input').value;
+        this.usrnameval = this.template.querySelector('input').value;
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
                 if (result.includes('./CheckPasswordResetEmail')) {
