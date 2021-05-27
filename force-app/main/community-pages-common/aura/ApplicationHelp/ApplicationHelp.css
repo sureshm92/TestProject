@@ -1,6 +1,75 @@
 /**
  * Created by Kryvolap on 12.10.2018.
  */
+
+.THIS .duplicate-usernames {
+  height: 51px;
+  width: fit-content;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 17px;
+}
+.THIS .rtl-submit{
+    padding-right:110px;
+}
+.THIS .submit-btn{
+    padding-left:150px;
+}
+.THIS .edit-yob-year-of-bi {
+  height: 19px;
+  width: 175px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 19px;
+}
+.THIS .cRrInput.rri-container input {
+    width:68px;
+}
+.THIS .cRrSelect .slds-select_container .slds-select  {
+    width:120px;
+}
+
+.THIS .from {
+  padding-top:5px;
+  height: 19px;
+  width: 41px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+}
+.THIS .from-rtl {
+  padding-top:8px;
+  height: 19px;
+  width: 41px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  padding-left:60px;
+}
+
+.THIS .rr-error
+{
+    color: red;
+    font-size:14px;
+    width:120px;
+}
+
+.THIS .username-email {
+  height: 19px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 19px;
+}
 .THIS.ah-main-container {
     margin-top: 30px;
     padding: 10px 0 10px 10px;
@@ -9,6 +78,61 @@
     background-color: #ffffff;
     padding: 0px 20px 30px 20px;
 }
+.THIS .cRrInput.rri-container input{
+    height:32px !important;
+}
+.THIS .divider{
+    width: 100%;
+    border-top-width: 1px;
+    border-top-style: solid;
+    border-top-color: #d9d9d9;
+}
+
+
+.THIS .mr_left_10{
+    margin-left:10px;
+}
+.THIS .mr_right_15{
+    margin-right:15px;
+    
+}
+
+.THIS .update-all{
+    white-space:nowrap;
+}
+.THIS .center{
+    text-align:center;
+    justify-content:center;
+}
+.THIS .to-update-all-other {
+  height: 60px;
+  width: 472px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 30px;
+   text-align: center;
+}
+.THIS .padding_left{
+    padding-left:24px;
+}
+.THIS .mr_36{
+    padding-left:36px;
+    padding-right:30px;
+}
+.THIS .mr_24{
+    padding-left:24px;
+    margin-top:3px;
+}
+.THIS .ah-item-panel-update {
+    box-sizing: border-box;
+    background-color: #f8f9fb;
+    padding: 10px;
+    white-space:nowrap !important;
+
+}
+
 .THIS .ah-item-label {
     color: black;
     font-weight: 600;
@@ -18,10 +142,49 @@
     color: #666666;
     font-size: 1rem;
 }
+.THIS .ah-item-sublabel-ticket {
+    color: #444444;
+    font-size: 16px;
+    width:359px;
+}
 .THIS .ah-item-panel {
     box-sizing: border-box;
     background-color: #f8f9fb;
     padding: 10px;
+}
+.THIS .ah-item-panel-usr{
+    box-sizing: border-box;
+    background-color: #f8f9fb;
+    padding-left:10px;
+    
+}
+.THIS .create-ticket-for {
+  height: 29px;
+  width: 188px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 24px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 29px;
+}
+.THIS .slds-radio__label{
+    font-size:14px;
+}
+.THIS .email-match{
+    width:450px;
+    white-space:nowrap;
+    font-size:14px;
+    color:#444444;
+}
+.THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
+  height: 24px;
+  width: 262px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
 }
 .THIS .ah-section-title {
     color: black;
@@ -61,6 +224,15 @@
         margin-top: 10px;
         margin-bottom: 10px;
     }
+    .THIS .cRrSelect .slds-select_container .slds-select  {
+    width:fit-content;
+}
+    .THIS .ah-item-sublabel-ticket {
+        width:350px;
+    }
+     .THIS .cRrInput.rri-container input{
+        height:40px !important;
+    }
 
     .THIS .ah-item-panel {
         padding-left: 5px;
@@ -80,13 +252,88 @@
     }
 }
 
+ .THIS .btn-mr{
+        padding-right:8px;
+        padding-left:10px;
+    }
+.THIS .btn-ml{
+        padding-left:150px;
+    }
 @media all and (max-width: 500px) {
+    
+    .THIS .duplicate-usernames {
+        width:fit-content;
+    }
     .THIS.ah-main-container {
         margin-top: 0;
         padding-top: 0;
     }
+    .THIS .btn-mr{
+        padding-left:10px;
+        padding-right:8px;
+    }
 
     .THIS .ah-button {
-        width: 100%;
+        width: 100% !important;
+        min-width:100% !important;
+    }
+    .THIS .rr-error{
+        white-space:normal;
+        width:120px;
+    }
+    
+    .THIS .cRrInput.rri-container input{
+        height:40px !important;
+    }
+    .THIS .from {
+        padding-top:10px;
+    }
+    .THIS .from-rtl {
+        padding-top:10px;
+    }
+    .THIS .center{
+    text-align:center;
+    justify-content:center;
+    min-width: 100%;
+    padding-left: 15px;
+    padding-right: 15px;
+    }
+    
+    
+}
+@media all and (device-width: 1024px) and (device-height: 1366px) and (orientation:portrait) {
+  .THIS .cRrSelect .slds-select_container .slds-select {
+        width: fit-content;
+    }
+    .THIS .ah-item-sublabel-ticket {
+        width:fit-content;
+    }
+    .THIS .rr-error {
+        width:100px;
+        white-space:normal;
+    }
+    .THIS .update-all{
+        white-space:normal;
+    }
+    .THIS .mr_36{
+        padding-right:0;
+    }
+}
+@media all and (device-width: 1366px) and (device-height: 1024px) and (orientation:landscape) {
+   .THIS .cRrSelect .slds-select_container .slds-select {
+        width: fit-content;
+    }
+    .THIS .ah-item-sublabel-ticket {
+        width:fit-content;
+    }
+    .THIS .rr-error {
+        width:100px;
+        white-space:normal;
+    }
+    .THIS .update-all{
+        white-space:normal;
+    }
+    .THIS .mr_36{
+        padding-right:0;
     }
 }

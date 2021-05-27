@@ -3340,6 +3340,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>6- Caucasian/White</value>
     </labels>
     <labels>
+        <fullName>Change_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change_Participant_Status</shortDescription>
+        <value>Change Participant Status</value>
+    </labels>
+    <labels>
         <fullName>Closed_Requests</fullName>
         <categories>Media OutReach</categories>
         <language>en_US</language>
@@ -4127,6 +4134,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Declined Consent</shortDescription>
         <value>Declined Consent</value>
+    </labels>
+    <labels>
+        <fullName>Declined_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Declined_Final_Consent</shortDescription>
+        <value>Declined Final Consent</value>
     </labels>
     <labels>
         <fullName>Delegate</fullName>
@@ -7929,7 +7943,7 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Provider&apos;s email address</value>
     </labels>
     <labels>
-        <fullName>HealthCare_Providers_First_Name</fullName>
+    <fullName>HealthCare_Providers_First_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>HealthCare Providers First Name</shortDescription>
@@ -7941,6 +7955,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <protected>true</protected>
         <shortDescription>HealthCare Providers Last Name</shortDescription>
         <value>Provider&apos;s last name</value>
+    </labels>
+    <labels>
+        <fullName>Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Heart Rate</shortDescription>
+        <value>Heart rate</value>
+    </labels>
+    <labels>
+        <fullName>Heart_Rate_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Heart Rate Description</shortDescription>
+        <value>Heart rate is a measurement of the number of times your heart beats per minute.</value>
     </labels>
     <labels>
         <fullName>Height</fullName>
@@ -8500,7 +8528,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_My_Points</shortDescription>
         <value>My Points</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>IQVIA_intervention_completed</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8647,6 +8675,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
     </labels>
+	<labels>
+        <fullName>Initial_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
     <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
@@ -8690,7 +8725,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invite_Participant_To_Portal</shortDescription>
         <value>Invite Participant to Patient Portal</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Invite_to_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8853,6 +8888,55 @@ The expected format is REF##### to REF########</value>
         <value>Interactive Advertising Bureau</value>
     </labels>
     <labels>
+        <fullName>ListView_ChangeStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_ChangeStatus</shortDescription>
+        <value>Change Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Change_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Change_Status</shortDescription>
+        <value>Please select a status in the filter criteria</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Select_a_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Select_a_Status</shortDescription>
+        <value>Select a status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Current_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Current_Status</shortDescription>
+        <value>Current Status</value>
+    </labels>
+	<labels>
+        <fullName>ListView_GroupStatuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_GroupStatuses</shortDescription>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
+    </labels>
+    <labels>
+        <fullName>ListView_New_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_New_Status</shortDescription>
+        <value>New Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Status_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Status_Not_Available</shortDescription>
+        <value>This status cannot be changed.</value>
+    </labels>
+    <labels>
         <fullName>Login_Form_Show</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8873,7 +8957,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Minor_Access_Error_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9728,7 +9812,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>No_records_to_display</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14392,7 +14476,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L All fields are required.</shortDescription>
         <value>All fields are required.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14434,7 +14518,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
         <value>Please ensure that the delegate&apos;s information, especially email address, is correct before connecting to patient.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Download_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14519,7 +14603,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
         <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14596,7 +14680,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Patient_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14687,7 +14771,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Please select your referral source</shortDescription>
         <value>Please select your referral source</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PG_Ref_L_Primary_Delegate_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14722,7 +14806,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Signed_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15796,7 +15880,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI Mode</shortDescription>
         <value>Investigative Site</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>PI_Toggle_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15836,6 +15920,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
         <value>Edit Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeUsrname_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeUsrname_DntTranslate</shortDescription>
+        <value>I want to match my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB</shortDescription>
+        <value>I want to change my year of birth from</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB_DntTranslate</shortDescription>
+        <value>I want to change my year of birth from</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -15878,6 +15983,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Cookie Settings</shortDescription>
         <value>Cookie Settings</value>
+    </labels>
+    <labels>
+        <fullName>PP_CreateTicketFor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CreateTicketFor</shortDescription>
+        <value>Create Ticket For</value>
     </labels>
     <labels>
         <fullName>PP_Create_Task_Reminder</fullName>
@@ -15973,11 +16085,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Due Date and Time</value>
     </labels>
     <labels>
+        <fullName>PP_DuplicateUsernames</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DuplicateUsernames</shortDescription>
+        <value>Duplicate usernames are associated with your email  &lt;b&gt;##Email&lt;/b&gt;. Please choose one of the following to use.</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditAllInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditAllInfo</shortDescription>
+        <value>Edit all other information in</value>
+    </labels>
+    <labels>
         <fullName>PP_EditProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EditProfilePhoto</shortDescription>
         <value>Add Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditYOB</shortDescription>
+        <value>Edit YOB (Year of Birth)</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
@@ -15994,6 +16127,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Edit Visit Reminder</shortDescription>
         <value>Edit Visit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_EmailMatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailMatch</shortDescription>
+        <value>I would like my username &amp; email to match</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16017,6 +16157,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>4 hours before</value>
     </labels>
     <labels>
+        <fullName>PP_From</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_From</shortDescription>
+        <value>From</value>
+    </labels>
+    <labels>
         <fullName>PP_General_Info</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16036,6 +16183,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP HLP T2 Feedback</shortDescription>
         <value>This form is for providing feedback about how our features can be improved and should not be used to report content on the IQVIA™ Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>PP_HelpResponse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_HelpResponse</shortDescription>
+        <value>To update all other information, please go to your</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -16073,6 +16227,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_InvalidYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidYear</shortDescription>
+        <value>Invalid year of birth</value>
+    </labels>
+    <labels>
         <fullName>PP_Invalid_Entry</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16092,6 +16253,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP Language and Location</shortDescription>
         <value>Language and Location</value>
+    </labels>
+    <labels>
+        <fullName>PP_MatchMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchMyEmailAddress</shortDescription>
+        <value>I want to match my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeUsersDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsersDntTranslate</shortDescription>
+        <value>I have duplicate usernames. I want to use my username.</value>
     </labels>
     <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
@@ -16324,6 +16499,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Scheduled</value>
     </labels>
     <labels>
+        <fullName>PP_SelectUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectUsername</shortDescription>
+        <value>Select Username to use</value>
+    </labels>
+    <labels>
+        <fullName>PP_SelectYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectYear</shortDescription>
+        <value>Select Year</value>
+    </labels>
+    <labels>
         <fullName>PP_Share_Article</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16360,11 +16549,46 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
+        <fullName>PP_Ticket_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Ticket_Success_Toast</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB &amp; Username.</value>
+    </labels>
+    <labels>
         <fullName>PP_Time_Unavailable</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
         <value>No Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>PP_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To</shortDescription>
+        <value>to</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToEmailAddressDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToEmailAddressDntTranslate</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToMyEmailAddress</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_To_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To_DntTranslate</shortDescription>
+        <value>to</value>
     </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>
@@ -16417,11 +16641,60 @@ communications using the toggles below.</value>
         <value>Please enter a valid URL.</value>
     </labels>
     <labels>
+        <fullName>PP_UpdateProfileResp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UpdateProfileResp</shortDescription>
+        <value>&gt; Contact Information &gt; Edit &gt; Save</value>
+    </labels>
+    <labels>
         <fullName>PP_Upload_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Upload_Photo</shortDescription>
         <value>Upload Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsefulInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsefulInfo</shortDescription>
+        <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_User_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UserAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameAndEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your Username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsrNameLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameLabel</shortDescription>
+        <value>Username associated with your email &lt;b&gt;##Email&lt;/b&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsrNameUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameUpdateDntTranslate</shortDescription>
+        <value>Username Update</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -16488,6 +16761,27 @@ communications using the toggles below.</value>
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
  ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUpdateDntTranslate</shortDescription>
+        <value>YOB Update</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
+        <value>YOB Update,Username Update</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -17212,7 +17506,7 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Previous_Call_Dispositions</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17225,6 +17519,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Pulse</shortDescription>
         <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>Quick_Reference_Card</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quick Reference Card</shortDescription>
+        <value>Quick Reference Card</value>
     </labels>
     <labels>
         <fullName>RBC_Count</fullName>
@@ -17499,7 +17800,7 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
         <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>RH_StudyInfo</fullName>
         <language>en_US</language>
@@ -17647,7 +17948,7 @@ communications using the toggles below.</value>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Records_all_invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18266,7 +18567,7 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>RH_DelegateAttestation</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18528,7 +18829,7 @@ communications using the toggles below.</value>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Select_Call_Catagory</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18940,7 +19241,7 @@ communications using the toggles below.</value>
         <shortDescription>Showing Participant - call center</shortDescription>
         <value>Showing</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Signed_Auth_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19095,7 +19396,7 @@ communications using the toggles below.</value>
         <shortDescription>Legend description</shortDescription>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>September</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19255,7 +19556,7 @@ communications using the toggles below.</value>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
     </labels>
-	    <labels>
+    <labels>
         <fullName>Study_Site_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19742,7 +20043,7 @@ communications using the toggles below.</value>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Type_in_your_notes</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19756,7 +20057,6 @@ communications using the toggles below.</value>
         <shortDescription>Tab_Medical_History</shortDescription>
         <value>Medical History</value>
     </labels>
-   
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
         <language>en_US</language>
@@ -20347,7 +20647,7 @@ communications using the toggles below.</value>
         <shortDescription>Unable to Reach</shortDescription>
         <value>Unable to Reach</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>UserName</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -20458,6 +20758,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Glucose</shortDescription>
         <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Heart Rate</shortDescription>
+        <value>Heart Rate</value>
     </labels>
     <labels>
         <fullName>VR_Height</fullName>
@@ -20855,7 +21162,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Result Date</shortDescription>
-        <value>Results from</value>
+        <value>Results for</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date On</shortDescription>
+        <value>on</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>
