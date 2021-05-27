@@ -392,13 +392,13 @@
     width: 418px;
 }
 
-.THIS.arabic .dateInputs > .slds-grid.slds-p-top-large > .slds-size_1-of-2,
-.THIS.hebrew .dateInputs > .slds-grid.slds-p-top-large > .slds-size_1-of-2{
+.THIS.arabic .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2,
+.THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2{
     width: auto!important;
 }
 
-.THIS.arabic .dateInputs > .slds-grid.slds-p-top-large > .slds-size_1-of-2.reminderDate_visrtl,
-.THIS.hebrew .dateInputs > .slds-grid.slds-p-top-large > .slds-size_1-of-2.reminderDate_visrtl {
+.THIS.arabic .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2.reminderDate_visrtl,
+.THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2.reminderDate_visrtl {
     margin-right: 8px;
 }
 
