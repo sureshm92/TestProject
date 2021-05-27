@@ -38,13 +38,13 @@ global without sharing class LightningForgotPasswordController {
             if (!Site.isValidUsername(username)) {
                 return Label.Site.invalid_email;
             }
-           // if(Site.getPathPrefix().startsWith('/gsk')){
+            if(Site.getPathPrefix().startsWith('/gsk')){
                 aura.redirect(checkEmailRef);
                 return null;
-            //}else
-            //{
-              //  return checkEmailUrl;
-            //}
+            }else
+            {
+                return checkEmailUrl;
+            }
             
         } catch (Exception ex) {
             return ex.getMessage();
