@@ -56,6 +56,9 @@ public without sharing class RRChangePasswordController {
     public String currentCommunityName { get; set; }
     public String siteName { get; set; }
     public Boolean hasProfilePic { get; set; }
+    public Boolean showPassword {get; set;}
+    public Boolean showNewPassword {get; set;}
+    //public Boolean showPassword = true;
     public Boolean isRTL { get; set; }
 
     private String previousLanguage;
@@ -88,6 +91,8 @@ public without sharing class RRChangePasswordController {
     public RRChangePasswordController() {
         isRTL = false;
         onLoad = true;
+        showPassword = true;
+        showNewPassword = true;
         translation = new Translation__c();
         init();
         if (!contact.Is_First_Logon__c)
@@ -110,6 +115,8 @@ public without sharing class RRChangePasswordController {
     }
 
     private void init() {
+        showPassword = true;
+        showNewPassword = true;
         Id userId = UserInfo.getUserId();
         userVal = [
             SELECT
@@ -313,8 +320,14 @@ public without sharing class RRChangePasswordController {
                         System.Label.Pswd_ValidationMsg3
                     );
                     failingPageResponse = m.getDetail();
+
                 } else {
+                    if(m.getDetail().contains(System.Label.PP_CantReuseOldPwd) && !Site.getPathPrefix().startsWith('/gsk')){
+                        failingPageResponse = System.Label.PP_CantReuseOldPwd;
+                    }else{
                     failingPageResponse = null;
+                    }
+
                 }
             }
 
@@ -332,7 +345,13 @@ public without sharing class RRChangePasswordController {
             return null;
         }
     }
+    public void toggleNewPassword(){
+        showNewPassword = !showNewPassword;
+    }
+    public void togglePassword(){
+        showPassword = !showPassword;
 
+    }
     public void showProfileAction() {
         isProfileView = true;
         isAttestationUpdated = false;

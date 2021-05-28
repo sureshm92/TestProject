@@ -34,7 +34,8 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 #**/onboarding-tour/staticresources
 #force-app/unpackaged/main/default/staticresources/os_*
 #force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources/Flags.resource-meta.xml
 #force-app/main/tools/staticresources/*
 force-app/main/default/staticresources/Flags.svg
 force-app/main/default/staticresources/Flags.resource-meta.xml

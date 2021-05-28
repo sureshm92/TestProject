@@ -161,7 +161,13 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-footer="true" show-scroll="false" custom-buttons="true" show-close="true">
+        <c-web-popup
+            show-footer="true"
+            show-scroll="false"
+            custom-buttons="true"
+            show-close="true"
+            is-r-t-l={isRTL}
+        >
             <div slot="body">
                 <div class="title">{visitTitle}</div>
                 <template if:true={reRender}>
@@ -176,7 +182,9 @@
                                                 <div class="icon" key={icon.Id}>
                                                     <template if:true={icon.Label__c}>
                                                         <span class="tooltiptext _ltr">
-                                                            <span class="tooltiptitle">{icon.Label__c}</span><br/>{icon.Description__c}
+                                                            <span class="tooltiptitle"
+                                                                >{icon.Label__c}</span
+                                                            ><br />{icon.Description__c}
                                                         </span>
                                                     </template>
                                                     <c-web-icon
@@ -334,7 +342,9 @@
                                 <div class="slds-form-element__label mr_left">
                                     {labels.remindUsing}
                                     <abbr title="required" class="slds-required">*</abbr>
-                                    <a onclick={doNavigateToAccountSettings} style="margin-left: 10px"
+                                    <a
+                                        onclick={doNavigateToAccountSettings}
+                                        style="margin-left: 10px"
                                         >{labels.ChangeNotifications}
                                     </a>
                                 </div>
@@ -554,7 +564,13 @@
             </template>
         </div>
         <!-- Add/Change Visit Planned Date -->
-        <c-web-popup show-footer="true" show-scroll="false" custom-buttons="true" show-close="true">
+        <c-web-popup
+            show-footer="true"
+            show-scroll="false"
+            custom-buttons="true"
+            show-close="true"
+            is-r-t-l={isRTL}
+        >
             <div slot="body">
                 <div class="title_rtl">{visitTitle}</div>
                 <template if:true={reRender}>
@@ -728,7 +744,9 @@
                             <div class={lineBreak}></div>
                             <div class="slds-grid slds-p-top_large mr_left_5">
                                 <div class="slds-form-element__label mr_left">
-                                    <a onclick={doNavigateToAccountSettings} style="margin-left: 10px"
+                                    <a
+                                        onclick={doNavigateToAccountSettings}
+                                        style="margin-left: 10px"
                                         >{labels.ChangeNotifications
                                     </a>
                                     <abbr title="required" class="slds-required">*</abbr>
