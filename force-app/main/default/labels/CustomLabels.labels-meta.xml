@@ -16257,7 +16257,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EmailSent</shortDescription>
-        <value>We sent a message to ##emailhandle so you can pick your new password.</value>
+        <value>If there's an account linked to this email address, we'll send over instructions to reset your password.</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16705,6 +16705,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_SelectYear</shortDescription>
         <value>Select Year</value>
+    </labels>
+    <labels>
+        <fullName>PP_SendBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SendBtn</shortDescription>
+        <value>Send Email</value>
     </labels>
     <labels>
         <fullName>PP_Share_Article</fullName>
