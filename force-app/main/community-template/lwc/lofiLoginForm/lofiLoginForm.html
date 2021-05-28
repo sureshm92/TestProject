@@ -1,0 +1,62 @@
+<template>
+    <template if:false={isLockOut}>
+        <c-web-spinner fixed="true"></c-web-spinner>
+        <div class="form-header" style={rtlStyle}>{label.login}</div>
+        <div style={rtlStyle}>
+            <label class="input-label" for="userName">{label.userName}</label>
+            <lightning-input
+                id="userName"
+                data-id="userName"
+                type="email"
+                label="userName"
+                variant="label-hidden"
+                placeholder="Enter username here..."
+                class="input-box"
+                onchange={onInputChange}
+                onkeyup={onKeyUp}
+            ></lightning-input>
+            <label class="input-label" for="password">{label.password}</label>
+            <div>
+                <lightning-input
+                    id="password"
+                    data-id="password"
+                    type={passwordInputType}
+                    variant="label-hidden"
+                    label="password"
+                    placeholder="Enter password here..."
+                    class="input-box"
+                    style={floatInput}
+                    onchange={onInputChange}
+                    onkeyup={onKeyUp}
+                ></lightning-input>
+
+                <span onclick={changeImgSrc}>
+                    <img class="icon-position" style={addIconMargin} src={eyeHidden} />
+                </span>
+            </div>
+            <button class="form-button" onclick={handleLogin}>{label.login}</button>
+            <template if:true={inError}>
+                <br /><span class="error-container"> <img src={exclamation} /> {errorMsg} </span>
+            </template>
+        </div>
+        <div class="slds-grid" style={rtlStyle}>
+            <div class="slds-col">
+                <a class="rr-link slds-align_absolute-center" onclick={handleForgotPassword}
+                    >{label.forgotPassword}</a
+                >
+            </div>
+            <div class="slds-col">
+                <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
+                    >{label.unableToLogin}</a
+                >
+                <c-unable-to-login
+                    is-r-t-l-language={isRTL}
+                    onunabletologin={handleShowTimer}
+                ></c-unable-to-login>
+            </div>
+        </div>
+    </template>
+    <template if:true={isLockOut}>
+        <c-lockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-lockout>
+    </template>
+</template>

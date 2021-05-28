@@ -1,0 +1,50 @@
+<template>
+    <template if:false={showEmailSent}>
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <div class="forgot-pwd">{labels.forgotLabel}</div>
+            <div>
+                <div>
+                    <label class="usr-label">{labels.usrnameLabel}</label>
+                    <input
+                        type="text"
+                        value={usrnameval}
+                        onkeyup={onKeyUp}
+                        class="container-forgot"
+                        label={labels.usrnameLabel}
+                        placeholder={userPlaceholder}
+                    ></input>
+                    <template if:true={showError}>
+                        <div class="email-not-associated">{errorMessage}</div>
+                    </template>
+                </div>
+                <div style="height: 50px; margin-top: 30px">
+                    <button
+                        class="apollo-btn primary btn"
+                        onclick={handleForgotPassword}
+                        
+                    >
+                        {labels.sendLabel}
+                    </button>
+                </div>
+                <div style="height: 50px; margin-top: 20px;" class="slds-align_absolute-center">
+                    <a  onclick={goBack} style="font-size:16px;">
+                        {labels.backtologin}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={showEmailSent}>
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <div class="forgot-password">{labels.emailsent}</div>
+            <div class="we-sent-a-message-to">{emailMessage}</div>
+            <div>
+                <div style="height: 50px; margin-top: 70px;">
+                    <button class="apollo-btn primary" style="width: 100%" onclick={goBack}>
+                        {labels.backtologin}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>
