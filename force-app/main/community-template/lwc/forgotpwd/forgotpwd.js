@@ -69,6 +69,8 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     }
 
     handleForgotPassword() {
+        let spinner = this.template.querySelector('c-web-spinner');
+        spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
@@ -84,9 +86,11 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
                     this.errorMessage = result;
                     this.showError = true;
                 }
+                spinner.hide();
             })
             .catch((error) => {
                 this.error = error;
+                spinner.hide();
             });
     }
 

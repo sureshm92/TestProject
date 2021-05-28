@@ -38,7 +38,9 @@
                 {label.login}
             </button>
             <template if:true={inError}>
-                <br /><span class="error-container"> <img src={exclamation} /> {errorMsg} </span>
+                <div style="margin-top: -1em; margin-bottom: 0.5em">
+                    <img src={exclamation} /> <span class="error-container"> {errorMsg} </span>
+                </div>
             </template>
         </div>
         <div class="slds-grid" style={rtlStyle}>
