@@ -10,7 +10,7 @@
                 type="email"
                 label="userName"
                 variant="label-hidden"
-                placeholder="Enter username here..."
+                placeholder={label.usrPlaceholder}
                 class="input-box"
                 onchange={onInputChange}
                 onkeyup={onKeyUp}
@@ -23,7 +23,7 @@
                     type={passwordInputType}
                     variant="label-hidden"
                     label="password"
-                    placeholder="Enter password here..."
+                    placeholder={label.pwdPlaceholder}
                     class="input-box"
                     style={floatInput}
                     onchange={onInputChange}
@@ -34,7 +34,9 @@
                     <img class="icon-position" style={addIconMargin} src={eyeHidden} />
                 </span>
             </div>
-            <button class="form-button" onclick={handleLogin}>{label.login}</button>
+            <button class="apollo-btn primary form-button" onclick={handleLogin}>
+                {label.login}
+            </button>
             <template if:true={inError}>
                 <br /><span class="error-container"> <img src={exclamation} /> {errorMsg} </span>
             </template>

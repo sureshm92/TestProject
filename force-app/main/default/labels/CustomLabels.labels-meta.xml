@@ -8944,12 +8944,36 @@ The expected format is REF##### to REF########</value>
         <value>This status cannot be changed.</value>
     </labels>
     <labels>
+        <fullName>Lofi_Enter_Password</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Enter Password</shortDescription>
+        <value>Please enter password</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Enter_Username</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Enter Username</shortDescription>
+        <value>Please enter username</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Forgot_Password</fullName>
         <categories>Lofi Login Screen</categories>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Lofi Forgot Password</shortDescription>
         <value>Forgot Password?</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Forgot_Pwd_Placeholder</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Forgot Pwd Placeholder</shortDescription>
+        <value>Enter password here...</value>
     </labels>
     <labels>
         <fullName>Lofi_Login_Footer_Optimized</fullName>
@@ -13211,8 +13235,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login Wrong Password Error Message</shortDescription>
-        <value>Incorrect email/password combination
-            You have ##AttemptsLeft attempts left before you are locked out for 15 minutes.  You can reset your password ##ForgotPasswordLink.
+        <value>Incorrect username/password combination.
+            You have ##AttemptsLeft attempts left before you are locked out for 15 minutes. You can reset your password ##ForgotPasswordLink.
             Please check your CAPS lock key.</value>
     </labels>
     <labels>
