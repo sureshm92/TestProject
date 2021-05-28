@@ -377,7 +377,7 @@ global without sharing class RRLoginRemote {
                                 '##AttemptsLeft',
                                 String.valueOf(5 - attempts)
                             )
-                            .replace('##ForgotPasswordLink', '')
+                            .replace('##ForgotPasswordLink', Label.PG_Login_L_here_link)
                     );
                 }
             }

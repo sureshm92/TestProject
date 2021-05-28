@@ -9,6 +9,10 @@ import forgotPassword from '@salesforce/label/c.Lofi_Forgot_Password';
 import userName from '@salesforce/label/c.PG_AS_F_Username';
 import password from '@salesforce/label/c.PG_Login_F_Password';
 import login from '@salesforce/label/c.PG_Login_Title';
+import usrPlaceholder from '@salesforce/label/c.PP_USrPlaceholder';
+import pwdPlaceholder from '@salesforce/label/c.Lofi_Forgot_Pwd_Placeholder';
+import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
+import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
@@ -39,7 +43,11 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         rtlLanguages,
         userName,
         password,
-        login
+        login,
+        usrPlaceholder,
+        pwdPlaceholder,
+        enterUsernameMsg,
+        enterPasswordMsg
     };
 
     connectedCallback() {
@@ -61,7 +69,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                             this.addIconMargin
                     );
                 } else {
-                    this.floatInput = 'float: left';
+                    this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
                 }
                 this.initialized = true;
@@ -107,12 +115,12 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (userName.value !== '') {
             userName.setCustomValidity('');
         } else {
-            userName.setCustomValidity('Please enter username');
+            userName.setCustomValidity(this.label.enterUsernameMsg);
         }
         if (password.value !== '') {
             password.setCustomValidity('');
         } else {
-            password.setCustomValidity('Please enter password');
+            password.setCustomValidity(this.label.enterPasswordMsg);
         }
         //https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_syntax
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
