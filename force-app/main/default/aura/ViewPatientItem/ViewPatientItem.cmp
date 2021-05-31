@@ -68,6 +68,7 @@
                       pe="{!v.pe}"
                       isReferral="false"
                       isInvited="{!v.isInvited}"
+                      sendToSHDate="{!v.sendToSHDate}"   
                       />
 <c:ParticipantCardFields
                       userMode="{!v.userMode}"

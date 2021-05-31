@@ -143,7 +143,33 @@
     right: 10px;
     border-radius: 2px;
 }
-
+.THIS .icon-checkmark {
+    fill:white;
+    background-color:#9400D3
+}
+.THIS .slds-has-block-links--spacepurple {
+    background: #593E7F;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+}
+.THIS .slds-has-block-links--spaceblue {
+    background: #10558A;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+    direction: revert;
+}
 @media screen and (max-width: 500px) {
     .THIS {
         padding: 0;
