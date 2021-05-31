@@ -8753,6 +8753,13 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
     </labels>
+	<labels>
+        <fullName>ISO_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ISO Download Template</shortDescription>
+        <value>ISO Download Template</value>
+    </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
         <language>en_US</language>

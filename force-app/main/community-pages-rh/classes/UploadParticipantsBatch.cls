@@ -537,7 +537,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     hasErrors = true;
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
                 }
-                if (
+                /*if (
                     !String.isBlank(Language) &&
                     String.isBlank(uploadUser.Contact.Language__c) &&
                     !laguageLVSet.contains(Language)
@@ -549,6 +549,19 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         totalRecordCount +
                         ', ' +
                         'Language, Incorrect value'
+                    );
+                }*/
+				 if (
+                    (String.isBlank(Language) || !laguageLVSet.contains(Language)) &&
+                    String.isBlank(uploadUser.Contact.Language__c)
+                ) {
+                    hasErrors = true;
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'Deafult value, PI Language is missing '
                     );
                 }
                    /** FOV update code changes -velu REF-3302**/
@@ -709,7 +722,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         MailingPostalCode = PostalCode,
                         userCommunityMode__c = PARTICIPANT_USER_MODE,
                         Consent_To_Inform_About_Study__c = createUsers,
-                        Language__c = (String.isBlank(Language)
+                        Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
                             ? uploadUser.Contact.Language__c
                             : Language)
                     );
@@ -726,7 +739,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone_Type__c = PhoneType,
                         Alternative_Phone_Number__c = Phone2,
                         Alternative_Phone_Type__c = PhoneType2,
-                        Preferred_Language__c = (String.isBlank(Language)
+                        Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
                             ? uploadUser.Contact.Language__c
                             : Language),
                         Mailing_State__c = State,
