@@ -19549,6 +19549,13 @@ communications using the toggles below.</value>
         <value>This study</value>
     </labels>
     <labels>
+        <fullName>Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Hub</shortDescription>
+        <value>Study Hub</value>
+    </labels>    
+    <labels>
         <fullName>StudyVisit_Ad_hoc_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
