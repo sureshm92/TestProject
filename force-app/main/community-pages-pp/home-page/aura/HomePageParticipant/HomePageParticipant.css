@@ -23,17 +23,17 @@
 }
 
 .THIS.rtl .hp-welcome-msg {
-    direction: rtl;
+  /* @noflip */  direction: rtl;
 }
 .THIS.rtl {
-    direction: rtl;
+  /* @noflip */  direction: rtl;
 }
 .THIS.rtl .main-layout {
     flex-direction: row-reverse;
 }
 
 .THIS.rtl .logo-text {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS.rtl .apollo-btn.primary.dark .rr-icon-default {

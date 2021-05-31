@@ -12,7 +12,7 @@
     font-size: 13px;
 }
 .THIS.RTL {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS .slp-counter-txt {
     padding-top: 20px;

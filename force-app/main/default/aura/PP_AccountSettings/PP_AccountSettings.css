@@ -11,7 +11,7 @@
     min-height: 1000px;
 }
 .THIS .RTL {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .cRrSelect.rrs-container select,

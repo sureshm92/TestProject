@@ -25,7 +25,7 @@
 }
 */
 .THIS RTL {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS label.uiLabel-hidden {

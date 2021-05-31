@@ -4,7 +4,7 @@
 }
 .THIS .rtl-email {
     text-align: right;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .btn-mar_20 {
     margin-left: 20px;

@@ -38,7 +38,7 @@
             <aura:if isTrue="{!!empty(v.resultSet)}">
                 <aura:if isTrue="{!v.isRTL}">
                     <c:filterSearchResults 
-                                           style="{!if(v.isRTL, 'direction: rtl;','')}"
+                                           style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}"
                                            isRTL="{!v.isRTL}"
                                            aura:id="filterSearchResults"
                                            filterCountryList="{!v.filterCountryList}"
@@ -67,7 +67,7 @@
                 targetList="{!v.resultSet}"
             />
             <aura:if isTrue="{!and(!empty(v.resultSet), empty(v.filteredResultSet))}">
-                <div class="table-scroll" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
+                <div class="table-scroll" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}">
                     <c:RRTable>
                         <tr class="table-header">
                             <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>
@@ -107,7 +107,7 @@
                 </div>
             </aura:if>
             <aura:if isTrue="{!and(!empty(v.resultSet), !empty(v.filteredResultSet))}">
-                <div class="table-scroll" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
+                <div class="table-scroll" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}">
                     <c:RRTable>
                         <tr class="table-header">
                             <th class="ssr-t-ctp">{!$Label.c.CC_TableHeader_CTP}</th>

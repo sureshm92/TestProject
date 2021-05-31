@@ -1,6 +1,6 @@
 @page {
     size: A4 landscape;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
     border: 9px solid RGB(216, 216, 216);
     border-left: 0;
     margin-left: -8px;
@@ -21,7 +21,7 @@
 }
 
 .rtlEnable {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
     unicode-bidi: bidi-override !important;
     direction: unset !important;
     text-align: right;
