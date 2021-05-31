@@ -17,7 +17,7 @@
     font-weight: 500;
 }
 .THIS.rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS .study_Name {
     margin-top: -2px;

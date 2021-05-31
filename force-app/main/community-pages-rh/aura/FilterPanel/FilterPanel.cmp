@@ -28,7 +28,7 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="myParticipantPg" type="Boolean" default="false" />
     <!--compoenent body -->
-    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}" style="{!if(v.isRTL, 'direction: rtl;','')}">
+    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
             <div class="fp-header">
