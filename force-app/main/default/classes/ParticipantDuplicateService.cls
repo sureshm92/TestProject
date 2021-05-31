@@ -390,7 +390,6 @@ public without sharing class ParticipantDuplicateService {
                         //System.debug('>>> Participant age: ' + participantAge);
                         Integer birthYearInTheSystem = duplicate.getYearOfBirth();
                         if (birthYearInTheSystem != null) {
-                            System.debug('>>> BY in the system:' + birthYearInTheSystem);
                             if (
                                 birthYear == birthYearInTheSystem &&
                                 duplicate.getFirstName().toLowerCase() == participant.First_Name__c.toLowerCase() && duplicate.getLastName().toLowerCase() == participant.Last_Name__c.toLowerCase()
