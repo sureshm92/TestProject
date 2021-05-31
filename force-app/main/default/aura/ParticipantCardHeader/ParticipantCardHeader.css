@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS {
+ .THIS {
     padding: 0 16px;
 }
 
@@ -145,7 +145,9 @@
 }
 .THIS .icon-checkmark {
     fill:white;
-    background-color:#9400D3
+    margin-left: -10px;
+    margin-right: 5px;
+    margin-top: -3px;
 }
 .THIS .slds-has-block-links--spacepurple {
     background: #593E7F;
