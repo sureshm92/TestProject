@@ -566,6 +566,7 @@
                     component.set('v.invitedon',Date.now());
                 }else{
                     component.set('v.peInvitedtoPP',true);
+                    component.set('v.invitedon',Date.now());
                 }
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
