@@ -5315,6 +5315,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Invited_To_PP_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>    
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Randomized_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>

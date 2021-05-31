@@ -55,7 +55,8 @@
             component,
             'getUser',
             {
-                contactId : pe.Participant_Contact__c
+                contactId : pe.Participant_Contact__c,
+                peInvitedDate : pe.Invited_To_PP_Date__c
             },
             function (returnValue) {
                 component.set('v.invitedon',returnValue);
