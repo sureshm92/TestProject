@@ -59,8 +59,20 @@
                                 <span style="{!if(v.isRTL, 'float: left;','float: right;')}">
                                     <ui:outputURL
                                         aura:id="oURL"
+                                        value="{!$Resource.ISO_TEMPLATE}"
+                                        label="{!$Label.c.ISO_Download_Template}" 
+                                    />
+                                    <c:RRIcon
+                                    iconName="icon-download-brand-new"
+                                    class="icon-download-brand-new" />
+                                </span>
+
+                                <span style="{!if(v.isRTL, 'float: left;','float: right;')}">
+
+                                    <ui:outputURL
+                                        aura:id="oURL"
                                         value="{!$Resource.PARTICIPANTS_TEMPLATE}"
-                                        label="{!$Label.c.FU_Download_Template}"
+                                        label="{!$Label.c.FU_Download_Template}" 
                                     />
                                     <c:RRIcon
                                         iconName="icon-download-brand-new"
