@@ -562,9 +562,11 @@
                 if(returnvalue ==undefined || returnvalue.length>0){
                     returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
                     component.set('v.isInvited', true);
+                    component.set('v.peInvitedtoPP',true);
                     component.set('v.userInfo', returnvalue);
                     component.set('v.invitedon',Date.now());
                 }else{
+                    component.set('v.isInvited', true);
                     component.set('v.peInvitedtoPP',true);
                     component.set('v.invitedon',Date.now());
                 }
