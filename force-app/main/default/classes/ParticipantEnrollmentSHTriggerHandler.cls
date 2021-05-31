@@ -250,6 +250,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     Study_Site__r.Suppress_Participant_Emails__c,
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+                    Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
                     Is_Virtual_Study_Site__c,
                     HCP__c,
                     HCP__r.HCP_Contact__c,
@@ -310,6 +311,7 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
                     newPE.Study_Site__r.Clinical_Trial_Profile__c != null &&
                     !newPE.Study_Site__r.Suppress_Participant_Emails__c &&
                     !newPE.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+                    newPE.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
                     participant != null &&
                     !participant.IsCountry_NOT_Eligible_for_Emails__c &&
                     participant.Contact__c != null;

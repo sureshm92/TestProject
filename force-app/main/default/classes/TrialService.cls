@@ -6,7 +6,7 @@ public without sharing class TrialService {
     public static final String STATUS_ACTIVELY_ENROLLING = 'Actively Enrolling';
     public static final String STATUS_NO_LONGER_ENROLLING = 'No_Longer_Enrolling';
 
-    private static final List<String> CTP_FIELDS = new List<String>{
+    public static final List<String> CTP_FIELDS = new List<String>{
         'Id',
         'Orientation_Required__c',
         'Name',
@@ -137,6 +137,15 @@ public without sharing class TrialService {
         return trials;
     }
 
+    public List<Clinical_Trial_Profile__c> getTrialsImpl(List<Id> trialIds, List<String> CTP_INPUT_FIELDS) {
+        List<Clinical_Trial_Profile__c> trials = DatabaseService.query(
+            CTP_INPUT_FIELDS,
+            Clinical_Trial_Profile__c.getSObjectType(),
+            DatabaseService.fieldInValues('Id', trialIds)
+        );
+        return trials;
+    }    
+    
     public Clinical_Trial_Profile__c getTrialImpl(Id trialId) {
         List<Clinical_Trial_Profile__c> trials = getTrialsImpl(new List<Id>{ trialId });
         if (trials.size() > 0) {
@@ -155,6 +164,25 @@ public without sharing class TrialService {
         return null;
     }
 
+    public Clinical_Trial_Profile__c getTrialImpl(Id trialId, List<String> CTP_INPUT_FIELDS) {
+        List<Clinical_Trial_Profile__c> trials = getTrialsImpl(new List<Id>{ trialId }, CTP_INPUT_FIELDS);
+        if (trials.size() > 0) {
+            String language = UserInfo.getLanguage();
+            if (
+                CommunityService.getUserContact()
+                    .userCommunityMode__c.equals(CommunityService.USER_MODE_PARTICIPANT)
+            ) {
+                language = IRBParticipantService.getSuitableLanguageForIRBTranslation(
+                    ParticipantService.getParticipantState().pe.Id
+                );
+            }
+            TranslateHelper.translate(trials[0], language);
+            return trials[0];
+        }
+        return null;
+    }
+    
+    
     public List<Id> getAvailableTrialIdsImpl(String userMode) {
         return getAvailableTrialIdsImpl(userMode, null);
     }
@@ -200,6 +228,10 @@ public without sharing class TrialService {
         return getInstance().getTrialImpl(trialId);
     }
 
+    public static Clinical_Trial_Profile__c getTrial(Id trialId, List<String> CTP_INPUT_FIELDS) {
+        return getInstance().getTrialImpl(trialId, CTP_INPUT_FIELDS);
+    }
+    
     public static List<Clinical_Trial_Profile__c> getTrials(List<Id> trialIds) {
         return getInstance().getTrialsImpl(trialIds);
     }

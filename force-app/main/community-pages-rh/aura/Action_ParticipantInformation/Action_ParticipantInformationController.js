@@ -29,6 +29,7 @@
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
             var status = pe.Participant_Status__c;
+            component.set('v.peInvitedtoPP', (pe.Invited_To_PP_Date__c!=undefined && pe.Invited_To_PP_Date__c!=null)?true:false);
            	helper.getPESH(component,event,statusList,helper) ;
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
@@ -558,10 +559,14 @@
                 sendEmails: sendEmails
             },
             function (returnvalue) {
-                returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
-                component.set('v.isInvited', true);
-                component.set('v.userInfo', returnvalue);
-                component.set('v.invitedon',Date.now());
+                if(returnvalue ==undefined || returnvalue.length>0){
+                    returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
+                    component.set('v.isInvited', true);
+                    component.set('v.userInfo', returnvalue);
+                    component.set('v.invitedon',Date.now());
+                }else{
+                    component.set('v.peInvitedtoPP',true);
+                }
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {
