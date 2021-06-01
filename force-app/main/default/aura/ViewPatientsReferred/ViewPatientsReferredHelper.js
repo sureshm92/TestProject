@@ -237,7 +237,14 @@
             }
 
             if (objectRecords.partList[i]['Participant_Status__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Participant_Status__c'] + '"' + ',';
+                let pstatus = objectRecords.partList[i]['Participant_Status__c'];
+                if(objectRecords.partList[i]['Participant_Status__c']=='Eligibility Passed' 
+                   && (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                       || objectRecords.partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+                    pstatus = 'Sent to Study Hub';
+                }
+                
+                csvStringResult += '"' + pstatus + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }

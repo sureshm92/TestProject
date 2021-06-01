@@ -96,6 +96,7 @@ public without sharing class ViewPatientsRemote {
         'Participant__r.Contact__c',
         'Participant__r.Site__c',
         'Participant_Contact__c',
+        'Participant_Contact__r.Is_Patient_User_Created__c',    
         'PI_Contact__r.Name',
         'PI_Contact__r.Phone',
         'Pre_screening_Status__c',
@@ -157,6 +158,7 @@ public without sharing class ViewPatientsRemote {
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_SMS_Text_for_this_study__c',
         'Permit_IQVIA_to_contact_about_study__c',
+        'Invited_To_PP_Date__c',    
         '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'    
     };
 

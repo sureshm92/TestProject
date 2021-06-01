@@ -770,12 +770,15 @@ public without sharing class DashboardRemoteNew {
 
         List<user> lstUser = new List<user>();
         lstUser = [SELECT Id FROM User WHERE ContactId = :participantContactId];
-        if (lstUser.size() == 0) {
+
+		//List<String> PE_FIELDS = ParticipantEnrollmentService.PE_COMMON_FIELDS;
+        //PE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
+        //PE_FIELDS.add('Invited_To_Patient_Portal__c');
+        if (lstUser.size() == 0){// && !pes[i].Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && !pes[i].Invited_To_Patient_Portal__c) {
             initData.isInvited = false;
         } else {
             initData.isInvited = true;
-        }
-
+        }  
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) DatabaseService.query(
             ParticipantEnrollmentService.PE_COMMON_FIELDS,
             Participant_Enrollment__c.getSObjectType(),
@@ -783,12 +786,14 @@ public without sharing class DashboardRemoteNew {
             participantId +
             '\''
         );
+        
+        
         Integer participantEnrollmentSize = pes.size();
         for (Integer i = 0; i < participantEnrollmentSize; ++i) {
             if (pes[i].Participant__c == participantId) {
                 initData.currentPageList = new List<ViewPatientsRemote.PEWrapper>{
                     new ViewPatientsRemote.PEWrapper(pes[i], new StudyActionsPI(pes[i]).actions)
-                };
+                };   
             }
         }
         return JSON.serialize(initData);

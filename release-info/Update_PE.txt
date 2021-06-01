@@ -1,0 +1,52 @@
+List<(Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE Participant_Contact__c IN (SELECT ContactId FROM User) AND Invited_To_PP_Date__c = null LIMIT 9000];       
+
+ List<Id> contactIds = new List<Id>();
+        for(Participant_Enrollment__c pe: peList){
+            contactIds.add(pe.Participant_Contact__c);
+        }
+        Map<Id,DateTime> contactAndDate = new Map<Id,DateTime>();
+        //List<User> users = [SELECT ContactId,CreatedDate FROM User WHERE ContactId IN : contactIds];
+        for(User u : [SELECT Id,ContactId,CreatedDate FROM User WHERE ContactId IN : contactIds]){
+            contactAndDate.put(u.ContactId,u.CreatedDate);
+        }
+        for(Participant_Enrollment__c pe: peList){
+            pe.Invited_To_PP_Date__c = contactAndDate.get(pe.Participant_Contact__c);
+        }
+            TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+    );
+    TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.SendEmailIfSSWasChanged.class);
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+    );
+
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class);
+    TriggerHandlerExecutor.bypassHandler(PENotificationTriggerHandler.CreateNotificationHandler.class);
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+    );
+    TriggerHandlerExecutor.bypassHandler(
+        ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+    );
+        update peLIst;
+    }
