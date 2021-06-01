@@ -217,6 +217,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     }
     handleUnlock(event) {
         this.isLockOut = false;
+        this.inError = false;
     }
     onKeyUp(event) {
         if (event.which == 13) {
