@@ -1,11 +1,11 @@
 .THIS .s-input {
-    margin-top: 20px;
-    text-align: left;
-}
-.THIS .rtl-email {
-    text-align: right;
-    direction: rtl;
-}
-.THIS .btn-mar_20 {
-    margin-left: 20px;
-}
+    /* @noflip */  margin-top: 20px;
+    /* @noflip */  text-align: left;
+ }
+ .THIS .rtl-email {
+     text-align: right;
+     /* @noflip */  direction: rtl;
+ }
+ .THIS .btn-mar_20 {
+     /* @noflip */ margin-left: 20px;
+ }

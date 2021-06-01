@@ -18,7 +18,7 @@
     color: #000000;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .svg-funnel-js__container {
@@ -58,7 +58,7 @@
 }
 .THIS .rtl
 {    
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS .flex {
     display: flex;

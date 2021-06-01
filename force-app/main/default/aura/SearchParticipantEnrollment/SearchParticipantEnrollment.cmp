@@ -18,7 +18,7 @@
 
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
     <!-- component body -->
-    <div style="{!if(v.isRTL, 'direction: rtl;','')}">
+    <div style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <div class="rr-sub-title" style="padding-top: 50px; padding-bottom: 10px">
             {!$Label.c.PG_SPE_L_Patient_Information}
         </div>

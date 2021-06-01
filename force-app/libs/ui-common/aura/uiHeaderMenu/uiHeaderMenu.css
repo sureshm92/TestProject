@@ -84,7 +84,7 @@
     margin-top: 0;
     z-index: 10010;    
    	left: -172%;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 
 }
 

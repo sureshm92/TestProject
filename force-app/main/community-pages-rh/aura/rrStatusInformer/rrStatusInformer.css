@@ -17,7 +17,7 @@
     line-height: 14px;
 }
 .THIS.RTL {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS.si-container .si-titleRTL {
     font-size: 14px;

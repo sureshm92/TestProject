@@ -90,7 +90,7 @@
                              />
         <!-- pagination -->
         <aura:if isTrue="{!and(not(empty(v.resultSet)), empty(v.filteredResultSet)) }">
-            <div class="slp-counter slds-grid slds-grid_align-spread" style="{!if(v.isRTL, 'direction: rtl;','')}">
+            <div class="slp-counter slds-grid slds-grid_align-spread" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                 <div class="slp-counter-txt slds-col">
                     {!$Label.c.PG_FP_L_Showing + ' ' + if(v.paginationData.pageRecordsCount >
                     v.paginationData.allRecordsCount, v.paginationData.allRecordsCount,

@@ -144,7 +144,7 @@
 
 .THIS .rightAlign input {
     text-align: right;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input {

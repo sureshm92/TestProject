@@ -31,7 +31,7 @@
 .THIS .dt-legend-section-RTL {
     padding-right: 20px;
     overflow: hidden;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .dt-link {
     display: inline-flex;

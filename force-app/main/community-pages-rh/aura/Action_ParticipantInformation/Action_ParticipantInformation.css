@@ -154,7 +154,7 @@
 .THIS .print-icon-rtl {
     position: absolute;
     top: 30px;
-    left: 65px;
+    /* @noflip */  left: 65px;
     height: 14px;
     
 }

@@ -60,9 +60,9 @@
 }
 
 .THIS .user-name.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .user-mode.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }

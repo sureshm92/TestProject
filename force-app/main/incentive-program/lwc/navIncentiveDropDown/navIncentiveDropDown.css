@@ -34,7 +34,7 @@
     z-index: 10010;
 }
 .rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .nidd-total {
