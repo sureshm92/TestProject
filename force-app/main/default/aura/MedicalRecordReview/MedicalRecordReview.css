@@ -184,8 +184,8 @@
         padding-right: 30px;
     }
     .THIS .left-columnRTL {
-        border-left: 1px solid #d9d9d9;
-        padding-right: 0px;
+      /* @noflip */  border-left: 1px solid #d9d9d9;
+       /* @noflip */ padding-right: 0px;
     }
 }
 
