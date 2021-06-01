@@ -179,18 +179,14 @@
     padding-top: 0 !important;
 }
 .THIS .p-container .rtlBody {
+    /*@noflip*/
     direction: rtl;
 }
 .THIS .p-header .rtlHeader {
+    /*@noflip*/
     direction: rtl;
 }
-.THIS .p-header .rtlHeader {
-    direction: rtl;
-}
-.THIS .p-header .rtlHeader h2 {
-    padding-right: 10px;
-    padding-left: 0px;
-}
+
 @media all and (min-width: 768px) {
     .THIS .p-container.medium {
         /*width: 600px;*/
