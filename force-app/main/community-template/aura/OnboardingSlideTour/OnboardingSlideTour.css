@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.tour-fixed-overlay {
+ .THIS.tour-fixed-overlay {
     position: fixed;
     top: 0;
     left: 0;
@@ -94,8 +94,8 @@
     text-align: right;
 }
 .THIS .tour-btn-groupRTL {
-    margin: 15px 0 25px;
-    text-align: left;
+   /* @noflip */   margin: 15px 0 25px;
+   /* @noflip */   text-align: left;
 }
 
 .THIS .ti-width-limiter {
