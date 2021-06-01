@@ -11,7 +11,7 @@
     min-height: 18px;
     border-radius: 50%;
     line-height: 1;
-    margin-right: 20px;
+     margin-right: 20px;
 }
 .THIS .step-status-icon .rr-icon-default {
     width: 16px;
@@ -24,7 +24,7 @@
     min-height: 18px;
     border-radius: 50%;
     line-height: 1;
-    margin-left: 20px;
+    /* @noflip */  margin-left: 20px;
 }
 .THIS .step-status-iconRTL .rr-icon-default {
     width: 16px;
@@ -60,9 +60,8 @@
     text-align: left;
 }
 .THIS .step-infoRTL {
-    text-align: right;
-   
-
+    /* @noflip */   text-align: right;   
+    
 }
 
 .THIS .step-title {
