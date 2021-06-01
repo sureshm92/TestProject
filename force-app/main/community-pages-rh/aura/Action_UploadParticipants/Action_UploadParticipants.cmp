@@ -246,7 +246,7 @@
                 </div>
                 <aura:set attribute="else">
                     <aura:if
-                        isTrue="{!v.patientPortalEnabled &amp;&amp;!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}"
+                        isTrue="{!v.patientPortalEnabled &amp;&amp;v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}"
                     >
                         <div class="slds-grid slds-wrap">
                             <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
