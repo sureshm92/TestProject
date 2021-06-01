@@ -66,7 +66,7 @@
                     <!-- slide info: -->
                     <div
                         class="tour-info-container ti-width-limiter"
-                        style="{!if(v.isRTL, 'direction: rtl;' , '')}"
+                        style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}"
                     >
                         <div
                             aura:id="carouselSlideInfoBody"
@@ -85,7 +85,7 @@
                     <!-- Pagination -->
                     <div
                         class="tour-pages slds-m-around_small"
-                        style="{!if(v.isRTL, 'direction: rtl;' , '')}"
+                        style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}"
                     >
                         <ul class="sc-pagination">
                             <aura:iteration items="{!v.slides}" var="page" indexVar="index">
@@ -107,7 +107,7 @@
                     <!-- buttons: -->
                     <div
                         class="tour-buttons-continer ti-width-limiter"
-                        style="{!if(v.isRTL, 'direction: rtl;' , '')}"
+                        style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}"
                     >
                         <div class="left rr-small-down-hide">
                             <lightning:input
@@ -118,7 +118,7 @@
                             />
                         </div>
                     </div>
-                    <div class="{!v.isRTL? 'tour-btn-groupRTL':'tour-btn-group'}" style="{!if(v.isRTL, 'direction: rtl;' , '')}">
+                    <div class="{!v.isRTL? 'tour-btn-groupRTL':'tour-btn-group'}" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;' , '')}">
                         <button
                             class="apollo-btn tertiary"
                             style="{!if(v.isRTL , 'margin-left: 16px;', '')}"

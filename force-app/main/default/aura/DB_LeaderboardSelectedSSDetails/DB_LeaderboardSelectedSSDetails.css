@@ -16,10 +16,10 @@
     font-weight: 600;
     letter-spacing: 0;
     line-height: 22px;
-     direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 
 }
 .THIS .title {

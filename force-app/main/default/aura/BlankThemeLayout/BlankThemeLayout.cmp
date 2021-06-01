@@ -12,7 +12,7 @@
     >
         <div
             class="body-cell"
-            style="{!if(v.isRTL == true, 'direction:rtl;overflow-x: hidden;', '')}"
+            style="{!if(v.isRTL == true, '/* @noflip */  direction: rtl;overflow-x: hidden;', '')}"
         >
             <div class="logo-block">
                 <div class="rr-small-down-hide slds-grid slds-wrap slds-gutters">

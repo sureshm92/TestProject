@@ -71,7 +71,7 @@
     border-radius: 50%;
     position: absolute;
     top: -15px;
-    left: 56px;
+   /* @noflip */ left: 100px;
     line-height: 1;
     margin-left:40px;
     display: inline-flex;
@@ -102,7 +102,7 @@
     width: 28px;
     height: 28px;
     top: -15px;
-    left: 45px;
+    /* @noflip */ left: 100px;
 }
 
 .THIS .vpi-state.current .state-ico-wrapper .rr-icon-default {

@@ -5,5 +5,5 @@
     align-items: center;
 }
 .THIS.rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }

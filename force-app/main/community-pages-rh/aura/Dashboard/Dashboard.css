@@ -149,7 +149,7 @@
     padding-bottom: 4px;
 }
 .THIS.arabic {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .db-list-item .btn-block .apollo-btn {
     float: none;
