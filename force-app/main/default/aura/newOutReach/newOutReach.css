@@ -3,7 +3,7 @@
     font-size: 0.8125rem;
 }
 .THIS.rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS .slds-datepicker table {
     table-layout: fixed;

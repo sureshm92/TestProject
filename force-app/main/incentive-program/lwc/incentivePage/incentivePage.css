@@ -12,7 +12,7 @@
     margin-bottom: 20px;
 }
 .rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .incentives-page-container {
     margin-bottom: 20px;

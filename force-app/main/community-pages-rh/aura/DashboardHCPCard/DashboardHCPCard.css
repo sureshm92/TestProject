@@ -19,7 +19,7 @@
     left: -130px;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .popupTargetContainer {
     top: 35px !important;

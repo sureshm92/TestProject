@@ -42,7 +42,7 @@
 }
 
 .THIS.rtl .resource-card-title {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after {
