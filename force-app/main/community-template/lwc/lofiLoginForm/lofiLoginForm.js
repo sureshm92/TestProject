@@ -25,6 +25,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @track isRTL;
     @track inError;
     @track errorMsg;
+    lockedOutUsrName;
     timeLeft = 900000;
     isLockOut = false;
 
@@ -111,6 +112,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     }
     handleLogin() {
         let userName = this.template.querySelector('lightning-input[data-id=userName]');
+        this.lockedOutUsrName = userName.value;
         let password = this.template.querySelector('lightning-input[data-id=password]');
         if (userName.value !== '') {
             userName.setCustomValidity('');
@@ -170,6 +172,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     }
     handleForgotPassword() {
         let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        this.lockedOutUsrName = userName;
+
         if (userName) {
             isUserPasswordLocked({ userName: userName })
                 .then((result) => {
@@ -203,8 +207,12 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         this.timeLeft = event.detail;
         this.isLockOut = true;
     }
+
     handleUnableToLogin() {
-        let userName = this.template.querySelector('lightning-input[data-id=userName]').value;
+        let userName = this.isLockOut
+            ? this.lockedOutUsrName
+            : this.template.querySelector('lightning-input[data-id=userName]').value;
+
         this.template.querySelector('c-unable-to-login').show(userName);
     }
     handleUnlock(event) {
