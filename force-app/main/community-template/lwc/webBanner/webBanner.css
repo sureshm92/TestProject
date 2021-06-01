@@ -1,3 +1,78 @@
-.rtl-direction {
-    direction: rtl;
+/**
+ * Created by Pijush Kar on 06.31.2021
+ */
+.transition-show .p-container {
+    opacity: 1;
+    visibility: visible;
+}
+
+.p-container {
+    position: fixed;
+    max-height: 100vh;
+    z-index: 10000;
+    top: 10%;
+    left: 50%;
+    background-color: #ffffff;
+    transform: translate(-50%, -50%);
+    box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
+    border: 1px solid #b5b5b5;
+    opacity: 0;
+    visibility: hidden;
+    transition: opacity 0.4s linear;
+    width: calc(80% - 6rem);
+    max-height: 100%;
+}
+
+.rtl {
+    right: unset !important;
+    left: 10%;
+}
+
+.p-container .p-content {
+    max-height: 60vh;
+    padding: 1rem !important;
+    color: #444;
+    font-size: 1rem;
+    line-height: 1.5rem;
+    white-space: normal;
+    text-align: left;
+    font-weight: 500;
+    overflow-x: hidden;
+}
+
+.p-container .p-mobile-close {
+    top: 4px;
+    right: 4px;
+}
+
+.button-close {
+    width: 1rem;
+    height: 1rem;
+    position: absolute;
+    top: 5px;
+    right: 5px;
+    background: none;
+    border: none;
+}
+
+.button-close:after {
+    content: '';
+    position: absolute;
+    background-size: 16px 16px;
+    background-image: url(/resource/1569269587000/iconCloseBlack);
+    height: 16px;
+    width: 16px;
+    top: 30px;
+    right: 25px;
+    cursor: pointer;
+}
+
+.icon-info {
+    position: absolute;
+    top: 30px;
+    left: 7%;
+    height: 24px;
+    width: 24px;
+    background-size: 24px 24px;
+    background-image: url(/resource/1622466154000/iconNotificationBell);
 }

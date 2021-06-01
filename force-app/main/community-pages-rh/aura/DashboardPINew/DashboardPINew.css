@@ -17,7 +17,7 @@
     flex-wrap: wrap; /* added for REF-2611 bug fixing */
 }
 .THIS .rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .picklist-block {
     width: 251px;

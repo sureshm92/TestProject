@@ -6,7 +6,7 @@
 }
 
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .sd-study-name {
