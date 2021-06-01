@@ -6,9 +6,9 @@
 }
 
 .THIS .language-title-RTL {
-    color: black;
-    font-size: 16px;
-    padding-right: -7px;
+    /* @noflip */    color: black;
+    /* @noflip */    font-size: 16px;
+    /* @noflip */   padding-right: -7px;
 }
 
 .THIS.cLibrary.rr-white-panel {
@@ -18,7 +18,7 @@
 }
 
 .THIS .RTL {
-    direction: rtl
+    /* @noflip */  direction: rtl;
 }
 .THIS .slds-accordion__summary-heading > button > span {
     order: 2;

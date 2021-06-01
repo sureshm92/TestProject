@@ -2,7 +2,7 @@
  * Created by Nargiz Mamedova on 6/25/2020.
  */
 
-.THIS > div:first-child {
+ .THIS > div:first-child {
     height: 100%;
 }
 
@@ -50,8 +50,8 @@
 }
 
 .THIS .menu-popup-panel.rtl.popupTargetContainer {
-    left: 0;
-    right: auto;
+    /* @noflip */  right: 0;
+    /* @noflip */ left: auto;
 }
 
 .THIS .menu-popup-panel.popupTargetContainer {
@@ -62,8 +62,8 @@
     opacity: 0;
     position: absolute;
     color: black;
-    left: auto;
-    right: 0;
+   /* @noflip */  left: auto;
+  /* @noflip */   right: 0;
     top: 50px !important;
     width: 345px;
     border: 1px solid #d9d9d9;
