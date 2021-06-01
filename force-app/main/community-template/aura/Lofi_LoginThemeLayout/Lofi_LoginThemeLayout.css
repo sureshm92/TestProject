@@ -185,6 +185,8 @@
 .THIS .p-header .rtlHeader {
     /*@noflip*/
     direction: rtl;
+    /*@noflip*/
+    padding-right: 24px !important;
 }
 
 @media all and (min-width: 768px) {
