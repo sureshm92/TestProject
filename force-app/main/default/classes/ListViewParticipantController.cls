@@ -168,6 +168,9 @@ public without sharing class ListViewParticipantController {
                 if(StatusToUpdate == 'Sent to Study Hub' || StatusToUpdate == 'Initial Visit'){
                     StatusToUpdate = 'Eligibility Passed';
                 }
+                if(StatusToUpdate == 'In Wash Out Period'){
+                    StatusToUpdate = 'Screening In Progress - Wash Out Period';
+                }
                 Set<Id> SSId = new Set<Id>(); 
                 Set<Id> planIds = new Set<Id>(); 
                 Map<ID,ID> MapSitePlan = new Map<ID,ID>(); 
