@@ -27,11 +27,13 @@
     <aura:attribute name="isPhone" type="Boolean" default="false" />
     <aura:attribute name="isSMS" type="Boolean" default="false" />
     <aura:attribute name="isSuppressed" type="Boolean" default="false" />
+	<aura:attribute name="patientPortalEnabled" type="Boolean" default="false" />
 
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String" />
         <aura:attribute name="studySiteType" type="String" />
+        <aura:attribute name="trial" type="Object" />
         <aura:attribute name="isSuppressed" type="Boolean" default="false" />
         <aura:attribute name="callback" type="Function" />
     </aura:method>
@@ -244,7 +246,7 @@
                 </div>
                 <aura:set attribute="else">
                     <aura:if
-                        isTrue="{!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}"
+                        isTrue="{!v.patientPortalEnabled &amp;&amp;!v.communityWithPPInv &amp;&amp;v.studySiteType != 'Hybrid' &amp;&amp;v.studySiteType != 'Virtual'}"
                     >
                         <div class="slds-grid slds-wrap">
                             <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">

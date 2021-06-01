@@ -15,8 +15,10 @@
         component.set('v.studySiteId', studySiteId);
         var studySiteType = params['studySiteType'];
         var isSuppressed = params['isSuppressed'];
+        var trial = params['trial'];
         component.set('v.studySiteType', studySiteType);
         component.set('v.isSuppressed', isSuppressed);
+        component.set('v.patientPortalEnabled',trial.Patient_Portal_Enabled__c);        
         if (params.callback) component.set('v.callback', $A.getCallback(params.callback));
         helper.clearFields(component, event, helper);
         helper.checkCommunity(component, event, helper);

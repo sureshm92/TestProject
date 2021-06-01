@@ -110,6 +110,10 @@ public without sharing class AddPatientByPIRemote {
             pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
+			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
+            if(createUser && participant.Adult__c){
+                pe.Invited_To_PP_Date__c =  DateTime.now();
+            }
 
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
