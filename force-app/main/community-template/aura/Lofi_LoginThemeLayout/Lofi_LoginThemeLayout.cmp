@@ -15,6 +15,7 @@
     <aura:attribute name="communityType" type="String" />
     <aura:attribute name="isRTL" type="Boolean" default="false" />
     <aura:attribute name="isMobile" type="Boolean" default="false" />
+    <aura:attribute name="cookieText" type="String" />
 
     <!-- component body: -->
     <aura:if isTrue="{!v.languageChecked}">
@@ -102,5 +103,6 @@
                 </footer>
             </div>
         </div>
+        <c:webBanner bodyText="{!v.cookieText}" showClose="true" isRTL="{!v.isRTL}" />
     </aura:if>
 </aura:component>
