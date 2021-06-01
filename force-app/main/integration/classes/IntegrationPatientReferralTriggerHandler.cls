@@ -52,8 +52,10 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                     Study_Site_Type__c,
                     Site__c,
                     Override_PI_Referral_Status__c,
+                	Clinical_Trial_Profile__c,
                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Suppress_Participant_Emails__c
+                    Suppress_Participant_Emails__c,
+                	Clinical_Trial_Profile__r.Patient_Portal_Enabled__c
                 FROM Study_Site__c
                 WHERE Primary_Key_ePR__c IN :ssNumbersList
             ];
@@ -226,7 +228,7 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
                 Study_Site__c ss = ssByPrimaryKeyEPRMap.get(getSitePrimaryKeyEPR(ipr));
                 participant.Site__c = ss.Site__c;
                 if (ss != null)
-                    peList.add(createPE(ipr, participant.Id, ss.Id));
+                    peList.add(createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
             }
             List<String> PEErrorMsg = new List<String>();
             List<Database.SaveResult> saveResults = Database.insert(peList, false);
@@ -527,8 +529,21 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
     private static Participant_Enrollment__c createPE(
         Integration_Patient_Referral__c ipr,
         Id participantId,
-        Id ssId
+        Id ssId,
+        Study_Site__c ss,
+        Boolean isAdult
     ) {
+        
+        Boolean filterCriteria =
+            ss.Study_Site_Type__c!='Virtual'&& ss.Study_Site_Type__c!='Hybrid' &&
+            ss != null &&
+            ss.Clinical_Trial_Profile__c != null &&
+            !ss.Suppress_Participant_Emails__c &&
+            !ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+            ss.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+            participantId != null ;
+        
+        
         Participant_Enrollment__c objPE = new Participant_Enrollment__c(
             Participant__c = participantId,
             Study_Site__c = ssId,
@@ -557,6 +572,9 @@ public without sharing class IntegrationPatientReferralTriggerHandler {
             Permit_Mail_Email_contact_for_this_study__c = true,
             Permit_IQVIA_to_contact_about_study__c = true
         );
+        if(filterCriteria && isAdult){
+            objPE.Invited_To_PP_Date__c = DateTime.now(); 
+        }
         if (ipr.Comorbidities__c == 'True')
             objPE.Comorbidities__c = 'Yes';
         else if (ipr.Comorbidities__c == 'False')

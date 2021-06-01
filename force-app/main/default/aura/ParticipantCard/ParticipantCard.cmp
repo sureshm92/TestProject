@@ -27,6 +27,7 @@
             actions="{!v.actions}"
             isInvited="{!v.isInvited}"
             showVisits="{!v.participantItem.showVisits}"
+            sendToSHDate ="{!v.sendToSHDate}"/>       
         />
         <aura:set attribute="else">
             <c:ViewPatientItem
