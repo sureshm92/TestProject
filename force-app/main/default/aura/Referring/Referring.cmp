@@ -139,7 +139,7 @@
      <!-- page content -->
      <div
          class="rr-body-content"
-         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'direction: rtl;','')}"
+         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'/* @noflip */  direction: rtl;','')}"
      >
          <!-- Select source -->
          <aura:if isTrue="{!v.currentState == 'Select Source'}">
@@ -208,7 +208,7 @@
          <!-- Screening -->
          <aura:if isTrue="{!v.currentState == 'Screening'}">
              <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Discussion}">
-                 <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, 'direction: rtl;','')}">
+                 <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                      <div class="big-alert">
                          <c:RRIcon iconName="communication" />
                          <div class="message">
@@ -303,7 +303,7 @@
                              {!$Label.c.PG_Ref_L_Please_select_referred_study_site_s_to_refer_your_patient_to}
                          </div>
                      </div>
-                     <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, 'direction: rtl;','')}">
+                     <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                          <div
                              class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
                          >
@@ -520,7 +520,7 @@
                          <div class="message">Contact info page TODO</div>
                      </div>
                  </div-->
-                 <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'direction: rtl;')}">
+                 <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'/* @noflip */  direction: rtl;')}">
                      <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
                          <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
                              <div class="slds-grid slds-wrap">

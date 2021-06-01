@@ -1,7 +1,7 @@
 /**
  * Created by Aleksey Moseev.
  */
-.THIS .dqa-view-more {
+ .THIS .dqa-view-more {
     background: #f8f9fb;
     border-top: solid 1px #e9e9e9;
     min-height: 49px;
@@ -10,7 +10,7 @@
     padding-bottom: 10px;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .db-qal-title {
     color: #000000;
@@ -60,9 +60,15 @@
     display: flex;
 }
 
+.THIS .barTitleRTL 
+{
+  /* @noflip */  text-align: right;
+ /* @noflip */   padding-right: 50px;
+}
+
 .THIS .barTitle {
-    text-align: right;
-    padding-right: 10px;
+   text-align: right;
+   padding-right: 10px;
 }
 
 .THIS .barGrp {

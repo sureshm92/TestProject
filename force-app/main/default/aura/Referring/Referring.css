@@ -7,7 +7,7 @@
 }
 .THIS.rr-body-content > .rr-width-limiterRTL {
     margin-top: 50px;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .rr-error{

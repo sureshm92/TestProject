@@ -9,7 +9,7 @@
     <!-- events: -->
     <aura:registerEvent access="global" name="onclick" type="c:uiEvent" />
 
-    <ul class="main-container" style="{!if(v.isRTL, 'direction: rtl;','')}">
+    <ul class="main-container" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <aura:iteration items="{!v.communityModes.rhModeItems}" var="modeGroup">
             <c:uiMenuItem onclick="{!c.doOnclick}" itemValue="{!modeGroup}">
                 <div

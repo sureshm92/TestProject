@@ -49,7 +49,7 @@
 }
 
 .THIS.rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 @media (max-width: 1140px) {

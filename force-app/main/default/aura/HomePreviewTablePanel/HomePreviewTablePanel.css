@@ -8,7 +8,7 @@
 }
 
 .THIS.hptp-panel.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .hptp-title {

@@ -35,7 +35,7 @@
     </aura:method>
     <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>
 
-    <div class="" style="{!if(v.isRTL, 'direction: rtl;','')}">
+    <div class="" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <c:Popup
             aura:id="inviteRPDialog"
             title="{!$Label.c.PG_MRC_L_Invite_Referring_Provider}"
