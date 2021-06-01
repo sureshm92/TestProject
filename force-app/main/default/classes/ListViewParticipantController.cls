@@ -205,8 +205,8 @@ public without sharing class ListViewParticipantController {
                     }
                     SSId.add(pe.Study_Site__c);
                     
-                    if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-                        TriggerHandlerExecutor.bypassHandler(
+                   if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                       TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
                         );
                         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -215,9 +215,6 @@ public without sharing class ListViewParticipantController {
                         );
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-                        );
-                        TriggerHandlerExecutor.bypassHandler(
-                            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
                         );
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
@@ -281,8 +278,8 @@ public without sharing class ListViewParticipantController {
                                )
                            );
                        }
-                    /*if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
-                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){*/
+                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
+                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
                            histories.add(
                                new Participant_Enrollment_Status_History__c(
                                    Date__c = pe.Participant_Status_Last_Changed_Date__c,
@@ -292,7 +289,7 @@ public without sharing class ListViewParticipantController {
                                    Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                                )
                            );
-                     //  }
+                      }
                     
                     
                 }
