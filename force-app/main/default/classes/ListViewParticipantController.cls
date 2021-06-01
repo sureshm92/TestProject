@@ -494,7 +494,8 @@ public without sharing class ListViewParticipantController {
             Reasons_List__c,
             Step__c
             FROM Participant_Workflow_Outcome__mdt
-            WHERE Status_Name__c =: newStatus]){
+            WHERE Status_Name__c =: newStatus
+            LIMIT 1]){
                 stWrap.Step = outcome.Step__c;
                 stWrap.reason = TranslateHelper.getPickListLabel(
                     Participant_Enrollment__c.Non_Enrollment_Reason__c,
