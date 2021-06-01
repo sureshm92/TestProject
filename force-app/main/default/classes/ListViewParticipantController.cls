@@ -281,8 +281,8 @@ public without sharing class ListViewParticipantController {
                                )
                            );
                        }
-                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
-                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
+                    /*if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
+                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){*/
                            histories.add(
                                new Participant_Enrollment_Status_History__c(
                                    Date__c = pe.Participant_Status_Last_Changed_Date__c,
@@ -292,7 +292,7 @@ public without sharing class ListViewParticipantController {
                                    Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                                )
                            );
-                       }
+                     //  }
                     
                     
                 }
@@ -423,7 +423,7 @@ public without sharing class ListViewParticipantController {
         }
     }
    
-    //list of available statuses
+    //list of available statuses changed for REF-3962
     @AuraEnabled
     public static List<LabelValueItem> getAvailableStatuses(String status, Id StudyId){
         List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
