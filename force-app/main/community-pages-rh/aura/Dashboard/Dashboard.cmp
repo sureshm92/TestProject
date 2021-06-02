@@ -48,7 +48,7 @@
         
      </div>
      </div>
-     <div class="{!if(v.showDashboardforPI,'db-content','db-content-empty')}">
+     <div class="{!if(v.showDashboardforPI,'db-content','db-content-empty')}"  style="{!v.isRTL? 'direction:ltr' :''}">
              <aura:if isTrue="{!v.userMode == 'HCP'}">
                  <c:DashboardHCP hcpData="{!v.hcpData}" />
              </aura:if>
