@@ -1,5 +1,5 @@
-import { LightningElement, api, track } from 'lwc';
-import { NavigationMixin } from 'lightning/navigation';
+import { LightningElement, api, track, wire } from 'lwc';
+import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
@@ -28,6 +28,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     lockedOutUsrName;
     timeLeft = 900000;
     isLockOut = false;
+    currentPageReference;
 
     passwordInputType = 'password';
     isEyeHidden = true;
@@ -85,7 +86,17 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 );
             });
     }
+    @wire(CurrentPageReference)
+    setCurrentPageReference(currentPageReference) {
+        this.currentPageReference = currentPageReference;
+        let timeDiff = this.currentPageReference.state.c__timeDifference;
 
+        if (timeDiff) {
+            this.timeLeft = Number(timeDiff);
+            this.isLockOut = true;
+            this.lockedOutUsrName = this.currentPageReference.state.c__username;
+        }
+    }
     onInputChange(event) {
         if (event.target.value !== '') {
             this.template
