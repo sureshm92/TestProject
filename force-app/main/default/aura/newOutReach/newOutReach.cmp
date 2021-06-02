@@ -69,7 +69,7 @@
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                         <div class="rr-form-element">
                             <aura:if isTrue="{!v.isRTL}">
-                                <div class="label slds-text-align_right">
+                                <div class="label slds-text-align_right" style="{!v.isRTL? 'text-align: right' :''}">
                                     {!$Label.c.Study_Name}<abbr title="required" class="slds-required"
                                                                 >*</abbr
                                     >
@@ -98,7 +98,7 @@
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                         <div class="rr-form-element">
                             <aura:if isTrue="{!v.isRTL}">
-                                <div class="label slds-text-align_right">
+                                <div class="label slds-text-align_right" style="{!v.isRTL? 'text-align: right' :''}">
                                     {!$Label.c.Study_Site}<abbr title="required" class="slds-required"
                                                                 >*</abbr
                                     >
@@ -130,7 +130,7 @@
                 <div class="slds-col slds-grid slds-size_1-of-1">
                     <div class="slds-col slds-size_1-of-1 slds-p-around_medium">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div class="label slds-text-align_right prefferedcontact">
+                            <div class="label slds-text-align_right prefferedcontact" style="{!v.isRTL? 'text-align: right' :''}">
                                 {!$Label.c.Media_Chekbox}<abbr title="required" class="slds-required"
                                                                >*</abbr
                                 >
@@ -156,7 +156,7 @@
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                         <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element'}">
                          
-                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
+                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}" style="{!v.isRTL? 'text-align: right' :''}">
                                     {!$Label.c.Requested_Start_Date}<abbr
                                                                           title="required"
                                                                           class="slds-required"
@@ -182,9 +182,9 @@
                     </div>
                     
                     <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
-                        <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element'}">
+                        <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element'}" >
                           
-                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
+                                <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}" style="{!v.isRTL? 'text-align: right' :''}" >
                                     {!$Label.c.Requested_End_Date}<abbr
                                                                         title="required"
                                                                         class="slds-required"

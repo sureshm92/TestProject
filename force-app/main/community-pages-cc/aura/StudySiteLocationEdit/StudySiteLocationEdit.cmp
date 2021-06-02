@@ -1,6 +1,7 @@
 <aura:component 
                 description="StudySiteLocationEdit" 
-                controller="Action_EditLocationRemote">
+                controller="Action_EditLocationRemote" extends="c:CommunityContext"
+>
     <ltng:require
                   scripts="{!join(',', $Resource.rr_community_js)}"
                   />
@@ -68,7 +69,8 @@
                                                  />
                             </div>
                         </div>
-                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap"  style="padding-left:0px;">
+                        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap"  
+                             style="{!v.isRTL? 'margin-right: -23px;': 'padding-left:0px;'}">
                             
                             <lightning:input
                                              aura:id="locationAddress"
