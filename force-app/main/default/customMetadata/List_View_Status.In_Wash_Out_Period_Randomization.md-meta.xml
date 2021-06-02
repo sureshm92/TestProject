@@ -16,7 +16,7 @@
     </values>
     <values>
         <field>Participant_Status__c</field>
-        <value xsi:type="xsd:string">In Wash Out Period</value>
+        <value xsi:type="xsd:string">Screening In Progress - Wash Out Period</value>
     </values>
     <values>
         <field>Participant_Workflow_Final_Step__c</field>
