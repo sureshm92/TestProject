@@ -9,7 +9,7 @@
 }
 
 .THIS.navigation-path.rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS.navigation-path .path-item {

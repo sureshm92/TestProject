@@ -26,12 +26,12 @@
 }
 
 .THIS .rtlMain {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
     padding-right: 30px;
 }
 
 .THIS .rtlHover {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .item-line {
@@ -190,7 +190,7 @@
     height: auto;
     word-break: break-all;
     white-space: normal;
-    direction: rtl;
+   /* @noflip */  direction: rtl;
     text-align: right;
     width: max-content;
     float: right;

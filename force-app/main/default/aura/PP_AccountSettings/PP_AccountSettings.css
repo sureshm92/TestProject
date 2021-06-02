@@ -11,7 +11,7 @@
     min-height: 1000px;
 }
 .THIS .RTL {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .cRrSelect.rrs-container select,
@@ -62,8 +62,9 @@
     min-width: 300px;
 }
 .THIS .NavContainer1 .RTL {
-    padding: 1.5rem 1.5rem 0 0;
-}
+    /* @noflip */  padding: 1.5rem 1.5rem 0 0;
+ }
+ 
 .THIS .NavContainer1 .LTR {
     padding: 1.5rem 0 0 1.5rem;
 }

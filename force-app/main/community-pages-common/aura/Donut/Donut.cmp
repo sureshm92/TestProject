@@ -45,7 +45,7 @@
                     </div>
                 </div>
             </div>
-            <div style="{!v.isRTL? 'direction: rtl;dt-legend-section-RTL':''}"  class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_8-of-12 ', '') + ' dt-legend-section'}"
+            <div style="{!v.isRTL? '/* @noflip */  direction: rtl;dt-legend-section-RTL':''}"  class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_8-of-12 ', '') + ' dt-legend-section'}"
         >
                 <aura:if isTrue="{!!empty(v.body)}"
                     ><div class="rr-small-down-hide dt-body">{!v.body}</div></aura:if

@@ -34,7 +34,7 @@
                     <div class="barContainer">
                         <aura:if isTrue="{!v.isRTL}">
                             <div
-                                 class="slds-col slds-size--3-of-12 barTitle"
+                                 class="slds-col slds-size--3-of-12 barTitleRTL"
                                  style="margin-right: 15px" 
                                  >
                                 {!item.title}

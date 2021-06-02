@@ -2,12 +2,12 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.rr-body-content > .rr-width-limiter {
+ .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
 .THIS.rr-body-content > .rr-width-limiterRTL {
     margin-top: 50px;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .rr-error{
@@ -137,7 +137,7 @@
     font-size: 24px;
     font-weight: 600;
     line-height: 36px;
-    text-align: right;
+    /* @noflip */   text-align: right;
     padding: 35px 0 0;
 }
 

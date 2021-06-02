@@ -15,7 +15,7 @@
     <!-- methods: -->
     <aura:method name="refresh" action="{!c.doRefresh}" access="public" />
 
-    <div style="{! 'width: 100%; ' + if(v.isRTL, 'direction: rtl;','')}" >
+    <div style="{! 'width: 100%; ' + if(v.isRTL, '/* @noflip */  direction: rtl;','')}" >
         <aura:if isTrue="{!v.type == 'RH_Only'}">
             <div class="{!v.isRTL? 'more-separatorRTL':'more-separator'}">{!$Label.c.Profile_Menu_More}</div>
         </aura:if>

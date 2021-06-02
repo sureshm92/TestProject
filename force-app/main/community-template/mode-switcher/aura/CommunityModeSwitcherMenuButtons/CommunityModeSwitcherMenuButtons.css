@@ -2,7 +2,7 @@
  * Created by Andrii Kryvolap
  */
 
-.THIS .button-icon {
+ .THIS .button-icon {
     width: 16px;
     height: 16px;
     fill: #666666 !important;
@@ -13,8 +13,8 @@
     display: inline;
 }
 .THIS .button-labelRTL {
-    margin-right: 10px;
-    display: inline;
+/* @noflip */    margin-right: 10px;
+  /* @noflip */    display: inline;
 }
 
 .THIS .more-separator {
@@ -29,8 +29,8 @@
     height: 24px;
     color: #444444;
     font-size: 16px;
-    padding-right: 20px;
-    text-align: right;
+  /* @noflip */  padding-right: 20px;
+ /* @noflip */   text-align: right;
 }
 
 .THIS li.button {
@@ -42,12 +42,12 @@
     border-bottom: 1px solid #f8f9fb;
 }
 .THIS li.buttonRTL {
-    width: 100%;
-    height: 48px;
-    padding-top: 12px;
-    padding-right: 20px;
-    align-items: flex-start;
-    border-bottom: 1px solid #f8f9fb;
+    /* @noflip */  width: 100%;
+    /* @noflip */  height: 48px;
+    /* @noflip */   padding-top: 12px;
+    /* @noflip */   padding-right: 20px;
+    /* @noflip */  align-items: flex-start;
+    /* @noflip */  border-bottom: 1px solid #f8f9fb;
 }
 
 .THIS li:hover {

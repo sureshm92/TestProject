@@ -25,7 +25,7 @@
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <aura:registerEvent name="FilterKeep" type="c:CardViewFilterKeep"/>
 
-    <c:Popup aura:id="dialog" size="large" showScroll="true" showFooter="false">
+    <c:PopupRTL aura:id="dialog" size="large" showScroll="true" showFooter="false">
         <c:RRSpinner aura:id="spinner" size="medium" />
         <aura:if isTrue="{!!v.mrrResult}">
             <aura:if isTrue="{!v.isRTL}">
@@ -34,7 +34,7 @@
                         class="slds-grid slds-gutters"
                         style="{!'height: '+v.frameHeight}"
                         frameborder="no"
-                        width="280%"
+                        width="100%"
                         src="{!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
                         ></iframe>
                 <aura:set attribute="else">
@@ -144,5 +144,5 @@
                 </button>
             </div>
         </aura:if>
-    </c:Popup>
+    </c:PopupRTL>
 </aura:component>

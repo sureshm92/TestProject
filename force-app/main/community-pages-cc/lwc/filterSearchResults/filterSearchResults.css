@@ -22,22 +22,22 @@
 
 .frs-txt-reset-cnt-RTL {
     content: url(/resource/1611822084000/searchResetIcon);
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    margin-top: 9px;
-    margin-right: -258px;
+/* @noflip */    position: absolute;
+/* @noflip */   width: 14px;
+/* @noflip */    height: 14px;
+/* @noflip */    margin-top: 9px;
+/* @noflip */  margin-right: -258px;
    
     cursor: pointer;
 }
 
 .frs-txt-reset-srs-RTL {
-    content: url(/resource/1611822084000/searchResetIcon);
-    position: absolute;
-    width: 14px;
-    height: 14px;
-    margin-top: 9px;
-    margin-right: 221px;
+content: url(/resource/1611822084000/searchResetIcon);
+/* @noflip */  position: absolute;
+/* @noflip */   width: 14px;
+/* @noflip */  height: 14px;
+/* @noflip */   margin-top: 9px;
+/* @noflip */   margin-right: 221px;
     
     cursor: pointer;
 }

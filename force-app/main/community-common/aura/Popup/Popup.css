@@ -8,7 +8,8 @@
 }
 
 .THIS .btnRTL {
-    right: 87% !important;
+   /* @noflip */  right: 96% !important;
+    top: 1px !important;
 }
 
 .THIS #p-modal .p-container {
@@ -16,7 +17,7 @@
     max-height: 100vh;
     z-index: 10000;
     top: 50%;
-    left: 50%;
+     /* @noflip */ left: 50%; 
     background-color: #ffffff;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);

@@ -22,7 +22,7 @@
             <div
                 id="{!v.id}"
                 class="{!'message ' + v.class}"
-                style="{! 'color: ' + v.color + ';' + v.isRTL ? 'direction: rtl;' : ''}"
+                style="{! 'color: ' + v.color + ';' + v.isRTL ? ' /* @noflip */  direction: rtl;' : ''}"
             >
                 {!v.message}
             </div>

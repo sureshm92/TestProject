@@ -37,9 +37,10 @@
 .THIS .ah-toggle-container {
     position: relative;
 }
+
 .THIS .ah-toggle {
     position: absolute;
-    right: 0px;
+  /* @noflip */  right: 0px;
 }
 
 .THIS .ah-video-iframe {

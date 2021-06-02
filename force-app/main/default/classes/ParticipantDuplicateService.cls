@@ -201,7 +201,8 @@ public without sharing class ParticipantDuplicateService {
             if (!String.isBlank(participant.Email__c))
                 participantsByEmailMap.put(participant.Email__c.toLowerCase(), participant);
             if (!String.isBlank(participant.Phone__c))
-                participantsByPhoneMap.put(participant.Phone__c, participant);
+                //participantsByPhoneMap.put(participant.Phone__c, participant);
+                  participantsByPhoneMap.put(participant.Phone__c + participant.First_Name__c + participant.Last_Name__c, participant);
             if (!String.isBlank(participant.ZIP_Code__c)) {
                 List<Participant__c> zipParticipants = participantsByZipMap.get(
                     participant.ZIP_Code__c
@@ -368,10 +369,10 @@ public without sharing class ParticipantDuplicateService {
                     );
                 } else if (
                     participant.Phone__c != null &&
-                    participantsByPhoneMap.get(participant.Phone__c) != null
+                    participantsByPhoneMap.get(participant.Phone__c + participant.First_Name__c + participant.Last_Name__c) != null
                 ) {
                     duplicate = new DuplicateContainer(
-                        participantsByPhoneMap.get(participant.Phone__c)
+                        participantsByPhoneMap.get(participant.Phone__c + participant.First_Name__c + participant.Last_Name__c)
                     );
                 } else if (
                     participant.Phone__c != null &&
