@@ -74,8 +74,6 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
         this.usrnameval = this.template.querySelector('input').value;
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
-                console.log('---->', JSON.parse(result));
-                let returnValue = JSON.parse(result);
                 if (result.includes('./CheckPasswordResetEmail')) {
                     this.showEmailSent = true;
                     if (this.showEmailSent == true) {
@@ -85,6 +83,7 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
                         );
                     }
                 } else if (result) {
+                    let returnValue = JSON.parse(result);
                     if (returnValue['timeDifference']) {
                         this[NavigationMixin.Navigate]({
                             type: 'comm__namedPage',
