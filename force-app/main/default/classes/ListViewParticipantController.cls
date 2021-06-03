@@ -197,6 +197,7 @@ public without sharing class ListViewParticipantController {
                 ]){
                     pe.Participant_Status__c = StatusToUpdate;
                     pe.Non_Referral_Notes__c = Notes;
+                    pe.Last_Status_Changed_Notes__c = Notes;
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
                     pe.Participant_Status_Last_Changed_Date__c = system.now();
