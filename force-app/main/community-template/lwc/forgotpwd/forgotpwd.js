@@ -9,7 +9,7 @@ import emailsent from '@salesforce/label/c.PG_Email_Sent_Title';
 import emailsentsubtitle from '@salesforce/label/c.PP_EmailSent';
 import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
-import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPassword';
+import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPasswordCommunity';
 import communityResource from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
@@ -83,7 +83,20 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
                         );
                     }
                 } else if (result) {
-                    this.errorMessage = result;
+                    let returnValue = JSON.parse(result);
+                    if (returnValue['timeDifference']) {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Login'
+                            },
+                            state: {
+                                c__timeDifference: returnValue['timeDifference'],
+                                c__username: this.usrnameval
+                            }
+                        });
+                    }
+                    this.errorMessage = returnValue['invalidEmail'];
                     this.showError = true;
                 }
                 spinner.hide();

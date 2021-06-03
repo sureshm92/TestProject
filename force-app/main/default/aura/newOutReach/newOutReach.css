@@ -3,7 +3,7 @@
     font-size: 0.8125rem;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .slds-datepicker table {
     table-layout: fixed;
@@ -16,8 +16,8 @@
     line-height: inherit !important;
 }
 .THIS.cPopup .btnRTL {
-    right: 93.5% !important;
-    top: 0% !important;
+   /* @noflip */  right: 93.5% !important;
+   /* @noflip */  top: 0% !important;
 }
 .THIS .uiButton {
     height: 40px;

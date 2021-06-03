@@ -13,7 +13,7 @@
 }
 
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .resource-image-container > img {

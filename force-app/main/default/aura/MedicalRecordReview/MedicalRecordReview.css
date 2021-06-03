@@ -7,7 +7,7 @@
     min-height: 40px;
 }
 .THIS .rtlView{
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 .THIS .rr-card .rr-card-ico {
     width: 16px;

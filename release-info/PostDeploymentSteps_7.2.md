@@ -8,3 +8,6 @@ Go to Setup - All communities - Click builder near Janssen - Select "Login" from
 ## 3. Run script from developer console
 Go to Setup - Open Dev Console - OPen Execute Anonymous Window - Copy contents from "Update_PE.txt" - Paste the code on  Anonymous Window - Execute Twice
 
+## 4. Give read access for Business Profiles 
+Go to Setup -> Profiles ->Open Business Administrator -> Open Object Settings-> Open 'Participant Enrollment'-> Under fields give Read access to 'Invited To PP Date'.Do the same for Product Owner and Business Lead Profiles.
+

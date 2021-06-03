@@ -6,7 +6,7 @@
     margin-top: 0;
 }
 .THIS.arabic {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
     padding-bottom: 100px;
 }
 .THIS.english {
