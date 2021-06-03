@@ -31,7 +31,7 @@ public without sharing class VisitResultSharingService {
                         Measurement__c,
                         Min_Value__c,
                         Patient_Visit__r.Completed_Date__c,
-                    	Patient_Visit__r.Name,
+                    	Patient_Visit__r.Portal_Name__c,
                         Result_Type__c,
                         RecordType.DeveloperName
                     FROM Visit_Results__r

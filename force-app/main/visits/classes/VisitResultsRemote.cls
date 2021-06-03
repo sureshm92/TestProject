@@ -315,7 +315,7 @@ public without sharing class VisitResultsRemote {
                         Measurement__c,
                         Min_Value__c,
                         Patient_Visit__r.Completed_Date__c,
-                    	Patient_Visit__r.Name,
+                    	Patient_Visit__r.Portal_Name__c,
                         Patient_Visit__r.Participant_Enrollment__c,
                         Result_Type__c,
                         RecordType.DeveloperName
