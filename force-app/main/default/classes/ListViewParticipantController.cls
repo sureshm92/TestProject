@@ -262,12 +262,11 @@ public without sharing class ListViewParticipantController {
                     
                     if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
                         oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
-                        oParticipantStatus == 'In Wash Out Period') &&
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD) &&
                        (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
