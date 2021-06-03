@@ -1130,6 +1130,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(i)) !=null ? Date.ValueOf(mapParticipantFov.get(i)):null,
                             Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(i)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
+                if(createUsers==true && mapParticipant.get(i).Adult__c){
+                    participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
+                }
                 mapPER.put(i,participantEnrollment);
             }
             //PER record creation ends.
@@ -1231,6 +1234,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(totalrecorcountindx)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
                         
+                        if(createUsers==true && contactParticipantMap.get(i).Adult__c){
+                            participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
+                        }
                         
                         
                 mapPER.put(trackIndex.get(i),participantEnrollment);
