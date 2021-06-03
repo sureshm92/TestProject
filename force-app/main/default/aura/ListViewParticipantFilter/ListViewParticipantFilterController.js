@@ -177,6 +177,7 @@
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
+        helper.setDefault(component, event, helper);
     },
     handleChangeSex: function (component, event, helper) {
         //var spinner = component.find('recordsSpinner');

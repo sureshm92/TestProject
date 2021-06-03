@@ -32,6 +32,9 @@
     transform: none;
     margin-top: 0;
     z-index: 10010;
+    right: initial;
+  /* @noflip */    left: 0;
+
 }
 .rtl {
    /* @noflip */  direction: rtl;

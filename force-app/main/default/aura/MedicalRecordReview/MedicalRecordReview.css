@@ -1,13 +1,13 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS .rr-card {
+ .THIS .rr-card {
     margin-top: 140px;
     border-bottom: 1px solid #d9d9d9;
     min-height: 40px;
 }
 .THIS .rtlView{
-   /* @noflip */  direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .rr-card .rr-card-ico {
     width: 16px;
@@ -20,8 +20,8 @@
     width: 16px;
     height: 25px;
     fill: black;
-    float: right;
-    margin-left: 5px;
+      /* @noflip */  float: right;
+       /* @noflip */ margin-left: 5px;
 }
 
 .THIS .rr-secondary-text {
@@ -175,8 +175,8 @@
         min-height: 500px;
     }
     .THIS .right-columnRTL {
-        padding-right: 20px;
-        min-height: 500px;
+           /* @noflip */ padding-right: 20px;
+          /* @noflip */  min-height: 500px;
     }
 
     .THIS .left-column {
@@ -184,8 +184,8 @@
         padding-right: 30px;
     }
     .THIS .left-columnRTL {
-        border-left: 1px solid #d9d9d9;
-        padding-right: 0px;
+      /* @noflip */  border-left: 1px solid #d9d9d9;
+       /* @noflip */ padding-right: 0px;
     }
 }
 

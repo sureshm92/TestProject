@@ -51,6 +51,7 @@ public without sharing class RRChangePasswordController {
     public String communityLogo { get; set; }
     public String resetPassLogo { get; set; }
     public String themeCSS { get; set; }
+    public Boolean isMobileView {get;set;}
     public String backgroundStyle { get; set; }
     public String templateName { get; set; }
     public String currentCommunityName { get; set; }
@@ -91,6 +92,7 @@ public without sharing class RRChangePasswordController {
     public RRChangePasswordController() {
         isRTL = false;
         onLoad = true;
+        isMobileView = false;
         showPassword = true;
         showNewPassword = true;
         translation = new Translation__c();
@@ -112,6 +114,13 @@ public without sharing class RRChangePasswordController {
                 '/s/cookie-policy?lanCode=' + previousLanguage
             );
         }
+        
+        
+         Map<String, String> headerlist = ApexPages.currentPage().getHeaders();
+        if(headerList.get('User-Agent').contains('Android') || headerList.get('User-Agent').contains('BlackBerry') ||
+        headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')){
+               isMobileView = true;
+           }
     }
 
     private void init() {

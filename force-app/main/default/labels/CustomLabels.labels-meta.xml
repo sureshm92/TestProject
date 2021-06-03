@@ -8758,7 +8758,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ISO Download Template</shortDescription>
-        <value>ISO Download Template</value>
+        <value>ISO Language Guide</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
@@ -9596,7 +9596,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal when applicable.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates_Jansen</fullName>
@@ -16264,7 +16264,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EmailSent</shortDescription>
-        <value>If there's an account linked to this email address, we'll send over instructions to reset your password.</value>
+        <value>If there's an account linked to this username, we'll send over instructions to reset your password.</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>

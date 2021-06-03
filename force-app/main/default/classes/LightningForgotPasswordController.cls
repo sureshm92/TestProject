@@ -22,13 +22,56 @@ global without sharing class LightningForgotPasswordController {
                             lockoutTime = loginAttempt.LoginTime;
                         }
                     }
-                    if(Site.getPathPrefix().startsWith('/gsk')){
+                    return Label.PG_Login_Lockout_Error_Message.replace(
+                        '##LockoutEndTime',
+                        lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
+                    );
+                }
+            }
+            Site.forgotPassword(username);
+            ApexPages.PageReference checkEmailRef = new PageReference(checkEmailUrl);
+            if (!Site.isValidUsername(username)) {
+                return Label.Site.invalid_email;
+            }
+            aura.redirect(checkEmailRef);
+            return null;
+        } catch (Exception ex) {
+            return ex.getMessage();
+        }
+    }
+    @AuraEnabled
+    public static String forgotPasswordCommunity(String username, String checkEmailUrl) {
+        try {
+            List<User> u = [SELECT Id, TimeZoneSidKey FROM User WHERE Username = :username];
+            Map<String, String> returnMap = new Map<String, String>();
+            if (!u.isEmpty()) {
+                UserLogin ul = [SELECT IsPasswordLocked FROM UserLogin WHERE UserId = :u[0].Id];
+                List<LoginHistory> history = [
+                    SELECT Id, Status, LoginTime
+                    FROM LoginHistory
+                    WHERE UserId = :u[0].Id
+                    ORDER BY LoginTime DESC
+                    LIMIT 10
+                ];
+                if (ul.IsPasswordLocked) {
+                    DateTime lockoutTime = null;
+                    for (LoginHistory loginAttempt : history) {
+                        if (lockoutTime == null && loginAttempt.Status == 'Invalid Password') {
+                            lockoutTime = loginAttempt.LoginTime;
+                        }
+                    }
+                   if(Site.getPathPrefix().startsWith('/gsk')){
                       return Label.PG_Login_Lockout_Error_Message.replace(
                         '##LockoutEndTime',
                         lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
                     );  
                     }else{
-                        return null;
+                       String timeDifference =  String.valueof(
+                            lockOutTime.addMinutes(15).getTime() - System.now().getTime()
+                        );
+                        returnMap.put('timeDifference',timeDifference);
+                        return JSON.serialize(returnMap);
+                        
                     }
                     
                 }
@@ -36,7 +79,8 @@ global without sharing class LightningForgotPasswordController {
             Site.forgotPassword(username);
             ApexPages.PageReference checkEmailRef = new PageReference(checkEmailUrl);
             if (!Site.isValidUsername(username)) {
-                return Label.Site.invalid_email;
+                returnMap.put('invalidEmail',Label.Site.invalid_email);
+                return JSON.serialize(returnMap);
             }
             if(Site.getPathPrefix().startsWith('/gsk')){
                 aura.redirect(checkEmailRef);

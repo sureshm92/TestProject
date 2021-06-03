@@ -122,7 +122,7 @@
                                 </aura:set>
                             </aura:if>    
                           <aura:set attribute="else">
-                             <aura:if isTrue = "{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c  &amp;&amp; v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c !='Traditional'}">
+                             <aura:if isTrue = "{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c  &amp;&amp; or(v.pe.Study_Site__r.Study_Site_Type__c =='Virtual',v.pe.Study_Site__r.Study_Site_Type__c =='Hybrid')}">
                                  <aura:if isTrue = "{!and(v.sendToSHDate!=null,v.sendToSHDate!=undefined)}">
                                      
                                      <div class="slds-has-block-links--spaceblue"
