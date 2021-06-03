@@ -8,14 +8,6 @@
     background-color: rgb(255, 255, 255);
 }
 
-.THIS.all-content-rtl {
-    top: 0;
-    left: 0;
-    font-family: 'Proxima Nova';
-    background-color: rgb(255, 255, 255);
-    direction: rtl;
-}
-
 .THIS .body-content {
     width: 320px;
     margin: 0 auto;
@@ -152,20 +144,11 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
-    width: 50%;
-    margin-top: -3em;
+    margin-top: -7em;
 }
 
-.THIS .footer-rtl {
+.THIS .align-rtl {
     direction: rtl;
-    color: #000000;
-    font-size: 14px;
-    font-weight: 500;
-    letter-spacing: 0;
-    line-height: 24px;
-    text-align: center;
-    width: 50%;
-    margin-top: -3em;
 }
 
 .THIS .p-header h2 {
