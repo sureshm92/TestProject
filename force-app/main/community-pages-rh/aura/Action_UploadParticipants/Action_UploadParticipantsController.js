@@ -139,5 +139,26 @@
 
     doContactSMS: function (component) {
         component.set('v.isSMS', !component.get('v.isSMS'));
-    }
+    },
+    
+    generateISOLanguage: function (component, event, helper) {
+        var action = component.get('c.getISOLanguage');
+        action.setCallback(this, function(response){
+           var state = response.getState();
+           if (state === "SUCCESS") {
+                var csv = helper.convertArrayOfObjectsToCSV(component, event, helper,response.getReturnValue());   
+                if (csv == null){return;} 
+                var hiddenElement = document.createElement('a');
+                hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csv);
+                hiddenElement.target = '_self'; // 
+                hiddenElement.download = 'ISO_Language_Guide.csv';  // CSV file Name* you can change it.[only name not .csv] 
+                document.body.appendChild(hiddenElement); // Required for FireFox browser
+                hiddenElement.click(); // using click() js function to download csv file
+           }
+
+        });
+        $A.enqueueAction(action);
+      },
+
+
 });
