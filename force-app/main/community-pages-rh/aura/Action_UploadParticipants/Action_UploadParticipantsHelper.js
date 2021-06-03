@@ -65,5 +65,41 @@
             communityService.getCurrentCommunityTemplateName() !=
                 $A.get('$Label.c.Janssen_Community_Template_Name')
         );
-    }
+    },
+
+    convertArrayOfObjectsToCSV : function(component, event, helper,objectRecords) {
+        var csvStringResult, counter, keys, columnDivider, lineDivider;
+        if (objectRecords == null || !objectRecords.length) {
+            return null;
+         }
+        columnDivider = ',';
+        lineDivider =  '\n';
+        //keys = ['Language','Language ISO Code'];
+        keys = ['Language','LanguageISOcode'];
+
+        csvStringResult = '';
+        csvStringResult += keys.join(columnDivider);
+        csvStringResult += lineDivider;
+ 
+        for(var i=0; i < objectRecords.length; i++){   
+            counter = 0;
+           
+             for(var sTempkey in keys) {
+                var skey = keys[sTempkey] ; 
+                  if(counter > 0){ 
+                      csvStringResult += columnDivider; 
+                   }   
+                if(objectRecords[i][skey] != undefined){
+                    csvStringResult += '"'+ objectRecords[i][skey]+'"'; 
+                }else{
+                    csvStringResult += '"'+ '' +'"';
+                }               
+               counter++;
+ 
+            } // inner for loop close 
+             csvStringResult += lineDivider;
+          }// outer main for loop close 
+        return csvStringResult;        
+    },
+
 });
