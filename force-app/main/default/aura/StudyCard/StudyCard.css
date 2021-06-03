@@ -1,7 +1,7 @@
 /**
  * Created by Nikita Abrazhevitch on 21-Aug-19.
  */ 
-.THIS.slvi-container {
+ .THIS.slvi-container {
     padding-top: 1rem;
     margin-bottom: 30px;
     overflow: visible;
@@ -51,18 +51,18 @@
     display: block;
 }
 .THIS .study-name .study-titleRTL.rr-link {
-    text-decoration: none;
+    /* @noflip */    text-decoration: none;
     /*height: 30px;*/
-    color: #297dfd;
-    font-size: 18px;
-    font-weight: 600;
-    line-height: 30px;
-    padding: 0 0px;
-    position: relative;
-    max-height: 6rem;
-    padding-right: 0rem;
-    align-items: flex-start;
-    display: block;
+    /* @noflip */    color: #297dfd;
+    /* @noflip */    font-size: 18px;
+    /* @noflip */  font-weight: 600;
+    /* @noflip */  line-height: 30px;
+    /* @noflip */   padding: 0 0px;
+    /* @noflip */   position: relative;
+    /* @noflip */   max-height: 6rem;
+    /* @noflip */   padding-right: 10px;
+    /* @noflip */  align-items: flex-start;
+    /* @noflip */   display: block;
 }
 
 .THIS .study-name .study-title.rr-link span {
@@ -72,17 +72,17 @@
     text-overflow: ellipsis;
 }
 .THIS .study-name .study-titleRTL.rr-link span {
-    white-space: normal !important;
-    display: block !important;
-    overflow: hidden;
-    text-overflow: ellipsis;
+ /* @noflip */    white-space: normal !important;
+   /* @noflip */  display: block !important;
+  /* @noflip */   overflow: hidden;
+  /* @noflip */   text-overflow: ellipsis;
 }
 
 .THIS .study-name .study-title:hover:after {
     background: #eef5ff;
 }
 .THIS .study-name .study-titleRTL:hover:after {
-    background: #eef5ff;
+  /* @noflip */   background: #eef5ff;
 }
 /*
 .THIS .study-title.rr-link {
@@ -245,10 +245,10 @@
     fill: #297dfd;
 }
 .THIS .slvi-btn .rr-icon-defaultRTL {
-    height: 24px;
-    width: 20px;
-    margin: auto;
-    fill: #297dfd;
+    /* @noflip */   height: 24px;
+    /* @noflip */  width: 20px;
+    /* @noflip */    margin: auto;
+    /* @noflip */    fill: #297dfd;
 }
 
 .THIS .slvi-btn .btn-content {
@@ -291,7 +291,7 @@
     transition: 0.3s ease-in-out;
     transform: rotate(-90deg);
     position: relative;
-    margin-right: 3px;
+  /* @noflip */   margin-right: 3px;
 }
 
 .THIS .rr-link {

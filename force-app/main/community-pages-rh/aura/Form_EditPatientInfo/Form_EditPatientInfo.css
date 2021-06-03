@@ -33,7 +33,7 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right {
-    margin-right: 83%;
+  /* @noflip */   margin-right: 83%;
 }
 .THIS .rr-form-element {
     margin-bottom: 25px;
