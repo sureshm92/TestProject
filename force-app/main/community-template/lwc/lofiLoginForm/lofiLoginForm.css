@@ -1,0 +1,72 @@
+.form-header {
+    color: #000000;
+    font-size: 24px;
+    font-weight: 600;
+    letter-spacing: 0;
+    line-height: 29px;
+    margin-top: 1.5em;
+    margin-bottom: 0.5em;
+}
+
+.input-label {
+    color: #444444;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin: 0.5em 0;
+}
+.input-box {
+    color: #444444;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+    height: 36px;
+    width: 90%;
+    margin-bottom: 2em;
+}
+.input-box:focus {
+    color: #444444;
+}
+
+.form-button {
+    color: #fff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    height: 36px;
+    width: 90%;
+    margin-bottom: 2.5em;
+    margin-top: 1em;
+}
+
+.icon-position {
+    display: inline;
+    padding-top: 5px;
+    cursor: pointer;
+    position: relative;
+}
+
+.rr-link {
+    color: #0768fd;
+    display: inline-flex;
+    font-size: 16px;
+    cursor: pointer;
+}
+
+.rr-link:hover {
+    text-decoration: none;
+}
+
+.error-container {
+    color: #e20000;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.slds-has-error .slds-form-element__help {
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+}

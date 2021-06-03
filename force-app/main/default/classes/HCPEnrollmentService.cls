@@ -232,7 +232,7 @@ public without sharing class HCPEnrollmentService {
         }
     }
 
-    private static final List<String> HCPE_COMMON_FIELDS = new List<String>{
+    public static final List<String> HCPE_COMMON_FIELDS = new List<String>{
         'Id',
         'Name',
         'Status__c',
@@ -401,6 +401,42 @@ public without sharing class HCPEnrollmentService {
         return hcpeList[0];
     }
 
+    public HCP_Enrollment__c getHCPEnrollmentByIdImpl(
+        Id hcpeId,
+        String userMode,
+        String delegateId,
+        List<String> HCP_FIELDS
+    ) {
+        List<HCP_Enrollment__c> hcpeList = getHCPEnrollmentsCommon(
+            userMode,
+            delegateId,
+            ' AND Id =\'' +
+            hcpeId +
+            '\'',
+            false,
+            HCP_FIELDS
+        );
+        if (hcpeList.size() == 0)
+            throw new CommunityServiceException('Data not found');
+        return hcpeList[0];
+    }  
+
+    public static List<HCP_Enrollment__c> getHCPEnrollmentsCommon(
+        String userMode,
+        String delegateId,
+        String filter,
+        Boolean excludeDelegates,
+        List<String> HCP_FIELDS
+    ) {
+        return getHCPEnrollmentsCommonCustomFields(
+            userMode,
+            delegateId,
+            HCP_FIELDS,
+            filter,
+            excludeDelegates
+        );
+    }    
+    
     public static HCP_Enrollment__c getHCPEnrollmentById(Id hcpeId, String userMode) {
         return HCPEnrollmentService.getInstance().getHCPEnrollmentByIdImpl(hcpeId, userMode);
     }
@@ -421,6 +457,7 @@ public without sharing class HCPEnrollmentService {
     //Use in classes or remove
     //    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds){
     //        return getEnrollmentsForPIByTrialIds(trialIds, null, false);
+
     //    }
     //
     //    public static List<HCP_Enrollment__c> getEnrollmentsForPIByTrialIds(Set<Id> trialIds, List<String> statusesList, Boolean excludeStatuses){

@@ -9,7 +9,7 @@
     font-size: 1rem;
 }
 .THIS.rtl {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS.cPopup .btnRTL {
     right: 93.5% !important;

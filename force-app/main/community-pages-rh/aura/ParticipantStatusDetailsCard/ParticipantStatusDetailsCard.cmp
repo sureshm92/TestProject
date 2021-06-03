@@ -170,7 +170,7 @@
                                                 day="2-digit"
                                                 hour="numeric"
                                                 minute="numeric"
-                                                timeZone="UTC"
+                                                timeZone="{!$Locale.timezone}"
                                             />
                                             {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
                                             <aura:set attribute="else">
@@ -182,7 +182,7 @@
                                                     day="2-digit"
                                                     hour="numeric"
                                                     minute="numeric"
-                                                    timeZone="UTC"
+                                                    timeZone="{!$Locale.timezone}"
                                                 />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
                                                 history.createdBy}
                                             </aura:set>

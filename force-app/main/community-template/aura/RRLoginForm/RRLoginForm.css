@@ -11,6 +11,9 @@
     color: white;
     text-decoration: none;
 }
+.THIS RTL {
+    direction: rtl;
+}
 /* @Krishna Mahto- PEH-1910 
 .THIS  a:not(.no-float) {
     float: right;
@@ -24,6 +27,10 @@
     background-color: none;
 }
 */
+.THIS RTL {
+    /* @noflip */  direction: rtl;
+}
+
 .THIS label.uiLabel-hidden {
     display: none;
 }

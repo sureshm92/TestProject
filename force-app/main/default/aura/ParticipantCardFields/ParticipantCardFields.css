@@ -29,7 +29,7 @@
 }
 
 .THIS.rtl .vpi-field {
-    direction: rtl;
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .vpi-value-length-max {

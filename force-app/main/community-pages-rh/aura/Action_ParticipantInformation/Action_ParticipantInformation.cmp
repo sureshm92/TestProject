@@ -54,6 +54,7 @@
 <aura:attribute name="dateofSH" type="String" />
 <aura:attribute name="status" type="String" />
 <aura:attribute name="invitedon" type="Date" />
+<aura:attribute name="peInvitedtoPP" type="Boolean" default="false" />
 <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
 <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
 <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
@@ -117,12 +118,12 @@ isListView = "{!v.isListView}"
 >
 
 <aura:if
-  isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
-          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-          v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c ||
-          v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c ||
-          and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c)) ||
-          (v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}"
+  isTrue="{!v.isIQVIA &amp;&amp; or(!v.isInvited,!v.peInvitedtoPP) &amp;&amp;v.pe.Participant__r.Adult__c &amp;&amp;
+           v.pe.Participant__r.Email__c &amp;&amp;v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid'&amp;&amp; 
+           !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c ||
+           v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c ||
+           and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c)) ||
+           (v.isInvited &amp;&amp; v.peInvitedtoPP &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}"
   > 
 <div
   class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
@@ -139,8 +140,8 @@ isListView = "{!v.isListView}"
      
      <aura:set attribute="else">
          <aura:if
-                  isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
-                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
+                  isTrue="{!v.isIQVIA &amp;&amp; or(!v.isInvited,!v.peInvitedtoPP) &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+                           v.pe.Participant__r.Email__c &amp;&amp;v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp;
                           v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
                   >
              <button
@@ -154,7 +155,7 @@ isListView = "{!v.isListView}"
      </aura:set>
      
  </aura:if>
- <aura:if isTrue="{!(v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
+ <aura:if isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c&amp;&amp;(v.isInvited &amp;&amp; v.peInvitedtoPP &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
      
      <button
              class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"

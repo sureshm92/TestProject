@@ -11,7 +11,9 @@
     float: left;
     margin-right: 5px;
 }
-.THIS .cAction_ParticipantMrrResult.cPopup  { /*@noflip*/ direction : ltr; }
+.THIS .cAction_ParticipantMrrResult.cPopupRTL  { 
+    /*@noflip*/ direction : ltr; 
+}
 
 .THIS .rr-secondary-text {
     color: #666666;
@@ -103,15 +105,15 @@
 }
 
 .THIS .mrr-alertRTL {
-    text-align: center;
-    padding-top: 30px;
-    min-height: 500px;
-    margin: 250px;
+    /* @noflip */     text-align: center;
+    /* @noflip */     padding-top: 30px;
+    /* @noflip */    min-height: 500px;
+    /* @noflip */    margin: 250px;
 }
 .THIS .mrr-alertRTL .main-title {
-    font-size: 24px;
-    font-weight: 600;
-    line-height: 48px;
+    /* @noflip */    font-size: 24px;
+    /* @noflip */     font-weight: 600;
+    /* @noflip */    line-height: 48px;
 }
 .THIS .mrr-alert .main-title {
     font-size: 24px;
@@ -123,7 +125,7 @@
     color: #595959;
 }
 .THIS .mrr-alertRTL.fail .main-title {
-    color: #595959;
+    /* @noflip */      color: #595959;
 }
 .THIS .mrr-alert.pass .main-title,
 .THIS .green-text {
@@ -131,7 +133,7 @@
 }
 .THIS .mrr-alertRTL.pass .main-title,
 .THIS .green-text {
-    color: #595959;
+    /* @noflip */    color: #595959;
 }
 .THIS .mrr-alert.pass .apollo-btn.tertiary,
 .THIS .mrr-alert.fail .apollo-btn.tertiary {
@@ -140,8 +142,8 @@
 }
 .THIS .mrr-alertRTL.pass .apollo-btn.tertiary,
 .THIS .mrr-alertRTL.fail .apollo-btn.tertiary {
-    background: none;
-    color: #297dfd;
+    /* @noflip */     background: none;
+    /* @noflip */     color: #297dfd;
 }
 .THIS .apollo-btn.tertiary:hover,
 .THIS .apollo-btn.tertiary:active:not(:disabled),
@@ -157,10 +159,10 @@
     margin: 5px auto;
 }
 .THIS .mrr-alertRTL .rr-icon-default {
-    width: 64px;
-    height: 64px;
-    display: block;
-    margin: 5px auto;
+    /* @noflip */      width: 64px;
+    /* @noflip */     height: 64px;
+    /* @noflip */     display: block;
+    /* @noflip */    margin: 5px auto;
 }
 .THIS .mrr-alert.fail .rr-icon-default {
     fill: #e20000;
@@ -170,19 +172,19 @@
     fill: #00c221;
 }
 .THIS .mrr-alertRTL.fail .rr-icon-default {
-    fill: #e20000;
+    /* @noflip */      fill: #e20000;
 }
 
 .THIS .mrr-alertRTL.pass .rr-icon-default {
-    fill: #00c221;
+    /* @noflip */     fill: #00c221;
 }
 .THIS .mrr-alert button {
     display: block;
     margin: 20px auto;
 }
 .THIS .mrr-alertRTL button {
-    display: block;
-    margin: 20px auto;
+    /* @noflip */     display: block;
+    /* @noflip */     margin: 20px auto;
 }
 /* for large size */
 @media all and (min-width: 1024px) {
@@ -190,12 +192,12 @@
         padding-left: 10px;
         padding-right: 10px;
     }
-
+    
     .THIS .right-column {
         padding-left: 20px;
         min-height: 500px;
     }
-
+    
     .THIS .left-column {
         border-right: 1px solid #d9d9d9;
         padding-right: 30px;

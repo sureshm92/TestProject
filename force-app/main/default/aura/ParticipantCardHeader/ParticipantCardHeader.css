@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS {
+ .THIS {
     padding: 0 16px;
 }
 
@@ -15,7 +15,7 @@
     flex-direction: row-reverse;
 }*/
 .THIS .rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .psec-title-link {
@@ -85,11 +85,11 @@
 }
 
 .THIS.rtl .vpi-tile-title {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS.rtl .objective-text {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .button-link {
@@ -143,7 +143,35 @@
     right: 10px;
     border-radius: 2px;
 }
-
+.THIS .icon-checkmark {
+    fill:white;
+    margin-left: -10px;
+    margin-right: 5px;
+    margin-top: -3px;
+}
+.THIS .slds-has-block-links--spacepurple {
+    background: #593E7F;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+}
+.THIS .slds-has-block-links--spaceblue {
+    background: #10558A;
+    fill: white;
+    padding: 0 16px;
+    text-align: center;
+    color: white;
+    
+    top: -5px;
+    right: 10px;
+    border-radius: 2px;
+    direction: revert;
+}
 @media screen and (max-width: 500px) {
     .THIS {
         padding: 0;

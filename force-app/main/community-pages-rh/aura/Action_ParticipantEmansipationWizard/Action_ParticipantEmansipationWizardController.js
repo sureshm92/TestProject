@@ -31,7 +31,7 @@
                         formData.statesByCountryMap[pe.Participant__r.Mailing_Country_Code__c];
                     component.set('v.statesLVList', states);
                     component.set('v.currentTab', '1');
-                    component.set('v.showInvite', !pe.Is_Virtual_Study_Site__c);
+                    component.set('v.showInvite', !pe.Is_Virtual_Study_Site__c && pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c);
                     pe.Participant__r.Emancipation_in_progress__c = false;
                     if (
                         !pe.Participant__r.Alternative_Phone_Type__c ||
