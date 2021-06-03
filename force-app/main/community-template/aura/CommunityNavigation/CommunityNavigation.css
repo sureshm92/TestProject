@@ -31,8 +31,9 @@
 }
 
 .THIS.nav-menu.rtl {
-    flex-direction: row-reverse;
-}
+        /* flex-direction: row-reverse;*/
+         /* @noflip */  direction: rtl;
+     }
 
 .THIS.nav-menu.right {
     margin-left: 20px;

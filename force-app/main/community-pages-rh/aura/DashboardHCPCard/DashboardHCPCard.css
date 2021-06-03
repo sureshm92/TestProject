@@ -1,7 +1,7 @@
 /**
  * Created by Andrii Kryvolap.
  */
-.THIS.db-hcp-card {
+ .THIS.db-hcp-card {
     background-color: #f8f9fb;
     margin-top: 16px;
     border-radius: 4px;
@@ -16,7 +16,7 @@
     overflow-x: visible;
 }
 .THIS .accept-btn .menu-popup-panel {
-    left: -130px;
+      left: -135px;
 }
 .THIS.rtl {
     /* @noflip */  direction: rtl;

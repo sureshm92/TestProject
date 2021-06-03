@@ -55,10 +55,7 @@
     display: block;
 }
 
-.THIS .hideborder.slds-grid.slds-wrap:before {
-    /*display: none;*/
-    margin-left: -279px;
-}
+
 
 .THIS .cTasksTab {
     border-top: none;

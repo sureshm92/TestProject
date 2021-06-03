@@ -49,10 +49,12 @@
     cursor: pointer;
 }
 
-.THIS .menu-popup-panel.rtl.popupTargetContainer {
-    /* @noflip */  right: 0;
-    /* @noflip */ left: auto;
+.THIS .menu-popup-panel.rtl.popupTargetContainer 
+{
+   /* @noflip */  left: 0;
+    /* @noflip */ right: auto;
 }
+
 
 .THIS .menu-popup-panel.popupTargetContainer {
     visibility: hidden;

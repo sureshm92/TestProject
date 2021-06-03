@@ -246,8 +246,9 @@
     width: 100%;
 }
 .THIS .photo-labelRTL {
- /* @noflip */    text-align: right;
-    width: 100%;
+    /* @noflip */    text-align: right;
+    /* @noflip */     margin-right: 20px;    
+    	width: 100%;
 }
 .THIS .photo-label-rtl {
    /* @noflip */  text-align: right;
