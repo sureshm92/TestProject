@@ -150,9 +150,15 @@
                             onblur="{!c.doCheckFields}"
                         />
                     </div>
-                    <div
-                        class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                    />
+                    <aura:if isTrue="{!v.isRTL}">
+                        
+                        <aura:set attribute="else">
+                            <div
+                            class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
+                        />
+                        </aura:set>
+                    </aura:if>
+                    
                     <aura:if isTrue="{!v.fromActionParticipant || v.fromAddParticipantPage}">
                         <div
                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4'}"
