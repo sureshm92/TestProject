@@ -79,7 +79,7 @@ global without sharing class LightningForgotPasswordController {
             Site.forgotPassword(username);
             ApexPages.PageReference checkEmailRef = new PageReference(checkEmailUrl);
             if (!Site.isValidUsername(username)) {
-                returnMap.put('invalidEmail',Label.Site.invalid_email);
+                returnMap.put('invalidEmail',Label.PP_InvalidUsername);
                 return JSON.serialize(returnMap);
             }
             if(Site.getPathPrefix().startsWith('/gsk')){
