@@ -15,11 +15,13 @@
                 var LabelGetTechSupportTitle = $A.get("$Label.c.Technical_Support");
                 for (let item of retValue) {
                     if (
-                        item.strCategoryValue === LabelOptOutTitle
+                        item.strCategoryValue ===
+                        'Opt Out of communication from IQVIA Referral Hub and IQVIA Patient Portal'
+
                     ) {
                         component.set('v.optOutTranslatedTitle', item.strTranslatedCategoryValue);
                         component.set('v.optOutSubCategoryList', item.labelValueItemList);
-                    } else if (item.strCategoryValue === LabelGetTechSupportTitle) {
+                    } else if (item.strCategoryValue === 'Get Technical Support') {
                         component.set(
                             'v.techSupportTranslatedTitle',
                             item.strTranslatedCategoryValue
