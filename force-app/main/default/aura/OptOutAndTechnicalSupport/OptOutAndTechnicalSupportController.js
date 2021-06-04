@@ -11,8 +11,6 @@
                 strLanguage: language
             },
             function (retValue) {
-                var LabelOptOutTitle = $A.get("$Label.c.Opt_Out");
-                var LabelGetTechSupportTitle = $A.get("$Label.c.Technical_Support");
                 for (let item of retValue) {
                     if (
                         item.strCategoryValue ===
