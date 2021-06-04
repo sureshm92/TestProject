@@ -106,15 +106,30 @@
                             onblur="{!c.doCheckFields}"
                         />
                     </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8">
-                        <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
-                        <lightning:input
-                            aura:id="ParticipantMiddleName"
-                            type="text"
-                            value="{!v.participant.Middle_Name__c}"
-                            onblur="{!c.doCheckFields}"
-                        />
-                    </div>
+                    <aura:if isTrue="{!v.isRTL}">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8 " style="width: fit-content;">
+                            <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
+                            <lightning:input
+                                             aura:id="ParticipantMiddleName"
+                                             type="text"
+                                             value="{!v.participant.Middle_Name__c}"
+                                             onblur="{!c.doCheckFields}"
+                                             />
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8">
+                                <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
+                                <lightning:input
+                                                 aura:id="ParticipantMiddleName"
+                                                 type="text"
+                                                 value="{!v.participant.Middle_Name__c}"
+                                                 onblur="{!c.doCheckFields}"
+                                                 />
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+                   
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label">
                             <abbr title="required" class="slds-required">*</abbr
@@ -135,9 +150,15 @@
                             onblur="{!c.doCheckFields}"
                         />
                     </div>
-                    <div
-                        class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                    />
+                    <aura:if isTrue="{!v.isRTL}">
+                        
+                        <aura:set attribute="else">
+                            <div
+                            class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
+                        />
+                        </aura:set>
+                    </aura:if>
+                    
                     <aura:if isTrue="{!v.fromActionParticipant || v.fromAddParticipantPage}">
                         <div
                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-medium-size--1-of-4'}"
@@ -190,16 +211,6 @@
                             dateStyle="medium"
                         />
                     </div>
-
-
-
-
-
-
-
-
-
-
                     </div>
                     <aura:if isTrue="{!v.fromAddParticipantPage}">
                         <div
@@ -234,23 +245,46 @@
                                     />
                                 </div>
                         </aura:set>
-                    </aura:if>
-                    <div
-                        class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
-                    >
-                        <div class="label">
-                            <abbr title="required" class="slds-required">*</abbr
-                            >{!$Label.c.PG_AS_F_Gender}
+                    </aura:if>    
+                    <aura:if isTrue="{!v.isRTL}">
+                        <div
+                             class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
+                             style="margin-top: -82px;"
+                             >
+                            <div class="label">
+                                <abbr title="required" class="slds-required">*</abbr
+                                    >{!$Label.c.PG_AS_F_Gender}
+                            </div>
+                            <c:rrSelect
+                                        options="{!v.formData.genderLVList}"
+                                        value="{!v.participant.Gender__c}"
+                                        placeholder="{!$Label.c.PG_AC_Select}"
+                                        required="true"
+                                        useSentenceFont="false"
+                                        onchange="{!c.doCheckFields}"
+                                        />
                         </div>
-                        <c:rrSelect
-                            options="{!v.formData.genderLVList}"
-                            value="{!v.participant.Gender__c}"
-                            placeholder="{!$Label.c.PG_AC_Select}"
-                            required="true"
-                            useSentenceFont="false"
-                            onchange="{!c.doCheckFields}"
-                        />
-                    </div>
+                        <aura:set attribute="else">
+                            <div
+                                 class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
+                                 >
+                                <div class="label">
+                                    <abbr title="required" class="slds-required">*</abbr
+                                        >{!$Label.c.PG_AS_F_Gender}
+                                </div>
+                                <c:rrSelect
+                                            options="{!v.formData.genderLVList}"
+                                            value="{!v.participant.Gender__c}"
+                                            placeholder="{!$Label.c.PG_AC_Select}"
+                                            required="true"
+                                            useSentenceFont="false"
+                                            onchange="{!c.doCheckFields}"
+                                            />
+                            </div>
+                        </aura:set>
+                    </aura:if>
+
+               
                     <div
                         class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                     />

@@ -13,6 +13,7 @@
     <aura:attribute name="actions" type="List" />
     <aura:attribute name="isInvited" type="Boolean" access="public" />
     <aura:attribute name="showVisits" type="Boolean" default="false" access="public" />
+    <aura:attribute name="sendToSHDate" type="Boolean" default="false"/>
     <!-- Added for performance tuning -->
     <aura:attribute name="isHidden" type="Boolean" default="false" />
 
@@ -29,6 +30,7 @@
             pe="{!v.pe}"
             isReferral="false"
             isInvited="{!v.isInvited}"
+            sendToSHDate="{!v.sendToSHDate}"                     
         />
         <c:ParticipantCardFields
             userMode="{!v.userMode}"

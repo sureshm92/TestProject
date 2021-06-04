@@ -399,7 +399,7 @@ public inherited sharing class VisitResultsService {
         ) {
             this.wrappers = wrappers;
             if (visit != null && visit.Completed_Date__c != null) {
-                this.visitName = visit.Name;
+                this.visitName = visit.Portal_Name__c;
                 Datetime dt = Datetime.newInstance(
                     visit.Completed_Date__c.year(),
                     visit.Completed_Date__c.month(),
@@ -498,7 +498,7 @@ public inherited sharing class VisitResultsService {
                     }
                 }
                 if (visitResult != null && visitResult.Patient_Visit__r.Completed_Date__c != null) {
-                    this.visitName = visitResult.Patient_Visit__r.Name;
+                    this.visitName = visitResult.Patient_Visit__r.Portal_Name__c;
                     Datetime dt = Datetime.newInstance(
                         visitResult.Patient_Visit__r.Completed_Date__c.year(),
                         visitResult.Patient_Visit__r.Completed_Date__c.month(),

@@ -74,7 +74,7 @@
 
     updateParticipantAndDelegate: function (component) {
         component.find('spinner').show();
-
+        var pe = component.get('v.pe');
         let doNotContinueIds = [];
         let delegateItems = component.get('v.delegateItems');
         let delegateToProceedItems = [];
@@ -98,6 +98,7 @@
             component,
             'updateParticipantAndDelegates',
             {
+                peId: pe.Id,
                 participantS: JSON.stringify(component.get('v.participant')),
                 participantContactS: JSON.stringify(component.get('v.contact')),
                 delegatesS: JSON.stringify(delegateToProceedItems),

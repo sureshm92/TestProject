@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import usrnameLabel from '@salesforce/label/c.PG_Login_F_User_Name';
+import usrnameLabel from '@salesforce/label/c.PG_AS_F_Username';
 import forgotLabel from '@salesforce/label/c.PP_ForgotPwd';
 import sendLabel from '@salesforce/label/c.BTN_Send';
 import usrPlaceholder from '@salesforce/label/c.PP_USrPlaceholder';
@@ -7,11 +7,11 @@ import cancelLabel from '@salesforce/label/c.BTN_Cancel';
 import backtologin from '@salesforce/label/c.Link_Back_To_Login';
 import emailsent from '@salesforce/label/c.PG_Email_Sent_Title';
 import emailsentsubtitle from '@salesforce/label/c.PP_EmailSent';
+import sendEmailLabel from '@salesforce/label/c.PP_SendBtn';
 import rtlLanguageLabel from '@salesforce/label/c.RTL_Languages';
-import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPassword';
-import setExperienceId from '@salesforce/apex/LightningForgotPasswordController.setExperienceId';
+import forgotPassword from '@salesforce/apex/LightningForgotPasswordController.forgotPasswordCommunity';
 import communityResource from '@salesforce/resourceUrl/rr_community_js';
-import { loadStyle, loadScript } from 'lightning/platformResourceLoader';
+import { loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
 
 export default class Forgotpwd extends NavigationMixin(LightningElement) {
@@ -25,7 +25,8 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
         emailsentsubtitle,
         rtlLanguageLabel,
         forgotLabel,
-        usrPlaceholder
+        usrPlaceholder,
+        sendEmailLabel
     };
     @track showEmailSent = false;
     @track usernameLabel = 'Username';
@@ -36,6 +37,7 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     @api expid;
     @track backPage;
     @track isRTL;
+    @track isMobileApp;
     @track usrnameval;
     @track rtlCss = '';
     @track emailMessage;
@@ -43,7 +45,12 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     connectedCallback() {
         Promise.all([loadScript(this, communityResource)])
             .then(() => {
-                console.log('Files loaded.');
+                console.log('RR_COMMUNITY_JS loaded');
+                let language = communityService.getUrlParameter('language');
+                let label = this.labels;
+                this.isRTL = label.rtlLanguageLabel.includes(language);
+                this.isMobileApp = communityService.isMobileSDK();
+                console.log('this.isRTL' + this.isRTL);
             })
             .catch((error) => {
                 console.log(error.body.message);
@@ -52,7 +59,6 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
             this.usrnameval = '';
             this.userPlaceholder = ' ' + this.labels.usrPlaceholder + ' ';
         }
-        this.initialize();
     }
 
     get rtlStyleClass() {
@@ -63,6 +69,8 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
     }
 
     handleForgotPassword() {
+        let spinner = this.template.querySelector('c-web-spinner');
+        spinner.show();
         this.usrnameval = this.template.querySelector('input').value;
         forgotPassword({ username: this.usrnameval, checkEmailUrl: this.checkEmailUrl })
             .then((result) => {
@@ -75,43 +83,43 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
                         );
                     }
                 } else if (result) {
-                    this.errorMessage = result;
+                    let returnValue = JSON.parse(result);
+                    if (returnValue['timeDifference']) {
+                        this[NavigationMixin.Navigate]({
+                            type: 'comm__namedPage',
+                            attributes: {
+                                name: 'Login'
+                            },
+                            state: {
+                                c__timeDifference: returnValue['timeDifference'],
+                                c__username: this.usrnameval
+                            }
+                        });
+                    }
+                    this.errorMessage = returnValue['invalidEmail'];
                     this.showError = true;
                 }
+                spinner.hide();
             })
             .catch((error) => {
                 this.error = error;
+                spinner.hide();
             });
     }
 
-    onKeyUp() {
+    onKeyUp(event) {
         //checks for "enter" key
-        if (event.detail('keyCode') === 13) {
+        if (event.which === 13) {
             this.handleForgotPassword();
         }
     }
 
-    initialize() {
-        var rtl_language = this.labels.rtlLanguageLabel;
-        const forgotPasswordurl = window.location.search;
-        const urlParams = new URLSearchParams(forgotPasswordurl);
-        var paramLanguage = urlParams.get('language');
-        console.log('paramLanguage-->' + paramLanguage);
-        this.isRTL = rtl_language.includes(paramLanguage);
-        var community = window.location.pathname.startsWith('/gsk/')
-            ? '/gsk/s/login'
-            : window.location.pathname.startsWith('/janssen/')
-            ? '/janssen/s/login'
-            : '/s/login';
-        this.backPage = community;
-    }
-
     goBack() {
-        var community = window.location.pathname.startsWith('/gsk/')
-            ? '/gsk/s/login'
-            : window.location.pathname.startsWith('/janssen/')
-            ? '/janssen/s/login'
-            : '/s/login';
-        window.location.href = community;
+        this[NavigationMixin.Navigate]({
+            type: 'comm__namedPage',
+            attributes: {
+                name: 'Login'
+            }
+        });
     }
 }

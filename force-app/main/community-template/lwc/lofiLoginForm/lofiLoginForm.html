@@ -10,7 +10,7 @@
                 type="email"
                 label="userName"
                 variant="label-hidden"
-                placeholder="Enter username here..."
+                placeholder={label.usrPlaceholder}
                 class="input-box"
                 onchange={onInputChange}
                 onkeyup={onKeyUp}
@@ -23,7 +23,7 @@
                     type={passwordInputType}
                     variant="label-hidden"
                     label="password"
-                    placeholder="Enter password here..."
+                    placeholder={label.pwdPlaceholder}
                     class="input-box"
                     style={floatInput}
                     onchange={onInputChange}
@@ -34,9 +34,13 @@
                     <img class="icon-position" style={addIconMargin} src={eyeHidden} />
                 </span>
             </div>
-            <button class="form-button" onclick={handleLogin}>{label.login}</button>
+            <button class="apollo-btn primary form-button" onclick={handleLogin}>
+                {label.login}
+            </button>
             <template if:true={inError}>
-                <br /><span class="error-container"> <img src={exclamation} /> {errorMsg} </span>
+                <div style="margin-top: -1em; margin-bottom: 0.5em">
+                    <img src={exclamation} /> <span class="error-container"> {errorMsg} </span>
+                </div>
             </template>
         </div>
         <div class="slds-grid" style={rtlStyle}>
@@ -58,5 +62,14 @@
     </template>
     <template if:true={isLockOut}>
         <c-lockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-lockout>
+        <div class="slds-align_absolute-center slds-p-top_large">
+            <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
+                >{label.unableToLogin}</a
+            >
+        </div>
+        <c-unable-to-login
+            is-r-t-l-language={isRTL}
+            onunabletologin={handleShowTimer}
+        ></c-unable-to-login>
     </template>
 </template>

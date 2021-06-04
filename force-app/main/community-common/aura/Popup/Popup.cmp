@@ -89,7 +89,7 @@
                 <!-- title: -->
                 <div
                     class="{!'p-header ' + v.variant + if(empty(v.headerButtons),'',' p-header-buttons')}"
-                    style="{!if(v.isRTL,'direction:rtl;text-align:right;margin-right:10px;')}"
+                    style="{!if(v.isRTL,' /* @noflip */  direction: rtl;text-align:right;margin-right:10px;')}"
                 >
                     <h2 id="p-header" class="{!if(v.showHeader == false, ' slds-hide', '')}">
                         <aura:unescapedHtml value="{!v.title}" />
@@ -100,19 +100,19 @@
                     <div class="{!'p-content'+ if(v.showScroll,' with-scroll','')}">
                         <div
                             id="label"
-                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                            style="{!if(v.isRTL == true,'float:right; /* @noflip */  direction: rtl;text-align: right;','')}"
                         >
                             <label>{!v.headerText}</label>
                         </div>
                         <div
                             id="body"
-                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                            style="{!if(v.isRTL == true,'float:right; /* @noflip */  direction: rtl;text-align: right;','')}"
                         >
                             {!v.body}
                         </div>
                         <div
                             id="footer"
-                            style="{!if(v.isRTL == true,'float:right;direction:rtl;text-align: right;','')}"
+                            style="{!if(v.isRTL == true,'float:right;/* @noflip */  direction: rtl;text-align: right;','')}"
                         >
                             <label>{!v.footerText}</label>
                         </div>
@@ -122,7 +122,7 @@
                         <div class="{!'p-footer p-variant-' + v.variant}">
                             <div
                                 class="p-buttons-container"
-                                style="{!if(v.isRTL == true,'float:right;direction:rtl;','')}"
+                                style="{!if(v.isRTL == true,'float:right;/* @noflip */  direction: rtl;','')}"
                             >
                                 <aura:if isTrue="{!empty(v.footerButtons)}">
                                     <button

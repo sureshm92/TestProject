@@ -32,9 +32,12 @@
     transform: none;
     margin-top: 0;
     z-index: 10010;
+    right: initial;
+  /* @noflip */    left: 0;
+
 }
 .rtl {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .nidd-total {

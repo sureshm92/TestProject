@@ -95,6 +95,10 @@
                 <behavior>Edit</behavior>
                 <field>Comorbidities__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Invited_To_PP_Date__c</field>
+            </layoutItems>            
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

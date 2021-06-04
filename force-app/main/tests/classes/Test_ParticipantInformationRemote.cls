@@ -438,7 +438,8 @@ private class Test_ParticipantInformationRemote {
         pList.add(pd.id);
         System.runAs(testData.piUser) {
             
-        ParticipantInformationRemote.updateParticipantAndDelegates(JSON.serialize(testData.participant),
+        ParticipantInformationRemote.updateParticipantAndDelegates(testData.pe.Id,
+                                                                  JSON.serialize(testData.participant),
                                                                   JSON.serialize(cn),
                                                                   JSON.serialize(pdList),
                                                                   pList,

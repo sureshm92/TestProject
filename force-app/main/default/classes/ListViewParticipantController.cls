@@ -168,6 +168,9 @@ public without sharing class ListViewParticipantController {
                 if(StatusToUpdate == 'Sent to Study Hub' || StatusToUpdate == 'Initial Visit'){
                     StatusToUpdate = 'Eligibility Passed';
                 }
+                if(StatusToUpdate == 'In Wash Out Period'){
+                    StatusToUpdate = 'Screening In Progress - Wash Out Period';
+                }
                 Set<Id> SSId = new Set<Id>(); 
                 Set<Id> planIds = new Set<Id>(); 
                 Map<ID,ID> MapSitePlan = new Map<ID,ID>(); 
@@ -194,6 +197,7 @@ public without sharing class ListViewParticipantController {
                 ]){
                     pe.Participant_Status__c = StatusToUpdate;
                     pe.Non_Referral_Notes__c = Notes;
+                    pe.Last_Status_Changed_Notes__c = Notes;
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
                     pe.Participant_Status_Last_Changed_Date__c = system.now();
@@ -205,8 +209,8 @@ public without sharing class ListViewParticipantController {
                     }
                     SSId.add(pe.Study_Site__c);
                     
-                    if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
-                        TriggerHandlerExecutor.bypassHandler(
+                   if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                       TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
                         );
                         TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
@@ -215,9 +219,6 @@ public without sharing class ListViewParticipantController {
                         );
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
-                        );
-                        TriggerHandlerExecutor.bypassHandler(
-                            ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
                         );
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
@@ -292,7 +293,7 @@ public without sharing class ListViewParticipantController {
                                    Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
                                )
                            );
-                       }
+                      }
                     
                     
                 }
@@ -423,7 +424,7 @@ public without sharing class ListViewParticipantController {
         }
     }
    
-    //list of available statuses
+    //list of available statuses changed for REF-3962
     @AuraEnabled
     public static List<LabelValueItem> getAvailableStatuses(String status, Id StudyId){
         List<String> availableStatusLists = Label.ListView_GroupStatuses.split(',');
@@ -494,7 +495,8 @@ public without sharing class ListViewParticipantController {
             Reasons_List__c,
             Step__c
             FROM Participant_Workflow_Outcome__mdt
-            WHERE Status_Name__c =: newStatus]){
+            WHERE Status_Name__c =: newStatus
+            LIMIT 1]){
                 stWrap.Step = outcome.Step__c;
                 stWrap.reason = TranslateHelper.getPickListLabel(
                     Participant_Enrollment__c.Non_Enrollment_Reason__c,
