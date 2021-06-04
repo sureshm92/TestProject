@@ -25,6 +25,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @track isRTL;
     @track inError;
     @track errorMsg;
+    @api applyPadding;
+
     lockedOutUsrName;
     timeLeft = 900000;
     isLockOut = false;
@@ -64,6 +66,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.rtlStyle = 'direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
+                    this.applyPadding = 'padding-right: 3.25em';
                     console.log(
                         'RTL inline styles applied: ' +
                             this.rtlStyle +
@@ -73,6 +76,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 } else {
                     this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
+                    this.applyPadding = 'padding-left: 3.25em';
                 }
                 this.initialized = true;
             })
