@@ -11,14 +11,15 @@
                 strLanguage: language
             },
             function (retValue) {
+                var LabelOptOutTitle = $A.get("$Label.c.Opt_Out");
+                var LabelGetTechSupportTitle = $A.get("$Label.c.Technical_Support");
                 for (let item of retValue) {
                     if (
-                        item.strCategoryValue ===
-                        'Opt Out of communication by IQVIA and its affiliates'
+                        item.strCategoryValue === LabelOptOutTitle
                     ) {
                         component.set('v.optOutTranslatedTitle', item.strTranslatedCategoryValue);
                         component.set('v.optOutSubCategoryList', item.labelValueItemList);
-                    } else if (item.strCategoryValue === 'Get Technical Support') {
+                    } else if (item.strCategoryValue === LabelGetTechSupportTitle) {
                         component.set(
                             'v.techSupportTranslatedTitle',
                             item.strTranslatedCategoryValue
