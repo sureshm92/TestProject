@@ -1,7 +1,7 @@
 /**
  * Created by Nikita Abrazhevitch on 21-Aug-19.
  */ 
-.THIS .card-header {
+ .THIS .card-header {
     height: 24px;
     margin: 24px 0 0 auto;
     padding: 15px 15px 25px;
@@ -54,7 +54,7 @@
     border-right: 1px solid #e9e9e9;
 }
 .THIS .ss-container-borderRTL {
-    border-left: 1px solid #e9e9e9;
+  /* @noflip */   border-left: 1px solid #e9e9e9;
 }
 
 .THIS .ss-info-details {
@@ -65,7 +65,7 @@
 .THIS .ss-info-detailsRTL {
     display: inline-block;
     vertical-align: top;
-    margin-top: 8px;
+  /* @noflip */   margin-top: 8px;
 }
 
 .THIS #contactInformation .ss-info-details:nth-child(4) {
@@ -73,15 +73,15 @@
     padding-right: 10px;
 }
 .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) {
-    padding-right: 1rem;
-    padding-left: 10px;
+   /* @noflip */  padding-right: 1rem;
+  /* @noflip */   padding-left: 10px;
 }
 
 .THIS #contactInformation .ss-info-details:last-child {
     padding: 24px 10px 0 1rem;
 }
 .THIS #contactInformation .ss-info-detailsRTL:last-child {
-    padding: 24px 1rem 0 10px;
+   /* @noflip */  padding: 24px 1rem 0 10px;
 }
 
 .THIS .ss-lightning-input label {
@@ -105,7 +105,7 @@
 .THIS .clinic-typeRTL {
     font-size: 14px;
     display: inline-block;
-    padding-right: 16px;
+   /* @noflip */  padding-right: 16px;
     padding-bottom: 5px;
     vertical-align: bottom;
     color: #000;
@@ -206,16 +206,16 @@
         padding-left: 0;
     }
     .THIS #contactInformation .ss-info-detailsRTL:nth-of-type(4) {
-        margin-right: 0;
-        margin-top: 7px;
-        padding-right: 0;
+        /* @noflip */    margin-right: 0;
+        /* @noflip */   margin-top: 7px;
+        /* @noflip */   padding-right: 0;
     }
 
     .THIS .ss-info-details:last-child {
         margin-left: 0;
     }
     .THIS .ss-info-detailsRTL:last-child {
-        margin-right: 0;
+     /* @noflip */    margin-right: 0;
     }
 
     .THIS .ss-info-details,
@@ -224,7 +224,7 @@
     }
     .THIS .ss-info-detailsRTL,
     .THIS .other-ss-info-container {
-        margin-bottom: 10px;
+    /* @noflip */     margin-bottom: 10px;
     }
 
     .THIS .ss-info-buttons {
@@ -237,8 +237,8 @@
         padding: 24px 10px 0 0;
     }
     .THIS #contactInformation .ss-info-detailsRTL:last-child {
-        margin-right: 0;
-        padding: 24px 1rem 0 10px;
+     /* @noflip */    margin-right: 0;
+      /* @noflip */   padding: 24px 1rem 0 10px;
     }
 
     .THIS .uiMenu {
@@ -256,7 +256,7 @@
         padding-right: 10px;
     }
     .THIS .ss-info-detailsRTL {
-        padding-left: 10px;
+      /* @noflip */   padding-left: 10px;
     }
 }
 
@@ -291,15 +291,15 @@
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(3),
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) {
         display: block;
-        padding-right: 0;
-        min-width: 100%;
+    /* @noflip */     padding-right: 0;
+     /* @noflip */    min-width: 100%;
     }
 
     .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
         width: 100%;
     }
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) .slds-form-element {
-        width: 100%;
+     /* @noflip */    width: 100%;
     }
 }
 
@@ -325,14 +325,14 @@
         padding: 0 10px 0 0;
     }
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) {
-        padding: 0 0 0 10px;
+       /* @noflip */  padding: 0 0 0 10px;
     }
 
     .THIS #contactInformation .ss-info-details:nth-child(4) .slds-form-element {
         width: 100%;
     }
     .THIS #contactInformation .ss-info-detailsRTL:nth-child(4) .slds-form-element {
-        width: 100%;
+      /* @noflip */   width: 100%;
     }
 
     .THIS #contactInformation .ss-info-details:last-child {
@@ -341,9 +341,9 @@
         padding-left: 0;
     }
     .THIS #contactInformation .ss-info-detailsRTL:last-child {
-        margin-right: 0px;
-        padding-top: 25px;
-        padding-right: 0;
+      /* @noflip */   margin-right: 0px;
+      /* @noflip */   padding-top: 25px;
+      /* @noflip */   padding-right: 0;
     }
 
     .THIS .ss-info-buttons {

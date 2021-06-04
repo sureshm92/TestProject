@@ -10,7 +10,7 @@
 }
 
 .THIS .rightAlign .slds-input__icon_right {
-    margin-right: 80%;
+   /* noflip  margin-right: 80%; */
 }
 .THIS .p-container.large {
     height: 650px;
@@ -181,7 +181,7 @@
     width: 28px;
     height: 28px;
     top: -15px;
-    left: 65px;
+  /* noflip */  right: 65px;
 }
 .THIS .vpi-state.current .state-ico-wrapper .rr-icon-default {
     width: 24px;
@@ -375,7 +375,6 @@
         width: 28px;
         height: 28px;
         top: -15px;
-        left: 65px;
     }
 
     .THIS .state-ico-wrapper .rr-icon-default {
