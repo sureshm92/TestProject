@@ -3,6 +3,7 @@
  */
 
 global without sharing class RRLoginRemote {
+    Integer lockoutMinutes = 15;
     @AuraEnabled
     public static String login(String username, String password, String startUrl) {
         try {
@@ -248,7 +249,8 @@ global without sharing class RRLoginRemote {
                                 lockoutTime = loginAttempt.LoginTime;
                                 passwordLockMap.put(
                                     'TimeDifference',
-                                    lockOutTime.addMinutes(15).getTime() - System.now().getTime()
+                                    lockOutTime.addMinutes(lockoutMinutes).getTime() -
+                                    System.now().getTime()
                                 );
                             }
                         }
@@ -337,17 +339,12 @@ global without sharing class RRLoginRemote {
                         Database.update(u[0]);
                         Site.forgotPassword(username);
                     }
-                    returnMap.put(
-                        'lockoutError',
-                        Label.PG_Login_Lockout_Error_Message.replace(
-                            '##LockoutEndTime',
-                            lockoutTime.addMinutes(16).format('hh:mm a', u[0].TimeZoneSidKey)
-                        )
-                    );
+                    returnMap.put('lockoutError', 'lockout');
                     returnMap.put(
                         'TimeDifference',
                         String.valueof(
-                            lockOutTime.addMinutes(15).getTime() - System.now().getTime()
+                            lockOutTime.addMinutes(lockoutMinutes).getTime() -
+                            System.now().getTime()
                         )
                     );
                 } else if (!history.isEmpty() && history[0].Status == 'Invalid Password') {
