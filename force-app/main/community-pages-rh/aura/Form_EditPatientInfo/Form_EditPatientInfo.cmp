@@ -249,7 +249,6 @@
                     <aura:if isTrue="{!v.isRTL}">
                         <div
                              class="{!v.fromActionParticipant ? 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4' : 'rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8'}"
-                             style="margin-top: -82px;"
                              >
                             <div class="label">
                                 <abbr title="required" class="slds-required">*</abbr

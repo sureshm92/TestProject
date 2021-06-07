@@ -5,6 +5,7 @@
 <aura:component
     description="ReferHealthcareProviderInputs"
     controller="ReferHealthcareProviderRemote"
+    extends="c:CommunityContext"
 >
     <aura:attribute name="buttonTitle" type="String" />
     <aura:attribute name="buttonLabel" type="String" />

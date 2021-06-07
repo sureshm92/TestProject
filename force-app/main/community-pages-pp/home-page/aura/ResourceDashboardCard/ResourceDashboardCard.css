@@ -38,11 +38,13 @@
     border-radius: 4px;
     margin-top: -44px;
     font-weight: 600;
+    /* @noflip */
     float: left;
 }
 
 .THIS.rtl .resource-card-title {
-    /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS .resource-content > .slds-wrap > .slds-col:nth-child(1) .resource-error-message:after {
