@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>Value__c</field>
-        <value xsi:type="xsd:string">background: url($Resource/rr_community_icons/doctor-bg_small.png), linear-gradient(135deg, #25095b 0%,#176ba4 100%);</value>
+        <value xsi:type="xsd:string">background: url($Resource/Lofi_Login_Icons/Background.png);background-size: 100% 100%;background-repeat: no-repeat;</value>
     </values>
 </CustomMetadata>
