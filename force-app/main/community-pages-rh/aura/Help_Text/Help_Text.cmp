@@ -23,7 +23,7 @@
               <aura:renderIf isTrue="{!v.tooltip}">
         <div
             aura:id="divHelp"
-            class="slds-popover slds-popover_tooltip slds-nubbin_right-top ms-help-popup-in-header-RTL"
+            class="slds-popover slds-popover_tooltip slds-nubbin_right-top ms-help-popup-in-header"
             role="tooltip"
             aria-live="polite"
             style="max-width: 27rem" 
