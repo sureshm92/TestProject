@@ -9032,6 +9032,13 @@ The expected format is REF##### to REF########</value>
         <value>Connecting professionals, patients and clinical researchers for better healthcare</value>
     </labels>
     <labels>
+        <fullName>Lofi_Optimized_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lofi Optimized Message</shortDescription>
+        <value>This product is optimized for Google Chrome and Safari. You may experience less than optimal experience with other browsers.</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Unable_to_Login</fullName>
         <categories>Lofi Login Screen</categories>
         <language>en_US</language>
