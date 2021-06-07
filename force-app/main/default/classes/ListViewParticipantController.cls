@@ -197,6 +197,7 @@ public without sharing class ListViewParticipantController {
                 ]){
                     pe.Participant_Status__c = StatusToUpdate;
                     pe.Non_Referral_Notes__c = Notes;
+                    pe.Last_Status_Changed_Notes__c = Notes;
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
                     pe.Participant_Status_Last_Changed_Date__c = system.now();
@@ -261,12 +262,11 @@ public without sharing class ListViewParticipantController {
                     
                     if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
                         oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
-                        oParticipantStatus == 'In Wash Out Period') &&
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD) &&
                        (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
@@ -361,63 +361,72 @@ public without sharing class ListViewParticipantController {
     @AuraEnabled
     public static void createUserForPatientProtal(List<string> peId, Boolean sendEmails) {
         system.debug('ListSize'+peId.size());
-      try {
-          List<Participant_Enrollment__c> per = [SELECT Id,
-                                                 Participant_Contact__c,
-                                                 PI_Contact__c,
-                                                 HCP_Contact__c,HCP_Contact_HCPEnroll__c,
-                                                 Clinical_Trial_Profile__r.CommunityTemplate__c 
-                                                 FROM Participant_Enrollment__c 
-                                                 WHERE ID IN:peId];
-          
+        try {
+            List<Participant_Enrollment__c> per = [SELECT Id,
+                                                   Participant_Contact__c,
+                                                   Participant_Contact__r.Is_Patient_User_Created__c,
+                                                   PI_Contact__c,Invited_To_PP_Date__c, 
+                                                   HCP_Contact__c,HCP_Contact_HCPEnroll__c,
+                                                   Clinical_Trial_Profile__r.CommunityTemplate__c 
+                                                   FROM Participant_Enrollment__c 
+                                                   WHERE ID IN:peId];
+            
             List<Contact> lstContact = new List<Contact>();
             string communityTemplatename='';
             List<User> returnUsers = new List<User>();
             Map<Id, Id> createUsersMap = new Map<Id, Id>();
-            
+            Boolean isUpdatePE = false;
             
             for(Participant_Enrollment__c pe: per){
                 if (sendEmails) {
-                Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
-                lstContact.add(con);           
+                    Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
+                    lstContact.add(con);           
                 }
                 if(communityTemplatename!=null){
-                communityTemplatename = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                    communityTemplatename = pe.Clinical_Trial_Profile__r.CommunityTemplate__c;
                 }
-                if (pe.HCP_Contact__c == null) {
-                createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
-                }else{
-                createUsersMap.put(pe.Participant_Contact__c,pe.HCP_Contact_HCPEnroll__c);
+                if(pe.Participant_Contact__r.Is_Patient_User_Created__c == false){
+                    if (pe.HCP_Contact__c == null) {
+                        createUsersMap.put(pe.Participant_Contact__c,pe.PI_Contact__c);
+                    }else{
+                        createUsersMap.put(pe.Participant_Contact__c,pe.HCP_Contact_HCPEnroll__c);
+                    }
+                }
+                if(pe.Invited_To_PP_Date__c == null){
+                    pe.Invited_To_PP_Date__c = DateTime.now();
+                    isUpdatePE = true;
                 }
             }
-    
+            
             if(!lstContact.isEmpty()){
-              update lstContact;
+                update lstContact;
             }
-    
+            if(isUpdatePE){
+                update per;
+            }
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(communityTemplatename).permissionSet; 
-    
+            
             if (!createUsersMap.isEmpty() && !Test.isRunningTest() ){
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                 .createParticipantUsersBulk(createUsersMap);
             }
-    
-    
+            
+            
             for(Participant_Enrollment__c p: per)
             { 
                 actionAssignContactPermissions.addPermission(
-                p.Participant_Contact__c,
-                permissionSetName
+                    p.Participant_Contact__c,
+                    permissionSetName
                 );
-    
+                
             }
             
             if(!actionAssignContactPermissions.isEmpty()) {
-            ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
+                ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
             }     
-      
-      
+            
+            
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -749,13 +758,13 @@ public without sharing class ListViewParticipantController {
             //Invite to PP
             if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                
-                filter += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
+                filter += 'AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
                 filter += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c !=' + '\'' + system.Label.Janssen_Community_Template_Name + '\'';
                 filter += 'AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE ';
                    
             }else{
                 filterpp = filter;
-                filterpp += 'AND Participant_Contact__r.Is_Patient_User_Created__c = FALSE AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
+                filterpp += 'AND (Participant_Contact__r.Is_Patient_User_Created__c = FALSE OR Invited_To_PP_Date__c =NULL) AND Participant__r.Email__c!=NULL AND Participant__r.Adult__c = TRUE AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Virtual' + '\'' + 'AND Study_Site__r.Study_Site_Type__c !=' + '\'' + 'Hybrid' + '\'' + ' AND Participant__r.IsCountry_NOT_Eligible_for_Emails__c = FALSE AND Permit_IQVIA_to_contact_about_study__c = TRUE ';
                 filterpp += 'AND Clinical_Trial_Profile__r.CommunityTemplate__c !=' + '\'' + system.Label.Janssen_Community_Template_Name + '\'';
                 filterpp += 'AND Study_Site__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE ';
             }
@@ -833,10 +842,11 @@ public without sharing class ListViewParticipantController {
                 if (OrgSelectedIds.size() > 0) {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
+                        isChekedSelected = true;
                         Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
                         studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH) {
-                            isChekedSelected = true;
+                            //isChekedSelected = true;
                             isLocked = false;
                             if (pe.Initial_visit_scheduled_date__c != null) {
                                 priorityReferral = 'Yes';
@@ -844,7 +854,7 @@ public without sharing class ListViewParticipantController {
                                 priorityReferral = 'No';
                             }
                         } else {
-                            isChekedSelected = false;
+                            //isChekedSelected = false;
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 

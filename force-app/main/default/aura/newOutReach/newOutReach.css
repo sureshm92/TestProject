@@ -29,7 +29,7 @@
 }
 
 .THIS .rightAlign .slds-input__icon_right {
-    margin-right: 80%;
+  /* @noflip */    margin-right: 80%;
 }
 
 .THIS .csubmit {

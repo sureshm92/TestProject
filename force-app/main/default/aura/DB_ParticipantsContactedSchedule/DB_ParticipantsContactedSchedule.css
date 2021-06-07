@@ -70,6 +70,11 @@
     font-size: 14px;
 }
 
+ .THIS .btnmenuRTL {
+        display:block;
+         
+    }
+
 @media all and (max-width: 768px) {
     .THIS {
         margin-top: 1rem;
@@ -101,6 +106,7 @@
 
     .THIS .slds-dropdown-trigger {
         width: 100%;
+         
     }
 
     .THIS .text_format {

@@ -99,7 +99,7 @@
     width: 28px;
     height: 28px;
     top: -15px;
-   /* @noflip */ left: 0px;
+   /* @noflip */ left: 90px;
 }
 
 .THIS .state.current .state-ico-wrapper .rr-icon-default {

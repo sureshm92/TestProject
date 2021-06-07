@@ -2,7 +2,7 @@
     font-size: 13px;
 }
 .THIS.rtlView{
-    direction:rtl;
+    /* @noflip */  direction: rtl;
 }
 .THIS .slv-category {
     color: #000000;
@@ -41,8 +41,8 @@
         padding-left: 4.5rem;
     }
     .THIS .slv-padded-panel-leftRTL {
-        padding-left: 0rem;
-        text-align: left;
+       /* @noflip */  padding-left: 0rem;
+      /* @noflip */   text-align: left;
     }
 
     .THIS .slv-padded-panel-right {

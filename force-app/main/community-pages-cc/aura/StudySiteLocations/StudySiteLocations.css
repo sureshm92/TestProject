@@ -63,7 +63,7 @@
 }
 
 .THIS .button-RTL {
-    margin-right:485px;
+ /* @noflip */   margin-right:485px;
 }
 
 .THIS .account_details {

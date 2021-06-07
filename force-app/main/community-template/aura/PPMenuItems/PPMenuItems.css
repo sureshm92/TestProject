@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
-.THIS {
+ .THIS {
     width: 100%;
 }
 
@@ -72,7 +72,7 @@
     color: #0768fd;
 }
 .THIS .subtitleRTL {
-    text-align: right;
+  /* @noflip */  text-align: right;
 }
 
 .THIS .overflow {
@@ -115,7 +115,7 @@
     margin-left: 21px;
 }
 .THIS .icon-boxRTL {
-    margin-right: 25px;
+    /* @noflip */margin-right: 25px;
 }
 
 .THIS.toggle {

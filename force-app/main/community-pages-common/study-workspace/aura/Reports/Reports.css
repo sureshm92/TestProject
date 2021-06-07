@@ -17,11 +17,11 @@
     font-size: 1rem;
 }
 .THIS .db-header-RTL {
-    font-weight: 600;
-    margin-bottom: 15px;
-    text-align: right;
-    font-size: 1rem;
-    margin-right: 5%;
+    /* @noflip */ font-weight: 600;
+    /* @noflip */  margin-bottom: 15px;
+    /* @noflip */ text-align: right;
+    /* @noflip */  font-size: 1rem;
+    /* @noflip */  margin-right: 5%;
 
 }
 .THIS .cFilterPanel .fp-filter-block {

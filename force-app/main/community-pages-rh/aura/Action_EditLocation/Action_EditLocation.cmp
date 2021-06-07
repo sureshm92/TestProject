@@ -2,7 +2,7 @@
  - Created by Nikita Abrazhevitch on 21-Aug-19.
  -->
 
-<aura:component description="Action_EditLocation" controller="Action_EditLocationRemote" extends="c:CommunityContext">
+ <aura:component description="Action_EditLocation" controller="Action_EditLocationRemote" extends="c:CommunityContext">
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
@@ -239,6 +239,8 @@
                                                     !v.account.BillingCity ? $Label.c.SS_Fill_City :
                                                     $Label.c.SS_Save_Changes}"
                         value="{!v.account}"
+						style="{!if(v.isRTL, 'margin-right: 15px;','')}"
+
                     >
                         {!$Label.c.SS_Save_New_Account}
                     </button>

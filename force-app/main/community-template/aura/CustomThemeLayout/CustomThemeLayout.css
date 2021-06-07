@@ -15,12 +15,12 @@
 }
 
 .THIS .logo-container-RTL {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-    flex-shrink: 0;
-    margin-right: -9px;
+    /* @noflip */   height: 50px;
+    /* @noflip */   display: flex;
+    /* @noflip */  align-items: center;
+    /* @noflip */  margin-left: 15px;
+    /* @noflip */   flex-shrink: 0;
+    /* @noflip */   margin-right: -9px;
 
 }
 
@@ -71,7 +71,8 @@
 }
 
 .THIS .layout-header.rtl {
-    flex-direction: row-reverse;
+   /* flex-direction: row-reverse;*/
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .slds-table thead th {
@@ -382,8 +383,8 @@
     }
 
     .THIS .rtl .right-block {
-        margin-right: auto;
-        margin-left: 0;
+       /* @noflip */   margin-right: auto;
+       /* @noflip */   margin-left: 0;
     }
 
     /*Added to overcome mobile view issue*/
