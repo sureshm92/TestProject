@@ -65,7 +65,15 @@ export default class WebBanner extends LightningElement {
             'button-close' +
             (this.showClose ? '' : ' slds-hide') +
             (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '') +
-            (this.isRTL ? ' rtl' : '')
+            (this.isRTL ? ' flip-close' : '')
         );
+    }
+
+    get containerClass() {
+        return 'p-container' + (this.isRTL ? ' align-rtl' : '');
+    }
+
+    get iconBellClass() {
+        return 'icon-bell' + (this.isRTL ? ' flip-bell' : '');
     }
 }

@@ -842,10 +842,11 @@ public without sharing class ListViewParticipantController {
                 if (OrgSelectedIds.size() > 0) {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
+                        isChekedSelected = true;
                         Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
                         studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH) {
-                            isChekedSelected = true;
+                            //isChekedSelected = true;
                             isLocked = false;
                             if (pe.Initial_visit_scheduled_date__c != null) {
                                 priorityReferral = 'Yes';
@@ -853,7 +854,7 @@ public without sharing class ListViewParticipantController {
                                 priorityReferral = 'No';
                             }
                         } else {
-                            isChekedSelected = false;
+                            //isChekedSelected = false;
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 

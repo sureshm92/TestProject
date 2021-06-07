@@ -23,9 +23,18 @@
     max-height: 100%;
 }
 
-.rtl {
+.align-rtl {
+    direction: rtl;
+}
+
+.flip-close {
     right: unset !important;
-    left: 10%;
+    left: 7%;
+}
+
+.flip-bell {
+    left: unset !important;
+    right: 7%;
 }
 
 .p-container .p-content {
@@ -35,7 +44,6 @@
     font-size: 1rem;
     line-height: 1.5rem;
     white-space: normal;
-    text-align: left;
     font-weight: 500;
     overflow-x: hidden;
 }
@@ -67,7 +75,7 @@
     cursor: pointer;
 }
 
-.icon-info {
+.icon-bell {
     position: absolute;
     top: 30px;
     left: 7%;

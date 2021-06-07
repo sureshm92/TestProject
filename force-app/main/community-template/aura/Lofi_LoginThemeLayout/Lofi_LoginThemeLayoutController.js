@@ -15,11 +15,11 @@
                 : $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
         component.set('v.isRTL', rtl_language.includes(paramLanguage));
         if (communityService.isMobileSDK() || communityService.isMobileOS()) {
-            component.set('v.isMobile', true);
+            component.set('v.isMobileView', true);
         }
-
+        component.set('v.isMobileApp', isMobileApp);
         bodyText = bodyText
-            .replace('##cookiesURL', '')
+            .replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'))
             .replace(
                 '##privacyPolicyURL',
                 '<a class="ci-link" href="/s/privacy-policy?lanCode=' +
