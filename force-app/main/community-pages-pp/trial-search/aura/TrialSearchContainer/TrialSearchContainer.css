@@ -5,6 +5,7 @@
 }
 
 .THIS.arabic {
+    /* @noflip */
     direction: rtl !important;
 }
 .THIS .filter-side {
@@ -13,6 +14,7 @@
     position: fixed;
 }
 .THIS .filter-sideRTL {
+    /* @noflip */
     padding-right: 4%;
     padding-top: 1.15em;
     position: fixed;
@@ -32,6 +34,7 @@
     border-right: 1px solid #d9d9d9;
 }
 .THIS .trials-sideRTL {
+    /* @noflip */
     border-left: 1px solid #d9d9d9;
 }
 
