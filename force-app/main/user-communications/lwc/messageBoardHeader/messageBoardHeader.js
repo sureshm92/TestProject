@@ -6,6 +6,8 @@ import { LightningElement, api, track } from 'lwc';
 import formFactor from '@salesforce/client/formFactor';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import AvatarColorCalculator from 'c/avatarColorCalculator';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
+
 
 import largeTemplate from './messageBoardHeader.html';
 import mobileTemplate from './messageBoardHeaderMobile.html';
@@ -41,13 +43,21 @@ export default class MessageBoardHeader extends LightningElement {
     @api isMultipleMode;
     @api isPastStudy;
     @api patientDelegates;
+    @track isrtl;
 
     @track showDelegatesFullList;
     @track showBTNLabel = showMoreLabel;
     @track fullName;
     @track selectedPeId;
+   
+
 
     connectedCallback() {
+        getisRTL()
+    
+        .then((data) => 
+        { this.isrtl = data;
+        });
         if (this.selectedEnrollment) {
             this.fullName =
                 this.userMode === 'PI'
@@ -63,6 +73,8 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     renderedCallback() {
+      
+            
         if (this.selectedEnrollment) {
             this.fullName =
                 this.userMode === 'PI'

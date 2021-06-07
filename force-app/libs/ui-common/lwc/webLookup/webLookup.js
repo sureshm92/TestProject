@@ -4,6 +4,7 @@
  */
 
 import { LightningElement, api, track } from 'lwc';
+import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
 
 const MINIMAL_SEARCH_TERM_LENGTH = 2; // Min number of chars required to search
 const SEARCH_DELAY = 300; // Wait 300 ms after user stops typing then, perform search
@@ -23,6 +24,7 @@ export default class WebLookup extends LightningElement {
     @track searchResults = [];
     @track hasFocus = false;
     @track loading = false;
+    @api isrtl;
 
     cleanSearchTerm;
     blurTimeout;
@@ -286,14 +288,25 @@ export default class WebLookup extends LightningElement {
         return this.hasSelection() ? this.selection[0].title : '';
     }
 
-    get getListboxClass() {
+get getListboxClass() {
+     if(this.isrtl) {
         return (
-            'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid ' +
+            'slds-listbox slds-listbox_vertical rtl slds-dropdown slds-dropdown_fluid ' +
             (this.scrollAfterNItems
                 ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems
                 : '')
         );
-    }
+            }
+            else {
+            return (
+                'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid ' +
+                (this.scrollAfterNItems
+                    ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems
+                    : '')
+            );
+                }  
+   
+}
 
     get isInputReadonly() {
         if (this.isMultiEntry) {
