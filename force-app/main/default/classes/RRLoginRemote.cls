@@ -3,7 +3,7 @@
  */
 
 global without sharing class RRLoginRemote {
-    Integer lockoutMinutes = 15;
+    public static Integer lockoutMinutes = 15;
     @AuraEnabled
     public static String login(String username, String password, String startUrl) {
         try {
