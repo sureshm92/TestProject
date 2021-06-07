@@ -248,6 +248,7 @@ public without sharing class ParticipantService {
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
             participantWithDelegate
         );
+
         AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
@@ -322,18 +323,20 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
     }
-
+    
     public static List<LabelValueItem> getYearofBirthList() {
         List<LabelValueItem> yearOfBirth = new List<LabelValueItem>();
         Integer currentYear = System.Today().year();
-        Integer firstYear = currentYear - 149;
-        yearOfBirth.add(new LabelValueItem('', ''));
-        for (Integer i = firstYear; i <= currentYear; i++) {
-            yearOfBirth.add(new LabelValueItem(String.valueOf(i), String.valueOf(i)));
+        Integer firstYear = currentYear - 150;
+        if(!UserContext.isParticipant()){
+                    yearOfBirth.add(new LabelValueItem('', ''));
         }
+        for(Integer i= currentYear; i >= firstYear; i--){
+            yearOfBirth.add(new LabelValueItem(String.valueOf(i), String.valueOf(i)));
+        }        
         return yearOfBirth;
     }
-
+    
     public static List<LabelValueItem> getPrefixList() {
         List<LabelValueItem> prefix = new List<LabelValueItem>();
         prefix.add(new LabelValueItem(Label.PP_Prefix_Mr, 'Mr.'));

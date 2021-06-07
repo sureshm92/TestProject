@@ -73,7 +73,7 @@
                     </aura:if>
                     <aura:set attribute="else">
                         <aura:if
-                            isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}"
+                            isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp;  or(!v.isInvited,!and(v.pe.Invited_To_PP_Date__c!=null,v.pe.Invited_To_PP_Date__c!=undefined)) &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}"
                         >
                             <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                                 <button
@@ -120,7 +120,7 @@
                     </aura:if>
                     <aura:set attribute="else">
                         <aura:if
-                            isTrue="{!!v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}"
+                            isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp;or(!v.isInvited,!and(v.pe.Invited_To_PP_Date__c!=null,v.pe.Invited_To_PP_Date__c!=undefined)) &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp; !v.pe.Is_Virtual_Study_Site__c}"
                         >
                             <aura:if isTrue="{!v.communityTemplate != 'Janssen'}">
                                 <button

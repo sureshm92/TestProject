@@ -1,0 +1,41 @@
+.titleFont {
+    font-size: 25px;
+}
+.allFontColor {
+    color: #000000;
+}
+.SFDC_links {
+    color: #0768fd;
+    font-weight: bold;
+    display: inline-block;
+    padding: 0 5px;
+}
+.rtlText {
+    text-align: right;
+}
+.footerRTL {
+    left: 0;
+}
+.footerLTR {
+    text-align: right;
+}
+.allFontSize {
+    font-size: 16px;
+}
+.subtitle_lineHeight {
+    line-height: 19px;
+}
+.section_lineHeight {
+    line-height: 24px;
+}
+button {
+    width: 80px !important;
+    min-width: 80px !important;
+    height: 40px !important;
+    min-height: 40px !important;
+}
+@media all and (max-width: 480px) {
+    .allFontColor div:nth-child(n + 7) .SFDC_links {
+        padding-left: 0;
+    }
+}

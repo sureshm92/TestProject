@@ -19,6 +19,7 @@
     />
     <aura:attribute name="isStaff" type="Boolean" access="private" />
     <aura:attribute name="isDelegateExisting" type="Boolean" default="false" />
+    <aura:attribute name="maxLengthData" type="Object" />
     <aura:attribute name="isDelegateActive" type="Boolean" default="false" />
     <aura:attribute name="isInitialized" type="Boolean" default="false" />
     <aura:attribute name="delegate" type="Object" access="private" />
@@ -125,6 +126,7 @@
                                                 label="{!$Label.c.PG_AS_F_First_name}"
                                                 disabled="{!v.delegate.delegateContact.Id != undefined}"
                                                 value="{!v.delegate.delegateContact.FirstName}"
+                                                maxlength="{!v.maxLengthData.FirstName}"
                                             />
                                         </div>
                                     </div>
@@ -135,6 +137,7 @@
                                                 label="{!$Label.c.PG_AS_F_Last_name}"
                                                 disabled="{!v.delegate.delegateContact.Id != undefined}"
                                                 value="{!v.delegate.delegateContact.LastName}"
+                                                maxlength="{!v.maxLengthData.LastName}"
                                             />
                                         </div>
                                     </div>

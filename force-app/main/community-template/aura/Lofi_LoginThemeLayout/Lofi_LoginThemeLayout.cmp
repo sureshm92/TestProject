@@ -1,0 +1,108 @@
+<aura:component
+    description="Lofi_LoginThemeLayout"
+    implements="forceCommunity:themeLayout"
+    extends="c:CheckLanguage"
+>
+    <!-- <ltng:require styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Default_Theme, $Resource.proximanova + '/proximanova.css')}"/> -->
+    <ltng:require
+        styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Default_Theme, $Resource.proximanova + '/proximanova.css')}"
+        scripts="{!join(',', $Resource.rr_community_js)}"
+        afterScriptsLoaded="{!c.doInit}"
+    />
+    <!-- attributes: -->
+    <aura:attribute name="title" type="String" />
+    <aura:attribute name="subTitle" type="String" />
+    <aura:attribute name="communityType" type="String" />
+    <aura:attribute name="isRTL" type="Boolean" default="false" />
+    <aura:attribute name="isMobile" type="Boolean" default="false" />
+    <aura:attribute name="cookieText" type="String" />
+
+    <!-- component body: -->
+    <aura:if isTrue="{!v.languageChecked}">
+        <div
+            class="{!v.isRTL ? 'all-content-rtl slds-grid slds-wrap' : 'all-content slds-grid slds-wrap'}"
+        >
+            <div class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_1-of-2">
+                <img src="{!$Resource.Lofi_Login_Icons + '/Group.png'}" />
+            </div>
+            <div class="slds-col slds-size_1-of-2 slds-medium-size_6-of-12 slds-large-size_1-of-2">
+                <div class="logo-block">
+                    <div class="slds-align_absolute-center">
+                        <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo.svg'}" />
+                    </div>
+                    <div class="logo-sub-title slds-align_absolute-center">
+                        {!$Label.c.Lofi_Logo_Subtitle}
+                    </div>
+                    <div class="slds-align_absolute-center slds-grid slds-wrap slds-gutters">
+                        <aura:if isTrue="{!!v.isRTL}">
+                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
+                                <img
+                                    src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
+                                    class="main-logo"
+                                />
+                                <div class="header-title">{!$Label.c.Lofi_Login_PP_Header}</div>
+                                <div class="header-subtitle">
+                                    {!$Label.c.Lofi_Login_PP_Subheader}
+                                </div>
+                            </div>
+                            <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
+                                <img
+                                    src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
+                                    class="main-logo"
+                                />
+                                <div class="header-title">{!$Label.c.Lofi_Login_RH_Header}</div>
+                                <div class="header-subtitle">
+                                    {!$Label.c.Lofi_Login_RH_Subheader}
+                                </div>
+                            </div>
+
+                            <aura:set attribute="else">
+                                <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-2">
+                                    <img
+                                        src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
+                                        class="main-logo"
+                                    />
+                                    <div class="header-title">{!$Label.c.Lofi_Login_RH_Header}</div>
+                                    <div class="header-subtitle">
+                                        {!$Label.c.Lofi_Login_RH_Subheader}
+                                    </div>
+                                </div>
+                                <div class="slds-col slds-size--1-of-2 slds-medium-size--1-of-2">
+                                    <img
+                                        src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
+                                        class="main-logo"
+                                    />
+                                    <div class="header-title">{!$Label.c.Lofi_Login_PP_Header}</div>
+                                    <div class="header-subtitle">
+                                        {!$Label.c.Lofi_Login_PP_Subheader}
+                                    </div>
+                                </div>
+                            </aura:set>
+                        </aura:if>
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                            <div class="slds-col slds-size--1-of-1">
+                                <span class="janssen-logo slds-align_absolute-center"
+                                    >{!$Label.c.Janssen_Community_Login_Page}</span
+                                >
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+                <div class="body-content">
+                    <div class="body-components">{!v.body}</div>
+                </div>
+            </div>
+            <div class="slds-grid slds-grid_reverse slds-large-size_1-of-1">
+                <footer class="{!v.isRTL ? 'footer-rtl slds-grid' : 'footer slds-grid'}">
+                    <div class="slds-col">
+                        <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                    </div>
+                    <div class="slds-col">{!$Label.c.Lofi_Login_Footer_Optimized}</div>
+                    <div class="slds-col">{!$Label.c.Lofi_Login_Footer_Policies}</div>
+                    <div class="slds-col">© IQVIA</div>
+                </footer>
+            </div>
+        </div>
+        <c:webBanner bodyText="{!v.cookieText}" showClose="true" isRTL="{!v.isRTL}" />
+    </aura:if>
+</aura:component>

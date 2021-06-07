@@ -9,6 +9,7 @@
     "Inner" : "2db97df6-820d-47e4-965e-44a488cb85b8",
     "Login" : "ed28c0e7-5514-4761-91ee-e805c1ed3bed",
     "NZR1UhOZspfbvAVwe08BYrCR69UwDc" : "ea92e1fd-b580-40ea-8269-4fa3c31c4bb4",
+    "ServiceNotAvailable" : "688631d5-71d3-4d4b-a887-d2adb6201944",
     "WoXZkrcJKfKe46LuLs8Eu9007wb48h" : "882b5c48-4941-4b92-86ba-79a03904517b",
     "vAXH5ycwbqsID8fYdbz4u09SEK2krq" : "0712cf1e-913c-4114-8bb2-0df5c4cea09e",
     "wZ4wF0nyBLlBVRTk8W2FIq3AdEUIh7" : "fd46becf-2e96-4ac1-bc24-6e9ad7c9e0d7"
@@ -25,8 +26,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -86,8 +87,12 @@
     } ],
     "type" : "view"
   }, {
-    "componentAttributes" : { },
-    "componentName" : "c:LoginThemeLayout",
+    "componentAttributes" : {
+      "communityType" : "null",
+      "subTitle" : "null",
+      "title" : "null"
+    },
+    "componentName" : "c:Lofi_LoginThemeLayout",
     "id" : "ed28c0e7-5514-4761-91ee-e805c1ed3bed",
     "label" : "Login",
     "regions" : [ {
@@ -96,8 +101,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -167,8 +172,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -238,8 +243,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -309,8 +314,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -380,8 +385,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -451,8 +456,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -508,6 +513,29 @@
     }, {
       "id" : "b0384468-9659-456a-a4ea-57d6829093ef",
       "regionName" : "sidebarFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  }, {
+    "componentAttributes" : {
+      "fixedPageWidth" : 1170,
+      "headerBgColor" : "rgba(0, 0, 0, 0)",
+      "isHeaderPinned" : false,
+      "isHeroUnderHeader" : false,
+      "isPageWidthFixed" : true,
+      "showHeader" : true,
+      "showHero" : true
+    },
+    "componentName" : "siteforce:themeLayoutStarter",
+    "id" : "688631d5-71d3-4d4b-a887-d2adb6201944",
+    "label" : "ServiceNotAvailable",
+    "regions" : [ {
+      "id" : "80cd6ce8-6564-45c6-afdd-04dcf9820634",
+      "regionName" : "themeHeader",
+      "type" : "region"
+    }, {
+      "id" : "d69f43cc-a6a5-4896-9ae6-4cd33ccbf672",
+      "regionName" : "themeFooter",
       "type" : "region"
     } ],
     "type" : "view"

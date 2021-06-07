@@ -110,6 +110,10 @@ public without sharing class AddPatientByPIRemote {
             pe.Permit_Mail_Email_contact_for_this_study__c = allowEmail;
             pe.Permit_Voice_Text_contact_for_this_study__c = allowPhone;
             pe.Permit_SMS_Text_for_this_study__c = allowSMS;
+			//pe.Invited_To_Patient_Portal__c = createUser && participant.Adult__c;
+            if(createUser && participant.Adult__c){
+                pe.Invited_To_PP_Date__c =  DateTime.now();
+            }
 
             Participant__c participantDelegate;
             if (!String.isBlank(participantDelegateJSON)) {
@@ -192,7 +196,7 @@ public without sharing class AddPatientByPIRemote {
         }
     }
 
-    @Future
+     @Future
     @TestVisible
     public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
@@ -201,7 +205,8 @@ public without sharing class AddPatientByPIRemote {
         );
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         if (
-            participant.Email__c != null &&
+            (participant.Email__c != null 
+            ||participant.Phone__c != Null) &&
             participant.First_Name__c != null &&
             participant.Last_Name__c != null
         ) {
@@ -224,9 +229,10 @@ public without sharing class AddPatientByPIRemote {
                 Mailing_State_Code__c
                 FROM Participant__c
                 WHERE
-                Email__c = :participant.Email__c
-                AND First_Name__c = :participant.First_Name__c
-                AND Last_Name__c = :participant.Last_Name__c
+                    (Email__c = :participant.Email__c 
+                    OR Phone__c =: participant.Phone__c )
+                    AND First_Name__c = :participant.First_Name__c
+                    AND Last_Name__c = :participant.Last_Name__c
                 LIMIT :limitRows
             ];
             List<Participant__c> participantPatient = new List<Participant__c>();
@@ -440,6 +446,22 @@ public without sharing class AddPatientByPIRemote {
                     TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
                 }
             }
+        }
+
+        //REF-3566
+         else{
+             if (participantId != null ) {
+                 List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                 For(Patient_Delegate__c pd : [SELECT Id,
+                                               Primary_Delegate__c
+                                               FROM Patient_Delegate__c
+                                               WHERE Participant__c =: participantId 
+                                              ]) {
+                                                  pd.Primary_Delegate__c = False;
+                                                  pdList.add(pd);
+                                              }
+                 update pdList;
+             }
         }
     }
 

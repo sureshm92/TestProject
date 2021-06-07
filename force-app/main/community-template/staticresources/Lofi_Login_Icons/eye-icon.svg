@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="24px" height="15px" viewBox="0 0 24 15" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/eye-hidden</title>
+    <defs>
+        <path d="M23.432,10.524 C20.787,7.614 16.4,4.538 12,4.6 C7.6,4.537 3.213,7.615 0.568,10.524 C-0.182690534,11.3632975 -0.182690534,12.6327025 0.568,13.472 C3.182,16.351 7.507,19.4 11.839,19.4 L12.147,19.4 C16.494,19.4 20.818,16.351 23.435,13.471 C24.1846963,12.6312668 24.1834044,11.3622051 23.432,10.524 Z M12,7.4 C14.5405098,7.4 16.6,9.45949015 16.6,12 C16.6,14.5405098 14.5405098,16.6 12,16.6 C9.45949015,16.6 7.4,14.5405098 7.4,12 C7.4,9.45949015 9.45949015,7.4 12,7.4 Z M12,10 C10.8954305,10 10,10.8954305 10,12 C10,13.1045695 10.8954305,14 12,14 C13.1045695,14 14,13.1045695 14,12 C14,10.8954305 13.1045695,10 12,10 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Login-Landing" transform="translate(-1177.000000, -657.000000)">
+            <g id="Group" transform="translate(1177.000000, 652.500000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g mask="url(#mask-2)" fill="#595959" id="color">
+                    <g>
+                        <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

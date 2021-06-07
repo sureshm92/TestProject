@@ -159,7 +159,7 @@
                 }
                 studyListViewComponent
                     .find('actionUploadParticipants')
-                    .execute(studySiteId, studySiteType, isSuppressed, function (
+                    .execute(studySiteId, studySiteType, trial, isSuppressed, function (
                         studySiteId,
                         studySiteType
                     ) {});

@@ -1,0 +1,24 @@
+<svg width="264px" height="23px" viewBox="0 0 264 23" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>waves copy</title>
+    <defs>
+        <rect id="path-1" x="0" y="0" width="323.839286" height="61"></rect>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Group" transform="translate(69.000000, 0.000000)">
+            <g id="Group" transform="translate(-128.839286, 0.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <g id="Mask"></g>
+                <g mask="url(#mask-2)">
+                    <g transform="translate(1.741071, 0.000000)">
+                        <path d="M95.7589286,0 C135.055551,0 210.541107,0 322.215596,0 C298.40869,15.4617181 270.953313,19.1661546 239.849464,11.1133094 C210.719539,3.57151699 170.910274,-1.42672976 127.090089,4.75825616 C109.463083,7.24621419 95.7589286,0 95.7589286,0 Z" id="Rectangle" fill="#9E54B0" opacity="0.56"></path>
+                        <path d="M283.794643,18.6485901 C212.958622,-11.8514099 156.793323,0.130732925 83.5714286,18.6485901" id="Oval" fill="#DF216D" opacity="0.48" transform="translate(183.683036, 9.324295) scale(1, -1) translate(-183.683036, -9.324295) "></path>
+                        <path d="M254.196429,0 C166.881436,2.69079543 150.295705,23.9642857 117.026287,22.875 C83.7568696,21.7857143 71.690171,0 36.5625,0 C36.5625,0 222.00462,0 254.196429,0 Z" id="Rectangle" fill="#0768FD" opacity="0.48"></path>
+                        <path d="M222.159399,0 C129.085707,2.58163686 105.355881,17.4285714 77.610181,17.4285714 C49.8644809,17.4285714 21.0360715,0 1.04332726,0 C1.04332726,0 187.844439,0 222.159399,0 Z" id="Rectangle" fill="#00C221" opacity="0.4"></path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

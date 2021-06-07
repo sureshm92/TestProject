@@ -1,0 +1,51 @@
+<template>
+    <c-web-spinner fixed="true"></c-web-spinner>
+    <template if:false={showEmailSent}>
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <div class="forgot-pwd">{labels.forgotLabel}</div>
+            <div>
+                <div>
+                    <label class="usr-label">{labels.usrnameLabel}</label>
+                    <input
+                        type="text"
+                        value={usrnameval}
+                        onkeyup={onKeyUp}
+                        class="container-forgot"
+                        label={labels.usrnameLabel}
+                        placeholder={userPlaceholder}
+                    ></input>
+                    <template if:true={showError}>
+                        <div class="email-not-associated">{errorMessage}</div>
+                    </template>
+                </div>
+                <div style="height: 50px; margin-top: 30px">
+                    <button
+                        class="apollo-btn primary btn"
+                        onclick={handleForgotPassword}
+                        
+                    >
+                        {labels.sendEmailLabel}
+                    </button>
+                </div>
+                <div style="height: 50px; margin-top: 1em; width: 90%;">
+                    <a  class="slds-align_absolute-center" style="font-size: 16px;" onclick={goBack}>
+                        {labels.backtologin}
+                    </a>
+                </div>
+            </div>
+        </div>
+    </template>
+    <template if:true={showEmailSent}>
+        <div style="margin-top: 40px" class={rtlStyleClass}>
+            <div class="forgot-password">{labels.emailsent}</div>
+            <div class="we-sent-a-message-to">{labels.emailsentsubtitle}</div>
+            <div>
+                <div style="height: 50px; margin-top: 70px;">
+                    <button class="apollo-btn primary" style="width: 90%" onclick={goBack}>
+                        {labels.backtologin}
+                    </button>
+                </div>
+            </div>
+        </div>
+    </template>
+</template>

@@ -428,15 +428,24 @@ public without sharing class ReferralProfileRemote {
     @AuraEnabled
     public static void createUser(String peId, String pcId) {
         try {
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createPortalUsers(new Set<Id>{ pcId });
-
             List<Participant_Enrollment__c> pe = [
-                SELECT Id, Participant_Contact__c, Clinical_Trial_Profile__r.CommunityTemplate__c
+                SELECT Id, Participant_Contact__c,Participant_Contact__r.Is_Patient_User_Created__c,
+                Clinical_Trial_Profile__r.CommunityTemplate__c,Invited_To_PP_Date__c
                 FROM Participant_Enrollment__c
                 WHERE Id = :peId AND Participant_Contact__c = :pcId
             ];
+            if (!pe.isEmpty() && pe[0].Invited_To_PP_Date__c == null) {
+                pe[0].Invited_To_PP_Date__c = DateTime.now();
+                update pe[0];
+            }
+            
+
+
             if (!pe.isEmpty()) {
+                if(!pe[0].Participant_Contact__r.Is_Patient_User_Created__c){
+                    ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                    .createPortalUsers(new Set<Id>{ pcId });
+                }
                 Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
                 String permissionSetName = CommunityTemplateService.getTemplate(
                         pe[0].Clinical_Trial_Profile__r.CommunityTemplate__c

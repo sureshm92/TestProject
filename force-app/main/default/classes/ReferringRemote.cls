@@ -379,15 +379,29 @@ public without sharing class ReferringRemote {
             ) {
                 enrollment.Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_PASS;
             }
-
-            HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
-                .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId);
-            enrollment.HCP__c = hcpEnrollment.Id;
-            enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
-            enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
-            enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
-            enrollment.Show_Referring_Provider__c = true;
-            String language = UserInfo.getLanguage();
+        List<String> HCPE_FIELDS = HCPEnrollmentService.HCPE_COMMON_FIELDS;
+        HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c');
+        HCPE_FIELDS.add('Study_Site__r.Suppress_Participant_Emails__c');
+        HCPE_FIELDS.add('Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c');
+        HCP_Enrollment__c hcpEnrollment = HCPEnrollmentService.getInstance()
+            .getHCPEnrollmentByIdImpl(hcpeId, CommunityService.USER_MODE_HCP, delegateId, HCPE_FIELDS);
+        Boolean filterCriteria =
+        hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Virtual'&& hcpEnrollment.Study_Site__r.Study_Site_Type__c!='Hybrid' &&
+        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__c != null &&
+        !hcpEnrollment.Study_Site__r.Suppress_Participant_Emails__c &&
+        !hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c &&
+        hcpEnrollment.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c;
+        enrollment.HCP__c = hcpEnrollment.Id;
+        enrollment.Study_Site__c = hcpEnrollment.Study_Site__c;
+        enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
+        enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
+        enrollment.Show_Referring_Provider__c = true;
+        //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
+        if(filterCriteria){
+            enrollment.Invited_To_PP_Date__c = DateTime.now();
+        }
+        system.debug('');
+        String language = UserInfo.getLanguage();
             List<Study_Site__c> sSite = new List<Study_Site__c>();
             if (enrollment.Study_Site__c != null) {
                 sSite = [
@@ -601,6 +615,23 @@ public without sharing class ReferringRemote {
                         ActionExecutor.executeAsync(actionAssignContactPermissions, Datetime.now());
                     }
                 }
+            }
+
+            //REF-3566
+            else if(participantDelegate == null){
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                For(Patient_Delegate__c pd:[SELECT Id,
+                                            Primary_Delegate__c
+                                            FROM Patient_Delegate__c
+                                            WHERE Participant__c =: participantId 
+                                           ]) {
+                                               if(pd.Primary_Delegate__c == True){
+                                                   pd.Primary_Delegate__c = False;
+                                                   pdList.add(pd);
+                                               }
+                                           }
+                update pdList;
+                
             }
 
             System.debug('contentDocId--' + contentDocId);
