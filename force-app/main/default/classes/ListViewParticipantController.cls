@@ -379,7 +379,7 @@ public without sharing class ListViewParticipantController {
             
             for(Participant_Enrollment__c pe: per){
                 if (sendEmails) {
-                    Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
+                    Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true);
                     lstContact.add(con);           
                 }
                 if(communityTemplatename!=null){
