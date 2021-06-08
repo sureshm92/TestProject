@@ -262,12 +262,11 @@ public without sharing class ListViewParticipantController {
                     
                     if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_PASSED||
                         oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
                         oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
                         oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
-                        oParticipantStatus == 'In Wash Out Period') &&
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD) &&
                        (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
                        pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
@@ -380,7 +379,7 @@ public without sharing class ListViewParticipantController {
             
             for(Participant_Enrollment__c pe: per){
                 if (sendEmails) {
-                    Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true,Is_Patient_User_Created__c=true);
+                    Contact con = new Contact(id =pe.Participant_Contact__c,Consent_To_Inform_About_Study__c = true);
                     lstContact.add(con);           
                 }
                 if(communityTemplatename!=null){
