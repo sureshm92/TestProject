@@ -24,7 +24,7 @@
         <aura:if isTrue="{!not(v.isMobileView)}">
             <div class="all-content slds-grid slds-wrap">
                 <div class="slds-col slds-large-size_4-of-7">
-                    <img src="{!$Resource.Lofi_Login_Icons + '/Group.png'}" />
+                    <img src="{!$Resource.Lofi_Login_Icons + '/Group.jpg'}" />
                 </div>
                 <div class="{!if(v.isRTL, 'align-rtl ', '') + 'slds-col slds-large-size_3-of-7'}">
                     <div class="logo-block">
@@ -136,7 +136,7 @@
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                <div><c:privacyPolicyViewer /></div>
+                                <div style="cursor: pointer"><c:privacyPolicyViewer /></div>
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>

@@ -1,13 +1,11 @@
-.slds-nav-vertical{
-}
-.html{
+.html {
     scroll-behavior: smooth;
 }
-.ppLabel{
+.ppLabel {
     color: black;
 }
-.vertNav{
-    background:#F4F4F4;
+.vertNav {
+    background: #f4f4f4;
     margin: -12px 0px 0px -7px !important;
     height: 100vh;
     overflow: scroll;
@@ -16,12 +14,12 @@
     padding-top: 12%;
 }
 .vertNav::-webkit-scrollbar {
-    display:none ;
+    display: none;
 }
 .slds-wrap::-webkit-scrollbar {
-    display:none ;
+    display: none;
 }
-.slds-modal__content{
+.slds-modal__content {
     overflow-y: hidden !important ;
 }
 .slds-p-around_medium {
@@ -44,7 +42,7 @@
     letter-spacing: 0;
     line-height: 19px;
   }*/
-  /*.text_div {
+/*.text_div {
     display: inline;
     color: #005587;
     font-family: "Proxima Nova";
@@ -55,36 +53,35 @@
     text-align: justify;
     width: 128px;
   }*/
-  .navBar {
+.navBar {
     font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
-    background:#F4F4F4;
+    background: #f4f4f4;
     margin-top: 0px;
     min-width: 190px;
     height: 755px;
-    
 }
- .navItem {
+.navItem {
     min-height: 75px;
 }
- .navItem1 {
-   min-height: 75px;
+.navItem1 {
+    min-height: 75px;
 }
-.closeIcon{
+.closeIcon {
     float: right;
     height: fit-content;
     width: fit-content;
 }
-.textBox{
+.textBox {
     min-width: 128px;
     text-align: initial;
 }
-.numbering{
+.numbering {
     max-width: fit-content;
 }
-.slds-wrap{
+.slds-wrap {
     margin-bottom: 3%;
     height: 100vh;
     margin-top: -3%;
@@ -93,19 +90,19 @@
     padding-right: 3%;
     scroll-behavior: smooth;
 }
-.richTextArea{
+.richTextArea {
     padding-left: 4%;
     padding-right: 1.5%;
     word-break: break-word;
     text-align: justify;
     color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 16px;
-  letter-spacing: 0;
-  line-height: 24px;
-  margin-bottom: 16%;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 16%;
 }
-.logo{
+.logo {
     height: auto;
     width: 15%;
     display: inline-block;
@@ -119,43 +116,43 @@
     display: inline-block;
     color: white;
     text-align: center;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0;
     line-height: 19px;
-  }
-  .text_div {
+}
+.text_div {
     display: inline;
     color: #005587;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     font-weight: bold;
     letter-spacing: 0;
     line-height: 19px;
     text-align: justify;
     width: 128px;
-  }
-  .numberAlign{
-    padding-top: 14%;
-  }
-  .hdr{
-    color: #000000;
-  font-family: "Proxima Nova";
-  font-size: 30px;
-  letter-spacing: 0;
-  line-height: 36px;
 }
-.dateText{
+.numberAlign {
+    padding-top: 14%;
+}
+.hdr {
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
+    font-size: 30px;
+    letter-spacing: 0;
+    line-height: 36px;
+}
+.dateText {
+    color: #000000;
+    font-family: 'Proxima Nova';
     font-size: 14px;
     font-weight: 500;
     letter-spacing: 0;
     line-height: 17px;
     text-align: left;
 }
-.ppHeader{
+.ppHeader {
     display: inline-block;
     margin-left: 1%;
     margin-top: 5px;
@@ -163,13 +160,14 @@
     vertical-align: top;
     float: left;
 }
-.closeIcon1{
-    fill:black;
+.closeIcon1 {
+    fill: black;
 }
-.headerAndLogo{
+.headerAndLogo {
     margin-left: 3.5%;
     padding-top: 10%;
 }
-.ppLabel:hover{
+.ppLabel:hover {
     color: -webkit-link;
+    cursor: pointer;
 }
