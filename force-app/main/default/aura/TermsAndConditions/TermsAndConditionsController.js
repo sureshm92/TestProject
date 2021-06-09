@@ -37,33 +37,41 @@
             document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
         component.find('mainSpinner').show();
+        if(communityService.getCurrentCommunityName() == 'GSK Community'){
+            component.set('v.isGsk', true);
+        }
+        console.log('isGsk: '+component.get("v.isGsk"));
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         if (isPortalTC) {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                communityService.executeAction(
-                    component,
-                    'getTC',
-                    {
-                        code: titleCode,
-                        languageCode: communityService.getUrlParameter('language'),
-                        useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
-                    },
-                    function (returnValue) {
-                        let tcData = JSON.parse(returnValue);
-                        component.set('v.tcData', tcData);
-                        if (RTL) {
-                            helper.setRTL(component);
+                if(component.get("v.isGsk")){
+                    communityService.executeAction(
+                        component,
+                        'getTC',
+                        {
+                            code: titleCode,
+                            languageCode: communityService.getUrlParameter('language'),
+                            useDefaultCommunity:
+                                communityService.getHasIQVIAStudiesPI() && userDefalutTC
+                        },
+                        function (returnValue) {
+                            let tcData = JSON.parse(returnValue);
+                            component.set('v.tcData', tcData);
+                            if (RTL) {
+                                helper.setRTL(component);
+                            }
+                            if (tcData.tc) {
+                                component.set('v.privacyPolicyId', tcData.tc);
+                            }
+                        },
+                        null,
+                        function () {
+                            component.find('mainSpinner').hide();
                         }
-                        if (tcData.tc) {
-                            component.set('v.privacyPolicyId', tcData.tc);
-                        }
-                    },
-                    null,
-                    function () {
-                        component.find('mainSpinner').hide();
-                    }
-                );
+                    );
+                }else{
+                    component.find('mainSpinner').hide();
+                }
             } else {
                 communityService.executeAction(
                     component,
@@ -86,30 +94,7 @@
             }
         } else {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                communityService.executeAction(
-                    component,
-                    'getTC',
-                    {
-                        code: titleCode,
-                        languageCode: communityService.getUrlParameter('language'),
-                        useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
-                    },
-                    function (returnValue) {
-                        let tcData = JSON.parse(returnValue);
-                        component.set('v.tcData', tcData);
-                        if (RTL) {
-                            helper.setRTL(component);
-                        }
-                        if (tcData.tc) {
-                            component.set('v.privacyPolicyId', tcData.tc);
-                        }
-                    },
-                    null,
-                    function () {
-                        component.find('mainSpinner').hide();
-                    }
-                );
+                    component.find('mainSpinner').hide();
             } else {
                 if (!component.get('v.ctpId')) {
                     component.set('v.ctpId', ctpId);
@@ -135,6 +120,9 @@
         }
 
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450
+    },
+    handleFilterChange: function(component, event, helper) {
+        console.log('closeQA');
     },
 
     doAccept: function (component, event, helper) {
