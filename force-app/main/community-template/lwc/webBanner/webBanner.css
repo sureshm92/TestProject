@@ -10,7 +10,7 @@
     position: fixed;
     max-height: 100vh;
     z-index: 10000;
-    top: 10%;
+    bottom: 5%;
     left: 50%;
     background-color: #ffffff;
     transform: translate(-50%, -50%);
@@ -19,8 +19,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s linear;
-    width: calc(80% - 6rem);
-    max-height: 100%;
+    width: calc(95% - 6rem);
 }
 
 .align-rtl {
@@ -44,7 +43,7 @@
     font-size: 1rem;
     line-height: 1.5rem;
     white-space: normal;
-    font-weight: 500;
+    font-weight: 600;
     overflow-x: hidden;
 }
 
@@ -83,4 +82,11 @@
     width: 24px;
     background-size: 24px 24px;
     background-image: url(/resource/1622466154000/iconNotificationBell);
+}
+
+@media all and (max-width: 767px) {
+    .p-container {
+        width: 100%;
+        bottom: 15%;
+    }
 }
