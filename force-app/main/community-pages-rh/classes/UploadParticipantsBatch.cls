@@ -695,6 +695,28 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                            );
                        }
                } 
+			   if (!String.isEmpty(DelegateEmail)) {
+                    String regexExclude = System.Label.RH_Email_Invalid_Characters;
+                    String regexInclude = System.Label.RH_Email_Validation_Pattern;
+                    Boolean isValidEmail;
+                    Pattern regexExcludePattern = Pattern.compile(regexExclude);
+                    Pattern regexIncludePattern = Pattern.compile(regexInclude);
+                    Matcher regexExcludeMatcher = regexExcludePattern.matcher(DelegateEmail);
+                    Matcher regexIncludeMatcher = regexIncludePattern.matcher(DelegateEmail);
+                    if (regexExcludeMatcher.find()) {
+                        hasErrors = true;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate invalid field - Email');
+                    } else if (!regexIncludeMatcher.find()) {
+                        hasErrors = true;
+
+                        listOfFailedRecordsWithMsg.add(
+                            '' +
+                            totalRecordCount +
+                            ', ' +
+                            'ERROR: Delegate invalid field - Email'
+                        );
+                    }
+                }
 
 
                 if (!hasErrors) {
