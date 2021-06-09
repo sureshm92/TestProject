@@ -102,6 +102,7 @@ stages:
   #Validation:
   - SonarCheck
   - VALIDATE
+  - RUNTEST
   
 
   
@@ -192,4 +193,18 @@ VALIDATE:
   stage: VALIDATE
   extends: .validate_script
 
+
+RUNTEST:
+  only:
+    - merge_requests
+  except:
+    - push
+    - commit
+  
+  stage: RUNTEST
+   
+  sfdx force:apex:test:run -u TargetOrg -w $TMOUT_TEST_LOCAL --resultformat human --codecoverage --testlevel RunLocalTests
+  
+
 image: salesforce/salesforcedx:7.82.1-0-full
+
