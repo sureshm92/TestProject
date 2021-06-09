@@ -202,8 +202,8 @@ RUNTEST:
     - commit
   
   stage: RUNTEST
-   
-  sfdx force:apex:test:run -u TargetOrg -w $TMOUT_TEST_LOCAL --resultformat human --codecoverage --testlevel RunLocalTests
+  script: 
+  - sfdx force:apex:test:run -u TargetOrg -w $TMOUT_TEST_LOCAL --resultformat human --codecoverage --testlevel RunLocalTests
   
 
 image: salesforce/salesforcedx:7.82.1-0-full
