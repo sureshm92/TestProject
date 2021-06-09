@@ -72,7 +72,7 @@
                 <div class="slds-col_bump-left slds-large-size_3-of-7">
                     <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
                         <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
-                            {!$Label.c.Lofi_Optimized_Message}
+                            <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
                         </div>
                         <div class="slds-grid">
                             <div class="slds-col slds-size_1-of-3">
@@ -88,56 +88,67 @@
             </div>
             <!--Mobile View-->
             <aura:set attribute="else">
-                <div class="all-content logo-block slds-grid slds-wrap">
+                <div class="mobile-content slds-grid slds-wrap">
                     <div class="slds-col slds-size_1-of-1">
-                        <div class="slds-align_absolute-center">
-                            <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo.svg'}" />
+                        <div class="brand-logo slds-align_absolute-center">
+                            <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_White.png'}" />
                         </div>
-                        <div class="logo-sub-title slds-align_absolute-center">
+                        <div class="logo-sub-title-mobile slds-align_absolute-center">
                             {!$Label.c.Lofi_Logo_Subtitle}
                         </div>
                     </div>
-                    <div class="slds-align_absolute-center slds-grid slds-wrap slds-gutters">
-                        <div class="slds-col slds-medium-size--1-of-2">
-                            <img
-                                src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
-                                class="main-logo"
-                            />
-                            <div class="header-title">{!$Label.c.Lofi_Login_PP_Header}</div>
-                        </div>
-                        <div class="slds-col slds-medium-size--1-of-2">
-                            <img
-                                src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
-                                class="main-logo"
-                            />
-                            <div class="header-title">{!$Label.c.Lofi_Login_RH_Header}</div>
-                        </div>
-                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
-                            <div class="slds-col slds-size--1-of-1">
-                                <span class="janssen-logo slds-align_absolute-center"
-                                    >{!$Label.c.Janssen_Community_Login_Page}</span
-                                >
-                            </div>
-                        </aura:if>
+                    <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
+                        <img
+                            src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
+                            class="mobile-logo"
+                        />
+                        <div class="header-title-mobile">{!$Label.c.Lofi_Login_PP_Header}</div>
                     </div>
+                    <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
+                        <img
+                            src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
+                            class="mobile-logo"
+                        />
+                        <div class="header-title-mobile">{!$Label.c.Lofi_Login_RH_Header}</div>
+                    </div>
+                    <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                        <div class="slds-col slds-size--1-of-1">
+                            <span class="header-title-mobile slds-align_absolute-center"
+                                >{!$Label.c.Janssen_Community_Login_Page}</span
+                            >
+                        </div>
+                    </aura:if>
+
                     <div class="body-content">
                         <div class="body-components">{!v.body}</div>
                     </div>
-                    <footer class="{!v.isRTL ? 'footer-rtl slds-grid' : 'footer slds-grid'}">
-                        <div class="slds-col slds-size_1-of-1">
-                            {!$Label.c.Lofi_Optimized_Message}
+                    <div class="{!'footer-mobile' + if(v.isRTL ,' align-rtl', '')}">
+                        <div
+                            class="slds-col slds-size_1-of-1"
+                            style="font-weight: 600; margin-bottom: 1em"
+                        >
+                            <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
                         </div>
-                        <div class="slds-col slds-size_1-of-3">
-                            <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-3">
+                                <img
+                                    src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Tech_White.svg'}"
+                                />
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">
+                                <div><c:privacyPolicyViewer /></div>
+                            </div>
+                            <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
-                        <div class="slds-col slds-size_1-of-3">
-                            <div><c:privacyPolicyViewer /></div>
-                        </div>
-                        <div class="slds-col slds-size_1-of-3">© IQVIA</div>
-                    </footer>
+                    </div>
                 </div>
             </aura:set>
         </aura:if>
-        <c:webBanner bodyText="{!v.cookieText}" showClose="true" isRTL="{!v.isRTL}" />
+        <c:webBanner
+            bodyText="{!v.cookieText}"
+            showClose="true"
+            isRTL="{!v.isRTL}"
+            isMobileView="{!v.isMobileView}"
+        />
     </aura:if>
 </aura:component>

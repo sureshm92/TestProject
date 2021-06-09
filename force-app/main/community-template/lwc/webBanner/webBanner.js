@@ -8,6 +8,7 @@ export default class WebBanner extends LightningElement {
     @api closeCallback;
     @api showBanner = false;
     @api isRTL;
+    @api isMobileView = false;
     @track isInitialized = false;
 
     //Public methods----------------------------------------------------------------------------------------------------
@@ -75,5 +76,9 @@ export default class WebBanner extends LightningElement {
 
     get iconBellClass() {
         return 'icon-bell' + (this.isRTL ? ' flip-bell' : '');
+    }
+
+    get backDropClass() {
+        return 'slds-backdrop' + (this.showBanner ? ' slds-backdrop--open' : '');
     }
 }
