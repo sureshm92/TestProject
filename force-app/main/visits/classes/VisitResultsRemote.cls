@@ -90,7 +90,16 @@ public without sharing class VisitResultsRemote {
             : currentContact.Visit_Results_OptIn__c;
         return currentVisitResults.contains(visitResultsMode);
     }
-
+	
+    @AuraEnabled
+    public static Boolean showVisitResults() {
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
+            .getState();
+        return participantState.showVisits &&
+                participantState.showResults &&
+                VisitResultsRemote.isVisitResultAvailable();
+    }
+    
     @AuraEnabled
     public static void switchToggleRemote(String visitResultsMode, Boolean isToggleOn) {
         Contact currentContact = ParticipantContext.getCurrentContact();

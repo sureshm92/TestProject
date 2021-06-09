@@ -1,0 +1,71 @@
+<template>
+        <div class="outerContainer">
+            <c-web-spinner class="main-spinner"></c-web-spinner>
+                <lightning-layout style="margin-bottom: 3%;">
+                    <lightning-layout-item>
+                        <div class="vertNav">
+                            <lightning-vertical-navigation selected-item={selectedItem} onselect={handleSelect} class="navigation">
+                                <lightning-vertical-navigation-section>
+                                    <div class="navBar" id="navbar">
+                                        <ul
+                                        id="selectOption"
+                                        style="padding-bottom: 27%;"
+                                        >  
+                                        <template for:each={listOfHeaders} for:item="header">
+                                            <li
+                                            key={header.sno}
+                                            class="navItem"
+                                            id={header.name}
+                                            onclick={navigateToHomePage}
+                                            data-value={header.name}
+                                            >
+                                                <a
+                                                class="navItem1 slds-navigation-list--vertical__action slds-text-link--reset"
+                                                data-menu-item-id={header.sno} id={header.name} data-value={header.key}
+                                                >
+                                                <div class="slds-grid slds-gutters">
+                                                <div class="slds-col numbering">
+                                                        <div class="dot"><div class="numberAlign">{header.sno}</div></div>
+                                                    </div>
+                                                    <div class="slds-col textBox" style="word-break: break-word;"
+                                                                                >
+                                                    <div class="text_div">{header.name}</div>
+                                                    </div>
+                                                </div>
+                                                </a>
+                                            </li>
+                                        </template>
+                                        </ul>
+                                    </div>
+                                </lightning-vertical-navigation-section>
+                            </lightning-vertical-navigation>
+                        </div>
+                    </lightning-layout-item>
+                    <div data-id="tester" class="slds-grid slds-wrap">
+                    <div class="headerAndLogo slds-size_1-of-1">
+                        <div class="logo">
+                            <img style="width: 72px;height: 72px;" class="icon-position" src={headerLogo} />
+                        </div>
+                        <div class="ppHeader">
+                            <h1 class="hdr">{labels.ppHeaderLabel}</h1>
+                            <p class="dateText">{labels.lastUpdatedText} {lastUpdated}</p>
+                        </div>
+
+                    </div>
+                    
+                    
+                    <div class="richTextArea slds-size_1-of-1" data-id="text" id="text">
+                        <!--Rich text displayed here-->
+                    </div>
+                </div>
+                </lightning-layout>
+                <div class="rr-bottom-bar-area">
+                        <div class="rr-bottom-bar rr-bottom-bar">
+                            <div class="rr-bottom-bar-line"></div>
+                            <div class="rr-width-limiter bar-content side-padding">
+                                <p style="display: inline-block;"> <a onclick={saveAsPdf}>{labels.downloadPdf}</a></p>
+                            </div>
+                        </div>
+                    </div>
+            </div>
+</template>

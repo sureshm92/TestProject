@@ -14,6 +14,10 @@ h1, h2, h3, h4, h5, h6{
     font-family: "Proxima Nova"!important;
 }
 
+lightning-primitive-icon{
+	color: #297dfd!important;
+}
+
 body{
     font-size: 13px;
     overflow: visible!important;
@@ -466,7 +470,6 @@ input:focus {
     width: 1.6rem;
     height: 1.6rem;
     top: 2px;
-    right: 2px;
     transition: background-color 0.3s, right 0.3s;
 }
 

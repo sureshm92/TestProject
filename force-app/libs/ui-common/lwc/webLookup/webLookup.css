@@ -10,6 +10,10 @@
     box-shadow: none;
 }
 
+.slds-dropdown-trigger_click .slds-dropdown, .slds-dropdown-trigger_click:hover .slds-dropdown, .slds-dropdown-trigger--click .slds-dropdown, .slds-dropdown-trigger--click:hover .slds-dropdown{
+/* @noflip */ right: -50% !important;
+}
+
 .slds-combobox__input.has-custom-border {
     box-shadow: 0 0 0 2px #fff inset, 0 0 0 3px rgb(221, 219, 218) inset;
 }

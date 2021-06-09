@@ -44,11 +44,16 @@ global without sharing class TermsAndConditions {
         String languageCode,
         String tcType,
         Boolean useDefaultCommunity
-    ) {
+    ) { 
+        System.debug('tcId: '+tcId);
+        System.debug('tcType: '+tcType);
+        System.debug('langCode: '+languageCode);
+        System.debug('useDefaultCommunity: '+useDefaultCommunity);
         if (String.isEmpty(languageCode))
             languageCode = UserInfo.getLanguage();
+            System.debug('langCode2: '+languageCode);
         String query =
-            ' SELECT Id, T_C_Text__c, ' +
+            ' SELECT Id, T_C_Text__c,Last_Updated_on__c,Policy_Headers__c, ' +
             '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' +
             languageCode +
             '\') ' +
@@ -57,6 +62,7 @@ global without sharing class TermsAndConditions {
         String communityName = useDefaultCommunity
             ? CommunityService.IQVIA_NETWORK_NAME
             : UserContext.getCurrentCommunityName();
+            System.debug('communityName: '+communityName);
         if (tcId != null) {
             query += ' Id =\'' + tcId + '\' ';
         } else {
@@ -151,6 +157,8 @@ global without sharing class TermsAndConditions {
     }
 
     public static Terms_And_Conditions__c getOrgDefaultPrivacyTC(Boolean useDefaultCommunity) {
+        System.debug('useDefaultCommunity: '+useDefaultCommunity);
+        System.debug('PRIVACY_POLICY: '+PRIVACY_POLICY);
         String query = getTCQuery(null, null, PRIVACY_POLICY, useDefaultCommunity);
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {

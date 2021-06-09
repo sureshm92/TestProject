@@ -8,6 +8,7 @@ export default class WebBanner extends LightningElement {
     @api closeCallback;
     @api showBanner = false;
     @api isRTL;
+    @api isMobileView = false;
     @track isInitialized = false;
 
     //Public methods----------------------------------------------------------------------------------------------------
@@ -65,7 +66,19 @@ export default class WebBanner extends LightningElement {
             'button-close' +
             (this.showClose ? '' : ' slds-hide') +
             (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '') +
-            (this.isRTL ? ' rtl' : '')
+            (this.isRTL ? ' flip-close' : '')
         );
+    }
+
+    get containerClass() {
+        return 'p-container' + (this.isRTL ? ' align-rtl' : '');
+    }
+
+    get iconBellClass() {
+        return 'icon-bell' + (this.isRTL ? ' flip-bell' : '');
+    }
+
+    get backDropClass() {
+        return 'slds-backdrop' + (this.showBanner ? ' slds-backdrop--open' : '');
     }
 }
