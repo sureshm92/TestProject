@@ -52,6 +52,7 @@ public without sharing class RRChangePasswordController {
     public String resetPassLogo { get; set; }
     public String themeCSS { get; set; }
     public Boolean isMobileView {get;set;}
+    public Boolean isMobileApp{get;set;}
     public String backgroundStyle { get; set; }
     public String templateName { get; set; }
     public String currentCommunityName { get; set; }
@@ -93,6 +94,7 @@ public without sharing class RRChangePasswordController {
         isRTL = false;
         onLoad = true;
         isMobileView = false;
+        isMobileApp = false;
         showPassword = true;
         showNewPassword = true;
         translation = new Translation__c();
@@ -121,8 +123,12 @@ public without sharing class RRChangePasswordController {
         headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')){
                isMobileView = true;
            }
+        if(headerList.get('User-Agent').contains('SalesforceMobileSDK')){
+            isMobileApp = true;
+        }
     }
-
+    
+    
     private void init() {
         showPassword = true;
         showNewPassword = true;

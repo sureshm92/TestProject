@@ -16,6 +16,7 @@
     <aura:attribute name="isRTL" type="Boolean" default="false" />
     <aura:attribute name="isMobileView" type="Boolean" default="false" />
     <aura:attribute name="isMobileApp" type="Boolean" default="false" />
+    <aura:attribute name="showPpPopup" type="Boolean" default="false" />
     <aura:attribute name="cookieText" type="String" />
 
     <!-- component body: -->
@@ -78,7 +79,7 @@
                                 <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                {!$Label.c.Lofi_Login_Footer_Policies}
+                                <div class="ppViewer"><c:privacyPolicyViewer /></div>
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
@@ -135,7 +136,7 @@
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                {!$Label.c.Lofi_Login_Footer_Policies}
+                                <div><c:privacyPolicyViewer /></div>
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
