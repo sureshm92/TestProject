@@ -72,8 +72,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
                 pdfContent = '' + FORM_HTML_START;
                 
                 pdfContent = pdfContent + '<H2>Privacy Policy Information in PDF</H2>';
-                pdfContent = pdfContent +tc.Privacy_Policy_Logo__c;
-                
+
                 pdfContent = pdfContent + tc.T_C_Text__c + FORM_HTML_END;
                 ppPdfContentMap.put(tc.Id,pdfContent);
             }
