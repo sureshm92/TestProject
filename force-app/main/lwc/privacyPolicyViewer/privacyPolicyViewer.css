@@ -2,7 +2,9 @@
     scroll-behavior: smooth;
 }
 .ppLabel {
-    color: black;
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
 }
 .vertNav {
     background: #f4f4f4;
@@ -25,34 +27,8 @@
 .slds-p-around_medium {
     padding-right: 0;
     padding-left: 1%;
-    /* padding-bottom: 1%; */
     padding-top: 0%;
 }
-/*.dot {
-    height: 27px;
-    width: 27px;
-    background-color: #005587;
-    border-radius: 50%;
-    display: inline-block;
-    color: white;
-    text-align: center;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 19px;
-  }*/
-/*.text_div {
-    display: inline;
-    color: #005587;
-    font-family: "Proxima Nova";
-    font-size: 16px;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 19px;
-    text-align: justify;
-    width: 128px;
-  }*/
 .navBar {
     font-family: 'Proxima Nova';
     font-size: 16px;
@@ -170,4 +146,10 @@
 .ppLabel:hover {
     color: -webkit-link;
     cursor: pointer;
+}
+
+@media all and (max-width: 767px) {
+    .ppLabel {
+        color: #ffffff;
+    }
 }

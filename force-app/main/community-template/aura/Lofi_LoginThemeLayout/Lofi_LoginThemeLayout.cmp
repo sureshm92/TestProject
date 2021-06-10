@@ -79,7 +79,7 @@
                                 <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                <div class="ppViewer"><c:privacyPolicyViewer /></div>
+                                <c:privacyPolicyViewer />
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
@@ -136,7 +136,7 @@
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                <div style="cursor: pointer"><c:privacyPolicyViewer /></div>
+                                <c:privacyPolicyViewer />
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
