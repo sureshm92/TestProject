@@ -34,7 +34,7 @@
      />
 <aura:attribute name="isHidden" type="Boolean" default="false" />
 <aura:attribute name="showSpinner" type="Boolean" default="false" />
-<aura:attribute name="viewMore" type="Boolean" default="false" />
+<aura:attribute name="viewMore" type="Boolean" default="true" />
 
 <aura:attribute name="subDomain" type="String" />
 <aura:attribute name="openmodel" type="boolean" default="false"/>
@@ -77,6 +77,7 @@
                       minorDelegate="{!v.participantDelegate}"
                       showParticipationSteps="false"
                       parent="{!this}"
+                      viewMore = "{!v.viewMore}"
                       />
 <aura:if isTrue="{!v.isHidden}"
       ><!--show/hide when it click to open-->
