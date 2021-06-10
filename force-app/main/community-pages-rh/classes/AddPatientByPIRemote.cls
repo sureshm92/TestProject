@@ -164,7 +164,7 @@ public without sharing class AddPatientByPIRemote {
                 assignParticipantPermissions(ssId, newParticipant.Contact__c);
             }
 
-            updateParticipant(JSON.serialize(participant));
+           // updateParticipant(JSON.serialize(participant));
             createParticipantDelegate(
                 participantDelegateJSON,
                 delegateDuplicateInfo,
