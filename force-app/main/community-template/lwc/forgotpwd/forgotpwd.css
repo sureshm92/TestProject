@@ -70,6 +70,10 @@ input:focus {
     background-color: #ffffff;
     box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0);
 }
+input {
+    padding-left: 10px;
+    padding-right: 10px;
+}
 .usr-label {
     height: 24px;
     width: 64px;
@@ -78,4 +82,5 @@ input:focus {
     font-size: 14px;
     letter-spacing: 0;
     line-height: 36px;
+    font-weight: bold;
 }

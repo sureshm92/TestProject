@@ -57,7 +57,7 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
             });
         if (!this.usrnameval) {
             this.usrnameval = '';
-            this.userPlaceholder = ' ' + this.labels.usrPlaceholder + ' ';
+            this.userPlaceholder = this.labels.usrPlaceholder;
         }
     }
 
