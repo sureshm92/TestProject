@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     
     doInit: function (component, event, helper) {
         
@@ -85,8 +85,10 @@
     },
     closeCard: function (component, event, helper) {
         component.set('v.isHidden', false);
-        var appEvent = $A.get('e.c:ViewMore');
-        appEvent.fire();
+        component.set('v.viewMore', true);
+        
+       /* var appEvent = $A.get('e.c:ViewMore');
+        appEvent.fire(); */
     },
     
     openModel : function(component, event, helper){       

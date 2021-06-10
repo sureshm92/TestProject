@@ -1,4 +1,9 @@
-List<(Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE Participant_Contact__c IN (SELECT ContactId FROM User) AND Invited_To_PP_Date__c = null LIMIT 9000];       
+
+List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,
+Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE 
+Participant_Contact__c IN (SELECT ContactId FROM User WHERE isActive = true) 
+AND Invited_To_PP_Date__c = null AND Study_Site__r.Study_Site_Type__c = 'Traditional' 
+AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 10000 ];       
 
  List<Id> contactIds = new List<Id>();
         for(Participant_Enrollment__c pe: peList){
