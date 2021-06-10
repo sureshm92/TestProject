@@ -878,8 +878,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 perIdList.add(pe.Id);
             }
         }
-        List<User> validUserList = [SELECT Id FROM User where Profile.Name != 'API Only'];
-        List<Participant_Enrollment__c> perDetailedList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById  FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById IN : validUserList];
+        List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+        List<Participant_Enrollment__c> perDetailedList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById  FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
         List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
         for (Participant_Enrollment__c pe: perDetailedList){
             LL_RH_event__e llrhEvent = new LL_RH_event__e();
@@ -914,8 +914,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
         Datetime dt = datetime.now();
         List<Participant_Enrollment__c > perFinalList = new List<Participant_Enrollment__c >();
-        List<User> validUserList = [SELECT Id FROM User where Profile.Name != 'API Only'];
-        List<Participant_Enrollment__c > perList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById IN : validUserList AND Initial_visit_scheduled_date__c >= today];
+        List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+        List<Participant_Enrollment__c > perList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList AND Initial_visit_scheduled_date__c >= today];
 
         List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
 
