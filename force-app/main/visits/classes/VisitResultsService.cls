@@ -59,8 +59,9 @@ public inherited sharing class VisitResultsService {
                     String.isBlank(visitResultTypeSharing.Sharing_Countries__c) ||
                     visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) ||
                     (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) &&
-                    !String.isBlank(strShareBackCountries) &&
-                    strShareBackCountries.contains(strCountryCode))
+                    ((!String.isBlank(strShareBackCountries) &&
+                    strShareBackCountries.contains(strCountryCode)) ||
+                    String.isBlank(strShareBackCountries)))
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                     if (!String.isBlank(visitResultTypeSharing.Custom_Tooltip__c)) {
@@ -399,7 +400,12 @@ public inherited sharing class VisitResultsService {
         ) {
             this.wrappers = wrappers;
             if (visit != null && visit.Completed_Date__c != null) {
-                this.visitName = visit.Portal_Name__c;
+                if(String.isBlank(visit.Portal_Name__c)){
+                    this.visitName = System.Label.StudyVisit_Unscheduled_Visit;
+                }
+                else{
+                    this.visitName = visit.Portal_Name__c;
+                }
                 Datetime dt = Datetime.newInstance(
                     visit.Completed_Date__c.year(),
                     visit.Completed_Date__c.month(),
@@ -498,7 +504,12 @@ public inherited sharing class VisitResultsService {
                     }
                 }
                 if (visitResult != null && visitResult.Patient_Visit__r.Completed_Date__c != null) {
-                    this.visitName = visitResult.Patient_Visit__r.Portal_Name__c;
+                    if(String.isBlank(visitResult.Patient_Visit__r.Portal_Name__c)){
+                        this.visitName = System.Label.StudyVisit_Unscheduled_Visit;
+                    }
+                    else{
+                        this.visitName = visitResult.Patient_Visit__r.Portal_Name__c;
+                    }
                     Datetime dt = Datetime.newInstance(
                         visitResult.Patient_Visit__r.Completed_Date__c.year(),
                         visitResult.Patient_Visit__r.Completed_Date__c.month(),

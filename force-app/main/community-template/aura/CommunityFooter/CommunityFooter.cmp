@@ -11,6 +11,7 @@
     <aura:attribute name="sponsor" type="String" />
     <aura:attribute name="retUrl" type="String" default="" />
     <aura:attribute name="defaultTC" type="Boolean" default="false" />
+    <aura:attribute name="isGsk" type="Boolean" default="false" />
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}" />
 
@@ -24,10 +25,15 @@
                     />
                 </div>
                 <div class="cf-link">
-                    <c:FooterLink
+                    <aura:if isTrue="{!v.isGsk}">
+                        <c:FooterLink
                         label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}"
                         link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
-                    />
+                        />
+                    <aura:set attribute="else">
+                        <c:privacyPolicyViewer isCommunityFooter="true"/>
+                    </aura:set>
+                    </aura:if>
                 </div>
                 <div class="cf-link">
                     <c:FooterLink
