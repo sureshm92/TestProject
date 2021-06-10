@@ -59,8 +59,9 @@ public inherited sharing class VisitResultsService {
                     String.isBlank(visitResultTypeSharing.Sharing_Countries__c) ||
                     visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) ||
                     (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) &&
-                    !String.isBlank(strShareBackCountries) &&
-                    strShareBackCountries.contains(strCountryCode))
+                    ((!String.isBlank(strShareBackCountries) &&
+                    strShareBackCountries.contains(strCountryCode)) ||
+                    String.isBlank(strShareBackCountries)))
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                     if (!String.isBlank(visitResultTypeSharing.Custom_Tooltip__c)) {
