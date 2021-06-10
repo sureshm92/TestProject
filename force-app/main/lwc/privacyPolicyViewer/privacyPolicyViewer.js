@@ -63,11 +63,13 @@ export default class PrivacyPolicyViewer extends LightningElement {
     }
 
     saveAsPdf(){
+        console.log('this.tcId: '+this.tcId);
         this.spinner.show();
         generatePDF({
             ppId : this.tcId
         })
         .then((result) => {
+            console.log('dwnld: '+result);
             this.spinner.hide();
             location.href = result;
         })
