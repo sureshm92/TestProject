@@ -845,11 +845,11 @@ public without sharing class PatientDelegateService {
         }
     }
 
-    public static void updateContactPermSetsWithDelegates(Set<Id> participantContactIds) {
+    public static void updateContactPermSetsWithDelegates(Set<Id> participantContactIds, Set<Id> invitedPartContactIds) {
         Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
             new List<Id>(participantContactIds)
         );
-        Set<Id> allContactIds = new Set<Id>(participantContactIds);
+        Set<Id> allContactIds = new Set<Id>(invitedPartContactIds);
         for (Id partKey : delegatesByParticipant.keySet()) {
             for (Id delConId : delegatesByParticipant.get(partKey)) {
                 allContactIds.add(delConId);

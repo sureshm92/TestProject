@@ -249,8 +249,10 @@ public without sharing class VisitResultsRemote {
                     String.isBlank(visitResultTypeSharing.Sharing_Countries__c) ||
                     visitResultTypeSharing.Sharing_Countries__c.equals(ALL_COUNTRIES) ||
                     (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) &&
-                    !String.isBlank(strShareBackCountries) &&
-                    strShareBackCountries.contains(strCountryCode))
+                    ((!String.isBlank(strShareBackCountries) &&
+                    strShareBackCountries.contains(strCountryCode)) ||
+                    String.isBlank(strShareBackCountries))
+                     )
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                 }
