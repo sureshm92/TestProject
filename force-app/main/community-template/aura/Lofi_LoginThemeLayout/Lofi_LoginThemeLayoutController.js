@@ -14,7 +14,7 @@
                 ? $A.get('$Label.c.Footer_Link_Privacy_Policy')
                 : $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
         component.set('v.isRTL', rtl_language.includes(paramLanguage));
-        if (communityService.isMobileSDK() || communityService.isMobileOS()) {
+        if ((isMobileApp || communityService.isMobileOS()) && window.screen.width <= 768) {
             component.set('v.isMobileView', true);
         }
         component.set('v.isMobileApp', isMobileApp);
