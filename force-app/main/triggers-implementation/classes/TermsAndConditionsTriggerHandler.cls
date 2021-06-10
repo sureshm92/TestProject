@@ -131,6 +131,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
         System.debug('cdlPpMap: '+cdlPpMap);
         List<ContentVersion> conVerList = new List<ContentVersion>();
         List<ContentDocumentLink> condlList = new List<ContentDocumentLink>();
+        List<ContentDistribution> conDist = new List<ContentDistribution>();
         for(Id conDocId : updateCdMap.keySet())
         {
             
