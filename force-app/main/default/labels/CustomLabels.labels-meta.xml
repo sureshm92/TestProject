@@ -16789,7 +16789,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_RequestSubmitted</shortDescription>
-        <value>Request has been submitted successfully!</value>
+        <value>Request has been submitted successfully</value>
     </labels>
     <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
