@@ -113,7 +113,9 @@
                     </div>
                     <aura:if isTrue="{!v.communityType == 'Janssen'}">
                         <div class="slds-col slds-size--1-of-1">
-                            <span class="header-title-mobile slds-align_absolute-center"
+                            <span
+                                class="header-title-mobile slds-align_absolute-center"
+                                style="margin-top: 1em"
                                 >{!$Label.c.Janssen_Community_Login_Page}</span
                             >
                         </div>
