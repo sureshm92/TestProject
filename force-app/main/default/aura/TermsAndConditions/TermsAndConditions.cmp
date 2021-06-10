@@ -3,7 +3,6 @@
                 implements="forceCommunity:availableForAllPageTypes"
                 controller="TermsAndConditionsRemote"
                 extends="c:CommunityContext"
-                access="global"
                 >
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
     
@@ -24,17 +23,14 @@
      
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <lightning:workspaceAPI aura:id="workspace"/>
     
-            <c:privacyPolicyViewerPage />
-            <div class="{!v.isRTL? 'arabic':'english'}" style="{!if(v.titleCode=='PrivacyPolicy','display:none','')}">
+            
+        <aura:if isTrue="{!(v.isGsk) || ((v.titleCode!='CookiePolicy') &amp;&amp; (v.titleCode!='PrivacyPolicy'))}">
+            <div class="{!v.isRTL? 'arabic':'english'}">
                     
                 <c:RRSpinner size="medium" aura:id="mainSpinner" />
                 <div class="rr-body-content rr-min-body-height" style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}">
-                        <aura:if isTrue="{!(v.titleCode=='PrivacyPolicy')}">
-                                
-                            <aura:set attribute="else">
-                                    <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
+                    <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
                                             <div class="main-header">{!v.title}</div>
                                             <aura:if isTrue="{!v.tcData}">
                                                 <aura:if isTrue="{!v.tcData.tc}">
@@ -97,13 +93,13 @@
                                                 </button>
                                             </c:RRBottomBar>
                                         </aura:if>
-                            </aura:set>
-                            </aura:if>
+                            
                     
                 </div>
             </div>
 
-    
-    
-    
+            <aura:set attribute="else">
+                <c:privacyPolicyViewerPage />
+            </aura:set>
+        </aura:if>
 </aura:component>

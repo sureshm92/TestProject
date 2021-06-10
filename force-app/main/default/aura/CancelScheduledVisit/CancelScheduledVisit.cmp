@@ -1,0 +1,66 @@
+<!--
+ - Created by velu on 6.6.2021.
+ -->
+
+ <aura:component
+ description="CancelScheduledVisit"
+ implements="forceCommunity:availableForAllPageTypes"
+ access="global" extends="c:CommunityContext"
+>
+ <!-- attributes:-->
+ <aura:attribute name="title" type="String" default="{!$Label.c.Cancel_Scheduled_Visit}" access="public" />
+ <aura:attribute name="recordid" type="String" access="public" />
+ <aura:attribute name="fovDate" type="DateTime" access="public"/> 
+ <aura:attribute name="fovTime" type="String" access="public"/>  
+ <aura:attribute name="backdrop" type="boolean" access="public" default="false"/> 
+ <aura:attribute name="isFovnull" type="boolean" access="public" default="false"/> 
+ <!-- Events:-->
+ <aura:registerEvent name="cmpEvent" type="c:CancelScheduledEvt" />
+ <!-- methods:-->
+ <aura:method name="execute" action="{!c.doExecute}" access="public" />
+ <aura:method name="close" action="{!c.closepopup}" access="public" />
+ <aura:handler name="closeEvent" event="c:CloseScheduledEvt" action="{!c.closefovpopup}" />
+ <!-- component body:-->
+ <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
+ <c:Popup
+     aura:id="Show_WarningPoP_Up"
+     title="{!v.title}"
+     showClose="true"
+     size="small"
+     showScroll="false"
+     showFooter="false"
+     actionfovpopup="true"
+ >
+     <div class="slds-grid slds-grid_vertical">
+         <p style="line-height:1.6">{!$Label.c.CancelfovWarning}&nbsp;
+            <b>
+             <lightning:formattedDateTime
+                                     value="{!v.fovDate}"
+                                     month="short"
+                                     day="numeric"
+                                     year="numeric"
+                                     /><aura:if isTrue="{!!v.isFovnull}">,</aura:if>&nbsp;
+             <lightning:formattedTime value="{!v.fovTime}" />
+             </b>&nbsp; {!$Label.c.CancelfovWarnings}</p>
+         <br />
+     </div>
+     <div class="slds-align_absolute-center">
+         <button
+             class="apollo-btn secondary"
+             data-gtm="BTN_Invite_Referring_Provider"
+             onclick="{!c.closepopup}"
+         >
+             {!$Label.c.BTN_Cancel}
+         </button>
+         <button
+             class="apollo-btn primary"
+             data-gtm="BTN_Invite_Referring_Provider"
+             onclick="{!c.doProceed}"
+         >
+           {!$Label.c.Proceed}
+         </button>
+     </div>
+      
+ </c:Popup>
+   
+</aura:component>

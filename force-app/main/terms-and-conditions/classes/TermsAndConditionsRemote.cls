@@ -33,17 +33,21 @@ public without sharing class TermsAndConditionsRemote {
     @AuraEnabled
     public static string generatePDF(Id ppId){
         Id contId;
+        string retUrl;
 
         try{
             ContentDocumentLink cdl = new ContentDocumentLink();
+            ContentDistribution contDist = new ContentDistribution();
             cdl = [SELECT Id,ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: ppId];
           // con = [SELECT Id, Title FROM ContentDocument WHERE Id =: cdl.ContentDocumentId];
            contId = cdl.ContentDocumentId;
+           contDist = [Select Id,ContentDownloadUrl from ContentDistribution  where ContentDocumentId =: cdl.ContentDocumentId ];
+           retUrl = contDist.ContentDownloadUrl;
         }catch(Exception e){
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
-        string retUrl = URL.getOrgDomainUrl().toExternalForm() + 
-                        '/sfc/servlet.shepherd/document/download/'+ contId +'?operationContext=S1';
+        /*string retUrl = URL.getOrgDomainUrl().toExternalForm() + 
+                        '/sfc/servlet.shepherd/document/download/'+ contId +'?operationContext=S1';*/
         return retUrl;
     }
 

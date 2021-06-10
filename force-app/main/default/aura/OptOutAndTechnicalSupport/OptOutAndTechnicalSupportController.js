@@ -14,7 +14,7 @@
                 for (let item of retValue) {
                     if (
                         item.strCategoryValue ===
-                        'Opt Out of communication from IQVIA Referral Hub and IQVIA Patient Portal'
+                        'Opt Out of communication'
 
                     ) {
                         component.set('v.optOutTranslatedTitle', item.strTranslatedCategoryValue);
