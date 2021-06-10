@@ -10,6 +10,7 @@
 }
 
 .THIS .arabic {
+    /* @noflip */
     direction: rtl !important;
     padding-bottom: 100px;
 }
@@ -23,9 +24,11 @@
     height: 20px;
 }
 .THIS .resource-icon-rtl {
+    /* @noflip */
     margin-left: -220px;
     flex-shrink: 0;
     height: 20px;
+    /* @noflip */
     margin-left: -8px;
 }
 
@@ -55,7 +58,9 @@
     overflow: hidden;
     white-space: nowrap;
     display: inline-block;
+    /* @noflip */
     padding-right: 20px;
+    /* @noflip */
     margin-left: -15px;
 }
 
@@ -132,6 +137,7 @@
 }
 
 .THIS .sidepaddingleft-rtl {
+    /* @noflip */
     padding-left: 20px;
 }
 

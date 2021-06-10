@@ -3331,6 +3331,27 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+     <labels>
+        <fullName>Cancel_Scheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Scheduled Visit</shortDescription>
+        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarning</shortDescription>
+        <value>Changing to this status will cancel the scheduled visit</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarnings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarnings</shortDescription>
+        <value>for this participant&apos;s initial visit. Are you sure you want to proceed?</value>
+    </labels>
     <labels>
         <fullName>Case_sub_transfer_to_new_site</fullName>
         <categories>Case</categories>
@@ -4305,6 +4326,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
         <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Referral Hub or IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Download_PDF_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download PDF pp</shortDescription>
+        <value>Download PDF</value>
     </labels>
     <labels>
         <fullName>Download_Trial_Match</fullName>
@@ -8409,6 +8437,13 @@ The expected format is REF##### to REF########</value>
         <value>Changes will be saved as you go to the next page!</value>
     </labels>
     <labels>
+        <fullName>ISO_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ISO Download Template</shortDescription>
+        <value>ISO Language Guide</value>
+    </labels>
+    <labels>
         <fullName>IWRSIWRS_ID</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8682,7 +8717,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Initial_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8753,12 +8788,12 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
     </labels>
-	<labels>
-        <fullName>ISO_Download_Template</fullName>
+     <labels>
+        <fullName>Initial_Visit_modified</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ISO Download Template</shortDescription>
-        <value>ISO Language Guide</value>
+        <shortDescription>Initial Visit modified</shortDescription>
+        <value>Initial Visit modified</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
@@ -8794,6 +8829,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>June</shortDescription>
         <value>June</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_pp_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated pp text</shortDescription>
+        <value>Last Updated:</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>
@@ -8922,7 +8964,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>ListView_Current_Status</shortDescription>
         <value>Current Status</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ListView_GroupStatuses</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9030,6 +9072,14 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Lofi Logo Subtitle</shortDescription>
         <value>Connecting professionals, patients and clinical researchers for better healthcare</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Optimized_Message</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lofi Optimized Message</shortDescription>
+        <value>This product is optimized for Google Chrome and Safari.&lt;br/&gt;You may experience less than optimal experience with other browsers</value>
     </labels>
     <labels>
         <fullName>Lofi_Unable_to_Login</fullName>
@@ -16264,7 +16314,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EmailSent</shortDescription>
-        <value>If there's an account linked to this username, we'll send over instructions to reset your password.</value>
+        <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16377,6 +16427,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_IncludeAnythree</shortDescription>
         <value>And include any 3 below</value>
+    </labels>
+    <labels>
+        <fullName>PP_InvalidUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidUsername</shortDescription>
+        <value>Invalid username</value>
     </labels>
     <labels>
         <fullName>PP_InvalidYear</fullName>
@@ -17575,6 +17632,13 @@ communications using the toggles below.</value>
         <value>Principal Investigator</value>
     </labels>
     <labels>
+        <fullName>Privacypolicy_pdf_headers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Privacypolicy_pdf_headers</shortDescription>
+        <value>Our Commitment to Privacy,The Information we recieve,User Input,Actively Submitted Data,Web Logos</value>
+    </labels>
+    <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17594,6 +17658,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+     <labels>
+        <fullName>Proceed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Proceed</shortDescription>
+        <value>Proceed</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>
@@ -19549,13 +19620,6 @@ communications using the toggles below.</value>
         <value>This study</value>
     </labels>
     <labels>
-        <fullName>Study_Hub</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Study_Hub</shortDescription>
-        <value>Study Hub</value>
-    </labels>    
-    <labels>
         <fullName>StudyVisit_Ad_hoc_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19761,6 +19825,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Document For RTL</shortDescription>
         <value>Study Document</value>
+    </labels>
+    <labels>
+        <fullName>Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Hub</shortDescription>
+        <value>Study Hub</value>
     </labels>
     <labels>
         <fullName>Study_Name</fullName>

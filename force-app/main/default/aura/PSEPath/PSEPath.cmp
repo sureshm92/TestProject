@@ -17,6 +17,7 @@
     <aura:attribute name="isInvited" type="Boolean" default="false" access="public" />
 
     <aura:attribute name="isHidden" type="Boolean" default="false"/>
+     <aura:attribute name="viewMore" type="Boolean" default="true" />
 
 
     <!-- handler: -->

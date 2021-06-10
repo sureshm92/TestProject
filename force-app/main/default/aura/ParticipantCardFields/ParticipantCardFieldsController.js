@@ -9,7 +9,8 @@
         component.set('v.viewMore', false);
     },
 
-    viewMore: function (component, event, helper) {
+  /*  per REF-4163 
+   viewMore: function (component, event, helper) {
         component.set('v.viewMore', true);
-    }
+    } */
 });

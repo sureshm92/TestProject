@@ -17,7 +17,7 @@
     }
 
     .THIS:nth-child(6) {
-        order: 7;
+      /*  order: 7; */
     }
 
     .THIS.rr-form-element {

@@ -15,7 +15,18 @@
                                 visitResultsMode: component.get('v.visitReportHeader')
                             },
                             function (returnValue) {
-                                component.set('v.toggleVitalsIsOn', returnValue);
+                                if (returnValue) {
+                                    communityService.executeAction(
+                                        component,
+                                        'showVisitResults',
+                                        {
+                                        },
+                                        function (response) {
+                                            let toggleValue = returnValue && response;
+                                            component.set('v.toggleVitalsIsOn', toggleValue);
+                                        }
+                                    );
+                                }
                             }
                         );
                     }

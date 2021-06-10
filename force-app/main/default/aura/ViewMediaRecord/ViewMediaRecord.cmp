@@ -51,7 +51,7 @@
 
 <!-- component body:-->
 <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-<c:Popup
+<c:PopupRTL
 aura:id="ShowPoP_Up"
 title="{!$Label.c.Request+' '+v.ViewRecord[0].Name}"
 showClose="true"
@@ -281,7 +281,7 @@ childpopup="true"
 </div>
 <aura:set attribute="footerButtons">
 <c:RRSpinner aura:id="modalSpinner" size="medium" showSpinner="false" />
-<button
+<button style="{!if(v.isRTL, 'margin-left: 320px;','')}"
      class="apollo-btn"
      onclick="{!c.CancelPoPUp}"
      disabled="{!v.buttonDisable}"
@@ -289,9 +289,10 @@ childpopup="true"
      >
  {!$Label.c.BTN_Close}
 </button>
-<aura:if isTrue="{!v.footerbutton}">
- <div class="slds-float_right">
-     <button style="{!if(v.isRTL, 'margin-left: 15px;','')}"
+<aura:if isTrue="{!v.footerbutton}" >
+ <div class="slds-float_right" >
+     <button 
+             style="{!if(v.isRTL, 'margin-left: 15px;','')}"
              class="apollo-btn secondary"
              onclick="{!c.CancelRequest}"
              data-gtm="BTN_CancelInvitePopUp"
@@ -311,7 +312,7 @@ childpopup="true"
  </div>
 </aura:if>
 </aura:set>
-</c:Popup>
+</c:PopupRTL>
 
 <!-- CancelRequest Popup:-->
 <c:CancelreqConfirmation aura:id="CancelRequest" recordid="{!v.ViewRecordId}" />
