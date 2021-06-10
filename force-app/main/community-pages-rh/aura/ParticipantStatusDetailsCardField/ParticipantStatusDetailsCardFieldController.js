@@ -17,6 +17,9 @@
         let updateInProgress = component.get('v.updateInProgress');
         let previousValue = component.get('v.previousValue');
         console.log('#updateInProgress: ' + updateInProgress);
+        if (field.type === 'date' || field.type === 'time') {
+            component.set('v.validateFOV',true);
+         }
         if (!updateInProgress) {
             if (parent !== null && field !== undefined && field.value !== previousValue) {
                 let populateFields =

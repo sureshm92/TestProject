@@ -3331,6 +3331,27 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+     <labels>
+        <fullName>Cancel_Scheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Scheduled Visit</shortDescription>
+        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarning</shortDescription>
+        <value>Changing to this status will cancel the scheduled visit</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarnings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarnings</shortDescription>
+        <value>for this participant&apos;s initial visit. Are you sure you want to proceed?</value>
+    </labels>
     <labels>
         <fullName>Case_sub_transfer_to_new_site</fullName>
         <categories>Case</categories>
@@ -8766,6 +8787,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
+    </labels>
+     <labels>
+        <fullName>Initial_Visit_modified</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit modified</shortDescription>
+        <value>Initial Visit modified</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
@@ -17630,6 +17658,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+     <labels>
+        <fullName>Proceed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Proceed</shortDescription>
+        <value>Proceed</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>

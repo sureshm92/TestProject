@@ -570,6 +570,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
        	List<Participant_Enrollment_Status_History__c> historiestoupdate = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
+        Set<Id> invitedContactIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : enrollments) {
@@ -589,8 +590,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         )
                     );
                     peListForTaskCreation.add(pe);
-                    if (pe.Participant_Contact__c != null)
+                    if (pe.Participant_Contact__c != null){
                         participantContactIds.add(pe.Participant_Contact__c);
+                        if(pe.Invited_To_PP_Date__c !=null){
+                            invitedContactIds.add(pe.Participant_Contact__c);
+                        }
+                    }
                 }
             } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
                 if (
@@ -622,16 +627,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         )
                     );
                     peListForTaskCreation.add(pe);
-                    if (pe.Participant_Contact__c != null)
+                    if (pe.Participant_Contact__c != null){
                         participantContactIds.add(pe.Participant_Contact__c);
+                        if(pe.Invited_To_PP_Date__c !=null){
+                            invitedContactIds.add(pe.Participant_Contact__c);
+                        }
+                    }
                 }
             } else if (oldMap == null) {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
                     pe.Clinical_Trial_Profile__c
                 );
-                if (pe.Participant_Contact__c != null)
+                if (pe.Participant_Contact__c != null){
                     participantContactIds.add(pe.Participant_Contact__c);
+                    if(pe.Invited_To_PP_Date__c !=null){
+                        invitedContactIds.add(pe.Participant_Contact__c);
+                    }
+                }
 
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
@@ -656,7 +669,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             upsert histories;
         }        
         createTasks(peListForTaskCreation);
-        PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds);
+        PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds, invitedContactIds);
 
         if (!notifications.isEmpty())
             insert notifications;
