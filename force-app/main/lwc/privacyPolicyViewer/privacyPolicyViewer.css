@@ -147,7 +147,7 @@
     cursor: pointer;
 }
 
-@media all and (max-width: 767px) {
+@media all and (max-width: 768px) {
     .ppLabel {
         color: #ffffff;
     }
