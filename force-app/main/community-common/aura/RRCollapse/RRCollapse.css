@@ -28,6 +28,7 @@
     transform: rotate(90deg);
     position: relative;
     top: -1px;
+    /* @noflip */
     margin-right: 10px;
 }
 
