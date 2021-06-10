@@ -130,6 +130,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
         System.debug('updateCdMap: '+updateCdMap);
         System.debug('cdlPpMap: '+cdlPpMap);
         List<ContentVersion> conVerList = new List<ContentVersion>();
+        List<ContentDocumentLink> condlList = new List<ContentDocumentLink>();
         for(Id conDocId : updateCdMap.keySet())
         {
             
@@ -151,6 +152,17 @@ public without sharing class TermsAndConditionsTriggerHandler {
             if(conVerList!=null && !conVerList.isEmpty()){
                 Insert conVerList;
             }
+            for(ContentVersion conv : conVerList)
+            {
+                ContentDistribution cdist = new ContentDistribution(
+                Name = conv.Title,
+                ContentVersionId = conv.Id
+                );
+                conDist.add(cdist);
+            }
+            if(conDist!=null && !conDist.isEmpty()){
+                insert conDist;
+            }
         }catch(Exception e)
         {
            throw new TCTriggerHandlerException('ContentVersion insert error'+e.getMessage());
@@ -161,6 +173,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
         
         List<ContentVersion> conVerList = new List<ContentVersion>();
         List<ContentDocumentLink> condlList = new List<ContentDocumentLink>();
+        List<ContentDistribution> conDist = new List<ContentDistribution>();
         Set<Id> contvIds = new Set<Id>();
         Map<String,ContentVersion> conDocMap = new Map<String,ContentVersion>();
         try
@@ -182,10 +195,19 @@ public without sharing class TermsAndConditionsTriggerHandler {
                 }
                 if(conVerList!=null && !conVerList.isEmpty()){
                     insert conVerList;
+                
+                    for(ContentVersion conv : conVerList)
+                    {
+                        contvIds.add(conv.Id);
+                        ContentDistribution cdist = new ContentDistribution(
+                        Name = conv.Title,
+                        ContentVersionId = conv.Id
+                        );
+                        conDist.add(cdist);
+                    }
                 }
-                for(ContentVersion conv : [SELECT Id FROM ContentVersion])
-                {
-                    contvIds.add(conv.Id);
+                if(conDist!=null && !conDist.isEmpty()){
+                    insert conDist;
                 }
                 System.debug('contvIds: '+contvIds);
                 for(ContentVersion conDoc : [SELECT Id,ContentDocumentId,ContentDocument.Title,ContentDocument.Description FROM ContentVersion WHERE Id IN :contvIds])
