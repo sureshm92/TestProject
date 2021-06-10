@@ -19492,6 +19492,20 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
+	 <labels>
+        <fullName>Send_IPREmailReport_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Body</shortDescription>
+        <value>Please find the attached report for the failed EPR records.</value>
+    </labels>
+    <labels>
+        <fullName>Send_IPREmailReport_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Subject</shortDescription>
+        <value>EPR Failed Report</value>
+    </labels>
     <labels>
         <fullName>Sent_to_Study_Hub</fullName>
         <language>en_US</language>
