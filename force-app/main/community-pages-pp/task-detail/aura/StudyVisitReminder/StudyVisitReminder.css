@@ -57,11 +57,11 @@
     width: 300px;
 }
 
-.THIS .taskClass > .slds-form-element__help{
-    margin-top:4px;
+.THIS .taskClass > .slds-form-element__help {
+    margin-top: 4px;
 }
-.THIS .wi > .slds-form-element__help{
-    margin-top:4px;
+.THIS .wi > .slds-form-element__help {
+    margin-top: 4px;
 }
 
 .THIS .slds-gutters .slds-p-top_largetask-rtl.rightAlign1 {
@@ -132,7 +132,6 @@
     font-weight: 500;
 }
 
-
 .THIS .label {
     height: 24px;
     width: 209.13px;
@@ -175,20 +174,20 @@
     margin-left: -112px;
     margin-top: -1px;
 }
-.THIS .tbl table{
-    width:80%;
+.THIS .tbl table {
+    width: 80%;
 }
 
-.THIS .reminderDate_rtl{
+.THIS .reminderDate_rtl {
     margin-top: -1px;
-    margin-right:-16px;
+    margin-right: -16px;
 }
-.THIS .reminderDate_visrtl{
+.THIS .reminderDate_visrtl {
     margin-top: -1px;
     margin-right: -97px;
 }
-.THIS .vis_reminder{
-    margin-left:-99px;
+.THIS .vis_reminder {
+    margin-left: -99px;
     margin-top: -1px;
 }
 .THIS .reminder {
@@ -248,7 +247,6 @@
     margin-right: 10.5rem;
 }
 
-
 .THIS .slds-p-top_largetask-rtl {
     margin-top: 24px;
 }
@@ -272,6 +270,7 @@
     font-family: 'Proxima Nova';
     border: none;
     box-shadow: none;
+    /* @noflip */
     text-align: right;
 }
 
@@ -348,10 +347,11 @@
 }
 
 .THIS .task-rtl > .slds-form-element {
+    /* @noflip */
     direction: rtl !important;
+    /* @noflip */
     text-align: right;
 }
-
 
 .THIS .te-col-changeNotif {
     font-size: 14px;
@@ -394,16 +394,16 @@
 
 .THIS.arabic .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2,
 .THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2 {
-    width: auto!important;
+    width: auto !important;
 }
 
 .THIS.arabic .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2.reminderDate_visrtl,
 .THIS.hebrew .dateInputs > .slds-grid.slds-p-top_large > .slds-size_1-of-2.reminderDate_visrtl {
+    /* @noflip */
     margin-right: 8px;
 }
 
 @media (max-width: 768px) {
-
     .THIS .slds-form-element__help {
         margin-top: 3px;
     }
@@ -412,14 +412,12 @@
         padding-bottom: 15px;
     }
 
-    .THIS [type="datetime-local"]  {
+    .THIS [type='datetime-local'] {
         width: 250px;
         min-width: 250px;
     }
-
 }
 @media (max-width: 468px) {
-
     .THIS .p-header.normal {
         padding-top: 40px;
     }
@@ -440,23 +438,23 @@
         z-index: 1000;
     }
 
-    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+7) .tooltiptext {
-        top: 70px
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n + 7) .tooltiptext {
+        top: 70px;
     }
 
-    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+13) .tooltiptext {
-        top: 110px
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n + 13) .tooltiptext {
+        top: 110px;
     }
 
-    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+19) .tooltiptext {
-        top: 140px
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n + 19) .tooltiptext {
+        top: 140px;
     }
 
-    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n+25) .tooltiptext {
-        top: 180px
+    .THIS .cRRIconSplitter .icons-row .icon:nth-of-type(n + 25) .tooltiptext {
+        top: 180px;
     }
 
-    .THIS .te-col-header-info+.te-form>.slds-col:first-child input {
+    .THIS .te-col-header-info + .te-form > .slds-col:first-child input {
         width: 100%;
     }
 
@@ -476,7 +474,7 @@
         margin-bottom: 15px;
     }
 
-    .THIS .rr-white-panelRTL > .te-form:nth-of-type(n+6) {
+    .THIS .rr-white-panelRTL > .te-form:nth-of-type(n + 6) {
         margin-bottom: 0;
     }
 
@@ -509,7 +507,7 @@
     }
 
     .THIS .slds-checkbox {
-        padding-bottom: 25px
+        padding-bottom: 25px;
     }
 
     .THIS .reminderDate .slds-input,
@@ -520,10 +518,7 @@
     .THIS .te-task-panel .slds-checkbox {
         padding-bottom: 20px;
     }
-
-
 }
-
 
 @media only screen and (max-width: 500px) and (orientation: portrait) {
     .THIS .rr-white-panel {
@@ -583,7 +578,7 @@
 
     .THIS .container1 {
         height: auto;
-        width: 100%
+        width: 100%;
     }
 
     .THIS.cPopup #p-modal .p-container .p-mobile-close {
@@ -593,7 +588,6 @@
     .THIS .te-form > .slds-col:first-child input {
         width: 100%;
     }
-
 }
 
 @media only screen and (max-width: 360px) and (orientation: portrait) {

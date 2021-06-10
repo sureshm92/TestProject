@@ -26,12 +26,14 @@
 }
 
 .THIS .rtlMain {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
     padding-right: 30px;
 }
 
 .THIS .rtlHover {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS .item-line {
@@ -72,6 +74,7 @@
     color: #0768fd;
 }
 .THIS .subtitleRTL {
+    /* @noflip */
     text-align: right;
 }
 
@@ -115,6 +118,7 @@
     margin-left: 21px;
 }
 .THIS .icon-boxRTL {
+    /* @noflip */
     margin-right: 25px;
 }
 
@@ -190,7 +194,8 @@
     height: auto;
     word-break: break-all;
     white-space: normal;
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
     text-align: right;
     width: max-content;
     float: right;
