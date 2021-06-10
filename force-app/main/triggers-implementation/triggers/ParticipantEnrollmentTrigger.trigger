@@ -48,5 +48,8 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+    );
 
 }

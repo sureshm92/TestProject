@@ -10792,7 +10792,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>Opt Out of communication from IQVIA Referral Hub and IQVIA Patient Portal</value>
+        <value>Opt Out of communication</value>
     </labels>
     <labels>
         <fullName>Opt_Out_Success_Message</fullName>
