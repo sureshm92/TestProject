@@ -152,6 +152,13 @@
     background-color: #f8f9fb;
     padding: 10px;
 }
+.THIS .ah-item-panel-merge {
+    box-sizing: border-box;
+    background-color: #f8f9fb;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+}
 .THIS .ah-item-panel-usr{
     box-sizing: border-box;
     background-color: #f8f9fb;

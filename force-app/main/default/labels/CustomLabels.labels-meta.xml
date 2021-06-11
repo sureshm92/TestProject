@@ -4406,6 +4406,13 @@ By using our website, you are accepting our use of cookies.</value>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
     </labels>
     <labels>
+        <fullName>EmailWarningMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EmailWarningMessage</shortDescription>
+        <value>Updating your email address will not change your login username. You may submit a request to update or merge your username by submitting a ticket from the</value>
+    </labels>
+    <labels>
         <fullName>Email_Action_Complete_Baseline_Survey</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16263,7 +16270,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_DuplicateUsernames</shortDescription>
-        <value>Duplicate usernames are associated with your email  &lt;b&gt;##Email&lt;/b&gt;. Please choose one of the following to use.</value>
+        <value>There are multiple usernames associated with this email. Please choose the user name that you would like to use.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>
@@ -16471,6 +16478,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I want to match my username</value>
     </labels>
     <labels>
+        <fullName>PP_MatchUsr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchUsr</shortDescription>
+        <value>We will attempt to match your username with your email.</value>
+    </labels>
+    <labels>
         <fullName>PP_MeetingCriteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16478,11 +16492,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Password is meeting criteria</value>
     </labels>
     <labels>
+        <fullName>PP_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Merge</shortDescription>
+        <value>I would like to merge my existing accounts</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeDntTranslate</shortDescription>
+        <value>I want to merge my existing usernames</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeExisting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeExisting</shortDescription>
+        <value>Merge existing usernames</value>
+    </labels>
+    <labels>
         <fullName>PP_MergeUsersDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_MergeUsersDntTranslate</shortDescription>
         <value>I have duplicate usernames. I want to use my username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeUsrNamesDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsrNamesDntTranslate</shortDescription>
+        <value>Request to Merge Usernames</value>
     </labels>
     <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
@@ -16532,6 +16574,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Page</shortDescription>
+        <value>Page</value>
     </labels>
     <labels>
         <fullName>PP_Participant</fullName>
@@ -16734,6 +16783,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Remove_Photo</shortDescription>
         <value>Remove Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_RequestSubmitted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RequestSubmitted</shortDescription>
+        <value>Request has been submitted successfully</value>
     </labels>
     <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
@@ -16966,14 +17022,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_UsrNameLabel</shortDescription>
-        <value>Username associated with your email &lt;b&gt;##Email&lt;/b&gt;.</value>
+        <value>Your current email is: &lt;b&gt;##Email&lt;/b&gt;.</value>
     </labels>
     <labels>
         <fullName>PP_UsrNameUpdateDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_UsrNameUpdateDntTranslate</shortDescription>
-        <value>Username Update</value>
+        <value>Request to Match Username to Email</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -17032,6 +17088,13 @@ communications using the toggles below.</value>
         <value>Visit Time</value>
     </labels>
     <labels>
+        <fullName>PP_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17053,14 +17116,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_YOBUpdateDntTranslate</shortDescription>
-        <value>YOB Update</value>
+        <value>Request to Update YOB</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrMergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrMergeDntTranslate</shortDescription>
+        <value>Request to Update YOB and Merge UserName</value>
     </labels>
     <labels>
         <fullName>PP_YOBUsrUpdateDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
-        <value>YOB Update,Username Update</value>
+        <value>Request to Update YOB and Match UserName</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>

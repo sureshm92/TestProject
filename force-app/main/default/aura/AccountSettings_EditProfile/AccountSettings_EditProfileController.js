@@ -436,6 +436,9 @@
             }, 800);
         }
     },
+    navigateToHelpPage: function (component, event, helper) {
+       communityService.navigateToPage('help');  
+    },
 
     doUpdatePerson: function (component, event, helper) {
         var per = component.get('v.personWrapper');

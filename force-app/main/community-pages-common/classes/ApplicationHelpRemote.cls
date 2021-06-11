@@ -19,6 +19,7 @@ public without sharing class ApplicationHelpRemote {
         Participant__c participant;
         String usrName;
         String usrEmail;
+        Boolean isDuplicate = false;
 
     }
 
@@ -34,12 +35,30 @@ public without sharing class ApplicationHelpRemote {
                     initData.myContact.userCommunityDelegateId__c
                 );
             }
-            system.debug('userContact-->' + initData.myContact);
+            List<Id> duplicateIds = new List<Id>();
+                    if(UserContext.isParticipant()){
+         Participant__c participant = ParticipantContext.getCurrentParticipant(); 
+        List<Participant__c> duplicateCons = [Select Id,Email__c,First_Name__c,Last_Name__c,Contact__c from Participant__c where Email__c = :participant.Email__c AND First_Name__c =: participant.First_Name__c AND Last_Name__c =: participant.Last_Name__c];
+        for (Participant__c duplicatelst : duplicateCons){
+            duplicateIds.add(duplicatelst.Contact__c);
+        }
+        }else{
+            Contact con = AccountSettingsController.getCurrentContact();
+            List<Contact> duplicateCons = [Select Id,Email,FirstName,LastName from Contact where Email = :con.Email AND FirstName =: con.FirstName AND LastName =: con.LastName AND userCommunytyType__c != 'CC'];
+            for (Contact duplicatelst : duplicateCons){
+            duplicateIds.add(duplicatelst.Id);
+        }
+        }
+        List<User> loggedInUser = [Select Id,Email,Username,createddate from User where ContactId in:duplicateIds order by createddate];
+            if(loggedInUser != null && loggedInUser.size()>1){
+                initData.isDuplicate = true;
+            }
             if(initData.myContact.Id != NULL){
                 if(UserContext.isParticipant()){
                 initData.participant = [SELECT Id,Birth_Year__c FROM Participant__c WHERE Contact__c = :initData.myContact.Id][0];
                 }
                 }
+            
             String communityTemplateName = UserContext.getCurrentCommunityTemplate().templateName;
             List<Guides_Setting__mdt> guidesSettings = [
                 SELECT
@@ -79,10 +98,14 @@ public without sharing class ApplicationHelpRemote {
                     initData.videoLink = setting.HCP_Video_Guide__c;
                     initData.userManual = setting.HCP_User_Manual__c;
                     initData.quickReference = setting.HCP_Quick_Reference__c;
+                    initData.usrName = UserInfo.getUserName();
+                    initData.usrEmail = UserInfo.getUserEmail();
                 } else if (userMode == 'PI') {
                     initData.videoLink = setting.PI_Video_Guide__c;
                     initData.userManual = setting.PI_User_Manual__c;
                     initData.quickReference = setting.PI_Quick_Reference__c;
+                    initData.usrName = UserInfo.getUserName();
+                    initData.usrEmail = UserInfo.getUserEmail();
                 } else {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;
@@ -90,6 +113,7 @@ public without sharing class ApplicationHelpRemote {
                     initData.yearOfBirth = ParticipantService.getYearofBirthList();
                     initData.usrName = UserInfo.getUserName();
                     initData.usrEmail = UserInfo.getUserEmail();
+                    system.debug('usrEmail-->'+UserInfo.getUserEmail());
                     if(!String.isEmpty(state.participant.Date_of_Birth__c)){
                       initData.currentYearOfBirth = state.participant.Date_of_Birth__c.split('-')[0];
                     }
@@ -161,16 +185,29 @@ public without sharing class ApplicationHelpRemote {
     @AuraEnabled
     public static List<LabelValueItem> validateUsername() {
         List<LabelValueItem> userNames = new List<LabelValueItem>();
-        //Contact con = AccountSettingsController.getCurrentContact();
-        //List<User> loggedInUser = [Select Id,Email,Username from User where Email = :con.Email];
-        List<User> loggedInUser = [Select Id,Email,Username,createddate from User where Email = :UserInfo.getUserEmail() order by createddate];
+        List<Id> duplicateIds = new List<Id>();
+        
+        if(UserContext.isParticipant()){
+         Participant__c participant = ParticipantContext.getCurrentParticipant(); 
+        List<Participant__c> duplicateCons = [Select Id,Email__c,First_Name__c,Last_Name__c,Contact__c from Participant__c where Email__c = :participant.Email__c AND First_Name__c =: participant.First_Name__c AND Last_Name__c =: participant.Last_Name__c];
+        for (Participant__c duplicatelst : duplicateCons){
+            duplicateIds.add(duplicatelst.Contact__c);
+        }
+        }else{
+            Contact con = AccountSettingsController.getCurrentContact();
+            List<Contact> duplicateCons = [Select Id,Email,FirstName,LastName from Contact where Email = :con.Email AND FirstName =: con.FirstName AND LastName =: con.LastName AND userCommunytyType__c != 'CC'];
+            for (Contact duplicatelst : duplicateCons){
+            duplicateIds.add(duplicatelst.Id);
+        }
+        }
+        List<User> loggedInUser = [Select Id,Email,Username,createddate from User where ContactId in:duplicateIds order by createddate];
         for(User usr:loggedInUser){
-            userNames.add(new LabelValueItem(usr.Username,usr.Username));
+           userNames.add(new LabelValueItem(usr.Username,usr.Username));
         }
         return userNames;
     }
     @AuraEnabled
-    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob){
+    public static void createYOBCase(String yob,Boolean username,String userEmail,String currentYob,Boolean mergeUserNames,List<String> usrList){
         List<Case> caseList = new List<Case>();
         String descValue = '';
         String sub='';
@@ -199,13 +236,22 @@ public without sharing class ApplicationHelpRemote {
                 if(userEmail == null){
                     userEmail= UserInfo.getUserName();
                 }
-                
-                descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
-                sub = Label.PP_UsrNameUpdateDntTranslate;
+                if(mergeUserNames!= null && mergeUserNames == true){
+                  descValue += ' '+ Label.PP_MergeDntTranslate + ' ' +String.join(usrList,' ') + ' '+Label.PP_To_DntTranslate + ' ' + userEmail;
+                  sub = Label.PP_MergeUsrNamesDntTranslate;
+                }else{
+                  descValue += ' '+ Label.PP_ChangeUsrname_DntTranslate+' '+userEmail+ ' '+Label.PP_ToEmailAddressDntTranslate+' '+UserInfo.getUserEmail();
+                  sub = Label.PP_UsrNameUpdateDntTranslate;
+                }
+               // sub = Label.PP_UsrNameUpdateDntTranslate;
             }
              if(!String.isEmpty(yob) && username!= null && username == true){
+                 if(mergeUserNames!= null && mergeUserNames == true){
+                    sub = Label.PP_YOBUsrMergeDntTranslate;                     
+                 }else{
+                    sub = Label.PP_YOBUsrUpdateDntTranslate; 
+                 }
                 
-                sub = Label.PP_YOBUsrUpdateDntTranslate;
             }   
             Case yobCase = new Case(
                 subject = sub,
