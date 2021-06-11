@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>SendFailedIPRReport__c</fullName>
+    <description>This field will be used if we want to include any other business person to send the report</description>
+    <externalId>false</externalId>
+    <fieldManageability>DeveloperControlled</fieldManageability>
+    <inlineHelpText>Enter the value for send report to business person else blank</inlineHelpText>
+    <label>SendFailedIPRReport</label>
+    <required>false</required>
+    <type>Email</type>
+    <unique>false</unique>
+</CustomField>
