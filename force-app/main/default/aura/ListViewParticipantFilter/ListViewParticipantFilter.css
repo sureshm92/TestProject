@@ -7,7 +7,59 @@
     z-index: 10000;
     position: fixed;
 }
-
+.THIS .pointer{
+    cursor: pointer;
+}
+.THIS .listStyle{
+    width: 228px;
+    font-size: 16px;
+    line-height: 22px;
+    font-style: inherit;
+    height: 22px;
+}
+.THIS .buttonstyle{
+    white-space: nowrap;
+}
+.THIS .current-status{
+    height: 27px;
+    width: 88px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+.THIS .received {
+  height: 27px;
+  width: 66px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .new-status {
+  height: 27px;
+  width: 70px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .referred {
+  height: 27px;
+  width: 62px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.THIS .reason {
+   height: 92px;
+  width: 240px;
+}
 .THIS .marginRight {
     
     margin-right: 0.23rem;
@@ -34,6 +86,16 @@
     align-items: stretch;
 }
 
+.THIS .export-all{
+    position: absolute; 
+    right: 0;
+}
+
+.THIS .export-all-RTL{
+    position: absolute; 
+    margin-right: 70px;
+  
+}
 .THIS .button-grid {
     display: flex;
     height: 100%;
@@ -223,7 +285,30 @@
 
 .THIS .tableSettings > div:first-child {
     display: inline-flex;
-    align-content: flex-start;
+    align-items: flex-end;
+}
+
+.THIS .tableSettings > .slds-large-size_1-of-2:first-child .slds-button_neutral,
+.THIS .tableSettings > .slds-large-size_1-of-2:first-child .apollo-btn.primary,
+.THIS .tableSettings > .slds-large-size_1-of-2:first-child .slds-select {
+    height: 40px;
+}
+
+.THIS .tableSettings > .slds-large-size_1-of-2:first-child .slds-button_neutral .slds-icon-utility-down {
+    margin-left: 5px;
+}
+
+.THIS .tableSettings .cancel-btn {
+    padding-right:15px;
+    font-size:16px; 
+    height: 40px; 
+    padding-top:5px;
+}
+
+.THIS .tableSettings > .slds-large-size_1-of-2:first-child > .slds-form-element {
+    margin-top: -20px;
+    margin-right: 25px;
+    min-width: 168px;
 }
 
 .THIS .tableSettings span {
@@ -318,6 +403,27 @@
     padding-bottom: 15px;
 }
 
+@media all and (max-width: 1100px) {
+    
+    .THIS .tableSettings {
+        flex-direction: column-reverse;
+    }
+    
+    .THIS .tableSettings > .slds-col.slds-large-size_1-of-2 {
+        min-width: 100%;
+    }
+
+    .THIS .tableSettings > .slds-col:last-child {
+        margin-bottom: 1.5rem;
+        display: flex;
+        justify-content: flex-start;
+    }
+    
+    .THIS .tableSettings>.slds-large-size_1-of-2:first-child>.slds-form-element {
+        margin-top: 0;
+    }
+}
+
 @media all and (max-width: 1024px) {
     .THIS .button-grid {
         padding-top: 10px;
@@ -351,13 +457,27 @@
     .THIS .study-Info {
         margin-bottom: 0.5rem;
     }
-
-    .THIS .tableSettings {
-        flex-direction: column-reverse;
+    
+    .THIS .filter-card > .slds-large-size_3-of-12 {
+        justify-content: space-between;
+        align-items: flex-end;
+        display: flex;
+        flex-direction: row;
+    }
+    
+    .THIS .filter-card > .slds-large-size_3-of-12 .export-all{
+     	position: relative;   
+    }
+    
+     .THIS .apollo-btn.secondary.mrc-invite-btn {
+        margin-right: 0;
     }
 
-    .THIS .tableSettings > .slds-col:last-child {
-        margin-bottom: 1.5rem;
+}
+
+@media all and (max-width: 768px) {
+ 	.THIS .tableSettings .cRrSelect .slds-select_container:after {
+        top: 12px;
     }
 }
 
@@ -367,7 +487,7 @@
     }
 
     .THIS .filter-card div:last-child > .button-grid {
-        margin: 0 0 0.75rem;
+        margin: 0;
     }
 
     .THIS .filter-card {
@@ -518,9 +638,13 @@
     .THIS .demographics {
         padding-top: 0;
     }
+    
+    .THIS .filter-card>.slds-large-size_3-of-12 {
+        padding: 15px;
+    }
 }
 
-@media all and (max-width: 500px) {
+@media all and (max-width: 468px) {
     .THIS .button-grid {
         padding: 0 1rem;
         justify-content: space-between;
@@ -552,9 +676,29 @@
     .THIS .source {
         padding-bottom: 0;
     }
-
-    .THIS .tableSettings,
-    .THIS .tableSettings > div:first-child {
+    
+     .THIS .filter-card > .slds-large-size_3-of-12 {
+        flex-direction: column;
+    	align-items: center;
+    	padding: 25px 15px 15px;
+    }
+    
+    .THIS .filter-card > .slds-large-size_3-of-12 .export-all,
+    .THIS .filter-card > .slds-large-size_3-of-12 .export-all .slds-button {
+        width: 100%;
+    }
+    
+	.THIS .filter-card div:last-child>.button-grid {
+    	margin: 25px 0 0;  
+        width: 100%;
+        padding: 0;
+    }
+    
+	.THIS .filter-card .searchHead {
+        width: 75%;
+    }    
+    
+    .THIS .tableSettings{
         flex-direction: column-reverse;
     }
 
@@ -570,17 +714,18 @@
         width: 100%;
     }
 
-    .THIS .tableSettings > div:last-child {
+    .THIS .tableSettings > div:last-child,
+    .THIS .tableSettings > div:first-child {
         display: flex;
         flex-direction: column;
         padding: 0;
+        align-items: flex-start;
     }
 
     .THIS .tableSettings > div:last-child > div:first-child {
         margin: 0 0 1rem;
         display: flex;
-        width: 100%;
-        align-items: center;
+        width: 100%;      
     }
 
     .THIS .tableSettings > div:last-child > div:last-child {
@@ -589,6 +734,23 @@
         width: 100%;
         align-items: center;
         justify-content: space-between;
+    }
+    
+    .THIS .tableSettings>.slds-large-size_1-of-2:first-child>.slds-form-element {
+        min-width: 100%;
+    	margin: 0;
+    }
+    
+    .THIS .tableSettings>.slds-large-size_1-of-2:first-child .apollo-btn.primary {
+        margin: 25px 0 0;
+    }
+    
+    .THIS .tableSettings .cancel-btn {
+        order: 4;
+        display: inline-block;
+        margin-top: 25px;
+        align-self: center;
+        padding: 0;
     }
 
     .THIS .sendButtons {
@@ -616,6 +778,7 @@
         height: 75px;
     }
 }
+
 .THIS.ListViewHead {
     display: flex;
     justify-content: space-between;

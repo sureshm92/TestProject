@@ -30,10 +30,10 @@ public without sharing class PaginationData {
         this.pageRecordsCount = pageRecordsCount;
         currentPage = 1;
         recordCountVariants = new List<LabelValueItem>{
-            new LabelValueItem('5', '5'),
-            new LabelValueItem('10', '10'),
-            new LabelValueItem('25', '25'),
-            new LabelValueItem('50', '50')
+            new LabelValueItem(Label.Pagination_No_5, '5'),
+            new LabelValueItem(Label.Pagination_No_10, '10'),
+            new LabelValueItem(Label.Pagination_No_25, '25'),
+            new LabelValueItem(Label.Pagination_No_50, '50')
         };
     }
 
@@ -50,7 +50,7 @@ public without sharing class PaginationData {
         allPagesDecimal = allPagesDecimal.round(System.RoundingMode.UP);
         pagesCount = allPagesDecimal.intValue();
         if (currentPage > pagesCount)
-            currentPage = 1;
+           if(pagesCount == 0){currentPage = 1;}else{currentPage = pagesCount;}
         offset = (currentPage - 1) * pageRecordsCount;
         endOffset = offset + pageRecordsCount;
         if (endOffset > allRecordsCount)

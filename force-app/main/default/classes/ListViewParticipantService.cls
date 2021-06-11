@@ -18,6 +18,9 @@ public without sharing class ListViewParticipantService {
             'AND Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c = \'' +
             communityTemplate +
             '\'';
+        List<String> SS_COMMON_CUSTOM_FIELDS = new List<String>();
+        SS_COMMON_CUSTOM_FIELDS.addAll(StudySiteService.SS_COMMON_FIELDS);
+        SS_COMMON_CUSTOM_FIELDS.add('Clinical_Trial_Profile__r.Promote_to_SH__c');
         if (mode == CommunityService.USER_MODE_HCP) {
             List<HCP_Enrollment__c> hcpEnrollments = HCPEnrollmentService.getHCPEnrollmentsCommon(
                 mode,
@@ -54,13 +57,14 @@ public without sharing class ListViewParticipantService {
             List<Study_Site__c> studySitesTmp = StudySiteService.getStudySitesCommon(
                 CommunityService.USER_MODE_PI,
                 communityFilter,
-                false
+                false,
+                SS_COMMON_CUSTOM_FIELDS
             );
             for (Study_Site__c ss : studySitesTmp)
                 trials.add(ss.Clinical_Trial_Profile__r);
             trialsMap.putAll(trials);
             if (restrictTrial && trialId != null && trialsMap.containsKey(trialId)) {
-                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId);
+                studySites = StudySiteService.getStudySiteForPIByTrialId(trialId, SS_COMMON_CUSTOM_FIELDS);
             } else {
                 studySites.addAll(studySitesTmp);
             }

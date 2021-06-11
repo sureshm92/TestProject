@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
@@ -71,6 +71,7 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.genders', initData.genders);
                     component.set('v.phoneTypes', initData.phoneTypes);
+                    component.set('v.yob', initData.yearOfBirth);
                     component.set('v.counries', initData.countries);
                     component.set('v.statesByCountyMap', initData.statesByCountryMap);
                     component.set('v.markers', helper.fillMarkers(component));
@@ -228,6 +229,10 @@
         //helper.checkFields(component, event, helper); REF-3070
     },
     
+    doCheckYearOfBith: function (component, event, helper) {
+        helper.checkGuardianAge(component, event, helper);
+    },
+    
     doNeedsGuardian: function (component, event, helper) {
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
@@ -237,6 +242,7 @@
             component.set('v.emailDelegateRepeat', '');
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
+	    helper.checkFields(component, event, helper);
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
@@ -360,6 +366,7 @@
         component.find('delegate-phone').focus();
         component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
+        component.set('v.isNewPrimaryDelegate',false);
     },
     
     openModel : function(component, event, helper){ 

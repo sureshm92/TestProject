@@ -2,258 +2,266 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component
-    description="ViewPatientsReferred"
-    implements="forceCommunity:availableForAllPageTypes"
-    controller="ViewPatientsRemote"
+ <aura:component
+ description="ViewPatientsReferred"
+ implements="forceCommunity:availableForAllPageTypes"
+ controller="ViewPatientsRemote"
 >
-    <ltng:require
-        scripts="{!join(',', $Resource.rr_community_js)}"
-        afterScriptsLoaded="{!c.doInit}"
-    />
+ <ltng:require
+     scripts="{!join(',', $Resource.rr_community_js)}"
+     afterScriptsLoaded="{!c.doInit}"
+ />
 
-    <aura:method name="childMethod" action="{!c.exportAll}" access="public"> </aura:method>
-    <!-- attributes: -->
-    <aura:attribute name="exportWrap" type="List" />
-    <aura:attribute name="peFilterDataBackup" type="Object" />
-    <aura:attribute name="totalCount" type="Integer" />
-    <aura:attribute name="counterLimit" type="Integer" />
-    <aura:attribute name="startPos" type="Integer" />
-    <aura:attribute name="endPos" type="Integer" />
-    <aura:attribute name="CsvList" type="List" />
-    <aura:attribute name="isFirstTime" type="Boolean" default="false" />
+ <aura:method name="childMethod" action="{!c.exportAll}" access="public"> </aura:method>
+ <!-- attributes: -->
+ <aura:attribute name="exportWrap" type="List" />
+ <aura:attribute name="peFilterDataBackup" type="Object" />
+ <aura:attribute name="totalCount" type="Integer" />
+ <aura:attribute name="counterLimit" type="Integer" />
+ <aura:attribute name="startPos" type="Integer" />
+ <aura:attribute name="endPos" type="Integer" />
+ <aura:attribute name="CsvList" type="List" />
+ <aura:attribute name="isFirstTime" type="Boolean" default="false" />
 
-    <aura:attribute name="trialId" type="String" />
-    <aura:attribute name="siteId" type="String" />
-    <aura:attribute name="userMode" type="String" />
-    <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute name="peFilterData" type="Object" />
-    <aura:attribute name="paginationData" type="Object" />
-    <aura:attribute name="peFilter" type="Object" />
-    <aura:attribute name="pageList" type="List" />
-    <aura:attribute name="statistics" type="Object" />
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
-    <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private" />
-    <aura:attribute name="peStatusesPathList" type="List" />
-    <aura:attribute name="peStatusStateMap" type="Map" />
-    <aura:attribute
-        name="emptyListMessage"
-        type="String"
-        access="private"
-        default="{!$Label.c.PG_VP_L_No_Items}"
-    />
-    <aura:attribute name="changeStatusBtnList" type="List" />
-    <aura:attribute name="showStatistics" type="Boolean" default="false" />
-    <aura:attribute name="header" type="String" default="" access="public" />
-    <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public" />
-    <aura:attribute name="ssId" type="String" />
-    <aura:attribute name="isInvited" type="Boolean" />
-    <aura:attribute name="hasEmancipatedParticipants" type="Boolean" />
-    <aura:attribute name="showEmancipatedOnly" type="Boolean" default="false" />
-    <aura:attribute name="entriesOnPage" type="Integer" />
-    <!-- events: -->
-    <aura:registerEvent name="onInit" type="c:uiEvent" />
+ <aura:attribute name="trialId" type="String" />
+ <aura:attribute name="siteId" type="String" />
+ <aura:attribute name="userMode" type="String" />
+ <aura:attribute name="parent" type="Aura.Component" />
+ <aura:attribute name="peFilterData" type="Object" />
+ <aura:attribute name="paginationData" type="Object" />
+ <aura:attribute name="peFilter" type="Object" />
+ <aura:attribute name="pageList" type="List" />
+ <aura:attribute name="statistics" type="Object" />
+ <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
+ <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private" />
+ <aura:attribute name="peStatusesPathList" type="List" />
+ <aura:attribute name="peStatusStateMap" type="Map" />
+ <aura:attribute
+     name="emptyListMessage"
+     type="String"
+     access="private"
+     default="{!$Label.c.PG_VP_L_No_Items}"
+ />
+ <aura:attribute name="changeStatusBtnList" type="List" />
+ <aura:attribute name="showStatistics" type="Boolean" default="false" />
+ <aura:attribute name="header" type="String" default="" access="public" />
+ <aura:attribute name="studyFilterEnabled" type="Boolean" default="false" access="public" />
+ <aura:attribute name="ssId" type="String" />
+ <aura:attribute name="isInvited" type="Boolean" />
+ <aura:attribute name="hasEmancipatedParticipants" type="Boolean" />
+ <aura:attribute name="showEmancipatedOnly" type="Boolean" default="false" />
+ <aura:attribute name="entriesOnPage" type="Integer" />
+ <aura:attribute name="sendToSH" type="Boolean"/>
+ <aura:attribute name="sendToSHDate" type="Date"/>
+ <aura:attribute name="initValReqd" type="Boolean"/>
+ <!-- events: -->
+ <aura:registerEvent name="onInit" type="c:uiEvent" />
 
-    <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
-    <aura:handler
-        name="change"
-        value="{!v.paginationData.pageRecordsCount}"
-        action="{!c.doPaginationChanged}"
-    />
-    <aura:handler
-        name="change"
-        value="{!v.paginationData.currentPage}"
-        action="{!c.doPaginationChanged}"
-    />
-    <aura:handler name="change" value="{!v.peFilter.studySite}" action="{!c.doSiteChanged}" />
-    <aura:handler name="change" value="{!v.peFilter.study}" action="{!c.doStudyChanged}" />
-    <aura:handler name="change" value="{!v.peFilter.activePE}" action="{!c.doActiveChanged}" />
-    <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doSeachTextChanged}" />
-    <aura:handler
-        name="change"
-        value="{!v.peFilter.referringStatus}"
-        action="{!c.doFilterChanged}"
-    />
-    <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}" />
-    <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}" />
-    <aura:handler
-        name="change"
-        value="{!v.peFilter.participantStatus}"
-        action="{!c.doFilterChanged}"
-    />
-    <aura:handler name="change" value="{!v.peFilter.sortType}" action="{!c.doSortChanged}" />
-    <aura:handler
-        name="change"
-        value="{!v.showEmancipatedOnly}"
-        action="{!c.doEmancipatedChanged}"
-    />
+ <!-- handlers: -->
+ <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
+ <aura:handler
+     name="change"
+     value="{!v.paginationData.pageRecordsCount}"
+     action="{!c.doPaginationChanged}"
+ />
+ <aura:handler
+     name="change"
+     value="{!v.paginationData.currentPage}"
+     action="{!c.doPaginationChanged}"
+ />
+ <aura:handler name="change" value="{!v.peFilter.studySite}" action="{!c.doSiteChanged}" />
+ <aura:handler name="change" value="{!v.peFilter.study}" action="{!c.doStudyChanged}" />
+ <aura:handler name="change" value="{!v.peFilter.activePE}" action="{!c.doActiveChanged}" />
+ <aura:handler name="change" value="{!v.peFilter.searchText}" action="{!c.doSeachTextChanged}" />
+ <aura:handler
+     name="change"
+     value="{!v.peFilter.referringStatus}"
+     action="{!c.doFilterChanged}"
+ />
+ <aura:handler name="change" value="{!v.peFilter.dateRange}" action="{!c.doFilterChanged}" />
+ <aura:handler name="change" value="{!v.peFilter.source}" action="{!c.doFilterChanged}" />
+ <aura:handler
+     name="change"
+     value="{!v.peFilter.participantStatus}"
+     action="{!c.doFilterChanged}"
+ />
+ <aura:handler name="change" value="{!v.peFilter.sortType}" action="{!c.doSortChanged}" />
+ <aura:handler name="FilterKeep" event="c:CardViewFilterKeep" action="{!c.doFilterPagenationChanged}"/>
 
-    <!-- methods: -->
-    <aura:method name="refresh" action="{!c.doInit}" access="public" />
-    <aura:method name="export" action="{!c.exportAll}" />
-    <aura:method name="filterEmancipationsOnly" action="{!c.filterEmancipations}" access="public" />
+ <aura:handler
+     name="change"
+     value="{!v.showEmancipatedOnly}"
+     action="{!c.doEmancipatedChanged}"
+ />
 
-    <!-- component body: -->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
-    <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false" />
-    <div class="rr-min-body-height">
-        <aura:if isTrue="{!v.isInitialized}">
-            <aura:if isTrue="{!!empty(v.header)}">
-                <div class="vpr-header">{!v.header}</div>
-            </aura:if>
+ <!-- methods: -->
+ <aura:method name="refresh" action="{!c.doInit}" access="public" />
+ <aura:method name="export" action="{!c.exportAll}" />
+ <aura:method name="filterEmancipationsOnly" action="{!c.filterEmancipations}" access="public" />
 
-            <!-- filter panel -->
-            <c:FilterPanel
-                searchText="{!v.peFilter.searchText}"
-                searchTextPlaceHolder="{!$Label.c.PG_MRRL_L_Search_for_a_patient}"
-                recordsPerPage="{!v.paginationData.pageRecordsCount}"
-                recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
-                sortType="{!v.peFilter.sortType}"
-                sortVariants="{!v.peFilterData.sortVariants}"
-                allRecordsCount="{!v.paginationData.allRecordsCount}"
-                currentPageCount="{!v.paginationData.currentPageCount}"
-                setValueAsSelected="true"
-                isCalledFromViewPatient="true"
-                userMode="{!v.userMode}"
-                parent="{! this }"
-                entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                currentPage="{!v.paginationData.currentPage}"
-                myParticipantPg="true"
-            >
-                <aura:if isTrue="{!v.userMode == 'PI'}">
-                    <c:rrSelect
-                        value="{!v.peFilter.activePE}"
-                        options="{!v.peFilterData.activePE}"
-                        placeholder="{!$Label.c.PG_VP_L_Active}"
-                        useSentenceFont="false"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        class="fp-ss-filter-container"
-                        setValueAsSelected="true"
-                    />
-                </aura:if>
-                <aura:if isTrue="{!v.studyFilterEnabled}">
-                    <c:rrSelect
-                        value="{!v.peFilter.study}"
-                        options="{!v.peFilterData.studies}"
-                        placeholder="{!$Label.c.PG_MRRL_L_Studies}"
-                        useSentenceFont="false"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        class="fp-study-filter-container"
-                        setValueAsSelected="true"
-                    />
-                </aura:if>
-                <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <c:rrSelect
-                        value="{!v.peFilter.studySite}"
-                        options="{!v.peFilterData.studySites}"
-                        placeholder="{!$Label.c.PG_VP_L_Study_sites}"
-                        useSentenceFont="false"
-                        disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}"
-                        setValueAsSelected="true"
-                    />
-                    <c:rrSelect
-                        value="{!v.peFilter.referringStatus}"
-                        options="{!v.peFilterData.referringStatuses}"
-                        placeholder="{!$Label.c.PG_VP_L_Referral_status}"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        setValueAsSelected="true"
-                    />
-                    <c:rrSelect
-                        value="{!v.peFilter.dateRange}"
-                        options="{!v.peFilterData.dateRanges}"
-                        placeholder="{!$Label.c.PG_MRRL_L_Date_range}"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        setValueAsSelected="true"
-                    />
-                </aura:if>
-                <aura:if isTrue="{!v.userMode == 'PI'}">
-                    <c:rrSelect
-                        value="{!v.peFilter.studySite}"
-                        options="{!v.peFilterData.studySites}"
-                        placeholder="{!$Label.c.PG_VP_L_Study_sites}"
-                        useSentenceFont="false"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        class="fp-ss-filter-container"
-                        setValueAsSelected="true"
-                    />
-                    <c:rrSelect
-                        value="{!v.peFilter.source}"
-                        options="{!v.peFilterData.source}"
-                        placeholder="{!$Label.c.PG_VP_L_Source}"
-                        useSentenceFont="false"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        class="fp-ss-filter-container"
-                        setValueAsSelected="true"
-                    />
-                    <c:rrSelect
-                        value="{!v.peFilter.participantStatus}"
-                        options="{!v.peFilterData.statuses}"
-                        placeholder="{!$Label.c.PG_VP_L_Participant_Status}"
-                        useSentenceFont="false"
-                        disabled="{!not(empty(v.peFilter.searchText))}"
-                        class="fp-ss-filter-container"
-                        setValueAsSelected="true"
-                    />
-                    <!--<c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}"
-                                placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"
-                                disabled="{!not(empty(v.peFilter.searchText))}"/>
-                    <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}"
-                                placeholder="{!$Label.c.PG_VP_L_Acceptance_status}"
-                                disabled="{!not(empty(v.peFilter.searchText))}"/>
-                    <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}"
-                                placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}"
-                                disabled="{!not(empty(v.peFilter.searchText))}"/>-->
-                </aura:if>
+ <!-- component body: -->
+ <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
+ <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false" />
+ <div class="rr-min-body-height">
+     <aura:if isTrue="{!v.isInitialized}">
+         <aura:if isTrue="{!!empty(v.header)}">
+             <div class="vpr-header">{!v.header}</div>
+         </aura:if>
 
-                <!--aura:set attribute="buttons">
-                    <button class="apollo-btn tertiary">
-                        <c:RRIcon iconName="icon-save"/>Export
-                    </button>
-                </aura:set-->
-            </c:FilterPanel>
+         <!-- filter panel -->
+         <c:FilterPanel
+             searchText="{!v.peFilter.searchText}"
+             searchTextPlaceHolder="{!$Label.c.PG_MRRL_L_Search_for_a_patient}"
+             recordsPerPage="{!v.paginationData.pageRecordsCount}"
+             recordsPerPageVariants="{!v.paginationData.recordCountVariants}"
+             sortType="{!v.peFilter.sortType}"
+             sortVariants="{!v.peFilterData.sortVariants}"
+             allRecordsCount="{!v.paginationData.allRecordsCount}"
+             currentPageCount="{!v.paginationData.currentPageCount}"
+             setValueAsSelected="true"
+             isCalledFromViewPatient="true"
+             userMode="{!v.userMode}"
+             parent="{! this }"
+             entriesOnPage="{!v.paginationData.pageRecordsCount}"
+             currentPage="{!v.paginationData.currentPage}"
+             myParticipantPg="true"
+         >
+             <aura:if isTrue="{!v.userMode == 'PI'}">
+                 <c:rrSelect
+                     value="{!v.peFilter.activePE}"
+                     options="{!v.peFilterData.activePE}"
+                     placeholder="{!$Label.c.PG_VP_L_Active}"
+                     useSentenceFont="false"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     class="fp-ss-filter-container"
+                     setValueAsSelected="true"
+                 />
+             </aura:if>
+             <aura:if isTrue="{!v.studyFilterEnabled}">
+                 <c:rrSelect
+                     value="{!v.peFilter.study}"
+                     options="{!v.peFilterData.studies}"
+                     placeholder="{!$Label.c.PG_MRRL_L_Studies}"
+                     useSentenceFont="false"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     class="fp-study-filter-container"
+                     setValueAsSelected="true"
+                 />
+             </aura:if>
+             <aura:if isTrue="{!v.userMode == 'HCP'}">
+                 <c:rrSelect
+                     value="{!v.peFilter.studySite}"
+                     options="{!v.peFilterData.studySites}"
+                     placeholder="{!$Label.c.PG_VP_L_Study_sites}"
+                     useSentenceFont="false"
+                     disabled="{!or(not(empty(v.peFilter.searchText)),empty(v.peFilter.study))}"
+                     setValueAsSelected="true"
+                 />
+                 <c:rrSelect
+                     value="{!v.peFilter.referringStatus}"
+                     options="{!v.peFilterData.referringStatuses}"
+                     placeholder="{!$Label.c.PG_VP_L_Referral_status}"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     setValueAsSelected="true"
+                 />
+                 <c:rrSelect
+                     value="{!v.peFilter.dateRange}"
+                     options="{!v.peFilterData.dateRanges}"
+                     placeholder="{!$Label.c.PG_MRRL_L_Date_range}"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     setValueAsSelected="true"
+                 />
+             </aura:if>
+             <aura:if isTrue="{!v.userMode == 'PI'}">
+                 <c:rrSelect
+                     value="{!v.peFilter.studySite}"
+                     options="{!v.peFilterData.studySites}"
+                     placeholder="{!$Label.c.PG_VP_L_Study_sites}"
+                     useSentenceFont="false"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     class="fp-ss-filter-container"
+                     setValueAsSelected="true"
+                 />
+                 <c:rrSelect
+                     value="{!v.peFilter.source}"
+                     options="{!v.peFilterData.source}"
+                     placeholder="{!$Label.c.PG_VP_L_Source}"
+                     useSentenceFont="false"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     class="fp-ss-filter-container"
+                     setValueAsSelected="true"
+                 />
+                 <c:rrSelect
+                     value="{!v.peFilter.participantStatus}"
+                     options="{!v.peFilterData.statuses}"
+                     placeholder="{!$Label.c.PG_VP_L_Participant_Status}"
+                     useSentenceFont="false"
+                     disabled="{!not(empty(v.peFilter.searchText))}"
+                     class="fp-ss-filter-container"
+                     setValueAsSelected="true"
+                 />
+                 <!--<c:rrSelect value="{!v.peFilter.referringClinic}" options="{!v.peFilterData.referringClinics}"
+                             placeholder="{!$Label.c.PG_DBPI_L_Referring_clinics}" useSentenceFont="false"
+                             disabled="{!not(empty(v.peFilter.searchText))}"/>
+                 <c:rrSelect value="{!v.peFilter.acceptenceStatus}" options="{!v.peFilterData.acceptenceStatuses}"
+                             placeholder="{!$Label.c.PG_VP_L_Acceptance_status}"
+                             disabled="{!not(empty(v.peFilter.searchText))}"/>
+                 <c:rrSelect value="{!v.peFilter.enrollmentStatus}" options="{!v.peFilterData.enrollmentStatuses}"
+                             placeholder="{!$Label.c.PG_SW_F_Enrollment_Status}"
+                             disabled="{!not(empty(v.peFilter.searchText))}"/>-->
+             </aura:if>
 
-            <!-- pagination -->
-            <!--<div class="pagination-position">
-                 <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                 currentPage="{!v.paginationData.currentPage}"
-                 allRecordsCount="{!v.paginationData.allRecordsCount}"/>
-             </div>-->
+             <!--aura:set attribute="buttons">
+                 <button class="apollo-btn tertiary">
+                     <c:RRIcon iconName="icon-save"/>Export
+                 </button>
+             </aura:set-->
+         </c:FilterPanel>
 
-            <!-- list of items: -->
-            <div class="participantcard-position slds-gutters_">
-                <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false" />
-                <c:EmptyListStub targetList="{!v.pageList}" />
-                <aura:iteration items="{!v.pageList}" var="item">
-                    <c:ParticipantCard
-                        participantItem="{!item.pItem}"
-                        actions="{!item.actions}"
-                        singlePatientView="false"
-                        changeStatusBtnList="{!v.changeStatusBtnList}"
-                        parent="{!this}"
-                        userMode="{!v.userMode}"
-                        isInvited="{!item.isInvited}"
-                        hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"
-                    />
-                </aura:iteration>
-            </div>
+         <!-- pagination -->
+         <!--<div class="pagination-position">
+              <c:RRPaginationRemote entriesOnPage="{!v.paginationData.pageRecordsCount}"
+              currentPage="{!v.paginationData.currentPage}"
+              allRecordsCount="{!v.paginationData.allRecordsCount}"/>
+          </div>-->
 
-            <!-- pagination -->
-            <c:RRPaginationRemote
-                entriesOnPage="{!v.paginationData.pageRecordsCount}"
-                currentPage="{!v.paginationData.currentPage}"
-                allRecordsCount="{!v.paginationData.allRecordsCount}"
-            />
+         <!-- list of items: -->
+         <div class="participantcard-position slds-gutters_">
+             <c:RRSpinner aura:id="recordsSpinner" size="medium" showSpinner="false" />
+             <c:EmptyListStub targetList="{!v.pageList}" />
+             <aura:iteration items="{!v.pageList}" var="item">
+                 <c:ParticipantCard
+                     participantItem="{!item.pItem}"
+                     actions="{!item.actions}"
+                     singlePatientView="false"
+                     changeStatusBtnList="{!v.changeStatusBtnList}"
+                     parent="{!this}"
+                     userMode="{!v.userMode}"
+                     isInvited="{!item.isInvited}"
+                     hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"
+                     sendToSH="{!item.sendToSH}"
+                     sendToSHDate="{!item.sendToSHDate}"
+                     sendToSHReason="{!item.sendToSHReason}"               
+                 />
+             </aura:iteration>
+         </div>
 
-            <!-- change PE status action by PI: -->
-            <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction" />
+         <!-- pagination -->
+         <c:RRPaginationRemote
+             entriesOnPage="{!v.paginationData.pageRecordsCount}"
+             currentPage="{!v.paginationData.currentPage}"
+             allRecordsCount="{!v.paginationData.allRecordsCount}"
+         />
 
-            <!-- change PE Information -->
-            <c:Action_ParticipantInformation aura:id="updatePatientInfoAction" />
+         <!-- change PE status action by PI: -->
+         <c:Action_ChangePEStatusByPI aura:id="changePEStatusByPIAction" />
 
-            <c:Action_ParticipantMrrResult aura:id="openSearch" />
+         <!-- change PE Information -->
+         <c:Action_ParticipantInformation aura:id="updatePatientInfoAction" />
 
-            <c:Action_ParticipantEmansipationWizard aura:id="emancipationWizard" />
-        </aura:if>
-    </div>
+         <c:Action_ParticipantMrrResult aura:id="openSearch" />
+
+         <c:Action_ParticipantEmansipationWizard aura:id="emancipationWizard" />
+     </aura:if>
+ </div>
 </aura:component>

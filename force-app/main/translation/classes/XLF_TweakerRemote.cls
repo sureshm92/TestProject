@@ -69,13 +69,7 @@ public without sharing class XLF_TweakerRemote {
             Blob xlfData = documents[0].Body;
 
             if (docType == 'zip') {
-                return new XLF_RemoteActionResult(
-                    true,
-                    null,
-                    null,
-                    EncodingUtil.base64Encode(xlfData),
-                    null
-                );
+                return new XLF_RemoteActionResult(true,null,  null,EncodingUtil.base64Encode(xlfData),  null               );
             }
 
             if (![SELECT Name FROM Document WHERE Name = :newName].isEmpty()) {
@@ -109,15 +103,7 @@ public without sharing class XLF_TweakerRemote {
                 null
             );
         } catch (XmlException e) {
-            return new XLF_RemoteActionResult(
-                false,
-                null,
-                'PARSING ERROR: Document \"' +
-                docName +
-                '\" is not a valid XML document',
-                null,
-                null
-            );
+            return new XLF_RemoteActionResult(false,null,'PARSING ERROR: Document \"' +docName +'\" is not a valid XML document',null,null );
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -166,15 +152,7 @@ public without sharing class XLF_TweakerRemote {
                 null
             );
         } catch (XmlException e) {
-            return new XLF_RemoteActionResult(
-                false,
-                null,
-                'PARSING ERROR: File \"' +
-                fileName +
-                '\" is not a valid XML document',
-                null,
-                null
-            );
+            return new XLF_RemoteActionResult(false,null,'PARSING ERROR: Document \"' +fileName +'\" is not a valid XML document',null,null );
         } catch (Exception e) {
             throw new RuntimeException(e.getMessage() + '\n' + e.getStackTraceString());
         }

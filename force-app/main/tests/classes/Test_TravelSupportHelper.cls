@@ -10,6 +10,12 @@ public with sharing class Test_TravelSupportHelper {
             ContactTherapeuticAreaTriggerHandler.SyncContactInterestedTopics.class
         );
         TriggerHandlerExecutor.bypassHandler(
+        	StudySiteTriggerHandler.CreatePIOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
+        	HCPEnrollmentTriggerHandler.CreateHCPUserOrSendNotificationHandler.class
+        );
+        TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.class
         );
         Test.startTest();

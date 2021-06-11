@@ -149,18 +149,27 @@
         var isReminderOnly = component.get('v.isReminderOnly');
         var isNewTask = component.get('v.isNewTask');
         //Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.
-        var successToastArray = $A.get('$Label.c.PP_Task_Success_Toast').split(';');
+        //var successToastArray = $A.get('$Label.c.PP_Task_Success_Toast').split(';');
         var message = '';
         if (isNewTask && !isReminderOnly) {
-            message = successToastArray[0].trim();
+            //message = successToastArray[0].trim();
+            message = $A.get('$Label.c.PP_TaskCreationSuccess');
+            //Task created successfully.
         } else if (isNewTask && isReminderOnly) {
-            message = successToastArray[4].trim();
+            //message = successToastArray[4].trim();
+            message = $A.get('$Label.c.PP_VisitScheduledSuccess');
+            //Visit scheduled successfully.
         } else if (!isNewTask && isReminderOnly) {
-            message = successToastArray[1].trim();
+            //message = successToastArray[1].trim();
+            message = $A.get('$Label.c.PP_ChangesSuccessfullySaved');
+            //Changes are successfully saved.
         } else if (!isNewTask && !isReminderOnly) {
-            message = successToastArray[1].trim();
+            message =  $A.get('$Label.c.PP_ChangesSuccessfullySaved');
+            //message = successToastArray[1].trim();
+            //Changes are successfully saved.
         } else {
-            message = successToastArray[3].trim();
+            message = $A.get('$Label.c.PP_VisitReminderUpdated');
+            //message = successToastArray[3].trim();//Visit reminder updated.
         }
         return message;
     },

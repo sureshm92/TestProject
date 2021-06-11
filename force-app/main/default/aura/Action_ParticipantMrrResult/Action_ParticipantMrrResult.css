@@ -11,6 +11,9 @@
     float: left;
     margin-right: 5px;
 }
+.THIS .cAction_ParticipantMrrResult.cPopupRTL  { 
+    /*@noflip*/ direction : ltr; 
+}
 
 .THIS .rr-secondary-text {
     color: #666666;
@@ -101,6 +104,17 @@
     min-height: 500px;
 }
 
+.THIS .mrr-alertRTL {
+    /* @noflip */     text-align: center;
+    /* @noflip */     padding-top: 30px;
+    /* @noflip */    min-height: 500px;
+    /* @noflip */    margin: 250px;
+}
+.THIS .mrr-alertRTL .main-title {
+    /* @noflip */    font-size: 24px;
+    /* @noflip */     font-weight: 600;
+    /* @noflip */    line-height: 48px;
+}
 .THIS .mrr-alert .main-title {
     font-size: 24px;
     font-weight: 600;
@@ -110,18 +124,27 @@
 .THIS .mrr-alert.fail .main-title {
     color: #595959;
 }
-
+.THIS .mrr-alertRTL.fail .main-title {
+    /* @noflip */      color: #595959;
+}
 .THIS .mrr-alert.pass .main-title,
 .THIS .green-text {
     color: #595959;
 }
-
+.THIS .mrr-alertRTL.pass .main-title,
+.THIS .green-text {
+    /* @noflip */    color: #595959;
+}
 .THIS .mrr-alert.pass .apollo-btn.tertiary,
 .THIS .mrr-alert.fail .apollo-btn.tertiary {
     background: none;
     color: #297dfd;
 }
-
+.THIS .mrr-alertRTL.pass .apollo-btn.tertiary,
+.THIS .mrr-alertRTL.fail .apollo-btn.tertiary {
+    /* @noflip */     background: none;
+    /* @noflip */     color: #297dfd;
+}
 .THIS .apollo-btn.tertiary:hover,
 .THIS .apollo-btn.tertiary:active:not(:disabled),
 .THIS .apollo-btn.tertiary.selected {
@@ -135,7 +158,12 @@
     display: block;
     margin: 5px auto;
 }
-
+.THIS .mrr-alertRTL .rr-icon-default {
+    /* @noflip */      width: 64px;
+    /* @noflip */     height: 64px;
+    /* @noflip */     display: block;
+    /* @noflip */    margin: 5px auto;
+}
 .THIS .mrr-alert.fail .rr-icon-default {
     fill: #e20000;
 }
@@ -143,24 +171,33 @@
 .THIS .mrr-alert.pass .rr-icon-default {
     fill: #00c221;
 }
+.THIS .mrr-alertRTL.fail .rr-icon-default {
+    /* @noflip */      fill: #e20000;
+}
 
+.THIS .mrr-alertRTL.pass .rr-icon-default {
+    /* @noflip */     fill: #00c221;
+}
 .THIS .mrr-alert button {
     display: block;
     margin: 20px auto;
 }
-
+.THIS .mrr-alertRTL button {
+    /* @noflip */     display: block;
+    /* @noflip */     margin: 20px auto;
+}
 /* for large size */
 @media all and (min-width: 1024px) {
     .THIS .mrr-padding {
         padding-left: 10px;
         padding-right: 10px;
     }
-
+    
     .THIS .right-column {
         padding-left: 20px;
         min-height: 500px;
     }
-
+    
     .THIS .left-column {
         border-right: 1px solid #d9d9d9;
         padding-right: 30px;

@@ -23,17 +23,17 @@
 }
 
 .THIS.rtl .hp-welcome-msg {
-    direction: rtl;
+  /* @noflip */  direction: rtl;
 }
 .THIS.rtl {
-    direction: rtl;
+  /* @noflip */  direction: rtl;
 }
 .THIS.rtl .main-layout {
     flex-direction: row-reverse;
 }
 
 .THIS.rtl .logo-text {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS.rtl .apollo-btn.primary.dark .rr-icon-default {
@@ -104,6 +104,11 @@
     .THIS > div:nth-child(2) {
         flex-direction: column;
     }
+
+    .THIS.rtl .main-layout {
+        flex-direction: column-reverse;
+    }
+
 }
 
 @media all and (max-width: 500px) {
@@ -114,4 +119,5 @@
     .THIS .apollo-btn.primary.dark {
         width: 100%;
     }
+
 }

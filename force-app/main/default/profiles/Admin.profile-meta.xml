@@ -2569,11 +2569,6 @@
         <field>Clinical_Trial_Profile__c.Override_Recruitment_Status__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        <fieldPermissions>
-        <editable>true</editable>
-        <field>Clinical_Trial_Profile__c.Bypass_Fields_for_TMDH__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Override_Status_Updated_By__c</field>
@@ -3181,6 +3176,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Contact.PI_My_Studies_Filters__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Contact.Is_Patient_User_Created__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4099,6 +4099,16 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.BMI__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Comorbidities__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.Condition_Of_Interests__c</field>
         <readable>true</readable>
@@ -4151,6 +4161,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Delegate_Zip_Postal_Code__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Ethnicity__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5025,6 +5040,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Informed_Consent_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5725,6 +5745,16 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant__c.Attestation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Attestation_TimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant__c.Alternative_Phone_Number__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5741,6 +5771,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Birth_Year__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Attested_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5963,12 +5998,32 @@
         <field>Participant__c.ZIP_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    	<fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Is_Created_by_Bulk_Import__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
 	<fieldPermissions>
         <editable>true</editable>
         <field>Patient_Delegate__c.Primary_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
-	 <fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Attestation__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Attestation_TimeStamp__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Attested_by__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.SubjectId__c</field>
         <readable>true</readable>

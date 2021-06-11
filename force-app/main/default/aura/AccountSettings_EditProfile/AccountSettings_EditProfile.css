@@ -141,8 +141,10 @@
 .THIS.as-container .as-password .as-password-button {
     margin-top: 20px;
 }
+
 .THIS .rightAlign input {
-    text-align: right;
+  /* @noflip */ text-align: left;
+    /* @noflip */  direction: rtl;
 }
 .THIS .as-email-input.slds-gutters,
 .THIS .as-password-input {
@@ -210,6 +212,9 @@
 }
 .THIS .smallNameRTL {
     width: fit-content;
+}
+.THIS .delegate-birthDate {
+    width: 215px;
 }
 
 .THIS .nickname {

@@ -19,24 +19,41 @@
         <aura:attribute name="frameHeight" type="String" default="500px" />
         <aura:attribute name="isInvited" type="boolean" />
         <aura:attribute name="callback" type="Function" />
+        <aura:attribute name="isRTL" type="boolean" default="false"/>
     </aura:method>
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <c:Popup aura:id="dialog" size="large" showScroll="true" showFooter="false">
+    <aura:registerEvent name="FilterKeep" type="c:CardViewFilterKeep"/>
+
+    <c:PopupRTL aura:id="dialog" size="large" showScroll="true" showFooter="false">
         <c:RRSpinner aura:id="spinner" size="medium" />
         <aura:if isTrue="{!!v.mrrResult}">
-            <iframe
-                id="mrrGizmoFrame"
-                class="slds-grid slds-gutters"
-                style="{!'height: '+v.frameHeight}"
-                frameborder="no"
-                width="100%"
-                src="{!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
-            ></iframe>
+            <aura:if isTrue="{!v.isRTL}">
+                <iframe
+                        id="mrrGizmoFrame"
+                        class="slds-grid slds-gutters"
+                        style="{!'height: '+v.frameHeight}"
+                        frameborder="no"
+                        width="100%"
+                        src="{!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
+                        ></iframe>
+                <aura:set attribute="else">
+                    <iframe
+                            id="mrrGizmoFrame"
+                            class="slds-grid slds-gutters"
+                            style="{!'height: '+v.frameHeight}"
+                            frameborder="no"
+                            width="100%"
+                            src="{!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
+                            ></iframe>
+                </aura:set>
+            </aura:if>
+
+          
         </aura:if>
 
         <aura:if isTrue="{!v.mrrResult == 'Fail'}">
-            <div class="mrr-alert fail" id="anchor">
+                <div class="{!v.isRTL? 'mrr-alertRTL fail':'mrr-alert fail'}" id="anchor">    
                 <c:RRIcon iconName="icon-close-circle" />
                 <div class="main-title">
                     {!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Failed}
@@ -82,7 +99,8 @@
         </aura:if>
 
         <aura:if isTrue="{!v.mrrResult == 'Pass'}">
-            <div class="mrr-alert pass" id="anchor">
+            <div class="{!v.isRTL? 'mrr-alertRTL pass':'mrr-alert pass'}" id="anchor">                           
+
                 <c:RRIcon iconName="icon-check-circle" />
                 <div class="main-title">
                     {!v.pe.Participant__r.Full_Name__c}&nbsp;{!$Label.c.PG_MRR_R_Passed}
@@ -126,5 +144,5 @@
                 </button>
             </div>
         </aura:if>
-    </c:Popup>
+    </c:PopupRTL>
 </aura:component>

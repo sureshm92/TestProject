@@ -28,8 +28,10 @@
     },
     mediaType: function (component, event, helper) {
         var opts = [];
-        var mediaOutreach = $A.get('$Label.c.Media_Outreach');
-        var mediatType = $A.get('$Label.c.Media_Type');
+        //var mediaOutreach = $A.get('$Label.c.Media_Outreach');
+        //var mediatType = $A.get('$Label.c.Media_Type');
+        var mediaOutreach = 'Media_Outreach__c';
+        var mediatType ='Media_Type__c';
         communityService.executeAction(
             component,
             'getPickListValues',
@@ -39,9 +41,13 @@
             },
             function (returnValue) {
                 var studySite = returnValue;
-                for (var key in studySite) {
-                    opts.push({ label: key, value: studySite[key] });
-                }
+                opts.push({ label: $A.get('$Label.c.MO_RTL_Radio'), value: 'Radio' });
+                 opts.push({ label: $A.get('$Label.c.MO_Television'), value: 'Television' });
+                 opts.push({ label: $A.get('$Label.c.MO_Social_Media'), value: 'Social Media' });
+                 opts.push({ label: $A.get('$Label.c.MO_Print'), value: 'Print' });
+               // for (var key in studySite) {
+                 //   opts.push({ label: key, value: studySite[key] });
+              //  }
                 component.set('v.mediaType', opts);
             }
         );

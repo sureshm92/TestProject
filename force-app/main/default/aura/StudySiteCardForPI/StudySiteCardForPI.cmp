@@ -20,7 +20,7 @@
     <div class="slds-p-horizontal_medium slds-p-bottom_small">
         <aura:if isTrue="{!v.siteWrapper.studySite}">
             <div class="card-header">
-                <div class="pi-name">{!v.siteWrapper.PIName}</div>
+                <div class="pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">{!v.siteWrapper.PIName}</div>
                 <div class="manage-location-details" style="{!if(v.isRTL, 'text-align: left;','')}">
                     <span onclick="{!c.showManageLocationDetails}">
                         {!$Label.c.SS_Manage_Location_Details}</span

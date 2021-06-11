@@ -54,6 +54,11 @@
     font-size: 0.875rem;
 }
 
+.THIS .rr-table tr th:nth-child(2),
+.THIS .rr-table tr td:nth-child(2) {
+       width: 11%;
+}
+
 .THIS .rr-table th.completed-by {
     width: 130px;
 }
@@ -69,6 +74,12 @@
 
 .THIS .rr-table .ignored {
     opacity: 0.5;
+}
+
+.THIS .rtl.cRRTable th,
+.THIS .rtl.cRRTable td {
+    padding: 0 10px;
+    text-align: right;
 }
 
 .THIS .rr-link {
@@ -111,7 +122,25 @@
     display: none;
 }
 
+
+@media screen and (max-width: 768px) {
+    .THIS {
+        margin: 0 0 25px;
+    }
+
+    .THIS .rr-table tr th:nth-child(2),
+    .THIS .rr-table tr td:nth-child(2) {
+        width: 16%;
+    }
+
+}
+
 @media screen and (max-width: 500px) {
+
+    .THIS {
+        margin: 0 0 25px;
+    }
+
     .THIS tr:first-child {
         display: none;
     }
@@ -155,5 +184,14 @@
         display: inline-block;
         padding-right: 5px;
         color: #595959;
+    }
+
+    .THIS .rtl .taskLabel {
+        padding: 0 0 0 5px;
+    }
+
+    .THIS .rr-table tr th:nth-child(2),
+    .THIS .rr-table tr td:nth-child(2) {
+        width: auto;
     }
 }

@@ -9,6 +9,7 @@
         spinner.show();
         var filter = component.get('v.peFilter');
         var searchText = filter.searchText;
+        var status = component.get('v.peFilter.participantStatus');
         for (var key in filter) {
             if (key != 'searchText' && filter[key] == '') {
                 filter[key] = null;
@@ -16,7 +17,7 @@
         }
         var filterJSON = JSON.stringify(filter);
         var paginationJSON = JSON.stringify(component.get('v.paginationData'));
-
+		//filterJSON = filterJSON.replaceAll('Sent to Study Hub','Eligibility Passed');	
         communityService.executeAction(
             component,
             'getRecords',
@@ -27,19 +28,24 @@
                 changedItem: changedItem,
                 delegateId: communityService.getDelegateId(),
                 emancipatedPE: component.get('v.showEmancipatedOnly'),
-                sponsorName: communityService.getCurrentCommunityTemplateName()
+                sponsorName: communityService.getCurrentCommunityTemplateName()/*,
+                isEligibilityPassed: (status== 'Eligibility Passed')?true:false*/
             },
             function (returnValue) {
                 if (component.get('v.peFilter').searchText !== searchText) return;
                 var result = JSON.parse(returnValue);
                 component.set('v.skipUpdate', true);
                 component.set('v.pageList', result.peList);
+                if(result.peFilter.participantStatus == 'Eligibility Passed' && status == 'Sent to Study Hub'){
+                    result.peFilter.participantStatus = 'Sent to Study Hub';
+                }
                 component.set('v.peFilter', result.peFilter);
                 component.set('v.peFilterData', result.peFilterData);
                 component.set(
                     'v.paginationData.allRecordsCount',
                     result.paginationData.allRecordsCount
                 );
+                component.set('v.statusChanged',false);
                 component.set('v.paginationData.currentPage', result.paginationData.currentPage);
                 component.set(
                     'v.paginationData.currentPageCount',
@@ -228,9 +234,15 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-
             if (objectRecords[i]['Participant_Status__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords[i]['Participant_Status__c'] + '"' + ',';
+                let pstatus = objectRecords[i]['Participant_Status__c'];
+                if(objectRecords[i]['Participant_Status__c']=='Eligibility Passed' 
+                   && (objectRecords[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                       || objectRecords[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+                    pstatus = 'Sent to Study Hub';
+                }
+                
+                csvStringResult += '"' + pstatus + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }

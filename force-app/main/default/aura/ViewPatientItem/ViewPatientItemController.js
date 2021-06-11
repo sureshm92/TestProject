@@ -11,7 +11,7 @@
             component.set('v.isHidden', true);
         component.find('spinner').hide();
         
-        component.set('v.authRequired', component.get('v.pe.Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c'));
+        component.set('v.authRequired', component.get('v.pe.Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c'));        
         
     },
     

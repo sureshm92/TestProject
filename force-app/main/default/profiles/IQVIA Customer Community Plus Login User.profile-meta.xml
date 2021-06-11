@@ -3305,6 +3305,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Contact.Is_Patient_User_Created__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Contact.Third_Choice_Language__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5609,9 +5614,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Birth_Year__c</field>
-        <readable>false</readable>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
@@ -5664,7 +5669,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.First_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5719,7 +5724,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Last_Name__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5759,7 +5764,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Mailing_Zip_Postal_Code__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5794,7 +5799,7 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
+        <editable>true</editable>
         <field>Participant__c.Phone__c</field>
         <readable>true</readable>
     </fieldPermissions>

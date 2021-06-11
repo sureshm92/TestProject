@@ -54,7 +54,9 @@
         </div>
 
         <div class="{!v.isRTL? 'photo-labelRTL':'photo-label'}">
-            <p class="{!v.isRTL? 'usernameRTL':'username'}">{!v.username}</p>
+            <p class="{!v.isRTL? 'usernameRTL':'username'}">
+                {!$Label.c.PG_AS_F_Username}: {!v.username}
+            </p>
             <aura:if isTrue="{!!v.isDelegate}">
                 <label for="file-upload" class="{!v.isRTL? 'custom-file-uploadRTL':'custom-file-upload'}">
                     <aura:if isTrue="{!v.hasProfilePic}">

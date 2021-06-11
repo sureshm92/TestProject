@@ -6,7 +6,9 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     //Handlers----------------------------------------------------------------------------------------------------------
     public class SendPESHToEPR extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            sendToEPR(newList);
+            List<Id> idsList=new List<Id>();
+            for(SObject sobj: newList) idsList.add(sobj.id);
+            sendToEPR(idsList);
         }
     }
 
@@ -31,7 +33,10 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     public class CreateWelcomeToStudyAlertHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             if (!Test.isRunningTest()) {
-                createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList);
+                List<Id> peshIdsList=new List<Id>();
+                for(SObject obj: newList) peshIdsList.add(obj.Id);
+               // createStudyAlerts((List<Participant_Enrollment_Status_History__c>) newList);
+                createStudyAlerts(peshIdsList);
             }
         }
     }
@@ -46,11 +51,13 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     }  
 
     //Logic-------------------------------------------------------------------------------------------------------------
-    private static void sendToEPR(List<Participant_Enrollment_Status_History__c> newList) {
+   
+    private static void sendToEPR(List<Id> ids) {
+       /** List<Participant_Enrollment_Status_History__c> newList=[S]
         List<Id> ids = new List<Id>();
         for (Participant_Enrollment_Status_History__c obj : newList) {
             ids.add(obj.Id);
-        }
+        } **/
         if (!System.isBatch() && !System.isFuture()) {
             IntegrationService.sendPESHToEPRAsync(ids);
         } else if (UploadParticipantsBatch.isCalloutFromUploadParticipantsBatch != true) {
@@ -395,8 +402,10 @@ public without sharing class ParticipantEnrollmentSHTriggerHandler {
     }
     @TestVisible
     private static void createStudyAlerts(
-        List<Participant_Enrollment_Status_History__c> newHistories
+        List<Id> newHistories
     ) {
+        
+        //List<Participant_Enrollment_Status_History__c> newHistories
         List<Participant_Enrollment_Status_History__c> histories = [
             SELECT
                 ParticipantEnrollment__r.Participant_Contact__c,

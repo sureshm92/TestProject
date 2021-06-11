@@ -2,193 +2,201 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component
-                description="ViewPatientItem"
-                controller="ReferralProfileRemote"
-                extends="c:CommunityContext"
-                implements="flexipage:availableForAllPageTypes,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId"
-                >
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
-    
-    <!-- attributes: -->
-    <aura:attribute name="pe" type="Object" description="Participant enrollment item" />
-    <aura:attribute name="actions" type="Object" />
-    <aura:attribute name="userMode" type="String" />
-    <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute name="pathItems" type="List" />
-    <aura:attribute name="showPath" type="Boolean" default="true" />
-    <aura:attribute name="peAdditionalName" type="String" />
-    <aura:attribute name="changeStatusBtnList" type="List" />
-    <aura:attribute name="isInvited" type="Boolean" />
-    <aura:attribute name="trial" type="Object" />
-    <aura:attribute name="frameHeight" type="String" default="500px" />
-    <aura:attribute name="userContactId" type="String" />
-    <aura:attribute
-                    name="participantDelegate"
-                    type="Participant__c"
-                    access="private"
-                    default="{'sObjectType':'Participant__c', 'Phone__c':''}"
-                    />
-    <aura:attribute name="isHidden" type="Boolean" default="false" />
-    <aura:attribute name="showSpinner" type="Boolean" default="false" />
-    <aura:attribute name="viewMore" type="Boolean" default="false" />
-    
-    <aura:attribute name="subDomain" type="String" />
-    <aura:attribute name="openmodel" type="boolean" default="false"/>
-    <aura:attribute name="closeModel" type="boolean" default="false"/>
-    <aura:attribute name="ContentSize" type="String" />
-    <aura:attribute name="authRequired" type="Boolean" default="False"/>
-    <aura:attribute name="signedDoc" type="Object"/>
-    
-    <!-- handlers: -->
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:handler name="change" value="{!v.pe}" action="{!c.doInit}" />
-    
-    <!-- Method: -->
-    <aura:method name="preparePathItems" action="{!c.preparePathItems}" />
-    <!--aura:method name="removePathItems" action="{!c.removePathItems}" /-->
-    
-    <!-- Event-->
-    <aura:registerEvent name="ViewMore" type="c:ViewMore" />
-    
-    <!-- component body: -->
-    <div class="{!'rr-white-panel padding ' + if(v.isRTL, ' rtl', '')}" style="position: relative">
-        <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
-        <aura:if isTrue="{!empty(v.pe)}">
-            <div style="height: 250px"></div>
-        </aura:if>
-        <aura:if isTrue="{!!empty(v.pe)}">
-            <!--a href="javascript:void(0);" class="slds-text-link_reset"></a-->
-            <c:ParticipantCardHeader
-                                     userMode="{!v.userMode}"
+ <aura:component
+ description="ViewPatientItem"
+ controller="ReferralProfileRemote"
+ extends="c:CommunityContext"
+ implements="flexipage:availableForAllPageTypes,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId"
+ >
+<ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
+
+<!-- attributes: -->
+<aura:attribute name="pe" type="Object" description="Participant enrollment item" />
+<aura:attribute name="actions" type="Object" />
+<aura:attribute name="userMode" type="String" />
+<aura:attribute name="parent" type="Aura.Component" />
+<aura:attribute name="pathItems" type="List" />
+<aura:attribute name="showPath" type="Boolean" default="true" />
+<aura:attribute name="peAdditionalName" type="String" />
+<aura:attribute name="changeStatusBtnList" type="List" />
+<aura:attribute name="isInvited" type="Boolean" />
+<aura:attribute name="trial" type="Object" />
+<aura:attribute name="frameHeight" type="String" default="500px" />
+<aura:attribute name="userContactId" type="String" />
+<aura:attribute name="sendToSH" type="Boolean"/>
+<aura:attribute name="sendToSHDate" type="Object"/>
+<aura:attribute name="sendToSHReason" type="Object"/>
+<aura:attribute
+     name="participantDelegate"
+     type="Participant__c"
+     access="private"
+     default="{'sObjectType':'Participant__c', 'Phone__c':''}"
+     />
+<aura:attribute name="isHidden" type="Boolean" default="false" />
+<aura:attribute name="showSpinner" type="Boolean" default="false" />
+<aura:attribute name="viewMore" type="Boolean" default="false" />
+
+<aura:attribute name="subDomain" type="String" />
+<aura:attribute name="openmodel" type="boolean" default="false"/>
+<aura:attribute name="closeModel" type="boolean" default="false"/>
+<aura:attribute name="ContentSize" type="String" />
+<aura:attribute name="authRequired" type="Boolean" default="False"/>
+<aura:attribute name="signedDoc" type="Object"/>
+
+<!-- handlers: -->
+<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:handler name="change" value="{!v.pe}" action="{!c.doInit}" />
+
+<!-- Method: -->
+<aura:method name="preparePathItems" action="{!c.preparePathItems}" />
+<!--aura:method name="removePathItems" action="{!c.removePathItems}" /-->
+
+<!-- Event-->
+<aura:registerEvent name="ViewMore" type="c:ViewMore" />
+
+<!-- component body: -->
+<div class="{!'rr-white-panel padding ' + if(v.isRTL, ' rtl', '')}" style="position: relative">
+<c:ExceptionHandlerPopup aura:id="exceptionHandler" />
+<c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
+<aura:if isTrue="{!empty(v.pe)}">
+<div style="height: 250px"></div>
+</aura:if>
+<aura:if isTrue="{!!empty(v.pe)}">
+<!--a href="javascript:void(0);" class="slds-text-link_reset"></a-->
+<c:ParticipantCardHeader
+                      userMode="{!v.userMode}"
+                      pe="{!v.pe}"
+                      isReferral="false"
+                      isInvited="{!v.isInvited}"
+                      />
+<c:ParticipantCardFields
+                      userMode="{!v.userMode}"
+                      isInvited="{!v.isInvited}"
+                      pe="{!v.pe}"
+                      minorDelegate="{!v.participantDelegate}"
+                      showParticipationSteps="false"
+                      parent="{!this}"
+                      />
+<aura:if isTrue="{!v.isHidden}"
+      ><!--show/hide when it click to open-->
+ <div style="border-top: 1px solid #d9d9d9">
+     <c:ParticipantCardIsEmansipated
                                      pe="{!v.pe}"
-                                     isReferral="false"
+                                     parent="{!v.parent}"
+                                     userMode="{!v.userMode}"
+                                     actions="{!v.actions}"
                                      isInvited="{!v.isInvited}"
                                      />
-            <c:ParticipantCardFields
-                                     userMode="{!v.userMode}"
-                                     isInvited="{!v.isInvited}"
-                                     pe="{!v.pe}"
-                                     minorDelegate="{!v.participantDelegate}"
-                                     showParticipationSteps="false"
-                                     parent="{!this}"
-                                     />
-            <aura:if isTrue="{!v.isHidden}"
-                     ><!--show/hide when it click to open-->
-                <div style="border-top: 1px solid #d9d9d9">
-                    <c:ParticipantCardIsEmansipated
-                                                    pe="{!v.pe}"
-                                                    parent="{!v.parent}"
-                                                    userMode="{!v.userMode}"
-                                                    actions="{!v.actions}"
-                                                    isInvited="{!v.isInvited}"
-                                                    />
-                    <aura:if
-                             isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
-                                     (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}"
+     <aura:if
+              isTrue="{!(v.userMode == 'Participant' || (v.showPath &amp;&amp; v.userMode == 'PI') || (v.userMode == 'HCP' &amp;&amp; v.pe.Show_Referring_Provider__c == true &amp;&amp; v.showPath &amp;&amp;
+                      (v.userContactId == v.pe.HCP__r.HCP_Contact__r.Id)) || (v.userMode == 'HCP') &amp;&amp; v.userContactId != v.pe.HCP__r.HCP_Contact__r.Id)}"
+              >
+         <c:ParticipantStatusPath
+            userMode="{!v.userMode}"
+            pathSteps="{!v.pathItems}"
+            sendToSH="{!v.sendToSH}"
+            sendToSHDate="{!v.sendToSHDate}"
+            initValReqd="{!v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c}"
+            promoteToSH ="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
+            sendToSHReason="{!v.sendToSHReason}"
+                                  />
+         
+         
+         <!--For HCP -->
+         <aura:if isTrue="{!(v.userMode == 'HCP' &amp;&amp; v.authRequired &amp;&amp; v.signedDoc != NULL )}">
+             <div>
+                 <aura:if isTrue = "{!v.signedDoc.attachments[0].ContentSize &lt; 11534336}">
+                     <a style="font-size:0.8rem"
+                        onclick="{!c.openModel}"> 
+                         {!$Label.c.Signed_Auth_Form}
+                     </a>
+                     <aura:set attribute="else">
+                         <a style="font-size:0.8rem" 
+                            href= "{!v.subDomain + '/sfc/servlet.shepherd/document/download/'+ v.signedDoc.attachments[0].Id +'?operationContext=S1'}" 
+                            target="_blank" 
+                            download="{!v.signedDoc.attachments[0].Title}">
+                             {!$Label.c.Signed_Auth_Form}</a>
+                         
+                     </aura:set>
+                 </aura:if>
+                 
+                 <aura:If isTrue="{!v.openmodel}">
+                     
+                     <div  class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop ">
+                         <div class="slds-modal__container ">
+                             <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
+                                 <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
+                                     <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
+                                 </button>
+                             </div>
+                             <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
+                                 <!--  Write Your Content here  -->
+                                 <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
+                                     <span>
+                                         <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
+                                               
+                                                 src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.signedDoc.attachments[0].Id}"  frameborder="0"  >
+                                         </iframe>               
+                                     </span>
+                                 </div>
+                                 <br/>
+                             </div>
+                         </div>
+                     </div>       
+                     
+                 </aura:If>
+             </div>
+         </aura:if>
+         
+         <aura:if isTrue="{!v.userMode == 'PI'}">
+             <div
+                  class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap"
+                  data-gtm="BTN_Participant_Details"
+                  >
+                 <div
+                      class="{!!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c || v.pe.MRR_Survey_Results_URL__c || v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_6-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}"
+                      >
+                     <a
+                        class="slds-show slds-col"
+                        style="{!(v.isRTL? 'padding-top: 9px;text-align: right;' : 'padding-top: 9px;text-align: left;')}"
+                        onclick="{!c.closeCard}"
+                        ><span>{!$Label.c.View_Less}</span></a
+                         >
+                     
+                     <button
+                             class="{!'apollo-btn secondary'}"
+                             title="{!$Label.c.BTN_View_Participant_Details}"
+                             onclick="{!c.showEditParticipantInformation}"
+                             value="statusDetailsAnchor"
                              >
-                        <c:ParticipantStatusPath
-                                                 userMode="{!v.userMode}"
-                                                 pathSteps="{!v.pathItems}"
-                                                 />
-                        
-                        
-                        <!--For HCP -->
-                        <aura:if isTrue="{!(v.userMode == 'HCP' &amp;&amp; v.authRequired &amp;&amp; v.signedDoc != NULL )}">
-                            <div>
-                                <aura:if isTrue = "{!v.signedDoc.attachments[0].ContentSize &lt; 11534336}">
-                                    <a style="font-size:0.8rem"
-                                       onclick="{!c.openModel}"> 
-                                        {!$Label.c.Signed_Auth_Form}
-                                    </a>
-                                    <aura:set attribute="else">
-                                        <a style="font-size:0.8rem" 
-                                           href= "{!v.subDomain + '/sfc/servlet.shepherd/document/download/'+ v.signedDoc.attachments[0].Id +'?operationContext=S1'}" 
-                                           target="_blank" 
-                                           download="{!v.signedDoc.attachments[0].Title}">
-                                            {!$Label.c.Signed_Auth_Form}</a>
-                                        
-                                    </aura:set>
-                                </aura:if>
-                                
-                                <aura:If isTrue="{!v.openmodel}">
-                                    
-                                    <div  class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop ">
-                                        <div class="slds-modal__container ">
-                                            <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
-                                                <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
-                                                    <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
-                                                </button>
-                                            </div>
-                                            <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
-                                                <!--  Write Your Content here  -->
-                                                <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
-                                                    <span>
-                                                        <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
-                                                              
-                                                                src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.signedDoc.attachments[0].Id}"  frameborder="0"  >
-                                                        </iframe>               
-                                                    </span>
-                                                </div>
-                                                <br/>
-                                            </div>
-                                        </div>
-                                    </div>       
-                                    
-                                </aura:If>
-                            </div>
-                        </aura:if>
-                        
-                        <aura:if isTrue="{!v.userMode == 'PI'}">
-                            <div
-                                 class="slds-grid vpi-status-btns slds-gutters_x-small slds-wrap"
-                                 data-gtm="BTN_Participant_Details"
-                                 >
-                                <div
-                                     class="{!!v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c || v.pe.MRR_Survey_Results_URL__c || v.actions.screenerResponses.disabled ? 'slds-col slds-size_1-of-1 slds-small-size_6-of-12' : 'slds-col slds-size_1-of-1 slds-small-size_6-of-12'}"
-                                     >
-                                    <a
-                                       class="slds-show slds-col"
-                                       style="{!(v.isRTL? 'padding-top: 9px;text-align: right;' : 'padding-top: 9px;text-align: left;')}"
-                                       onclick="{!c.closeCard}"
-                                       ><span>{!$Label.c.View_Less}</span></a
-                                        >
-                                    
-                                    <button
-                                            class="{!'apollo-btn secondary'}"
-                                            title="{!$Label.c.BTN_View_Participant_Details}"
-                                            onclick="{!c.showEditParticipantInformation}"
-                                            value="statusDetailsAnchor"
-                                            >
-                                        {!$Label.c.BTN_View_Participant_Details}
-                                    </button>
-                                    
-                                    <aura:if
-                                             isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
-                                             >
-                                        <span data-gtm="BTN_Screening">
-                                            <lightning:button
-                                                              class="{!v.isRTL? 'vpi-status-btns-rtl slds-button--neutral': 'slds-button--neutral'}"
-                                                              title="{!$Label.c.BTN_Pre_Screen_Participant}"
-                                                              onclick="{!c.doPreScreening}"
-                                                              >
-                                                {!$Label.c.BTN_Pre_Screen_Participant}
-                                            </lightning:button>
-                                        </span>
-                                    </aura:if>
-                                </div>
-                            </div>
-                        </aura:if>
-                        
-                        <aura:if isTrue="{!!v.showPath}">
-                            <div>
-                                <c:ParticipantStatus pEnrollment="{!v.pe}" />
-                            </div>
-                        </aura:if>
-                    </aura:if>
-                </div> </aura:if
-                ><!--show/hide when it click to open-->
-        </aura:if>
-    </div>
+                         {!$Label.c.BTN_View_Participant_Details}
+                     </button>
+                     
+                     <aura:if
+                              isTrue="{!empty(v.pe.MRR_Survey_Results_URL__c) &amp;&amp; !v.actions.screenerResponses.disabled &amp;&amp; v.pe.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c}"
+                              >
+                         <span data-gtm="BTN_Screening">
+                             <lightning:button
+                                               class="{!v.isRTL? 'vpi-status-btns-rtl slds-button--neutral': 'slds-button--neutral'}"
+                                               title="{!$Label.c.BTN_Pre_Screen_Participant}"
+                                               onclick="{!c.doPreScreening}"
+                                               >
+                                 {!$Label.c.BTN_Pre_Screen_Participant}
+                             </lightning:button>
+                         </span>
+                     </aura:if>
+                 </div>
+             </div>
+         </aura:if>
+         
+         <aura:if isTrue="{!!v.showPath}">
+             <div>
+                 <c:ParticipantStatus pEnrollment="{!v.pe}" />
+             </div>
+         </aura:if>
+     </aura:if>
+ </div> </aura:if
+ ><!--show/hide when it click to open-->
+</aura:if>
+</div>
 </aura:component>

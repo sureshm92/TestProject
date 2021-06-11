@@ -51,7 +51,7 @@
                                                              hour="numeric"
                                                              minute="numeric"
                                                              second="numeric"
-                                                             timeZone="UTC"
+                                                             timeZone="{! $Locale.timezone }"
                                                              />
                                 <aura:set attribute="else">
                                     {!$Label.c.PG_TC_H_Do_You_Accept}

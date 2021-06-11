@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 22-Aug-19.
  */
 
-.THIS .popup-address-inputs {
+ .THIS .popup-address-inputs {
     padding: 20px 8px 0px 8px;
 }
 
@@ -20,7 +20,9 @@
     line-height: 21px;
     margin-bottom: 4px;
 }
-
+.THIS .rtlButton{
+  /* @noflip */  margin-left: 10px;
+}
 .THIS .delegate-select {
     width: 100%;
     color: #000000;

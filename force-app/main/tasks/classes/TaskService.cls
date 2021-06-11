@@ -3,6 +3,8 @@
  */
 
 public without sharing class TaskService {
+    public static Map<Id, String> invitationsVisibleTemp = new Map<Id, String>(); 
+    public static Boolean createSurveyTaskforDelOnly =false; 
     public class TaskServiceException extends Exception {
     }
 
@@ -88,7 +90,7 @@ public without sharing class TaskService {
         return getTasksCommon(filter, null);
     }
 
-    public List<Task> getTasksCommon(String filter, String sortOrder) {
+    public List<Task> getTasksCommon(String filter, String sortOrder) { 
         CommunityMode currentMode = UserContext.getCurrentUserMode();
         Boolean isDecoupled = (ParticipantContext.getOwnParticipant() != null);
 
@@ -120,6 +122,14 @@ public without sharing class TaskService {
                     '\'' +
                     delegatesVisibility +
                     ')';
+            }else if(ParticipantContext.getCurrentContact()!=null){ //Added for Minor Participant's Delegates
+                commonFilter =
+                '(' +
+                'Owner_Contact__c = \'' +
+                ParticipantContext.getCurrentContact().Id +
+                '\'' +
+                delegatesVisibility +
+                ')';
             }
         } else {
             // TODO Depricated (all delegates decoupled now)
@@ -147,7 +157,12 @@ public without sharing class TaskService {
             commonFilter += ' ' + sortOrder;
         List<Task> tasks;
         if (isDecoupled && ParticipantContext.getCurrentUserId() == null) {
-            tasks = new List<Task>();
+            //Added for Minor Participant's Delegates
+             tasks = (List<Task>) DatabaseService.query(
+                DEFAULT_FIELDS,
+                Task.getSObjectType(),
+                commonFilter
+            ); 
         } else {
             tasks = (List<Task>) DatabaseService.query(
                 DEFAULT_FIELDS,
@@ -233,7 +248,7 @@ public without sharing class TaskService {
     }
 
     public List<Task> getOpenTasks() {
-        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));
+        expireSurveyTasksByExpiredInvitations(getTasksCommon(getOpenTasksFilter()));        																			
         String filter = getOpenTasksFilter()+ ' AND (Start_Date__c=null OR Start_Date__c <= TODAY)';
         return getTasksCommon(filter, OPEN_TASKS_ORDER);
     }
@@ -283,7 +298,26 @@ public without sharing class TaskService {
         task.Status = TASK_STATUS_COMPLETED;
         task.Completed_Date__c = Datetime.now();
     }
-
+    //This method will be called to recall the createSurveyTasks method to create survey task for delegate  
+    //for which survey tasks didn't get created in first attempt due to unavailability of delegate record as
+    //Delegate records gets created after PER record creation and this method gets fired in PER Insert/update
+    //This Scenario will only incounter when we create partcipant with delegate and Trial survey task creation gets fired while insert only.
+    public static void createSurveyTasksforDelegate(Map<Id, String> invitationsVisible, Boolean isCalledFromAsyncMethod) { 
+        taskService.createSurveyTaskforDelOnly = true;
+        if(isCalledFromAsyncMethod){
+            TaskService.getInstance().createSurveyTasks(invitationsVisible);
+        }else{
+            //Calling Async Method to avoid 101 SOQL limit exception
+            TaskService.createSurveyTasksAsync(invitationsVisible);
+        }
+        
+    }
+    
+    @future
+    public static void createSurveyTasksAsync(Map<Id, String> invitationsVisible) { 
+        taskService.createSurveyTaskforDelOnly = true;
+        TaskService.getInstance().createSurveyTasks(invitationsVisible);
+    }
     public Integer createSurveyTasks(Map<Id, String> invitationsVisible) {
         List<SurveyInvitation> surveyInvitation = [
             SELECT
@@ -301,14 +335,16 @@ public without sharing class TaskService {
         ];
 
         Set<Id> contactIds = new Set<Id>();
+         List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
         for (SurveyInvitation inv : surveyInvitation)
             contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
-
-        List<Patient_Delegate__c> patientDelegates = [
-            SELECT Id, Contact__c, Participant__r.Contact__c
-            FROM Patient_Delegate__c
-            WHERE Participant__r.Contact__c IN :contactIds
-        ];
+        if(!contactIds.isEmpty()){
+              patientDelegates = [
+                SELECT Id, Contact__c, Participant__r.Contact__c
+                FROM Patient_Delegate__c
+                WHERE Participant__r.Contact__c IN :contactIds
+            ];
+        }
         Set<Id> delContactIds = new Set<Id>();
         Map<Id, Set<Id>> delegatesByParticipant = new Map<Id, Set<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
@@ -345,9 +381,15 @@ public without sharing class TaskService {
                     tmpConfigs.add(new TaskConfig(partUserId, partContactId));
                 }
                 when 'Each Delegate' {
+                    //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
+                    if(patientDelContactIds.IsEmpty()){
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
+                    }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null)
+                        if (delContactUser.get(pdId) == null){
+                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id));
                             continue;
+                        }   
 
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
@@ -357,11 +399,20 @@ public without sharing class TaskService {
                     }
                 }
                 when 'Patient and each Delegate' {
-                    tmpConfigs.add(new TaskConfig(partUserId, partContactId));
+                    //Skip creating task for Participant if this method is recalled to create task for delegate only.
+                    if(!TaskService.createSurveyTaskforDelOnly){ 
+                        tmpConfigs.add(new TaskConfig(partUserId, partContactId));
+                    }
+                     //If Patient Delegate record is not creared, Pass the value of invitationsVisible in static Map to recall this method.
+                    if(patientDelContactIds.IsEmpty()){
+                        TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
+                    }
                     for (Id pdId : patientDelContactIds) {
-                        if (delContactUser.get(pdId) == null)
+                        if (delContactUser.get(pdId) == null){
+                            TaskService.invitationsVisibleTemp.put(inv.id,invitationsVisible.get(inv.id)); 
                             continue;
-
+                        }
+                            
                         Id userId = userTimezoneMap.get(delContactUser.get(pdId)) != null
                             ? delContactUser.get(pdId)
                             : null;
@@ -502,7 +553,10 @@ public without sharing class TaskService {
     }
 
     public Map<Id, Id> getContactUserIdsMap(Set<Id> contactIds) {
-        List<User> users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
+        List<User> users = new List<User> ();
+        if(!contactIds.isEmpty()) {
+          users = [SELECT Id, ContactId FROM User WHERE ContactId IN :contactIds];
+        }
         Map<Id, Id> contactUserMap = new Map<Id, Id>();
         for (User u : users)
             contactUserMap.put(u.ContactId, u.Id);

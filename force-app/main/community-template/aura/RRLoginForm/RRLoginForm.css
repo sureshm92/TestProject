@@ -24,6 +24,10 @@
     background-color: none;
 }
 */
+.THIS RTL {
+    /* @noflip */  direction: rtl;
+}
+
 .THIS label.uiLabel-hidden {
     display: none;
 }

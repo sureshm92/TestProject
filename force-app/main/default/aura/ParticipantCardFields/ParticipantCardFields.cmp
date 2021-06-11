@@ -2,274 +2,279 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component
-    description="ParticipantCardFields"
-    extends="c:CommunityContext"
-    controller="ReferralProfileRemote"
+ <aura:component
+ description="ParticipantCardFields"
+ extends="c:CommunityContext"
+ controller="ReferralProfileRemote"
 >
-    <!-- attributes: -->
-    <aura:attribute name="userMode" type="String" />
-    <aura:attribute name="pe" type="Object" />
-    <aura:attribute name="isInvited" type="boolean" default="false" />
-    <aura:attribute name="showParticipationSteps" type="boolean" default="true" />
-    <aura:attribute name="minorDelegate" type="Participant__c" />
-    <aura:attribute name="viewMore" type="Boolean" default="true" />
+ <!-- attributes: -->
+ <aura:attribute name="userMode" type="String" />
+ <aura:attribute name="pe" type="Object" />
+ <aura:attribute name="isInvited" type="boolean" default="false" />
+ <aura:attribute name="showParticipationSteps" type="boolean" default="true" />
+ <aura:attribute name="minorDelegate" type="Participant__c" />
+ <aura:attribute name="viewMore" type="Boolean" default="true" />
 
-    <!--added for the performance issue-->
-    <aura:attribute name="parent" type="Aura.Component" required="true" />
-    <aura:attribute name="parentSE" type="Aura.Component" required="true" />
+ <!--added for the performance issue-->
+ <aura:attribute name="parent" type="Aura.Component" required="true" />
+ <aura:attribute name="parentSE" type="Aura.Component" required="true" />
 
-    <!-- handlers: 
-    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
+ <!-- handlers: 
+ <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>-->
 
-    <aura:handler event="c:ViewMore" action="{!c.viewMore}" />
-    <meta charset="UTF-8"/>
-    <!-- component body: -->
-    <div class="{!v.isRTL? 'arabic':'english'}">
-    <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
-        <div class="vpi-fields">
-            <!-- PI fields: -->
-            <aura:if isTrue="{!v.userMode == 'PI'}">
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
-                    <div class="value">
-                        <c:RRLink
-                            label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
-                            page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
-                            maxWidth="250px"
-                        />
-                    </div>
-                </div>
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
-                    <!--<div class="value">
-                        <c:RRLink label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
-                                  page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
-                                  maxWidth="250px"/>
-                    </div>-->
-                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
-                </div>
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Source}</div>
-                    <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_HCP}">
-                        <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
-                        <aura:set attribute="else">
-                            <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_PI}">
-                                <div class="value">{!v.pe.PI_Contact__r.Name}</div>
-                                <aura:set attribute="else">
-                                    <div class="value">{!v.pe.Source_Type__c}</div>
-                                </aura:set>
-                            </aura:if>
-                        </aura:set>
-                    </aura:if>
-                    <!-- <div class="value"><div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>-->
-                    <!-- <div class="value">
-                        <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
-                            <c:RRLink label="{!v.pe.HCP__r.HCP_Contact__r.Name}"
-                                      page="{!'clinic-profile?id=' + v.pe.HCP__r.HCP_Contact__r.AccountId}"
-                                      maxWidth="250px"/>
-                            <aura:set attribute="else">{!v.pe.Referral_Source__c}</aura:set>
-                        </aura:if>
-                    </div>-->
-                </div>
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referral_Id}</div>
-                    <div class="value">{!v.pe.Name}</div>
-                </div>
+ <aura:handler event="c:ViewMore" action="{!c.viewMore}" />
+ <meta charset="UTF-8"/>
+ <!-- component body: -->
+ <div class="{!v.isRTL? 'arabic':'english'}">
+ <div class="{!'vpi-clip-item-borders ' + if(v.isRTL, 'rtl', '')}">
+     <div class="vpi-fields">
+         <!-- PI fields: -->
+         <aura:if isTrue="{!v.userMode == 'PI'}">
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                 <div class="value">
+                     <c:RRLink
+                         label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                         page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                         maxWidth="250px"
+                     />
+                 </div>
+             </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                 <!--<div class="value">
+                     <c:RRLink label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                               page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                               maxWidth="250px"/>
+                 </div>-->
+                 <div class="value">{!v.pe.Study_Site__r.Name}</div>
+             </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Source}</div>
+                 <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_HCP}">
+                     <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                     <aura:set attribute="else">
+                         <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_PI}">
+                             <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                             <aura:set attribute="else">
+                                 <div class="value">{!v.pe.Source_Type__c}</div>
+                             </aura:set>
+                         </aura:if>
+                     </aura:set>
+                 </aura:if>
+                 <!-- <div class="value"><div class="rp-max-length">{!v.pe.HCP__r.HCP_Contact__r.Name}</div></div>-->
+                 <!-- <div class="value">
+                     <aura:if isTrue="{!!empty(v.pe.HCP__c)}">
+                         <c:RRLink label="{!v.pe.HCP__r.HCP_Contact__r.Name}"
+                                   page="{!'clinic-profile?id=' + v.pe.HCP__r.HCP_Contact__r.AccountId}"
+                                   maxWidth="250px"/>
+                         <aura:set attribute="else">{!v.pe.Referral_Source__c}</aura:set>
+                     </aura:if>
+                 </div>-->
+             </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                 <div class="value">{!v.pe.Name}</div>
+             </div>
 
-                <!--<div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
-                </div>-->
+             <!--<div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+             </div>-->
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referred_Date}</div>
-                    <div class="value">
-                        <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
-                        <lightning:formattedDateTime
-                            value="{!v.pe.Referred_Date__c}"
-                            year="numeric"
-                            month="short"
-                            day="2-digit"
-                            timeZone="UTC"
-                        ></lightning:formattedDateTime>
-                    </div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                 <div class="value">
+                     <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
+                     <lightning:formattedDateTime
+                         value="{!v.pe.Referred_Date__c}"
+                         year="numeric"
+                         month="short"
+                         day="2-digit"
+                         timeZone="UTC"
+                     ></lightning:formattedDateTime>
+                 </div>
+             </div>
 
-                <aura:if isTrue="{!v.pe.Participant__c}">
-                    <!--<div class="vpi-field">
-                        <div class="label">{!$Label.c.PE_Patient_Id}</div>
-                        <div class="value">{!v.pe.Patient_ID__c}</div>
-                    </div>-->
-                    <!--aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
-                        <div class="vpi-field">
-                            <div class="label">{!$Label.c.PE_Participant_Phone}</div>
-                            <div class="value"><lightning:formattedPhone value="{!v.pe.Participant__r.Phone__c}"></lightning:formattedPhone></div>
-                        </div>
-                        <aura:set attribute="else">
-                                <div class="vpi-field">
-                                    <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
-                                    <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
-                                </div>
-                        </aura:set>
-                    </aura:if-->
-                    <div class="vpi-field">
-                        <div class="label">{!$Label.c.Participant_Status}</div>
-                        <div class="value">{!v.pe.Participant_Status__c}</div>
-                    </div>
-                </aura:if>
-            </aura:if>
+             <aura:if isTrue="{!v.pe.Participant__c}">
+                 <!--<div class="vpi-field">
+                     <div class="label">{!$Label.c.PE_Patient_Id}</div>
+                     <div class="value">{!v.pe.Patient_ID__c}</div>
+                 </div>-->
+                 <!--aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
+                     <div class="vpi-field">
+                         <div class="label">{!$Label.c.PE_Participant_Phone}</div>
+                         <div class="value"><lightning:formattedPhone value="{!v.pe.Participant__r.Phone__c}"></lightning:formattedPhone></div>
+                     </div>
+                     <aura:set attribute="else">
+                             <div class="vpi-field">
+                                 <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
+                                 <div class="value"><lightning:formattedPhone value="{!v.minorDelegate.Phone__c}"></lightning:formattedPhone></div>
+                             </div>
+                     </aura:set>
+                 </aura:if-->
+                 <div class="vpi-field">
+                     <div class="label">{!$Label.c.Participant_Status}</div>
+                     <aura:if isTrue="{!(v.pe.Participant_Status__c == 'Eligibility Passed' || v.pe.Participant_Status__c == $Label.c.Eligibility_Passed) &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c==true ||v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true) }">
+                     <div class="value">{!$Label.c.Sent_to_Study_Hub}</div>
+                       <aura:set attribute="else">
+                         <div class="value">{!v.pe.Participant_Status__c}</div>
+                         </aura:set>  
+                     </aura:if>
+                 </div>
+             </aura:if>
+         </aura:if>
 
-            <!-- HCP fields: -->
-            <aura:if isTrue="{!v.userMode == 'HCP'}">
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
-                    <div class="value">
-                        <c:RRLink
-                            label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
-                            page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
-                            maxWidth="250px"
-                        />
-                    </div>
-                </div>
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
-                </div>
+         <!-- HCP fields: -->
+         <aura:if isTrue="{!v.userMode == 'HCP'}">
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                 <div class="value">
+                     <c:RRLink
+                         label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
+                         page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
+                         maxWidth="250px"
+                     />
+                 </div>
+             </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referred_Date}</div>
-                    <div class="value">
-                        <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
-                        <lightning:formattedDateTime
-                            value="{!v.pe.Referred_Date__c}"
-                            year="numeric"
-                            month="short"
-                            day="2-digit"
-                            timeZone="UTC"
-                        ></lightning:formattedDateTime>
-                    </div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                 <div class="value">
+                     <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
+                     <lightning:formattedDateTime
+                         value="{!v.pe.Referred_Date__c}"
+                         year="numeric"
+                         month="short"
+                         day="2-digit"
+                         timeZone="UTC"
+                     ></lightning:formattedDateTime>
+                 </div>
+             </div>
 
-                <aura:if isTrue="{!v.pe.Participant__c}">
-                    <div class="vpi-field">
-                        <div class="label">{!$Label.c.PE_Patient_Id}</div>
-                        <div class="value">{!v.pe.Patient_ID__c}</div>
-                    </div>
-                    <aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
-                        <div class="vpi-field">
-                            <div class="label">{!$Label.c.PE_Participant_Phone}</div>
-                            <div class="value">
-                                <lightning:formattedPhone
-                                    value="{!v.pe.Participant__r.Phone__c}"
-                                ></lightning:formattedPhone>
-                            </div>
-                        </div>
-                        <aura:set attribute="else">
-                            <div class="vpi-field">
-                                <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
-                                <div class="value">
-                                    <lightning:formattedPhone
-                                        value="{!v.minorDelegate.Phone__c}"
-                                    ></lightning:formattedPhone>
-                                </div>
-                            </div>
-                        </aura:set>
-                    </aura:if>
-                </aura:if>
-            </aura:if>
+             <aura:if isTrue="{!v.pe.Participant__c}">
+                 <div class="vpi-field">
+                     <div class="label">{!$Label.c.PE_Patient_Id}</div>
+                     <div class="value">{!v.pe.Patient_ID__c}</div>
+                 </div>
+                 <aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
+                     <div class="vpi-field">
+                         <div class="label">{!$Label.c.PE_Participant_Phone}</div>
+                         <div class="value">
+                             <lightning:formattedPhone
+                                 value="{!v.pe.Participant__r.Phone__c}"
+                             ></lightning:formattedPhone>
+                         </div>
+                     </div>
+                     <aura:set attribute="else">
+                         <div class="vpi-field">
+                             <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
+                             <div class="value">
+                                 <lightning:formattedPhone
+                                     value="{!v.minorDelegate.Phone__c}"
+                                 ></lightning:formattedPhone>
+                             </div>
+                         </div>
+                     </aura:set>
+                 </aura:if>
+             </aura:if>
+         </aura:if>
 
-            <!-- Participant fields: -->
-            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Investigator_Name}</div>
-                    <div class="value">{!v.pe.PI_Contact__r.Name}</div>
-                </div>
+         <!-- Participant fields: -->
+         <aura:if isTrue="{!v.userMode == 'Participant'}">
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Investigator_Name}</div>
+                 <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.Study_Site_phone_number}</div>
-                    <aura:if isTrue="{!not(empty(v.pe.Study_Site__r.Study_Site_Phone__c))}">
-                        <div class="value">{!v.pe.Study_Site__r.Study_Site_Phone__c}</div>
-                        <aura:set attribute="else">
-                            <div class="value">{!v.pe.Study_Site__r.Site__r.Phone}</div>
-                        </aura:set>
-                    </aura:if>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.Study_Site_phone_number}</div>
+                 <aura:if isTrue="{!not(empty(v.pe.Study_Site__r.Study_Site_Phone__c))}">
+                     <div class="value">{!v.pe.Study_Site__r.Study_Site_Phone__c}</div>
+                     <aura:set attribute="else">
+                         <div class="value">{!v.pe.Study_Site__r.Site__r.Phone}</div>
+                     </aura:set>
+                 </aura:if>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Site_Name}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Name}</div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Site_Name}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Site_Address}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Site__r.BillingStreet}</div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Site_Address}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Site__r.BillingStreet}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Site_SiteZIPCode}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Site__r.BillingPostalCode}</div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Site_SiteZIPCode}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Site__r.BillingPostalCode}</div>
+             </div>
 
-                <!--
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referral_Id}</div>
-                    <div class="value">{!v.pe.Name}</div>
-                </div>
+             <!--
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                 <div class="value">{!v.pe.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
-                    <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
+                 <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+             </div>
 
-                <div class="vpi-field">
-                    <div class="label">{!$Label.c.PE_Referred_Date}</div>
-                    <div class="value"><ui:outputDate value="{!v.pe.Referred_Date__c}"/></div>
-                </div>
+             <div class="vpi-field">
+                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                 <div class="value"><ui:outputDate value="{!v.pe.Referred_Date__c}"/></div>
+             </div>
 
-                <aura:if isTrue="{!v.pe.Participant__c}">
-                    <div class="vpi-field">
-                        <div class="label">{!$Label.c.PE_Patient_Id}</div>
-                        <div class="value">{!v.pe.Patient_ID__c}</div>
-                    </div>
-                    <div class="vpi-field">
-                        <div class="label">{!$Label.c.PE_Patient_Phone_number}</div>
-                        <div class="value">{!v.pe.Participant__r.Phone__c}</div>
-                    </div>
-                    <div class="vpi-field">
-                        <div class="label">{!$Label.c.PE_Country}</div>
-                        <div class="value">{!v.pe.Participant__r.Mailing_Country__c}</div>
-                    </div>
-                    <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_State__c)}">
-                        <div class="vpi-field">
-                            <div class="label">{!$Label.c.PE_State}</div>
-                            <div class="value">{!v.pe.Participant__r.Mailing_State__c}</div>
-                        </div>
-                    </aura:if>
-                    <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_Zip_Postal_Code__c)}">
-                        <div class="vpi-field">
-                            <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
-                            <div class="value">{!v.pe.Participant__r.Mailing_Zip_Postal_Code__c}</div>
-                        </div>
-                    </aura:if>
-                </aura:if>
-                -->
-            </aura:if>
-        </div>
-    </div>
-    </div>
-    <aura:if isTrue="{!v.userMode != 'Participant'}">
-        <a
-            aura:id="showViewMore"
-            class="slds-show custom-plus"
-            style="{! v.viewMore ? 'display:block': 'display:none'}"
-            onclick="{!c.openCard}"
-            ><span>{!$Label.c.View_More}</span></a
-        >
-    </aura:if>
+             <aura:if isTrue="{!v.pe.Participant__c}">
+                 <div class="vpi-field">
+                     <div class="label">{!$Label.c.PE_Patient_Id}</div>
+                     <div class="value">{!v.pe.Patient_ID__c}</div>
+                 </div>
+                 <div class="vpi-field">
+                     <div class="label">{!$Label.c.PE_Patient_Phone_number}</div>
+                     <div class="value">{!v.pe.Participant__r.Phone__c}</div>
+                 </div>
+                 <div class="vpi-field">
+                     <div class="label">{!$Label.c.PE_Country}</div>
+                     <div class="value">{!v.pe.Participant__r.Mailing_Country__c}</div>
+                 </div>
+                 <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_State__c)}">
+                     <div class="vpi-field">
+                         <div class="label">{!$Label.c.PE_State}</div>
+                         <div class="value">{!v.pe.Participant__r.Mailing_State__c}</div>
+                     </div>
+                 </aura:if>
+                 <aura:if isTrue="{!!empty(v.pe.Participant__r.Mailing_Zip_Postal_Code__c)}">
+                     <div class="vpi-field">
+                         <div class="label">{!$Label.c.PG_AS_F_Zip_Postal_Code}</div>
+                         <div class="value">{!v.pe.Participant__r.Mailing_Zip_Postal_Code__c}</div>
+                     </div>
+                 </aura:if>
+             </aura:if>
+             -->
+         </aura:if>
+     </div>
+ </div>
+ </div>
+ <aura:if isTrue="{!v.userMode != 'Participant'}">
+     <a
+         aura:id="showViewMore"
+         class="slds-show custom-plus"
+         style="{! v.viewMore ? 'display:block': 'display:none'}"
+         onclick="{!c.openCard}"
+         ><span>{!$Label.c.View_More}</span></a
+     >
+ </aura:if>
 </aura:component>

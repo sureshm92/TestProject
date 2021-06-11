@@ -6,6 +6,7 @@ public without sharing class RRChangePasswordController {
     public static final String ERROR_SUFFIX = ': You must enter a value';
     public static final String ERROR_VALUE_SUFFIX = ': You must enter a valid value';
     public static final String TEMP_ACCOUNT = 'temporary account';
+    public static final String AGE_OF_MAJORITY_ALL_COUNTRIES = 'Age_for_All_Countries';
 
     public String photolink { get; set; }
 
@@ -40,6 +41,9 @@ public without sharing class RRChangePasswordController {
     public String tcText { get; set; }
     public String tcId { get; set; }
     public Boolean isParticipant { get; set; }
+    public Boolean isDelegate { get; set; }
+    public Boolean isAdult { get; set; }
+    public Boolean isAttested { get; set; }
     public Participant__c participant { get; set; }
 
     public Translation__c translation { get; set; }
@@ -58,9 +62,17 @@ public without sharing class RRChangePasswordController {
 
     public List<SelectOption> countries { get; set; }
     public List<SelectOption> states { get; set; }
+    public List<SelectOption> years { get; set; }
     public String country { get; set; }
     public String state { get; set; }
+    public String birthYear { get; set; }
     public Boolean isStateRequired { get; set; }
+    public Boolean isDisabled { get; set; }
+    public Boolean isSaveButtonDisabled { get; set; }
+    public boolean onLoad { get; set; }
+    public boolean showErrorMessage { get; set; }
+    public static boolean isAttestationUpdated = false;
+
     public Boolean mainPortal {
         get {
             return !Site.getPathPrefix().startsWith('/gsk');
@@ -75,6 +87,7 @@ public without sharing class RRChangePasswordController {
 
     public RRChangePasswordController() {
         isRTL = false;
+        onLoad = true;
         translation = new Translation__c();
         init();
         if (!contact.Is_First_Logon__c)
@@ -223,24 +236,48 @@ public without sharing class RRChangePasswordController {
                     Mailing_State__c,
                     Mailing_Zip_Postal_Code__c,
                     Mailing_Country_Code__c,
-                    Mailing_State_Code__c
+                    Mailing_State_Code__c,
+                    Birth_Year__c
                 FROM Participant__c
                 WHERE Contact__c = :contact.Id
             ];
             updateTranslations();
         }
-
         countries = new List<SelectOption>();
         states = new List<SelectOption>();
+        years = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.value, country.label));
             countryCodeByName.put(country.value, country.label);
         }
         country = contact.MailingCountryCode;
         state = contact.MailingStateCode;
+        isDelegate = contact.UserCommunityIsDelegate__c;
+        showErrorMessage = false;
+        isSaveButtonDisabled = false;
+        if (isParticipant) {
+            country = participant.Mailing_Country_Code__c;
+            state = participant.Mailing_State_Code__c;
+        }
+        if (contact.UserCommunityIsDelegate__c && isParticipant) {
+            Integer currentYear = Date.Today().Year();
+            for (Integer i = currentYear; i > currentYear - 150; i--) {
+                years.add(new SelectOption(String.valueof(i), String.valueof(i)));
+            }
+            birthYear = participant.Birth_Year__c;
+            isAttested = false;
+            isDisabled = false;
+            if (!String.isBlank(participant.Birth_Year__c)) {
+                isAdult = true;
+            } else {
+                isAdult = false;
+            }
+            isSaveButtonDisabled = true;
+        }
         if (!String.isBlank(country)) {
             updateStatesAction();
         }
+        onLoad = false;
     }
 
     public PageReference changePassword() {
@@ -250,6 +287,10 @@ public without sharing class RRChangePasswordController {
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
+            if (isParticipant) {
+                contact.MailingCountrycode = participant.Mailing_Country_Code__c;
+                contact.MailingStatecode = participant.Mailing_State_Code__c;
+            }
             update contact;
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
@@ -294,17 +335,50 @@ public without sharing class RRChangePasswordController {
 
     public void showProfileAction() {
         isProfileView = true;
+        isAttestationUpdated = false;
     }
 
     public void checkPasswords() {
         try {
             ApexPages.getMessages().clear(); // Messages can't be cleared this way! Redirect page.
-            if (!notEnrollNow && String.isBlank(contact.FirstName)) {
+            if (isParticipant) {
+                participant.Mailing_Country_Code__c = country;
+                participant.Mailing_State_Code__c = state;
+                Boolean noCountry =
+                    participant.Mailing_Country_Code__c == '--None--' ||
+                    String.isBlank(participant.Mailing_Country_Code__c);
+                Boolean noState =
+                    participant.Mailing_State_Code__c == '--None--' ||
+                    String.isBlank(participant.Mailing_State_Code__c) ||
+                    states == null ||
+                    states.size() < 2;
+                participant.Mailing_Country__c = (noCountry
+                    ? null
+                    : countryCodeByName.get(participant.Mailing_Country_Code__c));
+                participant.Mailing_State__c = (noState
+                    ? null
+                    : stateCodeByName.get(participant.Mailing_State_Code__c));
+                if (isDelegate) {
+                    participant.Birth_Year__c = birthYear;
+                }
+                contact.MailingCountryCode = participant.Mailing_Country_Code__c;
+                contact.MailingStateCode = participant.Mailing_State_Code__c;
+                // for country or states values update by code
+                // contact.MailingCountry = participant.Mailing_Country__c;
+                //  contact.MailingState = participant.Mailing_State__c;
+            }
+            if (
+                (!notEnrollNow && String.isBlank(contact.FirstName)) ||
+                (isParticipant && String.isBlank(participant.First_Name__c))
+            ) {
                 ApexPages.addMessage(
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'First Name' + ERROR_SUFFIX)
                 );
             }
-            if (!notEnrollNow && String.isBlank(contact.LastName)) {
+            if (
+                (!notEnrollNow && String.isBlank(contact.LastName)) ||
+                (isParticipant && String.isBlank(participant.Last_Name__c))
+            ) {
                 ApexPages.addMessage(
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'Last Name' + ERROR_SUFFIX)
                 );
@@ -380,12 +454,19 @@ public without sharing class RRChangePasswordController {
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'City' + ERROR_SUFFIX)
                 );
             }
-            if (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) {
+            if (
+                (!notEnrollNow && String.isBlank(contact.MailingCountryCode)) ||
+                (isParticipant && String.isBlank(participant.Mailing_Country_Code__c))
+            ) {
                 ApexPages.addMessage(
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'Country' + ERROR_SUFFIX)
                 );
             }
-            if (!notEnrollNow && String.isBlank(contact.MailingStateCode) && states.size() > 1) {
+            if (
+                ((!notEnrollNow && String.isBlank(contact.MailingStateCode)) ||
+                (isParticipant && String.isBlank(participant.Mailing_State_Code__c))) &&
+                states.size() > 1
+            ) {
                 ApexPages.addMessage(
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX)
                 );
@@ -411,45 +492,69 @@ public without sharing class RRChangePasswordController {
             try {
                 if (!Test.isRunningTest()) {
                     Site.validatePassword(userVal, newPassword, verifyNewPassword);
-                    String errorMsg1='The passwords do not match';
-       			    String errorMsg2='The password you entered is too easy to guess. Enter a different one';
-                    String errorMsg3='Your password cannot be null';
-                    for (ApexPages.Message m : ApexPages.getMessages()) 
-                    {
-                       if(m.getDetail().contains(System.Label.Pswd_ValidationMsg5)){
-                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg6);
+                    String errorMsg1 = 'The passwords do not match';
+                    String errorMsg2 = 'The password you entered is too easy to guess. Enter a different one';
+                    String errorMsg3 = 'Your password cannot be null';
+                    for (ApexPages.Message m : ApexPages.getMessages()) {
+                        if (m.getDetail().contains(System.Label.Pswd_ValidationMsg5)) {
+                            m = new ApexPages.Message(
+                                ApexPages.Severity.ERROR,
+                                System.Label.Pswd_ValidationMsg6
+                            );
                             failingPageResponse = m.getDetail();
-                           
-                       }
-                       else if(m.getDetail().contains(System.Label.Pswd_Val_strng1) || m.getDetail().contains(System.Label.Pswd_Val_strng2) || m.getDetail().contains(System.Label.Pswd_ValidationMsg4))
-                       {
-                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg3);
+                        } else if (
+                            m.getDetail().contains(System.Label.Pswd_Val_strng1) ||
+                            m.getDetail().contains(System.Label.Pswd_Val_strng2) ||
+                            m.getDetail().contains(System.Label.Pswd_ValidationMsg4)
+                        ) {
+                            m = new ApexPages.Message(
+                                ApexPages.Severity.ERROR,
+                                System.Label.Pswd_ValidationMsg3
+                            );
                             failingPageResponse = m.getDetail();
-                       }  
-                       else if(m.getDetail().contains(errorMsg3)) {
-                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg8);
+                        } else if (m.getDetail().contains(errorMsg3)) {
+                            m = new ApexPages.Message(
+                                ApexPages.Severity.ERROR,
+                                System.Label.Pswd_ValidationMsg8
+                            );
                             failingPageResponse = m.getDetail();
-                       }
-                       else if(m.getDetail().contains(errorMsg1)) {
-                            m = new ApexPages.Message(ApexPages.Severity.ERROR, System.Label.Pswd_ValidationMsg5);
+                        } else if (m.getDetail().contains(errorMsg1)) {
+                            m = new ApexPages.Message(
+                                ApexPages.Severity.ERROR,
+                                System.Label.Pswd_ValidationMsg5
+                            );
                             failingPageResponse = m.getDetail();
-                       }  
-                       else if(m.getDetail().contains(errorMsg2)) {
-                             m = new ApexPages.Message( ApexPages.Severity.ERROR,System.Label.Pswd_ValidationMsg7);
+                        } else if (m.getDetail().contains(errorMsg2)) {
+                            m = new ApexPages.Message(
+                                ApexPages.Severity.ERROR,
+                                System.Label.Pswd_ValidationMsg7
+                            );
                             failingPageResponse = m.getDetail();
-                       }                          
-                       else {                          
+                        } else {
                             failingPageResponse = null;
                         }
                     }
                 }
-                
             } catch (Exception e) {
                 ApexPages.addMessages(e);
             }
 
             if (!notEnrollNow && ApexPages.getMessages().isEmpty()) {
                 updateHCPStatus(contact.Id);
+            }
+            if (isParticipant && ApexPages.getMessages().isEmpty()) {
+                if (isDelegate && !isAttestationUpdated) {
+                    participant.Attestation__c = true;
+                    participant.Attestation_TimeStamp__c = ParticipantService.getFormattedTimeImpl(
+                        userVal
+                    );
+                    participant.Attested_By__c = contact.id;
+                    isAttestationUpdated = true;
+                }
+                if (isDelegate) {
+                    participant.Attestation__c = true;
+                }
+                update participant;
             }
 
             if (ApexPages.getMessages().isEmpty())
@@ -634,7 +739,13 @@ public without sharing class RRChangePasswordController {
     public void updateStatesAction() {
         stateCodeByName = new Map<String, String>();
         states = new List<SelectOption>();
-        List<LabelValueItem> statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
+        List<LabelValueItem> statesByCountry;
+        if (isParticipant) {
+            statesByCountry = statesByCountryMap.get(participant.Mailing_Country_Code__c);
+            country = participant.Mailing_Country_Code__c;
+        } else {
+            statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
+        }
         if (statesByCountry != null) {
             for (LabelValueItem state : statesByCountry) {
                 states.add(new SelectOption(state.value, state.label));
@@ -642,5 +753,107 @@ public without sharing class RRChangePasswordController {
             }
         }
         isStateRequired = statesByCountry != null && !statesByCountry.isEmpty();
+        if (!onLoad && isParticipant) {
+            state = '';
+            participant.Mailing_State_Code__c = '';
+            if (isDelegate) {
+                updateFlags();
+            }
+        }
+    }
+    public void updateYearOfBirth() {
+        state = participant.Mailing_State_Code__c;
+        if (isDelegate) {
+            updateFlags();
+        }
+    }
+    private void updateFlags() {
+        birthYear = '';
+        participant.Birth_Year__c = '';
+        isSaveButtonDisabled = true;
+        isAttested = false;
+        showErrorMessage = false;
+        isDisabled = false;
+    }
+    public void validateAgeOfMajority() {
+        participant.Mailing_Country_Code__c = country;
+        participant.Mailing_State_Code__c = state;
+        if (String.isBlank(participant.Birth_Year__c)) {
+            isAttested = false;
+            isDisabled = true;
+            isSaveButtonDisabled = true;
+            showErrorMessage = false;
+        } else if (!String.isBlank(participant.Birth_Year__c)) {
+            isAdult = false;
+            birthYear = participant.Birth_Year__c;
+            List<Age_of_Majority__mdt> ageOfMajorities = [
+                SELECT DeveloperName, Country_Code__c, State_Code__c, Age__c
+                FROM Age_of_Majority__mdt
+            ];
+            Map<String, Integer> ageByCountryCode = new Map<String, Integer>();
+            for (Age_of_Majority__mdt ageOfMajority : ageOfMajorities) {
+                if (ageOfMajority.Age__c != null) {
+                    ageByCountryCode.put(
+                        ageOfMajority.DeveloperName,
+                        ageOfMajority.Age__c.intValue()
+                    );
+                }
+            }
+            Integer delegateAge =
+                DateTime.now().yearGmt() - Integer.valueOf(participant.Birth_Year__c);
+
+            if (
+                ageByCountryCode.get(
+                    participant.Mailing_Country_Code__c +
+                    '_' +
+                    participant.Mailing_State_Code__c
+                ) != null
+            ) {
+                if (
+                    delegateAge >=
+                    ageByCountryCode.get(
+                        participant.Mailing_Country_Code__c +
+                        '_' +
+                        participant.Mailing_State_Code__c
+                    )
+                ) {
+                    isAdult = true;
+                }
+            } else if (ageByCountryCode.get(participant.Mailing_Country_Code__c) != null) {
+                if (delegateAge >= ageByCountryCode.get(participant.Mailing_Country_Code__c)) {
+                    isAdult = true;
+                }
+            } else if (ageByCountryCode.get(AGE_OF_MAJORITY_ALL_COUNTRIES) != null) {
+                if (delegateAge >= ageByCountryCode.get(AGE_OF_MAJORITY_ALL_COUNTRIES)) {
+                    isAdult = true;
+                }
+            }
+            if (isAdult) {
+                showErrorMessage = false;
+                isDisabled = false;
+                validateSaveButton();
+            } else {
+                showErrorMessage = true;
+                isAttested = false;
+                isDisabled = true;
+                isSaveButtonDisabled = true;
+            }
+        }
+    }
+    public void validateSaveButton() {
+        participant.Mailing_Country_Code__c = country;
+        participant.Mailing_State_Code__c = state;
+        participant.Birth_Year__c = birthYear;
+        if (
+            (country != null && !String.isBlank(country)) &&
+            ((isStateRequired && state != null && !String.isBlank(state)) || !isStateRequired) &&
+            (birthYear != null && !String.isBlank(birthYear)) &&
+            isAttested &&
+            isAdult
+        ) {
+            isSaveButtonDisabled = false;
+        } else {
+            isSaveButtonDisabled = true;
+        }
     }
 }

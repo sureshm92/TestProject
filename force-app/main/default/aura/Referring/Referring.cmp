@@ -22,6 +22,7 @@
  <aura:attribute name="studySitesPending" type="List" />
  <aura:attribute name="studySiteMarkers" type="List" />
  <aura:attribute name="participant" type="Object" />
+ <aura:attribute name="participantToInsert" type="Object"/>
  <aura:attribute name="delegateParticipant" type="Object" />
  <aura:attribute name="emailRepeat" type="String" />
  <aura:attribute name="emailDelegateRepeat" type="String" />
@@ -69,6 +70,13 @@
  <aura:attribute name="states" type="List" />
  <aura:attribute name="selectedState" type="String" />
  <aura:attribute name="statesByCountyMap" type="Object" />
+ <aura:attribute name="yob" type="List" />  <!--added by sumit -->
+ <aura:attribute name="attestAge" type="Boolean" default="false" />  <!--added by sumit -->
+ <aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
+ <aura:attribute name="yobBlankErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+ <aura:attribute name="delNotAdultErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+ <aura:attribute name="errorMessage" type="String" default=''/> 
+  <aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true"/> <!--added by sumit -->       
 
  <aura:attribute name="needsGuardian" type="Boolean" default="false" />
  <aura:attribute name="enableGuardian" type="Boolean" default="true" /> <!-- REF-3070-->
@@ -108,7 +116,7 @@
          <aura:if isTrue="{!v.currentState == 'Screening'}">
              <div class="buttons-area">
                  <div class="rr-width-limiter buttons-block">
-                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}">
+                     <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}" style="{!if(v.isRTL,'margin-left: 1%;','')}">
                          <div>{!$Label.c.BTN_Stat_Over}</div>
                      </div>
                      <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
@@ -131,7 +139,7 @@
      <!-- page content -->
      <div
          class="rr-body-content"
-         style="{!'min-height: 500px; position: relative; padding-bottom: 100px; padding-top:50px;' + if(v.isRTL,'direction: rtl;','')}"
+         style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'/* @noflip */  direction: rtl;','')}"
      >
          <!-- Select source -->
          <aura:if isTrue="{!v.currentState == 'Select Source'}">
@@ -200,7 +208,7 @@
          <!-- Screening -->
          <aura:if isTrue="{!v.currentState == 'Screening'}">
              <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Discussion}">
-                 <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, 'direction: rtl;','')}">
+                 <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                      <div class="big-alert">
                          <c:RRIcon iconName="communication" />
                          <div class="message">
@@ -295,7 +303,7 @@
                              {!$Label.c.PG_Ref_L_Please_select_referred_study_site_s_to_refer_your_patient_to}
                          </div>
                      </div>
-                     <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, 'direction: rtl;','')}">
+                     <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                          <div
                              class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
                          >
@@ -512,12 +520,12 @@
                          <div class="message">Contact info page TODO</div>
                      </div>
                  </div-->
-                 <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'direction: rtl;')}">
+                 <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'/* @noflip */  direction: rtl;')}">
                      <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
                          <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
                              <div class="slds-grid slds-wrap">
                                  <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                     <div class="rr-big-title inverse" style="margin-top: 30px">
+                                     <div class="rr-big-title inverse" style="margin-top: 70px">
                                          {!$Label.c.PG_Ref_L_Congratulations}
                                      </div>
                                      <div class="rr-title inverse" style="margin-bottom: 20px">
@@ -658,7 +666,7 @@
                                              class="slds-col rr-medium-up-hide"
                                              style="height: 20px"
                                          ></div>
-                                         <div class="slds-col slds-size--1-of-2">
+                                         <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
                                              <div class="label">
                                                  <abbr title="required" class="slds-required"
                                                      >*</abbr
@@ -974,6 +982,60 @@
                                                  />
                                              </div>
                                          </div>
+                                         <!-- added by sumit-->
+                                         <aura:if isTrue="{!v.isNewPrimaryDelegate}">
+                                         <div
+                                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                              >
+                                             <div class="slds-col slds-size--1-of-4">
+                                                 <div class="label">
+                                                     <abbr title="required" class="slds-required"
+                                                           >{!v.needsGuardian ? '*' : ''}</abbr
+                                                         > {!$Label.c.RH_YearofBirth}
+                                                 </div>
+                                                 <c:rrSelect
+                                                             options="{!v.yob}"
+                                                             value="{!v.delegateParticipant.Birth_Year__c}"
+                                                             useSentenceFont="false"
+                                                             onchange="{!c.doCheckYearOfBith}"
+                                                             /> 
+												                                           
+                                             </div>
+                                               
+                                             <div
+                                                  class="slds-col rr-medium-up-hide"
+                                                  style="height: 20px"
+                                                  ></div>
+                                             
+                                         </div>
+                                         <div class="slds-p-top_xx-small slds-col slds-size--1-of-10 rr-error">
+                                             	 <aura:if isTrue="{!v.yobBlankErrMsg}">
+                                                 	{!$Label.c.PP_RequiredErrorMessage}
+                                                 </aura:if>
+                                                 <aura:if isTrue="{!v.delNotAdultErrMsg}">
+                                                 	{!$Label.c.RH_MinorDelegateErrMsg}
+                                                 </aura:if>
+                                             </div>
+    								 <div
+                                         class="rr-form-element slds-no-label"
+                                         style="margin-top: 20px"
+                                     >
+                                         <div class="rr-cb-container">
+                                             <lightning:input
+                                                 type="checkbox"
+                                                 label=""
+                                                 checked="{!v.attestAge}"
+                                                 required="true"
+                                                 disabled= "{!!v.isAdultDel}"
+                                                 aura:id="checkBoxAttestation" 
+                                                 onchange="{!c.doCheckYearOfBith}"
+                                             />
+                                         </div>
+                                         <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                                             {!$Label.c.RH_DelegateAttestation}
+                                         </div>
+                                     </div>                                    
+                                     </aura:if>
                                      </aura:if>
                                      <aura:if isTrue="{!(!v.authorizationForm)}">
 

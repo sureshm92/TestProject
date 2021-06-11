@@ -6,6 +6,7 @@
     description="RRLoginForm"
     implements="forceCommunity:availableForAllPageTypes"
     controller="RRLoginRemote"
+    extends="c:CommunityContext"
 >
     <ltng:require
         styles="{!join(',', $Resource.Community_CSS_Core, $Resource.Community_CSS_Stub, $Resource.proximanova + '/proximanova.css')}"
@@ -155,7 +156,7 @@
                                 <lightning:buttonIcon
                                     class="input sfdc_usernameinput sfdc eyeIcon"
                                     iconName="utility:preview"
-                                    alternativeText="Show"
+                                    alternativeText="{!$Label.c.Login_Form_Show}"
                                     onclick="{!c.togglePassword}"
                                 />
                             </aura:if>
@@ -435,7 +436,7 @@
             </div>
             <br />
             <aura:if isTrue="{!not(v.isMobileApp)}">
-                <div class="rr-login-info-title" style="margin-top: 40px">
+                <div class="rr-login-info-title" style="{!if(v.isRTL == true, 'direction:rtl;margin-top: 40px', 'margin-top: 40px')}">                    
                     {!$Label.c.PG_Login_T_This_Site_Optimized_For}
                 </div>
             </aura:if>

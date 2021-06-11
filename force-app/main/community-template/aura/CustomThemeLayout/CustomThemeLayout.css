@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS {
+ .THIS {
     font-family: 'Proxima Nova';
 }
 
@@ -12,6 +12,16 @@
     top: 0;
     width: 1px;
     height: 1px;
+}
+
+.THIS .logo-container-RTL {
+    /* @noflip */   height: 50px;
+    /* @noflip */   display: flex;
+    /* @noflip */  align-items: center;
+    /* @noflip */  margin-left: 15px;
+    /* @noflip */   flex-shrink: 0;
+    /* @noflip */   margin-right: -9px;
+
 }
 
 .THIS .slds-backdrop {
@@ -51,7 +61,8 @@
 }
 
 .THIS .layout-header.rtl {
-    flex-direction: row-reverse;
+   /* flex-direction: row-reverse;*/
+    /* @noflip */  direction: rtl;
 }
 
 .THIS .slds-table thead th {
@@ -361,6 +372,11 @@
         width: 250px;
     }
 
+    .THIS .rtl .right-block {
+       /* @noflip */   margin-right: auto;
+       /* @noflip */   margin-left: 0;
+    }
+
     /*Added to overcome mobile view issue*/
     .THIS .sdv-top-bar {
         z-index: 0 !important;
@@ -446,6 +462,7 @@
     .THIS .cRRNavigationPath.navigation-path {
         margin-left: 0;
     }
+
 }
 
 @media print {

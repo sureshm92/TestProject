@@ -1,0 +1,311 @@
+.THIS #backdrop {
+background-color: rgba(0, 0, 0, 0.7);
+}
+
+.THIS #p-modal.transition-show .p-container {
+opacity: 1;
+visibility: visible;
+}
+
+.THIS .btnRTL {
+/* @noflip */  right: 94% !important;
+top: 1px !important;
+}
+
+.THIS #p-modal .p-container {
+position: fixed;
+max-height: 100vh;
+z-index: 10000;
+top: 50%;
+/* @noflip */ left: 50%;   
+background-color: #ffffff;
+transform: translate(-50%, -50%);
+box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
+border-radius: 0 0 4px 4px;
+border: 1px solid #b5b5b5;
+opacity: 0;
+visibility: hidden;
+transition: opacity 0.4s linear;
+}
+.THIS #p-modal .p-container:before {
+content: '';
+width: 100.1%;
+background: linear-gradient(306deg, #0076ae 0%, #250056 100%);
+height: 4px;
+display: block;
+}
+
+.THIS .p-container > .slds-button {
+width: 0; /* 1rem */
+height: 0; /* 1rem */
+position: absolute;
+top: 5px;
+right: 5px;
+background: none;
+border: none;
+}
+
+.THIS .p-container > .slds-button:after {
+content: '';
+position: absolute;
+background-size: 14px 14px;
+background-image: url(/resource/1569269587000/iconCloseBlack);
+height: 14px;
+width: 14px;
+top: 30px; /* 30px */
+
+}
+/*
+.THIS .cRRIcon {display: none}
+*/
+.THIS .p-container .p-header {
+width: 100%;
+max-height: 20vh;
+min-height: 40px;
+text-align: center;
+white-space: initial;
+overflow: hidden;
+color: #000;
+padding: 24px 15px 15px 24px;
+text-align: left;
+}
+
+.THIS .p-header h2 {
+font-size: 24px;
+font-weight: 500;
+line-height: 30px;
+width: 90%;
+}
+.THIS .p-header.p-header-buttons h2 {
+width: 80%;
+}
+
+.THIS .p-header.success {
+background: #00c221;
+}
+
+.THIS .p-header.warning {
+background: #ffe200;
+color: #000000;
+}
+
+.THIS .p-header.error {
+background: #ff0031;
+}
+
+.THIS .p-container .p-content {
+max-height: 60vh;
+padding: 30px 16px;
+color: #444;
+font-size: 1rem;
+line-height: 1.1rem;
+white-space: initial;
+text-align: left;
+font-weight: 400;
+overflow-x: hidden;
+}
+
+/*
+.THIS .p-container .p-content:not(.with-scroll) {
+-ms-overflow-style: none;
+overflow: -moz-scrollbars-none;
+}
+
+
+.THIS .p-container .p-content:not(.with-scroll)::-webkit-scrollbar {
+width: 0;
+}
+*/
+
+.THIS .p-container .p-footer {
+max-height: 20vh;
+background-color: #ffffff;
+border-radius: 0 0 4px 4px;
+text-align: left;
+white-space: initial;
+padding: 15px 15px 30px 24px;
+overflow: hidden;
+}
+
+.THIS .p-buttons-container .opt-in-popup-button + .opt-in-popup-button {
+margin-left: 10px;
+}
+
+.THIS #p-modal .p-container {
+width: calc(100% - 30px);
+max-height: 100%;
+}
+
+.THIS #p-modal .p-container .p-mobile-close {
+top: 4px;
+right: 4px;
+}
+
+.THIS .close-icon {
+position: absolute;
+height: 6px; /* 33px */
+top: 34px; /* -2px */
+left: 4px; /* -7px */
+width: 6px; /* 46px */
+fill: rgba(255, 255, 255, 0.5);
+}
+.THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+height: 655px;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link {
+line-height: 1.75;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__link[tabindex='0']:focus {
+text-decoration: none;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__item.slds-is-active::after,
+.THIS.cAction_ParticipantInformation
+.p-container
+.slds-tabs_default__item.slds-is-active:hover::after {
+background-color: #297dfd;
+border-radius: 3px;
+bottom: 0;
+width: 85%;
+margin-left: 8%;
+}
+
+.THIS.cAction_ParticipantInformation
+.p-container
+.slds-tabs_default__item:not(.slds-is-active):hover::after {
+background-color: #297dfd;
+height: 2px;
+transition: none;
+width: 85%;
+margin-left: 8%;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .slds-tabs_default__content {
+padding-bottom: 3rem;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-footer {
+position: absolute;
+right: 0.5rem;
+bottom: -3px;
+padding: 15px 15px 15px 24px;
+width: 98%;
+z-index: 100;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-header + div {
+height: 89%;
+}
+
+.THIS.cAction_StudySiteInformation .p-container .p-content {
+padding-left: 10px;
+max-height: 60vh;
+padding-top: 0px;
+color: #444;
+font-size: 1rem;
+line-height: 1.1rem;
+white-space: initial;
+text-align: left;
+font-weight: 400;
+overflow-x: hidden;
+}
+@media screen and (max-width: 768px) {
+.THIS .cPopup .p-container .p-content {
+    max-height: 90vh;
+}
+
+.THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+    height: 90vh;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-header {
+    max-height: 30vh;
+}
+
+.THIS.cAction_ParticipantInformation
+    .p-container
+    .p-header
+    .invite-patient-container
+    > div:nth-of-type(1) {
+    max-width: 65%;
+}
+
+.THIS.cAction_ParticipantInformation
+    .p-container
+    .p-header
+    .invite-patient-container
+    > div:nth-of-type(1)
+    .slds-size--10-of-12 {
+    max-width: 85%;
+}
+.THIS.cAction_ParticipantInformation
+    .p-container
+    .p-header
+    .invite-patient-container
+    > div:nth-of-type(2) {
+    max-width: 35%;
+}
+
+.THIS .p-container .p-footer {
+    border-top: 1px solid #efefef;
+}
+}
+
+@media all and (max-width: 767px) {
+.THIS.cAction_ParticipantInformation .p-container .p-header {
+    max-height: 30vh;
+}
+}
+@media all and (min-width: 480px) {
+.THIS #p-modal .p-container.small {
+    width: 400px;
+}
+}
+
+@media all and (min-width: 768px) {
+.THIS #p-modal .p-container.medium {
+    /*width: 600px;*/
+    width: 700px;
+}
+}
+
+@media all and (min-width: 1024px) {
+.THIS #p-modal .p-container.large {
+    width: 800px;
+}
+}
+@media all and (max-width: 500px) {
+.THIS #p-modal .p-container {
+    /*   height: 95%; */
+    max-height: 95%;
+    top: 50%;
+    padding-bottom: 10px;
+}
+
+.THIS.cAction_ParticipantInformation .p-container .p-footer {
+    right: 0;
+    bottom: 15px;
+    padding: 15px;
+    max-height: 190px;
+    width: 100%;
+    border-top: 1px solid #efefef;
+}
+}
+@media all and (orientation: landscape) {
+.THIS.cAction_ParticipantInformation #p-modal .p-container.large {
+    min-height: auto;
+    overflow: hidden;
+}
+
+.THIS.cAction_ParticipantInformation #p-modal .p-container.large .form-content {
+    padding-bottom: 50px;
+}
+}
+
+@media all and (orientation: landscape) and (max-height: 450px) {
+.THIS.cAction_ParticipantInformation .p-container .p-footer {
+    bottom: 35px;
+}
+}

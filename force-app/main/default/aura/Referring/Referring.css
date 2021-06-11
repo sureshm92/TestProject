@@ -2,12 +2,38 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.rr-body-content > .rr-width-limiter {
+ .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
 .THIS.rr-body-content > .rr-width-limiterRTL {
     margin-top: 50px;
-    direction: rtl;
+    /* @noflip */  direction: rtl;
+}
+
+.THIS .rr-error{
+    color: #e20000;
+}
+.THIS .rightAlign .slds-input__icon_right {
+    margin-right: 81%;
+}
+.THIS .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .rightAlign .slds-datepicker table {
+    table-layout: fixed;
+    width: 300px;
+}
+.THIS .slds-datepicker .slds-day {
+    width: auto !important;
+    min-width: auto !important;
+    height: auto !important;
+    line-height: inherit !important;
+}
+
+.THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
+    white-space: nowrap;
+    margin-top: 10px;
 }
 
 .THIS .pe-button .rr-icon-default {
@@ -24,12 +50,12 @@
 }
 
 .THIS .part-header{
-    size: 16px; 
+    size: 16px;
     margin-top: 75px;
 }
 
 .THIS .part-header-removed{
-    size: 16px; 
+    size: 16px;
     margin-top: 20px;
 }
 
@@ -103,15 +129,15 @@
 .THIS .pe-large-header {
     font-size: 24px;
     font-weight: 600;
-    line-height: 60px;
+    line-height: 36px;
     text-align: left;
     padding: 50px 0 0;
 }
 .THIS .pe-large-headerRTL {
     font-size: 24px;
     font-weight: 600;
-    line-height: 60px;
-    text-align: right;
+    line-height: 36px;
+    /* @noflip */   text-align: right;
     padding: 35px 0 0;
 }
 
@@ -363,6 +389,18 @@
         padding-left: 10px;
         padding-right: 10px;
     }
+
+    .THIS .rr-body-content  > .rr-width-limiter-half > .slds-grid > .slds-col > .slds-grid > .slds-size--1-of-2 {
+        min-width: 100%;
+    }
+
+    .THIS .rr-body-content  > .rr-width-limiter-half > .slds-grid > .slds-col > .slds-grid > .slds-size--1-of-4 {
+        min-width: 50%;
+    }
+
+    .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
+        margin-top: 30px;
+    }
 }
 
 @media all and (max-width: 768px) {
@@ -383,6 +421,11 @@
     .THIS.cRRTopBar .buttons-block .apollo-btn.secondary {
         padding: 6px 8px;
         height: 40px;
+        text-align: center;
+    }
+
+    .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
+        margin-top: 0;
     }
 }
 
@@ -419,7 +462,13 @@
     .THIS .ssi-site-type {
         text-align: right;
         padding: -10%;
+    }
 
+    .THIS .ss-map {
+        align-self: stretch;
+    }
+    .THIS lightning-map {
+        height: 100%;
     }
 }
 .THIS .sub-title {
@@ -434,11 +483,8 @@
 .THIS .slds-coordinates {
     display: none !important;
 }
-@media all and (min-width: 768px) {
-    .THIS .ss-map {
-        align-self: stretch;
-    }
-    .THIS lightning-map {
-        height: 100%;
-    }
+
+
+.THIS .slds-checkbox{
+    display: inline-flex;
 }

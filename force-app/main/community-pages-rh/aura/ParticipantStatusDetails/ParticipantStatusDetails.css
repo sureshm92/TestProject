@@ -2,7 +2,7 @@
  * Created by Andrii Kryvolap.
  */
 
-.THIS {
+ .THIS {
     margin-top: 10px;
 }
 
@@ -11,9 +11,22 @@
     min-height: 18px;
     border-radius: 50%;
     line-height: 1;
-    margin-right: 20px;
+     margin-right: 20px;
 }
 .THIS .step-status-icon .rr-icon-default {
+    width: 16px;
+    height: 16px;
+    padding: 0;
+    fill: white !important;
+}
+.THIS .step-status-iconRTL {
+    min-width: 18px;
+    min-height: 18px;
+    border-radius: 50%;
+    line-height: 1;
+    /* @noflip */  margin-left: 20px;
+}
+.THIS .step-status-iconRTL .rr-icon-default {
     width: 16px;
     height: 16px;
     padding: 0;
@@ -45,6 +58,10 @@
 
 .THIS .step-info {
     text-align: left;
+}
+.THIS .step-infoRTL {
+    /* @noflip */   text-align: right;   
+    
 }
 
 .THIS .step-title {

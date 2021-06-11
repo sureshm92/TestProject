@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Recruitment_Status</fullName>
-    <active>true</active>
+    <active>false</active>
     <description>SPNL can only change the value from &#39;Actively Enrolled&#39; to &#39;On Hold</description>
     <errorConditionFormula>AND(ISCHANGED(Override_Recruitment_Status__c),
 ISPICKVAL(PRIORVALUE(Override_Recruitment_Status__c),&quot;Actively Enrolling&quot;), 

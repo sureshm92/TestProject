@@ -58,6 +58,10 @@
     padding: 10px 20px 10px 0;
 }
 
+.THIS.ts-tab-container .ts-tab-right .ts-tab:first-child {
+    padding: 10px 0 10px 20px;
+}
+
 .THIS.ts-tab-container .ts-tab:hover {
     opacity: 1;
     color: #000;
@@ -124,5 +128,16 @@
     .THIS .ts-tab-right {
         order: 1;
         justify-content: flex-end;
+    }
+}
+
+@media all and (max-width: 468px) {
+    .THIS .ts-tab-right .ts-tab {
+        min-width: 60px;
+    }
+
+    .THIS.ts-tab-container .ts-tab-right .ts-tab:first-child {
+        padding: 10px 0 10px 36px;
+        margin-left: 25px;
     }
 }

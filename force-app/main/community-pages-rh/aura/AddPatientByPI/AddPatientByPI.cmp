@@ -34,6 +34,13 @@
     <aura:attribute name="communityWithPPInv" type="Boolean" default="true" />
     <aura:attribute name="emailInstance" type="String" />
     <aura:attribute name="createUserForDelegate" type="Boolean" default="false" />
+    
+    <aura:attribute name="attestAge" type="Boolean" default="false" />  <!--added by sumit -->
+    <aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
+    <aura:attribute name="yobBlankErrMsg" type="Boolean"/>  <!--added by sumit -->
+    <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>  <!--added by sumit -->
+    <aura:attribute name="errorMessage" type="String" default=''/>  <!--added by sumit -->
+    <aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true"/>
 
     <!-- methods: -->
     <aura:method name="checkDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
@@ -60,7 +67,7 @@
     </c:RRTopBar>
 
     <aura:if isTrue="{!v.initialized}">
-        <div class="rr-width-limiter side-padding add-patient-form" style="{!if(v.isRTL, 'direction: rtl;','')}">
+        <div class="rr-width-limiter side-padding add-patient-form" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
             <div class="ap-top-info">{! '* ' + $Label.c.PG_AP_T_Indicate_Req_Fields}</div>
             <div class="rr-white-panel padding">
                 <c:Form_EditPatientInfo
@@ -249,7 +256,55 @@
                             >
                                 <div class="label"></div>
                             </div>
-
+                            <aura:if
+								isTrue="{!v.isNewPrimaryDelegate}">
+                            <div
+                         class="slds-grid slds-wrap slds-p-top_small"
+                         >
+                        <div class="slds-col slds-size--2-of-10">
+                            <div class="label">
+                                <abbr title="required" class="slds-required"
+                                      >*</abbr
+                                    > {!$Label.c.RH_YearofBirth}
+                            </div>
+                            <c:rrSelect
+                                        options="{!v.formData.yearOfBirth}"
+                                        value="{!v.participantDelegate.Birth_Year__c}"
+                                        useSentenceFont="false"
+                                        onchange="{!c.doCheckYearOfBith}"
+                                        /> 
+                            
+                        </div>
+                    
+                    <div
+                         class="rr-form-element slds-no-label slds-col"
+                         style="margin-top: 30px"
+                         >
+                        <div class="rr-cb-container">
+                            <lightning:input
+                                             type="checkbox"
+                                             label=""
+                                             checked="{!v.attestAge}"
+                                             onchange="{!c.doCheckYearOfBith}"
+                                             required="true"
+                                             disabled= "{!!v.isAdultDel}"
+                                             aura:id="checkBoxAttestation" 
+                                             />
+                        </div>
+                        <div class="label rr-cb-label delegateAttest" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                            {!$Label.c.RH_DelegateAttestation}
+                        </div>
+                    </div> 
+                    </div>
+                            </aura:if>
+					<div class="slds-col slds-size--1-of-1 rr-error">
+                            <aura:if isTrue="{!v.yobBlankErrMsg}">
+                                {!$Label.c.PP_RequiredErrorMessage}
+                            </aura:if>
+                            <aura:if isTrue="{!v.delNotAdultErrMsg}">
+                                {!$Label.c.RH_MinorDelegateErrMsg}
+                            </aura:if>
+                        </div>
                             <!--<div class="slds-grid slds-wrap slds-size&#45;&#45;7-of-12 slds-large-size&#45;&#45;1-of-1 slds-grid_vertical-align-end healthcare-form-container provider-found-section">
                                     <div class="slds-col slds-size&#45;&#45;4-of-12">
                                         {!$Label.c.Delegate_Found}
@@ -271,7 +326,7 @@
                             </div>
                         </div>
                     </div>
-                    <div class="slds-grid slds-gutters slds-wrap">
+              <!--  <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{!'margin-top: 20px; ' + if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
                                 <span class="slds-form-element__label-for-checkbox" style="{!if(v.isRTL, 'margin-right: 7px;','')}"
@@ -279,7 +334,7 @@
                                 >
                             </div>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="slds-grid slds-gutters slds-wrap">
                         <div class="slds-form-element" style="{! if(v.isRTL,'margin-right: 10px;','margin-left: 10px')}">
                             <div class="slds-form-element__control">
@@ -296,7 +351,7 @@
                                     <label class="slds-checkbox__label" for="checkbox-unique-id-76">
                                         <span class="slds-checkbox_faux"></span>
                                         <span class="slds-form-element__label-for-checkbox" style="{!if(v.isRTL, 'margin-right: 5px;','')}"
-                                            >{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span
+                                            >{!$Label.c.PG_Ref_L_Permit_IQVIA_Confirmation}&nbsp;{!$Label.c.PG_Ref_L_Permit_IQVIA_To_ShareInformation}</span
                                         >
                                     </label>
                                 </div>

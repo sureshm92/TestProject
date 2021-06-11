@@ -27,7 +27,8 @@
     position: relative;
     width: 200px;
     margin-top: -3px;
-    margin-left: 9px;
+  /* @noflip */  margin-left: 9px;
+   /* @noflip */  margin-right: -25px;
 }
 
 .THIS .ssp-button-search {
@@ -42,6 +43,10 @@
     width: 220px;
     margin-left: 20px;
     padding-left: 20px;
+}
+.THIS .ssp-sort-listRTL {
+    width: 67%;
+  /* @noflip */  margin-right: 30px;
 }
 
 .THIS .ssp-search {

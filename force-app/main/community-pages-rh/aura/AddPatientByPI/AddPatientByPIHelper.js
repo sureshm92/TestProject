@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     initData: function (component) {
         var ss = component.get('v.ss');
         component.set('v.participant', {
@@ -67,6 +67,7 @@
                     component.set('v.createUsers', false);
                 }
                 component.find('checkbox-Contact').set('v.checked', false);
+                component.set('v.attestAge', false);
             },
             null,
             function () {
@@ -90,6 +91,10 @@
     checkFields: function (component, event, helper, doNotCheckFields) {
         let participant = component.get('v.participant');
         let needsDelegate = component.get('v.needsGuardian');
+        
+        let isAdultDel = component.get('v.isAdultDel');
+        let attestAge = component.get('v.attestAge');
+        let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.participantDelegate');
@@ -185,6 +190,12 @@
             }
 
         isValid = isValid && isEmailValid;
+        if(isNewPrimaryDelegate)
+        {
+            if(!(isAdultDel && attestAge))
+                isValid = false;
+            
+        }
         console.log('Delegate VALID: ' + isValid);
         component.set('v.isDelegateValid', isValid);
         let editForm = component.find('editForm');
@@ -192,7 +203,7 @@
     },
 
     checkValidEmail: function (email, emailValue) {
-        debugger;
+      //  debugger;
         var isValid = false;
         var regexp = $A.get('$Label.c.RH_Email_Validation_Pattern');
         var regexpInvalid = new RegExp($A.get('$Label.c.RH_Email_Invalid_Characters'));
@@ -222,6 +233,7 @@
         var callback = component.get('v.callback');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
@@ -231,8 +243,8 @@
             function (returnValue) {
                 console.log('isNeedGuardian: ' + returnValue);
                 var isNeedGuardian = returnValue == 'true';
-                if (!isNeedGuardian && callback) {
-                    callback();
+                if (callback) {
+                    callback(!isNeedGuardian);
                 }
                 console.log('checkNeedsGuardian - SUCCESS: ' + isNeedGuardian);
 
@@ -264,6 +276,60 @@
         );
     },
 
+    checkGuardianAge: function (component, event, helper) {
+        var spinner = component.find('spinner');
+        spinner.show();
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
+        var participant = component.get('v.participant');
+        var delegateParticipant = component.get('v.participantDelegate');
+        if(delegateParticipant.Birth_Year__c == '' || delegateParticipant.Birth_Year__c == null){
+        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.delNotAdultErrMsg', false);
+            component.set('v.attestAge', false);
+             component.set('v.isAdultDel', false);
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+            spinner.hide();
+        }else{	
+            component.set('v.yobBlankErrMsg', false);
+            communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(delegateParticipant)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                    }else{
+                        component.set('v.isAdultDel', false); 
+                        component.set('v.attestAge', false);
+                        component.set('v.delNotAdultErrMsg', true);
+                        var attestCheckbox = component.find('checkBoxAttestation');
+                        attestCheckbox.setCustomValidity('');
+                        attestCheckbox.reportValidity('');
+                    }
+                    
+                    helper.checkFields(component, event, helper, true);
+                } ,         
+                null,
+                function () {
+                    spinner.hide();
+                }
+            );
+        }
+        helper.checkFields(component, event, helper, true);
+    },
+    
     checkDelegateDuplicate: function (component, event, helper, email, firstName, lastName) {
         var spinner = component.find('spinner');
         spinner.show();
@@ -284,7 +350,14 @@
                 ) {
                     component.set('v.useThisDelegate', true);
                     component.set('v.useThisDelegate', false);
-                } else component.set('v.useThisDelegate', true);
+                     component.set('v.isNewPrimaryDelegate', false);
+                } else{
+                    component.set('v.useThisDelegate', true);
+                    component.set('v.isNewPrimaryDelegate', true);
+                    component.set('v.participantDelegate.Birth_Year__c','');
+                    component.set('v.attestAge', false);
+                    
+                }
                 var participantDelegate = component.get('v.participantDelegate');
                 if (returnValue.email) {
                     component.set('v.emailInstance', returnValue.email.toLowerCase());
@@ -295,6 +368,8 @@
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
                     participantDelegate.First_Name__c = returnValue.firstName;
+                if(returnValue.DelegateYOB)
+                    participantDelegate.Birth_Year__c = returnValue.DelegateYOB;
 
                 component.set('v.participantDelegate', participantDelegate);
                 helper.checkFields(component, event, helper, true);

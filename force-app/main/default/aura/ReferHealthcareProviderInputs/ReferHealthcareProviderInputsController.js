@@ -1,7 +1,7 @@
 /**
  * Created by Nikita Abrazhevitch on 10-Apr-20.
  */
-({
+ ({
     checkContact: function (component, event, helper) {
         var sharingObject = component.get('v.sharingObject');
         var email = event.getSource().get('v.value');
@@ -47,6 +47,16 @@
                     component.set('v.sharingObject.lastName', null);
                 }
                 component.set('v.sharingObject.email', event.getSource().get('v.value'));
+                if(component.get('v.isFirstPrimaryDelegate'))
+                {
+                    
+                     component.set('v.sharingObject.Birth_Year__c','');
+                    component.set('v.isFirstPrimaryDelegate', false);
+                    component.set('v.attestAge', false);
+                    component.set('v.yobBlankErrMsg', false);
+                    component.set('v.delNotAdultErrMsg', false);
+                    component.set('v.isAdultDel', false); 
+                }
             }
             if (event.getSource().getLocalId() == 'firstNameInput') {
                 component.set('v.sharingObject.firstName', event.getSource().get('v.value'));
@@ -98,6 +108,38 @@
             lastName = sharingObject.Last_Name__c ? sharingObject.Last_Name__c.trim() : null;
         }
         var isValid = email && communityService.isValidEmail(email) && firstName && lastName;
+        if(component.get('v.isFirstPrimaryDelegate'))
+        {
+            if(sharingObject.sObjectType == 'Object') {
+            if(sharingObject.Birth_Year__c == '')
+            {
+                component.set('v.yobBlankErrMsg', true);
+                component.set('v.delNotAdultErrMsg', false);
+                component.set('v.attestAge',false);
+                component.set('v.isAdultDel', false); 
+                var attestCheckbox = component.find('AttestCheckbox');
+                attestCheckbox.setCustomValidity('');
+                attestCheckbox.reportValidity(''); 
+                isValid = false;
+            }
+            else{
+                if(component.get('v.attestAge') == false)
+                    isValid = false;
+                component.set('v.yobBlankErrMsg', false);
+            }
+            if(!component.get('v.isAdultDel')) 
+                component.set('v.attestAge', false);
+            if(component.get('v.attestAge'))
+                {
+                    var attestCheckbox = component.find('AttestCheckbox');
+                    attestCheckbox.setCustomValidity('');
+                    attestCheckbox.reportValidity(''); 
+                }
+             
+            
+          }
+        }
+        console.log('>>isValid  >>'+isValid);
         component.set('v.isValid', isValid);
     },
 
@@ -136,5 +178,12 @@
 
     approveDelegate: function (component, event, helper) {
         component.set('v.useThisDelegate', true);
-    }
+    },
+    
+    checkDelegateAgeHandlerNew : function(component, event, helper){
+        
+        helper.checkGuradianAge(component, event, helper);
+},
+    
+  
 });

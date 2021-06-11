@@ -19,17 +19,15 @@ public with sharing class PermissionGroupService {
     };
 
     //Profile
-    public static final String PROFILE_SPNL = 'IQVIA SPNL';
     public static final String PROFILE_SPNL2 = 'IQVIA SPNL2';
     public static final String PROFILE_BUSINESS_ADMINISTRATOR = 'Business Administrator';
     public static final String PROFILE_BUSINESS_LEAD = 'BusinessLead';
     public static final String PROFILE_PRDB = 'PRDBAPI';
     public static final String PROFILE_PRODUCT_OWNER = 'Product Owner';
 
-    static public List<String> profilesSPNL = new List<String>{ PROFILE_SPNL, PROFILE_SPNL2 };
+    static public List<String> profilesSPNL = new List<String>{ PROFILE_SPNL2 };
 
     static public List<String> profileList = new List<String>{
-        PROFILE_SPNL,
         PROFILE_SPNL2,
         PROFILE_BUSINESS_ADMINISTRATOR,
         PROFILE_BUSINESS_LEAD,

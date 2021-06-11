@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="Donut">
+ <aura:component description="Donut" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <!-- attributes: -->
@@ -45,9 +45,8 @@
                     </div>
                 </div>
             </div>
-            <div
-                class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_8-of-12 ', '') + ' dt-legend-section'}"
-            >
+            <div style="{!v.isRTL? '/* @noflip */  direction: rtl;dt-legend-section-RTL':''}"  class="{!'slds-col slds-size_6-of-12 ' + if(and(v.type == 'PI', !empty(v.linkTitle)), ' slds-large-size_8-of-12 ', '') + ' dt-legend-section'}"
+        >
                 <aura:if isTrue="{!!empty(v.body)}"
                     ><div class="rr-small-down-hide dt-body">{!v.body}</div></aura:if
                 >
@@ -60,7 +59,8 @@
                                     style="{!'background: ' + dataItem.color}"
                                 ></div>
                             </div>
-                            <div class="slds-col dt-legend-item">
+                            <aura:if isTrue="{!v.isRTL}">
+                             <div  class="slds-col dt-legend-item-RTL">
                                 {!dataItem.segment}
                                 <span class="dt-legend-value"
                                     >{!' (' + dataItem.value}
@@ -68,6 +68,19 @@
                                     >)</span
                                 >
                             </div>
+	                            <aura:set attribute="else">
+	                                 <div  class="slds-col dt-legend-item">
+                                {!dataItem.segment}
+                                <span class="dt-legend-value"
+                                    >{!' (' + dataItem.value}
+                                    <span class="rr-small-down-hide">{!' ' + v.valueLabel}</span
+                                    >)</span
+                                >
+                            </div>
+	                            </aura:set>
+                        </aura:if>
+
+                           
                         </div>
                     </aura:iteration>
                 </div>

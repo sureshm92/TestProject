@@ -10,9 +10,11 @@ public without sharing class ReferralProfileRemote {
         Participant_Enrollment__c enrollment;
         Participant__c participantDelegate;
         List<LabelValueItem> visitPlanLVList;
+        public List<LabelValueItem> yearOfBirth;
         Map<String, PEStatusState> peStatusStateMap = PEStatusState.STATUSES_MAP;
         List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         Boolean isEnrolled;
+        Boolean isBulkImport;
         Boolean containsFile; //REF-2654
         User userInfo;
         Contact contactInfo; 
@@ -92,6 +94,7 @@ public without sharing class ReferralProfileRemote {
     public static String getReferralProfileDetail(String peId, String userMode, String delegateId) {
         try {
             InitData initData = new InitData();
+            initData.isBulkImport = false;
             //Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(peId, userMode, delegateId);
             Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
                 peId,
@@ -134,23 +137,25 @@ public without sharing class ReferralProfileRemote {
             if (pe == null)
                 throw new CommunityServiceException('Participant enrollment not found');
             initData.enrollment = pe;
-
-           List<Participant__c> delegates = [
-                SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c
+            
+            List<Patient_Delegate__c> lstPE = [SELECT Contact__c,Attestation__c FROM Patient_Delegate__c
+                      							WHERE Participant__c =: pe.Participant__c 
+                                               AND Primary_Delegate__c = TRUE];
+            List<Participant__c> delegates = new List<Participant__c> ();
+            if(!lstPE.isEmpty()){
+          delegates = [
+                SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c,Birth_Year__c
+              	,Attestation__c,Attested_by__c,Attestation_TimeStamp__c
                 FROM Participant__c
-                WHERE
-                    Contact__c IN (
-                        SELECT Contact__c
-                        FROM Patient_Delegate__c
-                        WHERE
-                            Participant__c = :pe.Participant__c
-                           // AND Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                        	AND Primary_Delegate__c = TRUE
-                           )
-            ];
+                WHERE  Contact__c =: lstPE[0].Contact__c ];
+          }
             system.debug('pe.Participant__c>>'+pe.Participant__c);
             if (!delegates.isEmpty()){
                 initData.participantDelegate = delegates[0];
+                if(delegates[0].Attestation__c == True && String.isBlank(delegates[0].Birth_Year__c))
+                {
+                    initData.isBulkImport = True;
+                }
            }
             else {
                 initData.participantDelegate  = new Participant__c(First_Name__c='',
@@ -163,6 +168,7 @@ public without sharing class ReferralProfileRemote {
                 initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
             }
             // initData.steps = ParticipantWorkflowService.prepareParticipantWorkflow(ctp, pe);
+            initData.yearOfBirth = ParticipantService.getYearofBirthList();
             initData.isEnrolled =
                 !PEStatusState.STATUSES_MAP.containsKey(pe.Participant_Status__c) ||
                 pe.Participant_Status__c.startsWith('Enrollment');

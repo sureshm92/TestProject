@@ -39,6 +39,9 @@
             }
         );
         component.get('v.callback')(pe);
+        var compEvent = component.getEvent("FilterKeep");
+        compEvent.fire();
+
         var comp = component.find('dialog');
         comp.hide();
     },

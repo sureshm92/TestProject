@@ -1,5 +1,6 @@
 @IsTest
 public class Test_ListViewParticipantController {
+ 
     @testsetup
     public static void dataSetup() {
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
@@ -54,19 +55,7 @@ public class Test_ListViewParticipantController {
             insert user_1;
         }
         Test.startTest();
-        // System.runAs(user_1) {
-        /*  Account SiteAccount = new Account(
-                Name = 'Study Site Account',
-                BillingCountry = 'United States');
-            
-            insert SiteAccount;
-            
-            Contact con = new Contact(
-                FirstName = 'PITD',
-                LastName = 'PITD',
-                AccountId = SiteAccount.Id,
-                Email = 'test@con.com');
-            insert con; */
+      
 
         Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
@@ -75,7 +64,6 @@ public class Test_ListViewParticipantController {
             Link_to_Pre_screening__c = 'some link',
             Study_Title__c = 'Some Title',
             Study_Code_Name__c = 'Some Code Name',
-            Promote_to_SH__c =true,
             Suppress_Participant_Emails__c = false
         );
         insert clinical;
@@ -107,10 +95,8 @@ public class Test_ListViewParticipantController {
             Mailing_State_Code__c = 'AL',
             age__c = 23,
             site__c = account_1.id,
-            Ethnicity__c='0- Prefer not to say',
             // Present_Age__c =
-            Adult__c = true,
-            Gender_Technical__c='Male'
+            Adult__c = true
         );
         insert participant;
 
@@ -131,33 +117,13 @@ public class Test_ListViewParticipantController {
         );
         insert pe;
 
-        /*   Participant_Enrollment__c pe1 = new Participant_Enrollment__c(
-                HCP__c = hcpEnrollment.Id,
-                Pre_screening_Status__c = ParticipantEnrollmentService.PES_STATUS_NOT_REQUIRED,
-                Medical_Record_Review_Status__c = ParticipantEnrollmentService.MRR_STATUS_PASS,
-                PI_Contact__c = contact_1.Id,
-                Initial_visit_scheduled_date__c = date.today(),
-                Study_Site__c = studySite.Id,
-                Patient_ID__c = 'SomePatientId1',
-                Referral_Source__c = 'HCP',
-                Source_Type__c = 'Referring Provider',
-                HighRisk_Indicator__c = 'Yes',
-                Participant_Status__c = 'Received',
-                Participant__c = participant.Id,
-                Screening_ID__c = 'PESCR1'
-                );
-               insert pe1; */
-
-        // }
+      
     }
     @IsTest
     public static void runTest() {
-        
-        Participant_Enrollment__c pe = [SELECT ID,Clinical_Trial_Profile__c,Study_Site__c FROM Participant_Enrollment__c LIMIT 1];
-        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c WHERE Id =:pe.Clinical_Trial_Profile__c LIMIT 1];
-        
-        Study_Site__c studySite = [SELECT ID FROM Study_Site__c WHERE Id =:pe.Study_Site__c LIMIT 1];
-        
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
         participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
         system.debug(p.Present_Age__c);
         contact con = [SELECT id FROM contact LIMIT 1];
@@ -169,87 +135,7 @@ public class Test_ListViewParticipantController {
         lw.Sortby = 'Ascending';
         lw.Status = 'Active';
         lw.Study = clinical.id;
-        lw.StudySites = studySite.id;
-        lw.Source = 'Referring Provider';
-        lw.isHighRiskOccupation = 'true';
-        lw.isComorbidities = 'true';
-        lw.Ethnicity = '0- Prefer not to say';
-        lw.AgeFrom = '0';
-        lw.AgeTo = '150';
-        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
-        lw.highPrioritySelected_NoIds = new List<id>();
-        lw.isInitialVisitScheduled = 'true';
-        lw.Sex = 'Male';
-        lw.isExport = 'true';
-        lw.startPos = 1;
-        lw.endPos = 45000;
-        lw.ParticipantStatus='Received';
-
-        System.runAs(u) {
-            ListViewParticipantController.getInitData(
-                clinical.ID,
-                studySite.Id,
-                'PI',
-                null,
-                'Janssen'
-            );
-
-            ListViewParticipantController.getSSList(studySite.Id);
-
-            ListViewParticipantController.getParticipantStatus('Active');
-
-            ListViewParticipantController.getParticipantStatus('Inactive');
-
-            ListViewParticipantController.updateParticipantData(
-                new List<String>{ pe.id },
-                new List<String>{ pe.id },
-                new List<String>{ pe.id }
-            );
-
-            ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
-            );
-            LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
-
-            ListViewParticipantController.labelValueItemsHaveItem(
-                new List<LabelValueItem>{ lv },
-                'Referring Provider'
-            );
-            ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
-            sr.peList = new List<ListViewParticipantController.PEWrapper>();
-            sr.PaginationData = new PaginationData();
-            ListViewParticipantService.PEFilter pef;
-            sr.peFilter = new ListViewParticipantService.PEFilter(
-                new ListViewParticipantService.PEFilterData()
-            ); //PEFilter;
-
-            sr.peList = new List<ListViewParticipantController.PEWrapper>();
-
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'Inactive');
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
-            ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
-        }
-    }
-
-    @IsTest
-    public static void runTest1() {
-        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
-        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
-        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
-        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
-        system.debug(p.Present_Age__c);
-        contact con = [SELECT id FROM contact LIMIT 1];
-        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
-        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
-        lw.SelectedIds = new List<Id>{pe.id};
-        lw.pageSize = 5;
-        lw.pageNumber = 3;
-        lw.Sortby = 'Ascending';
-        lw.Status = 'Active';
-        lw.Study = clinical.id;
-        lw.StudySites = studySite.id;
+        lw.StudySites = '';
         lw.Source = '';
         lw.isHighRiskOccupation = 'true';
         lw.isComorbidities = 'false';
@@ -263,7 +149,6 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
-        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -274,11 +159,11 @@ public class Test_ListViewParticipantController {
                 'Janssen'
             );
 
-            ListViewParticipantController.getSSList(studySite.Id);
+            ListViewParticipantController.getSSList(clinical.Id,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Active');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Inactive');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Inactive');
 
             ListViewParticipantController.updateParticipantData(
                 new List<String>{ pe.id },
@@ -287,7 +172,7 @@ public class Test_ListViewParticipantController {
             );
 
             ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
@@ -309,11 +194,12 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
             ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            
         }
     }
+
     @IsTest
-    public static void runTest3() {
+    public static void runTest1() {
         Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
         Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
@@ -322,11 +208,11 @@ public class Test_ListViewParticipantController {
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
-        lw.SelectedIds = new List<Id>{pe.id};
+        lw.SelectedIds = new List<Id>();
         lw.pageSize = 5;
         lw.pageNumber = 3;
         lw.Sortby = 'Ascending';
-        lw.Status = 'Inactive';
+        lw.Status = 'Active';
         lw.Study = clinical.id;
         lw.StudySites = '';
         lw.Source = '';
@@ -334,7 +220,7 @@ public class Test_ListViewParticipantController {
         lw.isComorbidities = 'false';
         lw.Ethnicity = '';
         lw.AgeFrom = '0';
-        lw.AgeTo = '150';
+        lw.AgeTo = '25';
         lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
         lw.highPrioritySelected_NoIds = new List<id>();
         lw.isInitialVisitScheduled = 'true';
@@ -342,7 +228,6 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
-        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
@@ -353,11 +238,11 @@ public class Test_ListViewParticipantController {
                 'Janssen'
             );
 
-            ListViewParticipantController.getSSList(studySite.Id);
+            ListViewParticipantController.getSSList(clinical.Id,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Active');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Active');
 
-            ListViewParticipantController.getParticipantStatus('Inactive');
+            ListViewParticipantController.getParticipantStatus(clinical.ID,'Inactive');
 
             ListViewParticipantController.updateParticipantData(
                 new List<String>{ pe.id },
@@ -366,7 +251,7 @@ public class Test_ListViewParticipantController {
             );
 
             ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
@@ -388,87 +273,9 @@ public class Test_ListViewParticipantController {
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
             ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
             ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
+            
         }
     }
-    @IsTest
-    public static void runTest4() {
-        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
-        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
-        Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
-        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
-        system.debug(p.Present_Age__c);
-        contact con = [SELECT id FROM contact LIMIT 1];
-        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
-        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
-        lw.SelectedIds = new List<Id>{ pe.id };
-        lw.pageSize = 5;
-        lw.pageNumber = 3;
-        lw.Sortby = 'Ascending';
-        lw.Status = 'Inactive';
-        lw.Study = clinical.id;
-        lw.StudySites = '';
-        lw.Source = '';
-        lw.isHighRiskOccupation = 'true';
-        lw.isComorbidities = 'false';
-        lw.Ethnicity = '';
-        lw.AgeFrom = '0';
-        lw.AgeTo = '150';
-        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
-        lw.highPrioritySelected_NoIds = new List<id>();
-        lw.isInitialVisitScheduled = 'true';
-        lw.Sex = '';
-        lw.isExport = 'true';
-        lw.startPos = 1;
-        lw.endPos = 45000;
-        
-
-        System.runAs(u) {
-            ListViewParticipantController.getInitData(
-                clinical.ID,
-                studySite.Id,
-                'RP',
-                null,
-                'Janssen'
-            );
-
-            ListViewParticipantController.getSSList(studySite.Id);
-
-            ListViewParticipantController.getParticipantStatus('Active');
-
-            ListViewParticipantController.getParticipantStatus('Inactive');
-
-            ListViewParticipantController.updateParticipantData(
-                new List<String>{ pe.id },
-                new List<String>{ pe.id },
-                new List<String>{ pe.id }
-            );
-
-            ListViewParticipantController.fetchData(
-                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw })
-            );
-            LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
-
-            ListViewParticipantController.labelValueItemsHaveItem(
-                new List<LabelValueItem>{ lv },
-                'Referring Provider'
-            );
-            ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
-            sr.peList = new List<ListViewParticipantController.PEWrapper>();
-            sr.PaginationData = new PaginationData();
-            ListViewParticipantService.PEFilter pef;
-            sr.peFilter = new ListViewParticipantService.PEFilter(
-                new ListViewParticipantService.PEFilterData()
-            ); //PEFilter;
-
-            sr.peList = new List<ListViewParticipantController.PEWrapper>();
-
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'Inactive');
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
-            ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'test');
-            ListViewParticipantController.getParticipantData(pe.id, con.id);
-            // ListViewParticipantController.updateSearchResultAccordingItemChanged(sr, 'active');
-        }
-    }
+    
     
 }

@@ -33,6 +33,7 @@
     },
 
     handleSearchHelper: function (component, event, helper) {
+        console.log('insidehelper');
         component.find('Spinnerpopup').show();
         component.set('v.lstPR_no', '');
         component.set('v.lstPR_yes', '');
@@ -48,7 +49,6 @@
         component.set('v.pageSize', component.find('pageSize').get('v.value'));
         component.set('v.SortBydefault', component.find('sortby').get('v.value'));
         component.set('v.flagSet', false);
-
         var RowItemList = component.get('v.filterList');
         var pageNumber = component.get('v.PageNumber');
         var pageSize = component.find('pageSize').get('v.value');
@@ -92,6 +92,11 @@
 
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
+        var bulkaction = component.get('v.ActionSelected');
+        //alert(bulkaction);
+        var bulkStatus = component.get('v.statusSelected');
+         //alert(bulkStatus);
+       
         //console.log('########Search ' +filterValue);
         if (bol) {
             if (!communityService.isInitialized()) return;
@@ -100,7 +105,10 @@
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
+                    
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -125,6 +133,10 @@
                     }
                     component.find('Spinnerpopup').hide();
                     component.set('v.filterList', RowItemList);
+                    component.set('v.enablePP', result.enablePP);
+                    component.set('v.enableSH', result.enableSH);
+                    console.log('Cpp--->'+result.enablePP);
+                    console.log('promote--->'+result.enableSH);
                 }
             );
             component.set('v.SelectAll', false);
@@ -137,11 +149,15 @@
         var filterValue = component.get('v.filterList');
         filterValue[0].startPos = filterValue[0].endPos + 1;
         filterValue[0].endPos = filterValue[0].endPos + 45000;
+        var bulkaction = component.get('v.ActionSelected');
+        var bulkStatus = component.get('v.statusSelected');
         communityService.executeAction(
             component,
             'fetchData',
             {
-                filterJSON: JSON.stringify(filterValue)
+                filterJSON: JSON.stringify(filterValue),
+                bulkAction: bulkaction,
+                BulkStatus: bulkStatus
             },
             function (returnValue1) {
                 console.log('length2 ' + returnValue1.FilterImpacts.length);
@@ -199,11 +215,15 @@
         if (bol) {
             // console.log("Sellected Filter " + (filterValue));
             if (!communityService.isInitialized()) return;
+            var bulkaction = component.get('v.ActionSelected');
+            var bulkStatus = component.get('v.statusSelected');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -292,10 +312,9 @@
         csvStringResult = '';
         csvStringResult += header + columnDivider;
         csvStringResult += lineDivider;
-        console.log('@@@@@@ ' + objectRecords.length);
+      
+          
         for (var i = 0; i < objectRecords.length; i++) {
-            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-
             if (
                 objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Protocol_ID__c'] !== undefined
             ) {
@@ -347,39 +366,38 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-
-            if (objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['First_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Last_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Last_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Last_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Email__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Email__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Email__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Phone__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Phone__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Phone__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Phone_Type__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
             if (
-                objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Number__c'] !==
+                objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Number__c'] !==
                 undefined
             ) {
                 csvStringResult +=
@@ -391,7 +409,7 @@
                 csvStringResult += '" "' + ',';
             }
             if (
-                objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Type__c'] !== undefined
+                objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Alternative_Phone_Type__c'] !== undefined
             ) {
                 csvStringResult +=
                     '"' +
@@ -402,7 +420,7 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] !== undefined) {
                 csvStringResult +=
                     '"' +
                     objectRecords[i]['pe']['Participant__r']['Gender_Technical__c'] +
@@ -412,14 +430,14 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Present_Age__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Present_Age__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['Present_Age__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['Ethnicity__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['Ethnicity__c'] !== undefined) {
                 var val = objectRecords[i]['pe']['Participant__r']['Ethnicity__c'];
                 var arr = val.split(';');
                 // var str = [];
@@ -442,7 +460,7 @@
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords[i]['pe']['Participant__r']['BMI__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['BMI__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['BMI__c'] + '"' + ',';
             } else {
@@ -470,6 +488,11 @@
             }
 
             if (objectRecords[i]['pe']['Participant_Status__c'] !== undefined) {
+                if(objectRecords[i]['pe']['Participant_Status__c']=='Eligibility Passed' 
+                   && (objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                       || objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+                    objectRecords[i]['pe']['Participant_Status__c'] = 'Sent to Study Hub';
+                }
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant_Status__c'] + '"' + ',';
             } else {
@@ -485,7 +508,7 @@
             csvStringResult += lineDivider;
         }
         var hiddenElement = document.createElement('a');
-        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
+        hiddenElement.href = 'data:text/csv;charset=utf-8,%EF%BB%BF' + encodeURIComponent(csvStringResult);
         hiddenElement.target = '_self'; //
         hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
         document.body.appendChild(hiddenElement); // Required for FireFox browser
@@ -500,6 +523,16 @@
             duration: 400,
             type: 'success',
             message: $A.get('$Label.c.Records_sent_to_SH')
+        });
+        toastEvent.fire();
+    },
+    showToastforInvite: function (component, event, helper,count) {
+        var toastEvent = $A.get('e.force:showToast');
+        //var count = component.get('v.count');
+        toastEvent.setParams({
+            duration: 400,
+            type: 'success',
+            message: count+' '+ $A.get('$Label.c.Records_all_invited')
         });
         toastEvent.fire();
     },
@@ -604,12 +637,15 @@
         if (bol) {
             //component.set('v.oldfilterList',component.get("v.filterList"));
             if (!communityService.isInitialized()) return;
-
+            var bulkaction = component.get('v.ActionSelected');
+            var bulkStatus = component.get('v.statusSelected');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
-                    filterJSON: filterValue
+                    filterJSON: filterValue,
+                    bulkAction: bulkaction,
+                    BulkStatus: bulkStatus
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -631,6 +667,8 @@
                     component.find('Spinnerpopup').hide();
                     //component.set('v.oldfilterList',component.get("v.filterList"));
                     component.set('v.filterList', RowItemList);
+                    component.set('v.enablePP', result.enablePP);
+                    component.set('v.enableSH', result.enableSH);
                 }
             );
         } else {

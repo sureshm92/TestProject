@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-.THIS.rr-table th {
+ .THIS.rr-table th {
     height: 43px;
     background-color: #f8f9fb;
     padding: 4px 10px;
@@ -10,7 +10,7 @@
 .THIS.rr-table.rtl,
 .THIS.rr-table.rtl th,
 .THIS.rr-table.rtl td {
-    text-align: right;
+   /* @noflip */ text-align: right;
 }
 
 .THIS.rr-table td {
@@ -37,4 +37,45 @@
     vertical-align: top;
     line-height: 1;
     z-index: 1;
+}
+
+.THIS .ts-tab.disabled {
+    background-color: #ffffff;
+    pointer-events: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+.THIS .ts-tub-button.disabled {
+    opacity: 0.6;
+    pointer-events: none;
+    -moz-user-select: none;
+    -khtml-user-select: none;
+    user-select: none;
+}
+
+@media all and (max-width: 768px) {
+    .THIS {
+        flex-direction: column;
+    }
+    .THIS .ts-tab-left {
+        order: 2;
+    }
+    .THIS .ts-tab-right {
+        order: 1;
+        justify-content: flex-start;
+    }
+}
+
+@media all and (max-width: 468px) {
+    .THIS .ts-tab-right .ts-tab {
+        min-width: 60px;
+    }
+
+    .THIS.ts-tab-container .ts-tab-right .ts-tab:first-child {
+        padding: 10px 0 10px 36px;
+        margin-left: 25px;
+    }
+
+
 }

@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     addEventListener: function (component, helper) {
         if (!component.serveyGizmoResultHandler) {
             component.serveyGizmoResultHandler = $A.getCallback(function (e) {
@@ -78,8 +78,11 @@
 
     checkFields: function (component, event, helper, doNotCheckFields) {
         let agreePolicy = component.get('v.agreePolicy');
+        let isAdultDel = component.get('v.isAdultDel');
+        let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
         let needsDelegate = component.get('v.needsGuardian');
+        let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Participant
         let participant = component.get('v.participant');
@@ -138,7 +141,7 @@
                 delegateParticipant.Last_Name__c
             );
         }
-
+        
         let isValid = false;
         isValid =
             isValid ||
@@ -162,10 +165,16 @@
                         delegateParticipant.Last_Name__c &&
                         delegateParticipant.Phone__c &&
                         delegateParticipant.Email__c &&
+
                         emailDelegateVaild &&
                         emailDelegateRepeatValid &&
                         delegateParticipant.Email__c == emailDelegateRepeat)) &&
                 agreePolicy);
+        if(needsDelegate && isNewPrimaryDelegate)
+        {
+            if(!(isAdultDel && attestAge))
+            	isValid = false;
+        }
 		if(isValid == undefined){
             component.set('v.allRequiredCompleted', false);
         }else{
@@ -265,7 +274,15 @@
                 ) {
                     component.set('v.useThisDelegate', true);
                     component.set('v.useThisDelegate', false);
-                } else component.set('v.useThisDelegate', true);
+                     component.set('v.isNewPrimaryDelegate', false);
+                } else {
+                    component.set('v.useThisDelegate', true); 
+                    if(!component.get('v.isNewPrimaryDelegate')){
+                         component.set('v.isNewPrimaryDelegate', true);
+                        component.set('v.delegateParticipant.Birth_Year__c','');
+                    component.set('v.attestAge', false);
+                    }
+                }
                 var participantDelegate = component.get('v.delegateParticipant');
                 if (returnValue.email) {
                     participantDelegate.Email__c = returnValue.email;
@@ -274,6 +291,9 @@
                 if (returnValue.lastName) participantDelegate.Last_Name__c = returnValue.lastName;
                 if (returnValue.firstName)
                     participantDelegate.First_Name__c = returnValue.firstName;
+                if(returnValue.DelegateYOB)
+                    participantDelegate.Birth_Year__c = returnValue.DelegateYOB;
+                
                 helper.checkFields(component, event, helper, true);
                 component.set('v.delegateParticipant', participantDelegate);
                 spinner.hide();
@@ -287,11 +307,18 @@
         var participant = component.get('v.participant');
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
+        if (component.get('v.states').length === 0) {
+        component.set('v.participant.Mailing_State_Code__c', ''); 
+        component.set('v.participantToInsert', participant); 
+        }else{
+        component.set('v.participantToInsert', participant); 
+        }
+        var participantToInsert = component.get('v.participantToInsert');
         communityService.executeAction(
             component,
             'checkNeedsGuardian',
             {
-                participantJSON: JSON.stringify(participant)
+                participantJSON: JSON.stringify(participantToInsert)
             },
             function (returnValue) {
                 var isNeedGuardian = returnValue == 'true';
@@ -309,10 +336,12 @@
                     	component.set('v.emailRepeat', '');
                     	component.set('v.participant.Phone__c', '');
                     	component.set('v.participant.Phone_Type__c', '');
+                    	component.set('v.participant.Adult__c', false);
                         helper.setDelegate(component);
                 }else{
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
+                    component.set('v.participant.Adult__c', true);
                 }     
                 helper.checkFields(component, event, helper, true);
             } ,         
@@ -322,7 +351,62 @@
             }
         );
     },
-
+	
+    //added by sumit
+    checkGuardianAge: function (component, event, helper) {
+        if(component.get('v.attestAge'))
+        {
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+        }
+        var spinner = component.find('mainSpinner');
+        spinner.show();
+        var participant = component.get('v.participant');
+        var delegateParticipant = component.get('v.delegateParticipant');
+        if(delegateParticipant.Birth_Year__c == ''){
+        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.delNotAdultErrMsg', false);
+            component.set('v.attestAge', false);
+           component.set('v.isAdultDel', false);
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
+            spinner.hide();
+        }else{
+            component.set('v.yobBlankErrMsg', false);
+            communityService.executeAction(
+                component,
+                'checkDelegateAge',
+                {
+                    participantJSON: JSON.stringify(participant),
+                    delegateParticipantJSON: JSON.stringify(delegateParticipant)
+                },
+                function (returnValue) {
+                    var isAdultDelegate = returnValue == 'true';
+                    if(isAdultDelegate){
+                        component.set('v.isAdultDel', true);
+                        component.set('v.delNotAdultErrMsg', false);
+                    }else{
+                        component.set('v.isAdultDel', false);
+                        component.set('v.attestAge', false);
+                        component.set('v.delNotAdultErrMsg' , true);
+                         var attestCheckbox = component.find('checkBoxAttestation');
+                        attestCheckbox.setCustomValidity('');
+                        attestCheckbox.reportValidity('');
+                    }
+                    
+                    helper.checkFields(component, event, helper, true);
+                } ,         
+                null,
+                function () {
+                    spinner.hide();
+                }
+            );
+        } 
+        helper.checkFields(component, event, helper, true);
+    },
+    
     checkSites: function (component) {
         var studySites = component.get('v.studySites');
         if (studySites.length > 0) {

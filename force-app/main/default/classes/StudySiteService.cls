@@ -234,7 +234,7 @@ public without sharing class StudySiteService {
         return getStudySitesCommon(CommunityService.USER_MODE_PI, null, excludeDelegates);
     }
 
-    private static final List<String> SS_COMMON_FIELDS = new List<String>{
+    public static final List<String> SS_COMMON_FIELDS = new List<String>{
         'Id',
         'Approved_Lng__c',
         'Name',
@@ -314,6 +314,28 @@ public without sharing class StudySiteService {
         return ssList;
     }
 
+    public static List<Study_Site__c> getStudySitesCommon(String filter, List<String> SS_FIELDS) {
+        String query = 'SELECT ' + String.join(SS_FIELDS, ',') + ' FROM Study_Site__c ';
+        if (filter != null)
+            query += ' WHERE ' + filter;
+        System.debug('EXECUTE QUERY: ' + query);
+        List<Study_Site__c> ssList = Database.query(query);
+        TranslateHelper.translate(ssList);
+        return ssList;
+    }    
+    
+    public static List<Study_Site__c> getStudySitesCommon(
+        String userMode,
+        String filter,
+        Boolean excludeDelegates,
+        List<String> SS_FIELDS
+    ) {
+        String userModeFilter = getUserModeFilter(userMode, excludeDelegates);
+        if (filter != null)
+            userModeFilter += ' ' + filter;
+        return getStudySitesCommon(userModeFilter, SS_FIELDS);
+    }
+
     public static List<Study_Site__c> getStudySitesCommon(
         String userMode,
         String filter,
@@ -324,8 +346,8 @@ public without sharing class StudySiteService {
         if (filter != null)
             userModeFilter += ' ' + filter;
         return getStudySitesCommon(userModeFilter);
-    }
-
+    }    
+    
     public static List<Study_Site__c> getStudySitesCommon(
         String userMode,
         String filter,
@@ -421,6 +443,18 @@ public without sharing class StudySiteService {
         );
     }
 
+    public static List<Study_Site__c> getStudySiteForPIByTrialId(Id trialId, List<String> SS_COMMON_CUSTOM_FIELDS) {
+        return getStudySitesCommon(
+            CommunityService.USER_MODE_PI,
+            ' AND Clinical_Trial_Profile__c = \'' +
+            trialId +
+            '\' ' +
+            ' AND Override_PI_Referral_Status__c != NULL',
+            false,
+            SS_COMMON_CUSTOM_FIELDS
+        );
+    }    
+    
     public static List<Study_Site__c> getStudySitesForHCP(List<Id> trialIds) {
         return getStudySitesForHCP(trialIds, null);
     }

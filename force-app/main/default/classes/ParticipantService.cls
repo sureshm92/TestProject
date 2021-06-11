@@ -38,7 +38,7 @@ public without sharing class ParticipantService {
         public String communityName;
         @AuraEnabled
         public String payCardLink;
-        @AuraEnabled 
+        @AuraEnabled
         public Boolean isVisitPathEnabled;
         @AuraEnabled
         public Boolean isTravelSupportEnabled;
@@ -134,6 +134,7 @@ public without sharing class ParticipantService {
     }
 
     public static Participant__c getParticipant(Id sourceId) {
+        if(sourceId != Null){
         List<Participant__c> participants = [
             SELECT
                 Id,
@@ -167,6 +168,7 @@ public without sharing class ParticipantService {
         ];
         if (participants.size() > 0)
             return participants[0];
+        }
         return null;
     }
 
@@ -201,11 +203,14 @@ public without sharing class ParticipantService {
     @TestVisible
     private String getWelcomeMessage() {
         String userName;
-        List<Participant__c> participants = [
-            SELECT Full_Name__c
-            FROM Participant__c
-            WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
-        ];
+        List<Participant__c> participants = new List<Participant__c> ();
+        if(String.isNotBlank(CommunityService.getInstance().getCurrentContactId())){
+              participants = [
+                SELECT Full_Name__c
+                FROM Participant__c
+                WHERE Contact__c = :CommunityService.getInstance().getCurrentContactId()
+            ];
+        }
         if (participants.size() == 0) {
             userName = (String) CommunityService.getUserContact().get('Name');
         } else {
@@ -240,10 +245,10 @@ public without sharing class ParticipantService {
         ParticipantDuplicateService.ParticipantWithDelegate participantWithDelegate = new ParticipantDuplicateService.ParticipantWithDelegate();
         participantWithDelegate.participant = participant;
         participantWithDelegate.delegate = participantDelegate;
-
         ParticipantDuplicateService duplicateService = new ParticipantDuplicateService(
             participantWithDelegate
         );
+        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
             participant = participantFromDatabase;
@@ -262,8 +267,10 @@ public without sharing class ParticipantService {
                 }
                 update existingContact;
             }
+             system.debug('>>beforeInsertPart>'+limits.getQueries());
             insert participant;
         }
+        system.debug('>>AfterInsertPart>'+limits.getQueries());
         if (pe != null) {
             pe.Participant__c = participant.Id;
             if (pe.Participant_Name__c == null)
@@ -271,7 +278,9 @@ public without sharing class ParticipantService {
             if (pe.Participant_Surname__c == null)
                 pe.Participant_Surname__c = participant.Last_Name__c;
             try {
+                 system.debug('>>BeforeUpsertPE>'+limits.getQueries());
                 DatabaseService.getInstance().upsertToDB(pe);
+                system.debug('>>aFTERUpsertPE>'+limits.getQueries());
             } catch (Exception e) {
                 String errorMsg = e.getMessage();
                 if (errorMsg.contains('DUPLICATE')) {
@@ -312,6 +321,17 @@ public without sharing class ParticipantService {
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Work, 'Work'));
         phoneTypes.add(new LabelValueItem(Label.Phone_Type_Mobile, 'Mobile'));
         return phoneTypes;
+    }
+
+    public static List<LabelValueItem> getYearofBirthList() {
+        List<LabelValueItem> yearOfBirth = new List<LabelValueItem>();
+        Integer currentYear = System.Today().year();
+        Integer firstYear = currentYear - 149;
+        yearOfBirth.add(new LabelValueItem('', ''));
+        for (Integer i = firstYear; i <= currentYear; i++) {
+            yearOfBirth.add(new LabelValueItem(String.valueOf(i), String.valueOf(i)));
+        }
+        return yearOfBirth;
     }
 
     public static List<LabelValueItem> getPrefixList() {
@@ -414,5 +434,30 @@ public without sharing class ParticipantService {
             }
         }
         return participants;
+    }
+    public static String getFormattedTime() {
+        User userVal = [SELECT Id, timezonesidkey FROM User WHERE Id = :UserInfo.getUserId()];
+        return getFormattedTimeImpl(userVal);
+    }
+    public static String getFormattedTimeImpl(User userVal) {
+        String userTimeZoneValue = '';
+        String strDateTimeValue = '';
+        try {
+            String timeZoneValue = TimeZone.getTimeZone(String.valueof(userval.timezonesidkey))
+                .getDisplayName();
+            if (!String.isBlank(timeZoneValue)) {
+                userTimeZoneValue = userval.timezonesidkey + ' ' + timeZoneValue;
+            }
+            if (!String.isBlank(userTimeZoneValue)) {
+                strDateTimeValue =
+                    System.now()
+                        .format('dd/MMM/yyyy HH:mm:ss', String.valueof(userval.timezonesidkey)) +
+                    ' ' +
+                    userTimeZoneValue;
+            }
+        } catch (Exception e) {
+            System.debug('Exception e --' + e.getMessage());
+        }
+        return strDateTimeValue;
     }
 }

@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="ParticipantCard">
+ <aura:component description="ParticipantCard">
     <!-- attributes: -->
     <aura:attribute name="participantItem" type="ParticipantItem" />
     <aura:attribute name="actions" type="List" />
@@ -12,7 +12,9 @@
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isInvited" type="Boolean" />
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean" />
-
+    <aura:attribute name="sendToSH" type="Boolean"/>
+    <aura:attribute name="sendToSHDate" type="Object"/>
+    <aura:attribute name="sendToSHReason" type="String"/>	
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
         <c:PSECard
@@ -34,6 +36,8 @@
                 changeStatusBtnList="{!v.changeStatusBtnList}"
                 parent="{!v.parent}"
                 isInvited="{!v.isInvited}"
+                sendToSH="{!v.sendToSH}"
+                sendToSHDate="{!v.sendToSHDate}"  
             />
         </aura:set>
     </aura:if>

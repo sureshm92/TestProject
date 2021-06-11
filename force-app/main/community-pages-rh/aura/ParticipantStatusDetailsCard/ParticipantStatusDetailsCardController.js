@@ -6,11 +6,13 @@
         let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         let stepWrapper = component.get('v.stepWrapper');
-
+        let sendToSH = true;
+        sendToSH = component.get('v.participantWorkflowWrapper').sendToSH == false && component.get('v.participantWorkflowWrapper').sendToSHDate!=undefined?false:true;
         component.set(
             'v.stepWrapper.currentOutcomeSuccess',
             stepWrapper.successOutcomes.indexOf(stepWrapper.outcome) !== -1
         );
+        component.set('v.sendToSH',sendToSH);
         component.set('v.reasonList', stepWrapper.reasonMap[stepWrapper.outcome]);
         component.set('v.previousSelectedOutcome', stepWrapper.outcome);
         component.set('v.disableReason', true);

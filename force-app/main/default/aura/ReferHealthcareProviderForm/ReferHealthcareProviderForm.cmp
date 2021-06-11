@@ -18,10 +18,13 @@
     <aura:attribute name="showReferringProvider" type="Boolean" default="false" />
     <aura:attribute name="statusesDelegates" type="List" />
     <aura:attribute name="forThisProvider" type="String" />
+     <aura:attribute name="yob" type="List" /> <!-- as pe 3248 -->
 
     <!-- <c:ExceptionHandlerPopup aura:id="exceptionHandler"/>-->
-    <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container">
-        <c:RRSpinner aura:id="spinner" size="medium" />
+    <div class="slds-grid slds-wrap slds-size--1-of-1 healthcare-form-container"
+    style="{!if(((v.delegates.delegateId == null &amp;&amp; v.forThisProvider == 'isDelegates')
+           || v.healthCareProvider.Id == null &amp;&amp;   v.forThisProvider == 'isHealthCare'), 'background: #f9f9f9;padding-bottom:12px;padding-top:6px;' , '')}">
+   <c:RRSpinner aura:id="spinner" size="medium" />
         <aura:if isTrue="{!v.forThisProvider == 'isDelegates'}">
             <c:ReferHealthcareProviderInputs
                 sharingObject="{!v.delegates}"
@@ -32,6 +35,7 @@
                 pe="{!v.pe}"
                 mainComponent="{!v.parent}"
                 parent="{!this}"
+                yob = "{!v.yob}"
             />
         </aura:if>
 

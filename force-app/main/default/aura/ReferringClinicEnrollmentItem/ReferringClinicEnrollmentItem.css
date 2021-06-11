@@ -108,12 +108,24 @@
 .THIS .slds-dropdown_left {
     left: auto;
     right: 0;
+    
+}
+.THIS .xyg > .slds-dropdown_left {
+	right:auto;
+	left:0;
 }
 
 .THIS .last-iteration .slds-dropdown_left {
     top: -95px;
 }
 
+.THIS .slds-dropdown_right {
+    right: auto;
+    left: 0;
+}
+.THIS .last-iteration .slds-dropdown_right{
+    top: -95px;
+}
 .THIS .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
     position: fixed !important;
     left: auto;

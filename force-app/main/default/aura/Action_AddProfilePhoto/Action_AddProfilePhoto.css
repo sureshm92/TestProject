@@ -129,6 +129,7 @@
     width: 100% !important;
 }
 
+
 .THIS .slds-avatar .slds-icon_container {
     background-color: mediumvioletred;
 }
@@ -245,13 +246,14 @@
     width: 100%;
 }
 .THIS .photo-labelRTL {
-    text-align: right;
-    width: 100%;
+    /* @noflip */    text-align: right;
+    /* @noflip */     margin-right: 20px;    
+    	width: 100%;
 }
 .THIS .photo-label-rtl {
-    text-align: right;
-    width: 100%;
-    margin-right: 17px;
+   /* @noflip */  text-align: right;
+   /* @noflip */  width: 100%;
+   /* @noflip */  margin-right: 17px;
 }
 .THIS .edit {
     /*color : blue;*/
@@ -378,4 +380,43 @@
 }
 .THIS .hide {
     display: none;
+}
+
+@media all and (max-width: 500px) {
+    .THIS .username {
+        height: 20px;
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 15px;
+        margin-left: 18px;
+        max-width: 76%;
+        overflow: visible !important;
+        text-overflow: ellipsis;
+        padding-bottom: 2px;
+    }
+    .THIS .usernameRTL {
+        height: 20px;
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 15px;
+        margin-right: 18px;
+        max-width: 76%;
+        overflow: visible !important;
+        text-overflow: ellipsis;
+        padding-bottom: 2px;
+    }
+    .THIS .custom-file-upload {
+        display: inline-block;
+        padding: 6px 0 0 20px;
+        cursor: pointer;
+        color: blue;
+        padding-top: 17px;
+    }
+    .THIS .custom-file-uploadRTL {
+        display: inline-block;
+        padding: 6px 17px 0px 0px;
+        cursor: pointer;
+        color: blue;
+        padding-top: 17px;
+    }
 }

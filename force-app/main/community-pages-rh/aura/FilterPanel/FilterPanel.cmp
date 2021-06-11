@@ -28,7 +28,7 @@
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="myParticipantPg" type="Boolean" default="false" />
     <!--compoenent body -->
-    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}" style="{!if(v.isRTL, 'direction: rtl;','')}">
+    <div class="{!'fp-container' + if(v.isCollapsed, ' collapsed', '')}" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <div class="fp-collapsed-view"></div>
         <div class="fp-mobile rr-large-up-hide">
             <div class="fp-header">
@@ -57,7 +57,7 @@
         </div>
         <div class="fp-collapsible">
             <div class="fp-filter-block">
-                <div class="fp-filters-label rr-large-down-hide">{!$Label.c.PG_FP_L_Filter_by}</div>
+                <div class="{!v.isRTL? 'fp-filters-labelRTL rr-large-down-hide':'fp-filters-label rr-large-down-hide'}">{!$Label.c.PG_FP_L_Filter_by}</div>
                 <div class="fp-main-filter-block">
                     <div class="fp-search-input rr-large-down-hide">
                         <aura:if isTrue="{!!empty(v.searchTextPlaceHolder)}">

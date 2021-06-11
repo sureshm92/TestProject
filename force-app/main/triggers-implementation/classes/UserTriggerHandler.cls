@@ -7,7 +7,7 @@ public without sharing class UserTriggerHandler {
 
     public class UpdateLanguageOnRelatedContactsHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
-            updateLanguageOnRelatedContacts(newList, null);
+            updateLanguageOnRelatedContactsAfterInsert(newList, null);
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
@@ -24,12 +24,6 @@ public without sharing class UserTriggerHandler {
     public class CreateCompleteYourProfileTaskHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createCompleteYourProfileTask(newList);
-        }
-    }
-
-    public class UpdateUserRoleHandler extends TriggerHandler {
-        public override void beforeInsert(List<SObject> newList) {
-            updateUserRoleToSPNL(newList);
         }
     }
 
@@ -68,6 +62,35 @@ public without sharing class UserTriggerHandler {
     }
 
     @TestVisible
+    private static void updateLanguageOnRelatedContactsAfterInsert(List<User> newList, Map<Id, User> oldMap) {
+        List<Contact> contactsForUpdate = new List<Contact>();
+        List<Id> conId = new List<Id>();
+        List<Contact> lstContacts = new List<Contact>();
+        Map<Id, String> usrLangKey = new Map<Id, String>();
+        for (User user : newList) {
+            if (user.ContactId != null)
+            {
+              conId.add(user.ContactId);
+              usrLangKey.put(user.ContactId,user.LanguageLocaleKey);
+            }
+          } 
+       if (conId.size() > 0) {
+            lstContacts = [select Id,Is_Patient_User_Created__c,Language__c,userCommunytyType__c from Contact where Id IN:conId];
+            for(Contact con:lstContacts)
+            {
+               if(!con.Is_Patient_User_Created__c)
+                {
+                    contactsForUpdate.add(new Contact(Id = con.Id,Is_Patient_User_Created__c=true,Language__c = usrLangKey.get(con.Id)));
+                }else{
+                     contactsForUpdate.add(new Contact(Id = con.Id, Language__c = usrLangKey.get(con.Id)));
+                }
+            }
+            if (contactsForUpdate.size() > 0)
+            update contactsForUpdate;
+         }
+    }
+
+    @TestVisible
     private static void updateEmailOnRelatedContacts(List<User> newList, Map<Id, User> oldMap) {
         List<Contact> changeEmailContacts = new List<Contact>();
         for (User user : newList) {
@@ -82,15 +105,7 @@ public without sharing class UserTriggerHandler {
         if (changeEmailContacts.size() > 0)
             update changeEmailContacts;
     }
-
-    @TestVisible
-    private static void updateUserRoleToSPNL(List<User> newList) {
-        for (User us : newList) {
-            if (us.ProfileId == CommunityService.SPNL_USER_PROFILE_ID) {
-                us.UserRoleId = CommunityService.SPNL_ROLE;
-            }
-        }
-    }
+	
 
     @TestVisible
     private static void createCompleteYourProfileTask(List<User> newList) {

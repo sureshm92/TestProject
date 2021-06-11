@@ -3,7 +3,7 @@
  */
 public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract {
     private Map<Id, Map<String, Id>> enrollmentsByTemplateByContact = new Map<Id, Map<String, Id>>();
-
+	
     public Database.QueryLocator start(Database.BatchableContext param1) {
         return Database.getQueryLocator(
             [
@@ -23,11 +23,24 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
     }
 
     public void execute(Database.BatchableContext param1, List<Trial_Match__c> matches) {
+        Set<id> uniqueParticipantContactIds = new Set<id>();
+        List<user> uniqueParticipantUsers = new List<user>();
+        Map<id,User> userRecordsByContactId = new Map<id,user>();
+        for (Trial_Match__c match : matches) {
+            uniqueParticipantContactIds.add(match.Participant_Enrollment__r.Participant_Contact__c);
+        }
+        uniqueParticipantUsers=[Select id, contactid, timezonesidkey from user where contactid=:uniqueParticipantContactIds];
+        if(uniqueParticipantUsers!=null && uniqueParticipantUsers.size()>0){
+            for(User userRecord:uniqueParticipantUsers){
+                userRecordsByContactId.put(userRecord.contactId,userRecord);
+            }
+        }
         for (Trial_Match__c match : matches) {
             Integer delayDays=0;
             if(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c != null){
                 delayDays = Integer.valueOf(match.Participant_Enrollment__r.Clinical_Trial_Profile__r.Delayed_No_Of_Days__c);
             }
+            
             Date notifyDate;
             if(match.Matched_Date__c != null){
                 notifyDate = match.Matched_Date__c + delayDays;
@@ -36,7 +49,28 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
                 notifyDate = date.today();
             }
             Participant_Enrollment__c enrollment = match.Participant_Enrollment__r;
-            if(date.today() >= notifyDate){
+			// To capture the current hour of the Participant Time Zone
+			Integer currentHour = System.now().hour();
+            String batchContextTimezone=String.valueof(UserInfo.getTimeZone());
+            Date currentDateInParticipantTimeZone= date.today();
+            // checking if User exists for this participant or not
+            if(userRecordsByContactId.containsKey(enrollment.Participant_Contact__c)){
+                String userTimezoneKey=userRecordsByContactId.get(enrollment.Participant_Contact__c).timezonesidkey;
+                // checking if participant time zone is same as per current batch user time zone
+                if(!batchContextTimezone.equalsIgnoreCase(userTimezoneKey)){
+                  Timezone participantTimeZone= Timezone.getTimeZone(userTimezoneKey);
+                  // finding the time difference between participants date and current GMT date
+                  Integer timeOffSetInSeconds= (participantTimeZone.getOffset(date.Today()) / 3600000);
+                  // finding the current datetime in participants context
+                  Datetime currentDateTimeInParticipantContext= System.now().addHours(timeOffSetInSeconds);
+                  //finding the current hour in participants context
+                  currentHour = currentDateTimeInParticipantContext.hourGmt();
+                  //fetching current date in participant timezone
+                  currentDateInParticipantTimeZone=currentDateTimeInParticipantContext.dateGMT();
+                }
+            }
+            
+            if(currentDateInParticipantTimeZone >= notifyDate && currentHour >= Integer.valueof(System.Label.TrialMatchMailTime)){
                 match.Is_User_notified__c = true;
                 if (!enrollmentsByTemplateByContact.containsKey(enrollment.Participant_Contact__c)) {
                     enrollmentsByTemplateByContact.put(
@@ -58,7 +92,7 @@ public with sharing class Batch_TrialMatchNotify extends Batch_ScheduledAbstract
     }
 
     public override void finalAction() {
-        Map<Id, List<Id>> delegatesContByParticipantContact = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+        Map<Id, List<Id>> delegatesContByParticipantContact = 	PatientDelegateService.getDelegateContactIdsByPAContactIs(
             new List<Id>(enrollmentsByTemplateByContact.keySet())
         );
 

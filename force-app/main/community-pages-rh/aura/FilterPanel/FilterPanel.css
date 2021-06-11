@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */ 
-.THIS {
+ .THIS {
     font-size: 13px;
     padding-bottom: 0;
 }
@@ -86,8 +86,8 @@
     margin-bottom: 15px;
 }
 .THIS .fp-form-elementRTL + .fp-form-elementRTL {
-    margin-right: 15px;
-    margin-bottom: 15px;
+    /* @noflip */  margin-right: 15px;
+    /* @noflip */   margin-bottom: 15px;
 }
 
 .THIS .fp-form-element > label {
@@ -100,8 +100,8 @@
     white-space: nowrap;
 }
 .THIS .fp-page-controlRTL {
-    text-align: left;
-    white-space: nowrap;
+    /* @noflip */  text-align: left;
+    /* @noflip */ white-space: nowrap;
 }
 
 .THIS .fp-collapse-label {
@@ -148,15 +148,18 @@
     margin-right: 5px;
 }
 .THIS .fp-filters-containerRTL {
-    margin: -5px;
-    overflow: hidden;
-    display: inline-flex;
-    width: -webkit-fill-available;
+    /* @noflip */  overflow: hidden;
+    /* @noflip */ display: inline-flex;
+    /* @noflip */ width: -webkit-fill-available;
 }
 .THIS .fp-filters-label {
     white-space: nowrap;
     margin-right: 10px;
     line-height: 40px;
+}
+.THIS .fp-filters-labelRTL {
+    /* @noflip */  white-space: nowrap;
+    /* @noflip */ line-height: 40px;
 }
 
 .THIS .fp-filters-container .rrs-container {
@@ -166,10 +169,10 @@
     margin: 5px;
 }
 .THIS .fp-filters-containerRTL .rrs-container {
-    display: inline-block;
+    /* @noflip */  display: inline-block;
     /*max-width: 245px;*/
-    max-width: 210px;
-    margin: 5px;
+    /* @noflip */  max-width: 210px;
+    /* @noflip */  margin-right: 0.3% !important;
 }
 
 .THIS .fp-page-info {

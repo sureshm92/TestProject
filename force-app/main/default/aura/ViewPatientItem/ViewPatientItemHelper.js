@@ -12,6 +12,8 @@
             var pe = component.get('v.pe'),
                 isAdult = component.get('v.pe.Participant__r.Adult__c');
             var additionalName = [];
+            var sendToSH = component.get('v.sendToSH');
+            var sendtoSHDate = component.get('v.sendtoSHDate');
             if (pe.Participant_Name__c) additionalName.push(pe.Participant_Name__c);
             if (pe.Participant_Surname__c) additionalName.push(pe.Participant_Surname__c);
             if (additionalName.length > 0)

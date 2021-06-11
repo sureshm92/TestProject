@@ -10,6 +10,13 @@
     font-size: 14px;
     margin-bottom: 8px;
 }
+.THIS .label2,
+.THIS .slds-form-element__label2 {
+    color: #444444;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    margin-bottom: -11px;
+}
 .THIS.checkbox-field {
     padding-top: 35px;
 }

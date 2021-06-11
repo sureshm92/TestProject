@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
- ({
+({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -29,18 +29,7 @@
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
             var status = pe.Participant_Status__c;
-            if(statusList.includes(status) && (pe.Study_Hub_Log__c == null ||
-                                               pe.Study_Hub_Log__c != null &&
-                                               pe.Study_Hub_Log__r.Response_Status_Code__c != 201)){
-                component.set('v.promoteToSHStatus',true);
-            }
-            else{
-                if(status == 'Eligibility Passed'){
-                    helper.getPESH(component,event,helper) ;
-                } else
-                    component.set('v.promoteToSHStatus',false);
-            }
-            
+           	helper.getPESH(component,event,statusList,helper) ;
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
                 helper.getInvitedDate(component,event,helper);
@@ -74,6 +63,10 @@
                     // component.set('v.participantPath', returnValue.steps);
                     component.set('v.isFinalUpdate', false);
                     component.set('v.initialized', true);
+                    if(returnValue.steps != null && returnValue.steps != undefined){
+                        component.set('v.promoteToSHStatus',(returnValue.sendToSH==true)?true:false);
+                        component.set('v.dateofSH',returnValue.sendToSHDate); 
+                    }
                     setTimeout(
                         $A.getCallback(function () {
                             var formComponent = component.find('editForm');
@@ -111,6 +104,8 @@
                             component.set('v.participant', pe.Participant__r);
                             component.set('v.userInfo', returnValue.userInfo);
                             component.set('v.contactInfo', returnValue.contactInfo);
+							component.set('v.yob',returnValue.yearOfBirth);
+                            component.set('v.isBulkImport',returnValue.isBulkImport);
                             formComponent.createDataStamp();
                             formComponent.checkFields();
                         }),
@@ -133,6 +128,10 @@
         }
     },
     
+	doCheckDateOfBith: function (component, event, helper) {
+        helper.checkParticipantNeedsGuardian(component, helper, event);
+    },
+     
     doUpdate: function (component, event, helper) {
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
@@ -175,6 +174,12 @@
            }  
            
        }
+        
+        if(!component.get('v.participant.Adult__c')){
+             component.set('v.participant.Email__c', '');
+             component.set('v.participant.Phone__c', '');
+             component.set('v.participant.Phone_Type__c', '');
+        }
         communityService.executeAction(
             component,
             'updatePatientInfoWithDelegate',
@@ -191,7 +196,10 @@
                 }
                 var callback = component.get('v.callback');
                 if (callback) {
-                    callback(pe);
+                    //callback(pe);
+                    var compEvent = component.getEvent("FilterKeep");
+                    compEvent.fire();
+
                 }
                 component.set('v.pe', returnvalue.particpantEnrollment);
 				helper.setPopUpName(component, returnvalue.particpantEnrollment);				
@@ -199,6 +207,9 @@
                 if(!$A.util.isEmpty(returnvalue.DelegateParticipant))
                  component.set('v.participantDelegate', returnvalue.DelegateParticipant);
                 component.set('v.BtnClicked','');
+				component.set('v.isFirstPrimaryDelegate',false);
+                 component.set('v.attestAge',false);
+                 component.set('v.isBulkImport',false);
                 if (usermode === 'CC') {
                     var cmpEvent = component.getEvent('callcenter');
                     cmpEvent.setParams({ searchKey: component.get('v.searchKey') });
@@ -233,10 +244,16 @@
             return;
         }
         var pe = component.get('v.pe');
-        window.open('patient-info-pv?id=' + pe.Id, '_blank');
+        window.open('patient-info-pv?id=' + pe.Id, '_blank', 'noopener');
     },
     doCancel: function (component, event, helper) {
         var comp = component.find('dialog');
+        if (component.get('v.isListView') == true) {
+            var p = component.get('v.parent');
+            if(p !=undefined){
+                p.refreshTable();
+            }
+        }
         comp.hide();
     },
     checkTabs: function (component, event, helper) {
@@ -387,10 +404,15 @@
                     var response = response.getReturnValue();
                     var callback = component.get('v.callback');
                     if (callback) {
-                        callback(pe);
+                        //callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     component.set('v.BtnClicked','');
-                    
+					component.set('v.isFirstPrimaryDelegate',false);
+                    component.set('v.attestAge',false);
+                    component.set('v.isBulkImport',false);
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
@@ -492,11 +514,16 @@
                     var returnValue = JSON.parse(returnValueJSON);
                     component.set('v.updateInProgress', true);
                     component.set('v.participantPath', returnValue.participantPath);
-                    
+
                     component.set('v.pe', returnValue.pe);
+                    component.set('v.promoteToSHStatus',(returnValue.participantPath.sendToSH==true)?true:false);
+                    component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');
                     if (callback) {
-                        callback(pe);
+                        //callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+    
                     }
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
@@ -539,6 +566,10 @@
                 var callback = component.get('v.callback');
                 if (callback) {
                     callback(pe);
+                }
+                if (component.get('v.isListView') == true) {
+                    var p = component.get('v.parent');
+                    p.refreshTable();
                 }
             },
             null,
@@ -598,10 +629,29 @@
             'updateParticipantData',
             {
                 peId : pe.Id
-            }, function(){
-                
+            }, function(returnValueJSON){
+                var returnValue = JSON.parse(returnValueJSON);
+                component.set('v.updateInProgress', true);
+                component.set('v.participantPath', returnValue.participantPath);
+                component.set('v.pe', returnValue.pe);
                 component.find('spinner').hide();
-            });
+            },
+                null,
+                function () {
+                    var childComponent = component.find("childCmp");
+                    if(childComponent!=undefined){
+                        childComponent.refreshChildTable();
+                        component.set('v.isStatusChanged', false);
+                    }
+                     var callback = component.get('v.callback');
+                    if (callback) {
+                        //callback(pe);
+                        var compEvent = component.getEvent("FilterKeep");
+                        compEvent.fire();
+                    }
+                    component.set('v.updateInProgress', false);
+                    component.find('spinner').hide();
+                });
         helper.getpeshdate(component,event,helper);
         helper.showToast();
     },

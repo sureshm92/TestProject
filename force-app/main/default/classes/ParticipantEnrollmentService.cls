@@ -40,8 +40,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_REFERRAL_SOURCE_EPR = 'ePR';
     public static final String PE_REFERRAL_SOURCE_ACOE = 'ACOE';
     public static final String PE_REFERRAL_SOURCE_3RD_PARTY = '3rd_Party';
-    public static final String PE_REFERRAL_SOURCE_Ciitizen = 'Ciitizen';//REF-2819
-
+    public static final String PE_REFERRAL_SOURCE_Ciitizen = 'Ciitizen'; //REF-2819
 
     //Filter Data Wrapper Fields
     public static final String STUDIES_FILTER_DATA_FIELD = 'studies';
@@ -51,8 +50,7 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PE_SOURCE_TYPE_PI = 'Principal Investigator';
     public static final String PE_SOURCE_TYPE_RP = 'Referring Provider';
     public static final String PE_SOURCE_TYPE_EPR = 'Digital Recruitment';
-    public static final String PE_SOURCE_TYPE_Ciitizen = 'Ciitizen';//REF-2819
-
+    public static final String PE_SOURCE_TYPE_Ciitizen = 'Ciitizen'; //REF-2819
 
     //Map <SObject value field; SObject label field> for interdependent filter data for every Filter Data Filter Map
     public static final Map<String, Map<String, String>> FILTER_FIELD_MAP = new Map<String, Map<String, String>>{
@@ -591,6 +589,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Trial_Match_Is_Available__c',
         'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
+        'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
+        'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
@@ -737,51 +737,6 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__c',
         'Study_Site__c'
     };
-
-    /* Added by Sumit S Dashboard
-    public static final List<String> PE_COMMON_CUSTOM_FIELDS = new List<String>{
-            'Id',
-            'CreatedDate',
-            'Participant_Status__c',
-            'Participant__c',
-            'Participant__r.First_Name__c',
-            'Participant__r.Last_Name__c',
-            'Participant__r.Contact__c',
-            'Source_Type__c',
-            'Study_Site__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c',
-            'Study_Site__r.Principal_Investigator__r.Name',
-            'Clinical_Trial_Profile__c',
-            'Clinical_Trial_Profile__r.Protocol_ID__c',
-            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
-            'Clinical_Trial_Profile__r.CommunityTemplate__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.Override_Recruitment_Status__c',
-            'Study_Site__r.Override_PI_Referral_Status__c',
-            'Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c',           
-            'HCP__r.Id'           
-    };
-
-    public static final List<String> PE_COMMON_FUNNEL_FIELDS = new List<String>{
-            'Id',
-            'Participant_Status__c',
-            'Study_Site__r.Principal_Investigator__r.Name',
-            'Study_Site__r.Study_Site_Type__c',
-            'Initial_visit_scheduled_flag__c',
-            'Initial_visit_occurred_flag__c',
-            'Clinical_Trial_Profile__r.Terms_And_Conditions_ID__c'
-            
-    };*/
-
-    /*public static final List<String> CTP_FIELDS_FOR_FILTER = new List<String>{
-            'Id',
-            'Study_Code_Name__c'
-    };
-
-    public static final List<String> SS_FIELDS_FOR_FILTER = new List<String>{
-            'Id',
-            'Name'
-    };*/
 
     public static List<Participant_Enrollment__c> getPEnrolmentsCommonCustomFields(
         String userMode,
@@ -1808,12 +1763,15 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static void updateParticipantState(List<Participant__c> participants) {
-        List<Participant_Enrollment__c> enrollments = [
-            SELECT Id, Participant__c, Participant_Status__c
-            FROM Participant_Enrollment__c
-            WHERE Participant__c IN :participants
-            ORDER BY Participant__c
-        ];
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c> ();
+        if(!participants.isEmpty()){
+             enrollments = [
+                SELECT Id, Participant__c, Participant_Status__c
+                FROM Participant_Enrollment__c
+                WHERE Participant__c IN :participants
+                ORDER BY Participant__c
+            ];
+        }
         Map<Id, List<Participant_Enrollment__c>> peByParticipant = new Map<Id, List<Participant_Enrollment__c>>();
         for (Participant_Enrollment__c pe : enrollments) {
             Id partId = pe.Participant__c;

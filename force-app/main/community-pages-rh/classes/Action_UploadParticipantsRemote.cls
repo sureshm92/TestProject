@@ -12,20 +12,22 @@ public without sharing class Action_UploadParticipantsRemote {
         'PARTICIPANT DATE OF BIRTH',
         'PARTICIPANT EMAIL ADDRESS',
         'PARTICIPANT PHONE',
-        'PHONE TYPE',
+        'PARTICIPANT PHONE TYPE',
         'PARTICIPANT ALTERNATIVE PHONE',
-        'ALT. PHONE TYPE',
+        'PARTICIPANT ALT. PHONE TYPE',
         //'STREET ADDRESS',
         //'CITY',
         'STATE',
         'POSTAL CODE',
-       // 'COUNTRY',
+        'COUNTRY',
         'LANGUAGE',
         'PRIMARY DELEGATE FIRST NAME',
         'PRIMARY DELEGATE LAST NAME',
-        'PRIMARY DELEGATE EMAIL',
+        'PRIMARY DELEGATE EMAIL',            
         'PRIMARY DELEGATE PHONE NUMBER',
-        'PRIMARY DELEGATE PHONE TYPE'
+        'PRIMARY DELEGATE PHONE TYPE',
+        'PRIMARY DELEGATE YOB',
+        'CONFIRM PRIMARY DELEGATE IS AN ADULT'
     };
     public static final List<String> MANDATORY_HEADER_COLUMNS = new List<String>{
         'PARTICIPANT FIRST NAME',

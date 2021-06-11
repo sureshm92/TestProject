@@ -6,7 +6,7 @@
         } else {
             component.set('v.isDelegate', false);
         }
-		console.log('>>>userMode>>'+component.get('v.userMode'));
+        console.log('>>>userMode>>' + component.get('v.userMode'));
         communityService.executeAction(
             component,
             'getInitData',
@@ -52,8 +52,11 @@
                 component.set('v.contact', initData.myContact);
                 component.set('v.delegateContact', initData.delegateContact);
                 component.set('v.hasProfilePic', initData.hasProfilePic);
-                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI' ||
-                   component.get('v.userMode') == 'CC') {
+                if (
+                    component.get('v.userMode') == 'HCP' ||
+                    component.get('v.userMode') == 'PI' ||
+                    component.get('v.userMode') == 'CC'
+                ) {
                     component.set('v.disableSave', true);
                 }
                 if (component.get('v.userMode') === 'Participant') {
@@ -79,8 +82,11 @@
                         }
                     }
                 }
-                if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI'||
-                   component.get('v.userMode') == 'CC') {
+                if (
+                    component.get('v.userMode') == 'HCP' ||
+                    component.get('v.userMode') == 'PI' ||
+                    component.get('v.userMode') == 'CC'
+                ) {
                     component.set('v.userEmail', initData.myContact.Email);
                 }
                 // console.log('initData.myContact.Email',initData.myContact.Email);
@@ -295,7 +301,7 @@
     doCheckFieldsValidity: function (component, event, helper) {
         console.log('coming inside field check>>');
         event.preventDefault();
-        
+
         var numbers = /^[0-9]*$/;
         let personWrapper = component.get('v.personWrapper');
         var homephoneField = component.find('pField2');
@@ -337,7 +343,7 @@
             if (
                 !personWrapper.firstName ||
                 !personWrapper.lastName ||
-                !personWrapper.dateBirth ||
+                (!personWrapper.dateBirth && personWrapper.isBirthDate) ||
                 mobilePhoneValid === false ||
                 homePhoneValid === false ||
                 !personWrapper.homePhone
@@ -354,15 +360,19 @@
                     component.set('v.disableSave', false);
                 }
             }
-        } else if (component.get('v.userMode') == 'HCP' || component.get('v.userMode') == 'PI' 
-                   || component.get('v.userMode') == 'CC') {
-            console.log('>>>personWrapper>'+JSON.stringify(personWrapper));
+        } else if (
+            component.get('v.userMode') == 'HCP' ||
+            component.get('v.userMode') == 'PI' ||
+            component.get('v.userMode') == 'CC'
+        ) {
+            console.log('>>>personWrapper>' + JSON.stringify(personWrapper));
             if (!personWrapper.firstName || !personWrapper.lastName) {
                 component.set('v.disableSave', true);
             }
             let mobilePhoneValid_Participant =
                 personWrapper.mobilePhone && numbers.test(personWrapper.mobilePhone);
-            let homePhoneValid_Participant = personWrapper.homePhone && numbers.test(personWrapper.homePhone);
+            let homePhoneValid_Participant =
+                personWrapper.homePhone && numbers.test(personWrapper.homePhone);
             if (personWrapper.homePhone) {
                 if (!numbers.test(personWrapper.homePhone)) {
                     homephoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Numeric'));
@@ -379,7 +389,7 @@
             if (
                 !personWrapper.firstName ||
                 !personWrapper.lastName ||
-                mobilePhoneValid_Participant === false || 
+                mobilePhoneValid_Participant === false ||
                 homePhoneValid_Participant === false
             ) {
                 component.set('v.disableSave', true);
@@ -392,7 +402,7 @@
             component.set('v.previousCC', personWrapper.mailingCC);
             personWrapper.mailingSC = null;
             component.set('v.personWrapper', personWrapper);
-            
+
             component.set('v.reRender', false);
             component.set('v.reRender', true);
         }

@@ -12,6 +12,10 @@
     overflow: hidden;
     overflow-y: auto;
 }
+.THIS.cPopup .btnRTL {
+    right: 95% !important;
+    top: 0% !important;
+}
 
 .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-is-open>.slds-accordion__summary .slds-accordion__summary-action-icon,
 .THIS .cStudySiteLocations + .ap-section .slds-accordion__content .slds-accordion__summary-action-icon {
@@ -77,7 +81,11 @@
         padding-right: 10px;
         flex-direction: column-reverse;
     }
-    
+    .THIS.cPopup .btnRTL {
+        right: 95% !important;
+        top: 0% !important;
+    }
+
     .THIS .partinfo-footer-buttons > span {
         display: flex;
         justify-content: stretch;

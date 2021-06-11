@@ -1,6 +1,7 @@
 <aura:component
                 description="Action_StudySiteInformation"
                 controller="StudySiteInformationController" 
+                extends="c:CommunityContext"
                 >
     <ltng:require
                   scripts="{!join(',', $Resource.rr_community_js)}"
@@ -34,7 +35,8 @@
     <!-- component body: -->
     
     <aura:if isTrue="{!v.CmpOpen}">
-        <c:Popup
+        <div class="" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
+        <c:PopupRTL
                  aura:id="dialog"
                  title="{!v.studyInformation.siteName}"
                  size="large"
@@ -56,6 +58,7 @@
             
             <c:StudySiteLocations 
                                   piId = "{!v.studyInformation.piId}" 
+                                  isRTL = "{!v.isRTL}"
                                   studySite ="{!v.studyInformation}"
                                   isAccountModified = "{!v.isAccountModified}"
                                   isEdited = "{!v.isEdited}"
@@ -78,34 +81,40 @@
             
             <aura:set attribute="footerButtons">
                 <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
-                        <span>
-                            <lightning:button class="apollo-btn tertiary"
-                                              disabled="{!v.isEdited}"
-                                              onclick="{!c.doCancel}"
-                                              >{!$Label.c.BTN_Cancel}</lightning:button
-                                >
-                            
-                           <lightning:button
-                                              class="apollo-btn secondary" onclick="{!c.doSave}" 
-                                              disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
-                                                (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
-                                              >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
-                         </span>
-                        <!--<lightning:button
+                    <span style="{!v.isRTL? 'margin-left:10px;': 'margin-right:10px;'}">
+                        <lightning:button class="apollo-btn tertiary"
+                                          disabled="{!v.isEdited}"
+                                          onclick="{!c.doCancel}"
+                                          >{!$Label.c.BTN_Cancel}</lightning:button
+                            >
+                    </span>   
+                    <span style="{!v.isRTL? 'margin-left:10px;': 'margin-right:10px;'}">
+                        
+                        <lightning:button
+                                          class="apollo-btn secondary" onclick="{!c.doSave}" 
+                                          disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
+                                                      (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                          >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button>
+                    </span>
+                    <!--<lightning:button
                                           class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
                                           disabled = "{!!(v.isStudyInfoModified &amp;&amp;
                                                       (v.isModifiedInfo &amp;&amp;
                                                       v.isAccountModified &amp;&amp; 
                                                       v.isCDValitated))}"
                                           >{!$Label.c.CC_Save_All_And_Close}</lightning:button>-->
-                           <lightning:button
+                    <span style="{!v.isRTL? 'margin-left:10px;': 'margin-right:10px;'}">
+                        
+                        <lightning:button
                                           class="apollo-btn primary" onclick="{!c.doSaveandExit}" 
                                           disabled = "{!! ((v.isStudyInfoModified || v.hasNewCall) &amp;&amp;
-                                            (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
+                                                      (v.isModifiedInfo &amp;&amp; v.isCDValitated &amp;&amp; (!(v.isEdited))))}"
                                           >{!$Label.c.CC_Save_All_And_Close}</lightning:button>
+                    </span>
                 </div>
             </aura:set>
-        </c:Popup>
+        </c:PopupRTL>
+        </div>
     </aura:if>
     
 </aura:component>

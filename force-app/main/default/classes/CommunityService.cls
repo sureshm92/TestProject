@@ -6,7 +6,8 @@ public without sharing class CommunityService {
     public static final String GSK_NETWORK_NAME = 'GSK Community';
     public static final String JANSSEN_NETWORK_NAME = 'Janssen Community';
     public static final String JANSSEN_COMMUNITY_TEMPLATE = 'Janssen';
-
+    
+    public static List<String> strusrName = new List<String>();
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final String CC_COMMUNITY_USER_PROFILE_NAME = 'IQVIA Call Center Login User';
     public static final Id COMMUNITY_USER_PROFILE_ID = [
@@ -22,15 +23,6 @@ public without sharing class CommunityService {
         WHERE Name = :CC_COMMUNITY_USER_PROFILE_NAME
     ]
     .Id;
-
-    public static final String SPNL_USER_PROFILE_NAME = 'IQVIA SPNL';
-    public static final Id SPNL_USER_PROFILE_ID = [
-        SELECT Id
-        FROM Profile
-        WHERE Name = :SPNL_USER_PROFILE_NAME
-    ]
-    .Id;
-    public static final Id SPNL_ROLE = [SELECT Id FROM UserRole WHERE Name = 'SPNL'].Id;
 
     public static String COMMUNITY_PARTICIPANT_ACCOUNT_NAME = 'Participant';
     public static String COMMUNITY_DELEGATE_ACCOUNT_NAME = 'Delegate';
@@ -138,7 +130,9 @@ public without sharing class CommunityService {
     }
 
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
-        return [
+        List<User> lstUser = new List<User> ();
+        if(!contactIds.isEmpty()){
+            lstUser = [
             SELECT
                 Id,
                 Name,
@@ -151,9 +145,11 @@ public without sharing class CommunityService {
             FROM User
             WHERE
                 //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                ContactId IN :contactIds
+                ContactId IN :contactIds];
+    }
+        return  lstUser;
             //AND email != null
-        ];
+       
     }
 
     public static Boolean isUserModeValid(String userMode) {
@@ -231,6 +227,50 @@ public without sharing class CommunityService {
         return newPortalUsers;
     }
 
+    public List<User> createParticipantUsersBulk(Map<Id, Id> contactIdsMap) {
+        System.debug('ParticipantContactId -> HCPContactId MAP: ' + contactIdsMap);
+        List<Contact> contacts = getContacts(contactIdsMap.keySet());
+        List<User> hcpUsers = [
+            SELECT Id, ContactId, LocaleSidKey, TimeZoneSidKey, LanguageLocaleKey
+            FROM User
+            WHERE ContactId IN :contactIdsMap.values() AND LocaleSidKey != NULL
+        ];
+        System.debug('ParticipantContactId 11-> ');
+        Map<Id, User> hcpUsersMap = new Map<Id, User>();
+        for (User hcp : hcpUsers)
+            hcpUsersMap.put(hcp.ContactId, hcp);
+
+        List<User> newPortalUsers = new List<User>();
+        Set<String> usedNames = new Set<String>();
+        for (Contact cont : contacts) {
+            String timeZone;
+            String locale;
+            String language;
+            System.debug('forloop->');
+            User hcpUser = hcpUsersMap.get(contactIdsMap.get(cont.Id));
+            if (hcpUser != null) {
+                timeZone = hcpUser.TimeZoneSidKey;
+                locale = hcpUser.LocaleSidKey;
+                language = hcpUser.LanguageLocaleKey;
+            }
+            if (
+                !cont.Participants__r.isEmpty() &&
+                cont.Participants__r[0].Preferred_Language__c != null
+            ) {
+                cont.Language__c = cont.Participants__r[0].Preferred_Language__c;
+            }
+            if (cont.Language__c != null)
+                language = cont.Language__c;
+            if (cont.Email != null && cont.Email != '') {
+                newPortalUsers.add(createUserBulk(cont, locale, language, timeZone));
+            }
+        }
+        System.debug('newPortalUsers' + newPortalUsers);
+        insert newPortalUsers;
+        System.debug('Portal users successfully created = ' + newPortalUsers.size());
+        return newPortalUsers;
+    }
+
     public void createParticipantUsersAsync(
         Map<Id, Id> contactIdsMap,
         Set<Id> participantContactIds
@@ -251,6 +291,42 @@ public without sharing class CommunityService {
         if (timeZone == null)
             timeZone = 'America/Los_Angeles';
         String newUserName = getAvailableUserName(cont.Email);
+        User newUser = new User(
+            ProfileId = COMMUNITY_USER_PROFILE_ID,
+            Username = newUserName,
+            Email = cont.Email,
+            EmailEncodingKey = 'UTF-8',
+            LocaleSidKey = locale,
+            LanguageLocaleKey = language,
+            TimeZoneSidKey = timeZone,
+            ContactId = cont.Id,
+            LastName = cont.LastName,
+            FirstName = cont.FirstName,
+            Alias = 'test', //todo
+            IsActive = true
+        );
+
+        Database.DMLOptions dlo = new Database.DMLOptions();
+        dlo.EmailHeader.triggerUserEmail = true;
+        dlo.EmailHeader.triggerAutoResponseEmail = true;
+        newUser.setOptions(dlo);
+        return newUser;
+    }
+
+    public static User createUserBulk(Contact cont, String locale, String language, String timeZone) {
+        if (locale == null)
+            locale = 'en_US';
+        if (language == null) {
+            if (cont.Language__c == null) {
+                language = 'en_US';
+            } else {
+                language = cont.Language__c;
+            }
+        }
+        if (timeZone == null)
+            timeZone = 'America/Los_Angeles';
+        String newUserName = getAvailableUserNameBulk(cont.Email);
+        strusrName.add(newUserName);
         User newUser = new User(
             ProfileId = COMMUNITY_USER_PROFILE_ID,
             Username = newUserName,
@@ -335,6 +411,41 @@ public without sharing class CommunityService {
                 usedNames.add(user.Username);
             for (String userName : names) {
                 if (!usedNames.contains(userName))
+                    return userName;
+            }
+        }
+        return null;
+    }
+
+    private static String getAvailableUserNameBulk(String email) {
+        List<String> names = new List<String>();
+        names.add(email);
+        for (Integer i = 1; i < 100; i++) {
+            String numberStr = (100 + i) + '';
+            numberStr = numberStr.right(2);
+            names.add(email + '.' + numberStr);
+        }
+        //BUG: Don't return Username field for portal users
+        List<User> users = [
+            SELECT FirstName, Username, Email
+            FROM User
+            WHERE Username IN :names OR Email IN :names
+        ];
+        System.debug('usersAvailable:' + users);
+        
+         Set<String> usedNames = new Set<String>();
+            for (User user : users)
+                usedNames.add(user.Username);
+                
+        string email1 = email + '01';
+        string email2 = email + '02';
+        if (users != null && users.size() == 1 && !strusrName.contains(email1) && !usedNames.contains(email1)) {
+            return email + '01';
+        } else if (users != null && users.size() == 2 && !strusrName.contains(email2) && !usedNames.contains(email2)) {
+            return email + '02';
+        } else {
+            for (String userName : names) {
+                if (!usedNames.contains(userName) && !strusrName.contains(userName))
                     return userName;
             }
         }

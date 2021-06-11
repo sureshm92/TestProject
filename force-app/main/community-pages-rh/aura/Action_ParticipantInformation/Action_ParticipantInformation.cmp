@@ -19,6 +19,7 @@
 <aura:attribute name="containsFile" type="Boolean" default="false"/> 
 <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
 <aura:attribute name="callback" type="Object" access="private" />
+<aura:attribute name="callbackDOB" type="Object" access="private" />     
 <aura:attribute name="rootComponent" type="Aura.Component" access="public" />
 <aura:attribute name="formData" type="AddPatientByPIRemote.FormData" access="private" />
 <aura:attribute name="initialized" type="Boolean" default="false" access="private" />
@@ -60,10 +61,21 @@
 <aura:attribute name="BtnClicked" type="String" />
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
+<aura:attribute name="needsDelegate" type="Boolean" default="false" />
+     
+ 
+     
+ <aura:attribute name="yob" type="List" /> 
+ <aura:attribute name="isFirstPrimaryDelegate" type="Boolean"  default="false"/> 
+ <aura:attribute name="isAdultDel" type="Boolean"  />    
+ <aura:attribute name="attestAge" type="Boolean"  />
+ <aura:attribute name="isBulkImport" type="Boolean"  /> <!--as per 3248 -->
 
 
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
+<aura:registerEvent name="FilterKeep" type="c:CardViewFilterKeep"/>
+
 
 <aura:handler
    name="detectChildChanges"
@@ -71,6 +83,10 @@
    action="{!c.checkChildChanges}"
    />
 
+<aura:method name="checkParticipantDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
+        <aura:attribute name="callback" type="Function" />
+    </aura:method>
+     
 <aura:handler name="change" value="{!v.pe}" action="{!c.checkParticipant}" />
 
 <!-- methods -->
@@ -89,13 +105,15 @@
 </aura:method>
 
 <!-- component body: -->
-<c:Popup
+<c:PopupRTL
 aura:id="dialog"
 title="{!v.popUpTitle}"
 size="large"
 showScroll="true"
 showHeader="true"
 showFooter="true"
+parent = "{!v.parent}"         
+isListView = "{!v.isListView}"         
 >
 
 <aura:if
@@ -116,7 +134,7 @@ showFooter="true"
      <lightning:button
                        disabled="true"
                        label="{!$Label.c.BTN_Create_User_on_PE_Info}"
-                       class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                       class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
                        />
      
      <aura:set attribute="else">
@@ -126,7 +144,7 @@ showFooter="true"
                           v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
                   >
              <button
-                     class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                     class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
                      onclick="{!c.createUserForPatient}"
                      data-gtm="BTN_Invite_To_PP"
                      >
@@ -139,7 +157,7 @@ showFooter="true"
  <aura:if isTrue="{!(v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
      
      <button
-             class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+             class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
              disabled="true"
              data-gtm="BTN_Invite_To_PP"
              >
@@ -157,10 +175,10 @@ showFooter="true"
  <aura:if
           isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
           >
-     <aura:if isTrue="{!and(v.pe.Participant_Status__c != 'Eligibility Passed',v.status != 'Eligibility Passed')}">
+     <aura:if isTrue="{!v.promoteToSHStatus}">
          
          <button
-                 class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                 class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
                  disabled="{!!v.promoteToSHStatus}"
                  onclick="{!c.sendToStudyHub}"
                  data-gtm="BTN_Invite_To_PP"
@@ -170,13 +188,19 @@ showFooter="true"
          <aura:set attribute= "else">
              
              <button
-                     class="slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center"
+                     class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
                      disabled="true"
                      data-gtm="BTN_Invite_To_PP"
                      >
                  <div class="slds-grid slds-wrap">
                      <div class="slds-col slds-size_1-of-1">
-                         {!$Label.c.Sent_to_Study_Hub}</div>
+                         <aura:if isTrue="{!v.dateofSH!=undefined}">
+                             {!$Label.c.Sent_to_Study_Hub}
+                             <aura:set attribute="else">
+                                 {!$Label.c.Send_to_Study_Hub}
+                             </aura:set>
+                         </aura:if>
+                     </div>
                      <div class="slds-col slds-size_1-of-1">
                          <!--(<ui:outputDate value="{!v.dateofSH}"/>)-->
                          <lightning:formattedDateTime value="{!v.dateofSH}" year="numeric" month="short" day="2-digit" timeZone="UTC"/>
@@ -216,6 +240,13 @@ showFooter="true"
                                      BtnClicked="{!v.BtnClicked}"
                                      isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
                                      participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
+                                     yob = "{!v.yob}"
+                                     isFirstPrimaryDelegate = "{!v.isFirstPrimaryDelegate}"
+                                     isAdultDel = "{!v.isAdultDel}"
+                                     attestAge = "{!V.attestAge}"
+                                     isBulkImport = "{!v.isBulkImport}"
+                                     needsDelegate="{!v.needsDelegate}"
+									 parentComponent="{!this}"
                                      />
              
              <!--1936-->
@@ -247,7 +278,7 @@ showFooter="true"
                       class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top: 15px"
                           >
                          <lightning:input
                                           type="checkbox"
@@ -266,7 +297,7 @@ showFooter="true"
                       class="slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top:15px"
                           >
                          <lightning:input
                                           type="checkbox"
@@ -286,7 +317,7 @@ showFooter="true"
                       style="padding-bottom: 10px"
                       >
                      <div
-                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid slds-grid--vertical-align-center"
+                          class="slds-col slds-size--12-of-12 slds-max-small-size--1-of-1 slds-grid" style="margin-top:15px"
                           >
                          <lightning:input
                                           type="checkbox"
@@ -408,7 +439,8 @@ showFooter="true"
             <span style="{!v.isRTL? 'margin-left:15px;': ''}">
          <lightning:button
                            class="apollo-btn secondary"
-                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick}"
+                           disabled="{!!v.isValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
+
                            onclick="{!c.doUpdate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
@@ -425,15 +457,15 @@ showFooter="true"
             </span>
      </aura:if>
  </span>
- <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:-10px'}">
+ <span style="{!v.isRTL? 'margin-left:15px;': 'margin-right:0'}">
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
-                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick}"
+                   disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
                    onclick="{!c.doUpdateCancel}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >
     </span>
 </div>
 </aura:set>
-</c:Popup>
+</c:PopupRTL>
 </aura:component>

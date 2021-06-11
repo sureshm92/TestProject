@@ -101,8 +101,9 @@ stages:
 
   #Validation:
   - SonarCheck
-  - VALIDATE
   - RUNTEST
+  - VALIDATE
+  
   
 
   
@@ -203,7 +204,7 @@ RUNTEST:
   
   stage: RUNTEST
   script: 
-  - sfdx force:apex:test:run -u TargetOrg -w $TMOUT_TEST_LOCAL --resultformat human --codecoverage --testlevel RunLocalTests
+  - . ./scripts/ci/run-tests.sh INF71
   
 
 image: salesforce/salesforcedx:7.82.1-0-full

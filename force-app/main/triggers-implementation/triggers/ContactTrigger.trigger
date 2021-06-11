@@ -12,6 +12,7 @@ trigger ContactTrigger on Contact(
     after delete,
     after undelete
 ) {
+    if(UserInfo.getUserName() != Label.UserName){
     TriggerHandlerExecutor.execute(
         ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
     );
@@ -20,4 +21,5 @@ trigger ContactTrigger on Contact(
     TriggerHandlerExecutor.execute(ContactTriggerHandler.PopulateOverrideFields.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.CreateUserForCCContactHandler.class);
     TriggerHandlerExecutor.execute(ContactTriggerHandler.UpdateParticipantDetailsHandler.class);
+    }
 }

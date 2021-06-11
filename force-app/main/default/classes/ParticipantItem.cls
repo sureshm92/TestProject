@@ -29,15 +29,15 @@ public without sharing class ParticipantItem {
             pe.Referral_Source__c
         );
         this.pe = pe;
-        String participantId = pe.Participant__c;//REF-2826
-        Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
+       // String participantId = pe.Participant__c;//REF-2826
+       /* Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
         if(count > 0)
         {
             this.containsFile = true;
         }else
         {
             this.containsFile = false;
-        }
+        } */
         this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(pe);
         this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(pe)
             .contains(pe.Participant_Status__c);

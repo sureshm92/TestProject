@@ -31,10 +31,15 @@
 
 .THIS .healthcare-form-container {
     margin-bottom: 1%;
+    padding: 6px 10px;
 }
 
 .THIS .healthcare-input input {
     height: 32px;
+}
+
+.THIS .slds-form-element__help {
+    white-space: nowrap;
 }
 
 .THIS .provider-found-section {
@@ -69,11 +74,27 @@
     .THIS .healthcare-input input {
         margin-bottom: 5px;
     }
+
+    .THIS .cReferHealthcareProviderInputs.rr-form-element > .rr-form-element .slds-form-element__help {
+        margin-top: 30px;
+    }
 }
 
 @media screen and (max-width: 500px) {
+
+    .THIS .referring,
+    .THIS .slds-grid.slds-size--1-of-1 > div > .apollo-btn{
+        margin-top: 1rem;
+    }
+
     .THIS .slds-grid > .slds-col,
     .THIS .apollo-btn {
         width: 100%;
+
     }
+
+    .THIS .slds-grid > .slds-col .slds-form-element {
+        margin-bottom: 1rem;
+    }
+
 }

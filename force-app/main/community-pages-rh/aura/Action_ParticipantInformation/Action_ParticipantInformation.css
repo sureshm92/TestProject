@@ -126,6 +126,13 @@
 .THIS .hide-survey-header {
     display: none;
 }
+.THIS .rtlButton{
+    margin-left: 4%;
+}
+.THIS.cPopup .btnRTL {
+    right: 95% !important;
+    top: 0% !important;
+}
 
 .THIS .survei-gizmo-iframe-container {
     overflow: hidden;
@@ -147,9 +154,9 @@
 .THIS .print-icon-rtl {
     position: absolute;
     top: 30px;
-    right: 65px;
+    /* @noflip */  left: 65px;
     height: 14px;
-    margin-right: 780px;
+    
 }
 .THIS .print-icon svg {
     display: none;
@@ -394,11 +401,12 @@
         justify-content: space-between;
     }
 
-    .THIS .partinfo-footer-buttons > .slds-button_neutral {
-        width: 100%;
+    .THIS .partinfo-footer-buttons > span > span {
+        width: 50%
     }
+
     .THIS .partinfo-footer-buttons > span .slds-button_neutral {
-        width: 47%;
+        width: 100%;
     }
 
     .THIS .IQVIA_contact-patient-container {

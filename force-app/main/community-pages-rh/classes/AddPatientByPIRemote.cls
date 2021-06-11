@@ -23,6 +23,8 @@ public without sharing class AddPatientByPIRemote {
             Contact.Language__c
         );
         @AuraEnabled
+        public List<LabelValueItem> yearOfBirth;
+        @AuraEnabled
         public List<LabelValueItem> peStatusLVList;
         @AuraEnabled
         public List<LabelValueItem> visitPlansLVList;
@@ -49,6 +51,7 @@ public without sharing class AddPatientByPIRemote {
                     initData.ctp
                 );
                 initData.userLanguage = getUserLanguage();
+                initData.yearOfBirth = ParticipantService.getYearofBirthList();
             }
             return initData;
         } catch (Exception e) {
@@ -145,6 +148,9 @@ public without sharing class AddPatientByPIRemote {
                 } else {
                     participantCon.Phone = participant.Phone__c;
                 }
+                if (createUser) {
+                    participantCon.Is_Patient_User_Created__c = true;
+                }
                 update participantCon;
             }
 
@@ -163,7 +169,8 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 participantId,
                 participantJSON,
-                allowDelegateContact
+                allowDelegateContact,
+                TaskService.invitationsVisibleTemp // added this to hold the value of this param in future method
             );
             //Moved history Creation to Trigger
         } catch (Exception e) {
@@ -187,7 +194,7 @@ public without sharing class AddPatientByPIRemote {
 
     @Future
     @TestVisible
-    private static void updateParticipant(String participantJSON) {
+    public static void updateParticipant(String participantJSON) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
@@ -224,7 +231,7 @@ public without sharing class AddPatientByPIRemote {
             ];
             List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
-                for(Participant__c partici: newPartcipantObjs){                  
+                for (Participant__c partici : newPartcipantObjs) {
                     partici.First_Name__c = participant.First_Name__c;
                     partici.Last_Name__c = participant.Last_Name__c;
                     partici.Suffix__c = participant.Suffix__c;
@@ -240,10 +247,9 @@ public without sharing class AddPatientByPIRemote {
                     partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
                     participantPatient.add(partici);
                 } 
-                if(!participantPatient.isEmpty()){
+                if (!participantPatient.isEmpty()) {
                     update participantPatient;
-                }
-                
+                }              
             }
         }
     }
@@ -255,7 +261,8 @@ public without sharing class AddPatientByPIRemote {
         String delegateDuplicateInfo,
         String participantId,
         String participantJSON,
-        Boolean createDelegateuser
+        Boolean createDelegateuser,
+        Map<Id,String> invitationsVisibleTemp 
     ) {
         Participant__c participant = (Participant__c) JSON.deserialize(
             participantJSON,
@@ -278,6 +285,14 @@ public without sharing class AddPatientByPIRemote {
                 delegateDuplicateInfo,
                 ReferHealthcareProviderRemote.HealthcareProvider.class
             );
+            if (ddInfo != null && ddInfo.participantId != null) {
+                participantDelegate.Id = ddInfo.participantId;
+                try {
+                    upsert participantDelegate;
+                } catch (Exception exp) {
+                    system.debug('No delegate was provided');
+                }
+            }
 
         if (
             participantDelegate != null &&
@@ -344,6 +359,12 @@ public without sharing class AddPatientByPIRemote {
                 participantDelegate.Mailing_State__c = participant.Mailing_State__c;
                 participantDelegate.Mailing_State_Code__c = participant.Mailing_State_Code__c;
 				participantDelegate.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                if (String.isNotBlank(participantDelegate.Birth_Year__c)) {
+                    participantDelegate.Attestation__c = true;
+                    participantDelegate.Attestation_TimeStamp__c = ParticipantService.getFormattedTime();
+                    participantDelegate.Attested_by__c = CommunityService.getInstance()
+                        .getCurrentContactId();
+                }
                 if (
                     String.isBlank(participantDelegate.Phone__c) &&
                     !String.isBlank(participant.Phone__c)
@@ -382,6 +403,11 @@ public without sharing class AddPatientByPIRemote {
                     ptDelegateRef.Contact__c = newContact.Id;
 					ptDelegateRef.Primary_Delegate__c = true;
                     ptDelegateRef.Status__c = 'Disconnected';
+                   /* if (ddInfo == null || ddInfo.participantId == null){
+                        ptDelegateRef.Attestation__c = true; 
+                        ptDelegateRef.Attestation_TimeStamp__c = Date.today(); 
+                        ptDelegateRef.Attested_by__c = CommunityService.getInstance().getCurrentContactId();
+                    } */
                     String communityTemplateName = UserContext.getCurrentCommunityTemplate()
                         .templateName;
                     if (
@@ -408,6 +434,11 @@ public without sharing class AddPatientByPIRemote {
                 });*/
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                     .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                //Recalling createSurveyTasks method to create survey task for Patient Delegates
+                TaskService.invitationsVisibleTemp = invitationsVisibleTemp; 
+                if (TaskService.invitationsVisibleTemp != null && !TaskService.invitationsVisibleTemp.isEmpty()){
+                    TaskService.createSurveyTasksforDelegate(TaskService.invitationsVisibleTemp,true);
+                }
             }
         }
     }
@@ -441,7 +472,7 @@ public without sharing class AddPatientByPIRemote {
     public static String getUserLanguage() {
         return UserInfo.getLanguage();
     }
-
+	
     private static void trimParticipantFields(Participant__c participant) {
         participant.Phone__c = !String.isBlank(participant.Phone__c)
             ? participant.Phone__c.trim()
@@ -460,6 +491,11 @@ public without sharing class AddPatientByPIRemote {
     @AuraEnabled
     public static String checkNeedsGuardian(String participantJSON) {
         return ReferringRemote.checkNeedsGuardian(participantJSON);
+    }
+    
+    @AuraEnabled
+    public static String checkDelegateAge(String participantJSON, String delegateParticipantJSON) {
+        return ReferringRemote.checkDelegateAge(participantJSON, delegateParticipantJSON);
     }
 
     @AuraEnabled

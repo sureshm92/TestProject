@@ -1,13 +1,13 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
 
         if (!communityService.isDummy()) {
             let ssId = communityService.getUrlParameter('ssId');
-
+			
             component.find('spinner').show();
             helper.checkCommunity(component, event, helper);
             communityService.executeAction(
@@ -47,6 +47,10 @@
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
+    },
+    
+    doCheckYearOfBith: function (component, event, helper) {
+        helper.checkGuardianAge(component, event, helper);
     },
 
     doCancel: function (component) {
@@ -111,6 +115,7 @@
         component.find('delegate-phone').focus();
         component.find('delegate-phone').blur();
         component.set('v.useThisDelegate', true);
+        component.set('v.isNewPrimaryDelegate',false);
         //helper.checkFields(component,event,helper, true);
     },
 

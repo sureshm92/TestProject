@@ -141,7 +141,7 @@ a {
     line-height: 24px;
     /* margin-left: 15px; */
     margin-top: 40px;
-    text-align: left;
+    text-align: right;
     padding: 0;
 }
 
@@ -162,18 +162,28 @@ a {
 
     .travel-support {
         padding-left: 0;
-        margin-top: 0;
+        margin-top: 25px;
     }
 
-    .no-travels-message {
+    .no-travels-message,
+    .no-travels-message_rtl {
         margin: 1.5rem;
         text-align: center;
     }
 
     .slds-grid >  .slds-col.slds-size_1-of-2.mr {
-      margin-top: 15px;
-      margin-left: 0;
-      padding-left: 0;
+        margin-top: 15px;
+        margin-left: 0;
+        padding-left: 0;
+    }
+
+    .slds-grid {
+        padding-right: 5px;
+    }
+
+    .mr,
+    .mr_rtl {
+        margin-top: 15px;
     }
 
 }

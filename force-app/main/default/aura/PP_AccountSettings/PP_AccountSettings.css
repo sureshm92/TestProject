@@ -11,7 +11,7 @@
     min-height: 1000px;
 }
 .THIS .RTL {
-    direction: rtl;
+   /* @noflip */  direction: rtl;
 }
 
 .THIS .cRrSelect.rrs-container select,
@@ -62,8 +62,9 @@
     min-width: 300px;
 }
 .THIS .NavContainer1 .RTL {
-    padding: 1.5rem 1.5rem 0 0;
-}
+    /* @noflip */  padding: 1.5rem 1.5rem 0 0;
+ }
+ 
 .THIS .NavContainer1 .LTR {
     padding: 1.5rem 0 0 1.5rem;
 }
@@ -110,6 +111,16 @@
     white-space: nowrap;
 }
 
+.THIS .NavComponentRTL .cPP_LanguageSwitcher .label,
+.THIS .NavComponentRTL .smallName .label,
+.THIS .as-email-preference .mar_top {
+    margin-right: 5px;
+}
+
+.THIS .NavComponentRTL .slds-form-element__label {
+    padding-right: 0;
+}
+
 @media all and (max-width: 768px) {
     .THIS .NavContainer {
         flex-direction: column;
@@ -149,14 +160,14 @@
     }
 
     .THIS .navBar .navItem.mouse-hover .navItem1 {
-        padding: 0.75rem 5px 0 0.25rem;
+        padding: 0.75rem 5px 0 6px;
         display: inline-block;
         border: none;
         width: 100%;
     }
 
-    .THIS .navBar .navItem .navItem1 {
-        padding-left: 1.25rem;
+    .THIS .RTL .navBar .navItem.mouse-hover .navItem1 {
+        padding-right: 25px;
     }
 
     .THIS .mouse-hover.navItem,

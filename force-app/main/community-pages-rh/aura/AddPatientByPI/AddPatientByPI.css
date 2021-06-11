@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS.add-patient-form {
+ .THIS.add-patient-form {
     min-height: 80vh;
 }
 
@@ -38,6 +38,11 @@
 
 .THIS .rr-form-element {
     margin-bottom: 10px;
+}
+
+.THIS .rr-error
+{
+     color: rgb(194, 57, 52);
 }
 
 .THIS .ap-section-title {
@@ -111,6 +116,11 @@
     background-color: #f2f2f2;
 }
 
+.THIS .rr-cb-container .slds-form-element__help {
+    white-space: nowrap;
+    margin-top: -5px;
+}
+
 @media all and (max-width: 768px) {
     .THIS .rr-medium-up-hide {
         display: none;
@@ -119,6 +129,14 @@
     .THIS .rr-white-panel > .ap-section .slds-grid > .rr-form-element:nth-of-type(6),
     .THIS .rr-white-panel > .ap-section .slds-grid > .rr-form-element:nth-of-type(10) {
         display: none;
+    }
+
+    .THIS .rr-cb-container .slds-form-element__help {
+        margin-top: 10px;
+    }
+
+    .THIS .ap-section > .slds-grid > .slds-grid.slds-p-top_small {
+        flex-wrap: nowrap;
     }
 }
 
@@ -130,4 +148,22 @@
         margin-bottom: 20px;
         margin-left: 0;
     }
+
+    .THIS .rr-cb-container .slds-form-element__help {
+        margin-top: 30px;
+    }
+
+    .THIS .ap-section > .slds-grid > .slds-grid.slds-p-top_small {
+        flex-wrap: wrap;
+    }
+}
+
+.THIS .slds-checkbox{
+    display: inline-flex;
+}
+
+.THIS .delegateAttest{
+    font-size: 16px;
+    color: #000000;
+    font-weight: 500;
 }

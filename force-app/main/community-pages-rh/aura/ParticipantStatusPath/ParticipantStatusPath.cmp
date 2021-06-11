@@ -2,11 +2,15 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="ParticipantStatusPath" extends="c:CommunityContext">
+ <aura:component description="ParticipantStatusPath" extends="c:CommunityContext">
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="pathSteps" type="List" />
     <aura:attribute name="printMode" type="Boolean" default="false" />
-
+    <aura:attribute name="sendToSH" type="Boolean"/>
+    <aura:attribute name="sendToSHDate" type="Date"/>
+    <aura:attribute name="initValReqd" type="Boolean"/>
+    <aura:attribute name="promoteToSH" type="Boolean"/>
+    <aura:attribute name="sendToSHReason" type="String"/>
     <div class="vpi-path-panel">
         <div class="{!v.userMode != 'PI' ? 'path-section' : 'path-section-pi'}">
             <div class="slds-grid vpi-path">
@@ -52,7 +56,21 @@
                                 </div>
                             </div>
                         </div>
-                        <div class="vri-state-label">{!pathItem.title}</div>
+                        <aura:if isTrue="{!or(v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title==$Label.c.Eligibility_Passed &amp;&amp; v.initValReqd==false &amp;&amp; v.promoteToSH==true,v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title==$Label.c.Successfully_Contacted&amp;&amp; v.initValReqd==true)}">
+                        <!--<aura:if isTrue="{!(v.sendToSH==false &amp;&amp; v.sendToSHDate!=undefined &amp;&amp; pathItem.title=='Successfully Contacted'&amp;&amp; v.initValReqd==true)}">-->
+                        <div class="vri-state-label">{!$Label.c.Sent_to_Study_Hub}</div>
+                        <div class="vri-state-label">{!v.sendToSHReason}</div>
+                        <div class="vri-state-label">
+                            <lightning:formattedDateTime
+                                value="{!v.sendToSHDate}"
+                                year="numeric"
+                                month="short"
+                                day="2-digit"
+                                timeZone="UTC"
+                            />
+                        </div>
+                        <aura:set attribute="else">
+                         <div class="vri-state-label">{!pathItem.title}</div>
                         <div class="vri-state-label">{!pathItem.reason}</div>
                         <div class="vri-state-label">
                             <lightning:formattedDateTime
@@ -63,6 +81,8 @@
                                 timeZone="UTC"
                             />
                         </div>
+                        </aura:set>
+                      </aura:if>
                     </div>
                 </aura:iteration>
             </div>

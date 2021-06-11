@@ -1,5 +1,9 @@
 <!--Created by Deeksha on 27.05.2020-->
-<aura:component controller="AccountSettingsController" description="AccountSettings" extends="c:CommunityContext">
+<aura:component
+    controller="AccountSettingsController"
+    description="AccountSettings"
+    extends="c:CommunityContext"
+>
     <!-- attributes:  -->
     <aura:attribute name="initData" type="Object" access="private" />
     <aura:attribute name="userMode" type="String" required="true" />
@@ -188,9 +192,9 @@
                     <div
                         class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
                     >
-                    <div
-                    class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
-                    >
+                        <div
+                            class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
+                        >
                             <aura:if isTrue="{!not(v.isDelegate)}">
                                 <lightning:input
                                     aura:id="pField"
@@ -322,7 +326,9 @@
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 slds-small-size_2-of-4"
                             >
-                                <aura:if isTrue="{!not(v.isDelegate)}">
+                                <aura:if
+                                    isTrue="{!and(not(v.isDelegate),v.personWrapper.showBirthDate)}"
+                                >
                                     <lightning:input
                                         aura:id="pField"
                                         type="date"
@@ -350,6 +356,46 @@
                                 </aura:if>
                             </div>
                         </div>
+                        <aura:if isTrue="{!and(not(v.isDelegate),!v.personWrapper.showBirthDate)}">
+                            <div style="height: 30px"></div>
+                            <div class="as-info">
+                                <div class="as-title">{!$Label.c.AccountSetting_Date_Of_Birth}</div>
+                                <div
+                                    class="{! 'rr-form-element slds-grid slds-wrap slds-gutters delegate-birthDate'}"
+                                >
+                                    <div
+                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
+                                    >
+                                        <lightning:input
+                                            type="text"
+                                            label="{!$Label.c.AccountSetting_Birth_Day}"
+                                            disabled="true"
+                                            value="{!v.personWrapper.birthDay}"
+                                        />
+                                    </div>
+                                    <div
+                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
+                                    >
+                                        <lightning:input
+                                            type="text"
+                                            label="{!$Label.c.AccountSetting_Birth_Month}"
+                                            disabled="true"
+                                            value="{!v.personWrapper.birthMonth}"
+                                        />
+                                    </div>
+                                    <div
+                                        class="slds-col slds-medium-size_1-of-3 slds-small-size_1-of-1 slds-large-size_1-of-3"
+                                    >
+                                        <lightning:input
+                                            type="text"
+                                            label="{!$Label.c.AccountSetting_Birth_Year}"
+                                            disabled="true"
+                                            value="{!v.personWrapper.birthYear}"
+                                        />
+                                    </div>
+                                </div>
+                            </div>
+                        </aura:if>
                     </aura:if>
 
                     <!--    </aura:if>  -->
@@ -371,7 +417,11 @@
                     <div class="as-email-preference">
                         <!-- <aura:if isTrue="{!v.userMode == 'Participant'}"> -->
                         <div class="as-title">{!$Label.c.PG_AS_H_Contact_Information}</div>
-                        <div class="contactDesc">{!v.userMode == 'CC' ?  $Label.c.CC_Toggle_Information :  $Label.c.PP_Toggle_Information}</div>
+                        <div class="contactDesc">
+                            {!v.userMode == 'CC' ? $Label.c.CC_Toggle_Information : (v.userMode ==
+                            'Participant'? $Label.c.PP_Toggle_Information :
+                            $Label.c.PI_Toggle_Information) }
+                        </div>
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2"
@@ -481,27 +531,27 @@
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
                             >
-                                <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                    <lightning:input
-                                        aura:id="pField2"
-                                        type="tel"
-                                        label="{!$Label.c.PG_AS_F_Phone_number}"
-                                        value="{!v.personWrapper.homePhone}"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                        required="true"
-                                        class="{!v.isRTL?'rightAlign':''}"
-                                    />
-                                </aura:if>
-                                <aura:if isTrue="{!v.userMode != 'Participant'}">
-                                    <lightning:input
-                                        aura:id="pField2"
-                                        dir="{!v.isRTL? 'rtl':''}"
-                                        type="tel"
-                                        label="{!$Label.c.PG_AS_F_Phone_number}"
-                                        value="{!v.personWrapper.homePhone}"
-                                        onblur="{!c.doCheckFieldsValidity}"
-                                    />
-                                </aura:if>
+                            <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                <lightning:input
+                                                 aura:id="pField2"
+                                                 type="tel"
+                                                 label="{!$Label.c.PG_AS_F_Phone_number}"
+                                                 value="{!v.personWrapper.homePhone}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 required="true"
+                                                 class="{!v.isRTL?'rightAlign':''}"
+                                                 />
+                            </aura:if>
+                            <aura:if isTrue="{!v.userMode != 'Participant'}">
+                                <lightning:input
+                                                 aura:id="pField2"                                                  
+                                                 class="{!v.isRTL? 'rightAlign':''}"
+                                                 type="tel"
+                                                 label="{!$Label.c.PG_AS_F_Phone_number}"
+                                                 value="{!v.personWrapper.homePhone}"
+                                                 onblur="{!c.doCheckFieldsValidity}"
+                                                 />
+                            </aura:if>
                             </div>
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
@@ -556,7 +606,7 @@
                                         label="{!$Label.c.RH_Address_Line_1}"
                                         value="{!v.addressLine1}"
                                         onchange="{!c.onChangeInput}"
-                                        disabled="{!v.userMode == 'CC' ? true : false}"             
+                                        disabled="{!v.userMode == 'CC' ? true : false}"
                                     />
                                 </div>
 

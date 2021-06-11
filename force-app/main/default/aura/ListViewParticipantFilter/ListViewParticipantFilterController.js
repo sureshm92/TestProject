@@ -20,54 +20,54 @@
         obj.value = 'All';
         sexList.push(obj);
         obj = {};
-
+        
         obj.label = $A.get('$Label.c.AF_Male');
         obj.value = 'M';
         sexList.push(obj);
         obj = {};
-
+        
         obj.label = $A.get('$Label.c.AF_Female');
         obj.value = 'F';
         sexList.push(obj);
         obj = {};
         component.set('v.optionSex', sexList);
-
+        
         var sortBy = [];
         var obj1 = {};
         obj1.label = $A.get('$Label.c.AF_ReceivedDate_OF');
         obj1.value = 'Received Date(Oldest First)';
         sortBy.push(obj1);
         obj1 = {};
-
+        
         obj1.label = $A.get('$Label.c.AF_ReceivedDate_NF');
         obj1.value = 'Received Date(Newest First)';
         sortBy.push(obj1);
         obj1 = {};
-
+        
         obj1.label = $A.get('$Label.c.AF_ID_D');
         obj1.value = 'Descending';
         sortBy.push(obj1);
         obj1 = {};
-
+        
         obj1.label = $A.get('$Label.c.AF_ID_A');
         obj1.value = 'Ascending';
         sortBy.push(obj1);
         obj1 = {};
         component.set('v.SortBy', sortBy);
-
+        
         var PR = [];
         var obj2 = {};
         obj2.label = $A.get('$Label.c.Yes');
         obj2.value = 'Yes';
         PR.push(obj2);
         obj2 = {};
-
+        
         obj2.label = $A.get('$Label.c.No');
         obj2.value = 'No';
         PR.push(obj2);
         obj2 = {};
         component.set('v.PriorityReferral', PR);
-
+        
         var peFilterData = component.get('v.peFilterData');
         RowItemList.push({
             Status: peFilterData.activePE[0].value,
@@ -96,19 +96,31 @@
         });
         component.set('v.filterList', RowItemList);
         helper.handleSearchHelper(component, event, helper);
+        
     },
     handleChangeActive: function (component, event, helper) {
         //var spinner = component.find('recordsSpinner');
         //spinner.show();
         var selectedOptionValue = component.get('v.filterList[0].Status');
+        var studyId = component.get('v.filterList[0].Study');
         // alert(component.get("v.peFilterData.statuses"));
         component.set('v.filterList[0].Status', selectedOptionValue);
+        var params = {
+            activePE: selectedOptionValue,
+            studyId: studyId
+        };
+        if(component.get('v.isSSListUpdated')==true){
+            params = {
+                activePE: selectedOptionValue,
+                studyId: studyId,
+                isPromoteToSH: component.get('v.PromoteToSH')==false?true:false,
+                isInitVisitReqd: component.get('v.isInitVisitReqd')==true?true:false
+            }
+        }  
         communityService.executeAction(
             component,
             'getParticipantStatus',
-            {
-                activePE: selectedOptionValue
-            },
+            params,
             function (returnValue) {
                 component.set('v.peFilterData.statuses', returnValue);
                 if (
@@ -124,8 +136,8 @@
                 if (
                     selectedOptionValue == 'Inactive' &&
                     component
-                        .get('v.actStatus')
-                        .includes(component.get('v.filterList[0].ParticipantStatus'))
+                    .get('v.actStatus')
+                    .includes(component.get('v.filterList[0].ParticipantStatus'))
                 ) {
                     component.set('v.filterList[0].ParticipantStatus', 'null');
                 }
@@ -144,8 +156,8 @@
                 if (
                     selectedOptionValue == 'Active' &&
                     !component
-                        .get('v.actStatus')
-                        .includes(component.get('v.filterList[0].ParticipantStatus'))
+                    .get('v.actStatus')
+                    .includes(component.get('v.filterList[0].ParticipantStatus'))
                 ) {
                     component.set('v.filterList[0].ParticipantStatus', 'null');
                 }
@@ -155,6 +167,13 @@
     },
     reset: function (component, event, helper) {
         component.set('v.isFromDoinit', false);
+        component.set("v.isActionSelected",false);
+        component.set("v.statusChange",false);
+        component.set("v.isCheckboxhidden",false); 
+        component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
+        var menuItem = component.find('menuItem');
+        $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
     },
     handleChangeSex: function (component, event, helper) {
@@ -234,15 +253,23 @@
         component.set('v.filterList', RowItemList);
     },
     handleSearch: function (component, event, helper) {
+        component.set("v.isActionSelected",false);
+        component.set("v.statusChange",false);
+        component.set("v.isCheckboxhidden",false); 
+        component.set('v.ActionSelected','null');
+        component.set("v.turnON",false);
+        var menuItem = component.find('menuItem');
+        $A.util.removeClass(menuItem, 'slds-is-open');
         helper.handleSearchHelper(component, event, helper);
     },
     handleTable: function (component, event, helper) {
         component.find('Spinnerpopup').show();
         var RowItemList = component.get('v.oldfilterList');
         RowItemList = [];
-        var pageNumber = 1;
+        //var pageNumber = 1;
+        var pageNumber =component.get('v.PageNumber');
         var pageSize = component.find('pageSize').get('v.value');
-
+        
         RowItemList.push({
             Status: component.get('v.oStatus'),
             Study: component.get('v.oStudy'),
@@ -265,7 +292,7 @@
             highPrioritySelected_YesIds: component.get('v.lstPR_yes'),
             highPrioritySelected_NoIds: component.get('v.lstPR_no')
         });
-
+        
         /**  RowItemList[0].pageNumber = pageNumber;
         RowItemList[0].pageSize = pageSize; 
         RowItemList[0].SelectedIds = component.get('v.SelectedIds');
@@ -274,9 +301,9 @@
         RowItemList[0].highPrioritySelected_YesIds = component.get('v.lstPR_yes');
         RowItemList[0].highPrioritySelected_NoIds = component.get('v.lstPR_no'); **/
         component.set('v.oldfilterList', RowItemList);
-
+        
         var filterValue = component.get('v.oldfilterList');
-
+        
         /** alert('status-->'+filterValue[0].Status);
         alert('study-->'+filterValue[0].Study);
         alert('site--->'+filterValue[0].StudySites);
@@ -289,23 +316,27 @@
         alert('isHighRiskOccupation-->'+filterValue[0].isHighRiskOccupation);
         alert('isComorbidities-->'+filterValue[0].isComorbidities);
         alert('isInitialVisitScheduled-->'+filterValue[0].isInitialVisitScheduled); **/
-
+        
         //var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
-
+        var bulkaction = component.get('v.ActionSelected');
+        //alert(bulkaction);
+        var bulkStatus = component.get('v.statusSelected');
         console.table(filterValue);
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
             'fetchData',
             {
-                filterJSON: filterValue
+                filterJSON: filterValue,
+                bulkAction: bulkaction,
+                BulkStatus: bulkStatus
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
-
+                
                 var result = returnValue;
-
+                
                 component.set('v.PaginationList', result.FilterImpacts);
                 component.set('v.PageNumber', result.pageNumber);
                 component.set('v.TotalRecords', result.totalRecords);
@@ -322,7 +353,8 @@
                 } else {
                     component.set('v.PromoteToSH', false);
                 }
-
+                component.set('v.enablePP', result.enablePP);
+                component.set('v.enableSH', result.enableSH);
                 var PaginationList = component.get('v.PaginationList');
                 var SelectedLength = 0;
                 var NotLockedLen = 0;
@@ -381,7 +413,7 @@
                 var index = event.getSource().get('v.name');
                 var updatedPaginationList = [];
                 var PaginationList = component.get('v.PaginationList');
-
+                
                 for (var i = 0; i < PaginationList.length; i++) {
                     if (index == i) {
                         PaginationList[i].isCheckedlatest = true;
@@ -413,10 +445,12 @@
                 component.set('v.PaginationList', updatedPaginationList);
             }
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     selectAllCheckbox: function (component, event, helper) {
@@ -442,7 +476,7 @@
             //alert(selectedRecval);
             var updatedPaginationList = [];
             var PaginationList = component.get('v.PaginationList');
-
+            
             var count = component.get('v.count');
             var selectids = component.get('v.SelectedIds');
             var getvalue = '';
@@ -463,7 +497,7 @@
                         PaginationList[i].selectionlock == false
                     ) {
                         PaginationList[i].isCheckedlatest = false;
-
+                        
                         getvalue = selectids.indexOf(PaginationList[i].pe.Id);
                         if (getvalue != -1) {
                             selectids.splice(getvalue, 1);
@@ -477,10 +511,12 @@
             }
             component.set('v.PaginationList', updatedPaginationList);
         }
-        if (component.get('v.count') > 0 && !component.get('v.PromoteToSH')) {
+        if (component.get('v.count') > 0 ) {
             component.set('v.enablePromoteToSH', false);
+            component.set("v.turnON",false);
         } else {
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         }
     },
     onClickCardView: function (component, event, helper) {
@@ -489,14 +525,13 @@
     handleNext: function (component, event, helper) {
         component.find('Spinnerpopup').show();
         //component.set('v.showspinner','true');
-
+        
         var RowItemList = component.get('v.oldfilterList');
         RowItemList = [];
         var pageNumber = component.get('v.PageNumber');
         var pageSize = component.find('pageSize').get('v.value');
-
+        
         pageNumber++;
-
         RowItemList.push({
             Status: component.get('v.oStatus'),
             Study: component.get('v.oStudy'),
@@ -519,7 +554,7 @@
             highPrioritySelected_YesIds: component.get('v.lstPR_yes'),
             highPrioritySelected_NoIds: component.get('v.lstPR_no')
         });
-
+        
         /** RowItemList[0].pageNumber = pageNumber;
         RowItemList[0].pageSize = pageSize; 
         RowItemList[0].SelectedIds = component.get('v.SelectedIds');
@@ -527,21 +562,24 @@
         RowItemList[0].Sortby = component.find("sortby").get("v.value");
         RowItemList[0].highPrioritySelected_YesIds = component.get('v.lstPR_yes');
         RowItemList[0].highPrioritySelected_NoIds = component.get('v.lstPR_no'); **/
-
+        
         component.set('v.oldfilterList', RowItemList);
-
+        
         var filterValue = component.get('v.oldfilterList');
-
+        var bulkaction = component.get('v.ActionSelected');
+        var bulkStatus = component.get('v.statusSelected');
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
-
-        console.log('Sellected Filter ' + filterValue);
+        
+        console.log('Selected Filter Next ' + filterValue);
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
             'fetchData',
             {
-                filterJSON: filterValue
+                filterJSON: filterValue,
+                bulkAction: bulkaction,
+                BulkStatus: bulkStatus
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
@@ -564,7 +602,7 @@
                 } else {
                     component.set('v.PromoteToSH', false);
                 }
-
+                
                 var PaginationList = component.get('v.PaginationList');
                 var SelectedLength = 0;
                 var NotLockedLen = 0;
@@ -588,16 +626,16 @@
             }
         );
     },
-
+    
     handlePrev: function (component, event, helper) {
         component.find('Spinnerpopup').show();
         var RowItemList = component.get('v.oldfilterList');
         RowItemList = [];
         var pageNumber = component.get('v.PageNumber');
         var pageSize = component.find('pageSize').get('v.value');
-
+        
         pageNumber--;
-
+        
         RowItemList.push({
             Status: component.get('v.oStatus'),
             Study: component.get('v.oStudy'),
@@ -620,7 +658,7 @@
             highPrioritySelected_YesIds: component.get('v.lstPR_yes'),
             highPrioritySelected_NoIds: component.get('v.lstPR_no')
         });
-
+        
         /**  RowItemList[0].pageNumber = pageNumber;
      RowItemList[0].pageSize = pageSize; 
      RowItemList[0].SelectedIds = component.get('v.SelectedIds');
@@ -628,21 +666,24 @@
      RowItemList[0].Sortby = component.find("sortby").get("v.value");
      RowItemList[0].highPrioritySelected_YesIds = component.get('v.lstPR_yes');
      RowItemList[0].highPrioritySelected_NoIds = component.get('v.lstPR_no'); **/
-
+        
         component.set('v.oldfilterList', RowItemList);
-
+        
         var filterValue = component.get('v.oldfilterList');
-
+        var bulkaction = component.get('v.ActionSelected');
+        var bulkStatus = component.get('v.statusSelected');
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
-
+        
         console.log('Sellected Filter ' + filterValue);
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
             'fetchData',
             {
-                filterJSON: filterValue
+                filterJSON: filterValue,
+                bulkAction: bulkaction,
+                BulkStatus: bulkStatus
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
@@ -694,12 +735,14 @@
     doStudyChanged: function (component, event, helper) {
         var studyId = component.get('v.filterList[0].Study');
         component.set('v.filterList[0].Study', studyId);
+        var selectedOptionValue = component.get('v.filterList[0].Status');
         if (studyId != '') {
             communityService.executeAction(
                 component,
                 'getSSList',
                 {
-                    studyId: studyId
+                    studyId: studyId,
+                    activePE: selectedOptionValue
                 },
                 function (returnValue) {
                     component.set('v.peFilterData.studySites', returnValue.StudySites);
@@ -708,11 +751,19 @@
                     } else {
                         component.set('v.PromoteToSH', false);
                     }
+                    if (returnValue.isInitVisitReqd == false) {
+                        component.set('v.isInitVisitReqd', true);
+                    } else {
+                        component.set('v.isInitVisitReqd', false);
+                    }
+
+                    component.set('v.isSSListUpdated',true);
+                    component.set('v.peFilterData.statuses',returnValue.statusFilterData);
                 }
             );
         }
     },
-
+    
     showEditParticipantInformation: function (component, event, helper) {
         var PeIndex = event.getSource().get('v.name');
         console.log('>>PeIndex>' + PeIndex);
@@ -722,13 +773,13 @@
         // alert('>>particpant>>'+component.get('v.PaginationList')[PeIndex].Participant_Contact__c )
         console.log(
             '>>contact pagination>>>' +
-                component.get('v.PaginationList')[PeIndex].pe.Participant_Contact__c
+            component.get('v.PaginationList')[PeIndex].pe.Participant_Contact__c
         );
         var actions = component.get('v.actions');
         var isInvited = component.get('v.isInvited');
         var anchor = event.currentTarget.value;
         var contactId;
-
+        
         if (component.get('v.PaginationList')[PeIndex].pe.Participant_Contact__c != null) {
             contactId = component.get('v.PaginationList')[PeIndex].pe.Participant_Contact__c;
         } else {
@@ -749,13 +800,13 @@
                     var PE = getParticpantDetal.PE;
                     var isInvited = getParticpantDetal.isInvited;
                     component
-                        .find('OpenPatientInfoAction')
-                        .execute(PE, actions, rootComponent, isInvited, function (enrollment) {
-                            console.log('>>enrollment>>' + JSON.stringify(enrollment));
-                            component.set('v.pe', enrollment);
-                            component.set('v.isInvited', component.get('v.InviteStatus'));
-                        });
-
+                    .find('OpenPatientInfoAction')
+                    .execute(PE, actions, rootComponent, isInvited, function (enrollment) {
+                        console.log('>>enrollment>>' + JSON.stringify(enrollment));
+                        component.set('v.pe', enrollment);
+                        component.set('v.isInvited', component.get('v.InviteStatus'));
+                    });
+                    
                     // component.set('v.InviteStatus', JSON.parse(returnValue));
                 }
             );
@@ -765,11 +816,12 @@
     },
     handlePromoteSH: function (component, event, helper) {
         var count = component.get('v.count');
-
+        
         if (count > 0 && count <= component.get('v.IsPromoteToSHLimit')) {
             component.find('Spinnerpopup').show();
             var sid = [];
             sid = component.get('v.SelectedIds');
+            console.log('sid--->'+sid);
             communityService.executeAction(
                 component,
                 'updateParticipantData',
@@ -790,6 +842,7 @@
             component.set('v.DeSelectedIds', '');
             component.set('v.count', 0);
             component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
         } else {
             helper.showToastLimit(component, event, helper);
         }
@@ -834,6 +887,137 @@
                 component.get('v.lstPR_no').push(event.getSource().get('v.name'));
             }
             //alert(component.get('v.lstPR_no').length);
+        }
+    },
+    onSubmit: function(component, event, helper) {
+        //if status changed, get reason and notes on modal
+        if(component.get("v.statusChange")){
+            component.set("v.isOpen", true);
+        }else{
+            var action =  component.get('v.ActionSelected');
+            if(action == 'Send to Study Hub')
+            {  
+                //call handlePromoteSH
+                component.handlePromoteSHMethod();
+            }
+            if(action == 'Invite to Patient Portal')
+            {
+                //call InvitetoPP
+                //alert('InvitetoPP');
+                component.handleInviteToPPMethod();
+            }
+        }
+    },
+    onSubmitofStatusUpdate: function(component, event, helper) {
+        //alert('onSubmitofStatusUpdate');
+        //alert(component.get('v.statusSelected'));
+    },
+    closeModel: function(component, event, helper) {
+        // for Hide/Close Model,set the "isOpen" attribute to "Fasle"  
+        component.set("v.isOpen", false);
+    },
+    
+    likenClose: function(component, event, helper) {
+        // Display alert message on the click on the "Like and Close" button from Model Footer 
+        // and set set the "isOpen" attribute to "False for close the model Box.
+        //alert('thanks for like Us :)');
+        component.set("v.isOpen", false);
+    },
+    itemclick : function(cmp, event, helper) {
+        var val = event.currentTarget.getAttribute("data-value");
+        cmp.set('v.value',val);
+    },
+    showSubMenu : function(cmp, event, helper) {
+        var cmpTarget = cmp.find('sub-menu');
+        $A.util.removeClass(cmpTarget, 'slds-hide');
+    },
+    hideSubMenu : function(cmp, event, helper) {
+        var cmpTarget = cmp.find('sub-menu');
+        $A.util.addClass(cmpTarget, 'slds-hide');
+    },
+    toggleVisibility : function(cmp, event, helper) {
+        var menuItem = cmp.find('menuItem');
+        if(cmp.get('v.enableSH') || cmp.get('v.enablePP')){
+        $A.util.toggleClass(menuItem,'slds-is-open');
+        }
+    },
+    hideOnBlur : function(component, event, helper){
+        var myMenu = component.find('menuItem');
+        if(myMenu){
+            $A.util.removeClass(myMenu, 'slds-is-open');
+        }
+        var cmpTarget = component.find('sub-menu');
+        if(cmpTarget){
+            $A.util.addClass(cmpTarget, 'slds-hide');
+        }
+    },
+    selectAction : function(component, event, helper) {
+        component.set("v.isActionSelected",true);
+        var val = event.currentTarget.getAttribute("data-value");
+        component.set('v.ActionSelected',val);
+        if(val == 'Change Participant Status')
+        {
+            component.set("v.statusChange",true);  
+            var selectedItem = event.currentTarget;
+            var Status= selectedItem.dataset.variablename;
+            component.set('v.statusSelected',Status);
+            component.set("v.isCheckboxhidden",true); 
+        }
+        //component.set('v.statusSelected','Received');
+         if(val == 'Invite to Patient Portal')
+        {
+          component.set("v.isCheckboxhidden",true);
+          component.set("v.turnON",true);   
+        }
+        helper.handleSearchHelper(component, event, helper);
+        if(val == 'Send to Study Hub')
+        {
+            if(!component.get('v.PromoteToSH')){
+                component.set("v.isCheckboxhidden",true); 
+            }
+            component.set("v.turnON",true);
+        }
+        
+    },
+    noAction : function(component, event, helper) {
+        component.set("v.isActionSelected",false);
+        component.set("v.statusChange",false);
+        component.set("v.isCheckboxhidden",false);
+        component.set('v.ActionSelected','null');
+        component.set("v.turnON",true);
+        helper.handleSearchHelper(component, event, helper);
+    },
+    
+    inviteToPP : function(component,event,helper){
+        var count = component.get('v.count');
+        
+        if (count > 0 && count <= component.get('v.IsPromoteToSHLimit')) {
+            component.find('Spinnerpopup').show();
+            var sid = [];
+            sid = component.get('v.SelectedIds');
+            console.log('InvitePP--sid--->'+sid);
+            communityService.executeAction(
+                component,
+                'createUserForPatientProtal',
+                {
+                    peId: sid,
+                    sendEmails: true
+                },
+                function (returnValue) {
+                    helper.showToastforInvite(component, event, helper,count);
+                    component.find('Spinnerpopup').hide();
+                }
+            );
+            helper.handleSearchHelper(component, event, helper);
+            component.set('v.lstPR_no', '');
+            component.set('v.lstPR_yes', '');
+            component.set('v.SelectedIds', '');
+            component.set('v.DeSelectedIds', '');
+            component.set('v.count', 0);
+            component.set('v.enablePromoteToSH', true);
+            component.set("v.turnON",true);
+        }else {
+            helper.showToastLimit(component, event, helper);
         }
     }
 });
