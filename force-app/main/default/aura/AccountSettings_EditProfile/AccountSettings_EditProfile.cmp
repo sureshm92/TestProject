@@ -459,7 +459,6 @@
                                 </aura:if>
                                
                             </div>
-                           <div class="slds-p-around_small"><span style="color:#E20000;font-weight:bold;">{!$Label.c.PP_Warning}&nbsp;</span>{!$Label.c.EmailWarningMessage}<a onclick="{!c.navigateToHelpPage}" style="font-weight:bold;">&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a>{!$Label.c.PP_Page}</div>
                             <aura:if isTrue="{!v.userMode == 'Participant'}">
                                 <lightning:input
                                     type="toggle"
@@ -482,6 +481,7 @@
                                 </div>
                             </aura:if>
                         </div>
+                       <div class="slds-p-top_xx-small"><span style="color:#E20000;font-weight:bold;">{!$Label.c.PP_Warning}&nbsp;</span>{!$Label.c.EmailWarningMessage}<a onclick="{!c.navigateToHelpPage}" style="font-weight:bold;">&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a>{!$Label.c.PP_Page}</div>
 
                         <!-- Toggle for SMS -->
 
