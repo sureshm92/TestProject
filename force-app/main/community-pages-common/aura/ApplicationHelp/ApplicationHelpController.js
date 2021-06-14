@@ -31,6 +31,7 @@
                 component.set('v.usrName',initData.usrName);
                 component.set('v.currentYOB',initData.currentYearOfBirth);
                 component.set('v.currentContactEmail',initData.usrEmail);
+                component.set('v.isDuplicate',initData.isDuplicate);
             }
         );
     },
@@ -83,9 +84,7 @@
         video.pause();
     },
     navigateToAccountSettings:function (component, event, helper) {
-        //window.open('account-settings', '_blank');
         communityService.navigateToPage('account-settings');
-        //window.focus();
     },
     doCheckYearOfBith:function (component, event, helper) {
         component.set('v.showError',false);
@@ -114,12 +113,6 @@
                    component.set('v.disableSave',true);
                 }
                 
-               /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
-                    component.set('v.disableSave',true);
-               }
-               else{
-                  component.set('v.disableSave',false);
-               }*/
                if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || /*component.get('v.showValidValue')|| */  component.get('v.showError') || ($A.util.isUndefinedOrNull(component.get('v.yearOfBirth')) && !component.get('v.changeUserName'))){
                   component.set('v.disableSave',true);   
                 }
@@ -145,19 +138,13 @@
                 yob:component.get('v.yearOfBirth'),
                 username:component.get('v.changeUserName'),
                 userEmail:component.get('v.userEmail'),
-                currentYob:component.get('v.currentYOB')
+                currentYob:component.get('v.currentYOB'),
+                mergeUserNames:component.get('v.isDuplicate'),
+                usrList:component.get('v.usernamesTomerge')
+                
             },
             function (returnValue) {
-                var message = '';
-                if(component.get('v.yearOfBirth') && !component.get('v.changeUserName')){
-                    message = $A.get('$Label.c.PP_YOBSuccess');
-                }
-                else if(component.get('v.changeUserName') && !component.get('v.yearOfBirth')){
-                    message = $A.get('$Label.c.PP_UsernameSuccess');
-                }
-                 else if(component.get('v.yearOfBirth') && component.get('v.changeUserName') ||component.get('v.userEmail') ){
-                      message =  $A.get('$Label.c.PP_Ticket_Success_Toast');  
-                    }
+                var message =  $A.get('$Label.c.PP_RequestSubmitted');
                 communityService.showToast(
                     'Success!',
                     'success',
@@ -182,14 +169,7 @@
                }
 
         
-        /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
-                    component.set('v.disableSave',true);
-               }
-               else{
-                     component.set('v.disableSave',false);
-               }*/
     },
-    
     doChangeUserName:function (component, event, helper) {
         var sourceEvt = event.getSource();
         component.set('v.changeUserName',sourceEvt.get('v.checked'));
@@ -204,6 +184,13 @@
             function (returnValue) {
                 var usernames = returnValue;
                 component.set('v.userNamesList',usernames);
+                console.log(usernames);
+                var usrList =[];
+                for(let key in usernames){
+                  usrList.push(usernames[key].value);
+                }
+                console.log('usrList',usrList);
+                component.set('v.usernamesTomerge',usrList);
                 if(returnValue.length > 0){
                     component.set('v.showUserNames',true);
                     component.set('v.value',component.get('v.usrName'));
@@ -219,12 +206,7 @@
                 else{
                      component.set('v.disableSave',false);
                }
-                /*if((component.get('v.showUserNames') && $A.util.isUndefinedOrNull(component.get('v.userEmail'))) || component.get('v.showError')){
-                    component.set('v.disableSave',true);
-               }
-               else{
-                     component.set('v.disableSave',false);
-               }*/
+               
             } ,         
             null,
             function () {
@@ -242,12 +224,7 @@
                }
 
             
-            /*if(!component.get('v.yearOfBirth') || component.get('v.showError')){
-                component.set('v.disableSave',true);
-            }
-            else{
-                component.set('v.disableSave',false);
-            }*/
+           
             component.set('v.showUserNames',false);
         }
         
