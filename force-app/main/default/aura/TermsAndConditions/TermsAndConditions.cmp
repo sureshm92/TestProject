@@ -24,11 +24,11 @@
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     
-            
+        <c:RRSpinner size="medium" aura:id="mainSpinner" />
         <aura:if isTrue="{!(v.isGsk) || ((v.titleCode!='CookiePolicy') &amp;&amp; (v.titleCode!='PrivacyPolicy'))}">
             <div class="{!v.isRTL? 'arabic':'english'}">
                     
-                <c:RRSpinner size="medium" aura:id="mainSpinner" />
+                
                 <div class="rr-body-content rr-min-body-height" style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}">
                     <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
                                             <div class="main-header">{!v.title}</div>
