@@ -16,15 +16,20 @@
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
     <aura:attribute name="showValidValue" type="Boolean" default="false"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicate" type="Boolean"/>
     <aura:attribute name="userEmail" type="String"/>
     <aura:attribute name="changeUserName" type="boolean"/>
+    <aura:attribute name="mergeUserName" type="boolean"/>
     <aura:attribute name="currentYOB" type="String"/>
     <aura:attribute name="showError" type="Boolean" default="false"/>
     <aura:attribute name="showUserNames" type="Boolean" default="false"/>
+    <aura:attribute name="showExistingAccounts" type="Boolean"/>
     <aura:attribute type="String" name="yearOfBirth"/>
     <aura:attribute type="String" name="duplicateUsrLabel"/>
+    <aura:attribute type="String" name="mergeUsrLabel"/>
     <aura:attribute type="List" name="yearOfBirthPicklistvalues" default="[]"/>
-    <aura:attribute type="List" name="userNamesList" default="[]"/>
+    <aura:attribute type="List" name="usernamesTomerge" default="[]"/>
+     <aura:attribute type="List" name="userNamesList" default="[]"/>
     <aura:attribute type="String" name="currentContactEmail"/>
     <aura:attribute name="userMode" type="String" required="true" />
     <aura:attribute name="videoLink" type="String" access="private" default="" />
@@ -100,7 +105,7 @@
                 </div>
             </div>
         </aura:if>
-        <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">  
+        <aura:if isTrue="{!not(v.isDelegate)}">  
          <div class="{!'divider'+if(v.isRTL,' mr_right_15',' mr_left_10')}"></div>
          <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
             <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
@@ -108,6 +113,7 @@
                 <div class="ah-item-sublabel-ticket">{!$Label.c.PP_UsefulInfo}</div>   
             </div>
            </div>
+           <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">
         <div class="slds-grid ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
              <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
                  <div class="edit-yob-year-of-bi">{!$Label.c.PP_EditYOB}</div></div>
@@ -134,6 +140,7 @@
 
             </div>
         </div>
+            </aura:if>
          <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
             <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-small-size--1-of-2 slds-large-size--1-of-2">
                 <div class="username-email">{!$Label.c.PP_UsernameAndEmail}
@@ -141,33 +148,51 @@
             </div>
         
            </div>
+            <aura:if isTrue="{!not(v.isDuplicate)}">
            <div class="slds-grid slds-size--1-of-1 ah-item-panel">
                <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
                <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
                    {!$Label.c.PP_EmailMatch}</span></label>
 
-        </div>
+                </div></aura:if>
+             <aura:if isTrue="{!v.isDuplicate}">
+         <div class="slds-grid slds-size--1-of-1 ah-item-panel-merge">
+               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
+               <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
+                    {!$Label.c.PP_Merge}</span></label>
+                 </div></aura:if>
         <aura:if isTrue="{!v.showUserNames}">
-           <div class="slds-grid slds-size--1-of-1 ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;font-size:16px;','font-size:16px;')}"><b>{!$Label.c.PP_SelectUsername}
+           <div class="slds-grid slds-size--1-of-1 ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;font-size:16px;','font-size:16px;')}"><b>
+               <aura:if isTrue="{!v.isDuplicate}">
+                    {!$Label.c.PP_MergeExisting}
+               <aura:set attribute="else">
+                  {!$Label.c.PP_UsernameAndEmail}
+                   </aura:set>
+               </aura:if>
                </b>
            </div>
         <div class="slds-grid slds-size--1-of-1 ah-item-panel-usr" style="{!if(v.isRTL,'padding-right:15px;','')}">
                 <p class="duplicate-usernames">
                     <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
+                    <aura:if isTrue="{!not(v.isDuplicate)}">
+                        <div class="slds-p-top_small slds-p-bottom_small"><b>{!$Label.c.PP_MatchUsr}</b></div>
+                    </aura:if>
             </p> 
         </div>
-
-         <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+         <aura:if isTrue="{!v.isDuplicate}">
+              <div class="slds-grid slds-size--1-of-1 ah-item-panel">
               <lightning:radioGroup name="radioGroup"
                           variant="label-hidden"
                           options="{! v.userNamesList }"
                           value="{! v.value }"
                           type="radio" onchange="{!c.setSelectedVal}"/>
                </div>
-            </aura:if></aura:if>
+            </aura:if>
+            </aura:if>
+        </aura:if>
     </div>
 
-        <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">
+        <aura:if isTrue="{!not(v.isDelegate)}">
             
     <div class="slds-grid">
         <div class="slds-col slds-medium-size--1-of-1 slds-large-size--1-of-1 center">

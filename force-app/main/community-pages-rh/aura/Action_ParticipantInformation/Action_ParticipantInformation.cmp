@@ -63,7 +63,11 @@
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
 <aura:attribute name="needsDelegate" type="Boolean" default="false" />
-     
+<aura:attribute name="validateFOV" type="Boolean" default="false" />  
+<aura:attribute name="saveAndcancel" type="Boolean" default="false" />  
+<aura:attribute name="fovDate" type="DateTime" access="public"/>
+<aura:attribute name="fovTime" type="String" access="public"/> 
+<aura:attribute name="backdrop" type="boolean" access="public" default="false"/>  
  
      
  <aura:attribute name="yob" type="List" /> 
@@ -83,6 +87,7 @@
    event="c:DetectChildChanges"
    action="{!c.checkChildChanges}"
    />
+<aura:handler name="cmpEvent" event="c:CancelScheduledEvt" action="{!c.doUpdatefovNull}" />
 
 <aura:method name="checkParticipantDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function" />
@@ -100,7 +105,7 @@
 </aura:method>
 <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
 <aura:method name="doUpdate" action="{!c.doUpdate}" access="public" />
-<aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public" />
+<aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatusandValidate}" access="public" />
 <aura:method name="statusDetailValidityCheck" action="{!c.doCheckStatusDetailValidity}" access="public">
 <aura:attribute name="participantWorkflowWrapper" type="Object" />
 </aura:method>
@@ -348,6 +353,7 @@ isListView = "{!v.isListView}"
                                      aura:id="childCmp"
                                      parent="{!this}"
                                      updateInProgress="{!v.updateInProgress}"
+                                     validateFOV="{!v.validateFOV}"
                                      />
      </lightning:tab>
      
@@ -452,7 +458,7 @@ isListView = "{!v.isListView}"
          <lightning:button
                            class="apollo-btn secondary"
                            disabled="{!!v.statusDetailValid}"
-                           onclick="{!c.doUpdatePatientStatus}"
+                           onclick="{!c.doUpdatePatientStatusandValidate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
             </span>
@@ -462,11 +468,16 @@ isListView = "{!v.isListView}"
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
                    disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
-                   onclick="{!c.doUpdateCancel}"
+                   onclick="{!c.doUpdateCancelandValidatefov}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >
     </span>
 </div>
 </aura:set>
+<aura:if isTrue="{!v.backdrop}">
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:if>
 </c:PopupRTL>
+<c:CancelScheduledVisit aura:id="warningfov"  backdrop="{!v.backdrop}" fovDate="{!v.fovDate}" fovTime="{!v.fovTime}" />
+      
 </aura:component>

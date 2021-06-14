@@ -66,6 +66,13 @@
             });
             cmpEvent.fire();
         }
+        if (component.get('v.actionfovpopup')) {
+            var cmpfovEvent = component.getEvent('closeEvent');
+            cmpfovEvent.setParams({
+                close:true
+            });
+            cmpfovEvent.fire();
+        }
         if (component.get('v.actionpopupcc')) { 
             //alert('h');
             var cmpEvents = component.getEvent('CloseCCSSInfoEvent');
