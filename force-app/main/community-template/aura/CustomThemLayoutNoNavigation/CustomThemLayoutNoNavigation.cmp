@@ -40,14 +40,14 @@
                                     class="logo-block"
                                     style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
                                 />
+                                <aura:set attribute="else">
+                                    <img
+                                        src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                                        class="logo-block"
+                                        style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
+                                    />
+                                </aura:set>
                             </aura:if>
-                            <aura:set attribute="else">
-                                <img
-                                    src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
-                                    class="logo-block"
-                                    style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
-                                />
-                            </aura:set>
                         </div>
                     </div>
                 </div>
