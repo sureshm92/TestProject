@@ -8,6 +8,12 @@
         if (communityService.isInitialized()) {
             if (!communityService.isDummy())
                 component.set('v.mode', communityService.getUserMode());
+            if (
+                communityService.isDummy() &&
+                communityService.getCommunityName() === 'GSK_Community1'
+            ) {
+                component.set('v.isGSKGuestUser', true);
+            }
             component.set('v.logoURL', communityService.getTemplateProperty('CommunityLogo'));
             component.set('v.isInitialized', true);
             var rtl_language = $A.get('$Label.c.RTL_Languages');

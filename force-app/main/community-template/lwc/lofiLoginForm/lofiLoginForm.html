@@ -39,8 +39,8 @@
             </button>
             <template if:true={inError}>
                 <div style="margin-top: -1em; margin-bottom: 0.5em">
-                    <img src={exclamation} />
-                    <span class="error-container">
+                    <img style={errorIconPosition} src={exclamation} />
+                    <span class="error-container" style={erroContainerPosition}>
                         <lightning-formatted-rich-text
                             value={errorMsg}
                         ></lightning-formatted-rich-text>

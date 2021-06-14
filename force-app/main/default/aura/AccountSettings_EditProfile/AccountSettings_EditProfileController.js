@@ -87,7 +87,7 @@
                     component.get('v.userMode') == 'PI' ||
                     component.get('v.userMode') == 'CC'
                 ) {
-                    component.set('v.userEmail', initData.myContact.Email);
+                    component.set('v.userEmail', initData.userName);
                 }
                 // console.log('initData.myContact.Email',initData.myContact.Email);
                 component.set('v.minorUserName', initData.myContact.Email);

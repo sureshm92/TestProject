@@ -36,12 +36,22 @@
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
             document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
-        component.find('mainSpinner').show();
+        
         if(communityService.getCurrentCommunityName() == 'GSK Community'){
             component.set('v.isGsk', true);
         }
         console.log('isGsk: '+component.get("v.isGsk"));
+
+        /*communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
+            if (returnValue !== null) {
+                if(communityName == 'GSK Community'){
+                    component.set('v.isGsk', true);
+                }
+            }
+        });*/
+        component.find('mainSpinner').show();
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+        let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
         if (isPortalTC) {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
                 if(component.get("v.isGsk")){
@@ -51,8 +61,7 @@
                         {
                             code: titleCode,
                             languageCode: communityService.getUrlParameter('language'),
-                            useDefaultCommunity:
-                                communityService.getHasIQVIAStudiesPI() && userDefalutTC
+                            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
                         },
                         function (returnValue) {
                             let tcData = JSON.parse(returnValue);
@@ -93,8 +102,31 @@
                 );
             }
         } else {
+
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                    component.find('mainSpinner').hide();
+                    communityService.executeAction(
+                        component,
+                        'getTC',
+                        {
+                            code: titleCode,
+                            languageCode: communityService.getUrlParameter('language'),
+                            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
+                        },
+                        function (returnValue) {
+                            let tcData = JSON.parse(returnValue);
+                            component.set('v.tcData', tcData);
+                            if (RTL) {
+                                helper.setRTL(component);
+                            }
+                            if (tcData.tc) {
+                                component.set('v.privacyPolicyId', tcData.tc);
+                            }
+                        },
+                        null,
+                        function () {
+                            component.find('mainSpinner').hide();
+                        }
+                    );    
             } else {
                 if (!component.get('v.ctpId')) {
                     component.set('v.ctpId', ctpId);
@@ -121,10 +153,6 @@
 
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450
     },
-    handleFilterChange: function(component, event, helper) {
-        console.log('closeQA');
-    },
-
     doAccept: function (component, event, helper) {
         let tcData = component.get('v.tcData');
         let isPortalTC = component.get('v.isPortalTC');
