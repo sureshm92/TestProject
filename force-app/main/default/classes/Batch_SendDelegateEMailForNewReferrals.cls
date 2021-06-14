@@ -26,13 +26,49 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
         );
     }
     public void execute(Database.BatchableContext bc, List<Site_Staff__c> siteStaff) {
+        
+        List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+        Notification_Type__mdt notificationType = NotificationService.getNotificationType(
+            'PI_Delegates_New_Referral'
+        );
+        Notification_Target__mdt nt = notificationType.Notification_Targets__r[0];
         Map<String, Batch_Notification__c> notifications = new Map<String, Batch_Notification__c>();
         List<Id> contactIds = new List<Id>();
+        Map<Id, Id> ssByContactIdMap = new Map<Id, Id>();
         // List<PendingReferral__e> pendingReferrals = new List<PendingReferral__e>();
         List<User> qualifiedUsers = new List<User>();
         List<Id> validContacts = new List<Id>();
         for (Site_Staff__c ss : siteStaff) {
             contactIds.add(ss.Site_Contact__c);
+        }
+        NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(
+            contactIds,
+            contactIds
+        );
+        List<Site_Staff__c> siteStaffs = [
+            SELECT Id, Site_Contact__c, Study_Site__c, is_Invited__c
+            FROM Site_Staff__c
+            WHERE
+                Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                AND is_Invited__c = TRUE
+                AND Site_Contact__c IN :contactIds
+        ];
+        for (Site_Staff__c ss : siteStaffs) {
+            if (!ssByContactIdMap.containsKey(ss.Site_Contact__c)) {
+                ssByContactIdMap.put(ss.Site_Contact__c, ss.Study_Site__c);
+            }
+        }
+
+        List<HCP_Enrollment__c> hpes = [
+            SELECT Study_Site__c, HCP_Contact__c
+            FROM HCP_Enrollment__c
+            WHERE
+            HCP_Contact__c IN :contactIds
+        ];
+        for (HCP_Enrollment__c hpe : hpes) {
+            if (!ssByContactIdMap.containsKey(hpe.HCP_Contact__c)) {
+                ssByContactIdMap.put(hpe.HCP_Contact__c, hpe.Study_Site__c);
+            }
         }
 
         List<User> users = [
@@ -78,32 +114,31 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 } else {
                     timeToSendMail = currentTime.addMinutes(2);
                 }
-                system.debug('timeToSendMail' + timeToSendMail);
-                u.Time_To_Send_Mail__c = timeToSendMail;
+                u.Time_To_Send_Mail__c = currentTime;
                 u.TimeOfRun__c = String.valueOf(lastbatchstart).subStringBefore(' ');
                 isQualified = true;
                 qualifiedUsers.add(u);
                 finalDelegateIds.add(u.Id);
             }
             if (isQualified) {
-                if (notifications.containsKey(u.timezonesidkey)) {
-                    notifications.get(u.timezonesidkey).Recipient_Ids__c =
-                        notifications.get(u.timezonesidkey).Recipient_Ids__c +
-                        ';' +
-                        u.ContactId;
-                } else {
-                    Batch_Notification__c notification = new Batch_Notification__c();
-                    notification.Recipient_Ids__c = u.ContactId;
-                    notification.Time_Zone_Date__c = timeToSendMail;
-                    notifications.put(u.TimeZoneSidKey, notification);
-                }
+                emailMessages.add(
+                    EmailService.createEmail(
+                        EmailService.getEmailTemplateId('PI_RP_New_Referral'),
+                        u.ContactId,
+                        ssByContactIdMap.get(u.ContactId),
+                        availabilityService.getOrgWideEmail(
+                            u.ContactId,
+                            ssByContactIdMap.get(u.ContactId),
+                            nt.Org_Wide_Email_Address__c
+                        )
+                    )
+                );
             }
         }
         if (!Test.isRunningTest()) {
             update qualifiedUsers;
         }
-        if (notifications.values().size() > 0)
-            insert notifications.values();
+         List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);   
     }
 
     public override Type getType() {

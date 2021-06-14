@@ -21,14 +21,49 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
         );
     }
     public void execute(Database.BatchableContext bc, List<User> users) {
+        
+     List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
+    Notification_Type__mdt notificationType = NotificationService.getNotificationType(
+            'PI_Delegates_New_Referral'
+        );
+        Notification_Target__mdt nt = notificationType.Notification_Targets__r[0];
         Map<String, Batch_Notification__c> notifications = new Map<String, Batch_Notification__c>();
         List<User> qualifiedUsers = new List<User>();
+        Map<Id, Id> ssByContactIdMap = new Map<Id, Id>();
         List<Id> contactIds = new List<Id>();
         List<Id> validContacts = new List<Id>();
+        List<Study_Site__c> studySite = new List<Study_Site__c>();
+        system.debug('usersLine36>>'+users);
         for (User usr : users) {
             contactIds.add(usr.ContactId);
         }
-
+      NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(
+            contactIds,
+            contactIds
+        );  
+        studySite = [
+            SELECT Id, Principal_Investigator__c
+            FROM Study_Site__c
+            WHERE
+            Principal_Investigator__c IN :contactIds
+            ORDER BY CreatedDate
+        ];
+        for (Study_Site__c ssite : studySite) {
+            if (!ssByContactIdMap.containsKey(ssite.Principal_Investigator__c)) {
+                ssByContactIdMap.put(ssite.Principal_Investigator__c, ssite.Id);
+            }
+        }
+        List<HCP_Enrollment__c> hpes = [
+            SELECT Study_Site__c, HCP_Contact__c
+            FROM HCP_Enrollment__c
+            WHERE
+            HCP_Contact__c IN :contactIds
+        ];
+        for (HCP_Enrollment__c hpe : hpes) {
+            if (!ssByContactIdMap.containsKey(hpe.HCP_Contact__c)) {
+                ssByContactIdMap.put(hpe.HCP_Contact__c, hpe.Study_Site__c);
+            }
+        }
         for (User u : users) {
             DateTime timeToSendMail;
             Timezone tz = Timezone.getTimeZone(u.timezonesidkey);
@@ -37,8 +72,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             Integer hours = 0;
             Integer minutes = 0;
             Boolean isQualified = false;
-            system.debug('userlocaltime' + userlocaltime);
-
+            DateTime currentTime = DateTime.now();
             if (
                 ((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt() <= 45) ||
                 userlocaltime.hourgmt() == 6) &&
@@ -48,10 +82,8 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             ) {
                 //finalPIs.add(u);
                 //u.TimeOfRun__c = 'AM';
-                DateTime currentTime = DateTime.now();
                 offset = tz.getOffset(currentTime);
                 DateTime currentLocalTime = currentTime.addSeconds(offset / 1000);
-                system.debug('currentLocalTime' + currentLocalTime);
                 if (
                     (currentLocalTime.hourgmt() == 7 && currentLocalTime.minutegmt() < 40) ||
                     currentLocalTime.hourgmt() < 7
@@ -59,48 +91,39 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
                     hours = 7 - currentLocalTime.hourgmt();
                     if (hours == 0) {
                         minutes = 45 - currentLocalTime.minutegmt();
-                        system.debug('currentTime' + currentTime);
-                        system.debug('minutes' + minutes);
                         timeToSendMail = currentTime.addMinutes(minutes);
-                        system.debug('timeToSendMail' + timeToSendMail);
                     } else {
                         minutes = 45 + 60 - currentLocalTime.minutegmt();
-                        system.debug('hours' + hours);
-                        system.debug('minutes' + minutes);
-                        system.debug('currentTime' + currentTime);
                         timeToSendMail = currentTime.addMinutes(minutes);
                     }
                 } else {
-                    system.debug('#currentTime' + currentTime);
                     timeToSendMail = currentTime.addMinutes(2);
                 }
                 isQualified = true;
-                u.Time_To_Send_Mail__c = timeToSendMail;
-                system.debug('u.Time_To_Send_Mail__c' + u.Time_To_Send_Mail__c);
+                u.Time_To_Send_Mail__c = currentTime;
                 u.TimeOfRun__c = String.valueOf(timestarted).subStringBefore(' ');
                 qualifiedUsers.add(u);
             }
-            system.debug('isQualified' + isQualified);
             if (isQualified) {
-                if (notifications.containsKey(u.timezonesidkey)) {
-                    notifications.get(u.timezonesidkey).Recipient_Ids__c =
-                        notifications.get(u.timezonesidkey).Recipient_Ids__c +
-                        ';' +
-                        u.ContactId;
-                } else {
-                    Batch_Notification__c notification = new Batch_Notification__c();
-                    notification.Recipient_Ids__c = u.ContactId;
-                    notification.Time_Zone_Date__c = timeToSendMail;
-                    notifications.put(u.TimeZoneSidKey, notification);
-                }
+                emailMessages.add(
+                    EmailService.createEmail(
+                        EmailService.getEmailTemplateId('PI_RP_New_Referral'),
+                        u.ContactId,
+                        ssByContactIdMap.get(u.ContactId),
+                        availabilityService.getOrgWideEmail(
+                            u.ContactId,
+                            ssByContactIdMap.get(u.ContactId),
+                            nt.Org_Wide_Email_Address__c
+                        )
+                    )
+                );
             }
         }
         if (!Test.isRunningTest()) {
             update qualifiedUsers;
         }
-        system.debug('notifications.values()' + notifications.values());
-        if (notifications.values().size() > 0)
-            insert notifications.values();
+        List<Messaging.SendEmailResult> resultList = Messaging.sendEmail(emailMessages, false);
+        
     }
 
     public override Type getType() {
