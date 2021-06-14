@@ -598,8 +598,8 @@ public without sharing class ParticipantInformationRemote {
 
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
                 system.debug('needsInvite: ' + needsInvite);
+            if (needsInvite) {
                 toCreateUser.put(participant.Contact__c, null);
-                if (needsInvite) {
                 actionAssignContactPermissions.addPermission(
                     participant.Contact__c,
                     permissionSetName
@@ -669,8 +669,10 @@ public without sharing class ParticipantInformationRemote {
                 );
                 update delegatesToUpdate;
             }
-			Participant_Enrollment__c pe = new Participant_Enrollment__c(Id= peId, Invited_To_PP_Date__c =DateTime.now());//,Invited_To_Patient_Portal__c = true);
-			update pe;
+            if(needsInvite == true){
+                Participant_Enrollment__c pe = new Participant_Enrollment__c(Id= peId, Invited_To_PP_Date__c =DateTime.now());//,Invited_To_Patient_Portal__c = true);
+                update pe;
+            }
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty() && needsInvite == true) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))

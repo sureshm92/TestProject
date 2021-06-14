@@ -9618,7 +9618,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal when applicable.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal, when applicable.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates_Jansen</fullName>
