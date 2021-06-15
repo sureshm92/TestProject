@@ -120,7 +120,7 @@ public without sharing class RRChangePasswordController {
         
          Map<String, String> headerlist = ApexPages.currentPage().getHeaders();
         if(headerList.get('User-Agent').contains('Android') || headerList.get('User-Agent').contains('BlackBerry') ||
-        headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')){
+        headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')||headerList.get('User-Agent').contains('iPad')){
                isMobileView = true;
            }
         if(headerList.get('User-Agent').contains('SalesforceMobileSDK')){

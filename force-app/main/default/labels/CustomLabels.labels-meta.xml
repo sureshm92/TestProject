@@ -9043,7 +9043,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Lofi Login Footer Policies</shortDescription>
-        <value>Policies</value>
+        <value>Privacy Policy</value>
     </labels>
     <labels>
         <fullName>Lofi_Login_PP_Header</fullName>
@@ -9653,7 +9653,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal when applicable.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal, when applicable.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates_Jansen</fullName>
@@ -16496,7 +16496,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Merge</shortDescription>
-        <value>I would like to merge my existing accounts</value>
+        <value>I would like to merge my existing username</value>
     </labels>
     <labels>
         <fullName>PP_MergeDntTranslate</fullName>

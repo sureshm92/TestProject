@@ -78,7 +78,7 @@
                                     <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">
-                                    <c:privacyPolicyViewer />
+                                    <c:privacyPolicyViewer isModalOpen="{!v.showPpPopup}" />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                             </div>
@@ -147,6 +147,7 @@
             </aura:set>
         </aura:if>
         <c:webBanner
+            onopenModal="{!c.selectedRecords}"
             bodyText="{!v.cookieText}"
             showClose="true"
             isRTL="{!v.isRTL}"
