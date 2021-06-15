@@ -11,6 +11,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="pdfUrl" type="String" />
+    <aura:attribute name="showUserMatch" type="Boolean"/>
     <aura:attribute name="value" type="String"/>
     <aura:attribute name="usrName" type="String"/>
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
@@ -150,7 +151,7 @@
            </div>
             <aura:if isTrue="{!not(v.isDuplicate)}">
            <div class="slds-grid slds-size--1-of-1 ah-item-panel">
-               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
+               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}" disabled="{!v.showUserMatch}"></lightning:input>
                <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
                    {!$Label.c.PP_EmailMatch}</span></label>
 

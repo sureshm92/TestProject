@@ -12,6 +12,7 @@ import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
+import formFactor from '@salesforce/client/formFactor';
 
 export default class PrivacyPolicyViewer extends LightningElement {
     @track selectedItem = 'reports_recent';
@@ -27,6 +28,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track headerLogo;
     @track lastUpdated;
     @track empNames = [];
+    @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
     defaultCommunityBoolean = true;
@@ -45,7 +47,8 @@ export default class PrivacyPolicyViewer extends LightningElement {
         this.isModalOpen = true;
     }
     closeModal() {
-        this.isModalOpen = false;
+        //communityService.preLoginPageRedirection(window.location.href, '');
+        window.close();
     }
     navigateToHomePage(event) {
         var needle = event.currentTarget.dataset.value;
@@ -80,6 +83,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
         }
         var myElement = this.template.querySelector('[data-id="text"]');
         myElement.innerHTML = this.ppRichText;
+        console.log('formFactor: ' + formFactor);
+        if (formFactor != 'Large') {
+            this.frmFactor = true;
+            this.template.querySelector('[data-id="vertNav"]').style.display = 'none';
+            //this.logoCss = 'width: 72px;height: 50px;vertical-align: bottom;padding-top: 34%;'
+        } else {
+            this.frmFactor = false;
+        }
     }
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
