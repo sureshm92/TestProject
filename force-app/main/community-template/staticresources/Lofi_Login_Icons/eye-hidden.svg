@@ -13,7 +13,9 @@
                 <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
                 <g mask="url(#mask-2)" fill="#595959" id="color">
                     <g>
-                        <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                        <rect id="Rectangle" x="0" y="0" width="24" height="24">
+                            <title>Show</title>
+                        </rect>
                     </g>
                 </g>
             </g>
