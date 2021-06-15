@@ -37,18 +37,18 @@
             document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
         
-        if(communityService.getCurrentCommunityName() == 'GSK Community'){
+        /*if(communityService.getCurrentCommunityName() == 'GSK Community'){
             component.set('v.isGsk', true);
         }
-        console.log('isGsk: '+component.get("v.isGsk"));
+        console.log('isGsk: '+component.get("v.isGsk"));*/
 
-        /*communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
+        communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
             if (returnValue !== null) {
-                if(communityName == 'GSK Community'){
+                if(returnValue == 'GSK Community'){
                     component.set('v.isGsk', true);
                 }
             }
-        });*/
+        });
         component.find('mainSpinner').show();
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;

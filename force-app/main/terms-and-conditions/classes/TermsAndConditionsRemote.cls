@@ -81,7 +81,15 @@ public without sharing class TermsAndConditionsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    @auraEnabled
+    public static String getCommunityName() {
+        String communityName = TranslateHelper.getLabelValue(
+            UserContext.getTemplateProperty('CommunityBrandName')
+        );
+        communityName = communityName.replace('<i>', '');
+        communityName = communityName.replace('</i>', '');
+        return communityName;
+    }
     private static TCData getTCData(Terms_And_Conditions__c tc) {
         TCData tcData = new TCData();
         if (tc != null) {
