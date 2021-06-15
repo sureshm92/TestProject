@@ -11,11 +11,13 @@ import ppLabel from '@salesforce/label/c.Lofi_Login_Footer_Policies';
 import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
+import formFactor from '@salesforce/client/formFactor';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';//Lofi_Login_Icons newIqviaLogo
 
 
 export default class PrivacyPolicyViewer extends LightningElement {
     @api isModalOpen;
+    @api isRtl;
     @api isCommunityFooter;
     @track ppRichText;
     @track listOfHeaders = [];
@@ -26,6 +28,8 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track headerLogo;
     @track lastUpdated;
     @track empNames = [];
+    @track logoCss;
+    @track frmFactor = false;
     currentPageReference = null; 
     closePrivacyPolicyTab = false;
    defaultCommunityBoolean = true;
@@ -41,7 +45,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
         downloadPdf
         };
     
-    
+    logoCss = 'width: 72px; height: 72px';
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
@@ -86,6 +90,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.spinner = this.template.querySelector('c-web-spinner');
             var myElement = this.template.querySelector('[data-id="text"]');
             myElement.innerHTML = this.ppRichText;
+            console.log('formFactor: '+formFactor);
+            if(formFactor != 'Large'){
+                this.frmFactor = true;
+                this.template.querySelector('[data-id="vertNav"]').style.display = 'none';
+                this.logoCss = 'width: 72px;height: 50px;vertical-align: bottom;padding-top: 34%;'
+            }else{
+                this.frmFactor = false;
+            }
         }
     }
    
