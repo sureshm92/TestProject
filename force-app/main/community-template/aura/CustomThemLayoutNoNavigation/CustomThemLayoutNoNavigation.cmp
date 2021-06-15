@@ -18,6 +18,7 @@
     <aura:attribute name="mode" type="String" />
     <aura:attribute name="logoURL" type="String" />
     <aura:attribute name="isRTL" type="Boolean" default="true" />
+    <aura:attribute name="isGSKGuestUser" type="Boolean" default="false" />
 
     <!-- events: -->
     <aura:registerEvent name="EventCommunityInitialized" type="c:EventCommunityInitialized" />
@@ -28,14 +29,25 @@
     <aura:if isTrue="{!v.isInitialized}">
         <aura:if isTrue="{!v.languageChecked}">
             <div class="rr-all-content">
-                <div class="rr-header-content main-header-brand">
+                <div
+                    class="{!v.isGSKGuestUser?'rr-header-content GSKBanner':'rr-header-content main-header-brand'}"
+                >
                     <div class="rr-width-limiter side-padding header-block">
                         <div class="logo-click" onclick="{!c.doGoHome}">
-                            <img
-                                src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
-                                class="logo-block"
-                                style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
-                            />
+                            <aura:if isTrue="{!v.isGSKGuestUser}">
+                                <img
+                                    src="{!$Resource.GSK_Logos + '/gsk-text.svg'}"
+                                    class="logo-block"
+                                    style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
+                                />
+                                <aura:set attribute="else">
+                                    <img
+                                        src="{!if(v.mode == 'Participant', v.logoURL, $Resource.rr_community_icons + '/Referral_Hub_Logo.svg')}"
+                                        class="logo-block"
+                                        style="{!if(v.isRTL, 'margin-left: 1000px;', '')}"
+                                    />
+                                </aura:set>
+                            </aura:if>
                         </div>
                     </div>
                 </div>

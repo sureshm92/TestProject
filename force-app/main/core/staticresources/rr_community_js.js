@@ -33,6 +33,7 @@ window.communityService = (function () {
     let sponsorName;
     let isMobileApp;
     let hasIQVIAStudiesPI;
+    let communityName;
     const pagesWithSharedPrivacyPolicy = new Set(['my-team','new-team-member','account-settings'])
 
     //community service functions:
@@ -64,6 +65,7 @@ window.communityService = (function () {
                 sponsorName = communityData.sponsorName;
                 isMobileApp = communityData.isMobileApp;
                 hasIQVIAStudiesPI = communityData.hasIQVIAStudiesPI;
+                communityName=communityData.communityName;
                 service.setCurrentCommunityMode(communityData.currentUserMode, null, true);
                 service.setCookie('RRLanguage', communityData.language, 365);
                 console.log('CommunityService initialized:');
@@ -182,6 +184,10 @@ window.communityService = (function () {
 
         getCurrentCommunityName: function(){
             return currentUserMode.template.communityName;
+        },
+
+        getCommunityName: function () {
+            return communityName;
         },
 
         getCurrentCommunityTemplateName: function(){

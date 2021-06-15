@@ -7,7 +7,6 @@
         component.set('v.todayDate', todayDate);
         let stepWrapper = component.get('v.stepWrapper');
         
-        
         let sendToSH = true;
         sendToSH = component.get('v.participantWorkflowWrapper').sendToSH == false && component.get('v.participantWorkflowWrapper').sendToSHDate!=undefined?false:true;
         component.set(
@@ -37,24 +36,25 @@
         }
         //@krishna Mahto - For REF-1390- end
         let fovhis = component.get('v.participantWorkflowWrapper').fovhistory;
-       
+        
+        if(fovhis == 'notnull'){
+             component.set('v.isFovHistoryNull', false);
+        }else{
+             component.set('v.isFovHistoryNull', true);
+        }
         if(stepWrapper.title == 'Contact')
         {
-            //console.log('msg--successfully contacted111-->'+JSON.stringify(stepWrapper));
-            //console.log('Test--->'+JSON.stringify(component.get('v.participantWorkflowWrapper').sc));
-            //console.log('history-->'+component.get('v.participantWorkflowWrapper').fovCreatedby.length);  
-            //console.log('stepWrapper.stepHistory-->'+ stepWrapper.stepHistory.length);
             if(fovhis == 'notnull'){
                 let contactHistorysize = stepWrapper.stepHistory.length;
                 let fovHistorysize =  component.get('v.participantWorkflowWrapper').fovCreatedby.length;
                 let fovModifieddate = component.get('v.participantWorkflowWrapper').fovCreateddate; 
                 let fovModifiedby = component.get('v.participantWorkflowWrapper').fovCreatedby;  
                 let contactHistory=stepWrapper.stepHistory;
-                
+               
                 var historyList = [];
                 var obj = {}; 
                 for (var i = 0; i < contactHistorysize; i++) {
-                    
+                   
                     if(contactHistory[i].isAdditionalNote){
                        
                         var str = contactHistory[i].detail;
@@ -89,20 +89,18 @@
                         var dt = str.substring(8, 10);
                        
                         var yr = str.substring(11, 15);
-                       
-                        var hr = str.substring(17, 19);
                         
+                        var hr = str.substring(17, 19);
+                       
                         var mn = str.substring(20, 22);
                        
                         var ampm = str.substring(23, 26);
                        
                         let ap = ampm;
-                       
+                        
                         if(ap.includes("A")){
-                           
                             if(hr == '12'){ hr ='00';}       
                         }else{
-                          
                             if(hr == '1' || hr == '01'){
                                 hr ='13';}else if(hr == '2' || hr == '02'){
                                     hr ='14';}else if(hr == '3' || hr == '03'){
@@ -118,16 +116,15 @@
                         }
                         var finaldt=yr+'-'+month+'-'+dt+'T'+hr+':'+mn+':00.000Z';
                        
-                        var createby = str.substring(28, str.length-1);
-                       
-                        obj.detailDate =finaldt; console.log('$$$$$%%%%-- ++++>'+  obj.detailDate); 
+                        var createby = str.substring(28, str.length);
+                        
+                        obj.detailDate =finaldt; 
                         obj.createdBy = createby;
                         obj.title = contactHistory[i].title;
                         obj.string = true;
                         historyList.push(obj);
                         obj = {};                        
                     }else{
-                        
                         obj.detailDate =  contactHistory[i].detailDate;
                         obj.createdBy = contactHistory[i].createdBy;
                         obj.title = contactHistory[i].title;
@@ -137,7 +134,7 @@
                     }  
                 }
                 for (var i = 0; i < fovHistorysize; i++) {
-                   
+                  
                     obj.detailDate =  fovModifieddate[i];
                     obj.createdBy = fovModifiedby[i];
                     obj.title = $A.get('$Label.c.Initial_Visit_modified');
@@ -149,99 +146,44 @@
                 historyList.sort(function(a,b){
                     return new Date(a.detailDate) - new Date(b.detailDate)
                 })
-               
                 component.set('v.historyList', historyList.reverse());  
-            }else{
-                let contactHistorysize = stepWrapper.stepHistory.length;  
-                let contactHistory=stepWrapper.stepHistory;
-                
-                var historyList = [];
-                var obj = {}; 
-                for (var i = 0; i < contactHistorysize; i++) {
-                    
-                    if(contactHistory[i].isAdditionalNote){
-                        
-                        var str = contactHistory[i].detail;
-                        var month = str.substring(4, 7);
-                       
-                        if(month == 'Jan')
-                        {
-                            month='01';
-                        }else if(month == 'Feb'){
-                            month='02';
-                        }else if(month == 'Mar'){
-                            month='03';
-                        }else if(month == 'Apr'){
-                            month='04';
-                        }else if(month == 'May'){
-                            month='05';
-                        }else if(month == 'Jun'){
-                            month='06';
-                        }else if(month == 'Jul'){
-                            month='07';
-                        }else if(month == 'Aug'){
-                            month='08';
-                        }else if(month == 'Sep'){
-                            month='09';
-                        }else if(month == 'Oct'){
-                            month='10';
-                        }else if(month == 'Nov'){
-                            month='11';
-                        }else if(month == 'Dec'){
-                            month='12';
-                        }
-                        var dt = str.substring(8, 10);
-                       
-                        var yr = str.substring(11, 15);
-                       
-                        var ampm = str.substring(23, 26);
-                       
-                        var hr = str.substring(17, 19);
-                       
-                        var mn = str.substring(20, 22);
-                       
-                        let ap = ampm;
-                       
-                        if(ap.includes("A")){
-                            if(hr == '12')
-                                hr ='00';
-                        }else{
-                            if(hr == '1' || hr == '01'){
-                                hr ='13';}else if(hr == '2' || hr == '02'){
-                                    hr ='14';}else if(hr == '3' || hr == '03'){
-                                        hr ='15';}else if(hr == '4' || hr == '04'){
-                                            hr ='16';}else if(hr == '5' || hr == '05'){
-                                                hr ='17';}else if(hr == '6' || hr == '06'){
-                                                    hr ='18';}else if(hr == '7' || hr == '07'){
-                                                        hr ='19';}else if(hr == '8' || hr == '08'){
-                                                            hr ='20';}else if(hr == '9' || hr == '09'){
-                                                                hr ='21';}else if(hr == '10' || hr == '010'){
-                                                                    hr ='22';}else if(hr == '11' || hr == '011'){
-                                                                        hr ='23';}
-                        }
-                        var finaldt=yr+'-'+month+'-'+dt+'T'+hr+':'+mn+':00.000Z';
-                        
-                        var createby = str.substring(28, str.length-1);
-                       
-                        component.set('v.lastModifiedDate', finaldt);
-                        obj.detailDate = component.get('v.lastModifiedDate');
-                        obj.createdBy = createby;
-                        obj.title = contactHistory[i].title;
-                        obj.string = true;
-                        historyList.push(obj);
-                        obj = {};                        
+                var historyListz = [];
+                var objz = {}; 
+                for(var i in historyList) {
+                  
+                    if(historyList[i].string){
+                        objz.title = historyList[i].title;
+                        objz.detailDate =  historyList[i].detailDate;
+                        objz.createdBy =  historyList[i].createdBy;
+                        historyListz.push(objz);
+                        objz = {};
                     }else{
-                        obj.detailDate =  contactHistory[i].detailDate;
-                        obj.createdBy = contactHistory[i].createdBy;
-                        obj.title = contactHistory[i].title;
-                        obj.string = false;
-                        historyList.push(obj);
-                        obj = {};
-                    }  
+                        var locdt = $A.localizationService.formatDate(historyList[i].detailDate, "yyyy MM dd, HH:mm:ss");
+                        var locyr = locdt.substring(0, 4);
+                        var locmnth = locdt.substring(5, 7);
+                        var locdate = locdt.substring(8, 10);
+                        var loctim = locdt.substring(12, 22);
+                        var locfinaldt=locyr+'-'+locmnth+'-'+locdate+'T'+loctim+'.000Z';
+                        objz.title = historyList[i].title;
+                        objz.detailDate =  locfinaldt;
+                        objz.createdBy =  historyList[i].createdBy;
+                        historyListz.push(objz);
+                        objz = {};
+                    }
+                    
                 }
-                component.set('v.historyList', historyList); 
+                
+                historyListz.sort(function(a,b){
+                    return new Date(a.detailDate) - new Date(b.detailDate)
+                })
+                component.set('v.historyListz', historyListz.reverse()); 
+                for(var i in historyListz) {
+                    console.log('orderdate-- Final->  '+historyListz[i].detailDate+'--'+historyListz[i].title);
+                } 
+                
+               
+            }else{  
             } 
-            
         }
     },
     updateReasonList: function (component, event, helper) {

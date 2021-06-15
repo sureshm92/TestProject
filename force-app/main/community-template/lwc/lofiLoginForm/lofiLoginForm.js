@@ -1,4 +1,4 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -18,16 +18,18 @@ import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordL
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 
 export default class LofiLoginForm extends NavigationMixin(LightningElement) {
-    @api rtlStyle;
-    @api floatInput;
-    @api addIconMargin;
     @track isMobileApp;
     @track isRTL;
     @track inError;
     @track errorMsg;
-    @api applyPaddingLogin;
-    @api applyPaddingPassword;
+    @track addIconMargin;
 
+    rtlStyle;
+    floatInput;
+    applyPaddingLogin;
+    applyPaddingPassword;
+    errorIconPosition;
+    erroContainerPosition;
     lockedOutUsrName;
     timeLeft = 900000;
     isLockOut = false;
@@ -69,6 +71,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.addIconMargin = 'margin-right: -2.2em;';
                     this.applyPaddingLogin = 'padding-right: 2em';
                     this.applyPaddingPassword = 'padding-right: 0.3125em';
+                    this.errorIconPosition = 'margin-right: -2.5em';
+                    this.erroContainerPosition = 'margin-right: 0.5em';
                     console.log(
                         'RTL inline styles applied: ' +
                             this.rtlStyle +
@@ -80,6 +84,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.addIconMargin = 'margin-left: -2.2em;';
                     this.applyPaddingLogin = 'padding-left: 2em';
                     this.applyPaddingPassword = 'padding-left: 0.3125em';
+                    this.errorIconPosition = 'margin-left: -2.5em';
+                    this.erroContainerPosition = 'margin-left: 0.5em';
                 }
                 this.initialized = true;
             })

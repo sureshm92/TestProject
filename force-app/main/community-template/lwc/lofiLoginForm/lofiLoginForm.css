@@ -52,13 +52,13 @@
     color: #0768fd;
     display: inline-flex;
     font-size: 16px;
-    cursor: pointer;
     font-weight: bold;
     max-width: 10em;
 }
 
 .rr-link:hover {
     text-decoration: none;
+    cursor: pointer;
 }
 
 .error-container {

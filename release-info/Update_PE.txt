@@ -3,9 +3,10 @@ List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,
 Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE 
 Participant_Contact__c IN (SELECT ContactId FROM User WHERE isActive = true) 
 AND Invited_To_PP_Date__c = null AND Study_Site__r.Study_Site_Type__c = 'Traditional' 
-AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 10000 ];       
+AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 1500 ];       
 
  List<Id> contactIds = new List<Id>();
+ List<Participant_Enrollment__c> updateList = new List<Participant_Enrollment__c>();
         for(Participant_Enrollment__c pe: peList){
             contactIds.add(pe.Participant_Contact__c);
         }
@@ -15,7 +16,11 @@ AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 10000 ];
             contactAndDate.put(u.ContactId,u.CreatedDate);
         }
         for(Participant_Enrollment__c pe: peList){
-            pe.Invited_To_PP_Date__c = contactAndDate.get(pe.Participant_Contact__c);
+            Participant_Enrollment__c up = new Participant_Enrollment__c();
+            up.Id = pe.Id;
+
+            up.Invited_To_PP_Date__c = contactAndDate.get(pe.Participant_Contact__c);
+            updateList.add(up);
         }
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
     TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
@@ -53,5 +58,5 @@ AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 10000 ];
     TriggerHandlerExecutor.bypassHandler(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
-        update peLIst;
-    }
+        DateBase.update(updateList,false);
+    

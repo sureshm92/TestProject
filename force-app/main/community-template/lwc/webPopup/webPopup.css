@@ -43,7 +43,9 @@
     right: unset !important;
     left: 10%;
 }
-
+.slds-button--icon-inverse {
+    cursor: pointer;
+}
 .p-container > .slds-button:after {
     content: '';
     position: absolute;
