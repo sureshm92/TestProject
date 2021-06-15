@@ -16496,7 +16496,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Merge</shortDescription>
-        <value>I would like to merge my existing accounts</value>
+        <value>I would like to merge my existing username</value>
     </labels>
     <labels>
         <fullName>PP_MergeDntTranslate</fullName>
