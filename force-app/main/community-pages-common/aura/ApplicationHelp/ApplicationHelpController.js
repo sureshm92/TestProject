@@ -29,9 +29,11 @@
                 component.set('v.quickReference', initData.quickReference);
                 component.set('v.yearOfBirthPicklistvalues',initData.yearOfBirth);
                 component.set('v.usrName',initData.usrName);
+                console.log('initData.usrName',initData.usrName);
                 component.set('v.currentYOB',initData.currentYearOfBirth);
                 component.set('v.currentContactEmail',initData.usrEmail);
                 component.set('v.isDuplicate',initData.isDuplicate);
+                component.set('v.showUserMatch',initData.showUserEmailMatch);
             }
         );
     },

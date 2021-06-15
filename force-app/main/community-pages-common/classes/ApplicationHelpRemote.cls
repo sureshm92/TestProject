@@ -20,6 +20,7 @@ public without sharing class ApplicationHelpRemote {
         String usrName;
         String usrEmail;
         Boolean isDuplicate = false;
+        Boolean showUserEmailMatch = false;
 
     }
 
@@ -100,12 +101,15 @@ public without sharing class ApplicationHelpRemote {
                     initData.quickReference = setting.HCP_Quick_Reference__c;
                     initData.usrName = UserInfo.getUserName();
                     initData.usrEmail = UserInfo.getUserEmail();
+                    initData.showUserEmailMatch = UserInfo.getUserName().equalsIgnoreCase(UserInfo.getUserEmail());
                 } else if (userMode == 'PI') {
                     initData.videoLink = setting.PI_Video_Guide__c;
                     initData.userManual = setting.PI_User_Manual__c;
                     initData.quickReference = setting.PI_Quick_Reference__c;
                     initData.usrName = UserInfo.getUserName();
                     initData.usrEmail = UserInfo.getUserEmail();
+                    initData.showUserEmailMatch = UserInfo.getUserName().equalsIgnoreCase(UserInfo.getUserEmail());
+
                 } else {
                     initData.videoLink = setting.Participant_Video_Guide__c;
                     initData.userManual = setting.Participant_User_Manual__c;
@@ -113,7 +117,7 @@ public without sharing class ApplicationHelpRemote {
                     initData.yearOfBirth = ParticipantService.getYearofBirthList();
                     initData.usrName = UserInfo.getUserName();
                     initData.usrEmail = UserInfo.getUserEmail();
-                    system.debug('usrEmail-->'+UserInfo.getUserEmail());
+                    initData.showUserEmailMatch = UserInfo.getUserName().equalsIgnoreCase(UserInfo.getUserEmail());
                     if(!String.isEmpty(state.participant.Date_of_Birth__c)){
                       initData.currentYearOfBirth = state.participant.Date_of_Birth__c.split('-')[0];
                     }
