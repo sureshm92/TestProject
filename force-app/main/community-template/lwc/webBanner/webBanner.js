@@ -10,6 +10,7 @@ export default class WebBanner extends LightningElement {
     @api isRTL;
     @api isMobileView = false;
     @track isInitialized = false;
+    @track bodyTextTwo;
 
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
@@ -29,6 +30,23 @@ export default class WebBanner extends LightningElement {
     doCancel() {
         this.hide();
         if (this.closeCallback) this.closeCallback();
+    }
+    @api openModalPopup(){
+        this.hide();
+        const filters = true;
+        const selectedEvent = new CustomEvent('openModal', {
+            detail: { filters }
+        });
+        // Fire the custom event
+        this.dispatchEvent(selectedEvent);                
+    }
+    renderedCallback() {
+        console.log('this.bodyText: '+this.bodyText);
+        if(this.bodyText != null && this.bodyTextTwo == null){
+            var firstPart = this.bodyText.split('##privacyPolicyURL.');
+            this.bodyText = firstPart[0];
+            this.bodyTextTwo = firstPart[1];
+        }
     }
 
     connectedCallback() {
