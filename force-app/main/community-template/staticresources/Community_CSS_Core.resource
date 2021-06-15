@@ -5,6 +5,9 @@ html{
     font-family: "Proxima Nova"!important;
     transition: 300ms;
 }
+.RTLReminder lightning-primitive-icon {
+    margin-left: 8rem;
+}
 
 h1, h2, h3, h4, h5, h6{
     font-family: "Proxima Nova"!important;

@@ -145,7 +145,8 @@
 .THIS.tooltipRTL {
     position: absolute;
     top: 10%;
-    left: 11%;
+    /* @noflip */
+    left: 17%;
     width: auto;
     height: auto;
     word-break: break-all;
@@ -165,13 +166,15 @@
 .THIS.tooltipASRTL {
     position: absolute;
     top: 10%;
-    left: -4%;
+    /* @noflip */
+    left: 1%;
     min-width: 5%;
     width: auto;
     height: auto;
     word-break: break-all;
     white-space: normal;
     width: max-content;
+    /* @noflip */
     float: right;
 }
 .THIS.tooltipSubTitle {

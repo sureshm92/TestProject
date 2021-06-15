@@ -54,3 +54,7 @@
     height: 16px;
     border-radius: 3px;
 }
+#listbox-id-1 {
+    /* @noflip */
+    left: 50% !important;
+}
