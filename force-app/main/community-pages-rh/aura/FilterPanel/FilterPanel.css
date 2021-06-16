@@ -60,6 +60,17 @@
     align-items: center;
 }
 
+.THIS .fp-pagination-blockRTL {
+    padding-top: 15px;
+    border-top: 1px solid #d9d9d9;
+    margin-bottom: 5px;
+    align-items: center;
+    margin-left: -4px;
+    margin-right: 4px;
+
+}
+
+
 .THIS .pagination-position {
     display: inline-flex;
     width: 25%;
@@ -151,6 +162,8 @@
     /* @noflip */  overflow: hidden;
     /* @noflip */ display: inline-flex;
     /* @noflip */ width: -webkit-fill-available;
+    /* @noflip */    margin-right: -3px;
+
 }
 .THIS .fp-filters-label {
     white-space: nowrap;

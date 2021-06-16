@@ -60,7 +60,7 @@
     <aura:method name="checkfields" action="{!c.checkReqFields}"></aura:method>
     
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <c:Popup aura:id="inviteRPDialog" showClose="true" size="large" showScroll="true">
+    <c:PopupRTL aura:id="inviteRPDialog" showClose="true" size="large" showScroll="true">
         <aura:if isTrue="{!!v.refreshView}">
             <div class="slds-grid slds-grid_vertical">
                 <p class="popupcontent">{!$Label.c.New_OutReach}</p>
@@ -316,6 +316,7 @@
             </button>
             
             <button
+                    style="{!if(v.isRTL, 'margin-left: 515px;','')}"
                     class="apollo-btn primary csubmit"
                     data-gtm="BTN_Invite_Referring_Provider"
                     onclick="{!c.submit}"
@@ -327,5 +328,5 @@
             
             
         </aura:set>
-    </c:Popup>
+    </c:PopupRTL>
 </aura:component>

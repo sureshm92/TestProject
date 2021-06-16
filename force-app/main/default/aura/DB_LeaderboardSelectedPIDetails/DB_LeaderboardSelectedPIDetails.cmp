@@ -77,9 +77,9 @@
                 <div class="slds-clearfix">
                     
                     <span class="slds-float_left othertopsite1">{!$Label.c.Dashboard_Rank}</span>
-                    <span class="slds-float_right othertopsite1" 
-                        >{!$Label.c.Dashboard_PI_Other_Sites}</span
-                    >
+                    <span class="{!v.isRTL? 'slds-float_right othertopsite1RTL':'slds-float_right othertopsite1'}">
+                        {!$Label.c.Dashboard_PI_Other_Sites}</span>
+
                 </div>
                 <div class="slds-clearfix">
                     <span class="slds-float_right othertopsite2"
