@@ -147,7 +147,7 @@
                             <aura:if isTrue="{!v.showpassword}">
                                 <lightning:buttonIcon
                                     class="input sfdc_usernameinput sfdc eyeIcon"
-                                    iconName="utility:hide"
+                                    iconName="utility:preview"
                                     alternativeText="Hide"
                                     onclick="{!c.togglePassword}"
                                 />
@@ -155,7 +155,7 @@
                             <aura:if isTrue="{!v.showpassword==false}">
                                 <lightning:buttonIcon
                                     class="input sfdc_usernameinput sfdc eyeIcon"
-                                    iconName="utility:preview"
+                                    iconName="utility:hide"
                                     alternativeText="{!$Label.c.Login_Form_Show}"
                                     onclick="{!c.togglePassword}"
                                 />
