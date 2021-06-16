@@ -1,12 +1,14 @@
 public without sharing class IprEprTriggerHandler {
     private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
         StudySiteService.PI_S_ACCEPTED,
-        StudySiteService.PI_S_ACCEPTED_A,
-        StudySiteService.PI_S_INVITATION_SENT
-    };
-   
+            StudySiteService.PI_S_ACCEPTED_A,
+            StudySiteService.PI_S_INVITATION_SENT
+            };
+                
     private static final Map<String, EPR_Validation_Message__mdt> err = EPR_Validation_Message__mdt.getAll();
-        
+    public static Map<String, Study_Site__c> ssByPrimaryKeyEPRMap_batch = new Map<String, Study_Site__c>();
+    public static Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap_batch = new Map<String, Clinical_Trial_Profile__c>();
+    
     public class ContactAndSiteType {
         public Contact contactObj;
         public String siteType;
@@ -30,7 +32,7 @@ public without sharing class IprEprTriggerHandler {
         private Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         private Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
         private List<Integration_Patient_Referral__c> newList;
-		
+  
         public void validateReferralsV2(List<Integration_Patient_Referral__c> newList) {
             List<String> protocolIds = new List<String>();
             List<String> ssNumbersList = new List<String>();
@@ -147,208 +149,98 @@ public without sharing class IprEprTriggerHandler {
                 }
             }
         }
-        /*private void setNewList(List<Integration_Patient_Referral__c> newList) {
-            this.newList = newList;
-            List<String> protocolIds = new List<String>();
+        
+        
+        public void setCTP_PrimaryKey_forBatch(List<Integration_Patient_Referral__c> lstIPR){
             List<String> ssNumbersList = new List<String>();
-            for (Integration_Patient_Referral__c ipr : newList) {
-                protocolIds.add(ipr.protocolId__c);
-                ssNumbersList.add(getSitePrimaryKeyEPR(ipr));
+            List<String> protocolIds = new List<String>();
+            for(Integration_Patient_Referral__c objIPR : lstIPR){
+                ssNumbersList.add(objIPR.protocolId__c + '_' + objIPR.Address_Country__c + '_' + objIPR.siteSelected__c);
+                protocolIds.add(objIPR.protocolId__c);
             }
-            //SS Map
-            List<Study_Site__c> ssList = [
-                SELECT
-                    Id,
-                    Protocol_ID__c,
-                    Primary_Key_ePR__c,
-                    Study_Site_Type__c,
-                    Site__c,
-                    Override_PI_Referral_Status__c,
-                    Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
-                    Suppress_Participant_Emails__c
-                FROM Study_Site__c
-                WHERE Primary_Key_ePR__c IN :ssNumbersList
-            ];
-            for (Study_Site__c ss : ssList)
-                ssByPrimaryKeyEPRMap.put(ss.Primary_Key_ePR__c, ss);
-
-            //CTP Map
-            List<Clinical_Trial_Profile__c> ctpList = [
-                SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
-                FROM Clinical_Trial_Profile__c
-                WHERE Protocol_ID__c IN :protocolIds
-            ];
-            for (Clinical_Trial_Profile__c ctp : ctpList)
-                ctpByProtocolIdMap.put(ctp.Protocol_ID__c, ctp);
+            for (Study_Site__c ss : [SELECT Id, Protocol_ID__c, Primary_Key_ePR__c, Study_Site_Type__c, Site__c, Override_PI_Referral_Status__c, 
+                                     Clinical_Trial_Profile__r.Suppress_Participant_Emails__c, Suppress_Participant_Emails__c
+                                     FROM Study_Site__c WHERE Primary_Key_ePR__c IN :ssNumbersList ])
+            {	
+                ssByPrimaryKeyEPRMap_batch.put(ss.Primary_Key_ePR__c, ss);
+            } 
+            for (Clinical_Trial_Profile__c ctp : [SELECT Id, Override_Recruitment_Status__c, Protocol_ID__c
+                                                  FROM Clinical_Trial_Profile__c
+                                                  WHERE Protocol_ID__c IN :protocolIds])
+            {	
+                ctpByProtocolIdMap_batch.put(ctp.Protocol_ID__c, ctp);
+            }
+            
         }
-
-        private void validateReferrals() {				
-			//process items:
-            for (Integration_Patient_Referral__c ipr : newList) {
-                List<String> errorsLog = new List<String>();
-                //Required fields check:
-                if (String.isEmpty(ipr.siteSelected__c))
-                    errorsLog.add(err.get('siteSelected_missing').Error_Message__c);
-                if (String.isEmpty(ipr.protocolId__c))
-                    errorsLog.add(err.get('protocolId_missing').Error_Message__c);
-                if (String.isEmpty(ipr.firstName__c))
-                    errorsLog.add(err.get('firstName_missing').Error_Message__c);
-                if (String.isEmpty(ipr.lastName__c))
-                    errorsLog.add(err.get('lastName_missing').Error_Message__c);
-                if (String.isEmpty(ipr.email__c) &&
-                    String.isEmpty(ipr.phone__c) &&
-                    String.isEmpty(ipr.Delegate_Daytime_Phone_Number__c) &&
-                    String.isEmpty(ipr.Delegate_Email_Address__c)) 
-                        errorsLog.add(err.get('email_phone_missing').Error_Message__c);
+        
+        
+        
+        
+        public String checkFieldsForBatchValidation(Integration_Patient_Referral__c Ipr){
+            List<String> errorsLog = new List<String>();
+            // check country    
+            if(String.isNotBlank(ipr.Address_Country__c)) {
+                String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
+                if(String.isBlank(countryName))
+                    errorsLog.add(err.get('country_invalid').Error_Message__c);
+            }   
+            
+            // check state 
+            Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
+            if(String.isNotBlank(ipr.address_state__c)) 
+                if(!states.containskey(ipr.address_state__c))
                 
-                ipr.Success__c = true;
-                if (errorsLog.size() > 0) {
-                    ipr.Error_Message__c = String.join(errorsLog, '\n');
-                    ipr.Is_retry_required__c = false;
-					ipr.Batch_consideration__c = 'Not considered';
-                    //return false;
-                }
-			}
-            //return true;
-        }
-        
-        private void checkFields(){
-            for (Integration_Patient_Referral__c ipr : newList) {
-                if(ipr.Error_Message__c == null || ipr.Error_Message__c == '' ){
-                    List<String> errorsLog = new List<String>();
-                    
-                    // check country    
-                    if(String.isNotBlank(ipr.Address_Country__c)) {
-                        String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
-                        if(String.isBlank(countryName))
-                            errorsLog.add(err.get('country_invalid').Error_Message__c);
-                    }   
-                    
-                    // check state 
-                    Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
-                    if(String.isNotBlank(ipr.address_state__c)) 
-                        if(!states.containskey(ipr.address_state__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                    
-                    // check state 
-                    if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-                        if(!states.containskey(ipr.Delegate_Mailing_State__c))
-                        errorsLog.add(err.get('state_invalid').Error_Message__c);
-                            
-                    // check langauge  
-                    if(String.isNotBlank(ipr.Language_Preference__c)) {
-                        set<String> languageCodes = new set<String>();
-                        for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
-                            languageCodes.add(ple.getValue());
-                        if(!languageCodes.contains(ipr.Language_Preference__c)) 
-                            errorsLog.add(err.get('language_invalid').Error_Message__c);
-                    
-                    } 
-                    
-                    //Check SS
-                    String studySiteNumber = getSitePrimaryKeyEPR(ipr);
-                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
-                    if (ss == null) {
-                        errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
-                    } else if (
-                        !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Override_PI_Referral_Status__c)
-                    ) {
-                        errorsLog.add(err.get('study_site_no_referrals').Error_Message__c);
-                    }
-
-                    //Check CTP
-                    Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap.get(ipr.protocolId__c);
-                    if (ctp == null) {
-                        errorsLog.add(err.get('study_not_found').Error_Message__c.replace('SNo',ipr.protocolId__c));
-                    } else if (
-                        ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING
-                    ) {
-                        errorsLog.add(err.get('study_no_referrals').Error_Message__c);
-                    }
-
-                    if (errorsLog.size() > 0) {
-                        ipr.Error_Message__c = String.join(errorsLog, '\n');
-                        ipr.Is_retry_required__c = true;
-                        ipr.Batch_consideration__c = 'Processing';
-                        ipr.Retry_Count__c = 0;
-                        //return false;
-                    }else{
-                        ipr.Is_retry_required__c = false;
-                        ipr.Batch_consideration__c = 'Not completed';
-                    }
-                }
-            //return true;
+                
+                // check state 
+                if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
+                if(!states.containskey(ipr.Delegate_Mailing_State__c))
+                errorsLog.add(err.get('state_invalid').Error_Message__c);
+            
+            // check langauge  
+            if(String.isNotBlank(ipr.Language_Preference__c)) {
+                set<String> languageCodes = new set<String>();
+                for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
+                    languageCodes.add(ple.getValue());
+                if(!languageCodes.contains(ipr.Language_Preference__c)) 
+                    errorsLog.add(err.get('language_invalid').Error_Message__c);
+                
+            } 
+            
+            //Check SS
+            String studySiteNumber = getSitePrimaryKeyEPR(ipr);
+            system.debug('>>studySiteNumber>'+studySiteNumber);
+            Study_Site__c ss = ssByPrimaryKeyEPRMap_batch.get(studySiteNumber);
+            system.debug('>>ss>'+ss);
+            if (ss == null) {
+                errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
+            } else if (
+                !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Override_PI_Referral_Status__c)
+            ) {
+                errorsLog.add(err.get('study_site_no_referrals').Error_Message__c);
             }
-        }
-        */
-        
-        public Boolean checkFieldsForBatchValidation(Integration_Patient_Referral__c Ipr){
-                    List<String> errorsLog = new List<String>();
-                    // check country    
-                    if(String.isNotBlank(ipr.Address_Country__c)) {
-                        String countryName = CountryStateUtil.getCountryName(ipr.Address_Country__c);
-                        if(String.isBlank(countryName))
-                            errorsLog.add(err.get('country_invalid').Error_Message__c);
-                    }   
-                    
-                    // check state 
-                    Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
-                    if(String.isNotBlank(ipr.address_state__c)) 
-                        if(!states.containskey(ipr.address_state__c))
-                            
-                    
-                    // check state 
-                    if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-                        if(!states.containskey(ipr.Delegate_Mailing_State__c))
-                            errorsLog.add(err.get('state_invalid').Error_Message__c);
-                            
-                    // check langauge  
-                    if(String.isNotBlank(ipr.Language_Preference__c)) {
-                        set<String> languageCodes = new set<String>();
-                        for (PicklistEntry ple : Participant__c.Language_Preference_Code__c.getDescribe().getPicklistValues()) 
-                            languageCodes.add(ple.getValue());
-                        if(!languageCodes.contains(ipr.Language_Preference__c)) 
-                            errorsLog.add(err.get('language_invalid').Error_Message__c);
-                    
-                    } 
-                    
-                    //Check SS
-                    String studySiteNumber = getSitePrimaryKeyEPR(ipr);
-                    Study_Site__c ss = ssByPrimaryKeyEPRMap.get(studySiteNumber);
-                    if (ss == null) {
-                        errorsLog.add(err.get('study_site_not_found').Error_Message__c.replace('SSNo',studySiteNumber));
-                    } else if (
-                        !SS_STATUSES_ACCEPT_REFERRALS.contains(ss.Override_PI_Referral_Status__c)
-                    ) {
-                        errorsLog.add(err.get('study_site_no_referrals').Error_Message__c);
-                    }
-
-                    //Check CTP
-                    Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap.get(ipr.protocolId__c);
-                    if (ctp == null) {
-                        errorsLog.add(err.get('study_not_found').Error_Message__c.replace('SNo',ipr.protocolId__c));
-                    } else if (
-                        ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING
-                    ) {
-                        errorsLog.add(err.get('study_no_referrals').Error_Message__c);
-                    }
-
-                    if (errorsLog.size() > 0) {
-                       // ipr.Error_Message__c = String.join(errorsLog, '\n');
-                      //  ipr.Is_retry_required__c = true;
-                        return false;
-                    }else{
-                       // ipr.Is_retry_required__c = false;
-                      //  ipr.Batch_consideration__c = 'Not completed';
-                      return True;
-                    }
-               
-            //return true;
-          
+            
+            //Check CTP
+            Clinical_Trial_Profile__c ctp = ctpByProtocolIdMap_batch.get(ipr.protocolId__c);
+            if (ctp == null) {
+                errorsLog.add(err.get('study_not_found').Error_Message__c.replace('SNo',ipr.protocolId__c));
+            } else if (
+                ctp.Override_Recruitment_Status__c != TrialService.STATUS_ACTIVELY_ENROLLING
+            ) {
+                errorsLog.add(err.get('study_no_referrals').Error_Message__c);
+            }
+            system.debug('>>>errorsLog>>'+errorsLog);
+            if (errorsLog.size() > 0) {
+                String strError = String.join(errorsLog, '\n');
+                return strError;
+            }else{
+                return 'True';
+            } 
         }
         
-	}
+    }
     
+    
+
     public static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr) {
         return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
     }
