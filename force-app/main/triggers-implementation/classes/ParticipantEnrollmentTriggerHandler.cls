@@ -908,29 +908,29 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                     idToStatusMap.put(per.Id,'Cancel');
                 }
             }
-
-            
         }
 
         Datetime dt = datetime.now();
         List<Participant_Enrollment__c > perFinalList = new List<Participant_Enrollment__c >();
         List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
-        List<Participant_Enrollment__c > perList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList AND Initial_visit_scheduled_date__c >= today];
+        List<Participant_Enrollment__c > perList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
 
         List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
 
         for(Participant_Enrollment__c  pe : perList ){
             LL_RH_event__e llrhEvent = new LL_RH_event__e();
-
-            if(pe.Initial_visit_scheduled_date__c == Date.today() && pe.Initial_visit_scheduled_time__c > dt.timeGmt()){
-                llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
-                llrhEvent.Status__c = idToStatusMap.get(pe.Id);
-                myPElist.add(llrhEvent);
-            }else if(pe.Initial_visit_scheduled_date__c > Date.today()){
+            if(idToStatusMap.get(pe.Id) != 'Cancel'){
+                if((pe.Initial_visit_scheduled_date__c == Date.today() && pe.Initial_visit_scheduled_time__c > dt.timeGmt()) || (pe.Initial_visit_scheduled_date__c > Date.today())){
+                    llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
+                    llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                    myPElist.add(llrhEvent);
+                }
+            }else if(idToStatusMap.get(pe.Id) == 'Cancel'){
                 llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
                 llrhEvent.Status__c = idToStatusMap.get(pe.Id);
                 myPElist.add(llrhEvent);
             }
+            
         }
         EventBus.publish(myPElist);
     }

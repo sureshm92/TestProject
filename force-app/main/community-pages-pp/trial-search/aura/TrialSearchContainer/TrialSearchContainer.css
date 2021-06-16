@@ -42,11 +42,11 @@
     flex-wrap: wrap;
 }
 
-.THIS.arabic .filter-sideRTL .slds-input__icon-group.slds-input__icon-group_right,
+/*.THIS.arabic .filter-sideRTL .slds-input__icon-group.slds-input__icon-group_right,
 .THIS.hebrew .filter-sideRTL .slds-input__icon-group.slds-input__icon-group_right {
     right: auto;
     left: 30px;
-}
+}*/
 
 @media (max-width: 1020px) {
     .THIS.width-limiter {
