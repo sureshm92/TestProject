@@ -4,18 +4,22 @@
 
 .THIS .duplicate-usernames {
   height: 51px;
-  width: fit-content;
+  width: 400px;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 14px;
   letter-spacing: 0;
   line-height: 17px;
+  word-break:break-word;
 }
 .THIS .rtl-submit{
     padding-right:110px;
 }
 .THIS .submit-btn{
     padding-left:150px;
+}
+.THIS .mr_20{
+    margin-top:40px;
 }
 .THIS .edit-yob-year-of-bi {
   height: 19px;
@@ -152,6 +156,13 @@
     background-color: #f8f9fb;
     padding: 10px;
 }
+.THIS .ah-item-panel-merge {
+    box-sizing: border-box;
+    background-color: #f8f9fb;
+    padding-bottom:10px;
+    padding-left:10px;
+    padding-right:10px;
+}
 .THIS .ah-item-panel-usr{
     box-sizing: border-box;
     background-color: #f8f9fb;
@@ -260,10 +271,16 @@
 .THIS .btn-ml{
         padding-left:150px;
     }
+.THIS .attempt_to_match{
+    width:400px;
+}
 @media all and (max-width: 500px) {
     
     .THIS .duplicate-usernames {
-        width:fit-content;
+        width:300px;
+    }
+    .THIS .attempt_to_match{
+    width:300px;
     }
     .THIS.ah-main-container {
         margin-top: 0;

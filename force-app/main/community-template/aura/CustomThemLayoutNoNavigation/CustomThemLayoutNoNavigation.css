@@ -7,6 +7,9 @@
     height: 100%;
     align-items: center;
 }
+.THIS .GSKBanner {
+    background: #ea6621;
+}
 
 .THIS .logo-block {
     /* height: 39px;*/

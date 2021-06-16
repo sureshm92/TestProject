@@ -18,18 +18,17 @@
             component.set('v.isMobileView', true);
         }
         component.set('v.isMobileApp', isMobileApp);
-        bodyText = bodyText
-            .replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'))
-            .replace(
+        bodyText = bodyText.replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
+        /*.replace(
                 '##privacyPolicyURL',
-                '<a class="ci-link" href="/s/privacy-policy?lanCode=' +
-                    paramLanguage +
-                    '"' +
-                    (!isMobileApp && windowUrl.includes('login') ? 'target="_blank"' : '') +
+                '<lightning-button onclick={openPp} data-id="ppLink" class="ci-link" ' +
                     '>' +
                     privacyPolicyLinkText +
-                    '</a>'
-            );
+                    '</lightning-button>'
+            );*/
         component.set('v.cookieText', bodyText);
+    },
+    selectedRecords: function (component, event, helper) {
+        component.set('v.showPpPopup', true);
     }
 });
