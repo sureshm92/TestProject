@@ -53,10 +53,10 @@
         </div>
         <div class="slds-p-top_small slds-p-left_medium slds-p-right_medium">
             <aura:if isTrue="{!v.isRTL}">
-                <div class="slds-float_left">
+                <div class="slds-float_right">
                     <c:DB_LeaderboardSSRankDisplay pIStudySiteRank="{!v.siteRankWrapper}" />
                 </div>
-                <div class="slds-float_right">
+                <div class="slds-float_left">
                     <c:DB_LeaderboardSelectedPIDetails pIStudySiteRank="{!v.siteRankWrapper}" />
                 </div>
                 <aura:set attribute="else">
