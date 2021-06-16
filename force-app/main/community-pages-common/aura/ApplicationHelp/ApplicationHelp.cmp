@@ -176,7 +176,7 @@
                 <p class="duplicate-usernames">
                     <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
                     <aura:if isTrue="{!not(v.isDuplicate)}">
-                        <div class="slds-p-top_small slds-p-bottom_small"><b>{!$Label.c.PP_MatchUsr}</b></div>
+                        <div class="slds-p-top_small slds-p-bottom_small attempt_to_match"><b>{!$Label.c.PP_MatchUsr}</b></div>
                     </aura:if>
             </p> 
         </div>
@@ -197,7 +197,7 @@
             
     <div class="slds-grid">
         <div class="slds-col slds-medium-size--1-of-1 slds-large-size--1-of-1 center">
-         <button class="apollo-btn secondary ah-button" onclick="{!c.doCreateYOBCase}" disabled="{!v.disableSave}">
+         <button class="apollo-btn secondary ah-button mr_20" onclick="{!c.doCreateYOBCase}" disabled="{!v.disableSave}">
                        {!$Label.c.PP_Submit_Button}
                     </button>
         </div>
