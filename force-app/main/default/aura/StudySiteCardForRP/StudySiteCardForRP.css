@@ -12,7 +12,7 @@
     text-align: right;
 }
 .THIS .site-distanceRTL {
-    text-align: left;
+ /* @noflip */  text-align: left;
 }
 
 .THIS .inner-content-card {
