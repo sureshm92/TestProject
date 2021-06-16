@@ -55,7 +55,9 @@ export default class PrivacyPolicyViewer extends LightningElement {
     }
     navigateToHomePage(event) {
         var needle = event.currentTarget.dataset.value;
-        console.log('needle: ' + needle);
+        if (needle.includes("'")) {
+            needle = needle.replace("'", "&#39;");
+        }
         var newValue = this.ppRichText.replace(
             needle,
             '<p class="imhere" data-id="imhere"></p>' + needle
