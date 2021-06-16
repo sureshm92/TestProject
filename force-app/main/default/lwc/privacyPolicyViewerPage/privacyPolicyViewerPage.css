@@ -9,6 +9,10 @@
     padding-top: 0.7%;
     padding-left: 0.5%;
     padding-right: 2%;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    scroll-behavior: smooth;
 }
 .vertNav{
     background:#F4F4F4;
@@ -21,6 +25,9 @@
     display:none ;
 }
 .slds-wrap::-webkit-scrollbar {
+    display:none ;
+}
+.bodyWrapper::-webkit-scrollbar {
     display:none ;
 }
 .dot {
