@@ -2,7 +2,7 @@
  * Created by Olga Skrynnikova on 6/10/2020.
  */
 
- .THIS {
+.THIS {
     width: 100%;
 }
 
@@ -26,12 +26,14 @@
 }
 
 .THIS .rtlMain {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
     padding-right: 30px;
 }
 
 .THIS .rtlHover {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS .item-line {
@@ -72,7 +74,8 @@
     color: #0768fd;
 }
 .THIS .subtitleRTL {
-  /* @noflip */  text-align: right;
+    /* @noflip */
+    text-align: right;
 }
 
 .THIS .overflow {
@@ -115,7 +118,8 @@
     margin-left: 21px;
 }
 .THIS .icon-boxRTL {
-    /* @noflip */margin-right: 25px;
+    /* @noflip */
+    margin-right: 25px;
 }
 
 .THIS.toggle {
@@ -141,7 +145,8 @@
 .THIS.tooltipRTL {
     position: absolute;
     top: 10%;
-    left: 11%;
+    /* @noflip */
+    left: 17%;
     width: auto;
     height: auto;
     word-break: break-all;
@@ -161,13 +166,15 @@
 .THIS.tooltipASRTL {
     position: absolute;
     top: 10%;
-    left: -4%;
+    /* @noflip */
+    left: 1%;
     min-width: 5%;
     width: auto;
     height: auto;
     word-break: break-all;
     white-space: normal;
     width: max-content;
+    /* @noflip */
     float: right;
 }
 .THIS.tooltipSubTitle {
@@ -190,7 +197,8 @@
     height: auto;
     word-break: break-all;
     white-space: normal;
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
     text-align: right;
     width: max-content;
     float: right;
