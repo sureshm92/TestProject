@@ -9,11 +9,14 @@
 }
 
 .THIS.mobile-content {
+    height: 100vh;
+    align-items: stretch;
     top: 0;
     left: 0;
     font-family: 'Proxima Nova';
     background: url(/resource/1623075522000/Lofi_Login_Icons/Background.png) no-repeat;
     background-size: cover;
+    background-position: center;
 }
 
 .THIS > .slds-col.slds-large-size_4-of-7 {
@@ -22,7 +25,7 @@
 }
 
 .THIS > .slds-col.slds-large-size_4-of-7 img {
-    margin-top: -160px;
+    margin-top: -150px;
 }
 
 .THIS > .slds-col.slds-large-size_3-of-7 {
@@ -45,13 +48,22 @@
 .THIS .logo-block {
     margin: auto;
     margin-top: 2rem;
-    min-width: 31.25rem;
+  /*  min-width: 31.25rem; */
 }
 
 .THIS .logo-block + .slds-col {
     display: flex;
     justify-content: center;
     align-items: flex-end;
+    padding-bottom: 1rem;
+}
+
+.THIS .logo-block > .slds-align_absolute-center {
+    width: 30rem;
+}
+
+.THIS .logo-block > .slds-align_absolute-center > .slds-col {
+    padding: 0;
 }
 
 .THIS .brand-logo {
@@ -76,6 +88,7 @@
     letter-spacing: 0;
     text-align: center;
     margin-bottom: 1rem;
+    width: 56%;
 }
 
 .THIS .logo-row {
@@ -83,7 +96,7 @@
 }
 
 .THIS .main-logo {
-    margin: 40px 0;
+    margin: 40px 5px 40px 0;
     /*height: 110px;*/
     float: left;
 }
@@ -208,6 +221,22 @@
     font-weight: normal !important;
 }
 
+.THIS.mobile-content .footer-mobile {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.THIS.mobile-content .appTitles {
+    display: flex;
+    margin: 2rem auto;
+    width: 55%;
+}
+
+.THIS.mobile-content .ppLabel {
+    color: #fff;
+}
+
 .THIS .p-container .p-content {
     padding-top: 0 !important;
 }
@@ -220,6 +249,47 @@
     direction: rtl;
     /*@noflip*/
     padding-right: 24px !important;
+}
+
+@media all and (max-width: 1080px) {
+    
+    .THIS .logo-block {
+        margin-top: 0;
+    }
+    
+    .THIS .logo-block>.slds-align_absolute-center {
+        width: 100%;
+        flex-direction: column;
+    }
+    
+    .THIS .logo-block>.slds-align_absolute-center.logo-sub-title {
+        width: 80%;
+        margin-top: -1rem;
+    }
+    
+    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+        width: 50%;
+        text-align: center;
+    }
+    
+    .THIS .header-title {
+        text-align: left;
+        padding-left: .75rem;
+        margin-top: .875rem;
+    }
+    
+     .THIS .main-logo {
+        margin: 20px 0 40px 0;
+    }
+    
+    
+}
+
+@media all and (max-width: 900px) {
+	.THIS .logo-block>.slds-align_absolute-center>.slds-col {
+        width: 65%;
+    }
+
 }
 
 @media all and (min-width: 768px) {
@@ -236,10 +306,34 @@
     }
 }
 
-@media all and (max-height: 776px) {
-    .THIS .slds-col.slds-large-size_4-of-7 img {
-        margin-top: -100px;
+@media all and (max-width: 486px) {
+    .THIS.mobile-content .logo-sub-title-mobile {
+        width: auto;
     }
+    
+	.THIS.mobile-content .appTitles {
+		margin: 0;
+        width: auto;
+    }
+    
+    .THIS.mobile-content .body-content {
+        
+    }
+}
+
+@media all and (max-height: 776px) {
+    
+    .THIS .logo-block {
+    	margin-top: 0;    
+    }
+    
+    .THIS .slds-col.slds-large-size_4-of-7 img {
+        margin-top: -90px;
+    }
+    
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+        width: 20.5rem;
+    }   
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
         margin-top: -1.75rem;
@@ -261,7 +355,7 @@
 
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
         margin-top: -0.5rem;
-        padding-left: 1.875rem;
+        width: 80%;
     }
 
     .THIS .logo-block .main-logo {
@@ -311,8 +405,13 @@
     }
 
     .THIS .footer > .slds-col {
-        font-size: 0.875rem;
-        margin-bottom: 0.75rem;
+        font-size: 0.75rem;
+    }
+}
+
+@media all and (max-height: 776px) and (max-width: 486px) {
+    .THIS .body-content {
+        margin-top: 1.5rem;;
     }
 }
 
