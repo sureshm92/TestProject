@@ -64,26 +64,26 @@
                                 </div>
                             </aura:if>
                         </div>
-                    </div>
-                    <div class="body-content">
-                        <div class="body-components">{!v.body}</div>
-                    </div>
-                </div>
-                <div class="slds-col_bump-left slds-large-size_3-of-7">
-                    <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
-                        <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
-                            <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
+                        <div class="body-content">
+                            <div class="body-components">{!v.body}</div>
                         </div>
-                        <div class="slds-grid">
-                            <div class="slds-col slds-size_1-of-3">
-                                <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                    </div>
+                    <div class="slds-col">
+                        <footer class="{!'footer' + if(v.isRTL ,' align-rtl', '')}">
+                            <div class="slds-col" style="font-weight: 600; margin-bottom: 1em">
+                                <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
                             </div>
-                            <div class="slds-col slds-size_1-of-3">
-                                <c:privacyPolicyViewer isModalOpen="{!v.showPpPopup}"/>
+                            <div class="slds-grid">
+                                <div class="slds-col slds-size_1-of-3">
+                                    <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">
+                                    <c:privacyPolicyViewer isModalOpen="{!v.showPpPopup}" />
+                                </div>
+                                <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                             </div>
-                            <div class="slds-col slds-size_1-of-3">© IQVIA</div>
-                        </div>
-                    </footer>
+                        </footer>
+                    </div>
                 </div>
             </div>
             <!--Mobile View-->
@@ -146,7 +146,8 @@
                 </div>
             </aura:set>
         </aura:if>
-        <c:webBanner onopenModal="{!c.selectedRecords}"
+        <c:webBanner
+            onopenModal="{!c.selectedRecords}"
             bodyText="{!v.cookieText}"
             showClose="true"
             isRTL="{!v.isRTL}"

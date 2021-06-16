@@ -138,6 +138,7 @@
 }
 .closeIcon1 {
     fill: black;
+    margin-right: 3%;
 }
 .headerAndLogo {
     margin-left: 3.5%;
@@ -146,9 +147,35 @@
 .ppLabel:hover {
     cursor: pointer;
 }
+.slds-button_icon-inverse {
+    fill: black;
+}
+.slds-icon_small {
+    fill: black;
+}
 
 @media all and (max-width: 768px) {
-    .ppLabel {
-        color: #ffffff;
+    .hdr {
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 22px;
+        letter-spacing: 0;
+        line-height: 28px;
+        text-align: left;
+    }
+    .dateText {
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 15px;
+        text-align: left;
+    }
+    .slds-button_icon-inverse {
+        fill: black;
+    }
+    .slds-icon_small {
+        fill: black;
     }
 }

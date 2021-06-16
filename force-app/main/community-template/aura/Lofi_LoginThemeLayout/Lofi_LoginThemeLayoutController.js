@@ -18,9 +18,8 @@
             component.set('v.isMobileView', true);
         }
         component.set('v.isMobileApp', isMobileApp);
-        bodyText = bodyText
-            .replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
-            /*.replace(
+        bodyText = bodyText.replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
+        /*.replace(
                 '##privacyPolicyURL',
                 '<lightning-button onclick={openPp} data-id="ppLink" class="ci-link" ' +
                     '>' +
@@ -30,6 +29,6 @@
         component.set('v.cookieText', bodyText);
     },
     selectedRecords: function (component, event, helper) {
-       component.set('v.showPpPopup',true);
+        component.set('v.showPpPopup', true);
     }
-})
+});
