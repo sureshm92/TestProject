@@ -16,6 +16,22 @@
     background-size: cover;
 }
 
+.THIS > .slds-col.slds-large-size_4-of-7 {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.THIS > .slds-col.slds-large-size_4-of-7 img {
+    margin-top: -160px;
+}
+
+.THIS > .slds-col.slds-large-size_3-of-7 {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
 .THIS .body-content {
     width: 20rem;
     margin: 0 auto;
@@ -28,8 +44,14 @@
 
 .THIS .logo-block {
     margin: auto;
-    margin-top: 2.5rem;
-    max-width: 31.25rem;
+    margin-top: 2rem;
+    min-width: 31.25rem;
+}
+
+.THIS .logo-block + .slds-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
 }
 
 .THIS .brand-logo {
@@ -158,8 +180,8 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
-    margin-top: -7em;
     margin-left: 0.3125em;
+    width: 100%;
 }
 
 .THIS .footer-mobile {
@@ -211,5 +233,113 @@
     .THIS .body-content {
         margin-top: 0;
         margin-bottom: 0;
+    }
+}
+
+@media all and (max-height: 776px) {
+    .THIS .slds-col.slds-large-size_4-of-7 img {
+        margin-top: -100px;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
+        margin-top: -1.75rem;
+        z-index: 5;
+        position: relative;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) img {
+        transform: scale(0.75);
+    }
+
+    .THIS .logo-block .logo-sub-title {
+        margin-top: -2rem;
+        z-index: 10000;
+        position: relative;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .THIS .logo-block .slds-align_absolute-center.slds-grid {
+        margin-top: -0.5rem;
+        padding-left: 1.875rem;
+    }
+
+    .THIS .logo-block .main-logo {
+        transform: scale(0.75);
+        margin: 30px 0 40px;
+    }
+
+    .THIS .logo-block .header-title {
+        font-size: 1.5rem;
+        margin-top: 1.4rem;
+    }
+
+    .THIS .logo-block .header-subtitle {
+        font-size: 0.75rem;
+        margin-top: -0.5rem;
+    }
+
+    .THIS .body-content {
+        margin-top: -1.25rem;
+        padding-bottom: 0;
+    }
+
+    .THIS .body-content .input-box {
+        margin-bottom: 1em;
+    }
+
+    .THIS .body-content .form-header {
+        margin: 0 0 0.5em;
+    }
+
+    .THIS .body-content .form-button {
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .THIS .body-content .rr-link {
+        font-size: 0.875rem;
+    }
+
+    .THIS .body-content .icon-position {
+        transform: scale(0.75);
+    }
+
+    .THIS .footer {
+        line-height: 1.25rem;
+        margin-top: 1rem;
+    }
+
+    .THIS .footer > .slds-col {
+        font-size: 0.875rem;
+        margin-bottom: 0.75rem;
+    }
+}
+
+@media all and (max-height: 554px) {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 115vh;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7 {
+        height: 115vh;
+    }
+
+    .THIS .slds-col.slds-large-size_4-of-7 img {
+        margin-top: -70px;
+    }
+
+    .THIS .logo-block {
+        min-width: 26.5rem;
+    }
+}
+
+@media all and (max-height: 488px) {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 130vh;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7 {
+        height: 130vh;
     }
 }

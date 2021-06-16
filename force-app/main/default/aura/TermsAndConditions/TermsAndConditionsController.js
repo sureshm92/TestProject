@@ -28,7 +28,7 @@
         let titleCode = component.get('v.titleCode');
         if (titleCode === 'PrivacyPolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'));
-            document.title =$A.get('$Label.c.PG_TC_H_Privacy_Policy');
+            document.title = $A.get('$Label.c.PG_TC_H_Privacy_Policy');
         } else if (titleCode === 'CookiePolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
             document.title = $A.get('$Label.c.PG_TC_H_Cookie_Policy');
@@ -36,7 +36,7 @@
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
             document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
-        
+
         /*if(communityService.getCurrentCommunityName() == 'GSK Community'){
             component.set('v.isGsk', true);
         }
@@ -44,7 +44,7 @@
 
         communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
             if (returnValue !== null) {
-                if(returnValue == 'GSK Community'){
+                if (returnValue == 'GSK Community') {
                     component.set('v.isGsk', true);
                 }
             }
@@ -54,7 +54,7 @@
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
         if (isPortalTC) {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                if(component.get("v.isGsk")){
+                if (component.get('v.isGsk')) {
                     communityService.executeAction(
                         component,
                         'getTC',
@@ -78,7 +78,7 @@
                             component.find('mainSpinner').hide();
                         }
                     );
-                }else{
+                } else {
                     component.find('mainSpinner').hide();
                 }
             } else {
@@ -102,31 +102,30 @@
                 );
             }
         } else {
-
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                    communityService.executeAction(
-                        component,
-                        'getTC',
-                        {
-                            code: titleCode,
-                            languageCode: communityService.getUrlParameter('language'),
-                            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
-                        },
-                        function (returnValue) {
-                            let tcData = JSON.parse(returnValue);
-                            component.set('v.tcData', tcData);
-                            if (RTL) {
-                                helper.setRTL(component);
-                            }
-                            if (tcData.tc) {
-                                component.set('v.privacyPolicyId', tcData.tc);
-                            }
-                        },
-                        null,
-                        function () {
-                            component.find('mainSpinner').hide();
+                communityService.executeAction(
+                    component,
+                    'getTC',
+                    {
+                        code: titleCode,
+                        languageCode: communityService.getUrlParameter('language'),
+                        useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
+                    },
+                    function (returnValue) {
+                        let tcData = JSON.parse(returnValue);
+                        component.set('v.tcData', tcData);
+                        if (RTL) {
+                            helper.setRTL(component);
                         }
-                    );    
+                        if (tcData.tc) {
+                            component.set('v.privacyPolicyId', tcData.tc);
+                        }
+                    },
+                    null,
+                    function () {
+                        component.find('mainSpinner').hide();
+                    }
+                );
             } else {
                 if (!component.get('v.ctpId')) {
                     component.set('v.ctpId', ctpId);
@@ -190,7 +189,7 @@
         let paddingForCookie = document.getElementsByClassName('padding-for-cookie-policy');
         $A.util.removeClass(paddingForCookie[0], 'padding-for-cookie-policy');
     },
-    init: function(component, event, helper) {        
-        document.title = $A.get("{!$Label.c.BTN_View_terms_and_conditions_participant}");
+    init: function (component, event, helper) {
+        document.title = $A.get('{!$Label.c.BTN_View_terms_and_conditions_participant}');
     }
 });

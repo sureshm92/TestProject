@@ -1,6 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import privacyPolicyText from '@salesforce/label/c.Lofi_Login_Footer_Policies';
 export default class WebBanner extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
     @api bodyText;
@@ -12,6 +13,9 @@ export default class WebBanner extends LightningElement {
     @track isInitialized = false;
     @track bodyTextTwo;
 
+    label = {
+        privacyPolicyText
+    };
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
         this.showBanner = true;
@@ -31,18 +35,18 @@ export default class WebBanner extends LightningElement {
         this.hide();
         if (this.closeCallback) this.closeCallback();
     }
-    @api openModalPopup(){
+    @api openModalPopup() {
         this.hide();
         const filters = true;
         const selectedEvent = new CustomEvent('openModal', {
             detail: { filters }
         });
         // Fire the custom event
-        this.dispatchEvent(selectedEvent);                
+        this.dispatchEvent(selectedEvent);
     }
     renderedCallback() {
-        console.log('this.bodyText: '+this.bodyText);
-        if(this.bodyText != null && this.bodyTextTwo == null){
+        console.log('this.bodyText: ' + this.bodyText);
+        if (this.bodyText != null && this.bodyTextTwo == null) {
             var firstPart = this.bodyText.split('##privacyPolicyURL.');
             this.bodyText = firstPart[0];
             this.bodyTextTwo = firstPart[1];

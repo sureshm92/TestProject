@@ -9043,7 +9043,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Lofi Login Footer Policies</shortDescription>
-        <value>Policies</value>
+        <value>Privacy Policy</value>
     </labels>
     <labels>
         <fullName>Lofi_Login_PP_Header</fullName>

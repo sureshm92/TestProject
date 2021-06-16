@@ -58,6 +58,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     };
 
     connectedCallback() {
+        window.addEventListener('resize', this.adjustWindowHeight.bind(this));
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
@@ -99,6 +100,42 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 );
             });
     }
+
+    renderedCallback() {
+        this.adjustWindowHeight();
+    }
+
+    adjustWindowHeight() {
+        if (this.inError) {
+            switch (window.innerHeight) {
+                case 609:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '115vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '115vh';
+                    break;
+                case 554:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '130vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '130vh';
+                    break;
+                case 487:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '150vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '145vh';
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7 img'
+                    )[0].style.marginTop = '-25px';
+                    break;
+            }
+        }
+    }
+
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
