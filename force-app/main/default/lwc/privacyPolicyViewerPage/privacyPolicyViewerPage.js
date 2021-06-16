@@ -69,10 +69,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
         this.template.querySelector('[data-id="text"]').innerHTML = newValue;
 
         var myElement = this.template.querySelector('[data-id="imhere"]');
-        if (myElement != null) myElement.scrollIntoView({
+        var headerOffset = 30;
+        var elementPosition = myElement.offsetTop; //getBoundingClientRect().top;
+        var offsetPosition = elementPosition - headerOffset;
+        this.template.querySelector('[data-id="bdyWrpr"]').scrollTop = offsetPosition;
+        /*if (myElement != null) myElement.scrollIntoView({
             behavior: "smooth",
             block: "center"
-        });
+        });*/
     }
 
 
