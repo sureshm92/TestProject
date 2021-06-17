@@ -70,8 +70,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.rtlStyle = 'direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
-                    this.applyPaddingLogin = 'padding-right: 2em';
-                    this.applyPaddingPassword = 'padding-right: 0.3125em';
                     this.errorIconPosition = 'margin-right: -2.5em';
                     this.erroContainerPosition = 'margin-right: 0.5em';
                     console.log(
@@ -83,8 +81,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 } else {
                     this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
-                    this.applyPaddingLogin = 'padding-left: 2em';
-                    this.applyPaddingPassword = 'padding-left: 0.3125em';
                     this.errorIconPosition = 'margin-left: -2.5em';
                     this.erroContainerPosition = 'margin-left: 0.5em';
                 }
