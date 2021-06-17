@@ -50,20 +50,12 @@
         </div>
         <div class="slds-grid" style={rtlStyle}>
             <div class="slds-col">
-                <a
-                    class="rr-link slds-align_absolute-center"
-                    style={applyPaddingPassword}
-                    onclick={handleForgotPassword}
+                <a class="rr-link" style="align-items: flex-start" onclick={handleForgotPassword}
                     >{label.forgotPassword}</a
                 >
             </div>
             <div class="slds-col">
-                <a
-                    class="rr-link slds-align_absolute-center"
-                    style={applyPaddingLogin}
-                    onclick={handleUnableToLogin}
-                    >{label.unableToLogin}</a
-                >
+                <a class="rr-link" onclick={handleUnableToLogin}>{label.unableToLogin}</a>
                 <c-unable-to-login
                     is-r-t-l-language={isRTL}
                     onunabletologin={handleShowTimer}
