@@ -148,7 +148,7 @@
                                 <lightning:buttonIcon
                                     class="input sfdc_usernameinput sfdc eyeIcon"
                                     iconName="utility:preview"
-                                    alternativeText="Hide"
+                                    alternativeText="{!$Label.c.Login_Form_Hide}"
                                     onclick="{!c.togglePassword}"
                                 />
                             </aura:if>
