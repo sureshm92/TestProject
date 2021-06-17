@@ -14,7 +14,7 @@
     color: #e20000;
 }
 .THIS .rightAlign .slds-input__icon_right {
-    margin-right: 81%;
+  /* @noflip */  margin-right: 81%;
 }
 .THIS .slds-datepicker table {
     table-layout: fixed;
