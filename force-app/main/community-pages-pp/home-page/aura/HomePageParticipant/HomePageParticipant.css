@@ -4,6 +4,7 @@
 .THIS {
 }
 .THIS .RTLReminder .slds-button_icon {
+    /* @noflip */
     margin-left: 8rem;
 }
 /* @krishna Mahto- REF-2179 - start */
