@@ -28,6 +28,13 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track lastUpdated;
     @track empNames = [];
     @track logoCss;
+    @track logoClass;
+    @track headerLogoCss;
+    @track ppHeaderClass;
+    @track dateTextClass;
+    @track numberingStyle;
+    @track vertNavClass;
+    @track textboxStyle;
     @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
@@ -35,6 +42,13 @@ export default class PrivacyPolicyViewer extends LightningElement {
     tcId;
     attachment;
 
+    headerLogoCss = 'headerAndLogo slds-size_1-of-1';
+    logoClass = 'logo';
+    ppHeaderClass = 'ppHeader';
+    dateTextClass = 'dateText';
+    numberingStyle = 'margin-left: -12px;padding: 0px;';
+    vertNavClass = 'vertNav';
+    textboxStyle = 'padding-right: 0px;word-break: break-word;';
     headerLogo = LOFI_LOGIN_ICONS + '/favicon_darkblue_64.svg';
     labels = {
         ppLabel,
@@ -56,7 +70,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     navigateToHomePage(event) {
         var needle = event.currentTarget.dataset.value;
         if (needle.includes("'")) {
-            needle = needle.replace("'", "&#39;");
+            needle = needle.replace("'", '&#39;');
         }
         var newValue = this.ppRichText.replace(
             needle,
@@ -76,12 +90,12 @@ export default class PrivacyPolicyViewer extends LightningElement {
         generatePDF({
             ppId: this.tcId
         })
-            .then((result) => {
+            .then(result => {
                 console.log('dwnld: ' + result);
                 this.spinner.hide();
                 location.href = result;
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(JSON.stringify(error));
             });
     }
@@ -93,7 +107,15 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.spinner = this.template.querySelector('c-web-spinner');
             var myElement = this.template.querySelector('[data-id="text"]');
             myElement.innerHTML = this.ppRichText;
-            console.log('formFactor: ' + formFactor);
+            if (this.isRtl) {
+                this.headerLogoCss = 'headerAndLogo slds-size_1-of-1';
+                this.logoClass = 'logoRTL';
+                this.ppHeaderClass = 'ppHeaderRTL';
+                this.dateTextClass = 'dateTextRTL';
+                this.numberingStyle = 'margin-right: -12px;padding: 0px;';
+                this.vertNavClass = 'vertNavRTL';
+                this.textboxStyle = 'padding-left: 0px;word-break: break-word;';
+            }
             if (formFactor != 'Large') {
                 this.frmFactor = true;
                 this.template.querySelector('[data-id="vertNav"]').style.display = 'none';
@@ -116,7 +138,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 : null,
             useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC //this.defaultCommunityBoolean
         })
-            .then((result) => {
+            .then(result => {
                 let tcData = JSON.parse(result);
                 this.tcId = tcData.tc.Id;
                 this.ppRichText = tcData.tc.T_C_Text__c;
@@ -131,7 +153,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
                     return { name, sno: index + 1 };
                 });
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log(JSON.stringify(error));
             });
     }

@@ -9104,6 +9104,13 @@ The expected format is REF##### to REF########</value>
         <value>Show</value>
     </labels>
     <labels>
+        <fullName>Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Hide</shortDescription>
+        <value>Hide</value>
+    </labels>
+    <labels>
         <fullName>Low_density_Lipoprotein</fullName>
         <language>en_US</language>
         <protected>false</protected>
