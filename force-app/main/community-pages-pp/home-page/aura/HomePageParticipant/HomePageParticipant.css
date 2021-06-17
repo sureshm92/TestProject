@@ -3,7 +3,9 @@
  */
 .THIS {
 }
-
+.THIS .RTLReminder .slds-button_icon {
+    margin-left: 8rem;
+}
 /* @krishna Mahto- REF-2179 - start */
 .THIS .slds-form-element__icon {
     padding-top: 0;
