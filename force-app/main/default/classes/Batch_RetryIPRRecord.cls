@@ -18,19 +18,21 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
     global void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> lstIPRrecords) {
         List<Integration_Patient_Referral__c> lstIPRToUpdate = new List<Integration_Patient_Referral__c> ();
         IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler objCheckReq = new IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler();
-        
+        objCheckReq.setCTP_PrimaryKey_forBatch(lstIPRrecords);
         for(Integration_Patient_Referral__c objIPR : lstIPRrecords){ 
             
-            Boolean boolIPR = objCheckReq.checkFieldsForBatchValidation(objIPR);
-            if(boolIPR){
+            String strcheckValid = objCheckReq.checkFieldsForBatchValidation(objIPR);
+            if(strcheckValid == 'True'){
                 objIPR.Is_retry_required__c = false;
                 objIPR.Batch_consideration__c = 'Not completed';
+                objIPR.Error_Message__c = '';
             } 
             else{
                 objIPR.Is_retry_required__c = True;
                 objIPR.Retry_Count__c = objIPR.Retry_Count__c + 1;
                 Decimal reportCountDays = objIPR.Retry_Count__c / objMetadataRecord.Batch_Run_Frequency__c;
                 objIPR.Batch_consideration__c  = reportCountDays >= objMetadataRecord.Retry_Count__c ? 'Archieved' : 'Processing';
+                objIPR.Error_Message__c = strcheckValid;
             }
             lstIPRToUpdate.add(objIPR); 
         }
@@ -42,39 +44,43 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
                 system.debug('>>Issue with update in Batch_RetryIPRRecord '+ex.getMessage());
             }
         }
-                  
+        
     } 
     
-    public override virtual void finalAction() {        
-        Report report1 = [SELECT Id, Name, DeveloperName FROM Report where 
-                          DeveloperName = 'IPR_validation_Report_PwY' ];
+    public override virtual void finalAction() {    
         
-        List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
-        Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
-        List< Messaging.EmailFileAttachment> lstAttachment = new List< Messaging.EmailFileAttachment>();
-        
-        ApexPages.PageReference report22 = new ApexPages.PageReference('/'+report1.id+'?csv=1&isdtp=p1');
-        
-        Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
-        attachment.setFileName('EPRFailedReport.csv');
-        attachment.setBody(report22.getContent());
-        attachment.setContentType('text/csv');
-        Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
-        message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
-        message.setSubject(System.Label.Send_IPREmailReport_Subject);
-        OrgWideEmailAddress[] owea = [select Id from OrgWideEmailAddress where Address = 'updates@mail.clinicalresearch.com'];
-        
-        if ( owea.size() > 0 ) {
-            message.setOrgWideEmailAddressId(owea.get(0).Id);
+        List<Integration_Patient_Referral__c> lstIntegrationPatient = new List<Integration_Patient_Referral__c> ();
+        lstIntegrationPatient = [SELECT ID FROM Integration_Patient_Referral__c Where 
+                                 Is_retry_required__c = True AND Batch_consideration__c != 'Archieved' LIMIT 10];
+        if(lstIntegrationPatient.size() > 0){
+            Report report1 = [SELECT Id, Name, DeveloperName FROM Report where 
+                              DeveloperName = 'IPR_validation_Report_PwY' ];
+            
+            List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
+            Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
+            List< Messaging.EmailFileAttachment> lstAttachment = new List< Messaging.EmailFileAttachment>();
+            
+            ApexPages.PageReference report22 = new ApexPages.PageReference('/'+report1.id+'?csv=1&isdtp=p1');
+            
+            Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
+            attachment.setFileName('EPRFailedReport.csv');
+            attachment.setBody(report22.getContent());
+            attachment.setContentType('text/csv');
+            Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
+            message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
+            message.setSubject(System.Label.Send_IPREmailReport_Subject);
+            OrgWideEmailAddress[] owea = [select Id from OrgWideEmailAddress where Address = 'updates@mail.clinicalresearch.com'];
+            if ( owea.size() > 0 ) {
+                message.setOrgWideEmailAddressId(owea.get(0).Id);
+            }
+            message.setHtmlBody(System.Label.Send_IPREmailReport_Body); 
+            List<String> lstTooAddress = new List<String> ();
+            for(EPR_Validation_Message__mdt objMt : lstEmailRecord){
+                lstTooAddress.add(objMt.SendFailedIPRReport__c);
+            }
+            message.setToAddresses(lstTooAddress);
+            Messaging.sendEmail( new Messaging.SingleEmailMessage[] { message } ); 
         }
-        
-        message.setHtmlBody(System.Label.Send_IPREmailReport_Body); 
-        List<String> lstTooAddress = new List<String> ();
-        for(EPR_Validation_Message__mdt objMt : lstEmailRecord){
-            lstTooAddress.add(objMt.SendFailedIPRReport__c);
-        }
-        message.setToAddresses(lstTooAddress);
-        Messaging.sendEmail( new Messaging.SingleEmailMessage[] { message } ); 
     }
     
     
@@ -84,6 +90,13 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
     
     public override virtual String getBatchDescription() {
         return 'Retry Failed IPR records';
-    } 
+    }
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_HOURS;
+    }
+    
+    public override Integer getRecommendedRelaunchInterval() {
+        return 4;
+    }
     
 }
