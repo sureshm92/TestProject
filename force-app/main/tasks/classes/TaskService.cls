@@ -441,13 +441,13 @@ public without sharing class TaskService {
                     if (userTZ == null)
                         continue;
 
-                    Datetime userDatetime = DateTimeConverterUtil.getUserDT(
-                        Datetime.now().date(),
-                        Datetime.now().time(),
-                        userTZ
-                    );
+                        Datetime userDatetime = DateTimeConverterUtil.getUserDT(
+                            Datetime.now().dateGMT(),  
+                            Datetime.now().timeGmt(),  
+                            userTZ
+                        );
 
-                    tsc.startDate = userDatetime.date();
+                    tsc.startDate = userDatetime.dateGMT();
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
                         Integer daysBetween = Date.today().daysBetween(expiryDate);
