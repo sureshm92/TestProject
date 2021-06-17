@@ -341,7 +341,7 @@
 
     .THIS .logo-block .logo-sub-title {
         margin-top: -2rem;
-        z-index: 10000;
+        z-index: 100;
         position: relative;
         font-size: 0.875rem;
         line-height: 1.25rem;
