@@ -27,12 +27,12 @@
                 <div class="cf-link">
                     <aura:if isTrue="{!v.isGsk}">
                         <c:FooterLink
-                        label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}"
-                        link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
+                            label="{!if(or(empty(v.sponsor),v.defaultTC), '', v.sponsor + ' ') + $Label.c.Footer_Link_Privacy_Policy}"
+                            link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
                         />
-                    <aura:set attribute="else">
-                        <c:privacyPolicyViewer isCommunityFooter="true"/>
-                    </aura:set>
+                        <aura:set attribute="else">
+                            <c:privacyPolicyViewer isRtl="{!v.isRTL}" isCommunityFooter="true" />
+                        </aura:set>
                     </aura:if>
                 </div>
                 <div class="cf-link">

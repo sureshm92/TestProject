@@ -15,7 +15,19 @@
     padding-left: 4%;
     padding-top: 12%;
 }
+.vertNavRTL {
+    background: #f4f4f4;
+    margin: -12px 0px 0px -7px !important;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 4%;
+    padding-top: 12%;
+}
 .vertNav::-webkit-scrollbar {
+    display: none;
+}
+.vertNavRTL::-webkit-scrollbar {
     display: none;
 }
 .slds-wrap::-webkit-scrollbar {
@@ -84,6 +96,13 @@
     display: inline-block;
     float: left;
 }
+.logoRTL {
+    height: auto;
+    width: 15%;
+    display: inline-block;
+    float: right;
+    transform: scaleX(-1);
+}
 .dot {
     height: 27px;
     width: 27px;
@@ -128,6 +147,15 @@
     line-height: 17px;
     text-align: left;
 }
+.dateTextRTL {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: right;
+}
 .ppHeader {
     display: inline-block;
     margin-left: 1%;
@@ -135,6 +163,14 @@
     padding-top: 4px;
     vertical-align: top;
     float: left;
+}
+.ppHeaderRTL {
+    display: inline-block;
+    margin-right: 1%;
+    margin-top: 5px;
+    padding-top: 4px;
+    vertical-align: top;
+    float: right;
 }
 .closeIcon1 {
     fill: black;
