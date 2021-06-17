@@ -7,8 +7,16 @@
         <field>Integration_Patient_Referral__c.referralID__c</field>
     </columns>
     <columns>
-        <aggregateTypes>Sum</aggregateTypes>
-        <field>Integration_Patient_Referral__c.Retry_Count__c</field>
+        <field>Integration_Patient_Referral__c.ePRPatient_ID_Number__c</field>
+    </columns>
+    <columns>
+        <field>Integration_Patient_Referral__c.protocolId__c</field>
+    </columns>
+    <columns>
+        <field>Integration_Patient_Referral__c.siteSelected__c</field>
+    </columns>
+    <columns>
+        <field>Integration_Patient_Referral__c.Referred_Date__c</field>
     </columns>
     <columns>
         <field>Integration_Patient_Referral__c.Error_Message__c</field>
@@ -55,8 +63,6 @@
     <showDetails>true</showDetails>
     <showGrandTotal>true</showGrandTotal>
     <showSubTotals>true</showSubTotals>
-    <sortColumn>Integration_Patient_Referral__c.Retry_Count__c</sortColumn>
-    <sortOrder>Asc</sortOrder>
     <timeFrameFilter>
         <dateColumn>CUST_CREATED_DATE</dateColumn>
         <interval>INTERVAL_CUSTOM</interval>

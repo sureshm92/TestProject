@@ -19,6 +19,7 @@ import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
 import LOFI_LOGIN_ICONS from '@salesforce/resourceUrl/Lofi_Login_Icons';
+import formFactor from '@salesforce/client/formFactor';
 
 
 export default class PrivacyPolicyViewer extends LightningElement {
@@ -33,8 +34,10 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track pdfId;
     @track dwnldUrl;
     @track headerLogo;
+    @track headerAndLogoClass;
     @track lastUpdated;
     @track empNames = [];
+    @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
     defaultCommunityBoolean = true;
@@ -42,6 +45,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     attachment;
 
     headerLogo = LOFI_LOGIN_ICONS + '/favicon_darkblue_64.svg';
+    headerAndLogoClass = 'headerAndLogo slds-size_5-of-6';
     labels = {
         ppLabel,
         ppHeaderLabel,
@@ -53,19 +57,26 @@ export default class PrivacyPolicyViewer extends LightningElement {
         this.isModalOpen = true;
     }
     closeModal() {
-        this.isModalOpen = false;
+        //communityService.preLoginPageRedirection(window.location.href, '');
+        window.close();
     }
     navigateToHomePage(event) {
         var needle = event.currentTarget.dataset.value;
-
+        if (needle.includes("'")) {
+            needle = needle.replace("'", "&#39;");
+        }
         var newValue = this.ppRichText.replace(needle, needle + '<a data-id="imhere"></a>');
         this.template.querySelector('[data-id="text"]').innerHTML = newValue;
 
         var myElement = this.template.querySelector('[data-id="imhere"]');
-        if (myElement != null) myElement.scrollIntoView({
+        var headerOffset = 30;
+        var elementPosition = myElement.offsetTop; //getBoundingClientRect().top;
+        var offsetPosition = elementPosition - headerOffset;
+        this.template.querySelector('[data-id="bdyWrpr"]').scrollTop = offsetPosition;
+        /*if (myElement != null) myElement.scrollIntoView({
             behavior: "smooth",
             block: "center"
-        });
+        });*/
     }
 
 
@@ -89,6 +100,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
         }
         var myElement = this.template.querySelector('[data-id="text"]');
         myElement.innerHTML = this.ppRichText;
+        if (formFactor != 'Large') {
+            this.frmFactor = true;
+            this.headerAndLogoClass = 'headerAndLogo';
+            this.template.querySelector('[data-id="vertNav"]').style.display = 'none';
+            this.template.querySelector('[data-id="bdyWrpr"]').style.left = '0%';
+        } else {
+            this.frmFactor = false;
+        }
     }
     connectedCallback() {
         loadScript(this, RR_COMMUNITY_JS)
