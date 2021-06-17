@@ -54,3 +54,9 @@
     height: 16px;
     border-radius: 3px;
 }
+.slds-dropdown {
+    /* @noflip */
+    left: 50% !important;
+    /* @noflip */
+    right: unset !important;
+}

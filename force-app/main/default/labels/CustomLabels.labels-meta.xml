@@ -9043,7 +9043,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Lofi Login Footer Policies</shortDescription>
-        <value>Policies</value>
+        <value>Privacy Policy</value>
     </labels>
     <labels>
         <fullName>Lofi_Login_PP_Header</fullName>
@@ -9102,6 +9102,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Login_Form_Show</shortDescription>
         <value>Show</value>
+    </labels>
+    <labels>
+        <fullName>Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Hide</shortDescription>
+        <value>Hide</value>
     </labels>
     <labels>
         <fullName>Low_density_Lipoprotein</fullName>
@@ -16270,7 +16277,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_DuplicateUsernames</shortDescription>
-        <value>There are multiple usernames associated with your email address.Please choose the username that you would like to use.</value>
+        <value>There are multiple usernames associated with your email address. Please choose the username that you would like to use.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>
@@ -16496,7 +16503,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Merge</shortDescription>
-        <value>I would like to merge my existing accounts</value>
+        <value>I would like to merge my existing username</value>
     </labels>
     <labels>
         <fullName>PP_MergeDntTranslate</fullName>
@@ -19567,14 +19574,20 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send_IPREmailReport_Body</shortDescription>
-        <value>Please find the attached report for the failed EPR records.</value>
+        <value>Dear Team Member,&lt;br/&gt;&lt;br/&gt;
+        The report in this email contains records from ePR which were unable to be processed in Referral Hub due to validation errors. Please check the error report for further details and make any required changes. Referral Hub will attempt to reprocess these records at regular intervals for the next 30 days. &lt;br/&gt;
+        If the records are unable to be successfully processed after 30 days of retrials, they will be archived.
+        &lt;br/&gt;&lt;br/&gt;
+        
+        Thanks,&lt;br/&gt;
+        Referral Hub Team</value>
     </labels>
     <labels>
         <fullName>Send_IPREmailReport_Subject</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Send_IPREmailReport_Subject</shortDescription>
-        <value>EPR Failed Report</value>
+        <value>Action Required: Referral Hub- ePR records Validation Errors</value>
     </labels>
     <labels>
         <fullName>Sent_to_Study_Hub</fullName>

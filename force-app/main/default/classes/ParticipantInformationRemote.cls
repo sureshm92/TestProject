@@ -723,9 +723,10 @@ public without sharing class ParticipantInformationRemote {
                         SELECT Contact__c
                         FROM Patient_Delegate__c
                         WHERE
-                            Participant__c = :participantId
-                            AND (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                            OR Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS)
+                        Participant__c = :participantId
+                        AND Status__c != 'Withdrawn' //as per REF-2998(fix for REF-4222),delegate will come with status Disconnected, 
+                       /* AND (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        OR Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS) */
                     )
             ];
             return participants;

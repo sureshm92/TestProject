@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="FilterPanel" extends="c:CommunityContext">
+ <aura:component description="FilterPanel" extends="c:CommunityContext">
     <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
 
     <!-- attributes: -->    
@@ -78,8 +78,8 @@
                 </div>
             </div>
         </div>
-
-        <div class="fp-pagination-block slds-grid slds-wrap">
+   
+        <div class="{!v.isRTL? 'fp-pagination-blockRTL slds-grid slds-wrap':'fp-pagination-block slds-grid slds-wrap'}" >
             <div class="slds-col slds-size--7-of-12 slds-max-medium-size_1-of-1 fp-page-info">
                 <div class="filterLeft">
                     <aura:if isTrue="{!v.myParticipantPg}">

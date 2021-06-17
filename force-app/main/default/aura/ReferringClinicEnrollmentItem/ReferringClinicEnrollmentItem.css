@@ -106,13 +106,13 @@
 }
 
 .THIS .slds-dropdown_left {
-    left: auto;
-    right: 0;
+/* @noflip */ left: auto;
+ /* @noflip */   right: 0;
     
 }
 .THIS .xyg > .slds-dropdown_left {
-	right:auto;
-	left:0;
+	/* @noflip */ right:auto;
+/* @noflip */	left:0;
 }
 
 .THIS .last-iteration .slds-dropdown_left {

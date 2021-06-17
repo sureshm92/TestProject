@@ -11,6 +11,7 @@
 
     <!-- attributes: -->
     <aura:attribute name="pdfUrl" type="String" />
+    <aura:attribute name="showUserMatch" type="Boolean"/>
     <aura:attribute name="value" type="String"/>
     <aura:attribute name="usrName" type="String"/>
     <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
@@ -150,7 +151,7 @@
            </div>
             <aura:if isTrue="{!not(v.isDuplicate)}">
            <div class="slds-grid slds-size--1-of-1 ah-item-panel">
-               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
+               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}" disabled="{!v.showUserMatch}"></lightning:input>
                <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
                    {!$Label.c.PP_EmailMatch}</span></label>
 
@@ -175,7 +176,7 @@
                 <p class="duplicate-usernames">
                     <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
                     <aura:if isTrue="{!not(v.isDuplicate)}">
-                        <div class="slds-p-top_small slds-p-bottom_small"><b>{!$Label.c.PP_MatchUsr}</b></div>
+                        <div class="slds-p-top_small slds-p-bottom_small attempt_to_match"><b>{!$Label.c.PP_MatchUsr}</b></div>
                     </aura:if>
             </p> 
         </div>
@@ -196,7 +197,7 @@
             
     <div class="slds-grid">
         <div class="slds-col slds-medium-size--1-of-1 slds-large-size--1-of-1 center">
-         <button class="apollo-btn secondary ah-button" onclick="{!c.doCreateYOBCase}" disabled="{!v.disableSave}">
+         <button class="apollo-btn secondary ah-button mr_20" onclick="{!c.doCreateYOBCase}" disabled="{!v.disableSave}">
                        {!$Label.c.PP_Submit_Button}
                     </button>
         </div>
