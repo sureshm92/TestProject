@@ -27,7 +27,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         
     }
     
-    public void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> scope) {
+	public void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> initialScope) {
         eprBatchRunning = true;
         Map<String, Study_Site__c> ssByPrimaryKeyEPRMap = new Map<String, Study_Site__c>();
         Map<String, Clinical_Trial_Profile__c> ctpByProtocolIdMap = new Map<String, Clinical_Trial_Profile__c>();
@@ -40,14 +40,19 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         List<String> ssNumbersList = new List<String>();
         Set<Participant__c> duplicatePatientsList = new Set<Participant__c>();
         Set<Id> duplicatePatientsSet = new Set<Id>();
+        List<String> uniqueIPRList = new List<String>();
+        List<Integration_Patient_Referral__c> scope = new List<Integration_Patient_Referral__c>();
         
-        for (Integration_Patient_Referral__c ipr : scope) {
-            ipr.Batch_consideration__c = 'Completed';
-            protocolIds.add(ipr.protocolId__c);
-            ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
-            newMap.put(ipr.referralID__c, ipr);
+        for (Integration_Patient_Referral__c ipr : initialScope) {
+            if(!uniqueIPRList.contains(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c)){
+                ipr.Batch_consideration__c = 'Completed';
+                protocolIds.add(ipr.protocolId__c);
+                ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+                newMap.put(ipr.referralID__c, ipr);
+                scope.add(ipr);
+                uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
+            }
         }
-        //update scope;
         
         //SS Map
         List<Study_Site__c> ssList = [
@@ -59,6 +64,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Site__c,
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+            Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Suppress_Participant_Emails__c
             FROM Study_Site__c
             WHERE Primary_Key_ePR__c IN :ssNumbersList
@@ -78,7 +84,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
         Participant__c participantExisting;
         
-        for (Integration_Patient_Referral__c ipr : scope) {           
+        for (Integration_Patient_Referral__c ipr : scope) { 
+            
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             Participant__c objParticipant = IprEprTriggerHandler.convertToParticipant(ipr);
             Account participantAccount = new Account(Id = ss.Site__c);
@@ -183,7 +190,9 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             newParticipantsMap.get(participantsByEmailRefid.get(newContact.Email)).Contact__c = newContact.Id;    
         }
         
-        upsert newParticipantsMap.values();
+        Set<Participant__c> newParticipantsSet = new Set<Participant__c>(newParticipantsMap.values());
+        List<Participant__c> newParticipantsList = new List<Participant__c>(newParticipantsSet);
+        upsert newParticipantsList;
         
         //Insert PE
         List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
@@ -195,7 +204,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Study_Site__c ss = ssByPrimaryKeyEPRMap.get(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
             participant.Site__c = ss.Site__c;
             if (ss != null)
-                peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id));
+                peList.add(IprEprTriggerHandler.createPE(ipr, participant.Id, ss.Id,ss,participant.Adult__c));
         }
         List<String> PEErrorMsg = new List<String>();
         List<Database.SaveResult> saveResults = Database.insert(peList, false);
@@ -231,8 +240,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         if (!newDelegateContactsMap.isEmpty()) {
             for(String ref : newParticipantsMap.keySet()){
                 if(!duplicatePatientsSet.contains(newParticipantsMap.get(ref).Id) || participantsWithoutErrors.contains(newParticipantsMap.get(ref).Id)){
-                    IprEprTriggerHandler.ContactAndSiteType cnt =  newDelegateContactsMap.get(ref); 
-                    cntList.add(cnt);
+                    if(newDelegateContactsMap.containsKey(ref)){
+                        IprEprTriggerHandler.ContactAndSiteType cnt =  newDelegateContactsMap.get(ref); 
+                        cntList.add(cnt);
+                    }
                 }
             }
             
@@ -263,17 +274,19 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
             IprEprTriggerHandler.ContactAndSiteType participantDelegateContactAndSiteType = newDelegateContactsMap.get(ipr.referralID__c);
+            
             if(participantsWithoutErrors.contains(participant.Id)){
                 if (participantDelegateContactAndSiteType != null){
-                    if(!(oldContactEmailMap.keyset().contains(participantDelegateContactAndSiteType.contactObj.email))){
-                        Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
-                        delegateParticipantsMap.put(
+                    delegateParticipantsMap.put(
                             participant.Id,
                             IprEprTriggerHandler.createDelegateParticipant(
-                                participantDelegateContact,
+                                participantDelegateContactAndSiteType.contactObj,
                                 ipr.Delegate_Phone_Number_Type__c
                             )
                         );
+                    if(!(oldContactEmailMap.keyset().contains(participantDelegateContactAndSiteType.contactObj.email))){
+                        Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
+
                         participantIdByParticipantDelegateContactId.put(
                             participantDelegateContact.Id,
                             participant.Id
@@ -288,6 +301,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     }
                 }
             }
+            
         }
         
         //Duplicate delegate logic
