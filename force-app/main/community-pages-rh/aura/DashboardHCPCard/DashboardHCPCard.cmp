@@ -23,7 +23,9 @@
                 {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name}
                 <!-- @Krishna Mahto - REF-1600 -->
             </div>
-            <c:uiHeaderMenu aura:id="menuId" class="accept-btn">
+           
+
+            <c:uiHeaderMenu aura:id="menuId" class="accept-btn" >
                 <aura:set attribute="title">
                     <div class="apollo-btn secondary slds-align-bottom">
                         <div data-gtm="BTN_Accept_RP">{!$Label.c.BTN_Accept}</div>
@@ -31,10 +33,10 @@
                     </div>
                 </aura:set>
                 <aura:if isTrue="{!v.hcpe.data.Status__c !='Orientation Pending'}">
-                    <div data-gtm="BTN_Activate">
+                    <div data-gtm="BTN_Activate" style="{!if(v.isRTL, 'right: -140px;',' ')}">
                         <c:uiMenuItem label="{!$Label.c.BTN_Activate}" onclick="{!c.doActivate}" />
                     </div>
-                    <div data-gtm="BTN_Activate_All">
+                    <div data-gtm="BTN_Activate_All" style="{!if(v.isRTL, 'right: -140px;',' ')}">
                         <c:uiMenuItem
                             label="{!$Label.c.BTN_Activate_All}"
                             onclick="{!c.doActivateAll}"
