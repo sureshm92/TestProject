@@ -3,7 +3,10 @@
  */
 .THIS {
 }
-
+.THIS .RTLReminder .slds-button_icon {
+    /* @noflip */
+    margin-left: 8rem;
+}
 /* @krishna Mahto- REF-2179 - start */
 .THIS .slds-form-element__icon {
     padding-top: 0;
@@ -23,17 +26,20 @@
 }
 
 .THIS.rtl .hp-welcome-msg {
-  /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 .THIS.rtl {
-  /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 .THIS.rtl .main-layout {
     flex-direction: row-reverse;
 }
 
 .THIS.rtl .logo-text {
-   /* @noflip */  direction: rtl;
+    /* @noflip */
+    direction: rtl;
 }
 
 .THIS.rtl .apollo-btn.primary.dark .rr-icon-default {
@@ -108,7 +114,6 @@
     .THIS.rtl .main-layout {
         flex-direction: column-reverse;
     }
-
 }
 
 @media all and (max-width: 500px) {
@@ -119,5 +124,4 @@
     .THIS .apollo-btn.primary.dark {
         width: 100%;
     }
-
 }

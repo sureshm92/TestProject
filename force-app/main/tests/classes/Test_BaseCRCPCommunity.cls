@@ -935,9 +935,11 @@ private class Test_BaseCRCPCommunity {
             ApplicationHelpRemote.validateAgeOfMajority('1995');
             ApplicationHelpRemote.validateAgeOfMajority('2021');
             List<LabelValueItem> lb = ApplicationHelpRemote.validateUsername();
-            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
-            ApplicationHelpRemote.createYOBCase('1995',false,'test1992@fmail.com','1994');
-            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994');
+            List<String> usrList = new List<String>();
+            usrList.add('test@test.com');
+            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994',false,usrList);
+            ApplicationHelpRemote.createYOBCase('1995',false,'test1992@fmail.com','1994',true,usrList);
+            ApplicationHelpRemote.createYOBCase('1995',true,'test1992@fmail.com','1994',true,usrList);
             System.assert(lb!=null);
         }
         Test.stopTest();

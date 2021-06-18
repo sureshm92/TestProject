@@ -49,7 +49,7 @@
                                 role="gridcell"
                                 style="width: 3.25rem"
                             >
-                                <div class="slds-checkbox">
+                                <div class="{!v.isRTL? 'slds-text-align_right slds-checkbox':'slds-checkbox'}">
                                     <lightning:input
                                         label=""
                                         type="checkbox"

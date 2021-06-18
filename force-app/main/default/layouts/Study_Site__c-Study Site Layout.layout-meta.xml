@@ -109,6 +109,10 @@
                 <behavior>Edit</behavior>
                 <field>Suppress_Participant_Emails__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Scheduling_vendors__c</field>
+            </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
             </layoutItems>
