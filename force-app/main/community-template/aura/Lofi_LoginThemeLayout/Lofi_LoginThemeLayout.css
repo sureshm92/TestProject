@@ -48,7 +48,7 @@
 .THIS .logo-block {
     margin: auto;
     margin-top: 2rem;
-  /*  min-width: 31.25rem; */
+    /*  min-width: 31.25rem; */
 }
 
 .THIS .logo-block + .slds-col {
@@ -252,44 +252,40 @@
 }
 
 @media all and (max-width: 1080px) {
-    
     .THIS .logo-block {
         margin-top: 0;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center {
+
+    .THIS .logo-block > .slds-align_absolute-center {
         width: 100%;
         flex-direction: column;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center.logo-sub-title {
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
         width: 80%;
         margin-top: -1rem;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
         width: 50%;
         text-align: center;
     }
-    
+
     .THIS .header-title {
         text-align: left;
-        padding-left: .75rem;
-        margin-top: .875rem;
+        padding-left: 0.75rem;
+        margin-top: 0.875rem;
     }
-    
-     .THIS .main-logo {
+
+    .THIS .main-logo {
         margin: 20px 0 40px 0;
     }
-    
-    
 }
 
 @media all and (max-width: 900px) {
-	.THIS .logo-block>.slds-align_absolute-center>.slds-col {
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
         width: 65%;
     }
-
 }
 
 @media all and (min-width: 768px) {
@@ -310,30 +306,28 @@
     .THIS.mobile-content .logo-sub-title-mobile {
         width: auto;
     }
-    
-	.THIS.mobile-content .appTitles {
-		margin: 0;
+
+    .THIS.mobile-content .appTitles {
+        margin: 0;
         width: auto;
     }
-    
+
     .THIS.mobile-content .body-content {
-        
     }
 }
 
 @media all and (max-height: 776px) {
-    
     .THIS .logo-block {
-    	margin-top: 0;    
+        margin-top: 0.875rem;
     }
-    
+
     .THIS .slds-col.slds-large-size_4-of-7 img {
         margin-top: -90px;
     }
-    
+
     .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
         width: 20.5rem;
-    }   
+    }
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
         margin-top: -1.75rem;
@@ -347,7 +341,7 @@
 
     .THIS .logo-block .logo-sub-title {
         margin-top: -2rem;
-        z-index: 10000;
+        z-index: 100;
         position: relative;
         font-size: 0.875rem;
         line-height: 1.25rem;
@@ -411,7 +405,7 @@
 
 @media all and (max-height: 776px) and (max-width: 486px) {
     .THIS .body-content {
-        margin-top: 1.5rem;;
+        margin-top: 1.5rem;
     }
 }
 
