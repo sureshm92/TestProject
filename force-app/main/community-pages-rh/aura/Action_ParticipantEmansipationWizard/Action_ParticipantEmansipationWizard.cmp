@@ -604,7 +604,7 @@
          <aura:if isTrue="{!v.currentTab == '1'}">
              <aura:if isTrue="{!v.isRTL}">
                   <div
-                 class="rr-form-element slds-no-label "
+                 class="rr-form-element slds-no-label slds-float--left"
                  style="margin-right: -411px;margin-bottom: -30px;"
              >
                  <div class="rr-cb-container">
