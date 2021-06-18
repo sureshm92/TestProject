@@ -6,11 +6,11 @@
     <!-- attributes:-->
     <aura:attribute name="piData" type="Object" />
     <aura:attribute name="pIStudySiteRank" type="List" />
-
+    
     <!-- handlers: 
     <aura:handler name="init" value="{!this}" action="{!c.doinit}"/>
     <aura:handler name="change" value="{!v.piData}" action="{!c.doinit}"/>
-	-->
+ -->
     <!-- component body -->
     <div>
         <div class="slds-grid">
@@ -20,9 +20,9 @@
             </div>
             <div class="slds-col slds-size_1-of-5 flagdiv">
                 <lightning:icon
-                    src="{! $Resource.Flags + '#'+v.pIStudySiteRank[0].location}"
-                    alternativeText="{!v.pIStudySiteRank[0].location}"
-                />
+                                src="{! $Resource.Flags + '#'+v.pIStudySiteRank[0].location}"
+                                alternativeText="{!v.pIStudySiteRank[0].location}"
+                                />
             </div>
         </div>
         <div class="topsiteblock">
@@ -64,8 +64,8 @@
                         <aura:set attribute="else">
                             {!$Label.c.Dashboard_Randomized}:
                             <span class="digit-span"
-                                >{!v.pIStudySiteRank[0].enrolled_randomized}</span
-                            >
+                                  >{!v.pIStudySiteRank[0].enrolled_randomized}</span
+                                >
                         </aura:set>
                     </aura:if>
                 </div>
@@ -73,75 +73,75 @@
         </div>
         <aura:if isTrue="{!v.pIStudySiteRank[1]}">
             <aura:if isTrue="{!v.isRTL}">
-                 <div class="bottomdiv">
-                <div class="slds-clearfix">
-                    
-                    <span class="slds-float_left othertopsite1">{!$Label.c.Dashboard_Rank}</span>
-                    <span class="{!v.isRTL? 'slds-float_right othertopsite1RTL':'slds-float_right othertopsite1'}">
-                        {!$Label.c.Dashboard_PI_Other_Sites}</span>
+                <div class="bottomdiv">
+                    <div class="slds-clearfix">
+                        <span class="{!v.isRTL? 'slds-float_left othertopsite1RTL':'slds-float_right othertopsite1'}">
+                            {!$Label.c.Dashboard_PI_Other_Sites}</span>
+                        <span class="slds-float_right othertopsite1">{!$Label.c.Dashboard_Rank}</span>
+                        
+                    </div>
+                    <div class="slds-clearfix">
+                        <span class="slds-float_left othertopsite2"
+                              >{!v.pIStudySiteRank[1].site_Name}</span
+                            >
+                        <span class="slds-float_right othertopsite2rank"
+                              >{!v.pIStudySiteRank[1].rank}</span
+                            >
+                    </div>
+                    <div class="slds-clearfix">
+                        <span class="slds-float_left othertopsite2"
+                              >{!v.pIStudySiteRank[2].site_Name}</span
+                            >
+                        <span class="slds-float_right othertopsite2rank"
+                              >{!v.pIStudySiteRank[2].rank}</span
+                            >
+                    </div>
+                    <div class="slds-clearfix">
+                        <span class="slds-float_left othertopsite2"
+                              >{!v.pIStudySiteRank[3].site_Name}</span
+                            >
+                        <span class="slds-float_right othertopsite2rank"
+                              >{!v.pIStudySiteRank[3].rank}</span
+                            >
+                    </div>
                 </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_right othertopsite2"
-                        >{!v.pIStudySiteRank[1].site_Name}</span
-                    >
-                    <span class="slds-float_left othertopsite2rank"
-                        >{!v.pIStudySiteRank[1].rank}</span
-                    >
-                </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_right othertopsite2"
-                        >{!v.pIStudySiteRank[2].site_Name}</span
-                    >
-                    <span class="slds-float_left othertopsite2rank"
-                        >{!v.pIStudySiteRank[2].rank}</span
-                    >
-                </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_right othertopsite2"
-                        >{!v.pIStudySiteRank[3].site_Name}</span
-                    >
-                    <span class="slds-float_left othertopsite2rank"
-                        >{!v.pIStudySiteRank[3].rank}</span
-                    >
-                </div>
-            </div>
                 <aura:set attribute="else">
-                     <div class="bottomdiv">
-                <div class="slds-clearfix">
-                    <span class="slds-float_left othertopsite1"
-                        >{!$Label.c.Dashboard_PI_Other_Sites}</span
-                    >
-                    <span class="slds-float_right othertopsite1">{!$Label.c.Dashboard_Rank}</span>
-                </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_left othertopsite2"
-                        >{!v.pIStudySiteRank[1].site_Name}</span
-                    >
-                    <span class="slds-float_right othertopsite2rank"
-                        >{!v.pIStudySiteRank[1].rank}</span
-                    >
-                </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_left othertopsite2"
-                        >{!v.pIStudySiteRank[2].site_Name}</span
-                    >
-                    <span class="slds-float_right othertopsite2rank"
-                        >{!v.pIStudySiteRank[2].rank}</span
-                    >
-                </div>
-                <div class="slds-clearfix">
-                    <span class="slds-float_left othertopsite2"
-                        >{!v.pIStudySiteRank[3].site_Name}</span
-                    >
-                    <span class="slds-float_right othertopsite2rank"
-                        >{!v.pIStudySiteRank[3].rank}</span
-                    >
-                </div>
-            </div>
+                    <div class="bottomdiv">
+                        <div class="slds-clearfix">
+                            <span class="slds-float_left othertopsite1"
+                                  >{!$Label.c.Dashboard_PI_Other_Sites}</span
+                                >
+                            <span class="slds-float_right othertopsite1">{!$Label.c.Dashboard_Rank}</span>
+                        </div>
+                        <div class="slds-clearfix">
+                            <span class="slds-float_left othertopsite2"
+                                  >{!v.pIStudySiteRank[1].site_Name}</span
+                                >
+                            <span class="slds-float_right othertopsite2rank"
+                                  >{!v.pIStudySiteRank[1].rank}</span
+                                >
+                        </div>
+                        <div class="slds-clearfix">
+                            <span class="slds-float_left othertopsite2"
+                                  >{!v.pIStudySiteRank[2].site_Name}</span
+                                >
+                            <span class="slds-float_right othertopsite2rank"
+                                  >{!v.pIStudySiteRank[2].rank}</span
+                                >
+                        </div>
+                        <div class="slds-clearfix">
+                            <span class="slds-float_left othertopsite2"
+                                  >{!v.pIStudySiteRank[3].site_Name}</span
+                                >
+                            <span class="slds-float_right othertopsite2rank"
+                                  >{!v.pIStudySiteRank[3].rank}</span
+                                >
+                        </div>
+                    </div>
                 </aura:set>
             </aura:if>
-
-           
+            
+            
         </aura:if>
     </div>
 </aura:component>
