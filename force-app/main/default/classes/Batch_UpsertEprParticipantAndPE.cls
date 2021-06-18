@@ -64,6 +64,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             Site__c,
             Override_PI_Referral_Status__c,
             Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,
+            Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,
             Suppress_Participant_Emails__c
             FROM Study_Site__c
             WHERE Primary_Key_ePR__c IN :ssNumbersList
