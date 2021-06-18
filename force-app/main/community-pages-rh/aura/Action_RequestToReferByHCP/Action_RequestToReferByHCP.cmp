@@ -2,46 +2,48 @@
  - Created by Kryvolap on 26.03.2019.
  -->
 
-<aura:component
-    description="Action_RequestToReferByHCP"
-    controller="Action_RequestToReferByHCPRemote"
+ <aura:component
+ description="Action_RequestToReferByHCP"
+ controller="Action_RequestToReferByHCPRemote"
 >
-    <!-- attributes: -->
-    <aura:attribute name="study" type="Object" />
-    <aura:attribute name="refreshSource" type="Aura.Component" />
+ <!-- attributes: -->
+ <aura:attribute name="study" type="Object" />
+ <aura:attribute name="refreshSource" type="Aura.Component" />
 
-    <!-- methods: -->
-    <aura:method name="execute" action="{!c.doExecute}" access="public">
-        <aura:attribute name="study" type="Object" />
-        <aura:attribute name="studySiteId" type="Object" />
-        <aura:attribute name="hcpeId" type="Object" />
-        <aura:attribute name="refreshSource" type="Aura.Component" />
-        <aura:attribute name="delegateId" type="String" />
-    </aura:method>
+ <!-- methods: -->
+ <aura:method name="execute" action="{!c.doExecute}" access="public">
+     <aura:attribute name="study" type="Object" />
+     <aura:attribute name="studySiteId" type="Object" />
+     <aura:attribute name="hcpeId" type="Object" />
+     <aura:attribute name="refreshSource" type="Aura.Component" />
+     <aura:attribute name="delegateId" type="String" />
+ </aura:method>
 
-    <!-- component body -->
-    <c:Popup
-        aura:id="requestReferralDialog"
-        showModal="false"
-        title="{!$Label.c.PG_ASSR_T_Study_Site_Request_Sent}"
-        size="medium"
-        showFooter="true"
-    >
-        <div class="modal-dialog-body success">
-            <c:RRIcon iconName="icon-check-circle" />
-            <div class="main-message">{!$Label.c.PG_ASSR_L_Success_Message}</div>
-            <div class="header">{!$Label.c.PG_ASSR_L_What_happens_next}</div>
-            <aura:if isTrue="{!v.study.Orientation_Required__c}">
-                <div class="text">{!$Label.c.PG_ASSR_L_Orientation_Required}</div>
-                <aura:set attribute="else">
-                    <div class="text">{!$Label.c.PG_ASSR_L_No_Orientation_Required}</div>
-                </aura:set>
-            </aura:if>
-        </div>
-        <aura:set attribute="footerButtons">
-            <button class="apollo-btn secondary" onclick="{!c.doCloseDialogs}">
-                {!$Label.c.BTN_Okay}
-            </button>
-        </aura:set>
-    </c:Popup>
+ <!-- component body -->
+ <c:PopupRTL
+     aura:id="requestReferralDialog"
+     showModal="false"
+     title="{!$Label.c.PG_ASSR_T_Study_Site_Request_Sent}"
+     size="medium"
+     showFooter="true"
+ >
+     <div class="modal-dialog-body success">
+         <c:RRIcon iconName="icon-check-circle" />
+         <div class="main-message">{!$Label.c.PG_ASSR_L_Success_Message}</div>
+         <div class="header">{!$Label.c.PG_ASSR_L_What_happens_next}</div>
+         <aura:if isTrue="{!v.study.Orientation_Required__c}">
+             <div class="text">{!$Label.c.PG_ASSR_L_Orientation_Required}</div>
+             <aura:set attribute="else">
+                 <div class="text">{!$Label.c.PG_ASSR_L_No_Orientation_Required}</div>
+             </aura:set>
+         </aura:if>
+     </div>
+     <aura:set attribute="footerButtons">
+          <span style="{!v.isRTL? 'float: right': ' '}">
+         <button class="apollo-btn secondary" onclick="{!c.doCloseDialogs}">
+             {!$Label.c.BTN_Okay}
+         </button>
+         </span>
+     </aura:set>
+ </c:PopupRTL>
 </aura:component>
