@@ -64,7 +64,7 @@
                     </div>
                     <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
                         <div class="icon-settings-box" style="{!if(v.isRTL, 'margin-left: 10px;','')}">
-                            <div style="{!if(v.isRTL, 'margin-left: 20px;','')}">
+                            <div style="{!if(v.isRTL, 'margin-left: 30px;','')}">
                                 <c:menuItemButton
                                 class="icon-delegate"
                                 iconName="delegate"
