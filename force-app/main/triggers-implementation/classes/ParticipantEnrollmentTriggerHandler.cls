@@ -879,12 +879,13 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             }
         }
         List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
-        List<Participant_Enrollment__c> perDetailedList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById  FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
+        List<Participant_Enrollment__c> perDetailedList = [SELECT Id, Name, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c,Initial_visit_scheduled_date__c, Initial_visit_scheduled_time__c, LastModifiedById  FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
         List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
         for (Participant_Enrollment__c pe: perDetailedList){
             LL_RH_event__e llrhEvent = new LL_RH_event__e();
             llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
             llrhEvent.Status__c = 'New';
+            llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(pe.Initial_visit_scheduled_date__c) + String.valueOf(pe.Initial_visit_scheduled_time__c);
             myPElist.add(llrhEvent);
         }
         EventBus.publish(myPElist);
@@ -913,7 +914,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Datetime dt = datetime.now();
         List<Participant_Enrollment__c > perFinalList = new List<Participant_Enrollment__c >();
         List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
-        List<Participant_Enrollment__c > perList = [SELECT Id, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
+        List<Participant_Enrollment__c > perList = [SELECT Id, Name, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
 
         List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
 
@@ -923,14 +924,15 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 if((pe.Initial_visit_scheduled_date__c == Date.today() && pe.Initial_visit_scheduled_time__c > dt.timeGmt()) || (pe.Initial_visit_scheduled_date__c > Date.today())){
                     llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
                     llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                    llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(pe.Initial_visit_scheduled_date__c) + String.valueOf(pe.Initial_visit_scheduled_time__c);
                     myPElist.add(llrhEvent);
                 }
             }else if(idToStatusMap.get(pe.Id) == 'Cancel'){
                 llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
                 llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_date__c) + String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_time__c);
                 myPElist.add(llrhEvent);
             }
-            
         }
         EventBus.publish(myPElist);
     }
