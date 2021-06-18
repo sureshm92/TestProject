@@ -63,7 +63,7 @@
                         {!$Label.c.Referral_Hub_Views}
                     </div>
                     <aura:if isTrue="{!v.communityModes.isRHItemsSelected}">
-                        <div class="icon-settings-box" style="{!if(v.isRTL, 'margin-left: 10px;','')}">
+                        <div class="icon-settings-box" style="{!if(v.isRTL, 'margin-left: 30px;','')}">
                             <div style="{!if(v.isRTL, 'margin-left: 20px;','')}">
                                 <c:menuItemButton
                                 class="icon-delegate"
