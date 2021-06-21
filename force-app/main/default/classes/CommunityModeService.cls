@@ -727,7 +727,10 @@ public without sharing class CommunityModeService {
             baseFilter += ' AND ' + filter;
         }
         if(isDelegate == false){
-            baseFilter += ' AND Invited_To_PP_Date__c !=null';
+          baseFilter += ' AND Invited_To_PP_Date__c !=null';  
+        }else{
+         baseFilter += ' AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true' +
+             		' AND Study_Site__r.Study_Site_Type__c != \'Virtual\' AND Study_Site__r.Study_Site_Type__c != \'Hybrid\'';     
         }
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
             new List<String>{
