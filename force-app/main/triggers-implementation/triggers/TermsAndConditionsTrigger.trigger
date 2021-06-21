@@ -27,6 +27,7 @@ trigger TermsAndConditionsTrigger on Terms_And_Conditions__c(
             if(Trigger.newMap.get( tcId ).T_C_Type__c == 'Privacy Policy' )
             {
                 ppMap.put(tcId, Trigger.newMap.get( tcId ));
+                privacyPolicyRecordIds.add(tcId);
             }
         }
     }
