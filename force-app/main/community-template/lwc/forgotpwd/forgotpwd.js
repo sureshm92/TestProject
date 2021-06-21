@@ -91,7 +91,6 @@ export default class Forgotpwd extends NavigationMixin(LightningElement) {
                                 name: 'Login'
                             },
                             state: {
-                                c__timeDifference: returnValue['timeDifference'],
                                 c__username: this.usrnameval
                             }
                         });

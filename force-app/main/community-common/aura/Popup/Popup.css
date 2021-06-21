@@ -7,10 +7,12 @@
     visibility: visible;
 }
 
-.THIS .btnRTL {
-   /* @noflip */  right: 96% !important;
-    top: 1px !important;
-}
+/*.THIS .btnRTL {
+ @noflip 
+right: 94% !important;
+top: 1px !important;
+} */
+
 
 .THIS #p-modal .p-container {
     position: fixed;

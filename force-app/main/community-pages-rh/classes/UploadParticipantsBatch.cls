@@ -203,6 +203,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
             
+            List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> patientdelegateUpdateList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
+            List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> sendpatientdelegate = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
             //List created to handle REF-3951
@@ -903,6 +905,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.DelegateAgeOfMajority = DelegateAgeOfMajority; 
                             delegateWrap.DelegateYOB = DelegateYOB;
                             delegateWrapList.add(delegateWrap);
+                            patientdelegateUpdateList.add(delegateWrap);
                         }
                         //Ends : Delegate wrapper creation
 
@@ -1414,6 +1417,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
             //user creation ends
 
+            if(!patientdelegateUpdateList.isEmpty()){
+                for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: patientdelegateUpdateList){
+                                  sendpatientdelegate.add(d);
+                          }
+                      }
+
             //call UploadParticipantsDelegateHelper class to create delegates
             if (!delegateWithpartList.isEmpty()){
                 UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
@@ -1423,6 +1432,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
+            if (!sendpatientdelegate.isEmpty()){
+                UploadParticipantsDelegateHelper.updateDelegateRecords(sendpatientdelegate);
+               }
 
             //for Adult participants which have delegates for one study but not for other REF-3566
  else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){                

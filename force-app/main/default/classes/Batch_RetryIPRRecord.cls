@@ -1,4 +1,4 @@
-global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
+public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
     
     public static final EPR_Validation_Message__mdt objMetadataRecord = [SELECT Retry_Count__c,Batch_Run_Frequency__c
                                                                          FROM EPR_Validation_Message__mdt WHERE Error_Message__c = '' LIMIT 1];
@@ -7,7 +7,7 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
                                                                             And Error_Message__c = ''];
     
     
-    global Database.QueryLocator start(Database.BatchableContext bc) {
+    public Database.QueryLocator start(Database.BatchableContext bc) {
         String strQuery = 'SELECT ID,Batch_consideration__c,Is_retry_required__c,Error_Message__c,Address_Country__c,address_state__c,Retry_Count__c';
         strQuery += ' ,Delegate_Mailing_State__c,Language_Preference__c,protocolId__c,siteSelected__c,Report_Count_Days__c FROM Integration_Patient_Referral__c';
         strQuery += ' WHERE Is_retry_required__c = True AND Batch_consideration__c != \'Archieved\' ' ;
@@ -15,7 +15,7 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
         return Database.getQueryLocator(strQuery);
     }
     
-    global void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> lstIPRrecords) {
+    public void execute(Database.BatchableContext bc, List<Integration_Patient_Referral__c> lstIPRrecords) {
         List<Integration_Patient_Referral__c> lstIPRToUpdate = new List<Integration_Patient_Referral__c> ();
         IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler objCheckReq = new IprEprTriggerHandler.CheckRequiredFieldsAndUpsertParticipantAndPEHandler();
         objCheckReq.setCTP_PrimaryKey_forBatch(lstIPRrecords);
@@ -85,18 +85,18 @@ global class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
     
     
     public override Type getType() {
-        return Batch_prepareSuspeciousPEReport.class;
+        return Batch_RetryIPRRecord.class;
     } 
     
     public override virtual String getBatchDescription() {
         return 'Retry Failed IPR records';
     }
-    public override String getRecommendedIntervalMode() {
+   /* public override String getRecommendedIntervalMode() {
         return Batch_ScheduledAbstract.INTERVAL_HOURS;
     }
     
     public override Integer getRecommendedRelaunchInterval() {
         return 4;
-    }
+    } */
     
 }

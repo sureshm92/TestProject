@@ -51,7 +51,7 @@
  <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
 
  <!-- component body: -->
- <c:Popup
+ <c:PopupRTL
      aura:id="dialog"
      title="{!$Label.c.SS_Confirm_and_Manage}"
      size="large"
@@ -602,7 +602,24 @@
 
      <aura:set attribute="footerButtons">
          <aura:if isTrue="{!v.currentTab == '1'}">
-             <div
+             <aura:if isTrue="{!v.isRTL}">
+                  <div
+                 class="rr-form-element slds-no-label slds-float--left"
+                 style="margin-right: -411px;margin-bottom: -30px;"
+             >
+                 <div class="rr-cb-container">
+                     <lightning:input
+                         type="checkbox"
+                         label=""
+                         checked="{!v.contact.Consent_To_Inform_About_Study__c}"
+                     />
+                 </div>
+                 <div class="label rr-cb-label">
+                     {!$Label.c.PG_Ref_L_Participant_require_optional_email}
+                 </div>
+             </div>
+                 <aura:set attribute="else">
+                  <div
                  class="rr-form-element slds-no-label slds-float--left"
                  style="margin-left: 12px; margin-top: 5px"
              >
@@ -617,6 +634,10 @@
                      {!$Label.c.PG_Ref_L_Participant_require_optional_email}
                  </div>
              </div>
+                 </aura:set>
+             </aura:if>
+             
+            
          </aura:if>
          <aura:if isTrue="{!v.currentTab == '4'}">
              <div
@@ -659,5 +680,5 @@
              </span>
          </div>
      </aura:set>
- </c:Popup>
+ </c:PopupRTL>
 </aura:component>

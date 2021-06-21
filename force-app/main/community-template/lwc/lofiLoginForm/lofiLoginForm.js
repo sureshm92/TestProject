@@ -70,8 +70,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.rtlStyle = 'direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
-                    this.applyPaddingLogin = 'padding-right: 2em';
-                    this.applyPaddingPassword = 'padding-right: 0.3125em';
                     this.errorIconPosition = 'margin-right: -2.5em';
                     this.erroContainerPosition = 'margin-right: 0.5em';
                     console.log(
@@ -83,8 +81,6 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 } else {
                     this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
-                    this.applyPaddingLogin = 'padding-left: 2em';
-                    this.applyPaddingPassword = 'padding-left: 0.3125em';
                     this.errorIconPosition = 'margin-left: -2.5em';
                     this.erroContainerPosition = 'margin-left: 0.5em';
                 }
@@ -139,12 +135,20 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
-        let timeDiff = this.currentPageReference.state.c__timeDifference;
-
-        if (timeDiff) {
-            this.timeLeft = Number(timeDiff);
-            this.isLockOut = true;
-            this.lockedOutUsrName = this.currentPageReference.state.c__username;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    console.log('##result: ' + JSON.stringify(result));
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
         }
     }
     onInputChange(event) {
