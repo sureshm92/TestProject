@@ -18,6 +18,7 @@
     overflow: scroll;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    padding-bottom: 7%;
 }
 .bodyWrapperRTL {
     position: absolute;

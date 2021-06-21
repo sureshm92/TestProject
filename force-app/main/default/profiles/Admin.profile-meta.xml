@@ -4143,6 +4143,11 @@
         <field>Integration_Patient_Referral__c.Address_State__c</field>
         <readable>true</readable>
     </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Batch_consideration__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.BirthDate__c</field>
@@ -4226,6 +4231,11 @@
 	    <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.HighRisk_Indicator__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Is_retry_required__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -4326,6 +4336,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Integration_Patient_Referral__c.Atid__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	 <fieldPermissions>
+        <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Report_Count_Days__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Integration_Patient_Referral__c.Retry_Count__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
