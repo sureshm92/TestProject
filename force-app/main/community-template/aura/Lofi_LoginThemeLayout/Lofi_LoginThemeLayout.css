@@ -290,15 +290,19 @@
 
 @media all and (min-width: 768px) {
     .THIS .p-container.medium {
-        /*width: 600px;*/
-        /* height: 693px;*/
         width: 500px !important;
-        /*  overflow: hidden; */
     }
 
     .THIS .body-content {
         margin-top: 0;
         margin-bottom: 0;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .THIS .p-container .icon-bell {
+        left: 2rem;
+        top: 1.5rem;
     }
 }
 
@@ -313,6 +317,10 @@
     }
 
     .THIS.mobile-content .body-content {
+    }
+
+    .THIS .p-container .icon-bell {
+        left: 1rem;
     }
 }
 
