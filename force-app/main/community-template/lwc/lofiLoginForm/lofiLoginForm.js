@@ -135,12 +135,20 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
-        let timeDiff = this.currentPageReference.state.c__timeDifference;
-
-        if (timeDiff) {
-            this.timeLeft = Number(timeDiff);
-            this.isLockOut = true;
-            this.lockedOutUsrName = this.currentPageReference.state.c__username;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    console.log('##result: ' + JSON.stringify(result));
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
         }
     }
     onInputChange(event) {
