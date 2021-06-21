@@ -112,6 +112,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (this.inError) {
             switch (window.innerHeight) {
                 case 609:
+                case 577:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '115vh';
@@ -119,6 +120,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         '115vh';
                     break;
                 case 554:
+                case 525:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '130vh';
@@ -126,6 +128,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         '130vh';
                     break;
                 case 487:
+                case 462:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '150vh';

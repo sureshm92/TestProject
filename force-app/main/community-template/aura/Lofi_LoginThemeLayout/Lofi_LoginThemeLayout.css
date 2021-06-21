@@ -115,7 +115,7 @@
     margin-bottom: -0.5em;
     margin-top: 1em;
 }
-.THIS .forgot-password {
+/*.THIS .forgot-password {
     height: 29px !important;
     width: 251px !important;
     color: #000000 !important;
@@ -141,7 +141,7 @@
     letter-spacing: 0;
     line-height: 24px;
     margin-top: 40px;
-}
+}*/
 
 .THIS .label {
     height: 24px;
@@ -381,7 +381,9 @@
         margin-bottom: 1em;
     }
 
-    .THIS .body-content .form-header {
+    .THIS .body-content .form-header,
+    .THIS .body-content .forgot-pwd,
+    .THIS .body-content .forgot-password {
         margin: 0 0 0.5em;
     }
 
@@ -420,11 +422,11 @@
 
 @media all and (max-height: 560px) {
     .THIS > .slds-col.slds-large-size_4-of-7 {
-        max-height: 100vh;
+        max-height: 110vh;
     }
 
     .THIS > .slds-col.slds-large-size_3-of-7 {
-        height: 100vh;
+        height: 110vh;
     }
 
     .THIS .slds-col.slds-large-size_4-of-7 img {
@@ -433,15 +435,16 @@
 
     .THIS .logo-block {
         min-width: 26.5rem;
+        margin-top: 1rem;
     }
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
         margin-top: -2.25rem;
     }
 
-    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+    /*.THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
         margin-top: -2.75rem;
-    }
+    }*/
 
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
         margin-top: -1rem;
