@@ -45,7 +45,7 @@
         </div>
         <div class="borderdiv"></div>
         <div class="slds-grid middlediv">
-            <div class="slds-col slds-size_1-of-2">
+            <div class="slds-col slds-size_1-of-2 width_55">
                 <div class="textalign2">
                     {!$Label.c.Dashboard_Contacted}: {!v.pIStudySiteRank[0].contacted}
                 </div>
@@ -76,7 +76,7 @@
                  <div class="bottomdiv">
                 <div class="slds-clearfix">
                     
-                    <span class="slds-float_left othertopsite1">{!$Label.c.Dashboard_Rank}</span>
+                    <span class="slds-float_left othertopsite1 width_55">{!$Label.c.Dashboard_Rank}</span>
                     <span class="{!v.isRTL? 'slds-float_right othertopsite1RTL':'slds-float_right othertopsite1'}">
                         {!$Label.c.Dashboard_PI_Other_Sites}</span>
                 </div>
