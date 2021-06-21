@@ -31,7 +31,12 @@
                 ></lightning-input>
 
                 <span onclick={changeImgSrc}>
-                    <img class="icon-position" style={addIconMargin} src={eyeHidden} />
+                    <img
+                        class="icon-position"
+                        style={addIconMargin}
+                        src={eyeHidden}
+                        title={tooltipMsg}
+                    />
                 </span>
             </div>
             <button class="apollo-btn primary form-button" onclick={handleLogin}>
