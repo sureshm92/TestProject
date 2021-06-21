@@ -70,7 +70,7 @@
     </template>
     <template if:true={isLockOut}>
         <c-lockout milli-seconds-left={timeLeft} onunlock={handleUnlock}></c-lockout>
-        <div class="slds-align_absolute-center slds-p-top_large">
+        <div class="slds-align_absolute-center slds-p-top_medium">
             <a class="rr-link slds-align_absolute-center" onclick={handleUnableToLogin}
                 >{label.unableToLogin}</a
             >

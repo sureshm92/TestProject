@@ -383,7 +383,8 @@
 
     .THIS .body-content .form-header,
     .THIS .body-content .forgot-pwd,
-    .THIS .body-content .forgot-password {
+    .THIS .body-content .forgot-password,
+    .THIS .body-content .titleFont {
         margin: 0 0 0.5em;
     }
 
