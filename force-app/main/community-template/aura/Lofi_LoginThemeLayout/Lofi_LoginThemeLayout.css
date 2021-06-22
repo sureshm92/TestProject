@@ -304,6 +304,11 @@
         left: 2rem;
         top: 1.5rem;
     }
+
+    .THIS .checkmarklofi.eye-icon-mask .checksizelofi-eye {
+        height: 24px;
+        width: 26px;
+    }
 }
 
 @media all and (max-width: 486px) {
@@ -317,6 +322,7 @@
     }
 
     .THIS.mobile-content .body-content {
+        padding-bottom: 1.5rem;
     }
 
     .THIS .p-container .icon-bell {
