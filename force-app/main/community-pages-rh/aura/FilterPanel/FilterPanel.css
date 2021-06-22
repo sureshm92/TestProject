@@ -64,20 +64,7 @@
     border-top: 1px solid #d9d9d9;
     margin-bottom: 5px;
     align-items: center;
-    /* margin-left: -4px;
-    margin-right: 4px; */
-
-.THIS .fp-pagination-blockRTL {
-    padding-top: 15px;
-    border-top: 1px solid #d9d9d9;
-    margin-bottom: 5px;
-    align-items: center;
- /*   margin-left: -4px;
-    margin-right: 4px; */
-
 }
-
-
 .THIS .pagination-position {
     display: inline-flex;
     width: 25%;
