@@ -14,6 +14,8 @@ import pwdPlaceholder from '@salesforce/label/c.Lofi_Forgot_Pwd_Placeholder';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import showEyeTooltip from '@salesforce/label/c.Login_Form_Hide';
+import hideEyeTooltip from '@salesforce/label/c.Login_Form_Show';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 
@@ -44,6 +46,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
 
     initialized = false;
     spinner;
+    tooltipMsg;
+
     label = {
         unableToLogin,
         forgotPassword,
@@ -54,7 +58,9 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         usrPlaceholder,
         pwdPlaceholder,
         enterUsernameMsg,
-        enterPasswordMsg
+        enterPasswordMsg,
+        showEyeTooltip,
+        hideEyeTooltip
     };
 
     connectedCallback() {
@@ -64,6 +70,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 console.log('RR_COMMUNITY_JS loaded');
                 let language = communityService.getUrlParameter('language');
                 let label = this.label;
+                this.tooltipMsg = label.hideEyeTooltip;
                 this.isRTL = label.rtlLanguages.includes(language);
                 this.isMobileApp = communityService.isMobileSDK();
                 if (this.isRTL) {
@@ -105,6 +112,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (this.inError) {
             switch (window.innerHeight) {
                 case 609:
+                case 577:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '115vh';
@@ -112,6 +120,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         '115vh';
                     break;
                 case 554:
+                case 525:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '130vh';
@@ -119,6 +128,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                         '130vh';
                     break;
                 case 487:
+                case 462:
                     document.querySelectorAll(
                         '.slds-col.slds-large-size_4-of-7'
                     )[0].style.maxHeight = '150vh';
@@ -162,14 +172,14 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
             this.template.querySelector('img').src = this.eyeIcon;
-            //this.template.querySelector('img').style = 'padding-top: 9px;';
+            this.tooltipMsg = this.label.showEyeTooltip;
             this.addIconMargin = this.isRTL
                 ? 'padding-top: 9px; margin-right: -2.2em;'
                 : 'padding-top: 9px; margin-left: -2.2em;';
             this.passwordInputType = 'text';
         } else {
             this.template.querySelector('img').src = this.eyeHidden;
-            //this.template.querySelector('img').style = '';
+            this.tooltipMsg = this.label.hideEyeTooltip;
             this.addIconMargin = this.isRTL ? 'margin-right: -2.2em;' : 'margin-left: -2.2em;';
             this.passwordInputType = 'password';
         }
