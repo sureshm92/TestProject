@@ -285,6 +285,13 @@
         <value>Year</value>
     </labels>
     <labels>
+        <fullName>AccountSetting_Date_Of_Birth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>AccountSetting Date Of Birth</shortDescription>
+        <value>Date Of Birth</value>
+    </labels>
+    <labels>
         <fullName>AccountSettings_Cookie_Autocomplete</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -304,20 +311,6 @@
         <protected>false</protected>
         <shortDescription>clientSrc</shortDescription>
         <value>clientSrc</value>
-    </labels>
-      <labels>
-        <fullName>April</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>April</shortDescription>
-        <value>April</value>
-    </labels>
-     <labels>
-        <fullName>August</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>August</shortDescription>
-        <value>August</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Cookie_ClientSrc_Description</fullName>
@@ -493,13 +486,6 @@
         <protected>false</protected>
         <shortDescription>AccountSettings Cookies RRLanguage Description</shortDescription>
         <value>Used to store user&apos;s preferred language so that log in page may be displayed in user&apos;s preferred language.</value>
-    </labels>
-    <labels>
-        <fullName>AccountSetting_Date_Of_Birth</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>AccountSetting Date Of Birth</shortDescription>
-        <value>Date Of Birth</value>
     </labels>
     <labels>
         <fullName>AccountSettings_Functional_Cookies</fullName>
@@ -722,6 +708,13 @@
         <value>2- American Indian/Alaskan Native</value>
     </labels>
     <labels>
+        <fullName>April</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>April</shortDescription>
+        <value>April</value>
+    </labels>
+    <labels>
         <fullName>Article_Submitted</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -748,6 +741,13 @@
         <protected>true</protected>
         <shortDescription>Attestation Confirmation Message For Teams</shortDescription>
         <value>I attest to this delegate being of legal age in their locale.</value>
+    </labels>
+    <labels>
+        <fullName>August</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>August</shortDescription>
+        <value>August</value>
     </labels>
     <labels>
         <fullName>Avaliable_Icons</fullName>
@@ -911,7 +911,7 @@
         <shortDescription>BTN Confirm</shortDescription>
         <value>Confirm</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>BTN_Create_New_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1436,7 +1436,7 @@
         <shortDescription>BTN Undo exclusion and refer to this study</shortDescription>
         <value>Undo exclusion and refer to this study</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>BTN_Updating_Existing_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1541,13 +1541,6 @@
         <shortDescription>BUN</shortDescription>
         <value>BUN</value>
     </labels>
-     <labels>
-        <fullName>Bulk_Actions</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Bulk Actions</shortDescription>
-        <value>Bulk Actions</value>
-    </labels>
     <labels>
         <fullName>BUN_Description</fullName>
         <language>en_US</language>
@@ -1612,6 +1605,20 @@
         <value>Body mass index (BMI)</value>
     </labels>
     <labels>
+        <fullName>Browser_Title_Media_Outreach</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Media Outreach</shortDescription>
+        <value>Media Outreach</value>
+    </labels>
+    <labels>
+        <fullName>Bulk_Actions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Bulk Actions</shortDescription>
+        <value>Bulk Actions</value>
+    </labels>
+    <labels>
         <fullName>Button_Edit_Details</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1631,41 +1638,6 @@
         <protected>false</protected>
         <shortDescription>Submit Your Question</shortDescription>
         <value>Submit Your Question</value>
-    </labels>
-    <labels>
-        <fullName>CC_Receive_Study_Site_Email</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
-        <value>Receive Study Site Email</value>
-    </labels>
-    <labels>
-        <fullName>CC_Save_All_And_Close</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Save_All_And_Close</shortDescription>
-        <value>Save All and Close</value>
-    </labels>
-    <labels>
-        <fullName>CC_Phone</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Phone</shortDescription>
-        <value>Study Site Phone</value>
-    </labels>
-    <labels>
-        <fullName>CC_Email</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Email</shortDescription>
-        <value>Study Site Email</value>
-    </labels>
-    <labels>
-        <fullName>CC_Training_Complete</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Training_Complete</shortDescription>
-        <value>Training Complete</value>
     </labels>
     <labels>
         <fullName>CC_Btn_ExportAll</fullName>
@@ -1710,18 +1682,18 @@
         <value>days ago</value>
     </labels>
     <labels>
+        <fullName>CC_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Email</shortDescription>
+        <value>Study Site Email</value>
+    </labels>
+    <labels>
         <fullName>CC_FilterPanel_Label</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_FilterPanel_Label</shortDescription>
         <value>Filter page by:</value>
-    </labels>
-    <labels>
-        <fullName>Caller</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Caller</shortDescription>
-        <value>Caller</value>
     </labels>
     <labels>
         <fullName>CC_FilterPlaceholder_Country</fullName>
@@ -1759,6 +1731,20 @@
         <value>Name</value>
     </labels>
     <labels>
+        <fullName>CC_NewLocation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_NewLocation</shortDescription>
+        <value>New Location</value>
+    </labels>
+    <labels>
+        <fullName>CC_Opt_in_for_Warm_Transfer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Opt_in_for_Warm_Transfer</shortDescription>
+        <value>Opt in for Warm Transfer</value>
+    </labels>
+    <labels>
         <fullName>CC_PI_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -1771,6 +1757,13 @@
         <protected>true</protected>
         <shortDescription>CC_Participant_Support</shortDescription>
         <value>Participant Support</value>
+    </labels>
+    <labels>
+        <fullName>CC_Phone</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Phone</shortDescription>
+        <value>Study Site Phone</value>
     </labels>
     <labels>
         <fullName>CC_Phone_Number</fullName>
@@ -1794,11 +1787,25 @@
         <value>Protocol Number (exact match)</value>
     </labels>
     <labels>
+        <fullName>CC_Receive_Study_Site_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Receive_Study_Site_Email</shortDescription>
+        <value>Receive Study Site Email</value>
+    </labels>
+    <labels>
         <fullName>CC_Received</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Received</shortDescription>
         <value>Received</value>
+    </labels>
+    <labels>
+        <fullName>CC_Save_All_And_Close</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Save_All_And_Close</shortDescription>
+        <value>Save All and Close</value>
     </labels>
     <labels>
         <fullName>CC_SearchBy</fullName>
@@ -1826,7 +1833,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_SiteNumber</shortDescription>
-        <value>Site Number (exact match)</value>  
+        <value>Site Number (exact match)</value>
     </labels>
     <labels>
         <fullName>CC_Site_Contact</fullName>
@@ -1834,6 +1841,13 @@
         <protected>true</protected>
         <shortDescription>CC_Site_Contact</shortDescription>
         <value>Site Contact</value>
+    </labels>
+    <labels>
+        <fullName>CC_Site_Information_Form_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Site_Information_Form_Complete</shortDescription>
+        <value>Site Information Form Complete</value>
     </labels>
     <labels>
         <fullName>CC_Site_Phone_Number</fullName>
@@ -1871,18 +1885,11 @@
         <value>Study Site</value>
     </labels>
     <labels>
-        <fullName>CC_Opt_in_for_Warm_Transfer</fullName>
+        <fullName>CC_Study_Site_Locations</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CC_Opt_in_for_Warm_Transfer</shortDescription>
-        <value>Opt in for Warm Transfer</value>
-    </labels>
-    <labels>
-        <fullName>CC_Suppress_PI_Email</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Suppress_PI_Email</shortDescription>
-        <value>Study Site PI Emails have to be suppressed if Study PI Emails are</value>
+        <shortDescription>CC_Study_Site_Locations</shortDescription>
+        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>CC_Success_Save_Message</fullName>
@@ -1891,12 +1898,12 @@
         <shortDescription>CC_Success_Save_Message</shortDescription>
         <value>Information was successfully saved</value>
     </labels>
-	    <labels>
-        <fullName>CC_Site_Information_Form_Complete</fullName>
+    <labels>
+        <fullName>CC_Suppress_PI_Email</fullName>
         <language>en_US</language>
         <protected>true</protected>
-        <shortDescription>CC_Site_Information_Form_Complete</shortDescription>
-        <value>Site Information Form Complete</value>
+        <shortDescription>CC_Suppress_PI_Email</shortDescription>
+        <value>Study Site PI Emails have to be suppressed if Study PI Emails are</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_CTP</fullName>
@@ -1920,32 +1927,11 @@
         <value>Country</value>
     </labels>
     <labels>
-        <fullName>Call_Dispositions</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Call Dispositions</shortDescription>
-        <value>Call Dispositions</value>
-    </labels>
-    <labels>
-        <fullName>Call_Category</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Call Category</shortDescription>
-        <value>Call Category</value>
-    </labels>
-    <labels>
         <fullName>CC_TableHeader_PI</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_PI</shortDescription>
         <value>Principal Investigator</value>
-    </labels>
-    <labels>
-        <fullName>CC_Study_Site_Locations</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_Study_Site_Locations</shortDescription>
-        <value>Study Site Locations</value>
     </labels>
     <labels>
         <fullName>CC_TableHeader_Phone</fullName>
@@ -1969,32 +1955,32 @@
         <value>Site Number</value>
     </labels>
     <labels>
-        <fullName>CC_NewLocation</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>CC_NewLocation</shortDescription>
-        <value>New Location</value>
-    </labels>
-    <labels>
         <fullName>CC_TableHeader_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>CC_TableHeader_Status</shortDescription>
         <value>Site Status</value>
     </labels>
-    <labels>      
+    <labels>
         <fullName>CC_TablePlaceholderTxt</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_TablePlaceholderTxt</shortDescription>
         <value>Please initiate search!</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>CC_Toggle_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>CC_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
+    </labels>
+    <labels>
+        <fullName>CC_Training_Complete</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>CC_Training_Complete</shortDescription>
+        <value>Training Complete</value>
     </labels>
     <labels>
         <fullName>CC_search_for_a_participant</fullName>
@@ -3275,6 +3261,27 @@ Please share our site on social media to encourage others to assist us as we wor
         <value>Calcium is an electrolyte (a mineral) that is important for the functioning of your muscles, including your heart, and nerves. Calcium is also needed for blood clotting and for creating and keeping your bones and teeth healthy. This test measures the amount of calcium in your blood sample. Calcium is measured to check your general health and can be used to check for a range of conditions.</value>
     </labels>
     <labels>
+        <fullName>Call_Category</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Category</shortDescription>
+        <value>Call Category</value>
+    </labels>
+    <labels>
+        <fullName>Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Call Dispositions</shortDescription>
+        <value>Call Dispositions</value>
+    </labels>
+    <labels>
+        <fullName>Caller</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Caller</shortDescription>
+        <value>Caller</value>
+    </labels>
+    <labels>
         <fullName>Can_Not_Edit_Mapping</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3324,6 +3331,27 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+     <labels>
+        <fullName>Cancel_Scheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Scheduled Visit</shortDescription>
+        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarning</shortDescription>
+        <value>Changing to this status will cancel the scheduled visit</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarnings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarnings</shortDescription>
+        <value>for this participant&apos;s initial visit. Are you sure you want to proceed?</value>
+    </labels>
     <labels>
         <fullName>Case_sub_transfer_to_new_site</fullName>
         <categories>Case</categories>
@@ -3338,6 +3366,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>true</protected>
         <shortDescription>Caucasian/White</shortDescription>
         <value>6- Caucasian/White</value>
+    </labels>
+    <labels>
+        <fullName>Change_Participant_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Change_Participant_Status</shortDescription>
+        <value>Change Participant Status</value>
     </labels>
     <labels>
         <fullName>Closed_Requests</fullName>
@@ -3432,19 +3467,19 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Complete By Date</shortDescription>
         <value>Complete By</value>
     </labels>
-     <labels>
-        <fullName>ContactSwitcher</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>ContactSwitcher</shortDescription>
-        <value>1</value>
-    </labels>
     <labels>
         <fullName>Complete_field_Info</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Complete_field_Info</shortDescription>
         <value>Complete this field</value>
+    </labels>
+    <labels>
+        <fullName>ContactSwitcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ContactSwitcher</shortDescription>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>Contact_Attempted</fullName>
@@ -3561,7 +3596,7 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>Create</shortDescription>
         <value>Create</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>Create_Update_Delegate_Info</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -3925,13 +3960,6 @@ By using our website, you are accepting our use of cookies.</value>
         <shortDescription>DLIT L View screener responses</shortDescription>
         <value>View screener responses</value>
     </labels>
-      <labels>
-        <fullName>December</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>December</shortDescription>
-        <value>December</value>
-    </labels>
     <labels>
         <fullName>DRF_L_All_date_ranges</fullName>
         <language>en_US</language>
@@ -4122,11 +4150,25 @@ By using our website, you are accepting our use of cookies.</value>
         <value>Initial Visits Completed</value>
     </labels>
     <labels>
+        <fullName>December</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>December</shortDescription>
+        <value>December</value>
+    </labels>
+    <labels>
         <fullName>Declined_Consent</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Declined Consent</shortDescription>
         <value>Declined Consent</value>
+    </labels>
+    <labels>
+        <fullName>Declined_Final_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Declined_Final_Consent</shortDescription>
+        <value>Declined Final Consent</value>
     </labels>
     <labels>
         <fullName>Delegate</fullName>
@@ -4267,7 +4309,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to be contacted</shortDescription>
-        <value>I do not want to be contacted via phone(voice call)</value>
+        <value>I do not want to be contacted via phone(voice call) from IQVIA Referral Hub or IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
@@ -4275,7 +4317,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
-        <value>I do not want to be contacted via SMS/text messages</value>
+        <value>I do not want to be contacted via SMS/text messages from IQVIA Referral Hub or IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>Don_t_want_to_receive</fullName>
@@ -4283,7 +4325,14 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email)</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Referral Hub or IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Download_PDF_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download PDF pp</shortDescription>
+        <value>Download PDF</value>
     </labels>
     <labels>
         <fullName>Download_Trial_Match</fullName>
@@ -4341,7 +4390,7 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>true</protected>
         <shortDescription>Eligibility_Passed_Status_Value</shortDescription>
         <value>Eligibility Passed</value>
-    </labels>    
+    </labels>
     <labels>
         <fullName>Email</fullName>
         <language>en_US</language>
@@ -4355,6 +4404,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+    </labels>
+    <labels>
+        <fullName>EmailWarningMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EmailWarningMessage</shortDescription>
+        <value>Updating your email address will not change your login username. You may submit a request to update or merge your username by submitting a ticket from the</value>
     </labels>
     <labels>
         <fullName>Email_Action_Complete_Baseline_Survey</fullName>
@@ -4533,7 +4589,7 @@ By using our website, you are accepting our use of cookies.</value>
 
         Please take a moment to log in to the IQVIA Referral Hub, go to &quot;My Studies&quot; and review and accept this study. You will then be able to manage patient referrals to the study from any IQVIA source.</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Email_Body_Initial_CC</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -5301,7 +5357,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&#39;s task:&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s task:&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
@@ -5370,7 +5426,7 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Visit Task Reminder Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&#39;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is a quick email to remind you of ##ParticipantFirstName&apos;s upcoming visit for the clinical research study: ##StudyName.&lt;/span&gt;
 
 &lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Visit Date &amp; Time : &lt;/span&gt;&lt;span style=&quot;font-size:24px;color:black;&quot;&gt;&lt;b&gt;##PlannedDate&lt;/b&gt;&lt;/span&gt;&lt;/div&gt;
 
@@ -7092,13 +7148,6 @@ Release 4.0 includes additional details around the screening process, which has 
         <value>Initial Visit Scheduled Time</value>
     </labels>
     <labels>
-        <fullName>February</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>February</shortDescription>
-        <value>February</value>
-    </labels>
-    <labels>
         <fullName>FD_PE_Field_Revisit_Date</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -7153,6 +7202,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <protected>false</protected>
         <shortDescription>FastingLipidProfile</shortDescription>
         <value>Fasting Lipid Profile</value>
+    </labels>
+    <labels>
+        <fullName>February</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>February</shortDescription>
+        <value>February</value>
     </labels>
     <labels>
         <fullName>File_Language</fullName>
@@ -7943,6 +7999,20 @@ IQVIA’s Privacy Office at &lt;a href=&quot;mailto:PrivacyOfficer@iqvia.com&quo
         <value>Provider&apos;s last name</value>
     </labels>
     <labels>
+        <fullName>Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Heart Rate</shortDescription>
+        <value>Heart rate</value>
+    </labels>
+    <labels>
+        <fullName>Heart_Rate_Description</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Heart Rate Description</shortDescription>
+        <value>Heart rate is a measurement of the number of times your heart beats per minute.</value>
+    </labels>
+    <labels>
         <fullName>Height</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8346,11 +8416,39 @@ The expected format is REF##### to REF########</value>
         <value>ID</value>
     </labels>
     <labels>
+        <fullName>IQVIA_Integrations_User</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>IQVIA Integrations User</shortDescription>
+        <value>IQVIA Integrations</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_intervention_completed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention completed</shortDescription>
+        <value>IQVIA intervention completed</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_intervention_required</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA intervention required</shortDescription>
+        <value>IQVIA intervention required</value>
+    </labels>
+    <labels>
         <fullName>IRB_Padding_Info</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>IRB Padding Info</shortDescription>
         <value>Changes will be saved as you go to the next page!</value>
+    </labels>
+    <labels>
+        <fullName>ISO_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ISO Download Template</shortDescription>
+        <value>ISO Language Guide</value>
     </labels>
     <labels>
         <fullName>IWRSIWRS_ID</fullName>
@@ -8379,6 +8477,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>In Wash Out Period</shortDescription>
         <value>In Wash Out Period</value>
+    </labels>
+    <labels>
+        <fullName>Inbound_Outbound</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Inbound / Outbound</shortDescription>
+        <value>Inbound / Outbound</value>
     </labels>
     <labels>
         <fullName>IncTask_01_D</fullName>
@@ -8500,34 +8605,6 @@ The expected format is REF##### to REF########</value>
         <shortDescription>IncentiveProgram_My_Points</shortDescription>
         <value>My Points</value>
     </labels>
-     <labels>
-        <fullName>IQVIA_intervention_completed</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>IQVIA intervention completed</shortDescription>
-        <value>IQVIA intervention completed</value>
-    </labels>
-    <labels>
-        <fullName>IQVIA_intervention_required</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>IQVIA intervention required</shortDescription>
-        <value>IQVIA intervention required</value>
-    </labels>
-    <labels>
-        <fullName>IQVIA_Integrations_User</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>IQVIA Integrations User</shortDescription>
-        <value>IQVIA Integrations</value>
-    </labels>
-    <labels>
-        <fullName>Inbound_Outbound</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Inbound / Outbound</shortDescription>
-        <value>Inbound / Outbound</value>
-    </labels>
     <labels>
         <fullName>IncentiveProgram_Points</fullName>
         <categories>Incentive Program</categories>
@@ -8648,6 +8725,13 @@ The expected format is REF##### to REF########</value>
         <value>Please input correct data.</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Initial_Visit</shortDescription>
+        <value>Initial Visit</value>
+    </labels>
+    <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8690,7 +8774,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invite_Participant_To_Portal</shortDescription>
         <value>Invite Participant to Patient Portal</value>
     </labels>
-     <labels>
+    <labels>
         <fullName>Invite_to_Patient_Portal</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -8710,6 +8794,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
+    </labels>
+     <labels>
+        <fullName>Initial_Visit_modified</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit modified</shortDescription>
+        <value>Initial Visit modified</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
@@ -8745,6 +8836,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>June</shortDescription>
         <value>June</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_pp_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated pp text</shortDescription>
+        <value>Last Updated:</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>
@@ -8853,11 +8951,164 @@ The expected format is REF##### to REF########</value>
         <value>Interactive Advertising Bureau</value>
     </labels>
     <labels>
+        <fullName>ListView_ChangeStatus</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_ChangeStatus</shortDescription>
+        <value>Change Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Change_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Change_Status</shortDescription>
+        <value>Please select a status in the filter criteria</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Current_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Current_Status</shortDescription>
+        <value>Current Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_GroupStatuses</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_GroupStatuses</shortDescription>
+        <value>Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Contact Attempted</value>
+    </labels>
+    <labels>
+        <fullName>ListView_New_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_New_Status</shortDescription>
+        <value>New Status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Select_a_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Select_a_Status</shortDescription>
+        <value>Select a status</value>
+    </labels>
+    <labels>
+        <fullName>ListView_Status_Not_Available</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ListView_Status_Not_Available</shortDescription>
+        <value>This status cannot be changed.</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Enter_Password</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Enter Password</shortDescription>
+        <value>Please enter password</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Enter_Username</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Enter Username</shortDescription>
+        <value>Please enter username</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Forgot_Password</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Forgot Password</shortDescription>
+        <value>Forgot Password?</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Forgot_Pwd_Placeholder</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Forgot Pwd Placeholder</shortDescription>
+        <value>Enter password here...</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_Footer_Optimized</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login Footer Optimized</shortDescription>
+        <value>Optimized</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_Footer_Policies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login Footer Policies</shortDescription>
+        <value>Privacy Policy</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_PP_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login PP Header</shortDescription>
+        <value>Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_PP_Subheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login PP Subheader</shortDescription>
+        <value>For Patients &amp; Caregivers</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_RH_Header</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login RH Header</shortDescription>
+        <value>Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Login_RH_Subheader</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Login RH Subheader</shortDescription>
+        <value>For Healthcare Providers</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Logo_Subtitle</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Logo Subtitle</shortDescription>
+        <value>Connecting professionals, patients and clinical researchers for better healthcare</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Optimized_Message</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lofi Optimized Message</shortDescription>
+        <value>This product is optimized for Google Chrome and Safari.&lt;br/&gt;You may experience less than optimal experience with other browsers</value>
+    </labels>
+    <labels>
+        <fullName>Lofi_Unable_to_Login</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Lofi Unable to Login</shortDescription>
+        <value>Unable to Login?</value>
+    </labels>
+    <labels>
         <fullName>Login_Form_Show</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Login_Form_Show</shortDescription>
         <value>Show</value>
+    </labels>
+    <labels>
+        <fullName>Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Hide</shortDescription>
+        <value>Hide</value>
     </labels>
     <labels>
         <fullName>Low_density_Lipoprotein</fullName>
@@ -8872,41 +9123,6 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
-    </labels>
-     <labels>
-        <fullName>Minor_Access_Error_Message</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Minor Access Error Message</shortDescription>
-        <value>Minors cannot be granted access</value>
-    </labels>
-    <labels>
-        <fullName>MO_Print</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Print</shortDescription>
-        <value>Print</value>
-    </labels>
-    <labels>
-        <fullName>MO_RTL_Radio</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_RTL_Radio</shortDescription>
-        <value>Radio</value>
-    </labels>
-    <labels>
-        <fullName>MO_Social_Media</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO Social Media</shortDescription>
-        <value>Social Media</value>
-    </labels>
-    <labels>
-        <fullName>MO_Television</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>MO_Television</shortDescription>
-        <value>Television</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -8952,25 +9168,25 @@ The expected format is REF##### to REF########</value>
         <value>Notes</value>
     </labels>
     <labels>
+        <fullName>MO_Print</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Print</shortDescription>
+        <value>Print</value>
+    </labels>
+    <labels>
+        <fullName>MO_RTL_Radio</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_RTL_Radio</shortDescription>
+        <value>Radio</value>
+    </labels>
+    <labels>
         <fullName>MO_RecordUpdate</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>MO_RecordUpdate</shortDescription>
         <value>Record Updated Successfully</value>
-    </labels>
-     <labels>
-        <fullName>March</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>March</shortDescription>
-        <value>March</value>
-    </labels>
-    <labels>
-        <fullName>May</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>May</shortDescription>
-        <value>May</value>
     </labels>
     <labels>
         <fullName>MO_Request_ID</fullName>
@@ -8985,6 +9201,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MO_Show_Study</shortDescription>
         <value>Show Study</value>
+    </labels>
+    <labels>
+        <fullName>MO_Social_Media</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO Social Media</shortDescription>
+        <value>Social Media</value>
     </labels>
     <labels>
         <fullName>MO_Start_Date</fullName>
@@ -9013,6 +9236,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MO_Study_Site</shortDescription>
         <value>Study Site</value>
+    </labels>
+    <labels>
+        <fullName>MO_Television</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>MO_Television</shortDescription>
+        <value>Television</value>
     </labels>
     <labels>
         <fullName>MP_Motivation_Message_1</fullName>
@@ -9232,6 +9462,13 @@ The expected format is REF##### to REF########</value>
         <value>Manage My Payments</value>
     </labels>
     <labels>
+        <fullName>March</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>March</shortDescription>
+        <value>March</value>
+    </labels>
+    <labels>
         <fullName>Matched_of</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9244,6 +9481,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Maximum Length of Tooltip</shortDescription>
         <value>(max length of 1000 characters)</value>
+    </labels>
+    <labels>
+        <fullName>May</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>May</shortDescription>
+        <value>May</value>
     </labels>
     <labels>
         <fullName>Media_Chekbox</fullName>
@@ -9416,7 +9660,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal, when applicable.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates_Jansen</fullName>
@@ -9453,6 +9697,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>MetabolicPanel</shortDescription>
         <value>Metabolic Panel</value>
+    </labels>
+    <labels>
+        <fullName>Minor_Access_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Minor Access Error Message</shortDescription>
+        <value>Minors cannot be granted access</value>
     </labels>
     <labels>
         <fullName>Mob_Phone_Field</fullName>
@@ -9560,13 +9811,6 @@ The expected format is REF##### to REF########</value>
         <value>Media Outreach Requests</value>
     </labels>
     <labels>
-        <fullName>Browser_Title_Media_Outreach</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Media Outreach</shortDescription>
-        <value>Media Outreach</value>
-    </labels>
-    <labels>
         <fullName>Navigation_Medical_Record_Review_Log</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9665,6 +9909,13 @@ The expected format is REF##### to REF########</value>
         <value>New</value>
     </labels>
     <labels>
+        <fullName>New_Call</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>New Call</shortDescription>
+        <value>New Call</value>
+    </labels>
+    <labels>
         <fullName>New_Note</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9701,13 +9952,6 @@ The expected format is REF##### to REF########</value>
         <value>No access</value>
     </labels>
     <labels>
-        <fullName>New_Call</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>New Call</shortDescription>
-        <value>New Call</value>
-    </labels>
-    <labels>
         <fullName>No_Case_Assign</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9728,13 +9972,6 @@ The expected format is REF##### to REF########</value>
         <shortDescription>No Relevant Links to display</shortDescription>
         <value>Check back periodically for helpful links</value>
     </labels>
-     <labels>
-        <fullName>No_records_to_display</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>No records to display</shortDescription>
-        <value>No records to display</value>
-    </labels>
     <labels>
         <fullName>No_Travel_Information</fullName>
         <language>en_US</language>
@@ -9750,13 +9987,6 @@ The expected format is REF##### to REF########</value>
         <value>No active studies</value>
     </labels>
     <labels>
-        <fullName>Notes</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Notes</shortDescription>
-        <value>Notes</value>
-    </labels>
-    <labels>
         <fullName>No_permission_Visits_tab</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -9764,11 +9994,11 @@ The expected format is REF##### to REF########</value>
         <value>No permission for this feature</value>
     </labels>
     <labels>
-        <fullName>November</fullName>
+        <fullName>No_records_to_display</fullName>
         <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>November</shortDescription>
-        <value>November</value>
+        <protected>false</protected>
+        <shortDescription>No records to display</shortDescription>
+        <value>No records to display</value>
     </labels>
     <labels>
         <fullName>Non_Study_Specific</fullName>
@@ -9804,6 +10034,20 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Not Registered</shortDescription>
         <value>Not Registered</value>
+    </labels>
+    <labels>
+        <fullName>Notes</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Notes</shortDescription>
+        <value>Notes</value>
+    </labels>
+    <labels>
+        <fullName>November</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>November</shortDescription>
+        <value>November</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S10_T</fullName>
@@ -9852,13 +10096,6 @@ Track and learn about rewards that you could claim for completing tasks toward s
         <protected>false</protected>
         <shortDescription>OT DPI S1 T</shortDescription>
         <value>Click Add Patient to enter details for your patients who may participate in the study so they can access our Patient Portal to track their progress and view information related to their participation, or if you simply want to manage and track your patient referrals in the platform along with those sent to you from other recruitment sources via Referral Hub. Click on Study Name to see more details, such as inclusion and exclusion criteria, and access other functions associated with the study.</value>
-    </labels>
-    <labels>
-        <fullName>October</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>October</shortDescription>
-        <value>October</value>
     </labels>
     <labels>
         <fullName>OT_DPI_S2_H</fullName>
@@ -10536,6 +10773,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Click on your user profile icon to access Account Settings.  In addition to managing your contact information, date and language preferences, and cookie settings, you can also choose the type of email notifications you want to receive. In the Email Preferences section, use the toggles to switch on or off the type of emails you want to receive.  In the Referral Networks section, click Select Referral Networks to search and subscribe to institution-based and/or topic-based networks to be notified when a related study site or clinical study becomes available or to be contacted occasionally about related news or events.</value>
     </labels>
     <labels>
+        <fullName>October</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>October</shortDescription>
+        <value>October</value>
+    </labels>
+    <labels>
         <fullName>One_day_before</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -10555,7 +10799,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>Opt Out of communication by IQVIA and its affiliates</value>
+        <value>Opt Out of communication</value>
     </labels>
     <labels>
         <fullName>Opt_Out_Success_Message</fullName>
@@ -12862,6 +13106,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>See All</value>
     </labels>
     <labels>
+        <fullName>PG_Lockout</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Lockout</shortDescription>
+        <value>Locked Out!</value>
+    </labels>
+    <labels>
+        <fullName>PG_Lockout_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PG Lockout Error Message</shortDescription>
+        <value>You have been locked out of your account because of several failed login attempts. Please wait for 15 minutes before trying to log back in again.</value>
+    </labels>
+    <labels>
         <fullName>PG_Login_BTN_Save_And_Continue</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13048,8 +13306,8 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>PG Login Wrong Password Error Message</shortDescription>
-        <value>Incorrect email/password combination
-            You have ##AttemptsLeft attempts left before you are locked out for 15 minutes.  You can reset your password ##ForgotPasswordLink.
+        <value>Incorrect username/password combination.
+            You have ##AttemptsLeft attempts left before you are locked out for 15 minutes. You can reset your password ##ForgotPasswordLink.
             Please check your CAPS lock key.</value>
     </labels>
     <labels>
@@ -14392,7 +14650,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L All fields are required.</shortDescription>
         <value>All fields are required.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14434,7 +14692,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Delegate continue be delegate</shortDescription>
         <value>Please ensure that the delegate&apos;s information, especially email address, is correct before connecting to patient.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Download_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14506,6 +14764,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Is the patient still interested in participating in this study?</value>
     </labels>
     <labels>
+        <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</shortDescription>
+        <value>My patient, and/or patient&apos;s legal guardian if applicable, agrees to share the contact information below and patient&apos;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
+    </labels>
+    <labels>
         <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -14518,13 +14783,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG Ref L My patient agrees to the privacy policy</shortDescription>
         <value>My patient agrees to the &lt;a href=&quot;/privacy-policy&quot; target=&quot;_blank&quot;&gt;Privacy Policy&lt;/a&gt; and &lt;a href=&quot;/terms-and-conditions&quot; target=&quot;_blank&quot;&gt;Terms of Use&lt;/a&gt;</value>
-    </labels>
-	<labels>
-        <fullName>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top</shortDescription>
-        <value>My patient, and/or patient&apos;s legal guardian if applicable, agrees to share the contact information below and patient&apos;s pre-screener data with IQVIA, the study doctors, and other affiliates so that they may contact the patient and/or their delegate regarding applicable clinical studies.</value>
     </labels>
     <labels>
         <fullName>PG_Ref_L_New_Patient</fullName>
@@ -14596,7 +14854,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Participant require guardian</shortDescription>
         <value>Receive information about clinical study opportunities.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Patient_Authorization</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14687,7 +14945,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Please select your referral source</shortDescription>
         <value>Please select your referral source</value>
     </labels>
-	 <labels>
+    <labels>
         <fullName>PG_Ref_L_Primary_Delegate_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -14722,7 +14980,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG Ref L Select from Pre-eligibility Screening Log</shortDescription>
         <value>Select from Pre-eligibility Screening Log</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>PG_Ref_L_Signed_Authorization_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15796,7 +16054,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI Mode</shortDescription>
         <value>Investigative Site</value>
     </labels>
-      <labels>
+    <labels>
         <fullName>PI_Toggle_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -15836,6 +16094,34 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_AddProfilePhoto</shortDescription>
         <value>Edit Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_CantReuseOldPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CantReuseOldPwd</shortDescription>
+        <value>You cannot reuse this old password.</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeUsrname_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeUsrname_DntTranslate</shortDescription>
+        <value>I want to match my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB</shortDescription>
+        <value>I want to change my year of birth from</value>
+    </labels>
+    <labels>
+        <fullName>PP_ChangeYOB_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ChangeYOB_DntTranslate</shortDescription>
+        <value>I want to change my year of birth from</value>
     </labels>
     <labels>
         <fullName>PP_Change_Notification</fullName>
@@ -15880,6 +16166,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Cookie Settings</value>
     </labels>
     <labels>
+        <fullName>PP_CreateTicketFor</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CreateTicketFor</shortDescription>
+        <value>Create Ticket For</value>
+    </labels>
+    <labels>
         <fullName>PP_Create_Task_Reminder</fullName>
         <categories>c:StudyVisitReminder</categories>
         <language>en_US</language>
@@ -15894,6 +16187,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>Create Visit Reminder</shortDescription>
         <value>Create Visit Reminder</value>
+    </labels>
+    <labels>
+        <fullName>PP_CriteriaNotMet</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_CriteriaNotMet</shortDescription>
+        <value>Password is not meeting criteria</value>
     </labels>
     <labels>
         <fullName>PP_Custom</fullName>
@@ -15973,11 +16273,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Due Date and Time</value>
     </labels>
     <labels>
+        <fullName>PP_DuplicateUsernames</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_DuplicateUsernames</shortDescription>
+        <value>There are multiple usernames associated with your email address. Please choose the username that you would like to use.</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditAllInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditAllInfo</shortDescription>
+        <value>Edit all other information in</value>
+    </labels>
+    <labels>
         <fullName>PP_EditProfilePhoto</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EditProfilePhoto</shortDescription>
         <value>Add Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_EditYOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EditYOB</shortDescription>
+        <value>Edit YOB (Year of Birth)</value>
     </labels>
     <labels>
         <fullName>PP_Edit_Task_Reminder</fullName>
@@ -15996,11 +16317,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Edit Visit Reminder</value>
     </labels>
     <labels>
+        <fullName>PP_EmailMatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailMatch</shortDescription>
+        <value>I would like my username &amp; email to match</value>
+    </labels>
+    <labels>
+        <fullName>PP_EmailSent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EmailSent</shortDescription>
+        <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
+    </labels>
+    <labels>
         <fullName>PP_Emergency</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Emergency</shortDescription>
         <value>If you have a medical emergency, please contact your local emergency services.</value>
+    </labels>
+    <labels>
+        <fullName>PP_EnterNewPassword</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_EnterNewPassword</shortDescription>
+        <value>Enter New Password</value>
     </labels>
     <labels>
         <fullName>PP_File_Size_Exceeded</fullName>
@@ -16010,11 +16352,25 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>File size cannot exceed 3MB.</value>
     </labels>
     <labels>
+        <fullName>PP_ForgotPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ForgotPwd</shortDescription>
+        <value>Forgot Password?</value>
+    </labels>
+    <labels>
         <fullName>PP_Four_Hours_Before</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Four_Hours_Before</shortDescription>
         <value>4 hours before</value>
+    </labels>
+    <labels>
+        <fullName>PP_From</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_From</shortDescription>
+        <value>From</value>
     </labels>
     <labels>
         <fullName>PP_General_Info</fullName>
@@ -16036,6 +16392,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PP HLP T2 Feedback</shortDescription>
         <value>This form is for providing feedback about how our features can be improved and should not be used to report content on the IQVIA™ Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>PP_HelpResponse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_HelpResponse</shortDescription>
+        <value>To update all other information, please go to your</value>
     </labels>
     <labels>
         <fullName>PP_IRB_Button_Review</fullName>
@@ -16073,6 +16436,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Some Study Sites on this Study have no IRB-Approved languages. Ensure a Study Site has at least one IRB-Approved language to let Participants see Study Content.</value>
     </labels>
     <labels>
+        <fullName>PP_IncludeAnythree</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_IncludeAnythree</shortDescription>
+        <value>And include any 3 below</value>
+    </labels>
+    <labels>
+        <fullName>PP_InvalidUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidUsername</shortDescription>
+        <value>Invalid username</value>
+    </labels>
+    <labels>
+        <fullName>PP_InvalidYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidYear</shortDescription>
+        <value>Invalid year of birth</value>
+    </labels>
+    <labels>
         <fullName>PP_Invalid_Entry</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16094,11 +16478,81 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Language and Location</value>
     </labels>
     <labels>
+        <fullName>PP_MatchMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchMyEmailAddress</shortDescription>
+        <value>I want to match my username</value>
+    </labels>
+    <labels>
+        <fullName>PP_MatchUsr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchUsr</shortDescription>
+        <value>We will attempt to match your username with your email.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MeetingCriteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MeetingCriteria</shortDescription>
+        <value>Password is meeting criteria</value>
+    </labels>
+    <labels>
+        <fullName>PP_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Merge</shortDescription>
+        <value>I would like to merge my existing username</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeDntTranslate</shortDescription>
+        <value>I want to merge my existing usernames</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeExisting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeExisting</shortDescription>
+        <value>Merge existing usernames</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeUsersDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsersDntTranslate</shortDescription>
+        <value>I have duplicate usernames. I want to use my username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeUsrNamesDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsrNamesDntTranslate</shortDescription>
+        <value>Request to Merge Usernames</value>
+    </labels>
+    <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_MessagePatternMismatch</shortDescription>
         <value>Phone number must be numeric.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MustInclude</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MustInclude</shortDescription>
+        <value>Must Include Atleast</value>
+    </labels>
+    <labels>
+        <fullName>PP_NewPwdPlaceHolder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_NewPwdPlaceHolder</shortDescription>
+        <value>Enter new password here...</value>
     </labels>
     <labels>
         <fullName>PP_Nickname</fullName>
@@ -16129,6 +16583,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>1 week before</value>
     </labels>
     <labels>
+        <fullName>PP_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Page</shortDescription>
+        <value>Page</value>
+    </labels>
+    <labels>
         <fullName>PP_Participant</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16136,11 +16597,32 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Participant</value>
     </labels>
     <labels>
+        <fullName>PP_PasswordCriteria</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordCriteria</shortDescription>
+        <value>Password Criteria</value>
+    </labels>
+    <labels>
         <fullName>PP_Password_Management</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Password Management</shortDescription>
         <value>Password Management</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordsMatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordsMatch</shortDescription>
+        <value>Passwords are matching</value>
+    </labels>
+    <labels>
+        <fullName>PP_PasswordsMismatch</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_PasswordsMismatch</shortDescription>
+        <value>Passwords are not matching</value>
     </labels>
     <labels>
         <fullName>PP_Paste_URL</fullName>
@@ -16218,6 +16700,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Profile_Update_Success</shortDescription>
         <value>Data Updated Successfully!</value>
+    </labels>
+    <labels>
+        <fullName>PP_ReenterPwd</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ReenterPwd</shortDescription>
+        <value>Re-Enter password here...</value>
     </labels>
     <labels>
         <fullName>PP_Remind_Using</fullName>
@@ -16303,6 +16792,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Remove Photo</value>
     </labels>
     <labels>
+        <fullName>PP_RequestSubmitted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RequestSubmitted</shortDescription>
+        <value>Request has been submitted successfully</value>
+    </labels>
+    <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -16324,11 +16820,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Scheduled</value>
     </labels>
     <labels>
+        <fullName>PP_SelectUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectUsername</shortDescription>
+        <value>Select Username to use</value>
+    </labels>
+    <labels>
+        <fullName>PP_SelectYear</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SelectYear</shortDescription>
+        <value>Select Year</value>
+    </labels>
+    <labels>
+        <fullName>PP_SendBtn</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SendBtn</shortDescription>
+        <value>Send Email</value>
+    </labels>
+    <labels>
         <fullName>PP_Share_Article</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP Share Article</shortDescription>
         <value>Have an article or a video that you found supportive during your clinical trial experience? Share it with us!</value>
+    </labels>
+    <labels>
+        <fullName>PP_SpecialCharacters</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_SpecialCharacters</shortDescription>
+        <value>Special characters(s)</value>
     </labels>
     <labels>
         <fullName>PP_Submit_Button</fullName>
@@ -16360,11 +16884,46 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Task created successfully. ; Changes are successfully saved. ; Visit reminder created successfully. ; Visit reminder updated.;Visit scheduled successfully.</value>
     </labels>
     <labels>
+        <fullName>PP_Ticket_Success_Toast</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Ticket_Success_Toast</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB &amp; Username.</value>
+    </labels>
+    <labels>
         <fullName>PP_Time_Unavailable</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Time_Unavailable</shortDescription>
         <value>No Time Entered</value>
+    </labels>
+    <labels>
+        <fullName>PP_To</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To</shortDescription>
+        <value>to</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToEmailAddressDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToEmailAddressDntTranslate</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_ToMyEmailAddress</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_ToMyEmailAddress</shortDescription>
+        <value>to my email address</value>
+    </labels>
+    <labels>
+        <fullName>PP_To_DntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_To_DntTranslate</shortDescription>
+        <value>to</value>
     </labels>
     <labels>
         <fullName>PP_Toggle_Information</fullName>
@@ -16417,11 +16976,67 @@ communications using the toggles below.</value>
         <value>Please enter a valid URL.</value>
     </labels>
     <labels>
+        <fullName>PP_USrPlaceholder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_USrPlaceholder</shortDescription>
+        <value>Enter username here...</value>
+    </labels>
+    <labels>
+        <fullName>PP_UpdateProfileResp</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UpdateProfileResp</shortDescription>
+        <value>&gt; Contact Information &gt; Edit &gt; Save</value>
+    </labels>
+    <labels>
         <fullName>PP_Upload_Photo</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_Upload_Photo</shortDescription>
         <value>Upload Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsefulInfo</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsefulInfo</shortDescription>
+        <value>Create tickets here for changing useful information</value>
+    </labels>
+    <labels>
+        <fullName>PP_User_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UserAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameAndEmail</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameAndEmail</shortDescription>
+        <value>Username &amp; Email</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsernameSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsernameSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your Username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsrNameLabel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameLabel</shortDescription>
+        <value>Your current email is: &lt;b&gt;##Email&lt;/b&gt;.</value>
+    </labels>
+    <labels>
+        <fullName>PP_UsrNameUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_UsrNameUpdateDntTranslate</shortDescription>
+        <value>Request to Match Username to Email</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -16480,6 +17095,13 @@ communications using the toggles below.</value>
         <value>Visit Time</value>
     </labels>
     <labels>
+        <fullName>PP_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16488,6 +17110,34 @@ communications using the toggles below.</value>
  Doing  so  will  prevent  you  from  seeing  any  more  information  associated  with 
  ##PatientFirstName.  If  you  withdraw  in  error, kindly  contact  your  patient  to  be 
  reappointed  as  a  delegate.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBSuccess</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBSuccess</shortDescription>
+        <value>Success! A ticket has been created for you to change your YOB.</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUpdateDntTranslate</shortDescription>
+        <value>Request to Update YOB</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrMergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrMergeDntTranslate</shortDescription>
+        <value>Request to Update YOB and Merge UserName</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrUpdateDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
+        <value>Request to Update YOB and Match UserName</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -17038,6 +17688,13 @@ communications using the toggles below.</value>
         <value>Preferred Contact Method *</value>
     </labels>
     <labels>
+        <fullName>Previous_Call_Dispositions</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Previous Call Dispositions</shortDescription>
+        <value>Previous Call Dispositions</value>
+    </labels>
+    <labels>
         <fullName>Primary_Investigator</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17050,6 +17707,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Principal_Investigator</shortDescription>
         <value>Principal Investigator</value>
+    </labels>
+    <labels>
+        <fullName>Privacypolicy_pdf_headers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Privacypolicy_pdf_headers</shortDescription>
+        <value>Our Commitment to Privacy,The Information we recieve,User Input,Actively Submitted Data,Web Logos</value>
     </labels>
     <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
@@ -17071,6 +17735,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+     <labels>
+        <fullName>Proceed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Proceed</shortDescription>
+        <value>Proceed</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>
@@ -17212,19 +17883,19 @@ communications using the toggles below.</value>
         <shortDescription>Pswd_Your_Pswd_Include</shortDescription>
         <value>Your password must include at least:</value>
     </labels>
-     <labels>
-        <fullName>Previous_Call_Dispositions</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Previous Call Dispositions</shortDescription>
-        <value>Previous Call Dispositions</value>
-    </labels>
     <labels>
         <fullName>Pulse</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Pulse</shortDescription>
         <value>Pulse</value>
+    </labels>
+    <labels>
+        <fullName>Quick_Reference_Card</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Quick Reference Card</shortDescription>
+        <value>Quick Reference Card</value>
     </labels>
     <labels>
         <fullName>RBC_Count</fullName>
@@ -17332,6 +18003,13 @@ communications using the toggles below.</value>
         <value>Comorbidities</value>
     </labels>
     <labels>
+        <fullName>RH_DelegateAttestation</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_DelegateAttestation</shortDescription>
+        <value>I certify that the patient&apos;s delegate/caregiver is over the age of legal majority for their state/country</value>
+    </labels>
+    <labels>
         <fullName>RH_Demographics</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17375,6 +18053,14 @@ communications using the toggles below.</value>
         <value>Export Filtered List</value>
     </labels>
     <labels>
+        <fullName>RH_Export_Error</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>No record found for Export</shortDescription>
+        <value>No record found for Export</value>
+    </labels>
+    <labels>
         <fullName>RH_External_Link_Disclaimer</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17394,6 +18080,14 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Filter by:</shortDescription>
         <value>Filter by:</value>
+    </labels>
+    <labels>
+        <fullName>RH_HCP</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_HCP</shortDescription>
+        <value>HCP</value>
     </labels>
     <labels>
         <fullName>RH_HCP_Name</fullName>
@@ -17438,6 +18132,13 @@ communications using the toggles below.</value>
         <value>IQVIA</value>
     </labels>
     <labels>
+        <fullName>RH_MinorDelegateErrMsg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_MinorDelegateErrMsg</shortDescription>
+        <value>This delegate is a minor and cannot be added.</value>
+    </labels>
+    <labels>
         <fullName>RH_MyPartiCipantListView</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17473,6 +18174,14 @@ communications using the toggles below.</value>
         <value>Others</value>
     </labels>
     <labels>
+        <fullName>RH_PI</fullName>
+        <categories>RH</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_PI</shortDescription>
+        <value>PI</value>
+    </labels>
+    <labels>
         <fullName>RH_PI_Site_staff_country_is_not_the_same</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17494,13 +18203,6 @@ communications using the toggles below.</value>
         <value>Sex</value>
     </labels>
     <labels>
-        <fullName>RH_Successfully_Contacted_Initial_Visit_Date_and_time</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
-        <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
-    </labels>    
-    <labels>
         <fullName>RH_StudyInfo</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17508,11 +18210,25 @@ communications using the toggles below.</value>
         <value>Study Info</value>
     </labels>
     <labels>
+        <fullName>RH_Successfully_Contacted_Initial_Visit_Date_and_time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH Successfully Contacted Initial Visit Date and time</shortDescription>
+        <value>Outcome of Successfully Contacted and Initial Visit Scheduled Date and Time are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
         <fullName>RH_Window_Title</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>RH Window Title</shortDescription>
         <value>IQVIA Referral Hub</value>
+    </labels>
+    <labels>
+        <fullName>RH_YearofBirth</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_YearofBirth</shortDescription>
+        <value>Year of Birth</value>
     </labels>
     <labels>
         <fullName>RP_BTN_Save_Changes</fullName>
@@ -17647,13 +18363,6 @@ communications using the toggles below.</value>
         <shortDescription>RSN Your permissions do not permit this action</shortDescription>
         <value>Your permissions do not permit this action</value>
     </labels>
-     <labels>
-        <fullName>Records_all_invited</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Records all invited</shortDescription>
-        <value>Participants have been invited successfully</value>
-    </labels>
     <labels>
         <fullName>RTL_Languages</fullName>
         <language>en_US</language>
@@ -17702,6 +18411,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Recent Notes</shortDescription>
         <value>Recent Notes</value>
+    </labels>
+    <labels>
+        <fullName>Records_all_invited</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Records all invited</shortDescription>
+        <value>Participants have been invited successfully</value>
     </labels>
     <labels>
         <fullName>Records_sent_to_SH</fullName>
@@ -18266,51 +18982,6 @@ communications using the toggles below.</value>
         <shortDescription>Respiratory Rate Description</shortDescription>
         <value>Respiratory rate is a measurement of how many breaths you take per minute.</value>
     </labels>
-	 <labels>
-        <fullName>RH_DelegateAttestation</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_DelegateAttestation</shortDescription>
-        <value>I certify that the patient&apos;s delegate/caregiver is over the age of legal majority for their state/country</value>
-    </labels>
-     <labels>
-        <fullName>RH_Export_Error</fullName>
-        <categories>RH</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>No record found for Export</shortDescription>
-        <value>No record found for Export</value>
-    </labels>
-	 <labels>
-        <fullName>RH_MinorDelegateErrMsg</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_MinorDelegateErrMsg</shortDescription>
-        <value>This delegate is a minor and cannot be added.</value>
-    </labels>
-      <labels>
-        <fullName>RH_PI</fullName>
-        <categories>RH</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_PI</shortDescription>
-        <value>PI</value>
-    </labels>
-	<labels>
-        <fullName>RH_YearofBirth</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>RH_YearofBirth</shortDescription>
-        <value>Year of Birth</value>
-	</labels>
-      <labels>
-        <fullName>RH_HCP</fullName>
-        <categories>RH</categories>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>RH_HCP</shortDescription>
-        <value>HCP</value>
-    </labels>
     <labels>
         <fullName>SDC_List_View</fullName>
         <language>en_US</language>
@@ -18528,13 +19199,6 @@ communications using the toggles below.</value>
         <shortDescription>SS Location</shortDescription>
         <value>Location</value>
     </labels>
-     <labels>
-        <fullName>Select_Call_Catagory</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Select Call Category</shortDescription>
-        <value>Select Call Catagory</value>
-    </labels>
     <labels>
         <fullName>SS_Location_Address</fullName>
         <language>en_US</language>
@@ -18739,13 +19403,6 @@ communications using the toggles below.</value>
         <value>Total</value>
     </labels>
     <labels>
-        <fullName>switcher</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>switcher</shortDescription>
-        <value>1</value>
-    </labels>
-    <labels>
         <fullName>STP_MRR_T2</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18861,6 +19518,13 @@ communications using the toggles below.</value>
         <value>Select All</value>
     </labels>
     <labels>
+        <fullName>Select_Call_Catagory</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Select Call Category</shortDescription>
+        <value>Select Call Catagory</value>
+    </labels>
+    <labels>
         <fullName>Select_Planned_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18905,12 +19569,39 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
+	 <labels>
+        <fullName>Send_IPREmailReport_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Body</shortDescription>
+        <value>Dear Team Member,&lt;br/&gt;&lt;br/&gt;
+        The report in this email contains records from ePR which were unable to be processed in Referral Hub due to validation errors. Please check the error report for further details and make any required changes. Referral Hub will attempt to reprocess these records at regular intervals for the next 30 days. &lt;br/&gt;
+        If the records are unable to be successfully processed after 30 days of retrials, they will be archived.
+        &lt;br/&gt;&lt;br/&gt;
+        
+        Thanks,&lt;br/&gt;
+        Referral Hub Team</value>
+    </labels>
+    <labels>
+        <fullName>Send_IPREmailReport_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Subject</shortDescription>
+        <value>Action Required: Referral Hub- ePR records Validation Errors</value>
+    </labels>
     <labels>
         <fullName>Sent_to_Study_Hub</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Sent to Study Hub</shortDescription>
         <value>Sent to Study Hub</value>
+    </labels>
+    <labels>
+        <fullName>September</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>September</shortDescription>
+        <value>September</value>
     </labels>
     <labels>
         <fullName>Set_Reminder</fullName>
@@ -18940,7 +19631,7 @@ communications using the toggles below.</value>
         <shortDescription>Showing Participant - call center</shortDescription>
         <value>Showing</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Signed_Auth_Form</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19095,13 +19786,6 @@ communications using the toggles below.</value>
         <shortDescription>Legend description</shortDescription>
         <value>An appropriately trained person (or doctor or nurse) will examine your joints and count how many are swollen and/or tender, by pressing on your joints with their fingers/hands. The pressing on the joints may cause some discomfort and pain for any joints that are tender.</value>
     </labels>
-     <labels>
-        <fullName>September</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>September</shortDescription>
-        <value>September</value>
-    </labels>
     <labels>
         <fullName>StudyVisit_Legend_Lung_Function_Test</fullName>
         <language>en_US</language>
@@ -19240,6 +19924,13 @@ communications using the toggles below.</value>
         <value>Study Document</value>
     </labels>
     <labels>
+        <fullName>Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Hub</shortDescription>
+        <value>Study Hub</value>
+    </labels>
+    <labels>
         <fullName>Study_Name</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -19255,7 +19946,7 @@ communications using the toggles below.</value>
         <shortDescription>Study Site</shortDescription>
         <value>Study Site</value>
     </labels>
-	    <labels>
+    <labels>
         <fullName>Study_Site_Information</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19742,13 +20433,6 @@ communications using the toggles below.</value>
         <shortDescription>Tab_HealthCare_Provider</shortDescription>
         <value>Healthcare Provider</value>
     </labels>
-     <labels>
-        <fullName>Type_in_your_notes</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>Type in your notes...</shortDescription>
-        <value>Type in your notes...</value>
-    </labels>
     <labels>
         <fullName>Tab_Medical_History</fullName>
         <language>en_US</language>
@@ -19756,7 +20440,6 @@ communications using the toggles below.</value>
         <shortDescription>Tab_Medical_History</shortDescription>
         <value>Medical History</value>
     </labels>
-   
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
         <language>en_US</language>
@@ -20305,6 +20988,13 @@ communications using the toggles below.</value>
         <value>7- Two or more races</value>
     </labels>
     <labels>
+        <fullName>Type_in_your_notes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Type in your notes...</shortDescription>
+        <value>Type in your notes...</value>
+    </labels>
+    <labels>
         <fullName>Type_notes_here</fullName>
         <categories>Media Outreach</categories>
         <language>en_US</language>
@@ -20347,13 +21037,6 @@ communications using the toggles below.</value>
         <shortDescription>Unable to Reach</shortDescription>
         <value>Unable to Reach</value>
     </labels>
-     <labels>
-        <fullName>UserName</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>UserName</shortDescription>
-        <value>none</value>
-   </labels>
     <labels>
         <fullName>Unable_to_Screen</fullName>
         <language>en_US</language>
@@ -20367,6 +21050,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Update Participant</shortDescription>
         <value>Update Participant</value>
+    </labels>
+    <labels>
+        <fullName>UserName</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>UserName</shortDescription>
+        <value>none</value>
     </labels>
     <labels>
         <fullName>User_Name_For_Email_Recipient_User_Lockout</fullName>
@@ -20458,6 +21148,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>VR Glucose</shortDescription>
         <value>Glucose</value>
+    </labels>
+    <labels>
+        <fullName>VR_Heart_Rate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>VR Heart Rate</shortDescription>
+        <value>Heart Rate</value>
     </labels>
     <labels>
         <fullName>VR_Height</fullName>
@@ -20855,7 +21552,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Visit Results Tab Result Date</shortDescription>
-        <value>Results from</value>
+        <value>Results for</value>
+    </labels>
+    <labels>
+        <fullName>Visit_Results_Tab_Result_Date_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Visit Results Tab Result Date On</shortDescription>
+        <value>on</value>
     </labels>
     <labels>
         <fullName>Visit_Results_Tab_Vit_Disclaimer</fullName>
@@ -21062,6 +21766,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>deleted successfully.</shortDescription>
         <value>deleted successfully.</value>
+    </labels>
+    <labels>
+        <fullName>switcher</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>switcher</shortDescription>
+        <value>1</value>
     </labels>
     <labels>
         <fullName>update_resource_content</fullName>

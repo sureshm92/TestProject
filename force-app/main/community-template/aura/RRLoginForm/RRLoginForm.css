@@ -11,6 +11,9 @@
     color: white;
     text-decoration: none;
 }
+.THIS RTL {
+    direction: rtl;
+}
 /* @Krishna Mahto- PEH-1910 
 .THIS  a:not(.no-float) {
     float: right;

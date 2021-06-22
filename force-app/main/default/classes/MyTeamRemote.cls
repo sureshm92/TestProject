@@ -9,6 +9,12 @@ public without sharing class MyTeamRemote {
     private static final String HAS_DELEGATE_LEVELS = 'True';
     private static final String HAS_NOT_DELEGATE_LEVELS = 'False';
     private static final String OLD_VALUES_DELEGATE_LEVELS = 'OldMap';
+    
+    
+     @AuraEnabled
+    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
+        return CommunityService.getMaxLength(so,fieldNames);
+    }
 
     @AuraEnabled
     public static String getInitData(String userMode, String parentId) {

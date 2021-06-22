@@ -1,6 +1,6 @@
 <apex:page id="RRPDFViewer" controller="RRPDFViewerController" showHeader="false" sideBar="false" action="{!initData}">
 
-    <embed width="100%" style="height: 100vh;" name="plugin" id="plugin" src="" type="application/pdf"/>
+    <embed width="100%" style="height: 100vh;" name="plugin" id="plugin" src="" type="application/pdf"/> 
     <apex:outputPanel rendered="{!executeJS}">
         <script>
             let fileName = "{!fileName}";
@@ -21,7 +21,7 @@
             } else {
                 let fileURL = URL.createObjectURL(blob);
                 let plugin = document.getElementById("plugin");
-                plugin.src = fileURL;
+                plugin.src = '/resource/pdfjs_dist/web/viewer.html?file=' + fileURL + '&fileName=' + fileName  + '.pdf';
             }
         </script>
     </apex:outputPanel>

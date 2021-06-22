@@ -3,7 +3,14 @@
  */
 
 public without sharing class TaskEditRemote {
+    
+    
     public Boolean isDelegate;
+    
+     @AuraEnabled
+    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
+        return CommunityService.getMaxLength(so,fieldNames);
+    }
 
     public class TaskEditDataWrapper {
         @AuraEnabled

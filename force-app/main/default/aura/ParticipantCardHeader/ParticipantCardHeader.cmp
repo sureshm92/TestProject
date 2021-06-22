@@ -8,6 +8,7 @@
     <aura:attribute name="pe" type="Object" />
     <aura:attribute name="isReferral" type="Boolean" />
     <aura:attribute name="isInvited" type="Boolean" />
+    <aura:attribute name="sendToSHDate" type="Date" default="false"/> 
 
     <!--added for the performance issue-->
     <!--aura:attribute name="parent" type="Aura.Component" required="true"/>
@@ -96,12 +97,58 @@
                     </div>
                     <aura:set attribute="else">
 
-                        <div
-                            class="{!v.isInvited ? 'slds-has-block-links--space' : 'slds-has-block-links--space2'}"
-                            data-gtm="{!v.isInvited ? 'Label_Invited' : 'Label_Not_Invited'}"
-                        >
-                            {!v.isInvited ? $Label.c.Invited : $Label.c.Not_Invited}
-                        </div>
+                        <aura:if isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c =='Traditional'}">
+                            
+                            <aura:if isTrue = "{!v.isInvited &amp;&amp; and(v.pe.Invited_To_PP_Date__c!=null,v.pe.Invited_To_PP_Date__c!=undefined)}">
+
+                                <div class="slds-has-block-links--spacepurple"
+                                     data-gtm="{!$Label.c.Community_PP}">
+                                    <img
+                                         src="{!$Resource.paperplane_pp_sh}"
+                                         class="icon-checkmark"
+                                         />
+                                    {!$Label.c.Community_PP}
+                                </div>
+                                <aura:set attribute="else">
+                                    
+                                    <div class="slds-has-block-links--space2"
+                                         data-gtm="{!$Label.c.Community_PP}">
+                                        <img
+                                             src="{!$Resource.paperplane_pp_sh}"
+                                             class="icon-checkmark"
+                                             />
+                                        {!$Label.c.Community_PP}
+                                    </div>
+                                </aura:set>
+                            </aura:if>    
+                          <aura:set attribute="else">
+                             <aura:if isTrue = "{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c  &amp;&amp; or(v.pe.Study_Site__r.Study_Site_Type__c =='Virtual',v.pe.Study_Site__r.Study_Site_Type__c =='Hybrid')}">
+                                 <aura:if isTrue = "{!and(v.sendToSHDate!=null,v.sendToSHDate!=undefined)}">
+                                     
+                                     <div class="slds-has-block-links--spaceblue"
+                                          data-gtm="{!$Label.c.Study_Hub}">
+                                         <img
+                                              src="{!$Resource.paperplane_pp_sh}"
+                                              class="icon-checkmark"
+                                              />
+                                         {!$Label.c.Study_Hub}
+                                     </div>
+                                  <aura:set attribute="else">
+                                      
+                                     <div class="slds-has-block-links--space2"
+                                          data-gtm="{!$Label.c.Study_Hub}">
+                                         <img
+                                              src="{!$Resource.paperplane_pp_sh}"
+                                              class="icon-checkmark"
+                                              />
+                                         {!$Label.c.Study_Hub}
+                                      </div>
+                                  </aura:set> 
+                             	 </aura:if>
+                             </aura:if>
+                           </aura:set>
+                        </aura:if>
+                        
                     </aura:set>
                 </aura:if>
             </aura:if>

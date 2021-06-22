@@ -42,12 +42,15 @@ export default class MessageBoardHeader extends LightningElement {
     @api isMultipleMode;
     @api isPastStudy;
     @api patientDelegates;
+    @track isrtl;
 
     @track isrtl;
     @track showDelegatesFullList;
     @track showBTNLabel = showMoreLabel;
     @track fullName;
     @track selectedPeId;
+   
+
 
     connectedCallback() {
         getisRTL().then((data) => {
@@ -68,6 +71,8 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     renderedCallback() {
+      
+            
         if (this.selectedEnrollment) {
             this.fullName =
                 this.userMode === 'PI'

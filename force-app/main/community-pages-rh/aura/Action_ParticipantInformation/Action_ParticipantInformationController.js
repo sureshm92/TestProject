@@ -29,6 +29,7 @@
             var pe = JSON.parse(JSON.stringify(params.pe));
             var contId = pe.Participant__r.Contact__c;
             var status = pe.Participant_Status__c;
+            component.set('v.peInvitedtoPP', (pe.Invited_To_PP_Date__c!=undefined && pe.Invited_To_PP_Date__c!=null)?true:false);
            	helper.getPESH(component,event,statusList,helper) ;
             component.set('v.isInvited', params.isInvited);
             if(component.get('v.isInvited')){
@@ -436,7 +437,178 @@
             }
         );
     },
-    
+    doUpdateCancelandValidatefov: function (component, event, helper) {
+        if(component.get('v.validateFOV')){
+            //alert('popup');
+            let pathWrapper = component.get('v.participantPath');
+            
+            let isNotnull=false;
+            for(var i=0; i<pathWrapper.steps.length; i++){
+                //console.log(i);
+                //console.log('size-->'+pathWrapper.steps[i]['cardTitle']);
+                if(pathWrapper.steps[i]['cardTitle'] == 'Contact Attempt')
+                {   
+                 if(pathWrapper.steps[i]['outcome'] == 'Pre-review Failed' || 
+                    pathWrapper.steps[i]['outcome'] == 'Contacted - Not Suitable' ||
+                    pathWrapper.steps[i]['outcome'] == 'Unable to Reach'
+                   )
+                 {      
+                     for(var j=0; j<pathWrapper.steps[i]['formFieldGroups'].length; j++){
+                         
+                         for(var k=0; k<pathWrapper.steps[i]['formFieldGroups'][j]['fields'].length; k++){
+                             
+                             if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_date__c')
+                             {
+                                 if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                                    &&
+                                    pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                                   ){
+                                     if(isNotnull == false){isNotnull=true;}
+                                     component.set('v.fovDate',pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value']);
+                                     
+                                 }else{
+                                     component.set('v.fovDate','');
+                                 }
+                             }                             
+                             
+                             if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_time__c')
+                             {
+                                 if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                                    &&
+                                    pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                                   ){
+                                     if(isNotnull == false){isNotnull=true;}
+                                     component.set('v.fovTime',pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value']);
+                                     
+                                 }else{
+                                     component.set('v.fovTime','');
+                                 } 
+                             }
+                         }
+                     }
+                   }
+                }
+            }
+            if(isNotnull){
+                component.set('v.saveAndcancel',true);
+                component.find('warningfov').execute();
+            }else{
+                var a = component.get('c.doUpdateCancel');
+                $A.enqueueAction(a);
+            } 
+        }else{
+            var a = component.get('c.doUpdateCancel');
+            $A.enqueueAction(a);
+        }
+    },
+    doUpdatePatientStatusandValidate: function (component, event, helper) {
+        if(component.get('v.validateFOV')){
+            //alert('popup');
+            let pathWrapper = component.get('v.participantPath');
+           
+            let isNotnull=false;
+            for(var i=0; i<pathWrapper.steps.length; i++){
+                
+                if(pathWrapper.steps[i]['cardTitle'] == 'Contact Attempt')
+                {    
+                 if(pathWrapper.steps[i]['outcome'] == 'Pre-review Failed' || 
+                    pathWrapper.steps[i]['outcome'] == 'Contacted - Not Suitable' ||
+                    pathWrapper.steps[i]['outcome'] == 'Unable to Reach'
+                   )
+                 {      
+                     for(var j=0; j<pathWrapper.steps[i]['formFieldGroups'].length; j++){
+                         
+                         for(var k=0; k<pathWrapper.steps[i]['formFieldGroups'][j]['fields'].length; k++){
+                             
+                             if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_date__c')
+                             {
+                                 if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                                    &&
+                                    pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                                   ){
+                                     if(isNotnull == false){isNotnull=true;}
+                                     component.set('v.fovDate',pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value']);
+                                    
+                                 }else{
+                                     component.set('v.fovDate','');
+                                 }
+                             }                             
+                             
+                             if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_time__c')
+                             {
+                                 if(pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                                    &&
+                                    pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                                   ){
+                                     if(isNotnull == false){isNotnull=true;}
+                                     component.set('v.fovTime',pathWrapper.steps[i]['formFieldGroups'][j]['fields'][k]['value']);
+                                   
+                                 }else{
+                                     component.set('v.fovTime','');
+                                 } 
+                             }
+                         }
+                     }
+                   }
+                }
+            }
+            if(isNotnull){
+                component.set('v.saveAndcancel',false);
+                component.find('warningfov').execute();
+            }else{
+                var a = component.get('c.doUpdatePatientStatus');
+                $A.enqueueAction(a);
+            } 
+        }else{
+            var a = component.get('c.doUpdatePatientStatus');
+            $A.enqueueAction(a);
+        }
+    },
+    doUpdatefovNull: function (component, event, helper) {
+       
+        let pathWrappers = component.get('v.participantPath');
+       
+        
+        for(var i=0; i<pathWrappers.steps.length; i++){
+            if(pathWrappers.steps[i]['cardTitle'] == 'Contact Attempt')
+            {   
+                for(var j=0; j<pathWrappers.steps[i]['formFieldGroups'].length; j++){
+                    
+                    for(var k=0; k<pathWrappers.steps[i]['formFieldGroups'][j]['fields'].length; k++){
+                        
+                        if(pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_date__c'
+                           &&
+                           pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                           &&
+                           pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                          ){
+                            pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] = '';
+                           
+                        }
+                        if(pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['field'] =='Initial_visit_scheduled_time__c'
+                           &&
+                           pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != null
+                           &&
+                           pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] != ''
+                          ){
+                            pathWrappers.steps[i]['formFieldGroups'][j]['fields'][k]['value'] = ''
+                            
+                        } 
+                    }
+                }
+            }
+        }
+      
+        component.set('v.participantPath',pathWrappers);
+        if(component.get('v.saveAndcancel')){
+            var a = component.get('c.doUpdateCancel');
+            $A.enqueueAction(a);
+        }else{
+            var a = component.get('c.doUpdatePatientStatus');
+            $A.enqueueAction(a);
+        }
+        
+    },
     doUpdatePatientStatus: function (component, event, helper) {
         let pathWrapper = component.get('v.participantPath');
         var usermode = communityService.getUserMode();
@@ -558,10 +730,17 @@
                 sendEmails: sendEmails
             },
             function (returnvalue) {
-                returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
-                component.set('v.isInvited', true);
-                component.set('v.userInfo', returnvalue);
-                component.set('v.invitedon',Date.now());
+                if(returnvalue ==undefined || returnvalue.length>0){
+                    returnvalue = JSON.parse(JSON.stringify(returnvalue[0]));
+                    component.set('v.isInvited', true);
+                    component.set('v.peInvitedtoPP',true);
+                    component.set('v.userInfo', returnvalue);
+                    component.set('v.invitedon',Date.now());
+                }else{
+                    component.set('v.isInvited', true);
+                    component.set('v.peInvitedtoPP',true);
+                    component.set('v.invitedon',Date.now());
+                }
                 communityService.showSuccessToast('', $A.get('$Label.c.PG_AP_Success_Message'));
                 var callback = component.get('v.callback');
                 if (callback) {

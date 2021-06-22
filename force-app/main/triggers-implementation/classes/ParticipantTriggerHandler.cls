@@ -8,11 +8,11 @@ public without sharing class ParticipantTriggerHandler {
 
     public class CreateContactsForParticipantsHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
-            createContactsForParticipants(newList);
+            if(!Batch_UpsertEprParticipantAndPE.eprBatchRunning)createContactsForParticipants(newList);
         }
 
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createContactsForParticipants(newList);
+            if(!Batch_UpsertEprParticipantAndPE.eprBatchRunning)createContactsForParticipants(newList);
         }
     }
 

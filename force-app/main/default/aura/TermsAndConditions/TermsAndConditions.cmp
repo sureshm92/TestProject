@@ -1,11 +1,11 @@
 <aura:component
-                description="TermsAndConditions"
-                implements="forceCommunity:availableForAllPageTypes"
-                controller="TermsAndConditionsRemote"
-                extends="c:CommunityContext"
-                >
+    description="TermsAndConditions"
+    implements="forceCommunity:availableForAllPageTypes"
+    controller="TermsAndConditionsRemote"
+    extends="c:CommunityContext"
+>
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
-    
+
     <!-- attributes: -->
     <aura:attribute name="tcData" type="Object" />
     <aura:attribute name="isPortalTC" type="Boolean" default="true" />
@@ -15,78 +15,104 @@
     <aura:attribute name="title" type="String" />
     <aura:attribute name="userMode" type="String" />
     <aura:attribute name="isUserLoggedIn" type="Boolean" default="false" />
-    
+    <aura:attribute name="isGsk" type="Boolean" default="false" />
+
     <aura:handler event="c:TCCookieClassesRemove" action="{!c.removeClasses}" />
-    <aura:handler value="{!this}" name="init" action="{!c.init}"/>
+    <aura:handler value="{!this}" name="init" action="{!c.init}" />
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
-    <div class="{!v.isRTL? 'arabic':'english'}">
-        <c:RRSpinner size="medium" aura:id="mainSpinner" />
-        <div class="rr-body-content rr-min-body-height" style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}">
-            <div class="rr-width-limiter side-padding" style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}" >
-                <div class="main-header">{!v.title}</div>
-                <aura:if isTrue="{!v.tcData}">
-                    <aura:if isTrue="{!v.tcData.tc}">
-                        <ui:outputRichText
-                                           class="{!if(v.isRTL, 'slds-text-longform slds-text-longform-rtl', 'slds-text-longform')}"
-                                           value="{!v.tcData.tc.T_C_Text__c}"
-                                           />
+
+    <c:RRSpinner size="medium" aura:id="mainSpinner" />
+    <aura:if
+        isTrue="{!(v.isGsk) || ((v.titleCode!='CookiePolicy') &amp;&amp; (v.titleCode!='PrivacyPolicy'))}"
+    >
+        <div class="{!v.isRTL? 'arabic':'english'}">
+            <div
+                class="rr-body-content rr-min-body-height"
+                style="{!if(v.isRTL,'direction:rtl;padding-bottom: 100px;')}"
+            >
+                <div
+                    class="rr-width-limiter side-padding"
+                    style="{!if(v.isRTL,'direction:rtl;max-width:1182px;')}"
+                >
+                    <div class="main-header">{!v.title}</div>
+                    <aura:if isTrue="{!v.tcData}">
+                        <aura:if isTrue="{!v.tcData.tc}">
+                            <ui:outputRichText
+                                class="{!if(v.isRTL, 'slds-text-longform slds-text-longform-rtl', 'slds-text-longform')}"
+                                value="{!v.tcData.tc.T_C_Text__c}"
+                            />
+                        </aura:if>
                     </aura:if>
-                </aura:if>
-            </div>
-            <aura:if isTrue="{!v.isUserLoggedIn}">
-                <c:RRBottomBar contentClass="tc-bottom-bar-content">
-                    <div
-                         class="{!if(v.isRTL, 'tc-accept-text tc-accept-text-rtl', 'tc-accept-text')}"
-                         >
-                        <aura:if isTrue="{!empty(v.privacyPolicyId)}">
-                            <aura:if isTrue="{!v.tcData.isAccepted}">
-                                {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '}
-                                <lightning:formattedDateTime
-                                                             value="{!v.tcData.acceptedDate}"
-                                                             year="numeric"
-                                                             month="short"
-                                                             day="2-digit"
-                                                             hour="numeric"
-                                                             minute="numeric"
-                                                             second="numeric"
-                                                             timeZone="{! $Locale.timezone }"
-                                                             />
-                                <aura:set attribute="else">
-                                    {!$Label.c.PG_TC_H_Do_You_Accept}
-                                </aura:set>
-                            </aura:if>
-                        </aura:if>
-                    </div>
-                    <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
-                        <aura:if isTrue="{!v.isUserLoggedIn}">
-                            <button class="apollo-btn primary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
-                                {!$Label.c.BTN_Close}
-                            </button>
-                        </aura:if>
-                        <aura:set attribute="else">
-                            <aura:if isTrue="{!!v.isPortalTC}">
-                                <aura:if isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}">
-                                    <button class="apollo-btn secondary" onclick="{!c.doGoBack}" style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}">
-                                        {!$Label.c.BTN_Back}
-                                    </button>
+                </div>
+                <aura:if isTrue="{!v.isUserLoggedIn}">
+                    <c:RRBottomBar contentClass="tc-bottom-bar-content">
+                        <div
+                            class="{!if(v.isRTL, 'tc-accept-text tc-accept-text-rtl', 'tc-accept-text')}"
+                        >
+                            <aura:if isTrue="{!empty(v.privacyPolicyId)}">
+                                <aura:if isTrue="{!v.tcData.isAccepted}">
+                                    {!$Label.c.PG_TC_Terms_and_Conditions_accepted + ' '}
+                                    <lightning:formattedDateTime
+                                        value="{!v.tcData.acceptedDate}"
+                                        year="numeric"
+                                        month="short"
+                                        day="2-digit"
+                                        hour="numeric"
+                                        minute="numeric"
+                                        second="numeric"
+                                        timeZone="{! $Locale.timezone }"
+                                    />
+                                    <aura:set attribute="else">
+                                        {!$Label.c.PG_TC_H_Do_You_Accept}
+                                    </aura:set>
                                 </aura:if>
                             </aura:if>
-                            <button class="apollo-btn primary" onclick="{!c.doAccept}">
-                                {!$Label.c.BTN_I_Accept}
-                            </button>
-                        </aura:set>
-                    </aura:if>
-                </c:RRBottomBar>
-            </aura:if>
-            <aura:if isTrue="{!and( not(v.isUserLoggedIn), v.isMobileApp)}">
-                <c:RRBottomBar contentClass="tc-bottom-bar-content">
-                    <button class="apollo-btn primary" onclick="{!c.doGoBack}">
-                        {!$Label.c.BTN_Back}
-                    </button>
-                </c:RRBottomBar>
-            </aura:if>
+                        </div>
+                        <aura:if isTrue="{!v.tcData.isAccepted || !empty(v.privacyPolicyId)}">
+                            <aura:if isTrue="{!v.isUserLoggedIn}">
+                                <button
+                                    class="apollo-btn primary"
+                                    onclick="{!c.doGoBack}"
+                                    style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}"
+                                >
+                                    {!$Label.c.BTN_Close}
+                                </button>
+                            </aura:if>
+                            <aura:set attribute="else">
+                                <aura:if isTrue="{!!v.isPortalTC}">
+                                    <aura:if
+                                        isTrue="{!or(notequals(v.userMode, 'Participant'), and(equals(v.userMode, 'Participant'), v.tcData.isAccepted))}"
+                                    >
+                                        <button
+                                            class="apollo-btn secondary"
+                                            onclick="{!c.doGoBack}"
+                                            style="{!if(v.isRTL, 'margin-left: 1.5%; margin-right: auto;','')}"
+                                        >
+                                            {!$Label.c.BTN_Back}
+                                        </button>
+                                    </aura:if>
+                                </aura:if>
+                                <button class="apollo-btn primary" onclick="{!c.doAccept}">
+                                    {!$Label.c.BTN_I_Accept}
+                                </button>
+                            </aura:set>
+                        </aura:if>
+                    </c:RRBottomBar>
+                </aura:if>
+                <aura:if isTrue="{!and( not(v.isUserLoggedIn), v.isMobileApp)}">
+                    <c:RRBottomBar contentClass="tc-bottom-bar-content">
+                        <button class="apollo-btn primary" onclick="{!c.doGoBack}">
+                            {!$Label.c.BTN_Back}
+                        </button>
+                    </c:RRBottomBar>
+                </aura:if>
+            </div>
         </div>
-    </div>
+
+        <aura:set attribute="else">
+            <c:privacyPolicyViewerPage />
+        </aura:set>
+    </aura:if>
 </aura:component>

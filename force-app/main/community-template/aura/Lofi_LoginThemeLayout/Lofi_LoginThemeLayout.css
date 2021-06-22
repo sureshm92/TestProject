@@ -1,0 +1,498 @@
+/**
+ * Created by Pijush Kar
+ */
+.THIS.all-content {
+    top: 0;
+    left: 0;
+    font-family: 'Proxima Nova';
+    background-color: rgb(255, 255, 255);
+}
+
+.THIS.mobile-content {
+    height: 100vh;
+    align-items: stretch;
+    top: 0;
+    left: 0;
+    font-family: 'Proxima Nova';
+    background: url(/resource/1623075522000/Lofi_Login_Icons/Background.png) no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+.THIS > .slds-col.slds-large-size_4-of-7 {
+    max-height: 100vh;
+    overflow: hidden;
+}
+
+.THIS > .slds-col.slds-large-size_4-of-7 img {
+    margin-top: -125px;
+}
+
+.THIS > .slds-col.slds-large-size_3-of-7 {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
+.THIS .body-content {
+    width: 20rem;
+    margin: 0 auto;
+    background-color: #ffffff;
+    border-radius: 0.25rem;
+    padding: 1rem 0;
+    margin-top: 1rem;
+    margin-bottom: 1rem;
+}
+
+.THIS .logo-block {
+    margin: auto;
+    margin-top: 2rem;
+    /*  min-width: 31.25rem; */
+}
+
+.THIS .logo-block + .slds-col {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    padding-bottom: 1rem;
+}
+
+.THIS .logo-block > .slds-align_absolute-center {
+    width: 30rem;
+}
+
+.THIS .logo-block > .slds-align_absolute-center > .slds-col {
+    padding: 0;
+}
+
+.THIS .brand-logo {
+    margin: 2rem;
+    margin-bottom: 1rem;
+}
+
+.THIS .logo-sub-title {
+    line-height: 24px;
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    width: 20.5em;
+    height: 3em;
+}
+
+.THIS .logo-sub-title-mobile {
+    line-height: 24px;
+    color: #ffffff;
+    font-size: 1rem;
+    font-weight: bold;
+    letter-spacing: 0;
+    text-align: center;
+    margin-bottom: 1rem;
+    width: 56%;
+}
+
+.THIS .logo-row {
+    display: inline-flex;
+}
+
+.THIS .main-logo {
+    margin: 40px 5px 40px 0;
+    /*height: 110px;*/
+    float: left;
+}
+
+.THIS .mobile-logo {
+    float: left;
+}
+
+.THIS .ie-login-rows input:focus {
+    background-color: #213e7e;
+}
+
+.THIS .janssen-logo {
+    font-size: 24px;
+    font-weight: 500;
+    margin-bottom: -0.5em;
+    margin-top: 1em;
+}
+/*.THIS .forgot-password {
+    height: 29px !important;
+    width: 251px !important;
+    color: #000000 !important;
+    font-size: 24px !important;
+    font-weight: 600 !important;
+    letter-spacing: 0 !important;
+    line-height: 29px !important;
+}
+.THIS .email-sent {
+    height: 29px;
+    width: 251px;
+    color: #000000;
+    font-size: 24px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 29px;
+}
+.THIS .we-sent-a-message-to {
+    height: 48px;
+    width: 286px;
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-top: 40px;
+}*/
+
+.THIS .label {
+    height: 24px;
+    width: 64px;
+    color: #444444;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .slds-form-element__label {
+    height: 24px;
+    width: 100px;
+    color: #444444;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .header-title {
+    color: #005587;
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 36px;
+    overflow: hidden;
+    margin-top: 1.1em;
+}
+
+.THIS .header-title-mobile {
+    color: #ffffff;
+    font-size: 21px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 25px;
+}
+
+.THIS .header-subtitle {
+    color: #000000;
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.THIS .footer {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin-left: 0.3125em;
+    width: 100%;
+}
+
+.THIS .footer-mobile {
+    color: #ffffff;
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 24px;
+    text-align: center;
+    margin: 0 0.5em;
+    margin-bottom: 1em;
+    width: 100%;
+}
+
+.THIS .align-rtl {
+    /* @noflip */
+    direction: rtl;
+}
+
+.THIS .p-header h2 {
+    min-width: 275px;
+    line-height: 22px !important;
+    padding-left: 10px;
+    font-weight: normal !important;
+}
+
+.THIS.mobile-content .footer-mobile {
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: flex-end;
+}
+
+.THIS.mobile-content .appTitles {
+    display: flex;
+    margin: 2rem auto;
+    width: 55%;
+}
+
+.THIS.mobile-content .ppLabel {
+    color: #fff;
+}
+
+.THIS .p-container .p-content {
+    padding-top: 0 !important;
+}
+.THIS .p-container .rtlBody {
+    /*@noflip*/
+    direction: rtl;
+}
+.THIS .p-header .rtlHeader {
+    /*@noflip*/
+    direction: rtl;
+    /*@noflip*/
+    padding-right: 24px !important;
+}
+
+@media all and (max-width: 1080px) {
+    .THIS .logo-block {
+        margin-top: 0;
+    }
+
+    /*   .THIS .logo-block > .slds-align_absolute-center {
+        width: 100%;
+        flex-direction: column;
+    } */
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+        width: 80%;
+        margin-top: -1rem;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
+        width: 50%;
+        text-align: center;
+    }
+
+    .THIS .header-title {
+        text-align: left;
+        padding-left: 0.75rem;
+        margin-top: 0.875rem;
+    }
+
+    .THIS .main-logo {
+        margin: 20px 0 40px 0;
+    }
+}
+
+@media all and (max-width: 900px) {
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
+        width: 65%;
+    }
+}
+
+@media all and (min-width: 768px) {
+    .THIS .p-container.medium {
+        width: 500px !important;
+    }
+
+    .THIS .body-content {
+        margin-top: 0;
+        margin-bottom: 0;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .THIS .p-container .icon-bell {
+        left: 2rem;
+        top: 1.5rem;
+    }
+
+    .THIS .checkmarklofi.eye-icon-mask .checksizelofi-eye {
+        height: 24px;
+        width: 26px;
+    }
+}
+
+@media all and (max-width: 486px) {
+    .THIS.mobile-content .logo-sub-title-mobile {
+        width: auto;
+    }
+
+    .THIS.mobile-content .appTitles {
+        margin: 0;
+        width: auto;
+    }
+
+    .THIS.mobile-content .body-content {
+        padding-bottom: 1.5rem;
+    }
+
+    .THIS .p-container .icon-bell {
+        left: 1rem;
+    }
+}
+
+@media all and (max-height: 776px) {
+    .THIS .logo-block > .slds-align_absolute-center {
+        width: auto;
+    }
+
+    .THIS .logo-block {
+        margin-top: 0;
+    }
+
+    .THIS .slds-col.slds-large-size_4-of-7 img {
+        margin-top: -90px;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
+        margin-top: -1.75rem;
+        z-index: 5;
+        position: relative;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+        width: 20.5rem;
+        margin-top: -2.5rem;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) img {
+        transform: scale(0.75);
+    }
+
+    .THIS .logo-block .logo-sub-title {
+        margin-top: -2rem;
+        z-index: 100;
+        position: relative;
+        font-size: 0.875rem;
+        line-height: 1.25rem;
+    }
+
+    .THIS .logo-block .slds-align_absolute-center.slds-grid {
+        margin-top: -1rem;
+        width: 100%;
+    }
+
+    .THIS .logo-block .main-logo {
+        transform: scale(0.75);
+        margin: 30px 0 40px;
+    }
+
+    .THIS .logo-block .header-title {
+        font-size: 1.5rem;
+        margin-top: 1.4rem;
+    }
+
+    .THIS .logo-block .header-subtitle {
+        font-size: 0.75rem;
+        margin-top: -0.5rem;
+    }
+
+    .THIS .body-content {
+        margin-top: -1.25rem;
+        padding-bottom: 0;
+    }
+
+    .THIS .body-content .input-box {
+        margin-bottom: 1em;
+    }
+
+    .THIS .body-content .form-header,
+    .THIS .body-content .forgot-pwd,
+    .THIS .body-content .forgot-password,
+    .THIS .body-content .titleFont {
+        margin: 0 0 0.5em;
+    }
+
+    .THIS .body-content .form-button {
+        margin-bottom: 1rem;
+        margin-top: 0.5rem;
+    }
+
+    .THIS .body-content .rr-link {
+        font-size: 0.875rem;
+    }
+
+    .THIS .body-content .icon-position {
+        transform: scale(0.75);
+    }
+
+    .THIS .footer {
+        line-height: 1.25rem;
+        margin-top: 1rem;
+    }
+
+    .THIS .footer > .slds-col {
+        font-size: 0.75rem;
+    }
+
+    .THIS .logo-block + .slds-col {
+        padding-bottom: 0;
+    }
+}
+
+@media all and (max-height: 776px) and (max-width: 486px) {
+    .THIS .body-content {
+        margin-top: 1.5rem;
+    }
+}
+
+@media all and (max-height: 560px) {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 110vh;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7 {
+        height: 110vh;
+    }
+
+    .THIS .slds-col.slds-large-size_4-of-7 img {
+        margin-top: -70px;
+    }
+
+    .THIS .logo-block {
+        min-width: 26.5rem;
+        margin-top: 1rem;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
+        margin-top: -2.25rem;
+    }
+
+    /*.THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+        margin-top: -2.75rem;
+    }*/
+
+    .THIS .logo-block .slds-align_absolute-center.slds-grid {
+        margin-top: -1rem;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center.slds-grid.slds-wrap.slds-gutters {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col:first-child {
+        padding-left: 15px;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center .header-subtitle {
+        text-align: left;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center .header-title {
+        padding-left: 0;
+    }
+
+    .THIS .body-content {
+        margin-top: -1.75rem;
+    }
+}
+
+@media all and (max-height: 488px) {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 130vh;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7 {
+        height: 130vh;
+    }
+}

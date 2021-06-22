@@ -1,5 +1,5 @@
 ({
-    doInit: function (component, event, helper) {
+    doInit: function(component, event, helper) {
         let currentCommunityMode = communityService.getCurrentCommunityMode();
         var rtl_language = $A.get('$Label.c.RTL_Languages');
         var paramLanguage = communityService.getUrlParameter('language');
@@ -28,7 +28,7 @@
         let titleCode = component.get('v.titleCode');
         if (titleCode === 'PrivacyPolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Privacy_Policy'));
-            document.title =$A.get('$Label.c.PG_TC_H_Privacy_Policy');
+            document.title = $A.get('$Label.c.PG_TC_H_Privacy_Policy');
         } else if (titleCode === 'CookiePolicy') {
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Cookie_Policy'));
             document.title = $A.get('$Label.c.PG_TC_H_Cookie_Policy');
@@ -36,34 +36,53 @@
             component.set('v.title', $A.get('$Label.c.PG_TC_H_Terms_And_Conditions'));
             document.title = $A.get('$Label.c.PG_TC_H_Terms_And_Conditions');
         }
+        communityService.executeAction(component, 'getCommunityName', {}, function(returnValue) {
+            if (returnValue !== null) {
+                if (returnValue == 'GSK Community') {
+                    component.set('v.isGsk', true);
+                }
+            }
+        });
+        if (communityService.isInitialized()) {
+            if (
+                communityService.getCurrentCommunityName() == 'GSK Community' ||
+                communityService.getCommunityName().includes('GSK')
+            ) {
+                component.set('v.isGsk', true);
+            }
+        }
         component.find('mainSpinner').show();
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+        let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
         if (isPortalTC) {
             if (titleCode === 'CookiePolicy' || titleCode === 'PrivacyPolicy') {
-                communityService.executeAction(
-                    component,
-                    'getTC',
-                    {
-                        code: titleCode,
-                        languageCode: communityService.getUrlParameter('language'),
-                        useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
-                    },
-                    function (returnValue) {
-                        let tcData = JSON.parse(returnValue);
-                        component.set('v.tcData', tcData);
-                        if (RTL) {
-                            helper.setRTL(component);
+                if (component.get('v.isGsk')) {
+                    communityService.executeAction(
+                        component,
+                        'getTC',
+                        {
+                            code: titleCode,
+                            languageCode: communityService.getUrlParameter('language'),
+                            useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
+                        },
+                        function(returnValue) {
+                            let tcData = JSON.parse(returnValue);
+                            component.set('v.tcData', tcData);
+                            if (RTL) {
+                                helper.setRTL(component);
+                            }
+                            if (tcData.tc) {
+                                component.set('v.privacyPolicyId', tcData.tc);
+                            }
+                        },
+                        null,
+                        function() {
+                            component.find('mainSpinner').hide();
                         }
-                        if (tcData.tc) {
-                            component.set('v.privacyPolicyId', tcData.tc);
-                        }
-                    },
-                    null,
-                    function () {
-                        component.find('mainSpinner').hide();
-                    }
-                );
+                    );
+                } else {
+                    component.find('mainSpinner').hide();
+                }
             } else {
                 communityService.executeAction(
                     component,
@@ -72,14 +91,14 @@
                         useDefaultCommunity:
                             communityService.getHasIQVIAStudiesPI() && userDefalutTC
                     },
-                    function (returnValue) {
+                    function(returnValue) {
                         component.set('v.tcData', JSON.parse(returnValue));
                         if (RTL) {
                             helper.setRTL(component);
                         }
                     },
                     null,
-                    function () {
+                    function() {
                         component.find('mainSpinner').hide();
                     }
                 );
@@ -92,10 +111,9 @@
                     {
                         code: titleCode,
                         languageCode: communityService.getUrlParameter('language'),
-                        useDefaultCommunity:
-                            communityService.getHasIQVIAStudiesPI() && userDefalutTC
+                        useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC
                     },
-                    function (returnValue) {
+                    function(returnValue) {
                         let tcData = JSON.parse(returnValue);
                         component.set('v.tcData', tcData);
                         if (RTL) {
@@ -106,7 +124,7 @@
                         }
                     },
                     null,
-                    function () {
+                    function() {
                         component.find('mainSpinner').hide();
                     }
                 );
@@ -120,14 +138,14 @@
                     {
                         ctpId: component.get('v.ctpId')
                     },
-                    function (returnValue) {
+                    function(returnValue) {
                         component.set('v.tcData', JSON.parse(returnValue));
                         if (RTL) {
                             helper.setRTL(component);
                         }
                     },
                     null,
-                    function () {
+                    function() {
                         component.find('mainSpinner').hide();
                     }
                 );
@@ -136,8 +154,7 @@
 
         helper.hideOkButton(component, event, helper); // @Krishna Mahto - PEH-2450
     },
-
-    doAccept: function (component, event, helper) {
+    doAccept: function(component, event, helper) {
         let tcData = component.get('v.tcData');
         let isPortalTC = component.get('v.isPortalTC');
         communityService.executeAction(
@@ -146,7 +163,7 @@
             {
                 tcId: tcData.tc.Id
             },
-            function (returnValue) {
+            function(returnValue) {
                 communityService.setTCAccepted();
                 helper.goBack(component);
                 if (!isPortalTC && tcData.trial != null) {
@@ -164,17 +181,17 @@
         );
     },
 
-    doGoBack: function (component, event, helper) {
+    doGoBack: function(component, event, helper) {
         helper.goBack(component);
     },
 
-    removeClasses: function (component, event, helper) {
+    removeClasses: function(component, event, helper) {
         let bottomLine = document.getElementsByClassName('bottom-line-with-cookie');
         $A.util.removeClass(bottomLine[0], 'bottom-line-with-cookie');
         let paddingForCookie = document.getElementsByClassName('padding-for-cookie-policy');
         $A.util.removeClass(paddingForCookie[0], 'padding-for-cookie-policy');
     },
-    init: function(component, event, helper) {        
-        document.title = $A.get("{!$Label.c.BTN_View_terms_and_conditions_participant}");
+    init: function(component, event, helper) {
+        document.title = $A.get('{!$Label.c.BTN_View_terms_and_conditions_participant}');
     }
 });

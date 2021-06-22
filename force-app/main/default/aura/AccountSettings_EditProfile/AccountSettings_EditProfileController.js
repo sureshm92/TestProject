@@ -87,7 +87,7 @@
                     component.get('v.userMode') == 'PI' ||
                     component.get('v.userMode') == 'CC'
                 ) {
-                    component.set('v.userEmail', initData.myContact.Email);
+                    component.set('v.userEmail', initData.userName);
                 }
                 // console.log('initData.myContact.Email',initData.myContact.Email);
                 component.set('v.minorUserName', initData.myContact.Email);
@@ -435,6 +435,9 @@
                 communityService.showInfoToast('', $A.get('$Label.c.Toast_Enter_Mob_Num'));
             }, 800);
         }
+    },
+    navigateToHelpPage: function (component, event, helper) {
+       communityService.navigateToPage('help');  
     },
 
     doUpdatePerson: function (component, event, helper) {

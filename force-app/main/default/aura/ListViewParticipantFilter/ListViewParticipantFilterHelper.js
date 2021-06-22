@@ -33,7 +33,6 @@
     },
 
     handleSearchHelper: function (component, event, helper) {
-        console.log('insidehelper');
         component.find('Spinnerpopup').show();
         component.set('v.lstPR_no', '');
         component.set('v.lstPR_yes', '');
@@ -93,11 +92,8 @@
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
         var bulkaction = component.get('v.ActionSelected');
-        //alert(bulkaction);
-        var bulkStatus = component.get('v.statusSelected');
-         //alert(bulkStatus);
-       
-        //console.log('########Search ' +filterValue);
+        var statusChangeto = component.get('v.StatusChangeto');
+        //alert('statusto-->'+statusChangeto);
         if (bol) {
             if (!communityService.isInitialized()) return;
             //component.set('v.oldfilterList',component.get("v.filterList"));
@@ -107,8 +103,7 @@
                 {
                     filterJSON: filterValue,
                     bulkAction: bulkaction,
-                    BulkStatus: bulkStatus
-                    
+                    statusChangeto: statusChangeto
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -117,6 +112,7 @@
                     component.set('v.PaginationList', result.FilterImpacts);
                     component.set('v.PageNumber', result.pageNumber);
                     component.set('v.TotalRecords', result.totalRecords);
+                    component.set('v.bulkStatusUpdate',result.bulkStatusUpdate);
                     component.set('v.filterList[0].perRecordCount', result.totalRecords);
                     component.set('v.RecordStart', result.recordStart);
                     component.set('v.RecordEnd', result.recordEnd);
@@ -135,8 +131,6 @@
                     component.set('v.filterList', RowItemList);
                     component.set('v.enablePP', result.enablePP);
                     component.set('v.enableSH', result.enableSH);
-                    console.log('Cpp--->'+result.enablePP);
-                    console.log('promote--->'+result.enableSH);
                 }
             );
             component.set('v.SelectAll', false);
@@ -150,14 +144,14 @@
         filterValue[0].startPos = filterValue[0].endPos + 1;
         filterValue[0].endPos = filterValue[0].endPos + 45000;
         var bulkaction = component.get('v.ActionSelected');
-        var bulkStatus = component.get('v.statusSelected');
+        var statusChangeto = component.get('v.StatusChangeto');
         communityService.executeAction(
             component,
             'fetchData',
             {
                 filterJSON: JSON.stringify(filterValue),
                 bulkAction: bulkaction,
-                BulkStatus: bulkStatus
+                statusChangeto: statusChangeto
             },
             function (returnValue1) {
                 console.log('length2 ' + returnValue1.FilterImpacts.length);
@@ -216,14 +210,14 @@
             // console.log("Sellected Filter " + (filterValue));
             if (!communityService.isInitialized()) return;
             var bulkaction = component.get('v.ActionSelected');
-            var bulkStatus = component.get('v.statusSelected');
+            var statusChangeto = component.get('v.StatusChangeto');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
                     filterJSON: filterValue,
                     bulkAction: bulkaction,
-                    BulkStatus: bulkStatus
+                    statusChangeto: statusChangeto
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -312,9 +306,10 @@
         csvStringResult = '';
         csvStringResult += header + columnDivider;
         csvStringResult += lineDivider;
-      
-          
+        console.log('@@@@@@ ' + objectRecords.length);
         for (var i = 0; i < objectRecords.length; i++) {
+            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
+
             if (
                 objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Protocol_ID__c'] !== undefined
             ) {
@@ -366,6 +361,7 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
+
             if (objectRecords[i]['pe']['Participant__r'] !== undefined && objectRecords[i]['pe']['Participant__r']['First_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' + objectRecords[i]['pe']['Participant__r']['First_Name__c'] + '"' + ',';
@@ -545,6 +541,7 @@
         });
         toastEvent.fire();
     },
+
     doinitHelper: function (component, event, helper) {
         component.find('Spinnerpopup').show();
         component.set('v.flagSet', false);
@@ -638,14 +635,14 @@
             //component.set('v.oldfilterList',component.get("v.filterList"));
             if (!communityService.isInitialized()) return;
             var bulkaction = component.get('v.ActionSelected');
-            var bulkStatus = component.get('v.statusSelected');
+            var statusChangeto = component.get('v.StatusChangeto');
             communityService.executeAction(
                 component,
                 'fetchData',
                 {
                     filterJSON: filterValue,
                     bulkAction: bulkaction,
-                    BulkStatus: bulkStatus
+                    statusChangeto: statusChangeto
                 },
                 function (returnValue) {
                     var result = returnValue;
@@ -676,5 +673,13 @@
         }
         component.set('v.isFromDoinit', true);
         component.set('v.SelectAll', false);
+    },
+    
+    setDefault: function(component, event, helper){
+        component.set("v.isActionSelected",false);
+        component.set("v.statusChange",false);
+        component.set("v.isCheckboxhidden",false);
+        component.set('v.ActionSelected','null');
+        helper.handleSearchHelper(component, event, helper);
     }
 });

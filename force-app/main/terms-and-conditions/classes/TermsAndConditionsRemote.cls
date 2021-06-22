@@ -31,7 +31,37 @@ public without sharing class TermsAndConditionsRemote {
     }
 
     @AuraEnabled
+    public static string generatePDF(Id ppId) {
+        Id contId;
+        string retUrl;
+
+        try {
+            ContentDocumentLink cdl = new ContentDocumentLink();
+            ContentDistribution contDist = new ContentDistribution();
+            cdl = [
+                SELECT Id, ContentDocumentId
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :ppId
+            ];
+            // con = [SELECT Id, Title FROM ContentDocument WHERE Id =: cdl.ContentDocumentId];
+            contId = cdl.ContentDocumentId;
+            contDist = [
+                SELECT Id, ContentDownloadUrl
+                FROM ContentDistribution
+                WHERE ContentDocumentId = :cdl.ContentDocumentId
+            ];
+            retUrl = contDist.ContentDownloadUrl;
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+        /*string retUrl = URL.getOrgDomainUrl().toExternalForm() +
+         '/sfc/servlet.shepherd/document/download/'+ contId +'?operationContext=S1';*/
+        return retUrl;
+    }
+
+    @AuraEnabled
     public static String getTC(String code, String languageCode, Boolean useDefaultCommunity) {
+        System.debug('useDefaultCommunity: ' + useDefaultCommunity);
         try {
             TCData tcData = new TCData();
             if (code == 'PrivacyPolicy') {
@@ -59,7 +89,15 @@ public without sharing class TermsAndConditionsRemote {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
-
+    @auraEnabled
+    public static String getCommunityName() {
+        String communityName = TranslateHelper.getLabelValue(
+            UserContext.getTemplateProperty('CommunityBrandName')
+        );
+        communityName = communityName.replace('<i>', '');
+        communityName = communityName.replace('</i>', '');
+        return communityName;
+    }
     private static TCData getTCData(Terms_And_Conditions__c tc) {
         TCData tcData = new TCData();
         if (tc != null) {
