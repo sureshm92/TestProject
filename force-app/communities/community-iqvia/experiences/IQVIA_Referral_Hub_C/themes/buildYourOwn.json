@@ -10,6 +10,7 @@
     "Inner" : "08e9ee51-e380-424d-ae96-5e152206f4b1",
     "Login" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
     "OoPK6S0erFtEyweyKxkJhnM5iY2u2F" : "ec1e8f70-ad63-4ff3-9426-f816f8bddd0a",
+    "ServiceNotAvailable" : "0f53b3e4-2f5b-4142-b8a2-82efae2eb55b",
     "jFh2MimfxMkpZAWuEWEDaWQxqPYyp9" : "358b080f-2a9f-46db-9862-b5490c3660c0",
     "m08vvjxriVvQ2irWE1QZ12cOlhzFJQ" : "e9a43fa6-2f53-46aa-80ac-bcb666182629"
   },
@@ -25,8 +26,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -96,8 +97,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -167,8 +168,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -228,8 +229,12 @@
     } ],
     "type" : "view"
   }, {
-    "componentAttributes" : { },
-    "componentName" : "c:LoginThemeLayout",
+    "componentAttributes" : {
+      "communityType" : "null",
+      "subTitle" : "null",
+      "title" : "null"
+    },
+    "componentName" : "c:Lofi_LoginThemeLayout",
     "id" : "358b080f-2a9f-46db-9862-b5490c3660c0",
     "label" : "Forgot_Password",
     "regions" : [ {
@@ -238,8 +243,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -309,8 +314,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -370,8 +375,12 @@
     } ],
     "type" : "view"
   }, {
-    "componentAttributes" : { },
-    "componentName" : "c:LoginThemeLayout",
+    "componentAttributes" : {
+      "communityType" : "null",
+      "subTitle" : "null",
+      "title" : "null"
+    },
+    "componentName" : "c:Lofi_LoginThemeLayout",
     "id" : "9084f5cd-d942-4cf7-81b3-1b9940fdd76b",
     "label" : "Login",
     "regions" : [ {
@@ -380,8 +389,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -451,8 +460,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -508,6 +517,29 @@
     }, {
       "id" : "bb0c7453-dea4-47d7-aab3-764e8196df3f",
       "regionName" : "sidebarFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  }, {
+    "componentAttributes" : {
+      "fixedPageWidth" : 1170,
+      "headerBgColor" : "rgba(0, 0, 0, 0)",
+      "isHeaderPinned" : false,
+      "isHeroUnderHeader" : false,
+      "isPageWidthFixed" : true,
+      "showHeader" : true,
+      "showHero" : true
+    },
+    "componentName" : "siteforce:themeLayoutStarter",
+    "id" : "0f53b3e4-2f5b-4142-b8a2-82efae2eb55b",
+    "label" : "ServiceNotAvailable",
+    "regions" : [ {
+      "id" : "b7087f59-3970-49e1-a662-315850e41ec5",
+      "regionName" : "themeHeader",
+      "type" : "region"
+    }, {
+      "id" : "3d18fe0d-164a-4c03-9b53-c459cec0d060",
+      "regionName" : "themeFooter",
       "type" : "region"
     } ],
     "type" : "view"

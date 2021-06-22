@@ -2,20 +2,43 @@
  - Created by Kryvolap on 12.10.2018.
  -->
 
-<aura:component description="ApplicationHelp" controller="ApplicationHelpRemote">
+<aura:component description="ApplicationHelp" controller="ApplicationHelpRemote" extends="c:CommunityContext">
+
     <ltng:require
         scripts="{!join(',',$Resource.rr_community_js,$Resource.svg4everybody)}"
-        afterScriptsLoaded="{!c.doAfterScriptsLoaded}"
+        afterScriptsLoaded="{!c.doAfterScriptsLoaded}" 
     />
 
     <!-- attributes: -->
     <aura:attribute name="pdfUrl" type="String" />
+    <aura:attribute name="showUserMatch" type="Boolean"/>
+    <aura:attribute name="value" type="String"/>
+    <aura:attribute name="usrName" type="String"/>
+    <aura:attribute name="isMobileApp" type="Boolean" default="false"/>
+    <aura:attribute name="showValidValue" type="Boolean" default="false"/>
+    <aura:attribute name="isDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="isDuplicate" type="Boolean"/>
+    <aura:attribute name="userEmail" type="String"/>
+    <aura:attribute name="changeUserName" type="boolean"/>
+    <aura:attribute name="mergeUserName" type="boolean"/>
+    <aura:attribute name="currentYOB" type="String"/>
+    <aura:attribute name="showError" type="Boolean" default="false"/>
+    <aura:attribute name="showUserNames" type="Boolean" default="false"/>
+    <aura:attribute name="showExistingAccounts" type="Boolean"/>
+    <aura:attribute type="String" name="yearOfBirth"/>
+    <aura:attribute type="String" name="duplicateUsrLabel"/>
+    <aura:attribute type="String" name="mergeUsrLabel"/>
+    <aura:attribute type="List" name="yearOfBirthPicklistvalues" default="[]"/>
+    <aura:attribute type="List" name="usernamesTomerge" default="[]"/>
+     <aura:attribute type="List" name="userNamesList" default="[]"/>
+    <aura:attribute type="String" name="currentContactEmail"/>
     <aura:attribute name="userMode" type="String" required="true" />
     <aura:attribute name="videoLink" type="String" access="private" default="" />
     <aura:attribute name="userManual" type="String" access="private" default="" />
     <aura:attribute name="quickReference" type="String" access="private" default="" />
     <aura:attribute name="showTour" type="Boolean" access="private" default="" />
     <aura:attribute name="videoModalClicked" type="Boolean" access="private" default="" />
+    <aura:attribute name="disableSave" type="Boolean" default="true"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -24,6 +47,7 @@
 
     <!-- actions: -->
     <c:Action_SwitchShowOnLoginMode aura:id="switchShowOnLoginModeAction" />
+    <c:RRSpinner aura:id="spinner" fixed="true" size="medium" showSpinner="false" />
 
     <!-- component body: -->
     <div class="ah-main-container slds-grid slds-wrap">
@@ -82,7 +106,114 @@
                 </div>
             </div>
         </aura:if>
+        <aura:if isTrue="{!not(v.isDelegate)}">  
+         <div class="{!'divider'+if(v.isRTL,' mr_right_15',' mr_left_10')}"></div>
+         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
+            <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
+                <div class="ah-item-label create-ticket-for">{!$Label.c.PP_CreateTicketFor}</div>
+                <div class="ah-item-sublabel-ticket">{!$Label.c.PP_UsefulInfo}</div>   
+            </div>
+           </div>
+           <aura:if isTrue="{!and(v.userMode == 'Participant',not(v.isDelegate))}">
+        <div class="slds-grid ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
+             <div class="slds-col slds-size--2-of-3 slds-medium-size--3-of-4">
+                 <div class="edit-yob-year-of-bi">{!$Label.c.PP_EditYOB}</div></div>
+             </div>
+        <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
+
+            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from-rtl',' from')}" >
+               {!$Label.c.PP_From}
+            </div>
+            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 mr_24">
+               <c:rrInput disabled="true" valueString="{!v.currentYOB}"/> 
+            </div>
+            <div class="{!'slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4'+if(v.isRTL,' from-rtl btn-mr',' from mr_36')}">
+               {!$Label.c.PP_To}
+            </div>
+            <div class="slds-col slds-size--1-of-4 slds-medium-size--1-of-8 slds-small-size--1-of-4 slds-large-size--1-of-4 padding_left"> 
+                <c:rrSelect options="{!v.yearOfBirthPicklistvalues}" value="{!v.yearOfBirth}" onchange="{!c.doCheckYearOfBith}" placeholder="{!$Label.c.PP_SelectYear}"/>
+                        <div class="rr-error" aura:id="error">
+                                <aura:if isTrue="{!v.showError}">
+                                    {!$Label.c.Minor_Access_Error_Message}
+                                </aura:if>
+                            
+             </div>
+
+            </div>
+        </div>
+            </aura:if>
+         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;','')}">
+            <div class="slds-size--1-of-2 slds-medium-size--1-of-2 slds-small-size--1-of-2 slds-large-size--1-of-2">
+                <div class="username-email">{!$Label.c.PP_UsernameAndEmail}
+                </div>
+            </div>
+        
+           </div>
+            <aura:if isTrue="{!not(v.isDuplicate)}">
+           <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}" disabled="{!v.showUserMatch}"></lightning:input>
+               <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
+                   {!$Label.c.PP_EmailMatch}</span></label>
+
+                </div></aura:if>
+             <aura:if isTrue="{!v.isDuplicate}">
+         <div class="slds-grid slds-size--1-of-1 ah-item-panel-merge">
+               <lightning:input type="checkbox" variant="label-hidden" onchange="{!c.doChangeUserName}"></lightning:input>
+               <label><span class="email-match" style="{!if(v.isRTL,'padding-right:10px;','')}">
+                    {!$Label.c.PP_Merge}</span></label>
+                 </div></aura:if>
+        <aura:if isTrue="{!v.showUserNames}">
+           <div class="slds-grid slds-size--1-of-1 ah-item-panel" style="{!if(v.isRTL,'padding-right:15px;font-size:16px;','font-size:16px;')}"><b>
+               <aura:if isTrue="{!v.isDuplicate}">
+                    {!$Label.c.PP_MergeExisting}
+               <aura:set attribute="else">
+                  {!$Label.c.PP_UsernameAndEmail}
+                   </aura:set>
+               </aura:if>
+               </b>
+           </div>
+        <div class="slds-grid slds-size--1-of-1 ah-item-panel-usr" style="{!if(v.isRTL,'padding-right:15px;','')}">
+                <p class="duplicate-usernames">
+                    <aura:unescapedHtml value="{!v.duplicateUsrLabel}"/>
+                    <aura:if isTrue="{!not(v.isDuplicate)}">
+                        <div class="slds-p-top_small slds-p-bottom_small attempt_to_match"><b>{!$Label.c.PP_MatchUsr}</b></div>
+                    </aura:if>
+            </p> 
+        </div>
+         <aura:if isTrue="{!v.isDuplicate}">
+              <div class="slds-grid slds-size--1-of-1 ah-item-panel">
+              <lightning:radioGroup name="radioGroup"
+                          variant="label-hidden"
+                          options="{! v.userNamesList }"
+                          value="{! v.value }"
+                          type="radio" onchange="{!c.setSelectedVal}"/>
+               </div>
+            </aura:if>
+            </aura:if>
+        </aura:if>
     </div>
+
+        <aura:if isTrue="{!not(v.isDelegate)}">
+            
+    <div class="slds-grid">
+        <div class="slds-col slds-medium-size--1-of-1 slds-large-size--1-of-1 center">
+         <button class="apollo-btn secondary ah-button mr_20" onclick="{!c.doCreateYOBCase}" disabled="{!v.disableSave}">
+                       {!$Label.c.PP_Submit_Button}
+                    </button>
+        </div>
+                    
+    </div> 
+    <aura:if isTrue="{!v.isMobileApp}">
+    <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">{!$Label.c.PP_EditAllInfo}<a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}</b></a>
+    </div>
+    <aura:set attribute="else">
+        <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">
+            {!$Label.c.PP_HelpResponse} &nbsp;
+           <span class="update-all"><a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}&nbsp;</b></a>
+            {!$Label.c.PP_UpdateProfileResp}</span>
+    </div>
+    </aura:set>
+        </aura:if></aura:if>
     <aura:if isTrue="{!!empty(v.videoLink)}">
         <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap ah-section">
             <div class="slds-col slds-size--1-of-1 ah-section-title">{!$Label.c.PG_AH_H_Video}</div>

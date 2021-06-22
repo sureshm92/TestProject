@@ -492,7 +492,7 @@
 
                         <aura:set attribute="else">
                             <aura:if
-                                isTrue="{!v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}"
+                                isTrue="{!v.ctp.Patient_Portal_Enabled__c &amp;&amp;v.communityWithPPInv &amp;&amp;v.ss.Study_Site_Type__c!='Virtual'&amp;&amp;v.ss.Study_Site_Type__c!='Hybrid'}"
                             >
                                 <div class="slds-grid slds-gutters slds-wrap">
                                     <div

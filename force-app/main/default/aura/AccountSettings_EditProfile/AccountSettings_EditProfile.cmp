@@ -457,8 +457,8 @@
                                                onblur="{!c.doCheckFieldsValidity}"
                                                disabled="true"/> -->
                                 </aura:if>
+                               
                             </div>
-
                             <aura:if isTrue="{!v.userMode == 'Participant'}">
                                 <lightning:input
                                     type="toggle"
@@ -481,7 +481,9 @@
                                 </div>
                             </aura:if>
                         </div>
-
+                        <aura:if isTrue="{!!v.isDelegate}">
+                            <div class="{!if(v.userMode != 'Participant','slds-p-top_x-small','slds-p-top_xx-small')}"><span style="color:#E20000;font-weight:bold;">{!$Label.c.PP_Warning}&nbsp;</span>{!$Label.c.EmailWarningMessage}<a onclick="{!c.navigateToHelpPage}" style="font-weight:bold;">&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a>{!$Label.c.PP_Page}</div>
+                        </aura:if>
                         <!-- Toggle for SMS -->
 
                         <div class="as-email-pref-item slds-grid slds-wrap slds-gutters">

@@ -193,6 +193,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             Map<Integer,Contact> mapContact = new Map<Integer,Contact>();
             Map<Integer,Integer> mapContactTrack = new Map<Integer,Integer>();
             Map<Integer,Participant__c> mapParticipant = new Map<Integer,Participant__c>();
+            Map<Integer,String> mapParticipantFov = new Map<Integer,String>();
+            Map<Integer,String> mapParticipantFovTime = new Map<Integer,String>();
+            Map<Integer,String> mapParticipantFovampm = new Map<Integer,String>();
             Map<Integer,Contact> mapDuplicateContact = new Map<Integer,Contact>();
             Map<Integer,Participant__c> mapDuplicateParticipant = new Map<Integer,Participant__c>();
 
@@ -200,8 +203,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> delegateWithpartList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             Map<Id,Integer> trackIndex = new Map<Id,Integer>();
             
+            List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> patientdelegateUpdateList = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
+            List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper> sendpatientdelegate = new List<UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper>();
             //Variable to update the contact and participant records which were identified as duplicates.
             Map<Id,Participant__c> participantUpdateMap = new Map<Id,Participant__c>();
+            //List created to handle REF-3951
+            List<Participant__c> participantPatient = new List<Participant__c>();
+          
             Set<String> duplicateRowCheckSet = new Set<String>();
 
             for (List<String> csvRecordData : csvChunkLines) {
@@ -241,6 +249,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 String PhoneType2 = '';
                 String State = '';
                 String PostalCode = '';
+                String FOV = '';
+                String FOVTime = '';
+                String FOVampm = '';
                 String Language = '';
                 //Delegate Information
                 String DelegateFirstName = '';
@@ -308,6 +319,18 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     csvRecordData[headerIndexes.get('POSTAL CODE')] != null
                     ? csvRecordData[headerIndexes.get('POSTAL CODE')].trim()
                     : null;
+                FOV =  headerIndexes.get('INITIAL VISIT DATE') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT DATE')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT DATE')].trim()
+                    : null;
+               FOVTime =  headerIndexes.get('INITIAL VISIT TIME') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT TIME')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT TIME')].trim()
+                    : null;  
+               FOVampm  =  headerIndexes.get('INITIAL VISIT TIME AM/PM') != null &&
+                    csvRecordData[headerIndexes.get('INITIAL VISIT TIME AM/PM')] != null
+                    ? csvRecordData[headerIndexes.get('INITIAL VISIT TIME AM/PM')].trim()
+                    : null;  
                 Language = headerIndexes.get('LANGUAGE') != null &&
                     csvRecordData[headerIndexes.get('LANGUAGE')] != null
                     ? csvRecordData[headerIndexes.get('LANGUAGE')].trim()
@@ -516,7 +539,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                     hasErrors = true;
                     listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'Date of Birth, Incorrect value');
                 }
-                if (
+                /*if (
                     !String.isBlank(Language) &&
                     String.isBlank(uploadUser.Contact.Language__c) &&
                     !laguageLVSet.contains(Language)
@@ -529,7 +552,174 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         ', ' +
                         'Language, Incorrect value'
                     );
+                }*/
+                 if (
+                    (String.isBlank(Language) || !laguageLVSet.contains(Language)) &&
+                    String.isBlank(uploadUser.Contact.Language__c)
+                ) {
+                    hasErrors = true;
+
+                    listOfFailedRecordsWithMsg.add(
+                        '' +
+                        totalRecordCount +
+                        ', ' +
+                        'Deafult value, PI Language is missing '
+                    );
                 }
+                   /** FOV update code changes -velu REF-3302**/
+                   if (!String.isEmpty(FOV) || !String.isEmpty(FOVTime) || !String.isEmpty(FOVampm)) {
+                    
+                    String resultFovDate = null;
+                    String resultFovtime = null;
+                    String resultFOVampm = null;
+                    
+                   if(!String.isEmpty(FOV)){ 
+                       try {
+                           Integer year;
+                           Integer month;
+                           Integer day;
+                           Date daysInMonth;  
+                          if (FOV.contains('/')) {
+                               List<String> vals = FOV.split('/');
+                               if(vals.size() == 3)
+                               {
+                                   year = Integer.valueOf(vals[2]);
+                                   month = Integer.valueOf(vals[0]);
+                                   day = Integer.valueOf(vals[1]);
+                                   String yr = String.ValueOf(year);
+                                   
+                                   if(day >= 1 && day <= 31 && month >= 1 && month <= 12 && yr.length() == 4){
+                                       daysInMonth = Date.newInstance(year, month + 1, 1);
+                                       daysInMonth = daysInMonth.addDays(-1);
+                                       if (daysInMonth.day() < day) {
+                                       resultFovDate = null;
+                                       } else {
+                                       resultFovDate = FOV;
+                                       }
+                                     }else{ resultFovDate = null;}  
+                               }else{
+                                  resultFovDate = null;
+                               }
+                               
+                           } else if (FOV.contains('-')) {
+                               List<String> vals = FOV.split('-');
+                                if(vals.size() == 3)
+                               {
+                                   year = Integer.valueOf(vals[2]);
+                                   month = Integer.valueOf(vals[0]);
+                                   day = Integer.valueOf(vals[1]);
+                                   String yr = String.ValueOf(year);
+                                   
+                                   if(day >= 1 && day <= 31 && month >= 1 && month <= 12 && yr.length() == 4){
+                                       daysInMonth = Date.newInstance(year, month + 1, 1);
+                                       daysInMonth = daysInMonth.addDays(-1);
+                                       if (daysInMonth.day() < day) {
+                                       resultFovDate = null;
+                                       } else { 
+                                       resultFovDate = FOV;
+                                       }
+                                     }else{ resultFovDate = null;}
+                               }else{
+                                   resultFovDate = null;
+                               }
+                           
+                         }else{
+                              resultFovDate = null;
+                           }
+                           
+                       } catch (Exception exp) {
+                           resultFovDate = null;
+                       }
+                   }else{
+                           resultFovDate = null;
+                     }  
+                       
+                   
+                     if(!String.isEmpty(FOVTime) && !String.isEmpty(FOVampm)){
+                           if (FOVTime.contains(':')) {
+                                 List<String> valstime = new List<String>();
+                                 valstime = FOVTime.split(':');
+                                  if(valstime.size() == 2)
+                                   {
+                                      if(Integer.ValueOf(valstime[0]) >= 1 && Integer.ValueOf(valstime[0]) <= 12 && Integer.ValueOf(valstime[1]) >= 0 && Integer.ValueOf(valstime[1]) <= 59)
+                                         {
+                                            resultFovtime=FOVTime;
+                                         }else{
+                                         resultFovtime = null;
+                                         }                                
+                                   }else{
+                                    resultFovtime = null;
+                                   }
+                            } else if (FOVTime.contains(';')) {
+                                  List<String> valstime = new List<String>();
+                                  valstime = FOVTime.split(';');
+                                  if(valstime.size() == 2)
+                                   {
+                                      if(Integer.ValueOf(valstime[0]) >= 1 && Integer.ValueOf(valstime[0]) <= 12 && Integer.ValueOf(valstime[1]) >= 0 && Integer.ValueOf(valstime[1]) <= 59)
+                                         {
+                                             resultFovtime=FOVTime;
+                                         }else{
+                                         resultFovtime = null;
+                                         }     
+                                   }else{
+                                    resultFovtime = null;
+                                   }
+                            
+                            }else{
+                               resultFovtime = null;
+                            }
+                          }else{
+                               resultFovtime = null;
+                          } 
+                            
+                        if(!String.isEmpty(FOVTime) && !String.isEmpty(FOVampm)){
+                            if(FOVampm == 'AM' || FOVampm == 'am' || FOVampm == 'PM' || FOVampm == 'pm' || FOVampm == 'Am' || FOVampm == 'Pm' ||
+                                FOVampm == 'aM' || FOVampm == 'pM')
+                            {
+                               resultFOVampm = FOVampm;
+                            }else{
+                               resultFOVampm = null;
+                            }
+                        }else{
+                               resultFOVampm = null;
+                        }
+                            
+                       if((!String.isEmpty(FOV) && resultFovDate == null) || ((!String.isEmpty(FOVTime) || !String.isEmpty(FOVampm)) && (resultFOVampm == null || resultFovtime == null)))
+                       {
+                           
+                           hasErrors = true;
+
+                           listOfFailedRecordsWithMsg.add(
+                           '' +
+                           totalRecordCount +
+                           ', ' +
+                           'FOV, Date/Time Incorrect value'
+                           );
+                       }
+               } 
+			   if (!String.isEmpty(DelegateEmail)) {
+                    String regexExclude = System.Label.RH_Email_Invalid_Characters;
+                    String regexInclude = System.Label.RH_Email_Validation_Pattern;
+                    Boolean isValidEmail;
+                    Pattern regexExcludePattern = Pattern.compile(regexExclude);
+                    Pattern regexIncludePattern = Pattern.compile(regexInclude);
+                    Matcher regexExcludeMatcher = regexExcludePattern.matcher(DelegateEmail);
+                    Matcher regexIncludeMatcher = regexIncludePattern.matcher(DelegateEmail);
+                    if (regexExcludeMatcher.find()) {
+                        hasErrors = true;
+                        listOfFailedRecordsWithMsg.add('' + totalRecordCount + ', ' + 'ERROR: Delegate invalid field - Email');
+                    } else if (!regexIncludeMatcher.find()) {
+                        hasErrors = true;
+
+                        listOfFailedRecordsWithMsg.add(
+                            '' +
+                            totalRecordCount +
+                            ', ' +
+                            'ERROR: Delegate invalid field - Email'
+                        );
+                    }
+                }
+
 
                 if (!hasErrors) {
 
@@ -567,7 +757,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         MailingPostalCode = PostalCode,
                         userCommunityMode__c = PARTICIPANT_USER_MODE,
                         Consent_To_Inform_About_Study__c = createUsers,
-                        Language__c = (String.isBlank(Language)
+                        Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
                             ? uploadUser.Contact.Language__c
                             : Language)
                     );
@@ -584,7 +774,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Phone_Type__c = PhoneType,
                         Alternative_Phone_Number__c = Phone2,
                         Alternative_Phone_Type__c = PhoneType2,
-                        Preferred_Language__c = (String.isBlank(Language)
+                        Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
                             ? uploadUser.Contact.Language__c
                             : Language),
                         Mailing_State__c = State,
@@ -715,6 +905,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             delegateWrap.DelegateAgeOfMajority = DelegateAgeOfMajority; 
                             delegateWrap.DelegateYOB = DelegateYOB;
                             delegateWrapList.add(delegateWrap);
+                            patientdelegateUpdateList.add(delegateWrap);
                         }
                         //Ends : Delegate wrapper creation
 
@@ -726,7 +917,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                         Participant__c participantDuplicate = duplicateService.findDuplicate(
                             participant
                         );
-						
+                        
                         isDuplicate = participantDuplicate != null;
                         Contact contactDuplicate = duplicateService.findDuplicateContact(participant);
                         isDuplicate = isDuplicate || contactDuplicate != null;
@@ -735,22 +926,129 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             mapContact.put(totalRecordCount,participantContact);
                             mapContactTrack.put(trackingNumberSuccess,totalRecordCount);
                             mapParticipant.put(totalRecordCount,participant);
+                            if(FOV !=null && FOV !='' && FOV !='null'){                                      
+                                if (FOV.contains('/')) {
+                                   List<String> valdate = FOV.split('/');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }else {
+                                   List<String> valdate = FOV.split('-');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }    
+                             }else{    
+                              mapParticipantFov.put(totalRecordCount,null);
+                              }
+                            if(FOVTime !=null && FOVTime !='' && FOVTime !='null'){
+                                mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                             }else{
+                             mapParticipantFovTime.put(totalRecordCount,null);
+                             }
+                            if(FOVampm !=null && FOVampm !='' && FOVampm !='null'){
+                             mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                             }else{
+                            mapParticipantFovampm.put(totalRecordCount,null);
+                            }
                         }else{
                             if(contactDuplicate != null){
                                 mapDuplicateContact.put(totalRecordCount,contactDuplicate);
                                 trackIndex.put(contactDuplicate.Id,totalRecordCount);
+                                if(FOV !=null && FOV !='' && FOV !='null'){                                      
+                                if (FOV.contains('/')) {
+                                   List<String> valdate = FOV.split('/');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }else {
+                                   List<String> valdate = FOV.split('-');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }    
+                             }else{    
+                              mapParticipantFov.put(totalRecordCount,null);
+                              }
+                            if(FOVTime !=null && FOVTime !='' && FOVTime !='null'){
+                                mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                             }else{
+                             mapParticipantFovTime.put(totalRecordCount,null);
+                             }
+                            if(FOVampm !=null && FOVampm !='' && FOVampm !='null'){
+                             mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                             }else{
+                            mapParticipantFovampm.put(totalRecordCount,null);
                             }
-
+                       }
                             if(participantDuplicate != null){
                                 participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                                                //Added for REF-3951
+                                if(participantDuplicate.Email__c != NULL ||
+                                   participantDuplicate.Phone__c != NULL){
+                                       participantDuplicate.Email__c = EmailAddress;
+                                       participantDuplicate.Phone__c = Phone;
+                                       participantPatient.add(participantDuplicate);
+                                   }
+                                //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
                                 trackIndex.put(participantDuplicate.Contact__c,totalRecordCount);
-                            }else {
+                                if(FOV !=null && FOV !='' && FOV !='null'){                                      
+                                if (FOV.contains('/')) {
+                                   List<String> valdate = FOV.split('/');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }else {
+                                   List<String> valdate = FOV.split('-');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }    
+                             }else{    
+                              mapParticipantFov.put(totalRecordCount,null);
+                              }
+                            if(FOVTime !=null && FOVTime !='' && FOVTime !='null'){
+                                mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                             }else{
+                             mapParticipantFovTime.put(totalRecordCount,null);
+                             }
+                            if(FOVampm !=null && FOVampm !='' && FOVampm !='null'){
+                             mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                             }else{
+                            mapParticipantFovampm.put(totalRecordCount,null);
+                            }
+                       }else {
                                 //This block is for the records whose contact exists but there is no Participant and PER record.
                                 participant.Contact__c = contactDuplicate.Id;
                                 mapParticipant.put(totalRecordCount,participant);
+                                if(FOV !=null && FOV !='' && FOV !='null'){                                      
+                                if (FOV.contains('/')) {
+                                   List<String> valdate = FOV.split('/');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }else {
+                                   List<String> valdate = FOV.split('-');
+                                   string FOVDate='';
+                                   FOVDate=valdate[2]+'-'+valdate[0]+'-'+valdate[1];
+                                   mapParticipantFov.put(totalRecordCount,FOVDate);
+                              }    
+                             }else{    
+                              mapParticipantFov.put(totalRecordCount,null);
+                              }
+                            if(FOVTime !=null && FOVTime !='' && FOVTime !='null'){
+                                mapParticipantFovTime.put(totalRecordCount,FOVTime );
+                             }else{
+                             mapParticipantFovTime.put(totalRecordCount,null);
+                             }
+                            if(FOVampm !=null && FOVampm !='' && FOVampm !='null'){
+                             mapParticipantFovampm.put(totalRecordCount,FOVampm);
+                             }else{
+                            mapParticipantFovampm.put(totalRecordCount,null);
                             }
+                          }
                         }
                     }
                     
@@ -835,6 +1133,43 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             //Create Participant Enrollment record map
             Map<Integer, Participant_Enrollment__c> mapPER = new Map<Integer, Participant_Enrollment__c>();
             for(Integer i:mapParticipant.keySet()){
+                     /** FOV update code changes -velu **/
+                     String fovTime = mapParticipantFovTime.get(i);
+                     string fovAMPM = mapParticipantFovampm.get(i);
+                     string fovhr='';
+                     string fovmin='';
+                     
+                     List<String> valstime = new List<String>();
+                     if(fovTime !=null && fovAMPM !=null){
+                     
+                          if (fovTime.contains(':')){
+                              valstime = fovTime.split(':');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }else if(fovTime.contains(';')) {
+                               valstime = fovTime.split(';');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }
+                          
+                          if(fovAMPM == 'am' || fovAMPM == 'AM' || fovAMPM == 'Am' || fovAMPM == 'aM'){
+                                 if(fovhr == '12')
+                                     fovhr ='0';
+                          }else{
+                                     if(fovhr == '1' || fovhr == '01'){
+                                     fovhr ='13';}else if(fovhr == '2' || fovhr == '02'){
+                                     fovhr ='14';}else if(fovhr == '3' || fovhr == '03'){
+                                     fovhr ='15';}else if(fovhr == '4' || fovhr == '04'){
+                                     fovhr ='16';}else if(fovhr == '5' || fovhr == '05'){
+                                     fovhr ='17';}else if(fovhr == '6' || fovhr == '06'){
+                                     fovhr ='18';}else if(fovhr == '7' || fovhr == '07'){
+                                     fovhr ='19';}else if(fovhr == '8' || fovhr == '08'){
+                                     fovhr ='20';}else if(fovhr == '9' || fovhr == '09'){
+                                     fovhr ='21';}else if(fovhr == '10' || fovhr == '010'){
+                                     fovhr ='22';}else if(fovhr == '11' || fovhr == '011'){
+                                     fovhr ='23';}
+                          }
+                     }
                 Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
                             Participant_Status__c = selectedStatus,
                             Study_Site__c = studySiteDetails.Id,
@@ -848,8 +1183,13 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
-                            Is_Created_by_Bulk_Import__c=true
+                            Is_Created_by_Bulk_Import__c = true,
+                            Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(i)) !=null ? Date.ValueOf(mapParticipantFov.get(i)):null,
+                            Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(i)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
+                if(createUsers==true && mapParticipant.get(i).Adult__c){
+                    participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
+                }
                 mapPER.put(i,participantEnrollment);
             }
             //PER record creation ends.
@@ -893,6 +1233,46 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
 
             for(Id i : duplicateContactIds){
                 if(contactEnrollmentMap.get(i) == null && contactParticipantMap.get(i) != null){
+                    
+                     Integer totalrecorcountindx = trackIndex.get(i);
+                     String fovTime = mapParticipantFovTime.get(totalrecorcountindx);
+                     string fovAMPM = mapParticipantFovampm.get(totalrecorcountindx);
+                     string fovhr='';
+                     string fovmin='';
+                     
+                     List<String> valstime = new List<String>();
+                     if(fovTime !=null && fovAMPM !=null){
+                     
+                          if (fovTime.contains(':')){
+                              valstime = fovTime.split(':');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }else if(fovTime.contains(';')) {
+                               valstime = fovTime.split(';');
+                              fovhr=valstime[0];
+                              fovmin=valstime[1];
+                          }
+                          
+                          if(fovAMPM == 'am' || fovAMPM == 'AM' || fovAMPM == 'Am' || fovAMPM == 'aM'){
+                                 if(fovhr == '12')
+                                     fovhr ='0';
+                          }else{
+                                     if(fovhr == '1' || fovhr == '01'){
+                                     fovhr ='13';}else if(fovhr == '2' || fovhr == '02'){
+                                     fovhr ='14';}else if(fovhr == '3' || fovhr == '03'){
+                                     fovhr ='15';}else if(fovhr == '4' || fovhr == '04'){
+                                     fovhr ='16';}else if(fovhr == '5' || fovhr == '05'){
+                                     fovhr ='17';}else if(fovhr == '6' || fovhr == '06'){
+                                     fovhr ='18';}else if(fovhr == '7' || fovhr == '07'){
+                                     fovhr ='19';}else if(fovhr == '8' || fovhr == '08'){
+                                     fovhr ='20';}else if(fovhr == '9' || fovhr == '09'){
+                                     fovhr ='21';}else if(fovhr == '10' || fovhr == '010'){
+                                     fovhr ='22';}else if(fovhr == '11' || fovhr == '011'){
+                                     fovhr ='23';}
+                          }
+                     }
+                
+                
                     Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
                             Participant_Status__c = selectedStatus,
                             Study_Site__c = studySiteDetails.Id,
@@ -906,8 +1286,16 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_Voice_Text_contact_for_this_study__c = allowPhone,
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
-                            Is_Created_by_Bulk_Import__c=true
+                            Is_Created_by_Bulk_Import__c = true,
+                            Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(totalrecorcountindx)) !=null ? Date.ValueOf(mapParticipantFov.get(totalrecorcountindx)):null,
+                            Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(totalrecorcountindx)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );
+                        
+                        if(createUsers==true && contactParticipantMap.get(i).Adult__c){
+                            participantEnrollment.Invited_To_PP_Date__c = DateTime.now();
+                        }
+                        
+                        
                 mapPER.put(trackIndex.get(i),participantEnrollment);
                     for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: delegateWrapList){
                         if(trackIndex.get(i) == d.totalRecordCount){
@@ -1004,6 +1392,11 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 update conListtoBeUpdated;
             }
 
+            //REF-3951
+            if(!participantPatient.isEmpty()){
+                update participantPatient;
+            }
+
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();
             }
@@ -1024,6 +1417,12 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
             //user creation ends
 
+            if(!patientdelegateUpdateList.isEmpty()){
+                for (UploadParticipantsDelegateHelper.ParticipantsDelegateWrapper d: patientdelegateUpdateList){
+                                  sendpatientdelegate.add(d);
+                          }
+                      }
+
             //call UploadParticipantsDelegateHelper class to create delegates
             if (!delegateWithpartList.isEmpty()){
                 UploadParticipantsDelegateHelper.ErrorPatientDelegateWrapper wrap  = 
@@ -1033,7 +1432,33 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                 errorRecordCount = errorRecordCount + wrap.errorRecordCount;
 
             }
+            if (!sendpatientdelegate.isEmpty()){
+                UploadParticipantsDelegateHelper.updateDelegateRecords(sendpatientdelegate);
+               }
 
+            //for Adult participants which have delegates for one study but not for other REF-3566
+ else if(delegateWithpartList.isEmpty() || delegateWithpartList == NULL){                
+     Set<Id> existingParticipantId = new Set<Id>();
+                For(Participant__c p:mapDuplicateParticipant.values()){
+                    existingParticipantId.add(p.id);
+                }
+                List<Patient_Delegate__c> pdList = new List<Patient_Delegate__c>();
+                if (!existingParticipantId.isEmpty()  && !duplicateContactIds.isEmpty()) {
+                    For(Patient_Delegate__c pd:[SELECT Id,
+                                                Primary_Delegate__c
+                                                FROM Patient_Delegate__c
+                                                WHERE Participant__c IN: existingParticipantId 
+                                               ]) {
+                                                   if(pd.Primary_Delegate__c == True){
+                                                       pd.Primary_Delegate__c = False;
+                                                       pdList.add(pd);
+                                                   }
+                                               }
+                    update pdList;
+                }
+            }
+            //
+            
                
         } catch (Exception exp) {
             system.debug(

@@ -145,6 +145,7 @@ public without sharing class CommunityModeService {
     }
 
     public static List<CommunityModes.PPCommunityModeItem> getParticipantModeItems(Id contactId) {
+        Boolean isDelegate = false;
         List<CommunityModes.PPCommunityModeItem> modes = new List<CommunityModes.PPCommunityModeItem>();
         List<Participant__c> userParticipants = [
             SELECT Id, First_Name__c, Last_Name__c, Contact__c, Contact__r.Landing_Community__c
@@ -158,9 +159,11 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             contactId
         );
-        if (delegatedParticipantIds == null)
+        if (delegatedParticipantIds == null){
             delegatedParticipantIds = new List<Id>();
-
+        }else{
+            isDelegate = true;
+        }
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>(
             [
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
@@ -182,7 +185,8 @@ public without sharing class CommunityModeService {
             DatabaseService.fieldNotInValues(
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
                 rhCommunityNames
-            )
+            ),
+            isDelegate
         );
         Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
             userParticipant,
@@ -195,7 +199,8 @@ public without sharing class CommunityModeService {
             DatabaseService.fieldNotInValues(
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
                 rhCommunityNames
-            )
+            ),
+            isDelegate
         );
 
         Boolean hasBeenActive = false;
@@ -516,6 +521,7 @@ public without sharing class CommunityModeService {
     }
 
     private static List<CommunityMode> getParticipantModes() {
+        Boolean isDelegate = false;
         List<CommunityMode> modes = new List<CommunityMode>();
          List<Participant__c> userParticipants = new  List<Participant__c> ();
         if(String.isNotBlank(CommunityService.getInstance().getCurrentContactId())){
@@ -532,8 +538,11 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             UserContext.getUserContactId()
         );
-        if (delegatedParticipantIds == null)
+        if (delegatedParticipantIds == null){
             delegatedParticipantIds = new List<Id>();
+        }else{
+            isDelegate = true;
+        }
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c> ();
         if(!delegatedParticipantIds.isEmpty()){
               participantsMap = new Map<Id, Participant__c>(
@@ -558,7 +567,8 @@ public without sharing class CommunityModeService {
             DatabaseService.fieldNotInValues(
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
                 rhCommunityNames
-            )
+            ),
+            isDelegate
         );
         Map<Id, List<Participant_Enrollment__c>> pePastMap = getPEMap(
             userParticipant,
@@ -571,7 +581,8 @@ public without sharing class CommunityModeService {
             DatabaseService.fieldNotInValues(
                 'Clinical_Trial_Profile__r.CommunityTemplate__c',
                 rhCommunityNames
-            )
+            ),
+            isDelegate
         );
         //user studies:
         if (userParticipant != null) {
@@ -704,16 +715,23 @@ public without sharing class CommunityModeService {
     private static Map<Id, List<Participant_Enrollment__c>> getPEMap(
         Participant__c userParticipant,
         List<Id> delegatedParticipantIds,
-        String filter
+        String filter,
+        Boolean isDelegate
     ) {
         String baseFilter =
             ' (' + DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds);
         if (userParticipant != null)
             baseFilter += ' OR ' + DatabaseService.fieldEqual('Participant__c', userParticipant.Id);
         baseFilter += ') ';
-        if (filter != null)
+        if (filter != null){
             baseFilter += ' AND ' + filter;
-
+        }
+        if(isDelegate == false){
+          baseFilter += ' AND Invited_To_PP_Date__c !=null';  
+        }else{
+         baseFilter += ' AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true' +
+             		' AND Study_Site__r.Study_Site_Type__c != \'Virtual\' AND Study_Site__r.Study_Site_Type__c != \'Hybrid\'';     
+        }
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
             new List<String>{
                 'Id',

@@ -23,7 +23,7 @@
     >
         <c:HomePreviewTablePanel title="{!$Label.c.Visit_Results_Dashboard_My_Results}">
             <div class="visit-result-panel-date">
-                {!$Label.c.Visit_Results_Tab_Result_Date + ' ' }
+                {!$Label.c.Visit_Results_Tab_Result_Date + ' ' + v.visitResultWrappers[0].visitName + ' ' +$Label.c.Visit_Results_Tab_Result_Date_On +' '}
                 <aura:if isTrue="{!v.isVisitResultAvailable}">
                     <lightning:formattedDateTime
                         value="{!v.visitResultWrappers[0].dateVisited}"

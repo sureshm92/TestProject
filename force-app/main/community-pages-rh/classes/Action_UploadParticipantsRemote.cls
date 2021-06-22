@@ -19,6 +19,9 @@ public without sharing class Action_UploadParticipantsRemote {
         //'CITY',
         'STATE',
         'POSTAL CODE',
+        'INITIAL VISIT DATE',
+        'INITIAL VISIT TIME',
+        'INITIAL VISIT TIME AM/PM',
         'COUNTRY',
         'LANGUAGE',
         'PRIMARY DELEGATE FIRST NAME',
@@ -169,5 +172,33 @@ public without sharing class Action_UploadParticipantsRemote {
             perLineList.add(column.trim());
         }
         return perLineList;
+    }
+    
+    @AuraEnabled
+    public static List<LabelValueItemISO> getISOLanguage() {
+        List<LabelValueItemISO> languageLVList = Action_UploadParticipantsRemote.getPicklistLabelValueList(
+            Participant__c.Preferred_Language__c);
+        return languageLVList;
+
+    }
+    
+    public static List<LabelValueItemISO> getPicklistLabelValueList(SObjectField field) {
+        List<LabelValueItemISO> items = new List<LabelValueItemISO>();
+        for (PicklistEntry ple : field.getDescribe().getPicklistValues()) {
+            items.add(new LabelValueItemISO(ple.getLabel(), ple.getValue()));
+        }
+        return items;
+    }
+
+    public class LabelValueItemISO {
+        @AuraEnabled
+        public String Language;
+        @AuraEnabled
+        public String LanguageISOcode;
+
+        public LabelValueItemISO(String Language, String LanguageISOcode) {
+            this.Language = Language;
+            this.LanguageISOcode = LanguageISOcode;
+        }
     }
 }

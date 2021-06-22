@@ -15,6 +15,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         //Used for update the contact and participant records which were identified as duplicates.
         List<Contact> contactUpdateList = new List<Contact>();
         List<Participant__c> participantUpdateList = new List<Participant__c>();
+        
         //For Duplicate Row check in same sheet
         Set<String> duplicateRowCheckSet = new Set<String>();
         Map<String,String> duplicateRowMap = new Map<String,String>();
@@ -328,6 +329,41 @@ public without sharing class UploadParticipantsDelegateHelper {
         ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
         return ptDelegateRef;
     }
+
+    public static void updateDelegateRecords(List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList) {
+        Map<Id, Participant__c> participantUpdateMap = new Map<Id, Participant__c>();
+         
+         ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+        for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
+               ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
+                     null,
+                     pWrapper.DelegateEmail,
+                     pWrapper.DelegateFirstName,
+                     pWrapper.DelegateLastName,
+                     null
+                 );
+            //Participant initiation
+                 Participant__c participantDelegate = new Participant__c();
+                 if(ddInfo != null && ddInfo.participantId != null){
+                   participantDelegate.Id = ddInfo.participantId;
+                   participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                   participantUpdateMap.put(participantDelegate.Id,participantDelegate);
+                   }
+        }
+         try{
+        if(!participantUpdateMap.values().isEmpty()){
+            Database.SaveResult[] delegateSR = Database.update(participantUpdateMap.values(),false);
+             //Update participantUpdateMap.values();
+         }
+             }catch (Exception exp) {
+             system.debug(
+                 'Delegate Update::' +
+                 exp.getMessage() +
+                 ' ' +
+                 exp.getStackTraceString()
+             );
+         }
+     }
 
     public class ErrorPatientDelegateWrapper {
         public SET<String> listOfFailedRecordsWithMsg = new Set<String>();

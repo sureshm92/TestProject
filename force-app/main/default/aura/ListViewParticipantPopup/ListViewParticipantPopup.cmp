@@ -1,0 +1,114 @@
+<aura:component 
+                implements="force:appHostable,flexipage:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes,force:lightningQuickAction"
+                access="global"
+                controller="ListViewParticipantController">
+    <ltng:require
+                  scripts="{!join(',', $Resource.rr_community_js)}"
+                  />
+    <aura:attribute name="parentComp" type="Aura.Component" />
+    <aura:attribute name="oParticipantStatus" type="String"/>
+    <aura:attribute name="oStudy" type="String"/>
+    <aura:attribute name="statusSelected" type="String"/>
+    <aura:attribute name="reasonList" type="List" access="private" />
+    <aura:attribute name="reasonvalue" type="String" />
+    <aura:attribute name="isOpen" type="Boolean"/>
+    <aura:attribute name="popUpTitle" type="String" />
+    <aura:attribute name="notesRequired" type="Boolean" default="false" />
+    <aura:attribute name="stWrapper" type="Object" />
+    <aura:attribute name="SelectedIds" type="list" />
+    <aura:attribute name="finalConsent" type="Boolean" default="false"/>
+    <aura:attribute name="enable" type="Boolean" default="true"/>
+    <aura:method name="execute" action="{!c.doExecute}" access="public"/>
+    
+    
+    <c:Popup
+             aura:id="dialog"
+             title="{!$Label.c.ListView_ChangeStatus}"
+             size="medium"
+             showScroll="true"
+             showHeader="true"
+             showFooter="true"
+             actionpopupcc="true"
+             >
+        <c:RRSpinner aura:id="spinner" size="medium" showSpinner="false" />
+        <div style="padding-left:16px;">
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-2">
+                    <div>
+                        <div class="current-status">
+                            {!$Label.c.ListView_Current_Status}
+                        </div>
+                        <div class="received">
+                            {!v.oParticipantStatus}
+                        </div>
+                    </div>
+                    <div style="padding-top:10px;">
+                        <div class="new-status">
+                            {!$Label.c.ListView_New_Status}
+                        </div>
+                        <div class="referred">
+                            {!v.statusSelected}
+                        </div>
+                    </div>
+                    <div style="padding-top:7px" class="reason">
+                        
+                        <lightning:select
+                                          aura:id="reasonList"
+                                          name="rrs-select"
+                                          label="{!$Label.c.PG_ACPE_L_Reason}"
+                                          disabled="{!empty(v.reasonList)}"
+                                          onchange="{!c.updateNotesRequired}"
+                                          >
+                            <option value="{!null}" style="display: none">
+                                {!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}
+                            </option>
+                            <aura:iteration items="{!v.reasonList}" var="item">
+                                <option
+                                        value="{!item.value}"
+                                        selected="{!item.value == v.reasonvalue}"
+                                        >
+                                    <aura:unescapedHtml value="{!item.label}" />
+                                </option>
+                            </aura:iteration>
+                            
+                        </lightning:select>
+                    </div>
+                    <aura:if isTrue= "{!v.finalConsent}">
+                        <div class="checkbox_finalConsent">
+                            <lightning:input type="checkbox" 
+                                             label="{!$Label.c.FD_PE_Field_Final_Consent}" 
+                                             name="input2" 
+                                             checked="{!v.stWrapper.finalConsent}" 
+                                             onchange="{!c.onBooleanValueChange}"/>
+                        </div>
+                    </aura:if>
+                </div>
+                
+            </div>
+        </div>
+        <div class="notes">
+            <lightning:input
+                             label="{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.c.PG_ACPE_L_optional)+')'}"
+                             type="text"
+                             aura:id="notes"
+                             value="{!v.stWrapper.notes}"
+                             onchange="{!c.checkNotesRequiredValidity}"
+                             />
+        </div>
+        <aura:set attribute="footerButtons">
+            <div class="partinfo-footer-buttons" data-gtm="BTNS_Popup_Save_Cancel">
+                <span>
+                    <lightning:button class="apollo-btn tertiary"
+                                      onclick="{!c.doCancel}"
+                                      >{!$Label.c.BTN_Cancel}</lightning:button
+                        >
+                    
+                    <lightning:button
+                                      class="apollo-btn primary slds-button--neutral" 
+                                      onclick="{!c.doSave}" disabled="{!v.enable}"
+                                      >{!$Label.c.Submit}</lightning:button>
+                </span>
+            </div>
+        </aura:set>
+    </c:Popup>
+</aura:component>

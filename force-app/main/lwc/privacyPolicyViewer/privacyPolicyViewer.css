@@ -1,0 +1,217 @@
+.html {
+    scroll-behavior: smooth;
+}
+.ppLabel {
+    color: #000000;
+    font-size: 14px;
+    font-weight: 500;
+}
+.vertNav {
+    background: #f4f4f4;
+    margin: -12px 0px 0px -7px !important;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-left: 4%;
+    padding-top: 12%;
+}
+.vertNavRTL {
+    background: #f4f4f4;
+    margin: -12px 0px 0px -7px !important;
+    height: 100vh;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 4%;
+    padding-top: 12%;
+}
+.vertNav::-webkit-scrollbar {
+    display: none;
+}
+.vertNavRTL::-webkit-scrollbar {
+    display: none;
+}
+.slds-wrap::-webkit-scrollbar {
+    display: none;
+}
+.slds-modal__content {
+    overflow-y: hidden !important ;
+}
+.slds-p-around_medium {
+    padding-right: 0;
+    padding-left: 1%;
+    padding-top: 0%;
+}
+.navBar {
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    background: #f4f4f4;
+    margin-top: 0px;
+    min-width: 190px;
+    height: 755px;
+}
+.navItem {
+    min-height: 75px;
+}
+.navItem1 {
+    min-height: 75px;
+}
+.closeIcon {
+    float: right;
+    height: fit-content;
+    width: fit-content;
+}
+.textBox {
+    min-width: 128px;
+    text-align: initial;
+}
+.numbering {
+    max-width: fit-content;
+}
+.slds-wrap {
+    margin-bottom: 3%;
+    height: 100vh;
+    margin-top: -3%;
+    overflow: scroll;
+    overflow-x: hidden;
+    padding-right: 3%;
+    scroll-behavior: smooth;
+}
+.richTextArea {
+    padding-left: 4%;
+    padding-right: 1.5%;
+    word-break: break-word;
+    text-align: justify;
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 24px;
+    margin-bottom: 35%;
+}
+.logo {
+    height: auto;
+    width: 15%;
+    display: inline-block;
+    float: left;
+}
+.logoRTL {
+    height: auto;
+    width: 15%;
+    display: inline-block;
+    float: right;
+    transform: scaleX(-1);
+}
+.dot {
+    height: 27px;
+    width: 27px;
+    background-color: #005587;
+    border-radius: 50%;
+    display: inline-block;
+    color: white;
+    text-align: center;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 19px;
+}
+.text_div {
+    display: inline;
+    color: #005587;
+    font-family: 'Proxima Nova';
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 19px;
+    text-align: justify;
+    width: 128px;
+}
+.numberAlign {
+    padding-top: 14%;
+}
+.hdr {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 30px;
+    letter-spacing: 0;
+    line-height: 36px;
+}
+.dateText {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: left;
+}
+.dateTextRTL {
+    color: #000000;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    font-weight: 500;
+    letter-spacing: 0;
+    line-height: 17px;
+    text-align: right;
+}
+.ppHeader {
+    display: inline-block;
+    margin-left: 1%;
+    margin-top: 5px;
+    padding-top: 4px;
+    vertical-align: top;
+    float: left;
+}
+.ppHeaderRTL {
+    display: inline-block;
+    margin-right: 1%;
+    margin-top: 5px;
+    padding-top: 4px;
+    vertical-align: top;
+    float: right;
+}
+.closeIcon1 {
+    fill: black;
+    margin-right: 3%;
+}
+.headerAndLogo {
+    margin-left: 3.5%;
+    padding-top: 10%;
+}
+.ppLabel:hover {
+    cursor: pointer;
+}
+.slds-button_icon-inverse {
+    fill: black;
+}
+.slds-icon_small {
+    fill: black;
+}
+
+@media all and (max-width: 768px) {
+    .hdr {
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 22px;
+        letter-spacing: 0;
+        line-height: 28px;
+        text-align: left;
+    }
+    .dateText {
+        color: #000000;
+        font-family: 'Proxima Nova';
+        font-size: 12px;
+        font-weight: 500;
+        letter-spacing: 0;
+        line-height: 15px;
+        text-align: left;
+    }
+    .slds-button_icon-inverse {
+        fill: black;
+    }
+    .slds-icon_small {
+        fill: black;
+    }
+}

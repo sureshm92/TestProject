@@ -359,7 +359,7 @@ public without sharing class ParticipantInformationRemote {
             peJSON,
             Participant_Enrollment__c.class
         );
-        if (sendEmails) {
+        if (sendEmails && !pe.Participant_Contact__r.Is_Patient_User_Created__c) {
             update new Contact(
                 Id = pe.Participant_Contact__c,
                 Consent_To_Inform_About_Study__c = true,
@@ -368,17 +368,21 @@ public without sharing class ParticipantInformationRemote {
         }
         try {
             List<User> returnUsers = new List<User>();
-            if (pe.HCP_Contact__c == null) {
-                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(
-                        new Map<Id, Id>{ pe.Participant_Contact__c => pe.PI_Contact__c }
-                    );
-            } else {
-                returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                    .createParticipantUsers(
-                        new Map<Id, Id>{ pe.Participant_Contact__c => pe.HCP_Contact__c }
-                    );
+            if(!pe.Participant_Contact__r.Is_Patient_User_Created__c){
+                if (pe.HCP_Contact__c == null) {
+                    returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(
+                            new Map<Id, Id>{ pe.Participant_Contact__c => pe.PI_Contact__c }
+                        );
+                } else {
+                    returnUsers = ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(
+                            new Map<Id, Id>{ pe.Participant_Contact__c => pe.HCP_Contact__c }
+                        );
+                }
             }
+                pe.Invited_To_PP_Date__c = DateTime.now();
+                update pe;
 
             Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
             String permissionSetName = CommunityTemplateService.getTemplate(
@@ -543,6 +547,7 @@ public without sharing class ParticipantInformationRemote {
 
     @AuraEnabled
     public static void updateParticipantAndDelegates(
+        String peId,
         String participantS,
         String participantContactS,
         String delegatesS,
@@ -592,9 +597,9 @@ public without sharing class ParticipantInformationRemote {
             }
 
             Map<Id, Id> toCreateUser = new Map<Id, Id>();
-            system.debug('needsInvite: ' + needsInvite);
-            toCreateUser.put(participant.Contact__c, null);
+                system.debug('needsInvite: ' + needsInvite);
             if (needsInvite) {
+                toCreateUser.put(participant.Contact__c, null);
                 actionAssignContactPermissions.addPermission(
                     participant.Contact__c,
                     permissionSetName
@@ -664,7 +669,10 @@ public without sharing class ParticipantInformationRemote {
                 );
                 update delegatesToUpdate;
             }
-
+            if(needsInvite == true){
+                Participant_Enrollment__c pe = new Participant_Enrollment__c(Id= peId, Invited_To_PP_Date__c =DateTime.now());//,Invited_To_Patient_Portal__c = true);
+                update pe;
+            }
             system.debug('toCreateUser: ' + toCreateUser);
             if (!toCreateUser.isEmpty() && needsInvite == true) {
                 ((CommunityService) ClassFactory.newInstance(CommunityService.class))
@@ -715,9 +723,10 @@ public without sharing class ParticipantInformationRemote {
                         SELECT Contact__c
                         FROM Patient_Delegate__c
                         WHERE
-                            Participant__c = :participantId
-                            AND (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
-                            OR Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS)
+                        Participant__c = :participantId
+                        AND Status__c != 'Withdrawn' //as per REF-2998(fix for REF-4222),delegate will come with status Disconnected, 
+                       /* AND (Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ACTIVE_STATUS
+                        OR Status__c = :PatientDelegateTriggerHandler.PATIENT_DELEGATE_ONHOLD_STATUS) */
                     )
             ];
             return participants;

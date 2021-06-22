@@ -54,6 +54,7 @@
 <aura:attribute name="dateofSH" type="String" />
 <aura:attribute name="status" type="String" />
 <aura:attribute name="invitedon" type="Date" />
+<aura:attribute name="peInvitedtoPP" type="Boolean" default="false" />
 <aura:attribute name="promoteToSHStatus" type="Boolean" default="true" />
 <!--<aura:attribute name="isDetailsChanged" type="Boolean" default="false"/>-->
 <aura:attribute name="isStatusChanged" type="Boolean" default="false" />
@@ -62,7 +63,11 @@
 <aura:attribute name="isEmailConfrmBtnClick" type="Boolean" default="true" />
 <aura:attribute name="participantDelegateUseExisiting" type="Participant__c" />
 <aura:attribute name="needsDelegate" type="Boolean" default="false" />
-     
+<aura:attribute name="validateFOV" type="Boolean" default="false" />  
+<aura:attribute name="saveAndcancel" type="Boolean" default="false" />  
+<aura:attribute name="fovDate" type="DateTime" access="public"/>
+<aura:attribute name="fovTime" type="String" access="public"/> 
+<aura:attribute name="backdrop" type="boolean" access="public" default="false"/>  
  
      
  <aura:attribute name="yob" type="List" /> 
@@ -82,6 +87,7 @@
    event="c:DetectChildChanges"
    action="{!c.checkChildChanges}"
    />
+<aura:handler name="cmpEvent" event="c:CancelScheduledEvt" action="{!c.doUpdatefovNull}" />
 
 <aura:method name="checkParticipantDateOfBith" action="{!c.doCheckDateOfBith}" access="public">
         <aura:attribute name="callback" type="Function" />
@@ -99,7 +105,7 @@
 </aura:method>
 <aura:method name="doCallback" action="{!c.doCallback}" access="public" />
 <aura:method name="doUpdate" action="{!c.doUpdate}" access="public" />
-<aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatus}" access="public" />
+<aura:method name="doUpdatePatientStatus" action="{!c.doUpdatePatientStatusandValidate}" access="public" />
 <aura:method name="statusDetailValidityCheck" action="{!c.doCheckStatusDetailValidity}" access="public">
 <aura:attribute name="participantWorkflowWrapper" type="Object" />
 </aura:method>
@@ -117,12 +123,12 @@ isListView = "{!v.isListView}"
 >
 
 <aura:if
-  isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
-          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
-          v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c ||
-          v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c ||
-          and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c)) ||
-          (v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}"
+  isTrue="{!v.isIQVIA &amp;&amp; or(!v.isInvited,!v.peInvitedtoPP) &amp;&amp;v.pe.Participant__r.Adult__c &amp;&amp;
+           v.pe.Participant__r.Email__c &amp;&amp;v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid'&amp;&amp; 
+           !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c ||
+           v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c ||
+           and(v.pe.Study_Site__r.Study_Site_Type__c == 'Traditional' , or(v.pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c , v.pe.Study_Site__r.Suppress_Participant_Emails__c)) ||
+           (v.isInvited &amp;&amp; v.peInvitedtoPP &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}"
   > 
 <div
   class="invite-patient-container slds-grid slds-grid--vertical-align-center slds-size--1-of-1 slds-wrap"
@@ -139,8 +145,8 @@ isListView = "{!v.isListView}"
      
      <aura:set attribute="else">
          <aura:if
-                  isTrue="{!v.isIQVIA &amp;&amp; !v.isInvited &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
-                          !v.pe.Participant__r.Marketing_Flag__c &amp;&amp; v.pe.Participant__r.Email__c &amp;&amp;
+                  isTrue="{!v.isIQVIA &amp;&amp; or(!v.isInvited,!v.peInvitedtoPP) &amp;&amp; v.pe.Participant__r.Adult__c &amp;&amp;
+                           v.pe.Participant__r.Email__c &amp;&amp;v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &amp;&amp;
                           v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &amp;&amp; !v.pe.Participant__r.IsCountry_NOT_Eligible_for_Emails__c &amp;&amp; v.init &amp;&amp; v.pe.Permit_IQVIA_to_contact_about_study__c}"
                   >
              <button
@@ -154,7 +160,7 @@ isListView = "{!v.isListView}"
      </aura:set>
      
  </aura:if>
- <aura:if isTrue="{!(v.isInvited &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
+ <aura:if isTrue="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c&amp;&amp;(v.isInvited &amp;&amp; v.peInvitedtoPP &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Virtual' &amp;&amp; v.pe.Study_Site__r.Study_Site_Type__c != 'Hybrid')}">
      
      <button
              class="{!'slds-col slds-size--3-of-12 slds-max-small-size--1-of-1 apollo-btn secondary slds-float_right slds-grid--vertical-align-center ' +if(v.isRTL,'rtlButton','')}"
@@ -173,7 +179,7 @@ isListView = "{!v.isListView}"
      </button>
  </aura:if>
  <aura:if
-          isTrue="{!v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c}"
+          isTrue="{!and(v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c , or(v.pe.Study_Site__r.Study_Site_Type__c == 'Hybrid', v.pe.Study_Site__r.Study_Site_Type__c == 'Virtual'))}"
           >
      <aura:if isTrue="{!v.promoteToSHStatus}">
          
@@ -347,6 +353,7 @@ isListView = "{!v.isListView}"
                                      aura:id="childCmp"
                                      parent="{!this}"
                                      updateInProgress="{!v.updateInProgress}"
+                                     validateFOV="{!v.validateFOV}"
                                      />
      </lightning:tab>
      
@@ -451,7 +458,7 @@ isListView = "{!v.isListView}"
          <lightning:button
                            class="apollo-btn secondary"
                            disabled="{!!v.statusDetailValid}"
-                           onclick="{!c.doUpdatePatientStatus}"
+                           onclick="{!c.doUpdatePatientStatusandValidate}"
                            >{!$Label.c.PG_MTI_BTN_Save_Changes}</lightning:button
              >
             </span>
@@ -461,11 +468,16 @@ isListView = "{!v.isListView}"
  <lightning:button
                    class="apollo-btn primary slds-button--neutral"
                    disabled="{!!v.isValid || ! v.statusDetailValid || ! v.isEmailConfrmBtnClick ||   ((v.isFirstPrimaryDelegate) &amp;&amp; (v.isAdultDel == false))}"
-                   onclick="{!c.doUpdateCancel}"
+                   onclick="{!c.doUpdateCancelandValidatefov}"
                    >{!$Label.c.BTN_Save_All_Tabs}</lightning:button
      >
     </span>
 </div>
 </aura:set>
+<aura:if isTrue="{!v.backdrop}">
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</aura:if>
 </c:PopupRTL>
+<c:CancelScheduledVisit aura:id="warningfov"  backdrop="{!v.backdrop}" fovDate="{!v.fovDate}" fovTime="{!v.fovTime}" />
+      
 </aura:component>

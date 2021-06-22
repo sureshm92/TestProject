@@ -95,6 +95,18 @@
                 <behavior>Edit</behavior>
                 <field>Comorbidities__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Chatbot_optout__c</field>
+            </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Site_Communication_Preference__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Invited_To_PP_Date__c</field>
+            </layoutItems>            
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

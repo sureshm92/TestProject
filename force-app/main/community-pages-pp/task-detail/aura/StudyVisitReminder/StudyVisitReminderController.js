@@ -2,7 +2,20 @@
     doInit: function (component, event, helper) {
         
         //component.find('spinner').show();
-        
+        var fields = ["Subject"];
+        var sObj = {'sobjectType':'Task'};
+        communityService.executeAction(
+            component,
+            'getMaxLength',
+            {
+                so:JSON.stringify(sObj),
+                fieldNames: fields
+            },
+            function (returnValue) {
+                component.set('v.maxLengthData',returnValue);
+                
+                });
+
         component.set('v.reRender',true);
         communityService.executeValidParams= false;
         var params = event.getParam('arguments');

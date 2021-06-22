@@ -51,11 +51,16 @@ public without sharing class RRChangePasswordController {
     public String communityLogo { get; set; }
     public String resetPassLogo { get; set; }
     public String themeCSS { get; set; }
+    public Boolean isMobileView {get;set;}
+    public Boolean isMobileApp{get;set;}
     public String backgroundStyle { get; set; }
     public String templateName { get; set; }
     public String currentCommunityName { get; set; }
     public String siteName { get; set; }
     public Boolean hasProfilePic { get; set; }
+    public Boolean showPassword {get; set;}
+    public Boolean showNewPassword {get; set;}
+    //public Boolean showPassword = true;
     public Boolean isRTL { get; set; }
 
     private String previousLanguage;
@@ -88,6 +93,10 @@ public without sharing class RRChangePasswordController {
     public RRChangePasswordController() {
         isRTL = false;
         onLoad = true;
+        isMobileView = false;
+        isMobileApp = false;
+        showPassword = true;
+        showNewPassword = true;
         translation = new Translation__c();
         init();
         if (!contact.Is_First_Logon__c)
@@ -107,9 +116,22 @@ public without sharing class RRChangePasswordController {
                 '/s/cookie-policy?lanCode=' + previousLanguage
             );
         }
+        
+        
+         Map<String, String> headerlist = ApexPages.currentPage().getHeaders();
+        if(headerList.get('User-Agent').contains('Android') || headerList.get('User-Agent').contains('BlackBerry') ||
+        headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')||headerList.get('User-Agent').contains('iPad')){
+               isMobileView = true;
+           }
+        if(headerList.get('User-Agent').contains('SalesforceMobileSDK')){
+            isMobileApp = true;
+        }
     }
-
+    
+    
     private void init() {
+        showPassword = true;
+        showNewPassword = true;
         Id userId = UserInfo.getUserId();
         userVal = [
             SELECT
@@ -313,8 +335,14 @@ public without sharing class RRChangePasswordController {
                         System.Label.Pswd_ValidationMsg3
                     );
                     failingPageResponse = m.getDetail();
+
                 } else {
+                    if(m.getDetail().contains(System.Label.PP_CantReuseOldPwd) && !Site.getPathPrefix().startsWith('/gsk')){
+                        failingPageResponse = System.Label.PP_CantReuseOldPwd;
+                    }else{
                     failingPageResponse = null;
+                    }
+
                 }
             }
 
@@ -332,7 +360,13 @@ public without sharing class RRChangePasswordController {
             return null;
         }
     }
+    public void toggleNewPassword(){
+        showNewPassword = !showNewPassword;
+    }
+    public void togglePassword(){
+        showPassword = !showPassword;
 
+    }
     public void showProfileAction() {
         isProfileView = true;
         isAttestationUpdated = false;
@@ -783,7 +817,8 @@ public without sharing class RRChangePasswordController {
             isDisabled = true;
             isSaveButtonDisabled = true;
             showErrorMessage = false;
-        } else if (!String.isBlank(participant.Birth_Year__c)) {
+        }
+        else if (!String.isBlank(participant.Birth_Year__c)) {
             isAdult = false;
             birthYear = participant.Birth_Year__c;
             List<Age_of_Majority__mdt> ageOfMajorities = [

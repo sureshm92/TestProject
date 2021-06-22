@@ -105,6 +105,7 @@
         var studyId = component.get('v.filterList[0].Study');
         // alert(component.get("v.peFilterData.statuses"));
         component.set('v.filterList[0].Status', selectedOptionValue);
+        
         var params = {
             activePE: selectedOptionValue,
             studyId: studyId
@@ -172,9 +173,11 @@
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
         component.set("v.turnON",true);
+        component.set('v.statusSelected',null);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
         helper.doinitHelper(component, event, helper);
+        helper.setDefault(component, event, helper);
     },
     handleChangeSex: function (component, event, helper) {
         //var spinner = component.find('recordsSpinner');
@@ -257,6 +260,7 @@
         component.set("v.statusChange",false);
         component.set("v.isCheckboxhidden",false); 
         component.set('v.ActionSelected','null');
+        component.set('v.statusSelected',null);
         component.set("v.turnON",false);
         var menuItem = component.find('menuItem');
         $A.util.removeClass(menuItem, 'slds-is-open');
@@ -320,9 +324,8 @@
         //var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
         var bulkaction = component.get('v.ActionSelected');
-        //alert(bulkaction);
-        var bulkStatus = component.get('v.statusSelected');
         console.table(filterValue);
+        var statusChangeto = component.get('v.StatusChangeto');
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
@@ -330,7 +333,7 @@
             {
                 filterJSON: filterValue,
                 bulkAction: bulkaction,
-                BulkStatus: bulkStatus
+                statusChangeto: statusChangeto
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
@@ -566,12 +569,12 @@
         component.set('v.oldfilterList', RowItemList);
         
         var filterValue = component.get('v.oldfilterList');
-        var bulkaction = component.get('v.ActionSelected');
-        var bulkStatus = component.get('v.statusSelected');
+        var bulkaction = component.get('v.ActionSelected')
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
         
         console.log('Selected Filter Next ' + filterValue);
+        var statusChangeto = component.get('v.StatusChangeto');
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
@@ -579,7 +582,7 @@
             {
                 filterJSON: filterValue,
                 bulkAction: bulkaction,
-                BulkStatus: bulkStatus
+                statusChangeto: statusChangeto
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
@@ -671,11 +674,11 @@
         
         var filterValue = component.get('v.oldfilterList');
         var bulkaction = component.get('v.ActionSelected');
-        var bulkStatus = component.get('v.statusSelected');
         var bol = helper.validateAge(component, event, helper);
         filterValue = JSON.stringify(filterValue);
         
         console.log('Sellected Filter ' + filterValue);
+        var statusChangeto = component.get('v.StatusChangeto');
         if (!communityService.isInitialized()) return;
         communityService.executeAction(
             component,
@@ -683,7 +686,7 @@
             {
                 filterJSON: filterValue,
                 bulkAction: bulkaction,
-                BulkStatus: bulkStatus
+                statusChangeto: statusChangeto
             },
             function (returnValue) {
                 console.log('@@@@@@@ReturnValue ' + returnValue);
@@ -893,6 +896,11 @@
         //if status changed, get reason and notes on modal
         if(component.get("v.statusChange")){
             component.set("v.isOpen", true);
+            component.find('openStatusPopup').execute();
+            component.find('Spinnerpopup').show();
+            var sid = [];
+            sid = component.get('v.SelectedIds');
+            component.find('Spinnerpopup').hide();
         }else{
             var action =  component.get('v.ActionSelected');
             if(action == 'Send to Study Hub')
@@ -907,10 +915,6 @@
                 component.handleInviteToPPMethod();
             }
         }
-    },
-    onSubmitofStatusUpdate: function(component, event, helper) {
-        //alert('onSubmitofStatusUpdate');
-        //alert(component.get('v.statusSelected'));
     },
     closeModel: function(component, event, helper) {
         // for Hide/Close Model,set the "isOpen" attribute to "Fasle"  
@@ -937,8 +941,8 @@
     },
     toggleVisibility : function(cmp, event, helper) {
         var menuItem = cmp.find('menuItem');
-        if(cmp.get('v.enableSH') || cmp.get('v.enablePP')){
-        $A.util.toggleClass(menuItem,'slds-is-open');
+        if(cmp.get('v.enableSH') || cmp.get('v.enablePP') || (cmp.get('v.TotalRecords') >0)){
+            $A.util.toggleClass(menuItem,'slds-is-open');
         }
     },
     hideOnBlur : function(component, event, helper){
@@ -952,40 +956,76 @@
         }
     },
     selectAction : function(component, event, helper) {
-        component.set("v.isActionSelected",true);
+        
         var val = event.currentTarget.getAttribute("data-value");
         component.set('v.ActionSelected',val);
-        if(val == 'Change Participant Status')
+        if(val == 'Invite to Patient Portal')
         {
-            component.set("v.statusChange",true);  
-            var selectedItem = event.currentTarget;
-            var Status= selectedItem.dataset.variablename;
-            component.set('v.statusSelected',Status);
-            component.set("v.isCheckboxhidden",true); 
+            component.set("v.isActionSelected",true);
+            component.set("v.isCheckboxhidden",true);  
+            component.set("v.turnON",true);  
+             helper.handleSearchHelper(component, event, helper);
         }
-        //component.set('v.statusSelected','Received');
-         if(val == 'Invite to Patient Portal')
-        {
-          component.set("v.isCheckboxhidden",true);
-          component.set("v.turnON",true);   
-        }
-        helper.handleSearchHelper(component, event, helper);
+       
         if(val == 'Send to Study Hub')
         {
+            component.set("v.isActionSelected",true);
             if(!component.get('v.PromoteToSH')){
                 component.set("v.isCheckboxhidden",true); 
             }
             component.set("v.turnON",true);
+           helper.handleSearchHelper(component, event, helper);
         }
         
+        if(val == 'Change Participant Status'){
+            var status = component.get('v.oParticipantStatus');
+            var ssId = component.get('v.oStudy');
+            if(status == 'null'){
+                communityService.showToast(
+                    'error',
+                    'error',
+                    $A.get('$Label.c.ListView_Change_Status')
+                );
+            }
+            else{
+                communityService.executeAction(
+                    component,
+                    'getAvailableStatuses',
+                    {
+                        status : status,
+                        StudyId : ssId
+                    },
+                    function (returnValue) {
+                        console.log('returnvalue'+JSON.stringify(returnValue))
+                        if(returnValue[1] != undefined || returnValue[1] != null){
+                            component.set("v.isActionSelected",true);
+                            component.set("v.statusChange",true); 
+                            component.set('v.availableStatuses', returnValue);
+                            //component.set('v.StatusChangeto',returnValue[1]);
+                            helper.handleSearchHelper(component, event, helper);
+                            
+                            //component.set("v.isCheckboxhidden",true);
+                            component.set("v.turnON",true);
+                        }else{
+                            communityService.showToast(
+                                'error',
+                                'error',
+                                $A.get('$Label.c.ListView_Status_Not_Available')
+                            );
+                            component.set('v.StatusChangeto','null');
+                            helper.setDefault(component, event, helper);
+                        }
+                       
+                        
+                    }
+                );
+                  
+            }
+        }
     },
     noAction : function(component, event, helper) {
-        component.set("v.isActionSelected",false);
-        component.set("v.statusChange",false);
-        component.set("v.isCheckboxhidden",false);
-        component.set('v.ActionSelected','null');
-        component.set("v.turnON",true);
-        helper.handleSearchHelper(component, event, helper);
+        helper.setDefault(component, event, helper);
+        component.set('v.statusSelected',null);
     },
     
     inviteToPP : function(component,event,helper){
@@ -1019,5 +1059,29 @@
         }else {
             helper.showToastLimit(component, event, helper);
         }
-    }
+    },
+   doValueChangeStatus: function (component, event, helper) {
+       //alert(component.get('v.statusSelected'));
+       component.set('v.StatusChangeto',component.get('v.statusSelected'));
+       if(component.get('v.StatusChangeto') != null && component.get('v.StatusChangeto') != 'null'
+         && component.get('v.StatusChangeto') != ''){
+            component.set("v.isCheckboxhidden",true);
+       }else{
+           component.set("v.isCheckboxhidden",false);
+       }
+       component.set("v.turnON",true);
+       helper.handleSearchHelper(component, event, helper);
+    },
+    
+    changeStatusTo: function (component, event, helper) {
+        helper.setDefault(component, event, helper);
+        component.set('v.lstPR_no', '');
+        component.set('v.lstPR_yes', '');
+        component.set('v.SelectedIds', '');
+        component.set('v.DeSelectedIds', '');
+        component.set('v.statusSelected',null);
+        component.set('v.count', 0);
+        component.set('v.enablePromoteToSH', true);
+    },
+
 });

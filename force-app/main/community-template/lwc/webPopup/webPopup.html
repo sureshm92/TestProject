@@ -14,7 +14,16 @@
                     </div>
                     <!-- title: -->
                     <div class={divHeaderClass}>
-                        <h2 class={h2Class}>{title}</h2>
+                        <div class="slds-grid slds-col slds-size--1-of-1">
+                            <template if:true={showTitleImage}>
+                                <div class="slds-size--1-of-9">
+                                    <img src={titleImageUrl} />
+                                </div>
+                            </template>
+                            <div class="slds-size--8-of-9">
+                                <h2 class={h2Class}>{title}</h2>
+                            </div>
+                        </div>
                     </div>
                     <div style="position: relative">
                         <!-- dialog body: -->
@@ -31,10 +40,18 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
+                                        <button
+                                            class="apollo-btn secondary"
+                                            onclick={clickedSecondary}
+                                            tabindex="0"
+                                        >
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
+                                        <button
+                                            class="apollo-btn primary"
+                                            onclick={clickedPrimary}
+                                            tabindex="-1"
+                                        >
                                             {primaryButtonLabel}
                                         </button>
                                     </template>
@@ -57,9 +74,18 @@
                     </div>
                     <!-- title: -->
                     <div class={divHeaderClass}>
-                        <h2 class={h2Class} style="text-align: right">{title}</h2>
+                        <div class="slds-grid slds-col slds-size--1-of-1 rtlHeader">
+                            <template if:true={showTitleImage}>
+                                <div class="slds-size--1-of-9">
+                                    <img src={titleImageUrl} />
+                                </div>
+                            </template>
+                            <div class="slds-size--8-of-9">
+                                <h2 class={h2Class} style="text-align: right">{title}</h2>
+                            </div>
+                        </div>
                     </div>
-                    <div style="position: relative">
+                    <div style="position: relative" class="rtlBody">
                         <!-- dialog body: -->
                         <div class={contentScrollClass}>
                             <label>{headerText}</label>
@@ -74,10 +100,18 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
+                                        <button
+                                            class="apollo-btn secondary"
+                                            onclick={clickedSecondary}
+                                            tabindex="0"
+                                        >
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
+                                        <button
+                                            class="apollo-btn primary"
+                                            onclick={clickedPrimary}
+                                            tabindex="-1"
+                                        >
                                             {primaryButtonLabel}
                                         </button>
                                     </template>

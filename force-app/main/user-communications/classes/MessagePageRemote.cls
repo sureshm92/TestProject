@@ -75,6 +75,7 @@ public without sharing class MessagePageRemote {
             fileIcon = iconByExtension.containsKey(doc.ContentDocument.FileExtension)
                 ? iconByExtension.get(doc.ContentDocument.FileExtension)
                 : 'icon-blank';
+            downloadLink= Site.getBaseUrl()  + downloadLink; //Appending base URL
             downloadLink += doc.ContentDocumentId;
         }
     }

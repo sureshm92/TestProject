@@ -13,8 +13,10 @@
     <aura:attribute name="actions" type="List" />
     <aura:attribute name="isInvited" type="Boolean" access="public" />
     <aura:attribute name="showVisits" type="Boolean" default="false" access="public" />
+    <aura:attribute name="sendToSHDate" type="Boolean" default="false"/>
     <!-- Added for performance tuning -->
     <aura:attribute name="isHidden" type="Boolean" default="false" />
+     <aura:attribute name="viewMore" type="Boolean" default="true" />
 
     <!-- Added for performance tuning modified for performance tuning-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -29,6 +31,7 @@
             pe="{!v.pe}"
             isReferral="false"
             isInvited="{!v.isInvited}"
+            sendToSHDate="{!v.sendToSHDate}"                     
         />
         <c:ParticipantCardFields
             userMode="{!v.userMode}"
@@ -36,6 +39,7 @@
             showParticipationSteps="true"
             isInvited="{!v.isInvited}"
             parentSE="{!this}"
+            viewMore = "{!v.viewMore}"
         />
         <aura:if isTrue="{!v.isHidden}">
             <!-- Added for performance tuning -->
@@ -58,6 +62,7 @@
                             peStatusStateMap="{!v.peStatusStateMap}"
                             actions="{!v.actions}"
                             isHidden ="{!v.isHidden}"
+                            viewMore = "{!v.viewMore}"
                             
                         />
                     </aura:set>
