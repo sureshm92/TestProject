@@ -59,12 +59,15 @@ export default class PrivacyPolicyViewer extends LightningElement {
     };
 
     logoCss = 'width: 72px; height: 72px';
+
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
     }
     closeModal() {
         // to close modal set isModalOpen tarck value as false
+        const closeEvt = new CustomEvent('closePpModal');
+        this.dispatchEvent(closeEvt);
         this.isModalOpen = false;
     }
     navigateToHomePage(event) {
