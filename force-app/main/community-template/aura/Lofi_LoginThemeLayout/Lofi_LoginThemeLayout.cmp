@@ -83,6 +83,7 @@
                                     <c:privacyPolicyViewer
                                         isRtl="{!v.isRTL}"
                                         isModalOpen="{!v.showPpPopup}"
+                                        onclosePpModal="{!c.closePpPopup}"
                                     />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">© IQVIA</div>
@@ -153,6 +154,7 @@
                                 <c:privacyPolicyViewer
                                     isRtl="{!v.isRTL}"
                                     isModalOpen="{!v.showPpPopup}"
+                                    onclosePpModal="{!c.closePpPopup}"
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
