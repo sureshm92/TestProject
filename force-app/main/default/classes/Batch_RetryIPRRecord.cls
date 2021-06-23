@@ -1,7 +1,8 @@
 public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements Database.AllowsCallouts{
     
     public static final EPR_Validation_Message__mdt objMetadataRecord = [SELECT Retry_Count__c,Batch_Run_Frequency__c
-                                                                         FROM EPR_Validation_Message__mdt WHERE Error_Message__c = '' LIMIT 1];
+                                                                         FROM EPR_Validation_Message__mdt WHERE Error_Message__c = '' 
+                                                                         and Batch_Run_Frequency__c != Null LIMIT 1];
     public static final List<EPR_Validation_Message__mdt> lstEmailRecord = [SELECT SendFailedIPRReport__c FROM EPR_Validation_Message__mdt 
                                                                             WHERE SendFailedIPRReport__c != Null
                                                                             And Error_Message__c = ''];
