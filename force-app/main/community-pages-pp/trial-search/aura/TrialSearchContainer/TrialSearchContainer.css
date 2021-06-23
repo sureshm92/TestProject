@@ -44,6 +44,7 @@
 
 /*.THIS.arabic .filter-sideRTL .slds-input__icon-group.slds-input__icon-group_right,
 .THIS.hebrew .filter-sideRTL .slds-input__icon-group.slds-input__icon-group_right {
+    
     right: auto;
     left: 30px;
 }*/

@@ -25,7 +25,6 @@ export default class WebLookup extends LightningElement {
     @track hasFocus = false;
     @track loading = false;
     @api isrtl;
-
     cleanSearchTerm;
     blurTimeout;
     searchThrottlingTimeout;
@@ -288,25 +287,23 @@ export default class WebLookup extends LightningElement {
         return this.hasSelection() ? this.selection[0].title : '';
     }
 
-get getListboxClass() {
-     if(this.isrtl) {
-        return (
-            'slds-listbox slds-listbox_vertical rtl slds-dropdown slds-dropdown_fluid ' +
-            (this.scrollAfterNItems
-                ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems
-                : '')
-        );
-            }
-            else {
+    get getListboxClass() {
+        if (this.isrtl) {
+            return (
+                'slds-listbox slds-listbox_vertical rtl slds-dropdown slds-dropdown_fluid ' +
+                (this.scrollAfterNItems
+                    ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems
+                    : '')
+            );
+        } else {
             return (
                 'slds-listbox slds-listbox_vertical slds-dropdown slds-dropdown_fluid ' +
                 (this.scrollAfterNItems
                     ? 'slds-dropdown_length-with-icon-' + this.scrollAfterNItems
                     : '')
             );
-                }  
-   
-}
+        }
+    }
 
     get isInputReadonly() {
         if (this.isMultiEntry) {

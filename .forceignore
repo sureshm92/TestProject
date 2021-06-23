@@ -37,8 +37,6 @@ force-app/main/default/workflows/Case.workflow-meta.xml
 force-app/main/default/staticresources/Flags.svg
 force-app/main/default/staticresources/Flags.resource-meta.xml
 #force-app/main/tools/staticresources/*
-force-app/main/default/staticresources/Flags.svg
-force-app/main/default/staticresources/Flags.resource-meta.xml
 
 
 #Ignore State globalValueSet

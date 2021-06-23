@@ -28,6 +28,11 @@
     /* @noflip */ text-align: right;
 }
 
+.THIS .slds-text-align_right 
+{
+    /* @noflip */ text-align: right;
+}
+
 .THIS .slds-badge__icon_right {
     margin-left: 0;
     margin-right: 1rem;
