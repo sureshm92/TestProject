@@ -46,11 +46,10 @@ public without sharing class TermsAndConditionsRemote {
             // con = [SELECT Id, Title FROM ContentDocument WHERE Id =: cdl.ContentDocumentId];
             if(cdl.size() > 0){
                contId = cdl[0].ContentDocumentId; 
-            
-            contDist = [
+               contDist = [
                 SELECT Id, ContentDownloadUrl
                 FROM ContentDistribution
-                WHERE ContentDocumentId = :cdl[0].ContentDocumentId
+                WHERE ContentDocumentId = :cdl[0].ContentDocumentId order by createddate DESC
             ];
             }
             if(contDist.size()>0){
