@@ -36,21 +36,26 @@ public without sharing class TermsAndConditionsRemote {
         string retUrl;
 
         try {
-            ContentDocumentLink cdl = new ContentDocumentLink();
-            ContentDistribution contDist = new ContentDistribution();
+            List<ContentDocumentLink> cdl = new List<ContentDocumentLink>();
+            List<ContentDistribution> contDist = new List<ContentDistribution>();
             cdl = [
                 SELECT Id, ContentDocumentId
                 FROM ContentDocumentLink
                 WHERE LinkedEntityId = :ppId
             ];
             // con = [SELECT Id, Title FROM ContentDocument WHERE Id =: cdl.ContentDocumentId];
-            contId = cdl.ContentDocumentId;
+            if(cdl.size() > 0){
+               contId = cdl[0].ContentDocumentId; 
+            
             contDist = [
                 SELECT Id, ContentDownloadUrl
                 FROM ContentDistribution
-                WHERE ContentDocumentId = :cdl.ContentDocumentId
+                WHERE ContentDocumentId = :cdl[0].ContentDocumentId
             ];
-            retUrl = contDist.ContentDownloadUrl;
+            }
+            if(contDist.size()>0){
+                retUrl = contDist[0].ContentDownloadUrl;
+            }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
