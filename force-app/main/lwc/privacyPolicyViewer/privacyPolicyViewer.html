@@ -1,12 +1,22 @@
 <template>
     <template if:false={isCommunityFooter}>
         <div class="slds-p-around_medium">
-            <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+            <template if:true={isJanssen}>
+                <span class="ppLabel" onclick={openModal}
+                    >{labels.janssenHeaderLabel}
+                </span></template
+            >
+
+            <template if:false={isJanssen}>
+                <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span></template
+            >
         </div>
     </template>
     <template if:true={isCommunityFooter}>
         <div class="">
-            <p><a onclick={openModal}>{labels.ppHeaderLabel} </a></p>
+            <p>
+                <a onclick={openModal}> {labels.ppHeaderLabel} </a>
+            </p>
         </div>
     </template>
     <template if:true={isModalOpen}>
@@ -136,12 +146,12 @@
                     <template if:true={isRtl}>
                         <button
                             class="apollo-btn primary"
-                            style="display: inline-block;float:left;"
+                            style="display: inline-block; float: left"
                             onclick={closeModal}
                         >
                             {labels.okBtn}
                         </button>
-                        <p style="display: inline-block;float:left; margin-left: 3%;">
+                        <p style="display: inline-block; float: left; margin-left: 3%">
                             <a onclick={saveAsPdf}>{labels.downloadPdf}</a>
                         </p>
                     </template>
