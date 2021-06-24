@@ -65,7 +65,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @api communityTypeName;
 
     get isJanssen() {
-        console.log('inside janssen-->');
         return this.communityTypeName === 'Janssen';
     }
 
