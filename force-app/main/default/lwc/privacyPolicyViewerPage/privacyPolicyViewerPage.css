@@ -216,4 +216,30 @@
         padding-top: 1%;
         margin-left: 0%;
     }
+    .bodyWrapper {
+        position: absolute;
+        left: 17.2%;
+        background: rgb(255, 255, 255);
+        padding-top: 0.7%;
+        padding-left: 0.5%;
+        padding-right: 2%;
+        height: 100vh;
+        overflow: scroll;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        padding-bottom: 20%;
+    }
+    .bodyWrapperRTL {
+        position: absolute;
+        right: 17.2%;
+        background: rgb(255, 255, 255);
+        padding-top: 0.7%;
+        padding-left: 2%;
+        padding-right: 0.5%;
+        height: 100vh;
+        overflow: scroll;
+        overflow-x: hidden;
+        scroll-behavior: smooth;
+        padding-bottom: 20%;
+    }
 }
