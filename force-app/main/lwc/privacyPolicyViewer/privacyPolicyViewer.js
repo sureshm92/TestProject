@@ -7,6 +7,7 @@ import downloadPdf from '@salesforce/label/c.Download_PDF_pp';
 import lastUpdatedText from '@salesforce/label/c.Last_Updated_pp_text';
 import okBtn from '@salesforce/label/c.BTN_OK'; //BTN_OK
 import ppHeaderLabel from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import janssenHeaderLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy_Janssen';
 import ppLabel from '@salesforce/label/c.Lofi_Login_Footer_Policies';
 import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
@@ -55,10 +56,17 @@ export default class PrivacyPolicyViewer extends LightningElement {
         ppHeaderLabel,
         okBtn,
         lastUpdatedText,
-        downloadPdf
+        downloadPdf,
+        janssenHeaderLabel
     };
 
     logoCss = 'width: 72px; height: 72px';
+
+    @api communityTypeName;
+
+    get isJanssen() {
+        return this.communityTypeName === 'Janssen';
+    }
 
     openModal() {
         // to open modal set isModalOpen tarck value as true
