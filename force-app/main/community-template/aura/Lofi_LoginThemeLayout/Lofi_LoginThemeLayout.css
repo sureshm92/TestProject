@@ -112,8 +112,8 @@
 .THIS .janssen-logo {
     font-size: 24px;
     font-weight: 500;
-    margin-bottom: -0.5em;
-    margin-top: 1em;
+    margin-bottom: 1rem;
+    margin-top: 1rem
 }
 /*.THIS .forgot-password {
     height: 29px !important;
@@ -427,6 +427,19 @@
     .THIS .logo-block + .slds-col {
         padding-bottom: 0;
     }
+    
+    .THIS .janssen-logo {
+        margin-bottom: .25rem;
+        margin-top: -1rem;
+    }
+}
+
+@media all and (max-height: 825px) {
+    .THIS .logo-block,
+    .THIS .logo-sub-title {
+        margin-top: -1rem;
+    }
+
 }
 
 @media all and (max-height: 776px) and (max-width: 486px) {
