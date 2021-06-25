@@ -45,9 +45,8 @@ export default class WebBanner extends LightningElement {
         this.dispatchEvent(selectedEvent);
     }
     renderedCallback() {
-        console.log('this.bodyText: ' + this.bodyText);
         if (this.bodyText != null && this.bodyTextTwo == null) {
-            var firstPart = this.bodyText.split('##privacyPolicyURL.');
+            var firstPart = this.bodyText.split('##privacyPolicyURL');
             this.bodyText = firstPart[0];
             this.bodyTextTwo = firstPart[1];
         }
