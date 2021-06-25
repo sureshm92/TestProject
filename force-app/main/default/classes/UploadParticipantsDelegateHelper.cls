@@ -193,7 +193,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         Map<String, String> dupDelegateMainParticipantMap = new Map<String, String>();
         if (!duplicateDelegateMainParticipantMap.isEmpty()) {
             for (Patient_Delegate__c patientDel : [
-                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c
+                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id
                 FROM Patient_Delegate__c
                 WHERE
                     Participant__c IN :duplicateDelegateMainParticipantMap.values()

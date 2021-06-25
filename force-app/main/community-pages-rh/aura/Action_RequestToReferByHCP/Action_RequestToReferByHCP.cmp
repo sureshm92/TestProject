@@ -39,7 +39,7 @@
          </aura:if>
      </div>
      <aura:set attribute="footerButtons">
-          <span style="{!v.isRTL? 'float: right': ' '}">
+          <span style="{!v.isRTL? 'margin-right:100px;': ' '}">
          <button class="apollo-btn secondary" onclick="{!c.doCloseDialogs}">
              {!$Label.c.BTN_Okay}
          </button>

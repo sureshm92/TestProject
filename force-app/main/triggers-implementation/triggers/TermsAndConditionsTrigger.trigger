@@ -17,7 +17,7 @@ trigger TermsAndConditionsTrigger on Terms_And_Conditions__c(
     List<id> privacyPolicyRecordIds= new List<id>();
     for( Id tcId : Trigger.newMap.keySet() )
     {   if(trigger.isUpdate){
-            if( (Trigger.oldMap.get( tcId ).T_C_Text__c != Trigger.newMap.get( tcId ).T_C_Text__c) && Trigger.newMap.get( tcId ).T_C_Type__c == 'Privacy Policy' )
+            if( ((Trigger.oldMap.get( tcId ).T_C_Text__c != Trigger.newMap.get( tcId ).T_C_Text__c) || (Trigger.oldMap.get( tcId ).Last_Updated_on__c != Trigger.newMap.get( tcId ).Last_Updated_on__c) ) && Trigger.newMap.get( tcId ).T_C_Type__c == 'Privacy Policy' )
             {
                 ppMap.put(tcId, Trigger.newMap.get( tcId ));
                 privacyPolicyRecordIds.add(tcId);

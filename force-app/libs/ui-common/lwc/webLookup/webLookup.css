@@ -9,6 +9,13 @@
 .slds-combobox__input {
     box-shadow: none;
 }
+.slds-dropdown-trigger_click .slds-dropdown,
+.slds-dropdown-trigger_click:hover .slds-dropdown,
+.slds-dropdown-trigger--click .slds-dropdown,
+.slds-dropdown-trigger--click:hover .slds-dropdown {
+    /* @noflip */
+    right: -50% !important;
+}
 
 .slds-dropdown-trigger_click .slds-dropdown, .slds-dropdown-trigger_click:hover .slds-dropdown, .slds-dropdown-trigger--click .slds-dropdown, .slds-dropdown-trigger--click:hover .slds-dropdown{
 /* @noflip */ right: -50% !important;

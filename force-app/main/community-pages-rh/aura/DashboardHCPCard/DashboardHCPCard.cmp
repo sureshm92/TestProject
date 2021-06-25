@@ -33,10 +33,10 @@
                     </div>
                 </aura:set>
                 <aura:if isTrue="{!v.hcpe.data.Status__c !='Orientation Pending'}">
-                    <div data-gtm="BTN_Activate" style="{!if(v.isRTL, 'right: -140px;',' ')}">
+                    <div data-gtm="BTN_Activate" style="{!if(v.isRTL, 'right: -130px;',' ')}">
                         <c:uiMenuItem label="{!$Label.c.BTN_Activate}" onclick="{!c.doActivate}" />
                     </div>
-                    <div data-gtm="BTN_Activate_All" style="{!if(v.isRTL, 'right: -140px;',' ')}">
+                    <div data-gtm="BTN_Activate_All" style="{!if(v.isRTL, 'right: -130px;',' ')}">
                         <c:uiMenuItem
                             label="{!$Label.c.BTN_Activate_All}"
                             onclick="{!c.doActivateAll}"
