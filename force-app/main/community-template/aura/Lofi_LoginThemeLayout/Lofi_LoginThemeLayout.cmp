@@ -57,15 +57,14 @@
                                     {!$Label.c.Lofi_Login_RH_Subheader}
                                 </div>
                             </div>
-
-                            <aura:if isTrue="{!v.communityType == 'Janssen'}">
-                                <div class="slds-col slds-size--1-of-1">
-                                    <span class="janssen-logo slds-align_absolute-center"
-                                        >{!$Label.c.Janssen_Community_Login_Page}</span
-                                    >
-                                </div>
-                            </aura:if>
                         </div>
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                            <div class="slds-col slds-size--1-of-1">
+                                <span class="janssen-logo slds-align_absolute-center"
+                                      >{!$Label.c.Janssen_Community_Login_Page}</span
+                                    >
+                            </div>
+                        </aura:if>
                         <div class="body-content">
                             <div class="body-components">{!v.body}</div>
                         </div>
@@ -83,6 +82,8 @@
                                     <c:privacyPolicyViewer
                                         isRtl="{!v.isRTL}"
                                         isModalOpen="{!v.showPpPopup}"
+                                        onclosePpModal="{!c.closePpPopup}"
+                                        communityTypeName="{!v.communityType}"
                                     />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">© IQVIA</div>
@@ -153,6 +154,8 @@
                                 <c:privacyPolicyViewer
                                     isRtl="{!v.isRTL}"
                                     isModalOpen="{!v.showPpPopup}"
+                                    onclosePpModal="{!c.closePpPopup}"
+                                    communityTypeName="{!v.communityType}"
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
