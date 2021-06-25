@@ -429,9 +429,17 @@
     }
     
     .THIS .janssen-logo {
-        margin-bottom: 1rem;
-        margin-top: 0;
+        margin-bottom: .25rem;
+        margin-top: -1rem;
     }
+}
+
+@media all and (max-height: 825px) {
+    .THIS .logo-block,
+    .THIS .logo-sub-title {
+        margin-top: -1rem;
+    }
+
 }
 
 @media all and (max-height: 776px) and (max-width: 486px) {
