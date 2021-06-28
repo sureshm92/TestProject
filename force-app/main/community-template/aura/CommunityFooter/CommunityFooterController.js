@@ -9,7 +9,10 @@
         //let isGsk = communityService.getCommunityURLPathPrefix().includes("/gsk");
         if (communityService.getCurrentCommunityName() == 'GSK Community') {
             component.set('v.isGsk', true);
-        } else if (communityService.getCurrentCommunityName() == 'Janssen Community') {
+        } else if (
+            communityService.getCurrentCommunityName() == 'Janssen Community' ||
+            communityService.getCommunityName().includes('Janssen')
+        ) {
             component.set('v.communityType', 'Janssen');
         }
         let currentPage = communityService.getPageName();
