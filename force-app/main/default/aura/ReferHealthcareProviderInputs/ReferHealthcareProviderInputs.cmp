@@ -22,15 +22,16 @@
     <aura:attribute name="isDuplicateDelegate" type="Boolean" default="false" />
     <aura:attribute name="duplicateDelegateInfo" type="Object" />
     <aura:attribute name="useThisDelegate" type="Boolean" default="true" />
-    
-    <aura:attribute name="yob" type="List" /> <!-- as pe 3248 -->
-    <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" /> 
-    <aura:attribute name="isAdultDel" type="Boolean"  /> 
-    <aura:attribute name="errorMessage" type="String" default=''/>
+
+    <aura:attribute name="yob" type="List" />
+    <!-- as pe 3248 -->
+    <aura:attribute name="isFirstPrimaryDelegate" type="Boolean" default="false" />
+    <aura:attribute name="isAdultDel" type="Boolean" />
+    <aura:attribute name="errorMessage" type="String" default="" />
     <aura:attribute name="attestAge" type="Boolean" default="false" />
-     <aura:attribute name="yobBlankErrMsg" type="Boolean"/>   
-    <aura:attribute name="delNotAdultErrMsg" type="Boolean"/>
-    
+    <aura:attribute name="yobBlankErrMsg" type="Boolean" />
+    <aura:attribute name="delNotAdultErrMsg" type="Boolean" />
+
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
 
     <aura:handler
@@ -38,7 +39,7 @@
         event="c:DDMessageEvent"
         action="{!c.approveDelegate}"
     />
-    
+
     <div
         class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 slds-large-size--4-of-12')}"
     >
@@ -108,44 +109,39 @@
     </div>
     <aura:if isTrue="{!v.sharingObject.sObjectType == 'Object'}">
         <aura:if isTrue="{!v.isFirstPrimaryDelegate}">
-            <div
-                 class="slds-grid slds-wrap slds-gutters rr-form-element slds-p-top_small"
-                 >
+            <div class="slds-grid slds-wrap slds-gutters rr-form-element slds-p-top_small">
                 <div class="slds-col slds-size--2-of-10">
-                    <div class="label" style="margin-bottom: 0px;">
-                        <abbr title="required" class="slds-required"
-                              >*</abbr
-                            > {!$Label.c.RH_YearofBirth}
+                    <div class="label" style="margin-bottom: 0px">
+                        <abbr title="required" class="slds-required">*</abbr>
+                        {!$Label.c.RH_YearofBirth}
                     </div>
                     <c:rrSelect
-                                options="{!v.yob}"
-                                 value="{!v.sharingObject.Birth_Year__c}"
-                                useSentenceFont="false"
-                                onchange="{!c.checkDelegateAgeHandlerNew}"
-                                
-                                /> 
-                    
+                        options="{!v.yob}"
+                        value="{!v.sharingObject.Birth_Year__c}"
+                        useSentenceFont="false"
+                        onchange="{!c.checkDelegateAgeHandlerNew}"
+                    />
                 </div>
-                
-                <div
-                     class="rr-form-element slds-no-label slds-col"
-                     style="margin-top: 25px"
-                     >
+
+                <div class="rr-form-element slds-no-label slds-col" style="margin-top: 25px">
                     <div class="rr-cb-container">
                         <lightning:input
-                                         type="checkbox"
-                                         label=""
-                                         checked="{!v.attestAge}"
-                                         onchange="{!c.checkFields}"
-                                         aura:id="AttestCheckbox" 
-                                         disabled="{!!v.isAdultDel}"
-                                        required="true"
-                                         />
+                            type="checkbox"
+                            label=""
+                            checked="{!v.attestAge}"
+                            onchange="{!c.checkFields}"
+                            aura:id="AttestCheckbox"
+                            disabled="{!!v.isAdultDel}"
+                            required="true"
+                        />
                     </div>
-                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                    <div
+                        class="label rr-cb-label"
+                        style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}"
+                    >
                         {!$Label.c.RH_DelegateAttestation}
                     </div>
-                </div> 
+                </div>
                 <div class="slds-col slds-size--1-of-1 rr-error">
                     <aura:if isTrue="{!v.yobBlankErrMsg}">
                         {!$Label.c.PP_RequiredErrorMessage}
@@ -153,11 +149,11 @@
                     <aura:if isTrue="{!v.delNotAdultErrMsg}">
                         {!$Label.c.RH_MinorDelegateErrMsg}
                     </aura:if>
-                </div>  
+                </div>
             </div>
         </aura:if>
     </aura:if>
-    
+
     <aura:if isTrue="{!v.providerFound}">
         <div
             class="slds-grid slds-wrap slds-size--7-of-12 slds-large-size--1-of-1 slds-grid_vertical-align-start healthcare-form-container provider-found-section"

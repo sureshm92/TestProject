@@ -91,7 +91,7 @@ public without sharing class PatientDelegateTriggerHandler {
         List<Patient_Delegate__c> newPatientDelegates = [
             SELECT Contact__c, Participant__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
-            WHERE Id IN :patientDelegates
+            WHERE Id IN :patientDelegates AND Status__c =:PATIENT_DELEGATE_ACTIVE_STATUS
         ];
         createNotifications(newPatientDelegates, 'DelNewAssignNotifType');
     }

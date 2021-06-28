@@ -25,7 +25,7 @@
 }
 
 .THIS > .slds-col.slds-large-size_4-of-7 img {
-    margin-top: -150px;
+    margin-top: -125px;
 }
 
 .THIS > .slds-col.slds-large-size_3-of-7 {
@@ -48,7 +48,7 @@
 .THIS .logo-block {
     margin: auto;
     margin-top: 2rem;
-  /*  min-width: 31.25rem; */
+    /*  min-width: 31.25rem; */
 }
 
 .THIS .logo-block + .slds-col {
@@ -115,7 +115,7 @@
     margin-bottom: -0.5em;
     margin-top: 1em;
 }
-.THIS .forgot-password {
+/*.THIS .forgot-password {
     height: 29px !important;
     width: 251px !important;
     color: #000000 !important;
@@ -141,7 +141,7 @@
     letter-spacing: 0;
     line-height: 24px;
     margin-top: 40px;
-}
+}*/
 
 .THIS .label {
     height: 24px;
@@ -252,52 +252,45 @@
 }
 
 @media all and (max-width: 1080px) {
-    
     .THIS .logo-block {
         margin-top: 0;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center {
+
+    /*   .THIS .logo-block > .slds-align_absolute-center {
         width: 100%;
         flex-direction: column;
-    }
-    
-    .THIS .logo-block>.slds-align_absolute-center.logo-sub-title {
+    } */
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
         width: 80%;
         margin-top: -1rem;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
         width: 50%;
         text-align: center;
     }
-    
+
     .THIS .header-title {
         text-align: left;
-        padding-left: .75rem;
-        margin-top: .875rem;
+        padding-left: 0.75rem;
+        margin-top: 0.875rem;
     }
-    
-     .THIS .main-logo {
+
+    .THIS .main-logo {
         margin: 20px 0 40px 0;
     }
-    
-    
 }
 
 @media all and (max-width: 900px) {
-	.THIS .logo-block>.slds-align_absolute-center>.slds-col {
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
         width: 65%;
     }
-
 }
 
 @media all and (min-width: 768px) {
     .THIS .p-container.medium {
-        /*width: 600px;*/
-        /* height: 693px;*/
         width: 500px !important;
-        /*  overflow: hidden; */
     }
 
     .THIS .body-content {
@@ -306,39 +299,80 @@
     }
 }
 
+@media all and (max-width: 768px) {
+    .THIS .p-container .icon-bell {
+        left: 2rem;
+        top: 1.5rem;
+    }
+
+    .THIS .checkmarklofi.eye-icon-mask .checksizelofi-eye {
+        height: 24px;
+        width: 26px;
+    }
+}
+
 @media all and (max-width: 486px) {
     .THIS.mobile-content .logo-sub-title-mobile {
         width: auto;
     }
-    
-	.THIS.mobile-content .appTitles {
-		margin: 0;
+
+    .THIS.mobile-content .appTitles {
+        margin: 0;
         width: auto;
+    }
+
+    .THIS.mobile-content .body-content {
+        padding-bottom: 1.5rem;
+    }
+
+    .THIS .p-container .icon-bell {
+        left: 1rem;
+    }   
+}
+
+@media all and (max-width: 468px) and (max-height: 400px) {
+     .THIS.mobile-content {
+        height: 150vh;
+    }
+}
+
+@media all and (max-width: 400px) {
+    .THIS.mobile-content .appTitles {
+        margin-top: -1rem;
     }
     
     .THIS.mobile-content .body-content {
-        
+        margin-top: .5rem;
+        margin-bottom: .5rem;
+    }
+    
+    .THIS.mobile-content .footer-mobile > .slds-col {
+        font-size: .8125rem;
     }
 }
 
 @media all and (max-height: 776px) {
-    
-    .THIS .logo-block {
-    	margin-top: 0;    
+    .THIS .logo-block > .slds-align_absolute-center {
+        width: auto;
     }
-    
+
+    .THIS .logo-block {
+        margin-top: 0;
+    }
+
     .THIS .slds-col.slds-large-size_4-of-7 img {
         margin-top: -90px;
     }
-    
-    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
-        width: 20.5rem;
-    }   
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
         margin-top: -1.75rem;
         z-index: 5;
         position: relative;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
+        width: 20.5rem;
+        margin-top: -2.5rem;
     }
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) img {
@@ -347,15 +381,15 @@
 
     .THIS .logo-block .logo-sub-title {
         margin-top: -2rem;
-        z-index: 10000;
+        z-index: 100;
         position: relative;
         font-size: 0.875rem;
         line-height: 1.25rem;
     }
 
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
-        margin-top: -0.5rem;
-        width: 80%;
+        margin-top: -1rem;
+        width: 100%;
     }
 
     .THIS .logo-block .main-logo {
@@ -382,7 +416,10 @@
         margin-bottom: 1em;
     }
 
-    .THIS .body-content .form-header {
+    .THIS .body-content .form-header,
+    .THIS .body-content .forgot-pwd,
+    .THIS .body-content .forgot-password,
+    .THIS .body-content .titleFont {
         margin: 0 0 0.5em;
     }
 
@@ -407,21 +444,25 @@
     .THIS .footer > .slds-col {
         font-size: 0.75rem;
     }
+
+    .THIS .logo-block + .slds-col {
+        padding-bottom: 0;
+    }
 }
 
 @media all and (max-height: 776px) and (max-width: 486px) {
     .THIS .body-content {
-        margin-top: 1.5rem;;
+        margin-top: 1.5rem;
     }
 }
 
-@media all and (max-height: 554px) {
+@media all and (max-height: 560px) {
     .THIS > .slds-col.slds-large-size_4-of-7 {
-        max-height: 115vh;
+        max-height: 100vh;
     }
 
     .THIS > .slds-col.slds-large-size_3-of-7 {
-        height: 115vh;
+        height: 100vh;
     }
 
     .THIS .slds-col.slds-large-size_4-of-7 img {
@@ -430,6 +471,39 @@
 
     .THIS .logo-block {
         min-width: 26.5rem;
+    }
+    
+    .THIS .logo-block>.slds-align_absolute-center:nth-child(1) {
+        margin-top: -2.25rem;
+    }
+    
+    .THIS .logo-block>.slds-align_absolute-center.logo-sub-title {
+        margin-top: -2.75rem;
+    }
+    
+    .THIS .logo-block .slds-align_absolute-center.slds-grid {
+        margin-top: -1rem;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center.slds-grid.slds-wrap.slds-gutters {
+        flex-direction: row;
+        width: 100%;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col:first-child {
+        padding-left: 15px;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center .header-subtitle {
+        text-align: left;
+    }
+
+    .THIS .logo-block > .slds-align_absolute-center .header-title {
+        padding-left: 0;
+    }
+
+    .THIS .body-content {
+        margin-top: -1.75rem;
     }
 }
 

@@ -193,7 +193,7 @@ public without sharing class UploadParticipantsDelegateHelper {
         Map<String, String> dupDelegateMainParticipantMap = new Map<String, String>();
         if (!duplicateDelegateMainParticipantMap.isEmpty()) {
             for (Patient_Delegate__c patientDel : [
-                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c
+                SELECT ID, Participant__c, Contact__c, Primary_Delegate__c,Contact__r.Id,Participant__r.Id
                 FROM Patient_Delegate__c
                 WHERE
                     Participant__c IN :duplicateDelegateMainParticipantMap.values()
@@ -329,6 +329,41 @@ public without sharing class UploadParticipantsDelegateHelper {
         ptDelegateRef.Is_Created_by_Bulk_Import__c=true;
         return ptDelegateRef;
     }
+
+    public static void updateDelegateRecords(List<ParticipantsDelegateWrapper> ParticipantsDelegateWrapperList) {
+        Map<Id, Participant__c> participantUpdateMap = new Map<Id, Participant__c>();
+         
+         ReferHealthcareProviderRemote.HealthcareProvider ddInfo;
+        for (ParticipantsDelegateWrapper pWrapper : ParticipantsDelegateWrapperList) {
+               ddInfo = ReferHealthcareProviderRemote.checkDuplicate(
+                     null,
+                     pWrapper.DelegateEmail,
+                     pWrapper.DelegateFirstName,
+                     pWrapper.DelegateLastName,
+                     null
+                 );
+            //Participant initiation
+                 Participant__c participantDelegate = new Participant__c();
+                 if(ddInfo != null && ddInfo.participantId != null){
+                   participantDelegate.Id = ddInfo.participantId;
+                   participantDelegate.Phone__c = pWrapper.DelegatePhoneNo;
+                   participantUpdateMap.put(participantDelegate.Id,participantDelegate);
+                   }
+        }
+         try{
+        if(!participantUpdateMap.values().isEmpty()){
+            Database.SaveResult[] delegateSR = Database.update(participantUpdateMap.values(),false);
+             //Update participantUpdateMap.values();
+         }
+             }catch (Exception exp) {
+             system.debug(
+                 'Delegate Update::' +
+                 exp.getMessage() +
+                 ' ' +
+                 exp.getStackTraceString()
+             );
+         }
+     }
 
     public class ErrorPatientDelegateWrapper {
         public SET<String> listOfFailedRecordsWithMsg = new Set<String>();

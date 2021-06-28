@@ -2,7 +2,7 @@
  * Created by Yehor Dobrovolskyi
  */
 
-.THIS .button {
+ .THIS .button {
     background-color: #297dfd;
     border: none;
     color: white;
@@ -22,6 +22,15 @@
 .THIS .slds-pill__action {
     border: 0;
     padding-top: 0;
+}
+.THIS .slds-text-align_right 
+{
+    /* @noflip */ text-align: right;
+}
+
+.THIS .slds-text-align_right 
+{
+    /* @noflip */ text-align: right;
 }
 
 .THIS .slds-badge__icon_right {
@@ -100,6 +109,7 @@
     text-align: left;
     padding-bottom: 5px;
 }
+
 .THIS .alert-count-condition1RTL {
     height: 17px;
     width: auto;
@@ -107,9 +117,9 @@
     font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 17px;
-     /* @noflip */  text-align: left;
+   /* @noflip */ text-align: left;
     padding-bottom: 5px;
-      /* @noflip */ text-align: right;
+   /* @noflip */ text-align: right;
 }
 
 .THIS table {

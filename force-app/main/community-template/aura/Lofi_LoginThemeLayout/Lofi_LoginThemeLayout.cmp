@@ -26,7 +26,9 @@
                 <div class="slds-col slds-medium-size_4-of-7 slds-large-size_4-of-7">
                     <img src="{!$Resource.Lofi_Login_Icons + '/Group.jpg'}" />
                 </div>
-                <div class="{!if(v.isRTL, 'align-rtl ', '') + 'slds-col slds-medium-size_3-of-7 slds-large-size_3-of-7'}">
+                <div
+                    class="{!if(v.isRTL, 'align-rtl ', '') + 'slds-col slds-medium-size_3-of-7 slds-large-size_3-of-7'}"
+                >
                     <div class="logo-block">
                         <div class="slds-align_absolute-center">
                             <img src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo.svg'}" />
@@ -55,15 +57,14 @@
                                     {!$Label.c.Lofi_Login_RH_Subheader}
                                 </div>
                             </div>
-
-                            <aura:if isTrue="{!v.communityType == 'Janssen'}">
-                                <div class="slds-col slds-size--1-of-1">
-                                    <span class="janssen-logo slds-align_absolute-center"
-                                        >{!$Label.c.Janssen_Community_Login_Page}</span
-                                    >
-                                </div>
-                            </aura:if>
                         </div>
+                        <aura:if isTrue="{!v.communityType == 'Janssen'}">
+                            <div class="slds-col slds-size--1-of-1">
+                                <span class="janssen-logo slds-align_absolute-center"
+                                      >{!$Label.c.Janssen_Community_Login_Page}</span
+                                    >
+                            </div>
+                        </aura:if>
                         <div class="body-content">
                             <div class="body-components">{!v.body}</div>
                         </div>
@@ -78,7 +79,12 @@
                                     <img src="{!$Resource.Lofi_Login_Icons + '/logo.svg'}" />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">
-                                    <c:privacyPolicyViewer isModalOpen="{!v.showPpPopup}" />
+                                    <c:privacyPolicyViewer
+                                        isRtl="{!v.isRTL}"
+                                        isModalOpen="{!v.showPpPopup}"
+                                        onclosePpModal="{!c.closePpPopup}"
+                                        communityTypeName="{!v.communityType}"
+                                    />
                                 </div>
                                 <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                             </div>
@@ -98,18 +104,22 @@
                         </div>
                         <div class="slds-col slds-size_1-of-1 appTitles">
                             <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
-                            	<img
-                                src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
-                                class="mobile-logo"
-                            />
-                                <div class="header-title-mobile">{!$Label.c.Lofi_Login_PP_Header}</div>
+                                <img
+                                    src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
+                                    class="mobile-logo"
+                                />
+                                <div class="header-title-mobile"
+                                    >{!$Label.c.Lofi_Login_PP_Header}</div
+                                >
                             </div>
                             <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
                                 <img
                                     src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
                                     class="mobile-logo"
                                 />
-                                <div class="header-title-mobile">{!$Label.c.Lofi_Login_RH_Header}</div>
+                                <div class="header-title-mobile"
+                                    >{!$Label.c.Lofi_Login_RH_Header}</div
+                                >
                             </div>
                         </div>
                         <aura:if isTrue="{!v.communityType == 'Janssen'}">
@@ -125,7 +135,6 @@
                         <div class="body-content">
                             <div class="body-components">{!v.body}</div>
                         </div>
-                        
                     </div>
 
                     <div class="{!'footer-mobile' + if(v.isRTL ,' align-rtl', '')}">
@@ -142,7 +151,12 @@
                                 />
                             </div>
                             <div class="slds-col slds-size_1-of-3">
-                                <c:privacyPolicyViewer />
+                                <c:privacyPolicyViewer
+                                    isRtl="{!v.isRTL}"
+                                    isModalOpen="{!v.showPpPopup}"
+                                    onclosePpModal="{!c.closePpPopup}"
+                                    communityTypeName="{!v.communityType}"
+                                />
                             </div>
                             <div class="slds-col slds-size_1-of-3">© IQVIA</div>
                         </div>
@@ -156,6 +170,7 @@
             showClose="true"
             isRTL="{!v.isRTL}"
             isMobileView="{!v.isMobileView}"
+            commTypeName="{!v.communityType}"
         />
     </aura:if>
 </aura:component>
