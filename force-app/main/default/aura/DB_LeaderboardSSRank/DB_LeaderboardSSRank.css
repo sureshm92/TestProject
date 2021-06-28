@@ -1,6 +1,5 @@
 .THIS {
     box-sizing: border-box;
-    /* height: 71px; */
     width: 775px;
     border: 1px solid #e9e9e9;
     border-radius: 11px;
@@ -64,7 +63,6 @@
 }
 
 .THIS .column4 {
-    /* height: 47px;*/ 
     width: 300px;
     text-align: left;
     color: #000000;
