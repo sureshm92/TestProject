@@ -396,6 +396,7 @@
 .THIS .accordionContent {
     display: inline-flex;
     flex-grow: 1;
+    padding-inline-start: 10px;
 }
 
 .THIS .ListViewHead {
