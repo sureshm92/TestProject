@@ -309,6 +309,28 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
         
         participant.Adult__c = !Boolean.valueOf(checkNeedsGuardian(JSON.serialize(participant)));   
         
+
+        //map participants country and state code
+        String countryName = null;
+        String countryCode = participant.Mailing_Country_Code__c;
+        String stateName = participant.Mailing_State__c;
+        String stateCode = null;
+        if (countryCode != null && countryName == null) {
+            if(CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.containsKey(countryCode)){  
+                countryName = CountryStateUtil.COUNTRY_NAME_By_CODE_MAP_Mdt.get(countryCode);
+                participant.Mailing_Country__c = countryName;
+            }
+        }
+        if(stateCode == null && stateName != null) {
+            if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(countryCode) && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(stateName)){
+                participant.Mailing_State_Code__c =CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).get(stateName);
+                
+            }
+            
+        }
+ 
+
+
         return participant;
     }
     
