@@ -88,7 +88,9 @@
     min-width: 160px;
     border-radius: 4px;
 }
-
+.THIS .p-container.large {
+    height: 540px;
+}
 .THIS .width-basis {
     flex-basis: auto;
 }
