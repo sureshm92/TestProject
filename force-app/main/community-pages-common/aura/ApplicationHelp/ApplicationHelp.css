@@ -274,6 +274,12 @@
 .THIS .attempt_to_match{
     width:400px;
 }
+@media all and (max-width: 400px) {
+    
+    .THIS .update-all{
+        white-space:normal;
+    }
+}
 @media all and (max-width: 500px) {
     
     .THIS .duplicate-usernames {
