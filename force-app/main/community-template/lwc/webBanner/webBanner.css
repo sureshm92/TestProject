@@ -19,7 +19,7 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s linear;
-    width: calc(95% - 6rem);
+    width: calc(85% - 6rem);
 }
 
 .align-rtl {
