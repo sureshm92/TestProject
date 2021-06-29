@@ -80,6 +80,14 @@
     color: #3294fe;
     cursor: pointer;
 }
+.THIS .slds-box {
+    box-shadow: none;
+    border: none;
+    font-weight: 600;
+    height: 40px;
+    min-width: 160px;
+    border-radius: 4px;
+}
 
 .THIS .width-basis {
     flex-basis: auto;

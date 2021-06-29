@@ -597,7 +597,7 @@
              <aura:if isTrue="{!v.isRTL}">
                   <div
                  class="rr-form-element slds-no-label slds-float--left"
-                 style="margin-right: -411px;margin-bottom: -30px;width: 400px"
+                 style="margin-right: -411px;margin-bottom: -30px;width: 350px"
              >
                  <div class="rr-cb-container">
                      <lightning:input
@@ -613,7 +613,7 @@
                  <aura:set attribute="else">
                   <div
                  class="rr-form-element slds-no-label slds-float--left"
-                 style="margin-left: 12px; margin-top: 5px;width: 400px"
+                 style="margin-left: 12px; margin-top: 5px;width: 350px"
              >
                  <div class="rr-cb-container">
                      <lightning:input
