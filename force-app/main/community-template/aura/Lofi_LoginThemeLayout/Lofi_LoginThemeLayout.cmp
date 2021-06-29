@@ -170,6 +170,7 @@
             showClose="true"
             isRTL="{!v.isRTL}"
             isMobileView="{!v.isMobileView}"
+            commTypeName="{!v.communityType}"
         />
     </aura:if>
 </aura:component>

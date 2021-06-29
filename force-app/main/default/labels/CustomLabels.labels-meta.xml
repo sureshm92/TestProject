@@ -9086,7 +9086,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Lofi Optimized Message</shortDescription>
-        <value>This product is optimized for Google Chrome and Safari.&lt;br/&gt;You may experience less than optimal experience with other browsers</value>
+        <value>This product is optimized for Google Chrome and Safari.&lt;br/&gt;Your experience will be a less than optimal with other browsers.</value>
     </labels>
     <labels>
         <fullName>Lofi_Unable_to_Login</fullName>

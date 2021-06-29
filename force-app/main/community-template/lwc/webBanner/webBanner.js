@@ -2,6 +2,7 @@ import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import privacyPolicyText from '@salesforce/label/c.Lofi_Login_Footer_Policies';
+import janssenHeaderLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy_Janssen';
 export default class WebBanner extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
     @api bodyText;
@@ -12,9 +13,15 @@ export default class WebBanner extends LightningElement {
     @api isMobileView = false;
     @track isInitialized = false;
     @track bodyTextTwo;
+    @api commTypeName;
+
+    get isJanssenType() {
+        return this.commTypeName === 'Janssen';
+    }
 
     label = {
-        privacyPolicyText
+        privacyPolicyText,
+        janssenHeaderLabel
     };
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
