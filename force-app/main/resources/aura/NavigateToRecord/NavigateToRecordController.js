@@ -17,5 +17,6 @@
 
         // Open the record
         redirect.fire();
+        $A.get('e.force:refreshView').fire();
     }
 });
