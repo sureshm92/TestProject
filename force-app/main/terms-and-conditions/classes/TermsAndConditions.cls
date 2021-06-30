@@ -45,16 +45,11 @@ global without sharing class TermsAndConditions {
         String tcType,
         Boolean useDefaultCommunity
     ) { 
-        System.debug('tcId: '+tcId);
-        System.debug('tcType: '+tcType);
-        System.debug('langCode: '+languageCode);
-        System.debug('useDefaultCommunity: '+useDefaultCommunity);
         if (String.isEmpty(languageCode))
             languageCode = UserInfo.getLanguage();
-            System.debug('langCode2: '+languageCode);
         String query =
-            ' SELECT Id, T_C_Text__c,Last_Updated_on__c,Policy_Headers__c, ' +
-            '   (SELECT Id, T_C_Text__c FROM Terms_And_Conditions__r WHERE Language__c = \'' +
+            ' SELECT Id, T_C_Text__c, Last_Updated_on__c,Policy_Headers__c,' +
+            '   (SELECT Id, T_C_Text__c,Last_Updated_on__c,Policy_Headers__c FROM Terms_And_Conditions__r WHERE Language__c = \'' +
             languageCode +
             '\') ' +
             ' FROM Terms_And_Conditions__c' +
@@ -163,8 +158,11 @@ global without sharing class TermsAndConditions {
         Terms_And_Conditions__c[] tcList = Database.query(query);
         if (tcList.size() > 0) {
             Terms_And_Conditions__c tc = tcList[0];
-            if (tc.Terms_And_Conditions__r.size() > 0)
+            if (tc.Terms_And_Conditions__r.size() > 0){
                 tc.T_C_Text__c = tc.Terms_And_Conditions__r[0].T_C_Text__c;
+                tc.Last_Updated_on__c = tc.Terms_And_Conditions__r[0].Last_Updated_on__c;
+                tc.Policy_Headers__c = tc.Terms_And_Conditions__r[0].Policy_Headers__c;
+            }
             return tc;
         }
         return null;

@@ -25,6 +25,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
     @track inError;
     @track errorMsg;
     @track addIconMargin;
+    @track isMobileScreen;
 
     rtlStyle;
     floatInput;
@@ -73,12 +74,14 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 this.tooltipMsg = label.hideEyeTooltip;
                 this.isRTL = label.rtlLanguages.includes(language);
                 this.isMobileApp = communityService.isMobileSDK();
+                this.isMobileScreen = communityService.isMobileOS();
                 if (this.isRTL) {
                     this.rtlStyle = 'direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
                     this.errorIconPosition = 'margin-right: -2.5em';
-                    this.erroContainerPosition = 'margin-right: 0.5em';
+                    this.erroContainerPosition =
+                        this.isMobileScreen || this.isMobileSDK ? '' : 'margin-right: 0.5em';
                     console.log(
                         'RTL inline styles applied: ' +
                             this.rtlStyle +
@@ -89,7 +92,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                     this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
                     this.errorIconPosition = 'margin-left: -2.5em';
-                    this.erroContainerPosition = 'margin-left: 0.5em';
+                    this.erroContainerPosition =
+                        this.isMobileScreen || this.isMobileSDK ? '' : 'margin-left: 0.5em';
                 }
                 this.initialized = true;
             })
@@ -298,5 +302,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (event.which == 13) {
             this.handleLogin();
         }
+    }
+    get isMobile() {
+        return this.isMobileSDK || this.isMobileScreen;
     }
 }

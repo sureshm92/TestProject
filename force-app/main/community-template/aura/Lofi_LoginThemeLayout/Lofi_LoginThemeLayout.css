@@ -112,8 +112,8 @@
 .THIS .janssen-logo {
     font-size: 24px;
     font-weight: 500;
-    margin-bottom: -0.5em;
-    margin-top: 1em;
+    margin-bottom:.0;
+    margin-top: 0;
 }
 /*.THIS .forgot-password {
     height: 29px !important;
@@ -356,6 +356,11 @@
         width: auto;
     }
 
+    .THIS .janssen-logo {
+        margin-top: -1.25rem;
+        margin-bottom: .45rem;
+    }
+
     .THIS .logo-block {
         margin-top: 0;
     }
@@ -482,7 +487,7 @@
     }
     
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
-        margin-top: -1rem;
+        margin-top: -1.5rem;
     }
 
     .THIS .logo-block > .slds-align_absolute-center.slds-grid.slds-wrap.slds-gutters {
@@ -514,5 +519,61 @@
 
     .THIS > .slds-col.slds-large-size_3-of-7 {
         height: 130vh;
+    }
+}
+
+@media all and (max-height: 500px) and (max-width: 850px) {
+
+    .THIS.all-content {
+        height: 150vh;
+    }
+
+    .THIS .janssen-logo {
+        margin-bottom: .25rem;
+        margin-top: -1rem;
+        font-size: 1.25rem;
+    }
+
+    .THIS>.slds-col.slds-large-size_4-of-7 {
+        height: 150vh;
+        align-items: stretch;
+        top: 0;
+        left: 0;
+        background: url(/resource/1623075522000/Lofi_Login_Icons/Background.png) no-repeat;
+        background-size: cover;
+        background-position: center;
+    }
+
+    .THIS>.slds-col.slds-large-size_4-of-7 img {
+        display: none;
+    }
+
+    .THIS .logo-block>.slds-align_absolute-center>.slds-col:first-child {
+        padding-left: 0;
+    }
+
+    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+        width: 45%;
+    }
+
+    .THIS .logo-block .header-title {
+        font-size: 1.25rem;
+    }
+
+    .THIS .logo-block .header-subtitle {
+        font-size: .75rem
+    }
+
+    .THIS .logo-block {
+        min-width: 23.5rem;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7,
+     .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 150vh;
+    }
+
+    .THIS .footer > .slds-grid > .slds-size_1-of-3:nth-child(2) .slds-p-around_medium {
+        padding-bottom: 0;
     }
 }
