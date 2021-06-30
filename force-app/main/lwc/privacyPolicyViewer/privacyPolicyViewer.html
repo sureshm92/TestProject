@@ -2,21 +2,25 @@
     <template if:false={isCommunityFooter}>
         <div class="slds-p-around_medium">
             <template if:true={isJanssen}>
-                <span class="ppLabel" onclick={openModal}
-                    >{labels.janssenHeaderLabel}
-                </span></template
-            >
-
+                <span class="ppLabel" onclick={openModal}>{labels.janssenHeaderLabel} </span>
+            </template>
             <template if:false={isJanssen}>
-                <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span></template
-            >
+                <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+            </template>
         </div>
     </template>
     <template if:true={isCommunityFooter}>
         <div class="">
-            <p>
-                <a onclick={openModal}> {labels.ppHeaderLabel} </a>
-            </p>
+            <template if:true={isJanssen}>
+                <p>
+                    <a onclick={openModal}> {labels.janssenHeaderLabel} </a>
+                </p>
+            </template>
+            <template if:false={isJanssen}>
+                <p>
+                    <a onclick={openModal}> {labels.ppHeaderLabel} </a>
+                </p>
+            </template>
         </div>
     </template>
     <template if:true={isModalOpen}>

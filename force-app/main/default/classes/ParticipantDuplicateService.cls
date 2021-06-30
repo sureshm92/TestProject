@@ -199,7 +199,7 @@ public without sharing class ParticipantDuplicateService {
         Map<String, List<Participant__c>> participantsByZipMap = new Map<String, List<Participant__c>>();
         for (Participant__c participant : existedParticipants) {
             if (!String.isBlank(participant.Email__c))
-                participantsByEmailMap.put(participant.Email__c.toLowerCase(), participant);
+                participantsByEmailMap.put(participant.Email__c.toLowerCase() + participant.First_Name__c + participant.Last_Name__c, participant);
             if (!String.isBlank(participant.Phone__c))
                 //participantsByPhoneMap.put(participant.Phone__c, participant);
                   participantsByPhoneMap.put(participant.Phone__c + participant.First_Name__c + participant.Last_Name__c, participant);
@@ -355,10 +355,10 @@ public without sharing class ParticipantDuplicateService {
 
                 if (
                     participant.Email__c != null &&
-                    participantsByEmailMap.get(participant.Email__c.toLowerCase()) != null
+                    participantsByEmailMap.get(participant.Email__c.toLowerCase() + participant.First_Name__c + participant.Last_Name__c) != null
                 ) {
                     duplicate = new DuplicateContainer(
-                        participantsByEmailMap.get(participant.Email__c.toLowerCase())
+                        participantsByEmailMap.get(participant.Email__c.toLowerCase() + participant.First_Name__c + participant.Last_Name__c)
                     );
                 } else if (
                     participant.Email__c != null &&
