@@ -54,8 +54,9 @@ public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
         lstIntegrationPatient = [SELECT ID FROM Integration_Patient_Referral__c Where 
                                  Is_retry_required__c = True AND Batch_consideration__c != 'Archieved' LIMIT 10];
         if(lstIntegrationPatient.size() > 0){
-            Report report1 = [SELECT Id, Name, DeveloperName FROM Report where 
-                              DeveloperName = 'IPR_validation_Report_PwY' ];
+            List<Report> lstReport = [SELECT Id, Name, DeveloperName FROM Report where 
+                              DeveloperName = 'IPR_validation_Report_PwY' ]; 
+            Report report1 = !lstReport.isEmpty() ? lstReport[0] : new Report();
             
             List<Messaging.SingleEmailMessage> mails = new List<Messaging.SingleEmailMessage>();
             Messaging.SingleEmailMessage mail = new Messaging.SingleEmailMessage();
@@ -65,7 +66,12 @@ public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
             
             Messaging.EmailFileAttachment attachment = new Messaging.EmailFileAttachment();
             attachment.setFileName('EPRFailedReport.csv');
+            if(!test.isRunningTest()){
             attachment.setBody(report22.getContent());
+            }
+            else{
+                attachment.setBody(blob.valueof('TEST'));
+            }
             attachment.setContentType('text/csv');
             Messaging.SingleEmailMessage message = new Messaging.SingleEmailMessage();
             message.setFileAttachments(new Messaging.EmailFileAttachment[] { attachment } );
