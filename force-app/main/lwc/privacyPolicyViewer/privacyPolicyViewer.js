@@ -96,13 +96,11 @@ export default class PrivacyPolicyViewer extends LightningElement {
     }
 
     saveAsPdf() {
-        console.log('this.tcId: ' + this.tcId);
         this.spinner.show();
         generatePDF({
             ppId: this.tcId
         })
             .then(result => {
-                console.log('dwnld: ' + result);
                 this.spinner.hide();
                 location.href = result;
             })
@@ -111,12 +109,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
             });
     }
     handleSelect(event) {
-        console.log('label: ');
+        //console.log('label: ');
     }
     renderedCallback() {
         if (this.isModalOpen) {
             this.spinner = this.template.querySelector('c-web-spinner');
             var myElement = this.template.querySelector('[data-id="text"]');
+            this.ppRichText = this.ppRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
+            this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 5%;">');
             myElement.innerHTML = this.ppRichText;
             if (this.isRtl) {
                 this.headerLogoCss = 'headerAndLogo slds-size_1-of-1';
@@ -140,8 +140,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
     connectedCallback() {
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-        console.log('userDefalutTC: ' + userDefalutTC);
-        console.log('HasIQVIAStudiesPI: ' + HasIQVIAStudiesPI);
         let ppGetter = getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language')
@@ -153,7 +151,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 let tcData = JSON.parse(result);
                 this.tcId = tcData.tc.Id;
                 this.ppRichText = tcData.tc.T_C_Text__c;
-                console.log('Last_Updated_on__c: ' + tcData.tc.Last_Updated_on__c);
                 this.lastUpdated = tcData.tc.Last_Updated_on__c;
                 var lists = tcData.tc.Policy_Headers__c.split('\r\n');
                 var psrsList;
