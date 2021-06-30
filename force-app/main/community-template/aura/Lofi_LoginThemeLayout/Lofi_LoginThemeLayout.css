@@ -516,3 +516,30 @@
         height: 130vh;
     }
 }
+
+@media all and (max-height: 500px) and (max-width: 850px) {
+    .THIS .logo-block>.slds-align_absolute-center>.slds-col:first-child {
+        padding-left: 0;
+    }
+
+    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+        width: 45%;
+    }
+
+    .THIS .logo-block .header-title {
+        font-size: 1.25rem;
+    }
+
+    .THIS .logo-block .header-subtitle {
+        font-size: .5rem
+    }
+
+    .THIS .logo-block {
+        min-width: 23.5rem;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7,
+     .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 150vh;
+    }
+}
