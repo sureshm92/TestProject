@@ -277,14 +277,15 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             
             if(participantsWithoutErrors.contains(participant.Id)){
                 if (participantDelegateContactAndSiteType != null){
-                    delegateParticipantsMap.put(
+                    if(!(oldContactEmailMap.keyset().contains(participantDelegateContactAndSiteType.contactObj.email))){
+                        delegateParticipantsMap.put(
                             participant.Id,
                             IprEprTriggerHandler.createDelegateParticipant(
                                 participantDelegateContactAndSiteType.contactObj,
                                 ipr.Delegate_Phone_Number_Type__c
                             )
                         );
-                    if(!(oldContactEmailMap.keyset().contains(participantDelegateContactAndSiteType.contactObj.email))){
+                        
                         Contact participantDelegateContact = participantDelegateContactAndSiteType.contactObj;
 
                         participantIdByParticipantDelegateContactId.put(

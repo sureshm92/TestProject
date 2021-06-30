@@ -8,7 +8,8 @@ import downloadPdf from '@salesforce/label/c.Download_PDF_pp';
 import lastUpdatedText from '@salesforce/label/c.Last_Updated_pp_text';
 import ppHeaderLabel from '@salesforce/label/c.Email_Footer_Privacy_Policy'; //Email_Footer_Privacy_Policy
 import ppLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy';
-import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import rtlLanguages from '@salesforce/label/c.RTL_Languages'; //BTN_Close
+import backBtn from '@salesforce/label/c.BTN_Close';
 import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
 import generatePDF from '@salesforce/apex/TermsAndConditionsRemote.generatePDF';
@@ -38,6 +39,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track ppHeaderClass = 'ppHeader';
     @track headerAndLogoClass = 'headerAndLogo';
     @track frmFactor = false;
+    @track isLoggedinUser;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
     defaultCommunityBoolean = true;
@@ -51,7 +53,8 @@ export default class PrivacyPolicyViewer extends LightningElement {
         ppLabel,
         ppHeaderLabel,
         lastUpdatedText,
-        downloadPdf
+        downloadPdf,
+        backBtn
     };
 
     openModal() {
@@ -60,6 +63,15 @@ export default class PrivacyPolicyViewer extends LightningElement {
     closeModal() {
         //communityService.preLoginPageRedirection(window.location.href, '');
         window.close();
+    }
+    goBack() {
+        var retString = communityService.getUrlParameter('ret');
+        if ((retString !== 'terms-and-conditions' && retString) || retString === '') {
+            var retPage = communityService.getRetPage(retString);
+            communityService.navigateToPage(retPage);
+        } else {
+            communityService.navigateToPage('');
+        }
     }
     navigateToHomePage(event) {
         var needle = event.currentTarget.dataset.value;
@@ -92,6 +104,15 @@ export default class PrivacyPolicyViewer extends LightningElement {
             });
     }
     renderedCallback() {
+        var retString = communityService.getUrlParameter('ret');
+        if ((retString !== 'terms-and-conditions' && retString) || retString === '') {
+            this.isLoggedinUser = true;
+        } else if (!communityService.isDummy()) {
+            this.isLoggedinUser = true;
+        } else {
+            this.isLoggedinUser = false;
+        }
+
         this.spinner = this.template.querySelector('c-web-spinner');
         this.spinner.show();
         if (this.ppRichText) {
@@ -130,7 +151,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 if (rtlLanguages.includes(communityService.getLanguage())) {
                     this.isRTL = true;
                 }
-                console.log('lang: ' + communityService.getLanguage());
                 let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
                 let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
                 let ppGetter = getPrivacyPolicy({

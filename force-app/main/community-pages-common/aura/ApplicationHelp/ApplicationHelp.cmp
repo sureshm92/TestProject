@@ -208,7 +208,7 @@
     </div>
     <aura:set attribute="else">
         <div class="ah-item-panel-update to-update-all-other" style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}">
-            {!$Label.c.PP_HelpResponse} &nbsp;
+            {!$Label.c.PP_HelpResponse}&nbsp;
            <span class="update-all"><a onclick="{!c.navigateToAccountSettings}"><b>{!$Label.c.PP_Account_Settings}&nbsp;</b></a>
             {!$Label.c.PP_UpdateProfileResp}</span>
     </div>
