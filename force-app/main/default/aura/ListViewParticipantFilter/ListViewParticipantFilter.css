@@ -328,6 +328,7 @@
     background-color: #ffffff;
     padding-top: 10px;
     box-shadow: 0 4px 16px 0 rgba(0, 0, 0, 0.04);
+    overflow-x: scroll;
 }
 
 .THIS .slds-table thead > tr {
@@ -395,6 +396,7 @@
 .THIS .accordionContent {
     display: inline-flex;
     flex-grow: 1;
+    padding-inline-start: 10px;
 }
 
 .THIS .ListViewHead {

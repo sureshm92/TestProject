@@ -119,6 +119,8 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.spinner.hide();
         }
         var myElement = this.template.querySelector('[data-id="text"]');
+        this.ppRichText = this.ppRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
+        this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 2.5%;">');
         myElement.innerHTML = this.ppRichText;
         if (this.lanCode != null) {
             if (rtlLanguages.includes(this.lanCode)) {
