@@ -149,10 +149,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
 
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            if(!Test.isRunningTest()){
             sendtoAPIafterUpdate(
                 (List<Participant_Enrollment__c>) newList,
                 (Map<Id, Participant_Enrollment__c>) oldMap
             );
+            }
         }
 
     }
