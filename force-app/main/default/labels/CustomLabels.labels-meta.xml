@@ -18230,6 +18230,181 @@ communications using the toggles below.</value>
         <shortDescription>RH_YearofBirth</shortDescription>
         <value>Year of Birth</value>
     </labels>
+	<labels>
+        <fullName>RPR_Actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Actions</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Apply</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Attestation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Attestation</shortDescription>
+        <value>Attestation</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Consent</shortDescription>
+        <value>Consent</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Date_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Date Range</shortDescription>
+        <value>Date Range</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Excluded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Excluded</shortDescription>
+        <value>Excluded?</value>
+    </labels>
+    <labels>
+        <fullName>RPR_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_First_Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Included_for_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Included for Referred</shortDescription>
+        <value>Included for Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Last_Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Medical_Review</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Medical_Review</shortDescription>
+        <value>Medical Review</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Not_Yet_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Not Yet Referred</shortDescription>
+        <value>Not Yet Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Outreach_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Outreach_Status</shortDescription>
+        <value>Outreach Status</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Patient_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Patient_Id</shortDescription>
+        <value>Patient Id</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Patient_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Patient Status</shortDescription>
+        <value>Patient Status</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Referred</shortDescription>
+        <value>Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Review_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Review Results</shortDescription>
+        <value>Review Results</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Range</shortDescription>
+        <value>Select Range</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Results</shortDescription>
+        <value>Select Results</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Site_Name</shortDescription>
+        <value>Site Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_State</shortDescription>
+        <value>State/Province</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Studies</shortDescription>
+        <value>Studies</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Study_Code_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Study_Code_Name</shortDescription>
+        <value>Study Code Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_YOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_YOB</shortDescription>
+        <value>YOB</value>
+    </labels>
     <labels>
         <fullName>RP_BTN_Save_Changes</fullName>
         <language>en_US</language>
