@@ -1,21 +1,8 @@
-<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Package xmlns="http://soap.sforce.com/2006/04/metadata">
     <types>
-		<members>Participant_Enrollment__c.Is_Contacted__c</members>
-        <name>CustomField</name>
+        <members>*</members>
+        <name>CustomLabel</name>
     </types>
-    <types>
-        <members>ParticipantEnrollmentTriggerHandler</members>
-        <members>ViewPatientsRemote</members>
-        <name>ApexClass</name>
-    </types>
-    <types>
-        <members>ParticipantEnrollmentTrigger</members>
-        <name>ApexTrigger</name>
-    </types>
-	<types>
-		<members>Participant_Workflow_Step__mdt.Initial_Visit</members>
-        <name>CustomMetadata</name>
-    </types>
-    <version>51.0</version>
+    <version>50.0</version>
 </Package>
