@@ -154,7 +154,7 @@
 .THIS .ah-item-panel {
     box-sizing: border-box;
     background-color: #f8f9fb;
-    padding: 10px;
+    padding: 11px;
 }
 .THIS .ah-item-panel-merge {
     box-sizing: border-box;
@@ -273,6 +273,12 @@
     }
 .THIS .attempt_to_match{
     width:400px;
+}
+@media all and (max-width: 400px) {
+    
+    .THIS .update-all{
+        white-space:normal;
+    }
 }
 @media all and (max-width: 500px) {
     

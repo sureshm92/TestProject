@@ -47,10 +47,9 @@
     font-size: 1rem;
     line-height: 16px;
     display: inline-flex;
-    height: 30px;
-    align-items: flex-end;
+    height: 43px;
+    align-items: flex-start;
     margin-bottom: 5px;
-    white-space: nowrap;
 }
 
 .THIS .vpi-field > .value {

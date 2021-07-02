@@ -470,6 +470,7 @@ input:focus {
     width: 1.6rem;
     height: 1.6rem;
     top: 2px;
+    
     transition: background-color 0.3s, right 0.3s;
 }
 
