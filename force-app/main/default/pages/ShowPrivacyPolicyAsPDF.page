@@ -1,18 +1,20 @@
-<apex:page standardController="Terms_And_Conditions__c" renderAs="PDF" showHeader="false" sidebar="false" standardStylesheets="false"
+<apex:page standardController="Terms_And_Conditions__c" renderAs="PDF" showHeader="false" sidebar="false" standardStylesheets="true"
     applyBodyTag="false" applyHtmlTag="false">
     <html>
 
     <head>
         <style>
+            p {
+                margin: 0px;
+            }
+
+            ul {
+                margin-top: 0px;
+                margin-bottom: 0.1%;
+            }
+
             .richText {
-                word-break: break-word;
-                text-align: justify;
-                color: #000000;
-                font-family: "Proxima Nova";
-                font-size: 16px;
-                letter-spacing: 0;
-                line-height: 24px;
-                margin-left: 0.5%;
+                margin-top: 2%;
             }
 
             .hdrCls {
@@ -30,14 +32,12 @@
                 font-weight: 500;
                 letter-spacing: 0;
                 line-height: 17px;
-
             }
         </style>
     </head>
 
     <body>
         <apex:pageBlock>
-
             <div style="text-align: left;display: inline-block;width:72px;height:65px;">
                 <apex:image url="{!$Resource.newIqviaLogo}" style="position: absolute;height: 75px;
                         width: 75px;
@@ -51,11 +51,9 @@
                     <p style="margin: 0px;">{!$Label.Last_Updated_pp_text} {!Terms_And_Conditions__c.Last_Updated_on__c}</p>
                 </div>
             </div>
-
             <div Class="richText">
-                <apex:outputField value="{!Terms_And_Conditions__c.T_C_Text__c}" />
+                <apex:outputText escape="false" value="{!Terms_And_Conditions__c.T_C_Text__c}" />
             </div>
-
         </apex:pageBlock>
 
     </body>
