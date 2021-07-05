@@ -63,7 +63,8 @@ public with sharing class Batch_DataBecomesAvailable extends Batch_ScheduledAbst
         List<Visit_Result__c> listOfResult = VisitResultSharingService.getAvailableVisitResults(
             patientVisits,
             true,
-            ctpById
+            ctpById,
+            ''
         );
         List<Notification__c> notifications = new List<Notification__c>();
 
