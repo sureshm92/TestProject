@@ -1,0 +1,163 @@
+<aura:component implements="flexipage:availableForRecordHome,force:hasRecordId,forceCommunity:availableForAllPageTypes" access="global" extends="c:LightningService" controller="MedicalRecordVendorPanelRemote">
+	<ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+    <aura:attribute name="pagination" type="Object" />
+    <aura:attribute name="filter" type="StudySiteFilter" />
+    <aura:attribute name="ssItems" type="List" />
+    <aura:attribute name="vendorItems" type="List" />
+    <aura:attribute name="viewMode" type="String" />
+    <aura:attribute name="haveEmptyAssigment" type="Boolean" />
+    <aura:attribute name="initialized" type="Boolean" default="false" />
+    <aura:attribute name="scrollLeft" type="Integer" default="0" />
+
+    <aura:method name="doSave" action="{!c.doSaveAndUpdate}" access="public" />
+
+    <div class="panel">
+        <c:RRSpinner aura:id="spinner" />
+       <aura:if isTrue="{!v.viewMode != 'Disabled'}">
+            <aura:set attribute="else">
+                <c:EmptyListStub message="{!$Label.c.No_permission_Visits_tab}" />
+            </aura:set>
+            <lightning:navigation aura:id="navLink" />
+
+            <!--Filters-->
+            <aura:if isTrue="{!v.initialized}">
+                <c:Action_AddMedicalVendor aura:id="addMedicalVendorAction" />
+                <div class="filters-section">
+                    <div class="slds-grid slds-wrap slds-gutters form-items">
+                        <!--Country Filter-->
+                        <div class="slds-col slds-size--1-of-2">
+                            <c:VisitResultSharingCountryLookup
+                                aura:id="countryLookup"
+                                value="{!v.filter.countryCodes}"
+                                isMultiEntry="true"
+                                onchange="{!c.onCountriesChange}"
+                                placeholder="Select country"
+                                placeholderSelected="Select another country"
+                                ctpId="{!v.recordId}"
+                                isInclude="true"
+                            />
+                        </div>
+                        <!--Travel Vendor Filter-->
+                        <div class="slds-col slds-size--1-of-2">
+                            <c:uiSObjectLookup
+                                value="{!v.filter.pageFeatureIds}"
+                                sObjectType="Medical_Record_Vendor__c"
+                                filter=""
+                                pillIcon="custom:custom86"
+                                onchange="{!c.doUpdate}"
+                                placeholder="Select Medical Vendor"
+                            />
+                        </div>
+                        <!--Study Site Filter-->
+                        <div class="slds-col slds-size--1-of-2">
+                            <c:IRBStudySitesLookup
+                                aura:id="ssLookup"
+                                value="{!v.filter.selectedSSIds}"
+                                ctpId="{!v.recordId}"
+                                selectedCountries="{!v.filter.countryCodes}"
+                                onchange="{!c.doUpdate}"
+                                placeholder="Select Study Site"
+                            />
+                        </div>
+                        <!-- buttons -->
+                        <aura:if isTrue="{! v.viewMode == 'Edit'}">
+                            <div class="slds-col slds-size--1-of-2">
+                                <div class="save-btn">
+                                    <lightning:button
+                                        onclick="{!c.doAddMedicalVendor}"
+                                        class="slds-theme_neutral slds-m-left--medium"
+                                        variant="neutral"
+                                        label="{!$Label.c.TS_Add_Vendor}"
+                                    />
+                                </div>
+                            </div>
+                        </aura:if>
+                    </div>
+                </div>
+
+                <!--Study Site Table-->
+                <div class="ss-table">
+                    <c:uiFixedTable
+                        class="slds-table slds-table_cell-buffer slds-table_bordered"
+                        scrollLeft="{!v.scrollLeft}"
+                    >
+                        <aura:set attribute="tableHeader">
+                            <tr class="slds-line-height_reset">
+                                <c:SSTableHeaderCols
+                                    filter="{!v.filter}"
+                                    scrollLeft="{!v.scrollLeft}"
+                                    onSort="{!c.doSort}"
+                                />
+                                <aura:if isTrue="{!v.vendorItems}">
+                                    <aura:iteration items="{!v.vendorItems}" var="tv">
+                                        <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
+                                            <div style="text-align: center"><!--{!tv.label}-->
+                                             <c:VisitPlanColumnMenu
+                                                        plan="{!tv}"
+                                                        onEdit="{!if(equals(v.viewMode, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
+                                                        onClone="{!c.doColumnVisitClone}"
+                                                        onDelete="{!c.doColumnVisitDelete}"
+                                                        isVisible="{!equals(v.viewMode, 'Edit')}"
+                                                        isMedicalRecord="true"            
+                                                    />
+                                            </div>
+                                            <aura:if isTrue="{!equals(v.viewMode, 'Edit')}">
+                                                <div class="column-btn">
+                                                    <a
+                                                        data-state="Enabled"
+                                                        data-tv="{!tv.value}"
+                                                        onclick="{!c.doSelectAllInColumn}"
+                                                        >Select All</a
+                                                    >
+                                                    <span style="padding: 0 3px; color: #006dcc"
+                                                        >|</span
+                                                    >
+                                                    <a
+                                                        data-state="Disabled"
+                                                        data-tv="{!tv.value}"
+                                                        onclick="{!c.doSelectAllInColumn}"
+                                                        >Clear All</a
+                                                    >
+                                                </div>
+                                            </aura:if>
+                                        </c:uiCol>
+                                    </aura:iteration>
+                                </aura:if>
+                            </tr>
+                        </aura:set>
+                        <aura:if isTrue="{!v.ssItems}">
+                            <aura:iteration items="{!v.ssItems}" var="item">
+                                <c:StudySiteItem
+                                    item="{!item}"
+                                    parent="{!this}"
+                                    viewMode="{!v.viewMode}"
+                                    scrollLeft="{!v.scrollLeft}"
+                                />
+                            </aura:iteration>
+                        </aura:if>
+                    </c:uiFixedTable>
+                </div>
+                <!--Pagination-->
+                <div>
+                    <c:RRPaginationRemote
+                        entriesOnPage="{!v.pagination.pageRecordsCount}"
+                        currentPage="{!v.pagination.currentPage}"
+                        allRecordsCount="{!v.pagination.allRecordsCount}"
+                        onchange="{!c.doSaveAndUpdate}"
+                    />
+                    <div class="padding-info">
+                        <lightning:icon
+                            class="slds-m-left--x-small"
+                            iconName="utility:save"
+                            alternativeText=""
+                            variant="warning"
+                            size="small"
+                        />
+                        <p style="font-size: 11px; padding: 5px">{!$Label.c.IRB_Padding_Info}</p>
+                    </div>
+                </div>
+            </aura:if>
+        </aura:if>
+
+    </div>
+</aura:component>

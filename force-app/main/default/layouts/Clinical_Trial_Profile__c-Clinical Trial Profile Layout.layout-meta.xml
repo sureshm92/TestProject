@@ -47,6 +47,10 @@
                 <behavior>Edit</behavior>
                 <field>Enable_for_Call_Center_Support__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Medical_Vendor_is_Available__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
