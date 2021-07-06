@@ -51,5 +51,8 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
     );
+    TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.SetContacted.class
+    );
 
 }
