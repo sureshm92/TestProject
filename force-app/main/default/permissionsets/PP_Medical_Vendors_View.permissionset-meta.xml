@@ -35,11 +35,7 @@
         <readable>false</readable>
     </fieldPermissions>
    
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.DandbCompanyId</field>
-        <readable>false</readable>
-    </fieldPermissions>
+    
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Description</field>
