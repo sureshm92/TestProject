@@ -70,6 +70,7 @@ public without sharing class VisitResultSharingService {
         }
         try {
             String mailingCountryCode = '';
+            Boolean isVisitResultAvailable = false;
             Integer timeSharing = 0;
             if (!isBatch) {
                 if (!VisitResultsRemote.isVisitResultAvailable())
