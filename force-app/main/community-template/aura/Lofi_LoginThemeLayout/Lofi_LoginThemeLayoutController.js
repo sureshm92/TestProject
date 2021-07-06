@@ -27,8 +27,12 @@
                     '</lightning-button>'
             );*/
         component.set('v.cookieText', bodyText);
+      
     },
     selectedRecords: function (component, event, helper) {
-        component.set('v.showPpPopup', true);
-    }
+            component.set('v.showPpPopup', true);
+    },
+    closePpPopup: function (component, event, helper) {
+            component.set('v.showPpPopup', false);
+    },
 });

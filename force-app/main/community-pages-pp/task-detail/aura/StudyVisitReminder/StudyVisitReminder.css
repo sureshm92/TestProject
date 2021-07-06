@@ -402,6 +402,10 @@
     /* @noflip */
     margin-right: 8px;
 }
+.THIS .p-container .rtlBody {
+    /*@noflip*/
+    width: 100%;
+}
 
 @media (max-width: 768px) {
     .THIS .slds-form-element__help {

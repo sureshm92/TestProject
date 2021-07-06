@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Available_Statuses__c</field>
-        <value xsi:type="xsd:string">Received,Pre-review Passed,Pre-review failed,Contact Attempted,Successfully Contacted,Contacted - Not Suitable,Initial Visit</value>
+        <value xsi:type="xsd:string">Received,Pre-review Passed,Pre-review failed,Contact Attempted,Successfully Contacted,Contacted - Not Suitable</value>
     </values>
     <values>
         <field>Initial_Visit__c</field>

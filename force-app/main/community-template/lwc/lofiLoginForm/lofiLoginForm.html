@@ -44,7 +44,9 @@
             </button>
             <template if:true={inError}>
                 <div style="margin-top: -1em; margin-bottom: 0.5em">
-                    <img style={errorIconPosition} src={exclamation} />
+                    <template if:false={isMobile}>
+                        <img style={errorIconPosition} src={exclamation} />
+                    </template>
                     <span class="error-container" style={erroContainerPosition}>
                         <lightning-formatted-rich-text
                             value={errorMsg}
