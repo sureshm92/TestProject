@@ -1,4 +1,4 @@
-<aura:component>
+<aura:component extends="c:LightningService">
 	 <!-- attributes:-->
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="hideForm" type="Boolean" access="private" default="false" />
@@ -24,9 +24,8 @@
                         objectApiName="Medical_Record_Vendor__c"
                         recordId="{!v.recId}"
                     >
-                        <lightning:inputField fieldName="Name" />
-                        <lightning:inputField fieldName="Description__c" />
-
+                        <lightning:inputField fieldName="Name" aura:id="nameField" required="true"/>
+                        <lightning:inputField fieldName="Description__c"/>
                     </lightning:recordEditForm>
                 </aura:if>
             </div>

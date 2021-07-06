@@ -21,7 +21,14 @@
 
     doSave: function (component, event, hepler) {
         component.find('spinner').show();
-        component.find('editForm').submit();
+        var fields = component.find("nameField");
+        if(fields.get("v.fieldName") === 'Name' && $A.util.isEmpty(fields.get("v.value"))){
+             component.find('spinner').hide();
+            }
+        else{
+          component.find('editForm').submit();  
+          }
+        
     },
 
     onSuccess: function (component, event, helper) {

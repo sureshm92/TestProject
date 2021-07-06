@@ -39,12 +39,16 @@
     },
 
     doAddMedicalVendor: function (component, event, helper) {
-        component.find('addMedicalVendorAction').execute(function (newVendorId) {
-            let vendorIds = component.get('v.filter.pageFeatureIds');
-            if (vendorIds) vendorIds += ';' + newVendorId;
-            component.set('v.filter.pageFeatureIds', vendorIds);
-            helper.updateItems(component);
-        });
+        component.find('addMedicalVendorAction').execute(
+            null,
+            function (vpId) {
+                let vpIds = component.get('v.filter.pageFeatureIds');
+                if (vpIds) vpIds += ';' + vpId;
+                component.set('v.filter.pageFeatureIds', vpIds);
+                helper.updateItems(component);
+            },
+             'create'
+        );
     },
 
     doSelectAllInColumn: function (component, event, helper) {
