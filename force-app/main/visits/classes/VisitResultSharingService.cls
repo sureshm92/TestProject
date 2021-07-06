@@ -7,12 +7,14 @@ public without sharing class VisitResultSharingService {
     private static Map<Id, Map<String, Visit_Result_Type_Sharing__c>> visitResultTypeSharingMapByCTP = new Map<Id, Map<String, Visit_Result_Type_Sharing__c>>();
     private static Set<String> notAccessResultType = new Set<String>();
 
-    private static final String VITAL_RECORDTYPE = 'Vital';
-    private static final String LAB_RECORDTYPE = 'Lab';
-    private static final String BIOMARKER_RECORDTYPE = 'Biomarker';
+    public static final String VITAL_RECORDTYPE = 'Vital';
+    public static final String LAB_RECORDTYPE = 'Lab';
+    public static final String BIOMARKER_RECORDTYPE = 'Biomarker';
 
     private static final String VITAL_GROUP = 'Vitals';
     private static final String BIOMARKER_GROUP = 'Biomarkers';
+    private static final String LAB_GROUP = 'Labs';
+
     private static final String METABOLICPANEL = 'MetabolicPanel';
     private static final String HEMATOLOGY = 'Hematology';
     private static final String FASTING_LIPID_PROFILE = 'FastingLipidProfile';
