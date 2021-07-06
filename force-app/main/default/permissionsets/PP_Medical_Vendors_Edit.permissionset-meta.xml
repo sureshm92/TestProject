@@ -158,11 +158,7 @@
         <readable>false</readable>
     </fieldPermissions>
    
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.Tradestyle</field>
-        <readable>false</readable>
-    </fieldPermissions>
+  
     <fieldPermissions>
         <editable>false</editable>
         <field>Account.Type</field>
@@ -173,16 +169,7 @@
         <field>Account.Website</field>
         <readable>false</readable>
     </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Account.YearStarted</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Contact.Amount__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
+   
     <fieldPermissions>
         <editable>false</editable>
         <field>MedicalVendorSettings__c.By_Country__c</field>
