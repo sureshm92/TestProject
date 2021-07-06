@@ -291,7 +291,8 @@ public inherited sharing class VisitResultsService {
         List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSing = VisitResultSharingService.getVisitResultsWithAvailableCountry(
             VisitResultsRemote.getPatientVisits(),
             ctpId,
-            mailingCC
+            mailingCC,
+            visitResultsGroupName
         );
 
         if (!resultsWithAvailableSing.isEmpty()) {
