@@ -454,7 +454,8 @@ public without sharing class VisitResultSharingService {
             } else if (
                 strVisitResultGroup.equals(METABOLICPANEL) ||
                 strVisitResultGroup.equals(HEMATOLOGY) ||
-                strVisitResultGroup.equals(FASTING_LIPID_PROFILE)
+                strVisitResultGroup.equals(FASTING_LIPID_PROFILE) ||
+                strVisitResultGroup.equals(LAB_GROUP)
             ) {
                 strVisitResultRecordType = LAB_RECORDTYPE;
             } else {
