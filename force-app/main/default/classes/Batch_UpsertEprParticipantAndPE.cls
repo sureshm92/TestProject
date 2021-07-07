@@ -414,14 +414,18 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         list<contact> contactsToUpdate = new list<contact>();
         if (!updateDelegateContacts.isEmpty()) { 
             for(contact con : updateDelegateContacts){
-                con.AccountId = referralAccMap.get(con.FirstName+'_'+con.MiddleName+'_'+con.LastName+'_'+con.Email);
-                contactsToUpdate.add(con);
+                contact c = new contact();
+                c.id = con.id;
+                c.AccountId = referralAccMap.get(con.FirstName+'_'+con.MiddleName+'_'+con.LastName+'_'+con.Email);
+                contactsToUpdate.add(c);
             }
         }   
         if (!contactsToInsert.isEmpty()) { 
             for(contact con : contactsToInsert){
-                con.AccountId = conEmailAccMap.get(con.email);
-                contactsToUpdate.add(con);
+                contact c = new contact();
+                c.id = con.id;
+                c.AccountId = conEmailAccMap.get(con.email);
+                contactsToUpdate.add(c);
             }
         }
         
