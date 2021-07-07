@@ -142,6 +142,15 @@
             </componentInstanceProperties>
             <componentName>EmptyPage</componentName>
         </componentInstance></itemInstances></flexiPageRegions>
+	 <flexiPageRegions>
+        <itemInstances>
+            <componentInstance>
+                <componentName>MedicalRecordAccessPanel</componentName>
+            </componentInstance>
+        </itemInstances>
+        <name>Facet-e837105f-d63f-4fbf-ac78-3b7dbc2f75da</name>
+        <type>Facet</type>
+    </flexiPageRegions>
     <flexiPageRegions>
         <name>Facet-e2f2fc6b-f10c-4ef7-a488-63ddedbe118d</name>
         <type>Facet</type>
@@ -255,7 +264,22 @@
                 <value>Motivational Messages</value>
             </componentInstanceProperties>
             <componentName>flexipage:tab</componentName>
-        </componentInstance></itemInstances></flexiPageRegions>
+        </componentInstance></itemInstances>
+		<itemInstances>
+            <componentInstance>
+                <componentInstanceProperties>
+                    <name>body</name>
+                    <value>Facet-e837105f-d63f-4fbf-ac78-3b7dbc2f75da</value>
+                </componentInstanceProperties>
+                <componentInstanceProperties>
+                    <name>title</name>
+                    <value>Medical Record Access Configuration</value>
+                </componentInstanceProperties>
+                <componentName>flexipage:tab</componentName>
+            </componentInstance>
+        </itemInstances>
+		
+		</flexiPageRegions>
     <flexiPageRegions>
         <name>main</name>
         <type>Region</type>
