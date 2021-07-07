@@ -328,6 +328,16 @@
     .THIS .p-container .icon-bell {
         left: 1rem;
     }   
+    .THIS .body-content .slds-input {
+        font-size: 16px;
+    }
+}
+
+@media screen and (device-aspect-ratio: 9/16) {
+   .THIS input[type="text"],
+   .THIS input[type="password"] {
+        font-size: 16px;
+    }
 }
 
 @media all and (max-width: 468px) and (max-height: 400px) {
