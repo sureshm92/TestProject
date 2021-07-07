@@ -2105,7 +2105,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-    <fieldPermissions>
     <editable>true</editable>
         <field>Terms_And_Conditions__c.T_C_Text__c</field>
         <readable>true</readable>

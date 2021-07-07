@@ -2129,7 +2129,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Scheduling_vendors__c</field>
         <readable>true</readable>
