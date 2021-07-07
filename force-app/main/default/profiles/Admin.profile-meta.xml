@@ -4829,7 +4829,6 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-    <fieldPermissions>
         <editable>true</editable>
         <field>Message__c.DocId__c</field>
         <readable>true</readable>
