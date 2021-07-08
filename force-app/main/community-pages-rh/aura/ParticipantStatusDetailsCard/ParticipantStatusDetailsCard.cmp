@@ -166,23 +166,7 @@
         </div>
     </aura:if>
     <!-- @Krishna Mahto - Changes for REF-1390 - start -->
-    <!--<aura:if isTrue="{!v.isSuccessfullyContacted}">
-        <!--<div  style="font-weight:600;font-size:16px;">
-            <lightning:input type="checkbox" label="The site will communicate about the participant about the schedule updates"
-                             checked="{!v.sitePreference}" onchange="{!c.onChangeSitePref}" aura:id="sitepref"/> 
-        </div>
-        <br></br>-->
-        <!--<aura:if isTrue="{!v.sendToSH}">
-            <div style="color: red" class="slds-size_4-of-5">
-                {!$Label.c.RH_Successfully_Contacted_Initial_Visit_Date_and_time}
-            </div>
-            <aura:set attribute="else">
-                <div style="color: red" class="slds-size_4-of-5">
-                    {!$Label.c.RH_Initial_Visit_Date_and_time}
-                </div>
-            </aura:set>
-        </aura:if>
-    </aura:if>-->
+   
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
     <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
         <div class="step-history">
