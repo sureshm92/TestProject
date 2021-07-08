@@ -41,16 +41,19 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         Set<Participant__c> duplicatePatientsList = new Set<Participant__c>();
         Set<Id> duplicatePatientsSet = new Set<Id>();
         List<String> uniqueIPRList = new List<String>();
+        List<String> uniqueDelList = new List<String>();
         List<Integration_Patient_Referral__c> scope = new List<Integration_Patient_Referral__c>();
-        
         for (Integration_Patient_Referral__c ipr : initialScope) {
             if(!uniqueIPRList.contains(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c)){
-                ipr.Batch_consideration__c = 'Completed';
-                protocolIds.add(ipr.protocolId__c);
-                ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
-                newMap.put(ipr.referralID__c, ipr);
-                scope.add(ipr);
-                uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
+                if(!uniqueDelList.contains(ipr.Delegate_Email_Address__c) || ipr.Delegate_Email_Address__c== null){
+                    ipr.Batch_consideration__c = 'Completed';
+                    protocolIds.add(ipr.protocolId__c);
+                    ssNumbersList.add(IprEprTriggerHandler.getSitePrimaryKeyEPR(ipr));
+                    newMap.put(ipr.referralID__c, ipr);
+                    scope.add(ipr);
+                    if(ipr.Delegate_Email_Address__c != null) uniqueDelList.add(ipr.Delegate_Email_Address__c);
+                    uniqueIPRList.add(ipr.firstName__c+'_'+ipr.lastName__c+'_'+ipr.BirthDate__c+'_'+ipr.email__c+'_'+ipr.phone__c+'_'+ipr.protocolId__c);
+                }
             }
         }
         
