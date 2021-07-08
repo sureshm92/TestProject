@@ -23,9 +23,9 @@ public with sharing class LLRHeventTriggerHandler{
         List<Llwrapper> llwrapList = new List<Llwrapper>();
         List<Id> conIdList = new List<Id>();
         Map<Id,Id> conIdToPerId = new Map<Id,Id>();
-        List<Participant_Enrollment__c> perList = [SELECT Id, Name, Referral_ID__c, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c, Permit_SMS_Text_for_this_study__c, Permit_Mail_Email_contact_for_this_study__c, Participant__r.Language_Preference_Code__c,Participant_Contact__c, Participant_Contact__r.Participant_Opt_In_Status_Emails__c, Participant_Contact__r.Participant_Opt_In_Status_SMS__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Protocol_ID__c, CreatedDate, Participant_Contact__r.CreatedDate FROM Participant_Enrollment__c where Id IN :allPerId];
+        List<Participant_Enrollment__c> perList = [SELECT Id, Name, Participant_Status__c, Referral_ID__c, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, Study_Site__r.Study_Site_Number__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c, Permit_SMS_Text_for_this_study__c, Permit_Mail_Email_contact_for_this_study__c, Participant__r.Preferred_Language__c,Participant_Contact__c, Participant_Contact__r.Participant_Opt_In_Status_Emails__c, Participant_Contact__r.Participant_Opt_In_Status_SMS__c, Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Protocol_ID__c, CreatedDate, Participant_Contact__r.CreatedDate, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Date_of_Birth__c, Participant__r.Phone__c, Participant__r.Alternative_Phone_Number__c, Site_Communication_Preference__c FROM Participant_Enrollment__c where Id IN :allPerId];
         List<Participant_Enrollment__History> perHistory = [SELECT ParentId, CreatedDate,DataType,Field,NewValue,OldValue FROM Participant_Enrollment__History WHERE Field = 'Permit_Mail_Email_contact_for_this_study__c' OR Field = 'Permit_SMS_Text_for_this_study__c' ORDER BY CreatedDate DESC];
-        
+        System.debug('### perList ' +perList);
         Map<Id,Datetime> perIdToDateEmail = new Map<Id,Datetime>();
         Map<Id,Datetime> perIdToDateSms = new Map<Id,Datetime>();
         List<String> refName = new List<String>();
@@ -52,11 +52,6 @@ public with sharing class LLRHeventTriggerHandler{
             }
         }
 
-        List<Integration_Patient_Referral__c> eprList = [SELECT ePRPatient_ID_Number__c, Participant_Enrollment__c, Participant_Enrollment__r.Name FROM Integration_Patient_Referral__c where Participant_Enrollment__r.Name In :refName];
-        Map<String,String> refNameToEprId = new Map<String,String>();
-        for (Integration_Patient_Referral__c ep: eprList){
-            refNameToEprId.put(ep.Participant_Enrollment__r.Name, ep.ePRPatient_ID_Number__c);
-        }
 
         List<ContactHistory> conHistory = [SELECT ContactId,CreatedDate,DataType,Field,NewValue,OldValue FROM ContactHistory WHERE ContactId In :conIdList AND (Field = 'Participant_Opt_In_Status_Emails__c' OR Field = 'Participant_Opt_In_Status_SMS__c') ORDER BY CreatedDate DESC];
 
@@ -83,21 +78,36 @@ public with sharing class LLRHeventTriggerHandler{
         }
 
         for (Participant_Enrollment__c pe : perList){
-
-            String email = getParticipantEmailPreference(pe,perIdToDateEmail,conIdToDateEmail);
-            String sms = getParticipantSmsPreference(pe,perIdToDateSms,conIdToDateSms);
+            String email;
+            String sms;
+            if(!pe.Site_Communication_Preference__c){
+                email = getParticipantEmailPreference(pe,perIdToDateEmail,conIdToDateEmail);
+                sms = getParticipantSmsPreference(pe,perIdToDateSms,conIdToDateSms);
+            }
 
             Llwrapper llwrap = new Llwrapper();
-            llwrap.referalId                        = pe.Name;
-            llwrap.status                           = perIdToStatus.get(String.valueOf(pe.Id));
+            llwrap.referralId                       = pe.Name;
+            if(pe.Participant_Status__c == 'Pre-review Failed' || pe.Participant_Status__c == 'Contacted - Not Suitable' || pe.Participant_Status__c == 'Unable to Reach'){
+                llwrap.status                       = 'SubjectUpdate';
+            }else{
+                llwrap.status                       = perIdToStatus.get(String.valueOf(pe.Id));
+            }
             llwrap.appointmentId                    = perIdToAppointmentId.get(String.valueOf(pe.Id));
             llwrap.protocolId                       = pe.Clinical_Trial_Profile__r.Protocol_ID__c;
-            llwrap.eprId                            = ((refNameToEprId.get(pe.Name) != null)? (refNameToEprId.get(pe.Name)) : (pe.Name));
+            llwrap.eprId                            = (pe.Referral_ID__c != null ? pe.Referral_ID__c : pe.Name);
+            llwrap.siteId                           = pe.Study_Site__r.Study_Site_Number__c;
             llwrap.initialVisitDate                 = pe.Initial_visit_scheduled_date__c;
             llwrap.initialVisitTime                 = pe.Initial_visit_scheduled_time__c;
             llwrap.schedulingSponsor                = pe.Study_Site__r.Scheduling_vendors__c;
-            llwrap.participantPreferredLanguage     = pe.Participant__r.Language_Preference_Code__c;
+            llwrap.participantPreferredLanguage     = pe.Participant__r.Preferred_Language__c;
             llwrap.communicationPreference          = email + ',' + sms;
+            llwrap.siteCommunicationPreference      = pe.Site_Communication_Preference__c;
+            llwrap.participantFirstName             = pe.Participant__r.First_Name__c;
+            llwrap.participantLastName              = pe.Participant__r.Last_Name__c;
+            llwrap.participantDOB                   = pe.Participant__r.Date_of_Birth__c;
+            llwrap.participantPhone                 = pe.Participant__r.Phone__c;
+            llwrap.participantMobileNumber          = pe.Participant__r.Alternative_Phone_Number__c;
+            llwrap.participantStatus                = pe.Participant_Status__c;
 
             llwrapList.add(llwrap);
 
@@ -227,7 +237,7 @@ public with sharing class LLRHeventTriggerHandler{
     }
 
     public class Llwrapper{
-        public String referalId;
+        public String referralId;
         public String status;
         public Date initialVisitDate;
         public Time initialVisitTime;
@@ -237,6 +247,14 @@ public with sharing class LLRHeventTriggerHandler{
         public String appointmentId;
         public String protocolId;
         public String eprId;
+        public String siteId;
+        public String participantFirstName;
+        public String participantLastName;
+        public String participantDOB;
+        public String participantPhone;
+        public String participantMobileNumber;
+        public String participantStatus;
+        public Boolean siteCommunicationPreference;
     }
 
     public class ResponseWrapper{
