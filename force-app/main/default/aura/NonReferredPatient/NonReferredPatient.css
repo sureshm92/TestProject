@@ -1,0 +1,30 @@
+.THIS.mrrl-container {
+    padding-bottom: 30px;
+}
+
+.THIS.mrrl-container .mrrl-body .mrrl-body-list {
+    min-height: 100px;
+}
+
+.THIS .mrri-header {
+    color: #444;
+    font-size: 16px;
+    font-weight: 400;
+}
+
+.THIS .filterContent {
+    display: inline-flex;
+    flex-grow: 1;
+}
+.THIS .studyfilter {
+    width: 150px;
+    padding-right: 10px;
+}
+.THIS .searchHead {
+    padding-top:3px;
+}
+
+.THIS .slds-form-element__control {
+   display: contents;
+
+}
