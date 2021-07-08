@@ -19123,6 +19123,13 @@ communications using the toggles below.</value>
         <value>Manage Referring Providers</value>
     </labels>
     <labels>
+        <fullName>SitePreference</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SitePreference</shortDescription>
+        <value>The site will communicate with the participant about schedule updates</value>
+    </labels>
+    <labels>
         <fullName>SS_Btn_Save</fullName>
         <language>en_US</language>
         <protected>true</protected>

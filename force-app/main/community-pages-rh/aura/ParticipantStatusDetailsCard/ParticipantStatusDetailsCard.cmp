@@ -19,10 +19,12 @@
     <aura:attribute name="validateFOV" type="Boolean" default="false" /> 
     <aura:attribute name="isFovHistoryNull" type="Boolean" default="false" /> 
     <aura:attribute name="lastModifiedDate" type="DateTime" />
+    <aura:attribute name="sitePreference" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="isDateTimeFieldsAvailable" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
+    <aura:attribute name="StatusDetailCard" type="Integer" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
@@ -33,6 +35,18 @@
     <aura:method name="updateFieldValidity" action="{!c.doUpdateFieldValidity}" access="public" />
     
     <div class="step-card-title">{!v.stepWrapper.cardTitle}</div>
+    <aura:if isTrue="{!v.isSuccessfullyContacted}">
+        <aura:if isTrue="{!v.sendToSH}">
+            <div  style="padding-bottom: 12px;font-size:14px;" class="slds-size_4-of-5">
+               <b>{!$Label.c.Successfully_Contacted}</b>&nbsp; {!$Label.c.RH_And}&nbsp;  <b>{!$Label.c.Initial_Visit_Scheduled_Date_and_Time}</b>&nbsp; {!$Label.c.RH_Proceed_to_tab}
+            </div>
+            <aura:set attribute="else">
+                <div style="padding-bottom: 12px;font-size:14px;" class="slds-size_4-of-5">
+                    <b>{!$Label.c.Initial_Visit_Scheduled_Date_and_Time}</b>&nbsp; {!$Label.c.RH_Proceed_to_tab}
+                </div>
+            </aura:set>
+        </aura:if>
+    </aura:if>
     <aura:if isTrue="{!true}">
         <div class="step-form">
             <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
@@ -122,7 +136,7 @@
                     </div>
                 </div>
             </aura:if>
-            <aura:iteration items="{!v.stepWrapper.formFieldGroups}" var="fieldsGroup">
+            <aura:iteration items="{!v.stepWrapper.formFieldGroups}" var="fieldsGroup" indexVar="index">
                 <aura:if isTrue="{!!empty(fieldsGroup.title)}">
                     <div class="field-group-title">{!fieldsGroup.title}</div>
                 </aura:if>
@@ -139,12 +153,26 @@
                                                              />
                     </aura:iteration>
                 </div>
+                 <aura:if isTrue="{!index == 0}">
+                     <aura:if isTrue="{!or(v.StatusDetailCard==1,v.StatusDetailCard==2)}">
+                     <div  style="font-weight:600;font-size:14px;">
+                         <lightning:input type="checkbox" class="sitepref" label="{!$Label.c.SitePreference}"
+                                          checked="{!v.sitePreference}" onchange="{!c.onChangeSP}" aura:id="sp"/> 
+                         <br></br>    
+                         </div>
+                     </aura:if>
+                </aura:if>
             </aura:iteration>
         </div>
     </aura:if>
     <!-- @Krishna Mahto - Changes for REF-1390 - start -->
-    <aura:if isTrue="{!v.isSuccessfullyContacted}">
-        <aura:if isTrue="{!v.sendToSH}">
+    <!--<aura:if isTrue="{!v.isSuccessfullyContacted}">
+        <!--<div  style="font-weight:600;font-size:16px;">
+            <lightning:input type="checkbox" label="The site will communicate about the participant about the schedule updates"
+                             checked="{!v.sitePreference}" onchange="{!c.onChangeSitePref}" aura:id="sitepref"/> 
+        </div>
+        <br></br>-->
+        <!--<aura:if isTrue="{!v.sendToSH}">
             <div style="color: red" class="slds-size_4-of-5">
                 {!$Label.c.RH_Successfully_Contacted_Initial_Visit_Date_and_time}
             </div>
@@ -154,7 +182,7 @@
                 </div>
             </aura:set>
         </aura:if>
-    </aura:if>
+    </aura:if>-->
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
     <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
         <div class="step-history">
@@ -171,16 +199,16 @@
                                         <span class="history-item-detail">
                                             <aura:if isTrue="{!history.isAdditionalNote != true}">
                                                 &nbsp;{!$Label.c.PE_Status_History_On_Date + '
-                                                        '}<lightning:formattedDateTime
-                                                                                       value="{!history.detailDate}"
-                                                                                       year="numeric"
-                                                                                       month="short"
-                                                                                       day="2-digit"
-                                                                                       hour="numeric"
-                                                                                       minute="numeric"
-                                                                                       timeZone="{!$Locale.timezone}"
-                                                                                       />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
-                                                        history.createdBy}
+                                                '}<lightning:formattedDateTime
+                                                                               value="{!history.detailDate}"
+                                                                               year="numeric"
+                                                                               month="short"
+                                                                               day="2-digit"
+                                                                               hour="numeric"
+                                                                               minute="numeric"
+                                                                               timeZone="{!$Locale.timezone}"
+                                                                               />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
+                                                history.createdBy}
                                                 <aura:set attribute="else">
                                                     {!history.detail}
                                                 </aura:set>
