@@ -8458,6 +8458,13 @@ The expected format is REF##### to REF########</value>
         <value>IWRSIWRS ID</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit_Scheduled_Date_and_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
+        <value>	Initial Visit Scheduled Date & Time</value>
+    </labels>
+    <labels>
         <fullName>Icons_package_not_found</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -18425,6 +18432,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Records sent to SH</shortDescription>
         <value>Records have been sent successfully</value>
+    </labels>
+    <labels>
+        <fullName>RH_Proceed_to_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Proceed_to_tab</shortDescription>
+        <value>are required to proceed to the Initial Visit tab.</value>
     </labels>
     <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
