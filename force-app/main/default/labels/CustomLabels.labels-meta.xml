@@ -18805,6 +18805,20 @@ communications using the toggles below.</value>
         <value>My Study Data Report</value>
     </labels>
     <labels>
+        <fullName>RPR_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Consent</shortDescription>
+        <value>Consent</value>
+   </labels>
+    <labels>
+        <fullName>RPR_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_State</shortDescription>
+        <value>State/Province</value>
+   </labels>
+    <labels>
         <fullName>Report_Participant_Status</fullName>
         <language>en_US</language>
         <protected>false</protected>
