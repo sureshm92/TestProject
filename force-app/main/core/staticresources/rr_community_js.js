@@ -115,7 +115,7 @@ window.communityService = (function () {
                                 message = 'Invalid Email';
                             } else  {
                                 if(message.includes('[LanguageLocaleKey]')) {
-                                    message = 'This language is not set up on Referral Hub';
+                                    message = 'This language is not yet supported';
                                 } else {
                                     service.showErrorToast('ERROR', message);
                                 }

@@ -157,18 +157,6 @@
                          />
                          <div style="margin-left: 10px">Payment</div>
                      </div>
-                      <div class="global-element">
-                         <lightning:input
-                             type="toggle"
-                             label="Medical Vendor"
-                             name="medicalVendorToggle"
-                             onchange="{!c.saveCTP}"
-                             checked="{!v.ctp.Medical_Vendor_is_Available__c}"
-                             variant="label-hidden"
-                             aura:id="mdToggle"
-                         />
-                         <div style="margin-left: 10px">Medical Record Configuration</div>
-                     </div>
                      <div class="global-element">
                          <lightning:input
                              type="toggle"
