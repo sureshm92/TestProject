@@ -8462,7 +8462,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
-        <value>	Initial Visit Scheduled Date & Time</value>
+        <value>	Initial Visit Scheduled Date &amp; Time</value>
     </labels>
     <labels>
         <fullName>Icons_package_not_found</fullName>
