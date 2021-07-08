@@ -64,9 +64,12 @@
                         </div>
                         <div class={ppHeaderClass}>
                             <h1 class="hdr">{labels.ppHeaderLabel}</h1>
-                            <p class="dateText">
-                                {labels.lastUpdatedText} {lastUpdated}
-                            </p>
+                            <div class="dateText">
+                                <p style="display:inline-block;">
+                                    {labels.lastUpdatedText}
+                                </p>
+                                <p style="display:inline-block;">{lastUpdated}</p>
+                            </div>
                         </div>
                         <template if:true={frmFactor}>
                             <div class="closeIcon closeIcon1" onclick={closeModal}>
@@ -87,7 +90,7 @@
                         </template>
                     </div>
 
-                    <div class="richTextArea slds-size_5-of-1" data-id="text" id="text">
+                    <div class={richTextStyle} data-id="text" id="text">
                         <!--Rich text displayed here-->
                     </div>
                 </div>
@@ -96,8 +99,8 @@
         <div class="rr-bottom-bar-area">
             <div class="rr-bottom-bar rr-bottom-bar">
                 <div class="rr-bottom-bar-line"></div>
-                <div class="rr-width-limiter bar-content side-padding">
-                    <p style="display: inline-block;">
+                <div class="rr-width-limiter bar-content side-padding" style={bottomBar}>
+                    <p style={pdfStyle}>
                         <a onclick={saveAsPdf}>{labels.downloadPdf}</a>
                     </p>
                     <template if:true={isLoggedinUser}>

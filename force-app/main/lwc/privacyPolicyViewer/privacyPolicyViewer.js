@@ -36,6 +36,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track numberingStyle;
     @track vertNavClass;
     @track textboxStyle;
+    @track richTextStyle = 'richTextArea slds-size_1-of-1';
     @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
@@ -116,7 +117,14 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.spinner = this.template.querySelector('c-web-spinner');
             var myElement = this.template.querySelector('[data-id="text"]');
             this.ppRichText = this.ppRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
-            this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 5%;">');
+            if (this.isRtl) {
+                this.ppRichText = this.ppRichText.replace(
+                    /<li>/g,
+                    '<li style="margin-right: 5%;">'
+                );
+            } else {
+                this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 5%;">');
+            }
             myElement.innerHTML = this.ppRichText;
             if (this.isRtl) {
                 this.headerLogoCss = 'headerAndLogo slds-size_1-of-1';
@@ -126,6 +134,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 this.numberingStyle = 'margin-right: -12px;padding: 0px;';
                 this.vertNavClass = 'vertNavRTL';
                 this.textboxStyle = 'padding-left: 0px;word-break: break-word;';
+                this.richTextStyle = 'richTextAreaRTL slds-size_1-of-1';
             }
             if (formFactor != 'Large') {
                 this.frmFactor = true;

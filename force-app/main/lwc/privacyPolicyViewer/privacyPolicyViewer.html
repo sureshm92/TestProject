@@ -110,7 +110,10 @@
                                         <h1 class="hdr">{labels.ppHeaderLabel}</h1>
                                         <p class={dateTextClass}>
                                             <template if:true={isRtl}>
-                                                {lastUpdated} {labels.lastUpdatedText}
+                                                <p style="display:inline-block;">
+                                                    {labels.lastUpdatedText}
+                                                </p>
+                                                <p style="display:inline-block;">{lastUpdated}</p>
                                             </template>
                                             <template if:false={isRtl}>
                                                 {labels.lastUpdatedText} {lastUpdated}
@@ -136,7 +139,7 @@
                                     </template>
                                 </div>
 
-                                <div class="richTextArea slds-size_1-of-1">
+                                <div class={richTextStyle}>
                                     <div data-id="text" id="text"></div>
                                     <!--Rich text displayed here-->
                                 </div>
