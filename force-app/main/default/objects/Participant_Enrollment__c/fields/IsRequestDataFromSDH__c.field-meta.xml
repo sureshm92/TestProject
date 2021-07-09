@@ -6,8 +6,8 @@
 (
 AND (
 Clinical_Trial_Profile__r.Patient_Portal_Enabled__c=true,
-NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c, &quot;Trial Complete&quot;)),
-NOT (ISPICKVAL(Participant_Study_Enrollment__r.Status__c,&quot;Drop out&quot;))
+NOT (ISPICKVAL(Participant_Status__c, &quot;Trial Complete&quot;)),
+NOT (ISPICKVAL(Participant_Status__c,&quot;Drop out&quot;))
 ),
 AND (
 NOT (ISPICKVAL(Participant_Status__c, &quot;Received&quot;)),
@@ -19,7 +19,7 @@ NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Review&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Referral&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Excluded from Referring&quot;))
 ),
-Not(IsNull(Screening_ID__c))
+Not(IsBlank(Screening_ID__c))
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>IsRequestDataFromSDH</label>
