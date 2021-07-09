@@ -19,7 +19,7 @@ NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Review&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Failed Referral&quot;)),
 NOT (ISPICKVAL(Participant_Status__c, &quot;Excluded from Referring&quot;))
 ),
-Not(IsBlank(Screening_ID__c))
+Not(ISBLANK(Screening_ID__c))
 )</formula>
     <formulaTreatBlanksAs>BlankAsZero</formulaTreatBlanksAs>
     <label>IsRequestDataFromSDH</label>
