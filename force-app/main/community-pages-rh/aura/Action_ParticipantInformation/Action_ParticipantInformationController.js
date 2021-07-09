@@ -96,7 +96,7 @@
                                 'v.isSMS',
                                 returnValue.enrollment.Permit_SMS_Text_for_this_study__c
                             );
-                            
+                            component.set('v.sitePreference',returnValue.enrollment.Site_Communication_Preference__c);
                             component.set(
                                 'v.doContact',
                                 !pe.Permit_IQVIA_to_contact_about_study__c
@@ -281,6 +281,7 @@
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
         pe.Permit_SMS_Text_for_this_study__c = component.get('v.isSMS');
+        pe.Site_Communication_Preference__c = component.get('v.sitePreference');
         /*if(component.get('v.sendEmails')&& component.get('v.doContact')){
             helper.createUserForPatient(component,event,helper);
         }*/
@@ -398,7 +399,8 @@
                     pathWrapperJSON: JSON.stringify(pathWrapper),
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
-                    outcome: outcome
+                    outcome: outcome,
+                    sitepreference:component.get('v.sitePreference')
                 });
                 component.find('spinner').show();
                 actionName1.setCallback(this, $A.getCallback(function(response) {
@@ -680,7 +682,8 @@
                     peId: pe.Id,
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
-                    outcome: outcome
+                    outcome: outcome,
+                    sitepreference:component.get('v.sitePreference')
                 },
                 function (returnValueJSON) {
                     var returnValue = JSON.parse(returnValueJSON);

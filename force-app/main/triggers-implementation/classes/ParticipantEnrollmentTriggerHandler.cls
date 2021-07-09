@@ -165,6 +165,17 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
 
     }
 
+    public class UnenrollorCancelPer extends TriggerHandler {
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            CreatePeshafterUpdate(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+
+    }
+
+
 
     // Logic: ----------------------------------------------------------------------------------------------------------
 
@@ -963,4 +974,42 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             peList.add(pe);
         }
     }
+    
+     @TestVisible
+    private static void CreatePeshafterUpdate(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ){
+          List<User> ValidUserList = new  List<User>();
+          List<Participant_Enrollment__c> perDetailedList = new List<Participant_Enrollment__c>();
+          ValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+          perDetailedList = [SELECT Id,Participant_Status__c, Participant_Status_Last_Changed_Date__c,Non_Referral_Reason__c,Non_Referral_Notes__c,Non_Enrollment_Reason__c,Last_Status_Changed_Notes__c, LastModifiedById
+                             FROM Participant_Enrollment__c
+                             where Id IN :newList AND Participant_Status__c= 'Contacted - Not Suitable' AND
+                             LastModifiedById IN : ValidUserList];
+          if(perDetailedList != null  && !perDetailedList.isEmpty() && perDetailedList.size() !=0){
+             List<Participant_Enrollment_Status_History__c> histories = new List<Participant_Enrollment_Status_History__c>();
+             for(Participant_Enrollment__c pe:newList)
+             {
+                  histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = pe.Participant_Status__c,
+                                   Notes__c = pe.Last_Status_Changed_Notes__c,
+                                   ParticipantEnrollment__c = pe.Id,
+                                   Non_Enrollment_Reason__c = pe.Non_Enrollment_Reason__c
+                               )
+                           );
+             }
+            if(histories != null && !histories.isEmpty()){
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class
+            );
+                insert histories;
+            }
+             
+          }                   
+        
+    }
+    
 }
