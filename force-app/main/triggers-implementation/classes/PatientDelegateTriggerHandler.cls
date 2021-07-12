@@ -288,7 +288,7 @@ public without sharing class PatientDelegateTriggerHandler {
                for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
                {
                    String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
-                   objPatientDel.Delegate_Participant__c = mapDelConToDelPart.get(mapParticipantToContact.get(strUniqueKey));
+                   objPatientDel.Participant_Delegate__c = mapDelConToDelPart.get(mapParticipantToContact.get(strUniqueKey));
                }
            } 
         
