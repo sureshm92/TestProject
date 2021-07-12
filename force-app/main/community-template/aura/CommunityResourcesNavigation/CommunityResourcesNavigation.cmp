@@ -4,6 +4,7 @@
 
 <aura:component description="CommunityResourcesNavigation" extends="c:AbstractNavigation">
     <aura:attribute name="itemResource" type="Object" access="public" />
+    <aura:attribute name="currentUserMode" type="String" />
 
     <c:uiHeaderMenu aura:id="menuId" class="{!'resources-popup-' + v.communityTemplate}">
         <aura:set attribute="title">
@@ -18,7 +19,7 @@
             </div>
         </aura:set>
         <c:uiMenuItem label="{!$Label.c.Navigation_Library}" onclick="{!c.onClickResource}" />
-        <aura:if isTrue="{!v.communityTemplate != $Label.c.Janssen_Community_Template_Name}">
+        <aura:if isTrue="{!and(v.currentUserMode == 'PI',v.communityTemplate != $Label.c.Janssen_Community_Template_Name)}">
             <c:uiMenuItem
                 label="{!$Label.c.Navigation_Media_Outreach}"
                 onclick="{!c.onClickMediaOutreach}"

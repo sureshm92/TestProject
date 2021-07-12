@@ -2068,6 +2068,10 @@
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+	 <classAccesses>
+        <apexClass>LibraryRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <custom>true</custom>
      <fieldPermissions>
         <editable>true</editable>
@@ -2517,6 +2521,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Integration_Patient_Referral__c.sex__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Participant_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <objectPermissions>
