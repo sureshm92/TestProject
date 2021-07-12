@@ -2067,7 +2067,7 @@
 	<classAccesses>
         <apexClass>LibraryRPRemote</apexClass>
         <enabled>true</enabled>
-    </classAccesses
+    </classAccesses>
     <classAccesses>
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
