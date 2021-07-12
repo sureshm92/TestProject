@@ -17,7 +17,10 @@
         var LibraryPI = component.find('childcmp');
         var search = LibraryPI.LibraryPIMethod();
     },
-    init: function(component, event, helper) {        
+    init: function(component, event, helper) {      
         document.title = $A.get("{!$Label.c.Navigation_Library}");
+    },
+    doScriptLoad :  function(component, event, helper) {  
+        component.set('v.CommunityMode',communityService.getCurrentCommunityMode().userMode);
     }
 });

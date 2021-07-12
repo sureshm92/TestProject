@@ -2064,6 +2064,10 @@
         <apexClass>XLF_TweakerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+	<classAccesses>
+        <apexClass>LibraryRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses
     <classAccesses>
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>
@@ -2072,6 +2076,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Terms_And_Conditions__c.Active__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.Participant_Delegate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

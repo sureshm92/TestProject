@@ -80,6 +80,7 @@
                                                    currentPage="{!v.currentPage}"
                                                    communityTemplate="{!v.template}"
                                                    hasMessage="{!v.hasMessage}"
+                                                   userMode = "{!v.currentMode.userMode}"
                                                    />
                         </div>
                         
