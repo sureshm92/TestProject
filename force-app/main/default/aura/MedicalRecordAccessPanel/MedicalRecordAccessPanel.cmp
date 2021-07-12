@@ -86,12 +86,12 @@
                                 <c:SSTableHeaderCols
                                     filter="{!v.filter}"
                                     scrollLeft="{!v.scrollLeft}"
-                                    onSort="{!c.doSort}"
+                                    onSort="{!c.doSort}" 
                                 />
                                 <aura:if isTrue="{!v.vendorItems}">
                                     <aura:iteration items="{!v.vendorItems}" var="tv">
                                         <c:uiCol isHeader="true" scrollLeft="{!v.scrollLeft}">
-                                            <div style="text-align: center"><!--{!tv.label}-->
+                                            <div><!--{!tv.label}-->
                                              <c:VisitPlanColumnMenu
                                                         plan="{!tv}"
                                                         onEdit="{!if(equals(v.viewMode, 'Edit'), c.doColumnVisitEdit, c.doColumnVisitView)}"
