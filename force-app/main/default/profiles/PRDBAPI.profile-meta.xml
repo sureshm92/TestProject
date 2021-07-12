@@ -2060,6 +2060,10 @@
         <apexClass>XLF_TweakerHelper</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+	<classAccesses>
+        <apexClass>LibraryRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>XLF_TweakerRemote</apexClass>
         <enabled>true</enabled>

@@ -183,6 +183,7 @@
                 HCP: [
                     this.allPagesMap[''],
                     this.allPagesMap['my-patients'],
+                    this.allPagesMap['resources-pi'],
                     // this.allPagesMap['medical-record-review-log'],
                     // this.allPagesMap['my-study-sites'],
                     this.allPagesMap['reports']
@@ -209,6 +210,7 @@
                 HCP: [
                     this.allPagesMap[''],
                     this.allPagesMap['my-patients'],
+                    this.allPagesMap['resources-pi'],
                     // this.allPagesMap['medical-record-review-log'],
                     // this.allPagesMap['my-study-sites'],
                     this.allPagesMap['reports']

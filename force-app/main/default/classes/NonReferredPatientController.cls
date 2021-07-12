@@ -25,7 +25,7 @@ public without sharing class NonReferredPatientController {
               Participant_Enrollment__c per = new Participant_Enrollment__c();
               per = [select Id,Participant_Name__c,Participant_Surname__c,Patient_ID__c,
                       YOB__c,CreatedDate,
-                     Email__c,State__c,Study_Name__c,Phone__c,
+                     Email__c,State__c,Study_Name__c,Phone__c,Legal_Status__c,Patient_Auth__c,
                       Country__c,Attestation__c,Medical_Record_Review_Status__c,Final_consent__c
                       from Participant_Enrollment__c where id=:patid];
                     WrapPerdetails wpd = new WrapPerdetails();
