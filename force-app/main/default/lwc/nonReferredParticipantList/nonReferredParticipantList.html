@@ -273,14 +273,16 @@
                       {patdetails.Study_Name__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>{label.RPR_Consent}</b></span>
-                        <br>
-                        <c-icon-display  fname={patdetails.Final_consent__c}></c-icon-display>
+                        <span><b>Legal Status</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display  fname={patdetails.Legal_Status__c}></c-icon-display></div>
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>{label.RPR_Attestation}</b></span>
-                        <br>
-                        <c-icon-display fname={patdetails.Attestation__c}></c-icon-display>
+                        <span><b>Patient Auth</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display fname={patdetails.Patient_Auth__c}></c-icon-display></div>
                     </div>
                     <div class="slds-col slds-size_1-of-4">
                         <span><b>{label.RPR_Medical_Review}</b></span>
