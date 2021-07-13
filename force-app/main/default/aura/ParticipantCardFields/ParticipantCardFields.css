@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 
-.THIS {
+ .THIS {
     margin-bottom: 15px;
 }
 
@@ -50,6 +50,10 @@
     height: 43px;
     align-items: flex-start;
     margin-bottom: 5px;
+}
+
+.THIS .vpi-field > .label_PP {
+    align-items: flex-end;
 }
 
 .THIS .vpi-field > .value {
