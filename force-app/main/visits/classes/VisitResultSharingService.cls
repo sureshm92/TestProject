@@ -205,7 +205,9 @@ public without sharing class VisitResultSharingService {
                         VisitResultWithAvailableSign availableSign = resultWithAvailableSignByType.get(
                             resultTypeSharing.Type__c
                         );
-                        availableSign.visitResult = result;
+                        if (isVisitResultAvailable) {
+                            availableSign.visitResult = result;
+                        }
                         resultWithAvailableSignByType.put(resultTypeSharing.Type__c, availableSign);
                     }
                 }
