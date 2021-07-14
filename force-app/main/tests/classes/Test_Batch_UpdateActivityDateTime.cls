@@ -9,7 +9,7 @@ private class Test_Batch_UpdateActivityDateTime {
         TestData.loadTestData();
         Participant_Enrollment__c part = [
             SELECT
-                Id,
+                Id,Participant_Contact__c,
                 Medical_Record_Review_Status__c,
                 MRR_Survey_Results_URL__c,
                 Medical_Record_Review_Completed_by__c,
@@ -32,7 +32,7 @@ private class Test_Batch_UpdateActivityDateTime {
         User user = [
             SELECT Id
             FROM User
-            WHERE Account.Name =:CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
+            WHERE ContactId =:part.Participant_Contact__c
             LIMIT 1
         ];
         List<Task> tasksList = new List<Task>{

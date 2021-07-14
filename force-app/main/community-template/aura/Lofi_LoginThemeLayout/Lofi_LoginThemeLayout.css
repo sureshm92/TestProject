@@ -6,6 +6,8 @@
     left: 0;
     font-family: 'Proxima Nova';
     background-color: rgb(255, 255, 255);
+    /* @noflip */
+    direction: ltr;
 }
 
 .THIS.mobile-content {
@@ -98,10 +100,12 @@
 .THIS .main-logo {
     margin: 40px 5px 40px 0;
     /*height: 110px;*/
+    /* @noflip */
     float: left;
 }
 
 .THIS .mobile-logo {
+    /* @noflip */
     float: left;
 }
 
@@ -112,7 +116,7 @@
 .THIS .janssen-logo {
     font-size: 24px;
     font-weight: 500;
-    margin-bottom:.0;
+    margin-bottom: 0;
     margin-top: 0;
 }
 /*.THIS .forgot-password {
@@ -169,6 +173,8 @@
     line-height: 36px;
     overflow: hidden;
     margin-top: 1.1em;
+    /* @noflip */
+    text-align: left;
 }
 
 .THIS .header-title-mobile {
@@ -184,6 +190,8 @@
     font-size: 16px;
     letter-spacing: 0;
     line-height: 24px;
+    /* @noflip */
+    text-align: left;
 }
 
 .THIS .footer {
@@ -272,6 +280,7 @@
     }
 
     .THIS .header-title {
+        /* @noflip */
         text-align: left;
         padding-left: 0.75rem;
         margin-top: 0.875rem;
@@ -327,11 +336,21 @@
 
     .THIS .p-container .icon-bell {
         left: 1rem;
-    }   
+    }
+    .THIS .body-content .slds-input {
+        font-size: 16px;
+    }
 }
 
-@media all and (max-width: 468px) and (max-height: 400px) {
-     .THIS.mobile-content {
+@media screen and (device-aspect-ratio: 9/16) {
+    .THIS input[type='text'],
+    .THIS input[type='password'] {
+        font-size: 16px;
+    }
+}
+
+@media all and (max-width: 468px) and (max-height: 500px) {
+    .THIS.mobile-content {
         height: 150vh;
     }
 }
@@ -340,14 +359,14 @@
     .THIS.mobile-content .appTitles {
         margin-top: -1rem;
     }
-    
+
     .THIS.mobile-content .body-content {
-        margin-top: .5rem;
-        margin-bottom: .5rem;
+        margin-top: 0.5rem;
+        margin-bottom: 0.5rem;
     }
-    
+
     .THIS.mobile-content .footer-mobile > .slds-col {
-        font-size: .8125rem;
+        font-size: 0.8125rem;
     }
 }
 
@@ -358,7 +377,7 @@
 
     .THIS .janssen-logo {
         margin-top: -1.25rem;
-        margin-bottom: .45rem;
+        margin-bottom: 0.45rem;
     }
 
     .THIS .logo-block {
@@ -477,15 +496,15 @@
     .THIS .logo-block {
         min-width: 26.5rem;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center:nth-child(1) {
+
+    .THIS .logo-block > .slds-align_absolute-center:nth-child(1) {
         margin-top: -2.25rem;
     }
-    
-    .THIS .logo-block>.slds-align_absolute-center.logo-sub-title {
+
+    .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
         margin-top: -2.75rem;
     }
-    
+
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
         margin-top: -1.5rem;
     }
@@ -500,6 +519,7 @@
     }
 
     .THIS .logo-block > .slds-align_absolute-center .header-subtitle {
+        /* @noflip */
         text-align: left;
     }
 
@@ -512,29 +532,19 @@
     }
 }
 
-@media all and (max-height: 488px) {
-    .THIS > .slds-col.slds-large-size_4-of-7 {
-        max-height: 130vh;
-    }
-
-    .THIS > .slds-col.slds-large-size_3-of-7 {
-        height: 130vh;
-    }
-}
-
-@media all and (max-height: 500px) and (max-width: 850px) {
-
+/* OS and browser zoom 150% */
+@media all and (max-height: 525px) {
     .THIS.all-content {
         height: 150vh;
     }
 
     .THIS .janssen-logo {
-        margin-bottom: .25rem;
+        margin-bottom: 0.25rem;
         margin-top: -1rem;
         font-size: 1.25rem;
     }
 
-    .THIS>.slds-col.slds-large-size_4-of-7 {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
         height: 150vh;
         align-items: stretch;
         top: 0;
@@ -544,15 +554,15 @@
         background-position: center;
     }
 
-    .THIS>.slds-col.slds-large-size_4-of-7 img {
+    .THIS > .slds-col.slds-large-size_4-of-7 img {
         display: none;
     }
 
-    .THIS .logo-block>.slds-align_absolute-center>.slds-col:first-child {
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col:first-child {
         padding-left: 0;
     }
 
-    .THIS .logo-block>.slds-align_absolute-center>.slds-col {
+    .THIS .logo-block > .slds-align_absolute-center > .slds-col {
         width: 45%;
     }
 
@@ -561,7 +571,7 @@
     }
 
     .THIS .logo-block .header-subtitle {
-        font-size: .75rem
+        font-size: 0.75rem;
     }
 
     .THIS .logo-block {
@@ -569,7 +579,7 @@
     }
 
     .THIS > .slds-col.slds-large-size_3-of-7,
-     .THIS > .slds-col.slds-large-size_4-of-7 {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
         max-height: 150vh;
     }
 
