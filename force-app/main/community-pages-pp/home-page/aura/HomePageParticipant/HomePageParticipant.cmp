@@ -105,7 +105,7 @@
                                 isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c, v.participantState.value == 'PARTICIPANT')}"
                             >
                             <div class="slds-col">
-                                <c:HumanAPILight />
+                                <c:MedicalRecordRetrievalPanel />
                             </div>
                             </aura:if>
                         </div>
