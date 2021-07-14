@@ -11,6 +11,10 @@
 .THIS.english {
     padding-bottom: 100px;
 }
+.THIS .Font-Size{
+    color: black;
+    font-weight: 600;
+}
 .THIS .vp-navigation{
     margin-bottom: 1.0rem;
     display: flex;
