@@ -6,6 +6,11 @@
             <div class = "sort-by">Sort By Column</div>
         </div>
         <div class="slds-col slds-size_1-of-4">
+                <template if:true={editMode}>
+                    <lightning-button label="Save" onclick={handleSave}></lightning-button>
+                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                </template>
+    
                 <div class="search_box">
                     <lightning-input
                         name="enter-search"
@@ -104,7 +109,7 @@
         
     <tbody >
             
-        <template for:each={currentPageList} for:item="per" for:index='index'>
+        <template for:each={cloneCurrentPageList} for:item="per" for:index='index'>
             <tr key={per.pe.Id} class="row_height">
                 <td style="width: 2rem" class="slds-text-align_right col-id">
                         <div class="slds-form-element">
@@ -116,8 +121,8 @@
                 </td>
                 <td class="col-first" style="width:15%">
                         <div class="slds-truncate slds-grid">
-                            <div class="slds-col" ><img src={lock_icon}></div>
-                            <div class="slds-col"><img src={comment_icon}></div>
+                            <div class="slds-col" ><img src={lock_icon}  data-id={per.pe.Id} onclick={handleLockClick}></div>
+                            <div class="slds-col"><img src={comment_icon} data-value={per.pe.Id} onclick={addCommens}></div>
                             <div class="slds-col "><img src={sendtostudy_icon}></div>
                         </div>
                     </td>
@@ -127,14 +132,30 @@
                     </div>
                 </td>
                 <td class="row-width col-third" >
-                    <div class="slds-truncate h_font">{per.pe.Participant_Name__c}</div>
+                    <template if:true={per.editMode}>
+                        <lightning-input data-value="pName" data-id={per.pe.Id} type="text"  value={per.pe.Participant_Name__c} onchange={changeInputValue}></lightning-input>
+                    </template>
+                    <template if:false={per.editMode}>
+                        <div class="slds-truncate h_font">{per.pe.Participant_Name__c}</div>
+                    </template>
                 </td>
                 <td class="row-width col-fourth" >
-                    <div class="slds-truncate h_font">{per.pe.Participant_Surname__c}</div>
+                    <template if:true={per.editMode}>
+                        <lightning-input data-value="pSurName" data-id={per.pe.Id}  type="text" value={per.pe.Participant_Surname__c} onchange={changeInputValue}></lightning-input>
+                    </template>
+                    <template if:false={per.editMode}>
+                        <div class="slds-truncate h_font">{per.pe.Participant_Surname__c}</div>
+                    </template>
                 </td>
-                <td class="center_align col-fifth" >
-                    <c-participant-status-excluded status={per.pe.Participant_Status__c}></c-participant-status-excluded>
-                    
+                <td class="center_align col-fifth">
+                    <template if:true={per.editMode}>
+                        <lightning-combobox dropdown-alignment="auto" placeholder="Select status" value={per.pe.Participant_Status__c}
+                        options={peRecords.participantStatus} >
+                        </lightning-combobox>                    
+                    </template>
+                    <template if:false={per.editMode}>
+                        <c-participant-status-excluded status={per.pe.Participant_Status__c}></c-participant-status-excluded>
+                    </template>
                 </td>
                 <td class ="center_align" >
                     <c-icon-display index={index} rdata={per} fname={per.pe.Outreach_Status__c}></c-icon-display>
@@ -181,7 +202,6 @@
 </div>
 </div>
 </div>
-
     <c-popup-l-w-c
         show-modal={showModal} 
         onclose={closeModal}
@@ -190,68 +210,53 @@
         modalsize="medium">      
         
         <div slot="body"> 
-            <!--<div class="slds-grid slds-gutters">
-                <div class="slds-col slds-size_2-of-3">
-                    <p> {patdetails.Patient_ID__c}   {patdetails.Participant_Name__c}  {patdetails.Participant_Surname__c}</p> 
-                </div>
-                <div class="slds-col slds-size_1-of-3" style="text-align:right;cursor:pointer">
-                    <div style="display:inline-block;margin-right:10px" onclick={closeModal}>
-                        <lightning-icon icon-name="utility:close"
-                            alternative-text="close"
-                            size="small" ></lightning-icon>
-                        <span class="slds-assistive-text">Close</span></div>
-                </div>
-              </div>-->
-          
-            <!--<button class="slds-button " title="Close" onclick={closeModal}>-->
-               
-            <!--</button>-->
-            <p>Summary View</p>
+           
+            <p>{label.Summary_View}</p>
            
             <div style="display:flex; align-items:center">
-                <b style="display:inline; padding-right:10px">Primary  </b><hr style="height:1px;border-width:0;color:gray;background-color:black;width:89%;display:inline">
+                <b style="display:inline; padding-right:10px">{label.Primary}  </b><hr style="height:1px;border-width:0;color:gray;background-color:black;width:89%;display:inline">
             </div>
 
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-4">
-                      <span><b>Patient Id</b></span>
+                      <span><b>{label.RPR_Patient_Id}</b></span>
                       <br>
                       {patdetails.Patient_ID__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>First Name</b></span>
+                        <span><b>{label.RPR_First_Name}</b></span>
                         <br>
                         {patdetails.Participant_Name__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Last Name</b></span>
+                        <span><b>{label.RPR_Last_Name}</b></span>
                         <br>
                         {patdetails.Participant_Surname__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>YOB</b></span>
+                        <span><b>{label.RPR_YOB}</b></span>
                         <br>
                         {patdetails.YOB__c}
                     </div>
             </div><br>
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-4">
-                      <span><b>Email Id</b></span>
+                      <span><b>{label.Email_Id}</b></span>
                       <br>
                       {patdetails.Email__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Phone Number</b></span>
+                        <span><b>{label.CC_Phone_Number}</b></span>
                         <br>
-                       4567765467546
+                        {patdetails.Phone__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Country</b></span>
+                        <span><b>{label.RPR_Country}</b></span>
                         <br>
                         {patdetails.Country__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>State/Country</b></span>
+                        <span><b>{label.State_Country}</b></span>
                         <br>
                         {patdetails.State__c}
                     </div>
@@ -259,32 +264,57 @@
             <br>
             <!--<p><b>Study Info  </b></p><hr style="height:1px;border-width:0;color:gray;background-color:black">-->
             <div style="display:flex; align-items:center">
-                <b style="display:inline; padding-right:5px">Study Info  </b><hr style="height:1px;color:gray;background-color:black;width:89%;display:inline">
+                <b style="display:inline; padding-right:6px">{label.Study_Info} </b><hr style="height:1px;color:gray;background-color:black;width:87%;display:inline">
             </div>
             <div class="slds-grid slds-wrap">
                 <div class="slds-col slds-size_1-of-4">
-                      <span><b>Study Name</b></span>
+                      <span><b>{label.Study_Name}</b></span>
                       <br>
-                     Corona
+                      {patdetails.Study_Name__c}
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Consent</b></span>
-                        <br>
-                        <c-icon-display  fname={patdetails.Final_consent__c}></c-icon-display>
+                        <span><b>Legal Status</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display  fname={patdetails.Legal_Status__c}></c-icon-display></div>
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Attestation</b></span>
-                        <br>
-                        <c-icon-display fname={patdetails.Attestation__c}></c-icon-display>
+                        <span><b>Patient Auth</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display fname={patdetails.Patient_Auth__c}></c-icon-display></div>
                     </div>
                     <div class="slds-col slds-size_1-of-4">
-                        <span><b>Medical Review</b></span>
+                        <span><b>{label.RPR_Medical_Review}</b></span>
                         <br>
                         <c-medical-result medstatus={patdetails.Medical_Record_Review_Status__c}></c-medical-result>
                     </div>
             </div><br>
-
+          
         </div>
     </c-popup-l-w-c>
 <!--Modal PoPup -->
+<c-popup-l-w-c
+        show-modal={showCommentsModal} 
+        header2=true
+        header-value2="Comments for xxx"
+        modalsize="medium"
+        onclose={closeComments} >      
+        
+        <div slot="body"> 
+            <div class="slds-form-element modalBody">
+                <label class="slds-form-element__label label" for="textarea-id-01">Comments</label>
+                <div class="slds-form-element__control">
+                    <textarea id="comments" rows=10 class="slds-textarea helpText comments"  maxlength={maxChar} onkeyup={countChar} onchange={countChar} placeholder="Add comments here..."></textarea>
+                    {charNum} of {maxChar}
+                </div>
+            </div>               
+
+            <span class="slds-float--right">
+                <button type="button" class="slds-button slds-m-right--small cmtBtnC" onclick={closeComments}>Cancel</button>
+                <button type="button" class="slds-button slds-button_brand saveButton cmtBtnS" onclick={saveNotes}>Save</button>
+            </span>
+            
+        </div>
+    </c-popup-l-w-c>
 </template>

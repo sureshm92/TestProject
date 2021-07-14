@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="20px" height="20px" viewBox="0 0 20 20" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/close-circle copy 4</title>
+    <defs>
+        <path d="M8,11 C8.55228475,11 9,11.4477153 9,12 L9,19 C9,19.5522847 8.55228475,20 8,20 L1,20 C0.44771525,20 6.76353751e-17,19.5522847 0,19 L0,12 C-6.76353751e-17,11.4477153 0.44771525,11 1,11 L8,11 Z M19,11 C19.5522847,11 20,11.4477153 20,12 L20,19 C20,19.5522847 19.5522847,20 19,20 L12,20 C11.4477153,20 11,19.5522847 11,19 L11,12 C11,11.4477153 11.4477153,11 12,11 L19,11 Z M8,0 C8.55228475,-1.01453063e-16 9,0.44771525 9,1 L9,8 C9,8.55228475 8.55228475,9 8,9 L1,9 C0.44771525,9 6.76353751e-17,8.55228475 0,8 L0,1 C-6.76353751e-17,0.44771525 0.44771525,1.01453063e-16 1,0 L8,0 Z M19,0 C19.5522847,-1.01453063e-16 20,0.44771525 20,1 L20,8 C20,8.55228475 19.5522847,9 19,9 L12,9 C11.4477153,9 11,8.55228475 11,8 L11,1 C11,0.44771525 11.4477153,1.01453063e-16 12,0 L19,0 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Bulk-Actions-Exclude" transform="translate(-1204.000000, -445.000000)">
+            <g id="Group" transform="translate(1202.000000, 443.000000)">
+                <g id="color" transform="translate(2.000000, 2.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#FFFFFF" xlink:href="#path-1"></use>
+                    <g id="Group" mask="url(#mask-2)">
+                        <g transform="translate(-2.000000, -2.000000)" id="color">
+                            <rect id="Rectangle" fill="#00C221" x="0" y="0" width="24" height="24"></rect>
+                        </g>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

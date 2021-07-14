@@ -6,6 +6,8 @@ export default class PopupLWC extends LightningElement {
     @api showModal;
     @api header=false; 
     @api headerValue=''; 
+    @api header2=false; 
+    @api headerValue2=''; 
     @api modalsize=''; //small;large;medium
 
     constructor() {
@@ -28,7 +30,9 @@ export default class PopupLWC extends LightningElement {
       }
       get hasHeader() {
         return this.header == 'true' ? true : false;
-     }
+     }get hasHeader2() {
+      return this.header2 == 'true' ? true : false;
+   }
      get size() {
       if(this.modalsize ==="small")
       {

@@ -20,8 +20,13 @@
         default="normal"
         description="normal;success;warning;error"
     />
-    <aura:attribute name ="parent" type ="Object"  description="list parent from participant modal" />
-    <aura:attribute name ="isListView" type ="Boolean" default="{!true}" description="opened participant modal from list view" />
+    <aura:attribute name="parent" type="Object" description="list parent from participant modal" />
+    <aura:attribute
+        name="isListView"
+        type="Boolean"
+        default="{!true}"
+        description="opened participant modal from list view"
+    />
     <aura:attribute name="size" type="String" description="small;large;medium" />
 
     <aura:attribute name="primaryButtonLabel" type="String" default="Ok" />
@@ -108,6 +113,7 @@
                         </div>
                         <div
                             id="body"
+                            class="rtlBody"
                             style="{!if(v.isRTL == true,'float:right; /* @noflip */  direction: rtl;text-align: right;','')}"
                         >
                             {!v.body}

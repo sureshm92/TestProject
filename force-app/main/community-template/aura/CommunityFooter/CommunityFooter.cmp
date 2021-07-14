@@ -12,6 +12,7 @@
     <aura:attribute name="retUrl" type="String" default="" />
     <aura:attribute name="defaultTC" type="Boolean" default="false" />
     <aura:attribute name="isGsk" type="Boolean" default="false" />
+    <aura:attribute name="communityType" type="String" />
 
     <aura:handler event="forceCommunity:routeChange" action="{!c.doInit}" />
 
@@ -31,7 +32,11 @@
                             link="{!'/privacy-policy?ret='+ v.retUrl + if(v.defaultTC,'&amp;'+'default=true','')}"
                         />
                         <aura:set attribute="else">
-                            <c:privacyPolicyViewer isRtl="{!v.isRTL}" isCommunityFooter="true" />
+                            <c:privacyPolicyViewer
+                                communityTypeName="{!v.communityType}"
+                                isRtl="{!v.isRTL}"
+                                isCommunityFooter="true"
+                            />
                         </aura:set>
                     </aura:if>
                 </div>

@@ -20,19 +20,39 @@ public without sharing class NonReferredPatientController {
         }
     }
     @AuraEnabled
-    public static Participant_Enrollment__c getpatientdetails(id patid){
+    public static WrapPerdetails getpatientdetails(id patid){
         try {
               Participant_Enrollment__c per = new Participant_Enrollment__c();
               per = [select Id,Participant_Name__c,Participant_Surname__c,Patient_ID__c,
-                      YOB__c,
-                      Email__c,
-                      Country__c,State__c,Attestation__c,Medical_Record_Review_Status__c,Final_consent__c
+                      YOB__c,CreatedDate,
+                     Email__c,State__c,Study_Name__c,Phone__c,Legal_Status__c,Patient_Auth__c,
+                      Country__c,Attestation__c,Medical_Record_Review_Status__c,Final_consent__c
                       from Participant_Enrollment__c where id=:patid];
-              return per ;
+                    WrapPerdetails wpd = new WrapPerdetails();
+                    wpd.pe=per;  
+                    if(per.CreatedDate.day() <= 9){
+                       wpd.day ='0'+String.ValueOf(per.CreatedDate.day()); 
+                    }else{
+                     wpd.day =String.ValueOf(per.CreatedDate.day());
+                    }
+                    wpd.month= per.CreatedDate.format('MMM');
+                    wpd.year =per.CreatedDate.year();
+              return wpd;
          }
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage());
         }
+    }
+      public class WrapPerdetails {
+        @AuraEnabled
+        public Participant_Enrollment__c  pe{ get; set; }
+        @AuraEnabled
+        public String day { get; set; }
+         @AuraEnabled
+        public String month { get; set; }
+         @AuraEnabled
+        public Integer year { get; set; }
+        
     }
 
 }

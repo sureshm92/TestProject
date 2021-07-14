@@ -7,6 +7,7 @@ import downloadPdf from '@salesforce/label/c.Download_PDF_pp';
 import lastUpdatedText from '@salesforce/label/c.Last_Updated_pp_text';
 import okBtn from '@salesforce/label/c.BTN_OK'; //BTN_OK
 import ppHeaderLabel from '@salesforce/label/c.Email_Footer_Privacy_Policy';
+import janssenHeaderLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy_Janssen';
 import ppLabel from '@salesforce/label/c.Lofi_Login_Footer_Policies';
 import headerLabel from '@salesforce/label/c.Privacypolicy_pdf_headers';
 import getPrivacyPolicy from '@salesforce/apex/TermsAndConditionsRemote.getTC';
@@ -35,6 +36,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track numberingStyle;
     @track vertNavClass;
     @track textboxStyle;
+    @track richTextStyle = 'richTextArea slds-size_1-of-1';
     @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
@@ -55,16 +57,26 @@ export default class PrivacyPolicyViewer extends LightningElement {
         ppHeaderLabel,
         okBtn,
         lastUpdatedText,
-        downloadPdf
+        downloadPdf,
+        janssenHeaderLabel
     };
 
     logoCss = 'width: 72px; height: 72px';
+
+    @api communityTypeName;
+
+    get isJanssen() {
+        return this.communityTypeName === 'Janssen';
+    }
+
     openModal() {
         // to open modal set isModalOpen tarck value as true
         this.isModalOpen = true;
     }
     closeModal() {
         // to close modal set isModalOpen tarck value as false
+        const closeEvt = new CustomEvent('closePpModal');
+        this.dispatchEvent(closeEvt);
         this.isModalOpen = false;
     }
     navigateToHomePage(event) {
@@ -85,13 +97,11 @@ export default class PrivacyPolicyViewer extends LightningElement {
     }
 
     saveAsPdf() {
-        console.log('this.tcId: ' + this.tcId);
         this.spinner.show();
         generatePDF({
             ppId: this.tcId
         })
             .then(result => {
-                console.log('dwnld: ' + result);
                 this.spinner.hide();
                 location.href = result;
             })
@@ -100,12 +110,21 @@ export default class PrivacyPolicyViewer extends LightningElement {
             });
     }
     handleSelect(event) {
-        console.log('label: ');
+        //console.log('label: ');
     }
     renderedCallback() {
         if (this.isModalOpen) {
             this.spinner = this.template.querySelector('c-web-spinner');
             var myElement = this.template.querySelector('[data-id="text"]');
+            this.ppRichText = this.ppRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
+            if (this.isRtl) {
+                this.ppRichText = this.ppRichText.replace(
+                    /<li>/g,
+                    '<li style="margin-right: 5%;">'
+                );
+            } else {
+                this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 5%;">');
+            }
             myElement.innerHTML = this.ppRichText;
             if (this.isRtl) {
                 this.headerLogoCss = 'headerAndLogo slds-size_1-of-1';
@@ -115,6 +134,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 this.numberingStyle = 'margin-right: -12px;padding: 0px;';
                 this.vertNavClass = 'vertNavRTL';
                 this.textboxStyle = 'padding-left: 0px;word-break: break-word;';
+                this.richTextStyle = 'richTextAreaRTL slds-size_1-of-1';
             }
             if (formFactor != 'Large') {
                 this.frmFactor = true;
@@ -129,8 +149,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
     connectedCallback() {
         let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
         let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-        console.log('userDefalutTC: ' + userDefalutTC);
-        console.log('HasIQVIAStudiesPI: ' + HasIQVIAStudiesPI);
         let ppGetter = getPrivacyPolicy({
             code: 'PrivacyPolicy',
             languageCode: communityService.getUrlParameter('language')
@@ -142,7 +160,6 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 let tcData = JSON.parse(result);
                 this.tcId = tcData.tc.Id;
                 this.ppRichText = tcData.tc.T_C_Text__c;
-                console.log('Last_Updated_on__c: ' + tcData.tc.Last_Updated_on__c);
                 this.lastUpdated = tcData.tc.Last_Updated_on__c;
                 var lists = tcData.tc.Policy_Headers__c.split('\r\n');
                 var psrsList;

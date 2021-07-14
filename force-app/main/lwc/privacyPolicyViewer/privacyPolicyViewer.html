@@ -1,12 +1,26 @@
 <template>
     <template if:false={isCommunityFooter}>
         <div class="slds-p-around_medium">
-            <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+            <template if:true={isJanssen}>
+                <span class="ppLabel" onclick={openModal}>{labels.janssenHeaderLabel} </span>
+            </template>
+            <template if:false={isJanssen}>
+                <span class="ppLabel" onclick={openModal}>{labels.ppHeaderLabel}</span>
+            </template>
         </div>
     </template>
     <template if:true={isCommunityFooter}>
         <div class="">
-            <p><a onclick={openModal}>{labels.ppHeaderLabel} </a></p>
+            <template if:true={isJanssen}>
+                <p>
+                    <a onclick={openModal}> {labels.janssenHeaderLabel} </a>
+                </p>
+            </template>
+            <template if:false={isJanssen}>
+                <p>
+                    <a onclick={openModal}> {labels.ppHeaderLabel} </a>
+                </p>
+            </template>
         </div>
     </template>
     <template if:true={isModalOpen}>
@@ -96,7 +110,10 @@
                                         <h1 class="hdr">{labels.ppHeaderLabel}</h1>
                                         <p class={dateTextClass}>
                                             <template if:true={isRtl}>
-                                                {lastUpdated} {labels.lastUpdatedText}
+                                                <p style="display:inline-block;">
+                                                    {labels.lastUpdatedText}
+                                                </p>
+                                                <p style="display:inline-block;">{lastUpdated}</p>
                                             </template>
                                             <template if:false={isRtl}>
                                                 {labels.lastUpdatedText} {lastUpdated}
@@ -122,7 +139,7 @@
                                     </template>
                                 </div>
 
-                                <div class="richTextArea slds-size_1-of-1">
+                                <div class={richTextStyle}>
                                     <div data-id="text" id="text"></div>
                                     <!--Rich text displayed here-->
                                 </div>
@@ -136,12 +153,12 @@
                     <template if:true={isRtl}>
                         <button
                             class="apollo-btn primary"
-                            style="display: inline-block;float:left;"
+                            style="display: inline-block; float: left;"
                             onclick={closeModal}
                         >
                             {labels.okBtn}
                         </button>
-                        <p style="display: inline-block;float:left; margin-left: 3%;">
+                        <p style="display: inline-block; float: left; margin-left: 3%;">
                             <a onclick={saveAsPdf}>{labels.downloadPdf}</a>
                         </p>
                     </template>

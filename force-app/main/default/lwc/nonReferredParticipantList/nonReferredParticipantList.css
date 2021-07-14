@@ -40,6 +40,7 @@
 }
 .col-fourth{
     left: 35%;
+    min-height: 48px;
     position: absolute;
     z-index: 1;
     width: 10%;
@@ -50,7 +51,7 @@
     padding-left: 1rem !important;
 }
 tr:nth-child(even) {
-    background-color:grey;
+    background-color:white;
 }
 tr:nth-child(odd) {
     background-color: white;
@@ -136,10 +137,51 @@ tr:nth-child(odd) {
 .inner {
     overflow-x:scroll;
     overflow-y:visible;
-    margin-left:32rem;
+    margin-left:35rem;
 }
 .slds-modal__container {
     max-width: 60rem !important;
     width: 60% !important;
     height: auto;
 }
+
+/*REF-4289 start*/
+.saveButton {
+    background-color: rgb(41, 125, 253);
+    color: white;
+    border-color: #297dfd;
+}
+.saveButton:hover {
+    background-color:#1c577f;
+    border-color: #1c577f;
+
+}
+.modalBody{
+    font-family: "Inv Maison Neue","Maison Neue",-apple-system,BlinkMacSystemFont,"Open Sans",open-sans,sans-serif;
+
+}
+.modalBody .label {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+.modalBody .helpText:placeholder-shown {
+    font-family: "Proxima Nova";
+}
+/*REF-4289 end*/
+::-webkit-scrollbar {
+    height: 7px;
+  }
+  ::-webkit-scrollbar-track {
+    background: #f1f1f1; 
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb {
+    background: #888; 
+    border-radius: 3px;
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: #555; 
+  }
