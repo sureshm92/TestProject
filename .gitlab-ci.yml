@@ -101,8 +101,10 @@ stages:
 
   #Validation:
   - SonarCheck
+  - RUNTEST
   - VALIDATE
-  - Deploy
+  
+  
 
   
 cache:
@@ -181,29 +183,6 @@ SonarCheck:
       - "tmp/*.txt"
       #- "MR.json"
 
-.deploy_script:
-  script:
-    - |
-        set -x
-        export flag="deploy"
-        chmod 777 ./scripts/ci/sfdx.wrapper.sh
-        if [[ $CI_PIPELINE_SOURCE == @(schedule|web) ]]; then
-             echo "[INFO] Running full deployment if pipeline was started by schedule or 'Run' button on web interface."
-             bash -x scripts/ci/sfdx.wrapper.sh deploy_full "$CI_COMMIT_REF_NAME"
-        else 
-           populate_file_list $CI_COMMIT_BEFORE_SHA HEAD 
-           if [[ ! -s $FILENAME_AM_STR ]]; then
-               echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
-               exit 0
-           else
-              bash -x scripts/ci/sfdx.wrapper.sh deploy_without_testlevel "$CI_COMMIT_REF_NAME"
-           fi  
-        fi
-  artifacts:
-    when: always
-    paths:
-      - "tmp/*.txt"
-
 
 VALIDATE:
   only:
@@ -215,30 +194,18 @@ VALIDATE:
   stage: VALIDATE
   extends: .validate_script
 
-   
-FullDeploy:
-  extends: .deploy_script
-  only:
-    refs:
-      - schedules
-      - web
-    variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
-  except:
-      - merge_requests
-  stage: Deploy
-  timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
 
-DeltaDeploy:
-  extends: .deploy_script
+RUNTEST:
   only:
-    refs:
-      - pushes
-    variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
+    - merge_requests
   except:
-      - merge_requests
-  stage: Deploy
-  timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
+    - push
+    - commit
+  
+  stage: RUNTEST
+  script: 
+  - . ./scripts/ci/run-tests.sh INF71
+  
 
 image: salesforce/salesforcedx:7.82.1-0-full
+
