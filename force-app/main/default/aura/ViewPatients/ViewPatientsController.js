@@ -56,6 +56,10 @@
             component.set('v.parent', childCmp);
         }
     },
+    
+    doGoHome: function () {
+        communityService.navigateToPage('');
+    },
 
     filterEmancipations: function (component, event, helper) {
         let rootCmp = component.get('v.parent');
