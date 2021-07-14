@@ -118,8 +118,8 @@ public class MedicalRecordAccessRemote {
     @AuraEnabled
     public static String downloadBlob()
     {
-        String accesst=ApiCallLightningComponent.getAccessToken();
-        return EncodingUtil.Base64Encode(ApiCallLightningComponent.downloadReportbyId('60d43bf25d8598001107e1b3-000003-55a83bdc8d1eb1420aa1a71b',accesst,'pdf'));
+        String accesst=MedicalRecordAccessRemote.getAccessToken();
+        return EncodingUtil.Base64Encode(MedicalRecordAccessRemote.downloadReportbyId('60d43bf25d8598001107e1b3-000003-55a83bdc8d1eb1420aa1a71b',accesst,'pdf'));
     } 
     
     public  class Provider
