@@ -267,7 +267,11 @@ public inherited sharing class VisitResultsService {
                     }
                 }
             }
-            return vistiResultGroupwithPatientVisitMap.values();
+            Set<Patient_Visit__c> patientVisitSet = new Set<Patient_Visit__c>();
+            List<Patient_Visit__c> patientVisitList = new List<Patient_Visit__c>();
+            patientVisitSet.addAll(vistiResultGroupwithPatientVisitMap.values());
+            patientVisitList.addAll(patientVisitSet);
+            return patientVisitList;
         }
         return queryResult;
     }
