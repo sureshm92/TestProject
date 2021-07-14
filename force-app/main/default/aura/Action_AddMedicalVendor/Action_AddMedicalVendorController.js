@@ -23,7 +23,8 @@
         component.find('spinner').show();
         var fields = component.find("nameField");
         if(fields.get("v.fieldName") === 'Name' && $A.util.isEmpty(fields.get("v.value"))){
-             component.find('spinner').hide();
+            fields.reportValidity();
+            component.find('spinner').hide();
             }
         else{
           component.find('editForm').submit();  

@@ -74,9 +74,9 @@
          component.find('addMedicalVendorAction').execute(
             event.getSource().get('v.plan').value,
             function (vpId) {
-                let vpIds = component.get('v.filter.pageFeatureIds');
+                /*let vpIds = component.get('v.filter.pageFeatureIds');
                 if (vpIds) vpIds += ';' + vpId;
-                component.set('v.filter.pageFeatureIds', vpIds);
+                component.set('v.filter.pageFeatureIds', vpIds);*/
                 helper.updateItems(component);
             },
              'edit'
