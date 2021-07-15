@@ -14,8 +14,6 @@
                 );
             } else {
                 component.set('v.participantState', ps);
-                console.log('ps--->',ps);
-                console.log('medical vendor',ps.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c);
                 component.set(
                     'v.isDelegateMode',
                     communityService.getCurrentCommunityMode().currentDelegateId
