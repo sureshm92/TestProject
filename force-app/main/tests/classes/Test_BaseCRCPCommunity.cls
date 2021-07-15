@@ -186,6 +186,32 @@ private class Test_BaseCRCPCommunity {
             FROM Terms_And_Conditions__c
             WHERE Active__c != TRUE
         ];
+        Terms_And_Conditions__c ppTC = [
+            SELECT Id,Name
+            FROM Terms_And_Conditions__c
+            WHERE T_C_Type__c = 'Privacy Policy'
+        ];
+        ContentVersion content=new ContentVersion(); 
+        content.Title='PrivacyPolicy'; 
+        content.PathOnClient='PrivacyPolicy.pdf';
+        Blob bodyBlob=Blob.valueOf('Unit Test ContentVersion Body'); 
+        content.VersionData=bodyBlob; 
+        content.ContentLocation = 'S';
+        content.Description = ppTC.Name; 
+        insert content;
+
+        ContentDistribution cdist = new ContentDistribution(
+                                        Name = content.Title,
+                                        ContentVersionId = content.Id
+                                        );
+        insert cdist;
+
+        ContentDocumentLink conDocLink = New ContentDocumentLink();
+        conDocLink.LinkedEntityId = ppTC.Id; // Specify RECORD ID here i.e Any Object ID (Standard Object/Custom Object)
+        conDocLink.ContentDocumentId = [select ContentDocumentId from ContentVersion where id =: content.id].ContentDocumentId;
+        conDocLink.Visibility = 'AllUsers';
+        insert conDocLink;
+
         Test.startTest();
         System.runAs(testData.hcpUser) {
             StudyListViewController.getStudyTrialList(CommunityService.USER_MODE_HCP);
@@ -198,6 +224,8 @@ private class Test_BaseCRCPCommunity {
             TermsAndConditionsRemote.getTrialTcData(testData.ctp.Id);
             TermsAndConditionsRemote.acceptTC(studyTC.Id);
             TermsAndConditionsRemote.getTC('CookiePolicy', 'en_US', false); //TODO: check code
+            TermsAndConditionsRemote.generatePDF(ppTC.Id);
+            TermsAndConditionsRemote.getCommunityName();
             List<HelpController.FileContainer> files = new List<HelpController.FileContainer>();
             HelpController.FileContainer file = new HelpController.FileContainer();
             file.base64Data = EncodingUtil.base64Encode(Blob.valueOf('Test file'));
