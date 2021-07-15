@@ -88,7 +88,7 @@ public without sharing class LibraryRPRemote {
     ) {
         string searchstring = '%' + Searchstr + '%';
 
-        Set<Id> ssIds = new Set<Id>();
+        Set<Id> HCPID = new Set<Id>();
         Set<Id> ctpIds = new Set<Id>();
         Set<Id> resIds = new Set<Id>();
         Map<String, String> resourceLanguageMap = new Map<String, String>();
@@ -110,23 +110,21 @@ public without sharing class LibraryRPRemote {
             NOT_STUDY_SPECIFIC_SECTION => new List<PIResources>()
         };
         if (isDelegate) {
-            for (Site_Staff__c siteStaff : [
-                SELECT Study_Site__c, is_Invited__c
-                FROM Site_Staff__c
+            for (RP_Delegate_Relationship__c objRPDele : [
+                SELECT Delegate__c, Referring_Provider__c
+                FROM RP_Delegate_Relationship__c
                 WHERE
-                    Site_Contact__c = :CommunityService.getUserContact().Id
-                    AND is_Invited__c = TRUE
+                    Delegate__c = :CommunityService.getUserContact().Id
             ]) {
-                ssIds.add(siteStaff.Study_Site__c);
+                HCPID.add(objRPDele.Referring_Provider__c);
             }
         }
-        system.debug('>>contact>>'+CommunityService.getUserContact().Id);
         system.debug('>>contact>>'+CommunityService.getUserContact().Id);
         system.debug('>>communityTemplate>>'+communityTemplate);
         for(HCP_Enrollment__c objHCP : [SELECT ID,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c
                                         from HCP_Enrollment__c
                                        where (HCP_Contact__c =: CommunityService.getUserContact().Id
-                                              OR Id IN :ssIds)
+                                              OR HCP_Contact__c IN :HCPID)
                                         AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate])
         {
             ctpIds.add(objHCP.Clinical_Trial_Profile__c);
