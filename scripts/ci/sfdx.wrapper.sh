@@ -103,7 +103,7 @@ function login_to_org() {
          sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store
     elif expr "${flag}" : "validate" >/dev/null; then 
        echo "[INFO] Logging in to org for Validation"
-       echo "$INT72" > authFile
+       echo "$INT90" > authFile
        sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true  # since sfdx 7.83 it's sfdx auth:sfdxurl:store   
     else
        echo "[INFO] None of the condition met for validate or deploy"
