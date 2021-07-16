@@ -237,6 +237,11 @@
         let stepWrapper = component.get('v.stepWrapper');
         helper.checkValidity(component, event, helper, stepWrapper);
     },
+    onChangeSP: function (component, event, helper) {
+        var isChecked = component.find('sp').get('v.checked');
+        component.set('v.sitePreference',isChecked);
+        console.log('isChecked-->'+component.get('v.sitePreference'));
+    },
     doUpdateFieldValidity: function (component, event, helper) {
         let inputFields = component.find('statusDetailField');
         if (inputFields !== undefined && !Array.isArray(inputFields)) {

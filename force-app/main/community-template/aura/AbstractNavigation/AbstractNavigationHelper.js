@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
-({
+ ({
     initItemsMap: function (component, event) {
         //define navigation items:
         this.allPagesMap = {
@@ -185,7 +185,8 @@
                     this.allPagesMap['my-patients'],
                     // this.allPagesMap['medical-record-review-log'],
                     // this.allPagesMap['my-study-sites'],
-                    this.allPagesMap['reports']
+                    this.allPagesMap['reports'],
+                    this.allPagesMap['resources-pi']
                     // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
                 ],
 
@@ -211,7 +212,8 @@
                     this.allPagesMap['my-patients'],
                     // this.allPagesMap['medical-record-review-log'],
                     // this.allPagesMap['my-study-sites'],
-                    this.allPagesMap['reports']
+                    this.allPagesMap['reports'],
+                    this.allPagesMap['resources-pi']
                     // this.allPagesMap['help'] //Comment as we are using help text from CustomThemeLayout Component as per REF-1343 for PI and Referral Provider
                 ],
 

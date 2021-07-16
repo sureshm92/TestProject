@@ -1,0 +1,320 @@
+<template>
+<div class="table-border ">
+    <div class= "head slds-grid slds-wrap">
+        <div class="slds-col slds-size_3-of-6">
+            <div>Participants Not Referred</div>
+            <div class = "sort-by">Sort By Column</div>
+        </div>
+        <div class="slds-col slds-size_1-of-4">
+                <template if:true={editMode}>
+                    <lightning-button label="Save" onclick={handleSave}></lightning-button>
+                    <lightning-button label="Cancel" onclick={handleCancel}></lightning-button>
+                </template>
+    
+                <div class="search_box">
+                    <lightning-input
+                        name="enter-search"
+                        type="search"
+                    ></lightning-input>
+                </div>
+            </div>
+            <div class="slds-col slds-size_1-of-5 action_button">
+                    <lightning-button 
+                        label="Outreach Info" 
+                        title="Non-primary action" 
+                        onclick={handleClick} 
+                        class="slds-m-left_x-small">
+                    </lightning-button>
+                    
+                    <lightning-button-menu alternative-text="Show menu" label="Actions" style="padding-left:10px;" >
+                            <lightning-menu-item value="Outreach Email" label="Outreach Email"></lightning-menu-item>
+                            <lightning-menu-item value="Exclude" label="Exclude"></lightning-menu-item>
+                            <lightning-menu-item value="Export to Excel" label="Export to Excel"></lightning-menu-item>
+                    </lightning-button-menu>
+                </div>
+    </div>
+    <div class="outer">
+    <div class = "slds-scrollable_x inner" >
+    <table class="slds-table slds-table_cell-buffer">
+        <thead>
+            <tr>
+                <!--header checkbox for select all-->
+                <th class="col-id" scope="col" >
+                        <div class="slds-truncate">
+                            <lightning-input onchange={allSelected} type="checkbox"></lightning-input>
+                        </div>
+                    </th>
+                    <th class="col-first" scope="col" >
+                            <div style="width:10rem;" class="slds-truncate" title="Name">{label.RPR_Actions}</div>
+                        </th>
+                    <th class="col-second" scope="col" >
+                        <div class="slds-truncate header-width" title="Name">{label.RPR_Patient_Id}</div>
+                    </th>
+                    <th class="col-third" scope="col" >
+                        <div class="slds-truncate header-width" title="First Name">{label.RPR_First_Name}</div>
+                    </th>
+                    <th class="col-fourth" scope="col" >
+                        <div class="slds-truncate header-width" title="Last Name">{label.RPR_Last_Name}</div>
+                    </th>
+                    <th class="col-fifth" scope="col" >
+                        <div class="slds-truncate header-width header-align" title="Exclude">{label.RPR_Excluded}</div>
+                    </th>
+                    <th scope="col" >
+                        <div class="header-align header-width" title="Outreach Status">{label.RPR_Outreach_Status}</div>
+                    </th>
+                    <th class="" scope="col" >
+                        <div class="slds-truncate header-align header-width" title="Consent">{label.RPR_Consent}
+                                <lightning-helptext style= "padding-left:4px;" content="Content 
+                                My patient, and/or patient's legal guardian if applicable, agrees to share 
+                                their contact information and patient's pre screener data with IQVIA
+                                and its affiliates, and the study doctors so that they may contact
+                                the patient and/or their delegate regarding study participation"></lightning-helptext>
+                        </div>
+                    </th>
+                    <th class="" scope="col" >
+                        <div class="slds-truncate header-align header-width" title="Attestation">{label.RPR_Attestation}
+                                <lightning-helptext style= "padding-left:4px;" content="Attestation
+                                I have confirmed that this patient is of legal age."></lightning-helptext>
+                        </div>
+                    </th>
+                    <th class="" scope="col" >
+                        <div class="slds-truncate header-align header-width" title="Medical Review">{label.RPR_Medical_Review}</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="Email">{label.RPR_Email}</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="YOB">{label.RPR_YOB}</div>
+                    </th>
+                    <th class="" scope="col" >
+                        <div class="slds-truncate header-align header-width" title="Legal Status">Legal Status</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="Patient Auth">Patient Auth.</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="Study code">{label.RPR_Study_Code_Name}</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="Site Name">{label.RPR_Site_Name}</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="Country">{label.RPR_Country}</div>
+                    </th>
+                    <th class="" scope="col">
+                        <div class="slds-truncate header-align header-width" title="State">{label.RPR_State}</div>
+                    </th>
+            </tr>
+        </thead>
+        
+    <tbody >
+            
+        <template for:each={cloneCurrentPageList} for:item="per" for:index='index'>
+            <tr key={per.pe.Id} class="row_height">
+                <td style="width: 2rem" class="slds-text-align_right col-id">
+                        <div class="slds-form-element">
+                            <div class="slds-form-element__control">
+                                <lightning-input type="checkbox" value={per.pe.Id} data-id={per.pe.Id}></lightning-input>
+                                
+                        </div>
+                    </div>
+                </td>
+                <td class="col-first" style="width:15%">
+                        <div class="slds-truncate slds-grid">
+                            <div class="slds-col" ><img src={lock_icon}  data-id={per.pe.Id} onclick={handleLockClick}></div>
+                            <div class="slds-col"><img src={comment_icon} data-value={per.pe.Id} onclick={addCommens}></div>
+                            <div class="slds-col "><img src={sendtostudy_icon}></div>
+                        </div>
+                    </td>
+                <td class="row-width col-second" >
+                    <div class="slds-truncate h_font" style="color:#0767FD;font-weight:bold;">
+                        <lightning-button variant="base" label={per.pe.Patient_ID__c} data-value={per.pe.Id} onclick={openModal} class="slds-m-left_x-small"></lightning-button>
+                    </div>
+                </td>
+                <td class="row-width col-third" >
+                    <template if:true={per.editMode}>
+                        <lightning-input data-value="pName" data-id={per.pe.Id} type="text"  value={per.pe.Participant_Name__c} onchange={changeInputValue}></lightning-input>
+                    </template>
+                    <template if:false={per.editMode}>
+                        <div class="slds-truncate h_font">{per.pe.Participant_Name__c}</div>
+                    </template>
+                </td>
+                <td class="row-width col-fourth" >
+                    <template if:true={per.editMode}>
+                        <lightning-input data-value="pSurName" data-id={per.pe.Id}  type="text" value={per.pe.Participant_Surname__c} onchange={changeInputValue}></lightning-input>
+                    </template>
+                    <template if:false={per.editMode}>
+                        <div class="slds-truncate h_font">{per.pe.Participant_Surname__c}</div>
+                    </template>
+                </td>
+                <td class="center_align col-fifth">
+                    <template if:true={per.editMode}>
+                        <lightning-combobox dropdown-alignment="auto" placeholder="Select status" value={per.pe.Participant_Status__c}
+                        options={peRecords.participantStatus} >
+                        </lightning-combobox>                    
+                    </template>
+                    <template if:false={per.editMode}>
+                        <c-participant-status-excluded status={per.pe.Participant_Status__c}></c-participant-status-excluded>
+                    </template>
+                </td>
+                <td class ="center_align" >
+                    <c-icon-display index={index} rdata={per} fname={per.pe.Outreach_Status__c}></c-icon-display>
+                </td>
+                <td class ="center_align" >
+                    <c-icon-display index={index} rdata={per} fname={per.pe.Final_consent__c}></c-icon-display>
+                    <!--div  if:false={per.pe.Final_consent__c} class="slds-truncate h_font"><img src={close_icon}></div>
+                    <div  if:true={per.pe.Final_consent__c} class="slds-truncate h_font"><img src={check_icon}></div-->
+                </td>
+                <td class ="center_align" >
+                    <c-icon-display index={index} rdata={per} fname={per.pe.Attestation__c}></c-icon-display>
+                </td>
+                <td class ="center_align" >
+                    <c-medical-result medstatus={per.pe.Medical_Record_Review_Status__c}></c-medical-result>
+                </td>
+                <td class ="center_align" >
+                    <div class="slds-truncate h_font">{per.pe.Email__c}</div>
+                </td>
+                <td class ="center_align">
+                    <div class="slds-truncate h_font">{per.pe.YOB__c}</div>
+                </td>
+                <td class ="center_align">
+                    <c-icon-display index={index} rdata={per} fname={per.pe.Legal_Status__c}></c-icon-display>
+                </td>
+                <td class ="center_align">
+                    <c-icon-display index={index} rdata={per} fname={per.pe.Patient_Auth__c}></c-icon-display>
+                </td>
+                <td class ="center_align">
+                    <div class="slds-truncate h_font">{per.pe.Study_Name__c}</div>
+                </td>
+                <td class ="center_align">
+                    <div class="slds-truncate h_font">{per.pe.Site__c}</div>
+                </td>
+                <td class ="center_align">
+                    <div class="slds-truncate h_font">{per.pe.Country__c}</div>
+                </td>
+                <td class ="center_align">
+                    <div class="slds-truncate h_font">{per.pe.State__c}</div>
+                </td>
+            </tr>
+        </template>
+    </tbody>
+</table>
+</div>
+</div>
+</div>
+    <c-popup-l-w-c
+        show-modal={showModal} 
+        onclose={closeModal}
+        header=true
+        header-value={title}
+        modalsize="medium">      
+        
+        <div slot="body"> 
+           
+            <p>{label.Summary_View}</p>
+           
+            <div style="display:flex; align-items:center">
+                <b style="display:inline; padding-right:10px">{label.Primary}  </b><hr style="height:1px;border-width:0;color:gray;background-color:black;width:89%;display:inline">
+            </div>
+
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                      <span><b>{label.RPR_Patient_Id}</b></span>
+                      <br>
+                      {patdetails.Patient_ID__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.RPR_First_Name}</b></span>
+                        <br>
+                        {patdetails.Participant_Name__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.RPR_Last_Name}</b></span>
+                        <br>
+                        {patdetails.Participant_Surname__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.RPR_YOB}</b></span>
+                        <br>
+                        {patdetails.YOB__c}
+                    </div>
+            </div><br>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                      <span><b>{label.Email_Id}</b></span>
+                      <br>
+                      {patdetails.Email__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.CC_Phone_Number}</b></span>
+                        <br>
+                        {patdetails.Phone__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.RPR_Country}</b></span>
+                        <br>
+                        {patdetails.Country__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.State_Country}</b></span>
+                        <br>
+                        {patdetails.State__c}
+                    </div>
+            </div>
+            <br>
+            <!--<p><b>Study Info  </b></p><hr style="height:1px;border-width:0;color:gray;background-color:black">-->
+            <div style="display:flex; align-items:center">
+                <b style="display:inline; padding-right:6px">{label.Study_Info} </b><hr style="height:1px;color:gray;background-color:black;width:87%;display:inline">
+            </div>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-size_1-of-4">
+                      <span><b>{label.Study_Name}</b></span>
+                      <br>
+                      {patdetails.Study_Name__c}
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>Legal Status</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display  fname={patdetails.Legal_Status__c}></c-icon-display></div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>Patient Auth</b>
+                            <lightning-helptext style= "padding-left:4px;" content=" "></lightning-helptext></span>
+                        <br><div style="text-align:center;">
+                        <c-icon-display fname={patdetails.Patient_Auth__c}></c-icon-display></div>
+                    </div>
+                    <div class="slds-col slds-size_1-of-4">
+                        <span><b>{label.RPR_Medical_Review}</b></span>
+                        <br>
+                        <c-medical-result medstatus={patdetails.Medical_Record_Review_Status__c}></c-medical-result>
+                    </div>
+            </div><br>
+          
+        </div>
+    </c-popup-l-w-c>
+<!--Modal PoPup -->
+<c-popup-l-w-c
+        show-modal={showCommentsModal} 
+        header2=true
+        header-value2="Comments for xxx"
+        modalsize="medium"
+        onclose={closeComments} >      
+        
+        <div slot="body"> 
+            <div class="slds-form-element modalBody">
+                <label class="slds-form-element__label label" for="textarea-id-01">Comments</label>
+                <div class="slds-form-element__control">
+                    <textarea id="comments" rows=10 class="slds-textarea helpText comments"  maxlength={maxChar} onkeyup={countChar} onchange={countChar} placeholder="Add comments here..."></textarea>
+                    {charNum} of {maxChar}
+                </div>
+            </div>               
+
+            <span class="slds-float--right">
+                <button type="button" class="slds-button slds-m-right--small cmtBtnC" onclick={closeComments}>Cancel</button>
+                <button type="button" class="slds-button slds-button_brand saveButton cmtBtnS" onclick={saveNotes}>Save</button>
+            </span>
+            
+        </div>
+    </c-popup-l-w-c>
+</template>

@@ -7,6 +7,18 @@ public without sharing class VisitResultSharingService {
     private static Map<Id, Map<String, Visit_Result_Type_Sharing__c>> visitResultTypeSharingMapByCTP = new Map<Id, Map<String, Visit_Result_Type_Sharing__c>>();
     private static Set<String> notAccessResultType = new Set<String>();
 
+    public static final String VITAL_RECORDTYPE = 'Vital';
+    public static final String LAB_RECORDTYPE = 'Lab';
+    public static final String BIOMARKER_RECORDTYPE = 'Biomarker';
+
+    private static final String VITAL_GROUP = 'Vitals';
+    private static final String BIOMARKER_GROUP = 'Biomarkers';
+    private static final String LAB_GROUP = 'Labs';
+
+    private static final String METABOLICPANEL = 'MetabolicPanel';
+    private static final String HEMATOLOGY = 'Hematology';
+    private static final String FASTING_LIPID_PROFILE = 'FastingLipidProfile';
+
     static {
         //TODO split context and service methods!!!:
         if ([SELECT Id, ContactId FROM User WHERE Id = :UserInfo.getUserId()].ContactId != null) {
@@ -14,14 +26,14 @@ public without sharing class VisitResultSharingService {
         }
     }
 
-    public static List<Visit_Result__c> processResults() {
+    public static List<Visit_Result__c> processResults(String strVisitResultGroup) {
         if (!VisitResultsRemote.isOnStudy())
             return new List<Visit_Result__c>();
         Map<Id, Clinical_Trial_Profile__c> ctpById = new Map<Id, Clinical_Trial_Profile__c>();
         List<Patient_Visit__c> patientVisits = [
             SELECT
                 Id,
-            	Completed_Date__c,
+                Completed_Date__c,
                 Visit_Number__c,
                 (
                     SELECT
@@ -31,7 +43,7 @@ public without sharing class VisitResultSharingService {
                         Measurement__c,
                         Min_Value__c,
                         Patient_Visit__r.Completed_Date__c,
-                    	Patient_Visit__r.Portal_Name__c,
+                        Patient_Visit__r.Portal_Name__c,
                         Result_Type__c,
                         RecordType.DeveloperName
                     FROM Visit_Results__r
@@ -41,19 +53,24 @@ public without sharing class VisitResultSharingService {
             ORDER BY Visit_Number__c, Completed_Date__c
         ];
 
-        return getAvailableVisitResults(patientVisits, false, ctpById);
+        return getAvailableVisitResults(patientVisits, false, ctpById, strVisitResultGroup);
     }
 
     public static List<Visit_Result__c> getAvailableVisitResults(
         List<Patient_Visit__c> patientVisits,
         Boolean isBatch,
-        Map<Id, Clinical_Trial_Profile__c> ctpById
+        Map<Id, Clinical_Trial_Profile__c> ctpById,
+        String strVisitResultGroup
     ) {
         List<Visit_Result__c> filteredResults = new List<Visit_Result__c>();
         Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = new Map<String, Visit_Result_Type_Sharing__c>();
-
+        String strVisitResultRecordType = '';
+        if (!String.isBlank(strVisitResultGroup)) {
+            strVisitResultRecordType = getVisitResultRecordTypeName(strVisitResultGroup);
+        }
         try {
             String mailingCountryCode = '';
+            Boolean isVisitResultAvailable = false;
             Integer timeSharing = 0;
             if (!isBatch) {
                 if (!VisitResultsRemote.isVisitResultAvailable())
@@ -81,12 +98,20 @@ public without sharing class VisitResultSharingService {
                         .Participant_Enrollment__r.Participant__r.Mailing_Country_Code__c;
                 }
                 if ((i + 1) <= timeSharing) {
+                    if (!isBatch)
+                        filteredResults = new List<Visit_Result__c>();
                     Patient_Visit__c patientVisit = patientVisits.get(i);
                     if (
                         patientVisit.Visit_Results__r != null &&
                         !patientVisit.Visit_Results__r.isEmpty()
                     ) {
                         for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                            if (
+                                !isBatch &&
+                                result.recordType.DeveloperName == strVisitResultRecordType
+                            ) {
+                                isVisitResultAvailable = true;
+                            }
                             if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
                                 Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                                     result.Result_Type__c
@@ -106,7 +131,7 @@ public without sharing class VisitResultSharingService {
                                 }
                             }
                         }
-                        if (!isBatch)
+                        if (!isBatch && isVisitResultAvailable)
                             break;
                     }
                 }
@@ -126,9 +151,15 @@ public without sharing class VisitResultSharingService {
     public static List<VisitResultWithAvailableSign> getVisitResultsWithAvailableCountry(
         List<Patient_Visit__c> patientVisits,
         Id ctpId,
-        String participantMailingCC
+        String participantMailingCC,
+        String strVisitResultGroup
     ) {
         Map<String, VisitResultWithAvailableSign> resultWithAvailableSignByType = new Map<String, VisitResultWithAvailableSign>();
+        boolean isVisitResultAvailable = false;
+        String strVisitResultRecordType = '';
+        if (!String.isBlank(strVisitResultGroup)) {
+            strVisitResultRecordType = getVisitResultRecordTypeName(strVisitResultGroup);
+        }
         if (!VisitResultsRemote.isVisitResultAvailable())
             return resultWithAvailableSignByType.values();
 
@@ -164,6 +195,12 @@ public without sharing class VisitResultSharingService {
                     continue;
 
                 for (Visit_Result__c result : patientVisit.Visit_Results__r) {
+                    if (
+                        !String.isBlank(strVisitResultRecordType) &&
+                        result.recordType.DeveloperName == strVisitResultRecordType
+                    ) {
+                        isVisitResultAvailable = true;
+                    }
                     Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                         result.Result_Type__c
                     );
@@ -171,11 +208,17 @@ public without sharing class VisitResultSharingService {
                         VisitResultWithAvailableSign availableSign = resultWithAvailableSignByType.get(
                             resultTypeSharing.Type__c
                         );
-                        availableSign.visitResult = result;
+                        if (isVisitResultAvailable) {
+                            availableSign.visitResult = result;
+                        }
                         resultWithAvailableSignByType.put(resultTypeSharing.Type__c, availableSign);
                     }
                 }
-                break;
+                if (!String.isBlank(strVisitResultRecordType)) {
+                    if (isVisitResultAvailable) {
+                        break;
+                    }
+                }
             }
         }
         return resultWithAvailableSignByType.values();
@@ -209,8 +252,18 @@ public without sharing class VisitResultSharingService {
         for (Patient_Visit__c patientVisit : patientVisits) {
             Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
             if (!patientVisit.Visit_Results__r.isEmpty()) {
+                Set<String> visitResultGroupSet = new Set<String>();
+                if (VisitResultsService.patientVisitbyVisitGroupMap != null) {
+                    visitResultGroupSet = VisitResultsService.patientVisitbyVisitGroupMap.get(
+                        patientVisit.Id
+                    );
+                }
                 for (Visit_Result__c result : patientVisit.Visit_Results__r) {
-                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                    if (
+                        visitResultTypeSharingByType.containsKey(result.Result_Type__c) &&
+                        visitResultGroupSet.size() > 0 &&
+                        visitResultGroupSet.contains(result.recordType.DeveloperName)
+                    ) {
                         Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                             result.Result_Type__c
                         );
@@ -407,6 +460,24 @@ public without sharing class VisitResultSharingService {
                 .add(resultType);
         }
         return visitResultSharingByGroupAndMode;
+    }
+    private static String getVisitResultRecordTypeName(String strVisitResultGroup) {
+        String strVisitResultRecordType = '';
+        if (!String.isBlank(strVisitResultGroup)) {
+            if (strVisitResultGroup.equals(VITAL_GROUP)) {
+                strVisitResultRecordType = VITAL_RECORDTYPE;
+            } else if (
+                strVisitResultGroup.equals(METABOLICPANEL) ||
+                strVisitResultGroup.equals(HEMATOLOGY) ||
+                strVisitResultGroup.equals(FASTING_LIPID_PROFILE) ||
+                strVisitResultGroup.equals(LAB_GROUP)
+            ) {
+                strVisitResultRecordType = LAB_RECORDTYPE;
+            } else {
+                strVisitResultRecordType = BIOMARKER_RECORDTYPE;
+            }
+        }
+        return strVisitResultRecordType;
     }
 
     public class VisitResultWithAvailableSign {

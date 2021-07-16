@@ -3,10 +3,13 @@
  -->
 
  <aura:component description="Library" implements="forceCommunity:availableForAllPageTypes" access="global"  extends="c:CommunityContext">
-    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" />
+    <ltng:require scripts="{!join(',', $Resource.rr_community_js)}" 
+                   afterScriptsLoaded="{!c.doScriptLoad}"/>
     <!--attributes:-->
     <aura:attribute name="searchText" type="String" default="" />
     <aura:attribute name="searchvalue" type="String" default="" />
+     
+     <aura:attribute name="CommunityMode" type="String" />
     
     <!--handlers:-->
     <aura:handler name="change" value="{!v.searchText}" action="{!c.SearchRecords}" />
@@ -71,6 +74,13 @@
             </div>
         </div>
     </div>  
+    <aura:if isTrue="{!v.CommunityMode == 'PI'}">
     <c:LibraryPI aura:id="childcmp" searchstring="{!v.searchvalue}" />
+     </aura:if>
+     
+     <aura:if isTrue="{!v.CommunityMode == 'HCP'}">
+     <c:LibraryRP aura:id="childcmp" searchstring="{!v.searchvalue}" />    
+     </aura:if>
+     
     
 </aura:component>
