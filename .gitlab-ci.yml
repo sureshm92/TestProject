@@ -21,8 +21,8 @@ before_script:
     function login_to_org() {
       echo "[INFO] Logging in to org for $1..."
       #echo "${!1}" > authFile
-     # echo "${!INF72}" > authFile
-       echo "$INF72" > authFile
+     # echo "${!INT72}" > authFile
+       echo "$INT72" > authFile
       sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true
       rm -rf authFile
     }
