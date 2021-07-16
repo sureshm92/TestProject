@@ -956,7 +956,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
         System.debug('##### myPElist ' +myPElist);
         EventBus.publish(myPElist);
-    }
+    } 
     
     @TestVisible
     public static void SetContacted(List<Participant_Enrollment__c> newList,
