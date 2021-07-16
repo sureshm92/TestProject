@@ -241,6 +241,18 @@ public class TestData {
         tcList.add(studyTC);
         insert tcList;
 
+        List<Terms_And_Conditions__c> ppList = new List<Terms_And_Conditions__c>();
+        Terms_And_Conditions__c ppTc = new Terms_And_Conditions__c
+            									(Active__c = true,
+                                                Community_Name__c = 'IQVIA Referral Hub',
+                                                Language__c = 'en_US',
+                                                Last_Updated_on__c = 'July 10, 2020',
+                                                Policy_Headers__c = 'Test Header 1',
+                                                T_C_Text__c = '<p><b style="font-size: 12pt; font-family: Arial, sans-serif; color: rgb(0, 0, 0);">PRIVACY POLICY</b></p>',
+                                                T_C_Type__c = 'Privacy Policy');
+        ppList.add(ppTc);
+        insert ppList;
+
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
             Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
