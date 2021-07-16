@@ -83,8 +83,9 @@ public inherited sharing class ResourceTARelatedService extends ResourceService 
 
     protected override Boolean isObjectsToFilterMissing() {
         if (
-            CommunityService.getContactUserMode(CommunityService.getUserContact().Id) ==
-            CommunityService.USER_MODE_PI
+            (CommunityService.getContactUserMode(CommunityService.getUserContact().Id) ==
+            CommunityService.USER_MODE_PI) || 
+            (CommunityService.getContactUserMode(CommunityService.getUserContact().Id) == CommunityService.USER_MODE_HCP)
         ) {
             return false;
         }

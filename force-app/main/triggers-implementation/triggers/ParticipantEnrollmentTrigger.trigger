@@ -54,5 +54,8 @@ trigger ParticipantEnrollmentTrigger on Participant_Enrollment__c(
     TriggerHandlerExecutor.execute(
         ParticipantEnrollmentTriggerHandler.SetContacted.class
     );
+     TriggerHandlerExecutor.execute(
+        ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+    );
 
 }

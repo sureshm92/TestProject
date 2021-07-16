@@ -49,15 +49,17 @@ public without sharing class PatientDelegateTriggerHandler {
     public class CreatePrimaryDelegateForMinor extends TriggerHandler{
         public override void beforeInsert(List<SObject> newList){
             checkPrimaryDelegate(newList);
+            updateDelegateParticipant(newList,Null);
         }
         
         public override void beforeDelete(List<SObject> newList){
             notDeletePrimaryDelegate(newList);
         }
         
-       // public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
+        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap){
        //     updatePrimaryDelegate(newList,(Map<Id, Patient_Delegate__c>) oldMap);
-       // }
+       		  updateDelegateParticipant(newList,(Map<Id, Patient_Delegate__c>) oldMap);
+        }
     }
 
     public class CreateReactivatedNotification extends TriggerHandler {
@@ -251,6 +253,49 @@ public without sharing class PatientDelegateTriggerHandler {
         }
         update updatedList;
     }
+    //Method to update the delegate particiapnt Field , REF-3858
+    public static void updateDelegateParticipant(List<Patient_Delegate__c> lstpatientDelegates,
+                                                 Map<Id, Patient_Delegate__c> oldMap)
+    {
+        List<Id> lstContactId = new List<Id> ();
+        Map<Id,Id> mapDelConToDelPart = new Map<Id,Id> ();
+        Map<String,Id> mapParticipantToContact = new Map<String,Id> ();
+        List<Patient_Delegate__c> lstpatientDelegatesUpdated = new List<Patient_Delegate__c>();
+        
+        if(oldMap != Null){
+            for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
+            {
+                if(objPatientDel.Contact__c != oldMap.get(objPatientDel.Id).Contact__c)
+                    lstpatientDelegatesUpdated.add(objPatientDel);
+                
+            }
+        }
+        
+        if((oldMap != Null && !lstpatientDelegatesUpdated.isEmpty()) 
+           || oldMap == Null) {
+               for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
+               {
+                   String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
+                   lstContactId.add(objPatientDel.Contact__c);
+                   mapParticipantToContact.put(strUniqueKey, objPatientDel.Contact__c); 
+               } 
+               for(Participant__c objParticipant : [SELECT ID,Contact__c from participant__c Where
+                                                    Contact__c IN:lstContactId])
+               {
+                   mapDelConToDelPart.put(objParticipant.contact__c, objParticipant.id);
+                   
+               }
+               for(Patient_Delegate__c objPatientDel : lstpatientDelegates)
+               {
+                   String strUniqueKey = objPatientDel.Participant__c + '_' + objPatientDel.Contact__c;
+                   objPatientDel.Participant_Delegate__c = mapDelConToDelPart.get(mapParticipantToContact.get(strUniqueKey));
+               }
+           } 
+        
+    }
+    
+    
+    
     
     public static void notDeletePrimaryDelegate(List <Patient_Delegate__c> patientDelegates){
         for(Patient_Delegate__c pd: patientDelegates){

@@ -4,6 +4,7 @@ public inherited sharing class VisitResultsService {
     public static final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private VisitResultMService metadataService;
     private Map<String, String> visitResultsMeasurementNamesMap;
+    public static Map<Id, Set<String>> patientVisitbyVisitGroupMap = new Map<Id, Set<String>>();
 
     public VisitResultsService() {
         this.metadataService = (VisitResultMService) ClassFactory.newInstance(
@@ -199,6 +200,7 @@ public inherited sharing class VisitResultsService {
             : ' ORDER BY Visit_Number__c, Completed_Date__c';
         String visitsQuery =
             'SELECT ' +
+            'Id, ' +
             'Name, ' +
             'Completed_Date__c, ' +
             'Planned_Date__c, ' +
@@ -219,55 +221,83 @@ public inherited sharing class VisitResultsService {
             Integer timeSharing =
                 queryResult.size() -
                 (pe.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue());
-            Map<String, Patient_Visit__c> vistiResultGroupwithPatientVisitMap = new Map<String, Patient_Visit__c>();
+            Map<String, Patient_Visit__c> visitResultGroupwithPatientVisitMap = new Map<String, Patient_Visit__c>();
             for (Integer i = queryResult.size() - 1; i >= 0; i--) {
                 if (
                     (i + 1) <= timeSharing &&
                     queryResult.get(i).Visit_Results__r != null &&
                     !queryResult.get(i).Visit_Results__r.isEmpty() &&
-                    vistiResultGroupwithPatientVisitMap.keySet().size() < 3
+                    visitResultGroupwithPatientVisitMap.keySet().size() < 3
                 ) {
                     Set<String> visitResultGroupSet = visitResultAvailabilityByGroupForReport(
                         queryResult.get(i).Visit_Results__r
                     );
                     if (
                         visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
-                        !vistiResultGroupwithPatientVisitMap.containsKey(
-                            VisitResultSharingService.VITAL_RECORDTYPE
-                        )
+                        !visitResultGroupwithPatientVisitMap
+                            .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
                     ) {
-                        vistiResultGroupwithPatientVisitMap.put(
+                        visitResultGroupwithPatientVisitMap.put(
                             VisitResultSharingService.VITAL_RECORDTYPE,
                             queryResult.get(i)
                         );
+                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                .add(VisitResultSharingService.VITAL_RECORDTYPE);
+                        } else {
+                            patientVisitbyVisitGroupMap.put(
+                                queryResult.get(i).Id,
+                                new Set<String>{ VisitResultSharingService.VITAL_RECORDTYPE }
+                            );
+                        }
                     }
                     if (
                         visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
-                        !vistiResultGroupwithPatientVisitMap.containsKey(
-                            VisitResultSharingService.LAB_RECORDTYPE
-                        )
+                        !visitResultGroupwithPatientVisitMap
+                            .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
                     ) {
-                        vistiResultGroupwithPatientVisitMap.put(
+                        visitResultGroupwithPatientVisitMap.put(
                             VisitResultSharingService.LAB_RECORDTYPE,
                             queryResult.get(i)
                         );
+                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                .add(VisitResultSharingService.LAB_RECORDTYPE);
+                        } else {
+                            patientVisitbyVisitGroupMap.put(
+                                queryResult.get(i).Id,
+                                new Set<String>{ VisitResultSharingService.LAB_RECORDTYPE }
+                            );
+                        }
                     }
                     if (
                         visitResultGroupSet.contains(
                             VisitResultSharingService.BIOMARKER_RECORDTYPE
                         ) &&
-                        !vistiResultGroupwithPatientVisitMap.containsKey(
-                            VisitResultSharingService.BIOMARKER_RECORDTYPE
-                        )
+                        !visitResultGroupwithPatientVisitMap
+                            .containsKey(VisitResultSharingService.BIOMARKER_RECORDTYPE)
                     ) {
-                        vistiResultGroupwithPatientVisitMap.put(
+                        visitResultGroupwithPatientVisitMap.put(
                             VisitResultSharingService.BIOMARKER_RECORDTYPE,
                             queryResult.get(i)
                         );
+                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                .add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
+                        } else {
+                            patientVisitbyVisitGroupMap.put(
+                                queryResult.get(i).Id,
+                                new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                            );
+                        }
                     }
                 }
             }
-            return vistiResultGroupwithPatientVisitMap.values();
+            Set<Patient_Visit__c> patientVisitSet = new Set<Patient_Visit__c>();
+            List<Patient_Visit__c> patientVisitList = new List<Patient_Visit__c>();
+            patientVisitSet.addAll(visitResultGroupwithPatientVisitMap.values());
+            patientVisitList.addAll(patientVisitSet);
+            return patientVisitList;
         }
         return queryResult;
     }

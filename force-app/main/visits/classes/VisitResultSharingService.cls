@@ -106,7 +106,10 @@ public without sharing class VisitResultSharingService {
                         !patientVisit.Visit_Results__r.isEmpty()
                     ) {
                         for (Visit_Result__c result : patientVisit.Visit_Results__r) {
-                            if (result.recordType.DeveloperName == strVisitResultRecordType) {
+                            if (
+                                !isBatch &&
+                                result.recordType.DeveloperName == strVisitResultRecordType
+                            ) {
                                 isVisitResultAvailable = true;
                             }
                             if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
@@ -205,7 +208,9 @@ public without sharing class VisitResultSharingService {
                         VisitResultWithAvailableSign availableSign = resultWithAvailableSignByType.get(
                             resultTypeSharing.Type__c
                         );
-                        availableSign.visitResult = result;
+                        if (isVisitResultAvailable) {
+                            availableSign.visitResult = result;
+                        }
                         resultWithAvailableSignByType.put(resultTypeSharing.Type__c, availableSign);
                     }
                 }
@@ -247,8 +252,18 @@ public without sharing class VisitResultSharingService {
         for (Patient_Visit__c patientVisit : patientVisits) {
             Map<String, Visit_Result__c> filteredResultsByType = new Map<String, Visit_Result__c>();
             if (!patientVisit.Visit_Results__r.isEmpty()) {
+                Set<String> visitResultGroupSet = new Set<String>();
+                if (VisitResultsService.patientVisitbyVisitGroupMap != null) {
+                    visitResultGroupSet = VisitResultsService.patientVisitbyVisitGroupMap.get(
+                        patientVisit.Id
+                    );
+                }
                 for (Visit_Result__c result : patientVisit.Visit_Results__r) {
-                    if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {
+                    if (
+                        visitResultTypeSharingByType.containsKey(result.Result_Type__c) &&
+                        visitResultGroupSet.size() > 0 &&
+                        visitResultGroupSet.contains(result.recordType.DeveloperName)
+                    ) {
                         Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                             result.Result_Type__c
                         );
