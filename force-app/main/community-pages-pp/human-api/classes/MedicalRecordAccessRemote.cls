@@ -7,8 +7,8 @@ public class MedicalRecordAccessRemote {
     
     @AuraEnabled
     public static String getSessionToken(){        
-        String type='id';
-        String url='https://auth.humanapi.co/v1/connect/token';
+       /** String type='id';
+        
         JSONGenerator gen = JSON.createGenerator(true);    
         gen.writeStartObject();      
         gen.writeStringField('client_id',clientId );
@@ -20,11 +20,17 @@ public class MedicalRecordAccessRemote {
         String jsonReqBody = gen.getAsString();
         Map<String,Object> deserializedResponse=httpCallout(url,jsonReqBody,'POST');
         return (String)deserializedResponse.get('id_token');
+        **/
+        
+        //RemoteCall_HumanAPIAccess.TokenData tokenResponse = (RemoteCall_HumanAPIAccess.TokenData) remoteCall.execute();
+        RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
+
+        return remoteObj.remoteCallGetSessionToken().id_token;
     }
     
     @AuraEnabled
     public static String getAccessToken(){
-        String type ='access';
+       /** String type ='access';
         String url='https://auth.humanapi.co/v1/connect/token';
         JSONGenerator gen = JSON.createGenerator(true);    
         gen.writeStartObject();      
@@ -37,7 +43,11 @@ public class MedicalRecordAccessRemote {
         String jsonBody = gen.getAsString();        
         Map<String,Object> deserializedResponse=httpCallout(url,jsonBody,'POST');
         return (String)deserializedResponse.get('access_token');
-        
+         */
+        RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
+
+        return remoteObj.remoteCallGetAccessToken().access_token;
+      //  return null;
         
     }
     

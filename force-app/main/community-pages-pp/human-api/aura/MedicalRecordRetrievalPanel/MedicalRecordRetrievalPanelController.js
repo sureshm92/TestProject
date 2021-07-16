@@ -1,7 +1,7 @@
 ({
     
     doInit: function(component, event, helper) {
-        /**helper.calloutAccessToken(component); **/
+        helper.calloutAccessToken(component); 
     },
     
     openURL : function(component, event, helper) {
