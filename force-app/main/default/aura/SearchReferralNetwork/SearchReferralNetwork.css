@@ -24,6 +24,11 @@
     padding-top: 0;
 }
 
+.THIS .slds-text-align_right 
+{
+    /* @noflip */ text-align: right;
+}
+
 .THIS .slds-badge__icon_right {
     margin-left: 0;
     margin-right: 1rem;
@@ -100,6 +105,7 @@
     text-align: left;
     padding-bottom: 5px;
 }
+
 .THIS .alert-count-condition1RTL {
     height: 17px;
     width: auto;
@@ -107,9 +113,9 @@
     font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 17px;
-    text-align: left;
+   /* @noflip */ text-align: left;
     padding-bottom: 5px;
-    text-align: right;
+   /* @noflip */ text-align: right;
 }
 
 .THIS table {

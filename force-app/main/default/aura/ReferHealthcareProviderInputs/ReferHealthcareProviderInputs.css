@@ -1,9 +1,9 @@
 .THIS .rr-error {
     color: rgb(194, 57, 52);
-    font-size : 0.75rem;
+    font-size: 0.75rem;
 }
 
-.THIS .slds-checkbox{
+.THIS .slds-checkbox {
     display: inline-flex;
 }
 
@@ -17,7 +17,7 @@
     }
 
     .THIS:nth-child(6) {
-        order: 7;
+        /*order: 7;*/
     }
 
     .THIS.rr-form-element {

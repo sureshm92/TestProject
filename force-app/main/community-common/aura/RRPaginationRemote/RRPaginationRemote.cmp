@@ -2,7 +2,7 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component description="RRPaginationRemote" extends="c:CommunityContext">
+ <aura:component description="RRPaginationRemote" extends="c:CommunityContext">
     <aura:attribute name="entriesOnPage" type="Integer" />
     <aura:attribute name="currentPage" type="Integer" />
     <aura:attribute name="allRecordsCount" type="Integer" />
@@ -19,13 +19,13 @@
             <div class="buttons" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
                 <aura:if isTrue="{!v.isRTL}">
                     <button
-                    class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }"
+                    class="{!'next-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }"
                     onclick="{!c.doPrevPage}"
                     >
                         <c:RRIcon iconName="icon-chevron-right" color="#333333" />
                     </button>
                     <button
-                        class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == 1, ' disabled', '') }"
+                        class="{!'previous-btn slds-button slds-button_neutral' + if(v.currentPage == if(v.totalPages == 0, 1, v.totalPages), ' disabled', '') }"
                         onclick="{!c.doNextPage}"
                     >
                         <c:RRIcon iconName="icon-chevron-left" color="#333333" />

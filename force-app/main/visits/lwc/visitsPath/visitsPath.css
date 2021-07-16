@@ -6,8 +6,6 @@
  * Created by Igor Malyuta on 12.04.2019.
  */
 
-
-
 .webPopup .p-content.with-scroll {
     padding-bottom: 50px;
 }
@@ -134,7 +132,7 @@ h2 {
 }
 .mr_left_5 {
     margin-left: 5px;
-    padding-top: .25rem;
+    padding-top: 0.25rem;
 }
 
 .mr_left_5:last-child {
@@ -586,10 +584,10 @@ h2 {
         padding-right: 36px;
     }
     .arrow-leftRTL
-    + .slds-col
-    > .vis-path.slds-grid
-    > .slds-col:nth-of-type(n + 2)
-    .state-labelRTL {
+        + .slds-col
+        > .vis-path.slds-grid
+        > .slds-col:nth-of-type(n + 2)
+        .state-labelRTL {
         padding-right: 0px;
     }
 }
@@ -653,7 +651,7 @@ h2 {
         position: relative;
     }
 
-    .mr_left_5.slds-grid{
+    .mr_left_5.slds-grid {
         flex-direction: column;
     }
 
@@ -700,27 +698,27 @@ h2 {
 
     .icons-container,
     .icons-container_rtl {
-        max-width: 100%
+        max-width: 100%;
     }
 
     .icon .tooltiptext {
         top: 40px;
     }
 
-    .icon:nth-of-type(n+8) .tooltiptext {
-        top: 85px
+    .icon:nth-of-type(n + 8) .tooltiptext {
+        top: 85px;
     }
 
-    .icon:nth-of-type(n+15) .tooltiptext {
-        top: 125px
+    .icon:nth-of-type(n + 15) .tooltiptext {
+        top: 125px;
     }
 
-    .icon:nth-of-type(n+22) .tooltiptext {
-        top: 165px
+    .icon:nth-of-type(n + 22) .tooltiptext {
+        top: 165px;
     }
 
-    .icon:nth-of-type(n+25) .tooltiptext {
-        top: 205px
+    .icon:nth-of-type(n + 25) .tooltiptext {
+        top: 205px;
     }
 
     .tooltiptext._ltr {
@@ -730,8 +728,6 @@ h2 {
     .tooltiptext._rtl {
         right: -10px;
     }
-
-
 }
 
 @media only screen and (min-width: 650px) and (max-width: 800px) and (orientation: portrait) {
