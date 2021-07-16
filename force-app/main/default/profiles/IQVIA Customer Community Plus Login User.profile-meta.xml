@@ -1076,6 +1076,14 @@
         <apexClass>MessageTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>RPRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>NonReferredPatientController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>MotivationalMessagesRemote</apexClass>
         <enabled>true</enabled>
@@ -5222,6 +5230,11 @@
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Notes__c</field>
+        <readable>true</readable>
+   </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Completedby_Name__c</field>
