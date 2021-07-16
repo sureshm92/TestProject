@@ -138,7 +138,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
             Blob body;
             PageReference pdf = Page.ShowPrivacyPolicyAsPDF;
             pdf.getParameters().put('id', cdlPpMap.get(conDocId).LinkedEntityId);
-            body=pdf.getContent();
+            body=!Test.isRunningTest() ? pdf.getContent() : Blob.valueOf('Fake content');
             ContentVersion conVer = new ContentVersion();
             conVer.ContentLocation = 'S'; // to use S specify this document is in Salesforce, to use E for external files
             conVer.PathOnClient =  'PrivacyPolicy.pdf'; // The files name, extension is very important here which will help the file in preview.
@@ -184,7 +184,7 @@ public without sharing class TermsAndConditionsTriggerHandler {
                 {    Blob body;
                     PageReference pdf = Page.ShowPrivacyPolicyAsPDF;
                     pdf.getParameters().put('id', tc.Id);
-                    body=pdf.getContent();
+                    body=!Test.isRunningTest() ? pdf.getContent() : Blob.valueOf('Fake content');
                     ContentVersion conVer = new ContentVersion();
                     conVer.ContentLocation = 'S'; // to use S specify this document is in Salesforce, to use E for external files
                     conVer.PathOnClient = 'PrivacyPolicy.pdf';  // The files name, extension is very important here which will help the file in preview.

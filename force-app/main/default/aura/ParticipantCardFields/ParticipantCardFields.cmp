@@ -193,12 +193,12 @@
          <!-- Participant fields: -->
          <aura:if isTrue="{!v.userMode == 'Participant'}">
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Investigator_Name}</div>
+                 <div class="label label_PP">{!$Label.c.PE_Investigator_Name}</div>
                  <div class="value">{!v.pe.PI_Contact__r.Name}</div>
              </div>
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.Study_Site_phone_number}</div>
+                 <div class="label label_PP">{!$Label.c.Study_Site_phone_number}</div>
                  <aura:if isTrue="{!not(empty(v.pe.Study_Site__r.Study_Site_Phone__c))}">
                      <div class="value">{!v.pe.Study_Site__r.Study_Site_Phone__c}</div>
                      <aura:set attribute="else">
@@ -208,17 +208,17 @@
              </div>
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Site_Name}</div>
+                 <div class="label label_PP">{!$Label.c.PE_Site_Name}</div>
                  <div class="value">{!v.pe.Study_Site__r.Name}</div>
              </div>
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Site_Address}</div>
+                 <div class="label label_PP">{!$Label.c.PE_Site_Address}</div>
                  <div class="value">{!v.pe.Study_Site__r.Site__r.BillingStreet}</div>
              </div>
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Site_SiteZIPCode}</div>
+                 <div class="label label_PP">{!$Label.c.PE_Site_SiteZIPCode}</div>
                  <div class="value">{!v.pe.Study_Site__r.Site__r.BillingPostalCode}</div>
              </div>
 
