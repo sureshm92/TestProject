@@ -177,7 +177,7 @@
             }
         }
         doc.setFontType('normal');
-        numberPageForTable = helper.generateTable(reportData, doc, RTL);
+        numberPageForTable = helper.generateTable(reportData, doc, RTL, languageCode);
         for (let i = 1; i <= doc.internal.getNumberOfPages(); i++) {
             doc.setPage(i);
             helper.addBorder(reportData, doc, iqviaLogo, splitTextFooter, i === 1, RTL);
@@ -212,7 +212,7 @@
         }
     },
 
-    generateTable: function (reportData, doc, RTL) {
+    generateTable: function (reportData, doc, RTL, languageCode) {
         let helper = this;
         let numberPageForTable = 0;
         let heightY = 160;
@@ -254,7 +254,8 @@
                 heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
             });
             if (RTL) {
-                doc.autoTable({
+				if(languageCode.includes('ar') || languageCode === 'ur'){
+					doc.autoTable({
                     theme: 'plain',
                     html: '#tbl' + ind,
                     styles: {
@@ -263,7 +264,7 @@
                         valign: 'middle',
                         lineColor: 0,
                         lineWidth: 1,
-                        font: 'Roboto-Regular',
+                        font: 'Amiri',
                         fontStyle: 'normal',
                         minCellWidth: 63
                     },
@@ -274,6 +275,7 @@
                         }
                     },
                     head: {
+						font: 'Amiri',
                         fontStyle: 'normal',
                         fontSize: 8,
                         halign: 'center',
@@ -288,6 +290,79 @@
                     },
                     useCss: true
                 });
+				}else if (languageCode === 'fa' || languageCode === 'iw') {
+					doc.autoTable({
+                    theme: 'plain',
+                    html: '#tbl' + ind,
+                    styles: {
+                        cellPadding: 2,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: 0,
+                        lineWidth: 1,
+                        font: 'Heebo',
+                        fontStyle: 'normal',
+                        minCellWidth: 63
+                    },
+                    columnStyles: {
+                        0: {
+                            cellWidth: 60,
+                            cellPadding: 0
+                        }
+                    },
+                    head: {
+						font: 'Heebo',
+                        fontStyle: 'normal',
+                        fontSize: 8,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    startY: heightY + 30,
+                    margin: {
+                        right: 50,
+                        left: 10,
+                        top: 60,
+                        bottom: 60
+                    },
+                    useCss: true
+                });
+				}else {
+				doc.autoTable({
+                    theme: 'plain',
+                    html: '#tbl' + ind,
+                    styles: {
+                        cellPadding: 2,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: 0,
+                        lineWidth: 1,
+                        font: 'Roboto',
+                        fontStyle: 'normal',
+                        minCellWidth: 63
+                    },
+                    columnStyles: {
+                        0: {
+                            cellWidth: 60,
+                            cellPadding: 0
+                        }
+                    },
+                    head: {
+						font: 'Roboto',
+                        fontStyle: 'normal',
+                        fontSize: 8,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    startY: heightY + 30,
+                    margin: {
+                        right: 50,
+                        left: 10,
+                        top: 60,
+                        bottom: 60
+                    },
+                    useCss: true
+                });
+				}
             } else {
                 doc.autoTable({
                     theme: 'plain',
