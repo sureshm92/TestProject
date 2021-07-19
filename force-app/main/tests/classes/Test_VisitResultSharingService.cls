@@ -112,7 +112,7 @@ private class Test_VisitResultSharingService {
 
         List<Visit_Result__c> filteredResults;
         System.runAs(testData.participantUser) {
-            filteredResults = VisitResultSharingService.processResults();
+            filteredResults = VisitResultSharingService.processResults('MetabolicPanel');
         }
         Test.stopTest();
 
