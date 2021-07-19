@@ -28,6 +28,10 @@
     color: #444444;
 }
 
+.rtl {
+    /* @noflip */  direction: rtl;
+ }
+ 
 .form-button {
     color: #fff;
     font-size: 14px;
