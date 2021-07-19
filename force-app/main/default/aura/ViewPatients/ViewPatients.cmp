@@ -96,6 +96,18 @@
               />{!$Label.c.Diversity_Message}
      </div>
  </aura:if>
+ <!--auraif added as fix for REF-4457-->
+ <aura:if isTrue="{!v.userMode == 'PI'}">
+                   <c:ViewPatientsReferred
+                                            aura:id="childCmp"
+                                            showStatistics="{!v.userMode=='PI'}"
+                                            studyFilterEnabled="true"
+                                            trialId="{!v.trialId}"
+                                            siteId="{!v.siteId}"
+                                            header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}"
+                                            parent="{!v.parent}"
+                                            />
+ </aura:if>
  <aura:if isTrue="{!v.userMode == 'HCP'}">
      <div class="slds-col slds-size--9-of-12">
          <c:RRNavigationPath>
