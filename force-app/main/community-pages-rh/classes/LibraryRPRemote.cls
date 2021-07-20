@@ -125,7 +125,8 @@ public without sharing class LibraryRPRemote {
                                         from HCP_Enrollment__c
                                        where (HCP_Contact__c =: CommunityService.getUserContact().Id
                                               OR HCP_Contact__c IN :HCPID)
-                                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate])
+                                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
+                                        AND (Status__c = 'Activated' OR Status__c = 'Activated (Admin)')])
         {
             ctpIds.add(objHCP.Clinical_Trial_Profile__c);
             if (!initDataMap.containsKey(objHCP.Clinical_Trial_Profile__r.Study_Code_Name__c)) {
