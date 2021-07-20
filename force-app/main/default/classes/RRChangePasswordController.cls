@@ -436,7 +436,7 @@ public without sharing class RRChangePasswordController {
                     : countryCodeByName.get(contact.MailingCountryCode));
                 contact.MailingState = (noState
                     ? null
-                    : stateCodeByName.get(contact.MailingCountryCode));
+                    : stateCodeByName.get(contact.MailingStateCode));
 
                 if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                     Account newClinic = new Account(
