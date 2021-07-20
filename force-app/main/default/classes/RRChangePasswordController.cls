@@ -315,8 +315,9 @@ public without sharing class RRChangePasswordController {
                 contact cont = new contact(id=contact.Id,
                                        MailingCountrycode=contact.MailingCountrycode,
                                        MailingStatecode=contact.MailingStatecode);
+                update cont;
             }
-            update cont;
+            
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
             update userVal;
