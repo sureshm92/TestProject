@@ -414,7 +414,7 @@ public without sharing virtual class EmailTemplateProvider {
             
             totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c
                                 WHERE  Participant_Status__c = 'Received' 
-                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)];
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId) AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE];
             
         }
         String size = '0';

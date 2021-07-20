@@ -38,11 +38,15 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track logoClass = 'logo';
     @track ppHeaderClass = 'ppHeader';
     @track headerAndLogoClass = 'headerAndLogo';
+    @track pdfStyle = 'display: inline-block;';
+    @track richTextStyle = 'richTextArea slds-size_5-of-1';
+    @track bottomBar = '';
     @track frmFactor = false;
     @track isLoggedinUser;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
     defaultCommunityBoolean = true;
+    isInitialised = false;
     lanCode;
     tcId;
     attachment;
@@ -104,6 +108,57 @@ export default class PrivacyPolicyViewer extends LightningElement {
             });
     }
     renderedCallback() {
+        loadScript(this, RR_COMMUNITY_JS)
+            .then(() => {
+                if (!this.isInitialised) {
+                    this.lanCode = communityService.getUrlParameter('lanCode')
+                        ? communityService.getUrlParameter('lanCode')
+                        : null;
+                    if (communityService.isInitialized()) {
+                        this.isInitialised = true;
+                        if (rtlLanguages.includes(communityService.getLanguage())) {
+                            this.isRTL = true;
+                        }
+                    }
+                    let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
+                    let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
+                    let ppGetter = getPrivacyPolicy({
+                        code: 'PrivacyPolicy',
+                        languageCode: communityService.getUrlParameter('language'),
+                        useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC //this.defaultCommunityBoolean
+                    })
+                        .then(result => {
+                            let tcData = JSON.parse(result);
+                            this.tcId = tcData.tc.Id;
+                            this.ppRichText = tcData.tc.T_C_Text__c;
+                            this.lastUpdated = tcData.tc.Last_Updated_on__c;
+                            var lists = tcData.tc.Policy_Headers__c.split('\r\n');
+                            var psrsList;
+                            var psrsList1;
+
+                            this.empNames = lists;
+                            this.listOfHeaders = this.empNames.map((name, index) => {
+                                return {
+                                    name,
+                                    sno: index + 1
+                                };
+                            });
+                        })
+                        .catch(error => {
+                            console.log(JSON.stringify(error));
+                        });
+                }
+            })
+            .catch(error => {
+                this.dispatchEvent(
+                    new ShowToastEvent({
+                        title: 'Error loading RR_COMMUNITY_JS',
+                        message: error.message,
+                        variant: 'error'
+                    })
+                );
+            });
+
         var retString = communityService.getUrlParameter('ret');
         if ((retString !== 'terms-and-conditions' && retString) || retString === '') {
             this.isLoggedinUser = true;
@@ -120,7 +175,16 @@ export default class PrivacyPolicyViewer extends LightningElement {
         }
         var myElement = this.template.querySelector('[data-id="text"]');
         this.ppRichText = this.ppRichText.replace(/<ul>/g, '<ul style="list-style: disc;">');
-        this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 2.5%;">');
+        console.log('thi.isRTL: ' + this.isRTL);
+        if (this.isRTL) {
+            this.ppRichText = this.ppRichText.replace(
+                /<li style="text-align: right;">/g,
+                '<li style="text-align: right;margin-right: 2.5%;">'
+            );
+            this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-right: 2.5%;">');
+        } else {
+            this.ppRichText = this.ppRichText.replace(/<li>/g, '<li style="margin-left: 2.5%;">');
+        }
         myElement.innerHTML = this.ppRichText;
         if (this.lanCode != null) {
             if (rtlLanguages.includes(this.lanCode)) {
@@ -134,6 +198,9 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.logoClass = 'logoRTL';
             this.headerAndLogoClass = 'headerAndLogoRTL';
             this.ppHeaderClass = 'ppHeaderRTL';
+            this.pdfStyle = 'display: inline-block;margin-left: 1%;';
+            this.bottomBar = 'margin-left:3%';
+            this.richTextStyle = 'richTextAreaRTL slds-size_5-of-1';
         }
         if (formFactor != 'Large') {
             this.frmFactor = true;
@@ -144,51 +211,5 @@ export default class PrivacyPolicyViewer extends LightningElement {
             this.frmFactor = false;
         }
     }
-    connectedCallback() {
-        loadScript(this, RR_COMMUNITY_JS)
-            .then(() => {
-                this.lanCode = communityService.getUrlParameter('lanCode')
-                    ? communityService.getUrlParameter('lanCode')
-                    : null;
-                if (rtlLanguages.includes(communityService.getLanguage())) {
-                    this.isRTL = true;
-                }
-                let userDefalutTC = communityService.getUrlParameter('default') ? true : false;
-                let HasIQVIAStudiesPI = communityService.getHasIQVIAStudiesPI() ? true : false;
-                let ppGetter = getPrivacyPolicy({
-                    code: 'PrivacyPolicy',
-                    languageCode: communityService.getUrlParameter('language'),
-                    useDefaultCommunity: HasIQVIAStudiesPI && userDefalutTC //this.defaultCommunityBoolean
-                })
-                    .then(result => {
-                        let tcData = JSON.parse(result);
-                        this.tcId = tcData.tc.Id;
-                        this.ppRichText = tcData.tc.T_C_Text__c;
-                        this.lastUpdated = tcData.tc.Last_Updated_on__c;
-                        var lists = tcData.tc.Policy_Headers__c.split('\r\n');
-                        var psrsList;
-                        var psrsList1;
-
-                        this.empNames = lists;
-                        this.listOfHeaders = this.empNames.map((name, index) => {
-                            return {
-                                name,
-                                sno: index + 1
-                            };
-                        });
-                    })
-                    .catch(error => {
-                        console.log(JSON.stringify(error));
-                    });
-            })
-            .catch(error => {
-                this.dispatchEvent(
-                    new ShowToastEvent({
-                        title: 'Error loading RR_COMMUNITY_JS',
-                        message: error.message,
-                        variant: 'error'
-                    })
-                );
-            });
-    }
+    connectedCallback() {}
 }
