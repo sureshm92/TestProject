@@ -167,7 +167,7 @@
                              variant="label-hidden"
                              aura:id="mdToggle"
                          />
-                         <div style="margin-left: 10px">Medical Record Configuration</div>
+                         <div style="margin-left: 10px">Medical Record Retrieval </div>
                      </div>
                      <div class="global-element">
                          <lightning:input
