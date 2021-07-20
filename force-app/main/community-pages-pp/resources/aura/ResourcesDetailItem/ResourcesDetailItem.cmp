@@ -81,7 +81,7 @@
                                 timeZone="UTC"
                             />
 
-                            <aura:set attribute="else"> None </aura:set>
+                            <aura:set attribute="else"> {!$Label.c.None} </aura:set>
                         </aura:if>
                     </aura:set>
                 </aura:if>

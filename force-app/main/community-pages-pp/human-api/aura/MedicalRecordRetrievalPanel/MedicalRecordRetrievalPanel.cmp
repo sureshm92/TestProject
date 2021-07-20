@@ -1,0 +1,36 @@
+<!--
+ - Created by Sandeep
+ -->
+ <aura:component implements="flexipage:availableForAllPageTypes">
+    <ltng:require
+                  scripts="{!join(',', $Resource.rr_community_js)}" 
+                  afterScriptsLoaded="{!c.doInit}" 
+                  />   
+    <aura:attribute name="sessionToken" type="String" />
+    <aura:attribute name="accessToken" type="String" />
+    <aura:attribute name="medicalProviders" type="Object[]" />
+    <c:HomePreviewTablePanel title="Medical Record Access">
+        <!--<c:RRSpinner aura:id="spinner" size="small" showSpinner="true" /> -->
+        <c:RRTable>
+            <tr>
+                <th>Provider</th>
+                <th style="width: 130px">Status</th>
+            </tr>
+            <aura:iteration items="{!v.medicalProviders}" var="provider" indexVar="index">
+                <tr>
+                    <td>
+                        {!provider.providerName}
+                    </td>
+                    <td>
+                        {!provider.status}
+                    </td>
+                </tr>
+            </aura:iteration>          
+        </c:RRTable>
+        <aura:set attribute="footer">
+            <!--<a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a> -->
+            Manage Authorizations
+        </aura:set>
+    </c:HomePreviewTablePanel>
+  <!-- <a href="javascript:void(0)" onclick="{!c.downloadPDF}">download</a> --> 
+</aura:component>

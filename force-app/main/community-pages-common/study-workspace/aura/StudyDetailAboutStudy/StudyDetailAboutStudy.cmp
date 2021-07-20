@@ -335,6 +335,7 @@
                                 </div>
                             </div>
                         </aura:if>
+                         <!-- REF-4315 
                         <aura:if isTrue="{!v.userMode == 'HCP'}">
                             <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>
                             <aura:if isTrue="{!not(empty(v.studyDetail.resources))}" >
@@ -350,6 +351,7 @@
                                 </aura:set>
                             </aura:if>
                         </aura:if>
+                        --> 
 
                         <!--                        <aura:if isTrue="{!v.userMode != 'Participant'}">-->
                         <!--                            <div class="title">{!$Label.c.PG_SW_F_Study_Documents}</div>-->
