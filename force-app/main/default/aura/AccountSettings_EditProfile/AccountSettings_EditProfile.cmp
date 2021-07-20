@@ -182,16 +182,6 @@
                                 />
                             </aura:if>
                         </div>
-                    </div>
-                    <aura:if isTrue="{!v.isDelegate}">
-                        <div
-                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"
-                        ></div>
-                    </aura:if>
-
-                    <div
-                        class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
-                    >
                         <div
                             class="{! 'rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-4 ' + if(v.isRTL,'smallNameRTL','smallName')}"
                         >
@@ -216,6 +206,16 @@
                                 />
                             </aura:if>
                         </div>
+                    </div>
+                    <aura:if isTrue="{!v.isDelegate}">
+                        <div
+                            class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-3"
+                        ></div>
+                    </aura:if>
+
+                    <div
+                        class="as-info slds-grid slds-wrap slds-gutters slds-grid_vertical-align-start"
+                    >
                         <div
                             class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4 longName"
                         >
@@ -457,7 +457,6 @@
                                                onblur="{!c.doCheckFieldsValidity}"
                                                disabled="true"/> -->
                                 </aura:if>
-                               
                             </div>
                             <aura:if isTrue="{!v.userMode == 'Participant'}">
                                 <lightning:input
@@ -482,7 +481,17 @@
                             </aura:if>
                         </div>
                         <aura:if isTrue="{!!v.isDelegate}">
-                            <div class="{!if(v.userMode != 'Participant','slds-p-top_x-small','slds-p-top_xx-small')}"><span style="color:#E20000;font-weight:bold;">{!$Label.c.PP_Warning}&nbsp;</span>{!$Label.c.EmailWarningMessage}<a onclick="{!c.navigateToHelpPage}" style="font-weight:bold;">&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a>{!$Label.c.PP_Page}</div>
+                            <div
+                                class="{!if(v.userMode != 'Participant','slds-p-top_x-small','slds-p-top_xx-small')}"
+                            >
+                                <span style="color: #e20000; font-weight: bold"
+                                    >{!$Label.c.PP_Warning}&nbsp;</span
+                                >{!$Label.c.EmailWarningMessage}<a
+                                    onclick="{!c.navigateToHelpPage}"
+                                    style="font-weight: bold"
+                                    >&nbsp;{!$Label.c.PG_HLP_H_Help}&nbsp;</a
+                                >{!$Label.c.PP_Page}
+                            </div>
                         </aura:if>
                         <!-- Toggle for SMS -->
 
@@ -533,27 +542,27 @@
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
                             >
-                            <aura:if isTrue="{!v.userMode == 'Participant'}">
-                                <lightning:input
-                                                 aura:id="pField2"
-                                                 type="tel"
-                                                 label="{!$Label.c.PG_AS_F_Phone_number}"
-                                                 value="{!v.personWrapper.homePhone}"
-                                                 onblur="{!c.doCheckFieldsValidity}"
-                                                 required="true"
-                                                 class="{!v.isRTL?'rightAlign':''}"
-                                                 />
-                            </aura:if>
-                            <aura:if isTrue="{!v.userMode != 'Participant'}">
-                                <lightning:input
-                                                 aura:id="pField2"                                                  
-                                                 class="{!v.isRTL? 'rightAlign':''}"
-                                                 type="tel"
-                                                 label="{!$Label.c.PG_AS_F_Phone_number}"
-                                                 value="{!v.personWrapper.homePhone}"
-                                                 onblur="{!c.doCheckFieldsValidity}"
-                                                 />
-                            </aura:if>
+                                <aura:if isTrue="{!v.userMode == 'Participant'}">
+                                    <lightning:input
+                                        aura:id="pField2"
+                                        type="tel"
+                                        label="{!$Label.c.PG_AS_F_Phone_number}"
+                                        value="{!v.personWrapper.homePhone}"
+                                        onblur="{!c.doCheckFieldsValidity}"
+                                        required="true"
+                                        class="{!v.isRTL?'rightAlign':''}"
+                                    />
+                                </aura:if>
+                                <aura:if isTrue="{!v.userMode != 'Participant'}">
+                                    <lightning:input
+                                        aura:id="pField2"
+                                        class="{!v.isRTL? 'rightAlign':''}"
+                                        type="tel"
+                                        label="{!$Label.c.PG_AS_F_Phone_number}"
+                                        value="{!v.personWrapper.homePhone}"
+                                        onblur="{!c.doCheckFieldsValidity}"
+                                    />
+                                </aura:if>
                             </div>
                             <div
                                 class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_1-of-2 slds-small-size_1-of-2 slds-media--responsive"
