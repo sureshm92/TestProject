@@ -982,14 +982,56 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
                        }
                             if(participantDuplicate != null){
-                                participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                   if(!String.isEmpty(PostalCode)){
+                                    participantDuplicate.Mailing_Zip_Postal_Code__c =  PostalCode;
+                                }
                                                                 //Added for REF-3951
-                                if(participantDuplicate.Email__c != NULL ||
+                                /*if(participantDuplicate.Email__c != NULL ||
                                    participantDuplicate.Phone__c != NULL){
                                        participantDuplicate.Email__c = EmailAddress;
                                        participantDuplicate.Phone__c = Phone;
                                        participantPatient.add(participantDuplicate);
-                                   }
+                                   }*/
+                                if(!String.isEmpty(EmailAddress)){
+                                    participantDuplicate.Email__c =  EmailAddress;
+                                }
+                                if(!String.isEmpty(Phone)){
+                                    participantDuplicate.Phone__c =  Phone;
+                                }
+                               if(!String.isEmpty(MiddleName)){
+                                    participantDuplicate.Middle_Name__c =  MiddleName;
+                                }
+                               if(!String.isEmpty(Nickname)){
+                                    participantDuplicate.Nickname__c =  Nickname;
+                                }
+                                if(!String.isEmpty(Sex)){
+                                    participantDuplicate.Gender__c =  Sex;
+                                }
+                                if(!String.isEmpty(DateOfBirth)){
+                                    participantDuplicate.Date_of_Birth__c =  DateOfBirth;
+                                }
+                                if(!String.isEmpty(PhoneType)){
+                                    participantDuplicate.Phone_Type__c =  PhoneType;
+                                }
+                                if(!String.isEmpty(Phone2)){
+                                    participantDuplicate.Alternative_Phone_Number__c =  Phone2;
+                                }
+                                if(!String.isEmpty(PhoneType2)){
+                                    participantDuplicate.Alternative_Phone_Type__c =  PhoneType2;
+                                }
+                                participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language) ? uploadUser.Contact.Language__c : Language);
+                               if(!String.isEmpty(State)){
+                                    participantDuplicate.Mailing_State__c =  State;
+                                }
+                                if(!String.isEmpty(countryName)){
+                                    participantDuplicate.Mailing_Country__c =  countryName;
+                                }
+                                if(!String.isEmpty(cc)){
+                                    participantDuplicate.Mailing_Country_Code__c =  cc;
+                                }
+                                if(!String.isEmpty(sc)){
+                                    participantDuplicate.Mailing_State_Code__c =  sc;
+                                }
                                 //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
@@ -1393,9 +1435,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
 
             //REF-3951
-            if(!participantPatient.isEmpty()){
+            /*if(!participantPatient.isEmpty()){
                 update participantPatient;
-            }
+            }*/
 
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();
