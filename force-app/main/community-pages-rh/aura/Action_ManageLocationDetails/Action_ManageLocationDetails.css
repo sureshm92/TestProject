@@ -38,8 +38,8 @@
     padding-right: 10px;
 }
 .THIS .cPopup .btnRTL {
-    right: 95% !important;
-    top: 0% !important;
+   /* @noflip */ right: 95% !important;
+   top: 0% !important;
 }
 .THIS .p-header h2 {
     font-size: 20px;

@@ -54,16 +54,6 @@
     flex-shrink: 0;
 }
 
-.THIS .logo-container-RTL {
-    height: 50px;
-    display: flex;
-    align-items: center;
-    margin-left: 15px;
-    flex-shrink: 0;
-    margin-right: -9px;
-
-}
-
 .THIS .layout-header {
     height: 100%;
     overflow: inherit;
