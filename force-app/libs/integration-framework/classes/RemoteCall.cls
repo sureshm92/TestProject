@@ -55,7 +55,6 @@ public abstract class RemoteCall {
             String requestBodySource = buildRequestBody();
             if (requestBodySource != null) {
                 String requestBodyResult = substituteSecuredParams(requestBodySource);
-                System.debug('pppp'+requestBodyResult);
                 req.setBody(requestBodyResult);
                 if (hideParamsInLog) {
                     log.Request_Body__c = requestBodySource.mid(
@@ -117,7 +116,6 @@ public abstract class RemoteCall {
                 Matcher.quoteReplacement(hiddenParams.get(param))
             );
         }
-        System.debug('result:::'+result);
         return result;
     }
 
