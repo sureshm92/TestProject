@@ -20,5 +20,7 @@
     <permissionSets>PP_Trial_Surveys_Edit</permissionSets>
     <permissionSets>PP_Visits_Configuration_Edit</permissionSets>
     <permissionSets>PP_Visits_Results_Sharing_Edit</permissionSets>
+    <permissionSets>PP_Medical_Vendors_Edit</permissionSets>
+
     <status>Updated</status>
 </PermissionSetGroup>
