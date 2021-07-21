@@ -31,7 +31,7 @@
                 </div>
                 <div class="resource-expiration-date">
                     <aura:if isTrue="{!v.resourceWrapper.resource.Expiration_Date__c}">
-                        Expires:
+                        {!$Label.c.Resources_Expires}:
                         <!--<ui:outputDate value="{!v.resourceWrapper.resource.Expiration_Date__c}"/>-->
                         <lightning:formattedDateTime
                             value="{!v.resourceWrapper.resource.Expiration_Date__c}"
@@ -41,7 +41,7 @@
                             timeZone="UTC"
                         />
 
-                        <aura:set attribute="else"> Expires: None </aura:set>
+                        <aura:set attribute="else"> {!$Label.c.Resources_Expires}: {!$Label.c.None} </aura:set>
                     </aura:if>
                 </div>
                 <div class="resource-description-footer">

@@ -1,7 +1,7 @@
 ({
     
     doInit: function(component, event, helper) {
-        helper.calloutAccessToken(component); 
+        /**helper.calloutAccessToken(component); **/
     },
     
     openURL : function(component, event, helper) {
@@ -34,4 +34,8 @@
             }
         );  
     }
+<<<<<<< HEAD
 })
+=======
+})
+>>>>>>> 4e9f4a3f313e45e36347728dcb2d84de474fab9e

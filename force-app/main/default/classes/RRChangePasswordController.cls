@@ -312,10 +312,12 @@ public without sharing class RRChangePasswordController {
                 : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
             if (isParticipant) {
-                contact.MailingCountrycode = participant.Mailing_Country_Code__c;
-                contact.MailingStatecode = participant.Mailing_State_Code__c;
+                 contact cont = new contact(id=contact.Id,
+                                       MailingCountrycode=contact.MailingCountrycode,
+                                       MailingStatecode=contact.MailingStatecode);
+			     update cont;
             }
-            update contact;
+            
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
             update userVal;
@@ -387,7 +389,7 @@ public without sharing class RRChangePasswordController {
                     participant.Mailing_State_Code__c == '--None--' ||
                     String.isBlank(participant.Mailing_State_Code__c) ||
                     states == null ||
-                    states.size() < 2;
+                    states.size() < 1;
                 participant.Mailing_Country__c = (noCountry
                     ? null
                     : countryCodeByName.get(participant.Mailing_Country_Code__c));
@@ -428,13 +430,13 @@ public without sharing class RRChangePasswordController {
                     contact.MailingStateCode == '--None--' ||
                     String.isBlank(contact.MailingStateCode) ||
                     states == null ||
-                    states.size() < 2;
+                    states.size() < 1;
                 contact.MailingCountry = (noCountry
                     ? null
                     : countryCodeByName.get(contact.MailingCountryCode));
                 contact.MailingState = (noState
                     ? null
-                    : stateCodeByName.get(contact.MailingCountryCode));
+                    : stateCodeByName.get(contact.MailingStateCode));
 
                 if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                     Account newClinic = new Account(
@@ -501,7 +503,7 @@ public without sharing class RRChangePasswordController {
             if (
                 ((!notEnrollNow && String.isBlank(contact.MailingStateCode)) ||
                 (isParticipant && String.isBlank(participant.Mailing_State_Code__c))) &&
-                states.size() > 1
+                states.size() > 0
             ) {
                 ApexPages.addMessage(
                     new ApexPages.Message(ApexPages.Severity.ERROR, 'State' + ERROR_SUFFIX)

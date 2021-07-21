@@ -98,6 +98,9 @@
     display: inline-block;
     text-overflow: ellipsis;
 }
+.THIS .visit-result-item-name-child {
+    white-space: normal;
+}
 
 .THIS .visit-results-panel-disclaimer {
     color: #595959;

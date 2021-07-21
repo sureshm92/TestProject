@@ -106,7 +106,10 @@ public without sharing class VisitResultSharingService {
                         !patientVisit.Visit_Results__r.isEmpty()
                     ) {
                         for (Visit_Result__c result : patientVisit.Visit_Results__r) {
-                            if (result.recordType.DeveloperName == strVisitResultRecordType) {
+                            if (
+                                !isBatch &&
+                                result.recordType.DeveloperName == strVisitResultRecordType
+                            ) {
                                 isVisitResultAvailable = true;
                             }
                             if (visitResultTypeSharingByType.containsKey(result.Result_Type__c)) {

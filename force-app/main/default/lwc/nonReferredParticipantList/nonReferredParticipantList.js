@@ -178,6 +178,7 @@ export default class NonReferredParticipantList extends LightningElement {
     @track showCommentsModal = false;
     @track charNum = 0;
     @api peId = '';
+    patientNo;
     maxChar = 1000;
     @wire(getRecord, { recordId: '$peId', fields: ['Participant_Enrollment__c.Notes__c'] })
     wiredRecord({ error, data }) {
@@ -200,6 +201,7 @@ export default class NonReferredParticipantList extends LightningElement {
     addCommens (event){
         this.showCommentsModal = true;      
         this.peId = event.currentTarget.dataset.value;
+        this.patientNo = 'Comments for ' +event.currentTarget.dataset.id;
     }
 
     countChar(event) {

@@ -904,6 +904,10 @@
         <apexClass>NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>MedicalRecordVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ViewMediaResult</apexClass>
         <enabled>true</enabled>
@@ -5067,6 +5071,11 @@
         <field>Participant_Enrollment_Status_History__c.Reason__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Notes__c</field>
+        <readable>true</readable>
+   </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment_Status_History__c.Non_Enrollment_Reason__c</field>

@@ -1044,6 +1044,10 @@
         <apexClass>MedicalRecordReviewRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>MedicalRecordVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>MessageConfigurationPanelRemote</apexClass>
         <enabled>true</enabled>
