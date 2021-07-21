@@ -87,7 +87,7 @@
                         <aura:set attribute="body">
                             <div
                                  class="slds-scrollable_y"
-                                 style="{!if(resourceStructure.resources.length > 12 , 'height :10rem')}"
+                                 style="{!if(resourceStructure.resources.length > 11 , 'height :600px')}"
                                  >
                                 <aura:iteration
                                                 items="{!resourceStructure.resources}"
