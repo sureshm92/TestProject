@@ -16069,13 +16069,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Delegate(s)</value>
     </labels>
     <labels>
-        <fullName>PP_Participant</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PP_Participant</shortDescription>
-        <value>Participant</value>
-    </labels>
-    <labels>
         <fullName>PP_Provider_Access</fullName>
         <language>en_US</language>
         <protected>false</protected>
