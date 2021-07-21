@@ -263,7 +263,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         contact contactUpdate ;
         for (Contact con : newDelegateContacts) {
             if(oldContactEmailMap.keyset().contains(con.email)){
-                con.id = oldContactEmailMap.get(con.email).id;
+                //con.id = oldContactEmailMap.get(con.email).id;
+                con = oldContactEmailMap.get(con.email);
             }
             string participantAccountId = con.AccountId ;
             con.AccountId = tempAccount.id;	
