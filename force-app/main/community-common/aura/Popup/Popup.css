@@ -13,13 +13,13 @@ right: 94% !important;
 top: 1px !important;
 } */
 
-
 .THIS #p-modal .p-container {
     position: fixed;
     max-height: 100vh;
     z-index: 10000;
     top: 50%;
-     /* @noflip */ left: 50%; 
+    /* @noflip */
+    left: 50%;
     background-color: #ffffff;
     transform: translate(-50%, -50%);
     box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
@@ -227,7 +227,7 @@ top: 1px !important;
     overflow-x: hidden;
 }
 
-.THIS.cListViewParticipantPopup .p-container.medium{
+.THIS.cListViewParticipantPopup .p-container.medium {
     width: 520px;
     height: 447px;
 }
@@ -235,7 +235,10 @@ top: 1px !important;
     .THIS .cPopup .p-container .p-content {
         max-height: 90vh;
     }
-
+    .THIS .btnRTL {
+        right: 86% !important;
+        top: 4px !important;
+    }
     .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
         height: 90vh;
     }
@@ -289,7 +292,7 @@ top: 1px !important;
         /*width: 600px;*/
         width: 700px;
     }
-    .THIS.cListViewParticipantPopup .p-container.medium{
+    .THIS.cListViewParticipantPopup .p-container.medium {
         width: 520px !important;
     }
 }
@@ -299,13 +302,14 @@ top: 1px !important;
         width: 800px;
     }
 }
-@media all and (min-width: 320px){
+@media all and (min-width: 320px) {
     .THIS #p-modal .p-container {
         position: fixed;
         max-height: 100vh;
         z-index: 50000;
         top: 50%;
-         /* @noflip */ left: 50%;
+        /* @noflip */
+        left: 50%;
         background-color: #ffffff;
         transform: translate(-50%, -50%);
         box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
