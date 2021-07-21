@@ -122,7 +122,7 @@
                         </div>
                         <aura:set attribute="else">
                             <div
-                                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-8"
+                                class="rr-form-element"
                             >
                                 <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
                                 <lightning:input
@@ -155,13 +155,7 @@
                             onblur="{!c.doCheckFields}"
                         />
                     </div>
-                    <aura:if isTrue="{!v.isRTL}">
-                        <aura:set attribute="else">
-                            <div
-                                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
-                            />
-                        </aura:set>
-                    </aura:if>
+                
 
                     <aura:if isTrue="{!v.fromActionParticipant || v.fromAddParticipantPage}">
                         <div
