@@ -102,7 +102,7 @@
                                 <c:RelevantLinks />
                             </div>
                             <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c, v.participantState.value == 'PARTICIPANT')}"
+                                isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c}"
                             >
                             <div class="slds-col">
                                 <c:MedicalRecordRetrievalPanel />

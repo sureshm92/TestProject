@@ -5,8 +5,8 @@ public class MedicalRecordAccessRemote {
     public static String clientUserEmail='sandeepsfdc527@gmail.com';//patient email
     public static String clientSecret='8338fd6645b6b430fe186729a1a873e7cd57a839';
     
-    @AuraEnabled
-    public static String getSessionToken(){        
+    @AuraEnabled 
+    public static String getSessionToken(){         
        /** String type='id';
         
         JSONGenerator gen = JSON.createGenerator(true);    
@@ -54,7 +54,7 @@ public class MedicalRecordAccessRemote {
     
     @AuraEnabled
     public static List<Provider> getHumanSourcesList(String accessToken){
-        String url='https://api.humanapi.co/v1/human/sources';
+      /**  String url='https://api.humanapi.co/v1/human/sources';
         HTTP h = new HTTP();
         HTTPRequest req = new HTTPRequest();
         HttpResponse resp = new HttpResponse();        
@@ -83,7 +83,9 @@ public class MedicalRecordAccessRemote {
         }
         System.debug('providersList::'+providersList);
         return providersList;
+**/
         
+        return RemoteCall_getHumanAPIData.getHumanSources();
         
     }
     
@@ -132,14 +134,6 @@ public class MedicalRecordAccessRemote {
         return EncodingUtil.Base64Encode(MedicalRecordAccessRemote.downloadReportbyId('60d43bf25d8598001107e1b3-000003-55a83bdc8d1eb1420aa1a71b',accesst,'pdf'));
     } 
     
-    public  class Provider
-    {
-        
-        @AuraEnabled
-        public String providerName;
-        
-        @AuraEnabled
-        public String status;
-    } 
+    
     
 }

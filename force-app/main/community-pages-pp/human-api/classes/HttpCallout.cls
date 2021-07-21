@@ -16,8 +16,7 @@ public class HttpCallout extends RemoteCall{
 
     @TestVisible
     protected override String buildRequestBody() {
-
-        return constructJsonReq();
+      return constructJsonReq();
     }
 
     @TestVisible
@@ -33,6 +32,10 @@ public class HttpCallout extends RemoteCall{
 
     public String constructJsonReq()
         {
+            if(requestMap.isEmpty())
+            {
+                return null;
+            }
             JSONGenerator gen = JSON.createGenerator(true);   
             gen.writeStartObject(); 
             for (String key : requestMap.keySet()) {
@@ -40,10 +43,10 @@ public class HttpCallout extends RemoteCall{
                 String value = requestMap.get(key);
                 gen.writeStringField(key,value );
             }
+             
             gen.writeEndObject();    
             String jsonReqBody = gen.getAsString();
             System.debug('json'+jsonReqBody);
             return jsonReqBody;
         } 
 }
-
