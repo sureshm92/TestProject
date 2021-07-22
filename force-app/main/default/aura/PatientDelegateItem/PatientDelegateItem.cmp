@@ -21,14 +21,25 @@
         </div>
         <div class="mti-email">{!v.contact.Email}</div>
         <div class="mti-button-container">
-            <button
-                class="apollo-btn tertiary"
-                style="{!if(v.isRTL, 'margin-right: 600px;', '')}"
-                onclick="{!c.handleClick}"
-                title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}"
-            >
-                {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
-            </button>
+            <aura:if isTrue="{!($Browser.formFactor != 'DESKTOP')}">
+                <button
+                    class="apollo-btn tertiary"
+                    onclick="{!c.handleClick}"
+                    title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}"
+                >
+                    {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
+                </button>
+                <aura:set attribute="else"
+                    ><button
+                        class="apollo-btn tertiary"
+                        style="{!if(v.isRTL, 'margin-right: 600px;', '')}"
+                        onclick="{!c.handleClick}"
+                        title="{!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}"
+                    >
+                        {!if(v.isActive, $Label.c.BTN_Deactivate, $Label.c.BTN_Main_Activate)}
+                    </button>
+                </aura:set>
+            </aura:if>
         </div>
     </div>
 </aura:component>
