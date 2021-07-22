@@ -76,7 +76,7 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 this.isMobileApp = communityService.isMobileSDK();
                 this.isMobileScreen = communityService.isMobileOS();
                 if (this.isRTL) {
-                    this.rtlStyle = 'direction: rtl;';
+                    this.rtlStyle = '/* @noflip */ direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
                     this.errorIconPosition = 'margin-right: -2.5em';

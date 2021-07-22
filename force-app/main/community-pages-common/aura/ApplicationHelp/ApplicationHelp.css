@@ -55,7 +55,7 @@
   font-family: "Proxima Nova";
   font-size: 16px;
   letter-spacing: 0;
-  padding-left:60px;
+  /*padding-left:60px;*/
 }
 
 .THIS .rr-error
@@ -265,7 +265,7 @@
 }
 
  .THIS .btn-mr{
-        padding-right:8px;
+        padding-right:25px;
         padding-left:10px;
     }
 .THIS .btn-ml{
@@ -294,7 +294,7 @@
     }
     .THIS .btn-mr{
         padding-left:10px;
-        padding-right:8px;
+        padding-right:25px;
     }
 
     .THIS .ah-button {
