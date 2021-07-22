@@ -20,6 +20,6 @@
     </values>
     <values>
         <field>Participant_Workflow_Final_Step__c</field>
-        <value xsi:type="xsd:string">Enrollment</value>
+        <value xsi:type="xsd:string">Randomization</value>
     </values>
 </CustomMetadata>
