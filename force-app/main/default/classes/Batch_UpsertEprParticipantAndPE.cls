@@ -269,7 +269,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             }
         }
         map<string,contact> oldContactEmailMap = new map<string,contact> ();
-        for(contact con : [SELECT Id, FirstName, Email, Phone,MiddleName,LastName FROM Contact	WHERE Email IN :emails	LIMIT :limitRows]){
+        for(contact con : [SELECT Id, FirstName, Email, Phone,MiddleName,LastName, AccountId FROM Contact	WHERE Email IN :emails	LIMIT :limitRows]){
             oldContactEmailMap.put(con.email,con);
         }
         
