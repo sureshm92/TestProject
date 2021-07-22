@@ -46,7 +46,8 @@
 }
 
 .THIS .visit-result-item-description {
-    margin: 0 5px;
+    margin: 0 0 0 2px;
+    position: absolute;
 }
 
 .THIS .visit-result-item-description .slds-form-element__icon {
@@ -69,6 +70,7 @@
     text-align: left;
     display: flex;
     flex-direction: column;
+    flex: 1 1 0;
 }
 
 .THIS .visit-results-itemRTL {
@@ -97,7 +99,6 @@
     margin-top: 7px;
     display: inline-block;
     text-overflow: ellipsis;
-    max-width: 175px;
     position: relative;
     padding-right: 15px;
 }
