@@ -40,6 +40,9 @@
                     if (communityService.getUserMode() === 'PI') {
                         component.set('v.piData', responseData);
                     } else {
+                        if(responseData.enrollmentStatus!==undefined && responseData.enrollmentStatus.length>0 && responseData.enrollmentStatus[0].segment!=undefined){
+                            responseData.enrollmentStatus[0].segment = responseData.enrollmentStatus[0].segment.replace('/','/ '); //Added for word break in Dashboard to avoid truncation
+                        }
                         component.set('v.hcpData', responseData);
                     }
                     component.set('v.isInitialized', true);

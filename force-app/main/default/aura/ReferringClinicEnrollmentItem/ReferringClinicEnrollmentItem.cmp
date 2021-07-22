@@ -17,23 +17,24 @@
         >
             <aura:if isTrue="{!v.isRTL}">
                 <div class="rcei-infoRTL" style="display: inline-flex;">
+                      <div class="rcei-name">  
+                     {!$Label.c.RCEI_Site + ' :'}  &nbsp;<span class="rcei-name-ss-and-pi"
+                            >{!v.enrollmentData.enrollment.Study_Site__r.Name}</span
+                        >
+                    </div>
                     <div class="{! 'rcei-status status-' + v.enrollmentData.status}" style="margin-right: 10px;">
                         {!v.enrollmentData.statusLabel}
                     </div>
-                    <div class="rcei-name">  
-                        <span class="rcei-name-ss-and-pi"
-                            >{!v.enrollmentData.enrollment.Study_Site__r.Name}</span
-                        >:{!$Label.c.RCEI_Site}
-                    </div>
+                  
                 </div>
                 <div class="rcei-infoRTL">
                     <div class="rcei-name">
-                        <span class="rcei-name-ss-and-pi"
+                      {!$Label.c.Principal_Investigator +':'}  &nbsp;<span class="rcei-name-ss-and-pi"
                         >{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation
                         + ' ' +
                         v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Name}</span
                         >
-                        :{!$Label.c.Principal_Investigator}
+                        
                     </div>
                 </div>
             <aura:set attribute="else">

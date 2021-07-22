@@ -4,6 +4,7 @@
     <!-- attributes: -->
     <aura:attribute name="childpopup" type="boolean" default="false" access="public" />
     <aura:attribute name="actionpopupcc" type="boolean" default="false" access="public" />
+    <aura:attribute name="actionfovpopup" type="boolean" default="false" access="public" />
     <aura:attribute name="title" type="String" required="true" />
     <aura:attribute
         name="showModal"
@@ -19,8 +20,13 @@
         default="normal"
         description="normal;success;warning;error"
     />
-    <aura:attribute name ="parent" type ="Object"  description="list parent from participant modal" />
-    <aura:attribute name ="isListView" type ="Boolean" default="{!true}" description="opened participant modal from list view" />
+    <aura:attribute name="parent" type="Object" description="list parent from participant modal" />
+    <aura:attribute
+        name="isListView"
+        type="Boolean"
+        default="{!true}"
+        description="opened participant modal from list view"
+    />
     <aura:attribute name="size" type="String" description="small;large;medium" />
 
     <aura:attribute name="primaryButtonLabel" type="String" default="Ok" />
@@ -67,6 +73,7 @@
     <!-- Events:-->
     <aura:registerEvent name="cmpEvent" type="c:MediaOutreachCancelReqEvt" />
     <aura:registerEvent name="CloseCCSSInfoEvent" type="c:CloseCCSSInfoEvent" />
+    <aura:registerEvent name="closeEvent" type="c:CloseScheduledEvt" />
     <!-- methods: -->
     <aura:method name="show" action="{!c.show}" />
     <aura:method name="hide" action="{!c.hide}" />
@@ -106,6 +113,7 @@
                         </div>
                         <div
                             id="body"
+                            class="rtlBody"
                             style="{!if(v.isRTL == true,'float:right; /* @noflip */  direction: rtl;text-align: right;','')}"
                         >
                             {!v.body}

@@ -10,7 +10,7 @@
     position: fixed;
     max-height: 100vh;
     z-index: 10000;
-    top: 10%;
+    bottom: 5%;
     left: 50%;
     background-color: #ffffff;
     transform: translate(-50%, -50%);
@@ -19,13 +19,21 @@
     opacity: 0;
     visibility: hidden;
     transition: opacity 0.4s linear;
-    width: calc(80% - 6rem);
-    max-height: 100%;
+    width: calc(85% - 6rem);
 }
 
-.rtl {
+.align-rtl {
+    direction: rtl;
+}
+
+.flip-close {
     right: unset !important;
-    left: 10%;
+    left: 7%;
+}
+
+.flip-bell {
+    left: unset !important;
+    right: 7%;
 }
 
 .p-container .p-content {
@@ -35,8 +43,7 @@
     font-size: 1rem;
     line-height: 1.5rem;
     white-space: normal;
-    text-align: left;
-    font-weight: 500;
+    font-weight: 600;
     overflow-x: hidden;
 }
 
@@ -67,7 +74,7 @@
     cursor: pointer;
 }
 
-.icon-info {
+.icon-bell {
     position: absolute;
     top: 30px;
     left: 7%;
@@ -75,4 +82,11 @@
     width: 24px;
     background-size: 24px 24px;
     background-image: url(/resource/1622466154000/iconNotificationBell);
+}
+
+@media all and (max-width: 767px) {
+    .p-container {
+        width: 100%;
+        bottom: 15%;
+    }
 }

@@ -2,7 +2,7 @@
  - Created by Olga Skrynnikova on 6/10/2020.
  -->
 
- <aura:component description="PPMenuItems" extends="c:CommunityContext">
+<aura:component description="PPMenuItems" extends="c:CommunityContext">
     <aura:attribute name="tooltipTop" type="Integer" />
     <aura:attribute name="tooltipLeft" type="Integer" />
     <aura:attribute name="tooltipRight" type="Integer" />
@@ -90,7 +90,7 @@
         role="tooltip"
         id="help"
         aura:id="tooltip"
-        style="{!if(v.isRTL == true,'top:'+v.tooltipTop+';left:'+v.tooltipRight+';right:'+v.tooltipRight,'top:'+v.tooltipTop+';left:'+v.tooltipLeft)}"
+        style="{!if(v.isRTL == true,'top:'+v.tooltipTop+';right:'+v.tooltipRight,'top:'+v.tooltipTop+';left:'+v.tooltipLeft)}"
     >
         <div class="slds-popover__body word-wrap: break-word;">{!v.hovertext}</div>
     </div>

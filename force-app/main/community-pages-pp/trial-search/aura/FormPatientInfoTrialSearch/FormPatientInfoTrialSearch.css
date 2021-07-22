@@ -72,6 +72,7 @@
     font-family: 'Proxima Nova';
     font-size: 14px;
     line-height: 20px;
+    /* @noflip */
     text-align: right;
     margin: 0 8px 0 0;
 }
@@ -95,6 +96,7 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right {
+    /* @noflip */
     margin-right: 12.2rem;
 }
 .THIS .disclaimer-box {

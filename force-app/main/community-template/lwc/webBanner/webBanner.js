@@ -1,6 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import privacyPolicyText from '@salesforce/label/c.Lofi_Login_Footer_Policies';
+import janssenHeaderLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy_Janssen';
 export default class WebBanner extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------
     @api bodyText;
@@ -8,8 +10,19 @@ export default class WebBanner extends LightningElement {
     @api closeCallback;
     @api showBanner = false;
     @api isRTL;
+    @api isMobileView = false;
     @track isInitialized = false;
+    @track bodyTextTwo;
+    @api commTypeName;
 
+    get isJanssenType() {
+        return this.commTypeName === 'Janssen';
+    }
+
+    label = {
+        privacyPolicyText,
+        janssenHeaderLabel
+    };
     //Public methods----------------------------------------------------------------------------------------------------
     @api show() {
         this.showBanner = true;
@@ -28,6 +41,22 @@ export default class WebBanner extends LightningElement {
     doCancel() {
         this.hide();
         if (this.closeCallback) this.closeCallback();
+    }
+    @api openModalPopup() {
+        this.hide();
+        const filters = true;
+        const selectedEvent = new CustomEvent('openModal', {
+            detail: { filters }
+        });
+        // Fire the custom event
+        this.dispatchEvent(selectedEvent);
+    }
+    renderedCallback() {
+        if (this.bodyText != null && this.bodyTextTwo == null) {
+            var firstPart = this.bodyText.split('##privacyPolicyURL');
+            this.bodyText = firstPart[0];
+            this.bodyTextTwo = firstPart[1];
+        }
     }
 
     connectedCallback() {
@@ -65,7 +94,19 @@ export default class WebBanner extends LightningElement {
             'button-close' +
             (this.showClose ? '' : ' slds-hide') +
             (navigator.userAgent.match(/iPhone/i) ? ' p-mobile-close' : '') +
-            (this.isRTL ? ' rtl' : '')
+            (this.isRTL ? ' flip-close' : '')
         );
+    }
+
+    get containerClass() {
+        return 'p-container' + (this.isRTL ? ' align-rtl' : '');
+    }
+
+    get iconBellClass() {
+        return 'icon-bell' + (this.isRTL ? ' flip-bell' : '');
+    }
+
+    get backDropClass() {
+        return 'slds-backdrop' + (this.showBanner ? ' slds-backdrop--open' : '');
     }
 }

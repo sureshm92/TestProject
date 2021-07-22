@@ -130,6 +130,18 @@ public with sharing class Test_VisitResultsRemote {
 
         System.assert(tesContainer.groupName.equals('Vitals'));
     }
+    
+     @IsTest
+    static void showVisitResults_test() {
+        Test.startTest();
+        TestData testData = new TestData();
+        System.runAs(testData.participantUser) {
+        VisitResultsRemote.showVisitResults();
+        }
+        Test.stopTest();
+
+        System.assert(true, VisitResultsRemote.showVisitResults());
+    }
 
     @IsTest
     static void getVisitResultWrappersForDashboard_test() {

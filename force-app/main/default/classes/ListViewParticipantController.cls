@@ -842,10 +842,11 @@ public without sharing class ListViewParticipantController {
                 if (OrgSelectedIds.size() > 0) {
                     if (OrgSelectedIds.contains(pe.id)) {
                         //PeChecklist.add(true);
+                        isChekedSelected = true;
                         Boolean allowedForSH = ifAllowedForSH(pe,pshStatus);    
                         studySitePSH = ifAllowedForSH(pe,pshStatus);    
                         if (allowedForSH) {
-                            isChekedSelected = true;
+                            //isChekedSelected = true;
                             isLocked = false;
                             if (pe.Initial_visit_scheduled_date__c != null) {
                                 priorityReferral = 'Yes';
@@ -853,7 +854,7 @@ public without sharing class ListViewParticipantController {
                                 priorityReferral = 'No';
                             }
                         } else {
-                            isChekedSelected = false;
+                            //isChekedSelected = false;
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
@@ -1297,7 +1298,7 @@ public without sharing class ListViewParticipantController {
         //if(!Test.isRunningTest())
         // {
         query =
-            'SELECT Participant__r.Full_Name__c,Days_After_Referred__c, Participant__c,Participant__r.Phone__c,' +
+            'SELECT Invited_To_PP_Date__c,Participant__r.Full_Name__c,Days_After_Referred__c, Participant__c,Participant__r.Phone__c,' +
             ' Participant_Contact__c,HCP_Contact_HCPEnroll__c,Participant__r.Phone_Type__c, Clinical_Trial_Profile__r.Study_Code_Name__c,' +
             ' PI_Contact__r.Name, Study_Site__r.Name,Participant_Contact__r.Name, Participant__r.First_Name__c,' +
             'Participant__r.Last_Name__c,Participant__r.Middle_Name__c,Participant__r.Contact__c,Participant__r.Suffix__c,' +

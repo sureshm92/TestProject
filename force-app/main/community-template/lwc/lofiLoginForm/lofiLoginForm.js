@@ -1,4 +1,4 @@
-import { LightningElement, api, track, wire } from 'lwc';
+import { LightningElement, track, wire } from 'lwc';
 import { NavigationMixin, CurrentPageReference } from 'lightning/navigation';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
@@ -14,17 +14,25 @@ import pwdPlaceholder from '@salesforce/label/c.Lofi_Forgot_Pwd_Placeholder';
 import enterUsernameMsg from '@salesforce/label/c.Lofi_Enter_Username';
 import enterPasswordMsg from '@salesforce/label/c.Lofi_Enter_Password';
 import rtlLanguages from '@salesforce/label/c.RTL_Languages';
+import showEyeTooltip from '@salesforce/label/c.Login_Form_Hide';
+import hideEyeTooltip from '@salesforce/label/c.Login_Form_Show';
 import isUserPasswordLocked from '@salesforce/apex/RRLoginRemote.isUserPasswordLocked';
 import communityLogin from '@salesforce/apex/RRLoginRemote.communityLogin';
 
 export default class LofiLoginForm extends NavigationMixin(LightningElement) {
-    @api rtlStyle;
-    @api floatInput;
-    @api addIconMargin;
     @track isMobileApp;
     @track isRTL;
     @track inError;
     @track errorMsg;
+    @track addIconMargin;
+    @track isMobileScreen;
+
+    rtlStyle;
+    floatInput;
+    applyPaddingLogin;
+    applyPaddingPassword;
+    errorIconPosition;
+    erroContainerPosition;
     lockedOutUsrName;
     timeLeft = 900000;
     isLockOut = false;
@@ -39,6 +47,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
 
     initialized = false;
     spinner;
+    tooltipMsg;
+
     label = {
         unableToLogin,
         forgotPassword,
@@ -49,21 +59,29 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         usrPlaceholder,
         pwdPlaceholder,
         enterUsernameMsg,
-        enterPasswordMsg
+        enterPasswordMsg,
+        showEyeTooltip,
+        hideEyeTooltip
     };
 
     connectedCallback() {
+        window.addEventListener('resize', this.adjustWindowHeight.bind(this));
         loadScript(this, RR_COMMUNITY_JS)
             .then(() => {
                 console.log('RR_COMMUNITY_JS loaded');
                 let language = communityService.getUrlParameter('language');
                 let label = this.label;
+                this.tooltipMsg = label.hideEyeTooltip;
                 this.isRTL = label.rtlLanguages.includes(language);
                 this.isMobileApp = communityService.isMobileSDK();
+                this.isMobileScreen = communityService.isMobileOS();
                 if (this.isRTL) {
                     this.rtlStyle = 'direction: rtl;';
                     this.floatInput = 'float: right;';
                     this.addIconMargin = 'margin-right: -2.2em;';
+                    this.errorIconPosition = 'margin-right: -2.5em';
+                    this.erroContainerPosition =
+                        this.isMobileScreen || this.isMobileSDK ? '' : 'margin-right: 0.5em';
                     console.log(
                         'RTL inline styles applied: ' +
                             this.rtlStyle +
@@ -73,6 +91,9 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 } else {
                     this.floatInput = 'float: left;';
                     this.addIconMargin = 'margin-left: -2.2em;';
+                    this.errorIconPosition = 'margin-left: -2.5em';
+                    this.erroContainerPosition =
+                        this.isMobileScreen || this.isMobileSDK ? '' : 'margin-left: 0.5em';
                 }
                 this.initialized = true;
             })
@@ -86,15 +107,62 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
                 );
             });
     }
+
+    renderedCallback() {
+        this.adjustWindowHeight();
+    }
+
+    adjustWindowHeight() {
+        if (this.inError) {
+            switch (window.innerHeight) {
+                case 609:
+                case 577:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '115vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '115vh';
+                    break;
+                case 554:
+                case 525:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '130vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '130vh';
+                    break;
+                case 487:
+                case 462:
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7'
+                    )[0].style.maxHeight = '150vh';
+                    document.querySelectorAll('.slds-col.slds-large-size_3-of-7')[0].style.height =
+                        '145vh';
+                    document.querySelectorAll(
+                        '.slds-col.slds-large-size_4-of-7 img'
+                    )[0].style.marginTop = '-25px';
+                    break;
+            }
+        }
+    }
+
     @wire(CurrentPageReference)
     setCurrentPageReference(currentPageReference) {
         this.currentPageReference = currentPageReference;
-        let timeDiff = this.currentPageReference.state.c__timeDifference;
-
-        if (timeDiff) {
-            this.timeLeft = Number(timeDiff);
-            this.isLockOut = true;
-            this.lockedOutUsrName = this.currentPageReference.state.c__username;
+        if (this.currentPageReference.state.c__username) {
+            isUserPasswordLocked({ userName: this.currentPageReference.state.c__username })
+                .then((result) => {
+                    console.log('##result: ' + JSON.stringify(result));
+                    if (result.TimeDifference) {
+                        this.timeLeft = Number(result['TimeDifference']);
+                        this.isLockOut = true;
+                        this.lockedOutUsrName = this.currentPageReference.state.c__username;
+                    }
+                })
+                .catch((error) => {
+                    console.log(error);
+                    this.error = error;
+                });
         }
     }
     onInputChange(event) {
@@ -108,14 +176,14 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         let isEyeHidden = this.isEyeHidden;
         if (isEyeHidden) {
             this.template.querySelector('img').src = this.eyeIcon;
-            //this.template.querySelector('img').style = 'padding-top: 9px;';
+            this.tooltipMsg = this.label.showEyeTooltip;
             this.addIconMargin = this.isRTL
                 ? 'padding-top: 9px; margin-right: -2.2em;'
                 : 'padding-top: 9px; margin-left: -2.2em;';
             this.passwordInputType = 'text';
         } else {
             this.template.querySelector('img').src = this.eyeHidden;
-            //this.template.querySelector('img').style = '';
+            this.tooltipMsg = this.label.hideEyeTooltip;
             this.addIconMargin = this.isRTL ? 'margin-right: -2.2em;' : 'margin-left: -2.2em;';
             this.passwordInputType = 'password';
         }
@@ -234,5 +302,8 @@ export default class LofiLoginForm extends NavigationMixin(LightningElement) {
         if (event.which == 13) {
             this.handleLogin();
         }
+    }
+    get isMobile() {
+        return this.isMobileSDK || this.isMobileScreen;
     }
 }

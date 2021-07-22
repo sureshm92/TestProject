@@ -14,22 +14,25 @@
                 ? $A.get('$Label.c.Footer_Link_Privacy_Policy')
                 : $A.get('$Label.c.Footer_Link_Privacy_Policy_Janssen');
         component.set('v.isRTL', rtl_language.includes(paramLanguage));
-        if (communityService.isMobileSDK() || communityService.isMobileOS()) {
-            component.set('v.isMobile', true);
+        if ((isMobileApp || communityService.isMobileOS()) && window.screen.width <= 768) {
+            component.set('v.isMobileView', true);
         }
-
-        bodyText = bodyText
-            .replace('##cookiesURL', '')
-            .replace(
+        component.set('v.isMobileApp', isMobileApp);
+        bodyText = bodyText.replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
+        /*.replace(
                 '##privacyPolicyURL',
-                '<a class="ci-link" href="/s/privacy-policy?lanCode=' +
-                    paramLanguage +
-                    '"' +
-                    (!isMobileApp && windowUrl.includes('login') ? 'target="_blank"' : '') +
+                '<lightning-button onclick={openPp} data-id="ppLink" class="ci-link" ' +
                     '>' +
                     privacyPolicyLinkText +
-                    '</a>'
-            );
+                    '</lightning-button>'
+            );*/
         component.set('v.cookieText', bodyText);
-    }
+      
+    },
+    selectedRecords: function (component, event, helper) {
+            component.set('v.showPpPopup', true);
+    },
+    closePpPopup: function (component, event, helper) {
+            component.set('v.showPpPopup', false);
+    },
 });

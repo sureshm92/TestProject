@@ -14,7 +14,7 @@
 }
 .THIS .rci-inlineRTL {
     display: inline-block;
-    direction: ltr;
+   /* @noflip */ direction: rtl;
 }
 
 .THIS .rci-study-name {

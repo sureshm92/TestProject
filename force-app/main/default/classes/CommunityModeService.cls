@@ -145,6 +145,7 @@ public without sharing class CommunityModeService {
     }
 
     public static List<CommunityModes.PPCommunityModeItem> getParticipantModeItems(Id contactId) {
+        
         List<CommunityModes.PPCommunityModeItem> modes = new List<CommunityModes.PPCommunityModeItem>();
         List<Participant__c> userParticipants = [
             SELECT Id, First_Name__c, Last_Name__c, Contact__c, Contact__r.Landing_Community__c
@@ -158,9 +159,9 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             contactId
         );
-        if (delegatedParticipantIds == null)
+        if (delegatedParticipantIds == null){
             delegatedParticipantIds = new List<Id>();
-
+        }
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c>(
             [
                 SELECT Id, First_Name__c, Last_Name__c, Contact__c
@@ -532,8 +533,9 @@ public without sharing class CommunityModeService {
         List<Id> delegatedParticipantIds = PatientDelegateService.getDelegatedParticipantIds(
             UserContext.getUserContactId()
         );
-        if (delegatedParticipantIds == null)
+        if (delegatedParticipantIds == null){
             delegatedParticipantIds = new List<Id>();
+        }
         Map<Id, Participant__c> participantsMap = new Map<Id, Participant__c> ();
         if(!delegatedParticipantIds.isEmpty()){
               participantsMap = new Map<Id, Participant__c>(
@@ -707,13 +709,17 @@ public without sharing class CommunityModeService {
         String filter
     ) {
         String baseFilter =
-            ' (' + DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds);
+            ' ((' + DatabaseService.fieldInValues('Participant__c', delegatedParticipantIds) + 
+            ' AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true' +
+             		' AND Study_Site__r.Study_Site_Type__c != \'Virtual\' AND Study_Site__r.Study_Site_Type__c != \'Hybrid\')'; 
         if (userParticipant != null)
-            baseFilter += ' OR ' + DatabaseService.fieldEqual('Participant__c', userParticipant.Id);
+            baseFilter += ' OR (' + DatabaseService.fieldEqual('Participant__c', userParticipant.Id) +
+            ' AND Invited_To_PP_Date__c !=null ) ';
         baseFilter += ') ';
-        if (filter != null)
+       
+        if (filter != null){
             baseFilter += ' AND ' + filter;
-
+        }
         List<Participant_Enrollment__c> peList = (List<Participant_Enrollment__c>) DatabaseService.query(
             new List<String>{
                 'Id',

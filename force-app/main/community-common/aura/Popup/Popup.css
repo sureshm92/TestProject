@@ -7,10 +7,12 @@
     visibility: visible;
 }
 
-.THIS .btnRTL {
-   /* @noflip */  right: 96% !important;
-    top: 1px !important;
-}
+/*.THIS .btnRTL {
+ @noflip 
+right: 94% !important;
+top: 1px !important;
+} */
+
 
 .THIS #p-modal .p-container {
     position: fixed;
@@ -295,6 +297,23 @@
 @media all and (min-width: 1024px) {
     .THIS #p-modal .p-container.large {
         width: 800px;
+    }
+}
+@media all and (min-width: 320px){
+    .THIS #p-modal .p-container {
+        position: fixed;
+        max-height: 100vh;
+        z-index: 50000;
+        top: 50%;
+        left: 50%;
+        background-color: #ffffff;
+        transform: translate(-50%, -50%);
+        box-shadow: 0 0 40px 0 rgba(0, 0, 0, 0.7);
+        border-radius: 0 0 4px 4px;
+        border: 1px solid #b5b5b5;
+        opacity: 0;
+        visibility: hidden;
+        transition: opacity 0.4s linear;
     }
 }
 @media all and (max-width: 500px) {

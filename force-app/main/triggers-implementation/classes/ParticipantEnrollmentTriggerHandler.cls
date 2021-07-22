@@ -143,6 +143,21 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
+    public class SendFOVtoAPI extends TriggerHandler {
+        public override void afterInsert(List<SObject> newList) {
+            sendtoAPIafterInsert((List<Participant_Enrollment__c>) newList);
+        }
+
+        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
+            sendtoAPIafterUpdate(
+                (List<Participant_Enrollment__c>) newList,
+                (Map<Id, Participant_Enrollment__c>) oldMap
+            );
+        }
+
+    }
+
+
     // Logic: ----------------------------------------------------------------------------------------------------------
 
     @TestVisible
@@ -555,6 +570,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
        	List<Participant_Enrollment_Status_History__c> historiestoupdate = new List<Participant_Enrollment_Status_History__c>();
         List<Participant_Enrollment__c> peListForTaskCreation = new List<Participant_Enrollment__c>();
         Set<Id> participantContactIds = new Set<Id>();
+        Set<Id> invitedContactIds = new Set<Id>();
         List<Notification__c> notifications = new List<Notification__c>();
 
         for (Participant_Enrollment__c pe : enrollments) {
@@ -574,8 +590,12 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         )
                     );
                     peListForTaskCreation.add(pe);
-                    if (pe.Participant_Contact__c != null)
+                    if (pe.Participant_Contact__c != null){
                         participantContactIds.add(pe.Participant_Contact__c);
+                        if(pe.Invited_To_PP_Date__c !=null){
+                            invitedContactIds.add(pe.Participant_Contact__c);
+                        }
+                    }
                 }
             } else if (pe.Participant_Status__c == PEStatusState.PE_STATUS_ELIGIBILITY_PASSED) {
                 if (
@@ -607,16 +627,24 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                         )
                     );
                     peListForTaskCreation.add(pe);
-                    if (pe.Participant_Contact__c != null)
+                    if (pe.Participant_Contact__c != null){
                         participantContactIds.add(pe.Participant_Contact__c);
+                        if(pe.Invited_To_PP_Date__c !=null){
+                            invitedContactIds.add(pe.Participant_Contact__c);
+                        }
+                    }
                 }
             } else if (oldMap == null) {
                 peListForTaskCreation.add(pe);
                 Clinical_Trial_Profile__c ctp = (Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
                     pe.Clinical_Trial_Profile__c
                 );
-                if (pe.Participant_Contact__c != null)
+                if (pe.Participant_Contact__c != null){
                     participantContactIds.add(pe.Participant_Contact__c);
+                    if(pe.Invited_To_PP_Date__c !=null){
+                        invitedContactIds.add(pe.Participant_Contact__c);
+                    }
+                }
 
                 histories.addAll(ParticipantWorkflowService.createHistoryRecordsForPE(pe, ctp));
             }
@@ -641,7 +669,7 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
             upsert histories;
         }        
         createTasks(peListForTaskCreation);
-        PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds);
+        PatientDelegateService.updateContactPermSetsWithDelegates(participantContactIds, invitedContactIds);
 
         if (!notifications.isEmpty())
             insert notifications;
@@ -838,5 +866,74 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         ParticipantEnrollmentService.updateParticipantState(participants);
         //ContactService.updateContactSite(participants);
 
+    }
+
+    @TestVisible
+    private static void sendtoAPIafterInsert(
+        List<Participant_Enrollment__c> newList
+    ){
+        List<Id> perIdList = new List<Id>();
+        for (Participant_Enrollment__c pe : newList) {
+            if(pe.Initial_visit_scheduled_date__c != null && pe.Initial_visit_scheduled_time__c != null){
+                perIdList.add(pe.Id);
+            }
+        }
+        List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+        List<Participant_Enrollment__c> perDetailedList = [SELECT Id, Name, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c,Initial_visit_scheduled_date__c, Initial_visit_scheduled_time__c, LastModifiedById  FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
+        List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
+        for (Participant_Enrollment__c pe: perDetailedList){
+            LL_RH_event__e llrhEvent = new LL_RH_event__e();
+            llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
+            llrhEvent.Status__c = 'New';
+            llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(pe.Initial_visit_scheduled_date__c) + String.valueOf(pe.Initial_visit_scheduled_time__c);
+            myPElist.add(llrhEvent);
+        }
+        EventBus.publish(myPElist);
+    }
+    @TestVisible
+    private static void sendtoAPIafterUpdate(
+        List<Participant_Enrollment__c> newList,
+        Map<Id, Participant_Enrollment__c> oldMap
+    ){
+        //List all the records for which FOV date/time has been changed
+        List<Id> perIdList = new List<Id>();
+        Map<Id,String> idToStatusMap = new Map<Id,String>();
+        for (Participant_Enrollment__c per: newList){
+            if (per.Initial_visit_scheduled_date__c != oldMap.get(per.Id).Initial_visit_scheduled_date__c || per.Initial_visit_scheduled_time__c != oldMap.get(per.Id).Initial_visit_scheduled_time__c) {
+                perIdList.add(per.Id);
+                if(oldMap.get(per.Id).Initial_visit_scheduled_date__c == null && oldMap.get(per.Id).Initial_visit_scheduled_time__c == null){
+                    idToStatusMap.put(per.Id,'New');
+                }else if(per.Initial_visit_scheduled_date__c != null && per.Initial_visit_scheduled_time__c != null){
+                    idToStatusMap.put(per.Id,'Reschedule');
+                }else if(per.Initial_visit_scheduled_date__c == null && per.Initial_visit_scheduled_time__c == null){
+                    idToStatusMap.put(per.Id,'Cancel');
+                }
+            }
+        }
+
+        Datetime dt = datetime.now();
+        List<Participant_Enrollment__c > perFinalList = new List<Participant_Enrollment__c >();
+        List<User> inValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+        List<Participant_Enrollment__c > perList = [SELECT Id, Name, Study_Site__c, Study_Site__r.Name, Study_Site__r.Scheduling_vendors__c, LastModifiedById, Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c FROM Participant_Enrollment__c where Id IN :perIdList AND Study_Site__r.Scheduling_vendors__c != null AND LastModifiedById NOT IN : inValidUserList];
+
+        List<LL_RH_event__e> myPElist = new List<LL_RH_event__e>();
+
+        for(Participant_Enrollment__c  pe : perList ){
+            LL_RH_event__e llrhEvent = new LL_RH_event__e();
+            if(idToStatusMap.get(pe.Id) != 'Cancel'){
+                if((pe.Initial_visit_scheduled_date__c == Date.today() && pe.Initial_visit_scheduled_time__c > dt.timeGmt()) || (pe.Initial_visit_scheduled_date__c > Date.today())){
+                    llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
+                    llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                    llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(pe.Initial_visit_scheduled_date__c) + String.valueOf(pe.Initial_visit_scheduled_time__c);
+                    myPElist.add(llrhEvent);
+                }
+            }else if(idToStatusMap.get(pe.Id) == 'Cancel'){
+                llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
+                llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_date__c) + String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_time__c);
+                myPElist.add(llrhEvent);
+            }
+        }
+        EventBus.publish(myPElist);
     }
 }

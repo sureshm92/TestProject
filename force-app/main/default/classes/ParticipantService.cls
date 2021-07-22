@@ -249,9 +249,10 @@ public without sharing class ParticipantService {
             participantWithDelegate
         );
 
-        AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
+        
         Participant__c participantFromDatabase = duplicateService.findDuplicate(participant);
         if (participantFromDatabase != null) {
+            AddPatientByPIRemote.updateParticipant(JSON.serialize(participant));
             participant = participantFromDatabase;
         } else {
             //check contact duplicate:

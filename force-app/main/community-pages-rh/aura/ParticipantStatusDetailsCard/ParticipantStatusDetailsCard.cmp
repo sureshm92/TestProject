@@ -14,6 +14,11 @@
     <aura:attribute name="todayDate" type="Date" />
     <aura:attribute name="disableReason" type="Boolean" />
     <aura:attribute name="isSuccessfullyContacted" type="Boolean" default="false" />
+    <aura:attribute name="historyList" type="List" />
+    <aura:attribute name="historyListz" type="List" />
+    <aura:attribute name="validateFOV" type="Boolean" default="false" /> 
+    <aura:attribute name="isFovHistoryNull" type="Boolean" default="false" /> 
+    <aura:attribute name="lastModifiedDate" type="DateTime" />
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="isDateTimeFieldsAvailable" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
@@ -24,9 +29,9 @@
     <aura:handler name="change" value="{!v.stepWrapper.reason}" action="{!c.updateNotesRequired}"/>
     <aura:handler name="change" value="{!v.stepWrapper.notes}" action="{!c.checkNotesRequiredValidity}"/>
     -->
-
+    
     <aura:method name="updateFieldValidity" action="{!c.doUpdateFieldValidity}" access="public" />
-
+    
     <div class="step-card-title">{!v.stepWrapper.cardTitle}</div>
     <aura:if isTrue="{!true}">
         <div class="step-form">
@@ -42,12 +47,12 @@
                         <div class="rrs-container">
                             <div class="rrs-relative">
                                 <lightning:select
-                                    aura:id="outcomeList"
-                                    name="rrs-select"
-                                    variant="label-hidden"
-                                    disabled="{!!v.stepWrapper.outcomeEditable}"
-                                    onchange="{!c.updateReasonList}"
-                                >
+                                                  aura:id="outcomeList"
+                                                  name="rrs-select"
+                                                  variant="label-hidden"
+                                                  disabled="{!!v.stepWrapper.outcomeEditable}"
+                                                  onchange="{!c.updateReasonList}"
+                                                  >
                                     <option value="{!null}" style="display: none">
                                         {!v.stepWrapper.outcomePlaceholder}
                                     </option>
@@ -58,14 +63,14 @@
                                     </aura:iteration>
                                 </lightning:select>
                                 <img
-                                    src="{!$Resource.SelectMenuTriangleDown}"
-                                    height="16"
-                                    width="16"
-                                />
+                                     src="{!$Resource.SelectMenuTriangleDown}"
+                                     height="16"
+                                     width="16"
+                                     />
                             </div>
                             <div
-                                class="{!'rr-error-message' + if(v.stepWrapper.outcomeDisclaimer == '', ' slds-hide','')}"
-                            >
+                                 class="{!'rr-error-message' + if(v.stepWrapper.outcomeDisclaimer == '', ' slds-hide','')}"
+                                 >
                                 {!v.stepWrapper.outcomeDisclaimer}
                             </div>
                         </div>
@@ -80,40 +85,40 @@
                         <div class="rrs-container">
                             <div class="rrs-relative">
                                 <lightning:select
-                                    aura:id="reasonList"
-                                    name="rrs-select"
-                                    variant="label-hidden"
-                                    disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason || !v.stepWrapper.outcomeEditable}"
-                                    onchange="{!c.updateNotesRequired}"
-                                >
+                                                  aura:id="reasonList"
+                                                  name="rrs-select"
+                                                  variant="label-hidden"
+                                                  disabled="{!or(empty(v.stepWrapper.outcome),empty(v.reasonList)) || v.disableReason || !v.stepWrapper.outcomeEditable}"
+                                                  onchange="{!c.updateNotesRequired}"
+                                                  >
                                     <option value="{!null}" style="display: none">
                                         {!if(empty(v.reasonList),'',$Label.c.PG_RP_L_Not_selected)}
                                     </option>
                                     <aura:iteration items="{!v.reasonList}" var="item">
                                         <option
-                                            value="{!item.value}"
-                                            selected="{!item.value == v.stepWrapper.reason}"
-                                        >
+                                                value="{!item.value}"
+                                                selected="{!item.value == v.stepWrapper.reason}"
+                                                >
                                             <aura:unescapedHtml value="{!item.label}" />
                                         </option>
                                     </aura:iteration>
                                 </lightning:select>
                                 <img
-                                    src="{!$Resource.SelectMenuTriangleDown}"
-                                    height="16"
-                                    width="16"
-                                />
+                                     src="{!$Resource.SelectMenuTriangleDown}"
+                                     height="16"
+                                     width="16"
+                                     />
                             </div>
                         </div>
                     </div>
                     <div class="slds-col slds-size--1-of-1 outcome-form-element">
                         <div class="label2">{!$Label.c.PG_ACPE_L_Notes+' ('+if(v.notesRequired,$Label.c.PG_ACPE_L_required,$Label.c.PG_ACPE_L_optional)+')'}</div>
                         <lightning:input
-                            label=""
-                            type="text"
-                            value="{!v.stepWrapper.notes}"
-                            onchange="{!c.checkNotesRequiredValidity}"
-                        />
+                                         label=""
+                                         type="text"
+                                         value="{!v.stepWrapper.notes}"
+                                         onchange="{!c.checkNotesRequiredValidity}"
+                                         />
                     </div>
                 </div>
             </aura:if>
@@ -124,13 +129,14 @@
                 <div class="slds-grid slds-wrap slds-gutters">
                     <aura:iteration items="{!fieldsGroup.fields}" var="field">
                         <c:ParticipantStatusDetailsCardField
-                            aura:id="statusDetailField"
-                            field="{!field}"
-                            parent="{!v.parent}"
-                            required="{!v.stepWrapper.currentOutcomeSuccess}"
-                            todayDate="{!v.todayDate}"
-                            updateInProgress="{!v.updateInProgress}"
-                        />
+                                                             aura:id="statusDetailField"
+                                                             field="{!field}"
+                                                             parent="{!v.parent}"
+                                                             required="{!v.stepWrapper.currentOutcomeSuccess}"
+                                                             todayDate="{!v.todayDate}"
+                                                             updateInProgress="{!v.updateInProgress}"
+                                                             validateFOV="{!v.validateFOV}"
+                                                             />
                     </aura:iteration>
                 </div>
             </aura:iteration>
@@ -154,44 +160,103 @@
         <div class="step-history">
             <div class="step-history-title">{!v.stepWrapper.historyTitle}</div>
             <div class="step-history-records">
-                <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
-                    {!$Label.c.None}
-                    <aura:set attribute="else">
-                        <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
-                            <div class="history-item">
-                                <span class="history-item-title">{!history.title}</span>
-                                <span class="history-item-detail">
-                                    <aura:if isTrue="{!history.isAdditionalNote != true}">
-                                        <aura:if isTrue="{!history.title == 'Received'}">
-                                            {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime
-                                                value="{!history.detailDate}"
-                                                year="numeric"
-                                                month="short"
-                                                day="2-digit"
-                                                hour="numeric"
-                                                minute="numeric"
-                                                timeZone="{!$Locale.timezone}"
-                                            />
-                                            {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
-                                            <aura:set attribute="else">
+                <aura:if isTrue="{!v.stepWrapper.historyTitle == 'Contact History:'}">
+                    <aura:if isTrue="{!v.isFovHistoryNull}"> 
+                        <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
+                            {!$Label.c.None}
+                            <aura:set attribute="else"> 
+                                <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
+                                    <div class="history-item">
+                                        <span class="history-item-title">{!history.title}</span>
+                                        <span class="history-item-detail">
+                                            <aura:if isTrue="{!history.isAdditionalNote != true}">
+                                                &nbsp;{!$Label.c.PE_Status_History_On_Date + '
+                                                        '}<lightning:formattedDateTime
+                                                                                       value="{!history.detailDate}"
+                                                                                       year="numeric"
+                                                                                       month="short"
+                                                                                       day="2-digit"
+                                                                                       hour="numeric"
+                                                                                       minute="numeric"
+                                                                                       timeZone="{!$Locale.timezone}"
+                                                                                       />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
+                                                        history.createdBy}
+                                                <aura:set attribute="else">
+                                                    {!history.detail}
+                                                </aura:set>
+                                            </aura:if>
+                                        </span>
+                                    </div>
+                                </aura:iteration>
+                            </aura:set>
+                        </aura:if>
+                        <aura:set attribute="else"> 
+                            <aura:if isTrue="{!empty(v.historyListz)}">
+                                {!$Label.c.None}
+                                <aura:set attribute="else"> 
+                                    <aura:iteration items="{!v.historyListz}" var="fovhistory">
+                                        <div class="history-item">
+                                            <span class="history-item-title">{!fovhistory.title}</span>
+                                            <span class="history-item-detail">
                                                 &nbsp;{!$Label.c.PE_Status_History_On_Date + '
                                                 '}<lightning:formattedDateTime
-                                                    value="{!history.detailDate}"
-                                                    year="numeric"
-                                                    month="short"
-                                                    day="2-digit"
-                                                    hour="numeric"
-                                                    minute="numeric"
-                                                    timeZone="{!$Locale.timezone}"
-                                                />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
-                                                history.createdBy}
-                                            </aura:set>
-                                        </aura:if>
-                                        <aura:set attribute="else"> {!history.detail} </aura:set>
-                                    </aura:if>
-                                </span>
-                            </div>
-                        </aura:iteration>
+                                                                               value="{!fovhistory.detailDate}"
+                                                                               year="numeric"
+                                                                               month="short"
+                                                                               day="2-digit"
+                                                                               hour="numeric"
+                                                                               minute="numeric"
+                                                                               timeZone="UTC"
+                                                                               />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
+                                                fovhistory.createdBy}
+                                            </span>
+                                        </div>
+                                    </aura:iteration>
+                                </aura:set>
+                            </aura:if>
+                        </aura:set>
+                    </aura:if>   
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
+                            {!$Label.c.None}
+                            <aura:set attribute="else"> 
+                                <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
+                                    <div class="history-item">
+                                        <span class="history-item-title">{!history.title}</span>
+                                        <span class="history-item-detail">
+                                            <aura:if isTrue="{!history.isAdditionalNote != true}">
+                                                <aura:if isTrue="{!history.title == 'Received'}">
+                                                    {!$Label.c.PWS_On + ' '}<lightning:formattedDateTime
+                                                                                                         value="{!history.detailDate}"
+                                                                                                         year="numeric"
+                                                                                                         month="short"
+                                                                                                         day="2-digit"
+                                                                                                         hour="numeric"
+                                                                                                         minute="numeric"
+                                                                                                         timeZone="{!$Locale.timezone}"
+                                                                                                         />
+                                                    {! ' ' +$Label.c.PWS_From } {! ' '+ history.source}
+                                                    <aura:set attribute="else">
+                                                        &nbsp;{!$Label.c.PE_Status_History_On_Date + '
+                                                        '}<lightning:formattedDateTime
+                                                                                       value="{!history.detailDate}"
+                                                                                       year="numeric"
+                                                                                       month="short"
+                                                                                       day="2-digit"
+                                                                                       hour="numeric"
+                                                                                       minute="numeric"
+                                                                                       timeZone="{!$Locale.timezone}"
+                                                                                       />{!' '+ $Label.c.PG_IMI_L_by_user}{! ' '+
+                                                        history.createdBy}
+                                                    </aura:set>
+                                                </aura:if>
+                                                <aura:set attribute="else"> {!history.detail} </aura:set>
+                                            </aura:if>
+                                        </span>
+                                    </div>
+                                </aura:iteration>
+                            </aura:set>
+                        </aura:if>
                     </aura:set>
                 </aura:if>
             </div>

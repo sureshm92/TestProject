@@ -3331,6 +3331,27 @@ Please share our site on social media to encourage others to assist us as we wor
         <shortDescription>Case_Owner_Email_For_User_Lockout</shortDescription>
         <value>rajesh.r@quintiles.com</value>
     </labels>
+     <labels>
+        <fullName>Cancel_Scheduled_Visit</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Cancel Scheduled Visit</shortDescription>
+        <value>&lt;b&gt;Cancel Scheduled Visit?&lt;b&gt;</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarning</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarning</shortDescription>
+        <value>Changing to this status will cancel the scheduled visit</value>
+    </labels>
+    <labels>
+        <fullName>CancelfovWarnings</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>CancelfovWarnings</shortDescription>
+        <value>for this participant&apos;s initial visit. Are you sure you want to proceed?</value>
+    </labels>
     <labels>
         <fullName>Case_sub_transfer_to_new_site</fullName>
         <categories>Case</categories>
@@ -4288,7 +4309,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to be contacted</shortDescription>
-        <value>I do not want to be contacted via phone(voice call)</value>
+        <value>I do not want to be contacted via phone(voice call) from IQVIA Referral Hub or IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>Don_t_want_to_be_contacted_via_SMS</fullName>
@@ -4296,7 +4317,7 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don_t_want_to_be_contacted_via_SMS</shortDescription>
-        <value>I do not want to be contacted via SMS/text messages</value>
+        <value>I do not want to be contacted via SMS/text messages from IQVIA Referral Hub or IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>Don_t_want_to_receive</fullName>
@@ -4304,7 +4325,14 @@ By using our website, you are accepting our use of cookies.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Don&apos;t want to receive email</shortDescription>
-        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email)</value>
+        <value>I do not want to receive emails (not applicable to system emails or messages sent in response to a specific user request, e.g. password reset email) from IQVIA Referral Hub or IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>Download_PDF_pp</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Download PDF pp</shortDescription>
+        <value>Download PDF</value>
     </labels>
     <labels>
         <fullName>Download_Trial_Match</fullName>
@@ -4376,6 +4404,13 @@ By using our website, you are accepting our use of cookies.</value>
         <protected>false</protected>
         <shortDescription>EmailPreferencesIsOff</shortDescription>
         <value>You currently do not have your communication preferences set to receive email. Please click &lt;a href=&quot;account-settings&quot; target=&quot;_blank&quot;&gt;here&lt;/a&gt; to set your communications preferences in your account settings.</value>
+    </labels>
+    <labels>
+        <fullName>EmailWarningMessage</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>EmailWarningMessage</shortDescription>
+        <value>Updating your email address will not change your login username. You may submit a request to update or merge your username by submitting a ticket from the</value>
     </labels>
     <labels>
         <fullName>Email_Action_Complete_Baseline_Survey</fullName>
@@ -8409,6 +8444,13 @@ The expected format is REF##### to REF########</value>
         <value>Changes will be saved as you go to the next page!</value>
     </labels>
     <labels>
+        <fullName>ISO_Download_Template</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ISO Download Template</shortDescription>
+        <value>ISO Language Guide</value>
+    </labels>
+    <labels>
         <fullName>IWRSIWRS_ID</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8682,7 +8724,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Incorrect data</shortDescription>
         <value>Please input correct data.</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>Initial_Visit</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8753,12 +8795,12 @@ The expected format is REF##### to REF########</value>
         <shortDescription>Invited_to_Patient_Portal</shortDescription>
         <value>Invited to Patient Portal</value>
     </labels>
-	<labels>
-        <fullName>ISO_Download_Template</fullName>
+     <labels>
+        <fullName>Initial_Visit_modified</fullName>
         <language>en_US</language>
         <protected>false</protected>
-        <shortDescription>ISO Download Template</shortDescription>
-        <value>ISO Language Guide</value>
+        <shortDescription>Initial Visit modified</shortDescription>
+        <value>Initial Visit modified</value>
     </labels>
     <labels>
         <fullName>Janssen_Community_Login_Page</fullName>
@@ -8794,6 +8836,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>June</shortDescription>
         <value>June</value>
+    </labels>
+    <labels>
+        <fullName>Last_Updated_pp_text</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Last Updated pp text</shortDescription>
+        <value>Last Updated:</value>
     </labels>
     <labels>
         <fullName>Learn_More</fullName>
@@ -8922,7 +8971,7 @@ The expected format is REF##### to REF########</value>
         <shortDescription>ListView_Current_Status</shortDescription>
         <value>Current Status</value>
     </labels>
-	<labels>
+    <labels>
         <fullName>ListView_GroupStatuses</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -8994,7 +9043,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Lofi Login Footer Policies</shortDescription>
-        <value>Policies</value>
+        <value>Privacy Policy</value>
     </labels>
     <labels>
         <fullName>Lofi_Login_PP_Header</fullName>
@@ -9032,6 +9081,14 @@ The expected format is REF##### to REF########</value>
         <value>Connecting professionals, patients and clinical researchers for better healthcare</value>
     </labels>
     <labels>
+        <fullName>Lofi_Optimized_Message</fullName>
+        <categories>Lofi Login Screen</categories>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Lofi Optimized Message</shortDescription>
+        <value>This product is optimized for Google Chrome and Safari.&lt;br/&gt;Your experience will be less than optimal with other browsers.</value>
+    </labels>
+    <labels>
         <fullName>Lofi_Unable_to_Login</fullName>
         <categories>Lofi Login Screen</categories>
         <language>en_US</language>
@@ -9045,6 +9102,13 @@ The expected format is REF##### to REF########</value>
         <protected>true</protected>
         <shortDescription>Login_Form_Show</shortDescription>
         <value>Show</value>
+    </labels>
+    <labels>
+        <fullName>Login_Form_Hide</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Login_Form_Hide</shortDescription>
+        <value>Hide</value>
     </labels>
     <labels>
         <fullName>Low_density_Lipoprotein</fullName>
@@ -9596,7 +9660,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message_For_Delegates</shortDescription>
-        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal when applicable.</value>
+        <value>Unless the participant is a minor or otherwise requires a legal guardian, a delegate should only be entered with the participant&apos;s explicit permission. Upon registration, the delegate will be able to view the participant information available via the Patient Portal, when applicable.</value>
     </labels>
     <labels>
         <fullName>Message_For_Delegates_Jansen</fullName>
@@ -10735,7 +10799,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Opt Out</shortDescription>
-        <value>Opt Out of communication by IQVIA and its affiliates</value>
+        <value>Opt Out of communication</value>
     </labels>
     <labels>
         <fullName>Opt_Out_Success_Message</fullName>
@@ -16213,7 +16277,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_DuplicateUsernames</shortDescription>
-        <value>Duplicate usernames are associated with your email  &lt;b&gt;##Email&lt;/b&gt;. Please choose one of the following to use.</value>
+        <value>There are multiple usernames associated with your email address. Please choose the username that you would like to use.</value>
     </labels>
     <labels>
         <fullName>PP_EditAllInfo</fullName>
@@ -16264,7 +16328,7 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_EmailSent</shortDescription>
-        <value>If there's an account linked to this username, we'll send over instructions to reset your password.</value>
+        <value>If there&apos;s an account linked to this username, we&apos;ll send over instructions to reset your password.</value>
     </labels>
     <labels>
         <fullName>PP_Emergency</fullName>
@@ -16379,6 +16443,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>And include any 3 below</value>
     </labels>
     <labels>
+        <fullName>PP_InvalidUsername</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_InvalidUsername</shortDescription>
+        <value>Invalid username</value>
+    </labels>
+    <labels>
         <fullName>PP_InvalidYear</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16414,6 +16485,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>I want to match my username</value>
     </labels>
     <labels>
+        <fullName>PP_MatchUsr</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MatchUsr</shortDescription>
+        <value>We will attempt to match your username with your email.</value>
+    </labels>
+    <labels>
         <fullName>PP_MeetingCriteria</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16421,11 +16499,39 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <value>Password is meeting criteria</value>
     </labels>
     <labels>
+        <fullName>PP_Merge</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Merge</shortDescription>
+        <value>I would like to merge my existing username</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeDntTranslate</shortDescription>
+        <value>I want to merge my existing usernames</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeExisting</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeExisting</shortDescription>
+        <value>Merge existing usernames</value>
+    </labels>
+    <labels>
         <fullName>PP_MergeUsersDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_MergeUsersDntTranslate</shortDescription>
         <value>I have duplicate usernames. I want to use my username.</value>
+    </labels>
+    <labels>
+        <fullName>PP_MergeUsrNamesDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_MergeUsrNamesDntTranslate</shortDescription>
+        <value>Request to Merge Usernames</value>
     </labels>
     <labels>
         <fullName>PP_MessagePatternMismatch</fullName>
@@ -16475,6 +16581,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_One_Week_Before</shortDescription>
         <value>1 week before</value>
+    </labels>
+    <labels>
+        <fullName>PP_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Page</shortDescription>
+        <value>Page</value>
     </labels>
     <labels>
         <fullName>PP_Participant</fullName>
@@ -16677,6 +16790,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PP_Remove_Photo</shortDescription>
         <value>Remove Photo</value>
+    </labels>
+    <labels>
+        <fullName>PP_RequestSubmitted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_RequestSubmitted</shortDescription>
+        <value>Request has been submitted successfully</value>
     </labels>
     <labels>
         <fullName>PP_RequiredErrorMessage</fullName>
@@ -16909,14 +17029,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_UsrNameLabel</shortDescription>
-        <value>Username associated with your email &lt;b&gt;##Email&lt;/b&gt;.</value>
+        <value>Your current email is: &lt;b&gt;##Email&lt;/b&gt;.</value>
     </labels>
     <labels>
         <fullName>PP_UsrNameUpdateDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_UsrNameUpdateDntTranslate</shortDescription>
-        <value>Username Update</value>
+        <value>Request to Match Username to Email</value>
     </labels>
     <labels>
         <fullName>PP_VPC_SS_Empty_VP</fullName>
@@ -16975,6 +17095,13 @@ communications using the toggles below.</value>
         <value>Visit Time</value>
     </labels>
     <labels>
+        <fullName>PP_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_Warning</shortDescription>
+        <value>Warning:</value>
+    </labels>
+    <labels>
         <fullName>PP_Withdraw_Delegate</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -16996,14 +17123,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_YOBUpdateDntTranslate</shortDescription>
-        <value>YOB Update</value>
+        <value>Request to Update YOB</value>
+    </labels>
+    <labels>
+        <fullName>PP_YOBUsrMergeDntTranslate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP_YOBUsrMergeDntTranslate</shortDescription>
+        <value>Request to Update YOB and Merge UserName</value>
     </labels>
     <labels>
         <fullName>PP_YOBUsrUpdateDntTranslate</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PP_YOBUsrUpdateDntTranslate</shortDescription>
-        <value>YOB Update,Username Update</value>
+        <value>Request to Update YOB and Match UserName</value>
     </labels>
     <labels>
         <fullName>PSC_Docs_will_be_published</fullName>
@@ -17575,6 +17709,13 @@ communications using the toggles below.</value>
         <value>Principal Investigator</value>
     </labels>
     <labels>
+        <fullName>Privacypolicy_pdf_headers</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Privacypolicy_pdf_headers</shortDescription>
+        <value>Our Commitment to Privacy,The Information we recieve,User Input,Actively Submitted Data,Web Logos</value>
+    </labels>
+    <labels>
         <fullName>Profile_Menu_Account_Settings</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -17594,6 +17735,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>Profile Menu More</shortDescription>
         <value>More</value>
+    </labels>
+     <labels>
+        <fullName>Proceed</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Proceed</shortDescription>
+        <value>Proceed</value>
     </labels>
     <labels>
         <fullName>Programmed_death_ligand_1</fullName>
@@ -19421,6 +19569,26 @@ communications using the toggles below.</value>
         <shortDescription>Send to Study Hub</shortDescription>
         <value>Send to Study Hub</value>
     </labels>
+	 <labels>
+        <fullName>Send_IPREmailReport_Body</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Body</shortDescription>
+        <value>Dear Team Member,&lt;br/&gt;&lt;br/&gt;
+        The report in this email contains records from ePR which were unable to be processed in Referral Hub due to validation errors. Please check the error report for further details and make any required changes. Referral Hub will attempt to reprocess these records at regular intervals for the next 30 days. &lt;br/&gt;
+        If the records are unable to be successfully processed after 30 days of retrials, they will be archived.
+        &lt;br/&gt;&lt;br/&gt;
+        
+        Thanks,&lt;br/&gt;
+        Referral Hub Team</value>
+    </labels>
+    <labels>
+        <fullName>Send_IPREmailReport_Subject</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Send_IPREmailReport_Subject</shortDescription>
+        <value>Action Required: Referral Hub- ePR records Validation Errors</value>
+    </labels>
     <labels>
         <fullName>Sent_to_Study_Hub</fullName>
         <language>en_US</language>
@@ -19548,13 +19716,6 @@ communications using the toggles below.</value>
         <shortDescription>StudyStub</shortDescription>
         <value>This study</value>
     </labels>
-    <labels>
-        <fullName>Study_Hub</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Study_Hub</shortDescription>
-        <value>Study Hub</value>
-    </labels>    
     <labels>
         <fullName>StudyVisit_Ad_hoc_Visit</fullName>
         <language>en_US</language>
@@ -19761,6 +19922,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Study Document For RTL</shortDescription>
         <value>Study Document</value>
+    </labels>
+    <labels>
+        <fullName>Study_Hub</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Study_Hub</shortDescription>
+        <value>Study Hub</value>
     </labels>
     <labels>
         <fullName>Study_Name</fullName>

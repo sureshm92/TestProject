@@ -686,7 +686,7 @@
         </div>-->
             <div class="slds-col slds-size_1-of-1 ListViewHead">
                 <span
-                      >{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span
+                      >{!$Label.c.Showing}&nbsp;{!v.RecordStart}-{!v.RecordEnd}&nbsp;{!$Label.c.of}&nbsp;{!v.TotalRecords}&nbsp;{!$Label.c.PG_DB_L_patients}&nbsp;({!v.count}&nbsp;{!$Label.c.selected_max_50})</span
                     >
                 <div class="slds-float_right">
                     <span

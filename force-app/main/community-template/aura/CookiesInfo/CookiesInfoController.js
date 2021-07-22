@@ -2,12 +2,12 @@
  * Created by  Leonid Bartenev
  */
 ({
-    doInit: function (component, event, helper) {
+    doInit: function(component, event, helper) {
         let rrCookies = communityService.getCookie('RRCookies');
         let paramLanguage = communityService.getUrlParameter('lanCode');
         let isMobileApp = communityService.isMobileSDK();
         if (!rrCookies) {
-            communityService.executeAction(component, 'getCommunityUrl', {}, function (rValue) {
+            communityService.executeAction(component, 'getCommunityUrl', {}, function(rValue) {
                 console.log(rValue);
                 let communityPrefix = rValue;
                 let check = communityPrefix.includes('Janssen Community');
@@ -76,7 +76,14 @@
                         (!isMobileApp && communityUrl.includes('login') ? 'target="_blank"' : '') +
                         '>';
                 }
-                infoText = infoText.replace('##cookiesURL', linkCP + linkCookies + '</a>');
+                if (
+                    communityPrefix.includes('Janssen Community') ||
+                    communityPrefix.includes('IQVIA Referral Hub')
+                ) {
+                    infoText = infoText.replace('##cookiesURL', $A.get('$Label.c.Link_Cookies'));
+                } else {
+                    infoText = infoText.replace('##cookiesURL', linkCP + linkCookies + '</a>');
+                }
                 infoText = infoText.replace('##privacyPolicyURL', linkPPUrl + linkPP + '</a>');
                 infoText = infoText.replace(
                     '##interactiveAdvertisingBureauURL',
@@ -84,14 +91,14 @@
                 );
                 component.set('v.resultInfoText', infoText);
                 component.set('v.visible', true);
-                component.cookiesOff = $A.getCallback(function () {
+                component.cookiesOff = $A.getCallback(function() {
                     communityService.setCookie('RRCookies', 'agreed');
                     component.set('v.visible', false);
                     document.body.removeEventListener('click', component.cookiesOff, false);
                 });
                 document.body.addEventListener('click', component.cookiesOff, false);
                 setTimeout(
-                    $A.getCallback(function () {
+                    $A.getCallback(function() {
                         component.cookiesOff();
                     }),
                     20000
@@ -100,7 +107,7 @@
         }
     },
 
-    doCloseCookiesInfo: function (component) {
+    doCloseCookiesInfo: function(component) {
         communityService.setCookie('RRCookies', 'agreed');
         let appEvent = $A.get('e.c:TCCookieClassesRemove');
         appEvent.fire();
