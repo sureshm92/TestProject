@@ -97,11 +97,10 @@
     margin-top: 7px;
     display: inline-block;
     text-overflow: ellipsis;
+    max-width: 175px;
+    position: relative;
+    padding-right: 15px;
 }
-.THIS .visit-result-item-name-child {
-    white-space: normal;
-}
-
 .THIS .visit-results-panel-disclaimer {
     color: #595959;
     font-family: 'Proxima Nova';
