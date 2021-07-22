@@ -10,7 +10,8 @@
                 isDelegate: isDelegate,
                 language: null,
                 Searchstr: null,
-                communityTemplate: communityService.getCurrentCommunityTemplateName()
+                communityTemplate: communityService.getCurrentCommunityTemplateName(),
+                strDelegateId: communityService.getDelegateId()
             },
             function (response) {
                 console.log('>>>reposne>>'+JSON.stringify(response));

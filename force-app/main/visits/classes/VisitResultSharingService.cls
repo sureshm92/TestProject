@@ -232,7 +232,9 @@ public without sharing class VisitResultSharingService {
         Map<String, Visit_Result_Type_Sharing__c> visitResultTypeSharingByType = getResultTypeSharingsByType(
             getCTP(pe.Clinical_Trial_Profile__c)
         );
-
+        Boolean isAlumniParticipant = PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
+            pe.Participant_Status__c
+        );
         String mailingCountryCode = pe.Participant__r.Mailing_Country_Code__c;
         //Create Set notAccessResultType which must be independent of Visit_Result__c
         for (
@@ -261,8 +263,11 @@ public without sharing class VisitResultSharingService {
                 for (Visit_Result__c result : patientVisit.Visit_Results__r) {
                     if (
                         visitResultTypeSharingByType.containsKey(result.Result_Type__c) &&
+                        ((!isAlumniParticipant &&
+                        visitResultGroupSet != null &&
                         visitResultGroupSet.size() > 0 &&
-                        visitResultGroupSet.contains(result.recordType.DeveloperName)
+                        visitResultGroupSet.contains(result.recordType.DeveloperName)) ||
+                        isAlumniParticipant)
                     ) {
                         Visit_Result_Type_Sharing__c resultTypeSharing = visitResultTypeSharingByType.get(
                             result.Result_Type__c

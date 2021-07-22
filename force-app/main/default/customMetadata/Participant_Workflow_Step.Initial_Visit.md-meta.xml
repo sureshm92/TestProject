@@ -36,7 +36,7 @@
     </values>
     <values>
         <field>In_Progress_Condition__c</field>
-        <value xsi:type="xsd:string">Initial_visit_scheduled_flag__c == true&amp;&amp;Is_Contacted__c == False</value>
+        <value xsi:type="xsd:string">Initial_visit_scheduled_flag__c == true</value>
     </values>
     <values>
         <field>In_Progress_Date_Field__c</field>
