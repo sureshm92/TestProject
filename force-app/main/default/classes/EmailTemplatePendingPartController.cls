@@ -27,6 +27,8 @@ global without sharing class EmailTemplatePendingPartController {
                             Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
                             AND is_Invited__c = TRUE
                             AND Site_Contact__c = :sourceIdValue
+                            AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                            AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
                     ]) {
                         studySites.add(ss.Study_Site__c);
                     }
@@ -41,7 +43,9 @@ global without sharing class EmailTemplatePendingPartController {
                             Participant_Status__c = 'Received'
                             AND (Study_Site__c IN :studySites
                             OR PI_Contact__c = :sourceIdValue)
-                            AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE LIMIT 10
+                            AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE 
+                            AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
+                            LIMIT 10
                     ]) {
                             delegateStudyNames.add(
                                 new ParticipantInfoWrapper(
