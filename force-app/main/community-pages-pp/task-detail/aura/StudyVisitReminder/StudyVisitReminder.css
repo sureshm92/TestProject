@@ -5,7 +5,22 @@
 .THIS #body {
     padding: 0 8px;
 }
-
+.THIS .ignoreButton {
+    margin-bottom: 2%;
+}
+.THIS .inlineClass {
+    display: inline-block !important;
+}
+.THIS .rtlSave {
+    margin-left: 0px !important;
+    margin-right: 15px !important;
+}
+.THIS .markComplete {
+    margin-left: 3.5% !important;
+}
+.THIS .markCompleteRTL {
+    margin-right: 3.5% !important;
+}
 .THIS .te-task-panel {
     min-height: 400px;
     max-width: 1140px;
