@@ -992,45 +992,50 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                                        participantDuplicate.Phone__c = Phone;
                                        participantPatient.add(participantDuplicate);
                                    }*/
-                                if(!String.isEmpty(EmailAddress)){
+                                if(String.isNotBlank(EmailAddress)){
                                     participantDuplicate.Email__c =  EmailAddress;
                                 }
-                                if(!String.isEmpty(Phone)){
+                                if(String.isNotBlank(Phone)){
                                     participantDuplicate.Phone__c =  Phone;
                                 }
-                               if(!String.isEmpty(MiddleName)){
+                               if(String.isNotBlank(MiddleName)){
                                     participantDuplicate.Middle_Name__c =  MiddleName;
                                 }
-                               if(!String.isEmpty(Nickname)){
+                               if(String.isNotBlank(Nickname)){
                                     participantDuplicate.Nickname__c =  Nickname;
                                 }
-                                if(!String.isEmpty(Sex)){
+                                if(String.isNotBlank(Sex)){
                                     participantDuplicate.Gender__c =  Sex;
                                 }
-                                if(!String.isEmpty(DateOfBirth)){
+                                if(String.isNotBlank(DateOfBirth)){
                                     participantDuplicate.Date_of_Birth__c =  DateOfBirth;
                                 }
-                                if(!String.isEmpty(PhoneType)){
+                                if(String.isNotBlank(PhoneType)){
                                     participantDuplicate.Phone_Type__c =  PhoneType;
                                 }
-                                if(!String.isEmpty(Phone2)){
+                                if(String.isNotBlank(Phone2)){
                                     participantDuplicate.Alternative_Phone_Number__c =  Phone2;
                                 }
-                                if(!String.isEmpty(PhoneType2)){
+                                if(String.isNotBlank(PhoneType2)){
                                     participantDuplicate.Alternative_Phone_Type__c =  PhoneType2;
                                 }
                                 participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language) ? uploadUser.Contact.Language__c : Language);
-                               if(!String.isEmpty(State)){
+                               if(String.isNotBlank(State)){
                                     participantDuplicate.Mailing_State__c =  State;
                                 }
-                                if(!String.isEmpty(countryName)){
+                                if(String.isNotBlank(countryName)){
                                     participantDuplicate.Mailing_Country__c =  countryName;
                                 }
-                                if(!String.isEmpty(cc)){
+                                if(String.isNotBlank(cc)){
                                     participantDuplicate.Mailing_Country_Code__c =  cc;
                                 }
-                                if(!String.isEmpty(sc)){
+                                if(String.isNotBlank(sc)){
                                     participantDuplicate.Mailing_State_Code__c =  sc;
+                                }
+                                 if(String.isNotBlank(Language)){
+                                    participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
+                            ? uploadUser.Contact.Language__c
+                            : Language);
                                 }
                                 //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
