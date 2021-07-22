@@ -982,14 +982,61 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             }
                        }
                             if(participantDuplicate != null){
-                                participantDuplicate.Mailing_Zip_Postal_Code__c = PostalCode;
+                                   if(!String.isEmpty(PostalCode)){
+                                    participantDuplicate.Mailing_Zip_Postal_Code__c =  PostalCode;
+                                }
                                                                 //Added for REF-3951
-                                if(participantDuplicate.Email__c != NULL ||
+                                /*if(participantDuplicate.Email__c != NULL ||
                                    participantDuplicate.Phone__c != NULL){
                                        participantDuplicate.Email__c = EmailAddress;
                                        participantDuplicate.Phone__c = Phone;
                                        participantPatient.add(participantDuplicate);
-                                   }
+                                   }*/
+                                if(String.isNotBlank(EmailAddress)){
+                                    participantDuplicate.Email__c =  EmailAddress;
+                                }
+                                if(String.isNotBlank(Phone)){
+                                    participantDuplicate.Phone__c =  Phone;
+                                }
+                               if(String.isNotBlank(MiddleName)){
+                                    participantDuplicate.Middle_Name__c =  MiddleName;
+                                }
+                               if(String.isNotBlank(Nickname)){
+                                    participantDuplicate.Nickname__c =  Nickname;
+                                }
+                                if(String.isNotBlank(Sex)){
+                                    participantDuplicate.Gender__c =  Sex;
+                                }
+                                if(String.isNotBlank(DateOfBirth)){
+                                    participantDuplicate.Date_of_Birth__c =  DateOfBirth;
+                                }
+                                if(String.isNotBlank(PhoneType)){
+                                    participantDuplicate.Phone_Type__c =  PhoneType;
+                                }
+                                if(String.isNotBlank(Phone2)){
+                                    participantDuplicate.Alternative_Phone_Number__c =  Phone2;
+                                }
+                                if(String.isNotBlank(PhoneType2)){
+                                    participantDuplicate.Alternative_Phone_Type__c =  PhoneType2;
+                                }
+                                participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language) ? uploadUser.Contact.Language__c : Language);
+                               if(String.isNotBlank(State)){
+                                    participantDuplicate.Mailing_State__c =  State;
+                                }
+                                if(String.isNotBlank(countryName)){
+                                    participantDuplicate.Mailing_Country__c =  countryName;
+                                }
+                                if(String.isNotBlank(cc)){
+                                    participantDuplicate.Mailing_Country_Code__c =  cc;
+                                }
+                                if(String.isNotBlank(sc)){
+                                    participantDuplicate.Mailing_State_Code__c =  sc;
+                                }
+                                 if(String.isNotBlank(Language)){
+                                    participantDuplicate.Preferred_Language__c = (String.isBlank(Language) || !laguageLVSet.contains(Language)
+                            ? uploadUser.Contact.Language__c
+                            : Language);
+                                }
                                 //
                                 participantUpdateMap.put(participantDuplicate.Id,participantDuplicate);
                                 mapDuplicateParticipant.put(totalRecordCount,participantDuplicate);
@@ -1393,9 +1440,9 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
             }
 
             //REF-3951
-            if(!participantPatient.isEmpty()){
+            /*if(!participantPatient.isEmpty()){
                 update participantPatient;
-            }
+            }*/
 
             if(!participantUpdateMap.isEmpty()){
                 update participantUpdateMap.values();

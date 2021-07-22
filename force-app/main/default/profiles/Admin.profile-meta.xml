@@ -904,6 +904,10 @@
         <apexClass>NewMediaOutReach</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+      <classAccesses>
+        <apexClass>MedicalRecordVendorPanelRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ViewMediaResult</apexClass>
         <enabled>true</enabled>

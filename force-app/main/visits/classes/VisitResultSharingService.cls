@@ -261,6 +261,7 @@ public without sharing class VisitResultSharingService {
                 for (Visit_Result__c result : patientVisit.Visit_Results__r) {
                     if (
                         visitResultTypeSharingByType.containsKey(result.Result_Type__c) &&
+                        visitResultGroupSet != null &&
                         visitResultGroupSet.size() > 0 &&
                         visitResultGroupSet.contains(result.recordType.DeveloperName)
                     ) {

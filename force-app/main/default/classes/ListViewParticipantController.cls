@@ -181,6 +181,10 @@ public without sharing class ListViewParticipantController {
                 
                 List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
                 List<Participant_Enrollment__c> PEIncentiveList = new List<Participant_Enrollment__c>();
+                List<Id> PeId = new List<Id>();
+                List<Participant_Enrollment_Status_History__c> historiestoUpdate = new List<Participant_Enrollment_Status_History__c>();
+                List<Participant_Enrollment_Status_History__c> peshUpdate = new List<Participant_Enrollment_Status_History__c>();
+                
                 for (Participant_Enrollment__c pe : [
                     SELECT Id,
                     Name,
@@ -191,7 +195,9 @@ public without sharing class ListViewParticipantController {
                     Participant_Status_Last_Changed_Date__c,
                     Final_consent__c,
                     Non_Referral_Notes__c,
-                    Non_Referral_Reason__c
+                    Non_Referral_Reason__c,
+                    Initial_visit_scheduled_time__c,
+                    Initial_visit_scheduled_date__c
                     FROM Participant_Enrollment__c
                     WHERE Id IN :peIdList
                 ]){
@@ -201,15 +207,62 @@ public without sharing class ListViewParticipantController {
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
                     pe.Participant_Status_Last_Changed_Date__c = system.now();
+
+                    if(pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH ||
+                    pe.Participant_Status__c == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
+                    pe.Participant_Status__c == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED){
+                        pe.Initial_visit_scheduled_date__c = NULL;
+                        pe.Initial_visit_scheduled_time__c = NULL;
+                    }
                     PEUpdateList.add(pe);
-                    
+                    PeId.add(pe.Id);
                     if(pe.Participant_Status_Last_Changed_Date__c.date().daysBetween(Date.today()) <= 1)
                     {
                         PEIncentiveList.add(pe);
                     }
+                    
                     SSId.add(pe.Study_Site__c);
                     
-                   if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
+                   
+                    
+                    if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
+                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD) &&
+                       (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_FAILED||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING ||
+                       pe.Participant_Status__c == PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT)){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = PEStatusState.PE_STATUS_SCREENING_PASSED,
+                                   ParticipantEnrollment__c = pe.Id
+                               )
+                           );
+                       }
+                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
+                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
+                           histories.add(
+                               new Participant_Enrollment_Status_History__c(
+                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
+                                   Status__c = pe.Participant_Status__c,
+                                   Notes__c = pe.Non_Referral_Notes__c,
+                                   ParticipantEnrollment__c = pe.Id,
+                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
+                               )
+                           );
+                      }
+                    
+                    
+                }
+               
+                if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
                        TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
                         );
@@ -257,49 +310,102 @@ public without sharing class ListViewParticipantController {
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
                         );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+                        );
                         update PEUpdateList;
                     } 
-                    
-                    if((oParticipantStatus == PEStatusState.PE_STATUS_READY_TO_SCREEN ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_DECLINED_CONSENT ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_UNABLE_TO_SCREEN ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_WITHDREW_CONSENT ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_FAILED ||
-                        oParticipantStatus == PEStatusState.PE_STATUS_SCREENING_IN_PROGRESS_WASH_OUT_PERIOD) &&
-                       (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS||
-                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_SUCCESS||
-                       pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_FAILED||
-                       pe.Participant_Status__c == PEStatusState.PE_STATUS_RANDOMIZATION_FAILED||
-                       pe.Participant_Status__c == PEStatusState.PE_STATUS_WITHDREW_CONSENT_AFTER_SCREENING ||
-                       pe.Participant_Status__c == PEStatusState.PE_STATUS_DECLINED_FINAL_CONSENT)){
-                           histories.add(
-                               new Participant_Enrollment_Status_History__c(
-                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
-                                   Status__c = PEStatusState.PE_STATUS_SCREENING_PASSED,
-                                   ParticipantEnrollment__c = pe.Id
-                               )
-                           );
-                       }
-                    if(pe.Participant_Status__c != PEStatusState.PE_STATUS_RECEIVED &&
-                        pe.Participant_Status__c != PEStatusState.PE_STATUS_ELIGIBILITY_PASSED){
-                           histories.add(
-                               new Participant_Enrollment_Status_History__c(
-                                   Date__c = pe.Participant_Status_Last_Changed_Date__c,
-                                   Status__c = pe.Participant_Status__c,
-                                   Notes__c = pe.Non_Referral_Notes__c,
-                                   ParticipantEnrollment__c = pe.Id,
-                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
-                               )
-                           );
-                      }
-                    
-                    
-                }
-               
                 
                 if(histories != null && !histories.isEmpty()){
                     insert histories;
+                }
+                if(PeId != null && !PeId.isEmpty()){
+                   if(StatusToUpdate == 'Received'){
+                  
+                   historiestoUpdate =[select id,Backward_Bulk_Update__c,Status__c,ParticipantEnrollment__c  from Participant_Enrollment_Status_History__c
+                                       where ParticipantEnrollment__c  IN:peId and Status__c!=:StatusToUpdate ];              
+                       for(Participant_Enrollment_Status_History__c psh:historiestoUpdate){
+                           psh.Backward_Bulk_Update__c=true;
+                           peshUpdate.add(psh);
+                       }                      
+                    }
+                    if(peshUpdate !=null && !peshUpdate.isEmpty()){
+                    
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.SendCalloutOnEligibilityPassedHandler.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.SendPESHToEPR.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.UpdatePEHandler.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.UpdateLastChangedAdditionalNotes.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentSHTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+                        );
+                        
+                        TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+                        );
+                        
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            PENotificationTriggerHandler.CreateNotificationHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+                        );
+                         TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+                        );
+                        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+                        );
+                         
+                         update peshUpdate;
+                    }
                 }
                 
                 if (oParticipantStatus == PEStatusState.PE_STATUS_RECEIVED &&
@@ -597,7 +703,7 @@ public without sharing class ListViewParticipantController {
 
             String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE';
             String queryString =
-                'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Participant_ID_randomized_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
+                'SELECT Id,Name,PerCounter__c,Initial_visit_scheduled_time__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Participant_ID_randomized_ID__c,Screening_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
                 'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,Participant__r.Adult__c,Participant__r.Marketing_Flag__c,Study_Site__r.Study_Site_Type__c,Permit_IQVIA_to_contact_about_study__c,Participant__r.IsCountry_NOT_Eligible_for_Emails__c,Clinical_Trial_Profile__r.CommunityTemplate__c,Study_Site__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Suppress_Participant_Emails__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c,' +
                 'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Initial_Visit_Required__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Clinical_Trial_Profile__r.Protocol_ID__c,Participant__r.Ethnicity__c,' +
                 'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c, Participant__r.First_Name__c, Participant__r.Last_Name__c, Participant__r.Email__c, Participant__r.Phone__c, Participant__r.Phone_Type__c, Participant__r.Alternative_Phone_Number__c, Participant__r.Alternative_Phone_Type__c,' +
@@ -666,6 +772,7 @@ public without sharing class ListViewParticipantController {
                     lstinActive.add('Withdrew Consent After Screening');
                     lstinActive.add('Enrollment Failed');
                     lstinActive.add('Randomization Failed');
+                    lstinActive.add('Declined Final Consent');
                     filter += ' AND Participant_Status__c  IN: lstinActive  ';
                 }
             }
@@ -797,7 +904,7 @@ public without sharing class ListViewParticipantController {
             
             String Query = queryString + filter + sortBy + OffsetLimit;
             peList = Database.query(Query);
-			if(peList.size() == 0 && totalRecords != 0)
+      if(peList.size() == 0 && totalRecords != 0)
             {
                      pNumber = pNumber -1;
                       offset = (pNumber - 1) * pSize;
@@ -858,7 +965,7 @@ public without sharing class ListViewParticipantController {
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                               if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                               if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -888,7 +995,7 @@ public without sharing class ListViewParticipantController {
                            if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                                if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                                if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -919,7 +1026,7 @@ public without sharing class ListViewParticipantController {
                        if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                                if(statusChangeto =='Randomization Success' && pe.Participant_ID_randomized_ID__c ==null){
+                                if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -1179,7 +1286,8 @@ public without sharing class ListViewParticipantController {
                     'Withdrew Consent After Screening'
                 ),
                 new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
-                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
+                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed'),
+                new LabelValueItem(Label.Declined_Final_Consent,'Declined Final Consent')
             };
         }
         filterData.statuses = statusFilterData;
@@ -1247,7 +1355,8 @@ public without sharing class ListViewParticipantController {
                     'Withdrew Consent After Screening'
                 ),
                 new LabelValueItem(Label.Enrollment_Failed, 'Enrollment Failed'),
-                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed')
+                new LabelValueItem(Label.Randomization_Failed, 'Randomization Failed'),
+                new LabelValueItem(Label.Declined_Final_Consent,'Declined Final Consent')
             };
         }
         // filterData.statuses = statusFilterData;
@@ -1510,7 +1619,7 @@ public without sharing class ListViewParticipantController {
         public Boolean isPromoteToSH { get; set; }
         @AuraEnabled
         public Boolean isInitVisitReqd { get; set; }
-		@AuraEnabled
+    @AuraEnabled
         public List<LabelValueItem> statusFilterData { get; set; }
     }
 }
