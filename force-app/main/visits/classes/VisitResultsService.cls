@@ -232,63 +232,65 @@ public inherited sharing class VisitResultsService {
                     Set<String> visitResultGroupSet = visitResultAvailabilityByGroupForReport(
                         queryResult.get(i).Visit_Results__r
                     );
-                    if (
-                        visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
-                        !visitResultGroupwithPatientVisitMap
-                            .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
-                    ) {
-                        visitResultGroupwithPatientVisitMap.put(
-                            VisitResultSharingService.VITAL_RECORDTYPE,
-                            queryResult.get(i)
-                        );
-                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
-                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
-                                .add(VisitResultSharingService.VITAL_RECORDTYPE);
-                        } else {
-                            patientVisitbyVisitGroupMap.put(
-                                queryResult.get(i).Id,
-                                new Set<String>{ VisitResultSharingService.VITAL_RECORDTYPE }
+                    if(visitResultGroupSet!=null && visitResultGroupSet.size()>0){
+                        if (
+                            visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.VITAL_RECORDTYPE,
+                                queryResult.get(i)
                             );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.VITAL_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.VITAL_RECORDTYPE }
+                                );
+                            }
                         }
-                    }
-                    if (
-                        visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
-                        !visitResultGroupwithPatientVisitMap
-                            .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
-                    ) {
-                        visitResultGroupwithPatientVisitMap.put(
-                            VisitResultSharingService.LAB_RECORDTYPE,
-                            queryResult.get(i)
-                        );
-                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
-                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
-                                .add(VisitResultSharingService.LAB_RECORDTYPE);
-                        } else {
-                            patientVisitbyVisitGroupMap.put(
-                                queryResult.get(i).Id,
-                                new Set<String>{ VisitResultSharingService.LAB_RECORDTYPE }
+                        if (
+                            visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.LAB_RECORDTYPE,
+                                queryResult.get(i)
                             );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.LAB_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.LAB_RECORDTYPE }
+                                );
+                            }
                         }
-                    }
-                    if (
-                        visitResultGroupSet.contains(
-                            VisitResultSharingService.BIOMARKER_RECORDTYPE
-                        ) &&
-                        !visitResultGroupwithPatientVisitMap
-                            .containsKey(VisitResultSharingService.BIOMARKER_RECORDTYPE)
-                    ) {
-                        visitResultGroupwithPatientVisitMap.put(
-                            VisitResultSharingService.BIOMARKER_RECORDTYPE,
-                            queryResult.get(i)
-                        );
-                        if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
-                            patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
-                                .add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
-                        } else {
-                            patientVisitbyVisitGroupMap.put(
-                                queryResult.get(i).Id,
-                                new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                        if (
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.BIOMARKER_RECORDTYPE
+                            ) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.BIOMARKER_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.BIOMARKER_RECORDTYPE,
+                                queryResult.get(i)
                             );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                                );
+                            }
                         }
                     }
                 }
