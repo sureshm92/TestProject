@@ -252,9 +252,9 @@ public without sharing class ListViewParticipantController {
                                new Participant_Enrollment_Status_History__c(
                                    Date__c = pe.Participant_Status_Last_Changed_Date__c,
                                    Status__c = pe.Participant_Status__c,
-                                   Notes__c = pe.Non_Referral_Notes__c,
+                                   Notes__c = Notes,
                                    ParticipantEnrollment__c = pe.Id,
-                                   Non_Enrollment_Reason__c = pe.Non_Referral_Reason__c
+                                   Non_Enrollment_Reason__c = reason
                                )
                            );
                       }
