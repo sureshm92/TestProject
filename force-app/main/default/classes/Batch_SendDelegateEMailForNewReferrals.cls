@@ -15,12 +15,14 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 FROM Site_Staff__c
                 WHERE
                     Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
+                	AND is_Invited__c = TRUE
                     AND Study_Site__c IN (
                         SELECT Study_Site__c
                         FROM Participant_Enrollment__c
                         WHERE
                             Participant_Status__c = 'Received'
                             AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                            AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
                     )
             ]
         );
@@ -52,22 +54,12 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
                 AND is_Invited__c = TRUE
                 AND Site_Contact__c IN :contactIds
+            	AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')
         ];
         for (Site_Staff__c ss : siteStaffs) {
             if (!ssByContactIdMap.containsKey(ss.Site_Contact__c)) {
                 ssByContactIdMap.put(ss.Site_Contact__c, ss.Study_Site__c);
-            }
-        }
-
-        List<HCP_Enrollment__c> hpes = [
-            SELECT Study_Site__c, HCP_Contact__c
-            FROM HCP_Enrollment__c
-            WHERE
-            HCP_Contact__c IN :contactIds
-        ];
-        for (HCP_Enrollment__c hpe : hpes) {
-            if (!ssByContactIdMap.containsKey(hpe.HCP_Contact__c)) {
-                ssByContactIdMap.put(hpe.HCP_Contact__c, hpe.Study_Site__c);
             }
         }
 
@@ -120,7 +112,7 @@ public class Batch_SendDelegateEMailForNewReferrals extends Batch_ScheduledAbstr
                 qualifiedUsers.add(u);
                 finalDelegateIds.add(u.Id);
             }
-            if (isQualified) {
+            if (isQualified && !ssByContactIdMap.isEmpty() && ssByContactIdMap.containsKey(u.ContactId)) {
                 emailMessages.add(
                     EmailService.createEmail(
                         EmailService.getEmailTemplateId('PI_RP_New_Referral'),
