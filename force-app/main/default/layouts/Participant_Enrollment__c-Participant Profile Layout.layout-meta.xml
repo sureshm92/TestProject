@@ -325,6 +325,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Participant_Acknowledgement__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Interested__c</field>
             </layoutItems>
             <layoutItems>
