@@ -93,7 +93,10 @@ public without sharing class LibraryRPRemote {
         Set<Id> ctpIds = new Set<Id>();
         Set<Id> resIds = new Set<Id>();
         Map<String, String> resourceLanguageMap = new Map<String, String>();
+        String strQuery = 'SELECT ID,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c' ;
+         strQuery += ' from HCP_Enrollment__c WHERE ';
         List<ResourceWrapper> initData = new List<ResourceWrapper>();
+        Id CurrentLoggedInUser = CommunityService.getUserContact().Id;
         Contact currentContact = CommunityService.getContacts(
             new Set<Id>{ CommunityService.getUserContact().Id }
         )[0];
@@ -110,26 +113,32 @@ public without sharing class LibraryRPRemote {
         Map<String, List<PIResources>> initDataMap = new Map<String, List<PIResources>>{
             NOT_STUDY_SPECIFIC_SECTION => new List<PIResources>()
         };
-        system.debug('>>>isDelegate>>'+isDelegate);
         if (isDelegate) {
             for (RP_Delegate_Relationship__c objRPDele : [
                 SELECT Delegate__c, Referring_Provider__c,Delegate_Access_Level__c
                 FROM RP_Delegate_Relationship__c
-                WHERE
-                    Delegate__c = :CommunityService.getUserContact().Id
+                WHERE Delegate__c = :CurrentLoggedInUser
             ]) {
-                if(string.isNotBlank(strDelegateId))
-                	HCPID.add(objRPDele.Referring_Provider__c);
+                if(string.isNotBlank(strDelegateId)){
+                	HCPID.add(objRPDele.Referring_Provider__c);  
+                }
+            }
+            if(string.isNotBlank(strDelegateId)){
+              strQuery += ' HCP_Contact__c IN :HCPID AND (Status__c = \'Activated\' OR Status__c = \'Activated (Admin) \') ' ;
+            }
+            else{
+                strQuery += ' HCP_Contact__c =: CurrentLoggedInUser AND (Status__c = \'Activated\' OR Status__c = \'Activated (Admin) \') ' ;
             }
         }
-        system.debug('>>contact>>'+CommunityService.getUserContact().Id);
+        
+        else{
+         strQuery += ' HCP_Contact__c =: CurrentLoggedInUser AND (Status__c = \'Activated\' OR Status__c = \'Activated (Admin)  \') ' ;
+        }
+        strQuery += ' AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate  ';
+        system.debug('>>>strQuery>>>'+strQuery);
+        system.debug('>>contact>>'+CurrentLoggedInUser);
         system.debug('>>communityTemplate>>'+communityTemplate);
-        for(HCP_Enrollment__c objHCP : [SELECT ID,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c
-                                        from HCP_Enrollment__c
-                                       where (HCP_Contact__c =: CommunityService.getUserContact().Id
-                                              OR HCP_Contact__c IN :HCPID)
-                                        AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
-                                       AND (Status__c = 'Activated' OR Status__c = 'Activated (Admin)')])
+        for(HCP_Enrollment__c objHCP :  Database.query(strQuery))
         {
             ctpIds.add(objHCP.Clinical_Trial_Profile__c);
             if (!initDataMap.containsKey(objHCP.Clinical_Trial_Profile__r.Study_Code_Name__c)) {
@@ -140,23 +149,7 @@ public without sharing class LibraryRPRemote {
             } 
         }
         
-        
-       /* for (Study_Site__c ss : [
-            SELECT Clinical_Trial_Profile__c, Clinical_Trial_Profile__r.Study_Code_Name__c
-            FROM Study_Site__c
-            WHERE
-                (Principal_Investigator__c = :CommunityService.getUserContact().Id
-                OR Id IN :ssIds)
-                AND Clinical_Trial_Profile__r.CommunityTemplate__c = :communityTemplate
-        ]) {
-            ctpIds.add(ss.Clinical_Trial_Profile__c);
-            if (!initDataMap.containsKey(ss.Clinical_Trial_Profile__r.Study_Code_Name__c)) {
-                initDataMap.put(
-                    ss.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                    new List<PIResources>()
-                );
-            }
-        } */
+
         if (Searchstr == null) {
             for (Res_study__c rs : [
                 SELECT
