@@ -1,5 +1,5 @@
 
-List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,Participant__r.Adult__c,
+List<Participant_Enrollment__c> peList = [SELECT Id,Participant__c,Participant_Contact__c,Participant__r.Adult__c,
 Participant__r.Date_Of_Birth__c,Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE 
 Participant_Contact__c IN (SELECT ContactId FROM User WHERE isActive = true) 
 AND Invited_To_PP_Date__c = null AND Study_Site__r.Study_Site_Type__c = 'Traditional'  LIMIT 1500 ];       
