@@ -11,7 +11,6 @@
 }
 
 .THIS.mobile-content {
-    height: 100vh;
     align-items: stretch;
     top: 0;
     left: 0;
@@ -532,8 +531,17 @@
     }
 }
 
-/* OS and browser zoom 150% */
-@media all and (max-height: 525px) {
+@media all and (max-height: 488px) {
+    .THIS > .slds-col.slds-large-size_4-of-7 {
+        max-height: 120vh;
+    }
+
+    .THIS > .slds-col.slds-large-size_3-of-7 {
+        height: 120vh;
+    }
+}
+
+@media all and (max-height: 500px) and (max-width: 850px) {
     .THIS.all-content {
         height: 150vh;
     }

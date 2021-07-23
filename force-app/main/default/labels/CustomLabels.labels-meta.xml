@@ -16082,6 +16082,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
     </labels>
+	 <labels>
+        <fullName>PP_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate</shortDescription>
+        <value>Delegate(s)</value>
+    </labels>
+    <labels>
+        <fullName>PP_Provider_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Provider Access</shortDescription>
+        <value>Provider Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_Review_and_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Review and Confirm</shortDescription>
+        <value>Review and Confirm</value>
+    </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
