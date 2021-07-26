@@ -64,7 +64,7 @@
 }
 .button-menu-small-default {
     height: 32px;
-    width: 175px;
+    width: fit-content;
 }
 .mr8 {
     margin-top: 8px;
@@ -89,9 +89,6 @@
     line-height: 24px;
     text-align: center;
     padding-left: 6px;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
 }
 
 table {
