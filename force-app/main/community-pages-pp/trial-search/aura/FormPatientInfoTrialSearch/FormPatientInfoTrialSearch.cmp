@@ -63,7 +63,7 @@
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">
                         <abbr title="required" class="slds-required">*</abbr
-                        >{!$Label.c.Send_Information_For}
+                        >{!$Label.c.Send_info_for}
                     </div>
                     <c:rrSelect
                         options="{!v.sendForList}"
