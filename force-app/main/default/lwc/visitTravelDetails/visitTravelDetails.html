@@ -8,7 +8,9 @@
                 <div class="dropdown">
                     <span>
                         <button class="slds-button slds-button_neutral button-menu-small-default">
-                            <span class="labels">{labels.addNewBooking}</span>
+                            <span title={labels.addNewBooking} class="labels"
+                                >{labels.addNewBooking}</span
+                            >
                             <!--<lightning-icon
                                 size="xx-small"
                                 class="slds-p-left_x-small"
@@ -30,7 +32,9 @@
                                     >
                                     </lightning-formatted-url>-->
 
-                                    <a href={vendor.Link_Vendor__c} target="_blank">{vendor.Name}</a>
+                                    <a href={vendor.Link_Vendor__c} target="_blank"
+                                        >{vendor.Name}</a
+                                    >
                                 </div>
                             </div>
                         </template>
@@ -55,17 +59,29 @@
                     <td>{tw.title}</td>
                     <td>{tw.status}</td>
                     <td>
-                        <lightning-formatted-date-time value={tw.dateAndTime} year="numeric" month="short" day="2-digit"
-                            time-zone="UTC">
+                        <lightning-formatted-date-time
+                            value={tw.dateAndTime}
+                            year="numeric"
+                            month="short"
+                            day="2-digit"
+                            time-zone="UTC"
+                        >
                         </lightning-formatted-date-time>
                     </td>
                     <td>
-                        <lightning-formatted-date-time value={tw.dateAndTime} hour="numeric" minute="numeric"
-                            time-zone="UTC">
+                        <lightning-formatted-date-time
+                            value={tw.dateAndTime}
+                            hour="numeric"
+                            minute="numeric"
+                            time-zone="UTC"
+                        >
                         </lightning-formatted-date-time>
                     </td>
                     <td>
-                        <lightning-formatted-url value={tw.link} label="View"></lightning-formatted-url>
+                        <lightning-formatted-url
+                            value={tw.link}
+                            label="View"
+                        ></lightning-formatted-url>
                     </td>
                 </tr>
             </template>
