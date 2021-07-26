@@ -21,11 +21,7 @@
     <aura:attribute name="screeningRequired" type="Boolean" default="false" access="private" />
     <aura:attribute name="dataStamp" type="String" />
     <aura:attribute name="isDisclaimer" type="Boolean" />
-    <aura:attribute
-        name="sendForList"
-        type="List"
-        default="[{'label':'Me', 'value':'Me'}, {'label':'Someone else', 'value':'Someone else'}]"
-    />
+    <aura:attribute name="sendForList" type="List" />
     <aura:attribute name="sendFor" type="String" />
 
     <!-- handlers: -->
@@ -66,7 +62,8 @@
             <div class="slds-grid slds-gutters slds-wrap">
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                     <div class="label">
-                        <abbr title="required" class="slds-required">*</abbr>Send information for
+                        <abbr title="required" class="slds-required">*</abbr
+                        >{!$Label.c.Send_Information_For}
                     </div>
                     <c:rrSelect
                         options="{!v.sendForList}"
@@ -191,7 +188,9 @@
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
                 <div class="label">
-                    <aura:if isTrue="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}">
+                    <aura:if
+                        isTrue="{!and(!empty(v.statesLVList), v.participantInfo.Mailing_Country_Code__c == 'US')}"
+                    >
                         <abbr title="required" class="slds-required">*</abbr> </aura:if
                     >{!$Label.c.PE_State}
                 </div>
