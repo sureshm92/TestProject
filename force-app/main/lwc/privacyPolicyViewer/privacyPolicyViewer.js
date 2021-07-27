@@ -37,6 +37,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
     @track vertNavClass;
     @track textboxStyle;
     @track richTextStyle = 'richTextArea slds-size_1-of-1';
+    @track closeStyle = 'closeIcon closeIcon1';
     @track frmFactor = false;
     currentPageReference = null;
     closePrivacyPolicyTab = false;
@@ -135,6 +136,7 @@ export default class PrivacyPolicyViewer extends LightningElement {
                 this.vertNavClass = 'vertNavRTL';
                 this.textboxStyle = 'padding-left: 0px;word-break: break-word;';
                 this.richTextStyle = 'richTextAreaRTL slds-size_1-of-1';
+                this.closeStyle = 'closeIconRTL closeIcon1RTL';
             }
             if (formFactor != 'Large') {
                 this.frmFactor = true;

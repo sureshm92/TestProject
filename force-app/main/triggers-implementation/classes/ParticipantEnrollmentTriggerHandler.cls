@@ -53,12 +53,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class SetContacted extends TriggerHandler {
-        public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            SetContacted(newList,(Map<Id, Participant_Enrollment__c>)oldMap);
-        }
-    }
-
     public class CreateStatusBasedInvitations extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             createInvitations((List<Participant_Enrollment__c>) newList, null);
@@ -910,13 +904,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         Map<Id,String> idToStatusMap = new Map<Id,String>();
         for (Participant_Enrollment__c per: newList){
             if (per.Initial_visit_scheduled_date__c != oldMap.get(per.Id).Initial_visit_scheduled_date__c || per.Initial_visit_scheduled_time__c != oldMap.get(per.Id).Initial_visit_scheduled_time__c) {
-                perIdList.add(per.Id);
-                if(oldMap.get(per.Id).Initial_visit_scheduled_date__c == null && oldMap.get(per.Id).Initial_visit_scheduled_time__c == null){
+                
+                if((oldMap.get(per.Id).Initial_visit_scheduled_date__c == null || oldMap.get(per.Id).Initial_visit_scheduled_time__c == null) && per.Initial_visit_scheduled_date__c != null && per.Initial_visit_scheduled_time__c != null){
                     idToStatusMap.put(per.Id,'New');
+                    perIdList.add(per.Id);
                 }else if(per.Initial_visit_scheduled_date__c != null && per.Initial_visit_scheduled_time__c != null){
                     idToStatusMap.put(per.Id,'Reschedule');
+                    perIdList.add(per.Id);
                 }else if(per.Initial_visit_scheduled_date__c == null && per.Initial_visit_scheduled_time__c == null){
                     idToStatusMap.put(per.Id,'Cancel');
+                    perIdList.add(per.Id);
                 }
                 
             }
@@ -933,12 +930,16 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 if((pe.Initial_visit_scheduled_date__c == Date.today() && pe.Initial_visit_scheduled_time__c > dt.timeGmt()) || (pe.Initial_visit_scheduled_date__c > Date.today())){
                     llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
                     llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                    llrhEvent.OldAppointmentDate__c = String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_date__c);
+                    llrhEvent.OldAppointmentTime__c = String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_time__c);
                     llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(pe.Initial_visit_scheduled_date__c);
                     myPElist.add(llrhEvent);
                 }
             }else if(idToStatusMap.get(pe.Id) == 'Cancel'){
                 llrhEvent.ParticipantEnrollment_ID__c = String.valueOf(pe.Id);
                 llrhEvent.Status__c = idToStatusMap.get(pe.Id);
+                llrhEvent.OldAppointmentDate__c = String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_date__c);
+                llrhEvent.OldAppointmentTime__c = String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_time__c);
                 llrhEvent.Appointment_Id__c = String.valueOf(pe.Name) + String.valueOf(oldMap.get(pe.Id).Initial_visit_scheduled_date__c);
                 myPElist.add(llrhEvent);
             }
@@ -947,20 +948,4 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         EventBus.publish(myPElist);
     }
     
-    @TestVisible
-    public static void SetContacted(List<Participant_Enrollment__c> newList,
-        Map<Id, Participant_Enrollment__c> oldMap
-    ){
-        List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c>();
-        for(Participant_Enrollment__c pe: newList){
-            if(pe.Participant_Status__c == 'Received' &&
-               oldMap.get(pe.Id).Participant_Status__c == 'Successfully Contacted'){
-                   pe.Is_Contacted__c = True;
-               }
-            else if(pe.Participant_Status__c == 'Successfully Contacted'){
-                   pe.Is_Contacted__c = False;
-               }
-            peList.add(pe);
-        }
-    }
 }

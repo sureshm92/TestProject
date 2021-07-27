@@ -408,13 +408,17 @@ public without sharing virtual class EmailTemplateProvider {
             
                 for(Site_Staff__c ss:[SELECT Study_Site__c,is_Invited__c FROM Site_Staff__c 
                                       WHERE Delegate_Level__c = :DelegateService.DELEGATE_LEVEL_1
-                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE]){
-                   studySites.add(ss.Study_Site__c);   
+                                      AND Site_Contact__c =:recipientId AND is_Invited__c = TRUE
+                                      AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                                      AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')]){
+                   studySites.add(ss.Study_Site__c);
                 }
             
             totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c
                                 WHERE  Participant_Status__c = 'Received' 
-                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId)];
+                                AND (Study_Site__c IN :studySites OR PI_Contact__c=:recipientId) 
+                                AND Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                        	AND Study_Site__r.Override_PI_Referral_Status__c IN ('Accepted','Accepted (Admin)')];
             
         }
         String size = '0';

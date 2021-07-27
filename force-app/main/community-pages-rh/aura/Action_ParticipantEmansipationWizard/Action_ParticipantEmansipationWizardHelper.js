@@ -48,8 +48,12 @@
     },
 
     getStatuses: function () {
-        return ['Participant', 'Delegate(s)', 'Provider Access', 'Review and Confirm'];
-    },
+        let participantNameStr = $A.get("$Label.c.PP_Participant");
+        let delegateStr = $A.get("$Label.c.PP_Delegate");
+		let providerAccessStr = $A.get("$Label.c.PP_Provider_Access");
+        let reviewAndConfirmStr = $A.get("$Label.c.PP_Review_and_Confirm");
+        return [participantNameStr, delegateStr, providerAccessStr, reviewAndConfirmStr];
+        },
 
     getStatusesMap: function () {
         return {
@@ -57,7 +61,7 @@
                 order: 1,
                 state: 'neutral'
             },
-            'Delegate(s)': {
+            'Delegate': {
                 order: 2,
                 state: 'neutral'
             },
@@ -70,6 +74,18 @@
                 state: 'neutral'
             }
         };
+        let participantNameStr = $A.get("$Label.c.PP_Participant");
+        let delegateStr = $A.get("$Label.c.PP_Delegate");
+		let providerAccessStr = $A.get("$Label.c.PP_Provider_Access");
+        let reviewAndConfirmStr = $A.get("$Label.c.PP_Review_and_Confirm");
+
+        let StatusRecReplace = JSON.stringify(StatusRec);
+        StatusRecReplace = StatusRecReplace.replace(/Participant/, participantNameStr);
+        StatusRecReplace = StatusRecReplace.replace(/Delegate/, delegateStr);
+        StatusRecReplace = StatusRecReplace.replace(/Provider Access/, providerAccessStr);
+        StatusRecReplace = StatusRecReplace.replace(/Review and Confirm/, reviewAndConfirmStr);
+        let json = JSON.parse(StatusRecReplace);
+        return json;
     },
 
     updateParticipantAndDelegate: function (component) {
