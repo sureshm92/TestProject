@@ -259,6 +259,7 @@
 }
 
 .THIS .rightAlign1 .slds-input__icon_right {
+    /* @noflip */
     margin-right: 10.5rem;
 }
 
