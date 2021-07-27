@@ -361,7 +361,7 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div
-                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, ' task-rtl rightAlign1', '')}"
                             >
                                 <lightning:combobox
                                     aura:id="taskReminderOption1"
@@ -806,7 +806,8 @@
                             </aura:set>
                         </aura:if>
 
-                        <aura:set attribute="else"> <!--LTR Desktop-->
+                        <aura:set attribute="else">
+                            <!--LTR Desktop-->
                             <div align="right">
                                 <lightning:button
                                     class="apollo-btn tertiary"
