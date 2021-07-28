@@ -704,7 +704,7 @@
                                     label="{!$Label.c.BTN_Cancel}"
                                 />
                                 <lightning:button
-                                    class="apollo-btn primary rtlSave"
+                                    class="apollo-btn primary rtlSaveAll"
                                     onclick="{!c.doSave}"
                                     label="{!$Label.c.BTN_Save}"
                                     disabled="{!not(v.isValidFields)}"
@@ -713,7 +713,10 @@
                         </div>
                         <aura:set attribute="else">
                             <!--only save and cancel button-->
-                            <div align="left">
+                            <div
+                                align="left"
+                                style="margin-left: 15px;margin-right: 10%;width: 100% !important;"
+                            >
                                 <lightning:button
                                     class="apollo-btn tertiary"
                                     onclick="{!c.doCancel}"
