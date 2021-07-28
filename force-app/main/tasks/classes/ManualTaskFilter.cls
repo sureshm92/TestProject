@@ -165,7 +165,7 @@ public without sharing class ManualTaskFilter {
         string visibility = taskConfig.visibility;
         
         // Platform-level tasks
-        if (isPlatformLevel)
+        if (isPlatformLevel && String.isNotBlank(visibility))
             return getContactsWithParticipantIds(visibility);
 
         /* Study-level tasks */
