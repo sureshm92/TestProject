@@ -135,7 +135,9 @@ public without sharing class ManualTaskFilter {
             ParticipantHavingDelegateIds.add(pe.Participant__c);
             IdTypeOfContactMap.put(pe.Participant_Contact__c,'Participant'); //KK
         }
+       if(!ParticipantHavingDelegateIds.isEmpty()) {
         patientDelegateLST = [SELECT id,Contact__c,Participant__c FROM Patient_Delegate__c WHERE Participant__c IN :ParticipantHavingDelegateIds];
+        }
         for(Patient_Delegate__c pd: patientDelegateLST){
             contactIds.add(pd.Contact__c);
             participantIds.add(pd.Participant__c);
