@@ -105,7 +105,8 @@
                 isDelegate: isDelegate,
                 language: event.getSource().get('v.itemValue'),
                 Searchstr: srchtxt,
-                communityTemplate: communityService.getCurrentCommunityTemplateName()
+                communityTemplate: communityService.getCurrentCommunityTemplateName(),
+                strDelegateId: communityService.getDelegateId()
             },
             function (response) {
                 component.set('v.resourceStructureList', response.resources);
@@ -131,7 +132,8 @@
                 isDelegate: isDelegate,
                 language: lang,
                 Searchstr: srchtxt,
-                communityTemplate: communityService.getCurrentCommunityTemplateName()
+                communityTemplate: communityService.getCurrentCommunityTemplateName(),
+                strDelegateId: communityService.getDelegateId()
             },
             function (response) {
                 component.set('v.resourceStructureList', response.resources);

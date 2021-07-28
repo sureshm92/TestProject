@@ -62,7 +62,8 @@
         var peId = component.get('v.SelectedIds');
         var newStatus = component.get('v.statusSelected').trim();
         var notes = component.get('v.stWrapper').notes;
-        let selectedReason = component.find('reasonList').get('v.value');
+        //let selectedReason = component.find('reasonList').get('v.value');
+        let selectedReason = component.get('v.reasonvalue');
         var studyId = component.get('v.oStudy');
         var oParticipantStatus = component.get('v.oParticipantStatus');
         component.find('spinner').show();
