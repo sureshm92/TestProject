@@ -62,6 +62,11 @@
     height: fit-content;
     width: fit-content;
 }
+.closeIconRTL {
+    float: left;
+    height: fit-content;
+    width: fit-content;
+}
 .textBox {
     min-width: 128px;
     text-align: initial;
@@ -187,6 +192,10 @@
 .closeIcon1 {
     fill: black;
     margin-right: 3%;
+}
+.closeIcon1RTL {
+    fill: black;
+    margin-left: 3%;
 }
 .headerAndLogo {
     margin-left: 3.5%;

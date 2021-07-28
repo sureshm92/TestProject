@@ -228,57 +228,62 @@
                             class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-p-top_medium':'slds-p-top_medium'}"
                         ></div>
                         <aura:if isTrue="{!v.task.Remind_Me__c}">
-                        <div
-                            class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}"
-                        >
-                            <div class="slds-grid te-form slds-gutters slds-wrap">
-                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
-                                    <aura:if isTrue="{!v.isRTL}">
-                                        <a
-                                            onclick="{!c.doNavigateToAccountSettings}"
-                                            style="margin-right: 10px"
-                                            >{!$Label.c.PP_Change_Notification_Settings}</a
-                                        >
-                                        <abbr title="required" class="slds-required">*</abbr>{!$Label.c.PP_Remind_Using}
-                                        <aura:set attribute="else">
-                                            {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr>
+                            <div
+                                class="{!'slds-form-element__label slds-p-top_x-small' + if(v.isRTL, 'task-rtl-remind', '')}"
+                            >
+                                <div class="slds-grid te-form slds-gutters slds-wrap">
+                                    <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-1">
+                                        <aura:if isTrue="{!v.isRTL}">
                                             <a
                                                 onclick="{!c.doNavigateToAccountSettings}"
-                                                style="margin-left: 10px"
-                                                >{!$Label.c.PP_Change_Notification_Settings}
-                                            </a>
-                                        </aura:set>
-                                    </aura:if>
+                                                style="margin-right: 10px"
+                                                >{!$Label.c.PP_Change_Notification_Settings}</a
+                                            >
+                                            <abbr title="required" class="slds-required">*</abbr
+                                            >{!$Label.c.PP_Remind_Using}
+                                            <aura:set attribute="else">
+                                                {!$Label.c.PP_Remind_Using}<abbr
+                                                    title="required"
+                                                    class="slds-required"
+                                                    >*</abbr
+                                                >
+                                                <a
+                                                    onclick="{!c.doNavigateToAccountSettings}"
+                                                    style="margin-left: 10px"
+                                                    >{!$Label.c.PP_Change_Notification_Settings}
+                                                </a>
+                                            </aura:set>
+                                        </aura:if>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                        <div class="slds-grid">
-                            <!--Remind Using-->
-                            <div class="slds-col slds-size_1-of-2">
-                                <lightning:input
-                                    aura:id="emailField"
-                                    type="checkbox"
-                                    label="{!$Label.c.PP_Remind_Using_Email}"
-                                    name="Email"
-                                    value="{!v.task.Remind_Using_Email__c}"
-                                    disabled="{!not(v.emailOptIn)}"
-                                    checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                    onchange="{!c.setAttributeValue}"
-                                    onblur="{!c.doValidateFields}"
-                                />
-                                <lightning:input
-                                    aura:id="smsField"
-                                    type="checkbox"
-                                    label="{!$Label.c.PP_Remind_Using_SMS}"
-                                    name="SMS"
-                                    value="{!v.task.Remind_Using_SMS__c}"
-                                    disabled="{!not(v.smsOptIn)}"
-                                    checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                    onchange="{!c.setAttributeValue}"
-                                    onblur="{!c.doValidateFields}"
-                                />
-                            </div>
-                        </div></aura:if>
+                            <div class="slds-grid">
+                                <!--Remind Using-->
+                                <div class="slds-col slds-size_1-of-2">
+                                    <lightning:input
+                                        aura:id="emailField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_Email}"
+                                        name="Email"
+                                        value="{!v.task.Remind_Using_Email__c}"
+                                        disabled="{!not(v.emailOptIn)}"
+                                        checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />
+                                    <lightning:input
+                                        aura:id="smsField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_SMS}"
+                                        name="SMS"
+                                        value="{!v.task.Remind_Using_SMS__c}"
+                                        disabled="{!not(v.smsOptIn)}"
+                                        checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />
+                                </div> </div
+                        ></aura:if>
 
                         <!--</aura:if>-->
                     </div>
@@ -305,14 +310,16 @@
                                 <lightning:formattedText value="{!$Label.c.Task_Name}" />
                                 <br />
                                 <div class="slds-p-top_small"></div>
-                                <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
+                                <b> <lightning:formattedText value="{!v.task.Subject}"/></b>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
-                                 <lightning:formattedText value="{!$Label.c.Due_Date }" />
-                                 <aura:set attribute="else">
-                                  <lightning:formattedText value="{!$Label.c.PP_DueDateandTime }" />
-                                 </aura:set>
+                                    <lightning:formattedText value="{!$Label.c.Due_Date }" />
+                                    <aura:set attribute="else">
+                                        <lightning:formattedText
+                                            value="{!$Label.c.PP_DueDateandTime }"
+                                        />
+                                    </aura:set>
                                 </aura:if>
                                 <br />
                                 <div class="slds-p-top_small"></div>
@@ -322,26 +329,26 @@
                                 />-->
                                     <aura:if isTrue="{!v.initData.activityDate}">
                                         <aura:if isTrue="{!v.initData.createdByAdmin}">
-                                        <lightning:formattedDateTime
-                                            value="{!v.initData.activityDate}"
-                                            year="numeric"
-                                            month="short"
-                                            day="2-digit"
-                                            timeZone="{!$Locale.timezone}"
-                                        />
-                                        <aura:set attribute="else">
                                             <lightning:formattedDateTime
-                                            value="{!v.initData.activityDate}"
-                                            year="numeric"
-                                            month="short"
-                                            day="2-digit"
-                                            hour="numeric"
-                                            minute="numeric"    
-                                            timeZone="{!$Locale.timezone}"
-                                        />
-                                        </aura:set>
+                                                value="{!v.initData.activityDate}"
+                                                year="numeric"
+                                                month="short"
+                                                day="2-digit"
+                                                timeZone="{!$Locale.timezone}"
+                                            />
+                                            <aura:set attribute="else">
+                                                <lightning:formattedDateTime
+                                                    value="{!v.initData.activityDate}"
+                                                    year="numeric"
+                                                    month="short"
+                                                    day="2-digit"
+                                                    hour="numeric"
+                                                    minute="numeric"
+                                                    timeZone="{!$Locale.timezone}"
+                                                />
+                                            </aura:set>
                                         </aura:if>
-                                        
+
                                         <aura:set attribute="else">
                                             {!$Label.c.PP_Date_Unavailable}
                                         </aura:set>
@@ -354,7 +361,7 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div
-                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, ' task-rtl rightAlign1', '')}"
                             >
                                 <lightning:combobox
                                     aura:id="taskReminderOption1"
@@ -400,64 +407,64 @@
                             <!--Reminder Date-->
                         </div>
                         <aura:if isTrue="{!v.task.Remind_Me__c}">
-                        <div
-                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_medium'}"
-                        >
-                            <aura:if isTrue="{!v.isRTL}">
-                                <!--Account settings-->
-                                <a
-                                    onclick="{!c.doNavigateToAccountSettings}"
-                                    style="margin-right: 10px"
-                                    >{!$Label.c.PP_Change_Notification_Settings}</a
-                                ><abbr title="required" class="slds-required">*</abbr>
-                                {!$Label.c.PP_Remind_Using}
-                                <aura:set attribute="else">
-                                    
-                                    {!$Label.c.PP_Remind_Using} <abbr title="required" class="slds-required">*</abbr>
+                            <div
+                                class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_medium'}"
+                            >
+                                <aura:if isTrue="{!v.isRTL}">
                                     <!--Account settings-->
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin-left: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}
-                                    </a>
-                                </aura:set>
-                            </aura:if>
-                        </div>
-                        <div class="slds-grid te-form slds-gutters slds-wrap">
-                            <!--Remind Using-->
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:input
-                                    aura:id="emailField"
-                                    type="checkbox"
-                                    label="{!$Label.c.PP_Remind_Using_Email}"
-                                    name="Email"
-                                    disabled="{!not(v.emailOptIn)}"
-                                    value="{!v.task.Remind_Using_Email__c}"
-                                    checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                    onchange="{!c.setAttributeValue}"
-                                    onblur="{!c.doValidateFields}"
-                                />
+                                        style="margin-right: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}</a
+                                    ><abbr title="required" class="slds-required">*</abbr>
+                                    {!$Label.c.PP_Remind_Using}
+                                    <aura:set attribute="else">
+                                        {!$Label.c.PP_Remind_Using}
+                                        <abbr title="required" class="slds-required">*</abbr>
+                                        <!--Account settings-->
+                                        <a
+                                            onclick="{!c.doNavigateToAccountSettings}"
+                                            style="margin-left: 10px"
+                                            >{!$Label.c.PP_Change_Notification_Settings}
+                                        </a>
+                                    </aura:set>
+                                </aura:if>
                             </div>
-                        </div>
-                        <div class="slds-grid te-form slds-gutters slds-wrap">
-                            <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
-                                <lightning:input
-                                    aura:id="smsField"
-                                    type="checkbox"
-                                    label="{!$Label.c.PP_Remind_Using_SMS}"
-                                    name="SMS"
-                                    disabled="{!not(v.smsOptIn)}"
-                                    value="{!v.task.Remind_Using_SMS__c}"
-                                    checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                    onchange="{!c.setAttributeValue}"
-                                    onblur="{!c.doValidateFields}"
-                                />
+                            <div class="slds-grid te-form slds-gutters slds-wrap">
+                                <!--Remind Using-->
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <lightning:input
+                                        aura:id="emailField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_Email}"
+                                        name="Email"
+                                        disabled="{!not(v.emailOptIn)}"
+                                        value="{!v.task.Remind_Using_Email__c}"
+                                        checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />
+                                </div>
                             </div>
-                        </div>
-</aura:if>
+                            <div class="slds-grid te-form slds-gutters slds-wrap">
+                                <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
+                                    <lightning:input
+                                        aura:id="smsField"
+                                        type="checkbox"
+                                        label="{!$Label.c.PP_Remind_Using_SMS}"
+                                        name="SMS"
+                                        disabled="{!not(v.smsOptIn)}"
+                                        value="{!v.task.Remind_Using_SMS__c}"
+                                        checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                        onchange="{!c.setAttributeValue}"
+                                        onblur="{!c.doValidateFields}"
+                                    />
+                                </div>
+                            </div>
+                        </aura:if>
                         <!--</aura:if>-->
                     </div>
-                        
+
                     <!-- Reminder Section rr-white-panel min-height: 220px; -->
                 </div>
                 <!-- Reminder Section te-task-panel -->
@@ -481,19 +488,18 @@
                             <div class="label">
                                 <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
                                     {!$Label.c.PP_Visit_Date}<abbr
-                                    title="required"
-                                    class="slds-required"
-                                    >*</abbr
-                                >
-                                <aura:set attribute="else">
-                                    {!$Label.c.PP_Visit_DateTime}<abbr
-                                    title="required"
-                                    class="slds-required"
-                                    >*</abbr
-                                >
-                                 </aura:set>
+                                        title="required"
+                                        class="slds-required"
+                                        >*</abbr
+                                    >
+                                    <aura:set attribute="else">
+                                        {!$Label.c.PP_Visit_DateTime}<abbr
+                                            title="required"
+                                            class="slds-required"
+                                            >*</abbr
+                                        >
+                                    </aura:set>
                                 </aura:if>
-                                
                             </div>
                             <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
                                 <lightning:input
@@ -553,7 +559,6 @@
                                 class="wi"
                                 fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
                             />
-                            
                         </div>
                         <div
                             class="{!'slds-col slds-size_1-of-2 slds-p-top_x-small' + if(v.isRTL,' reminderDate_visrtl',' vis_reminder')}"
@@ -585,62 +590,69 @@
                             </aura:if>
                         </div>
                     </div>
-<aura:if isTrue="{!v.task.Remind_Me__c}">
-                    <div class="slds-grid slds-p-top_large">
-                        <div class="slds-p-top_large"></div>
-                        <div
-                            class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}"
-                        >
-                            <aura:if isTrue="{!v.isRTL}">
-                                <!--Account settings-->
-                                
-                                <a
-                                    onclick="{!c.doNavigateToAccountSettings}"
-                                    style="margin-right: 10px"
-                                    >{!$Label.c.PP_Change_Notification_Settings}</a
-                                >
-                                <abbr title="required" class="slds-required">*</abbr>
-                                {!$Label.c.PP_Remind_Using}
-                                <aura:set attribute="else">
-                                    {!$Label.c.PP_Remind_Using}<abbr title="required" class="slds-required">*</abbr>
+                    <aura:if isTrue="{!v.task.Remind_Me__c}">
+                        <div class="slds-grid slds-p-top_large">
+                            <div class="slds-p-top_large"></div>
+                            <div
+                                class="{!(v.task.Remind_Me__c == 'Custom') ? 'slds-form-element__label slds-p-top_medium':'slds-form-element__label slds-p-top_x-small'}"
+                            >
+                                <aura:if isTrue="{!v.isRTL}">
                                     <!--Account settings-->
+
                                     <a
                                         onclick="{!c.doNavigateToAccountSettings}"
-                                        style="margin-left: 10px"
-                                        >{!$Label.c.PP_Change_Notification_Settings}
-                                    </a>
-                                </aura:set>
-                            </aura:if>
+                                        style="margin-right: 10px"
+                                        >{!$Label.c.PP_Change_Notification_Settings}</a
+                                    >
+                                    <abbr title="required" class="slds-required">*</abbr>
+                                    {!$Label.c.PP_Remind_Using}
+                                    <aura:set attribute="else">
+                                        {!$Label.c.PP_Remind_Using}<abbr
+                                            title="required"
+                                            class="slds-required"
+                                            >*</abbr
+                                        >
+                                        <!--Account settings-->
+                                        <a
+                                            onclick="{!c.doNavigateToAccountSettings}"
+                                            style="margin-left: 10px"
+                                            >{!$Label.c.PP_Change_Notification_Settings}
+                                        </a>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
                         </div>
-                    </div>
-                    <div class="slds-grid">
-                        <div class="{!'slds-col slds-size_1-of-2' + if(v.isUpcoming,' mr_8','')}">
-                            <lightning:input
-                                aura:id="emailField"
-                                type="checkbox"
-                                label="{!$Label.c.PP_Remind_Using_Email}"
-                                name="Email"
-                                disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
-                                value="{!v.task.Remind_Using_Email__c}"
-                                checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
-                                onchange="{!c.setAttributeValue}"
-                                class="mr_10"
-                                onblur="{!c.doValidateFields}"
-                            />
-                            <lightning:input
-                                aura:id="smsField"
-                                type="checkbox"
-                                label="{!$Label.c.PP_Remind_Using_SMS}"
-                                name="SMS"
-                                disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
-                                value="{!v.task.Remind_Using_SMS__c}"
-                                checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
-                                onchange="{!c.setAttributeValue}"
-                                class="mr_10"
-                                onblur="{!c.doValidateFields}"
-                            />
+                        <div class="slds-grid">
+                            <div
+                                class="{!'slds-col slds-size_1-of-2' + if(v.isUpcoming,' mr_8','')}"
+                            >
+                                <lightning:input
+                                    aura:id="emailField"
+                                    type="checkbox"
+                                    label="{!$Label.c.PP_Remind_Using_Email}"
+                                    name="Email"
+                                    disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
+                                    value="{!v.task.Remind_Using_Email__c}"
+                                    checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
+                                    onchange="{!c.setAttributeValue}"
+                                    class="mr_10"
+                                    onblur="{!c.doValidateFields}"
+                                />
+                                <lightning:input
+                                    aura:id="smsField"
+                                    type="checkbox"
+                                    label="{!$Label.c.PP_Remind_Using_SMS}"
+                                    name="SMS"
+                                    disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
+                                    value="{!v.task.Remind_Using_SMS__c}"
+                                    checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
+                                    onchange="{!c.setAttributeValue}"
+                                    class="mr_10"
+                                    onblur="{!c.doValidateFields}"
+                                />
+                            </div>
                         </div>
-                    </div> </aura:if>
+                    </aura:if>
                     <aura:if isTrue="{!v.isTravelSupportEnabled}">
                         <aura:if isTrue="{!v.isRTL}">
                             <div class="{!if(v.showVendors,'tbl',' ')}">
@@ -670,57 +682,161 @@
         <!-- End of Reminder Section -->
         <aura:set attribute="footerButtons">
             <aura:if isTrue="{!v.isRTL}">
-                <div align="left">
-                    <lightning:button
-                        class="apollo-btn tertiary margin_20"
-                        onclick="{!c.doCancel}"
-                        label="{!$Label.c.BTN_Cancel}"
-                    />
+                <aura:if isTrue="{!($Browser.formFactor != 'DESKTOP')}">
                     <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
-                        <lightning:button
-                            class="apollo-btn secondary"
-                            onclick="{!c.doIgnore}"
-                            label="{!$Label.c.BTN_Ignore}"
-                        />
-                        <lightning:button
-                            class="apollo-btn secondary"
-                            onclick="{!c.doMarkComplete}"
-                            label="{!$Label.c.BTN_Mark_As_Completed}"
-                        />
+                        <div align="left" class="slds-grid slds-wrap">
+                            <div class="slds-size_1-of-1 ignoreButton">
+                                <lightning:button
+                                    class="apollo-btn secondary"
+                                    onclick="{!c.doIgnore}"
+                                    label="{!$Label.c.BTN_Ignore}"
+                                />
+                                <lightning:button
+                                    class="{!v.isRTL? 'apollo-btn secondary markCompleteRTL':'apollo-btn secondary'}"
+                                    onclick="{!c.doMarkComplete}"
+                                    label="{!$Label.c.BTN_Mark_As_Completed}"
+                                />
+                            </div>
+                            <div class="slds-size_1-of-1">
+                                <lightning:button
+                                    class="apollo-btn tertiary"
+                                    onclick="{!c.doCancel}"
+                                    label="{!$Label.c.BTN_Cancel}"
+                                />
+                                <lightning:button
+                                    class="apollo-btn primary rtlSave"
+                                    onclick="{!c.doSave}"
+                                    label="{!$Label.c.BTN_Save}"
+                                    disabled="{!not(v.isValidFields)}"
+                                />
+                            </div>
+                        </div>
+                        <aura:set attribute="else">
+                            <!--only save and cancel button-->
+                            <div align="left">
+                                <lightning:button
+                                    class="apollo-btn tertiary"
+                                    onclick="{!c.doCancel}"
+                                    label="{!$Label.c.BTN_Cancel}"
+                                />
+                                <lightning:button
+                                    class="apollo-btn primary rtlSave"
+                                    onclick="{!c.doSave}"
+                                    label="{!$Label.c.BTN_Save}"
+                                    disabled="{!not(v.isValidFields)}"
+                                />
+                            </div>
+                        </aura:set>
                     </aura:if>
-                    <lightning:button
-                        class="apollo-btn primary"
-                        onclick="{!c.doSave}"
-                        label="{!$Label.c.BTN_Save}"
-                        disabled="{!not(v.isValidFields)}"
-                    />
-                </div>
+                    <aura:set attribute="else">
+                        <!--desktop view RTL-->
+                        <div align="left">
+                            <lightning:button
+                                class="apollo-btn tertiary"
+                                onclick="{!c.doCancel}"
+                                label="{!$Label.c.BTN_Cancel}"
+                            />
+                            <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
+                                <lightning:button
+                                    class="apollo-btn secondary"
+                                    onclick="{!c.doIgnore}"
+                                    label="{!$Label.c.BTN_Ignore}"
+                                />
+                                <lightning:button
+                                    class="apollo-btn secondary"
+                                    onclick="{!c.doMarkComplete}"
+                                    label="{!$Label.c.BTN_Mark_As_Completed}"
+                                />
+                            </aura:if>
+                            <lightning:button
+                                class="apollo-btn primary"
+                                onclick="{!c.doSave}"
+                                label="{!$Label.c.BTN_Save}"
+                                disabled="{!not(v.isValidFields)}"
+                            />
+                        </div>
+                    </aura:set>
+                </aura:if>
                 <aura:set attribute="else">
-                    <div align="right">
-                        <lightning:button
-                            class="apollo-btn tertiary"
-                            onclick="{!c.doCancel}"
-                            label="{!$Label.c.BTN_Cancel}"
-                        />
+                    <!--LTR view-->
+                    <aura:if isTrue="{!($Browser.formFactor != 'DESKTOP')}">
                         <aura:if isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}">
-                            <lightning:button
-                                class="apollo-btn secondary"
-                                onclick="{!c.doIgnore}"
-                                label="{!$Label.c.BTN_Ignore}"
-                            />
-                            <lightning:button
-                                class="apollo-btn secondary"
-                                onclick="{!c.doMarkComplete}"
-                                label="{!$Label.c.BTN_Mark_As_Completed}"
-                            />
+                            <div align="right" class="slds-grid slds-wrap">
+                                <div class="slds-size_1-of-1 ignoreButton">
+                                    <lightning:button
+                                        class="apollo-btn secondary"
+                                        onclick="{!c.doIgnore}"
+                                        label="{!$Label.c.BTN_Ignore}"
+                                    />
+                                    <lightning:button
+                                        class="{!v.isRTL? 'apollo-btn secondary':'apollo-btn secondary markComplete'}"
+                                        onclick="{!c.doMarkComplete}"
+                                        label="{!$Label.c.BTN_Mark_As_Completed}"
+                                    />
+                                </div>
+                                <div class="slds-size_1-of-1">
+                                    <lightning:button
+                                        class="apollo-btn tertiary"
+                                        onclick="{!c.doCancel}"
+                                        label="{!$Label.c.BTN_Cancel}"
+                                    />
+                                    <lightning:button
+                                        class="apollo-btn primary"
+                                        onclick="{!c.doSave}"
+                                        label="{!$Label.c.BTN_Save}"
+                                        disabled="{!not(v.isValidFields)}"
+                                    />
+                                </div>
+                            </div>
+                            <aura:set attribute="else">
+                                <!--only save and cancel-->
+                                <div align="right">
+                                    <lightning:button
+                                        class="apollo-btn tertiary"
+                                        onclick="{!c.doCancel}"
+                                        label="{!$Label.c.BTN_Cancel}"
+                                    />
+                                    <lightning:button
+                                        class="apollo-btn primary"
+                                        onclick="{!c.doSave}"
+                                        label="{!$Label.c.BTN_Save}"
+                                        disabled="{!not(v.isValidFields)}"
+                                    />
+                                </div>
+                            </aura:set>
                         </aura:if>
-                        <lightning:button
-                            class="apollo-btn primary"
-                            onclick="{!c.doSave}"
-                            label="{!$Label.c.BTN_Save}"
-                            disabled="{!not(v.isValidFields)}"
-                        />
-                    </div>
+
+                        <aura:set attribute="else">
+                            <!--LTR Desktop-->
+                            <div align="right">
+                                <lightning:button
+                                    class="apollo-btn tertiary"
+                                    onclick="{!c.doCancel}"
+                                    label="{!$Label.c.BTN_Cancel}"
+                                />
+                                <aura:if
+                                    isTrue="{!and ( not (v.isNewTask) , not (v.isReminderOnly))}"
+                                >
+                                    <lightning:button
+                                        class="apollo-btn secondary"
+                                        onclick="{!c.doIgnore}"
+                                        label="{!$Label.c.BTN_Ignore}"
+                                    />
+                                    <lightning:button
+                                        class="apollo-btn secondary"
+                                        onclick="{!c.doMarkComplete}"
+                                        label="{!$Label.c.BTN_Mark_As_Completed}"
+                                    />
+                                </aura:if>
+                                <lightning:button
+                                    class="apollo-btn primary"
+                                    onclick="{!c.doSave}"
+                                    label="{!$Label.c.BTN_Save}"
+                                    disabled="{!not(v.isValidFields)}"
+                                />
+                            </div>
+                        </aura:set>
+                    </aura:if>
                 </aura:set>
             </aura:if>
         </aura:set>

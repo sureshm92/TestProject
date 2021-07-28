@@ -24,12 +24,22 @@
                         alternativeText=""
                         fallbackIconName="standard:avatar"
                     />
+
                     <aura:set attribute="else">
-                        <c:RRIcon
-                            color="white"
-                            class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
-                            iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"
-                        />
+                        <aura:if isTrue="{!v.isRTL}">
+                            <c:RRIcon
+                                color="white"
+                                class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatarRTL')}"
+                                iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"
+                            />
+                            <aura:set attribute="else">
+                                <c:RRIcon
+                                    color="white"
+                                    class="{!if(v.currentMode.isDelegate, 'delegate-avatar', 'single-avatar')}"
+                                    iconName="{!if(v.currentMode.isDelegate, 'multiple-neutral-circle', 'single-neutral')}"
+                                />
+                            </aura:set>
+                        </aura:if>
                     </aura:set>
                 </aura:if>
             </div>

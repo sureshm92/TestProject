@@ -109,7 +109,7 @@ public with sharing class LLRHeventTriggerHandler{
             llwrap.participantFirstName             = pe.Participant__r.First_Name__c;
             llwrap.participantLastName              = pe.Participant__r.Last_Name__c;
             llwrap.participantDOB                   = pe.Participant__r.Date_of_Birth__c;
-            if(pe.Participant__r.Alternative_Phone_Type__c == 'Mobile'){
+            if(pe.Participant__r.Alternative_Phone_Type__c == 'Mobile' && pe.Participant__r.Alternative_Phone_Number__c != null){
                 llwrap.participantMobileNumber      = pe.Participant__r.Alternative_Phone_Number__c;
             }else if(pe.Participant__r.Phone_Type__c == 'Mobile'){
                 llwrap.participantMobileNumber      = pe.Participant__r.Phone__c;
@@ -133,7 +133,7 @@ public with sharing class LLRHeventTriggerHandler{
             llwrap1.participantFirstName             = pe.Participant__r.First_Name__c;
             llwrap1.participantLastName              = pe.Participant__r.Last_Name__c;
             llwrap1.participantDOB                   = pe.Participant__r.Date_of_Birth__c;
-            if(pe.Participant__r.Alternative_Phone_Type__c == 'Mobile'){
+            if(pe.Participant__r.Alternative_Phone_Type__c == 'Mobile' && pe.Participant__r.Alternative_Phone_Number__c != null){
                 llwrap1.participantMobileNumber      = pe.Participant__r.Alternative_Phone_Number__c;
             }else if(pe.Participant__r.Phone_Type__c == 'Mobile'){
                 llwrap1.participantMobileNumber      = pe.Participant__r.Phone__c;
