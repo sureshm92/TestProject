@@ -17,7 +17,7 @@ public without sharing class ManualTaskFilter {
         = 'SELECT Participant_Contact__c, Participant__c FROM Participant_Enrollment__c WHERE Participant__r.Contact__c != NULL ';
     
     public static final String SEPARATOR = '\',\'';
-
+    Public Static Map<id,String> IdTypeOfContactMap = new map<id,String>();
     @AuraEnabled
     public List<String> statuses = new List<String>();
     @AuraEnabled
@@ -78,9 +78,11 @@ public without sharing class ManualTaskFilter {
         return peByContactIds;
     }
 
-    @TestVisible
-    private Map<Id, List<Id>> getContactsWithParticipantIds() {
+   @TestVisible
+    private Map<Id, List<Id>> getContactsWithParticipantIds(string visibility) {
         Map<Id, List<Id>> participantByContactIds = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> delegateParticipantByContactIds = new Map<Id, List<Id>>();
+        Map<Id, List<Id>> delegateOwnerMap = new Map<Id, List<Id>>();
 
         if (!studies.isEmpty() || !sites.isEmpty()) {
             /* If studies or sites were chosen we get Participants from PEs */
@@ -123,18 +125,46 @@ public without sharing class ManualTaskFilter {
         }
 
         List<Participant_Enrollment__c> pes = (List<Participant_Enrollment__c>) Database.query(peQuery);
+		List<Patient_Delegate__c> patientDelegateLST = new List<Patient_Delegate__c>();
+        set<id>contactIds = new set<id>();
+        set<id>participantIds = new set<id>();
+         set<id>ParticipantHavingDelegateIds = new set<id>();
         
-        for (Participant_Enrollment__c pe : pes) {
+                for (Participant_Enrollment__c pe : pes) {
             participantByContactIds.put(pe.Participant_Contact__c, new List<Id>{ pe.Participant__c });
+            ParticipantHavingDelegateIds.add(pe.Participant__c);
+            IdTypeOfContactMap.put(pe.Participant_Contact__c,'Participant'); //KK
         }
-
-        return participantByContactIds;
+        patientDelegateLST = [SELECT id,Contact__c,Participant__c FROM Patient_Delegate__c WHERE Participant__c IN :ParticipantHavingDelegateIds];
+        for(Patient_Delegate__c pd: patientDelegateLST){
+            contactIds.add(pd.Contact__c);
+            participantIds.add(pd.Participant__c);
+            delegateParticipantByContactIds.put(pd.Contact__c,new List<Id>{ pd.Participant__c });
+            if(IdTypeOfContactMap.containsKey(pd.Contact__c) && IdTypeOfContactMap.get(pd.Contact__c)=='Participant'){
+                String TypeOfContact = IdTypeOfContactMap.get(pd.Contact__c) +';Delegate';
+                IdTypeOfContactMap.put(pd.Contact__c,TypeOfContact); //KK //Participant;Delegate
+            }else{
+               IdTypeOfContactMap.put(pd.Contact__c,'Delegate'); //KK 
+            }
+            
+        }
+        delegateOwnerMap.putAll(participantByContactIds);
+        delegateOwnerMap.putAll(delegateParticipantByContactIds);
+       if(visibility == 'Owner'){
+           return participantByContactIds; 
+        } else if(visibility == 'Owner;Delegates' || visibility == 'Delegates'){
+           return delegateOwnerMap; 
+        }else{
+            return null;
+        }
     }
 
-    public Map<Id, List<Id>> getContactsWithWhatIds() {
+    public Map<Id, List<Id>> getContactsWithWhatIds(TaskService.TaskConfig taskConfig) {
+        string visibility = taskConfig.visibility;
+        
         // Platform-level tasks
         if (isPlatformLevel)
-            return getContactsWithParticipantIds();
+            return getContactsWithParticipantIds(visibility);
 
         /* Study-level tasks */
 
