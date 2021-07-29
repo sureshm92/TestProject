@@ -34,8 +34,9 @@ private class Test_ReferHealthcareProviderRemote {
             LIMIT 1
         ];
         ReferHealthcareProviderRemote.InitData result;
-
+TestData testData = new TestData();
         Test.startTest();
+        System.runAs(testData.participantUser) {
         Contact parDelegateContact = new Contact(
             FirstName = 'PADelTD',
             LastName = 'PADelTD',
@@ -58,6 +59,7 @@ private class Test_ReferHealthcareProviderRemote {
             partEnroll.Id,
             partEnroll.Participant__c
         );
+        }
         Test.stopTest();
         System.assert(!result.listWrapp.isEmpty());
     }
