@@ -361,7 +361,7 @@
                         <div class="slds-grid te-form slds-gutters slds-wrap">
                             <!--Reminder Frequency-->
                             <div
-                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, 'task-rtl rightAlign1', '')}"
+                                class="{!'slds-col slds-size_1-of-2 slds-p-top_large' + if(v.isRTL, ' task-rtl rightAlign1', '')}"
                             >
                                 <lightning:combobox
                                     aura:id="taskReminderOption1"
@@ -704,7 +704,7 @@
                                     label="{!$Label.c.BTN_Cancel}"
                                 />
                                 <lightning:button
-                                    class="apollo-btn primary rtlSave"
+                                    class="apollo-btn primary rtlSaveAll"
                                     onclick="{!c.doSave}"
                                     label="{!$Label.c.BTN_Save}"
                                     disabled="{!not(v.isValidFields)}"
@@ -713,7 +713,10 @@
                         </div>
                         <aura:set attribute="else">
                             <!--only save and cancel button-->
-                            <div align="left">
+                            <div
+                                align="left"
+                                style="margin-left: 15px;margin-right: 10%;width: 100% !important;"
+                            >
                                 <lightning:button
                                     class="apollo-btn tertiary"
                                     onclick="{!c.doCancel}"
@@ -806,7 +809,8 @@
                             </aura:set>
                         </aura:if>
 
-                        <aura:set attribute="else"> <!--LTR Desktop-->
+                        <aura:set attribute="else">
+                            <!--LTR Desktop-->
                             <div align="right">
                                 <lightning:button
                                     class="apollo-btn tertiary"
