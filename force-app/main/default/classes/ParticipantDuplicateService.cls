@@ -621,6 +621,7 @@ public without sharing class ParticipantDuplicateService {
         if (String.isNotBlank(newParticipant.Last_Name__c)) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
         if (String.isNotBlank(newParticipant.Middle_Name__c)) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
         if (String.isNotBlank(newParticipant.Nickname__c)) sourceParticipant.Nickname__c = newParticipant.Nickname__c;
+        if (String.isNotBlank(newParticipant.Suffix__c)) sourceParticipant.Suffix__c = newParticipant.Suffix__c;
         if (String.isNotBlank(newParticipant.Gender__c)) sourceParticipant.Gender__c = newParticipant.Gender__c;
         //if (String.isNotBlank(newParticipant.Date_of_Birth__c)) sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
         if (String.isNotBlank(newParticipant.Phone_Type__c)) sourceParticipant.Phone_Type__c = newParticipant.Phone_Type__c;   
