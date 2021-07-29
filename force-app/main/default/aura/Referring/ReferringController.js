@@ -277,6 +277,9 @@
         let pEnrollment = component.get('v.pEnrollment');
         let contentDocId=component.get("v.contentDocId");
         let spinner = component.find('mainSpinner');
+        if (!$A.util.isUndefinedOrNull(JSON.stringify(pEnrollment.HCP__r))) {
+            pEnrollment.HCP__r.Study__c="";
+      }
         spinner.show();
         communityService.executeAction(
             component,
