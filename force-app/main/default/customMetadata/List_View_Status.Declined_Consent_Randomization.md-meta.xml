@@ -4,7 +4,11 @@
     <protected>false</protected>
     <values>
         <field>Available_Statuses__c</field>
-        <value xsi:type="xsd:string">Ready to Screen,Screening In Progress,In Wash Out Period,Screening Passed,Unable to Screen,Withdrew Consent,Screening Failed,Randomization Success,Withdrew Consent After Screening,Declined Final Consent,Randomization Failed</value>
+        <value xsi:type="xsd:string">Ready to Screen,Screening In Progress,In Wash Out Period,Screening Passed,Unable to Screen,Withdrew Consent,Screening Failed,Randomization Success,Withdrew Consent After Screening,Randomization Failed</value>
+    </values>
+    <values>
+        <field>Final_Consent__c</field>
+        <value xsi:type="xsd:boolean">false</value>
     </values>
     <values>
         <field>Initial_Visit__c</field>
