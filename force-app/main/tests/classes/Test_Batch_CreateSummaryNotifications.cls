@@ -23,10 +23,13 @@ private class Test_Batch_CreateSummaryNotifications {
         TriggerHandlerExecutor.bypassHandler(
             ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
         );
-
+        TriggerHandlerExecutor.bypassHandler(
+            ContentDocumentLinkTriggerHandler.class,
+            TriggerOperation.AFTER_INSERT
+        );
         ContentVersion contentVersion = new ContentVersion(
             LanguageCode__c = 'en_US',
-            Title = 'en_US',
+            Title = 'Test Content',
             PathOnClient = 'Irregular verbs.pdf',
             VersionData = EncodingUtil.base64Decode('fdsgg5465w')
         );
@@ -39,7 +42,13 @@ private class Test_Batch_CreateSummaryNotifications {
             Title__c = 'TestRes'
         );
         insert resource;
-        Id docId = [SELECT Id, ContentDocumentId FROM ContentVersion LIMIT 1].ContentDocumentId;
+        Id docId = [
+            SELECT Id, ContentDocumentId
+            FROM ContentVersion
+            WHERE Title = 'Test Content'
+            LIMIT 1
+        ]
+        .ContentDocumentId;
         ContentDocumentLink contentDocumentLink = new ContentDocumentLink(
             ContentDocumentId = docId,
             LinkedEntityId = resource.Id
@@ -90,9 +99,15 @@ private class Test_Batch_CreateSummaryNotifications {
                 Notify_On_Availability__c = TRUE
                 AND Visible_To_Participant__c = TRUE
                 AND Resource__r.Content_Type__c = 'Study_Document'
+                AND Clinical_Trial_Profile__r.Study_Documents_Are_Available__c = TRUE
         ];
 
-        new Batch_CreateSummaryNotifications().execute(null, resStudies);
+        //new Batch_CreateSummaryNotifications().execute(null, resStudies);
+        Batch_CreateSummaryNotifications batchInstance = new Batch_CreateSummaryNotifications();
+        Database.executeBatch(batchInstance);
+        batchInstance.getBatchDescription();
+        batchInstance.getRecommendedIntervalMode();
+        batchInstance.getRecommendedRelaunchInterval();
         Test.stopTest();
 
         Contact updatedContact = [
