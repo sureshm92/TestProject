@@ -474,68 +474,64 @@
                                 </div>
                             </th>
                             <th scope="col">
-                                <div
-                                     class="slds-truncate h_font"
-                                     title="Name"
-                                     style="text-align: center"
-                                     >
+                                <div class="slds-truncate h_font" title="Name" style="white-space: pre-wrap; text-align: center">
                                     {!$Label.c.ID}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Phone">
+                                <div class="slds-truncate h_font" title="Recevied Date" style="white-space: pre-wrap;" >
                                     {!$Label.c.Received_Date}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div
-                                     class="slds-truncate h_font"
-                                     title="Phone"
-                                     style="text-align: center"
-                                     >
+                                <div class="slds-truncate h_font" title="Source ID" style="white-space: pre-wrap; text-align: center">
                                     {!$Label.c.Source_ID}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Phone">
+                                <div class="slds-truncate h_font" title="Sex" style="white-space: pre-wrap;">
                                     {!$Label.c.Sex}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Phone">
+                                <div class="slds-truncate h_font" title="Age" style="white-space: pre-wrap;">
                                     {!$Label.c.Age}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Phone">
+                                <div class="slds-truncate h_font" title="Ethnicity" style="white-space: pre-wrap;">
                                     {!$Label.c.Ethnicity}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Type">
+                                <div class="h_font" title="Comorbidities" style="white-space: pre-wrap;">
                                     {!$Label.c.Comorbidities}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Type">{!$Label.c.BMI}</div>
+                                <div class="h_font" title="BMI" style="white-space: pre-wrap;">
+                                    {!$Label.c.BMI}
+                                </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Type">
+                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
                                     {!$Label.c.High_Risk}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Type">
+                                <div class="slds-truncate h_font" title="Type" style="white-space: pre-wrap;">
                                     {!$Label.c.Initial_Visit_Date}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="h_font" title="Type">
+                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
                                     {!$Label.c.Participant_Status}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="h_font" title="Type">{!$Label.c.High_Priority}</div>
+                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
+                                    {!$Label.c.High_Priority}
+                                </div>
                             </th>
                         </tr>
                     </thead>
