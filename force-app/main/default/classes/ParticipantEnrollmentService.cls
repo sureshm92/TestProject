@@ -591,6 +591,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Patient_Auth_Upload_Required__c',
         'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
+        'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',

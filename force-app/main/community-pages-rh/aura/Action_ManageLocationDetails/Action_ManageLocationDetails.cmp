@@ -148,9 +148,9 @@
                 >
                     {!$Label.c.SS_Use_This_Address}
                 </button>
-            </span>
-        </aura:set>
-    </c:PopupRTL>
+                 </span>
+            </aura:set>
+        </c:PopupRTL>
     </div>
 
     <c:Action_EditLocation aura:id="editLocation" />

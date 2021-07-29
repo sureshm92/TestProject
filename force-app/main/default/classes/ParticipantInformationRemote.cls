@@ -144,7 +144,7 @@ public without sharing class ParticipantInformationRemote {
         ];
         pe.Participant__r.Adult__c = part.Adult__c;
         pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
-
+       
         Participant__c participantObj = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class
@@ -741,10 +741,11 @@ public without sharing class ParticipantInformationRemote {
         String peId,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean sitepreference
     ) {
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
     }
 
     @AuraEnabled
@@ -753,10 +754,11 @@ public without sharing class ParticipantInformationRemote {
         String peId,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean sitepreference
     ) {
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
     }
 
     public static String updatePatientStatus(
@@ -764,7 +766,8 @@ public without sharing class ParticipantInformationRemote {
         Participant_Enrollment__c pe,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean sitepreference
     ) {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper = (ParticipantWorkflowService.ParticipantWorkflowWrapper) JSON.deserialize(
@@ -787,6 +790,7 @@ public without sharing class ParticipantInformationRemote {
                 ctp,
                 oldParticipantEnrollment
             );
+            pe.Site_Communication_Preference__c=sitepreference;
             update pe;
             if (
                 (oldParticipantEnrollment.Initial_visit_scheduled_date__c == null ||
@@ -1186,7 +1190,8 @@ public without sharing class ParticipantInformationRemote {
         Participant_Enrollment__c pe,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean sitepreference
     ) {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper = (ParticipantWorkflowService.ParticipantWorkflowWrapper) JSON.deserialize(
@@ -1295,7 +1300,7 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment__c.class
         );
         update participant;
-        return updatePatientStatus(pathWrapperJSON, pe, false, false, null);
+        return updatePatientStatus(pathWrapperJSON, pe, false, false, null,false);
     }
 
     @AuraEnabled
@@ -1500,13 +1505,15 @@ public without sharing class ParticipantInformationRemote {
         String pathWrapperJSON,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean sitepreference
+        
     ) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
             peJSON,
             Participant_Enrollment__c.class
         );
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
     }
 
     @AuraEnabled
@@ -1699,7 +1706,7 @@ public without sharing class ParticipantInformationRemote {
             peJSON,
             Participant_Enrollment__c.class
         );
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,false);
     }
 
     public static void updateUserLanguage(String userJSON) {

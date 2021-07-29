@@ -80,8 +80,17 @@ public inherited sharing class VisitReportService {
             }
         }
         for (Patient_Visit__c objVisit : patientVisits) {
-            for (Visit_Result__c objVisitResult : objVisit.Visit_Results__r) {
-                accessVisitResultMap.put(objVisitResult.Result_Type__c, objVisitResult);
+            if (availableVisitResultsByPatientVisitIds.containsKey(objVisit.Id)) {
+                Map<String, Visit_Result__c> availableVisitResultsByResultType = availableVisitResultsByPatientVisitIds.get(
+                    objVisit.Id
+                );
+                for (Visit_Result__c objVisitResult : objVisit.Visit_Results__r) {
+                    if (
+                        availableVisitResultsByResultType.containsKey(objVisitResult.result_Type__c)
+                    ) {
+                        accessVisitResultMap.put(objVisitResult.Result_Type__c, objVisitResult);
+                    }
+                }
             }
         }
         for (Patient_Visit__c patientVisit : patientVisits) {

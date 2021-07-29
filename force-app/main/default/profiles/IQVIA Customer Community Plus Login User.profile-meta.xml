@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>LibraryRPRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1066,6 +1070,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>RPRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>NonReferredPatientController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -5219,6 +5231,11 @@
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Notes__c</field>
+        <readable>true</readable>
+   </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Completedby_Name__c</field>

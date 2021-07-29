@@ -158,7 +158,7 @@ public without sharing class ParticipantWorkflowService {
                 CreatedBy.contact.userCommunityMode__c,
                 Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c = :pe.Id 
+            WHERE ParticipantEnrollment__c = :pe.Id
             AND Backward_Bulk_Update__c = false
             ORDER BY Date__c DESC
         ];
