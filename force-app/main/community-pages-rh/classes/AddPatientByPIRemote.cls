@@ -235,19 +235,46 @@ public without sharing class AddPatientByPIRemote {
             List<Participant__c> participantPatient = new List<Participant__c>();
             if (!newPartcipantObjs.isEmpty()) {
                 for (Participant__c partici : newPartcipantObjs) {
-                    partici.First_Name__c = participant.First_Name__c;
-                    partici.Last_Name__c = participant.Last_Name__c;
-                    partici.Suffix__c = participant.Suffix__c;
-                    partici.Middle_Name__c = participant.Middle_Name__c;
-                    partici.Nickname__c = participant.Nickname__c;
-                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   if(String.isNotBlank(participant.First_Name__c)){
+                        partici.First_Name__c = participant.First_Name__c;
+                    }
+                    if(String.isNotBlank(participant.Last_Name__c)){
+                        partici.Last_Name__c = participant.Last_Name__c;
+                    }
+                    if(String.isNotBlank(participant.Suffix__c)){
+                        partici.Suffix__c = participant.Suffix__c;
+                    }
+                    if(String.isNotBlank(participant.Middle_Name__c)){
+                        partici.Middle_Name__c = participant.Middle_Name__c;
+                    }
+                    if(String.isNotBlank(participant.Nickname__c)){
+                        partici.Nickname__c = participant.Nickname__c;
+                    }
+                   // partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   if(String.isNotBlank(participant.Gender__c)){
                     partici.Gender__c = participant.Gender__c;
+                   }
+                   if(String.isNotBlank(participant.Email__c)){
                     partici.Email__c = participant.Email__c;
+                   }
+                   if(String.isNotBlank(participant.Phone__c)){
                     partici.Phone__c = participant.Phone__c;
+                   }
+                   if(String.isNotBlank(participant.Phone_Type__c)){
                     partici.Phone_Type__c = participant.Phone_Type__c;
+                   }
+                   if(String.isNotBlank(participant.Mailing_Country_Code__c)){
                     partici.Mailing_Country_Code__c = participant.Mailing_Country_Code__c;
+                   }
+                   if(String.isNotBlank(participant.Mailing_Zip_Postal_Code__c)){
                     partici.Mailing_Zip_Postal_Code__c = participant.Mailing_Zip_Postal_Code__c;
+                   }
+                   if(String.isNotBlank(participant.Mailing_State_Code__c)){
                     partici.Mailing_State_Code__c = participant.Mailing_State_Code__c;
+                   }
+                   if(String.isNotBlank(participant.Preferred_Language__c)){
+                    partici.Preferred_Language__c = participant.Preferred_Language__c;
+                   }
                     participantPatient.add(partici);
                 } 
                 if (!participantPatient.isEmpty()) {
