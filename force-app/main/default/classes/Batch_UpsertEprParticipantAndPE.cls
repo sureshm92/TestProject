@@ -444,7 +444,8 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             system.debug('ERROR during deleting records: ' + exp.getMessage());
         }
         finally {
-            Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 50);
+            if(!test.isRunningTest())
+            	Database.executeBatch(new Batch_UpsertEprParticipantAndPE(), 50);
         }
         
     }

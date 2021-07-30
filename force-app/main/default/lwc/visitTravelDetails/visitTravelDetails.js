@@ -40,6 +40,7 @@ export default class VisitTravelDetails extends LightningElement {
     @track showVendors = false;
     @track noTravelInformation = false;
     @api isrtl;
+    @track travelDetailsClass = 'travel-support slds-float_left slds-col slds-size_1-of-2';
     @track addNewClass = 'slds-col slds-size_1-of-2';
     @track noTravelClass = 'no-travels-message';
     connectedCallback() {
@@ -52,12 +53,14 @@ export default class VisitTravelDetails extends LightningElement {
             .then(() => {
                 console.log('inside js loaded-->');
             })
-            .catch((error) => {
+            .catch(error => {
                 console.log('error');
             });
         if (this.isrtl) {
             this.addNewClass = 'slds-col slds-size_1-of-2 mr_rtl';
             this.noTravelClass = 'no-travels-message_rtl';
+            this.travelDetailsClass =
+                'travel-support slds-float_left slds-col slds-size_1-of-2 tsRtl';
         } else {
             this.addNewClass = 'slds-col slds-size_1-of-2 mr';
             this.noTravelClass = 'no-travels-message';
@@ -69,20 +72,20 @@ export default class VisitTravelDetails extends LightningElement {
 
     handleLoad() {
         getTravelDetails({ clientId: '12345', clientSecret: '12345', isHomePage: false })
-            .then((result) => {
+            .then(result => {
                 console.log('result', result);
                 this.travelWrapper = result;
                 console.log('travelWrapper' + JSON.stringify(this.travelWrapper));
                 this.constructBookingData(this.travelWrapper);
             })
-            .catch((error) => {
+            .catch(error => {
                 this.error = error;
             });
     }
 
     getTravelVendorsDetails() {
         getTravelVendors()
-            .then((result) => {
+            .then(result => {
                 console.log('travelVendors', result);
                 this.vendors = result;
                 this.showVendors = result.length != 0;
@@ -91,7 +94,7 @@ export default class VisitTravelDetails extends LightningElement {
                 });
                 this.dispatchEvent(lwcEvent);
             })
-            .catch((error) => {
+            .catch(error => {
                 this.error = error;
             });
     }

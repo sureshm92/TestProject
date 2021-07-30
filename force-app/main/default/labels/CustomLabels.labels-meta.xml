@@ -1367,6 +1367,34 @@
         <value>Select as Preferred Site</value>
     </labels>
     <labels>
+        <fullName>trialSearch_Someone_else</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trialSearch_Someone else</shortDescription>
+        <value>Someone else</value>
+    </labels>
+    <labels>
+        <fullName>trialSearch_me</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trialSearch_me</shortDescription>
+        <value>Me</value>
+    </labels>
+    <labels>
+        <fullName>cont_study_gender</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Gender</shortDescription>
+        <value>Gender</value>
+    </labels>
+    <labels>
+	<fullName>Send_info_for</fullName>
+	<language>en_US</language>
+	<protected>false</protected>
+	<shortDescription>Send Information for</shortDescription>
+	<value>Send Information for</value>
+</labels>
+    <labels>
         <fullName>BTN_Send</fullName>
         <language>en_US</language>
         <protected>false</protected>

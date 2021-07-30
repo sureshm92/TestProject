@@ -9,7 +9,11 @@
 .webPopup .p-content.with-scroll {
     padding-bottom: 50px;
 }
-
+.rightAlign .slds-dropdown_left {
+    text-align: right;
+    right: auto;
+    left: 0px;
+}
 .mr_10 {
     margin-top: 10px;
 }
@@ -174,7 +178,7 @@ h2 {
 }
 .what-to-expect_rtl {
     height: 24px;
-    width: 136px;
+    width: max-content;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 20px;
@@ -184,7 +188,9 @@ h2 {
     margin-top: -28px;
     margin-right: 20px;
 }
-
+.RTLReminder {
+    text-align: right;
+}
 .icons-container {
     display: flex;
     overflow: visible;

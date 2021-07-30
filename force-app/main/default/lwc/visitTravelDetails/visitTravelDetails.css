@@ -11,7 +11,6 @@
 
 .bg {
     padding-bottom: 4px;
-    white-space: nowrap;
     font-family: 'Proxima Nova';
     font-size: 16px;
 }
@@ -21,7 +20,9 @@
     padding: 4px 16px;
     display: inline-block;
 }
-
+.tsRtl {
+    text-align: right;
+}
 .dropdown-content div:hover {
     background-color: #eef5ff;
 }
@@ -30,7 +31,7 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: fit-content;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 0;
     z-index: 1;
@@ -65,7 +66,7 @@
 }
 .button-menu-small-default {
     height: 32px;
-    width: 175px;
+    width: fit-content;
 }
 .mr8 {
     margin-top: 8px;
@@ -77,11 +78,10 @@
 }
 .mr_rtl {
     margin-top: 40px;
-    text-align: left;
+    text-align: right;
 }
 .labels {
     height: 24px;
-    width: 142px;
     transform: rotate(-360deg);
     color: #0768fd;
     font-family: 'Proxima Nova';
@@ -90,7 +90,6 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
-    white-space: nowrap;
     padding-left: 6px;
 }
 
