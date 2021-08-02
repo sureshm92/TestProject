@@ -42,18 +42,18 @@ public class MedicalRecordAccessRemote {
         gen.writeEndObject();    
         String jsonBody = gen.getAsString();        
         Map<String,Object> deserializedResponse=httpCallout(url,jsonBody,'POST');
-        return (String)deserializedResponse.get('access_token');
+        return (String)deserializedResponse.get('access_token'); 
          */
-        RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
+       // RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
 
-        return remoteObj.remoteCallGetAccessToken().access_token;
+        return RemoteCall_getHumanAPITokens.getInstance().remoteCallGetAccessToken().access_token;
       //  return null;
         
     }
     
     
     @AuraEnabled
-    public static List<Provider> getHumanSourcesList(String accessToken){
+    public static List<Provider> getHumanSourcesList(){
       /**  String url='https://api.humanapi.co/v1/human/sources';
         HTTP h = new HTTP();
         HTTPRequest req = new HTTPRequest();
@@ -84,11 +84,16 @@ public class MedicalRecordAccessRemote {
         System.debug('providersList::'+providersList);
         return providersList;
 **/
-        
-        return RemoteCall_getHumanAPIData.getHumanSources();
+       
+        return RemoteCall_getHumanAPIData.getHumanSources(getAccessToken());
         
     }
     
+    @AuraEnabled
+    public static List<Provider> getHumanSourcesListwelcome()
+    {
+        return new List<Provider>();
+    }
     
     public static Map<String,Object> httpCallout(String url,String jsonRequestbody,String httpMethod)
     {

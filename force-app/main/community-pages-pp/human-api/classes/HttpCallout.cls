@@ -41,7 +41,13 @@ public class HttpCallout extends RemoteCall{
             for (String key : requestMap.keySet()) {
                 System.debug('key'+requestMap);
                 String value = requestMap.get(key);
+                try{
+                    System.debug('key:::'+key+':::value::'+value);
                 gen.writeStringField(key,value );
+                }catch(Exception e)
+                {
+                    System.debug('error'+e.getLineNumber());
+                }
             }
              
             gen.writeEndObject();    

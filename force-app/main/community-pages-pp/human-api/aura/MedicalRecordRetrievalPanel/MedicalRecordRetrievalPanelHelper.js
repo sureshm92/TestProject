@@ -7,7 +7,7 @@
                 component,
                 'getSessionToken',{},          
                 function (returnValue) {
-                    
+                    console.log('returnValue--->',returnValue);
                     component.set('v.sessionToken',returnValue);
                     self.launchConnect(component);
                 }
@@ -21,15 +21,18 @@
     },
     calloutAccessToken : function(component) {
         var self = this;      
+        console.log('calloutss',component.get('v.accessToken'));
         try{
             if(component.get('v.accessToken')==undefined)
             {
+                console.log('if block');
                 communityService.executeAction(
                     component,
                     'getAccessToken',{},          
                     function (returnValue) {
-                        
+                        console.log('returnValuesssss',returnValue);
                         component.set('v.accessToken',returnValue);
+                        
                         self.listProviders(component);
                     }
                 );  
@@ -47,11 +50,11 @@
     },
     
     listProviders : function(component) {        
-        var accessToken= component.get('v.accessToken');       
         communityService.executeAction(
             component,
-            'getHumanSourcesList',{accessToken : accessToken},          
+            'getHumanSourcesList',{},          
             function (returnValue) {
+                console.log('dddd',returnValue);
                 component.find('spinner').hide();
                 component.set('v.medicalProviders',returnValue);
                 
@@ -69,22 +72,32 @@
                 console.log("Widget closed with error", response.status);
                 var results = response.sessionResults;
                 console.log("User connected",results.connectedSources.length,"data sources");
-                console.log("user connected sources",results.connectedSources);
+                console.log("user connected sources",results.connectedSources);               
                 
                 console.log("User closed Connect", response);
                 var results = response.sessionResults;
-                console.log('results',results);
-                
+                component.set("v.success",results.connectedSources);                
+               
             },
             onConnectSource : function(response) {
                 
                 console.log("User connected a source", response);
-                self.listProviders(component);
+               // self.listProviders(component);
+              /** communityService.executeAction(
+                    component,
+                    'getAccessToken',{},          
+                    function (returnValue) {
+                        console.log('returnValuesssss',returnValue);
+                        component.set('v.accessToken',returnValue);
+                        
+                        //self.listProviders(component);
+                    }
+                );   **/
             },
             onDisconnectSource : function(response) {
                 console.log("User disconnected a source", response);
                 console.log('xyz',response.status);
-                self.listProviders(component);
+               // self.listProviders(component);
             }
         });
         

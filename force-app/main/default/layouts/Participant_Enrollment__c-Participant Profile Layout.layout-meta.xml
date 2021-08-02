@@ -99,14 +99,22 @@
                 <behavior>Edit</behavior>
                 <field>Chatbot_optout__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Site_Communication_Preference__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Invited_To_PP_Date__c</field>
-            </layoutItems>            
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Human_Id__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>isAuthorized__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -136,30 +144,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Participant_Study_Enrollment__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>YOB__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>State__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Email__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Phone__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Country__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Attestation__c</field>
             </layoutItems>
         </layoutColumns>
         <style>TwoColumnsLeftToRight</style>
@@ -599,7 +583,7 @@
         <fields>LAST_UPDATE</fields>
         <relatedList>Participant_Site_History__c.Participant_Enrollment__c</relatedList>
     </relatedLists>
-	<relatedLists>
+    <relatedLists>
         <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>
@@ -609,6 +593,10 @@
     <relatedLists>
         <fields>NAME</fields>
         <relatedList>Trial_Match__c.Participant_Enrollment__c</relatedList>
+    </relatedLists>
+    <relatedLists>
+        <fields>NAME</fields>
+        <relatedList>Token__c.Participant_Enrollment__c</relatedList>
     </relatedLists>
     <showEmailCheckbox>false</showEmailCheckbox>
     <showHighlightsPanel>false</showHighlightsPanel>
