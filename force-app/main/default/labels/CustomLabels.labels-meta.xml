@@ -3472,7 +3472,7 @@ Please share our site on social media to encourage others to assist us as we wor
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>chatbot</shortDescription>
-        <value>participant via chatbot</value>
+        <value>participant via assisted scheduling service</value>
     </labels>
     <labels>
         <fullName>Community_IQVIA_RH_Help</fullName>
