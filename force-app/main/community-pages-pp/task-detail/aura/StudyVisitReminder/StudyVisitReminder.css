@@ -205,6 +205,7 @@
 
 .THIS .reminderDate_rtl {
     margin-top: -1px;
+    /* @noflip */
     margin-right: -112px;
 }
 .THIS .reminderDate_visrtl {
