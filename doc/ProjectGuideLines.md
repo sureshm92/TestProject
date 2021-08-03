@@ -1,4 +1,4 @@
-## Rules for writing code in RR and PP
+## Rules for writing code in RH and PP
 
 1. The interaction of the Lightning component with the Apex controller is built as follows:
 
