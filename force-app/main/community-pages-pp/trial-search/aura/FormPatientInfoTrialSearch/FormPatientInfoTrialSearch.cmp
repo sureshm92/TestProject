@@ -84,6 +84,7 @@
                         value="{!v.participantInfo.First_Name__c}"
                         required="true"
                         onblur="{!c.doCheckFields}"
+                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
                 </div>
                 <!--                <div class="rr-form-element slds-col slds-size&#45;&#45;1-of-1 slds-large-size&#45;&#45;1-of-3">-->
@@ -101,6 +102,7 @@
                         value="{!v.participantInfo.Last_Name__c}"
                         required="true"
                         onblur="{!c.doCheckFields}"
+                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
@@ -117,6 +119,7 @@
                         required="true"
                         onchange="{!c.doCheckFields}"
                         dateStyle="medium"
+                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                     />
                 </div>
                 <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
@@ -167,6 +170,7 @@
                     value="{!v.participantInfo.Email__c}"
                     required="true"
                     onblur="{!c.doCheckFields}"
+                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                 />
             </div>
             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">

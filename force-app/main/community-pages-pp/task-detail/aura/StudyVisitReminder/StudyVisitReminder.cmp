@@ -152,6 +152,7 @@
                                         required="true"
                                         onblur="{!c.doValidateFields}"
                                         messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                     <aura:set attribute="else">
                                         <lightning:input
@@ -167,6 +168,7 @@
                                             onblur="{!c.doValidateFields}"
                                             messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
                                             messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
+                                            messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                         />
                                     </aura:set>
                                 </aura:if>
@@ -220,6 +222,7 @@
                                         onblur="{!c.doValidateFields}"
                                         required="true"
                                         class="container1"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                 </aura:if>
                             </div>
@@ -282,7 +285,7 @@
                                         onchange="{!c.setAttributeValue}"
                                         onblur="{!c.doValidateFields}"
                                     />
-                                </div> </div
+                                </div></div
                         ></aura:if>
 
                         <!--</aura:if>-->
@@ -310,7 +313,7 @@
                                 <lightning:formattedText value="{!$Label.c.Task_Name}" />
                                 <br />
                                 <div class="slds-p-top_small"></div>
-                                <b> <lightning:formattedText value="{!v.task.Subject}"/></b>
+                                <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
@@ -400,6 +403,7 @@
                                         class="container1"
                                         onblur="{!c.doValidateFields}"
                                         required="true"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                 </aura:if>
                             </div>
@@ -510,6 +514,7 @@
                                     min="{!v.initData.today}"
                                     required="true"
                                     class="vis-input"
+                                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                 ></lightning:input>
                                 <aura:set attribute="else">
                                     <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
@@ -522,6 +527,7 @@
                                             required="true"
                                             class="container1"
                                             onblur="{!c.doValidateFields}"
+                                            messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                         >
                                         </lightning:input>
                                         <aura:set attribute="else">
@@ -537,6 +543,7 @@
                                                 messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
                                                 messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                                 aura:id="field"
+                                                messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                             ></lightning:input>
                                         </aura:set>
                                     </aura:if>
@@ -586,6 +593,7 @@
                                     onblur="{!c.doValidateFields}"
                                     required="true"
                                     class="container1"
+                                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                 />
                             </aura:if>
                         </div>
@@ -715,7 +723,7 @@
                             <!--only save and cancel button-->
                             <div
                                 align="left"
-                                style="margin-left: 15px;margin-right: 10%;width: 100% !important;"
+                                style="margin-left: 15px; margin-right: 10%; width: 100% !important"
                             >
                                 <lightning:button
                                     class="apollo-btn tertiary"
