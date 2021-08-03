@@ -39,6 +39,7 @@ import reminderUnderFlow from '@salesforce/label/c.PP_Reminder_Underflow';
 import reminderOverFlow from '@salesforce/label/c.PP_VisitReminder_Overflow';
 import reminderErrorUnderFlow from '@salesforce/label/c.PP_ReminderUnderFlowError';
 import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
+import requiredErrorMessage from '@salesforce/label/c.PP_RequiredErrorMessage';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
 import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
@@ -46,7 +47,6 @@ import getVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getPartic
 import getTaskEditDetails from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 import getIsTravelSupportEnabled from '@salesforce/apex/TravelSupportRemote.getisTravelSupportEnabled';
-
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -89,7 +89,8 @@ export default class VisitsPath extends LightningElement {
         reminderErrorUnderFlow,
         reminderPastError,
         timeZoneDisclaimer,
-        selectLabel
+        selectLabel,
+        requiredErrorMessage
     };
 
     initialized = false;
@@ -186,10 +187,11 @@ export default class VisitsPath extends LightningElement {
             .catch(function (error) {
                 console.error('Error: ' + JSON.stringify(error));
             });
-        getIsTravelSupportEnabled().then((result) => {
-            console.log('isTravelSupport', result);
-            this.travelSupportEnabled = result;
-        })
+        getIsTravelSupportEnabled()
+            .then((result) => {
+                console.log('isTravelSupport', result);
+                this.travelSupportEnabled = result;
+            })
             .catch((error) => {
                 this.error = error;
             });
@@ -586,7 +588,6 @@ export default class VisitsPath extends LightningElement {
                 communityService.showErrorToast('', this.labels.reminderErrorUnderFlow, 3000);
                 return;
             }
-
         }
 
         if (this.planDate) this.selectedPV.Planned_Date__c = this.planDate;
