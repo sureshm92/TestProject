@@ -124,6 +124,7 @@ public without sharing class ParticipantTriggerHandler {
     private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
         List<Contact> updateContacts = new List<Contact>();
         Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
+        Map<Id,String> contIdoldLanguageMap = new Map<Id,String>();
         Boolean isOldMapEmpty = oldMap.isEmpty();
         for(Participant__c part : newList){
             if(part.Contact__c!=null){
@@ -145,13 +146,17 @@ public without sharing class ParticipantTriggerHandler {
                     }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
                         updateContactsMap.put(part.Contact__c,part);
                     }
+                     if(oldMap.get(part.Id)!=null && part.Preferred_Language__c != oldMap.get(part.Id).Preferred_Language__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                        contIdoldLanguageMap.put(part.Contact__c,oldMap.get(part.Id).Preferred_Language__c);
+                    }
                 }
             }
         }
         
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
@@ -164,6 +169,17 @@ public without sharing class ParticipantTriggerHandler {
 						updateNeeded= true;
 					}if(con.Phone != updateContactsMap.get(con.Id).Phone__c){
 						con.Phone = updateContactsMap.get(con.Id).Phone__c;
+						updateNeeded= true;
+					}
+                     if(con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c && String.isEmpty(con.Second_Choice_Language__c)){
+                        con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
+                        con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
+						updateNeeded= true;
+                    }
+                    if(con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c && !String.isEmpty(con.Second_Choice_Language__c)){
+                        con.Language__c = updateContactsMap.get(con.Id).Preferred_Language__c;
+                        con.Third_Choice_Language__c = con.Second_Choice_Language__c;
+                        con.Second_Choice_Language__c = contIdoldLanguageMap.get(con.Id);
 						updateNeeded= true;
 					}
 					if(updateNeeded == true){
