@@ -886,7 +886,7 @@
                     <div class="slds-grid slds-gutters slds-wrap">
                         <aura:if isTrue="{!!v.updateMode}">
                             <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
+                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
                                  >
                                 <div class="label">
                                     <abbr title="required" class="slds-required">*</abbr
@@ -903,7 +903,7 @@
                             </div>
                         </aura:if>
                         <div
-                             class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
+                             class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
                              >
                             <div class="label">
                                 <aura:if isTrue="{!!v.updateMode}">
@@ -922,7 +922,7 @@
                         </div>
                         <aura:if isTrue="{!v.isRTL}">
                             <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
+                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
                                  > 
                                 
                                 
@@ -942,7 +942,7 @@
                             </div>
                             <aura:set attribute="else">
                                 <div
-                                     class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
+                                     class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
                                      > 
                                     
                                     
@@ -958,7 +958,6 @@
                                                      value="{!v.pe.Screening_ID__c}"
                                                      onblur="{!c.doCheckFields}"
                                                      required="{!v.screeningRequired}"
-                                                     style="width: 295px;"
                                                      />
                                 </div>
                             </aura:set>
@@ -966,7 +965,7 @@
                         
                         <aura:if isTrue="{!v.visitPlanAvailable}">
                             <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-5"
+                                 class="rr-form-element slds-col slds-size--1-of-1 slds-medium-size_1-of-4"
                                  >
                                 <div class="label">
                                     <aura:if isTrue="{!v.visitPlanRequired}">

@@ -152,6 +152,7 @@
                                         required="true"
                                         onblur="{!c.doValidateFields}"
                                         messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                     <aura:set attribute="else">
                                         <lightning:input
@@ -167,6 +168,7 @@
                                             onblur="{!c.doValidateFields}"
                                             messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
                                             messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
+                                            messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                         />
                                     </aura:set>
                                 </aura:if>
@@ -212,7 +214,7 @@
                                         variant="label-hidden"
                                         value="{!v.initData.reminderDate}"
                                         min="{!v.initData.today}"
-                                        max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
+                                        max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == '1 day before' , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
                                         messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
@@ -220,6 +222,7 @@
                                         onblur="{!c.doValidateFields}"
                                         required="true"
                                         class="container1"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                 </aura:if>
                             </div>
@@ -282,7 +285,7 @@
                                         onchange="{!c.setAttributeValue}"
                                         onblur="{!c.doValidateFields}"
                                     />
-                                </div> </div
+                                </div></div
                         ></aura:if>
 
                         <!--</aura:if>-->
@@ -291,7 +294,7 @@
             </aura:if>
         </aura:if>
 
-        <!-- ============================== Reminder Only Section ===========================================-->
+        <!-- Reminder Only Section -->
         <aura:if isTrue="{!v.reRender}">
             <aura:if isTrue="{!and(v.isReminderOnly,v.task.Task_Type__c != 'Visit')}">
                 <div class="te-task-panel">
@@ -310,7 +313,7 @@
                                 <lightning:formattedText value="{!$Label.c.Task_Name}" />
                                 <br />
                                 <div class="slds-p-top_small"></div>
-                                <b> <lightning:formattedText value="{!v.task.Subject}"/></b>
+                                <b> <lightning:formattedText value="{!v.task.Subject}" /></b>
                             </div>
                             <div class="slds-col slds-size_1-of-1 slds-medium-size_1-of-2">
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
@@ -392,7 +395,7 @@
                                         variant="label-hidden"
                                         value="{!v.initData.reminderDate}"
                                         min="{!v.initData.today}"
-                                        max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.initData.activityDate), '')}"
+                                        max="{!if(v.initData.activityDate, if(v.task.Remind_Me__c == '1 day before' , v.dayAfterDueDate, v.initData.activityDate), '')}"
                                         messageWhenRangeOverflow="{!v.messageWhenRangeOverflow}"
                                         messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
                                         messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
@@ -400,6 +403,7 @@
                                         class="container1"
                                         onblur="{!c.doValidateFields}"
                                         required="true"
+                                        messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                     />
                                 </aura:if>
                             </div>
@@ -486,7 +490,7 @@
                             class="{!'slds-col slds-size_1-of-1 slds-p-top_x-small' + if(v.isUpcoming,' mr_8','')}"
                         >
                             <div class="label">
-                                <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                                <aura:if isTrue="{!v.visitData.visit.Status__c == 'Completed'}">
                                     {!$Label.c.PP_Visit_Date}<abbr
                                         title="required"
                                         class="slds-required"
@@ -501,27 +505,29 @@
                                     </aura:set>
                                 </aura:if>
                             </div>
-                            <aura:if isTrue="{!v.visitData.visitStatus == 'Completed'}">
+                            <aura:if isTrue="{!v.visitData.visit.Status__c == 'Completed'}">
                                 <lightning:input
                                     type="date"
                                     variant="label-hidden"
                                     value="{!v.visitData.visitDate}"
-                                    disabled="{!v.visitData.visitStatus == 'Completed'}"
+                                    disabled="{!v.visitData.visit.Status__c == 'Completed'}"
                                     min="{!v.initData.today}"
                                     required="true"
                                     class="vis-input"
+                                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                 ></lightning:input>
                                 <aura:set attribute="else">
-                                    <aura:if isTrue="{!v.visitData.visitStatus == 'Missed'}">
+                                    <aura:if isTrue="{!v.visitData.visit.Status__c == 'Missed'}">
                                         <lightning:input
                                             type="datetime"
                                             variant="label-hidden"
                                             value="{!v.visitData.visitDate}"
-                                            disabled="{!v.visitData.visitStatus == 'Missed'}"
+                                            disabled="{!v.visitData.visit.Status__c == 'Missed'}"
                                             min="{!v.initData.today}"
                                             required="true"
                                             class="container1"
                                             onblur="{!c.doValidateFields}"
+                                            messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                         >
                                         </lightning:input>
                                         <aura:set attribute="else">
@@ -529,7 +535,7 @@
                                                 type="datetime"
                                                 variant="label-hidden"
                                                 value="{!v.visitData.visitDate}"
-                                                disabled="{!v.visitData.visitStatus == 'Completed'}"
+                                                disabled="{!v.visitData.visit.Status__c == 'Completed'}"
                                                 min="{!v.initData.today}"
                                                 required="true"
                                                 class="container1"
@@ -537,6 +543,7 @@
                                                 messageWhenRangeUnderflow="{!$Label.c.PP_ReminderUnderFlowError}"
                                                 messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
                                                 aura:id="field"
+                                                messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                             ></lightning:input>
                                         </aura:set>
                                     </aura:if>
@@ -554,7 +561,7 @@
                                 placeholder="{!$Label.c.Select}"
                                 value="{!v.task.Remind_Me__c}"
                                 onchange="{!c.doValidateFields}"
-                                disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
+                                disabled="{!or(v.visitData.visit.Status__c == 'Completed',v.visitData.visit.Status__c == 'Missed')}"
                                 options="{!v.initData.reminderFrequencyList}"
                                 class="wi"
                                 fieldLevelHelp="{!$Label.c.TimezoneDisclaimer}"
@@ -576,8 +583,8 @@
                                     type="datetime"
                                     variant="label-hidden"
                                     value="{!v.initData.reminderDate}"
-                                    disabled="{!or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed')}"
-                                    max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == $Label.c.One_day_before , v.dayAfterDueDate, v.visitData.visitDate), '')}"
+                                    disabled="{!or(v.visitData.visit.Status__c == 'Completed',v.visitData.visit.Status__c == 'Missed')}"
+                                    max="{!if(v.visitData.visitDate, if(v.task.Remind_Me__c == '1 day before' , v.dayAfterDueDate, v.visitData.visitDate), '')}"
                                     messageWhenRangeOverflow="{!$Label.c.PP_VisitReminder_Overflow}"
                                     messageWhenRangeUnderflow="{!v.messageWhenRangeUnderflow}"
                                     messageWhenBadInput="{!$Label.c.PP_Invalid_Entry}"
@@ -586,6 +593,7 @@
                                     onblur="{!c.doValidateFields}"
                                     required="true"
                                     class="container1"
+                                    messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
                                 />
                             </aura:if>
                         </div>
@@ -631,7 +639,7 @@
                                     type="checkbox"
                                     label="{!$Label.c.PP_Remind_Using_Email}"
                                     name="Email"
-                                    disabled="{!or(not(v.emailOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
+                                    disabled="{!or(not(v.emailOptIn),or(v.visitData.visit.Status__c == 'Completed',v.visitData.visit.Status__c == 'Missed'))}"
                                     value="{!v.task.Remind_Using_Email__c}"
                                     checked="{!v.emailOptIn ? v.task.Remind_Using_Email__c : false}"
                                     onchange="{!c.setAttributeValue}"
@@ -643,7 +651,7 @@
                                     type="checkbox"
                                     label="{!$Label.c.PP_Remind_Using_SMS}"
                                     name="SMS"
-                                    disabled="{!or(not(v.smsOptIn),or(v.visitData.visitStatus == 'Completed',v.visitData.visitStatus == 'Missed'))}"
+                                    disabled="{!or(not(v.smsOptIn),or(v.visitData.visit.Status__c == 'Completed',v.visitData.visit.Status__c == 'Missed'))}"
                                     value="{!v.task.Remind_Using_SMS__c}"
                                     checked="{!v.smsOptIn ? v.task.Remind_Using_SMS__c : false}"
                                     onchange="{!c.setAttributeValue}"
@@ -715,7 +723,7 @@
                             <!--only save and cancel button-->
                             <div
                                 align="left"
-                                style="margin-left: 15px;margin-right: 10%;width: 100% !important;"
+                                style="margin-left: 15px; margin-right: 10%; width: 100% !important"
                             >
                                 <lightning:button
                                     class="apollo-btn tertiary"

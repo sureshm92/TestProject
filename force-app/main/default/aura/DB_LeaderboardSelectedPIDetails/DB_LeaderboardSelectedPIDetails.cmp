@@ -38,7 +38,7 @@
             </div>
             <div class="slds-col slds-size_1-of-2 txt_align">
                 <div class="digitformat1">{!v.pIStudySiteRank[0].initial_Visits_Completed}</div>
-                <div class="slds-wrap txtformat1">
+                <div class="slds-wrap txtformat1" style="width: 180px;">
                     {!$Label.c.Dashnoard_Initial_Visits_Completed}
                 </div>
             </div>

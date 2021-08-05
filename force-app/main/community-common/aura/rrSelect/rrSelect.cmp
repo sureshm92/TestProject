@@ -64,6 +64,7 @@
                 label=""
                 disabled="{!v.disabled}"
                 onchange="{!c.doValueChange}"
+                messageWhenValueMissing="{!$Label.c.PP_RequiredErrorMessage}"
             >
                 <aura:if isTrue="{!!empty(v.placeholder)}">
                     <option value="{!null}" style="display: none">{!v.placeholder}</option>
