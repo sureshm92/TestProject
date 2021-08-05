@@ -20,7 +20,9 @@
     padding: 4px 16px;
     display: inline-block;
 }
-
+.tsRtl {
+    text-align: right;
+}
 .dropdown-content div:hover {
     background-color: #eef5ff;
 }
@@ -76,7 +78,7 @@
 }
 .mr_rtl {
     margin-top: 40px;
-    text-align: left;
+    text-align: right;
 }
 .labels {
     height: 24px;
