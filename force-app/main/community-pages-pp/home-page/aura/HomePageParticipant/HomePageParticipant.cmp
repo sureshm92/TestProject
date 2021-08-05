@@ -101,6 +101,13 @@
                             <div class="slds-col">
                                 <c:RelevantLinks />
                             </div>
+                            <aura:if
+                                isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c}"
+                            >
+                            <div class="slds-col">
+                                <c:MedicalRecordRetrievalPanel />
+                            </div>
+                            </aura:if>
                         </div>
                     </div>
                     <div class="slds-col slds-size_1-of-1 slds-medium-size_8-of-12">

@@ -514,22 +514,22 @@
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
+                                <div class="h_font" title="High Risk" style="white-space: pre-wrap;">
                                     {!$Label.c.High_Risk}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="slds-truncate h_font" title="Type" style="white-space: pre-wrap;">
+                                <div class="slds-truncate h_font" title="Initial Visit Date" style="white-space: pre-wrap;">
                                     {!$Label.c.Initial_Visit_Date}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
+                                <div class="h_font" title="Participant Status" style="white-space: pre-wrap;">
                                     {!$Label.c.Participant_Status}
                                 </div>
                             </th>
                             <th scope="col">
-                                <div class="h_font" title="Type" style="white-space: pre-wrap;">
+                                <div class="h_font" title="High Priority" style="white-space: pre-wrap;">
                                     {!$Label.c.High_Priority}
                                 </div>
                             </th>

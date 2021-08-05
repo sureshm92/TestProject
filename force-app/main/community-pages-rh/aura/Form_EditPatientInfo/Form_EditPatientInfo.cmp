@@ -483,7 +483,7 @@
                     </div>
                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
-                        <div class="label">
+                        <div class="label" style="width: 300px;">
                             <abbr title="required" class="slds-required"
                                   >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
                                 >{!$Label.c.PG_Ref_L_Re_enter_email_address}
@@ -497,27 +497,15 @@
                                          disabled="{!!v.participant.Adult__c}"
                                          onblur="{!c.doCheckFields}"
                                          messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                         style="width: 300px;"
                                          />
                     </div>
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <aura:if isTrue="{!v.isRTL}">
-                            <div class="label">
-                                <abbr
-                                      title="required"
-                                      style="
-                                             {
-                                             !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
-                                             }
-                                             "
-                                      class="slds-required"
-                                      >{!!v.needsGuardian ? '*' : ''}</abbr
-                                    >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
-                            </div>
-                            <aura:set attribute="else">
-                                <div class="label" style="width: 330px;">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
+                                <div class="label">
                                     <abbr
                                           title="required"
                                           style="
@@ -529,22 +517,47 @@
                                           >{!!v.needsGuardian ? '*' : ''}</abbr
                                         >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                                 </div>
+                                <!-- REF-3070 Added disabled-->
+                                <lightning:input
+                                                 type="text"
+                                                 value="{!v.participant.Phone__c}"
+                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                                 disabled="{!!v.participant.Adult__c}"
+                                                 onblur="{!c.doCheckFields}"
+                                                 />
+                            </div>
+                            <aura:set attribute="else">
+                                <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
+                                    
+                                    <div class="label" style="width: 400px;">
+                                        <abbr
+                                              title="required"
+                                              style="
+                                                 {
+                                                 !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                                 }
+                                                 "
+                                          class="slds-required"
+                                          >{!!v.needsGuardian ? '*' : ''}</abbr
+                                        >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
+                                </div>
+                                      <!-- REF-3070 Added disabled-->
+                                <lightning:input
+                                                 type="text"
+                                                 value="{!v.participant.Phone__c}"
+                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                                 disabled="{!!v.participant.Adult__c}"
+                                                 onblur="{!c.doCheckFields}"
+                                                 style="width: 385px"
+                                                 />
+                            </div>
                             </aura:set>
                         </aura:if>
                         
                         
-                        <!-- REF-3070 Added disabled-->
-                        <lightning:input
-                                         type="text"
-                                         value="{!v.participant.Phone__c}"
-                                         required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                         disabled="{!!v.participant.Adult__c}"
-                                         onblur="{!c.doCheckFields}"
-                                         style="width: 325px"
-                                         />
-                    </div>
+                      
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" 
-                         style="{!v.isRTL? 'padding-right: 82px;':'padding-left: 82px;'}">
+                         style="{!v.isRTL? '':'padding-left: 140px;'}">
                         <div class="label" >
                             <abbr
                                   title="required"
@@ -685,7 +698,8 @@
                                     "
                                     class="slds-required"
                                     >{!!v.needsGuardian ? '*' : ''}</abbr
-                               >--><aura:if isTrue="{! !v.fromActionParticipant}" >
+                               >-->
+                                <aura:if isTrue="{! !v.fromActionParticipant}" >
                                 <abbr
                                       title="required"
                                       style="
@@ -944,7 +958,7 @@
                                                      value="{!v.pe.Screening_ID__c}"
                                                      onblur="{!c.doCheckFields}"
                                                      required="{!v.screeningRequired}"
-                                                    />
+                                                     />
                                 </div>
                             </aura:set>
                         </aura:if>

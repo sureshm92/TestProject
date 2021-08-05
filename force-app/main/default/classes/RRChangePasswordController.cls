@@ -312,10 +312,10 @@ public without sharing class RRChangePasswordController {
                 : Site.getMasterLabel();
             contact.Is_First_Logon__c = false;
             if (isParticipant) {
-                contact cont = new contact(id=contact.Id,
+                 contact cont = new contact(id=contact.Id,
                                        MailingCountrycode=contact.MailingCountrycode,
                                        MailingStatecode=contact.MailingStatecode);
-                update cont;
+			     update cont;
             }
             
             //            if(translation.Language__c != null) {

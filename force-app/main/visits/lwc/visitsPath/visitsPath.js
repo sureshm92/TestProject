@@ -39,6 +39,7 @@ import reminderUnderFlow from '@salesforce/label/c.PP_Reminder_Underflow';
 import reminderOverFlow from '@salesforce/label/c.PP_VisitReminder_Overflow';
 import reminderErrorUnderFlow from '@salesforce/label/c.PP_ReminderUnderFlowError';
 import remindUsingRequired from '@salesforce/label/c.PP_Remind_Using_Required';
+import requiredErrorMessage from '@salesforce/label/c.PP_RequiredErrorMessage';
 import getCardVisits from '@salesforce/apex/ParticipantVisitsRemote.getCardPatientVisits';
 import updatePV from '@salesforce/apex/ParticipantVisitsRemote.updatePatientVisit';
 import getisRTL from '@salesforce/apex/ParticipantVisitsRemote.getIsRTL';
@@ -88,7 +89,8 @@ export default class VisitsPath extends LightningElement {
         reminderErrorUnderFlow,
         reminderPastError,
         timeZoneDisclaimer,
-        selectLabel
+        selectLabel,
+        requiredErrorMessage
     };
 
     initialized = false;

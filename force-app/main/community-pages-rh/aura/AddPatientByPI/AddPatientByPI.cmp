@@ -259,7 +259,7 @@
                             <aura:if
 								isTrue="{!v.isNewPrimaryDelegate}">
                             <div
-                         class="slds-grid slds-wrap slds-p-top_small"
+                         class="slds-grid slds-p-top_small"
                          >
                         <div class="slds-col slds-size--2-of-10">
                             <div class="label">

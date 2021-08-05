@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="21px" height="17px" viewBox="0 0 21 17" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon/check copy 2</title>
+    <defs>
+        <path d="M21.6770991,6.36687126 L11.728328,19.8678406 C11.4910597,20.1826398 11.1372565,20.3889048 10.7464182,20.4402878 C10.3555799,20.4916707 9.96048594,20.3838621 9.64991415,20.1410866 L2.54551778,14.4610577 C1.91860074,13.9593635 1.81708755,13.0444434 2.31878172,12.4175264 C2.82047589,11.7906093 3.73539605,11.6890961 4.36231309,12.1907903 L10.2865192,16.9304459 L19.3370667,4.64745618 C19.6338468,4.20210881 20.151356,3.955886 20.6841282,4.00654533 C21.2169005,4.05720466 21.6787303,4.39654915 21.8862578,4.88984925 C22.0937854,5.38314935 22.0134315,5.95058631 21.6770991,6.36687126 Z" id="path-1"></path>
+    </defs>
+    <g id="Page-1" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="My-Patients-Landing" transform="translate(-1191.000000, -401.000000)">
+            <g id="icon/check-copy" transform="translate(1189.934537, 397.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#00C221">
+                    <g id="color">
+                        <rect id="Rectangle" x="0" y="0" width="24" height="24"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>

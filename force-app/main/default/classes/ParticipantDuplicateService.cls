@@ -615,20 +615,28 @@ public without sharing class ParticipantDuplicateService {
     ) {
         if (sourceParticipant == null || newParticipant == null)
             return;
-        //if (newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
-        //if (newParticipant.Email__c == null) sourceParticipant.Email__c = newParticipant.Email__c;
-        if (newParticipant.Mailing_Country_Code__c != null)
-            sourceParticipant.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
-        if (newParticipant.Mailing_State_Code__c != null)
-            sourceParticipant.Mailing_State_Code__c = newParticipant.Mailing_State_Code__c;
-        if (newParticipant.Mailing_Zip_Postal_Code__c != null)
-            sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
-        //if (newParticipant.Last_Name__c != null) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
-        if (newParticipant.Middle_Name__c != null)
-            sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
-        if (newParticipant.Date_of_Birth__c != null)
-            sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
-        if (newParticipant.Birth_Year__c != null)
-            sourceParticipant.Birth_Year__c = newParticipant.Birth_Year__c;
+        if (String.isNotBlank(newParticipant.Phone__c)) sourceParticipant.Phone__c = newParticipant.Phone__c;
+        if (String.isNotBlank(newParticipant.Email__c)) sourceParticipant.Email__c = newParticipant.Email__c;
+        if (String.isNotBlank(newParticipant.First_Name__c)) sourceParticipant.First_Name__c = newParticipant.First_Name__c;
+        if (String.isNotBlank(newParticipant.Last_Name__c)) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
+        if (String.isNotBlank(newParticipant.Middle_Name__c)) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
+        if (String.isNotBlank(newParticipant.Nickname__c)) sourceParticipant.Nickname__c = newParticipant.Nickname__c;
+        if (String.isNotBlank(newParticipant.Suffix__c)) sourceParticipant.Suffix__c = newParticipant.Suffix__c;
+        if (String.isNotBlank(newParticipant.Gender__c)) sourceParticipant.Gender__c = newParticipant.Gender__c;
+        //if (String.isNotBlank(newParticipant.Date_of_Birth__c)) sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
+        if (String.isNotBlank(newParticipant.Phone_Type__c)) sourceParticipant.Phone_Type__c = newParticipant.Phone_Type__c;   
+        if (String.isNotBlank(newParticipant.Alternative_Phone_Number__c)) sourceParticipant.Alternative_Phone_Number__c = newParticipant.Alternative_Phone_Number__c;
+        if (String.isNotBlank(newParticipant.Mailing_State__c)) sourceParticipant.Mailing_State__c = newParticipant.Mailing_State__c; 
+        if (String.isNotBlank(newParticipant.Mailing_Country__c)) sourceParticipant.Mailing_Country__c = newParticipant.Mailing_Country__c;
+        if (String.isNotBlank(newParticipant.Mailing_Country_Code__c)) sourceParticipant.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
+        if (String.isNotBlank(newParticipant.Mailing_State_Code__c)) sourceParticipant.Mailing_State_Code__c = newParticipant.Mailing_State_Code__c;
+        if (String.isNotBlank(newParticipant.Mailing_Zip_Postal_Code__c)) sourceParticipant.Mailing_Zip_Postal_Code__c = newParticipant.Mailing_Zip_Postal_Code__c;
+       // if (String.isNotBlank(newParticipant.Birth_Year__c)) sourceParticipant.Birth_Year__c = newParticipant.Birth_Year__c;
+        if (String.isNotBlank(newParticipant.Mailing_City__c)) sourceParticipant.Mailing_City__c = newParticipant.Mailing_City__c;
+        if (String.isNotBlank(newParticipant.Mailing_Street__c)) sourceParticipant.Mailing_Street__c = newParticipant.Mailing_Street__c;
+        if (String.isNotBlank(newParticipant.Secondary_Source__c)) sourceParticipant.Secondary_Source__c = newParticipant.Secondary_Source__c; 
+        //if (String.isNotBlank(newParticipant.Language_Preference_Code__c)) sourceParticipant.Language_Preference_Code__c = newParticipant.Language_Preference_Code__c;
+        //if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
+        if (newParticipant.BMI__c != null) sourceParticipant.BMI__c = newParticipant.BMI__c;
     }
 }
