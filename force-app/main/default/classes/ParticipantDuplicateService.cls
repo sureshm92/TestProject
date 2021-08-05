@@ -636,7 +636,7 @@ public without sharing class ParticipantDuplicateService {
         if (String.isNotBlank(newParticipant.Mailing_Street__c)) sourceParticipant.Mailing_Street__c = newParticipant.Mailing_Street__c;
         if (String.isNotBlank(newParticipant.Secondary_Source__c)) sourceParticipant.Secondary_Source__c = newParticipant.Secondary_Source__c; 
         //if (String.isNotBlank(newParticipant.Language_Preference_Code__c)) sourceParticipant.Language_Preference_Code__c = newParticipant.Language_Preference_Code__c;
-        //if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
+        if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
         if (newParticipant.BMI__c != null) sourceParticipant.BMI__c = newParticipant.BMI__c;
     }
 }
