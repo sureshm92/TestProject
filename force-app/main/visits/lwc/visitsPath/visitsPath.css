@@ -2,10 +2,6 @@
  * Created by Igor Malyuta on 06.12.2019.
  */
 
-/**
- * Created by Igor Malyuta on 12.04.2019.
- */
-
 .webPopup .p-content.with-scroll {
     padding-bottom: 50px;
 }
@@ -166,7 +162,6 @@ h2 {
 
 .what-to-expect {
     height: 24px;
-    width: 136px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 20px;
@@ -187,9 +182,6 @@ h2 {
     line-height: 24px;
     margin-top: -28px;
     margin-right: 20px;
-}
-.RTLReminder {
-    text-align: right;
 }
 .icons-container {
     display: flex;

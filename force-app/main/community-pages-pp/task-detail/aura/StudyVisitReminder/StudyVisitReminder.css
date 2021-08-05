@@ -175,7 +175,6 @@
 
 .THIS .what-to-expect {
     height: 24px;
-    width: 136px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 20px;
@@ -205,6 +204,7 @@
 
 .THIS .reminderDate_rtl {
     margin-top: -1px;
+    /* @noflip */
     margin-right: -112px;
 }
 .THIS .reminderDate_visrtl {
