@@ -45,13 +45,11 @@ public with sharing class LLRHeventTriggerHandler{
                 if(!ifPermitEmailFound && peh.Field == 'Permit_Mail_Email_contact_for_this_study__c' && p.Id == peh.ParentId){
                     perIdToDateEmail.put(peh.ParentId, peh.CreatedDate);
                     ifPermitEmailFound = true;
-                    // break;
                 }
 
                 if(!ifPermitSmsFound && peh.Field == 'Permit_SMS_Text_for_this_study__c' && p.Id == peh.ParentId){
                     perIdToDateSms.put(peh.ParentId, peh.CreatedDate);
                     ifPermitSmsFound = true;
-                    // break;
                 }
             }
         }
@@ -69,13 +67,11 @@ public with sharing class LLRHeventTriggerHandler{
                 if(!ifOptInEmailFound && conH.Field == 'Participant_Opt_In_Status_Emails__c' && c == conH.ContactId){
                     conIdToDateEmail.put(conIdToPerId.get(c), conH.CreatedDate);
                     ifOptInEmailFound = true;
-                    // break;
                 }
 
                 if(!ifOptInSmsFound && conH.Field == 'Participant_Opt_In_Status_SMS__c' && c == conH.ContactId){
                     conIdToDateSms.put(conIdToPerId.get(c), conH.CreatedDate);
                     ifOptInSmsFound = true;
-                    // break;
                 }
             }
             
@@ -84,10 +80,10 @@ public with sharing class LLRHeventTriggerHandler{
         for (Participant_Enrollment__c pe : perList){
             String email;
             String sms;
-            // if(!pe.Site_Communication_Preference__c){
+            if(!pe.Site_Communication_Preference__c){
                 email = getParticipantEmailPreference(pe,perIdToDateEmail,conIdToDateEmail);
                 sms = getParticipantSmsPreference(pe,perIdToDateSms,conIdToDateSms);
-            // }
+            }
 
             Llwrapper llwrap = new Llwrapper();
             Llwrapper llwrap1 = new Llwrapper();
@@ -105,7 +101,7 @@ public with sharing class LLRHeventTriggerHandler{
             llwrap.schedulingSponsor                = pe.Study_Site__r.Scheduling_vendors__c;
             llwrap.participantPreferredLanguage     = pe.Participant__r.Preferred_Language__c;
             llwrap.communicationPreference          = email + ',' + sms;
-            // llwrap.siteCommunicationPreference      = pe.Site_Communication_Preference__c;
+            llwrap.siteCommunicationPreference      = pe.Site_Communication_Preference__c;
             llwrap.participantFirstName             = pe.Participant__r.First_Name__c;
             llwrap.participantLastName              = pe.Participant__r.Last_Name__c;
             llwrap.participantDOB                   = pe.Participant__r.Date_of_Birth__c;
@@ -129,7 +125,7 @@ public with sharing class LLRHeventTriggerHandler{
             llwrap1.schedulingSponsor                = pe.Study_Site__r.Scheduling_vendors__c;
             llwrap1.participantPreferredLanguage     = pe.Participant__r.Preferred_Language__c;
             llwrap1.communicationPreference          = email + ',' + sms;
-            // llwrap1.siteCommunicationPreference      = pe.Site_Communication_Preference__c;
+            llwrap1.siteCommunicationPreference      = pe.Site_Communication_Preference__c;
             llwrap1.participantFirstName             = pe.Participant__r.First_Name__c;
             llwrap1.participantLastName              = pe.Participant__r.Last_Name__c;
             llwrap1.participantDOB                   = pe.Participant__r.Date_of_Birth__c;
@@ -287,7 +283,7 @@ public with sharing class LLRHeventTriggerHandler{
         public String participantStatus;
         public String oldInitialVisitDate;
         public String oldInitialVisitTime;
-        // public Boolean siteCommunicationPreference;
+        public Boolean siteCommunicationPreference;
     }
 
     public class ResponseWrapper{
