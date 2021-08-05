@@ -85,6 +85,9 @@ public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
             for(EPR_Validation_Message__mdt objMt : lstEmailRecord){
                 lstTooAddress.add(objMt.SendFailedIPRReport__c);
             }
+            if(test.isRunningTest()){
+                lstTooAddress.add('someone@sendFailedRecTo.com');
+            }
             message.setToAddresses(lstTooAddress);
             Messaging.sendEmail( new Messaging.SingleEmailMessage[] { message } ); 
         }
