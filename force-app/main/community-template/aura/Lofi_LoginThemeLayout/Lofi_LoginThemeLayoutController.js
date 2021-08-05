@@ -30,7 +30,7 @@
                 if (window.innerHeight <= 410 && !(isMobileApp || communityService.isMobileOS())) {
                     component.set('v.isMobileView', true);
                 } else {
-                    component.set('v.isMobileView', false);
+                    component.set('v.isMobileView', isMobileApp || communityService.isMobileOS());
                 }
             } else {
                 window.removeEventListener('resize', component.resize);

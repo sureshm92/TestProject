@@ -189,7 +189,6 @@ export default class VisitsPath extends LightningElement {
             });
         getIsTravelSupportEnabled()
             .then((result) => {
-                console.log('isTravelSupport', result);
                 this.travelSupportEnabled = result;
             })
             .catch((error) => {
@@ -307,8 +306,6 @@ export default class VisitsPath extends LightningElement {
                 item.state = stateClass + item.stateStatus;
                 item.headerTitle = this.pathItems[i].visitName + ' ' + this.labels.detailsLabel;
             }
-
-            console.log('VISIT_ITEMS: ' + JSON.stringify(this.pathItems));
         }
     }
 
@@ -322,7 +319,6 @@ export default class VisitsPath extends LightningElement {
         if (event.target.value != 'Custom' || this.reminderOption != 'Custom') {
             var visitPlanDate = new Date(this.planDate);
             var reminderdate;
-            console.log('visitPlanDate-->' + visitPlanDate);
             if (event.target.value == '1 day before' || this.reminderOption == '1 day before') {
                 reminderdate = visitPlanDate - 24 * 3600 * 1000;
             } else if (
@@ -341,9 +337,7 @@ export default class VisitsPath extends LightningElement {
             ) {
                 reminderdate = visitPlanDate - 7 * 24 * 3600 * 1000;
             }
-            console.log('reminderdate-->' + reminderdate);
             var isGreaterThanToday = new Date() > new Date(reminderdate);
-            console.log('isGreaterThanToday' + isGreaterThanToday);
             this.isLessThanToday = isGreaterThanToday;
             if (isGreaterThanToday) {
                 this.template
@@ -395,17 +389,9 @@ export default class VisitsPath extends LightningElement {
         this.visitTitle = event.currentTarget.dataset.title;
         this.sdhVisitName = event.currentTarget.dataset.sdhname;
         this.completedDate = event.currentTarget.dataset.completeddate;
-        console.log('completedDate-->' + this.completedDate);
-        console.log('visiTitle-->' + this.visitTitle);
-        //+ ' ' + 'Details';
-        console.log('visitname-->' + this.patientVisitName);
-        console.log('eventItemId-->' + this.visitId);
         this.getVisitDetails(this.visitId);
         this.selectedPV.Id = this.visitId;
         this.selectedPV.Status__c = 'Scheduled';
-
-        console.log('visitIconDetails-->' + this.visitIconDetails);
-        console.log('iconDetails-->' + JSON.stringify(this.iconDetails));
         this.template.querySelector('c-web-popup').show();
     }
 
@@ -414,18 +400,16 @@ export default class VisitsPath extends LightningElement {
             .then((result) => {
                 this.emailOptIn = false;
                 this.smsOptIn = false;
-                console.log('result-->', result);
                 const [first] = result;
                 this.visitDetails = first;
                 this.planDate = this.visitDetails.visit.Planned_Date__c;
                 this.reminderDate = this.visitDetails.reminderDate;
                 this.visitNumber = this.visitDetails.visit.Visit_Number__c;
                 this.showTravelSupportDetails = true;
-                console.log('visitnum-->' + this.visitNumber);
                 this.isVisitCompleted =
-                    this.visitDetails.visitStatus == 'Completed' ||
-                    this.visitDetails.visitStatus == 'Missed';
-                this.isVisitMissed = this.visitDetails.visitStatus == 'Missed';
+                    this.visitDetails.visit.Status__c == 'Completed' ||
+                    this.visitDetails.visit.Status__c == 'Missed';
+                this.isVisitMissed = this.visitDetails.visit.Status__c == 'Missed';
                 if (this.visitDetails.task) {
                     this.visitTaskId = this.visitDetails.task.Id;
                 }
@@ -443,17 +427,12 @@ export default class VisitsPath extends LightningElement {
                 }
                 if (this.visitDetails.task) {
                     this.reminderOption = this.visitDetails.task.Remind_Me__c;
-                    console.log('reminderOption-->' + this.reminderOption);
                     this.emailOptIn = this.visitDetails.task.Remind_Using_Email__c;
-                    console.log('emailOptIn-->' + this.emailOptIn);
                     this.smsOptIn = this.visitDetails.task.Remind_Using_SMS__c;
-                    console.log('smsOptIn-->' + this.smsOptIn);
                 }
                 this.getTaskDetails(this.visitTaskId);
                 if (this.visitDetails.iconDetails) {
-                    console.log(first.iconDetails);
                     this.iconDetails = first.iconDetails;
-                    console.log('this.icon-->' + JSON.stringify(this.iconDetails));
                 }
             })
             .catch((error) => {
@@ -463,7 +442,6 @@ export default class VisitsPath extends LightningElement {
     getTaskDetails(tasksId) {
         getTaskEditDetails({ taskId: tasksId })
             .then((result) => {
-                console.log('task-->' + JSON.stringify(result));
                 this.taskDetails = result;
                 if (this.taskDetails) {
                     this.isEmailEnabled = this.taskDetails.emailOptIn;
@@ -494,14 +472,11 @@ export default class VisitsPath extends LightningElement {
     }
 
     handleDateChange(event) {
-        console.log('inside data change');
         if (event.target.name == 'planDate') {
             this.planDate = event.target.value;
-            console.log('this.planDate-->' + this.planDate);
         }
         if (event.target.name == 'reminder') {
             this.reminderOption = event.detail.value;
-            console.log('this.reminderOption-->' + this.reminderOption);
         }
         if (this.reminderOption == 'Custom') {
             this.showCustomDateTime = true;
@@ -512,15 +487,12 @@ export default class VisitsPath extends LightningElement {
         }
         if (event.target.name == 'emailOptin') {
             this.emailOptIn = event.target.checked;
-            console.log('this.emailOptIn-->' + this.emailOptIn);
         }
         if (event.target.name == 'smsOptIn') {
             this.smsOptIn = event.target.checked;
-            console.log('this.smsOptIn-->' + this.smsOptIn);
         }
         if (event.target.name == 'reminderDate') {
             this.reminderDate = event.target.value;
-            console.log('this.reminderDate-->' + this.reminderDate);
         }
         const allValid = [...this.template.querySelectorAll('lightning-input')].reduce(
             (validSoFar, inputCmp) => {
@@ -529,31 +501,12 @@ export default class VisitsPath extends LightningElement {
             },
             true
         );
-        console.log('allValid-->' + allValid);
-        console.log('this.isEmpty(this.planDate)' + this.isEmpty(this.planDate));
-        console.log('!allValid' + !allValid);
-        console.log('this.isLessThanToday' + this.isLessThanToday);
-        console.log('this.isEmpty(this.reminderDate)' + this.isEmpty(this.reminderDate));
-        console.log(
-            'plan-->' +
-                (this.isEmpty(this.planDate) ||
-                    !allValid ||
-                    this.isLessThanToday ||
-                    this.isEmpty(this.reminderDate))
-        );
         if (
             this.isEmpty(this.planDate) ||
             !allValid ||
             this.isLessThanToday ||
             this.isEmpty(this.reminderDate)
         ) {
-            console.log(
-                'plan-->' +
-                    (this.isEmpty(this.planDate) ||
-                        !allValid ||
-                        this.isLessThanToday ||
-                        this.isEmpty(this.reminderDate))
-            );
             this.disableSave = true;
         } else {
             this.disableSave = false;
