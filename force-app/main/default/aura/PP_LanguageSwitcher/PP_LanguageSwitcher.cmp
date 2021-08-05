@@ -65,7 +65,7 @@
                     style="position: relative; padding-top: 12px"
                 >
                     <div class="rr-form-element slds-col slds-size_1-of-1 slds-medium-size_2-of-4">
-                        <div class="label">
+                        <div class="label slds-size_2-of-2">
                             {!$Label.c.PG_AS_F_Preferred_Language}
                             <span>
                                 <lightning:helptext
