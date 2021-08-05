@@ -16,6 +16,13 @@
  <aura:attribute name="siteId" type="String" />
  <aura:attribute name="userMode" type="String" />
  <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
+
+<!--START : RP Revamp attributes:-->
+ <aura:attribute name="layout1" type="Integer" default="4"/>
+ <aura:attribute name="layout2" type="Integer" default="8" />
+ <aura:attribute name="show" type="Boolean" default="true" />
+<!--END : RP Revamp attributes:-->
+
  <aura:attribute
      name="emptyListMessage"
      type="String"
@@ -109,29 +116,52 @@
                                          />
              </aura:if>
              <aura:if isTrue="{!v.userMode == 'HCP'}">
-                     <div class="form-content" data-gtm="Tabs_View_Details" id="anchor">
-                             <lightning:tabset>
-                                 <lightning:tab class="slds-tabs_default__item "  
-                                                label="{!$Label.c.RPR_Not_Yet_Referred}">
-                                     <c:NonReferredPatient
-                                                           showStatistics="false"
-                                                           studyFilterEnabled="true"
-                                                           trialId="{!v.trialId}"
-                                                           />
-                                 </lightning:tab>
-                                 <lightning:tab class="slds-tabs_default__item "                                           
-                                                label="{!$Label.c.RPR_Referred}">          
-                                     <c:ViewPatientsReferred
-                                                             aura:id="childCmp"
-                                                             showStatistics="{!v.userMode=='PI'}"
-                                                             studyFilterEnabled="true"
-                                                             trialId="{!v.trialId}"
-                                                             siteId="{!v.siteId}"
-                                                             parent="{!v.parent}"
-                                                             />
-                                 </lightning:tab>
-                             </lightning:tabset>
-                             </div>
+                <!--START : RP Revamp-->
+                    <div class="slds-col slds-size--9-of-12" style="margin-top: -30px; margin-left: -30px;">
+                        <lightning:icon iconName="utility:home" style="height: 14px;width: 14px;"
+                            alternativeText="Home" title="Home" size="x-small" onclick="{!c.doGoHome}" />
+                            <p style="margin-left: 18px;margin-top: -20px;font-size:14px;font-weight: bold;"> > My Patients</p> 
+                    </div>           
+                    <lightning:layout multipleRows="true" class="hcp-block">
+                        <lightning:layoutItem size="{!v.layout1}" padding="around-small">
+                            <lightning:card>
+                                <lightning:tabset>
+                                    <lightning:tab   label="{!$Label.c.RPR_Not_Yet_Referred}" 
+                                       onactive="{! c.handleActive }" id="tab1">
+                                      
+                                        <c:rP_NonReferredTable />
+                                    </lightning:tab>
+
+                                    <lightning:tab  label="{!$Label.c.RPR_Referred}"                                           
+                                      onactive="{! c.handleActive }" id="tab2">
+                                           
+                                            <c:ViewPatientsReferred
+                                                        aura:id="childCmp"
+                                                        showStatistics="{!v.userMode=='PI'}"
+                                                        studyFilterEnabled="true"
+                                                        trialId="{!v.trialId}"
+                                                        siteId="{!v.siteId}"
+                                                        parent="{!v.parent}"
+                                                        />
+                                    </lightning:tab>
+
+                                    <lightning:tab label="Bulk Upload"
+                                         onactive="{! c.handleActive }" id="tab3">
+                                       
+                                        <c:rPRevamp />
+                                    </lightning:tab>
+                                </lightning:tabset>
+                            </lightning:card>
+                        </lightning:layoutItem>
+                        <aura:if isTrue="{!v.show}">
+                            <lightning:layoutItem size="{!v.layout2}" padding="around-small">
+                                <lightning:card>
+                                    <c:rPNonReferredOverview />
+                                </lightning:card>
+                            </lightning:layoutItem>
+                        </aura:if>
+                    </lightning:layout>
+                <!--END : RP Revamp -->
              </aura:if>
          </aura:if>
      </div>
