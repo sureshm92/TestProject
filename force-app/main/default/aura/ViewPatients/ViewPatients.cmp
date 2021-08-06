@@ -148,7 +148,7 @@
                                     <lightning:tab label="Bulk Upload"
                                          onactive="{! c.handleActive }" id="tab3">
                                        
-                                        <c:rPRevamp />
+                                        <!--<c:rPRevamp />-->
                                     </lightning:tab>
                                 </lightning:tabset>
                             </lightning:card>
