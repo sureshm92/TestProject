@@ -1,0 +1,54 @@
+.table-header {
+    height: 21px;
+    width: 108px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: bold!important;
+    letter-spacing: 0;
+    line-height: 21px;
+    background-color: #F2F2F2;
+   
+  }
+
+  .table-patientrow {
+    height: 21px;
+    width: 87px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 21px;
+  }
+
+  .table-row {
+    height: 21px;
+    width: 138px;
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    letter-spacing: 0;
+    line-height: 21px;
+  }
+
+ .searchBox1 {
+  width: 310px;
+  margin-left: 15px;
+ }
+ 
+.refreshIcon {
+  height: 40px;
+  width: 40px;
+  margin-top: -6px;
+  cursor: pointer;
+}
+
+.mask {
+  box-sizing: border-box;
+  height: 898px;
+  width: 393px;
+  border: 1px solid #E9E9E9;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.04);
+}
