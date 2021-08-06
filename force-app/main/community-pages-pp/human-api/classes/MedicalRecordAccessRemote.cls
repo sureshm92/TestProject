@@ -6,7 +6,7 @@ public class MedicalRecordAccessRemote {
     public static String clientSecret='8338fd6645b6b430fe186729a1a873e7cd57a839';
     
     @AuraEnabled 
-    public static String getSessionToken(){         
+    public static RemoteCall_getHumanAPITokens.SessionTokenInfo getSessionToken(){         
        /** String type='id';
         
         JSONGenerator gen = JSON.createGenerator(true);    
@@ -25,7 +25,8 @@ public class MedicalRecordAccessRemote {
         //RemoteCall_HumanAPIAccess.TokenData tokenResponse = (RemoteCall_HumanAPIAccess.TokenData) remoteCall.execute();
         RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
 
-        return remoteObj.remoteCallGetSessionToken().id_token;
+       // return remoteObj.remoteCallGetSessionToken().id_token;
+        return remoteObj.remoteCallGetSessionToken();
     }
     
     @AuraEnabled

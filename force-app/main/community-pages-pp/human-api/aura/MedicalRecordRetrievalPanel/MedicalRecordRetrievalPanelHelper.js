@@ -7,8 +7,10 @@
                 component,
                 'getSessionToken',{},          
                 function (returnValue) {
-                    console.log('returnValue--->',returnValue);
-                    component.set('v.sessionToken',returnValue);
+                    console.log('returnValue-humanId-->',returnValue.humanId);
+                    component.set('v.humanid',returnValue.humanId);
+                    console.log('ssss',component.get('v.humanid'));
+                    component.set('v.sessionToken',returnValue.id_token);
                     self.launchConnect(component);
                 }
             );  
@@ -81,6 +83,7 @@
             },
             onConnectSource : function(response) {
                 
+                 console.log('sssshumanid',component.get('v.humanid'));
                 console.log("User connected a source", response);
                // self.listProviders(component);
               /** communityService.executeAction(

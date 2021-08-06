@@ -6,6 +6,7 @@ public class RemoteCall_getHumanAPITokens{
     public static String clientUserId; //referral Id
     public static String clientUserEmail;//patient email
     public static String clientSecret;
+    public static String humanId;
     
     static
     {
@@ -42,12 +43,12 @@ public class RemoteCall_getHumanAPITokens{
         clientUserId = participantState.pe.Id;
         if((participantState.pe.Human_Id__c==null) || (participantState.pe.Human_Id__c==''))
         {
-            requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Name ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'session'};
+            requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Unique_HumanId__c ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'session'};
             isNewUser = true;
         }
         else
         {
-            requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Name ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'id'};
+            requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Unique_HumanId__c ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'id'};
         }
         
         Map<String, String> headerMap = new Map<String, String>{ 'Content-Type' => 'application/json' };
@@ -76,6 +77,8 @@ public class RemoteCall_getHumanAPITokens{
             
             NewUserSessionTokenInfo newUserTokenInfo = parseNewUserSessionResponse((String)remoteCall.execute());
             sessionTokenInfo.id_token = newUserTokenInfo.session_token;
+            humanId = newUserTokenInfo.human_id;
+            sessionTokenInfo.humanId = newUserTokenInfo.human_id;
             system.debug('sessionTokeninfo for new user');
             /** Participant_Enrollment__c peObj=new Participant_Enrollment__c();
              peObj.id=participantState.pe.Id;
@@ -95,7 +98,7 @@ public class RemoteCall_getHumanAPITokens{
         String currentParticipantEnrollmentId = participantState.pe.Id;
         clientUserEmail = participantState.pe.Participant__r.Email__c;
         Map<String, String> headerMap = new Map<String, String>{ 'Content-Type' => 'application/json' };
-        Map<String, String> requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Name ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'access'};
+        Map<String, String> requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => participantState.pe.Unique_HumanId__c ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'access'};
         HttpCallout remoteCall = new HttpCallout(url,'POST',headerMap,requestMap,MedicalRecordAccessRemote.class);
        AccessTokenInfo accessTokenInfo = new AccessTokenInfo();
         String accessToken = TokenService.fetchToken(currentParticipantEnrollmentId,'access');
@@ -161,6 +164,9 @@ public class RemoteCall_getHumanAPITokens{
 
         @AuraEnabled
         public String id_token_expires_in;
+        
+        @AuraEnabled
+        public String humanId;
 
     }
     public class NewUserSessionTokenInfo

@@ -7,7 +7,9 @@
                   afterScriptsLoaded="{!c.doInit}" 
                   />   
     <aura:attribute name="participantState" type="Object" />
+     <aura:attribute name="isHumanApiChecked" type="Boolean"/>
     <aura:attribute name="sessionToken" type="String" />
+      <aura:attribute name="humanid" type="String" />
     <aura:attribute name="accessToken" type="String" />
       <aura:attribute name="success" type="String" />
     <aura:attribute name="medicalProviders" type="Object[]" />
@@ -64,7 +66,7 @@
         </aura:set>
         </aura:if>
             <aura:set attribute="footer">
-                <aura:if isTrue="{!v.participantState.medicalVendors.length !=0}">
+                <aura:if isTrue="{!v.isHumanApiChecked}">
            <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
                     </aura:if>
             <!-- Manage Authorizations -->

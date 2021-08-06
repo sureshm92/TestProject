@@ -63,14 +63,20 @@ public without sharing class RemoteCall_getHumanAPIData {
         records.add(peObj);
         upsert records;
         }
+        else{
+        peObj.id=participantState.pe.Id;
+        peObj.isAuthorized__c = false;
+        records.add(peObj);
+        upsert records;
+        }
            Provider providerObj3=new Provider();
             providerObj3.providerName ='providerName ';
             providerObj3.status = 'status';
-        providersList.add(providerObj3);
+       /* providersList.add(providerObj3);
          providersList.add(providerObj3);
          providersList.add(providerObj3); 
       providersList.add(providerObj3);
-        providersList.add(providerObj3);
+        providersList.add(providerObj3); */ 
         
         return providersList;
     }
