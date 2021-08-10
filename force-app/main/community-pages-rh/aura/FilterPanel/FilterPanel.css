@@ -102,7 +102,7 @@
 
 .THIS .fp-page-control {
     text-align: right;
-    white-space: nowrap;
+   /* white-space: nowrap; */
 }
 .THIS .fp-page-controlRTL {
     /* @noflip */  text-align: left;
