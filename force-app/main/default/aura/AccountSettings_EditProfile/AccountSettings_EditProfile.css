@@ -10,6 +10,9 @@
     /*@noflip*/
     margin-right: 9rem;
 }
+.THIS .slds-form-element__label {
+    width: max-content;
+}
 .THIS .rightAlign .slds-datepicker .slds-day {
     width: auto !important;
     min-width: auto !important;
@@ -58,10 +61,6 @@
 
 .THIS .as-email-input {
     margin: 0;
-}
-
-.THIS .slds-select_container {
-    width: fit-content;
 }
 
 .THIS .slds-select_container {

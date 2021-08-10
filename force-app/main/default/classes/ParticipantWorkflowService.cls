@@ -36,7 +36,17 @@ public without sharing class ParticipantWorkflowService {
                 peh =[SELECT CreatedById,CreatedDate,CreatedBy.Name,Field,NewValue,OldValue,ParentId FROM Participant_Enrollment__History WHERE ParentId =:peId AND Field IN:lstFOVhistory];
                 List<String> cby = new List<String>();
                 List<Datetime> cd = new List<Datetime>();
-                
+                 
+                List<User> ValidUserList = new  List<User>();
+                List<Id> ApiUsrList = new List<Id>();
+                ValidUserList = [SELECT Id FROM User where Profile.Name = 'API Only'];
+                if(ValidUserList.size() != 0 && !ValidUserList.isEmpty() && ValidUserList != null) 
+                {
+                   for(User us:ValidUserList){
+                      ApiUsrList.add(us.id);
+                   }
+                  
+                }
                 
                 if(peh.size() != 0 && !peh.isEmpty() && peh != null) 
                 {
@@ -50,15 +60,31 @@ public without sharing class ParticipantWorkflowService {
                   }
                   lstusrRecord = [select id,Name,IsPortalEnabled,ContactId,Contact.userCommunityMode__c from User where id IN:lstusr];
                   for(User u:lstusrRecord ){
-                     if(u.IsPortalEnabled){
-                          if(u.ContactId != null && u.Contact.userCommunityMode__c == 'CC'){
-                            mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
-                          }else{
-                            mapUsrmsk.put(u.id,u.Name);
+                     if(ApiUsrList.size() != 0 && !ApiUsrList.isEmpty() && ApiUsrList != null){
+                         if(ApiUsrList.contains(u.id)){
+                             mapUsrmsk.put(u.id,System.Label.chatbot);
+                         }else if(u.IsPortalEnabled){
+                              if(u.ContactId != null && u.Contact.userCommunityMode__c == 'CC'){
+                                mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
+                              }else{
+                                mapUsrmsk.put(u.id,u.Name);
+                             }
+                         }else{
+                             mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
                          }
                      }else{
-                         mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
-                     }
+                        if(u.IsPortalEnabled){
+                              if(u.ContactId != null && u.Contact.userCommunityMode__c == 'CC'){
+                                mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
+                              }else{
+                                mapUsrmsk.put(u.id,u.Name);
+                             }
+                       }else{
+                             mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
+                         }
+                     
+                    }
+                     
                   }
                   for(Participant_Enrollment__History ph:peh){
                       if(!lstDuphistory.contains(ph.CreatedDate)){
@@ -77,7 +103,11 @@ public without sharing class ParticipantWorkflowService {
                   if(onRecordcreation){
                       Participant_Enrollment__c penrollmnt = [select id,Initial_visit_scheduled_date__c,Initial_visit_scheduled_time__c,CreatedDate,CreatedById,CreatedBy.IsPortalEnabled,CreatedBy.contact.userCommunityMode__c,CreatedBy.Name,CreatedBy.ContactId from Participant_Enrollment__c where id =:peId ];
                        
-                         if(penrollmnt.CreatedBy.IsPortalEnabled){
+                       if(ApiUsrList.size() != 0 && !ApiUsrList.isEmpty() && ApiUsrList != null){
+                         if(ApiUsrList.contains(penrollmnt.CreatedById)){
+                                cby.add(System.Label.chatbot);
+                                cd.add(penrollmnt.CreatedDate);
+                         }else if(penrollmnt.CreatedBy.IsPortalEnabled){
                               if(penrollmnt.CreatedBy.contact != null && penrollmnt.CreatedBy.Contact.userCommunityMode__c == 'CC'){ 
                                 cby.add(System.Label.RH_Masked_IQVIA_User);
                                 cd.add(penrollmnt.CreatedDate);
@@ -89,6 +119,21 @@ public without sharing class ParticipantWorkflowService {
                               cby.add(System.Label.RH_Masked_IQVIA_User);
                               cd.add(penrollmnt.CreatedDate);
                          } 
+                       }else{
+                          if(penrollmnt.CreatedBy.IsPortalEnabled){
+                              if(penrollmnt.CreatedBy.contact != null && penrollmnt.CreatedBy.Contact.userCommunityMode__c == 'CC'){ 
+                                cby.add(System.Label.RH_Masked_IQVIA_User);
+                                cd.add(penrollmnt.CreatedDate);
+                              }else{ 
+                                cby.add(penrollmnt.CreatedBy.Name);
+                                cd.add(penrollmnt.CreatedDate);
+                             }
+                         }else{
+                              cby.add(System.Label.RH_Masked_IQVIA_User);
+                              cd.add(penrollmnt.CreatedDate);
+                         } 
+                       
+                       }
                   }
                   
                   partWFwrap.fovCreatedby=cby;
@@ -99,17 +144,37 @@ public without sharing class ParticipantWorkflowService {
                    if(partenroll.size() != 0 && !partenroll.isEmpty() && partenroll != null){
                         
                        for(Participant_Enrollment__c per:partenroll){
-                         if(per.CreatedBy.IsPortalEnabled){
-                              if(per.CreatedBy.contact != null && per.CreatedBy.Contact.userCommunityMode__c == 'CC'){ 
-                                cby.add(System.Label.RH_Masked_IQVIA_User);
-                                cd.add(per.CreatedDate);
-                              }else{ 
-                                cby.add(per.CreatedBy.Name);
-                                cd.add(per.CreatedDate);
+                         
+                         if(ApiUsrList.size() != 0 && !ApiUsrList.isEmpty() && ApiUsrList != null){
+                             if(ApiUsrList.contains(per.CreatedById)){
+                                    cby.add(System.Label.chatbot);
+                                    cd.add(per.CreatedDate);
+                             }else if(per.CreatedBy.IsPortalEnabled){
+                                  if(per.CreatedBy.contact != null && per.CreatedBy.Contact.userCommunityMode__c == 'CC'){ 
+                                    cby.add(System.Label.RH_Masked_IQVIA_User);
+                                    cd.add(per.CreatedDate);
+                                  }else{ 
+                                    cby.add(per.CreatedBy.Name);
+                                    cd.add(per.CreatedDate);
+                                 }
+                             }else{
+                                  cby.add(System.Label.RH_Masked_IQVIA_User);
+                                  cd.add(per.CreatedDate);
                              }
                          }else{
-                              cby.add(System.Label.RH_Masked_IQVIA_User);
-                              cd.add(per.CreatedDate);
+                             if(per.CreatedBy.IsPortalEnabled){
+                                  if(per.CreatedBy.contact != null && per.CreatedBy.Contact.userCommunityMode__c == 'CC'){ 
+                                    cby.add(System.Label.RH_Masked_IQVIA_User);
+                                    cd.add(per.CreatedDate);
+                                  }else{ 
+                                    cby.add(per.CreatedBy.Name);
+                                    cd.add(per.CreatedDate);
+                                 }
+                             }else{
+                                  cby.add(System.Label.RH_Masked_IQVIA_User);
+                                  cd.add(per.CreatedDate);
+                             }
+                         
                          }
                       }
                       partWFwrap.fovCreatedby=cby;
@@ -155,9 +220,10 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
                 CreatedBy.IsPortalEnabled,
-                CreatedBy.contact.userCommunityMode__c
+                CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
             WHERE ParticipantEnrollment__c = :pe.Id
+            AND Backward_Bulk_Update__c = false
             ORDER BY Date__c DESC
         ];
         Map<String, List<Participant_Enrollment_Status_History__c>> stepsAndPesh = new Map<String, List<Participant_Enrollment_Status_History__c>>();
@@ -1575,9 +1641,9 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Source_Type__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
                 CreatedBy.IsPortalEnabled,
-                CreatedBy.contact.userCommunityMode__c
+                CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c IN :peIds
+            WHERE ParticipantEnrollment__c IN :peIds and Backward_Bulk_Update__c=false
             ORDER BY Date__c DESC
         ]) {
             if (!lastHistoryByStepMap.containsKey(pesh.ParticipantEnrollment__c)) {

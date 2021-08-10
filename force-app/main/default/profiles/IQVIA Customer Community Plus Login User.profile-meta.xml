@@ -921,10 +921,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>IntegrationPatientReferralTriggerHandler</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>IntegrationPatientTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4841,6 +4837,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Participant_Acknowledgement__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Consulted_Date__c</field>
         <readable>true</readable>
@@ -4933,11 +4934,6 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.IVRS_IWRS__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Participant_Enrollment__c.Is_Contacted__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
