@@ -250,6 +250,6 @@ RUNTEST:
   
   stage: RUNTEST
   script: 
-  - . ./scripts/ci/run-tests.sh | sed -n '6p' | awk -F " " '{print $2}'
+  - . ./scripts/ci/run-tests.sh INF90 | sed -n '6p' | awk -F " " '{print $2}'
 
 image: salesforce/salesforcedx:7.82.1-0-full
