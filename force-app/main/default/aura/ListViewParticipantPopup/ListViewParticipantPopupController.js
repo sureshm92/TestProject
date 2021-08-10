@@ -1,6 +1,9 @@
 ({
     doExecute : function(component, event, helper) {
         component.find('dialog').show();
+        component.set('v.enable',false);
+        component.set('v.finalConsentrequired',false);
+        component.set('v.finalConsentvalue',false);
         var newStatus = component.get('v.statusSelected').trim();
         var studyId = component.get('v.oStudy');
         component.set('v.notesRequired',false);
@@ -23,14 +26,28 @@
                 if(component.get('v.stWrapper').finalConsent && 
                    (component.get('v.stWrapper').Step == 'Enrolled' ||
                     component.get('v.stWrapper').Step == 'Randomization')){
-                    component.set('v.finalConsent',true);
+                    component.set('v.finalConsent',true); 
+                    if(newStatus === "Enrollment Success"){
+                        component.set('v.finalConsentrequired',true);
+                        component.set('v.enable',true);
+                    }else if(newStatus === "Randomization Success"){
+                        component.set('v.finalConsentrequired',true);
+                        component.set('v.enable',true);
+                    }
+                    else{
+                         component.set('v.enable',false);
+                      }
+                }else{
+                    component.set('v.enable',false);
                 }
-                component.set('v.enable',false);
             }
+            
         );
     },
     
     doCancel: function (component, event, helper) {
+        component.set('v.enable',false);
+        component.set('v.finalConsentrequired',false);
         component.find('dialog').hide();
         var p = component.get('v.parentComp');
         p.changeStatusTo();
@@ -51,9 +68,10 @@
             console.log('empty');
             if(component.get('v.notesRequired')){
                 component.set('v.enable',true);
-            }else{ component.set('v.enable',false);}
-        }else{ console.log('notempty');
-              component.set('v.enable',false);
+            }else{  component.set('v.enable',false);
+            }
+        }else{ console.log('notempty**');
+               component.set('v.enable',false);
         }
         
     },
@@ -76,7 +94,7 @@
                 Notes : notes,
                 reason : selectedReason,
                 studyId : studyId,
-                finalconsent : component.get('v.finalConsent'),
+                finalconsent : component.get('v.finalConsentvalue'),
                 oParticipantStatus : oParticipantStatus
             },
             function (returnValue) {
@@ -89,18 +107,72 @@
     },
     
     onBooleanValueChange:function(component, event, helper) {
-        component.set('v.finalConsent',!component.get('v.finalConsent'));
+        //component.set('v.finalConsentvalue',!component.get('v.finalConsentvalue'));
+         var newStatus = component.get('v.statusSelected').trim();
+         var note = component.find("notes").get("v.value");
+        
+        if(newStatus == 'Enrollment Success'){
+            if(component.get('v.finalConsentvalue')){
+                component.set('v.enable',false);
+            }else{
+                 component.set('v.enable',true);
+            }
+        }
+        if(newStatus == 'Randomization Success'){
+            if(component.get('v.finalConsentvalue')){
+                component.set('v.enable',false);
+            }else{
+                 component.set('v.enable',true);
+            }
+        }
+         if(!note || 0 === note.length)
+         {
+             if(component.get('v.notesRequired')){
+                component.set('v.enable',true);
+            }
+         }
     },
     checkNotesRequiredValidity:function(component, event, helper) {
         var note = component.find("notes").get("v.value");
+        var newStatus = component.get('v.statusSelected').trim();
         if(!note || 0 === note.length)
         {
             console.log('empty');
             if(component.get('v.notesRequired')){
                 component.set('v.enable',true);
-            }else{ component.set('v.enable',false);}
+            }else{ 
+                if(newStatus == 'Enrollment Success'){
+                    if(component.get('v.finalConsentvalue')){
+                        component.set('v.enable',false);
+                    }else{
+                        component.set('v.enable',true);
+                    }
+                }else if(newStatus == 'Randomization Success'){
+                    if(component.get('v.finalConsentvalue')){
+                        component.set('v.enable',false);
+                    }else{
+                        component.set('v.enable',true);
+                    }
+                }else{
+                    component.set('v.enable',false);
+                }
+             }
         }else{ console.log('notempty');
-              component.set('v.enable',false);
+             if(newStatus == 'Enrollment Success'){
+                    if(component.get('v.finalConsentvalue')){
+                        component.set('v.enable',false);
+                    }else{
+                        component.set('v.enable',true);
+                    }
+                }else if(newStatus == 'Randomization Success'){
+                    if(component.get('v.finalConsentvalue')){
+                        component.set('v.enable',false);
+                    }else{
+                        component.set('v.enable',true);
+                    }
+                }else{
+                    component.set('v.enable',false);
+                }
         }
     }
 })
