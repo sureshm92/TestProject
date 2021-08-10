@@ -307,16 +307,20 @@ public without sharing class RRChangePasswordController {
     public PageReference changePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
-            contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
+			contact cont = new contact();
+            
+			cont.Id = contact.Id;
+			cont.Is_First_Logon__c = false;
+            cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
-            contact.Is_First_Logon__c = false;
             if (isParticipant) {
-                contact cont = new contact(id=contact.Id,
-                                       MailingCountrycode=contact.MailingCountrycode,
-                                       MailingStatecode=contact.MailingStatecode);
-                update cont;
+               
+               cont.MailingCountrycode=contact.MailingCountrycode ;
+               cont.MailingStatecode=contact.MailingStatecode ;
+			    
             }
+			update cont;
             
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
