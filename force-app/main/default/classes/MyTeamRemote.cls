@@ -818,7 +818,8 @@ public without sharing class MyTeamRemote {
                     Last_Name__c = contactDelegate.LastName,
                     Email__c = contactDelegate.Email,
                     Phone__c = contactDelegate.Phone,
-                    Mailing_Zip_Postal_Code__c = contactDelegate.MailingPostalCode
+                    Mailing_Zip_Postal_Code__c = contactDelegate.MailingPostalCode,
+                    Preferred_Language__c=contactDelegate.Language__c
                     //Mailing_City__c = contactDelegate.MailingCity,
                     //Mailing_Country_Code__c = contactDelegate.MailingCountryCode,
                     //Mailing_State_Code__c = contactDelegate.MailingStateCode
