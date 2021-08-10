@@ -22,7 +22,7 @@ public without sharing class MotivationalMessagesRemote {
                 FROM Participant_Enrollment_Status_History__c
                 WHERE
                     ParticipantEnrollment__c = :participantState.pe.Id
-                    AND Status__c = :PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS
+                    AND Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS
             ];
             if (enrolledHistoryList.size() == 0)
                 return null;
