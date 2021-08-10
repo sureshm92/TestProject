@@ -78,9 +78,9 @@ public without sharing class ContactTriggerHandler {
             if(c.MailingPostalCode!= oldMap.get(c.Id).MailingPostalCode){
                 isUpdateNeeded = true;
             } 
-            /*if(c.Language__c != oldMap.get(c.Id).Language__c){
+            if(c.Language__c != oldMap.get(c.Id).Language__c){
                 isUpdateNeeded = true;
-            }*/ 
+            }
             if(c.Phone != oldMap.get(c.Id).Phone){
                 isUpdateNeeded = true;
             }                            
@@ -106,10 +106,10 @@ public without sharing class ContactTriggerHandler {
                     participant.Mailing_Zip_Postal_Code__c = updatedContactsMap.get(participant.Contact__c).MailingPostalCode;
                     isUpdateNeeded = true;
                 } 
-                /*if(participant.Preferred_Language__c != updatedContactsMap.get(participant.Contact__c).Language__c){
+                if(participant.Preferred_Language__c != updatedContactsMap.get(participant.Contact__c).Language__c){
                     participant.Preferred_Language__c = updatedContactsMap.get(participant.Contact__c).Language__c;
                     isUpdateNeeded = true;
-                }*/ 
+                } 
                 if(participant.Phone__c != updatedContactsMap.get(participant.Contact__c).Phone){
                     participant.Phone__c = updatedContactsMap.get(participant.Contact__c).Phone;
                     isUpdateNeeded = true;
@@ -162,7 +162,7 @@ public without sharing class ContactTriggerHandler {
                     Participant__c participant = participantsByContactMap.get(cnt.Id);
                     if (participant != null) {
                         participant.Email__c = cnt.Email;
-                        participant.Preferred_Language__c = cnt.Language__c;
+                        //participant.Preferred_Language__c = cnt.Language__c;
                         participantsForUpdate.add(participant);
                     }
                     User user = usersByContactMap.get(cnt.Id);
