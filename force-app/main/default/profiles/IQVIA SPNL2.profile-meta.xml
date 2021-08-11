@@ -2173,11 +2173,6 @@
         <field>Medical_Record_Vendor__c.Default_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Medical_Record_Vendor__c.Medical_Vendor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Medical_Record_Vendor__c.Description__c</field>

@@ -4820,11 +4820,6 @@
         <field>Medical_Record_Vendor__c.Default_Country__c</field>
         <readable>true</readable>
     </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Medical_Record_Vendor__c.Medical_Vendor__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Medical_Record_Vendor__c.Description__c</field>
@@ -5253,21 +5248,6 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.IsAutoaccepted__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant_Enrollment__c.isAuthorized__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant_Enrollment__c.Human_Id__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-     <fieldPermissions>
-        <editable>true</editable>
-        <field>Participant_Enrollment__c.Unique_HumanId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
