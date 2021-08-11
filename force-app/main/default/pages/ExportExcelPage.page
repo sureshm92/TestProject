@@ -6,8 +6,8 @@
     <apex:dataTable value="{!peList}" var="pe">
         <apex:repeat value="{!peFieldsList}" var="field">
             <apex:column headerValue="{!field.label}">
-                <apex:outputText value="{!pe[field.fieldPath]}"/>
-            </apex:column>
+                                <apex:outputText value="{!if(AND(field.fieldPath =='PI_Contact__r.Full_Name__c',pe['PI_Contact__r.Id']!=null) ,allCorrectNames[pe['PI_Contact__r.Id']], if(AND(field.fieldPath =='Referral_Completedby_Name__c',pe['Referral_Completed_by__r.Id']!=null) ,allCorrectNames[pe['Referral_Completed_by__r.Id']], if(AND(field.fieldPath =='Medical_Record_Review_Completedby_Name__c',pe['Medical_Record_Review_Completed_by__r.Id']!=null) ,allCorrectNames[pe['Medical_Record_Review_Completed_by__r.Id']], pe[field.fieldPath])))}" rendered="{!if(OR(field.fieldPath =='PI_Contact__r.Id',field.fieldPath =='Referral_Completed_by__r.Id',field.fieldPath =='Medical_Record_Review_Completed_by__r.Id'), false, true)}"/> 
+           </apex:column>
         </apex:repeat>
     </apex:dataTable>
 

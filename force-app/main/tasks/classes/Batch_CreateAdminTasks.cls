@@ -10,13 +10,15 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     private Id userId;
     private Integer taskCreated;
     private Integer launchCount;
+    Private Map<id,String> IdTypeOfContactMap;
 
     public Batch_CreateAdminTasks(
         Map<Id, List<Id>> contactsWithWhatIds,
         TaskService.TaskConfig taskConfig,
         Id userId,
         Integer taskCreated,
-        Integer launchCount
+        Integer launchCount,
+        Map<id,String> IdTypeOfContactMap
     ) {
         this.contactsWithWhatIds = contactsWithWhatIds;
         this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
@@ -24,6 +26,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         this.userId = userId;
         this.taskCreated = taskCreated;
         this.launchCount = launchCount;
+        this.IdTypeOfContactMap = IdTypeOfContactMap;
     }
 
     public List<WhatIdByContactWrapper> start(Database.BatchableContext param1) {
@@ -37,9 +40,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
 
     public void execute(Database.BatchableContext param1, List<WhatIdByContactWrapper> wrappers) {
         Map<Id, List<Id>> whatIdByContactIds = new Map<Id, List<Id>>();
+        set<id> contactWithoutUser = new set<Id>();
+        
         for (WhatIdByContactWrapper wrapper : wrappers)
             whatIdByContactIds.put(wrapper.contactId, wrapper.whatIds);
-
+        contactWithoutUser.addAll(whatIdByContactIds.keySet());
         try {
             List<User> users = [
                 SELECT Id, ContactId, Name, TimeZoneSidKey
@@ -52,8 +57,10 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
 
             List<Task> tasks = new List<Task>();
             for (User user : users) {
+                contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
                 Time eodTime = Time.newInstance(23,59, 0, 0);
+                String TypeOfContactTemp = IdTypeOfContactMap.get(user.ContactId);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
                     Integer offsetSeconds;
@@ -73,7 +80,15 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             Datetime.now().time()
                         );
                     }
-
+                    String VisibleFor = taskConfig.visibility;
+                    if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Participant')){ 
+                        TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                    }else if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Delegate')){
+                        VisibleFor = 'Owner';
+                    }else{
+                        VisibleFor = taskConfig.visibility;
+                    }
+                    // KK-End
                     tasks.add(
                         new Task(
                             OwnerId = user.Id,
@@ -83,7 +98,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             Activity_Datetime__c = activityDT,
                             ReminderDateTime = reminderDT_GMT,
                             Reminder_Date__c = reminderDT,
-                            Visible_For__c = taskConfig.visibility,
+                            Visible_For__c = VisibleFor,
                             WhatId = whatId,
                             WhoId = user.ContactId,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
@@ -91,6 +106,36 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             
                         )
                     );
+                }
+            }
+            List<Id> contactListOfId = new List<Id>(contactWithoutUser);
+            if(!contactListOfId.isEmpty()){
+                for(Id contactIds: contactListOfId){
+                    for (Id whatId : whatIdByContactIds.get(contactIds)) {
+                        String TypeOfContactTemp = IdTypeOfContactMap.get(contactIds);
+                        String VisibleFor = taskConfig.visibility;
+                        if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Participant')){ 
+                            TypeOfContactTemp = TypeOfContactTemp.remove('Participant');
+                        }else if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Delegate')){
+                            VisibleFor = 'Owner';
+                        }else{
+                            VisibleFor = taskConfig.visibility;
+                        }
+                        tasks.add(
+                            new Task(
+                                Owner_Contact__c = contactIds,
+                                Subject = taskConfig.subject,
+                                Priority = taskConfig.priority,
+                                Start_Date__c = taskConfig.startDate,
+                                Visible_For__c = VisibleFor,
+                                WhatId = whatId,
+                                WhoId = contactIds,
+                                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
+                                CreatedByAdmin__c = true
+                                
+                            )
+                        );
+                    }
                 }
             }
             insert tasks;
@@ -108,7 +153,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     taskConfig,
                     userId,
                     taskCreated,
-                    ++launchCount
+                    ++launchCount,
+                    IdTypeOfContactMap
                 )
             );
         } else {
@@ -125,8 +171,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     taskCreated +
                     '. Task(s) failed = ' +
                     (failedContactsWithWhatIds.isEmpty()
-                        ? '0'
-                        : '' + (failedContactsWithWhatIds.values().size() + '\n'));
+                     ? '0'
+                     : '' + (failedContactsWithWhatIds.values().size() + '\n'));
                 if (!failedContactsWithWhatIds.isEmpty()) {
                     messageBody += 'Failed contact ids:\n';
                     Integer i = 0;
@@ -151,10 +197,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
 
     public static void launch(
         Map<Id, List<Id>> contactsWithWhatIds,
-        TaskService.TaskConfig adminTask
+        TaskService.TaskConfig adminTask,
+        Map<id,String> IdTypeOfContactMap
     ) {
         Database.executeBatch(
-            new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1)
+            new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1,IdTypeOfContactMap)
         );
     }
 

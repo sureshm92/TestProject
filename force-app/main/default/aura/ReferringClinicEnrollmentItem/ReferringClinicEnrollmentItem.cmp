@@ -6,6 +6,7 @@
     <aura:attribute name="enrollmentData" type="Object" required="true" />
     <aura:attribute name="parent" type="Aura.Component" required="true" />
     <aura:attribute name="isLastElement" type="Boolean" default="false" />
+    <aura:attribute name="hcpContactPartName" type="String" />
 
     <!-- component body: -->
     <c:InfoModal aura:id="infoModal" />
@@ -28,6 +29,7 @@
                   
                 </div>
                 <div class="rcei-infoRTL">
+                    <aura:if isTrue="{!or(v.enrollmentData.piContactName==null,v.enrollmentData.piContactName==undefined)}">
                     <div class="rcei-name">
                       {!$Label.c.Principal_Investigator +':'}  &nbsp;<span class="rcei-name-ss-and-pi"
                         >{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation
@@ -36,6 +38,19 @@
                         >
                         
                     </div>
+                        <aura:set attribute = "else">
+                    <div class="rcei-name">
+                        {!$Label.c.Principal_Investigator +':'}  &nbsp;<span class="rcei-name-ss-and-pi"
+                        >{!v.enrollmentData.piContactName.Salutation__c
+                        + ' ' + v.enrollmentData.piContactName.First_Name__c
+                        + ' ' + v.enrollmentData.piContactName.Middle_Name__c
+                        + ' ' + v.enrollmentData.piContactName.Last_Name__c
+                        + ' ' + v.enrollmentData.piContactName.Suffix__c
+                         }</span
+                        >
+                    </div>                        
+                        </aura:set>
+                    </aura:if>   
                 </div>
             <aura:set attribute="else">
                 <div class="rcei-info">
@@ -50,14 +65,30 @@
                     </div>
                 </div>
                 <div class="rcei-info">
-                    <div class="rcei-name">
-                        {!$Label.c.Principal_Investigator}:
-                        <span class="rcei-name-ss-and-pi"
-                            >{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation
-                            + ' ' +
-                            v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Name}</span
-                        >
-                    </div>
+                    <aura:if isTrue="{!or(v.enrollmentData.piContactName==null,v.enrollmentData.piContactName==undefined)}">
+                        <div class="rcei-name">
+                            {!$Label.c.Principal_Investigator}:
+                            <span class="rcei-name-ss-and-pi"
+                                  >{!v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Salutation
+                                + ' ' +
+                                v.enrollmentData.enrollment.Study_Site__r.Principal_Investigator__r.Name}</span
+                                >
+                        </div>
+                        <aura:set attribute = "else">
+                            <div class="rcei-name">
+                                {!$Label.c.Principal_Investigator}:
+                                <span class="rcei-name-ss-and-pi"
+                                      >{!v.enrollmentData.piContactName.Salutation__c
+                                    + ' ' + v.enrollmentData.piContactName.First_Name__c
+                                    + ' ' + v.enrollmentData.piContactName.Middle_Name__c
+                                    + ' ' + v.enrollmentData.piContactName.Last_Name__c
+                                    + ' ' + v.enrollmentData.piContactName.Suffix__c
+                                    }</span
+                                    >
+                                
+                            </div>
+                        </aura:set>
+                    </aura:if>
                 </div>    
             </aura:set>
             </aura:if>

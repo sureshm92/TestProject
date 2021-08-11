@@ -375,6 +375,47 @@ public without sharing class CommunityService {
         update users;
     }
 
+    public static List<Contact> getContacts(Set<Id> contactIds, Boolean queryParticipants) {
+        if(queryParticipants== true){
+        return [
+            SELECT
+                Id,
+            	(SELECT Id,First_Name__c,Salutation__c,Full_Name__c,Suffix__c,Last_Name__c FROM Participants__r),
+                Email,
+                FirstName,
+                LastName,
+                Name,
+                Language__c,
+                Library_Primary_Language__c,
+                Full_Name__c,
+                Salutation,
+                Suffix
+            FROM Contact
+            WHERE Id = :contactIds
+            FOR UPDATE
+            //ORDER BY Name
+        ];            
+        }else{
+        return [
+            SELECT
+                Id,
+                Email,
+                FirstName,
+                LastName,
+                Name,
+                Language__c,
+                Library_Primary_Language__c,
+                Full_Name__c,
+                Salutation,
+                Suffix
+            FROM Contact
+            WHERE Id = :contactIds
+            FOR UPDATE
+            //ORDER BY Name
+        ];
+        }
+    }    
+    
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
             SELECT

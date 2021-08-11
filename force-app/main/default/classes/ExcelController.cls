@@ -9,6 +9,7 @@ public class ExcelController {
     private List<FieldSetMember> peFSMList;
     private List<String> hcpeFields;
     private List<FieldSetMember> hcpeFSMList;
+    private Map<Id,String> allCorrectNames;
 
     private static final List<String> USER_MODES_FOR_REPORTS = new List<String>{
         CommunityService.USER_MODE_PI,
@@ -45,6 +46,7 @@ public class ExcelController {
     }
 
     public List<Participant_Enrollment__c> getPEList() {
+        allCorrectNames = new Map<Id,String>();
         if (!USER_MODES_FOR_REPORTS.contains(userMode))
             return new List<Participant_Enrollment__c>();
 
@@ -71,13 +73,33 @@ public class ExcelController {
             filter = 'AND ' + String.join(filters, ' AND ');
 
         System.debug('FILTER: ' + filter);
-        return ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields(
+        List<Participant_Enrollment__c> peListRes = ParticipantEnrollmentService.getPEnrolmentsCommonCustomFields(
             userMode,
             peFields,
             filter,
             delegateId
         );
+        Set<Id> piContactIds = new Set<Id>();
+        for(Participant_Enrollment__c pe : peListRes){
+            piContactIds.add(pe.PI_Contact__c);
+            allCorrectNames.put(pe.PI_Contact__c,pe.PI_Contact__r.Full_Name__c);
+            if(pe.Referral_Completed_by__r!=null){
+            piContactIds.add(pe.Referral_Completed_by__r.Id);
+            allCorrectNames.put(pe.Referral_Completed_by__r.Id,pe.Referral_Completedby_Name__c);
+            }
+            if(pe.Medical_Record_Review_Completed_by__r!=null){
+                piContactIds.add(pe.Medical_Record_Review_Completed_by__r.Id);
+                allCorrectNames.put(pe.Medical_Record_Review_Completed_by__r.Id,pe.Medical_Record_Review_Completedby_Name__c);
+            }
+        }
+        allCorrectNames.putAll(ParticipantWorkflowService.getPIContactNames(piContactIds));
+        return peListRes;
     }
+    
+    public Map<Id,String> getAllCorrectNames() {
+        return this.allCorrectNames;
+    }
+
     public List<FieldWrapper> getPEFieldsList() {
         List<FieldWrapper> result = new List<FieldWrapper>();
         Map<String, String> fieldLabelsMap = new Map<String, String>();
