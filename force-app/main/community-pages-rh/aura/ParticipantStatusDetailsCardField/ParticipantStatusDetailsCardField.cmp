@@ -2,7 +2,7 @@
  - Created by Andrii Kryvolap.
  -->
 
-<aura:component description="ParticipantStatusDetailsCardField">
+ <aura:component description="ParticipantStatusDetailsCardField">
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="field" type="Object" />
     <aura:attribute name="editable" type="Boolean" default="true" />
@@ -32,13 +32,19 @@
             />
         </aura:if>
         <aura:if isTrue="{!v.field.type=='picklist'}">
-            <div class="label">
-                <aura:if
+            <div class="label tooltip">                                        
+                <div class=" textoverlap">                   
+                    <aura:if
                     isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}"
                     ><abbr title="required" class="slds-required">*</abbr></aura:if
                 >{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
                 v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
                 v.field.title)}
+            </div>
+				<span class="tooltiptext">{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
+                v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
+                v.field.title)}</span>
+
             </div>
             <c:rrSelect
                 aura:id="selectList"
