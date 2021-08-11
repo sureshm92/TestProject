@@ -54,6 +54,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
     @track conversationWrappers;
     // @track isRTL;
     @track selectedConWrapper;
+    @track piContactNames;
 
     connectedCallback() {
         registerListener('reload', this.handleRefreshEvent, this);
@@ -73,8 +74,9 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             if (!this.canStartConversation) this.changePlusStyle(false);
 
             this.messageBoard = this.template.querySelector('c-message-board');
-            if (this.userMode === 'Participant')
-                this.messageBoard.setTemplates(this.messageTemplates);
+            if (this.userMode === 'Participant'){
+                this.messageBoard.setTemplates(this.messageTemplates, this.piContactNames);
+            }
         }
 
         if (this.initialized) {
@@ -156,7 +158,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
         this.changeConversationsBackground(null);
 
         let enrollments = this.userMode === 'PI' ? this.enrollments : this.getFreeEnrollments();
-        this.messageBoard.startNew(enrollments, this.statusByPeMap);
+        this.messageBoard.startNew(enrollments, this.statusByPeMap, this.piContactNames);
         this.changeVisiblePart();
     }
 
@@ -169,7 +171,8 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             conItem.conversation,
             conItem.messages,
             conItem.isPastStudy,
-            conItem.patientDelegates
+            conItem.patientDelegates,
+            this.piContactNames
         );
         this.changeVisiblePart();
     }
@@ -220,7 +223,8 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
             conWr.conversation,
             conWr.messages,
             conWr.isPastStudy,
-            conWr.patientDelegates
+            conWr.patientDelegates,
+            this.piContactNames
         );
     }
 
@@ -263,6 +267,7 @@ export default class MessagesPage extends NavigationMixin(LightningElement) {
                             context.userMode = data.userMode;
                             context.enrollments = data.enrollments;
                             context.statusByPeMap = data.statusByPeMap;
+                            context.piContactNames = data.piContactNames;
                             context.isRTL = data.isRTL;
                             context.conversationWrappers = data.conversationWrappers;
                             if (context.conversationWrappers)

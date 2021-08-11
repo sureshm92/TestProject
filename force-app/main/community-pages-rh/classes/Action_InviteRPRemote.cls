@@ -120,6 +120,7 @@ public without sharing class Action_InviteRPRemote {
 
     public static List<PIOptionWrapper> getPIForInvetation() {
         List<PIOptionWrapper> result = new List<PIOptionWrapper>();
+        Set<Id> piContactIds = new Set<Id>();
         Map<Id, String> piOtions = new Map<Id, String>();
         for (Site_Staff__c sstaff : [
             SELECT
@@ -134,15 +135,22 @@ public without sharing class Action_InviteRPRemote {
                 sstaff.Study_Site__r.Principal_Investigator__c,
                 sstaff.Study_Site__r.Principal_Investigator__r.Name
             );
+            piContactIds.add(sstaff.Study_Site__r.Principal_Investigator__c);
             //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
         }
+        Map<Id,String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
         for (Id i : piOtions.keySet()) {
-            result.add(new PIOptionWrapper(piOtions.get(i), i));
+            if(piIdNames.containsKey(i) && piIdNames.get(i)!=null){
+                result.add(new PIOptionWrapper(piIdNames.get(i), i));
+            }else{
+                result.add(new PIOptionWrapper(piOtions.get(i), i));
+            }
         }
         return result;
     }
 
     public static List<PIOptionWrapper> getPIForInvetation(String communityTemplateName) {
+        Set<Id> piContactIds = new Set<Id>();
         List<PIOptionWrapper> result = new List<PIOptionWrapper>();
         Map<Id, String> piOtions = new Map<Id, String>();
         for (Site_Staff__c sstaff : [
@@ -159,10 +167,16 @@ public without sharing class Action_InviteRPRemote {
                 sstaff.Study_Site__r.Principal_Investigator__c,
                 sstaff.Study_Site__r.Principal_Investigator__r.Name
             );
+            piContactIds.add(sstaff.Study_Site__r.Principal_Investigator__c);
             //inviteDetail.PIForInvetation.add(new PIOptionWrapper(sstaff.Study_Site__r.Principal_Investigator__c, sstaff.Study_Site__r.Principal_Investigator__r.Name));
         }
+        Map<Id,String> piIdNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
         for (Id i : piOtions.keySet()) {
-            result.add(new PIOptionWrapper(piOtions.get(i), i));
+            if(piIdNames.containsKey(i) && piIdNames.get(i)!=null){
+                result.add(new PIOptionWrapper(piIdNames.get(i), i));
+            }else{
+                result.add(new PIOptionWrapper(piOtions.get(i), i));
+            }
         }
         return result;
     }

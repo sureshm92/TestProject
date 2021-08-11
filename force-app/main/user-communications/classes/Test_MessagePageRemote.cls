@@ -60,7 +60,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
         }
         Test.stopTest();
     }
@@ -71,10 +71,11 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.piUser) {
-            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false);
+            MessagePageRemote.createConversation(testData.pe, 'hi everyone!', null, false, null);
             MessagePageRemote.sendMultipleMessage(
                 new List<String>{ testData.pe.Id },
                 'Hi Participant!',
+                null,
                 null
             );
         }
@@ -98,7 +99,7 @@ private class Test_MessagePageRemote {
 
         Test.startTest();
         System.runAs(testData.participantUser) {
-            MessagePageRemote.markConversationAsRead(conversation, false);
+            MessagePageRemote.markConversationAsRead(conversation, false, null);
         }
         Test.stopTest();
     }

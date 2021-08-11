@@ -6,7 +6,7 @@ public without sharing class ParametersProviderService {
     private static Map<String, Parameters_Provider__mdt> ppByNameMap = new Map<String, Parameters_Provider__mdt>();
     static {
         List<Parameters_Provider__mdt> ppList = [
-            SELECT Id, DeveloperName, Parameters__c, Source_Object_Type__c
+            SELECT Id, DeveloperName, Parameters__c,Alternate_Parameter_Source__c, Source_Object_Type__c
             FROM Parameters_Provider__mdt
         ];
         for (Parameters_Provider__mdt pp : ppList)
@@ -19,7 +19,9 @@ public without sharing class ParametersProviderService {
 
     public static List<SObject> queryRecords(List<Id> recordIds, String providerName) {
         List<SObject> resultList = new List<SObject>();
-        Map<String, String> paramsMap = getParamsMap(providerName);
+        Parameters parameters = getParamsMap(providerName);
+        Map<String, String> paramsMap = parameters.parametersMap;
+        Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
         SObjectType sObjectType = getSObjectType(providerName);
         if (
             recordIds == null ||
@@ -29,6 +31,7 @@ public without sharing class ParametersProviderService {
         )
             return resultList;
         Set<String> values = new Set<String>(paramsMap.values());
+        values.addAll(alternateParamsMap.values());
         return DatabaseService.query(
             new List<String>(values),
             sObjectType,
@@ -36,23 +39,42 @@ public without sharing class ParametersProviderService {
         );
     }
 
-    public static Map<String, String> getParamsMap(String providerName) {
-        Map<String, String> resMap = new Map<String, String>();
+    public static Parameters getParamsMap(String providerName) {
+        Map<String, String> parametersMap = new Map<String, String>();
+        Map<String, String> parametersAlternateSourceMap = new Map<String, String>();
+        Parameters parameters = new Parameters();
+        parameters.parametersMap = parametersMap;
+        parameters.parametersAlternateSourceMap = parametersAlternateSourceMap;
         Parameters_Provider__mdt pp = getParametersProvider(providerName);
         if (pp == null || String.isEmpty(pp.Parameters__c))
-            return resMap;
+            return parameters;
         List<String> lines = pp.Parameters__c.split('\n');
-        for (String line : lines) {
+        List<String> linesforaltparams = new List<String>();
+        if(!(pp == null || String.isEmpty(pp.Alternate_Parameter_Source__c))){
+            linesforaltparams = pp.Alternate_Parameter_Source__c.split('\n');
+        }
+         parameters.parametersMap = getParameterMapFromString(lines);
+         parameters.parametersAlternateSourceMap = getParameterMapFromString(linesforaltparams);
+        return parameters;
+    }
+
+    private static Map<String, String> getParameterMapFromString(List<String> lines){
+        Map<String, String> parametersMap = new Map<String, String>();
+        for(String line : lines){
             List<String> lineParts = line.split('=');
             String paramName = lineParts[0].trim();
             String paramValue;
             if (lineParts.size() > 1)
                 paramValue = lineParts[1].trim();
-            resMap.put(paramName, paramValue);
-        }
-        return resMap;
+            parametersMap.put(paramName, paramValue);
+        }   
+        return parametersMap;
+    }  
+    
+    public class Parameters {
+        public Map<String, String> parametersMap;
+        public Map<String,String> parametersAlternateSourceMap;
     }
-
     public static SObjectType getSObjectType(String providerName) {
         Parameters_Provider__mdt pp = getParametersProvider(providerName);
         if (pp == null)
@@ -68,7 +90,19 @@ public without sharing class ParametersProviderService {
         Map<String, String> valueByParam = new Map<String, String>();
         String userLanguage = String.isNotEmpty(language) ? language : UserInfo.getLanguage();
         User userObj;
-        Map<String, String> paramsMap = getParamsMap(providerName);
+        Parameters parameters = getParamsMap(providerName);
+        Map<String, String> paramsMap = parameters.parametersMap;
+        Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
+        Map<String,Id> paramAndContactId = new Map<String,Id>();
+        Map<Id,String> ContactIdAndValue = new Map<Id,String>();
+        for(String paramName : alternateParamsMap.keySet()){
+            String fieldPath = alternateParamsMap.get(paramName);
+            Object value = SObjectHelper.getSObjectFieldValue(sourceObject, fieldPath);
+            if (value instanceof Id) {
+                paramAndContactId.put(paramName,String.valueOf(value));
+            }
+        }        
+        
         for (String paramName : paramsMap.keySet()) {
             String fieldPath = paramsMap.get(paramName);
             Object value = SObjectHelper.getSObjectFieldValue(sourceObject, fieldPath);
@@ -104,6 +138,17 @@ public without sharing class ParametersProviderService {
             valueByParam.put(paramName, valueStr);
         }
 
+        if(!paramAndContactId.isEmpty()){
+            for (Participant__c participant : [SELECT Id,Contact__c,Salutation__c,Full_Name__c FROM Participant__c WHERE Contact__c IN :paramAndContactId.values()]){
+                ContactIdAndValue.put(participant.Contact__c,(participant.Salutation__c==null?'':participant.Salutation__c+' ') + participant.Full_Name__c);
+            }
+            for(String paramName : paramAndContactId.keySet()){
+                Id contactId = paramAndContactId.get(paramName);	
+                if(ContactIdAndValue.containsKey(contactId)){
+                    valueByParam.put(paramName, ContactIdAndValue.get(contactId));
+                }   
+            }
+        }
         return valueByParam;
     }
 

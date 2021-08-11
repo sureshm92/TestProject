@@ -4,6 +4,10 @@
     <label>PP_Study_Site</label>
     <protected>false</protected>
     <values>
+        <field>Alternate_Parameter_Source__c</field>
+        <value xsi:type="xsd:string">PIName = Principal_Investigator__c</value>
+    </values>
+    <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">
             StudyTitle = Clinical_Trial_Profile__r.Study_Title__c

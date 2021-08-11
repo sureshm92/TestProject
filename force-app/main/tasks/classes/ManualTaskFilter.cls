@@ -78,7 +78,7 @@ public without sharing class ManualTaskFilter {
         return peByContactIds;
     }
 
-     @TestVisible
+    @TestVisible
     private Map<Id, List<Id>> getContactsWithParticipantIds(string visibility) {
         Map<Id, List<Id>> participantByContactIds = new Map<Id, List<Id>>();
         Map<Id, List<Id>> delegateParticipantByContactIds = new Map<Id, List<Id>>();

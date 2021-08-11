@@ -171,8 +171,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     taskCreated +
                     '. Task(s) failed = ' +
                     (failedContactsWithWhatIds.isEmpty()
-                        ? '0'
-                        : '' + (failedContactsWithWhatIds.values().size() + '\n'));
+                     ? '0'
+                     : '' + (failedContactsWithWhatIds.values().size() + '\n'));
                 if (!failedContactsWithWhatIds.isEmpty()) {
                     messageBody += 'Failed contact ids:\n';
                     Integer i = 0;

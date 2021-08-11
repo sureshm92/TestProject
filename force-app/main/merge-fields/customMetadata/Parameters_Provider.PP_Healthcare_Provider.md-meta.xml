@@ -3,6 +3,10 @@
     <label>PP Healthcare Provider</label>
     <protected>false</protected>
     <values>
+        <field>Alternate_Parameter_Source__c</field>
+        <value xsi:type="xsd:string">PIName = Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c</value>
+    </values>
+    <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">PIName = Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c</value>
     </values>

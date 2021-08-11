@@ -65,14 +65,18 @@ public without sharing class MyReferringClinicsController {
     ) {
         List<MyReferringClinicsController.ClinicWrapper> result = new List<MyReferringClinicsController.ClinicWrapper>();
         Map<Id, List<HCP_Enrollment__c>> clinicEnrolmentMap = new Map<Id, List<HCP_Enrollment__c>>();
+        Set<Id> piHcpContactIds = new Set<Id>();
         for (HCP_Enrollment__c enroll : enrollments) {
+            pihcpContactIds.add(enroll.Study_Site__r.Principal_Investigator__c);
             if (!clinicEnrolmentMap.containsKey(enroll.HCP_Contact__c)) {
                 clinicEnrolmentMap.put(enroll.HCP_Contact__c, new List<HCP_Enrollment__c>());
             }
+            piHcpContactIds.add(enroll.HCP_Contact__c);
             clinicEnrolmentMap.get(enroll.HCP_Contact__c).add(enroll);
         }
+        Map<Id,Participant__c> piHcpContactNames = ParticipantWorkflowService.getPIContactNameDetails(piHcpContactIds);
         for (Id hcpId : clinicEnrolmentMap.keySet()) {
-            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId)));
+            result.add(new ClinicWrapper(clinicEnrolmentMap.get(hcpId),piHcpContactNames,piHcpContactNames.get(hcpId)));
         }
         return result;
     }
@@ -80,25 +84,37 @@ public without sharing class MyReferringClinicsController {
     public class ClinicWrapper {
         public Account clinic;
         public Contact hcpContact;
+        public Participant__c hcpContactPartName;
         public List<MyReferringClinicsController.HCPEnrollmentWrapper> enrollments = new List<MyReferringClinicsController.HCPEnrollmentWrapper>();
 
         public ClinicWrapper(List<HCP_Enrollment__c> enrollments) {
             if (enrollments != null && !enrollments.isEmpty()) {
                 this.hcpContact = enrollments[0].HCP_Contact__r;
                 for (HCP_Enrollment__c enrollment : enrollments) {
-                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment));
+                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment, null));
                 }
             }
         }
+        public ClinicWrapper(List<HCP_Enrollment__c> enrollments, Map<Id,Participant__c> piHcpContactNames, Participant__c hcpContactPartName) {
+            this.hcpContactPartName= hcpContactPartName;
+            if (enrollments != null && !enrollments.isEmpty()) {
+                this.hcpContact = enrollments[0].HCP_Contact__r;
+                for (HCP_Enrollment__c enrollment : enrollments) {
+                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment,piHcpContactNames.get(enrollment.Study_Site__r.Principal_Investigator__c)));
+                }
+            }
+        }        
     }
 
     public class HCPEnrollmentWrapper {
         HCP_Enrollment__c enrollment;
         String status;
         String statusLabel;
+        Participant__c piContactName;
         List<StudyActions.Action> buttonList = new List<StudyActions.Action>();
         //Boolean isHCPRegistred;
-        public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment) {
+        public HCPEnrollmentWrapper(HCP_Enrollment__c hcpEnrollment, Participant__c piContactName) {
+            this.piContactName = piContactName;
             Map<String, StudyActions.Action> actionsMap = new StudyActionsPI(hcpEnrollment).actions;
             status = CommunityService.getConvertedStatus(hcpEnrollment.Status__c);
             statusLabel = TranslateHelper.getPickListLabel(
