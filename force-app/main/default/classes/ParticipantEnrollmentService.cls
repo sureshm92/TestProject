@@ -594,6 +594,7 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
         'isAuthorized__c',
         'Human_Id__c',
+        'Unique_HumanId__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
