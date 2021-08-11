@@ -2,12 +2,24 @@
     doExecute: function (component, event, helper) {
         let params = event.getParam('arguments');
         component.set('v.callback', params.callback);
-        if(params.mode == 'edit'){
-                 component.set('v.recId',params.medicalId);
+        if(params.mode == 'edit' || params.mode == 'view' || params.mode == 'clone'){
+                 component.set('v.recId',params.medicalId.value);
    
         }
         else{
-          component.set('v.recId',null);  
+          component.set('v.recId',null);
+            component.set('v.headerTitle','Add Medical Vendor');
+        }
+        if(params.mode == 'view'){
+            component.set('v.isView',true);
+            component.set('v.headerTitle','View Medical Vendor');
+        }
+         if(params.mode == 'edit'){
+            component.set('v.headerTitle','Edit Medical Vendor');
+        }
+         if(params.mode == 'clone'){
+            component.set('v.headerTitle','Clone Medical Vendor');
+            component.find("nameField").set("v.value", params.medicalId.label + ' Clone');
         }
         component.find('addMedicalVendorDialog').show();
         component.find('addMedicalVendorDialog').set('v.cancelCallback', function () {
