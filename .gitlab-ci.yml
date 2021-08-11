@@ -113,10 +113,10 @@ cache:
 
 
 # Validation: ------------------------------------------------------------------
-#SonarCheck:
+SonarCheck:
   allow_failure: true
   only:
-    - merge_requests
+   - merge_requests
   except:
    - push
    - commit
