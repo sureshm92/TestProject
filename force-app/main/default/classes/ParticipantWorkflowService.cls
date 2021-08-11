@@ -1931,6 +1931,8 @@ public without sharing class ParticipantWorkflowService {
         //
         @AuraEnabled
         public list<ParticipantWorkflowHistoryWrapper> historyList = new list<ParticipantWorkflowHistoryWrapper>();
+        @AuraEnabled
+        public String stepName;
         //
         @AuraEnabled
         public String title;
