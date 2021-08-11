@@ -6,6 +6,33 @@
 .THIS .slds-checkbox {
     display: inline-flex;
 }
+.THIS  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 400px;
+    background-color: white;
+    color: grey;
+    text-align: center;
+    z-index: 1;
+    top: -16px;
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #777777;
+    text-decoration: none;
+}
+
+.THIS  .tooltip .tooltiptext .Test {
+   display: none;
+}
+.THIS  .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.THIS .textoverlap
+{
+    width: 16rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 
 .THIS .connectPatient {
     margin-top: 21px;
