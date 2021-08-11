@@ -138,4 +138,60 @@ public with sharing class MedicalRecordVendorPanelRemote {
             StudySiteFilter.class
         );
     }
+      @AuraEnabled
+    public static SSMedicalRecordVendorConfigResponse deleteMedicalVendor(
+        String planId,
+        String filterJSON,
+        String paginationJSON
+    ) {
+        try {
+            List<MedicalVendorSettings__c> mvs = [Select Id , Medical_Record_Vendor__c from MedicalVendorSettings__c where Medical_Record_Vendor__c =:planId];
+            List<sObject> recordsToBeDeleted = new List<sObject>();
+            recordsToBeDeleted.addAll(mvs);
+            recordsToBeDeleted.add(new Medical_Record_Vendor__c(Id = planId));
+            delete recordsToBeDeleted;
+            //delete new Medical_Record_Vendor__c(Id = planId);
+            StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(
+                filterJSON,
+                StudySiteFilter.class
+            );
+            PaginationData pagination = (PaginationData) JSON.deserialize(
+                paginationJSON,
+                PaginationData.class
+            );
+            saveFilter(filter);
+            return new SSMedicalRecordVendorConfigResponse(filter, pagination);
+        } catch (Exception e) {
+            return (SSMedicalRecordVendorConfigResponse) AuraHelper.throwException(e);
+        }
+    }
+    
+     public static List<Medical_Record_Vendor__c> getVendors(String studySiteId) {
+        String filter =
+            'Study_Site__c =  \'' +
+            studySiteId +
+            '\'' +
+            ' ORDER BY Medical_Record_Vendor__r.Name';
+        List<MedicalVendorSettings__c> vendorSettings = (List<MedicalVendorSettings__c>) DatabaseService.query(
+            new List<String>{
+                'Medical_Record_Vendor__c',
+                'Medical_Record_Vendor__r.Name',
+                'Medical_Record_Vendor__r.Medical_Vendor__c'
+            },
+            MedicalVendorSettings__c.getSObjectType(),
+            filter
+        );
+
+        Set<Medical_Record_Vendor__c> vendorsUniq = new Set<Medical_Record_Vendor__c>();
+        for (MedicalVendorSettings__c vendorSetting : vendorSettings)
+            vendorsUniq.add(vendorSetting.Medical_Record_Vendor__r);
+
+        List<Medical_Record_Vendor__c> vendors = new List<Medical_Record_Vendor__c>();
+        if (!vendorsUniq.isEmpty())
+            vendors.addAll(vendorsUniq);
+
+        return vendors;
+    }
+
+
 }

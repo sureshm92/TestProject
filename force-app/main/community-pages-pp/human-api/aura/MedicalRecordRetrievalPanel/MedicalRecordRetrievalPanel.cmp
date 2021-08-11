@@ -1,21 +1,28 @@
 <!--
  - Created by Sandeep
  -->
- <aura:component implements="flexipage:availableForAllPageTypes">
+ <aura:component controller="MedicalRecordAccessRemote" implements="flexipage:availableForAllPageTypes">
     <ltng:require
-                  scripts="{!join(',', $Resource.rr_community_js)}" 
+                  scripts="{!join(',', $Resource.rr_community_js,$Resource.humanapijs)}" 
                   afterScriptsLoaded="{!c.doInit}" 
                   />   
+    <aura:attribute name="participantState" type="Object" />
+     <aura:attribute name="isHumanApiChecked" type="Boolean"/>
     <aura:attribute name="sessionToken" type="String" />
+      <aura:attribute name="humanid" type="String" />
     <aura:attribute name="accessToken" type="String" />
+      <aura:attribute name="success" type="String" />
     <aura:attribute name="medicalProviders" type="Object[]" />
+     <aura:handler name="change" value="{!v.success}" action="{!c.listProvidersChange}"/>
+
     <c:HomePreviewTablePanel title="Medical Record Access">
-        <!--<c:RRSpinner aura:id="spinner" size="small" showSpinner="true" /> -->
-        <c:RRTable>
-            <tr>
-                <th>Provider</th>
-                <th style="width: 130px">Status</th>
-            </tr>
+        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" /> 
+        <aura:if isTrue="{!v.participantState.pe.isAuthorized__c}">
+            
+       <!-- <div class="slds-scrollable_y" style="height: 11.5rem;/* width:24rem */">    -->
+       <!-- <c:RRTable> 
+            
+            
             <aura:iteration items="{!v.medicalProviders}" var="provider" indexVar="index">
                 <tr>
                     <td>
@@ -25,11 +32,44 @@
                         {!provider.status}
                     </td>
                 </tr>
-            </aura:iteration>          
-        </c:RRTable>
-        <aura:set attribute="footer">
-            <!--<a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a> -->
-            Manage Authorizations
+            </aura:iteration>
+                
+        </c:RRTable> -->
+         <div id="managerTable">
+            <table>
+  <tr> 
+                <th>Provider</th>
+                <th>Status</th>
+            </tr>
+                 <aura:iteration items="{!v.medicalProviders}" var="provider" indexVar="index">
+                <tr>
+                    <td>
+                        {!provider.providerName}
+                    </td>
+                    <td>
+                        {!provider.status}
+                    </td>
+                </tr>
+            </aura:iteration>
+  
+ 
+ 
+</table>
+            </div>
+        <!--   </div> -->
+        <aura:set attribute="else">
+            
+             <c:EmptyListStub
+                iconName="none"
+                message="You have not yet authorized"
+            />
+        </aura:set>
+        </aura:if>
+            <aura:set attribute="footer">
+                <aura:if isTrue="{!v.isHumanApiChecked}">
+           <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
+                    </aura:if>
+            <!-- Manage Authorizations -->
         </aura:set>
     </c:HomePreviewTablePanel>
   <!-- <a href="javascript:void(0)" onclick="{!c.downloadPDF}">download</a> --> 
