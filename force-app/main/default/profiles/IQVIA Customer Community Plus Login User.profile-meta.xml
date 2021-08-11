@@ -5,10 +5,6 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
-        <apexClass>LibraryRPRemote</apexClass>
-        <enabled>true</enabled>
-    </classAccesses>
-    <classAccesses>
         <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1044,6 +1040,10 @@
         <apexClass>MedicalHistoryViewController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+    <classAccesses>
+        <apexClass>MedicalRecordAccessRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
     <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
@@ -4934,6 +4934,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.IVRS_IWRS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.isAuthorized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Human_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Unique_HumanId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -20,6 +20,8 @@ public without sharing class ParticipantService {
         public Clinical_Trial_Profile__c ctp;
         @AuraEnabled
         public Participant__c participant;
+        @AuraEnabled 
+        public List<Medical_Record_Vendor__c> medicalVendors;
         @AuraEnabled
         public Id currentUserId;
         @AuraEnabled
@@ -100,6 +102,7 @@ public without sharing class ParticipantService {
                     IRBParticipantService.getSuitableLanguageForIRBTranslation(pe.Id)
                 );
                 participantState.showTerms = showTerms();
+                participantState.medicalVendors = MedicalRecordVendorPanelRemote.getVendors(participantState.pe.Study_Site__c);
                 participantState.isPremium = participantState.ctp.Patient_Portal_Enabled__c;
                 participantState.isVisitPathEnabled = participantState.ctp.Visit_Schedule_Is_Available__c;
                 participantState.isTravelSupportEnabled = participantState.ctp.Travel_Vendor_Is_Available__c;
