@@ -125,13 +125,14 @@ SonarCheck:
     name: sonarsource/sonar-scanner-cli:latest
     entrypoint: [""]
   cache:
-  key: "${CI_JOB_NAME}"
+    key: "${CI_JOB_NAME}"
     paths:
       - .sonar/cache
   before_script:
    - echo "Sonar Analysis"
   script:
    - . ./scripts/ci/sonar-check.sh
+
 
 .validate_script:
   script:
