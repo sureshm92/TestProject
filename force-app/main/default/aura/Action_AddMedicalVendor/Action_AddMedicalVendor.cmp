@@ -3,16 +3,18 @@
     <aura:attribute name="callback" type="Object" access="private" />
     <aura:attribute name="hideForm" type="Boolean" access="private" default="false" />
     <aura:attribute name="recId" type="Id" access="private"/>
+    <aura:attribute name="isView" type="Boolean" default="false"/>
+    <aura:attribute name="headerTitle" type="String" default="false"/>
 
 
     <!--methods: -->
     <aura:method name="execute" action="{!c.doExecute}">
-        <aura:attribute name="medicalId" type="String" />
+        <aura:attribute name="medicalId" type="Object" />
         <aura:attribute name="callback" type="Function" />
         <aura:attribute name="mode" type="String" />
     </aura:method>
 
-    <c:uiModal aura:id="addMedicalVendorDialog" size="small" headerText="{!if(v.recId, 'Edit Medical Vendor','Add Medical Vendor')}">
+    <c:uiModal aura:id="addMedicalVendorDialog" size="small" headerText="{!v.headerTitle}">
         <div style="position: relative">
             <c:RRSpinner aura:id="spinner" size="small" />
             <div class="slds-p-horizontal--small">
@@ -25,6 +27,7 @@
                         recordId="{!v.recId}"
                     >
                         <lightning:inputField fieldName="Name" aura:id="nameField" required="true"/>
+                        <lightning:inputField fieldName="Medical_Vendor__c" />
                         <lightning:inputField fieldName="Description__c"/>
                     </lightning:recordEditForm>
                 </aura:if>
@@ -37,6 +40,7 @@
                 name="close"
                 label="{!$Label.c.BTN_Close}"
                 onclick="{!c.doClose}"
+                disabled="{!v.isView}"
             />
             <lightning:button
                 variant="brand"
@@ -44,6 +48,7 @@
                 name="save"
                 label="{!$Label.c.BTN_Save}"
                 onclick="{!c.doSave}"
+                disabled="{!v.isView}"
             />
         </aura:set>
     </c:uiModal>
