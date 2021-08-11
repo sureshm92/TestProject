@@ -175,3 +175,9 @@
         min-width: 185px;
     }
 }
+
+@media all and (max-width: 768px) {
+    .THIS .visit-results-containerRTL{
+        display: unset !important;
+    }
+}
