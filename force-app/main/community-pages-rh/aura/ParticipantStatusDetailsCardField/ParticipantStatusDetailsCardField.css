@@ -25,7 +25,34 @@
     width: 200px;
     left: 1px;
     }
-
+    .THIS .tooltip {
+        position: relative;
+        display: inline-block;
+    }
+    
+    .THIS  .tooltip .tooltiptext {
+        visibility: hidden;
+        width: 300px;
+        background-color: white;
+        color: grey;
+        text-align: center;
+        z-index: 1;
+        top: -16px;
+        display: inline-block;
+        position: absolute;
+        border: 1px solid #777777;
+        text-decoration: none;
+    }
+    .THIS  .tooltip:hover .tooltiptext {
+        visibility: visible;
+    }
+    .THIS .textoverlap
+    {
+        width: 14rem;
+        text-overflow: ellipsis;
+        white-space: nowrap;
+        overflow: hidden;
+    }
 @media screen and (max-width: 768px) {
     .THIS.form-field {
         min-width: 100%;
