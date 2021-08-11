@@ -9,21 +9,21 @@
     white-space: nowrap;
 }
 
-.bg{
+.bg {
     padding-bottom: 4px;
-    white-space: nowrap;
-    font-family:'Proxima Nova';
+    font-family: 'Proxima Nova';
     font-size: 16px;
 }
-.bg a{
-    color: #444!important;
+.bg a {
+    color: #444 !important;
     font-size: 16px;
     padding: 4px 16px;
     display: inline-block;
 }
-
-
-.dropdown-content div:hover{
+.tsRtl {
+    text-align: right;
+}
+.dropdown-content div:hover {
     background-color: #eef5ff;
 }
 
@@ -31,12 +31,12 @@
     display: none;
     position: absolute;
     background-color: #f9f9f9;
-    min-width: 160px;
+    min-width: fit-content;
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     padding: 12px 0;
     z-index: 1;
     width: 147px;
-    color:grey;
+    color: grey;
 }
 .no-travels-message {
     margin-bottom: 1.5em;
@@ -66,7 +66,7 @@
 }
 .button-menu-small-default {
     height: 32px;
-    width: 175px;
+    width: fit-content;
 }
 .mr8 {
     margin-top: 8px;
@@ -78,11 +78,10 @@
 }
 .mr_rtl {
     margin-top: 40px;
-    text-align: left;
+    text-align: right;
 }
 .labels {
     height: 24px;
-    width: 142px;
     transform: rotate(-360deg);
     color: #0768fd;
     font-family: 'Proxima Nova';
@@ -91,7 +90,6 @@
     letter-spacing: 0;
     line-height: 24px;
     text-align: center;
-    white-space: nowrap;
     padding-left: 6px;
 }
 
@@ -132,7 +130,6 @@ a {
 
 .travel-support {
     height: 24px;
-    width: 158px;
     color: #000;
     font-family: Proxima Nova;
     font-size: 20px;
@@ -170,7 +167,7 @@ a {
         text-align: center;
     }
 
-    .slds-grid >  .slds-col.slds-size_1-of-2.mr {
+    .slds-grid > .slds-col.slds-size_1-of-2.mr {
         margin-top: 15px;
         margin-left: 0;
         padding-left: 0;
@@ -184,5 +181,4 @@ a {
     .mr_rtl {
         margin-top: 15px;
     }
-
 }

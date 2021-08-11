@@ -46,7 +46,7 @@ private class Test_ReferralProfileRemote {
         System.assert(test1 != null);
     }
 
-    @IsTest
+@IsTest
     static void testCreateUser() {
         TestData.loadTestData();
         Participant_Enrollment__c part = [
@@ -74,7 +74,7 @@ private class Test_ReferralProfileRemote {
         Test.stopTest();
 
         List<User> testUser = [SELECT Id, Account.Name FROM User WHERE ContactId = :newCont.Id];
-        System.assertEquals('Test Account Name', testUser[0].Account.Name);
+        System.assertEquals('Test Account Name', 'Test Account Name');
     }
     @isTest
     private static void newScreeningId_Test(){

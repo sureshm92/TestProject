@@ -1,0 +1,73 @@
+<template>
+    <lightning-card >
+       <div class="slds-p-around_large" style="padding-top: inherit;">
+          <div class="slds-p-bottom_xx-large" style="height: 153px;">
+             <div class="slds-grid slds-gutters">
+                <div class="slds-col" style="padding-left:27px;">
+                   <span class="overview-for-not-yet">Overview for</span><br>
+                   <span class="not-yet-referred">Not Yet Referred</span>
+                </div>
+                <div class="slds-col" style="text-align: right;padding-right:53px;">
+                   <span class="total-patients">Total Patients</span> 
+                   <span class="total-patients-count">&nbsp;{data.totalpatients}</span>
+                </div>
+             </div>
+          </div>
+          <div class="slds-p-bottom_xx-large" style="height: 180px;">
+             <div class="slds-grid slds-gutters">
+                <div class="slds-col" style="justify-content: flex-end;
+                display: flex;">
+                   <div style="text-align: center;
+                   width: 70%;">
+                      <span class="included-for-referring">{data.includedreferring}</span><br>
+                      <span class="included-for-referring-count">Included for Referring</span>
+                   </div>
+                </div>
+                <div class="slds-col">
+                  <div style="width: 70%;
+                  text-align: center;">
+                     <span class="excluded-for-referring">{data.excludedreferring}</span><br>
+                     <span class="excluded-for-referring-count">Excluded for Referring</span>
+                  </div>
+                </div>
+             </div>
+          </div>
+          <div class="slds-p-bottom_xx-large" style="height: 188px;">
+             <div class="slds-grid slds-gutters">
+                <div class="slds-col" >
+                   <div style="text-align: center;">
+                      <span class="patient-auth-aquired-count">{data.patientauthreq}/{data.totalpatients}</span><br>
+                      <span class="patient-auth-aquired">Patient Auth Aquired</span>
+                   </div>
+                </div>
+                <div class="slds-col" style="text-align: center;">
+                   <span class="medical-review-complete-count">{data.medicalreview}/{data.totalpatients}</span><br>
+                   <span class="medical-review-complete">Medical Review Complete</span>
+                </div>
+                <div class="slds-col" style="text-align: center;">
+                   <span class="outreach-mail-sent-count">{data.outreachmail}/{data.totalpatients}</span><br>
+                   <span class="outreach-mail-sent">Outreach Mail Sent</span>
+                </div>
+             </div>
+          </div>
+          <div class="slds-p-bottom_xx-large" style="height: 245px;">
+             <div class="slds-grid slds-gutters">
+                <div class="slds-col" >
+                   <div style="text-align: center;">
+                      <span class="added-last-month-count">{data.lastmonthper}</span><br>
+                      <span class="added-last-month">Added Last Month</span>
+                   </div>
+                </div>
+                <div class="slds-col" style="text-align: center;">
+                   <span class="added-last-week-count">{data.lastweekper}</span><br>
+                   <span class="added-last-week">Added Last Week</span>
+                </div>
+                <div class="slds-col" style="text-align: center;">
+                   <span class="added-yesterday-count">{data.lastdayper}</span><br>
+                   <span class="added-yesterday">Added Yesterday</span>
+                </div>
+             </div>
+          </div>
+       </div>
+    </lightning-card>
+ </template>

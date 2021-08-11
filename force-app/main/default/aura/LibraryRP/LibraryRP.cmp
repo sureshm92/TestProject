@@ -86,7 +86,7 @@
                         </aura:set>
                         <aura:set attribute="body">
                             <div
-                                 class="slds-scrollable_y"
+                                class="{!if(resourceStructure.resources.length > 11 , 'slds-scrollable_y' , '')}"
                                  style="{!if(resourceStructure.resources.length > 11 , 'height :600px')}"
                                  >
                                 <aura:iteration
