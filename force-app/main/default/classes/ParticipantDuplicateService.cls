@@ -617,6 +617,8 @@ public without sharing class ParticipantDuplicateService {
             return;
         //if (newParticipant.Phone__c != null) sourceParticipant.Phone__c = newParticipant.Phone__c;
         //if (newParticipant.Email__c == null) sourceParticipant.Email__c = newParticipant.Email__c;
+        if (String.isNotBlank(newParticipant.Phone__c)) sourceParticipant.Phone__c = newParticipant.Phone__c;
+        if (String.isNotBlank(newParticipant.Email__c)) sourceParticipant.Email__c = newParticipant.Email__c;
         if (newParticipant.Mailing_Country_Code__c != null)
             sourceParticipant.Mailing_Country_Code__c = newParticipant.Mailing_Country_Code__c;
         if (newParticipant.Mailing_State_Code__c != null)
