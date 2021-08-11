@@ -17333,7 +17333,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Enrolled_Name</shortDescription>
-        <value>Enrolled</value>
+        <value>Enrollment</value>
     </labels>
     <labels>
         <fullName>PWS_Enrolled_No_Outcome</fullName>
