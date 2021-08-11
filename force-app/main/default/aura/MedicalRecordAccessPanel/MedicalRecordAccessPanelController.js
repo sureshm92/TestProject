@@ -13,7 +13,6 @@
             },
             function (initData) {
                 component.set('v.filter', initData.filter);
-                console.log('filter ',initData.filter);
                 component.set('v.viewMode', initData.viewMode);
                 helper.setSearchResponse(component, initData.searchResponse);
                 component.set('v.initialized', true);
@@ -74,9 +73,6 @@
          component.find('addMedicalVendorAction').execute(
             event.getSource().get('v.plan'),
             function (vpId) {
-                /*let vpIds = component.get('v.filter.pageFeatureIds');
-                if (vpIds) vpIds += ';' + vpId;
-                component.set('v.filter.pageFeatureIds', vpIds);*/
                 helper.updateItems(component);
             },
              'edit'

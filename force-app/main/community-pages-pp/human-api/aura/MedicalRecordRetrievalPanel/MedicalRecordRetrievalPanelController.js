@@ -2,10 +2,6 @@
     
     doInit: function(component, event, helper) {
         var obj = component.get("v.participantState");
-        console.log('obj',obj.medicalVendors);
-        console.log('peggg',(obj.pe.Human_Id__c==undefined));
-        console.log('ggggg',obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c);
-        console.log(']]]]]]',component.get("v.participantState"));
         const humanApiVendors = component.get('v.participantState.medicalVendors');
         let isHumanApiVendorChecked ;
         for (const item in humanApiVendors) {
@@ -14,14 +10,11 @@
          }
         component.set('v.isHumanApiChecked',isHumanApiVendorChecked);
         if(obj.pe.Human_Id__c != undefined){
-            console.log('inside humanId undefined-->'+obj.pe.Human_Id__c);
         helper.calloutAccessToken(component); 
         }
         else
         {                
             
-            console.log('inside humanId defined-->'+obj.pe.Human_Id__c);
-
             component.find('spinner').hide();
         }
     },
@@ -37,7 +30,6 @@
     },
     
     downloadPDF : function(component, event, helper) {
-        //console.log('hello');
         communityService.executeAction(
             component,
             'downloadBlob',{},          
@@ -57,7 +49,6 @@
         );  
     },
     listProvidersChange : function(component, event, helper) {
-       // alert('itemschange');
         component.find('spinner').show();
         helper.calloutAccessToken(component); 
        // component.set("v.success",false);

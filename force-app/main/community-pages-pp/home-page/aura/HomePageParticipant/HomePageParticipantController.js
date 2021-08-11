@@ -5,7 +5,6 @@
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var ps = JSON.parse(returnValue);
-            console.log('ps',ps);
             if (ps.showTerms) {
                 communityService.navigateToPage(
                     'trial-terms-and-conditions?id=' +
@@ -15,7 +14,6 @@
                 );
             } else {
                 component.set('v.participantState', ps);
-                console.log('authorized'+component.get('v.participantState.pe.isAuthorized__c'))
                 if(component.get('v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c')){
                     const humanApiVendors = component.get('v.participantState.medicalVendors');
                     let isHumanApiVendorChecked ;
