@@ -17,6 +17,8 @@
     <aura:attribute name="stWrapper" type="Object" />
     <aura:attribute name="SelectedIds" type="list" />
     <aura:attribute name="finalConsent" type="Boolean" default="false"/>
+    <aura:attribute name="finalConsentvalue" type="Boolean" default="false"/>
+    <aura:attribute name="finalConsentrequired" type="Boolean" default="false"/>
     <aura:attribute name="enable" type="Boolean" default="true"/>
     <aura:method name="execute" action="{!c.doExecute}" access="public"/>
     
@@ -51,7 +53,6 @@
                         </div>
                     </div>
                     <div style="padding-top:7px" class="reason">
-                        
                         <lightning:select
                                           aura:id="reasonList"
                                           name="rrs-select"
@@ -75,10 +76,11 @@
                     </div>
                     <aura:if isTrue= "{!v.finalConsent}">
                         <div class="checkbox_finalConsent">
-                            <lightning:input type="checkbox" 
+                            <lightning:input type="checkbox"
                                              label="{!$Label.c.FD_PE_Field_Final_Consent}" 
+                                             required="{!v.finalConsentrequired}"
                                              name="input2" 
-                                             checked="{!v.stWrapper.finalConsent}" 
+                                             checked="{!v.finalConsentvalue}" 
                                              onchange="{!c.onBooleanValueChange}"/>
                         </div>
                     </aura:if>
