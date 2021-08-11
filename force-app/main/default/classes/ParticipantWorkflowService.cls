@@ -222,8 +222,7 @@ public without sharing class ParticipantWorkflowService {
                 CreatedBy.IsPortalEnabled,
                 CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
             FROM Participant_Enrollment_Status_History__c
-            WHERE ParticipantEnrollment__c = :pe.Id
-            AND Backward_Bulk_Update__c = false
+            WHERE ParticipantEnrollment__c = :pe.Id and Backward_Bulk_Update__c=false
             ORDER BY Date__c DESC
         ];
         Map<String, List<Participant_Enrollment_Status_History__c>> stepsAndPesh = new Map<String, List<Participant_Enrollment_Status_History__c>>();
@@ -301,7 +300,7 @@ public without sharing class ParticipantWorkflowService {
                 wrapper.sendToSHDate
             );
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
-
+           
             if (
                 stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS ||
                 stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS ||
@@ -312,7 +311,7 @@ public without sharing class ParticipantWorkflowService {
                 if (!wrapper.steps.isEmpty()) {
                     wrapper.steps[wrapper.steps.size() - 1].editable = false;
                 }
-            }
+                }
             wrapper.steps.add(stepWrapper);
             currentStepInd++;
         }
@@ -490,6 +489,50 @@ public without sharing class ParticipantWorkflowService {
     ) {
         ParticipantWorkflowStepWrapper stepWrapper = new ParticipantWorkflowStepWrapper();
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
+        
+        //REF-4546
+        stepWrapper.stepName = step.DeveloperName;
+        if(stepWrapper.stepName == 'Contact'){
+            List<Participant_Enrollment_Status_History__c> pehistory = [SELECT
+                Id,
+                Date__c,
+                Status__c,
+                Non_Enrollment_Reason__c,
+                Notes__c,
+                CreatedBy.Name,
+                Additional_Notes__c,
+                ParticipantEnrollment__r.Referral_Source__c,
+                ParticipantEnrollment__r.Referral_Completedby_Name__c,
+                ParticipantEnrollment__r.Source_Type__c,
+                ParticipantEnrollment__r.PI_Contact__r.Name,
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
+            FROM Participant_Enrollment_Status_History__c
+            WHERE ParticipantEnrollment__c = :pe.Id and Backward_Bulk_Update__c=true
+            ORDER BY Date__c DESC];
+            
+            if(!pehistory.isEmpty()){
+            for(Participant_Enrollment_Status_History__c per: pehistory){
+                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(per, step, pe);
+                if(per.Additional_Notes__c != null && per.Additional_Notes__c != ''){
+                    if (
+                        per.Additional_Notes__c.contains('####')
+                    ) {
+                        String addNotes = per.Additional_Notes__c.substringBefore('####');
+                        stepWrapper.historyList.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                    } else {
+                        stepWrapper.historyList.addAll(
+                            createOnlyNotesHistoryWrapper(per.Additional_Notes__c)
+                        );
+                    }
+                }
+                
+                    stepWrapper.historyList.add(historyWrapper);
+                
+            }
+            }
+        }
+        //
         stepWrapper.cardTitle = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
         stepWrapper.historyTitle = TranslateHelper.getLabelValue(step.History_Label__c);
         stepWrapper.outcomePlaceholder = String.isBlank(step.Outcome_Placeholder_Label__c)
@@ -1881,10 +1924,14 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public List<DateTime> fovCreateddate;
         @AuraEnabled
-        public List<String> fovCreatedby;         
+        public List<String> fovCreatedby;       
     }
-
+    
     public class ParticipantWorkflowStepWrapper {
+        //
+        @AuraEnabled
+        public list<ParticipantWorkflowHistoryWrapper> historyList = new list<ParticipantWorkflowHistoryWrapper>();
+        //
         @AuraEnabled
         public String title;
         @AuraEnabled
