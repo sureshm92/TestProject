@@ -4,7 +4,9 @@ public without sharing class RemoteCall_getHumanAPIData {
     
     public static List<Provider> getHumanSources(String accessToken) {
         System.debug('getHumanSources::');
-        List<Provider> providersList=new List<Provider>();
+         List<Provider> providersList=new List<Provider>();
+        if(accessToken != null){
+       
         try {
             System.debug('getHumanSources::22');
             //RemoteCall_getHumanAPITokens remoteTokens =  RemoteCall_getHumanAPITokens.getInstance();
@@ -19,6 +21,7 @@ public without sharing class RemoteCall_getHumanAPIData {
             providersList = parseHumanResourcesResponse((String)remoteCall.execute());
         }catch (Exception e){
             AuraHelper.throwException(e);
+        }
         }
         
          

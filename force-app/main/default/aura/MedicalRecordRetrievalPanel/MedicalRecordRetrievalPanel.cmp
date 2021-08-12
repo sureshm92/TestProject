@@ -19,7 +19,7 @@
      <aura:handler name="change" value="{!v.success}" action="{!c.listProvidersChange}"/>
    <!-- <aura:registerEvent name="providersAuthorizedEvent" type="c:ProvidersAuthorizedEvent"/>-->
      <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" /> 
-     <aura:if isTrue="{!or(v.showMedicalCard,v.participantState.value == 'ALUMNI')}">
+     <aura:if isTrue="{!v.showMedicalCard}">
     <c:HomePreviewTablePanel title="Medical Record Access">
         <aura:if isTrue="{!v.isAuthorised}">
             

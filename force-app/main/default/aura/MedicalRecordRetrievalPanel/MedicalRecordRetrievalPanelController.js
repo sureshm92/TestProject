@@ -14,7 +14,24 @@
         helper.calloutAccessToken(component); 
         }
         else
-        {                
+        {   
+            
+            if(obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
+                   
+                    if(component.get('v.isHumanApiChecked')){
+
+                        component.set('v.showMedicalCard',true);
+                    }
+                    else {
+
+                        if((component.get('v.isAuthorised') && obj.pe.Human_Id__c)){
+                             component.set('v.showMedicalCard',true);
+                        }
+                    }
+                }
+                else{
+                    component.set('v.showMedicalCard',false);
+                }
             
             component.find('spinner').hide();
         }
