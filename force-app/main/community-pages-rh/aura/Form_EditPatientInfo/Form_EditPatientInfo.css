@@ -1,23 +1,23 @@
 /**
- * Created by Leonid Bartenev
- */ 
- .THIS .tooltip {
+* Created by Leonid Bartenev
+*/ 
+
+.THIS .tooltip {
     position: relative;
-    display: inline-block;
+   /* display: inline-block; */
+    cursor: pointer;
 }
 
-.THIS  .tooltip .tooltiptext {
+.THIS  .tooltip .tooltiptext {  
     visibility: hidden;
-    width: 400px;
-    background-color: white;
-    color: grey;
+    background-color: #000459;
+    top: -18px !important;
+    color: white;
     text-align: center;
-    z-index: 1;
-    top: -16px;
-    display: inline-block;
+    border-radius: 6px;    
+    /* Position the tooltip */
     position: absolute;
-    border: 1px solid #777777;
-    text-decoration: none;
+    z-index: 1;
 }
 .THIS  .tooltip:hover .tooltiptext {
     visibility: visible;
@@ -32,15 +32,14 @@
 .THIS  .tooltip .tooltiptext_DaytimeTelephoneNumber {
     visibility: hidden;
     width: 220px;
-    background-color: white;
-    color: grey;
+    background-color: #000459;
+    top: -18px !important;
+    color: white;
     text-align: center;
-    z-index: 1;
-    top: -16px;
-    display: inline-block;
+    border-radius: 6px;    
+    /* Position the tooltip */
     position: absolute;
-    border: 1px solid #777777;
-    text-decoration: none;
+    z-index: 1;
 }
 .THIS  .tooltip:hover .tooltiptext_DaytimeTelephoneNumber {
     visibility: visible;
@@ -53,7 +52,15 @@
     overflow: hidden;
 }
 
- .THIS .rr-form-element + .rr-form-element {
+/*
+.THIS .textoverlap:hover
+{
+text-overflow: clip;
+white-space: normal;
+word-break: break-all;
+}*/
+
+.THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
     margin-bottom: 25px;
 }
@@ -84,7 +91,7 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right {
-  /* @noflip */   margin-right: 83%;
+    /* @noflip */   margin-right: 83%;
 }
 .THIS .rr-form-element {
     margin-bottom: 25px;
@@ -144,7 +151,7 @@
     .THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
         margin-top: 30px;
     }
-
+    
     .THIS .ap-section > .slds-grid.rr-form-element .slds-size--2-of-10 {
         min-width: 50%;
     }
