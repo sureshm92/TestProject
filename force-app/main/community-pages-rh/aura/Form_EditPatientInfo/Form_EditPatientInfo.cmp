@@ -560,8 +560,7 @@
                         
                         
                       
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" 
-                         style="{!v.isRTL? '':'padding-left: 140px;'}">
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label" >
                             <abbr
                                   title="required"
