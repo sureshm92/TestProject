@@ -165,12 +165,6 @@
         <type>Text</type>
     </nameField>
     <pluralLabel>Recurring Tasks</pluralLabel>
-    <profileSearchLayouts>
-        <fields>NAME</fields>
-        <fields>Status__c</fields>
-        <fields>Is_Recurrence__c</fields>
-        <profileName>Solution Manager</profileName>
-    </profileSearchLayouts>
     <searchLayouts>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Is_Recurrence__c</searchResultsAdditionalFields>
