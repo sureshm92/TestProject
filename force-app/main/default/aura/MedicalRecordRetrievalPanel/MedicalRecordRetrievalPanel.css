@@ -1,0 +1,28 @@
+.THIS {
+}
+
+
+.THIS  table {
+  text-align: left;
+  position: relative;
+}
+
+.THIS  th {
+  background: white;
+  position: sticky;
+  top: 0;
+}
+.THIS #managerTable {
+    max-height: 217px;
+    overflow: auto;
+}
+.THIS th {
+    height: 43px;
+    background-color: #f8f9fb;
+    padding: 4px 10px;
+}
+.THIS td {
+    color: #595959;
+    padding: 2px 10px;
+    height: 36px;
+}
