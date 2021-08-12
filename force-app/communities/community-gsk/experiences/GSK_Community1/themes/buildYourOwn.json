@@ -9,6 +9,7 @@
     "Inner" : "f251d38b-a35e-4ea2-96dd-36ca5648ae52",
     "Login" : "ee99e783-d45e-4f91-96c7-7a4159257c3c",
     "SA5JeBLOhd1XVYB3yBxmzPI0fAi0Q3" : "af24aa25-3e5f-4418-af31-cd0a6daff2b9",
+    "ServiceNotAvailable" : "94cf8d35-c9df-41f9-9370-6634af022361",
     "ozuSDwdQosdsrJXORMI3vfvrRYnlCq" : "a3bdb15f-93e2-4da0-984d-923b3845b9bd",
     "rE1of1xqTlH5cvDXdK9VgVCmK0EF9S" : "b31f9c2f-a650-4b43-8b75-29d6e7199422",
     "vlFHBpLpECaLjImgddfCXjWzZHN1T2" : "a461dae1-a757-466e-839a-f6bfbd72bf81"
@@ -25,8 +26,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -96,8 +97,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -167,8 +168,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -238,8 +239,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -309,8 +310,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -380,8 +381,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -451,8 +452,8 @@
           "maxAutoCompleteResults" : 5,
           "searchLabel" : "Search...",
           "searchObjects" : [ {
-            "name" : "Account",
-            "isPublic" : true
+            "isPublic" : true,
+            "name" : "Account"
           } ]
         },
         "componentName" : "forceCommunity:globalSearchInput",
@@ -508,6 +509,29 @@
     }, {
       "id" : "42219f39-e3a5-4f10-98ec-59049c62670c",
       "regionName" : "sidebarFooter",
+      "type" : "region"
+    } ],
+    "type" : "view"
+  }, {
+    "componentAttributes" : {
+      "fixedPageWidth" : 1170,
+      "headerBgColor" : "rgba(0, 0, 0, 0)",
+      "isHeaderPinned" : false,
+      "isHeroUnderHeader" : false,
+      "isPageWidthFixed" : true,
+      "showHeader" : true,
+      "showHero" : true
+    },
+    "componentName" : "siteforce:themeLayoutStarter",
+    "id" : "94cf8d35-c9df-41f9-9370-6634af022361",
+    "label" : "ServiceNotAvailable",
+    "regions" : [ {
+      "id" : "61681ae4-7eb6-4ffa-ba19-e5aae6bc9066",
+      "regionName" : "themeHeader",
+      "type" : "region"
+    }, {
+      "id" : "e5402ccf-81a1-4a52-b3a0-4b138f30b08d",
+      "regionName" : "themeFooter",
       "type" : "region"
     } ],
     "type" : "view"
