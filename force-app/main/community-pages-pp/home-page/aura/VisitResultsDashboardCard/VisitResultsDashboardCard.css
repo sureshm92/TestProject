@@ -154,9 +154,7 @@
 }
 .THIS .visit-results-containerRTL {
     display: flex;
-    padding: 15px 0;
-    padding-left: 15px;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 @media all and (max-width: 500px) {
