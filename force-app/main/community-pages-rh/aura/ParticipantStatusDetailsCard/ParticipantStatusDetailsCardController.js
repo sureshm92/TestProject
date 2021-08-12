@@ -54,9 +54,9 @@
                 var historyList = [];
                 var obj = {}; 
                 for (var i = 0; i < contactHistorysize; i++) {
-                   
+
                     if(contactHistory[i].isAdditionalNote){
-                       
+
                         var str = contactHistory[i].detail;
                         var month = str.substring(4, 7);
                        
@@ -171,6 +171,83 @@
                         objz = {};
                     }
                     
+                }
+                var histories = component.get('v.stepWrapper').historyList;
+                var historiesSize = histories.length;
+                
+                for(var i = 0; i < historiesSize; i++) {
+                    if(histories[i].isAdditionalNote){
+                        var str = histories[i].detail;
+                        var month = str.substring(4, 7);
+                       
+                        if(month == 'Jan')
+                        {
+                            month='01';
+                        }else if(month == 'Feb'){
+                            month='02';
+                        }else if(month == 'Mar'){
+                            month='03';
+                        }else if(month == 'Apr'){
+                            month='04';
+                        }else if(month == 'May'){
+                            month='05';
+                        }else if(month == 'Jun'){
+                            month='06';
+                        }else if(month == 'Jul'){
+                            month='07';
+                        }else if(month == 'Aug'){
+                            month='08';
+                        }else if(month == 'Sep'){
+                            month='09';
+                        }else if(month == 'Oct'){
+                            month='10';
+                        }else if(month == 'Nov'){
+                            month='11';
+                        }else if(month == 'Dec'){
+                            month='12';
+                        }
+                        var dt = str.substring(8, 10);
+                       
+                        var yr = str.substring(11, 15);
+                        
+                        var hr = str.substring(17, 19);
+                       
+                        var mn = str.substring(20, 22);
+                       
+                        var ampm = str.substring(23, 26);
+                       
+                        let ap = ampm;
+                        
+                        if(ap.includes("A")){
+                            if(hr == '12'){ hr ='00';}       
+                        }else{
+                            if(hr == '1' || hr == '01'){
+                                hr ='13';}else if(hr == '2' || hr == '02'){
+                                    hr ='14';}else if(hr == '3' || hr == '03'){
+                                        hr ='15';}else if(hr == '4' || hr == '04'){
+                                            hr ='16';}else if(hr == '5' || hr == '05'){
+                                                hr ='17';}else if(hr == '6' || hr == '06'){
+                                                    hr ='18';}else if(hr == '7' || hr == '07'){
+                                                        hr ='19';}else if(hr == '8' || hr == '08'){
+                                                            hr ='20';}else if(hr == '9' || hr == '09'){
+                                                                hr ='21';}else if(hr == '10' || hr == '010'){
+                                                                    hr ='22';}else if(hr == '11' || hr == '011'){
+                                                                        hr ='23';}
+                        }
+                        var finaldt=yr+'-'+month+'-'+dt+'T'+hr+':'+mn+':00.000Z';
+                       
+                        var createby = str.substring(28, str.length);
+                        
+                        objz.detailDate =finaldt; 
+                        objz.createdBy = createby;
+                        objz.title = histories[i].title;
+                        objz.string = true;
+                        historyListz.push(objz);
+                        objz = {};                        
+                    }else{
+                        
+                        historyListz.push(histories[i]);
+                    }
                 }
                 
                 historyListz.sort(function(a,b){
