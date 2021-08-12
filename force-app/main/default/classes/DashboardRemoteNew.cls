@@ -286,6 +286,7 @@ public without sharing class DashboardRemoteNew {
                         piId = currentContactId;
                     }
                 }
+                Set<Id> sStaffPIIds = new Set<Id>();
                 for (Site_Staff__c sStaff : [
                     SELECT
                         Id,
@@ -300,8 +301,10 @@ public without sharing class DashboardRemoteNew {
                         sStaff.Study_Site__r.Principal_Investigator__c,
                         sStaff.Study_Site__r.Principal_Investigator__r.Name
                     );
+                    sStaffPIIds.add(sStaff.Study_Site__r.Principal_Investigator__c);
                     delegateSSIds.add(sStaff.Study_Site__c);
                 }
+                delegatePIsMap.putAll(ParticipantWorkflowService.getPIContactNames(sStaffPIIds));
                 Id pi_Id;
                 if (action == 'Init') {
                     if (!delegatePIsMap.isEmpty()) {

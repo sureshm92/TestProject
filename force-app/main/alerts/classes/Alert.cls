@@ -87,15 +87,21 @@ public class Alert {
         }
 
         String userName = [SELECT FirstName, LastName FROM Contact WHERE Id = :contactId].LastName; //REF-3110 Updated by Sumit Surve
-        if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
+        //if (userMode == CommunityService.USER_MODE_PARTICIPANT) {
             List<Participant__c> participants = [
-                SELECT Id, First_Name__c
+                SELECT Id, First_Name__c,Last_Name__c
                 FROM Participant__c
                 WHERE Contact__c = :contactId
             ];
-            if (!participants.isEmpty())
+        if (!participants.isEmpty()){
+            if(userMode == CommunityService.USER_MODE_PARTICIPANT){
                 userName = participants.get(0).First_Name__c;
+            }else{
+                userName = participants.get(0).Last_Name__c;
+            }
         }
+                
+        //}
         List<Alert> resultList = new List<Alert>();
         for (Alert__c dbAlert : dbAlerts) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();
