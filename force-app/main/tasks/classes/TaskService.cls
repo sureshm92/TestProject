@@ -605,7 +605,12 @@ public without sharing class TaskService {
         public Id whatId;
         @AuraEnabled
         public Id whoId;
-
+        @AuraEnabled
+        public Boolean isRecurrence = false;
+        @AuraEnabled
+        public String recurrenceFrequency;
+        @AuraEnabled
+        public Integer reminderDays;
         public TaskConfig() {
         }
 
