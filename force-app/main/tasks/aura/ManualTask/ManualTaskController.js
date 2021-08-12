@@ -16,6 +16,9 @@
 
         component.set('v.recurrenceFrequency', val);
     },
+    resetTaskValues: function(component, event, helper) {
+        component.set('v.dayRemind', 0);
+    },
     checkRecurrence: function(component, event, helper) {
         console.log('checkRecurrence');
         let startDate = component.get('v.taskConfig.startDate');
@@ -26,30 +29,40 @@
         console.log('diff: ' + dueDate.diff(startDate, 'days'));
         let diffInDays = dueDate.diff(startDate, 'days');
         if (reccFrequency == 'Weekly' && diffInDays < 7) {
+            component.set('v.isValid', false);
+            component.set('v.isValid', false);
+            component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
                 '\n' + 'Cannot set weekly task for these dates',
-                5000
+                10000
             );
-            return;
         } else if (reccFrequency == 'Monthly' && diffInDays < 31) {
+            component.set('v.isValid', false);
+            component.set('v.isValid', false);
+            component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
                 '\n' + 'Cannot set monthly task for these dates',
-                5000
+                10000
             );
-            return;
         } else if (reccFrequency == 'Yearly' && diffInDays < 366) {
+            component.set('v.isValid', false);
+            component.set('v.isValid', false);
+            component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
                 '\n' + 'Cannot set yearly task for these dates',
-                5000
+                10000
             );
-            return;
+        } else {
+            var a = component.get('c.doCheckFields');
+            $A.enqueueAction(a);
         }
+        console.log('isValid: ' + component.get('v.isValid'));
     },
     doCheckFields: function(component, event, helper) {
         let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {
