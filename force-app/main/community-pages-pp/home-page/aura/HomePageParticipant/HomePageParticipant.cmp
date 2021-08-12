@@ -9,12 +9,15 @@
 >
     <!-- attributes: -->
     <aura:attribute name="participantState" type="Object" />
-    <aura:attribute name="showMedicalCard" type="Boolean" default="false"/>
+    <aura:attribute name="showMedicalCard" type="Boolean" default="true"/>
     <aura:attribute name="showTrialSearch" type="Boolean" default="false" access="private" />
     <aura:attribute name="initialized" type="Boolean" />
+    <aura:attribute name="hasAuthorized" type="Boolean"/>
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <!--<aura:handler name="providersAuthorizedEvent" event="c:ProvidersAuthorizedEvent"
+        action="{!c.handleAuthorizationEvent}"/>-->
 
     <!-- component body: -->
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
@@ -93,12 +96,12 @@
                                 />
                             </div>
                             <aura:if
-                                isTrue="{!v.showMedicalCard}"
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.participantState.value == 'ALUMNI')}"
                             >
                             <div class="slds-col">
                                 <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}"/>
                             </div>
-                            </aura:if>
+                           </aura:if>
                             <aura:if
                                 isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}"
                             >
