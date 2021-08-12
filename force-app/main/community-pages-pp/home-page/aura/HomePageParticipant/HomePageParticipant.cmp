@@ -96,7 +96,7 @@
                                 />
                             </div>
                             <aura:if
-                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.participantState.value == 'ALUMNI')}"
+                                isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c}"
                             >
                             <div class="slds-col">
                                 <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}"/>

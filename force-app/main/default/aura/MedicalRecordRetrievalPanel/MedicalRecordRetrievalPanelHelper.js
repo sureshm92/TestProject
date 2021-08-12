@@ -94,20 +94,14 @@
             },
             onConnectSource : function(response) {
                 
-               // self.listProviders(component);
-              /** communityService.executeAction(
-                    component,
-                    'getAccessToken',{},          
-                    function (returnValue) {
-                        console.log('returnValuesssss',returnValue);
-                        component.set('v.accessToken',returnValue);
-                        
-                        //self.listProviders(component);
-                    }
-                );   **/
+              var results = response.sessionResults;
+                var results = response.sessionResults;
+                component.set("v.success",results.connectedSources);     
             },
             onDisconnectSource : function(response) {
-               // self.listProviders(component);
+               var results = response.sessionResults;
+                var results = response.sessionResults;
+                component.set("v.success",results.connectedSources);     
             }
         });
         
