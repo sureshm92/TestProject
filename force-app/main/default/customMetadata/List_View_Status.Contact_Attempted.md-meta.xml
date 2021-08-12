@@ -4,7 +4,7 @@
     <protected>false</protected>
     <values>
         <field>Available_Statuses__c</field>
-        <value xsi:type="xsd:string">Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received,Sent to Study Hub</value>
+        <value xsi:type="xsd:string">Pre-review Failed,Successfully Contacted,Unable to Reach,Contacted - Not Suitable,Pre-review Passed,Received</value>
     </values>
     <values>
         <field>Initial_Visit__c</field>
