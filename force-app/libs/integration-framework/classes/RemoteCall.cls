@@ -25,6 +25,7 @@ public abstract class RemoteCall {
     protected abstract Object parseResponse(String responseBody);
 
     public Object execute() {
+        System.debug('endPointURL::::'+endPointURL);
         if (endPointURL == null)
             throw new RemoteCallException('Endpoint URL can not be null');
         System.debug('METHOD: ' + httpMethod + ', ENDPOINT: ' + endPointURL);
@@ -34,6 +35,7 @@ public abstract class RemoteCall {
         req.setEndpoint(endPointURL);
         for (String headerName : headersMap.keySet()) {
             req.setHeader(headerName, headersMap.get(headerName));
+            System.debug('headerName::::'+headerName+'value::::'+headersMap.get(headerName));
         }
         req.setTimeout(timeout);
         Datetime requestDT = Datetime.now();

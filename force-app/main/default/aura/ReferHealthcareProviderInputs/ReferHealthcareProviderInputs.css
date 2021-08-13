@@ -13,20 +13,21 @@
 .THIS .tooltip {
     position: relative;
     display: inline-block;
+	cursor: pointer;
+
 }
 
 .THIS  .tooltip .tooltiptext {
-    visibility: hidden;
     width: 400px;
-    background-color: white;
-    color: grey;
+     visibility: hidden;
+    background-color: #000459;
+	top: -18px !important;
+    color: white;
     text-align: center;
-    z-index: 1;
-    top: -16px;
-    display: inline-block;
+    border-radius: 6px;    
+    /* Position the tooltip */
     position: absolute;
-    border: 1px solid #777777;
-    text-decoration: none;
+    z-index: 1;
 }
 
 .THIS  .tooltip .tooltiptext .Test {
@@ -48,15 +49,14 @@
 .THIS  .tooltip .tooltiptextFNLN {
     visibility: hidden;
     width: 220px;
-    background-color: white;
-    color: grey;
+    background-color: #000459;
+	top: -18px !important;
+    color: white;
     text-align: center;
-    z-index: 1;
-    top: -16px;
-    display: inline-block;
+    border-radius: 6px;    
+    /* Position the tooltip */
     position: absolute;
-    border: 1px solid #777777;
-    text-decoration: none;
+    z-index: 1;
 }
 .THIS .textoverlap_FN
 {
