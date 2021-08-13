@@ -38,6 +38,7 @@ export default class MessageBoardHeader extends LightningElement {
 
     @api userMode;
     @api enrollments;
+    @api piContactNames;
     @api selectedEnrollment;
     @api isMultipleMode;
     @api isPastStudy;
@@ -60,7 +61,7 @@ export default class MessageBoardHeader extends LightningElement {
             this.fullName =
                 this.userMode === 'PI'
                     ? this.selectedEnrollment.Participant__r.Full_Name__c
-                    : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+                    : this.piContactNames != undefined && (this.piContactNames[this.selectedEnrollment.Study_Site__r.Principal_Investigator__c] != undefined) ? this.piContactNames[this.selectedEnrollment.Study_Site__r.Principal_Investigator__c] : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
         } else {
             this.fullName = '';
         }
@@ -71,13 +72,11 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     renderedCallback() {
-      
-            
         if (this.selectedEnrollment) {
             this.fullName =
                 this.userMode === 'PI'
                     ? this.selectedEnrollment.Participant__r.Full_Name__c
-                    : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
+                    : this.piContactNames != undefined && (this.piContactNames[this.selectedEnrollment.Study_Site__r.Principal_Investigator__c] != undefined) ? this.piContactNames[this.selectedEnrollment.Study_Site__r.Principal_Investigator__c] : this.selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name;
         }
     }
 

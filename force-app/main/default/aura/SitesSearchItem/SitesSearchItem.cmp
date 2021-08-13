@@ -19,8 +19,13 @@
             <div class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3">
                 <div class="ssi-site-name">{!v.studySiteWrapper.site.Name}</div>
                 <div class="ssi-pi-name">
-                    {!v.studySiteWrapper.site.Principal_Investigator__r.Salutation + ' ' +
-                    v.studySiteWrapper.site.Principal_Investigator__r.Name}
+                    <aura:if isTrue="{!or(v.studySiteWrapper.piName==null,v.studySiteWrapper.piName==undefined)}">
+                        {!v.studySiteWrapper.site.Principal_Investigator__r.Salutation + ' ' +
+                        v.studySiteWrapper.site.Principal_Investigator__r.Name}
+                        <aura:set attribute = "else">
+                            {!v.studySiteWrapper.piName}
+                        </aura:set>
+                    </aura:if>
                 </div>
             </div>
             <div class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3">

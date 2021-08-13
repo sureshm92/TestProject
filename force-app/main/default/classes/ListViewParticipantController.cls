@@ -968,7 +968,7 @@ public without sharing class ListViewParticipantController {
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                               if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success') && pe.Screening_ID__c  ==null){
+                               if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success')&& pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -998,7 +998,7 @@ public without sharing class ListViewParticipantController {
                            if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                                if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success' ) && pe.Screening_ID__c  ==null){
+                                if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success' )&& pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}

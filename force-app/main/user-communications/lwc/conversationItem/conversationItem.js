@@ -15,6 +15,7 @@ export default class ConversationItem extends LightningElement {
     @api userMode;
     @track attachColor = '#000';
     @track isSelected = false;
+    @api piContactNames;
 
     @api
     setSelectedMode(selected) {
@@ -43,7 +44,8 @@ export default class ConversationItem extends LightningElement {
         if (this.item.unread) {
             markRead({
                 conversation: this.item.conversation,
-                isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+                isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
+                piContactNames: piContactNames
             })
                 .then((data) => {
                     try {

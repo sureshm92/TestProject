@@ -300,7 +300,7 @@ public without sharing class ParticipantWorkflowService {
                 wrapper.sendToSHDate
             );
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
-
+           
             if (
                 stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS ||
                 stepWrapper.state == PEStatusState.STATUS_STATE_IN_PROGRESS ||
@@ -311,7 +311,7 @@ public without sharing class ParticipantWorkflowService {
                 if (!wrapper.steps.isEmpty()) {
                     wrapper.steps[wrapper.steps.size() - 1].editable = false;
                 }
-            }
+                }
             wrapper.steps.add(stepWrapper);
             currentStepInd++;
         }
@@ -489,6 +489,50 @@ public without sharing class ParticipantWorkflowService {
     ) {
         ParticipantWorkflowStepWrapper stepWrapper = new ParticipantWorkflowStepWrapper();
         stepWrapper.title = TranslateHelper.getLabelValue(step.Name_Label__c);
+        
+        //REF-4546
+        stepWrapper.stepName = step.DeveloperName;
+        if(stepWrapper.stepName == 'Contact'){
+            List<Participant_Enrollment_Status_History__c> pehistory = [SELECT
+                Id,
+                Date__c,
+                Status__c,
+                Non_Enrollment_Reason__c,
+                Notes__c,
+                CreatedBy.Name,
+                Additional_Notes__c,
+                ParticipantEnrollment__r.Referral_Source__c,
+                ParticipantEnrollment__r.Referral_Completedby_Name__c,
+                ParticipantEnrollment__r.Source_Type__c,
+                ParticipantEnrollment__r.PI_Contact__r.Name,
+                CreatedBy.IsPortalEnabled,
+                CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
+            FROM Participant_Enrollment_Status_History__c
+            WHERE ParticipantEnrollment__c = :pe.Id and Backward_Bulk_Update__c=true
+            ORDER BY Date__c DESC];
+            
+            if(!pehistory.isEmpty()){
+            for(Participant_Enrollment_Status_History__c per: pehistory){
+                ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(per, step, pe);
+                if(per.Additional_Notes__c != null && per.Additional_Notes__c != ''){
+                    if (
+                        per.Additional_Notes__c.contains('####')
+                    ) {
+                        String addNotes = per.Additional_Notes__c.substringBefore('####');
+                        stepWrapper.historyList.addAll(createOnlyNotesHistoryWrapper(addNotes));
+                    } else {
+                        stepWrapper.historyList.addAll(
+                            createOnlyNotesHistoryWrapper(per.Additional_Notes__c)
+                        );
+                    }
+                }
+                
+                    stepWrapper.historyList.add(historyWrapper);
+                
+            }
+            }
+        }
+        //
         stepWrapper.cardTitle = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
         stepWrapper.historyTitle = TranslateHelper.getLabelValue(step.History_Label__c);
         stepWrapper.outcomePlaceholder = String.isBlank(step.Outcome_Placeholder_Label__c)
@@ -779,6 +823,14 @@ public without sharing class ParticipantWorkflowService {
         Participant_Enrollment_Status_History__c pesh,
         Participant_Workflow_Step__mdt step,
         Participant_Enrollment__c pe
+) {
+     return createHistoryWrapper(pesh,step,pe,null); 
+}
+    private static ParticipantWorkflowHistoryWrapper createHistoryWrapper(
+        Participant_Enrollment_Status_History__c pesh,
+        Participant_Workflow_Step__mdt step,
+        Participant_Enrollment__c pe,
+        Map<Id,String> piContactNames
     ) {
         ParticipantWorkflowHistoryWrapper historyWrapper = new ParticipantWorkflowHistoryWrapper();
         String statusString = TranslateHelper.getPickListLabel(
@@ -849,8 +901,10 @@ public without sharing class ParticipantWorkflowService {
                 ? (pesh.ParticipantEnrollment__r.Source_Type__c ==
                       ParticipantEnrollmentService.PE_SOURCE_TYPE_EPR
                       ? pesh.ParticipantEnrollment__r.Source_Type__c
-                      : pesh.ParticipantEnrollment__r.PI_Contact__r.Name)
-                : pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
+                      : piContactNames!=null && piContactNames.containsKey(pesh.ParticipantEnrollment__r.PI_Contact__c)
+                   		? piContactNames.get(pesh.ParticipantEnrollment__r.PI_Contact__c)
+                   		: pesh.ParticipantEnrollment__r.PI_Contact__r.Name)
+               : pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail =
                 ' ' +
                 TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c)
@@ -1626,6 +1680,8 @@ public without sharing class ParticipantWorkflowService {
             }
             studyStepsList.put(ctp.Id, stepList);
         }
+        List<Id> piContacts = new List<Id>();
+        Map<Id,String> piContactNames = new Map<Id,String>();
         Map<Id, Map<String, Participant_Enrollment_Status_History__c>> lastHistoryByStepMap = new Map<Id, Map<String, Participant_Enrollment_Status_History__c>>();
         for (Participant_Enrollment_Status_History__c pesh : [
             SELECT
@@ -1638,6 +1694,7 @@ public without sharing class ParticipantWorkflowService {
                 ParticipantEnrollment__r.Referral_Source__c,
                 ParticipantEnrollment__r.Referral_Completedby_Name__c,
                 ParticipantEnrollment__r.Source_Type__c,
+            	ParticipantEnrollment__r.PI_Contact__c,
                 ParticipantEnrollment__r.PI_Contact__r.Name,
                 CreatedBy.IsPortalEnabled,
                 CreatedBy.contact.userCommunityMode__c,Backward_Bulk_Update__c
@@ -1645,6 +1702,7 @@ public without sharing class ParticipantWorkflowService {
             WHERE ParticipantEnrollment__c IN :peIds and Backward_Bulk_Update__c=false
             ORDER BY Date__c DESC
         ]) {
+            piContacts.add(pesh.ParticipantEnrollment__r.PI_Contact__c);
             if (!lastHistoryByStepMap.containsKey(pesh.ParticipantEnrollment__c)) {
                 lastHistoryByStepMap.put(
                     pesh.ParticipantEnrollment__c,
@@ -1662,6 +1720,7 @@ public without sharing class ParticipantWorkflowService {
                 }
             }
         }
+        piContactNames = getPIContactNames(piContacts);
         for (ParticipantItem pi : participantItems) {
             pi.pathItems = new List<ParticipantWorkflowService.PathStepWrapper>();
             if (lastHistoryByStepMap.containsKey(pi.pe.Id)) {
@@ -1676,8 +1735,9 @@ public without sharing class ParticipantWorkflowService {
                         lastHistoryByStepMap.get(pi.pe.Id).get(step.DeveloperName),
                         step,
                         outcomesMap,
-                        previousStep
-                    );
+                        previousStep,
+                        piContactNames
+                   );
                     pi.pathItems.add(currentStep);
                     previousStep = currentStep;
                 }
@@ -1685,13 +1745,81 @@ public without sharing class ParticipantWorkflowService {
         }
     }
 
+    public static Map<Id,Participant__c> getPIContactNameDetails(Set<Id> piContactIds){
+        Map<Id,Participant__c> piContactDetails = new Map<Id,Participant__c>();
+        for(Participant__c partPIContact : [SELECT Id,Contact__c,Salutation__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN : piContactIds]){
+           piContactDetails.put(partPIContact.Contact__c,partPIContact);
+        }
+        return piContactDetails;
+    }
+
+    public static Map<Id,String> getContactFullNamesFromParticipants(Set<Id> piContactIds){
+        Map<Id,String> piContactNames = new Map<Id,String>();
+        for(Participant__c partPIContact : [SELECT Id,Contact__c,Full_Name__c FROM Participant__c WHERE Contact__c IN : piContactIds]){
+            piContactNames.put(partPIContact.Contact__c,partPIContact.Full_Name__c);
+        }
+        return piContactNames;
+    }
+	
+    public static Map<Id,String> getPIContactNames(Set<Id> piContactIds){
+        Map<Id,String> piContactNames = new Map<Id,String>();
+        for(Participant__c partPIContact : [SELECT Id,Contact__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN : piContactIds]){
+            String partName;
+            if(partPIContact.First_Name__c!=null){
+                partName = partName==null?partPIContact.First_Name__c : partName + ' ' + partPIContact.First_Name__c;
+            }
+            if(partPIContact.Middle_Name__c!=null){
+                partName = partName==null?partPIContact.Middle_Name__c : partName + ' ' + partPIContact.Middle_Name__c;
+            }
+            if(partPIContact.Last_Name__c!=null){
+                partName = partName==null?partPIContact.Last_Name__c : partName + ' ' + partPIContact.Last_Name__c;
+            }
+            if(partPIContact.Suffix__c!=null){
+                partName = partName==null?partPIContact.Suffix__c : partName + ' ' + partPIContact.Suffix__c;
+            }
+            piContactNames.put(partPIContact.Contact__c,partName);
+        }
+        return piContactNames;
+    }
+
+    public static Map<Id,String> getPIContactNames(List<Id> in_piContactIds){
+        Set<Id> piContactIds = new Set<Id>();
+        piContactIds.addAll(in_piContactIds);
+        return getPIContactNames(piContactIds);
+    }
+    
+    public static Map<Id,String> getPIContactSalutationAndNames(Set<Id> piContactIds){
+        Map<Id,String> piContactNames = new Map<Id,String>();
+        for(Participant__c partPIContact : [SELECT Id,Contact__c,Salutation__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN : piContactIds]){
+            String partName;
+            if(partPIContact.Salutation__c!=null){
+                partName = partPIContact.Salutation__c;
+            }
+            if(partPIContact.First_Name__c!=null){
+                partName = partName==null?partPIContact.First_Name__c : partName + ' ' + partPIContact.First_Name__c;
+            }
+            if(partPIContact.Middle_Name__c!=null){
+                partName = partName==null?partPIContact.Middle_Name__c : partName + ' ' + partPIContact.Middle_Name__c;
+            }
+            if(partPIContact.Last_Name__c!=null){
+                partName = partName==null?partPIContact.Last_Name__c : partName + ' ' + partPIContact.Last_Name__c;
+            }
+            if(partPIContact.Suffix__c!=null){
+                partName = partName==null?partPIContact.Suffix__c : partName + ' ' + partPIContact.Suffix__c;
+            }
+            piContactNames.put(partPIContact.Contact__c,partName);
+        }
+        return piContactNames;
+    }
+    
     private static PathStepWrapper createPathStepWrapper(
         Participant_Enrollment__c pe,
         Participant_Enrollment_Status_History__c pesh,
         Participant_Workflow_Step__mdt step,
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> outcomesMap,
-        PathStepWrapper previousStep
-    ) {
+        PathStepWrapper previousStep,
+        Map<Id,String> piContactNames
+   ) {
         PathStepWrapper result = new PathStepWrapper();
         if (pesh != null) {
             result.title = TranslateHelper.getPickListLabel(
@@ -1716,7 +1844,7 @@ public without sharing class ParticipantWorkflowService {
             result.isCurrent = pe.Participant_Status__c == pesh.Status__c;
             result.right = PEStatusState.STATUS_STATE_NEUTRAL;
             result.stepHistory = new List<ParticipantWorkflowService.ParticipantWorkflowHistoryWrapper>();
-            ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step, pe);
+            ParticipantWorkflowHistoryWrapper historyWrapper = createHistoryWrapper(pesh, step, pe, piContactNames);
             result.stepHistory.add(historyWrapper);
         } else {
             result.title = TranslateHelper.getLabelValue(step.Card_Name_Label__c);
@@ -1880,10 +2008,15 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public List<DateTime> fovCreateddate;
         @AuraEnabled
-        public List<String> fovCreatedby;         
+        public List<String> fovCreatedby;       
     }
-
     public class ParticipantWorkflowStepWrapper {
+        //
+        @AuraEnabled
+        public list<ParticipantWorkflowHistoryWrapper> historyList = new list<ParticipantWorkflowHistoryWrapper>();
+		@AuraEnabled
+        public String stepName;
+        //
         @AuraEnabled
         public String title;
         @AuraEnabled

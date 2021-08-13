@@ -41,11 +41,13 @@ public class Test_ManualTaskFilter {
         manualTaskFilter.statuses.add('Referred');
 
         testPEs = manualTaskFilter.getContactsWithPE().get(td.participant.Contact__c);
+        TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
+        taskConfig.visibility ='Delegates';
         filterResult = manualTaskFilter.filterTherapeutic();
         filteredCountryCodes = manualTaskFilter.getCountryCode();
         manualTaskFilter.isPlatformLevel = true;
-        manualTaskFilter.getContactsWithWhatIds();
-        manualTaskFilter.getContactsWithParticipantIds();
+        manualTaskFilter.getContactsWithWhatIds(taskConfig);
+        manualTaskFilter.getContactsWithParticipantIds(taskConfig.visibility);
         Test.stopTest();
 
         System.assertEquals('US', testPEs[0].Participant__r.Mailing_Country_Code__c);
