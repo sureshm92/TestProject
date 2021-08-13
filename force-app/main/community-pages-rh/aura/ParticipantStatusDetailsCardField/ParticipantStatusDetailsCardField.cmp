@@ -34,7 +34,7 @@
        </aura:if>
         <aura:if isTrue="{!v.field.type=='picklist'}">
             <div class="label tooltip">                                        
-                <div class=" textoverlap1">                   
+                <div class=" textoverlap">                   
                     <aura:if
                              isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}"
                              ><abbr title="required" class="slds-required">*</abbr></aura:if
@@ -42,7 +42,7 @@
                     v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
                     v.field.title)}
                 </div>
-                <span class="tooltiptext1">{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
+                <span class="tooltiptext">{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
                     v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
                     v.field.title)}</span>
                 
@@ -63,8 +63,8 @@
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">               
             	<div class="label2 tooltip">{!v.field.title}                              
-                    <div class=" textoverlap1">
-                        <span class="tooltiptext1">{!v.field.title}</span>
+                    <div class=" textoverlap">
+                        <span class="tooltiptext">{!v.field.title}</span>
                     </div>
                 </div>
                     <lightning:input

@@ -29,53 +29,27 @@
     display: inline-block;
     cursor: pointer;
 }
-.THIS .textoverlap
-{
+.THIS .textoverlap{
     width: 12rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
-.THIS  .tooltip .tooltiptext {
-    visibility: hidden;
-    width: 300px;
-    background-color: #000459;
-    top: -15px !important;
-    color: white;
-    text-align: center;
-    z-index: 1;
-    display: inline-block;
-    position: absolute;
-    border: 1px solid #777777;
-    text-decoration: none;
-}
 .THIS  .tooltip:hover .tooltiptext {
     visibility: visible;
 }
-.THIS .textoverlap1
-{
-    width: 18rem;
-    text-overflow: ellipsis;
-    white-space: nowrap;
-    overflow: hidden;
-}
-.THIS  .tooltip .tooltiptext1 {
+.THIS  .tooltip .tooltiptext {
     visibility: hidden;
-    width: 200px;
+    /* width: 200px; */
     background-color: #000459;
-    top: -15px !important;
+    top: -15px!important;
     color: white;
     text-align: center;
-    border-radius: 6px;    
-    /* Position the tooltip */
+    border-radius: 6px;
     position: absolute;
     z-index: 1;
+    padding: 8px 0px;
 }
-.THIS  .tooltip:hover .tooltiptext1 {
-    visibility: visible;
-}
-
-
 @media screen and (max-width: 768px) {
     .THIS.form-field {
         min-width: 100%;
