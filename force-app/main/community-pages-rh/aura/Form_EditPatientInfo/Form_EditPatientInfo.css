@@ -1,8 +1,66 @@
 /**
- * Created by Leonid Bartenev
- */ 
+* Created by Leonid Bartenev
+*/ 
 
- .THIS .rr-form-element + .rr-form-element {
+.THIS .tooltip {
+    position: relative;
+   /* display: inline-block; */
+    cursor: pointer;
+}
+
+.THIS  .tooltip .tooltiptext {  
+    visibility: hidden;
+    background-color: #000459;
+    top: -18px !important;
+    color: white;
+    text-align: center;
+    border-radius: 6px;    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.THIS  .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.THIS .textoverlap
+{
+    width: 16rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS  .tooltip .tooltiptext_DaytimeTelephoneNumber {
+    visibility: hidden;
+    width: 220px;
+    background-color: #000459;
+    top: -18px !important;
+    color: white;
+    text-align: center;
+    border-radius: 6px;    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.THIS  .tooltip:hover .tooltiptext_DaytimeTelephoneNumber {
+    visibility: visible;
+}
+.THIS .textoverlap_DaytimeTelephoneNumber
+{
+    width: 13rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+
+/*
+.THIS .textoverlap:hover
+{
+text-overflow: clip;
+white-space: normal;
+word-break: break-all;
+}*/
+
+.THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
     margin-bottom: 25px;
 }
@@ -33,7 +91,7 @@
     line-height: inherit !important;
 }
 .THIS .rightAlign .slds-input__icon_right {
-  /* @noflip */   margin-right: 83%;
+    /* @noflip */   margin-right: 83%;
 }
 .THIS .rr-form-element {
     margin-bottom: 25px;
@@ -93,7 +151,7 @@
     .THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
         margin-top: 30px;
     }
-
+    
     .THIS .ap-section > .slds-grid.rr-form-element .slds-size--2-of-10 {
         min-width: 50%;
     }

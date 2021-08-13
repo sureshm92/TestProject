@@ -368,11 +368,13 @@
                         <div
                              class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                              >
-                            <div class="label">
-                                <aura:if isTrue="{!!v.participant.Adult__c}">  
-                                    <abbr title="required" class="slds-required">*</abbr
-                                        ></aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                            </div>
+                             <div class="label tooltip">
+                                <div class="textoverlap_DaytimeTelephoneNumber">                                    
+                                    <aura:if isTrue="{!!v.participant.Adult__c}">  
+                                        <abbr title="required" class="slds-required">*</abbr>
+                                    </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
+                                <span class="tooltiptext_DaytimeTelephoneNumber">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                </div>
                             <lightning:input
                                              aura:id="DelegatePhoneName" 
                                              type="text"
@@ -502,8 +504,8 @@
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
-                        <aura:if isTrue="{!v.isRTL}">
+                    <aura:if isTrue="{!v.isRTL}">
+                        <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                             <div class="label">
                                 <abbr
                                       title="required"
@@ -516,35 +518,45 @@
                                       >{!!v.needsGuardian ? '*' : ''}</abbr
                                     >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
                             </div>
-                            <aura:set attribute="else">
-                                <div class="label" style="width: 330px;">
-                                    <abbr
-                                          title="required"
-                                          style="
-                                                 {
-                                                 !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
-                                                 }
-                                                 "
-                                          class="slds-required"
-                                          >{!!v.needsGuardian ? '*' : ''}</abbr
-                                        >{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}
+                            <!-- REF-3070 Added disabled-->
+                            <lightning:input
+                                             type="text"
+                                             value="{!v.participant.Phone__c}"
+                                             required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                             disabled="{!!v.participant.Adult__c}"
+                                             onblur="{!c.doCheckFields}"
+                                             />
+                        </div>
+                        <aura:set attribute="else">
+                            <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
+                                
+                                <div class="label tooltip">                                        
+                                    <div class=" textoverlap">                                            
+                                        <abbr
+                                              title="required"
+                                              style="
+                                                     {
+                                                     !!v.participantdelegate||(v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c) ? '' : 'display: none';
+                                                     }
+                                                     "
+                                              class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>
+                                        {!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</div>
+                                    
+                                    <span class="tooltiptext">{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
                                 </div>
-                            </aura:set>
-                        </aura:if>
-                        
-                        
-                        <!-- REF-3070 Added disabled-->
-                        <lightning:input
-                                         type="text"
-                                         value="{!v.participant.Phone__c}"
-                                         required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
-                                         disabled="{!!v.participant.Adult__c}"
-                                         onblur="{!c.doCheckFields}"
-                                         style="width: 325px"
-                                         />
-                    </div>
-                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8" 
-                         style="{!v.isRTL? 'padding-right: 82px;':'padding-left: 82px;'}">
+                                <!-- REF-3070 Added disabled-->
+                                <lightning:input
+                                                 type="text"
+                                                 value="{!v.participant.Phone__c}"
+                                                 required="{!!v.needsGuardian &amp;&amp; (!v.participantDelegate || (v.participant.Adult__c &amp;&amp; !v.participant.Emancipation_in_progress__c))}"
+                                                 disabled="{!!v.participant.Adult__c}"
+                                                 onblur="{!c.doCheckFields}"
+                                                 />
+                            </div>
+                        </aura:set>
+                </aura:if>
+
+                    <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                         <div class="label" >
                             <abbr
                                   title="required"
@@ -639,13 +651,14 @@
                                           >{!!v.needsGuardian ? '*' : ''}</abbr
                                         >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                     <aura:set attribute="else">
-                                        <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">
-                                            <abbr
-                                                  title="required"
-                                                  class="slds-required"
-                                                  >*</abbr
-                                                ></aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
-                                        
+                                        <div class="label tooltip">
+                                            <div class="textoverlap_DaytimeTelephoneNumber">    
+                                                <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">                                                  
+                                                    <abbr title="required" class="slds-required">*</abbr>
+                                                </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
+                                            <span class="tooltiptext_DaytimeTelephoneNumber">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                          </div>
+
                                     </aura:set>
                                     
                                 </aura:if>

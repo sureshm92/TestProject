@@ -1,6 +1,6 @@
 /**
- * Created by Andrii Kryvolap.
- */
+* Created by Andrii Kryvolap.
+*/
 .THIS.form-field {
     margin-bottom: 20px;
 }
@@ -8,14 +8,13 @@
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
-    margin-bottom: 8px;
+    margin-bottom: 3px;
 }
-.THIS .label2,
-.THIS .slds-form-element__label2 {
+.THIS .label2 {
     color: #444444;
     font-family: 'Proxima Nova';
     font-size: 14px;
-   /* margin-bottom: -11px;*/
+    margin-bottom: 5px;
 }
 .THIS.checkbox-field {
     padding-top: 35px;
@@ -24,7 +23,58 @@
 .THIS .slds-has-error .slds-form-element__help {
     width: 200px;
     left: 1px;
-    }
+}
+.THIS .tooltip {
+    position: relative;
+    display: inline-block;
+    cursor: pointer;
+}
+.THIS .textoverlap
+{
+    width: 12rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS  .tooltip .tooltiptext {
+    visibility: hidden;
+    width: 300px;
+    background-color: #000459;
+    top: -15px !important;
+    color: white;
+    text-align: center;
+    z-index: 1;
+    display: inline-block;
+    position: absolute;
+    border: 1px solid #777777;
+    text-decoration: none;
+}
+.THIS  .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.THIS .textoverlap1
+{
+    width: 18rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS  .tooltip .tooltiptext1 {
+    visibility: hidden;
+    width: 200px;
+    background-color: #000459;
+    top: -15px !important;
+    color: white;
+    text-align: center;
+    border-radius: 6px;    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.THIS  .tooltip:hover .tooltiptext1 {
+    visibility: visible;
+}
+
 
 @media screen and (max-width: 768px) {
     .THIS.form-field {

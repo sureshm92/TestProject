@@ -1,23 +1,84 @@
 .THIS .rr-error {
     color: rgb(194, 57, 52);
-    font-size: 0.75rem;
+    font-size : 0.75rem;
 }
 
-.THIS .slds-checkbox {
+.THIS .slds-checkbox{
     display: inline-flex;
 }
 
 .THIS .connectPatient {
     margin-top: 21px;
 }
+.THIS .tooltip {
+    position: relative;
+    display: inline-block;
+	cursor: pointer;
 
+}
+
+.THIS  .tooltip .tooltiptext {
+    width: 400px;
+     visibility: hidden;
+    background-color: #000459;
+	top: -18px !important;
+    color: white;
+    text-align: center;
+    border-radius: 6px;    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+
+.THIS  .tooltip .tooltiptext .Test {
+   display: none;
+}
+.THIS  .tooltip:hover .tooltiptext {
+    visibility: visible;
+}
+.THIS .textoverlap
+{
+    width: 18rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS  .tooltip:hover .tooltiptextFNLN {
+    visibility: visible;
+}
+.THIS  .tooltip .tooltiptextFNLN {
+    visibility: hidden;
+    width: 220px;
+    background-color: #000459;
+	top: -18px !important;
+    color: white;
+    text-align: center;
+    border-radius: 6px;    
+    /* Position the tooltip */
+    position: absolute;
+    z-index: 1;
+}
+.THIS .textoverlap_FN
+{
+    width: 14rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS .textoverlap_LN
+{
+    width: 14rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
 @media all and (max-width: 500px) {
     .THIS .connectPatient {
         margin-top: 0;
     }
 
     .THIS:nth-child(6) {
-        /*order: 7;*/
+     /*  order: 7; */
     }
 
     .THIS.rr-form-element {
