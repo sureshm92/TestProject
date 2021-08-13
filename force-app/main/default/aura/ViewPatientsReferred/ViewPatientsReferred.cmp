@@ -36,6 +36,7 @@
  <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private" />
  <aura:attribute name="peStatusesPathList" type="List" />
  <aura:attribute name="peStatusStateMap" type="Map" />
+ <aura:attribute name="refSourceNames" type="Object" />    
  <aura:attribute
      name="emptyListMessage"
      type="String"
@@ -241,7 +242,8 @@
                      hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"
                      sendToSH="{!item.sendToSH}"
                      sendToSHDate="{!item.sendToSHDate}"
-                     sendToSHReason="{!item.sendToSHReason}"               
+                     sendToSHReason="{!item.sendToSHReason}"
+                     refSourceName="{!item.sourceName}"               
                  />
              </aura:iteration>
          </div>

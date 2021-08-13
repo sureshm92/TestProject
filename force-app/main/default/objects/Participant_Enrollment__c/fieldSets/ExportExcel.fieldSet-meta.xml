@@ -33,7 +33,17 @@
         <isRequired>false</isRequired>
     </displayedFields>
     <displayedFields>
+        <field>PI_Contact__r.Id</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
         <field>PI_Contact__r.Full_Name__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Referral_Completed_by__r.Id</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>
@@ -44,6 +54,11 @@
     </displayedFields>
     <displayedFields>
         <field>Non_Enrollment_Reason__c</field>
+        <isFieldManaged>false</isFieldManaged>
+        <isRequired>false</isRequired>
+    </displayedFields>
+    <displayedFields>
+        <field>Medical_Record_Review_Completed_by__r.Id</field>
         <isFieldManaged>false</isFieldManaged>
         <isRequired>false</isRequired>
     </displayedFields>

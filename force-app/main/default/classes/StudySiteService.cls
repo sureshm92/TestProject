@@ -95,10 +95,12 @@ public without sharing class StudySiteService {
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
+        Set<Id> piContactIds =  new Set<Id>();
         // Set<Id> siteWithPatientsIds = new Set<Id>();
         for (Study_Site__c site : siteList) {
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
             siteIds.add(site.Id);
+            piContactIds.add(site.Principal_Investigator__c);
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
@@ -106,6 +108,8 @@ public without sharing class StudySiteService {
             new List<Id>(quueriedTrials),
             delegateId
         );
+        List<Id> piContactIdsList = new List<Id>();
+        Map<Id,String> piContactNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
@@ -134,7 +138,8 @@ public without sharing class StudySiteService {
                     site,
                     hcpeMap.get(site.Id),
                     filter.sortType,
-                    delegateId
+                    delegateId,
+                    piContactNames.isEmpty() ? null : piContactNames.get(site.Principal_Investigator__c)
                 );
                 result.add(siteWrapper);
             }
@@ -276,6 +281,7 @@ public without sharing class StudySiteService {
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
         'Suppress_Participant_Emails__c',
         'Clinical_Trial_Profile__r.Suppress_Participant_Emails__c',
+        'Principal_Investigator__c',    
         'Principal_Investigator__r.Name',
         'Principal_Investigator__r.FirstName',
         'Principal_Investigator__r.LastName',
@@ -600,6 +606,7 @@ public without sharing class StudySiteService {
         public Boolean hasActiveHCPE;
         public Boolean hasPatients;
         public Datetime hcpCreatedDate;
+        public String piName;
 
         public StudySiteDistanceWrapper() {
         }
@@ -617,6 +624,16 @@ public without sharing class StudySiteService {
             HCP_Enrollment__c hcpe,
             String sortType,
             String delegateId
+        ) {
+            this(site, hcpe, sortType, delegateId, null);
+        }
+        
+        public StudySiteDistanceWrapper(
+            Study_Site__c site,
+            HCP_Enrollment__c hcpe,
+            String sortType,
+            String delegateId,
+            String piName
         ) {
             this.site = site;
             this.siteType = site.Study_Site_Type__c;
@@ -665,6 +682,7 @@ public without sharing class StudySiteService {
             this.hasActiveHCPE =
                 hcpe != null &&
                 hcpe.Status__c != HCPEnrollmentService.HCP_S_INVITATION_SENT;
+            this.piName = piName;
         }
         public Integer compareTo(Object compareTo) {
             StudySiteDistanceWrapper compareToWrapper = (StudySiteDistanceWrapper) compareTo;
@@ -729,9 +747,11 @@ public without sharing class StudySiteService {
         List<StudySiteDistanceWrapper> result = new List<StudySiteService.StudySiteDistanceWrapper>();
         Set<Id> quueriedTrials = new Set<Id>();
         Set<Id> siteIds = new Set<Id>();
+        Set<Id> piContactIds =  new Set<Id>();        
         for (Study_Site__c site : siteList) {
             quueriedTrials.add(site.Clinical_Trial_Profile__c);
             siteIds.add(site.Id);
+            piContactIds.add(site.Principal_Investigator__c);
         }
         System.debug('queried Trials' + quueriedTrials);
         Map<Id, HCP_Enrollment__c> hcpeMap = new Map<Id, HCP_Enrollment__c>();
@@ -742,6 +762,8 @@ public without sharing class StudySiteService {
         for (HCP_Enrollment__c hcpe : enrollments) {
             hcpeMap.put(hcpe.Study_Site__c, hcpe);
         }
+        List<Id> piContactIdsList = new List<Id>();
+        Map<Id,String> piContactNames = ParticipantWorkflowService.getPIContactSalutationAndNames(piContactIds);
         for (Study_Site__c site : siteList) {
             if (
                 site.Clinical_Trial_Profile__r != null &&
@@ -751,7 +773,8 @@ public without sharing class StudySiteService {
                     site,
                     hcpeMap.get(site.Id),
                     filter.sortType,
-                    delegateId
+                    delegateId,
+                    piContactNames.isEmpty() ? null : piContactNames.get(site.Principal_Investigator__c)
                 );
                 result.add(siteWrapper);
             }

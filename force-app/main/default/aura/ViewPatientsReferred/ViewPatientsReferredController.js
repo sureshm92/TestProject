@@ -32,6 +32,7 @@
                 component.set('v.peStatusesPathList', initData.peStatusesPathList);
                 component.set('v.peStatusStateMap', initData.peStatusStateMap);
                 component.set('v.statistics', initData.statistics);
+                component.set('v.refSourceNames', initData.RefSourceNames);
                 //component.set('v.changeStatusBtnList', initData.btnList);
                 component.set('v.isInitialized', true);
                 component.set('v.skipUpdate', false);

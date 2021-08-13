@@ -14,10 +14,18 @@
     <div class="db-hcp-card">
         <div class="db-hcp-card-title">
             <div data-gtm="LNK_View_All_RP">
+                <aura:if isTrue="{!or(v.hcpe.hcpName==undefined,v.hcpe.hcpName==null)}">
                 <c:RRLink
                     label="{!v.hcpe.data.HCP_Contact__r.Salutation + ' ' + v.hcpe.data.HCP_Contact__r.Name + ' '}"
                     page="my-referring-clinics"
                 />
+                 <aura:set attribute = "else">
+                 <c:RRLink
+                    label="{!v.hcpe.hcpName}"
+                    page="my-referring-clinics"
+                />
+                </aura:set>   
+                </aura:if>
                 <br />
                 <!-- @Krishna Mahto - REF-1600 -->
                 {!$Label.c.PG_DBPI_at + ' '} {!v.hcpe.data.HCP_Contact__r.Account.Name}

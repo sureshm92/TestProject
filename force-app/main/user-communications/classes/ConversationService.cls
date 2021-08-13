@@ -36,6 +36,7 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Participant_Contact__c',
                 'Participant_Enrollment__r.Participant_Status__c',
                 'Participant_Enrollment__r.Study_Site__c',
+                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c',    
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
                 'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'

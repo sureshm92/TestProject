@@ -18,6 +18,8 @@ public without sharing class MessagePageRemote {
         public Boolean isPageEnabled;
         @AuraEnabled
         public Boolean isRTL;
+        @AuraEnabled
+        public Map<Id, String> piContactNames;
     }
 
     public class ConversationWrapper {
@@ -87,6 +89,8 @@ public without sharing class MessagePageRemote {
             pageData.userMode = UserContext.getCurrentUserMode().userMode;
             String communityTemplate = UserContext.getCurrentCommunityTemplate().templateName;
             String piId = UserContext.getUserContactId();
+            Map<Id,String> piContactNames = new Map<Id,String>();
+            List<Id> pIContactIds = new List<Id>();
             List<Id> delegatedSites = DelegateService.getDelegatedStudySiteIds();
             List<String> communitiesNotInSwitcher = System.Label.MessagecommunitiesforPI.split(',');
             List<Study_Site__c> allStudies = new List<Study_Site__c>(
@@ -178,6 +182,12 @@ public without sharing class MessagePageRemote {
                 //Collect Enrollments
                 pageData.enrollments = getEnrollmentsForPI(null);
             }
+            if(pageData.enrollments!=null){
+                for(Participant_Enrollment__c pe : pageData.enrollments){
+                    pIContactIds.add(pe.Study_Site__r.Principal_Investigator__c);
+                }
+                pageData.piContactNames = ViewPatientsRemote.getPINames(pIContactIds);
+            }
             if (!conversations.isEmpty()) {
                 Map<Id, Conversation__c> conversationsByIds = new Map<Id, Conversation__c>();
                 for (Conversation__c con : conversations)
@@ -221,12 +231,12 @@ public without sharing class MessagePageRemote {
                             messagesByConversation.get(conversation.Id),
                             documentLinksByMesByCon.get(conversation.Id),
                             isIE,
-                            participantsDelegateNames
+                            participantsDelegateNames,
+                            pageData.piContactNames
                         )
                     );
                 }
             }
-
             return pageData;
         } catch (Exception e) {
             return (MSPageData) AuraHelper.throwException(e);
@@ -238,7 +248,8 @@ public without sharing class MessagePageRemote {
         Participant_Enrollment__c enrollment,
         String messageText,
         String fileJSON,
-        Boolean isIE
+        Boolean isIE,
+        Map<Id, String> piContactNames
     ) {
         try {
             Conversation__c newConversation = new Conversation__c(
@@ -248,7 +259,7 @@ public without sharing class MessagePageRemote {
 
             ConversationService.createConversationSharesForMembers(newConversation.Id, enrollment);
             newConversation.Participant_Enrollment__r = enrollment;
-            return sendMessage(newConversation, messageText, fileJSON, isIE);
+            return sendMessage(newConversation, messageText, fileJSON, isIE, piContactNames);
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
         }
@@ -258,7 +269,8 @@ public without sharing class MessagePageRemote {
     public static void sendMultipleMessage(
         List<String> peIds,
         String messageText,
-        String fileJSON
+        String fileJSON,
+        Map<Id,String> piContactNames
     ) {
         try {
             List<Participant_Enrollment__c> participantEnrollments = (List<Participant_Enrollment__c>) DatabaseService.query(
@@ -288,13 +300,13 @@ public without sharing class MessagePageRemote {
                         peIdsWithoutConversation.remove(index);
                 }
                 for (Conversation__c exCon : ConversationService.getConversations(conIds)) {
-                    sendMessage(exCon, messageText, fileJSON, null);
+                    sendMessage(exCon, messageText, fileJSON, null, piContactNames);
                 }
             }
 
             if (!peIdsWithoutConversation.isEmpty()) {
                 for (String peId : peIdsWithoutConversation) {
-                    createConversation(enrollmentMap.get(peId), messageText, fileJSON, null);
+                    createConversation(enrollmentMap.get(peId), messageText, fileJSON, null, piContactNames);
                 }
             }
         } catch (Exception e) {
@@ -307,7 +319,8 @@ public without sharing class MessagePageRemote {
         Conversation__c conversation,
         String messageText,
         String fileJSON,
-        Boolean isIE
+        Boolean isIE,
+        Map<Id,String> piContactNames
     ) {
         try {
             if (isIE == null)
@@ -338,7 +351,16 @@ public without sharing class MessagePageRemote {
                     needUpdate = true;
                 }
             } else if (UserContext.getCurrentUserMode().userMode == CommunityService.USER_MODE_PI) {
-                senderName = userContact.Full_Name__c;
+                List<Participant__c> participant = [
+                    SELECT Id, Full_Name__c
+                    FROM Participant__c
+                    WHERE Contact__c = :userContact.Id
+                ];
+                if (!participant.isEmpty()) {
+                    senderName = participant.get(0).Full_Name__c;
+                } else {
+                    senderName = userContact.Full_Name__c;
+                }
                 if (!conversation.haveUnreadForParticipant__c) {
                     conversation.haveUnreadForParticipant__c = true;
                     needUpdate = true;
@@ -382,7 +404,8 @@ public without sharing class MessagePageRemote {
                 messages,
                 MessageService.getAttachments(conversation.Id),
                 isIE,
-                participantsDelegateNames
+                participantsDelegateNames,
+                piContactNames
             );
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
@@ -392,7 +415,8 @@ public without sharing class MessagePageRemote {
     @AuraEnabled
     public static ConversationWrapper markConversationAsRead(
         Conversation__c conversation,
-        Boolean isIE
+        Boolean isIE,
+        Map<Id,String> piContactNames
     ) {
         try {
             update new Conversation__c(
@@ -421,7 +445,8 @@ public without sharing class MessagePageRemote {
                 messages,
                 MessageService.getAttachments(conversation.Id),
                 isIE,
-                participantsDelegateNames
+                participantsDelegateNames,
+                piContactNames
             );
         } catch (Exception e) {
             return (ConversationWrapper) AuraHelper.throwException(e);
@@ -450,17 +475,19 @@ public without sharing class MessagePageRemote {
             List<Participant_Enrollment__c> enrollments = getEnrollmentsForPI(
                 DatabaseService.fieldNotInValues('Id', selectedIds)
             );
+            List<Id> piContactIds = new List<Id>();
             if (enrollments == null || enrollments.isEmpty())
                 return results;
 
             List<Participant_Enrollment__c> matchingEnrollments = new List<Participant_Enrollment__c>();
             for (Participant_Enrollment__c pe : enrollments) {
+                piContactIds.add(pe.Study_Site__r.Principal_Investigator__c);
                 if (pe.Participant__r == null || pe.Participant__r.Full_Name__c == null)
                     continue;
                 if (pe.Participant__r.Full_Name__c.containsIgnoreCase(searchTerm))
                     matchingEnrollments.add(pe);
             }
-
+						
             for (Participant_Enrollment__c pe : matchingEnrollments) {
                 results.add(
                     new LookupSearchResult(
@@ -478,7 +505,14 @@ public without sharing class MessagePageRemote {
             return (List<LookupSearchResult>) AuraHelper.throwException(e);
         }
     }
-
+	
+    public static Map<Id,String> getPIContactFullNames(List<Id> piContacts){
+        Map<Id,String> pIContactFullNames = new Map<Id,String>();
+        for(Participant__c piPart : [SELECT Id,Contact__c, Full_Name__c FROM Participant__c WHERE Contact__c IN :piContacts]){
+            pIContactFullNames.put(piPart.Contact__c, piPart.Full_Name__c);
+        }
+        return pIContactFullNames;
+    }
     //Wrappers Logic:---------------------------------------------------------------------------------------------------
     private static List<MessageWrapper> getMessageWrappers(
         List<Message__c> messages,
@@ -504,7 +538,8 @@ public without sharing class MessagePageRemote {
         List<Message__c> messages,
         Map<Id, ContentDocumentLink> documentLinksMap,
         Boolean ascendingOrder,
-        Map<Id, List<String>> delegateNamesByParticipant
+        Map<Id, List<String>> delegateNamesByParticipant,
+        Map<Id,String> piContactNames
     ) {
         ConversationWrapper conWr = new ConversationWrapper();
         conWr.conversation = conversation;
@@ -516,7 +551,11 @@ public without sharing class MessagePageRemote {
             conWr.unread = conversation.haveUnreadForParticipant__c;
             Contact piContact = conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r;
             conTitle = Label.Study_Team;
-            conFullName = piContact.Name;
+            if(piContactNames!=null && piContactNames.containsKey(conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c)){
+                conFullName = piContactNames.get(conversation.Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c);
+            }else{
+                 conFullName = piContact.Name;
+            }  
 
             if (
                 PEStatusState.PE_STATUS_GROUP_ALUMNI.contains(
@@ -530,7 +569,7 @@ public without sharing class MessagePageRemote {
                     Label.PI_Colon +
                     ' ' +
                     (String.isNotBlank(piContact.Title) ? piContact.Title + ' ' : '') +
-                    piContact.Name;
+                    conFullName;
             }
         } else if (userMode == CommunityService.USER_MODE_PI) {
             conWr.unread = conversation.haveUnreadForPI__c;
@@ -593,7 +632,8 @@ public without sharing class MessagePageRemote {
                 'Id',
                 'Clinical_Trial_Profile__r.Study_Code_Name__c',
                 'Participant__r.Full_Name__c',
-                'Participant_Contact__c'
+                'Participant_Contact__c',
+                'Study_Site__r.Principal_Investigator__c'    
             },
             Participant_Enrollment__c.getSObjectType(),
             filter

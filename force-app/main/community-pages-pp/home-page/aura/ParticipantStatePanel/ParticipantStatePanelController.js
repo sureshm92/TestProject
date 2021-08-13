@@ -9,8 +9,9 @@
             'getInitData',
             null,
             function (returnValue) {
-                var participantItem = JSON.parse(returnValue);
-                component.set('v.participantItem', participantItem);
+                var participantItemWithDetails = JSON.parse(returnValue);
+                component.set('v.participantItem', participantItemWithDetails.pi);
+                component.set('v.referralSourceName',participantItemWithDetails.referralSourceName);
             },
             null,
             function () {

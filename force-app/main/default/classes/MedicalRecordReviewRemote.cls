@@ -9,6 +9,8 @@ public without sharing class MedicalRecordReviewRemote {
         public Clinical_Trial_Profile__c trial;
         public Map<String, StudyActions.Action> actions;
         public String delegateAccessLevel;
+        public String hcpEnrollmentParticipantName;
+        public Participant__c hcpContactParticipant;
     }
 
     @AuraEnabled
@@ -38,6 +40,12 @@ public without sharing class MedicalRecordReviewRemote {
                 new StudyActionsHCP(hcpEnrollment, delegateId)
                     .checkAction(StudyActions.ACT_MEDICAL_RECORD_REVIEW);
                 StudyActions sActions = new StudyActionsHCP(hcpEnrollment, delegateId);
+                if(hcpEnrollment!=null){
+                    Map<Id,String> hcpName = ParticipantWorkflowService.getPIContactSalutationAndNames(new Set<Id>{hcpEnrollment.HCP_Contact__c});
+                    if(!hcpName.isEmpty()){
+                        initData.hcpEnrollmentParticipantName = hcpName.get(hcpEnrollment.HCP_Contact__c);
+                    }
+                }
                 initData.hcpEnrollment = hcpEnrollment;
                 initData.actions = sActions.actions;
             } else if (
@@ -56,6 +64,12 @@ public without sharing class MedicalRecordReviewRemote {
                 if (hcpEnrollments.isEmpty())
                     throw new CommunityServiceException('Data not found');
                 initData.hcpContact = hcpEnrollments[0].HCP_Contact__r;
+                if(hcpEnrollments[0].HCP_Contact__c!=null){
+                    Map<Id,Participant__c> hcpPartDetail=  ParticipantWorkflowService.getPIContactNameDetails(new Set<Id>{hcpEnrollments[0].HCP_Contact__c} ); 
+                    if(!hcpPartDetail.isEmpty()){
+                        initData.hcpContactParticipant = hcpPartDetail.get(hcpEnrollments[0].HCP_Contact__c);
+                    }
+                }
                 StudyActions sActions = new StudyActionsHCP(hcpEnrollments[0], delegateId);
                 initData.actions = sActions.actions;
             }

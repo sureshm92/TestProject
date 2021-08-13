@@ -119,16 +119,28 @@ public without sharing class MyTeamRemote {
             detail.delegateOptions = getDelegateOptions(userMode);
             detail.hasStudies = true;
             if (userMode == CommunityService.USER_MODE_PI && parentId != null && parentId != '') {
+                List<Participant__c> parentParticipant = [
+                    SELECT Id,Full_Name__c, Suffix__c, Salutation__c 
+                    FROM Participant__c
+                    WHERE Contact__c = :parentId
+                ];
                 Contact parentContact = [
                     SELECT Id, Full_Name__c, Suffix, Salutation
                     FROM Contact
                     WHERE Id = :parentId
                     LIMIT 1
                 ];
-                detail.parentFullName =
-                    (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') +
-                    parentContact.Full_Name__c +
-                    (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
+                if(!parentParticipant.isEmpty()){
+                    detail.parentFullName =
+                    (parentParticipant[0].Salutation__c == null ? '' : parentParticipant[0].Salutation__c + ' ') +
+                        parentParticipant[0].Full_Name__c +
+                        (parentParticipant[0].Suffix__c == null ? '' : ' ' + parentParticipant[0].Suffix__c);
+                }else{
+                    detail.parentFullName =
+                        (parentContact.Salutation == null ? '' : parentContact.Salutation + ' ') +
+                        parentContact.Full_Name__c +
+                        (parentContact.Suffix == null ? '' : ' ' + parentContact.Suffix);
+                }
             }
             return JSON.serialize(detail);
         } catch (Exception e) {
@@ -423,11 +435,20 @@ public without sharing class MyTeamRemote {
                 new LabelValueItem(Label.PG_MT_L_My_Team, CommunityService.getUserContact().Id)
             );
         }
-        for (Contact parent : CommunityService.getContacts(piDelegateParentIds)) {
-            String parentFullName =
-                (parent.Salutation != null ? parent.Salutation + ' ' : '') +
-                parent.Full_Name__c +
-                (parent.Suffix != null ? ' ' + parent.Suffix : '');
+        Boolean getParticipants = true;
+        for (Contact parent : CommunityService.getContacts(piDelegateParentIds,getParticipants)) {
+            String parentFullName;
+            if(parent.Participants__r.isEmpty()){
+                parentFullName = 
+                    (parent.Salutation != null ? parent.Salutation + ' ' : '') +
+                    parent.Full_Name__c +
+                    (parent.Suffix != null ? ' ' + parent.Suffix : '');
+            }else{
+                parentFullName = 
+                    (parent.Participants__r[0].Salutation__c != null ? parent.Participants__r[0].Salutation__c + ' ' : '') +
+                    parent.Participants__r[0].Full_Name__c +
+                    (parent.Participants__r[0].Suffix__c != null ? ' ' + parent.Participants__r[0].Suffix__c : '');
+            }
             parents.add(
                 new LabelValueItem(
                     Label.PG_MT_L_Team_for.replace('##PIName', parentFullName),
@@ -840,7 +861,7 @@ public without sharing class MyTeamRemote {
                     user.TimeZoneSidKey
                 );
                 insert delegateUser;
-            } else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
+            } /*else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 Boolean check =
                     contactDelegate.userCommunytyType__c.contains('PI') ||
@@ -854,7 +875,7 @@ public without sharing class MyTeamRemote {
                     CommunityService.USER_MODE_PARTICIPANT,
                     null
                 );
-            }
+            }*/
             String ParticipantContactId = UserContext.getUserContactId();
             List<Participant_Enrollment__c> particpantEnrollList = [
                 SELECT

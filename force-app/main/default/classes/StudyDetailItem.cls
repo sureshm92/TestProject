@@ -98,22 +98,36 @@ public without sharing class StudyDetailItem implements Comparable {
         public studySiteWithActions(
             Study_Site__c studySite,
             List<StudyActions.Action> actions,
-            List<Account> accounts
+            List<Account> accounts,
+            Participant__c piParticipantDetail
         ) {
             this.studySite = studySite;
             this.actions = actions;
             this.accounts = accounts;
             if (studySite.Principal_Investigator__c != CommunityService.getUserContact().Id) {
-                PIName =
-                    (studySite.Principal_Investigator__r.Salutation == null
-                        ? ''
-                        : studySite.Principal_Investigator__r.Salutation + ' ') +
-                    studySite.Principal_Investigator__r.FirstName +
-                    ' ' +
-                    studySite.Principal_Investigator__r.LastName +
-                    (studySite.Principal_Investigator__r.Suffix == null
-                        ? ''
-                        : ' ' + studySite.Principal_Investigator__r.Suffix);
+                if(piParticipantDetail!=null){
+                    PIName =
+                        (piParticipantDetail.Salutation__c == null
+                         ? ''
+                         : piParticipantDetail.Salutation__c + ' ') +
+                        piParticipantDetail.First_Name__c +
+                        ' ' +
+                        piParticipantDetail.Last_Name__c +
+                        (piParticipantDetail.Suffix__c == null
+                         ? ''
+                         : ' ' + piParticipantDetail.Suffix__c);                    
+                }else{
+                    PIName =
+                        (studySite.Principal_Investigator__r.Salutation == null
+                         ? ''
+                         : studySite.Principal_Investigator__r.Salutation + ' ') +
+                        studySite.Principal_Investigator__r.FirstName +
+                        ' ' +
+                        studySite.Principal_Investigator__r.LastName +
+                        (studySite.Principal_Investigator__r.Suffix == null
+                         ? ''
+                         : ' ' + studySite.Principal_Investigator__r.Suffix);
+                }
             }
         }
     }

@@ -123,7 +123,9 @@ public without sharing class ParticipantTriggerHandler {
     @TestVisible
     private static void updateContactDetailsFromParticipant(List<Participant__c> newList, Map<Id,Participant__c> oldMap){
         List<Contact> updateContacts = new List<Contact>();
+        List<User> updateUsers = new List<User>();
         Map<Id,Participant__c> updateContactsMap = new Map<Id,Participant__c>();
+        Map<Id,Participant__c> updateUsersMap = new Map<Id,Participant__c>();
         Boolean isOldMapEmpty = oldMap.isEmpty();
         for(Participant__c part : newList){
             if(part.Contact__c!=null){
@@ -145,10 +147,14 @@ public without sharing class ParticipantTriggerHandler {
                     }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
                         updateContactsMap.put(part.Contact__c,part);
                     }
+                    if(oldMap.get(part.Id)!=null && part.First_Name__c != oldMap.get(part.Id).First_Name__c){
+                        updateUsersMap.put(part.Contact__c,part);
+                    }else if(oldMap.get(part.Id)!=null && part.Last_Name__c != oldMap.get(part.Id).Last_Name__c){
+                        updateUsersMap.put(part.Contact__c,part);
+                    }
                 }
             }
         }
-        
 
         if(!updateContactsMap.isEmpty()){
 			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
@@ -174,6 +180,25 @@ public without sharing class ParticipantTriggerHandler {
 				update updateContacts;   
 			}
 		}
+        if(!updateUsersMap.isEmpty()){
+			for(User u: [SELECT Id,ContactId,FirstName,LastName FROM User WHERE ContactId IN:updateUsersMap.keySet()]){
+					Boolean updateNeeded= false;
+					if(u.FirstName != updateUsersMap.get(u.ContactId).First_Name__c){
+						u.FirstName = updateUsersMap.get(u.ContactId).First_Name__c;
+						updateNeeded= true;
+					}if(u.LastName != updateUsersMap.get(u.ContactId).Last_Name__c){
+						u.LastName = updateUsersMap.get(u.ContactId).Last_Name__c;
+						updateNeeded= true;
+					}
+					if(updateNeeded == true){
+						updateUsers.add(u);
+					}
+				}
+			if(updateUsers.size()>0){
+				update updateUsers;   
+			}
+		}
+        
     }
     
     @TestVisible
