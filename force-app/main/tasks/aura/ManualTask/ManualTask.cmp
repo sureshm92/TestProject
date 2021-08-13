@@ -72,6 +72,7 @@
                     min="{!v.taskConfig.startDate}"
                     disabled="{!empty(v.taskConfig.startDate)}"
                     dateStyle="medium"
+                    required="{!v.taskConfig.isRecurrence}"
                 />
                 <!-- Recurrence -->
                 <div class="recurringCheckbox">

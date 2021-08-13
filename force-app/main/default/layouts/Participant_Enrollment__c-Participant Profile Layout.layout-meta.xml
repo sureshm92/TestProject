@@ -115,6 +115,10 @@
                 <behavior>Edit</behavior>
                 <field>isAuthorized__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Unique_HumanId__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>

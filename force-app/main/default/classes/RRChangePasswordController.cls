@@ -101,9 +101,8 @@ public without sharing class RRChangePasswordController {
         init();
         if (!contact.Is_First_Logon__c)
             translation.Language__c = userVal.LanguageLocaleKey;
-        List<String> RTLlanguages = System.Label.RTL_Languages.split(',');
-
-        if (RTLlanguages.contains(previousLanguage)) {
+        String rtl_language = System.Label.RTL_Languages;  
+        if (rtl_language.contains(previousLanguage)) {
             isRTL = true;
         }
         if (isRTL) {
