@@ -22,6 +22,7 @@
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="isDateTimeFieldsAvailable" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
+    <aura:attribute name="historyList1" type="List" />
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--
@@ -156,16 +157,16 @@
         </aura:if>
     </aura:if>
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
-    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
+    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.historyList1)}">
         <div class="step-history">
             <div class="step-history-title">{!v.stepWrapper.historyTitle}</div>
             <div class="step-history-records">
                 <aura:if isTrue="{!v.stepWrapper.historyTitle == 'Contact History:'}">
                     <aura:if isTrue="{!v.isFovHistoryNull}"> 
-                        <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
+                        <aura:if isTrue="{!empty(v.historyList1)}">
                             {!$Label.c.None}
                             <aura:set attribute="else"> 
-                                <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
+                                <aura:iteration items="{!v.historyList1}" var="history">
                                     <div class="history-item">
                                         <span class="history-item-title">{!history.title}</span>
                                         <span class="history-item-detail">
