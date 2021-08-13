@@ -18,7 +18,7 @@
 }
 
 .THIS  .tooltip .tooltiptext {
-    width: 400px;
+    /* width: 400px; */
      visibility: hidden;
     background-color: #000459;
 	top: -18px !important;
@@ -28,6 +28,8 @@
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    padding: 8px 0px;
+
 }
 
 .THIS  .tooltip .tooltiptext .Test {
@@ -48,7 +50,7 @@
 }
 .THIS  .tooltip .tooltiptextFNLN {
     visibility: hidden;
-    width: 220px;
+  /*  width: 220px; */
     background-color: #000459;
 	top: -18px !important;
     color: white;
@@ -57,6 +59,7 @@
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    padding: 8px 0px;
 }
 .THIS .textoverlap_FN
 {

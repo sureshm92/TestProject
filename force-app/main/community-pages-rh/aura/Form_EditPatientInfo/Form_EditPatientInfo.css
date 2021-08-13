@@ -18,6 +18,7 @@
     /* Position the tooltip */
     position: absolute;
     z-index: 1;
+    padding: 8px 0px;
 }
 .THIS  .tooltip:hover .tooltiptext {
     visibility: visible;
@@ -30,16 +31,16 @@
     overflow: hidden;
 }
 .THIS  .tooltip .tooltiptext_DaytimeTelephoneNumber {
-    visibility: hidden;
-    width: 220px;
+    width: 215px;
     background-color: #000459;
-    top: -18px !important;
+    top: -15px!important;
     color: white;
     text-align: center;
-    border-radius: 6px;    
-    /* Position the tooltip */
+    border-radius: 6px;
     position: absolute;
     z-index: 1;
+    padding: 8px 0px;
+
 }
 .THIS  .tooltip:hover .tooltiptext_DaytimeTelephoneNumber {
     visibility: visible;
