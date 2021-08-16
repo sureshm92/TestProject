@@ -18,6 +18,9 @@
     },
     resetTaskValues: function(component, event, helper) {
         component.set('v.dayRemind', 0);
+        if (component.get('v.taskConfig.isRecurrence')) {
+            component.set('v.showNumbersAdd', true);
+        }
     },
     checkRecurrence: function(component, event, helper) {
         console.log('checkRecurrence');
