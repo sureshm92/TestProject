@@ -10,5 +10,10 @@
         ) {
             component.getEvent('onInit').fire();
         }
+        if(component.get('v.refSourceNames')){
+            if(component.get('v.refSourceNames')){
+                
+            }
+        }
     }
 });

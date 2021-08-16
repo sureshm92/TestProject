@@ -14,7 +14,8 @@
     <aura:attribute name="hasEmancipatedParticipants" type="Boolean" />
     <aura:attribute name="sendToSH" type="Boolean"/>
     <aura:attribute name="sendToSHDate" type="Object"/>
-    <aura:attribute name="sendToSHReason" type="String"/>	
+    <aura:attribute name="sendToSHReason" type="String"/>
+    <aura:attribute name="refSourceName" type="String"/>
     <!-- component body: -->
     <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
         <c:PSECard
@@ -28,6 +29,7 @@
             isInvited="{!v.isInvited}"
             showVisits="{!v.participantItem.showVisits}"
             sendToSHDate ="{!v.sendToSHDate}"     
+            refSourceName="{!v.refSourceName}"     
         />
         <aura:set attribute="else">
             <c:ViewPatientItem
@@ -38,7 +40,8 @@
                 parent="{!v.parent}"
                 isInvited="{!v.isInvited}"
                 sendToSH="{!v.sendToSH}"
-                sendToSHDate="{!v.sendToSHDate}"  
+                sendToSHDate="{!v.sendToSHDate}"
+                refSourceName="{!v.refSourceName}"               
             />
         </aura:set>
     </aura:if>

@@ -50,28 +50,35 @@ public without sharing class Action_ChangeHCPStatusByPIRemote {
                 actionId,
                 value
             );
+            String hcpPartName;
+            if(hcpEnrollment.HCP_Contact__c !=null){
+                hcpPartName = DashBoardRemoteNew.getPIName(hcpEnrollment.HCP_Contact__c);
+            }
+            if(hcpPartName == null){
+                hcpPartName = hcpEnrollment.HCP_Contact__r.Name;
+            }
             String message = Label.TST_You_have_successfully + ' ';
             if (actionId == StudyActions.ACT_HCP_APPROVE) {
-                message += Label.TST_approved + ' ' + hcpEnrollment.HCP_Contact__r.Name + '.';
+                message += Label.TST_approved + ' ' + hcpPartName + '.';
             } else if (actionId == StudyActions.ACT_HCP_ACTIVATE) {
-                message += Label.TST_activated + ' ' + hcpEnrollment.HCP_Contact__r.Name + '.';
+                message += Label.TST_activated + ' ' + hcpPartName + '.';
             } else if (actionId == StudyActions.ACT_HCP_DECLINE) {
-                message += Label.TST_declined + ' ' + hcpEnrollment.HCP_Contact__r.Name + '.';
+                message += Label.TST_declined + ' ' + hcpPartName + '.';
             } else if (actionId == StudyActions.ACT_HCP_DEACTIVATE) {
-                message += Label.TST_deactivated + ' ' + hcpEnrollment.HCP_Contact__r.Name + '.';
+                message += Label.TST_deactivated + ' ' + hcpPartName + '.';
             } else if (actionId == StudyActions.ACT_HCP_ON_HOLD) {
-                message += Label.TST_put_On_Hold + ' ' + hcpEnrollment.HCP_Contact__r.Name + '.';
+                message += Label.TST_put_On_Hold + ' ' + hcpPartName + '.';
             } else if (actionId == StudyActions.ACT_HCP_ORIENTATION_ATTENDED_AND_ACTIVATE) {
                 message +=
                     Label.TST_attended_orientation_and_activated +
                     ' ' +
-                    hcpEnrollment.HCP_Contact__r.Name +
+                    hcpPartName +
                     '.';
             } else if (actionId == StudyActions.ACT_HCP_ACTIVATE_FOR_ALL) {
                 message +=
                     Label.TST_activated +
                     ' ' +
-                    hcpEnrollment.HCP_Contact__r.Name +
+                    hcpPartName +
                     ' ' +
                     Label.Accepted_For_All_Study_Sites +
                     '.';
