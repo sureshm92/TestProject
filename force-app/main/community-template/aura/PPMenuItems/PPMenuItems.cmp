@@ -47,7 +47,7 @@
                                             onmouseout="{!c.displayOut}"
                                         >
                                             <!--	 <lightning:helptext
-											content="Click the icon to log in to Salesforce"> -->
+                                                content="Click the icon to log in to Salesforce"> -->
 
                                             <c:menuItemButton
                                                 class="icon-delegate"

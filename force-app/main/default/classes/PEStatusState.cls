@@ -182,7 +182,7 @@ public without sharing class PEStatusState {
         PE_STATUS_FOLLOW_UP_PERIOD_STARTED
     };
 
-	//Add any new Status comes equivalent to below added statuses
+    //Add any new Status comes equivalent to below added statuses
 	public static final List<String> PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS = new List<String>{
         PE_STATUS_ENROLLMENT_SUCCESS,
         PE_STATUS_RANDOMIZATION_SUCCESS

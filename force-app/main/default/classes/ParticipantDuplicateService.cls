@@ -621,6 +621,7 @@ public without sharing class ParticipantDuplicateService {
         if (String.isNotBlank(newParticipant.Last_Name__c)) sourceParticipant.Last_Name__c = newParticipant.Last_Name__c;
         if (String.isNotBlank(newParticipant.Middle_Name__c)) sourceParticipant.Middle_Name__c = newParticipant.Middle_Name__c;
         if (String.isNotBlank(newParticipant.Nickname__c)) sourceParticipant.Nickname__c = newParticipant.Nickname__c;
+        if (String.isNotBlank(newParticipant.Suffix__c)) sourceParticipant.Suffix__c = newParticipant.Suffix__c;
         if (String.isNotBlank(newParticipant.Gender__c)) sourceParticipant.Gender__c = newParticipant.Gender__c;
         //if (String.isNotBlank(newParticipant.Date_of_Birth__c)) sourceParticipant.Date_of_Birth__c = newParticipant.Date_of_Birth__c;
         if (String.isNotBlank(newParticipant.Phone_Type__c)) sourceParticipant.Phone_Type__c = newParticipant.Phone_Type__c;   
@@ -635,7 +636,7 @@ public without sharing class ParticipantDuplicateService {
         if (String.isNotBlank(newParticipant.Mailing_Street__c)) sourceParticipant.Mailing_Street__c = newParticipant.Mailing_Street__c;
         if (String.isNotBlank(newParticipant.Secondary_Source__c)) sourceParticipant.Secondary_Source__c = newParticipant.Secondary_Source__c; 
         //if (String.isNotBlank(newParticipant.Language_Preference_Code__c)) sourceParticipant.Language_Preference_Code__c = newParticipant.Language_Preference_Code__c;
-        //if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
+        if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
         if (newParticipant.BMI__c != null) sourceParticipant.BMI__c = newParticipant.BMI__c;
     }
 }

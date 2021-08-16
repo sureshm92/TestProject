@@ -207,7 +207,7 @@ public without sharing class ListViewParticipantController {
                     pe.Non_Enrollment_Reason__c = reason;
                     pe.Final_consent__c = finalconsent;
                     pe.Participant_Status_Last_Changed_Date__c = system.now();
-
+                    
                     if(pe.Participant_Status__c == PEStatusState.PE_STATUS_UNABLE_TO_REACH ||
                     pe.Participant_Status__c == PEStatusState.PE_STATUS_CONTACTED_NOT_SUITABLE ||
                     pe.Participant_Status__c == PEStatusState.PE_STATUS_PRE_REVIEW_FAILED){
@@ -259,7 +259,6 @@ public without sharing class ListViewParticipantController {
                            );
                       }
                     
-                    
                 }
                
                 if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
@@ -310,9 +309,9 @@ public without sharing class ListViewParticipantController {
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
                         );
-                         TriggerHandlerExecutor.bypassHandler(
+                        /* TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
-                        );
+                        );*/
                         TriggerHandlerExecutor.bypassHandler(
                             ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
                         );
@@ -549,13 +548,15 @@ public without sharing class ListViewParticipantController {
         Clinical_Trial_Profile__c ctp = [SELECT 
                                          Promote_to_SH__c,
                                          Initial_Visit_Required__c,
-                                         Participant_Workflow_Final_Step__c
+                                         Participant_Workflow_Final_Step__c,
+                                         Final_Consent_Required__c 
                                          FROM Clinical_Trial_Profile__c 
                                          WHERE Id =: StudyId];
         
         Boolean isPromoteToSH = ctp.Promote_to_SH__c;
         Boolean isInitialVisit = ctp.Initial_Visit_Required__c;
         String finalStep = ctp.Participant_Workflow_Final_Step__c;
+        Boolean finalConsent = ctp.Final_Consent_Required__c ;
         
         if(availableStatusLists.contains(status)){
             For(List_View_Status__mdt lvs : [SELECT 
@@ -573,10 +574,12 @@ public without sharing class ListViewParticipantController {
         } else{
             For(List_View_Status__mdt lvs : [SELECT 
                                              Participant_Workflow_Final_Step__c,
-                                             Available_Statuses__c
+                                             Available_Statuses__c,
+                                             Final_Consent__c
                                              FROM List_View_Status__mdt
                                              WHERE Participant_Workflow_Final_Step__c =:finalStep
-                                             AND Participant_Status__c =: status])
+                                             AND Participant_Status__c =: status
+                                            AND Final_Consent__c =: finalConsent])
             {
                 availableStatusList=lvs.Available_Statuses__c.split(',');  
             }
@@ -965,7 +968,7 @@ public without sharing class ListViewParticipantController {
                              if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                               if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
+                               if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success' )&& pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -995,7 +998,7 @@ public without sharing class ListViewParticipantController {
                            if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                                if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
+                                if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success' )&& pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}
@@ -1026,7 +1029,7 @@ public without sharing class ListViewParticipantController {
                        if(bulkAction != Null && bulkAction == 'Invite to Patient Portal'){
                               isLocked = false;
                              }else if(bulkAction != Null && bulkAction == 'Change Participant Status'){ 
-                                if(statusChangeto =='Randomization Success' && pe.Screening_ID__c  ==null){
+                                if((statusChangeto =='Randomization Success' || statusChangeto =='Enrollment Success' )&& pe.Screening_ID__c  ==null){
                                 isLocked = true;
                                }else
                                {isLocked = false;}

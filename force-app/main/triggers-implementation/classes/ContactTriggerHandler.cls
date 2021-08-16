@@ -82,7 +82,7 @@ public without sharing class ContactTriggerHandler {
             } 
             if(c.Language__c != oldMap.get(c.Id).Language__c){
                 isUpdateNeeded = true;
-            } 
+            }
             if(c.Phone != oldMap.get(c.Id).Phone){
                 isUpdateNeeded = true;
             }
@@ -164,14 +164,14 @@ public without sharing class ContactTriggerHandler {
         }
     }
     
-    @TestVisible
+@TestVisible
     private static void updateParticipantAndUserEmailsOnEmailChange(
         List<Contact> newList,
         Map<Id, Contact> oldMap
     ) {
         Boolean needUpdate = false;
         for (Contact cnt : newList) {
-            needUpdate = (oldMap.get(cnt.Id).Email != cnt.Email);
+            needUpdate = ((oldMap.get(cnt.Id).Email != cnt.Email) || (oldMap.get(cnt.Id).Language__c != cnt.Language__c));
             if (needUpdate)
                 break;
         }
@@ -195,23 +195,30 @@ public without sharing class ContactTriggerHandler {
             List<User> usersForUpdate = new List<User>();
             for (Contact cnt : newList) {
                 Contact oldCnt = oldMap.get(cnt.Id);
-                if (oldCnt.Email != cnt.Email) {
+                if ((oldCnt.Email != cnt.Email) || (oldCnt.Language__c != cnt.Language__c)) {
                     Participant__c participant = participantsByContactMap.get(cnt.Id);
                     if (participant != null) {
                         participant.Email__c = cnt.Email;
+                        //participant.Preferred_Language__c = cnt.Language__c;
                         participantsForUpdate.add(participant);
                     }
                     User user = usersByContactMap.get(cnt.Id);
                     if (user != null) {
                         user.Email = cnt.Email;
+                        user.LanguageLocaleKey = cnt.Language__c;
                         usersForUpdate.add(user);
                     }
                 }
             }
+            if(!usersForUpdate.isEmpty()){
             update usersForUpdate;
+                }
+             if(!participantsForUpdate.isEmpty()){
             update participantsForUpdate;
+             }
         }
     }
+
 
     @TestVisible
     private static void createUserForDelegateContact(List<Contact> newList) {

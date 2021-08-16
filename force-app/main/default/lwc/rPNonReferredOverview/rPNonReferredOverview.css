@@ -1,0 +1,140 @@
+.overview-for-not-yet{
+    font-weight: bold;
+    font-size: 35px;
+    width: 376px;
+    height: 42px;
+    line-height: 21px;color:#595959;
+}
+.not-yet-referred{
+    font-weight: bold;
+    font-size: 18px;
+    width: 376px;
+    height: 36px;
+    line-height: 16px;color:#595959;
+}
+.total-patients{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.total-patients-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 21px;
+}
+.included-for-referring{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.included-for-referring-count{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.excluded-for-referring{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.excluded-for-referring-count{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.patient-auth-aquired{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.patient-auth-aquired-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.medical-review-complete{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.medical-review-complete-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.outreach-mail-sent{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+} 
+.outreach-mail-sent-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.added-last-month{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.added-last-month-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.added-last-week{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.added-last-week-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}
+.added-yesterday{
+    font-weight: bold;
+    font-size: 21px;
+    width: 376px;
+    height: 36px;color:#595959;
+    line-height: 16px;
+}
+.added-yesterday-count{
+    font-weight: bold;
+    font-size: 48px;
+    width: 376px;
+    height: 42px;color:#595959;
+    line-height: 80px;
+}

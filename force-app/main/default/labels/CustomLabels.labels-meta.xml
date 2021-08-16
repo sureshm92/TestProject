@@ -1367,6 +1367,34 @@
         <value>Select as Preferred Site</value>
     </labels>
     <labels>
+        <fullName>trialSearch_Someone_else</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trialSearch_Someone else</shortDescription>
+        <value>Someone else</value>
+    </labels>
+    <labels>
+        <fullName>trialSearch_me</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>trialSearch_me</shortDescription>
+        <value>Me</value>
+    </labels>
+    <labels>
+        <fullName>cont_study_gender</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Gender</shortDescription>
+        <value>Gender</value>
+    </labels>
+    <labels>
+	<fullName>Send_info_for</fullName>
+	<language>en_US</language>
+	<protected>false</protected>
+	<shortDescription>Send Information for</shortDescription>
+	<value>Send Information for</value>
+</labels>
+    <labels>
         <fullName>BTN_Send</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -3438,6 +3466,13 @@ Please share our site on social media to encourage others to assist us as we wor
         <protected>false</protected>
         <shortDescription>Community IQVIA PP</shortDescription>
         <value>IQVIA™ Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>chatbot</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>chatbot</shortDescription>
+        <value>participant via assisted scheduling service</value>
     </labels>
     <labels>
         <fullName>Community_IQVIA_RH_Help</fullName>
@@ -16082,6 +16117,27 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI_Toggle_Information</shortDescription>
         <value>Emails that notify you of required action, allow you to reset your password or inform you of important system updates will always be sent.</value>
     </labels>
+	 <labels>
+        <fullName>PP_Delegate</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Delegate</shortDescription>
+        <value>Delegate(s)</value>
+    </labels>
+    <labels>
+        <fullName>PP_Provider_Access</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Provider Access</shortDescription>
+        <value>Provider Access</value>
+    </labels>
+    <labels>
+        <fullName>PP_Review_and_Confirm</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>PP_Review and Confirm</shortDescription>
+        <value>Review and Confirm</value>
+    </labels>
     <labels>
         <fullName>PP_Account_Settings</fullName>
         <language>en_US</language>
@@ -17277,7 +17333,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PWS_Enrolled_Name</shortDescription>
-        <value>Enrolled</value>
+        <value>Enrollment</value>
     </labels>
     <labels>
         <fullName>PWS_Enrolled_No_Outcome</fullName>

@@ -1,0 +1,87 @@
+<!--rP_NonReferredTable.html-->
+<template>
+    <template if:true={showTable}>
+        <div class="slds-grid" style="margin-top:8px;">
+            <div class="slds-col">
+                <lightning-input  label="" type="search" placeholder="Search" variant="label-hidden" 
+                 onchange={handleSearch} class="searchBox1"></lightning-input>
+            </div>
+            <div class="slds-col">
+                <img src={refresh_icon} alt="Refresh page" class="refreshIcon"  onclick={openModal}>
+            </div>
+        </div>
+        <br/>
+        <table role="grid" class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
+            <thead>
+                <tr>
+                    <th scope="col" class="table-header" style="width:2rem">
+                        <div title="Select record">
+                            <lightning-input  onchange={allRowSelected} type="checkbox"></lightning-input>
+                        </div>
+                    </th>
+                    <th scope="col" class="table-header">
+                        <div title="Patient ID">Patient ID</div>
+                    </th>
+                    <th scope="col" class="table-header">
+                        <div title="Last Name">Last Name</div>
+                    </th>
+                    <th scope="col" class="table-header">
+                        <div title="DOB">MM/YYYY</div>
+                    </th>
+                </tr>
+            </thead>
+            <tbody>
+                <template for:each={recordsToDisplay} for:item="pe">
+                    <tr key={pe.peRec.Id}>
+                        <td>
+                            <lightning-input type="checkbox" value={pe.isChecked} data-id={pe.peRec.Id} onchange={doRecordSelection} ></lightning-input>
+
+                        </td>
+                        <td>
+                            <div class="slds-truncate table-patientrow" title={pe.peRec.Patient_ID__c}>{pe.peRec.Patient_ID__c}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate table-row" title={pe.peRec.Participant_Surname__c}>{pe.peRec.Participant_Surname__c}</div>
+                        </td>
+                        <td>
+                            <div class="slds-truncate table-row" title={pe.doBFormat}>{pe.doBFormat}</div>
+                        </td>
+                    </tr>
+                </template>
+            </tbody>
+        </table>    
+        <c-rppagination records={data} 
+            total-records={data.length}
+            show-search-box="false" 
+            onpaginatorchange={handlePaginatorChange}></c-rppagination>
+    </template>
+
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Refresh page</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p><b>Are you sure want to refresh page?</b></p>
+                </div>
+                <!-- Modal/Popup Box LWC footer starts here -->
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="apollo-btn primary search-more-btn" onclick={refreshComponent} title="OK">
+                       OK
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+</template>

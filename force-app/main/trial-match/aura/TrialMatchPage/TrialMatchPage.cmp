@@ -45,13 +45,11 @@
                                 </div>
                             </div>
                             <div class="slds-clearfix">
-                                <div
-                                    class="{!v.isRTL? 'slds-float_right sidepadding-rtl':'slds-float_left'}"
-                                >
+                                <div class="{!v.isRTL? 'floatright sidepadding-rtl':'floatleft'}">
                                     <lightning:formattedText value="{!$Label.c.search_results}" />
                                 </div>
                                 <div
-                                    class="{!v.isRTL? 'resource-link-container slds-float_left sidepaddingleft-rtl':'resource-link-container slds-float_right'}"
+                                    class="{!v.isRTL? 'resource-link-container floatleft sidepaddingleft-rtl':'resource-link-container floatright'}"
                                 >
                                     <c:RRIcon
                                         iconName="icon-pdf"

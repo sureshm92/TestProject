@@ -488,10 +488,10 @@
         padding-top: 0;
     }
 
-    .THIS .sdas-about > .slds-wrap > #info-left {
+  /*  .THIS .sdas-about > .slds-wrap > #info-left {
         margin-top: 90px
     }
-
+ */
     .THIS .socialnetworks-section {
         align-items: flex-end;
         flex-direction: column;

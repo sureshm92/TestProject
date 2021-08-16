@@ -18,7 +18,7 @@
 
     <!-- component body -->
     <div class="mrc-invite-popup">
-        <c:Popup
+        <c:PopupRTL
             aura:id="manageLocation"
             title="{!$Label.c.SS_Manage_Location_Details}"
             size="large"
@@ -135,6 +135,7 @@
                 </aura:if>
             </div>
             <aura:set attribute="footerButtons">
+                <span style="{!if(v.isRTL, 'padding-left: 480px','')}">
                 <button class="apollo-btn secondary"  onclick="{!c.doCancel}">
                     {!$Label.c.BTN_Cancel}
                 </button>
@@ -147,8 +148,9 @@
                 >
                     {!$Label.c.SS_Use_This_Address}
                 </button>
+                 </span>
             </aura:set>
-        </c:Popup>
+        </c:PopupRTL>
     </div>
 
     <c:Action_EditLocation aura:id="editLocation" />

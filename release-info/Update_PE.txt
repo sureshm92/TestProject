@@ -1,9 +1,8 @@
 
-List<Participant_Enrollment__c> peList = [SELECT Id,Participant_Contact__c,
-Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE 
+List<Participant_Enrollment__c> peList = [SELECT Id,Participant__c,Participant_Contact__c,Participant__r.Adult__c,
+Participant__r.Date_Of_Birth__c,Invited_To_PP_Date__c FROM Participant_Enrollment__c WHERE 
 Participant_Contact__c IN (SELECT ContactId FROM User WHERE isActive = true) 
-AND Invited_To_PP_Date__c = null AND Study_Site__r.Study_Site_Type__c = 'Traditional' 
-AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 1500 ];       
+AND Invited_To_PP_Date__c = null AND Study_Site__r.Study_Site_Type__c = 'Traditional'  LIMIT 1500 ];       
 
  List<Id> contactIds = new List<Id>();
  List<Participant_Enrollment__c> updateList = new List<Participant_Enrollment__c>();
@@ -16,11 +15,13 @@ AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 1500 ];
             contactAndDate.put(u.ContactId,u.CreatedDate);
         }
         for(Participant_Enrollment__c pe: peList){
-            Participant_Enrollment__c up = new Participant_Enrollment__c();
-            up.Id = pe.Id;
+                if(!(pe.Participant__c!=null && pe.Participant__r.Adult__c ==false && pe.Participant__r.Date_Of_Birth__c!=null)){
+                Participant_Enrollment__c up = new Participant_Enrollment__c();
+                up.Id = pe.Id;
 
-            up.Invited_To_PP_Date__c = contactAndDate.get(pe.Participant_Contact__c);
-            updateList.add(up);
+                up.Invited_To_PP_Date__c = contactAndDate.get(pe.Participant_Contact__c);
+                updateList.add(up);
+            }
         }
             TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
     TriggerHandlerExecutor.bypassHandler(ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class);
@@ -58,5 +59,5 @@ AND CreatedDate < 2021-06-01T12:05:45.000+0000 LIMIT 1500 ];
     TriggerHandlerExecutor.bypassHandler(
         ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
     );
-        DateBase.update(updateList,false);
+        DataBase.update(updateList,false);
     

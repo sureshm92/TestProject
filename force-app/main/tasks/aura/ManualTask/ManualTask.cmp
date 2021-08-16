@@ -17,12 +17,18 @@
     <aura:attribute name="dayRemind" type="Integer" />
     <aura:attribute name="todayDate" type="Date" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="recurrenceFrequency" type="List" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.taskConfig.subject}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.startDate}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.endTime}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.reminderDate}" action="{!c.doCheckFields}" />
+    <aura:handler
+        name="change"
+        value="{!v.taskConfig.recurrenceFrequency}"
+        action="{!c.checkRecurrence}"
+    />
     <aura:handler name="change" value="{!v.dayRemind}" action="{!c.doCheckFields}" />
 
     <!-- component body -->
@@ -66,7 +72,20 @@
                     min="{!v.taskConfig.startDate}"
                     disabled="{!empty(v.taskConfig.startDate)}"
                     dateStyle="medium"
+                    required="{!v.taskConfig.isRecurrence}"
                 />
+                <!-- Recurrence -->
+                <div class="recurringCheckbox">
+                    <lightning:input
+                        aura:id="field1"
+                        type="checkbox"
+                        label="Recurring Task"
+                        onchange="{!c.resetTaskValues}"
+                        value="{!v.taskConfig.isRecurrence}"
+                        checked="{!v.taskConfig.isRecurrence}"
+                        disabled="{!empty(v.taskConfig.endTime)}"
+                    />
+                </div>
             </div>
             <div class="slds-col slds-size--1-of-2">
                 <!-- Task Visibility -->
@@ -79,15 +98,21 @@
                     </aura:iteration>
                 </lightning:select>
                 <!-- Reminder Mode -->
-                <lightning:select label="Set Task Reminder" value="{!v.showNumbersAdd}">
+                <lightning:select
+                    label="Set Task Reminder"
+                    value="{!v.showNumbersAdd}"
+                    disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                >
                     <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                         <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
                             <option value="true">Number of days before the Task due date</option>
                         </aura:if>
                     </aura:if>
-                    <option value="false">Specific Date</option>
+                    <aura:if isTrue="{!not(v.taskConfig.isRecurrence)}">
+                        <option value="false">Specific Date</option>
+                    </aura:if>
                 </lightning:select>
-                <aura:if isTrue="{!v.showNumbersAdd}">
+                <aura:if isTrue="{!or(v.showNumbersAdd,v.taskConfig.isRecurrence)}">
                     <span onkeypress="{!c.dueNumberKeyPress}">
                         <lightning:input
                             aura:id="field"
@@ -95,6 +120,7 @@
                             value="{!v.dayRemind}"
                             onchange="{!c.onDaysChange}"
                             min="0"
+                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
                         />
                     </span>
                     <aura:set attribute="else">
@@ -107,8 +133,23 @@
                             min="{!v.taskConfig.startDate}"
                             max="{!v.taskConfig.endTime}"
                             dateStyle="medium"
+                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
                         />
                     </aura:set>
+                </aura:if>
+                <aura:if isTrue="{!v.taskConfig.isRecurrence}">
+                    <!-- Recurrence frequency -->
+                    <lightning:select
+                        aura:id="field2"
+                        name="select"
+                        label="Recurrence Frequency"
+                        required="true"
+                        value="{!v.taskConfig.recurrenceFrequency}"
+                    >
+                        <aura:iteration items="{!v.recurrenceFrequency}" var="freq">
+                            <option text="{!freq.value}" value="{!freq.value}"></option>
+                        </aura:iteration>
+                    </lightning:select>
                 </aura:if>
             </div>
         </div>
