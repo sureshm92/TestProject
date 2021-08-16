@@ -12,7 +12,7 @@
             <sorted>false</sorted>
             <value>
                 <fullName>HumanApi</fullName>
-                <default>false</default>
+                <default>true</default>
                 <label>HumanApi</label>
             </value>
             <value>
