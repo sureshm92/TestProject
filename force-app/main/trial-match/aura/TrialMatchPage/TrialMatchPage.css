@@ -140,6 +140,14 @@
     /* @noflip */
     padding-left: 20px;
 }
+.THIS .floatleft {
+    /* @noflip */
+    float: left;
+}
+.THIS .floatright {
+    /* @noflip */
+    float: right;
+}
 
 .THIS .navigation-path.rtl {
     padding-right: 10px;
