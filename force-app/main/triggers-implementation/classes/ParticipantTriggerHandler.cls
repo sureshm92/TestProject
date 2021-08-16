@@ -152,6 +152,7 @@ public without sharing class ParticipantTriggerHandler {
                         updateUsersMap.put(part.Contact__c,part);
                     }else if(oldMap.get(part.Id)!=null && part.Last_Name__c != oldMap.get(part.Id).Last_Name__c){
                         updateUsersMap.put(part.Contact__c,part);
+                    }
                      if(oldMap.get(part.Id)!=null && part.Preferred_Language__c != oldMap.get(part.Id).Preferred_Language__c){
                         updateContactsMap.put(part.Contact__c,part);
                         contIdoldLanguageMap.put(part.Contact__c,oldMap.get(part.Id).Preferred_Language__c);
@@ -194,7 +195,7 @@ public without sharing class ParticipantTriggerHandler {
 			if(updateContacts.size()>0){
 				update updateContacts;   
 			}
-		}
+        }
         if(!updateUsersMap.isEmpty()){
 			for(User u: [SELECT Id,ContactId,FirstName,LastName FROM User WHERE ContactId IN:updateUsersMap.keySet()]){
 					Boolean updateNeeded= false;
@@ -212,7 +213,7 @@ public without sharing class ParticipantTriggerHandler {
 			if(updateUsers.size()>0){
 				update updateUsers;   
 			}
-		}
+        }
         
     }
     
