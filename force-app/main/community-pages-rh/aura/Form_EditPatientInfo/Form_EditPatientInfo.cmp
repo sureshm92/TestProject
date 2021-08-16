@@ -846,7 +846,7 @@
                                         {!$Label.c.PG_AP_F_Alternative_Phone_Number}
                                     </div>
                                     <span>{!$Label.c.PG_AP_F_Alternative_Phone_Number}</span>     
-
+                                </div>
                                 <lightning:input
                                                  type="text"
                                                  value="{!v.participant.Alternative_Phone_Number__c}"
