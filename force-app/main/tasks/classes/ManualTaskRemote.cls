@@ -34,6 +34,9 @@ public with sharing class ManualTaskRemote {
                 if(taskConfig.recurrenceFrequency == 'Yearly'){
                     nextTaskDueDate = taskConfig.endTime.addYears(1);
                 }
+            	if(nextTaskDueDate > actualTaskConfig.endTime){
+                    nextTaskDueDate = actualTaskConfig.endTime;
+                }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
             manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(

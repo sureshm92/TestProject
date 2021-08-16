@@ -81,7 +81,9 @@
         let dueDate = component.get('v.taskConfig.endTime');
         let reminderDate = component.get('v.taskConfig.reminderDate');
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
-
+        if (component.get('v.dayRemind') != 0) {
+            component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
+        }
         if (startDate && !dueDate) {
             if (reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
                 component.set('v.taskConfig.reminderDate', startDate);
@@ -100,7 +102,6 @@
         if (component.get('v.taskConfig.isRecurrence')) {
             $A.enqueueAction(a);
         }
-
         if (useDaysNumber) {
             let daysCount = component.get('v.dayRemind');
             let daysBetween = dueDate.diff(startDate, 'days');
