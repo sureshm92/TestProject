@@ -195,7 +195,7 @@
                                     value="{!v.personWrapper.middleName}"
                                     onblur="{!c.doCheckFieldsValidity}"
                                 />
-                                        <span class="tooltiptext">{!$Label.c.PG_AS_F_Middle_name}</span>
+                                        <span>{!$Label.c.PG_AS_F_Middle_name}</span>
                                     </div>
                                 </div>
                             </aura:if>
@@ -211,7 +211,7 @@
                                     onblur="{!c.doCheckFieldsValidity}"
                                     disabled="true"
                                 />
-                                           <span class="tooltiptext">{!$Label.c.PG_AS_F_Middle_name}</span>
+                                           <span>{!$Label.c.PG_AS_F_Middle_name}</span>
                                     </div>
                                 </div>
                             </aura:if>
