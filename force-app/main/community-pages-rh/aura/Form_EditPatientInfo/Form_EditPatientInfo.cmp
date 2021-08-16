@@ -369,11 +369,11 @@
                              class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                              >
                              <div class="label tooltip">
-                                <div class="textoverlap_DaytimeTelephoneNumber">                                    
+                                <div class="textoverlap">                                    
                                     <aura:if isTrue="{!!v.participant.Adult__c}">  
                                         <abbr title="required" class="slds-required">*</abbr>
                                     </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
-                                <span class="tooltiptext_DaytimeTelephoneNumber">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
                                 </div>
                             <lightning:input
                                              aura:id="DelegatePhoneName" 
@@ -531,7 +531,7 @@
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
                                 
                                 <div class="label tooltip">                                        
-                                    <div class=" textoverlap">                                            
+                                    <div class="textoverlap">                                            
                                         <abbr
                                               title="required"
                                               style="
@@ -542,7 +542,7 @@
                                               class="slds-required">{!!v.needsGuardian ? '*' : ''}</abbr>
                                         {!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</div>
                                     
-                                    <span class="tooltiptext">{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
+                                    <span>{!$Label.c.PG_Ref_L_Participant_Primary_daytime_telephone_number}</span>
                                 </div>
                                 <!-- REF-3070 Added disabled-->
                                 <lightning:input
@@ -652,11 +652,11 @@
                                         >{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}
                                     <aura:set attribute="else">
                                         <div class="label tooltip">
-                                            <div class="textoverlap_DaytimeTelephoneNumber">    
+                                            <div class="textoverlap">    
                                                 <aura:if isTrue= "{!!v.participantDelegate.Phone__c &amp;&amp; v.participant.Adult__c}">                                                  
                                                     <abbr title="required" class="slds-required">*</abbr>
                                                 </aura:if>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</div>
-                                            <span class="tooltiptext_DaytimeTelephoneNumber">{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
+                                            <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
                                           </div>
 
                                     </aura:set>
@@ -841,8 +841,11 @@
                             <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                                  >
-                                <div class="label">
-                                    {!$Label.c.PG_AP_F_Alternative_Phone_Number}
+                                 <div class="label tooltip">
+                                    <div class="textoverlapDaytimeTelephoneNumbe2"> 
+                                        {!$Label.c.PG_AP_F_Alternative_Phone_Number}
+                                    </div>
+                                    <span>{!$Label.c.PG_AP_F_Alternative_Phone_Number}</span>     
                                 </div>
                                 <lightning:input
                                                  type="text"

@@ -1,30 +1,79 @@
+/*  Tooltip for Text length overflow -added by Enugothula Srinath */
+@keyframes pulse {
+    0% {
+        opacity: .5;
+        transform: translate(-50%, -100%) scale(.5); 
+    }
+    50%{
+        opacity: 1;
+        transform: translate(-50%, -100%) scale(1.2);
+    }
+    100% {
+        transform: translate(-50%, -100%) scale(1);
+    }
+}
+
+.THIS .tooltip span
+{
+    color: #000;
+    text-decoration: none;
+    transform: translate(-50%, -100%) scale(.5); 
+    position: absolute;
+    background-color: #000459;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: 1rem;
+    font-weight: 400;
+    text-align: center;
+    box-shadow: 0 0 4px 2px rgba(0,0,0,.2);
+    width: max-content;
+    max-width: 200px;
+    top:0;
+    left:30%;
+    margin-top: -10px;
+    visibility: hidden;
+    opacity: 0;
+}
+.THIS .tooltip:hover{
+    position: relative;
+}
+.THIS .tooltip:hover span
+{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -100%) scale(1);
+    animation: pulse 1s;
+}
+.THIS .tooltip:hover span::after
+{
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: solid transparent;
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top: 8px solid #000459;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-width: 10px;
+}
 .THIS .tooltip {
     position: relative;
     display: inline-block;
     cursor: pointer;
 }
-
-.THIS  .tooltip .tooltiptext {  
-    visibility: hidden;
-    background-color: #000459;
-    top: -18px !important;
-    color: white;
-    text-align: center;
-    border-radius: 6px;    
-    /* Position the tooltip */
-    position: absolute;
-    z-index: 1;
-}
-.THIS  .tooltip:hover .tooltiptext {
-    visibility: visible;
-}
 .THIS .textoverlap
 {
-    width: 8rem;
+    width: 18rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
+/* --------------------END---------------- */
 .THIS .rr-white-panel {
     min-width: 50rem;
     padding: 1.5rem;
