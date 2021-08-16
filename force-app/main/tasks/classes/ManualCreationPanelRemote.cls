@@ -103,6 +103,9 @@ public without sharing class ManualCreationPanelRemote {
                     if(taskConfig.recurrenceFrequency == 'Yearly'){
                         taskConfig.endTime = taskConfig.startDate.addYears(1).addDays(-1);
                     }
+                    if(taskConfig.reminderDays != null){
+                        taskConfig.reminderDate = taskConfig.endTime.addDays(-taskConfig.reminderDays);
+                    }
                     ManualTaskRemote.createManualConfigTasks(config, filter, taskConfig);
                 }
                 return ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);

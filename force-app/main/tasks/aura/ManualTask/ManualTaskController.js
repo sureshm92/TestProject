@@ -33,7 +33,6 @@
         let diffInDays = dueDate.diff(startDate, 'days');
         if (reccFrequency == 'Weekly' && diffInDays < 7) {
             component.set('v.isValid', false);
-            component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
@@ -43,7 +42,6 @@
             );
         } else if (reccFrequency == 'Monthly' && diffInDays < 31) {
             component.set('v.isValid', false);
-            component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
@@ -52,7 +50,6 @@
                 10000
             );
         } else if (reccFrequency == 'Yearly' && diffInDays < 366) {
-            component.set('v.isValid', false);
             component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
@@ -81,7 +78,23 @@
         let dueDate = component.get('v.taskConfig.endTime');
         let reminderDate = component.get('v.taskConfig.reminderDate');
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
-
+        if (component.get('v.dayRemind') != 0) {
+            component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
+        }
+        if (component.get('v.dayRemind') > 6) {
+            component.set('v.isValid', false);
+            component.get('v.parent').setValidity(false);
+            communityService.showToast(
+                'Error',
+                'error',
+                '\n' + 'Cannot set task reminder more than 6 days',
+                10000
+            );
+            return;
+        } else {
+            var a = component.get('c.doCheckFields');
+            $A.enqueueAction(a);
+        }
         if (startDate && !dueDate) {
             if (reminderDate && moment(reminderDate, 'YYYY-MM-DD').isBefore(startDate)) {
                 component.set('v.taskConfig.reminderDate', startDate);
@@ -100,7 +113,6 @@
         if (component.get('v.taskConfig.isRecurrence')) {
             $A.enqueueAction(a);
         }
-
         if (useDaysNumber) {
             let daysCount = component.get('v.dayRemind');
             let daysBetween = dueDate.diff(startDate, 'days');
