@@ -29,7 +29,9 @@
         let reccFrequency = component.get('v.taskConfig.recurrenceFrequency');
         console.log('startDate: ' + startDate + ' dueDate: ' + dueDate);
         dueDate = moment(dueDate, 'YYYY-MM-DD');
-        console.log('diff: ' + dueDate.diff(startDate, 'days'));
+        console.log('date1: ' + dueDate.diff(startDate, 'months'));
+        let yearsDiff = dueDate.diff(startDate, 'years');
+        let monthDiff = dueDate.diff(startDate, 'months');
         let diffInDays = dueDate.diff(startDate, 'days');
         if (reccFrequency == 'Weekly' && diffInDays < 7) {
             component.set('v.isValid', false);
@@ -40,7 +42,7 @@
                 '\n' + 'Cannot set weekly task for these dates',
                 10000
             );
-        } else if (reccFrequency == 'Monthly' && diffInDays < 31) {
+        } else if (reccFrequency == 'Monthly' && monthDiff < 1) {
             component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
@@ -49,7 +51,7 @@
                 '\n' + 'Cannot set monthly task for these dates',
                 10000
             );
-        } else if (reccFrequency == 'Yearly' && diffInDays < 366) {
+        } else if (reccFrequency == 'Yearly' && yearsDiff < 1) {
             component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
