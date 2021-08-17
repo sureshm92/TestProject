@@ -61,15 +61,25 @@ public without sharing class DashboardRemoteNew {
         Object data;
         Map<String, StudyActions.Action> actions;
         StudyActions.Action action;
+        String hcpName;
 
         ListItem(Object data, Map<String, StudyActions.Action> actions) {
             this.data = data;
             this.actions = actions;
         }
-
+        ListItem(Object data, Map<String, StudyActions.Action> actions, String hcpName) {
+            this.data = data;
+            this.actions = actions;
+            this.hcpName = hcpName;
+        }
         ListItem(Object data, StudyActions.Action action) {
             this.data = data;
             this.action = action;
+        }
+        ListItem(Object data, StudyActions.Action action, String hcpName) {
+            this.data = data;
+            this.action = action;
+            this.hcpName = hcpName;
         }
     }
 
@@ -847,10 +857,12 @@ public without sharing class DashboardRemoteNew {
         List<ListItem> resList = new List<ListItem>();
         Id currentUserId = CommunityService.getInstance().getCurrentContactId();
         Set<Id> avaliableIds = new Set<Id>();
+        Set<Id> hcpContactIds = new Set<Id>();
         if (piId != currentUserId) {
             Set<Id> ssId = new Set<Id>();
             for (HCP_Enrollment__c hcpe : hcpeList) {
                 ssId.add(hcpe.Study_Site__c);
+                hcpContactIds.add(hcpe.HCP_Contact__c);
             }
             for (Site_Staff__c ssStaff : [
                 SELECT Id, Study_Site__c
@@ -861,6 +873,33 @@ public without sharing class DashboardRemoteNew {
                     AND Delegate_Level__c = 'Level 1'
             ]) {
                 avaliableIds.add(ssStaff.Study_Site__c);
+            }
+        }else{
+            for (HCP_Enrollment__c hcpe : hcpeList) {
+                hcpContactIds.add(hcpe.HCP_Contact__c);
+            }
+        }
+        Map<Id,String> hcpNames = new Map<Id,String>();
+        if(!hcpContactIds.isEmpty()){        
+            List<Participant__c> RHParticipants= [SELECT Id,Contact__c,Salutation__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN:hcpContactIds];
+            for(Participant__c RHParticipant : RHParticipants){
+                String Name;
+		if(RHParticipant.Salutation__c!=null){
+                    Name = Name==null?RHParticipant.Salutation__c : Name + ' ' + RHParticipant.Salutation__c;
+            	}
+                if(RHParticipant.First_Name__c!=null){
+                    Name = Name==null?RHParticipant.First_Name__c : Name + ' ' + RHParticipant.First_Name__c;
+                }
+                if(RHParticipant.Middle_Name__c!=null){
+                    Name = Name==null?RHParticipant.Middle_Name__c : Name + ' ' + RHParticipant.Middle_Name__c;
+                }
+                if(RHParticipant.Last_Name__c!=null){
+                    Name = Name==null?RHParticipant.Last_Name__c : Name + ' ' + RHParticipant.Last_Name__c;
+                }
+                if(RHParticipant.Suffix__c!=null){
+                    Name = Name==null?RHParticipant.Suffix__c : Name + ' ' + RHParticipant.Suffix__c;
+                }
+                hcpNames.put(RHParticipant.Contact__c, Name);
             }
         }
         for (HCP_Enrollment__c hcpe : hcpeList) {
@@ -873,7 +912,7 @@ public without sharing class DashboardRemoteNew {
                 for (String actionId : actionIds) {
                     StudyActions.Action action = actions.get(actionId);
                     if (action.cssClass == 'green') {
-                        resList.add(new ListItem(hcpe, action));
+                        resList.add(new ListItem(hcpe, action, hcpNames.get(hcpe.HCP_Contact__c)));
                         break;
                     }
                 }
@@ -887,7 +926,7 @@ public without sharing class DashboardRemoteNew {
                     for (String actionId : actionIds) {
                         StudyActions.Action action = actions.get(actionId);
                         if (action.cssClass == 'green') {
-                            resList.add(new ListItem(hcpe, action));
+                            resList.add(new ListItem(hcpe, action, hcpNames.get(hcpe.HCP_Contact__c)));
                             break;
                         }
                     }
@@ -1085,8 +1124,26 @@ public without sharing class DashboardRemoteNew {
 
     //This mesthod is used to get Name of the selected PI
     public static String getPIName(Id pIid) {
-        List<Contact> cList = [SELECT Id, Name FROM Contact WHERE Id = :pIid LIMIT 1];
-        return !cList.isEmpty() && cList[0].Name != null ? cList[0].Name : null;
+        String piName;
+        List<Participant__c> partList = [SELECT Id,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c =:pIid LIMIT 1];
+        if(partList.isEmpty()){
+            List<Contact> cList = [SELECT Id, Name FROM Contact WHERE Id = :pIid LIMIT 1];
+            piName = !cList.isEmpty() && cList[0].Name != null ? cList[0].Name : null;
+        }else{
+            if(partList[0].First_Name__c!=null){
+                piName = piName==null?partList[0].First_Name__c : piName + ' ' + partList[0].First_Name__c;
+            }
+            if(partList[0].Middle_Name__c!=null){
+                piName = piName==null?partList[0].Middle_Name__c : piName + ' ' + partList[0].Middle_Name__c;
+            }
+            if(partList[0].Last_Name__c!=null){
+                piName = piName==null?partList[0].Last_Name__c : piName + ' ' + partList[0].Last_Name__c;
+            }
+            if(partList[0].Suffix__c!=null){
+                piName = piName==null?partList[0].Suffix__c : piName + ' ' + partList[0].Suffix__c;
+            }
+        }
+        return piName;
     }
 
     //This method used to get name of the selected Study

@@ -35,9 +35,9 @@ public without sharing class ParametrizedMessageService {
                 return;
             if (sourceMessage == null)
                 return;
-            Map<String, String> paramsMap = ParametersProviderService.getParamsMap(
-                paramProviderName
-            );
+            ParametersProviderService.Parameters parameters = ParametersProviderService.getParamsMap(paramProviderName);
+            Map<String, String> paramsMap = parameters.parametersMap;
+            Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
             Map<String, String> valuesMap = new Map<String, String>();
             for (String paramName : paramsMap.keySet()) {
                 String fieldPath = paramsMap.get(paramName);

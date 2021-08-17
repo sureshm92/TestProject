@@ -4,6 +4,10 @@
     <label>Email Template Parameters From Resource</label>
     <protected>false</protected>
     <values>
+        <field>Alternate_Parameter_Source__c</field>
+        <value xsi:nil="true"/>
+    </values>
+    <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">
             UrlShare=article_external_link__c
