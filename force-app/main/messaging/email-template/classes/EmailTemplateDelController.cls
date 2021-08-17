@@ -64,7 +64,7 @@ global without sharing class EmailTemplateDelController {
 
     public List<DelegateLevelWrapper> getHCPDelegateLevels() {
         List<RP_Delegate_Relationship__c> rpDelegates = [
-            SELECT toLabel(Delegate_Access_Level__c), Referring_Provider__r.Full_Name__c
+            SELECT toLabel(Delegate_Access_Level__c), Referring_Provider__r.Id, Referring_Provider__r.Full_Name__c
             FROM RP_Delegate_Relationship__c
             WHERE Delegate__c = :EmailTemplateProviderService.getProvider().getRecipientId()
         ];
@@ -72,13 +72,20 @@ global without sharing class EmailTemplateDelController {
             rpDelegates,
             EmailTemplateProviderService.getProvider().getUserLanguage()
         );
-
+        List<Id> rpIds = new List<Id>();
+        for (RP_Delegate_Relationship__c delegate : rpDelegates) {
+            rpIds.add(delegate.Referring_Provider__r.Id);
+        }
+        Map<Id,Participant__c> participantNames = new Map<Id,Participant__c>();
+        for(Participant__c part : [SELECT Id,Full_Name__c,Contact__c FROM Participant__c WHERE Contact__c IN : rpIds]){
+            participantNames.put(part.Contact__c,part);
+        }
         List<DelegateLevelWrapper> hcpDelegateLevels = new List<DelegateLevelWrapper>();
         for (RP_Delegate_Relationship__c delegate : rpDelegates) {
             hcpDelegateLevels.add(
                 new DelegateLevelWrapper(
                     delegate.Delegate_Access_Level__c,
-                    delegate.Referring_Provider__r.Full_Name__c
+                    participantNames.containsKey(delegate.Referring_Provider__r.Id)?participantNames.get(delegate.Referring_Provider__r.Id).Full_Name__c : delegate.Referring_Provider__r.Full_Name__c
                 )
             );
         }

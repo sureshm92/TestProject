@@ -14,6 +14,7 @@
  <aura:attribute name="showParticipationSteps" type="boolean" default="true" />
  <aura:attribute name="minorDelegate" type="Participant__c" />
  <aura:attribute name="viewMore" type="Boolean" default="true" />
+ <aura:attribute name="refSourceName" type="String" />    
 
  <!--added for the performance issue-->
  <aura:attribute name="parent" type="Aura.Component" required="true" />
@@ -53,10 +54,20 @@
              <div class="vpi-field">
                  <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Source}</div>
                  <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_HCP}">
-                     <div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                     <aura:if isTrue="{!or(v.refSourceName == undefined,v.refSourceName == null)}">
+                     	<div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
+                      	<aura:set attribute="else">
+                            <div class="value">{!v.refSourceName}</div>
+                        </aura:set>
+                     </aura:if>
                      <aura:set attribute="else">
                          <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_PI}">
-                             <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                     <aura:if isTrue="{!or(v.refSourceName == undefined,v.refSourceName == null)}">
+                     	<div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                      	<aura:set attribute="else">
+                            <div class="value">{!v.refSourceName}</div>
+                        </aura:set>
+                     </aura:if>
                              <aura:set attribute="else">
                                  <div class="value">{!v.pe.Source_Type__c}</div>
                              </aura:set>
@@ -144,8 +155,13 @@
              </div>
 
              <div class="vpi-field">
-                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
-                 <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+                 <div class="label">{!$Label.c.PE_Investigator_Recruitment_Expert}</div>
+                 <aura:if isTrue="{!or(v.refSourceName == undefined,v.refSourceName == null)}">
+                     <div class="value">{!v.pe.Study_Site__r.Principal_Investigator__r.Name}</div>
+                     <aura:set attribute="else">
+                         <div class="value">{!v.refSourceName}</div>
+                     </aura:set>
+                 </aura:if>
              </div>
 
              <div class="vpi-field">
@@ -194,7 +210,12 @@
          <aura:if isTrue="{!v.userMode == 'Participant'}">
              <div class="vpi-field">
                  <div class="label label_PP">{!$Label.c.PE_Investigator_Name}</div>
-                 <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                 <aura:if isTrue="{!or(v.refSourceName == undefined,v.refSourceName == null)}">
+                     <div class="value">{!v.pe.PI_Contact__r.Name}</div>
+                     <aura:set attribute="else">
+                         <div class="value">{!v.refSourceName}</div>
+                     </aura:set>
+                 </aura:if>
              </div>
 
              <div class="vpi-field">

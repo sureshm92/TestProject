@@ -53,8 +53,13 @@
                 <template if:false={isPIMode}>
                     <div class="ms-header-team-name" data-gtm="ms-header-name-pa">
                         <template if:false={isPastStudy}>
-                            {labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
-                        </template>
+								<template if:true={fullName}>
+                            		{labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{fullName}
+                        		</template>
+								<template if:false={fullName}>
+                            		{labels.teamLabel}&nbsp;|&nbsp;{labels.piLabel}&nbsp;{selectedEnrollment.Study_Site__r.Principal_Investigator__r.Name}
+                        		</template>
+						</template>
                         <template if:true={isPastStudy}>
                             <c-web-limit-text-by-lines
                                 max-lines="2"

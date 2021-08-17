@@ -253,13 +253,16 @@ public without sharing class StudyListViewController {
         System.debug('piTRIALS' + piTrials);
         List<Study_Site__c> piStudySites = new List<Study_Site__c>();
         Set<Id> ssIds = new Set<Id>();
+        Set<Id> piIds = new Set<Id>();
         for (Clinical_Trial_Profile__c trial : piTrials) {
             piStudySites.addAll(trial.Study_Site_Profiles__r);
             for (Study_Site__c site : trial.Study_Site_Profiles__r) {
                 ssIds.add(site.Id);
+                piIds.add(site.Principal_Investigator__c);
             }
         }
         Map<Id, Map<Id, Account>> piAccounts = getPiAccounts(piStudySites);
+        Map<Id,Participant__c> piParticipantDetails = getPIParticipantDetails(piIds);
         Set<Id> siteContactIds = new Set<Id>();
         Map<String, List<Site_Staff__c>> delegatesMap = getDelegates(ssIds, siteContactIds);
         Map<Id, String> participantFullnameMap = getParticipantFullnameMap(siteContactIds);
@@ -285,7 +288,8 @@ public without sharing class StudyListViewController {
                 StudyDetailItem.StudySiteWithActions ssWrapper = new StudyDetailItem.StudySiteWithActions(
                     ss[i],
                     new StudyActionsPI(ss[i]).studySitePiActions,
-                    piAccounts.get(ss[i].Principal_Investigator__c).values()
+                    piAccounts.get(ss[i].Principal_Investigator__c).values(),
+                    piParticipantDetails.get(ss[i].Principal_Investigator__c)
                 );
                 ssWrapper.delegatePicklist = delegatesPicklistMap.get(ss[i].Id);
                 studyDetailItem.ssList.add(ssWrapper);
@@ -405,6 +409,14 @@ public without sharing class StudyListViewController {
         return resultMap;
     }
 
+    public static Map<Id,Participant__c> getPIParticipantDetails(Set<Id> piIds){
+        Map<Id,Participant__c> piPartDetails = new Map<Id,Participant__c>();
+        for(Participant__c partPI: [SELECT Id,Contact__c, First_Name__c,Last_Name__c,Suffix__c,Salutation__c,Full_Name__c FROM Participant__c WHERE Contact__c IN :piIds]){
+            piPartDetails.put(partPI.Contact__c,partPI);
+        }
+        return piPartDetails;
+    }
+    
     private static List<LabelValueItem> getDelegatePickList(
         List<Site_Staff__c> ss,
         Map<Id, String> participantFullnameMap

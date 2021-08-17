@@ -16,6 +16,10 @@
     <aura:attribute name="trial" type="Object" />
     <aura:attribute name="hcpEnrollment" type="Object" />
     <aura:attribute name="hcpContact" type="Object" />
+    <aura:attribute name="hcpEnrollmentParticipantName" type="String" />
+    <aura:attribute name="hcpContactParticipantSal" type="String" />   
+    <aura:attribute name="hcpContactParticipantName" type="String" />
+    <aura:attribute name="hcpContactParticipant" type="Object" /> 
     <aura:attribute name="searchResult" type="Object" />
     <aura:attribute name="searchData" type="Object" />
     <aura:attribute name="mrrResult" type="String" default="Pending" />
@@ -52,9 +56,14 @@
                                 </div>
                                 <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
                                     <div class="rr-primary-text">
+                                        <aura:if isTrue="{!or(v.hcpEnrollmentParticipantName==undefined,v.hcpEnrollmentParticipantName==null)}">
                                         {!v.hcpEnrollment.HCP_Contact__r.Salutation ?
                                         v.hcpEnrollment.HCP_Contact__r.Salutation + ' ' : ''}
                                         {!v.hcpEnrollment.HCP_Contact__r.Name}
+                                          <aura:set attribute="else">
+                                              {!v.hcpEnrollmentParticipantName}
+                                            </aura:set>
+                                        </aura:if> 
                                     </div>
                                     <div class="rr-secondary-text">
                                         {!$Label.c.PG_DBPI_at + ' ' +
@@ -63,7 +72,12 @@
                                     <aura:set attribute="else">
                                         <aura:if isTrue="{!!empty(v.hcpContact)}">
                                             <div class="rr-primary-text">
-                                                {!v.hcpContact.Salutation} {!v.hcpContact.Name}
+                                                <aura:if isTrue="{!or(v.hcpContactParticipant==undefined,v.hcpContactParticipant==null)}">
+                                                    {!v.hcpContact.Salutation} {!v.hcpContact.Name}
+                                                    <aura:set attribute="else">
+                                                        {!v.hcpContactParticipantSal} {!v.hcpContactParticipantName}
+                                                    </aura:set>
+                                                </aura:if> 
                                             </div>
                                         </aura:if>
                                     </aura:set>

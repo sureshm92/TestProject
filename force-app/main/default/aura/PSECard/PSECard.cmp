@@ -17,7 +17,7 @@
     <!-- Added for performance tuning -->
     <aura:attribute name="isHidden" type="Boolean" default="false" />
      <aura:attribute name="viewMore" type="Boolean" default="true" />
-
+	<aura:attribute name="refSourceName" type="String" />
     <!-- Added for performance tuning modified for performance tuning-->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -40,6 +40,7 @@
             isInvited="{!v.isInvited}"
             parentSE="{!this}"
             viewMore = "{!v.viewMore}"
+            refSourceName = "{!v.refSourceName}"                     
         />
         <aura:if isTrue="{!v.isHidden}">
             <!-- Added for performance tuning -->
