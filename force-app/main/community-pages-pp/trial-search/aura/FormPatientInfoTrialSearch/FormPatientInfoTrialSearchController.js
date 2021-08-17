@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function(component, event, hepler) {
+    doInit: function (component, event, hepler) {
         var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         var formData = component.get('v.formData');
@@ -16,7 +16,7 @@
         component.set('v.statesLVList', states);
     },
 
-    doCheckFields: function(component, event, hepler) {
+    doCheckFields: function (component, event, hepler) {
         var participant = component.get('v.participantInfo');
         // var stateRequired = component.get('v.statesLVList')[0];
         var numbers = /^[0-9]*$/;
@@ -46,10 +46,10 @@
         } else {
             if (!numbers.test(participant.Phone__c) || !participant.Phone__c) {
                 if (!participant.Phone__c) {
-                    phoneField.setCustomValidity('Phone number is mandatory');
+                    phoneField.setCustomValidity($A.get('$Label.c.PP_Phone_Mandatory'));
                     phoneField.reportValidity();
                 } else {
-                    phoneField.setCustomValidity('Phone number must be numeric');
+                    phoneField.setCustomValidity($A.get('$Label.c.PP_MessagePatternMismatch'));
                     phoneField.reportValidity();
                 }
             } else {
@@ -59,7 +59,7 @@
             component.set('v.isValid', false);
         }
     },
-    handleHomePhoneValidation: function(component, event) {
+    handleHomePhoneValidation: function (component, event) {
         var inputValue = event.getSource().get('v.value');
         var phoneField = component.find('pField2');
         var numbers = /^[0-9]*$/;
@@ -76,7 +76,7 @@
         phoneField.reportValidity();
     },
 
-    doCountryCodeChanged: function(component, event, helper) {
+    doCountryCodeChanged: function (component, event, helper) {
         var statesByCountryMap = component.get('v.formData.statesByCountryMap');
         var participant = component.get('v.participantInfo');
         var states = statesByCountryMap[participant.Mailing_Country_Code__c];
@@ -85,11 +85,11 @@
         component.checkFields();
     },
 
-    onClickDisclaimer: function(component, event, helper) {
+    onClickDisclaimer: function (component, event, helper) {
         component.set('v.isDisclaimer', !component.get('v.isDisclaimer'));
     },
 
-    changeFor: function(component, event, helper) {
+    changeFor: function (component, event, helper) {
         if (component.get('v.sendFor') === 'Me') {
             let copyParticipant = JSON.parse(JSON.stringify(component.get('v.participant')));
             component.set('v.participantInfo', copyParticipant);
