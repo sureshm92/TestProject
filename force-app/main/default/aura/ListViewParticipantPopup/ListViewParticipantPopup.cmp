@@ -80,6 +80,7 @@
                                              label="{!$Label.c.FD_PE_Field_Final_Consent}" 
                                              required="{!v.finalConsentrequired}"
                                              name="input2" 
+                                             aura:id="finalConsent"
                                              checked="{!v.finalConsentvalue}" 
                                              onchange="{!c.onBooleanValueChange}"/>
                         </div>
