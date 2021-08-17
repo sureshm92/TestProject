@@ -144,6 +144,7 @@
                         name="select"
                         label="Recurrence Frequency"
                         required="true"
+                        onchange="{!c.resetTaskValues}"
                         value="{!v.taskConfig.recurrenceFrequency}"
                     >
                         <aura:iteration items="{!v.recurrenceFrequency}" var="freq">
