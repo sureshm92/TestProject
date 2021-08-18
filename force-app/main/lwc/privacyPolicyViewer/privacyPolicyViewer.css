@@ -110,8 +110,6 @@
 .logo {
     height: auto;
     width: 15%;
-    display: inline-block;
-    float: left;
 }
 .logoRTL {
     height: auto;
@@ -174,12 +172,10 @@
     text-align: right;
 }
 .ppHeader {
-    display: inline-block;
     margin-left: 1%;
     margin-top: 5px;
     padding-top: 4px;
     vertical-align: top;
-    float: left;
 }
 .ppHeaderRTL {
     display: inline-block;
@@ -200,6 +196,9 @@
 .headerAndLogo {
     margin-left: 3.5%;
     padding-top: 10%;
+    display: inline-flex;
+    flex-direction: row;
+    margin-bottom: 2%;
 }
 .ppLabel:hover {
     cursor: pointer;
