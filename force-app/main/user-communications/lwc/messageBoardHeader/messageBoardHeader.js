@@ -72,8 +72,6 @@ export default class MessageBoardHeader extends LightningElement {
     }
 
     renderedCallback() {
-      
-            
         if (this.selectedEnrollment) {
             this.fullName =
                 this.userMode === 'PI'

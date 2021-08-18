@@ -5,9 +5,6 @@
 public with sharing class ManualTaskRemote {
     public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
-            system.debug('******filterLINE8>>'+taskConfig);
-            //system.debug('******filterLINE8>>'+filter + 'ManualTaskFilter.IdTypeOfContactMap: '+ManualTaskFilter.IdTypeOfContactMap);
-            //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
             Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap);
             return true;
         } catch (Exception e) {
