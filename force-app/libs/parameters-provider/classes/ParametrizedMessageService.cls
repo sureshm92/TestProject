@@ -39,6 +39,7 @@ public without sharing class ParametrizedMessageService {
             Map<String, String> paramsMap = parameters.parametersMap;
             Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
             Map<String, String> valuesMap = new Map<String, String>();
+
             for (String paramName : paramsMap.keySet()) {
                 String fieldPath = paramsMap.get(paramName);
                 Object value = SObjectHelper.getSObjectFieldValue(sobj, fieldPath);

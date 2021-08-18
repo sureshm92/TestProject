@@ -20725,7 +20725,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Tab_Medical_History</shortDescription>
-        <value>Medical History</value>
+        <value>Medical Record History</value>
     </labels>
     <labels>
         <fullName>Tab_Sharing_Options</fullName>

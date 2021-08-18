@@ -64,6 +64,7 @@ public without sharing class ViewPatientsRemote {
         'MRR_Survey_Results_URL__c',
         'Name',
         'Human_Id__c',
+        'Unique_HumanId__c',
         'Non_Referral_Reason__c',
         'Patient_ID__c',
         'Participant_Status__c',
@@ -161,8 +162,7 @@ public without sharing class ViewPatientsRemote {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_IQVIA_to_contact_about_study__c',
         'Site_Communication_Preference__c',
-        'Invited_To_PP_Date__c',    
-        'Is_Contacted__c',
+        'Invited_To_PP_Date__c',
         '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'    
     };
 
