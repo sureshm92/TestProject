@@ -73,7 +73,7 @@
             <aura:if
                 isTrue="{!v.participantEnrollment.Participant_Status__c == 'Pending Referral'}"
             >
-                <div class="slds-grid slds-wrap">
+                <div class="slds-grid slds-wrap" style="white-space: nowrap;">
                     <div class="slds-col">
                         <button
                         class="{!if(v.isRTL, 'apollo-btn secondary button-RTL', 'apollo-btn secondary')}"
