@@ -23,7 +23,6 @@
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="isDateTimeFieldsAvailable" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
-    <aura:attribute name="historyList1" type="List" />
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
     <aura:attribute name="StatusDetailCard" type="Integer" />
     <aura:attribute name="historyList1" type="List" />
