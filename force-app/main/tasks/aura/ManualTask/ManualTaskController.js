@@ -83,13 +83,13 @@
         if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
         }
-        if (component.get('v.dayRemind') > 6) {
+        if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
-                '\n' + 'Cannot set task reminder more than 6 days',
+                '\n' + 'Cannot set reminder date greater than one year.',
                 10000
             );
             return;
