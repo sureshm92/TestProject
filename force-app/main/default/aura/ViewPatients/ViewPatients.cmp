@@ -2,119 +2,169 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component
-    description="ViewPatients"
-    implements="forceCommunity:availableForAllPageTypes"
-    controller="ViewPatientsRemote"
-    extends="c:CommunityContext"
+ <aura:component
+ description="ViewPatients"
+ implements="forceCommunity:availableForAllPageTypes"
+ controller="ViewPatientsRemote"
+ extends="c:CommunityContext"
 >
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+ <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
 
-    <!--attributes:-->
+ <!--attributes:-->
 
-    <aura:attribute name="trialId" type="String" />
-    <aura:attribute name="siteId" type="String" />
-    <aura:attribute name="userMode" type="String" />
-    <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
-    <aura:attribute
-        name="emptyListMessage"
-        type="String"
-        access="private"
-        default="{!$Label.c.PG_VP_L_No_Items}"
-    />
-    <aura:attribute name="parent" type="Aura.Component" />
-    <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false" />
-    <aura:attribute name="entriesOnPage" type="Integer" access="global" />
-    <aura:attribute name="isJanssen" type="Boolean" default="false" />
+ <aura:attribute name="trialId" type="String" />
+ <aura:attribute name="siteId" type="String" />
+ <aura:attribute name="userMode" type="String" />
+ <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
 
-    <!--handlers:-->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
-    <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}" />
+<!--START : RP Revamp attributes:-->
+ <aura:attribute name="layout1" type="Integer" default="4"/>
+ <aura:attribute name="layout2" type="Integer" default="8" />
+ <aura:attribute name="show" type="Boolean" default="true" />
+<!--END : RP Revamp attributes:-->
 
-    <!--component body:-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
-    <div class="{!v.isRTL? 'arabic':'english'}">
-        <div class="rr-min-body-height">
-            <aura:if isTrue="{!v.isInitialized}">
-                <aura:if isTrue="{!v.hasEmancipatedParticipants &amp;&amp; v.userMode == 'PI'}">
-                    <div class="emancipation-notification">
-                        <span class="emancipation-notification-msg"
-                            ><c:RRIcon
-                                iconName="warning"
-                                class="warning-icon"
-                            />{!$Label.c.One_or_more_Participants_reached_Majority}</span
-                        >
-                        <span class="emancipation-notification-link">
-                            <a
-                                data-gtm="link_Filter_emancip"
-                                href="javascript:void(0);"
-                                onclick="{!c.filterEmancipations}"
-                            >
-                                {!$Label.c.Filter_Participant_s}
-                            </a>
-                        </span>
-                    </div>
-                </aura:if>
+ <aura:attribute
+     name="emptyListMessage"
+     type="String"
+     access="private"
+     default="{!$Label.c.PG_VP_L_No_Items}"
+ />
+ <aura:attribute name="parent" type="Aura.Component" />
+ <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false" />
+ <aura:attribute name="entriesOnPage" type="Integer" access="global" />
+ <aura:attribute name="isJanssen" type="Boolean" default="false" />
 
-                <div class="vp-navigation">
-                    <aura:if isTrue="{!v.userMode == 'PI'}">
-                        <div class="navigation-breadcrumbs">
-                            <c:RRNavigationPath>
-                                <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}" />
-                            </c:RRNavigationPath>
-                            <aura:set attribute="else">
-                                <c:RRNavigationPath>
-                                    <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}" />
-                                </c:RRNavigationPath>
-                            </aura:set>
-                        </div>
-                    </aura:if>
-                    <!--<aura:if isTrue="{!v.userMode != 'HCP'}">
-                    <div class="vp-export-btn">
-                        <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
-                                onclick="{!c.doExportFull}">
-                            {!$Label.c.BTN_Export_All}
-                        </button>
-                    </div>
-                </aura:if>-->
-                    <aura:if isTrue="{!v.userMode == 'PI' }">
-                        <div class="slds-text-align_right vp-navigate-btn">
-                            <a
-                                style="font-size: 1rem; font-weight: 600"
-                                onclick="{!c.onClickListView}"
-                            >
-                                {!$Label.c.BTN_Naviagte}
-                            </a>
-                        </div>
-                    </aura:if>
-                </div>
-                <aura:if isTrue="{!v.isJanssen}">
-                    <div class="slds-col slds-size_1-of-1 DiversityMessage">
-                        <img
-                            src="{!$Resource.icon_circle}"
-                            class="check"
-                        />{!$Label.c.Diversity_Message}
-                    </div>
-                </aura:if>
-                <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <c:MedicalRecordReviewLog
-                        showStatistics="false"
-                        studyFilterEnabled="true"
-                        trialId="{!v.trialId}"
-                        header="{!$Label.c.PG_MPS_L_NOT_YET_REFERRED}"
-                    />
-                </aura:if>
+ <!--handlers:-->
+ <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
+ <aura:handler event="c:uiEvent" name="onInit" action="{!c.doNeedsGuardian}" />
+
+ <!--component body:-->
+ <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
+ <div class="{!v.isRTL? 'arabic':'english'}">
+     <div class="rr-min-body-height">
+         <aura:if isTrue="{!v.isInitialized}">
+             <aura:if isTrue="{!v.hasEmancipatedParticipants &amp;&amp; v.userMode == 'PI'}">
+                 <div class="emancipation-notification">
+                     <span class="emancipation-notification-msg"
+                         ><c:RRIcon
+                             iconName="warning"
+                             class="warning-icon"
+                         />{!$Label.c.One_or_more_Participants_reached_Majority}</span
+                     >
+                     <span class="emancipation-notification-link">
+                         <a
+                             data-gtm="link_Filter_emancip"
+                             href="javascript:void(0);"
+                             onclick="{!c.filterEmancipations}"
+                         >
+                             {!$Label.c.Filter_Participant_s}
+                         </a>
+                     </span>
+                 </div>
+             </aura:if>
+
+             <div class="vp-navigation">
+                 <aura:if isTrue="{!v.userMode == 'PI'}">
+                     <div class="navigation-breadcrumbs">
+                         <c:RRNavigationPath>
+                             <c:RRNPathItem label="{!$Label.c.PG_RP_L_My_Referrals}" />
+                         </c:RRNavigationPath>
+                         <aura:set attribute="else">
+                             <c:RRNavigationPath>
+                                 <c:RRNPathItem label="{!$Label.c.PG_VP_L_My_Patients}" />
+                             </c:RRNavigationPath>
+                         </aura:set>
+                     </div>
+                 </aura:if>
+                 <!--<aura:if isTrue="{!v.userMode != 'HCP'}">
+                 <div class="vp-export-btn">
+                     <button class="apollo-btn secondary" data-gtm="BTN_My_Participants_Export_All"
+                             onclick="{!c.doExportFull}">
+                         {!$Label.c.BTN_Export_All}
+                     </button>
+                 </div>
+             </aura:if>-->
+                 <aura:if isTrue="{!v.userMode == 'PI' }">
+                     <div class="slds-text-align_right vp-navigate-btn">
+                         <a
+                             style="font-size: 1rem; font-weight: 600"
+                             onclick="{!c.onClickListView}"
+                         >
+                             {!$Label.c.BTN_Naviagte}
+                         </a>
+                     </div>
+                 </aura:if>
+             </div>
+             <aura:if isTrue="{!v.isJanssen}">
+                 <div class="slds-col slds-size_1-of-1 DiversityMessage">
+                     <img
+                         src="{!$Resource.icon_circle}"
+                         class="check"
+                     />{!$Label.c.Diversity_Message}
+                 </div>
+             </aura:if>
+             <!--auraif added as fix for REF-4457-->
+             <aura:if isTrue="{!v.userMode == 'PI'}">
                 <c:ViewPatientsReferred
-                    aura:id="childCmp"
-                    showStatistics="{!v.userMode=='PI'}"
-                    studyFilterEnabled="true"
-                    trialId="{!v.trialId}"
-                    siteId="{!v.siteId}"
-                    header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}"
-                    parent="{!v.parent}"
-                />
-            </aura:if>
-        </div>
-    </div>
-    <c:builderStub aura:id="builderStub" />
+                                         aura:id="childCmp"
+                                         showStatistics="{!v.userMode=='PI'}"
+                                         studyFilterEnabled="true"
+                                         trialId="{!v.trialId}"
+                                         siteId="{!v.siteId}"
+                                         header="{!if(v.userMode == 'HCP',$Label.c.PG_MPS_L_REFERRED,'')}"
+                                         parent="{!v.parent}"
+                                         />
+             </aura:if>
+             <aura:if isTrue="{!v.userMode == 'HCP'}">
+                <!--START : RP Revamp-->
+                    <div class="slds-col slds-size--9-of-12" style="margin-top: -30px; margin-left: -30px;">
+                        <lightning:icon iconName="utility:home" style="height: 14px;width: 14px;"
+                            alternativeText="Home" title="Home" size="x-small" onclick="{!c.doGoHome}" />
+                            <p style="margin-left: 18px;margin-top: -20px;font-size:14px;font-weight: bold;"> > My Patients</p> 
+                    </div>           
+                    <lightning:layout multipleRows="true" class="hcp-block">
+                        <lightning:layoutItem size="{!v.layout1}" padding="around-small">
+                            <lightning:card>
+                                <lightning:tabset>
+                                    <lightning:tab   label="{!$Label.c.RPR_Not_Yet_Referred}" 
+                                       onactive="{! c.handleActive }" id="tab1">
+                                      
+                                        <c:rP_NonReferredTable />
+                                    </lightning:tab>
+
+                                    <lightning:tab  label="{!$Label.c.RPR_Referred}"                                           
+                                      onactive="{! c.handleActive }" id="tab2">
+                                           
+                                            <c:ViewPatientsReferred
+                                                        aura:id="childCmp"
+                                                        showStatistics="{!v.userMode=='PI'}"
+                                                        studyFilterEnabled="true"
+                                                        trialId="{!v.trialId}"
+                                                        siteId="{!v.siteId}"
+                                                        parent="{!v.parent}"
+                                                        />
+                                    </lightning:tab>
+
+                                    <lightning:tab label="Bulk Upload"
+                                         onactive="{! c.handleActive }" id="tab3">
+                                       
+                                        <!--<c:rPRevamp />-->
+                                    </lightning:tab>
+                                </lightning:tabset>
+                            </lightning:card>
+                        </lightning:layoutItem>
+                        <aura:if isTrue="{!v.show}">
+                            <lightning:layoutItem size="{!v.layout2}" padding="around-small">
+                                <lightning:card>
+                                    <c:rPNonReferredOverview />
+                                </lightning:card>
+                            </lightning:layoutItem>
+                        </aura:if>
+                    </lightning:layout>
+                <!--END : RP Revamp -->
+             </aura:if>
+         </aura:if>
+     </div>
+ </div>
+ <c:builderStub aura:id="builderStub" />
 </aura:component>

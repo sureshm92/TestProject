@@ -904,7 +904,7 @@ public without sharing class ParticipantWorkflowService {
                       : piContactNames!=null && piContactNames.containsKey(pesh.ParticipantEnrollment__r.PI_Contact__c)
                    		? piContactNames.get(pesh.ParticipantEnrollment__r.PI_Contact__c)
                    		: pesh.ParticipantEnrollment__r.PI_Contact__r.Name)
-               : pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
+                : pesh.ParticipantEnrollment__r.Referral_Completedby_Name__c;
             historyWrapper.detail =
                 ' ' +
                 TranslateHelper.getLabelValue(step.History_Item_Details_Template_Label__c)
@@ -1737,7 +1737,7 @@ public without sharing class ParticipantWorkflowService {
                         outcomesMap,
                         previousStep,
                         piContactNames
-                   );
+                    );
                     pi.pathItems.add(currentStep);
                     previousStep = currentStep;
                 }
@@ -1819,7 +1819,7 @@ public without sharing class ParticipantWorkflowService {
         Map<String, Map<String, Participant_Workflow_Outcome__mdt>> outcomesMap,
         PathStepWrapper previousStep,
         Map<Id,String> piContactNames
-   ) {
+    ) {
         PathStepWrapper result = new PathStepWrapper();
         if (pesh != null) {
             result.title = TranslateHelper.getPickListLabel(
@@ -2010,11 +2010,12 @@ public without sharing class ParticipantWorkflowService {
         @AuraEnabled
         public List<String> fovCreatedby;       
     }
+    
     public class ParticipantWorkflowStepWrapper {
         //
         @AuraEnabled
         public list<ParticipantWorkflowHistoryWrapper> historyList = new list<ParticipantWorkflowHistoryWrapper>();
-		@AuraEnabled
+        @AuraEnabled
         public String stepName;
         //
         @AuraEnabled

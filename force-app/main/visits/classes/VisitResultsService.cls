@@ -4,6 +4,7 @@ public inherited sharing class VisitResultsService {
     public static final String BIOMARKER_VISIT_RESULT_GROUP = 'Biomarkers';
     private VisitResultMService metadataService;
     private Map<String, String> visitResultsMeasurementNamesMap;
+    public static Map<Id, Set<String>> patientVisitbyVisitGroupMap = new Map<Id, Set<String>>();
 
     public VisitResultsService() {
         this.metadataService = (VisitResultMService) ClassFactory.newInstance(
@@ -122,7 +123,9 @@ public inherited sharing class VisitResultsService {
                 filteredVisitResults.add(ctpAttributeAvailable);
             }
         }
-        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults();
+        List<Visit_Result__c> visitResults = VisitResultSharingService.processResults(
+            currentCTPVisitResultGroup
+        );
         if (visitResults.isEmpty() || filteredVisitResults.isEmpty()) {
             return new List<VisitResultWrapper>();
         }
@@ -197,6 +200,7 @@ public inherited sharing class VisitResultsService {
             : ' ORDER BY Visit_Number__c, Completed_Date__c';
         String visitsQuery =
             'SELECT ' +
+            'Id, ' +
             'Name, ' +
             'Completed_Date__c, ' +
             'Planned_Date__c, ' +
@@ -217,17 +221,85 @@ public inherited sharing class VisitResultsService {
             Integer timeSharing =
                 queryResult.size() -
                 (pe.Clinical_Trial_Profile__r.Shareback_Availability_Timing__c.intValue());
+            Map<String, Patient_Visit__c> visitResultGroupwithPatientVisitMap = new Map<String, Patient_Visit__c>();
             for (Integer i = queryResult.size() - 1; i >= 0; i--) {
                 if (
                     (i + 1) <= timeSharing &&
                     queryResult.get(i).Visit_Results__r != null &&
-                    !queryResult.get(i).Visit_Results__r.isEmpty()
+                    !queryResult.get(i).Visit_Results__r.isEmpty() &&
+                    visitResultGroupwithPatientVisitMap.keySet().size() < 3
                 ) {
-                    filteredPatientVisits.add(queryResult.get(i));
-                    break;
+                    Set<String> visitResultGroupSet = visitResultAvailabilityByGroupForReport(
+                        queryResult.get(i).Visit_Results__r
+                    );
+                    if(visitResultGroupSet!=null && visitResultGroupSet.size()>0){
+                        if (
+                            visitResultGroupSet.contains(VisitResultSharingService.VITAL_RECORDTYPE) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.VITAL_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.VITAL_RECORDTYPE,
+                                queryResult.get(i)
+                            );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.VITAL_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.VITAL_RECORDTYPE }
+                                );
+                            }
+                        }
+                        if (
+                            visitResultGroupSet.contains(VisitResultSharingService.LAB_RECORDTYPE) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.LAB_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.LAB_RECORDTYPE,
+                                queryResult.get(i)
+                            );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.LAB_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.LAB_RECORDTYPE }
+                                );
+                            }
+                        }
+                        if (
+                            visitResultGroupSet.contains(
+                                VisitResultSharingService.BIOMARKER_RECORDTYPE
+                            ) &&
+                            !visitResultGroupwithPatientVisitMap
+                                .containsKey(VisitResultSharingService.BIOMARKER_RECORDTYPE)
+                        ) {
+                            visitResultGroupwithPatientVisitMap.put(
+                                VisitResultSharingService.BIOMARKER_RECORDTYPE,
+                                queryResult.get(i)
+                            );
+                            if (patientVisitbyVisitGroupMap.containsKey(queryResult.get(i).Id)) {
+                                patientVisitbyVisitGroupMap.get(queryResult.get(i).Id)
+                                    .add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
+                            } else {
+                                patientVisitbyVisitGroupMap.put(
+                                    queryResult.get(i).Id,
+                                    new Set<String>{ VisitResultSharingService.BIOMARKER_RECORDTYPE }
+                                );
+                            }
+                        }
+                    }
                 }
             }
-            return filteredPatientVisits;
+            Set<Patient_Visit__c> patientVisitSet = new Set<Patient_Visit__c>();
+            List<Patient_Visit__c> patientVisitList = new List<Patient_Visit__c>();
+            patientVisitSet.addAll(visitResultGroupwithPatientVisitMap.values());
+            patientVisitList.addAll(patientVisitSet);
+            return patientVisitList;
         }
         return queryResult;
     }
@@ -251,7 +323,8 @@ public inherited sharing class VisitResultsService {
         List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSing = VisitResultSharingService.getVisitResultsWithAvailableCountry(
             VisitResultsRemote.getPatientVisits(),
             ctpId,
-            mailingCC
+            mailingCC,
+            visitResultsGroupName
         );
 
         if (!resultsWithAvailableSing.isEmpty()) {
@@ -277,12 +350,55 @@ public inherited sharing class VisitResultsService {
         }
         return null;
     }
+    private static Set<String> visitResultAvailabilityByGroupForReport(
+        List<Visit_Result__c> visitResults
+    ) {
+        Boolean isVitalResult = false;
+        Boolean isLabResult = false;
+        Boolean isBiomarkerResult = false;
+        Set<String> visitResultGroupSet = new Set<String>();
 
-    public static List<Visit_Result__c> getVisitResults(Id ctpId, String mailingCC) {
+        for (Visit_Result__c objVisitResult : visitResults) {
+            if (
+                objVisitResult.recordType.DeveloperName ==
+                VisitResultSharingService.VITAL_RECORDTYPE
+            ) {
+                isVitalResult = true;
+            }
+            if (
+                objVisitResult.recordType.DeveloperName == VisitResultSharingService.LAB_RECORDTYPE
+            ) {
+                isLabResult = true;
+            }
+            if (
+                objVisitResult.recordType.DeveloperName ==
+                VisitResultSharingService.BIOMARKER_RECORDTYPE
+            ) {
+                isBiomarkerResult = true;
+            }
+        }
+        if (isVitalResult) {
+            visitResultGroupSet.add(VisitResultSharingService.VITAL_RECORDTYPE);
+        }
+        if (isLabResult) {
+            visitResultGroupSet.add(VisitResultSharingService.LAB_RECORDTYPE);
+        }
+        if (isBiomarkerResult) {
+            visitResultGroupSet.add(VisitResultSharingService.BIOMARKER_RECORDTYPE);
+        }
+
+        return visitResultGroupSet;
+    }
+    public static List<Visit_Result__c> getVisitResults(
+        Id ctpId,
+        String mailingCC,
+        String visitResultGroup
+    ) {
         List<VisitResultSharingService.VisitResultWithAvailableSign> resultsWithAvailableSing = VisitResultSharingService.getVisitResultsWithAvailableCountry(
             VisitResultsRemote.getPatientVisits(),
             ctpId,
-            mailingCC
+            mailingCC,
+            visitResultGroup
         );
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
@@ -400,10 +516,9 @@ public inherited sharing class VisitResultsService {
         ) {
             this.wrappers = wrappers;
             if (visit != null && visit.Completed_Date__c != null) {
-                if(String.isBlank(visit.Portal_Name__c)){
+                if (String.isBlank(visit.Portal_Name__c)) {
                     this.visitName = System.Label.StudyVisit_Unscheduled_Visit;
-                }
-                else{
+                } else {
                     this.visitName = visit.Portal_Name__c;
                 }
                 Datetime dt = Datetime.newInstance(
@@ -504,10 +619,9 @@ public inherited sharing class VisitResultsService {
                     }
                 }
                 if (visitResult != null && visitResult.Patient_Visit__r.Completed_Date__c != null) {
-                    if(String.isBlank(visitResult.Patient_Visit__r.Portal_Name__c)){
+                    if (String.isBlank(visitResult.Patient_Visit__r.Portal_Name__c)) {
                         this.visitName = System.Label.StudyVisit_Unscheduled_Visit;
-                    }
-                    else{
+                    } else {
                         this.visitName = visitResult.Patient_Visit__r.Portal_Name__c;
                     }
                     Datetime dt = Datetime.newInstance(

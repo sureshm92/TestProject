@@ -68,7 +68,7 @@
 <aura:attribute name="fovDate" type="DateTime" access="public"/>
 <aura:attribute name="fovTime" type="String" access="public"/> 
 <aura:attribute name="backdrop" type="boolean" access="public" default="false"/>  
- 
+<aura:attribute name="sitePreference" type="Boolean" default="false" /> 
      
  <aura:attribute name="yob" type="List" /> 
  <aura:attribute name="isFirstPrimaryDelegate" type="Boolean"  default="false"/> 
@@ -354,6 +354,7 @@ isListView = "{!v.isListView}"
                                      parent="{!this}"
                                      updateInProgress="{!v.updateInProgress}"
                                      validateFOV="{!v.validateFOV}"
+                                     sitePreference="{!v.sitePreference}"
                                      />
      </lightning:tab>
      
@@ -405,7 +406,7 @@ isListView = "{!v.isListView}"
          </lightning:tab>
      </aura:if>
      <!--REF-2654, REF-2774-->
-     <aura:if isTrue="{!v.containsFile &amp;&amp; !v.actions.medicalHistory.disabled}">
+     <aura:if isTrue="{!((v.containsFile &amp;&amp; v.actions.medicalHistory.disabled) || (v.pe.Human_Id__c != null))}">
          <lightning:tab class="slds-tabs_default__item" aura:id="MedicalHistory"
                         label="{!$Label.c.Tab_Medical_History}" onactive="{!c.checkTabs}">  
              <c:MedicalHistoryView pe="{!v.pe}"/>

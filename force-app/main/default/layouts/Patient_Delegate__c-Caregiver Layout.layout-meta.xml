@@ -7,6 +7,10 @@
         <label>Information</label>
         <layoutColumns>
             <layoutItems>
+                <behavior>Required</behavior>
+                <field>Contact__c</field>
+            </layoutItems>
+            <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Attested_by__c</field>
             </layoutItems>
@@ -17,10 +21,6 @@
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Attestation_TimeStamp__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Required</behavior>
-                <field>Contact__c</field>
             </layoutItems>
             <layoutItems>
                 <behavior>Required</behavior>
@@ -39,7 +39,12 @@
                 <field>Primary_Delegate__c</field>
             </layoutItems>
         </layoutColumns>
-        <layoutColumns/>
+        <layoutColumns>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Participant_Delegate__c</field>
+            </layoutItems>
+        </layoutColumns>
         <style>TwoColumnsTopToBottom</style>
     </layoutSections>
     <layoutSections>

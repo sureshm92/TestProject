@@ -33,7 +33,7 @@
          <!-- PI fields: -->
          <aura:if isTrue="{!v.userMode == 'PI'}">
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Study_Referred_To}</div>
                  <div class="value">
                      <c:RRLink
                          label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
@@ -43,7 +43,7 @@
                  </div>
              </div>
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Study_Site_Referred_To}</div>
                  <!--<div class="value">
                      <c:RRLink label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
                                page="{!'study-workspace?id=' + v.pe.Study_Site__r.Clinical_Trial_Profile__c}"
@@ -52,7 +52,7 @@
                  <div class="value">{!v.pe.Study_Site__r.Name}</div>
              </div>
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Source}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Source}</div>
                  <aura:if isTrue="{!v.pe.Referral_Source__c == $Label.c.RH_HCP}">
                      <aura:if isTrue="{!or(v.refSourceName == undefined,v.refSourceName == null)}">
                      	<div class="value">{!v.pe.HCP__r.HCP_Contact__r.Name}</div>
@@ -85,7 +85,7 @@
                  </div>-->
              </div>
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Referral_Id}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Referral_Id}</div>
                  <div class="value">{!v.pe.Name}</div>
              </div>
 
@@ -95,7 +95,7 @@
              </div>-->
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Referred_Date}</div>
                  <div class="value">
                      <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
                      <lightning:formattedDateTime
@@ -126,7 +126,7 @@
                      </aura:set>
                  </aura:if-->
                  <div class="vpi-field">
-                     <div class="label">{!$Label.c.Participant_Status}</div>
+                     <div class="label" style="white-space: pre-wrap;">{!$Label.c.Participant_Status}</div>
                      <aura:if isTrue="{!(v.pe.Participant_Status__c == 'Eligibility Passed' || v.pe.Participant_Status__c == $Label.c.Eligibility_Passed) &amp;&amp; (v.pe.Clinical_Trial_Profile__r.Promote_to_SH__c==true ||v.pe.Clinical_Trial_Profile__r.Initial_Visit_Required__c==true) }">
                      <div class="value">{!$Label.c.Sent_to_Study_Hub}</div>
                        <aura:set attribute="else">
@@ -140,7 +140,7 @@
          <!-- HCP fields: -->
          <aura:if isTrue="{!v.userMode == 'HCP'}">
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Study_Referred_To}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Study_Referred_To}</div>
                  <div class="value">
                      <c:RRLink
                          label="{!v.pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c}"
@@ -150,7 +150,7 @@
                  </div>
              </div>
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Study_Site_Referred_To}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Study_Site_Referred_To}</div>
                  <div class="value">{!v.pe.Study_Site__r.Name}</div>
              </div>
 
@@ -165,7 +165,7 @@
              </div>
 
              <div class="vpi-field">
-                 <div class="label">{!$Label.c.PE_Referred_Date}</div>
+                 <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Referred_Date}</div>
                  <div class="value">
                      <!--<ui:outputDate value="{!v.pe.Referred_Date__c}"/>-->
                      <lightning:formattedDateTime
@@ -180,12 +180,12 @@
 
              <aura:if isTrue="{!v.pe.Participant__c}">
                  <div class="vpi-field">
-                     <div class="label">{!$Label.c.PE_Patient_Id}</div>
+                     <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Patient_Id}</div>
                      <div class="value">{!v.pe.Patient_ID__c}</div>
                  </div>
                  <aura:if isTrue="{!v.pe.Participant__r.Adult__c}">
                      <div class="vpi-field">
-                         <div class="label">{!$Label.c.PE_Participant_Phone}</div>
+                         <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Participant_Phone}</div>
                          <div class="value">
                              <lightning:formattedPhone
                                  value="{!v.pe.Participant__r.Phone__c}"
@@ -194,7 +194,7 @@
                      </div>
                      <aura:set attribute="else">
                          <div class="vpi-field">
-                             <div class="label">{!$Label.c.PE_Delegate_Phone}</div>
+                             <div class="label" style="white-space: pre-wrap;">{!$Label.c.PE_Delegate_Phone}</div>
                              <div class="value">
                                  <lightning:formattedPhone
                                      value="{!v.minorDelegate.Phone__c}"

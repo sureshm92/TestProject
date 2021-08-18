@@ -6,12 +6,12 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     private TaskService.TaskConfig taskConfig;
     private Map<Id, List<Id>> contactsWithWhatIds;
     private Map<Id, List<Id>> failedContactsWithWhatIds;
-
+    
     private Id userId;
     private Integer taskCreated;
     private Integer launchCount;
     Private Map<id,String> IdTypeOfContactMap;
-
+    
     public Batch_CreateAdminTasks(
         Map<Id, List<Id>> contactsWithWhatIds,
         TaskService.TaskConfig taskConfig,
@@ -28,16 +28,16 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         this.launchCount = launchCount;
         this.IdTypeOfContactMap = IdTypeOfContactMap;
     }
-
+    
     public List<WhatIdByContactWrapper> start(Database.BatchableContext param1) {
         List<WhatIdByContactWrapper> wrappers = new List<Batch_CreateAdminTasks.WhatIdByContactWrapper>();
         for (Id conId : contactsWithWhatIds.keySet()) {
             wrappers.add(new WhatIdByContactWrapper(conId, contactsWithWhatIds.get(conId)));
         }
-
+        
         return wrappers;
     }
-
+    
     public void execute(Database.BatchableContext param1, List<WhatIdByContactWrapper> wrappers) {
         Map<Id, List<Id>> whatIdByContactIds = new Map<Id, List<Id>>();
         set<id> contactWithoutUser = new set<Id>();
@@ -50,11 +50,10 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                 SELECT Id, ContactId, Name, TimeZoneSidKey
                 FROM User
                 WHERE
-                    ContactId IN :whatIdByContactIds.keySet()
-                    AND IsActive = TRUE
-                    AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
+                ContactId IN :whatIdByContactIds.keySet()
+                AND IsActive = TRUE
+                AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
             ];
-
             List<Task> tasks = new List<Task>();
             for (User user : users) {
                 contactWithoutUser.remove(user.ContactId);
@@ -67,7 +66,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     if (taskConfig.endTime != null){
                         offsetSeconds = userTZ.getOffset(taskConfig.endTime) / 1000;
                         activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime).addSeconds(-offsetSeconds);
-                    }
+                    } 
                     Datetime reminderDT_GMT;
                     Datetime reminderDT;
                     if (taskConfig.reminderDate != null) {
@@ -144,7 +143,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             failedContactsWithWhatIds.putAll(whatIdByContactIds);
         }
     }
-
+    
     public void finish(Database.BatchableContext param1) {
         if (!failedContactsWithWhatIds.isEmpty() && launchCount < 3 && !Test.isRunningTest()) {
             Database.executeBatch(
@@ -164,7 +163,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                 List<User> user = [SELECT Id, Email FROM User WHERE Id = :userId];
                 emailMessage.setToAddresses(new List<String>{ user.get(0).Email });
                 emailMessage.setSubject('Batch Create Admin Task');
-
+                
                 String messageBody = 'Task Subject: ' + taskConfig.subject + '\n';
                 messageBody +=
                     'Task(s) created = ' +
@@ -181,10 +180,10 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         if (Math.mod(3, ++i) == 0)
                             messageBody += '\n';
                     }
-
+                    
                     messageBody = messageBody.removeEnd(', ');
                 }
-
+                
                 emailMessage.setPlainTextBody(messageBody);
                 Messaging.sendEmail(
                     (List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{ emailMessage }
@@ -194,7 +193,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             }
         }
     }
-
+    
     public static void launch(
         Map<Id, List<Id>> contactsWithWhatIds,
         TaskService.TaskConfig adminTask,
@@ -204,11 +203,11 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
             new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1,IdTypeOfContactMap)
         );
     }
-
+    
     public class WhatIdByContactWrapper {
         public Id contactId;
         public List<Id> whatIds;
-
+        
         public WhatIdByContactWrapper(Id contactId, List<Id> whatIds) {
             this.contactId = contactId;
             this.whatIds = whatIds;

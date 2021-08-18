@@ -25,6 +25,14 @@
     line-height: 21px;
 }
 
+.THIS .sitepref .slds-form-element__label {
+    font-size: 14px !important;
+    font-family: 'Proxima Nova';
+    font-weight: 550;
+    color: #000000;
+    height: 24px;
+} 
+
 .THIS.rrs-container .rrs-label .rrs-error {
     color: #ff0031;
 }
@@ -81,7 +89,7 @@
 }
 
 .THIS.step-form {
-    width: 80%;
+    width: 100%;
 }
 .THIS.step-card-title,
 .THIS .outcome-form-element {

@@ -103,6 +103,15 @@ public without sharing class MyReferringClinicsController {
                     this.enrollments.add(new HCPEnrollmentWrapper(enrollment,piHcpContactNames.get(enrollment.Study_Site__r.Principal_Investigator__c)));
                 }
             }
+        }
+        public ClinicWrapper(List<HCP_Enrollment__c> enrollments, Map<Id,Participant__c> piHcpContactNames, Participant__c hcpContactPartName) {
+            this.hcpContactPartName= hcpContactPartName;
+            if (enrollments != null && !enrollments.isEmpty()) {
+                this.hcpContact = enrollments[0].HCP_Contact__r;
+                for (HCP_Enrollment__c enrollment : enrollments) {
+                    this.enrollments.add(new HCPEnrollmentWrapper(enrollment,piHcpContactNames.get(enrollment.Study_Site__r.Principal_Investigator__c)));
+                }
+            }
         }        
     }
 

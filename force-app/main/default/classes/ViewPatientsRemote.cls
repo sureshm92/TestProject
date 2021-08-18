@@ -63,6 +63,8 @@ public without sharing class ViewPatientsRemote {
         'MRN_Id__c',
         'MRR_Survey_Results_URL__c',
         'Name',
+        'Human_Id__c',
+        'Unique_HumanId__c',
         'Non_Referral_Reason__c',
         'Patient_ID__c',
         'Participant_Status__c',

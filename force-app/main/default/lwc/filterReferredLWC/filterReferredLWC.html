@@ -1,0 +1,51 @@
+<!-- filterReferredLWC.html -->
+<!--Created by Sabir on 16.06.2021-->
+<template>
+        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
+        <lightning-layout multiple-rows>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="3">
+                <c-mutli-select-picklist-l-w-c picklistlabel={label.RPR_Studies} values={filterData.studies}></c-mutli-select-picklist-l-w-c>
+                    <!--<lightning-button-icon icon-name='action:reset_password' 
+                        alternative-text="reset filters" 
+                        onclick={fetchSelectedValues}
+                        variant="bare">
+                    </lightning-button-icon>-->
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
+                <lightning-combobox
+                    label={label.RPR_Date_Range}
+                    name={label.RPR_Date_Range}
+                    value={dateRangeValue}
+                    placeholder={label.RPR_Select_Range}
+                    options={filterData.dateRanges}
+                    onchange={dateRangeValueChange}  class="combobox-filter">
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
+                <lightning-combobox
+                    label={label.RPR_Review_Results}
+                    name={label.RPR_Review_Results}
+                    value={reviewResultsValue}
+                    placeholder={label.RPR_Select_Results}
+                    options={filterData.reviewResults}
+                    onchange={reviewResultsValueChange}  class="combobox-filter">
+                </lightning-combobox>
+            </lightning-layout-item>
+            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
+                <lightning-combobox
+                    label={label.RPR_Patient_Status}
+                    name={label.RPR_Patient_Status}
+                    value={excludedFromReferringValue}
+                    placeholder={label.RPR_Included_for_Referred}
+                    options={filterData.excludedFromReferring}
+                    onchange={excludedFromReferringeValueChange}  class="combobox-filter">
+                </lightning-combobox>
+            </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2" style="padding-top: 35px;">
+                    <button class="apollo-btn primary search-more-btn" onclick={applyFilterClick} title="Apply Filter">
+                        {label.RPR_Apply}
+                    </button>
+            </lightning-layout-item>
+        </lightning-layout>
+    </div>
+</template>

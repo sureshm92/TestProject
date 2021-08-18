@@ -54,7 +54,9 @@
                 var historyList = [];
                 var obj = {}; 
                 for (var i = 0; i < contactHistorysize; i++) {
+
                     if(contactHistory[i].isAdditionalNote){
+                        
                         var str = contactHistory[i].detail;
                         var month = str.substring(4, 7);
                        
@@ -257,7 +259,7 @@
                 } 
                 
                
-            }else{  
+            }else{ 
                 let contactHistorysize = stepWrapper.stepHistory.length;
                 let contactHistory=stepWrapper.stepHistory;
                 
@@ -340,6 +342,11 @@
     checkNotesRequiredValidity: function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
         helper.checkValidity(component, event, helper, stepWrapper);
+    },
+    onChangeSP: function (component, event, helper) {
+        var isChecked = component.find('sp').get('v.checked');
+        component.set('v.sitePreference',isChecked);
+        console.log('isChecked-->'+component.get('v.sitePreference'));
     },
     doUpdateFieldValidity: function (component, event, helper) {
         let inputFields = component.find('statusDetailField');

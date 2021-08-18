@@ -196,7 +196,7 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 false,
-                null
+                null,false
             );
         }
         Test.stopTest();
@@ -229,14 +229,14 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 true,
-                null
+                null,false
             );
             ParticipantInformationRemote.updatePatientStatus(
                 JSON.serialize(path),
                 testData.pe.Id,
                 false,
                 true,
-                null
+                null,false
             );
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';

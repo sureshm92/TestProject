@@ -79,8 +79,8 @@
                             <lightning:input type="checkbox"
                                              label="{!$Label.c.FD_PE_Field_Final_Consent}" 
                                              required="{!v.finalConsentrequired}"
-                                             name="input2" 
                                              aura:id="finalConsent"
+                                             name="input2" 
                                              checked="{!v.finalConsentvalue}" 
                                              onchange="{!c.onBooleanValueChange}"/>
                         </div>

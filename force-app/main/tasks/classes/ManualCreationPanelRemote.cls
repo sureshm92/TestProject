@@ -79,6 +79,7 @@ public without sharing class ManualCreationPanelRemote {
         String filter,
         String activeTab
     ) {
+        System.debug('Config : '+config);
         try {
             ManualTaskFilter manualTaskFilter = (ManualTaskFilter) JSON.deserialize(
                 filter,
@@ -89,6 +90,24 @@ public without sharing class ManualCreationPanelRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
+                if(taskConfig.isRecurrence){
+                    if(taskConfig.recurrenceFrequency == 'Daily'){
+                        taskConfig.endTime = taskConfig.startDate;
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Weekly'){
+                        taskConfig.endTime = taskConfig.startDate.addDays(6);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Monthly'){
+                        taskConfig.endTime = taskConfig.startDate.addMonths(1).addDays(-1);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Yearly'){
+                        taskConfig.endTime = taskConfig.startDate.addYears(1).addDays(-1);
+                    }
+                    if(taskConfig.reminderDays != null){
+                        taskConfig.reminderDate = taskConfig.endTime.addDays(-taskConfig.reminderDays);
+                    }
+                    ManualTaskRemote.createManualConfigTasks(config, filter, taskConfig);
+                }
                 return ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);
             } else if (activeTab.equals('adHoc')) {
                 AdHocWrapper adHocWrapper = (AdHocWrapper) JSON.deserialize(

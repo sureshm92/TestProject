@@ -14,7 +14,8 @@ Created by Sumit S-->
     <aura:attribute name="CreatedDate" type="Date"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <div class="maindiv">
+    <aura:if isTrue="{!(v.containsFile &amp;&amp; v.medicalHistoryDisabled)}">
+    <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
             {!$Label.c.Participant_Medical_History}
         </div>
@@ -73,5 +74,11 @@ Created by Sumit S-->
             
         </aura:iteration>
     </div>
+    </aura:if>
+    <aura:if isTrue="{!(v.pe.Human_Id__c != null)}">
+        <div>
+            <c:HumanAPIreport pe="{!v.pe}"/>
+        </div>
+    </aura:if>
     
 </aura:component>

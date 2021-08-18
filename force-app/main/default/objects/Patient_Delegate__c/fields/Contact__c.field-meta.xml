@@ -1,13 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
     <fullName>Contact__c</fullName>
     <externalId>false</externalId>
-    <label>Contact</label>
+    <label>Participant Delegate Contact</label>
     <referenceTo>Contact</referenceTo>
-    <relationshipName>Contacts</relationshipName> 
+    <relationshipLabel>Patient Delegates (Contact)</relationshipLabel>
+    <relationshipName>Contacts</relationshipName>
     <relationshipOrder>0</relationshipOrder>
     <reparentableMasterDetail>false</reparentableMasterDetail>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>MasterDetail</type>
     <writeRequiresMasterRead>false</writeRequiresMasterRead>
