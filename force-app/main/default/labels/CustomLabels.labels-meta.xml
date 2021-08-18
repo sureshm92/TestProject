@@ -20725,7 +20725,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Tab_Medical_History</shortDescription>
-        <value>Medical History</value>
+        <value>Medical Record History</value>
     </labels>
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
@@ -22075,12 +22075,5 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
-    </labels>
-    <labels>
-        <fullName>Tab_Medical_History</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>Tab_Medical_History</shortDescription>
-        <value>Medical Record History</value>
     </labels>
 </CustomLabels>
