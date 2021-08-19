@@ -87,7 +87,7 @@
 .THIS .confirmation-message {
     font-size: 16px;
     position: relative;
-    left: -10px;
+    width: fit-content;
 }
 
 @media screen and (max-width: 500px) {
