@@ -39,7 +39,7 @@
             communityService.showToast(
                 'Error',
                 'error',
-                '\n' + 'Cannot set weekly task for these dates',
+                '\n' + $A.get('$Label.c.weekly_task_error'),
                 10000
             );
         } else if (reccFrequency == 'Monthly' && monthDiff < 1) {
@@ -48,7 +48,7 @@
             communityService.showToast(
                 'Error',
                 'error',
-                '\n' + 'Cannot set monthly task for these dates',
+                '\n' + $A.get('$Label.c.monthly_task_error'),
                 10000
             );
         } else if (reccFrequency == 'Yearly' && yearsDiff < 1) {
@@ -57,7 +57,7 @@
             communityService.showToast(
                 'Error',
                 'error',
-                '\n' + 'Cannot set yearly task for these dates',
+                '\n' + $A.get('$Label.c.yearly_task_error'),
                 10000
             );
         } else {
@@ -82,14 +82,16 @@
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
         if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
+        } else {
+            component.set('v.taskConfig.reminderDays', '');
         }
-        if (component.get('v.dayRemind') > 6) {
+        if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);
             component.get('v.parent').setValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
-                '\n' + 'Cannot set task reminder more than 6 days',
+                '\n' + $A.get('$Label.c.reminder_greaterthan_one_year_error'),
                 10000
             );
             return;
