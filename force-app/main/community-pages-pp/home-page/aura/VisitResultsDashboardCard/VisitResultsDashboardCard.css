@@ -154,9 +154,7 @@
 }
 .THIS .visit-results-containerRTL {
     display: flex;
-    padding: 15px 0;
-    padding-left: 15px;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 @media all and (max-width: 500px) {
@@ -173,5 +171,11 @@
 
     .THIS .visit-results-item:last-child {
         min-width: 185px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .THIS .visit-results-containerRTL{
+        display: unset !important;
     }
 }
