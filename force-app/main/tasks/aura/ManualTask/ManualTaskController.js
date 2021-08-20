@@ -82,8 +82,11 @@
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
         if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
-        } else {
-            component.set('v.taskConfig.reminderDays', '');
+        } else if (
+            component.get('v.dayRemind') == 0 &&
+            component.get('v.taskConfig.isRecurrence')
+        ) {
+            component.set('v.taskConfig.reminderDays', null);
         }
         if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);
