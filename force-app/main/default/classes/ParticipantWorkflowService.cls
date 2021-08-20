@@ -299,6 +299,7 @@ public without sharing class ParticipantWorkflowService {
                 stepsAndPesh,
                 wrapper.sendToSHDate
             );
+            
             previousStepSuccess = stepWrapper.state == PEStatusState.STATUS_STATE_SUCCESS;
            
             if (
@@ -312,12 +313,14 @@ public without sharing class ParticipantWorkflowService {
                     wrapper.steps[wrapper.steps.size() - 1].editable = false;
                 }
                 }
+               
             wrapper.steps.add(stepWrapper);
             currentStepInd++;
         }
         if (!nonNeutralStepFound) {
             wrapper.currentStepInd = wrapper.steps.size() - 1;
         }
+        
         wrapper.steps[wrapper.currentStepInd].isCurrentStep = true;
         populateDependencyActiveFields(wrapper, fieldWrappersMap);
         return wrapper;
@@ -1997,6 +2000,7 @@ public without sharing class ParticipantWorkflowService {
         public List<ParticipantWorkflowStepWrapper> steps;
         @AuraEnabled
         public Integer currentStepInd;
+        
         @AuraEnabled
         public Date sendToSHDate;
         @AuraEnabled

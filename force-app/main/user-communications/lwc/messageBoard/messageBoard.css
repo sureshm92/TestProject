@@ -47,11 +47,11 @@
     min-height: 99px;
     display: flex;
     align-items: flex-end;
-    justify-content: space-between;
+    justify-content: space-evenly;
 }
 
 .ms-select-templates {
-    flex-basis: 85%;
+    flex-basis: 80%;
 }
 
 .ms-board-footer-pi {

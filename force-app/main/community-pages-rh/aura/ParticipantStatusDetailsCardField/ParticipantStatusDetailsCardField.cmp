@@ -62,8 +62,8 @@
             />
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">               
-            	<div class="label2 tooltip1">{!v.field.title}                              
-                    <div class="textoverlap1">
+            	<div class="label2 tooltip">{!v.field.title}                              
+                    <div class="textoverlap">
                         <span>{!v.field.title}</span>
                     </div>
                 </div>

@@ -54,7 +54,6 @@
                 var historyList = [];
                 var obj = {}; 
                 for (var i = 0; i < contactHistorysize; i++) {
-
                     if(contactHistory[i].isAdditionalNote){
                         
                         var str = contactHistory[i].detail;
