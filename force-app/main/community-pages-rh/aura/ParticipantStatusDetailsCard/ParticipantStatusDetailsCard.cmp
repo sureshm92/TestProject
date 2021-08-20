@@ -26,7 +26,6 @@
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
     <aura:attribute name="StatusDetailCard" type="Integer" />
-    <aura:attribute name="historyList1" type="List" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
