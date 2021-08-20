@@ -77,13 +77,15 @@
     display: inline-block;
     cursor: pointer;
     white-space: nowrap;
+
 }
 .THIS .textoverlap
 {
     width: 12rem;
     text-overflow: ellipsis;
-    white-space: nowrap;
     overflow: hidden;
+    white-space: nowrap;
+
 }
 .THIS .textoverlap1
 {
@@ -146,7 +148,6 @@
     cursor: pointer;
 }
 /* --------END--------------- */
-
 @media screen and (max-width: 768px) {
     .THIS.form-field {
         min-width: 100%;

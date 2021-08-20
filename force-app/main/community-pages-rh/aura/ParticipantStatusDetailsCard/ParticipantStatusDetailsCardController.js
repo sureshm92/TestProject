@@ -55,6 +55,7 @@
                 var obj = {}; 
                 for (var i = 0; i < contactHistorysize; i++) {
                     if(contactHistory[i].isAdditionalNote){
+                        
                         var str = contactHistory[i].detail;
                         var month = str.substring(4, 7);
                        
@@ -257,33 +258,33 @@
                 } 
                 
                
-            }else{  
-                 let contactHistorysize = stepWrapper.stepHistory.length;
+            }else{ 
+                let contactHistorysize = stepWrapper.stepHistory.length;
                 let contactHistory=stepWrapper.stepHistory;
-               
+                
                 var historyList1 = [];
                 var obj = {}; 
                 if(contactHistorysize >0){
-                for (var i = 0; i < contactHistorysize; i++) {
-                     obj.detailDate =  contactHistory[i].detailDate;
+                    for (var i = 0; i < contactHistorysize; i++) {
+                        obj.detailDate =  contactHistory[i].detailDate;
                         obj.createdBy = contactHistory[i].createdBy;
                         obj.title = contactHistory[i].title;
                         obj.string = false;
                         historyList1.push(obj);
                         obj = {};
-                }
+                    }
                 }
                 var histories = component.get('v.stepWrapper').historyList;
                 var historiesSize = histories.length;
                 for(var i= 0; i< historiesSize; i++){
                     obj.detailDate =histories[i].detailDate; 
-                        obj.createdBy = histories[i].createdBy;
-                        obj.title = histories[i].title;
-                        obj.string = true;
-                        historyList1.push(obj);
-                        obj = {}; 
+                    obj.createdBy = histories[i].createdBy;
+                    obj.title = histories[i].title;
+                    obj.string = true;
+                    historyList1.push(obj);
+                    obj = {}; 
                 }
-                 historyList1.sort(function(a,b){
+                historyList1.sort(function(a,b){
                     return new Date(a.detailDate) - new Date(b.detailDate)
                 })
                 component.set('v.historyList1', historyList1.reverse());   
@@ -340,6 +341,11 @@
     checkNotesRequiredValidity: function (component, event, helper) {
         let stepWrapper = component.get('v.stepWrapper');
         helper.checkValidity(component, event, helper, stepWrapper);
+    },
+    onChangeSP: function (component, event, helper) {
+        var isChecked = component.find('sp').get('v.checked');
+        component.set('v.sitePreference',isChecked);
+        console.log('isChecked-->'+component.get('v.sitePreference'));
     },
     doUpdateFieldValidity: function (component, event, helper) {
         let inputFields = component.find('statusDetailField');

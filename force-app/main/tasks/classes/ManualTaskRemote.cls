@@ -11,6 +11,50 @@ public with sharing class ManualTaskRemote {
             return (Boolean) AuraHelper.throwException(e);
         }
     }
+    public static void createManualConfigTasks(String config, String filter, TaskService.TaskConfig taskConfig) {
+        List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
+        try {
+            Date nextTaskDueDate;
+            TaskService.TaskConfig actualTaskConfig = (TaskService.TaskConfig) JSON.deserialize(
+                    config,
+                    TaskService.TaskConfig.class
+                );
+                if(taskConfig.recurrenceFrequency == 'Daily'){
+                    nextTaskDueDate = taskConfig.endTime.addDays(1);
+                }
+                if(taskConfig.recurrenceFrequency == 'Weekly'){
+                    nextTaskDueDate = taskConfig.endTime.addDays(7);
+                }
+                if(taskConfig.recurrenceFrequency == 'Monthly'){
+                    nextTaskDueDate = taskConfig.endTime.addMonths(1);
+                }
+                if(taskConfig.recurrenceFrequency == 'Yearly'){
+                    nextTaskDueDate = taskConfig.endTime.addYears(1);
+                }
+            	if(nextTaskDueDate > actualTaskConfig.endTime){
+                    nextTaskDueDate = actualTaskConfig.endTime;
+                }
+            Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
+            manualTaskLists.add(
+                        new Manual_Creation_Panel_Task__c(
+                            Name = taskConfig.subject,
+                            TaskConfig__c = config,
+                            TaskFilter__c = filter,
+                            Last_Occurrence_Date__c = Date.today(),
+                            Next_Occurence_Date__c = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day()),
+                            Is_Recurrence__c =  taskConfig.isRecurrence,
+                            Start_Date__c = actualTaskConfig.startDate,
+                            Recurrence_End_Date__c = actualTaskConfig.endTime,
+                            Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
+                            Next_Due_Date__c = nextTaskDueDate,
+                            Reminder_days_before_due_date__c = taskConfig.reminderDays
+                        )
+                    );
+            Database.insert(manualTaskLists, true);
+        } catch (Exception e) {
+            System.debug('Exception Occured : '+e);
+        }
+    }
 
     public class TaskPanelWrapper {
         @AuraEnabled

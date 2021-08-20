@@ -1041,6 +1041,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>MedicalRecordAccessRemote</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>    
+    <classAccesses>
         <apexClass>MedicalRecordReviewLogController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -1066,6 +1070,14 @@
     </classAccesses>
     <classAccesses>
         <apexClass>MessageTriggerHandler</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+     <classAccesses>
+        <apexClass>RPRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+	<classAccesses>
+        <apexClass>NonReferredPatientController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
@@ -4041,6 +4053,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Human_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_City__c</field>
         <readable>false</readable>
     </fieldPermissions>
@@ -4925,6 +4942,21 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.isAuthorized__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Human_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Unique_HumanId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Informed_Consent_Date__c</field>
         <readable>true</readable>
@@ -5214,6 +5246,11 @@
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Notes__c</field>
+        <readable>true</readable>
+   </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Participant_Enrollment__c.Referral_Completedby_Name__c</field>
@@ -7029,6 +7066,26 @@
         <field>Topic__c.TopicId__c</field>
         <readable>true</readable>
     </fieldPermissions>
+      <fieldPermissions>
+        <editable>true</editable>
+        <field>Token__c.Expiration_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Token__c.IsActive__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Token__c.Token_Type__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Token__c.Token_Value__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Tracking_Information__c.Current_Other_Outcome_Measures__c</field>
@@ -8059,6 +8116,15 @@
         <modifyAllRecords>false</modifyAllRecords>
         <object>Tracking_Information__c</object>
         <viewAllRecords>false</viewAllRecords>
+    </objectPermissions>
+     <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Token__c</object>
+        <viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>

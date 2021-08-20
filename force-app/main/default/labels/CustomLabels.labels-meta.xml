@@ -5569,6 +5569,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <shortDescription>Email Header Available</shortDescription>
         <value>New visit data is available to view</value>
     </labels>
+     <labels>
+        <fullName>Email_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Id</shortDescription>
+        <value>Email Id</value>
+    </labels>
     <labels>
         <fullName>Email_Header_Case</fullName>
         <language>en_US</language>
@@ -8493,6 +8500,13 @@ The expected format is REF##### to REF########</value>
         <value>IWRSIWRS ID</value>
     </labels>
     <labels>
+        <fullName>Initial_Visit_Scheduled_Date_and_Time</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Initial Visit Scheduled Date and Time</shortDescription>
+        <value>	Initial Visit Scheduled Date &amp; Time</value>
+    </labels>
+    <labels>
         <fullName>Icons_package_not_found</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -9158,6 +9172,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>Low-density Lipoprotein Description</shortDescription>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
+    </labels>
+    <labels>
+        <fullName>monthly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set monthly task for these dates.</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -13800,6 +13821,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG_MRR_BTN_Back_to_My_Participant</shortDescription>
         <value>Back to My participants</value>
     </labels>
+     <labels>
+        <fullName>Primary</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Primary</shortDescription>
+        <value>Primary</value>
+    </labels>
     <labels>
         <fullName>PG_MRR_BTN_Back_to_My_Studies</fullName>
         <language>en_US</language>
@@ -18086,6 +18114,167 @@ communications using the toggles below.</value>
         <shortDescription>RH Email Invalid Error</shortDescription>
         <value>You have entered an invalid format</value>
     </labels>
+     <labels>
+        <fullName>RPR_Actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Actions</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Apply</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Apply</shortDescription>
+        <value>Apply</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Attestation</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Attestation</shortDescription>
+        <value>Attestation</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Date_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Date Range</shortDescription>
+        <value>Date Range</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Email</shortDescription>
+        <value>Email</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Excluded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Excluded</shortDescription>
+        <value>Excluded?</value>
+    </labels>
+    <labels>
+        <fullName>RPR_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_First_Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Included_for_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Included for Referred</shortDescription>
+        <value>Included for Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Last_Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Medical_Review</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Medical_Review</shortDescription>
+        <value>Medical Review</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Not_Yet_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Not Yet Referred</shortDescription>
+        <value>Not Yet Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Outreach_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Outreach_Status</shortDescription>
+        <value>Outreach Status</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Patient_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Patient_Id</shortDescription>
+        <value>Patient Id</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Patient_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Patient Status</shortDescription>
+        <value>Patient Status</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Referred</shortDescription>
+        <value>Referred</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Review_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Review Results</shortDescription>
+        <value>Review Results</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Range</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Range</shortDescription>
+        <value>Select Range</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Results</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Results</shortDescription>
+        <value>Select Results</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Site_Name</shortDescription>
+        <value>Site Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Studies</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Studies</shortDescription>
+        <value>Studies</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Study_Code_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Study_Code_Name</shortDescription>
+        <value>Study Code Name</value>
+    </labels>
+    <labels>
+        <fullName>RPR_YOB</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_YOB</shortDescription>
+        <value>YOB</value>
+    </labels>
     <labels>
         <fullName>RH_Email_Validation_Pattern</fullName>
         <categories>RH,PP</categories>
@@ -18483,6 +18672,13 @@ communications using the toggles below.</value>
         <value>Records have been sent successfully</value>
     </labels>
     <labels>
+        <fullName>RH_Proceed_to_tab</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Proceed_to_tab</shortDescription>
+        <value>are required to proceed to the Initial Visit tab.</value>
+    </labels>
+    <labels>
         <fullName>ReferralNetwork_NoRNSelected</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18544,6 +18740,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Remind Using</shortDescription>
         <value>Remind Using</value>
+    </labels>
+    <labels>
+        <fullName>reminder_greaterthan_one_year_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set reminder date greater than one year.</value>
     </labels>
     <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
@@ -18671,6 +18874,20 @@ communications using the toggles below.</value>
         <shortDescription>Report My Study Data</shortDescription>
         <value>My Study Data Report</value>
     </labels>
+    <labels>
+        <fullName>RPR_Consent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_Consent</shortDescription>
+        <value>Consent</value>
+   </labels>
+    <labels>
+        <fullName>RPR_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR_State</shortDescription>
+        <value>State/Province</value>
+   </labels>
     <labels>
         <fullName>Report_Participant_Status</fullName>
         <language>en_US</language>
@@ -19179,6 +19396,13 @@ communications using the toggles below.</value>
         <value>Manage Referring Providers</value>
     </labels>
     <labels>
+        <fullName>SitePreference</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>SitePreference</shortDescription>
+        <value>The site will communicate with the participant about schedule updates</value>
+    </labels>
+    <labels>
         <fullName>SS_Btn_Save</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19617,6 +19841,27 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Send Emails Checkbox on PE Info</shortDescription>
         <value>Participant has consented to being invited to Patient Portal and informed about other study opportunities.</value>
+    </labels>
+     <labels>
+        <fullName>State_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>State/Country</shortDescription>
+        <value>State/Country</value>
+    </labels>
+    <labels>
+        <fullName>Study_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study Info</shortDescription>
+        <value>Study Info</value>
+    </labels>
+    <labels>
+        <fullName>Summary_View</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Summary View</shortDescription>
+        <value>Summary View</value>
     </labels>
     <labels>
         <fullName>Send_to_Study_Hub</fullName>
@@ -20494,7 +20739,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Tab_Medical_History</shortDescription>
-        <value>Medical History</value>
+        <value>Medical Record History</value>
     </labels>
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
@@ -21766,6 +22011,13 @@ communications using the toggles below.</value>
         <value>Withdrew Consent After Screening</value>
     </labels>
     <labels>
+        <fullName>yearly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set yearly task for these dates.</value>
+    </labels>
+    <labels>
         <fullName>Yes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -21844,5 +22096,12 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>weekly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set weekly task for these dates.</value>
     </labels>
 </CustomLabels>

@@ -26,6 +26,7 @@
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
     <aura:attribute name="StatusDetailCard" type="Integer" />
+    <aura:attribute name="historyList1" type="List" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--
     <aura:handler name="change" value="{!v.stepWrapper.outcome}" action="{!c.updateReasonList}"/>
@@ -36,7 +37,7 @@
     <aura:method name="updateFieldValidity" action="{!c.doUpdateFieldValidity}" access="public" />
     
     <div class="step-card-title">{!v.stepWrapper.cardTitle}</div>
-    <!--<aura:if isTrue="{!v.isSuccessfullyContacted}">
+    <aura:if isTrue="{!v.isSuccessfullyContacted}">
         <aura:if isTrue="{!v.sendToSH}">
             <div  style="padding-bottom: 12px;font-size:14px;" class="slds-size_4-of-5">
                <b>{!$Label.c.Successfully_Contacted}</b>&nbsp; {!$Label.c.RH_And}&nbsp;  <b>{!$Label.c.Initial_Visit_Scheduled_Date_and_Time}</b>&nbsp; {!$Label.c.RH_Proceed_to_tab}
@@ -47,7 +48,7 @@
                 </div>
             </aura:set>
         </aura:if>
-    </aura:if>-->
+    </aura:if>
     <aura:if isTrue="{!true}">
         <div class="step-form">
             <aura:if isTrue="{!and(!empty(v.stepWrapper.outcomeList),v.stepWrapper.editable)}">
@@ -154,7 +155,7 @@
                                                              />
                     </aura:iteration>
                 </div>
-                <!--<aura:if isTrue="{!index == 0}">
+                 <aura:if isTrue="{!index == 0}">
                      <aura:if isTrue="{!or(v.StatusDetailCard==1,v.StatusDetailCard==2)}">
                      <div  style="font-weight:600;font-size:14px;">
                          <lightning:input type="checkbox" class="sitepref" label="{!$Label.c.SitePreference}"
@@ -162,25 +163,14 @@
                          <br></br>    
                          </div>
                      </aura:if>
-                </aura:if>-->
+                </aura:if>
             </aura:iteration>
         </div>
     </aura:if>
     <!-- @Krishna Mahto - Changes for REF-1390 - start -->
-       <aura:if isTrue="{!v.isSuccessfullyContacted}">
-        <aura:if isTrue="{!v.sendToSH}">
-            <div style="color: red" class="slds-size_4-of-5">
-                {!$Label.c.RH_Successfully_Contacted_Initial_Visit_Date_and_time}
-            </div>
-            <aura:set attribute="else">
-                <div style="color: red" class="slds-size_4-of-5">
-                    {!$Label.c.RH_Initial_Visit_Date_and_time}
-                </div>
-            </aura:set>
-        </aura:if>
-    </aura:if>
+   
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
-    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
+    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.historyList1)}">
         <div class="step-history">
             <div class="step-history-title">{!v.stepWrapper.historyTitle}</div>
             <div class="step-history-records">
@@ -189,7 +179,6 @@
                         <aura:if isTrue="{!empty(v.historyList1)}">
                             {!$Label.c.None}
                             <aura:set attribute="else"> 
-                                
                                 <aura:iteration items="{!v.historyList1}" var="history">
                                     <div class="history-item">
                                         <span class="history-item-title">{!history.title}</span>

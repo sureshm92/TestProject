@@ -10,7 +10,8 @@ public without sharing class VisitResultsRemote {
         try {
             List<Visit_Result__c> visitResultsForMode = VisitResultsService.getVisitResults(
                 ParticipantContext.getCurrentPE().Clinical_Trial_Profile__c,
-                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c
+                ParticipantContext.getCurrentPE().Participant__r.Mailing_Country_Code__c,
+                visitResultsMode
             );
             InitDataWrapper wrapper = (InitDataWrapper) ClassFactory.newInstance(
                 InitDataWrapper.class
@@ -90,16 +91,16 @@ public without sharing class VisitResultsRemote {
             : currentContact.Visit_Results_OptIn__c;
         return currentVisitResults.contains(visitResultsMode);
     }
-	
+
     @AuraEnabled
     public static Boolean showVisitResults() {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance()
             .getState();
         return participantState.showVisits &&
-                participantState.showResults &&
-                VisitResultsRemote.isVisitResultAvailable();
+            participantState.showResults &&
+            VisitResultsRemote.isVisitResultAvailable();
     }
-    
+
     @AuraEnabled
     public static void switchToggleRemote(String visitResultsMode, Boolean isToggleOn) {
         Contact currentContact = ParticipantContext.getCurrentContact();
@@ -251,8 +252,7 @@ public without sharing class VisitResultsRemote {
                     (!visitResultTypeSharing.Sharing_Countries__c.contains(strCountryCode) &&
                     ((!String.isBlank(strShareBackCountries) &&
                     strShareBackCountries.contains(strCountryCode)) ||
-                    String.isBlank(strShareBackCountries))
-                     )
+                    String.isBlank(strShareBackCountries)))
                 ) {
                     ctpAvailableNames.add(visitResultTypeSharing.Type__c);
                 }
@@ -326,7 +326,7 @@ public without sharing class VisitResultsRemote {
                         Measurement__c,
                         Min_Value__c,
                         Patient_Visit__r.Completed_Date__c,
-                    	Patient_Visit__r.Portal_Name__c,
+                        Patient_Visit__r.Portal_Name__c,
                         Patient_Visit__r.Participant_Enrollment__c,
                         Result_Type__c,
                         RecordType.DeveloperName

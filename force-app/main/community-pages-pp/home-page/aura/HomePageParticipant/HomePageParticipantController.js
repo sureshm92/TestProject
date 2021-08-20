@@ -14,6 +14,7 @@
                 );
             } else {
                 component.set('v.participantState', ps);
+              
                 component.set(
                     'v.isDelegateMode',
                     communityService.getCurrentCommunityMode().currentDelegateId
@@ -31,9 +32,11 @@
             }
             component.set('v.initialized', true);
         });
+        
     },
 
     navigateToTrialSearchPage: function (component, event, helper) {
         communityService.navigateToPage('trial-search');
     }
+   
 });

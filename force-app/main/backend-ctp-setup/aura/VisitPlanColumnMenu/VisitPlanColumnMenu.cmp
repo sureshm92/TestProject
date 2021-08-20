@@ -4,6 +4,7 @@
 
 <aura:component description="VisitPlanColumnMenu" controller="VisitPlanRemote">
     <aura:attribute name="plan" type="Object" />
+    <aura:attribute name="isMedicalRecord" type="Boolean" default="false"/>
     <aura:attribute name="isVisible" type="Boolean" />
 
     <aura:registerEvent name="onEdit" type="c:uiEvent" />

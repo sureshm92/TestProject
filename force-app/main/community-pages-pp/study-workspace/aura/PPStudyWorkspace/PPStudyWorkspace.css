@@ -321,6 +321,16 @@
     float: right;
 }
 
+.THIS .cRRTabSet.ts-tab-container .ts-tab-left {
+    overflow-x: auto;
+    width: 100%;
+}
+
+.THIS .cRRTabSet.ts-tab-container .ts-tab-left .tabScroller{
+    min-width: 500px;
+    display: flex;
+}
+
 @media (max-width: 1180px) {
     .THIS .sdv-top-bar .rr-all-content {
         padding: 0 10px;
@@ -383,11 +393,6 @@
 @media all and (max-width: 500px) {
     .THIS .cRRTabSet.ts-tab-container {
         width: 90%;
-    }
-
-    .THIS .cRRTabSet.ts-tab-container .ts-tab-left {
-        min-width: 500px;
-        overflow-x: auto;
     }
 
     .THIS .cRRTabSet.ts-tab-container:after {

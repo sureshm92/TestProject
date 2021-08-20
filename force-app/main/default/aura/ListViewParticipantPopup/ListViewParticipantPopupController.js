@@ -110,7 +110,7 @@
         //component.set('v.finalConsentvalue',!component.get('v.finalConsentvalue'));
          var newStatus = component.get('v.statusSelected').trim();
          var note = component.find("notes").get("v.value");
-        if(component.get('v.finalConsentvalue')){
+         if(component.get('v.finalConsentvalue')){
             component.find('finalConsent').set('v.validity', {valid:true, badInput :false});
             component.find('finalConsent').showHelpMessageIfInvalid();
         }

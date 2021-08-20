@@ -1,0 +1,59 @@
+<template>
+    <template if:true={showModal}>
+        <div>
+            <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+                aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+                <div class={size}> 
+                    <div class="slds-modal__container" style="align-items: center;">
+                        <template if:false={hasHeader2}>
+                            <div class="slds-modal__content slds-p-around_medium " id="modal-content-id-1"  style="width: 80%;border-radius:3px" >
+                                <div class="slds-grid slds-gutters">
+                                    <div class="slds-col slds-size_2-of-3">
+                                        <template if:true={hasHeader}>
+                                            <lightning-formatted-rich-text value={headerValue}></lightning-formatted-rich-text>
+                                        </template>
+                                    </div>  
+                                    <div class="slds-col slds-size_1-of-3" style="text-align:right;cursor:pointer">
+                                        <div style="display:inline-block;margin-right:10px" onclick={handleClose}>
+                                            <lightning-icon icon-name="utility:close"
+                                                alternative-text="close"
+                                                size="small" ></lightning-icon>
+                                            <span class="slds-assistive-text">Close</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <slot name="body">
+                                    <p></p>
+                                </slot>
+                            </div>
+                        </template>
+                        <template if:true={hasHeader2}>
+                            <div class="slds-modal__content slds-p-bottom--medium" id="modal-content-id-2"  style="width: 80%;border-radius:3px" >
+                                <div class="bar"></div> 
+                                <div class="slds-p-around_medium ">
+                                    <div class="slds-grid slds-gutters">
+                                        <div class="slds-col slds-size_2-of-3">
+                                            <span class="title"> {headerValue2} </span> 
+                                        </div>  
+                                        <div class="slds-col slds-size_1-of-3" style="text-align:right;cursor:pointer">
+                                            <div style="display:inline-block;margin-right:10px" onclick={handleClose}>
+                                                <lightning-icon icon-name="utility:close"
+                                                    alternative-text="close"
+                                                    size="small" ></lightning-icon>
+                                                <span class="slds-assistive-text">Close</span>
+                                            </div>
+                                        </div>
+                                    </div>
+                                    <slot name="body">
+                                        <p></p>
+                                    </slot>
+                                </div>
+                            </div>
+                        </template>
+                    </div>
+                </div>
+            </section>
+            <div class="slds-backdrop slds-backdrop_open"></div>
+        </div>
+    </template>
+</template>

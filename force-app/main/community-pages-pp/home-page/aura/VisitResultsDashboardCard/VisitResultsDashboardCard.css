@@ -46,7 +46,8 @@
 }
 
 .THIS .visit-result-item-description {
-    margin: 0 5px;
+    margin: 0 0 0 2px;
+    position: absolute;
 }
 
 .THIS .visit-result-item-description .slds-form-element__icon {
@@ -69,6 +70,7 @@
     text-align: left;
     display: flex;
     flex-direction: column;
+    flex: 1 1 0;
 }
 
 .THIS .visit-results-itemRTL {
@@ -98,8 +100,9 @@
     display: inline-flex;
     flex-direction: row;
     text-overflow: ellipsis;
+    position: relative;
+    padding-right: 15px;
 }
-
 .THIS .visit-results-panel-disclaimer {
     color: #595959;
     font-family: 'Proxima Nova';
@@ -152,9 +155,7 @@
 }
 .THIS .visit-results-containerRTL {
     display: flex;
-    padding: 15px 0;
-    padding-left: 15px;
-    justify-content: center;
+    justify-content: space-around;
 }
 
 @media all and (max-width: 500px) {
@@ -171,5 +172,11 @@
 
     .THIS .visit-results-item:last-child {
         min-width: 185px;
+    }
+}
+
+@media all and (max-width: 768px) {
+    .THIS .visit-results-containerRTL{
+        display: unset !important;
     }
 }

@@ -78,7 +78,7 @@ public without sharing class ManualTaskFilter {
         return peByContactIds;
     }
 
-    @TestVisible
+   @TestVisible
     private Map<Id, List<Id>> getContactsWithParticipantIds(string visibility) {
         Map<Id, List<Id>> participantByContactIds = new Map<Id, List<Id>>();
         Map<Id, List<Id>> delegateParticipantByContactIds = new Map<Id, List<Id>>();
@@ -135,7 +135,9 @@ public without sharing class ManualTaskFilter {
             ParticipantHavingDelegateIds.add(pe.Participant__c);
             IdTypeOfContactMap.put(pe.Participant_Contact__c,'Participant'); //KK
         }
+       if(!ParticipantHavingDelegateIds.isEmpty()) {
         patientDelegateLST = [SELECT id,Contact__c,Participant__c FROM Patient_Delegate__c WHERE Participant__c IN :ParticipantHavingDelegateIds];
+        }
         for(Patient_Delegate__c pd: patientDelegateLST){
             contactIds.add(pd.Contact__c);
             participantIds.add(pd.Participant__c);
@@ -163,7 +165,7 @@ public without sharing class ManualTaskFilter {
         string visibility = taskConfig.visibility;
         
         // Platform-level tasks
-        if (isPlatformLevel)
+        if (isPlatformLevel && String.isNotBlank(visibility))
             return getContactsWithParticipantIds(visibility);
 
         /* Study-level tasks */

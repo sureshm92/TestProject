@@ -59,7 +59,7 @@
 }
 .THIS .textoverlap
 {
-    width: 14rem;
+    width: 15rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
@@ -79,6 +79,7 @@
     overflow: hidden;
 }
 /*End*/
+
 .THIS .rr-form-element + .rr-form-element {
     margin-top: 0;
     margin-bottom: 25px;

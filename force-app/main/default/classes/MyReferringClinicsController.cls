@@ -103,7 +103,7 @@ public without sharing class MyReferringClinicsController {
                     this.enrollments.add(new HCPEnrollmentWrapper(enrollment,piHcpContactNames.get(enrollment.Study_Site__r.Principal_Investigator__c)));
                 }
             }
-        }        
+        }
     }
 
     public class HCPEnrollmentWrapper {

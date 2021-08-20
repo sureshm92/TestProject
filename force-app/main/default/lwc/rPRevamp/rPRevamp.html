@@ -1,0 +1,119 @@
+<template>
+    <div class="slds-p-around_large" style="height:722px; width:1213.17px">
+    <lightning-card>
+        <div class="slds-grid slds-p-around_xxx-small" style="height:2rem">
+            <div class="slds-col">
+                <span class="slds-float_left bulk-import-files">Bulk Import Files</span>
+            </div>
+            <div class="slds-col">
+                <span class="slds-float_right">
+                    <lightning-button
+                        variant="Neutral"
+                        label="Instructions"
+                        title="Instructions"
+                        onclick={doenloadTemplate}
+                        icon-name="utility:download"
+                        class="slds-m-left_x-small">
+                    </lightning-button>
+                    <lightning-button
+                        variant="Neutral"
+                        label="File Template"
+                        title="File Template"
+                        onclick={doenloadTemplate}
+                        icon-name="utility:download"
+                        class="slds-m-left_x-small">
+                    </lightning-button>
+                    <lightning-button
+                        variant="brand"
+                        label="Import Participants"
+                        title="Import Participants"
+                        onclick={doenloadTemplate}
+                        icon-name="utility:download"
+                        class="slds-m-left_x-small">
+                    </lightning-button>
+                </span>
+            </div>
+        </div>
+        <lightning-layout>
+        <lightning-layout-item flexibility="auto" padding="around-small">
+                <div>
+                    <table class="slds-table  slds-table_bordered">
+                        <!--Header of the table-->
+                        <thead>
+                            <tr class="slds-line-height_reset table-header-label">
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="File Name">File Name</div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Initial Total Records">Initial Total Records</div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Accepted">Accepted</div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Rejected">Rejected</div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Uploaded By">Uploaded By
+                                    </div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Uploaded On">Uploaded On
+                                    </div>
+                                </th>
+                                <th class="slds-size_1-of-7" scope="col">
+                                    <div class="slds-truncate" title="Actions">Actions
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!--Body of the table-->
+                        <tbody>
+                            <template for:each={fileList} for:item="item" for:index="indexVar">
+                                <tr key={item.Id} class="slds-hint-parent">
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                           {item.fileName}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.initialTotalRecords}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.accepted}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.rejected}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.uploadedBy}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.uploadedOn}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-7">
+                                        <div>
+                                            {item.action}
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+        </lightning-layout-item>
+        </lightning-layout>
+    </lightning-card> 
+    </div>
+</template>

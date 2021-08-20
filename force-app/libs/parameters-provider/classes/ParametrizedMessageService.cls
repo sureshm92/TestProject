@@ -35,7 +35,6 @@ public without sharing class ParametrizedMessageService {
                 return;
             if (sourceMessage == null)
                 return;
-            
             ParametersProviderService.Parameters parameters = ParametersProviderService.getParamsMap(paramProviderName);
             Map<String, String> paramsMap = parameters.parametersMap;
             Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
