@@ -81,7 +81,6 @@
                                              required="{!v.finalConsentrequired}"
                                              aura:id="finalConsent"
                                              name="input2" 
-                                             aura:id="finalConsent"
                                              checked="{!v.finalConsentvalue}" 
                                              onchange="{!c.onBooleanValueChange}"/>
                         </div>
