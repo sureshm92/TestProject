@@ -3,7 +3,6 @@
  */
 ({
     doInit: function (component, event, hepler) {
-
         if (!communityService.isInitialized()) return;
 
         if (!communityService.isDummy()) {
@@ -21,7 +20,6 @@
         } else {
             component.find('builderStub').setPageName(component.getName());
         }
-         
     },
 
     doExport: function (component) {
@@ -62,28 +60,5 @@
     filterEmancipations: function (component, event, helper) {
         let rootCmp = component.get('v.parent');
         rootCmp.filterEmancipationsOnly();
-    },
-
-    handleActive: function (component, event, helper) {
-        var tab = event.getSource();
-        switch (tab.get('v.id')) {
-            case 'tab1' :
-                component.set("v.layout1", 4);
-                component.set("v.layout2", 8);
-                component.set("v.show", true);
-                break;
-            case 'tab2':
-                component.set("v.layout1", 12);
-                component.set("v.show", false);
-                break;
-            case 'tab3':
-                component.set("v.layout1", 12);
-                component.set("v.show", false);
-                break;
-        }
-    },
-    doGoHome: function () {
-        communityService.navigateToPage('');
-    },
-
+    }
 });
