@@ -95,13 +95,15 @@
                                     isAlumni="{!v.participantState.value == 'ALUMNI'}"
                                 />
                             </div>
-                            <aura:if
-                                isTrue="{!v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c}"
+                             <aura:if
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.participantState.value == 'ALUMNI')}"
                             >
                             <div class="slds-col">
                                 <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}"/>
                             </div>
-                           </aura:if>
+                          </aura:if>
+                                
+                           
                             <aura:if
                                 isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}"
                             >
