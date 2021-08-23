@@ -9,25 +9,28 @@
 <aura:if isTrue="{!v.isReportAvailable}">
     <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
-            <div class="slds-grid slds-grid_align-spread">
-                <div class="slds-col">
+            <div class="slds-grid">
+                <div class="slds-col slds-size--8-of-12">
                 <span>Medical Records Providers</span>
                 </div>
-                <div class="slds-col">
-                <span class="fontStyle"><a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a></span>
+                <div class="slds-col slds-size--4-of-12 highlights">
+                <span class="fontStyle" style="float:right;"><a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a></span>
                 </div>
             </div>
         <aura:iteration items="{!v.detailedReport}" var="item" indexVar="indx">
-            <div class="slds-grid slds-grid_align-spread">
-                <div class="slds-col">
+            <div class="slds-grid divpadding">
+                <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
                 <span class="fontStyle">{!item.providerName}</span>
                 </div>
-                <div class="slds-col">
+                <div class="slds-col slds-size--4-of-12  slds-show_medium" style="text-align: center;">
+                	<span>{!item.createdAt}</span>
+                </div>
+                <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
+                	<span class="fontStyle" style="float:right;"><a href="{!item.reportUrl}" target="_blank">{!item.reportName}</a></span>
+                </div>
+            </div>
+            <div class="slds-grid slds-hide_medium">
                 <span>{!item.createdAt}</span>
-                </div>
-                <div class="slds-col">
-                <span class="fontStyle"><a href="{!item.reportUrl}" target="_blank">{!item.reportName}</a></span>
-                </div>
             </div>
         </aura:iteration>
         </div>
