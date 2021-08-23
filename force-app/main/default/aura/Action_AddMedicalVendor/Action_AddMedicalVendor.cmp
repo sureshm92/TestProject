@@ -27,7 +27,6 @@
                         recordId="{!v.recId}"
                     >
                         <lightning:inputField fieldName="Name" aura:id="nameField" required="true"/>
-                        <lightning:inputField fieldName="Medical_Vendor__c" />
                         <lightning:inputField fieldName="Description__c"/>
                     </lightning:recordEditForm>
                 </aura:if>

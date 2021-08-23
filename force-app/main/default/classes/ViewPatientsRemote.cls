@@ -48,6 +48,7 @@ public without sharing class ViewPatientsRemote {
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
+        'HCP__r.HCP_Contact__c',    
         'HCP__r.HCP_Contact__r.Name',
         'HCP__r.HCP_Contact__r.FirstName',
         'HCP__r.HCP_Contact__r.LastName',
@@ -63,6 +64,7 @@ public without sharing class ViewPatientsRemote {
         'MRR_Survey_Results_URL__c',
         'Name',
         'Human_Id__c',
+        'Unique_HumanId__c',
         'Non_Referral_Reason__c',
         'Patient_ID__c',
         'Participant_Status__c',
@@ -160,8 +162,7 @@ public without sharing class ViewPatientsRemote {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_IQVIA_to_contact_about_study__c',
         'Site_Communication_Preference__c',
-        'Invited_To_PP_Date__c',    
-            'Is_Contacted__c',
+        'Invited_To_PP_Date__c',
         '(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)'    
     };
 
@@ -383,7 +384,7 @@ public without sharing class ViewPatientsRemote {
     ) {
         return convertToPEWrapperList(participantEnrollments, userMode, null);
     }
-    public static List<PEWrapper> convertToPEWrapperList(
+	public static List<PEWrapper> convertToPEWrapperList(
         List<Participant_Enrollment__c> participantEnrollments,
         String userMode,
         String delegateId
@@ -394,11 +395,44 @@ public without sharing class ViewPatientsRemote {
         Set<Id> participantIds = new Set<Id>();
         Map<Id,Id> peParticipantMap = new Map<Id,Id>();
         Set<Id> idParticipantsOnUser = new Set<Id>();
+        Map<Id,String> refSourceNames = new Map<Id,String>();
+        List<Id> refSourceIds = new List<Id>();
         for (Participant_Enrollment__c pe : participantEnrollments) {
             idParticipants.add(pe.Participant_Contact__c);
             peParticipantMap.put(pe.Participant__c,pe.Id);
             participantIds.add(pe.Participant__c);
+            if(userMode == CommunityService.USER_MODE_PI){
+                if(pe.Referral_Source__c ==Label.RH_PI){
+                    refSourceIds.add(pe.PI_Contact__c);
+                }else if(pe.Referral_Source__c ==Label.RH_HCP){
+                    refSourceIds.add(pe.HCP__r.HCP_Contact__c);
+                }
+            }
+            if(userMode == CommunityService.USER_MODE_HCP){	
+                refSourceIds.add(pe.Study_Site__r.Principal_Investigator__c);
+            }
+            
         }
+        if(!refSourceIds.isEmpty()){
+            List<Participant__c> RHParticipants= [SELECT Id,Contact__c,First_Name__c,Middle_Name__c,Last_Name__c,Suffix__c FROM Participant__c WHERE Contact__c IN:refSourceIds];
+            for(Participant__c RHParticipant : RHParticipants){
+                String Name;
+                if(RHParticipant.First_Name__c!=null){
+                    Name = Name==null?RHParticipant.First_Name__c : Name + ' ' + RHParticipant.First_Name__c;
+                }
+                if(RHParticipant.Middle_Name__c!=null){
+                    Name = Name==null?RHParticipant.Middle_Name__c : Name + ' ' + RHParticipant.Middle_Name__c;
+                }
+                if(RHParticipant.Last_Name__c!=null){
+                    Name = Name==null?RHParticipant.Last_Name__c : Name + ' ' + RHParticipant.Last_Name__c;
+                }
+                if(RHParticipant.Suffix__c!=null){
+                    Name = Name==null?RHParticipant.Suffix__c : Name + ' ' + RHParticipant.Suffix__c;
+                }
+                refSourceNames.put(RHParticipant.Contact__c, Name);
+            }
+        }
+
         Map<Id,Integer> cmap = new Map<Id, Integer>();
         for(participant__c p : [Select id,(Select id from ContentDocumentLinks) from participant__c where id=:participantIds]) 
              cmap.put(p.id, p.ContentDocumentLinks.size());
@@ -412,21 +446,33 @@ public without sharing class ViewPatientsRemote {
         for (Participant_Enrollment__c pe : participantEnrollments) {
             PEWrapper newPeWrapper;
             if (userMode == CommunityService.USER_MODE_HCP) {
-                newPeWrapper = new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions);
+                String sourceName;
+                if(refSourceNames.containsKey(pe.Study_Site__r.Principal_Investigator__c)){
+                    sourceName = refSourceNames.get(pe.Study_Site__r.Principal_Investigator__c);
+                }
+                newPeWrapper = new PEWrapper(pe, new StudyActionsHCP(pe, delegateId).actions, sourceName);
                 newPeWrapper.pItem.containsFile =  cmap.containsKey(pe.Id)? cmap.get(pe.Id)>0 : false;
                 resultList.add(newPeWrapper);
                 participantItems.add(newPeWrapper.pItem);
+                
+                //refSourceIds.add(pe.HCP__c);
             } else {
                 if (userMode == CommunityService.USER_MODE_PI) {
+                    String sourceName;
+                    if(pe.Referral_Source__c ==Label.RH_PI && refSourceNames.containsKey(pe.PI_Contact__c)){
+                        sourceName = refSourceNames.get(pe.PI_Contact__c);
+                    }else if(pe.Referral_Source__c ==Label.RH_HCP && refSourceNames.containsKey(pe.HCP__r.HCP_Contact__c)){
+                        sourceName = refSourceNames.get(pe.HCP__r.HCP_Contact__c);
+                    }
                     if (
                         pe.Participant_Contact__c != null &&
                         idParticipantsOnUser.contains(pe.Participant_Contact__c)
                     ) {
-                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, true);
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, true, sourceName);
                         resultList.add(newPeWrapper);
                         participantItems.add(newPeWrapper.pItem);
                     } else {
-                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, false);
+                        newPeWrapper = new PEWrapper(pe, new StudyActionsPI(pe).actions, false, sourceName);
                         resultList.add(newPeWrapper);
                         participantItems.add(newPeWrapper.pItem);
                     }
@@ -688,6 +734,7 @@ public without sharing class ViewPatientsRemote {
         public List<String> peStatusesPathList = PEStatusState.STATUS_STEPS_LIST;
         public Boolean isInvited;
         public Boolean hasEmancipatedParticipants;
+        public Map<Id,String> RefSourceNames;
     }
 
     public class SearchResult {
@@ -695,6 +742,7 @@ public without sharing class ViewPatientsRemote {
         PaginationData paginationData;
         ParticipantEnrollmentService.PEFilter peFilter;
         ParticipantEnrollmentService.PEFilterData peFilterData;
+        public Map<Id,String> RefSourceNames;
     }
 
     public class PEWrapper {
@@ -707,10 +755,17 @@ public without sharing class ViewPatientsRemote {
         public Map<String, StudyActions.Action> actions;
         public List<StudyActions.Action> participantCardActions;
         public List<StudyActions.Action> healthcareProviderActions;
+        public String sourceName;
 
         public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions) {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
+        }        
+        
+        public PEWrapper(Participant_Enrollment__c pe, Map<String, StudyActions.Action> actions, String sourceName) {
+            this.pItem = new ParticipantItem(pe);
+            this.actions = actions;
+            this.sourceName = sourceName;
         }
         public PEWrapper(
             Participant_Enrollment__c pe,
@@ -720,6 +775,24 @@ public without sharing class ViewPatientsRemote {
             this.pItem = new ParticipantItem(pe);
             this.actions = actions;
             this.isInvited = isInvited;
+            this.hasEmancipatedParticipants = pe.Participant__r != null
+                ? pe.Participant__r.Emancipation_in_progress__c
+                : false;
+            this.sendToSH = ListViewParticipantController.ifAllowedForSH(pe,getPshStatus(),false);
+            this.sendToSHDate = pe!=null?((pe.Participant_Enrollment_Status_History__r!=null && !pe.Participant_Enrollment_Status_History__r.isEmpty())?(pe.Participant_Enrollment_Status_History__r[0].Date__c!=null?Date.valueOf(pe.Participant_Enrollment_Status_History__r[0].Date__c):null):null):null;
+        	this.sendToSHReason = pe!=null?((pe.Participant_Enrollment_Status_History__r!=null && !pe.Participant_Enrollment_Status_History__r.isEmpty())?pe.Participant_Enrollment_Status_History__r[0].Non_Enrollment_Reason__c:null):null;
+        }
+        
+        public PEWrapper(
+            Participant_Enrollment__c pe,
+            Map<String, StudyActions.Action> actions,
+            Boolean isInvited,
+            String sourceName
+        ) {
+            this.pItem = new ParticipantItem(pe);
+            this.actions = actions;
+            this.isInvited = isInvited;
+            this.sourceName = sourceName;
             this.hasEmancipatedParticipants = pe.Participant__r != null
                 ? pe.Participant__r.Emancipation_in_progress__c
                 : false;
@@ -738,6 +811,18 @@ public without sharing class ViewPatientsRemote {
     }
 
     @AuraEnabled
+    public static Map<Id,String> getPIRefRevNames(List<Id> referralsPIsAndMedRevsContacts){
+        Set<Id> refAndPIContactIDs = new Set<Id>();
+        refAndPIContactIDs.addAll(referralsPIsAndMedRevsContacts);
+     	return ParticipantWorkflowService.getContactFullNamesFromParticipants(refAndPIContactIDs);   
+    }
+    
+    @AuraEnabled
+    public static Map<Id,String> getPINames(List<Id> piContacts){
+     	return ParticipantWorkflowService.getPIContactNames(piContacts);   
+    }
+    
+    @AuraEnabled
     public static CsvWrapper getExportAllList(
         List<Id> studies,
         List<Id> studySites,
@@ -749,7 +834,7 @@ public without sharing class ViewPatientsRemote {
         List<Participant_Enrollment__c> lstPERs = new List<Participant_Enrollment__c>();
         String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
         String queryString =
-            'SELECT Id,Name,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
+            'SELECT Id,Name,PI_Contact__c,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_by__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
             'Participant__r.Full_Name__c,Participant__r.Present_Age__c,Participant__r.Gender_Technical__c,Participant__r.BMI__c,Study_Site__c,Study_Site__r.Name,Clinical_Trial_Profile__c,' +
             'Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Promote_to_SH__c,Participant__r.Ethnicity__c,' +
             'Source_Type__c,Participant_Status__c,HighRisk_Indicator__c,CreatedDate,Referral_Source_ID__c,' +
@@ -771,7 +856,9 @@ public without sharing class ViewPatientsRemote {
         lstPER = Database.query(Query);
         Integer totalCount = Database.countQuery(queryCount);
         List<String> FOVTime =new List<String>();
+        Set<Id> referralsPIsAndMedRevsContacts = new Set<Id>();	
         for(Participant_Enrollment__c per:lstPER ){
+	   referralsPIsAndMedRevsContacts.add(per.Referral_Completed_by__c);
            String Fovtim =String.ValueOf(per.Initial_visit_scheduled_time__c);
            if(Fovtim  !='' && Fovtim  !=null){
            FOVTime.add(Fovtim.replace('.000Z', ''));
@@ -787,6 +874,7 @@ public without sharing class ViewPatientsRemote {
         wrap.startPos = startPos;
         wrap.endPos = endPos;
         wrap.totalCount = totalCount;
+        wrap.referralsPIsAndMedRevsContacts = referralsPIsAndMedRevsContacts;	
         return wrap;
     }
 
@@ -794,9 +882,9 @@ public without sharing class ViewPatientsRemote {
         @AuraEnabled
         public List<Participant_Enrollment__c> partList { get; set; }
         @AuraEnabled
-        public List<String> initialVisitScheduleTime { get; set; }
-        @AuraEnabled
         public List<Id> studies { get; set; }
+        @AuraEnabled
+        public List<String> initialVisitScheduleTime { get; set; }        
         @AuraEnabled
         public List<Id> studySites { get; set; }
         @AuraEnabled
@@ -805,5 +893,7 @@ public without sharing class ViewPatientsRemote {
         public Integer endPos { get; set; }
         @AuraEnabled
         public Integer totalCount { get; set; }
+	@AuraEnabled
+        public Set<Id> referralsPIsAndMedRevsContacts { get; set; }	
     }
 }

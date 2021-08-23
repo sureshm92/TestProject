@@ -326,10 +326,17 @@
                                          <div class="ssi-site-name" style="{!if(v.isRTL, 'text-align: right;','')}">
                                              {!index+1 +'. '+ ss.site.Name}
                                          </div>
-                                         <div class="ssi-pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
-                                             {!ss.site.Principal_Investigator__r.Salutation + ' '
-                                             + ss.site.Principal_Investigator__r.Name}
-                                         </div>
+                                         <aura:if isTrue = "{!or(ss.piName==undefined,ss.piName==null)}">
+                                             <div class="ssi-pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
+                                                 {!ss.site.Principal_Investigator__r.Salutation + ' '
+                                                 + ss.site.Principal_Investigator__r.Name}
+                                             </div>
+                                             <aura:set attribute= "else">
+                                                 <div class="ssi-pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
+                                                     {!ss.piName}
+                                                 </div>
+                                             </aura:set>   
+                                         </aura:if>
                                      </div>
                                      <div
                                          class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
@@ -413,10 +420,17 @@
                                          class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
                                      >
                                          <div class="ssi-site-name">{!ss.site.Name}</div>
-                                         <div class="ssi-pi-name">
-                                             {!ss.site.Principal_Investigator__r.Salutation + ' '
-                                             + ss.site.Principal_Investigator__r.Name}
-                                         </div>
+                                         <aura:if isTrue = "{!or(ss.piName==undefined,ss.piName==null)}">
+                                             <div class="ssi-pi-name">
+                                                 {!ss.site.Principal_Investigator__r.Salutation + ' '
+                                                 + ss.site.Principal_Investigator__r.Name}
+                                             </div>
+                                             <aura:set attribute= "else">
+                                                 <div class="ssi-pi-name">
+                                                     {!ss.piName}
+                                                 </div>
+                                             </aura:set>   
+                                         </aura:if>
                                      </div>
                                      <div
                                          class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
@@ -1116,10 +1130,17 @@
                                              class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
                                          >
                                              <div class="ssi-site-name">{!ss.site.Name}</div>
+                                         <aura:if isTrue = "{!or(ss.piName==undefined,ss.piName==null)}">
                                              <div class="ssi-pi-name">
-                                                 {!ss.site.Principal_Investigator__r.Salutation +
-                                                 ' ' + ss.site.Principal_Investigator__r.Name}
+                                                 {!ss.site.Principal_Investigator__r.Salutation + ' '
+                                                 + ss.site.Principal_Investigator__r.Name}
                                              </div>
+                                             <aura:set attribute= "else">
+                                                 <div class="ssi-pi-name">
+                                                     {!ss.piName}
+                                                 </div>
+                                             </aura:set>   
+                                         </aura:if>
                                          </div>
                                          <div
                                              class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"

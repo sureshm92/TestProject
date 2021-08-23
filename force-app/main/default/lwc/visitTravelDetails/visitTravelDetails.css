@@ -77,8 +77,8 @@
     text-align: right;
 }
 .mr_rtl {
-    margin-top: 40px;
-    text-align: right;
+    margin-top: 32px;
+    text-align: left;
 }
 .labels {
     height: 24px;

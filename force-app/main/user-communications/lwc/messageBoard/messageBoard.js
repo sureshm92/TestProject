@@ -50,6 +50,7 @@ export default class MessageBoard extends LightningElement {
 
     @api userMode;
     @api firstConWr;
+    @api piContactNames;    
 
     @track enrollments;
     @track conversation;
@@ -76,12 +77,13 @@ export default class MessageBoard extends LightningElement {
 
     //Public Methods:---------------------------------------------------------------------------------------------------
     @api
-    setTemplates(templates) {
+    setTemplates(templates, piConNames) {
         this.messageTemplates = templates;
+        this.piContactNames = piConNames;
     }
 
     @api
-    startNew(enrollments, statusByPeMap) {
+    startNew(enrollments, statusByPeMap, piContactNames) {
         this.attachment = null;
         this.isAttachEnable = false;
         this.conversation = null;
@@ -90,6 +92,7 @@ export default class MessageBoard extends LightningElement {
         this.patientDelegates = null;
         this.isHoldMode = false;
         this.selectedEnrollment = null;
+        this.piContactNames = piContactNames;
 
         this.enrollments = enrollments;
         this.isMultipleMode = enrollments.length > 1;
@@ -105,12 +108,13 @@ export default class MessageBoard extends LightningElement {
     }
 
     @api
-    openExisting(conversation, messageWrappers, isPastStudy, patientDelegates) {
+    openExisting(conversation, messageWrappers, isPastStudy, patientDelegates, piContactNames) {
         this.attachment = null;
         this.isAttachEnable = false;
         this.conversation = null;
         this.messageWrappers = [];
         this.patientDelegates = null;
+        this.piContactNames = piContactNames;
 
         this.isPastStudy = isPastStudy;
         if (patientDelegates) this.patientDelegates = patientDelegates;
@@ -271,7 +275,8 @@ export default class MessageBoard extends LightningElement {
             sendMultipleMessage({
                 peIds: this.selectedEnrollments,
                 messageText: messageText,
-                fileJSON: JSON.stringify(fileList)
+                fileJSON: JSON.stringify(fileList),
+                piContactNames: context.piContactNames
             })
                 .then(function () {
                     context.fireMultipleSendEvent();
@@ -288,7 +293,8 @@ export default class MessageBoard extends LightningElement {
                     enrollment: this.selectedEnrollment,
                     messageText: messageText,
                     fileJSON: JSON.stringify(fileList),
-                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
+                    piContactNames: context.piContactNames
                 })
                     .then(function (data) {
                         if (formFactor === 'Small') context.hideEmptyStub = false;
@@ -307,7 +313,8 @@ export default class MessageBoard extends LightningElement {
                     conversation: this.conversation,
                     messageText: messageText,
                     fileJSON: JSON.stringify(fileList),
-                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null
+                    isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
+                    piContactNames: context.piContactNames
                 })
                     .then(function (data) {
                         context.fireSendEvent(data);

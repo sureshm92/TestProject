@@ -58,7 +58,7 @@ class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 
               disabled="{!v.sharingObject.Id || v.sharingObject.delegateId}"
               />
 
-<span class="tooltiptext ">{!v.sharingObject.sObjectType == 'Object' ? $Label.c.HealthCare_Delegates_Email : $Label.c.HealthCare_Providers_Email}</span>
+<span>{!v.sharingObject.sObjectType == 'Object' ? $Label.c.HealthCare_Delegates_Email : $Label.c.HealthCare_Providers_Email}</span>
 </div>
 </div>
 
@@ -66,7 +66,7 @@ class="{!'slds-col ' + if(v.printMode, 'slds-size--4-of-12', 'slds-size--1-of-1 
 class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}"
 >
 <div class="label tooltip">
-<legend class="slds-form-element__legend slds-form-element__label textoverlap_FN">
+<legend class="slds-form-element__legend slds-form-element__label textoverlap_FNLN">
  {!v.sharingObject.sObjectType == 'Object' ?
  $Label.c.HealthCare_Delegates_First_Name : $Label.c.HealthCare_Providers_First_Name}</legend>
 
@@ -85,7 +85,7 @@ class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 
               onblur="{!c.checkDelegateDuplicate}"
               disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"
               />
-<span class="tooltiptextFNLN ">{!v.sharingObject.sObjectType == 'Object' ?
+<span>{!v.sharingObject.sObjectType == 'Object' ?
  $Label.c.HealthCare_Delegates_First_Name : $Label.c.HealthCare_Providers_First_Name}</span>
 
 </div>
@@ -94,7 +94,7 @@ class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 
 class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 slds-large-size--3-of-12')}"
 >
 <div class="label tooltip">
-<legend class="slds-form-element__legend slds-form-element__label textoverlap_LN">{!v.sharingObject.sObjectType == 'Object' ?
+<legend class="slds-form-element__legend slds-form-element__label textoverlap_FNLN">{!v.sharingObject.sObjectType == 'Object' ?
  $Label.c.HealthCare_Delegates_Last_Name : $Label.c.HealthCare_Providers_Last_Name}</legend>
 
 <lightning:input
@@ -112,7 +112,7 @@ class="{!'slds-col ' + if(v.printMode, 'slds-size--3-of-12', 'slds-size--1-of-1 
               onblur="{!c.checkDelegateDuplicate}"
               disabled="{!v.providerFound || v.isDuplicate || v.sharingObject.Id || v.sharingObject.delegateId}"
               />
-<span class="tooltiptextFNLN ">{!v.sharingObject.sObjectType == 'Object' ?
+<span>{!v.sharingObject.sObjectType == 'Object' ?
  $Label.c.HealthCare_Delegates_Last_Name : $Label.c.HealthCare_Providers_Last_Name}</span>
 
 </div>

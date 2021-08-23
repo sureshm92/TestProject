@@ -11,10 +11,21 @@
         .ci-panel{
         	max-width: 1127px;
         }
+        .brow-mob-rtl div svg{
+            margin: 1rem 75rem 0 0;
+        }
+        @media (max-width: 768px) {
+            .brow-mob-rtl div svg {
+                margin: -1.5rem 20rem 0 0;
+            }
+            .brow-mob-rtl {
+                height:200px;
+            }
+        }
 
     </style>
 
-    <div class="ci-bottom-aria ci-hidden" style="{!if(isRTL == true, 'direction:rtl', '')}">
+    <div class="ci-bottom-aria ci-hidden + {!if(isRTL == true, 'brow-mob-rtl', '')}">
         <div class="ci-panel">
             <span class="ci-content-container">{!$Label.Cookies_Info_Text_Registration_Page}</span>
         </div>

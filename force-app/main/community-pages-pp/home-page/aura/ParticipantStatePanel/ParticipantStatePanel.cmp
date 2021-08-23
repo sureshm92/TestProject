@@ -5,7 +5,7 @@
 <aura:component description="ParticipantStatePanel" controller="ParticipantStateRemote">
     <!-- attributes: -->
     <aura:attribute name="participantItem" type="ParticipantItem" />
-
+	<aura:attribute name="referralSourceName" type="String" />
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -14,7 +14,7 @@
     <div style="position: relative">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true" />
         <aura:if isTrue="{!!empty(v.participantItem)}">
-            <c:ParticipantCard participantItem="{!v.participantItem}" userMode="Participant" />
+            <c:ParticipantCard participantItem="{!v.participantItem}" userMode="Participant" refSourceName="{!v.referralSourceName}"/>
             <aura:set attribute="else">
                 <div class="rr-white-panel psp-study-card"></div>
             </aura:set>
