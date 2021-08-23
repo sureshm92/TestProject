@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>StartDate_Not_Editable</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISCHANGED(Start_Date__c)  &amp;&amp; PRIORVALUE(Start_Date__c)  &lt;&gt;  Next_Occurence_Date__c</errorConditionFormula>
+    <errorDisplayField>Start_Date__c</errorDisplayField>
+    <errorMessage>Start Date can not be change, Since first instance already launched.</errorMessage>
+</ValidationRule>

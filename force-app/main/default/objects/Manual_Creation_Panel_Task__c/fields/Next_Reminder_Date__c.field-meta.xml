@@ -3,7 +3,7 @@
     <fullName>Next_Reminder_Date__c</fullName>
     <externalId>false</externalId>
     <formula>IF( NOT( ISBLANK(Reminder_days_before_due_date__c) )  ,  IF(Next_Due_Date__c  - Reminder_days_before_due_date__c  &gt;=  Next_Occurence_Date__c , Next_Due_Date__c  - Reminder_days_before_due_date__c, null) , null)</formula>
-    <label>Next Task Reminder Date</label>
+    <label>Next Occurrence Reminder</label>
     <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Date</type>
