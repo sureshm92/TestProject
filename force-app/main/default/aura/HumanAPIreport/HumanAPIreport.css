@@ -5,9 +5,13 @@
     font-weight: 600;
 }
 .THIS.maindiv{
-    padding-left: 10px;
+    /*padding-left: 10px;*/
 }
 .THIS .fontStyle{
     color: #297dfd; 
     font-size:16px;
+}
+.THIS .highlights{
+    font-size: 15px;
+    font-weight: 500;
 }
