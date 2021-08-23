@@ -12,6 +12,7 @@ public class HttpCallout extends RemoteCall{
         this.headersMap.putAll(headerMap);
         this.requestMap = requestMap;
         this.classType = classType;
+        this.logAutoInsert = false;
     }
 
     @TestVisible

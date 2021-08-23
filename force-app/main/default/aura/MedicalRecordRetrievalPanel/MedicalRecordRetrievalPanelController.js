@@ -2,14 +2,50 @@
     
     doInit: function(component, event, helper) {
         var obj = component.get("v.participantState");
+        console.log('ob-->'+obj.hasPatientDelegates);
+        if (communityService.getCurrentCommunityMode().hasPastStudies){
+            component.set('v.hasPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
+            
+        }
+
+              if((component.get('v.hasPastStudies')|| obj.value == 'ALUMNI') && !obj.hasPatientDelegates){
+            communityService.executeAction(
+                component,
+                'getHumanAPIPastPEList',{ 
+                    contactId :obj.currentContactId
+                },          
+                function (returnValue) {
+                    component.set('v.referrals',returnValue);
+                    if(returnValue){
+                    component.set('v.defaultStudy',returnValue[0].value);
+                        console.log('ob'+returnValue[0].value);
+                    helper.calloutAccessToken(component,returnValue[0].value);
+
+                    }
+                    
+                }
+            );  
+        }
+         
         const humanApiVendors = component.get('v.participantState.medicalVendors');
+        console.log('humanApiVendors'+humanApiVendors);
         let isHumanApiVendorChecked = false;
+         if(humanApiVendors != null){
         for (const item in humanApiVendors) {
+            console.log('humanApiVendors'+humanApiVendors);
+            if(humanApiVendors != null){
             isHumanApiVendorChecked = humanApiVendors[item].Medical_Vendor__c === "HumanApi";
             break;
+
+            }
+        }
          }
         component.set('v.isHumanApiChecked',isHumanApiVendorChecked);
-       
+                console.log('obj.value'+obj.value);
+
+        if(obj.value != 'ALUMNI'){
+                    console.log('obj.value'+obj.value);
+
         if(obj.pe.Human_Id__c != undefined){
         helper.calloutAccessToken(component); 
         }
@@ -35,6 +71,7 @@
             
             component.find('spinner').hide();
         }
+        }
                   
     },
     
@@ -44,7 +81,15 @@
     
     
     manageSources :  function(component, event, helper) {
-        helper.calloutSession(component);
+        console.log('inisde-->'+component.get('v.defaultStudy'));
+        helper.calloutSession(component,component.get('v.defaultStudy'));
+        
+    },
+    doListProviders: function(component, event, helper) {
+        component.set('v.initialized',false);
+       component.find('spinner').show();
+        console.log('inisde-->'+component.get('v.defaultStudy'));
+        helper.calloutAccessToken(component,component.get('v.defaultStudy'));
         
     },
     
@@ -68,8 +113,8 @@
         );  
     },
     listProvidersChange : function(component, event, helper) {
-        component.find('spinner').show();
-        helper.calloutAccessToken(component); 
+        //component.find('spinner').show();
+        helper.calloutAccessToken(component,component.get('v.defaultStudy')); 
        // component.set("v.success",false);
         console.log('itemsChange');
     }
