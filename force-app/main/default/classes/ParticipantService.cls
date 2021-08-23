@@ -17,6 +17,8 @@ public without sharing class ParticipantService {
         @AuraEnabled
         public Boolean isDelegate;
         @AuraEnabled
+        public Boolean hasPatientDelegates;
+        @AuraEnabled
         public Clinical_Trial_Profile__c ctp;
         @AuraEnabled
         public Participant__c participant;
@@ -78,6 +80,8 @@ public without sharing class ParticipantService {
         if (participantState.currentContactId == null)
             participantState.currentContactId = userContact.Id;
         participantState.isDelegate = userContact.userCommunityDelegateId__c != null;
+        participantState.hasPatientDelegates = PatientDelegateService.getInstance().hasDelegates;
+
         List<User> participantUser = [
             SELECT Id
             FROM User
