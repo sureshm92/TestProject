@@ -57,11 +57,13 @@
                     if(component.get('v.isHumanApiChecked')){
 
                         component.set('v.showMedicalCard',true);
+                        component.set('v.initialized',true);
                     }
                     else {
 
                         if((component.get('v.isAuthorised') && obj.pe.Human_Id__c)){
                              component.set('v.showMedicalCard',true);
+                             component.set('v.initialized',true);
                         }
                     }
                 }
