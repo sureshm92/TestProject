@@ -9174,6 +9174,13 @@ The expected format is REF##### to REF########</value>
         <value>Lipoproteins are made of a combination of lipids (fats) and proteins. Low-density lipoproteins (LDL) are produced by the liver and move cholesterol from the liver to other body parts. LDL cholesterol is also known as &quot;bad&quot; cholesterol. When your LDL cholesterol is high, it means it can build up in the walls of your blood vessels and block the blood flow.</value>
     </labels>
     <labels>
+        <fullName>monthly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set monthly task for these dates.</value>
+    </labels>
+    <labels>
         <fullName>MO_Active</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18735,6 +18742,13 @@ communications using the toggles below.</value>
         <value>Remind Using</value>
     </labels>
     <labels>
+        <fullName>reminder_greaterthan_one_year_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set reminder date greater than one year.</value>
+    </labels>
+    <labels>
         <fullName>Reminder_3rd_Party_No_TA</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -20725,7 +20739,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Tab_Medical_History</shortDescription>
-        <value>Medical History</value>
+        <value>Medical Record History</value>
     </labels>
     <labels>
         <fullName>Tab_Sharing_Options</fullName>
@@ -21997,6 +22011,13 @@ communications using the toggles below.</value>
         <value>Withdrew Consent After Screening</value>
     </labels>
     <labels>
+        <fullName>yearly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set yearly task for these dates.</value>
+    </labels>
+    <labels>
         <fullName>Yes</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -22075,5 +22096,12 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
+    </labels>
+    <labels>
+        <fullName>weekly_task_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly task error</shortDescription>
+        <value>Cannot set weekly task for these dates.</value>
     </labels>
 </CustomLabels>

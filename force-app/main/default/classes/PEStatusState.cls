@@ -188,7 +188,6 @@ public without sharing class PEStatusState {
         PE_STATUS_RANDOMIZATION_SUCCESS
     };
 
-
     public static final List<String> PE_STATUS_GROUP_PARTICIPANT;
 
     public static final List<String> PE_STATUS_GROUP_COMPLETE = new List<String>{

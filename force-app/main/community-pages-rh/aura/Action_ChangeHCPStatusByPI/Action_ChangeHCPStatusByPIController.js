@@ -52,6 +52,7 @@
         //init params:
         var params = event.getParam('arguments');
         var a = component.get('c.doChangeStatus');
+        var hcpName = params.hcpName;
         component.set('v.hcpEnrollment', params.hcpEnrollment);
         component.set('v.actionId', params.actionId);
         component.set('v.refreshSource', params.refreshSource);
@@ -69,7 +70,7 @@
 
         //process action:
         var changeStatusReasons = component.get('v.changeStatusReasons');
-        var drName = params.hcpEnrollment.HCP_Contact__r.Name;
+        var drName = (hcpName == undefined || hcpName == null)?params.hcpEnrollment.HCP_Contact__r.Name:hcpName;
         switch (params.actionId) {
             case 'hcpApprove':
                 $A.enqueueAction(a);

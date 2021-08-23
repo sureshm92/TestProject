@@ -13,16 +13,31 @@
     <div class="rci-main-container" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
         <div class="rci-header">
             <div class="rci-name">
-                <aura:if isTrue="{!v.isRTL}">
-                    {! (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
-                    '') + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + v.clinicWrapper.hcpContact.FirstName
-                    + ' ' + v.clinicWrapper.hcpContact.Salutation }
-                <aura:set attribute="else">
-                    {!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName
-                    + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' +
-                    (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
-                    '')}
-                </aura:set>
+                <aura:if isTrue="{!or(v.clinicWrapper.hcpContactPartName==null,v.clinicWrapper.hcpContactPartName==undefined)}">
+                    <aura:if isTrue="{!v.isRTL}">
+                        {! (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                        '') + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' + v.clinicWrapper.hcpContact.FirstName
+                        + ' ' + v.clinicWrapper.hcpContact.Salutation }
+                        <aura:set attribute="else">
+                            {!v.clinicWrapper.hcpContact.Salutation + ' ' + v.clinicWrapper.hcpContact.FirstName
+                            + ' ' + v.clinicWrapper.hcpContact.LastName + ' ' +
+                            (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                            '')}
+                        </aura:set>
+                    </aura:if>
+                    <aura:set attribute="else">
+                        <aura:if isTrue="{!v.isRTL}">
+                            {! (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                            '') + ' ' + v.clinicWrapper.hcpContactPartName.Last_Name__c + ' ' + v.clinicWrapper.hcpContactPartName.First_Name__c
+                            + ' ' + v.clinicWrapper.hcpContactPartName.Salutation__c }
+                            <aura:set attribute="else">
+                                {!v.clinicWrapper.hcpContactPartName.Salutation__c + ' ' + v.clinicWrapper.hcpContactPartName.First_Name__c
+                                + ' ' + v.clinicWrapper.hcpContactPartName.Last_Name__c + ' ' +
+                                (v.clinicWrapper.hcpContact.Is_First_Logon__c ? '('+ $Label.c.Not_Registered +')' :
+                                '')}
+                            </aura:set>
+                        </aura:if>
+                    </aura:set>
                 </aura:if>
             </div>
             <div class="rci-info">
@@ -79,6 +94,7 @@
                     enrollmentData="{!enrollment}"
                     isLastElement="{!v.enrollmentsByStudy.length == index+1 &amp;&amp; item.enrollments.length == ind +1}"
                     parent="{!v.parent}"
+		    hcpContactPartName = "{!v.clinicWrapper.hcpContactPartName}"
                 />
             </aura:iteration>
         </aura:iteration>

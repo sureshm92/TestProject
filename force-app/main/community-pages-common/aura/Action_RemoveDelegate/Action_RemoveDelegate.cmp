@@ -20,14 +20,24 @@
         <c:RRSpinner aura:id="spinner" />
         {!v.messageText}
         <aura:set attribute="footerButtons">
-            <button class="apollo-btn primary" onclick="{!c.doYes}">{!$Label.c.BTN_Yes}</button>
-            <button
-                class="apollo-btn tertiary"
-                style="{!if(v.isRTL, 'margin-right: 10px;', '')}"
-                onclick="{!c.doNo}"
-            >
-                {!$Label.c.BTN_No}
-            </button>
+            <div class="slds-grid slds-wrap">
+                <div class="slds-col slds-p-left_small slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                	<button 
+                            class="apollo-btn primary" 
+                            onclick="{!c.doYes}"
+                            >
+                        {!$Label.c.BTN_Yes}
+                    </button>
+                </div>
+                <div class="slds-col slds-p-right_small slds-size_6-of-12 slds-medium-size_6-of-12 slds-large-size_4-of-12">
+                	<button
+                        class="apollo-btn tertiary"
+                        onclick="{!c.doNo}"
+                    >
+                        {!$Label.c.BTN_No}
+                    </button>
+                </div>
+            </div>
         </aura:set>
     </c:Popup>
 </aura:component>

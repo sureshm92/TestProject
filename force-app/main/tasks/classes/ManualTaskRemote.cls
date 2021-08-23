@@ -5,9 +5,6 @@
 public with sharing class ManualTaskRemote {
     public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
-            system.debug('******filterLINE8>>'+taskConfig);
-            //system.debug('******filterLINE8>>'+filter + 'ManualTaskFilter.IdTypeOfContactMap: '+ManualTaskFilter.IdTypeOfContactMap);
-            //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
             Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap);
             return true;
         } catch (Exception e) {
@@ -33,6 +30,9 @@ public with sharing class ManualTaskRemote {
                 }
                 if(taskConfig.recurrenceFrequency == 'Yearly'){
                     nextTaskDueDate = taskConfig.endTime.addYears(1);
+                }
+            	if(nextTaskDueDate > actualTaskConfig.endTime){
+                    nextTaskDueDate = actualTaskConfig.endTime;
                 }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
             manualTaskLists.add(

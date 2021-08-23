@@ -60,7 +60,7 @@ public without sharing class TokenService {
          
         }
         catch (Exception e) {
-            AuraHelper.throwException(e);
+            //AuraHelper.throwException(e);
         }
     }
     

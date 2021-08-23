@@ -3,6 +3,11 @@
     <label>Email Template Parameters From PE</label>
     <protected>false</protected>
     <values>
+        <field>Alternate_Parameter_Source__c</field>
+        <value xsi:type="xsd:string">HCPName = HCP__r.HCP_Contact__r.Id
+PIName = Study_Site__r.Principal_Investigator__r.Id</value>
+    </values>
+    <values>
         <field>Parameters__c</field>
         <value xsi:type="xsd:string">HCPName = HCP__r.HCP_Contact__r.Salutation_With_Name__c
             HCPTitle = HCP__r.HCP_Contact__r.Title

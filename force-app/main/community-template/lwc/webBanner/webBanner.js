@@ -1,7 +1,7 @@
 import { LightningElement, api, track } from 'lwc';
 import { loadScript } from 'lightning/platformResourceLoader';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
-import privacyPolicyText from '@salesforce/label/c.Lofi_Login_Footer_Policies';
+import privacyPolicyText from '@salesforce/label/c.Footer_Link_Privacy_Policy';
 import janssenHeaderLabel from '@salesforce/label/c.Footer_Link_Privacy_Policy_Janssen';
 export default class WebBanner extends LightningElement {
     //Attributes--------------------------------------------------------------------------------------------------------

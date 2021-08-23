@@ -16,6 +16,7 @@
     <aura:attribute name="isSuccessfullyContacted" type="Boolean" default="false" />
     <aura:attribute name="historyList" type="List" />
     <aura:attribute name="historyListz" type="List" />
+    <aura:attribute name="historyList1" type="List" />
     <aura:attribute name="validateFOV" type="Boolean" default="false" /> 
     <aura:attribute name="isFovHistoryNull" type="Boolean" default="false" /> 
     <aura:attribute name="lastModifiedDate" type="DateTime" />
@@ -168,16 +169,16 @@
     <!-- @Krishna Mahto - Changes for REF-1390 - start -->
    
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
-    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.stepWrapper.stepHistory)}">
+    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.historyList1)}">
         <div class="step-history">
             <div class="step-history-title">{!v.stepWrapper.historyTitle}</div>
             <div class="step-history-records">
                 <aura:if isTrue="{!v.stepWrapper.historyTitle == 'Contact History:'}">
                     <aura:if isTrue="{!v.isFovHistoryNull}"> 
-                        <aura:if isTrue="{!empty(v.stepWrapper.stepHistory)}">
+                        <aura:if isTrue="{!empty(v.historyList1)}">
                             {!$Label.c.None}
                             <aura:set attribute="else"> 
-                                <aura:iteration items="{!v.stepWrapper.stepHistory}" var="history">
+                                <aura:iteration items="{!v.historyList1}" var="history">
                                     <div class="history-item">
                                         <span class="history-item-title">{!history.title}</span>
                                         <span class="history-item-detail">
@@ -202,7 +203,8 @@
                                 </aura:iteration>
                             </aura:set>
                         </aura:if>
-                        <aura:set attribute="else"> 
+                        <aura:set attribute="else">
+                            
                             <aura:if isTrue="{!empty(v.historyListz)}">
                                 {!$Label.c.None}
                                 <aura:set attribute="else"> 

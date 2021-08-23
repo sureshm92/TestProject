@@ -72,13 +72,15 @@
                     min="{!v.taskConfig.startDate}"
                     disabled="{!empty(v.taskConfig.startDate)}"
                     dateStyle="medium"
+                    required="{!v.taskConfig.isRecurrence}"
                 />
                 <!-- Recurrence -->
                 <div class="recurringCheckbox">
                     <lightning:input
-                        aura:id="field"
+                        aura:id="field1"
                         type="checkbox"
                         label="Recurring Task"
+                        onchange="{!c.resetTaskValues}"
                         value="{!v.taskConfig.isRecurrence}"
                         checked="{!v.taskConfig.isRecurrence}"
                         disabled="{!empty(v.taskConfig.endTime)}"
@@ -138,10 +140,11 @@
                 <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                     <!-- Recurrence frequency -->
                     <lightning:select
-                        aura:id="field"
+                        aura:id="field2"
                         name="select"
                         label="Recurrence Frequency"
                         required="true"
+                        onchange="{!c.resetTaskValues}"
                         value="{!v.taskConfig.recurrenceFrequency}"
                     >
                         <aura:iteration items="{!v.recurrenceFrequency}" var="freq">

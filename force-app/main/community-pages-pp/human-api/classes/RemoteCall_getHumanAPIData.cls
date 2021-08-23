@@ -4,7 +4,9 @@ public without sharing class RemoteCall_getHumanAPIData {
     
     public static List<Provider> getHumanSources(String accessToken) {
         System.debug('getHumanSources::');
-        List<Provider> providersList=new List<Provider>();
+         List<Provider> providersList=new List<Provider>();
+        if(accessToken != null){
+       
         try {
             System.debug('getHumanSources::22');
             //RemoteCall_getHumanAPITokens remoteTokens =  RemoteCall_getHumanAPITokens.getInstance();
@@ -19,6 +21,7 @@ public without sharing class RemoteCall_getHumanAPIData {
             providersList = parseHumanResourcesResponse((String)remoteCall.execute());
         }catch (Exception e){
             AuraHelper.throwException(e);
+        }
         }
         
          
@@ -52,7 +55,7 @@ public without sharing class RemoteCall_getHumanAPIData {
             providersList.add(providerObj);
         }
         System.debug('providersList::'+providersList); 
-          List<sObject> records = new List<sObject>();
+        /*List<sObject> records = new List<sObject>();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
 
         Participant_Enrollment__c peObj=new Participant_Enrollment__c();
@@ -68,7 +71,7 @@ public without sharing class RemoteCall_getHumanAPIData {
         peObj.isAuthorized__c = false;
         records.add(peObj);
         upsert records;
-        }
+        }*/
            Provider providerObj3=new Provider();
             providerObj3.providerName ='providerName ';
             providerObj3.status = 'status';
