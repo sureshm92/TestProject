@@ -108,6 +108,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
                 contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
                 Time eodTime = Time.newInstance(23,59, 0, 0);
+                Time remTime = Time.newInstance(11,30, 0, 0);
                 String typeOfContactTemp = idTypeOfContactMap.get(user.ContactId);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
@@ -123,10 +124,10 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
                             taskConfig.reminderDate,
                             Datetime.now().timeGmt()
                         );
-                        reminderDT = Datetime.newInstance(
+                        reminderDT = Datetime.newInstanceGmt(
                             taskConfig.reminderDate,
-                            Datetime.now().time()
-                        );
+                            remTime
+                        ).addSeconds(-offsetSeconds);
                     }
                     String visibleFor = taskConfig.visibility;
                     if(String.isNotBlank(typeOfContactTemp) && typeOfContactTemp.contains('Participant')){ 
