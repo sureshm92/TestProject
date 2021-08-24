@@ -15,8 +15,18 @@
                 },          
                 function (returnValue) {
                     component.set('v.referrals',returnValue);
-                    if(returnValue){
-                    component.set('v.defaultStudy',returnValue[0].value);
+                        if(returnValue){
+                        for (const item in returnValue) {
+                            if(communityService.getCurrentCommunityMode().currentPE){
+                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
+                               component.set('v.defaultStudy',returnValue[item].value);
+                                break;
+                            }
+                            }
+                            else{
+                              component.set('v.defaultStudy',returnValue[0].value);
+                            }
+                        }
                     helper.calloutAccessToken(component,returnValue[0].value);
 
                     }
