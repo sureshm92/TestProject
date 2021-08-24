@@ -80,7 +80,9 @@
                     component.set('v.showMedicalCard',false);
                 }
                 }
-                component.find('spinner').hide();
+                if(component.get('v.referrals').length > 0 || component.get('v.participantState').pe != null){
+                   component.find('spinner').hide();
+               }
                 component.set('v.initialized',true);
             }
         ); 
