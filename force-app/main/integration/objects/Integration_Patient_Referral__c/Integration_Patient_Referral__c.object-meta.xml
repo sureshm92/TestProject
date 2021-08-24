@@ -153,7 +153,7 @@
     <enableSharing>true</enableSharing>
     <enableStreamingApi>true</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Integration Patient Referral</label>
+    <label>Integration Patient Referral</label>  
     <nameField>
         <label>Integration Patient Referral Name</label>
         <type>Text</type>
