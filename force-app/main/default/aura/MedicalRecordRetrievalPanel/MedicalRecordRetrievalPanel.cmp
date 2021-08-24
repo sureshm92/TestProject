@@ -29,7 +29,7 @@
     
      <aura:if isTrue="{!and(v.participantState.hasPatientDelegates,v.participantState.value == 'ALUMNI')}">
      <aura:set attribute="else">
-         <aura:if isTrue="{!or(v.showMedicalCard,v.participantState.value == 'ALUMNI')}">
+        <aura:if isTrue="{!or(v.showMedicalCard,and(v.participantState.value == 'ALUMNI',v.referrals.length > 0))}">
               
     <c:HomePreviewTablePanel title="Medical Record Access">
         <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/> 

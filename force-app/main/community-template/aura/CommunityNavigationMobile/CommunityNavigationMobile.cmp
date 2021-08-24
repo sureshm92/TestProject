@@ -6,7 +6,6 @@
     <!-- attributes: -->
     <aura:attribute name="showSideMenu" type="Boolean" access="public" />
     <aura:attribute name="class" type="String" />
-    <aura:attribute name="userMode" type="String" />
 
     <!-- component body: -->
     <div
@@ -26,7 +25,6 @@
                         <c:CommunityResourcesNavigation
                             itemResource="{!v.item}"
                             communityTemplate="{!v.communityTemplate}"
-                            currentUserMode = "{!v.userMode}"                            
                         />
                     </div>
                     <aura:set attribute="else">
