@@ -5,6 +5,8 @@
     <permissionSets>PP_CTP_Edit</permissionSets>
     <permissionSets>PP_Incentive_Program_Edit</permissionSets>
     <permissionSets>PP_Incentive_Program_View</permissionSets>
+    <permissionSets>PP_Manual_Creation_Panel</permissionSets>
+    <permissionSets>PP_Medical_Vendors_View</permissionSets>
     <permissionSets>PP_Participant_PII_On_Cases_View</permissionSets>
     <permissionSets>PP_Participant_PII_View</permissionSets>
     <permissionSets>PP_Payment_Vendors_View</permissionSets>
@@ -19,7 +21,5 @@
     <permissionSets>PP_Trial_Surveys_View</permissionSets>
     <permissionSets>PP_Visits_Configuration_View</permissionSets>
     <permissionSets>PP_Visits_Results_Sharing_View</permissionSets>
-    <permissionSets>PP_Medical_Vendors_View</permissionSets>
-
     <status>Updated</status>
 </PermissionSetGroup>
