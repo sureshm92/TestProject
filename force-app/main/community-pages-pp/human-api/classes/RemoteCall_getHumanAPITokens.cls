@@ -36,14 +36,11 @@ public class RemoteCall_getHumanAPITokens{
     public SessionTokenInfo remoteCallGetSessionToken(String participantEmail,String referralId,String humanId,String uniqueHumanId)
     {
         
-        System.debug('participantEmail:::'+participantEmail+'referralId:::'+referralId);
-        System.debug('humanId:::'+humanId);
-        System.debug('uniqueHumanId::'+uniqueHumanId);
+        referralRecordId = referralId;
         String url='HumanAPI_Connect';
         Boolean isNewUser = false;
         Map<String, String> requestMap = new Map<String, String>();
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-        System.debug('ss'+participantState.participant);
         //clientUserEmail = participantState.pe.Participant__r.Email__c;
         // clientUserId = participantState.pe.Id;
         // participantState.pe.Unique_HumanId__c
@@ -63,8 +60,6 @@ public class RemoteCall_getHumanAPITokens{
         {
             requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => uniqueHumanId ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'id'};
         }
-        System.debug('uniqueHumanIdsss'+uniqueHumanId);
-        System.debug('clientUserEmail:::'+clientUserEmail);
         if(!String.isEmpty(humanId) && participantState.pe.Referral_ID__c !=null){
             isNewUser = false;
         }
@@ -73,14 +68,12 @@ public class RemoteCall_getHumanAPITokens{
         HttpCallout remoteCall = new HttpCallout(url,'POST',headerMap,requestMap,MedicalRecordAccessRemote.class);
         String currentParticipantEnrollmentId = referralId;// determining logged in user's participant enrollment Id
         String sessionToken = TokenService.fetchToken(currentParticipantEnrollmentId,'session');
-        System.debug('currentParticipantEnrollmentId:::::'+currentParticipantEnrollmentId);
         SessionTokenInfo sessionTokenInfo = new SessionTokenInfo();
         if(isNewUser == false){
         if(!String.isBlank(sessionToken)){
            sessionTokenInfo.id_token = sessionToken;
         }
         else{ 
-            system.debug('inside session Token null');
             String respBody = (String)remoteCall.execute();
             
            
@@ -95,7 +88,6 @@ public class RemoteCall_getHumanAPITokens{
             sessionTokenInfo.id_token = newUserTokenInfo.session_token;
             humanId = newUserTokenInfo.human_id;
             sessionTokenInfo.humanId = newUserTokenInfo.human_id;
-              system.debug('inside session Token null 401'); 
 
             }
             else
@@ -115,15 +107,12 @@ public class RemoteCall_getHumanAPITokens{
             sessionTokenInfo.id_token = newUserTokenInfo.session_token;
             humanId = newUserTokenInfo.human_id;
             sessionTokenInfo.humanId = newUserTokenInfo.human_id;
-            system.debug('sessionTokeninfo for new user');
             /** Participant_Enrollment__c peObj=new Participant_Enrollment__c();
              peObj.id=participantState.pe.Id;
             peObj.Human_Id__c = newUserTokenInfo.human_id;
             update peObj; **/
         }
 
-        Contact c = null;
-        //System.debug(c.Id);
         
         return sessionTokenInfo;
         
@@ -133,7 +122,6 @@ public class RemoteCall_getHumanAPITokens{
     {
         String url='HumanAPI_Connect'; //call referralid      
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-        System.debug('referralId:::::'+referralId+'::clientUserEmail::::'+clientUserEmail+'::::uniqueHumanId::'+uniqueHumanId); 
       //  clientUserEmail = participantState.pe.Participant__r.Email__c;
        // ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
        // participantState.pe.Id
@@ -153,22 +141,14 @@ public class RemoteCall_getHumanAPITokens{
         String accessToken = TokenService.fetchToken(currentParticipantEnrollmentId,'access');
         
         if(!String.isBlank(accessToken)){
-            System.debug('accessToken::---::'+accessToken);
             
             accessTokenInfo.access_token = accessToken;
-            System.debug('accessToken in ifblock'+accessToken);
         }
         else{ 
             accessTokenInfo = parseAccessResponse((String)remoteCall.execute());
-            System.debug('accessTokenInfo:::'+accessTokenInfo);
-           /** if(remoteCall.log.Response_Status_Code__c == 401){
-               accessTokenInfo = parseAccessResponse((String)remoteCall.execute());
-                System.debug('401::accessTokenInfo'+accessTokenInfo);
-            }  **/
 
           
         } 
-        System.debug('before return accessTokenInfo:::'+accessTokenInfo);
        
         return accessTokenInfo;
         

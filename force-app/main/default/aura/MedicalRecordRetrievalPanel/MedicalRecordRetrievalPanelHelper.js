@@ -1,6 +1,5 @@
 ({
     calloutSession : function(component,referralId) {
-        console.log('inside calloutSession referralId--->'+referralId)
         var self = this;     
             communityService.executeAction(
                 component,
@@ -11,8 +10,6 @@
                     
                 },          
                 function (returnValue) {
-                    console.log('inside calloutSession',returnValue)
-
                     component.set('v.humanid',returnValue.humanId);
                     component.set('v.sessionToken',returnValue.id_token);
                     self.launchConnect(component);
@@ -22,15 +19,11 @@
         
     },
     calloutAccessToken : function(component,referralId) {
-        //debugger;
-        //component.find('spinner').show();
         var self = this;
         
         try{
             
                 
-                console.log('referralId:-:',referralId);
-               //var referralId = referralNewId
                component.set('v.peId',referralId);
                 communityService.executeAction(
                     component,
@@ -53,7 +46,6 @@
     },
     
     listProviders : function(component,referralId) {   
-        console.log('referralId in listProviders',referralId);
         var obj = component.get("v.participantState");
         
         communityService.executeAction(
@@ -63,7 +55,6 @@
             },          
             function (returnValue) {
                 
-                console.log('listproviders',returnValue);
                 component.set('v.medicalProviders',returnValue);
                 if(returnValue.length > 0){
                     component.set('v.isAuthorised', true);
@@ -98,11 +89,9 @@
     
     launchConnect :  function(component) {
         var self = this;     
-        console.log('sess',component.get('v.sessionToken'));
         HumanConnect.open({
             token : component.get('v.sessionToken'), // "session_token" or "id_token"
             onClose : function(response) {
-                console.log("Widget closed with error", response.status);
                 var results = response.sessionResults;
                 var results = response.sessionResults;
                 component.set("v.success",results.connectedSources);                
