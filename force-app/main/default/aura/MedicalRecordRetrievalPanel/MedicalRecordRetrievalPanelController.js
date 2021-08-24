@@ -2,7 +2,6 @@
     
     doInit: function(component, event, helper) {
         var obj = component.get("v.participantState");
-        console.log('ob-->'+obj.hasPatientDelegates);
         if (communityService.getCurrentCommunityMode().hasPastStudies){
             component.set('v.hasPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
             
@@ -16,9 +15,18 @@
                 },          
                 function (returnValue) {
                     component.set('v.referrals',returnValue);
-                    if(returnValue){
-                    component.set('v.defaultStudy',returnValue[0].value);
-                        console.log('ob'+returnValue[0].value);
+                        if(returnValue){
+                        for (const item in returnValue) {
+                            if(communityService.getCurrentCommunityMode().currentPE){
+                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
+                               component.set('v.defaultStudy',returnValue[item].value);
+                                break;
+                            }
+                            }
+                            else{
+                              component.set('v.defaultStudy',returnValue[0].value);
+                            }
+                        }
                     helper.calloutAccessToken(component,returnValue[0].value);
 
                     }
@@ -28,11 +36,9 @@
         }
          
         const humanApiVendors = component.get('v.participantState.medicalVendors');
-        console.log('humanApiVendors'+humanApiVendors);
         let isHumanApiVendorChecked = false;
          if(humanApiVendors != null){
         for (const item in humanApiVendors) {
-            console.log('humanApiVendors'+humanApiVendors);
             if(humanApiVendors != null){
             isHumanApiVendorChecked = humanApiVendors[item].Medical_Vendor__c === "HumanApi";
             break;
@@ -41,10 +47,8 @@
         }
          }
         component.set('v.isHumanApiChecked',isHumanApiVendorChecked);
-                console.log('obj.value'+obj.value);
 
         if(obj.value != 'ALUMNI'){
-                    console.log('obj.value'+obj.value);
 
         if(obj.pe.Human_Id__c != undefined){
         helper.calloutAccessToken(component); 
@@ -83,14 +87,12 @@
     
     
     manageSources :  function(component, event, helper) {
-        console.log('inisde-->'+component.get('v.defaultStudy'));
         helper.calloutSession(component,component.get('v.defaultStudy'));
         
     },
     doListProviders: function(component, event, helper) {
         component.set('v.initialized',false);
        component.find('spinner').show();
-        console.log('inisde-->'+component.get('v.defaultStudy'));
         helper.calloutAccessToken(component,component.get('v.defaultStudy'));
         
     },

@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>Due_date_validation_for_yearly_task</fullName>
+    <active>true</active>
+    <errorConditionFormula>AND( Recurrence_End_Date__c &lt;  ADDMONTHS( Start_Date__c ,12), ISPICKVAL( Recurrence_Frequency__c , &apos;Yearly&apos;) )</errorConditionFormula>
+    <errorMessage>This task cannot be scheduled for a yearly recurrence. Please modify the end date and try again.</errorMessage>
+</ValidationRule>

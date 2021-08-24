@@ -5,20 +5,36 @@
 public with sharing class ManualTaskRemote {
     public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
         try {
+            system.debug('******filterLINE8>>'+taskConfig);
+            //system.debug('******filterLINE8>>'+filter + 'ManualTaskFilter.IdTypeOfContactMap: '+ManualTaskFilter.IdTypeOfContactMap);
+            //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
             Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap);
             return true;
         } catch (Exception e) {
             return (Boolean) AuraHelper.throwException(e);
         }
     }
-    public static void createManualConfigTasks(String config, String filter, TaskService.TaskConfig taskConfig) {
+    
+    //To create a record for recurring task PEH-3716
+    public static void createManualConfigTasks(Boolean isFirst, String config, String filter, TaskService.TaskConfig taskConfig) {
         List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             Date nextTaskDueDate;
+            Date lastOccurenceDate;
+            Date lastReminderDate;
+            Date nextTaskStartDate; 
             TaskService.TaskConfig actualTaskConfig = (TaskService.TaskConfig) JSON.deserialize(
                     config,
                     TaskService.TaskConfig.class
                 );
+            if(isFirst){
+                nextTaskDueDate = taskConfig.endTime;
+                nextTaskStartDate = taskConfig.startDate;
+            }
+            else{
+                lastOccurenceDate = Date.today();
+                lastReminderDate = taskConfig.reminderDate;
+                nextTaskStartDate = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day());
                 if(taskConfig.recurrenceFrequency == 'Daily'){
                     nextTaskDueDate = taskConfig.endTime.addDays(1);
                 }
@@ -31,23 +47,25 @@ public with sharing class ManualTaskRemote {
                 if(taskConfig.recurrenceFrequency == 'Yearly'){
                     nextTaskDueDate = taskConfig.endTime.addYears(1);
                 }
-            	if(nextTaskDueDate > actualTaskConfig.endTime){
+                if(nextTaskDueDate > actualTaskConfig.endTime){
                     nextTaskDueDate = actualTaskConfig.endTime;
                 }
+            }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
             manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(
                             Name = taskConfig.subject,
                             TaskConfig__c = config,
                             TaskFilter__c = filter,
-                            Last_Occurrence_Date__c = Date.today(),
-                            Next_Occurence_Date__c = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day()),
+                            Last_Occurrence_Date__c = lastOccurenceDate,
+                            Next_Occurence_Date__c = nextTaskStartDate,
                             Is_Recurrence__c =  taskConfig.isRecurrence,
                             Start_Date__c = actualTaskConfig.startDate,
                             Recurrence_End_Date__c = actualTaskConfig.endTime,
                             Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
                             Next_Due_Date__c = nextTaskDueDate,
-                            Reminder_days_before_due_date__c = taskConfig.reminderDays
+                            Reminder_days_before_due_date__c = taskConfig.reminderDays,
+                            Last_Recurrence_Reminder__c = lastReminderDate
                         )
                     );
             Database.insert(manualTaskLists, true);
