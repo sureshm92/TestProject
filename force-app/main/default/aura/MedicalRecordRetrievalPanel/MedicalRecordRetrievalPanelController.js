@@ -27,7 +27,7 @@
                               component.set('v.defaultStudy',returnValue[0].value);
                             }
                         }
-                    helper.calloutAccessToken(component,returnValue[0].value);
+                    helper.calloutAccessToken(component,component.get('v.defaultStudy'));
 
                     }
                     
