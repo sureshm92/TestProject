@@ -395,10 +395,10 @@ public without sharing class RRChangePasswordController {
                     states.size() < 1;
                 participant.Mailing_Country__c = (noCountry
                     ? null
-                    : countryCodeByName.get(participant.Mailing_Country_Code__c));
+                    : CountryStateUtil.getCountryName(participant.Mailing_Country_Code__c));
                 participant.Mailing_State__c = (noState
                     ? null
-                    : stateCodeByName.get(participant.Mailing_State_Code__c));
+                    : CountryStateUtil.getStateName(participant.Mailing_Country_Code__c,participant.Mailing_State_Code__c));
                 if (isDelegate) {
                     participant.Birth_Year__c = birthYear;
                 }

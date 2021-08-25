@@ -2,21 +2,83 @@
     
     doInit: function(component, event, helper) {
         var obj = component.get("v.participantState");
+        if (communityService.getCurrentCommunityMode().hasPastStudies){
+            component.set('v.hasPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
+            
+        }
+
+              if((component.get('v.hasPastStudies')|| obj.value == 'ALUMNI') && !obj.hasPatientDelegates){
+            communityService.executeAction(
+                component,
+                'getHumanAPIPastPEList',{ 
+                    contactId :obj.currentContactId
+                },          
+                function (returnValue) {
+                    component.set('v.referrals',returnValue);
+                        if(returnValue){
+                        for (const item in returnValue) {
+                            if(communityService.getCurrentCommunityMode().currentPE){
+                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
+                               component.set('v.defaultStudy',returnValue[item].value);
+                                break;
+                            }
+                            }
+                            else{
+                              component.set('v.defaultStudy',returnValue[0].value);
+                            }
+                        }
+                    helper.calloutAccessToken(component,component.get('v.defaultStudy'));
+
+                    }
+                    
+                }
+            );  
+        }
+         
         const humanApiVendors = component.get('v.participantState.medicalVendors');
-        let isHumanApiVendorChecked ;
+        let isHumanApiVendorChecked = false;
+         if(humanApiVendors != null){
         for (const item in humanApiVendors) {
+            if(humanApiVendors != null){
             isHumanApiVendorChecked = humanApiVendors[item].Medical_Vendor__c === "HumanApi";
             break;
+
+            }
+        }
          }
         component.set('v.isHumanApiChecked',isHumanApiVendorChecked);
+
+        if(obj.value != 'ALUMNI'){
+
         if(obj.pe.Human_Id__c != undefined){
         helper.calloutAccessToken(component); 
         }
         else
-        {                
+        {   
+            
+            if(obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
+                   
+                    if(component.get('v.isHumanApiChecked')){
+
+                        component.set('v.showMedicalCard',true);
+                        component.set('v.initialized',true);
+                    }
+                    else {
+
+                        if((component.get('v.isAuthorised') && obj.pe.Human_Id__c)){
+                             component.set('v.showMedicalCard',true);
+                             component.set('v.initialized',true);
+                        }
+                    }
+                }
+                else{
+                    component.set('v.showMedicalCard',false);
+                }
             
             component.find('spinner').hide();
         }
+        }
+                  
     },
     
     openURL : function(component, event, helper) {
@@ -25,7 +87,13 @@
     
     
     manageSources :  function(component, event, helper) {
-        helper.calloutSession(component);
+        helper.calloutSession(component,component.get('v.defaultStudy'));
+        
+    },
+    doListProviders: function(component, event, helper) {
+        component.set('v.initialized',false);
+       component.find('spinner').show();
+        helper.calloutAccessToken(component,component.get('v.defaultStudy'));
         
     },
     
@@ -49,8 +117,8 @@
         );  
     },
     listProvidersChange : function(component, event, helper) {
-        component.find('spinner').show();
-        helper.calloutAccessToken(component); 
+        //component.find('spinner').show();
+        helper.calloutAccessToken(component,component.get('v.defaultStudy')); 
        // component.set("v.success",false);
         console.log('itemsChange');
     }
