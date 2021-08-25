@@ -1,43 +1,42 @@
 ({
-    calloutSession : function(component) {
+    calloutSession : function(component,referralId) {
         var self = this;     
-        if(component.get('v.sessionToken')==undefined)
-        {
             communityService.executeAction(
                 component,
-                'getSessionToken',{},          
+                'getSessionToken',{
+                    
+                    referralId : referralId
+                    
+                    
+                },          
                 function (returnValue) {
                     component.set('v.humanid',returnValue.humanId);
                     component.set('v.sessionToken',returnValue.id_token);
                     self.launchConnect(component);
                 }
             );  
-        }
-        else
-        {
-            self.launchConnect(component);  
-        }
+       
         
     },
-    calloutAccessToken : function(component) {
-        var self = this;      
+    calloutAccessToken : function(component,referralId) {
+        var self = this;
+        
         try{
-            if(component.get('v.accessToken')==undefined)
-            {
+            
+                
+               component.set('v.peId',referralId);
                 communityService.executeAction(
                     component,
-                    'getAccessToken',{},          
+                    'getAccessToken',{
+                        referralId : referralId
+                    },          
                     function (returnValue) {
                         component.set('v.accessToken',returnValue);
                         
-                        self.listProviders(component);
+                        self.listProviders(component,referralId);
                     }
                 );  
-            }
-            else
-            {
-                self.listProviders(component);
-            }
+            
         }
         catch(e)
         {
@@ -46,25 +45,56 @@
         
     },
     
-    listProviders : function(component) {        
+    listProviders : function(component,referralId) {   
+        var obj = component.get("v.participantState");
+        
         communityService.executeAction(
             component,
-            'getHumanSourcesList',{},          
+            'getHumanSourcesList',{
+                 referralId : referralId
+            },          
             function (returnValue) {
-                component.find('spinner').hide();
-                component.set('v.medicalProviders',returnValue);
                 
+                component.set('v.medicalProviders',returnValue);
+                if(returnValue.length > 0){
+                    component.set('v.isAuthorised', true);
+                }
+                else{
+                    component.set('v.isAuthorised', false);
+                }
+                if(obj.value != 'ALUMNI'){
+                if(obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
+                   
+                    if(component.get('v.isHumanApiChecked')){
+
+                        component.set('v.showMedicalCard',true);
+                    }
+                    else {
+
+                        if((component.get('v.isAuthorised') && obj.pe.Human_Id__c)){
+                             component.set('v.showMedicalCard',true);
+                        }
+                    }
+                }
+                else{
+                    component.set('v.showMedicalCard',false);
+                }
+                }
+                if(component.get('v.referrals').length > 0 || component.get('v.participantState').pe != null){
+                   component.find('spinner').hide();
+                }
+
+                component.set('v.initialized',true);
             }
         ); 
         
     },
     
     launchConnect :  function(component) {
-        var self = this;      
+        var self = this;     
         HumanConnect.open({
             token : component.get('v.sessionToken'), // "session_token" or "id_token"
             onClose : function(response) {
-                console.log("Widget closed with error", response.status);
                 var results = response.sessionResults;
                 var results = response.sessionResults;
                 component.set("v.success",results.connectedSources);                
@@ -72,20 +102,14 @@
             },
             onConnectSource : function(response) {
                 
-               // self.listProviders(component);
-              /** communityService.executeAction(
-                    component,
-                    'getAccessToken',{},          
-                    function (returnValue) {
-                        console.log('returnValuesssss',returnValue);
-                        component.set('v.accessToken',returnValue);
-                        
-                        //self.listProviders(component);
-                    }
-                );   **/
+              var results = response.sessionResults;
+                var results = response.sessionResults;
+                component.set("v.success",results.connectedSources);     
             },
             onDisconnectSource : function(response) {
-               // self.listProviders(component);
+               var results = response.sessionResults;
+                var results = response.sessionResults;
+                component.set("v.success",results.connectedSources);     
             }
         });
         
