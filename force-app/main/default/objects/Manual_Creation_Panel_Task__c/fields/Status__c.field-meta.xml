@@ -20,6 +20,16 @@
                 <default>false</default>
                 <label>Inactive</label>
             </value>
+            <value>
+                <fullName>Cancelled</fullName>
+                <default>false</default>
+                <label>Cancelled</label>
+            </value>
+            <value>
+                <fullName>Completed</fullName>
+                <default>false</default>
+                <label>Recurrence Completed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -1,4 +1,4 @@
-public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObject>, Database.Stateful {
+public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
     private String query;
     private Map<Id, List<Id>> failedContactsWithWhatIds;
     private List<Manual_Creation_Panel_Task__c> manualConfigList;
@@ -6,7 +6,7 @@ public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObjec
     private Integer taskCreated;
     
     public Batch_CreateRecurringAdminTask() {
-        this.query = 'Select Recurrence_End_Date__c, Start_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c = TODAY';
+        this.query = 'Select Recurrence_End_Date__c, Last_Recurrence_Reminder__c, Status__c, Start_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c <= '+Datetime.now().format('yyyy-MM-dd', 'GMT');
         this.manualConfigList = new List<Manual_Creation_Panel_Task__c>();
         this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
         this.userId = UserInfo.getUserId();
@@ -49,7 +49,7 @@ public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObjec
         }                          
     }
     
-    public void finish(Database.BatchableContext param) {
+    public override void finalAction() {
         try{
             if(manualConfigList.size() != 0){
                 Database.update(manualConfigList);
@@ -108,6 +108,7 @@ public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObjec
                 contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
                 Time eodTime = Time.newInstance(23,59, 0, 0);
+                Time remTime = Time.newInstance(11,30, 0, 0);
                 String typeOfContactTemp = idTypeOfContactMap.get(user.ContactId);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
@@ -123,10 +124,10 @@ public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObjec
                             taskConfig.reminderDate,
                             Datetime.now().timeGmt()
                         );
-                        reminderDT = Datetime.newInstance(
+                        reminderDT = Datetime.newInstanceGmt(
                             taskConfig.reminderDate,
-                            Datetime.now().time()
-                        );
+                            remTime
+                        ).addSeconds(-offsetSeconds);
                     }
                     String visibleFor = taskConfig.visibility;
                     if(String.isNotBlank(typeOfContactTemp) && typeOfContactTemp.contains('Participant')){ 
@@ -196,35 +197,54 @@ public class Batch_CreateRecurringAdminTask implements Database.Batchable<SObjec
     }
 
     public void updateManualTaskConfig(Manual_Creation_Panel_Task__c manualTask, TaskService.TaskConfig taskConfig){
-        manualTask.Last_Occurrence_Date__c = Date.today();
-            if(taskConfig.isRecurrence){
-               if(manualTask.Next_Due_Date__c != manualTask.Recurrence_End_Date__c){
-                    if(taskConfig.recurrenceFrequency == 'Daily'){
-                    manualTask.Next_Occurence_Date__c = taskConfig.startDate + 1;
-                    manualTask.Next_Due_Date__c = taskConfig.endTime + 1;
-                    }
-                    if(taskConfig.recurrenceFrequency == 'Weekly'){
-                        manualTask.Next_Occurence_Date__c = taskConfig.startDate.addDays(7);
-                        manualTask.Next_Due_Date__c = taskConfig.endTime.addDays(7);
-                    }
-                    if(taskConfig.recurrenceFrequency == 'Monthly'){
-                        manualTask.Next_Occurence_Date__c = taskConfig.startDate.addMonths(1);
-                        manualTask.Next_Due_Date__c = taskConfig.endTime.addMonths(1);
-                    }
-                    if(taskConfig.recurrenceFrequency == 'Yearly'){
-                        manualTask.Next_Occurence_Date__c = taskConfig.startDate.addYears(1);
-                        manualTask.Next_Due_Date__c = taskConfig.endTime.addYears(1);
-                    }
-                    if(manualTask.Next_Due_Date__c > manualTask.Recurrence_End_Date__c){
-                        manualTask.Next_Due_Date__c = manualTask.Recurrence_End_Date__c;
-                    }
-                    manualConfigList.add(manualTask);
+        manualTask.Last_Occurrence_Date__c = manualTask.Next_Occurence_Date__c;
+        manualTask.Last_Recurrence_Reminder__c = manualTask.Next_Reminder_Date__c;
+        if(taskConfig.isRecurrence){
+            if(manualTask.Next_Due_Date__c != manualTask.Recurrence_End_Date__c){
+                if(taskConfig.recurrenceFrequency == 'Daily'){
+                manualTask.Next_Occurence_Date__c = taskConfig.startDate + 1;
+                manualTask.Next_Due_Date__c = taskConfig.endTime + 1;
                 }
-                else{
-                    manualTask.Next_Occurence_Date__c = null;
-                    manualTask.Next_Due_Date__c = null;
-                    manualConfigList.add(manualTask);
+                if(taskConfig.recurrenceFrequency == 'Weekly'){
+                    manualTask.Next_Occurence_Date__c = taskConfig.startDate.addDays(7);
+                    manualTask.Next_Due_Date__c = taskConfig.endTime.addDays(7);
                 }
+                if(taskConfig.recurrenceFrequency == 'Monthly'){
+                    manualTask.Next_Occurence_Date__c = taskConfig.startDate.addMonths(1);
+                    manualTask.Next_Due_Date__c = taskConfig.endTime.addMonths(1);
+                }
+                if(taskConfig.recurrenceFrequency == 'Yearly'){
+                    manualTask.Next_Occurence_Date__c = taskConfig.startDate.addYears(1);
+                    manualTask.Next_Due_Date__c = taskConfig.endTime.addYears(1);
+                }
+                if(manualTask.Next_Due_Date__c > manualTask.Recurrence_End_Date__c){
+                    manualTask.Next_Due_Date__c = manualTask.Recurrence_End_Date__c;
+                }
+                manualConfigList.add(manualTask);
             }
+            else{
+                manualTask.Next_Occurence_Date__c = null;
+                manualTask.Next_Due_Date__c = null;
+                manualTask.Status__c = 'Completed';
+                manualConfigList.add(manualTask);
+            }
+        }
+    }
+    public override Type getType() {
+        return Batch_CreateRecurringAdminTask.class;
+    }
+
+    public override String getBatchDescription() {
+        return 'This job creates recurring tasks';
+    }
+    public override String getRecommendedIntervalMode() {
+        return Batch_ScheduledAbstract.INTERVAL_DAYS;
+    }
+
+    public override Integer getRecommendedRelaunchInterval() {
+        return 1;
+    }
+    public override Integer getRecommendedScopeSize() {
+        return 1;
     }
 }

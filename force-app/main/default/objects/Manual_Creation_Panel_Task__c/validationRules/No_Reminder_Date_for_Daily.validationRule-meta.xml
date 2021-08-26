@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ValidationRule xmlns="http://soap.sforce.com/2006/04/metadata">
+    <fullName>No_Reminder_Date_for_Daily</fullName>
+    <active>true</active>
+    <errorConditionFormula>ISPICKVAL( Recurrence_Frequency__c , &apos;Daily&apos;) &amp;&amp;  NOT( ISBLANK( Reminder_days_before_due_date__c ) )</errorConditionFormula>
+    <errorDisplayField>Reminder_days_before_due_date__c</errorDisplayField>
+    <errorMessage>Reminder is not acceptable for Daily Recurrence</errorMessage>
+</ValidationRule>

@@ -79,7 +79,6 @@ public without sharing class ManualCreationPanelRemote {
         String filter,
         String activeTab
     ) {
-        System.debug('Config : '+config);
         try {
             ManualTaskFilter manualTaskFilter = (ManualTaskFilter) JSON.deserialize(
                 filter,
@@ -90,6 +89,7 @@ public without sharing class ManualCreationPanelRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
+                // If the task is recurrence to recalculate the due date and reminder date for PEH-3716
                 if(taskConfig.isRecurrence){
                     if(taskConfig.recurrenceFrequency == 'Daily'){
                         taskConfig.endTime = taskConfig.startDate;
@@ -106,8 +106,16 @@ public without sharing class ManualCreationPanelRemote {
                     if(taskConfig.reminderDays != null){
                         taskConfig.reminderDate = taskConfig.endTime.addDays(-taskConfig.reminderDays);
                     }
-                    ManualTaskRemote.createManualConfigTasks(config, filter, taskConfig);
+                    if(taskConfig.reminderDate < taskConfig.startDate){
+                            taskConfig.reminderDate = null;
+                    }
+                    if(taskConfig.startDate > Date.today()){
+                        ManualTaskRemote.createManualConfigTasks(true, config, filter, taskConfig);
+                        return true;
+                    }
+                    ManualTaskRemote.createManualConfigTasks(false, config, filter, taskConfig);
                 }
+                //End of PEH-3716 change
                 return ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);
             } else if (activeTab.equals('adHoc')) {
                 AdHocWrapper adHocWrapper = (AdHocWrapper) JSON.deserialize(

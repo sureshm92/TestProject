@@ -11,13 +11,15 @@
                 var reportList = returnvalue.reportList;
                 var highlightsReport;
                 var detailedReport = [];
-                for(var i=0; i< reportList.length; i++){
-                    if(reportList[i].reportName == 'Highlights Report'){
-                        highlightsReport = reportList[i];
-                        component.set("v.isReportAvailable", true);
-                    }else{
-                        detailedReport.push(reportList[i]);
-                        component.set("v.isReportAvailable", true);
+                if(reportList != undefined){
+                    for(var i=0; i< reportList.length; i++){
+                        if(reportList[i].reportName == 'Highlights Report'){
+                            highlightsReport = reportList[i];
+                            component.set("v.isReportAvailable", true);
+                        }else{
+                            detailedReport.push(reportList[i]);
+                            component.set("v.isReportAvailable", true);
+                        }
                     }
                 }
                 component.set("v.highlightsReport", highlightsReport);

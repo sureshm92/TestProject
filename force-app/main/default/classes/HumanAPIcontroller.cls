@@ -35,7 +35,7 @@ public with sharing class HumanAPIcontroller {
     }
 
     public static String generateAccessToken(String client_id, String client_secret, String humanId) {
-        String accessToken;
+        String accessToken = null;
         RequestWrapperToken reqWrap = new RequestWrapperToken();
         reqWrap.client_id = client_id;
         reqWrap.client_secret = client_secret;
@@ -54,9 +54,10 @@ public with sharing class HumanAPIcontroller {
         HTTPResponse resp = h.send(req);
         System.debug('###### resp ' +resp);
         System.debug('###### resp ' +resp.getBody());
-
-        ResponseWrapperToken deserializedResponseWrapperToken = (ResponseWrapperToken)JSON.deserialize(resp.getBody(), ResponseWrapperToken.class);
-        accessToken = deserializedResponseWrapperToken.access_token;
+        if(resp.getStatusCode() == 200){
+            ResponseWrapperToken deserializedResponseWrapperToken = (ResponseWrapperToken)JSON.deserialize(resp.getBody(), ResponseWrapperToken.class);
+            accessToken = deserializedResponseWrapperToken.access_token;
+        }
         return accessToken;
     }
 
@@ -73,31 +74,33 @@ public with sharing class HumanAPIcontroller {
             HTTPResponse resp = h.send(req);
             System.debug('###### resp ' +resp);
             System.debug('###### resp ' +resp.getBody());
-
-            List<ResponseWrapperReportList> deserializedResponseWrapperReportList = (List<ResponseWrapperReportList>)JSON.deserialize(resp.getBody(), List<ResponseWrapperReportList>.class);
-            for (ResponseWrapperReportList var: deserializedResponseWrapperReportList){
-                ReportListWrapperWithURL wrap = new ReportListWrapperWithURL();
-                if(var.name == 'unity'){
-                        String url = reportUrl;
-                        String tail = '/raw?format=pdf&access_token='+accessToken;
-                        String reportId     = var.id;
-                        String finalUrl     = url + reportId + tail;
-                        wrap.reportName     = 'Detailed Report';
-                        wrap.reportUrl      = finalUrl;
-                        wrap.createdAt      = var.createdAt.format('MM/dd/yyyy');
-                        wrap.providerName   = sourceToSourceName.get(var.organization.id);
-                    reportUrlWrapperList.add(wrap);
-                    }else if(var.name == 'highlights'){
-                        String url = reportUrl;
-                        String tail = '/raw?format=pdf&access_token='+accessToken;
-                        String reportId     = var.id;
-                        String finalUrl     = url + reportId + tail;
-                        wrap.reportName     = 'Highlights Report';
-                        wrap.reportUrl      = finalUrl;
-                    reportUrlWrapperList.add(wrap);
-                    }
-                
+            if(resp.getStatusCode() == 200){
+                List<ResponseWrapperReportList> deserializedResponseWrapperReportList = (List<ResponseWrapperReportList>)JSON.deserialize(resp.getBody(), List<ResponseWrapperReportList>.class);
+                for (ResponseWrapperReportList var: deserializedResponseWrapperReportList){
+                    ReportListWrapperWithURL wrap = new ReportListWrapperWithURL();
+                    if(var.name == 'unity'){
+                            String url = reportUrl;
+                            String tail = '/raw?format=pdf&access_token='+accessToken;
+                            String reportId     = var.id;
+                            String finalUrl     = url + reportId + tail;
+                            wrap.reportName     = 'Detailed Report';
+                            wrap.reportUrl      = finalUrl;
+                            wrap.createdAt      = var.createdAt.format('MM/dd/yyyy');
+                            wrap.providerName   = sourceToSourceName.get(var.organization.id);
+                        reportUrlWrapperList.add(wrap);
+                        }else if(var.name == 'highlights'){
+                            String url = reportUrl;
+                            String tail = '/raw?format=pdf&access_token='+accessToken;
+                            String reportId     = var.id;
+                            String finalUrl     = url + reportId + tail;
+                            wrap.reportName     = 'Highlights Report';
+                            wrap.reportUrl      = finalUrl;
+                        reportUrlWrapperList.add(wrap);
+                        }
+                    
+                }
             }
+            
         }
         
         return reportUrlWrapperList;
@@ -121,10 +124,20 @@ public with sharing class HumanAPIcontroller {
         public String source;
         @AuraEnabled
         public String sourceName;
+        @AuraEnabled
+        public SyncStatus syncStatus;
+    }
+
+    public class SyncStatus{
+        @AuraEnabled
+        public String status;
+        @AuraEnabled
+        public String details;
     }
 
     @AuraEnabled
     public static Map<String,String> getSources(String accessToken) {
+        Map<String, String> sourceToSourceName = new Map<String, String>();
         Http h = new HTTP();
         HTTPRequest req = new HTTPRequest();
         req.setEndpoint('callout:HumanAPI_Sources');
@@ -134,11 +147,15 @@ public with sharing class HumanAPIcontroller {
         HTTPResponse resp = h.send(req);
         System.debug('###### resp ' +resp);
         System.debug('###### resp ' +resp.getBody());
-        List<SourceDetails> deserializedSourceList = (List<SourceDetails>)JSON.deserialize(resp.getBody(), List<SourceDetails>.class);
-        Map<String, String> sourceToSourceName = new Map<String, String>();
-        for (SourceDetails s: deserializedSourceList){
-            sourceToSourceName.put(s.source, s.sourceName);
+        if(resp.getStatusCode() == 200){
+            List<SourceDetails> deserializedSourceList = (List<SourceDetails>)JSON.deserialize(resp.getBody(), List<SourceDetails>.class);
+            for (SourceDetails s: deserializedSourceList){
+                if(s.syncStatus.status == 'ok'){
+                    sourceToSourceName.put(s.source, s.sourceName);
+                }
+            }
         }
+
         return sourceToSourceName;
     }
 
@@ -165,15 +182,20 @@ public with sharing class HumanAPIcontroller {
                 clientId = appCreds[0].Client_Id__c;
                 clientSecret = appCreds[0].Client_Secret__c;
             }
-            String accessToken = generateAccessToken(clientId,clientSecret,humanId);
+
             String reportUrl;
             List<NamedCredential > reportUrlList = [SELECT DeveloperName, Endpoint FROM NamedCredential where DeveloperName = 'HumanAPI_ReportList'];
             if(reportUrlList.size()> 0){
                 reportUrl = reportUrlList[0].Endpoint +'/';
             }
+
             ReportListWrapper wrap = new ReportListWrapper();
-            wrap.accessToken = accessToken;
-            wrap.reportList  = getListOfReports(accessToken, reportUrl);
+            String accessToken = generateAccessToken(clientId,clientSecret,humanId);
+            if (accessToken != null) {
+                wrap.accessToken = accessToken;
+                wrap.reportList  = getListOfReports(accessToken, reportUrl);
+            }
+            
             System.debug('##### wrap: ' + wrap);
             return wrap;
         } catch (Exception e) {

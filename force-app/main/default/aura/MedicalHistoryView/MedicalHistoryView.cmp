@@ -12,9 +12,11 @@ Created by Sumit S-->
     <aura:attribute name="closeModel" type="boolean" default="false"/>
     <aura:attribute name="ContentSize" type="String" />
     <aura:attribute name="CreatedDate" type="Date"/>
+    <aura:attribute name="containsFile" type="boolean" default="false"/>
+    <aura:attribute name="medicalHistoryDisabled" type="boolean" default="false"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:if isTrue="{!(v.containsFile &amp;&amp; v.medicalHistoryDisabled)}">
+    <aura:if isTrue="{!v.containsFile &amp;&amp; !v.medicalHistoryDisabled}">
     <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
             {!$Label.c.Participant_Medical_History}

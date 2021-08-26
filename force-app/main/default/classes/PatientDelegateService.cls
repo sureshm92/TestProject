@@ -8,6 +8,7 @@ public without sharing class PatientDelegateService {
 
     private List<Contact> delegates = new List<Contact>();
     private Boolean isDelegate = false;
+    public Boolean hasDelegates = false;
     private Participant__c participant;
 
     private static PatientDelegateService instance;
@@ -49,6 +50,7 @@ public without sharing class PatientDelegateService {
             DatabaseService.fieldNotEqual('Status__c', 'Withdrawn')
         );
         isDelegate = participantsPDList.size() > 0;
+        hasDelegates = isDelegate;
         participant = ParticipantContext.getCurrentParticipant();
         if (participant != null) {
             List<Patient_Delegate__c> delegatesPDList = getPDelegates(
