@@ -1,5 +1,6 @@
 /**
  * Created by Olga Skrynnikova on 11/28/2019.
+ * Modified by Pijush Kar on 8/11/2021
  */
 
 public without sharing class NotificationService {
@@ -19,7 +20,7 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PI_ACCEPT_NEW_STUDY_TYPE
     };
 
-     static public List<String> notificationTypeFirstEmail = new List<String>{
+    static public List<String> notificationTypeFirstEmail = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_HCP_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_PI_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_SOURCE_ERP_TYPE,
@@ -32,14 +33,13 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
-     static public List<String> taskAndVisitReminderTypes = new List<String>{
+    static public List<String> taskAndVisitReminderTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
-
     };
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
@@ -319,14 +319,12 @@ public without sharing class NotificationService {
                                     n.Recipient__c
                                 )
                             ) {
-                                if(taskAndVisitReminderTypes.contains(n.Notification_Type__c)){
-                                    if(n.RemindUsing__c == 'Email'){
+                                if (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) {
+                                    if (n.RemindUsing__c == 'Email') {
                                         emailNotifications.add(n);
                                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                                     }
-                                   
-                                }
-                                else{
+                                } else {
                                     emailNotifications.add(n);
                                     sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                                 }
@@ -365,7 +363,7 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_PUSH) {
                     if (availabilityService.isAvailableForPush(n.Id, n.WhatId__c)) {
-                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        //sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                         pushNotifications.add(n);
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
@@ -375,18 +373,67 @@ public without sharing class NotificationService {
                 }
             }
         }
+        //Push notification revamp
+        if (!pushNotifications.isEmpty()) {
+            ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
+            List<Notification__c> notificationsWithRecipient = [
+                SELECT
+                    Id,
+                    Notification_Type__c,
+                    Recipient__c,
+                    Recipient__r.Phone,
+                    Recipient__r.Language__c,
+                    WhatId__c
+                FROM Notification__c
+                WHERE Id IN :pushNotifications
+            ];
+
+            for (Notification__c n : notificationsWithRecipient) {
+                Notification_Type__mdt messageType = NotificationService.getNotificationType(
+                    n.Notification_Type__c
+                );
+                Notification_Target__mdt pushTarget = NotificationService.getNotificationTarget(
+                    n.Notification_Type__c,
+                    NotificationService.NOTIFICATION_TARGET_TYPE_PUSH
+                );
+                parametrizedMessageService.addMessage(
+                    n.Id,
+                    pushTarget.Message_Body__c,
+                    n.WhatId__c,
+                    messageType.Parameters_Provider__r.DeveloperName,
+                    n.Recipient__r.Language__c
+                );
+                parametrizedMessageService.addMessage(
+                    n.Id + '_title',
+                    pushTarget.Title__c,
+                    n.WhatId__c,
+                    messageType.Parameters_Provider__r.DeveloperName,
+                    n.Recipient__r.Language__c
+                );
+            }
+            parametrizedMessageService.processMessages();
+
+            for (Notification__c n : notificationsWithRecipient) {
+                String title = parametrizedMessageService.getMessage(n.Id + '_title');
+                String message = parametrizedMessageService.getMessage(n.Id);
+                sendResultService.setInProgressPush(n.Id, n.Notification_Type__c, title, message);
+            }
+        }
 
         sendResultService.updateResults();
         //Send emails:
-        if (!emailNotifications.isEmpty())
+        if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
-
+        }
         //Async send SMS and Push
         ActionStack actionStack = new ActionStack();
-        if (smsNotifications.size() > 0)
+        if (smsNotifications.size() > 0) {
             actionStack.add(new Action_SendSMS(smsNotifications));
-        if (pushNotifications.size() > 0)
+        }
+        //Push to be sent from Flow
+        /*if (pushNotifications.size() > 0) {
             actionStack.add(new Action_SendPush(pushNotifications));
+        }*/
         actionStack.run();
     }
 }

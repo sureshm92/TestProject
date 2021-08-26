@@ -1,5 +1,6 @@
 /**
  * Created by Leonid Bartenev
+ * Modified by Pijush Kar on 8/11/2021
  */
 
 public without sharing class NotificationResultService {
@@ -30,6 +31,15 @@ public without sharing class NotificationResultService {
         setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_IN_PROGRESS, null);
     }
 
+    public void setInProgressPush(
+        Id notificationId,
+        String notificationType,
+        String pushTitle,
+        String messageBody
+    ) {
+        setResultStatusInProgressPush(notificationId, notificationType, pushTitle, messageBody);
+    }
+
     public void setFailed(Id notificationId, String targetType, String errorMessage) {
         setResultStatus(notificationId, targetType, SEND_RESULT_STATUS_FAILED, errorMessage);
     }
@@ -39,6 +49,16 @@ public without sharing class NotificationResultService {
     }
 
     public Send_Result__c getSendResult(Id notificationId, String targetType) {
+        return getSendResult(notificationId, targetType, null, null, null);
+    }
+
+    public Send_Result__c getSendResult(
+        Id notificationId,
+        String targetType,
+        String notificationType,
+        String pushTitle,
+        String messageBody
+    ) {
         List<Send_Result__c> sendResults = sendResultsMap.get(notificationId);
         if (sendResultsMap == null)
             sendResults = new List<Send_Result__c>();
@@ -52,7 +72,10 @@ public without sharing class NotificationResultService {
         if (result == null) {
             result = new Send_Result__c(
                 Notification__c = notificationId,
-                Target_Type__c = targetType
+                Notification_Type__c = notificationType,
+                Target_Type__c = targetType,
+                Push_Message_Title__c = pushTitle,
+                Push_Message_Body__c = messageBody
             );
             sendResults.add(result);
         }
@@ -93,6 +116,22 @@ public without sharing class NotificationResultService {
             }
             results.addAll(nResults);
         }
+    }
+
+    private void setResultStatusInProgressPush(
+        Id notificationId,
+        String notificationType,
+        String pushTitle,
+        String messageBody
+    ) {
+        Send_Result__c result = getSendResult(
+            notificationId,
+            NotificationService.NOTIFICATION_TARGET_TYPE_PUSH,
+            notificationType,
+            pushTitle,
+            messageBody
+        );
+        result.Status__c = SEND_RESULT_STATUS_IN_PROGRESS;
     }
 
     private void setResultStatus(
