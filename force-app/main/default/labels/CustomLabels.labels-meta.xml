@@ -17592,7 +17592,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Participant_Medical_History</shortDescription>
-        <value>Participant Medical History</value>
+        <value>Medical Records</value>
     </labels>
     <labels>
         <fullName>Participant_Not_Logged_In</fullName>
