@@ -73,7 +73,9 @@
                                 ?$Label.c.Biomarkers_Positive:visitResultWrapper.value==-1.0
                                 ?$Label.c.Biomarkers_Negative:visitResultWrapper.value==0.0?$Label.c.Biomarkers_Unknown:'':visitResultWrapper.value}</span
                             >
-                            <span class="visit-result-item-name">
+                            <span
+                                class="{!if(v.isRTL, 'visit-result-item-name', 'visit-result-item-name-rtl')}"
+                            >
                                 {!visitResultWrapper.name}
                                 <lightning:helptext
                                     content="{!visitResultWrapper.description}"
