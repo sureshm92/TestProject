@@ -6,87 +6,84 @@ public class MedicalRecordAccessRemote {
     public static String clientSecret='8338fd6645b6b430fe186729a1a873e7cd57a839';
     
     @AuraEnabled 
-    public static RemoteCall_getHumanAPITokens.SessionTokenInfo getSessionToken(){         
-       /** String type='id';
+    public static RemoteCall_getHumanAPITokens.SessionTokenInfo getSessionToken(String participantEmail,String referralId,String humanId,String uniqueHumanId){    
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         
-        JSONGenerator gen = JSON.createGenerator(true);    
-        gen.writeStartObject();      
-        gen.writeStringField('client_id',clientId );
-        gen.writeStringField('client_user_id',clientUserId);
-        gen.writeStringField('client_user_email',clientUserEmail);
-        gen.writeStringField('client_secret',clientSecret);
-        gen.writeStringField('type',type);
-        gen.writeEndObject();    
-        String jsonReqBody = gen.getAsString();
-        Map<String,Object> deserializedResponse=httpCallout(url,jsonReqBody,'POST');
-        return (String)deserializedResponse.get('id_token');
-        **/
-        
-        //RemoteCall_HumanAPIAccess.TokenData tokenResponse = (RemoteCall_HumanAPIAccess.TokenData) remoteCall.execute();
         RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
-
-       // return remoteObj.remoteCallGetSessionToken().id_token;
-        return remoteObj.remoteCallGetSessionToken();
-    }
-    
-    @AuraEnabled
-    public static String getAccessToken(){
-       /** String type ='access';
-        String url='https://auth.humanapi.co/v1/connect/token';
-        JSONGenerator gen = JSON.createGenerator(true);    
-        gen.writeStartObject();      
-        gen.writeStringField('client_id',clientId );
-        gen.writeStringField('client_user_id',clientUserId);
-        gen.writeStringField('client_user_email',clientUserEmail);
-        gen.writeStringField('client_secret',clientSecret);
-        gen.writeStringField('type',type);
-        gen.writeEndObject();    
-        String jsonBody = gen.getAsString();        
-        Map<String,Object> deserializedResponse=httpCallout(url,jsonBody,'POST');
-        return (String)deserializedResponse.get('access_token'); 
-         */
-       // RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
-
-        return RemoteCall_getHumanAPITokens.getInstance().remoteCallGetAccessToken().access_token;
-      //  return null;
-        
-    }
-    
-    
-    @AuraEnabled
-    public static List<Provider> getHumanSourcesList(){
-      /**  String url='https://api.humanapi.co/v1/human/sources';
-        HTTP h = new HTTP();
-        HTTPRequest req = new HTTPRequest();
-        HttpResponse resp = new HttpResponse();        
-        req.setMethod('GET');
-        req.setHeader('Content-Type', 'Application/JSON ');   
-        req.setHeader('Authorization', 'Bearer ' + accessToken);
-        req.setEndpoint(url);
-        resp = h.send(req);
-        System.debug('#### Response Status '+resp.getStatus());
-        System.debug('#### Response Status Code '+resp.getStatusCOde());  
-        System.debug(resp.getBody());
-        List<Object> objslist = (List<Object>)Json.deserializeUntyped(resp.getBody());      
-        List<Provider> providersList=new List<Provider>();
-        for(Object obj : objslist)
+        if(participantState.pe != null && !UserContext.getCurrentUserMode().hasPastStudies)
         {
-            Map<String,Object> mp_StrObj = (Map<string,Object>)obj;
-            
-            system.debug(mp_StrObj.get('sourceName')+'::::connectedSince==='+mp_StrObj.get('connectedSince'));
-            Map<String,Object> objMap=(Map<String,Object>)mp_StrObj.get('syncStatus');
-            System.debug('status'+objMap.get('status'));
-            
-            Provider providerObj=new Provider();
-            providerObj.providerName =(String)mp_StrObj.get('sourceName');
-            providerObj.status = (String)objMap.get('status');
-            providersList.add(providerObj);
+            participantEmail = participantState.pe.Participant__r.Email__c;
+            referralId = participantState.pe.Id;
+            humanId = participantState.pe.Human_Id__c;
+            uniqueHumanId = participantState.pe.Unique_HumanId__c;
         }
-        System.debug('providersList::'+providersList);
+        if(!String.isBlank(referralId) && UserContext.getCurrentUserMode().hasPastStudies)
+        {
+            //setting attributes for alumni
+            String[] arrTest = referralId.split(':::');
+            if(arrTest.size()>1)
+            {
+                uniqueHumanId = arrTest[0];
+                referralId = arrTest[1];
+                humanId ='EXIST';
+                
+            }
+            
+        }
+        
+        return remoteObj.remoteCallGetSessionToken(participantEmail,referralId,humanId,uniqueHumanId); 
+    }
+    
+    @AuraEnabled
+    public static RemoteCall_getHumanAPITokens.AccessTokenInfo getAccessToken(String referralId,String clientUserEmail,String uniqueHumanId){
+        
+        String referralRecordId;
+        String uniqueId;
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        if(participantState.pe != null && String.isBlank(referralId)) 
+        {
+            clientUserEmail = participantState.pe.Participant__r.Email__c;
+            referralRecordId = participantState.pe.Id;
+            uniqueId = participantState.pe.Unique_HumanId__c;
+            
+            
+        }
+        if(!String.isBlank(referralId))
+        {
+            //setting attributes for alumni
+            String[] arrTest = referralId.split(':::');
+            if(arrTest.size()>1)
+            {
+                uniqueId = arrTest[0];
+                referralRecordId = arrTest[1];
+                
+            }
+            
+        }
+        
+        
+        
+        return RemoteCall_getHumanAPITokens.getInstance().remoteCallGetAccessToken(referralRecordId,clientUserEmail,uniqueId);
+    }
+    
+    
+    
+    
+    
+    @AuraEnabled
+    public static List<Provider> getHumanSourcesList(String referralId,String clientUserEmail,String uniqueHumanId){
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        if(participantState.pe != null && String.isBlank(referralId)) 
+        {
+            clientUserEmail = participantState.pe.Participant__r.Email__c;
+            uniqueHumanId = participantState.pe.Unique_HumanId__c;
+            
+        }
+        
+        RemoteCall_getHumanAPITokens.AccessTokenInfo accessToken = getAccessToken( referralId, clientUserEmail, uniqueHumanId);
+        List<Provider> providersList = RemoteCall_getHumanAPIData.getHumanSources(accessToken.access_token);
+        TokenService.storeToken(referralId, 'access', accessToken.access_token,null,accessToken.expires_in);
         return providersList;
-**/
-       
-        return RemoteCall_getHumanAPIData.getHumanSources(getAccessToken());
         
     }
     
@@ -96,49 +93,39 @@ public class MedicalRecordAccessRemote {
         return new List<Provider>();
     }
     
-    public static Map<String,Object> httpCallout(String url,String jsonRequestbody,String httpMethod)
-    {
-        HTTP h = new HTTP();
-        HTTPRequest req = new HTTPRequest();
-        HttpResponse resp = new HttpResponse();        
-        req.setMethod('POST');
-        req.setHeader('Content-Type', 'Application/JSON ');        
-        req.setbody(jsonRequestbody);
-        req.setEndpoint(url);
-        resp = h.send(req);
-        System.debug('#### Response Status '+resp.getStatus());
-        System.debug('#### Response Status Code '+resp.getStatusCOde());       
-        Map<String,Object> deserializedResponse=(Map<String,Object>)JSON.deserializeUntyped(
-            resp.getBody());
-        return deserializedResponse;
-    }
-    
-      @AuraEnabled
-    public static Blob downloadReportbyId(String id,String accessToken,String format)
-    {
-        String url='https://api.humanapi.co/v1/human/medical/reports/'+id+'/raw?format='+format;
-        HTTP h = new HTTP();
-        HTTPRequest req = new HTTPRequest();
-        HttpResponse resp = new HttpResponse();        
-        req.setMethod('GET');
-        req.setHeader('Content-Type', 'Application/JSON ');   
-        req.setHeader('Authorization', 'Bearer ' + accessToken);
-        req.setEndpoint(url);
-        resp = h.send(req);
-        System.debug('#### Response Status '+resp.getStatus());
-        System.debug('#### Response Status Code '+resp.getStatusCOde());  
-        System.debug(resp.getBodyAsBlob());
-        System.debug('sss'+EncodingUtil.Base64Encode(resp.getBodyAsBlob()));
-        return resp.getBodyAsBlob();
-    }
-    
-    
     @AuraEnabled
-    public static String downloadBlob()
+    public static List<LabelValueItem> getHumanAPIPastPEList(Id contactId)
     {
-        String accesst=MedicalRecordAccessRemote.getAccessToken();
-        return EncodingUtil.Base64Encode(MedicalRecordAccessRemote.downloadReportbyId('60d43bf25d8598001107e1b3-000003-55a83bdc8d1eb1420aa1a71b',accesst,'pdf'));
-    } 
+        
+        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
+        List<Id> ownidList= new List<Id>();
+        if(participantState.pe != null) ownidList.add(participantState.pe.Id);
+        String ownPEFilter ='(Human_Id__c != null OR Id IN '+DatabaseService.listToString(ownidList)+')  AND Participant__r.Contact__c IN ' + DatabaseService.listToString(new List<Id>{contactId});
+        
+        
+        
+        List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
+            new List<String>{ 'Id','Participant__c','Name', 'Participant__r.Contact__c','Clinical_Trial_Profile__r.Study_Code_Name__c','Human_Id__c','Unique_HumanId__c','Participant__r.Email__c'},
+            Participant_Enrollment__c.getSObjectType(),
+            ownPEFilter
+        );
+        
+        List<LabelValueItem> labelItems = new List<LabelValueItem>();
+        if(ownPEList.size()>0){
+            
+            for(Participant_Enrollment__c pe : ownPEList){
+                
+                LabelValueItem labelItem = new LabelValueItem(pe.Clinical_Trial_Profile__r.Study_Code_Name__c,pe.Unique_HumanId__c+':::'+pe.Id);
+                if(!labelItems.contains(labelItem))
+                {
+                    labelItems.add(labelItem);
+                }
+            }
+            return labelItems;}
+        return labelItems;
+    }
+    
+    
     
     
     
