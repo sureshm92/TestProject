@@ -155,7 +155,7 @@
     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
         left: auto;
         right: -40px;
-        top: -82px;
+        bottom: 60px;
     }
     .cUiHeaderMenu .menu-popup-panelRTL.popupTargetContainer {
         /* @noflip */     left: auto;
@@ -171,4 +171,8 @@
     .cUiHeaderMenu .menu-popup-panelRTL.popupTargetContainer {
          /* @noflip */    right: -10px;
     }
+     .cUiHeaderMenu .menu-popup-panel.popupTargetContainer {
+        bottom: 65px;
+    }
+    
 }
