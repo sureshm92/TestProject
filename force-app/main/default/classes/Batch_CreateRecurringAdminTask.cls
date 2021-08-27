@@ -33,6 +33,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
             manualTasks[0].TaskConfig__c,
             TaskService.TaskConfig.class
         );
+        taskConfig.subject = manualTasks[0].Task_Name__c;
         taskConfig.startDate = manualTasks[0].Next_Occurence_Date__c;
         taskConfig.endTime = manualTasks[0].Next_Due_Date__c;
         if(manualTasks[0].Next_Reminder_Date__c != null){
