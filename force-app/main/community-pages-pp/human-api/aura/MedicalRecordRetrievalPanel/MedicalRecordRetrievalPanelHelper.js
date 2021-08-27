@@ -3,7 +3,7 @@
         var self = this;     
             communityService.executeAction(
                 component,
-                'getSessionToken',{
+                'getSessionToken',{ 
                     
                     referralId : referralId
                     
@@ -29,7 +29,7 @@
                     component,
                     'getAccessToken',{
                         referralId : referralId
-                    },          
+                    },            
                     function (returnValue) {
                         component.set('v.accessToken',returnValue);
                         
@@ -47,7 +47,7 @@
     
     listProviders : function(component,referralId) {   
         var obj = component.get("v.participantState");
-        
+        //hello        
         communityService.executeAction(
             component,
             'getHumanSourcesList',{
@@ -81,7 +81,11 @@
                 }
                 }
                 if(component.get('v.referrals').length > 0 || component.get('v.participantState').pe != null){
-                   component.find('spinner').hide();
+                    if(!$A.util.isUndefinedOrNull(component.find('spinner')))
+                    {
+                     component.find('spinner').hide();                        
+                    }
+                    
                 }
 
                 component.set('v.initialized',true);
