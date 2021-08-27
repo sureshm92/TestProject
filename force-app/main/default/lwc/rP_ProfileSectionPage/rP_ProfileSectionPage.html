@@ -79,8 +79,8 @@
             </lightning-layout>
             <lightning-layout multiple-rows="true"  key={pe.Id}>
                 <lightning-layout-item padding="around-small" size="2">
-                    <div class="label-value">
-                        {pe.peRecord.Study_Site__r.Name}
+                    <div class="label-study slds-truncate" title={pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                        {pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="2">

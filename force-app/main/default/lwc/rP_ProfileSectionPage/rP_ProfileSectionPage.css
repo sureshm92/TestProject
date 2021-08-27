@@ -38,6 +38,14 @@
   letter-spacing: 0;
   line-height: 24px;
 }
+
+.label-study {
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0;
+}
 .slds-spinner_container {
     background-color: white;
 
