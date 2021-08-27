@@ -1,4 +1,4 @@
-import { LightningElement,track,wire } from 'lwc';
+import { LightningElement,track,wire,api } from 'lwc';
 import getPEDetails from '@salesforce/apex/RPRecordReviewLogController.getPECountDetails';
 
 export default class RPNonReferredOverview extends LightningElement {

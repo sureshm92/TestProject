@@ -102,6 +102,10 @@
                         text: $A.get('$Label.c.DLIT_L_Pre_eligibility_screening'),
                         levels: [true, true]
                     },
+                    {
+                        text: 'Add/Update Patient',
+                        levels: [true, true]
+                    },
                     // {
                     //     text : $A.get("$Label.c.DLIT_L_Medical_Record_Review"),
                     //     levels : [true,true]

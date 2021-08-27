@@ -1,0 +1,49 @@
+.divider {
+    margin-top: 50px;
+    margin-left:-34px;
+    width: 790px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.patient-button {
+    margin-top: 2rem;
+    margin-left: 32rem;
+}
+
+.information{
+  margin-left: 23px;
+  margin-top: -23px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 510;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+
+.slds-modal__container {
+  max-width: 60rem !important;
+  width: 60% !important;
+  height: auto;
+}
+
+.sldsmodalcontainer {
+  max-width: 100%;
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-top: 10%;
+}
+
+.slds-spinner_container {
+  background-color: white;
+}
+
+.dateBox {
+  width: 43px;
+  margin-left: -70px;
+  margin-top: 24px;
+}
+:host {
+  --sds-c-checkbox-color-background-checked:#297dfd;
+  --sds-c-checkbox-mark-color-foreground: white;
+}

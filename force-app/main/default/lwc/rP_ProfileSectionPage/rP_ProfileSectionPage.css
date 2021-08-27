@@ -1,0 +1,44 @@
+.profile-patientID {
+    width: 191px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 35px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+
+.profile-patientName {
+    width: 191px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 18px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 25px;
+}
+
+.header-label {
+  height: 20px;
+  width: 114px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 21px;
+}
+
+.label-value {
+  height: 10px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.slds-spinner_container {
+    background-color: white;
+
+}
