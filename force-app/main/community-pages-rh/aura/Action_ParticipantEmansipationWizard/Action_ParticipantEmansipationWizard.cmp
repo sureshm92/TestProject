@@ -264,7 +264,7 @@
                                  {!$Label.c.PG_EMN_MSG_Update_Contact_Info}
                              </div>
                              <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3" style="width: fit-content;"
+                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
                              >
                                  <div class="label">
                                      {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr
