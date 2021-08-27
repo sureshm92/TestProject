@@ -21,6 +21,7 @@
     <aura:attribute name="patientStatusOptions" type="List" />
     <aura:attribute name="selectedTab" type="String" default="task" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="remDays" type="Integer" />
 
     <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkValid}" />
 
@@ -44,6 +45,7 @@
                         parent="{!this}"
                         taskConfig="{!v.taskConfig}"
                         wrapper="{!v.taskPanelWrapper}"
+                        dayRemind="{!v.remDays}"
                     />
                 </lightning:tab>
                 <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
