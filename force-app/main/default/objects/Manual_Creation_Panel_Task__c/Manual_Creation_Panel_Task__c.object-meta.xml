@@ -161,11 +161,13 @@
     <externalSharingModel>Private</externalSharingModel>
     <label>Recurring Task</label>
     <nameField>
-        <label>Task  Name</label>
-        <type>Text</type>
+        <displayFormat>MT-{0000}</displayFormat>
+        <label>Task  Number</label>
+        <type>AutoNumber</type>
     </nameField>
     <pluralLabel>Recurring Tasks</pluralLabel>
     <searchLayouts>
+        <searchResultsAdditionalFields>Task_Name__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date_Cancelled_Inactive__c</searchResultsAdditionalFields>
     </searchLayouts>

@@ -54,7 +54,7 @@ public with sharing class ManualTaskRemote {
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
             manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(
-                            Name = taskConfig.subject,
+                            Task_Name__c = taskConfig.subject,
                             TaskConfig__c = config,
                             TaskFilter__c = filter,
                             Last_Occurrence_Date__c = lastOccurenceDate,
