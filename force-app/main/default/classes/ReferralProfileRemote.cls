@@ -145,7 +145,7 @@ public without sharing class ReferralProfileRemote {
             if(!lstPE.isEmpty()){
           delegates = [
                 SELECT Id, First_Name__c, Last_Name__c, Phone__c,Email__c,Contact__c,Birth_Year__c
-              	,Attestation__c,Attested_by__c,Attestation_TimeStamp__c
+              	,Attestation__c
                 FROM Participant__c
                 WHERE  Contact__c =: lstPE[0].Contact__c ];
           }

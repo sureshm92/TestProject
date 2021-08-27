@@ -243,8 +243,6 @@ public without sharing class ParticipantInformationRemote {
                             .getCurrentContactId();
                     }
                 }
-                system.debug('>>delegateParticipant11>>>' + delegateParticipant.id);
-                //system.debug('>>exxce>>>'+0/0);
                 if (delegateParticipant != null) {
                     try {
                         if (
@@ -1567,7 +1565,7 @@ public without sharing class ParticipantInformationRemote {
                 ? true
                 : false;
             system.debug('>>>duplicateDelegates>>' + duplicateDelegates);
-            //  system.debug('>>>excepton>>'+0/0);
+            // system.debug('>>>excepton>>'+0/0);
             if (!duplicateDelegates.isEmpty()) {
                 objDelegate.isDuplicate = true;
             } else {
@@ -1589,8 +1587,8 @@ public without sharing class ParticipantInformationRemote {
                     OR Email = :strDelegateEmail.toLowerCase())
             ];
             if (!lstContact.isEmpty()) {
-                Participant__c objTempParticipant = new Participant__c();
-                Contact objTempCon = lstContact[0];
+                Participant__c objTempParticipant = new Participant__c(Birth_Year__c = '',Attestation__c=false);
+                Contact objTempCon = lstContact[0]; 
                 DelegateInfo objDelegate = new DelegateInfo();
                 objDelegate.PartcipantId = null;
                 objDelegate.email = objTempCon.Email;
