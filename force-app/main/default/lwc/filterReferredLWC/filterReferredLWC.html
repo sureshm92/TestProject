@@ -1,51 +1,119 @@
 <!-- filterReferredLWC.html -->
 <!--Created by Sabir on 16.06.2021-->
 <template>
-        <div class="slds-box slds-p-around_none slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none">
-        <lightning-layout multiple-rows>
-            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="3">
-                <c-mutli-select-picklist-l-w-c picklistlabel={label.RPR_Studies} values={filterData.studies}></c-mutli-select-picklist-l-w-c>
-                    <!--<lightning-button-icon icon-name='action:reset_password' 
-                        alternative-text="reset filters" 
-                        onclick={fetchSelectedValues}
-                        variant="bare">
-                    </lightning-button-icon>-->
-            </lightning-layout-item>
-            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
-                <lightning-combobox
-                    label={label.RPR_Date_Range}
-                    name={label.RPR_Date_Range}
-                    value={dateRangeValue}
-                    placeholder={label.RPR_Select_Range}
-                    options={filterData.dateRanges}
-                    onchange={dateRangeValueChange}  class="combobox-filter">
-                </lightning-combobox>
-            </lightning-layout-item>
-            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
-                <lightning-combobox
-                    label={label.RPR_Review_Results}
-                    name={label.RPR_Review_Results}
-                    value={reviewResultsValue}
-                    placeholder={label.RPR_Select_Results}
-                    options={filterData.reviewResults}
-                    onchange={reviewResultsValueChange}  class="combobox-filter">
-                </lightning-combobox>
-            </lightning-layout-item>
-            <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2">
-                <lightning-combobox
-                    label={label.RPR_Patient_Status}
-                    name={label.RPR_Patient_Status}
-                    value={excludedFromReferringValue}
-                    placeholder={label.RPR_Included_for_Referred}
-                    options={filterData.excludedFromReferring}
-                    onchange={excludedFromReferringeValueChange}  class="combobox-filter">
-                </lightning-combobox>
-            </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="4" large-device-size="2" style="padding-top: 35px;">
-                    <button class="apollo-btn primary search-more-btn" onclick={applyFilterClick} title="Apply Filter">
-                        {label.RPR_Apply}
-                    </button>
-            </lightning-layout-item>
-        </lightning-layout>
+    <div
+        class="slds-box slds-p-around_none slds-m-around_medium slds-m-top_x-small slds-m-bottom_medium slds-m-horizontal_none filterDiv"
+    >
+        <template if:true={filterData}>
+            <lightning-layout multiple-rows="true">
+                <lightning-layout-item
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                    padding="around-small"
+                >
+                    <div class="righDiv">
+                        <a href="javascript:;" onclick={clearFilter}>{label.RPR_Clear_All}</a>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                >
+                    <c-mutli-select-picklist-l-w-c
+                        picklistlabel={label.RPR_Studies}
+                        values={filterData.studies}
+                        isreadonly={isdisabled}
+                    ></c-mutli-select-picklist-l-w-c>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                >
+                    <lightning-combobox
+                        label={label.RPR_Exclusion_Reason}
+                        name={label.RPR_Exclusion_Reason}
+                        value={filter.selectedExclusionReason}
+                        placeholder={label.RPR_Select_Reason}
+                        options={filterData.exclusionReasons}
+                        onchange={handleExcludeReasonChange}
+                        class="combobox-filter"
+                        disabled={isdisabled}
+                    >
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                >
+                    <lightning-combobox
+                        label={label.RPR_Date_Range}
+                        name={label.RPR_Date_Range}
+                        value={filter.selectedDateRangeValue}
+                        placeholder={label.RPR_Select_Range}
+                        options={filterData.dateRanges}
+                        class="combobox-filter"
+                        onchange={handleDateRangeChange}
+                        disabled={isdisabled}
+                    >
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                >
+                    <lightning-combobox
+                        label={label.RPR_Review_Results}
+                        name={label.RPR_Review_Results}
+                        value={filter.selectedReviewResult}
+                        placeholder={label.RPR_Select_Results}
+                        options={filterData.reviewResults}
+                        class="combobox-filter"
+                        onchange={handleReviewResultChange}
+                        disabled={isdisabled}
+                    >
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                    style="padding-top: 35px"
+                >
+                    <div class="slds-align_absolute-center">
+                        <button
+                            class="apollo-btn secondary btn"
+                            onclick={cancelFilter}
+                            title={label.BTN_Cancel}
+                        >
+                            {label.BTN_Cancel}
+                        </button>
+                        <button
+                            class="apollo-btn primary btn"
+                            onclick={applyFilterClick}
+                            title={label.RPR_Apply}
+                            disabled={isdisabled}
+                        >
+                            {label.RPR_Apply}
+                        </button>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
     </div>
 </template>

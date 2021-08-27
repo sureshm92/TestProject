@@ -1,0 +1,165 @@
+<!--rP_ProfileSectionPage-->
+<template>
+    <div class="slds-m-around_large">
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner
+                alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+    </div>
+    <div style="margin-left: 20px;margin-right: 5px;">
+        <template for:each={peRecordList} for:item="pe">
+            <lightning-layout multiple-rows="true"  key={pe.Id}>
+                <lightning-layout-item padding="around-small" size="7">
+                    <div class="profile-patientID">
+                        {pe.peRecord.Patient_ID__c}
+                    </div>
+                    <div class="profile-patientName">
+                        {pe.peRecord.Participant_Name__c}  {pe.peRecord.Participant_Surname__c}
+                    </div>
+                </lightning-layout-item>
+                <template if:false={referbuttonShow}>
+                    <lightning-layout-item padding="around-small" size="5">
+                        <button class="apollo-btn primary search-more-btn" style="float:right;" onclick={showmedicalreview} title="Medical Review">
+                            <lightning-button-icon icon-name="utility:edit"  variant="bare-inverse"></lightning-button-icon> &nbsp;
+                            Medical Review
+                        </button>
+                    </lightning-layout-item>
+                </template>
+                <template if:true={referbuttonShow}>
+                    <lightning-layout-item padding="around-small" size="5">
+                       <!-- <lightning-button  label="Refer" title="Refer" style="float:right;" class="apollo-btn primary search-more-btn" onclick={doRedirectToReferPatient}></lightning-button>-->
+                       <button class="apollo-btn primary search-more-btn" style="float:right;" onclick={doRedirectToReferPatient} title="Refer"  disabled={referbuttonDisable}>
+                        Refer
+                    </button>
+            
+
+                    </lightning-layout-item>
+                </template>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.Id}>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="header-label">
+                        Study Code
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                        <div class="header-label">
+                            Legal Status
+                            <lightning-helptext style= "padding-left:4px;" 
+                                content="I have confirmed that this patient is of legal age.">
+                            </lightning-helptext>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="header-label">
+                        Patient Auth
+                            <lightning-helptext style= "padding-left:4px;" content="My patient, and/or patient's legal guardian 
+                            if applicable, agrees to share their contact information and patient's pre-screener data with IQVIA 
+                            and its affiliates, and the study doctors so that they may contact the patient and/or their delegate
+                            regarding study participation">
+                        </lightning-helptext>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="header-label">
+                        Medical Review
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="header-label">
+                        Pre-Eligibility Screening
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="header-label">
+                        Added On
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.Id}>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-study slds-truncate" title={pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}>
+                        {pe.peRecord.Clinical_Trial_Profile__r.Study_Code_Name__c}
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-value" style="margin-left: 40px;">
+                        <template if:true={isLegalStatus}>
+                            <img src={icon_Url_LegalStatus}>
+                        </template>
+                        <template if:false={isLegalStatus}>
+                            <img src={icon_Url_LegalStatus}>
+                        </template>
+                        <template if:true={emptyLegalStatus}> 
+                            <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-value" style="margin-left: 40px;">
+                        <template if:true={ispatientAuthStatus}>
+                            <img src={icon_Url_PatientAuthStatus}>
+                        </template>
+                        <template if:false={ispatientAuthStatus}>
+                            <img src={icon_Url_PatientAuthStatus}>
+                        </template>
+                        <template if:true={emptyPatientAuthStatus}> 
+                            <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-value" style="margin-left: 40px;">
+                        <template if:true={isMedicalReviewStatus}>
+                            <img src={icon_Url_MedicalReviewStatus}>
+                        </template>
+                        <template if:false={isMedicalReviewStatus}>
+                            <img src={icon_Url_MedicalReviewStatus}>
+                        </template>
+                        <template if:true={emptyMedicalReviewStatus}> 
+                            <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-value" style="margin-left: 20px;">
+                        <template if:true={isPreEligibilityStatus}>
+                            <img src={icon_Url_PreEligibilityStatus}>
+                        </template>
+                        <template if:false={isPreEligibilityStatus}>
+                            <img src={icon_Url_PreEligibilityStatus}>
+                        </template>
+                        <template if:true={emptyPreEligibilityStatus}> 
+                            <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
+                        </template>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="2">
+                    <div class="label-value">
+                        {pe.createdDateFormat}
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+        </template>
+        <template if:false={medicalReview}>
+            <div style="margin-left: 13px;margin-top: 36px;">
+                <lightning-tabset>
+                    <lightning-tab label="Patient">
+                        <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList} 
+                            onrefreshpatienttabchange={handlePatientTabChange} states={states} requiredfieldforminor={Isrequired}></c-rp_-patient-tab>
+                    </lightning-tab>
+                    <!--&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-->
+                    <lightning-tab label="Primary Delegate">
+                        <c-rp_-delegate-tab delegaterecordlist={peRecordList} originaldelegaterecord={peRecordList} 
+                            onrefreshdelegatetabchange={handlePatientTabChange}> </c-rp_-delegate-tab>
+                    </lightning-tab>
+                </lightning-tabset>
+            </div>
+        </template>
+    </div>   
+   <template if:true={medicalReview}>
+        <c-r-p-medical-review-log gizmosrc={gizmosrc} onmedicalreviewresult={handleEventChange}>
+        </c-r-p-medical-review-log>
+    </template>
+</template>

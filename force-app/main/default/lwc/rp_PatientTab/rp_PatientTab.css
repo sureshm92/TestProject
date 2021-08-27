@@ -1,0 +1,106 @@
+.section-header {
+    margin-top: 10px;
+    margin-left: 10px;
+    color: #595959;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 21px;
+}
+
+.cCustomThemeLayout .slds-input{
+    height: 40px !important;
+    border: 2px solid #d9d9d9;
+}
+
+.input-label {
+    height: 24px;
+    width: 60px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.input-size {
+    box-sizing: border-box;
+    height: 40px;
+    width: 330px;
+    border: 1px solid #D9D9D9;
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 2px 4px 0 rgba(0,0,0,0);
+  }
+
+.divider {
+    margin-top: 50px;
+    margin-left:-34px;
+    width: 790px;
+    border-bottom: 1px solid #D9D9D9;
+}
+
+.patient-button {
+    margin-top: 2rem;
+    margin-left: 32rem;
+}
+
+.scroll-bar {
+    height: 138px;
+    width: 8px;
+    border-radius: 4px;
+    background-color: #999999;
+    box-shadow: 0 8px 20px 0 rgba(0,0,0,0.08);
+  }
+  
+.information{
+  width: 694px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 500;
+  letter-spacing: 0;
+  line-height: 24px;
+}
+.slds-modal__container {
+  max-width: 60rem !important;
+  width: 60% !important;
+  height: auto;
+}
+
+.sldsmodalcontainer {
+  max-width: 100%;
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-top: 10%;
+}
+
+.dateBox {
+  width: 43px;
+  margin-left: -70px;
+  margin-top: 24px;
+}
+
+.patientConfirmation-header {
+  font-family: 'Proxima Nova';
+  color: #000000;
+  font-size: 16px;
+  font-weight: 510;
+  height: 80px;
+}
+
+.patientConfirmation {
+  margin-left: 23px;
+  margin-top: -23px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: 510;
+  letter-spacing: 0;
+  height:40px;
+}
+:host {
+  --sds-c-checkbox-color-background-checked:#297dfd;
+  --sds-c-checkbox-mark-color-foreground: white;  
+}

@@ -117,3 +117,51 @@
         margin-bottom: 15px;
     }
 }
+
+
+.THIS .hcp-block {
+    margin-top: -8px;
+    margin-left: -50px;
+    margin-right: -30px;
+}
+
+.THIS .slds-tabs_default__link {
+    font-family: "Proxima Nova";
+    font-size: 16px!important;
+    letter-spacing: 0;    
+}
+
+.THIS .tab {
+    color: #000000;
+    font-family: "Proxima Nova";
+    font-size: 16px;
+    font-weight: 600;
+    letter-spacing: 0;
+}
+
+.THIS .slds-tabs_default__item.slds-active .slds-tabs_default__link, 
+.THIS .slds-tabs_default__item.slds-active .slds-tabs--default__link, 
+.THIS .slds-tabs_default__item.slds-is-active .slds-tabs_default__link, 
+.THIS .slds-tabs_default__item.slds-is-active .slds-tabs--default__link,
+.THIS .slds-tabs--default__item.slds-active .slds-tabs_default__link, 
+.THIS .slds-tabs--default__item.slds-active .slds-tabs--default__link,
+.THIS .slds-tabs--default__item.slds-is-active .slds-tabs_default__link, 
+.THIS.slds-tabs--default__item.slds-is-active .slds-tabs--default__link{ 
+    color: #000000 !important;
+    font-weight: 700 !important;
+    text-decoration: none !important;
+}
+
+.THIS .greaterThanIcons svg {
+    height: 6px;
+    width: 6px;
+}
+
+.THIS .slds-tabs_default__item.slds-active:after, 
+.THIS .slds-tabs_default__item.slds-is-active:after, 
+.THIS .slds-tabs--default__item.slds-active:after, 
+.THIS .slds-tabs--default__item.slds-is-active:after{
+    background-color:#0768FD;
+    border-radius:80px;
+    height:calc(var(--sds-c-tabs-list-sizing-border, 2px) + 2.5px);
+}

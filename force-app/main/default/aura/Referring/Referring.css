@@ -9,6 +9,14 @@
     margin-top: 50px;
     /* @noflip */  direction: rtl;
 }
+.THIS .slds-form-element__label1111{
+    font-size: 20px !important;
+    font-weight: 550;
+    color: black; 
+}
+.THIS .slds-checkbox_faux{
+    border-color: black;
+}
 
 .THIS .rr-error{
     color: #e20000;
