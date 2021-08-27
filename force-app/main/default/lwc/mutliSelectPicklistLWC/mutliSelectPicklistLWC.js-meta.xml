@@ -7,7 +7,7 @@
     <apiVersion>51.0</apiVersion>
     
     
-    <isExposed>false</isExposed>
+    <isExposed>true</isExposed>
     
     
 </LightningComponentBundle>

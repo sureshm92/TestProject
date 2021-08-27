@@ -4,5 +4,5 @@
 
 <LightningComponentBundle xmlns="http://soap.sforce.com/2006/04/metadata">
     <apiVersion>51.0</apiVersion>
-    <isExposed>false</isExposed>
+    <isExposed>true</isExposed>
 </LightningComponentBundle>
