@@ -499,8 +499,7 @@
                                          disabled="{!!v.participant.Adult__c}"
                                          onblur="{!c.doCheckFields}"
                                          messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                         style="width: 300px;"
-                                         />
+                                        />
                     </div>
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
                     <div class="slds-col slds-size--1-of-4 rr-form-element" />
