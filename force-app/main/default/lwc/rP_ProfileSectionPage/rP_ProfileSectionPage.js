@@ -14,7 +14,6 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api ctpId;
     @api peRecordList =[];
     @api error;
-    @api Isrequired = false;
     @api icon_Url_LegalStatus;
     @api isLegalStatus;
     @api emptyLegalStatus = false;
@@ -41,7 +40,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         this.medicalReview = !this.medicalReview;
     }
     connectedCallback() {
-        this.isSpinner = true;
+        this.isLoading = true;
+
     }
 
     doRedirectToReferPatient() {
@@ -99,23 +99,21 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            }
             this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
             this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
-            this.isLoading = false;
             this.error = undefined;
             this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Country__c];
-            if(this.peRecordList[0].peRecord.YOB__c == undefined) {
-                this.Isrequired = true;
-            }
-
             if(this.peRecordList[0].accessLevel == "Level 2"){
                 this.referbuttonDisable = true;
             }else{
                 this.referbuttonDisable = false;
             }
+            this.isLoading = false;
+
         }
         else if (result.error) {
             this.error = result.error;
             console.log(JSON.stringify(this.error));
             this.peRecordList = undefined;
+            this.isLoading = false;        
         }
     }
 

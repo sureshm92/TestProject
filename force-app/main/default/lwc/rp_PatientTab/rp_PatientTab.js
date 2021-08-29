@@ -15,15 +15,13 @@ import RH_Email_Invalid_Characters from '@salesforce/label/c.RH_Email_Invalid_Ch
 export default class Rp_PatientTab extends LightningElement {
     @track patientrecord;
     @api states = [];
-    @api birthmonthdisplay = false;
     @api originalpatientrecord = [];
-    isInputValidated = false;
-    isComboBoxValidated = false;
-    isNotValidated = false;
     @api isUnsavedModalOpen = false;
     @api disableButton = false;
-    @api requiredfieldforminor = false;
     @api todayDate;
+    @track stateRequired = true;
+    @track validationList = [];
+
 
     @api
     get patientrecordlist() {
@@ -49,13 +47,59 @@ export default class Rp_PatientTab extends LightningElement {
         RH_Email_Invalid_Characters
     };
 
-    //requiredFieldForAdultList = ['Patient ID','Email ID','First Name','Birth Month','Birth Year','Last Name','Phone Number','Postal Code'];
-    //requiredfieldforminorList = ['Patient ID','First Name','Birth Month','Birth Year','Last Name','Postal Code'];
-    //requiredFieldComboBoxForAdultList = ['Sex','Country','Phone Type','State','Site Name','Patient Auth Status','Legal Status'];
-    //requiredFieldComboBoxForMinorList = ['Sex','Country','State','Site Name','Patient Auth Status','Legal Status'];
-    inputNotIncludedFieldAdult = ['Alt Phone Number','M.I.','Birth Month Date','Birth Year Date','IsEmail','IsPhone','IsSMS'];
+    requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthMonth','BirthYear','LastName','PhoneNumber','PostalCode',
+                                'Sex','Country','PhoneType','States','SiteName','PatientAuthStatus','LegalStatus'];
+    requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
+                                'Sex','Country','States','SiteName','PatientAuthStatus','LegalStatus'];
+    //requiredComboBoxForAdult = ['Sex','Country','PhoneType','States','SiteName','PatientAuthStatus','LegalStatus'];
+   // requiredComboBoxForMinor = ['Sex','Country','States','SiteName','PatientAuthStatus','LegalStatus'];
+ 
+    inputNotIncludedField = ['AltPhoneNumber','AltPhoneType','MI','BirthMonthDate',
+                                    'BirthYearDate','IsEmail','IsPhone','IsSMS'];
+    inputNotIncludedFieldForMinor = ['Email ID','Phone Type','Alt Phone Type','Phone Number','Alt Phone Number','M.I.','Birth Month Date',
+                                        'Birth Year Date','IsEmail','IsPhone','IsSMS'];
+
+    yearValidation(year,element) {
+        var text = /^[0-9]+$/;
+        var current_year=new Date().getFullYear();
+        if (year.length != 4) {
+            element.setCustomValidity('You have entered an invalid format');
+            element.reportValidity();
+            return false;
+        }
+        else if(year != 0 && (year != "") && (!text.test(year))) {
+            element.setCustomValidity('You have entered an invalid format');
+            element.reportValidity();
+            return false;
+        }
+        else if((year < 1900) || (year > current_year)) {
+            element.setCustomValidity('Year should be in range 1900 to current year');
+            element.reportValidity();
+            return false;
+        }
+        else{
+            element.setCustomValidity('');
+            element.reportValidity();
+            return true;
+        }
+    }
+
+    monthValidation(month,element) {
+        var text =/^(0?[1-9]|1[012])$/;
+        if(!text.test(month)) {
+            element.setCustomValidity('You have entered an invalid format');
+            element.reportValidity();
+            return false;
+        }
+        else{
+            element.setCustomValidity('');
+            element.reportValidity();
+            return true;
+        }
+    }
 
     checkValidEmail(element) {
+        let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
         var regexpInvalid = new RegExp(/[\¡¿«»¢£¥€¤›]/);
         let emailValue = element.value;
@@ -64,376 +108,157 @@ export default class Rp_PatientTab extends LightningElement {
             element.setCustomValidity('');
             if (emailValue.match(regexp)) {
                 element.setCustomValidity('');
-            } else {
+                returnValue = true;
+            } 
+            else {
                 element.setCustomValidity('You have entered an invalid format');
+                returnValue = false;
             }
-        } else {
+        } 
+        else {
             email.setCustomValidity('You have entered an invalid format');
+            returnValue = false;
         }
         element.reportValidity();
+        return returnValue;
     }
     
-    fieldValidation(name){
-        this.template.querySelectorAll('lightning-input').forEach(element => {
-            if(element.label == name && element.label) {
-              if(!element.value) {
-                    element.setCustomValidity(element.label  +' ' + 'is missing.');
-                    element.reportValidity();
-              }
-              else if(element.label == 'Email ID'){
-                this.checkValidEmail(element)
-              }
-             else {
-                    element.setCustomValidity('');
-                    element.reportValidity();
-                }
-            }    
-        });
+    customFieldValidation(dataValue) {
 
-        this.template.querySelectorAll('lightning-combobox').forEach(element => {
-            if(element.label == name) {
-              if(!element.value) {
-                    element.setCustomValidity(element.label  +' ' + 'is missing.');
-                    element.reportValidity();
-              }
-             else {
-                    element.setCustomValidity('');
-                    element.reportValidity();
-                }
-            } 
-        });
-    }
+        let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
+        let fieldValue = element.value;
+        let fieldLabel = element.label;
+        let returnvalue;
 
-    inputValidatedForAdultAll() {
-        this.isInputValidated = false;
-        let isValid = [...this.template.querySelectorAll('lightning-input')].reduce( (val, inp) => {
-            let inpVal = true;
-            let fieldLabel = inp.label;
-            let fieldValue = inp.value;
-            switch (fieldLabel) {
-                case 'Patient ID':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Email ID':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'First Name':
-                if (!fieldValue) { 
-                    inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                    inp.reportValidity();
-                    inpVal = false;
-                }
-                break;
-                case 'Birth Month':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Birth Year':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    if (fieldValue && fieldValue.length < 4){
-                        inp.setCustomValidity(fieldLabel +' ' + 'Incorrect format.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Last Name':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Phone Number':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Postal Code':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                default:
-                    if(!this.inputNotIncludedFieldAdult.includes(fieldLabel)){
-                        inpVal = true;
-                        inp.setCustomValidity("");
-                        inp.reportValidity();
-                    }
-                    break;
+        if(!fieldValue) {
+            element.setCustomValidity(fieldLabel +' ' + 'is missing.');
+            returnvalue = false;
+        }
+        else if(fieldValue && fieldLabel =='Birth Month') {
+            let isMonthValidated= this.monthValidation(fieldValue,element);
+            if(isMonthValidated) {
+                returnvalue = true;
             }
-            return val && inpVal;
-        }, true);
-
-        if (isValid) {
-            this.isInputValidated = true;
-        }
-    }
-
-    inputValidatedForMinorAll() {
-        this.isInputValidated = false;
-
-        let isValid = [...this.template.querySelectorAll('lightning-input')].reduce( (val, inp) => {
-            let inpVal = true;
-            let fieldLabel = inp.label;
-            let fieldValue = inp.value;
-            switch (fieldLabel) {
-                case 'Patient ID':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'First Name':
-                if (!fieldValue) { 
-                    inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                    inp.reportValidity();
-                    inpVal = false;
-                }
-                break;
-                case 'Birth Month':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Birth Year':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    if (fieldValue && fieldValue.length < 4){
-                        inp.setCustomValidity(fieldLabel +' ' + 'Incorrect format.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Last Name':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Postal Code':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                default:
-                    if(!this.inputNotIncludedFieldAdult.includes(fieldLabel)){
-                        inpVal = true;
-                        inp.setCustomValidity("");
-                        inp.reportValidity();
-                    }
-                    break;
+            else {
+                returnvalue = false;
             }
-            return val && inpVal;
-        }, true);
-
-        if (isValid) {
-            this.isInputValidated = true;
         }
-    }
-
-    comboBoxValidatedAdultAll() {
-        this.isComboBoxValidated = false;
-
-        let isValid = [...this.template.querySelectorAll('lightning-combobox')].reduce( (val, inp) => {
-            let inpVal = true;
-            let fieldLabel = inp.label;
-            let fieldValue = inp.value;
-
-            switch (fieldLabel) {
-                case 'Sex':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Country':
-                if (!fieldValue) { 
-                    inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                    inp.reportValidity();
-                    inpVal = false;
-                }
-                break;
-                case 'Phone Type':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'State':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Site Name':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Patient Auth Status':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Legal Status':
-                        if (!fieldValue) { 
-                            inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                            inp.reportValidity();
-                            inpVal = false;
-                        }
-                        break;
-                default:
-                    if(fieldLabel != 'Phone Type' && fieldLabel != 'Alt Phone Type'){
-                        inpVal = true;
-                        inp.setCustomValidity("");
-                        inp.reportValidity();
-                    }
-                    break;
+        else if(fieldValue && fieldLabel =='Birth Year') {
+            let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
+            let monthValue = monthValueAvilable.value;
+            if(!monthValue){
+                monthValueAvilable.setCustomValidity('Fill before Birth Year');
+                monthValueAvilable.reportValidity();
+                element.value = '';
+                returnvalue = false;
             }
-            return val && inpVal;
-        }, true);
-
-        if (isValid) {
-            this.isComboBoxValidated = true;
-        }
-    }
-
-    comboBoxValidatedMinorAll() {
-        this.isComboBoxValidated = false;
-
-        let isValid = [...this.template.querySelectorAll('lightning-combobox')].reduce( (val, inp) => {
-            let inpVal = true;
-            let fieldLabel = inp.label;
-            let fieldValue = inp.value;
-
-            switch (fieldLabel) {
-                case 'Sex':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Country':
-                if (!fieldValue) { 
-                    inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                    inp.reportValidity();
-                    inpVal = false;
-                }
-                break;
-                case 'State':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Site Name':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Patient Auth Status':
-                    if (!fieldValue) { 
-                        inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                        inp.reportValidity();
-                        inpVal = false;
-                    }
-                    break;
-                case 'Legal Status':
-                        if (!fieldValue) { 
-                            inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
-                            inp.reportValidity();
-                            inpVal = false;
-                        }
-                        break;
-                default:
-                    if(fieldLabel != 'Alt Phone Type'){
-                        inpVal = true;
-                        inp.setCustomValidity("");
-                        inp.reportValidity();
-                    }
-                    break;
-            }
-            return val && inpVal;
-        }, true);
-
-        if (isValid) {
-            this.isComboBoxValidated = true;
-        }
-    }
-
-     /*comboBoxValidatedAll() {
-        this.isComboBoxValidated = false;
-        var fieldComboBoxConditionCheck;
-
-        if(this.requiredfieldforminor) {
-            fieldComboBoxConditionCheck = this.requiredFieldComboBoxForMinorList;
-        }
-        else{
-            fieldComboBoxConditionCheck = this.requiredFieldComboBoxForAdultList;
-        }
-        var inputComboBoxField = this.template.querySelectorAll('lightning-combobox');
-        for(let i = 0; i <inputComboBoxField.length; i++) {
-            if(fieldComboBoxConditionCheck.includes(inputComboBoxField[i].label)){
-                if(!inputComboBoxField[i].value) {
-                    inputComboBoxField[i].setCustomValidity(inputComboBoxField[i].label  +' ' + 'is missing.');
-                    inputComboBoxField[i].reportValidity();
-                    this.isComboBoxValidated = false;
-
+            else {
+                let isYearValidated= this.yearValidation(fieldValue,element);
+                if(isYearValidated) {
+                    returnvalue = true;
                 }
                 else {
-                    inputComboBoxField[i].setCustomValidity('');
-                    inputComboBoxField[i].reportValidity();
-                    this.isComboBoxValidated = true;
-                    }
-            }   
+                    returnvalue = false;
+                }
+            }
         }
+        else if(fieldValue && fieldLabel =='Email ID') {
+            let isEmailValidated= this.checkValidEmail(element);
+            if(isEmailValidated) {
+                returnvalue = true;
+            }
+            else {
+                returnvalue = false;
+            }
+        }
+        else{
+            element.setCustomValidity('');
+            returnvalue = true;
+        }
+        element.reportValidity();
+        return returnvalue;
+    }
+
+
+    /*customFieldValidationAll() {
+        let checkCondition =[];
+        let returnvalue;
+
+        checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
+
+        for(let i=0; i<checkCondition.length; i++) {
+            let dataValue = checkCondition[i];
+            let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
+            let fieldValue = element.value;
+            let fieldLabel = element.label;
+
+            if(!fieldValue) {
+                element.setCustomValidity(fieldLabel +' ' + 'is missing.');
+                returnvalue = false;
+            }
+            else if(fieldValue && fieldLabel =='Birth Month') {
+                let isMonthValidated= this.monthValidation(fieldValue,element);
+                if(isMonthValidated) {
+                    returnvalue = true;
+                }
+                else {
+                    returnvalue = false;
+                }
+            }
+            else if(fieldValue && fieldLabel =='Birth Year') {
+                let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
+                let monthValue = monthValueAvilable.value;
+                if(!monthValue){
+                    monthValueAvilable.setCustomValidity('Fill before Birth Year');
+                    monthValueAvilable.reportValidity();
+                    element.value = '';
+                    returnvalue = false;
+                }
+                else {
+                    let isYearValidated= this.yearValidation(fieldValue,element);
+                    if(isYearValidated) {
+                        returnvalue = true;
+                    }
+                    else {
+                        returnvalue = false;
+                    }
+                }
+            }
+            else if(fieldValue && fieldLabel =='Email ID') {
+                let isEmailValidated= this.checkValidEmail(element);
+                if(isEmailValidated) {
+                    returnvalue = true;
+                }
+                else {
+                    returnvalue = false;
+                }
+            }
+            else{
+                element.setCustomValidity('');
+                returnvalue = true;
+            }
+            element.reportValidity();
+        }
+        return returnvalue; 
     }*/
 
+    removeCustomFieldValidation(dataValue) {
+        let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
+        element.setCustomValidity('');
+        element.reportValidity();
+    }
+
     changeInputValue(event) {
-        let name = event.target.name;
-        if(name && name !=='IsEmail' && name !=='IsPhone' && name !=='IsSMS' && name !== 'BirthMonthDate'
-                && name !== 'BirthMonthDate'){
-            this.fieldValidation(name);
+        let isRequired = this.patientrecord[0].isRequired;
+        let dataValue = event.target.dataset.value.trim();
+
+        if(isRequired && this.requiredFieldForAdult.includes(dataValue)) {
+             this.customFieldValidation(dataValue);
         }
+        else if(this.requiredfieldforMinor.includes(dataValue)){
+            this.customFieldValidation(dataValue);
+        }
+        
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === event.target.dataset.id);
         if(event.target.dataset.value === 'PatientID') {
             record.peRecord.Patient_ID__c = event.target.value;
@@ -451,7 +276,6 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Birth_Month__c = event.target.value;
         }
         else if(event.target.dataset.value === 'BirthMonthDate') {
-           
             let dt = new Date(event.target.value);
             let month=  dt.getMonth() + 1;
             record.peRecord.Birth_Month__c = month.toString();
@@ -462,11 +286,11 @@ export default class Rp_PatientTab extends LightningElement {
             }, 10);
         }
         else if(event.target.dataset.value === 'BirthYear') {
-            record.peRecord.YOB__c = event.target.value;
-            if(record.peRecord.YOB__c.length == 4) {
-                this.checkPatientAge(record.peRecord.YOB__c);
-                
-                if(this.requiredfieldforminor){
+            let value = event.target.value;
+            if(value.length == 4) {
+                record.peRecord.YOB__c = event.target.value;
+                this.checkPatientAge();
+                if(this.patientrecord[0].isRequired){
                     record.peRecord.Legal_Status__c = 'Yes';
                 }
                 else{
@@ -475,22 +299,23 @@ export default class Rp_PatientTab extends LightningElement {
             }
         }
         else if(event.target.dataset.value === 'BirthYearDate') {
-            var dt = new Date(event.target.value);
+            let value = event.target.value;
+            var dt = new Date(value);
             let year = dt.getFullYear();            
             record.peRecord.YOB__c = year.toString();
-            this.checkPatientAge(record.peRecord.YOB__c);
-
-            if(this.requiredfieldforminor){
+            this.checkPatientAge();
+            if(record.isRequired){
                 record.peRecord.Legal_Status__c = 'Yes';
             }
             else{
                 record.peRecord.Legal_Status__c = 'No';
             }
             window.setTimeout(() => {
-                const element = this.template.querySelector('[data-value="BirthYearDate"]');
+                const element = this.template.querySelector('[data-value="BirthYear"]');
                 element.setCustomValidity('');
                 element.reportValidity();
             }, 10);
+            
         }
         else if(event.target.dataset.value === 'LastName') {
             record.peRecord.Participant_Surname__c = event.target.value;
@@ -501,6 +326,13 @@ export default class Rp_PatientTab extends LightningElement {
         else if(event.target.dataset.value === 'Country') {
             record.peRecord.Country__c = event.target.value;
             this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Country__c];
+            if(this.states.length> 0){
+                this.stateRequired = true;
+            }
+            else{
+                this.stateRequired = false;
+                record.peRecord.State__c = '';
+            }
         }
         else if(event.target.dataset.value === 'States') {
             record.peRecord.State__c = event.target.value;
@@ -511,7 +343,7 @@ export default class Rp_PatientTab extends LightningElement {
         else if(event.target.dataset.value === 'PhoneType') {
             record.peRecord.Patient_Phone_Type__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'AlternatePhoneNumber') {
+        else if(event.target.dataset.value === 'AltPhoneNumber') {
             record.peRecord.Participant_Alternative_Phone__c = event.target.value;
         }
         else if(event.target.dataset.value === 'AltPhoneType') {
@@ -527,14 +359,14 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Patient_Auth__c = event.target.value;
         }
         else if(event.target.dataset.value === 'LegalStatus') {
-            this.checkPatientAge(record.peRecord.YOB__c);
-            if(!this.requiredfieldforminor){
+            this.checkPatientAge();
+            if(record.isRequired){
                 event.target.value = 'Yes'
                 record.peRecord.Legal_Status__c = event.target.value 
             }
-            else if(this.requiredfieldforminor){
+            else{
                 event.target.value = 'No'
-                record.peRecord.Legal_Status__c = 'No';
+                record.peRecord.Legal_Status__c = event.target.value;
             }
         }
         else if(event.target.dataset.value === 'IsEmail') {
@@ -547,6 +379,7 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Is_SMS__c = event.target.checked;
         }
         this.patientrecord = [...this.patientrecord];
+        
     }
 
     cancelRecord(event) {
@@ -573,6 +406,19 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Is_Phone__c = this.originalpatientrecord[0].peRecord.Is_Phone__c;
         record.peRecord.Is_SMS__c = this.originalpatientrecord[0].peRecord.Is_SMS__c;
         this.patientrecord = [...this.patientrecord];
+
+        if(this.patientrecord[0].isRequired) {
+            this.requiredfieldforMinor.forEach(item => {
+                this.removeCustomFieldValidation(item);
+            });
+        }
+        else{
+            this.requiredFieldForAdult.forEach(item => {
+                this.removeCustomFieldValidation(item);
+            });
+           
+        }
+
     }
 
     closeUnsavedModal(event) {
@@ -580,19 +426,20 @@ export default class Rp_PatientTab extends LightningElement {
         this.disableButton = false;
     }
 
-    checkPatientAge(year) {
+    checkPatientAge() {
         let countryCode = this.patientrecord[0].peRecord.Country__c;
         let stateCode = this.patientrecord[0].peRecord.State__c;
+        let year = this.patientrecord[0].peRecord.YOB__c;
         let month = this.patientrecord[0].peRecord.Birth_Month__c;
 
         checkPatientAge({countryCode: countryCode,stateCode: stateCode,
                             month: month, year: year})
         .then((result) => {
             if(result == 'true') {
-                this.requiredfieldforminor = false;               
+                this.patientrecord[0].isRequired = false;               
             }
             else {
-                this.requiredfieldforminor = true;
+                this.patientrecord[0].isRequired = true;
             }
         })
         .catch((error) => {
@@ -600,21 +447,38 @@ export default class Rp_PatientTab extends LightningElement {
         })
     }
 
-    openUnsavedModal(event) {
-        if(this.requiredfieldforminor && this.patientrecord[0].peRecord.YOB__c != undefined) {
-            this.inputValidatedForMinorAll();
-            this.comboBoxValidatedMinorAll();
-        }
-        else if(this.requiredfieldforminor && this.patientrecord[0].peRecord.YOB__c == undefined) {
-            this.inputValidatedForAdultAll();
-            this.comboBoxValidatedAdultAll();    
-        }
-        else {
-            this.inputValidatedForAdultAll();
-            this.comboBoxValidatedAdultAll();    
-        }
 
-        if(this.isInputValidated && this.isComboBoxValidated) {  
+
+    openUnsavedModal(event) {
+
+         let isAllFieldValidated = false;
+         this.validationList = [];
+         let checkCondition =[];
+
+         if(this.patientrecord[0].isRequired) {
+            this.requiredfieldforMinor.forEach(item => {
+                this.removeCustomFieldValidation(item);
+            });
+        }
+        else{
+            this.requiredFieldForAdult.forEach(item => {
+                this.removeCustomFieldValidation(item);
+            });
+        }
+        checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
+        for(let i=0; i<checkCondition.length; i++) {
+
+            isAllFieldValidated = this.customFieldValidation(checkCondition[i].trim());      
+            this.validationList.push(isAllFieldValidated);
+        }
+        let check;
+        if(this.validationList.includes(false)){
+            check = false
+        }
+        else{
+            check = true
+        }
+        if(check) {  
             let newPatientId = this.patientrecord[0].peRecord.Patient_ID__c;
             let oldPatientId = this.originalpatientrecord[0].peRecord.Patient_ID__c;
             let countryCode = this.patientrecord[0].peRecord.Country__c;
@@ -643,6 +507,7 @@ export default class Rp_PatientTab extends LightningElement {
             })
             .catch((error) => {
                 this.showErrorToast(JSON.stringify(error.body.message));
+                this.isUnsavedModalOpen = false; 
             })
         }
     }

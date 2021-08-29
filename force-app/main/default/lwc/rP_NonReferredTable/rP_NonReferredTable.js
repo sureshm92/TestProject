@@ -39,9 +39,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     connectedCallback() {
-       
         this.getDetailsApex();
-       
     }
 
     getDetailsApex() {

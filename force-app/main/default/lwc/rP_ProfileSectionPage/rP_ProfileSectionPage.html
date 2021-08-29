@@ -147,11 +147,11 @@
                 <lightning-tabset>
                     <lightning-tab label="Patient">
                         <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList} 
-                            onrefreshpatienttabchange={handlePatientTabChange} states={states} requiredfieldforminor={Isrequired}></c-rp_-patient-tab>
+                            onrefreshpatienttabchange={handlePatientTabChange} states={states} ></c-rp_-patient-tab>
                     </lightning-tab>
                     <!--&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-->
                     <lightning-tab label="Primary Delegate">
-                        <c-rp_-delegate-tab delegaterecordlist={peRecordList} originaldelegaterecord={peRecordList} 
+                        <c-rp_-delegate-tab delegaterecordlist={peRecordList} originaldelegaterecordlist={peRecordList} 
                             onrefreshdelegatetabchange={handlePatientTabChange}> </c-rp_-delegate-tab>
                     </lightning-tab>
                 </lightning-tabset>

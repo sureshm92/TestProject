@@ -88,6 +88,8 @@ public without sharing class RPRecordReviewLogController {
         public List<LabelValueItem> delegatePhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_Phone_Type__c);
         @AuraEnabled 
         public String accessLevel;
+        @AuraEnabled 
+        public boolean isRequired;
         
         public peProfileSection(Participant_Enrollment__c peRecord,String createdDateFormat) {
             this.peRecord = peRecord;
@@ -106,8 +108,14 @@ public without sharing class RPRecordReviewLogController {
                 Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,
                 Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c
                 from Participant_Enrollment__c where Id =: peId];
-                
+
+                String isAdult = '';
+
                 for (Participant_Enrollment__c pe : peList) {
+
+                    String createdDateString = dateFormatChangeForCreatedDate(pe.CreatedDate);
+                    peProfileSectionWrapperList.add(new peProfileSection(pe, createdDateString));
+
                     //By defult value if country and state null
                     if(pe.Country__c == null) {
                         pe.Country__c = 'US';
@@ -115,27 +123,37 @@ public without sharing class RPRecordReviewLogController {
                     if(pe.State__c == null) {
                         pe.State__c = 'NY';
                     }
-
-                    String createdDateString = dateFormatChangeForCreatedDate(pe.CreatedDate);
-                    peProfileSectionWrapperList.add(new peProfileSection(pe, createdDateString));
+                    //if no YOB and Month and Adult than field will email,phone number and phone type required 
+                    if(pe.Birth_Month__c != null && pe.YOB__c != null) {
+                        isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Country__c, pe.State__c, pe.Birth_Month__c,pe.YOB__c);
+                        if(isAdult =='true') {
+                            //Minor
+                            peProfileSectionWrapperList[0].isRequired = false;
+                            pe.Legal_Status__c = 'Yes';
+                            pe.Is_Delegate_Certify__c = true;
+                        }
+                        else{
+                            peProfileSectionWrapperList[0].isRequired = true;
+                            pe.Legal_Status__c = 'No';
+                            pe.Is_Delegate_Certify__c = false;
+                        }
+                    }
+                    else{
+                        peProfileSectionWrapperList[0].isRequired = true;
+                    }
                 }
                 
                 RPRecordReviewLogHelper.HCPInit hcp =RPRecordReviewLogHelper.getHCPInitData(delegateId, userMode);
                 peProfileSectionWrapperList[0].siteList = hcp.studySiteList;
                 
                 List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-                RPD = [
-                        SELECT Delegate_Access_Level__c
-                        FROM RP_Delegate_Relationship__c
-                        WHERE Delegate__c = :currentContactId 
-                        LIMIT 1
-                     ];
+                RPD = [SELECT Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId LIMIT 1];
                 if(RPD.size() != 0){
-                 peProfileSectionWrapperList[0].accessLevel =  RPD[0].Delegate_Access_Level__c;
-                }else{
-                 peProfileSectionWrapperList[0].accessLevel ='All';
+                    peProfileSectionWrapperList[0].accessLevel =  RPD[0].Delegate_Access_Level__c;
+                }
+                else{
+                    peProfileSectionWrapperList[0].accessLevel ='All';
                 }     
-                
                 return peProfileSectionWrapperList;
         } 
         catch (Exception e) {
@@ -153,6 +171,18 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+
+    @AuraEnabled
+    public static Participant_Enrollment__c delegateUpdatePeRecords(Participant_Enrollment__c peRecord){
+        try {
+                update peRecord;
+                return peRecord;
+        } 
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+
     @AuraEnabled
     public static String checkPatientAge(String countryCode, String stateCode, String month ,String year) {
         try {
