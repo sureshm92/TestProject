@@ -16,7 +16,7 @@
         <lightning-layout-item padding="around-small" size="6">
             <div>
                 <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Email__c} data-value="EmailID" 
-                required={requiredfieldforminor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
     </lightning-layout>
@@ -86,12 +86,12 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Phone Number" name="Phone Number" value={pe.peRecord.Phone__c} data-value="PhoneNumber" 
-                required={requiredfieldforminor} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox required={requiredfieldforminor} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
+                <lightning-combobox required={pe.isRequired} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
                     options={pe.phoneTypeList} data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -100,7 +100,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true" label="State" name="State" placeholder="Select State" value={pe.peRecord.State__c}  
+                <lightning-combobox required={stateRequired} label="State" name="State" placeholder="Select State" value={pe.peRecord.State__c}  
                     options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -108,7 +108,7 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Alt Phone Number" name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
-                    data-value="AlternatePhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                    data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">

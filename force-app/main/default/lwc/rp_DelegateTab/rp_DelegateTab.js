@@ -1,5 +1,5 @@
 import { LightningElement, api, track } from 'lwc';
-import updatePeRecords from '@salesforce/apex/RPRecordReviewLogController.updatePeRecords';
+import delegateUpdatePeRecords from '@salesforce/apex/RPRecordReviewLogController.delegateUpdatePeRecords';
 import checkDelegateAge from '@salesforce/apex/RPRecordReviewLogController.checkDelegateAge';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
@@ -12,16 +12,25 @@ export default class Rp_DelegateTab extends LightningElement {
         this.delegaterecord = JSON.parse(JSON.stringify(value));
     }
 
+    @api
+    get originaldelegaterecordlist() {
+        return this.originaldelegaterecord;
+    }
+    set originaldelegaterecordlist(value) {
+        this.originaldelegaterecord = JSON.parse(JSON.stringify(value));
+    }
+
     @api todayDate;
     @api isLoading = false;
     @api delegaterecord;
-    @api originaldelegaterecord = [];
+    @api originaldelegaterecord;
     @api isUnsavedModalOpen = false;
     @api disableButton =false;
     @api requiredFieldList = ['First Name','Phone Number','Last Name','Birth Year','Birth Year Date','Email ID'];
     @api requiredFieldComboBoxList = ['Phone Type'];
     isInputValidated = false;
     isComboBoxValidated = false;
+    isEmailFormatValidated = false;
 
     connectedCallback() {
         if(this.delegaterecord[0].peRecord.Legal_Status__c == 'Yes'){
@@ -35,6 +44,8 @@ export default class Rp_DelegateTab extends LightningElement {
     }
     
     checkValidEmail(element) {
+        this.isEmailFormatValidated = false;
+
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
         var regexpInvalid = new RegExp(/[\¡¿«»¢£¥€¤›]/);
         let emailValue = element.value;
@@ -43,13 +54,14 @@ export default class Rp_DelegateTab extends LightningElement {
             element.setCustomValidity('');
             if (emailValue.match(regexp)) {
                 element.setCustomValidity('');
+                this.isEmailFormatValidated = true;
             } else {
                 element.setCustomValidity('You have entered an invalid format');
-                this.isInputValidated = false;
+                this.isEmailFormatValidated = false;
             }
         } else {
             email.setCustomValidity('You have entered an invalid format');
-            this.isInputValidated = false;
+            this.isEmailFormatValidated = false;
         }
         element.reportValidity();
     }
@@ -132,6 +144,13 @@ export default class Rp_DelegateTab extends LightningElement {
                         inp.setCustomValidity(fieldLabel +' ' + 'is missing.');
                         inp.reportValidity();
                         inpVal = false;
+                    }
+                    if(fieldValue) {
+                        this.checkValidEmail(inp);
+                        if(!this.isEmailFormatValidated){
+                            inpVal = false;
+                        }
+
                     }
                     break;
                 default:
@@ -241,6 +260,7 @@ export default class Rp_DelegateTab extends LightningElement {
             let countryCode = this.delegaterecord[0].peRecord.Country__c;
             let stateCode = this.delegaterecord[0].peRecord.State__c;
             let year = this.delegaterecord[0].peRecord.Primary_Delegate_YOB__c;
+            
 
             checkDelegateAge({countryCode: countryCode, stateCode: stateCode, year: year})
             .then((result) => {
@@ -264,13 +284,21 @@ export default class Rp_DelegateTab extends LightningElement {
 
     proceedDetailsModal(event) {
         this.disableButton = true;
-        updatePeRecords({peRecord: this.delegaterecord[0].peRecord})
+        delegateUpdatePeRecords({peRecord: this.delegaterecord[0].peRecord})
         .then((result) => {
-            this.showSuccessToast(this.delegaterecord[0].peRecord.Primary_Delegate_First_Name__c +' '+ 'Record Successfully Saved.');
-           // this.dispatchEvent(new CustomEvent("refreshdelegatetabchange"));
+            let record = this.originaldelegaterecord.find(ele  => ele.peRecord.Id === result.Id);
+            record.peRecord.Primary_Delegate_First_Name__c = result.Primary_Delegate_First_Name__c;
+            record.peRecord.Primary_Delegate_Phone_Number__c = result.Primary_Delegate_Phone_Number__c;
+            record.peRecord.Primary_Delegate_Phone_Type__c = result.Primary_Delegate_Phone_Type__c;
+            record.peRecord.Primary_Delegate_Last_Name__c = result.Primary_Delegate_Last_Name__c;
+            record.peRecord.Primary_Delegate_YOB__c = result.Primary_Delegate_YOB__c;
+            record.peRecord.Primary_Delegate_Email__c =result.Primary_Delegate_Email__c;
+            record.peRecord.Is_Delegate_Certify__c = result.Is_Delegate_Certify__c;        
+            this.originaldelegaterecord = [...this.originaldelegaterecord];
+            this.showSuccessToast(result.Primary_Delegate_First_Name__c +' '+ 'Record Successfully Saved.');
         })
         .catch((error) => {
-            this.showErrorToast(JSON.stringify(error.body.message));
+           this.showErrorToast(JSON.stringify(error.body.message));
         })
         .finally(() => {
             this.isUnsavedModalOpen = false;
