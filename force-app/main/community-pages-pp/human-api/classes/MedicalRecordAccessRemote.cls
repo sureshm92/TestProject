@@ -99,7 +99,7 @@ public class MedicalRecordAccessRemote {
         
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         List<Id> ownidList= new List<Id>();
-        if(participantState.pe != null) ownidList.add(participantState.pe.Id);
+        if(participantState.pe != null && participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c) ownidList.add(participantState.pe.Id);
         String ownPEFilter ='(Human_Id__c != null OR Id IN '+DatabaseService.listToString(ownidList)+')  AND Participant__r.Contact__c IN ' + DatabaseService.listToString(new List<Id>{contactId}) +' order by CreatedDate desc';
         
         

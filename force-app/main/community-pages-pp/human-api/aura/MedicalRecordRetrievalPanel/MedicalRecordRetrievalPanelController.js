@@ -39,7 +39,7 @@
                     component.set('v.referrals',returnValue);
                         if(returnValue){
                         for (const item in returnValue) {
-                            if(communityService.getCurrentCommunityMode().currentPE){
+                            if(communityService.getCurrentCommunityMode().currentPE && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
                                  if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
                                component.set('v.defaultStudy',returnValue[item].value);
                                 break;
