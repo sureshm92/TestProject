@@ -13,7 +13,7 @@
     text-align: left;
   /*  box-shadow: 0 0 4px 2px rgba(0,0,0,.2); */
     width: max-content;
-    max-width: 320px;
+    max-width: 300px;
     top:0;
     left:50%;
     margin-top: -10px;
@@ -54,19 +54,21 @@
 }
 .THIS .textoverlap
 {
-    width: 18rem;
+    width: 17rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 .THIS .textoverlap_FNLN
 {
-    width: 14rem;
+    width: 13rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 /* ----------------END-----------*/
+
+
 .THIS .rr-error {
     color: rgb(194, 57, 52);
     font-size : 0.75rem;
