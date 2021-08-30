@@ -9,7 +9,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
     private Integer taskCreated;
     
     public Batch_CreateRecurringAdminTask() {
-        this.query = 'Select Recurrence_End_Date__c, Last_Recurrence_Reminder__c, Status__c, Start_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c <= '+Datetime.now().format('yyyy-MM-dd', 'GMT');
+        this.query = 'Select Task_Name__c, Recurrence_End_Date__c, Last_Recurrence_Reminder__c, Status__c, Start_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c <= TOMORROW';
         this.manualConfigList = new List<Manual_Creation_Panel_Task__c>();
         this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
         this.userId = UserInfo.getUserId();
