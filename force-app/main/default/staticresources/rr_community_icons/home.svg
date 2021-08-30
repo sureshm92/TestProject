@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="14px" height="14px" viewBox="0 0 14 14" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>icon</title>
+    <defs>
+        <path d="M13.9999998,5.54166667 C13.9999998,5.36102259 13.9160868,5.19062352 13.7730833,5.08025 L7.35641667,0.121916667 C7.14621109,-0.0407495183 6.85262225,-0.0407495183 6.64241667,0.121916667 L0.22575,5.08025 C0.0831849635,5.19086152 -0.000165424228,5.36122368 -2.45772062e-07,5.54166667 L-2.45772062e-07,13.4166667 C-2.45772062e-07,13.7388328 0.261167229,14 0.583333333,14 L5.25,14 C5.41108305,14 5.54166667,13.8694164 5.54166667,13.7083333 L5.54166667,11.0833333 C5.54166667,10.2779181 6.19458474,9.625 6.99999975,9.625 C7.80541526,9.625 8.45833333,10.2779181 8.45833333,11.0833333 L8.45833333,13.7083333 C8.45833333,13.8694164 8.58891695,14 8.75,14 L13.4166667,14 C13.7388328,14 13.9999998,13.7388328 13.9999998,13.4166667 L13.9999998,5.54166667 Z" id="path-1"></path>
+    </defs>
+    <g id="Referring-Provider-List-View" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="RP-List-Overview-Landing" transform="translate(-73.000000, -83.000000)">
+            <g id="icon" transform="translate(73.000000, 83.000000)">
+                <mask id="mask-2" fill="white">
+                    <use xlink:href="#path-1"></use>
+                </mask>
+                <use id="Mask" fill="#000000" fill-rule="nonzero" xlink:href="#path-1"></use>
+                <g id="Group" mask="url(#mask-2)" fill="#999999">
+                    <g id="color">
+                        <rect id="Rectangle" x="0" y="0" width="14" height="14"></rect>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
+</svg>
