@@ -54,14 +54,14 @@
 }
 .THIS .textoverlap
 {
-    width: 18rem;
+    width: 17rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
 }
 .THIS .textoverlap_FNLN
 {
-    width: 14rem;
+    width: 13rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
