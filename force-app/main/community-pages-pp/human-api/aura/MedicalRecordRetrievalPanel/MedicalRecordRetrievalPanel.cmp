@@ -1,17 +1,17 @@
 <!--
  - Created by Sandeep
  -->
- <aura:component controller="MedicalRecordAccessRemote" implements="flexipage:availableForAllPageTypes" >
+<aura:component controller="MedicalRecordAccessRemote" implements="flexipage:availableForAllPageTypes" >
     <ltng:require
                   scripts="{!join(',', $Resource.rr_community_js,$Resource.humanapijs)}" 
-                  afterScriptsLoaded="{!c.doInit}" 
+                  afterScriptsLoaded="{!c.doInit}"  
                   />   
     <aura:attribute name="participantState" type="Object" />
     <aura:attribute name="peId" type="String" />
-
+    
     <aura:attribute name="defaultStudy" type="String" />
     <aura:attribute name="isHumanApiChecked" type="Boolean"/>
-     <aura:attribute name="initialized" type="Boolean" default="false"/>
+    <aura:attribute name="initialized" type="Boolean" default="false"/>
     <aura:attribute name="sessionToken" type="String" />
     <aura:attribute name="humanid" type="String" />
     <aura:attribute name="accessToken" type="String" />
@@ -19,68 +19,77 @@
     <aura:attribute name="medicalProviders" type="Object[]" />
     <aura:attribute name="referrals" type="Object[]"/>
     <aura:attribute name="isAuthorised" type="Boolean"/>
-     <aura:attribute name="hasPastStudies" type="Boolean"/>
-
-     
+    <aura:attribute name="hasPastStudies" type="Boolean"/>
+    <aura:attribute name="showAuthorizationLink" type="Boolean" default = "true"/>
+    
+      
+   
     <aura:attribute name="showMedicalCard" type="Boolean" default="false"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
-
-     <aura:handler name="change" value="{!v.success}" action="{!c.listProvidersChange}"/>
     
-     <aura:if isTrue="{!and(v.participantState.hasPatientDelegates,v.participantState.value == 'ALUMNI')}">
-     <aura:set attribute="else">
-         <aura:if isTrue="{!or(v.showMedicalCard,and(v.participantState.value == 'ALUMNI',v.referrals.length > 0))}">
-              
-    <c:HomePreviewTablePanel title="Medical Record Access">
-        <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/> 
-        <aura:if isTrue="{!and(v.hasPastStudies,v.referrals.length > 1)}"> 
-        <lightning:combobox aura:id="opt" class="slds-float_left wi"  placeholder="{!$Label.c.Select}" value="{!v.defaultStudy}" onchange="{!c.doListProviders}" options="{!v.referrals}"/>
-        </aura:if>
-        <aura:if isTrue="{!v.isAuthorised}">
-            
-         <div id="managerTable" style="{!if(and(v.hasPastStudies,v.referrals.length > 1),'margin-top:54px;','')}">
-           
-             <table>
-  <tr> 
-                <th>Provider</th>
-                <th>Status</th>
-            </tr>
-                 <aura:iteration items="{!v.medicalProviders}" var="provider" indexVar="index">
-                <tr>
-                    <td>
-                        {!provider.providerName}
-                    </td>
-                    <td>
-                        {!provider.status}
-                    </td>
-                </tr>
-            </aura:iteration>
-  
- 
- 
-</table>
-            </div>
-        <!--   </div> -->
+    <aura:handler name="change" value="{!v.success}" action="{!c.listProvidersChange}"/>
+     
+    <aura:if isTrue="{!and(and(v.participantState.hasPatientDelegates,v.participantState.value == 'ALUMNI'),!and(v.participantState.isDelegate,v.participantState.hasPatientDelegates))}">
         <aura:set attribute="else">
-            
-             <c:EmptyListStub
-                iconName="none"
-                message="You have not yet authorized"
-            />
-        </aura:set>
-        </aura:if>
-            <aura:set attribute="footer">
-                
-                <aura:if isTrue="{!and(or(v.isHumanApiChecked,v.participantState.value == 'ALUMNI'),v.initialized)}">
-           <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
-                    </aura:if>
-            <!-- Manage Authorizations -->
-        </aura:set>
-    </c:HomePreviewTablePanel>
-  <!-- <a href="javascript:void(0)" onclick="{!c.downloadPDF}">download</a> --> 
-    
-    </aura:if>
 
-     </aura:set>
-     </aura:if>
-     </aura:component>
+            <aura:if isTrue="{!or(v.showMedicalCard,and(v.hasPastStudies,v.referrals.length > 0))}">
+                <c:HomePreviewTablePanel title="Medical Record Access">
+                    <c:RRSpinner aura:id="spinner" size="small" showSpinner="true"/> 
+                    <aura:if isTrue="{!and(v.hasPastStudies,v.referrals.length > 1)}"> 
+                        <lightning:combobox aura:id="opt" class="slds-float_left wi"  placeholder="{!$Label.c.Select}" value="{!v.defaultStudy}" onchange="{!c.doListProviders}" options="{!v.referrals}"/>
+                    </aura:if>
+                    <aura:if isTrue="{!v.isAuthorised}">
+                        
+                        <div id="managerTable" style="{!if(and(v.hasPastStudies,v.referrals.length > 1),'margin-top:54px;','')}">
+                            
+                            <table>
+                                <tr> 
+                                    <th>Provider</th>
+                                    <th>Status</th>
+                                </tr>
+                                <aura:iteration items="{!v.medicalProviders}" var="provider" indexVar="index">
+                                    <tr>
+                                        <td>
+                                            {!provider.providerName}
+                                        </td>
+                                        <td>
+                                            {!provider.status}
+                                        </td>
+                                    </tr>
+                                </aura:iteration>
+                                
+                                
+                                
+                            </table>
+                        </div>
+                        <!--   </div> -->
+                        <aura:set attribute="else">
+                            
+                            <c:EmptyListStub
+                                             iconName="none"
+                                             message="You have not yet authorized"
+                                             />
+                        </aura:set>
+                    </aura:if>
+                    <aura:set attribute="footer">
+                        
+                        <aura:if isTrue="{!and(or(v.participantState.value == 'PARTICIPANT',v.participantState.value == 'REFERRAL'),not(v.hasPastStudies))}">
+                            <aura:if isTrue="{!and(v.isHumanApiChecked,v.initialized)}">
+                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
+                            </aura:if>
+                        </aura:if> 
+                        <aura:if isTrue="{!v.hasPastStudies}">
+                            <aura:if isTrue="{!and(v.showAuthorizationLink,v.initialized)}">
+                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
+                            </aura:if>
+                        </aura:if>
+                        <!-- Manage Authorizations -->
+                    </aura:set>
+                </c:HomePreviewTablePanel>
+                <!-- <a href="javascript:void(0)" onclick="{!c.downloadPDF}">download</a> --> 
+                
+            </aura:if>
+            
+        </aura:set>
+    </aura:if>
+</aura:component>

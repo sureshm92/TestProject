@@ -10,7 +10,7 @@ public class MedicalRecordAccessRemote {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         
         RemoteCall_getHumanAPITokens remoteObj = new RemoteCall_getHumanAPITokens();
-        if(participantState.pe != null && !UserContext.getCurrentUserMode().hasPastStudies)
+        if(participantState.pe != null && (!UserContext.getCurrentUserMode().hasPastStudies || (String.isBlank(referralId) && UserContext.getCurrentUserMode().hasPastStudies)))
         {
             participantEmail = participantState.pe.Participant__r.Email__c;
             referralId = participantState.pe.Id;
@@ -92,7 +92,7 @@ public class MedicalRecordAccessRemote {
     {
         return new List<Provider>();
     }
-    
+   
     @AuraEnabled
     public static List<LabelValueItem> getHumanAPIPastPEList(Id contactId)
     {
@@ -100,7 +100,7 @@ public class MedicalRecordAccessRemote {
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         List<Id> ownidList= new List<Id>();
         if(participantState.pe != null) ownidList.add(participantState.pe.Id);
-        String ownPEFilter ='(Human_Id__c != null OR Id IN '+DatabaseService.listToString(ownidList)+')  AND Participant__r.Contact__c IN ' + DatabaseService.listToString(new List<Id>{contactId});
+        String ownPEFilter ='(Human_Id__c != null OR Id IN '+DatabaseService.listToString(ownidList)+')  AND Participant__r.Contact__c IN ' + DatabaseService.listToString(new List<Id>{contactId}) +' order by CreatedDate desc';
         
         
         

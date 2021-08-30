@@ -85,7 +85,7 @@ public with sharing class HumanAPIcontroller {
                             String finalUrl     = url + reportId + tail;
                             wrap.reportName     = 'Detailed Report';
                             wrap.reportUrl      = finalUrl;
-                            wrap.createdAt      = var.createdAt.format('MM/dd/yyyy');
+                            wrap.createdAt      = var.createdAt.format('MMM dd, yyyy, hh:mm a');
                             wrap.providerName   = sourceToSourceName.get(var.organization.id);
                         reportUrlWrapperList.add(wrap);
                         }else if(var.name == 'highlights'){
