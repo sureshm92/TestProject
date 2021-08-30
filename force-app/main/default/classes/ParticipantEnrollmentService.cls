@@ -27,6 +27,9 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_RECEIVED = 'Received';
+    public static final String PART_STATUS_EXCLUDE_FROM_REFERRING_RP='Exclude from referring';
+    public static final String PART_STATUS_INCLUDE_FROM_REFERRING_RP='Include for referring';
+    
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
@@ -592,9 +595,6 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
-        'isAuthorized__c',
-        'Human_Id__c',
-        'Unique_HumanId__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',
@@ -619,7 +619,6 @@ public without sharing class ParticipantEnrollmentService {
         'IsSubjectIDverifiedInSDH__c',
         'Medical_Record_Review_Status__c',
         'Medical_Record_Review_Completedby_Name__c',
-        'Medical_Record_Review_Completed_by__r.Id',    
         'Motivational_Message_Id__c',
         'MRN_Id__c',
         'MRR_Survey_Results_URL__c',
@@ -664,8 +663,6 @@ public without sharing class ParticipantEnrollmentService {
         'Participant__r.Contact__r.Visit_Results_OptIn__c',
         'Participant_Contact__c',
         'Participant_Contact__r.Visit_Results_OptIn__c',
-        'PI_Contact__c',  
-        'PI_Contact__r.Id',    
         'PI_Contact__r.Name',
         'PI_Contact__r.Phone',
         'Pre_screening_Status__c',
@@ -676,7 +673,6 @@ public without sharing class ParticipantEnrollmentService {
         'HCP_Contact_HCPEnroll__r.Name',
         'Referral_ID__c',
         'Referral_Source__c',
-        'Referral_Completed_by__r.Id',   
         'Referral_Completedby_Name__c',
         'Source_Type__c',
         'Visit_Plan__c',
@@ -712,7 +708,6 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Site__r.BillingStreet',
         'Study_Site__r.Site__r.BillingPostalCode',
         'Study_Site__r.Site__r.BillingCountryCode',
-        'Study_Site__r.Principal_Investigator__c',    
         'Study_Site__r.Principal_Investigator__r.Name',
         'Study_Site__r.Principal_Investigator__r.Salutation',
         'Study_Site__r.Principal_Investigator__r.Language__c',
@@ -730,6 +725,7 @@ public without sharing class ParticipantEnrollmentService {
         'Initial_visit_occurred_date__c',
         'Initial_visit_scheduled_date__c',
         'Initial_visit_scheduled_time__c',
+        'PI_Contact__c',
         'Initial_visit_scheduled_flag__c',
         'Revisit_Date__c',
         'Final_consent__c',
@@ -738,7 +734,26 @@ public without sharing class ParticipantEnrollmentService {
         'Permit_SMS_Text_for_this_study__c',
         'Permit_Voice_Text_contact_for_this_study__c',
         'Permit_Mail_Email_contact_for_this_study__c',
-        'Permit_IQVIA_to_contact_about_study__c'
+        'Permit_IQVIA_to_contact_about_study__c',
+        'Email__c',
+        'Patient_Middle_Name_Initial__c',
+        'Patient_Sex__c',
+        'Phone__c',
+        'Country__c',
+        'Patient_Phone_Type__c',
+        'State__c',
+        'Postal_Code__c',
+        'Primary_Delegate_First_Name__c',
+        'Primary_Delegate_Last_Name__c',
+        'Primary_Delegate_Email__c',
+        'Primary_Delegate_Phone_Number__c',
+        'Primary_Delegate_Phone_Type__c',
+        'Primary_Delegate_YOB__c',
+        'Is_Delegate_Certify__c',
+        'Birth_Month__c',
+        'YOB__c',
+        'Is_Contact__c',
+        'Is_Email__c'
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',
