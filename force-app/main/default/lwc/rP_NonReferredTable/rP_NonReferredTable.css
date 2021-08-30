@@ -2,53 +2,78 @@
     height: 21px;
     width: 108px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
-    font-weight: bold!important;
+    font-weight: bold !important;
     letter-spacing: 0;
     line-height: 21px;
-    background-color: #F2F2F2;
-   
-  }
+    background-color: #f2f2f2;
+}
 
-  .table-patientrow {
+.table-patientrow {
     height: 21px;
     width: 87px;
     color: #595959;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 21px;
-  }
+}
 
-  .table-row {
+.table-row {
     height: 21px;
     width: 138px;
     color: #000000;
-    font-family: "Proxima Nova";
+    font-family: 'Proxima Nova';
     font-size: 16px;
     letter-spacing: 0;
     line-height: 21px;
-  }
-
- .searchBox1 {
-  width: 310px;
-  margin-left: 15px;
- }
- 
-.refreshIcon {
-  height: 40px;
-  width: 40px;
-  margin-top: -6px;
-  cursor: pointer;
 }
 
-.mask {
-  box-sizing: border-box;
-  height: 898px;
-  width: 393px;
-  border: 1px solid #E9E9E9;
-  border-radius: 4px;
-  background-color: #FFFFFF;
-  box-shadow: 0 4px 4px 0 rgba(0,0,0,0.04);
+.searchBox1 {
+    width: 310px;
+    margin-left: 15px;
+}
+
+.refreshIcon {
+    height: 26px;
+    width: 28px;
+    margin-top: 4px;
+    cursor: pointer;
+}
+
+.slds-spinner_container {
+    position: fixed;
+    top: 47px;
+    background-color: white;
+}
+.refreshPointer {
+    cursor: pointer;
+}
+
+.noRecords {
+    margin-left: 5rem;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    color: #999;
+}
+.unFilterIcon {
+    position: absolute;
+    top: 44px;
+    left: 300px;
+    cursor: pointer;
+}
+.filterIcon {
+    position: absolute;
+    top: 36.5px;
+    left: 295px;
+    cursor: pointer;
+}
+
+.siteforceLoadingBalls {
+    visibility: hidden;
+}
+:host {
+    --sds-c-checkbox-color-background-checked:#297dfd;
+    --sds-c-checkbox-mark-color-foreground: white;
 }
