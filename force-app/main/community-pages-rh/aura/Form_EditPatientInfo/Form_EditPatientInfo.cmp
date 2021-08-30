@@ -485,7 +485,7 @@
                     </div>
                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
-                        <div class="label">
+                        <div class="label" style="width: 300px;">
                             <abbr title="required" class="slds-required"
                                   >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
                                 >{!$Label.c.PG_Ref_L_Re_enter_email_address}
