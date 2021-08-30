@@ -13457,6 +13457,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PG MPS L Referrals overall</shortDescription>
         <value>Referrals overall</value>
     </labels>
+	  <labels>
+        <fullName>Patient_Status_Exclude_For_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Patient Status Exclude For Referring</shortDescription>
+        <value>Exclude from referring</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Status_Include_For_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Patient Status Include For Referring</shortDescription>
+        <value>Include for referring</value>
+    </labels>
     <labels>
         <fullName>PG_MPS_L_Referrals_pending_acceptance</fullName>
         <language>en_US</language>
@@ -18579,6 +18593,27 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RSN Study Site on hold</shortDescription>
         <value>Study Site on hold</value>
+    </labels>
+	 <labels>
+        <fullName>RPR_Clear_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Clear All</shortDescription>
+        <value>Clear All</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Exclusion_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Exclusion Reason</shortDescription>
+        <value>Exclusion Reason</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Reason</shortDescription>
+        <value>Select Reason</value>
     </labels>
     <labels>
         <fullName>RSN_Study_Site_permissions_do_not_permit_this_action</fullName>
