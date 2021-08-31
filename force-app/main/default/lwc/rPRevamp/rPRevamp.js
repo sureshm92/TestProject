@@ -19,7 +19,7 @@ const CHUNK_SIZE = 9000;//750000; max chunk size prog can handle
 export default class RPRevamp extends LightningElement {
     templateFile = Import_Patient_Template_Link;
     instructionsSvgURL = bulkicons+'/instructions.svg';
-   // downloadSvgURL = bulkicons+'/Download.svg';
+    downloadSvgURL = bulkicons+'/Download.svg';
     impotrtSvgURL = bulkicons+'/icon.svg';
     @api recordId;
     isloading;
@@ -42,14 +42,14 @@ export default class RPRevamp extends LightningElement {
     @api recordsToDisplay = [];
     baseUrl;
     filesLoaded = false;
-    downloadBulkTemplate = downloadBulkTemplate;
+    //downloadBulkTemplate = downloadBulkTemplate;
     
     get dontshowInstruction(){
         return !this.showInstruction;
     }
 
     downloadFile() {
-       window.open(downloadBulkTemplate,'_blank');
+       //window.open(downloadBulkTemplate,'_blank');
     }
 
     connectedCallback() {
