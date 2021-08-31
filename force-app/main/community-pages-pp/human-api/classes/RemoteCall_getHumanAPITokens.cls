@@ -168,17 +168,24 @@ public class RemoteCall_getHumanAPITokens{
        return sessionToken;
     }
     
+    @TestVisible
     public NewUserSessionTokenInfo parseNewUserSessionResponse(String responseBody) {
        NewUserSessionTokenInfo sessionToken =(NewUserSessionTokenInfo) JSON.deserialize(responseBody, NewUserSessionTokenInfo.class);
        ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
-       String participantReferralId = participantState.pe.Id; 
+       String participantReferralId;
+        if(UserContext.getCurrentUserMode().hasPastStudies){
+            participantReferralId = referralRecordId;
+                }else
+                {
+         participantReferralId = participantState.pe.Id;
+                }
        
        TokenService.storeToken(participantReferralId, 'session', sessionToken.session_token,sessionToken.human_id,sessionToken.expires_in);
        return sessionToken;
     }
 
+    @TestVisible
     public AccessTokenInfo parseAccessResponse(String responseBody) {
-        System.debug('responseBody:::'+responseBody);
         String participantReferralId ;
         AccessTokenInfo accessToken =(AccessTokenInfo) JSON.deserialize(responseBody, AccessTokenInfo.class);
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
