@@ -16,9 +16,12 @@ public with sharing class IntegrationVisitTriggerHandler {
     public static void updateVisits(List<Integration_Visit__c> integrationVisits) {
         Set<String> externalKeys = new Set<String>();
         for (Integration_Visit__c integrationVisit : integrationVisits) {
-		if(!(integrationVisit.USUBJID__c.endsWith('~') || integrationVisit.USUBJID__c.contains('~~'))){
-            		externalKeys.add(integrationVisit.USUBJID__c);
-		}
+            if (
+                !(integrationVisit.USUBJID__c.endsWith('~') ||
+                integrationVisit.USUBJID__c.contains('~~'))
+            ) {
+                externalKeys.add(integrationVisit.USUBJID__c);
+            }
             integrationVisit.Work_Status__c = 'Failed';
         }
         List<Participant_Enrollment__c> enrollments = [
@@ -46,6 +49,10 @@ public with sharing class IntegrationVisitTriggerHandler {
             Participant_Enrollment__c pe = peMap.get(integrationVisit.USUBJID__c);
             if (pe == null)
                 continue;
+
+            if (!maxCompletedVisitMap.containsKey(integrationVisit.USUBJID__c)) {
+                maxCompletedVisitMap.put(integrationVisit.USUBJID__c, 0);
+            }
 
             for (Patient_Visit__c visit : pe.Patient_Visits__r) {
                 if (
@@ -75,9 +82,6 @@ public with sharing class IntegrationVisitTriggerHandler {
                     }
                 }
                 if (visit.Status__c == 'Completed') {
-                    if (!maxCompletedVisitMap.containsKey(integrationVisit.USUBJID__c)) {
-                        maxCompletedVisitMap.put(integrationVisit.USUBJID__c, 0);
-                    }
                     if (
                         visit.Visit_Number__c != null &&
                         visit.Visit_Number__c >
@@ -90,8 +94,19 @@ public with sharing class IntegrationVisitTriggerHandler {
                     }
                 }
             }
-            if (!matchFound)
+            if (!matchFound) {
                 visitsToInsert.add(createAdhockVisit(integrationVisit, pe));
+                if (
+                    maxCompletedVisitMap.containsKey(integrationVisit.USUBJID__c) &&
+                    integrationVisit.VISITNUM__c >
+                    maxCompletedVisitMap.get(integrationVisit.USUBJID__c)
+                ) {
+                    maxCompletedVisitMap.put(
+                        integrationVisit.USUBJID__c,
+                        integrationVisit.VISITNUM__c
+                    );
+                }
+            }
             integrationVisit.Work_Status__c = 'Success';
             integrationVisit.Processed__c = true;
         }
