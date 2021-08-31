@@ -3,6 +3,11 @@
  */
 ({
     doInit: function (component, event, helper) {
+       if (communityService.getCurrentCommunityMode().hasPastStudies){
+            component.set('v.showPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
+            
+        }
+
         communityService.executeAction(component, 'getInitData', null, function (returnValue) {
             var ps = JSON.parse(returnValue);
             if (ps.showTerms) {

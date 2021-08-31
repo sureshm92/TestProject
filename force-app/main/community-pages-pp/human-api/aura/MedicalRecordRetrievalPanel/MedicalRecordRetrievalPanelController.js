@@ -2,40 +2,16 @@
     
     doInit: function(component, event, helper) {
         var obj = component.get("v.participantState");
+        console.log('obj=>',JSON.stringify(obj));
         if (communityService.getCurrentCommunityMode().hasPastStudies){
             component.set('v.hasPastStudies',communityService.getCurrentCommunityMode().hasPastStudies);
             
         }
-
-              if((component.get('v.hasPastStudies')|| obj.value == 'ALUMNI') && !obj.hasPatientDelegates){
-            communityService.executeAction(
-                component,
-                'getHumanAPIPastPEList',{ 
-                    contactId :obj.currentContactId
-                },          
-                function (returnValue) {
-                    component.set('v.referrals',returnValue);
-                        if(returnValue){
-                        for (const item in returnValue) {
-                            if(communityService.getCurrentCommunityMode().currentPE){
-                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
-                               component.set('v.defaultStudy',returnValue[item].value);
-                                break;
-                            }
-                            }
-                            else{
-                              component.set('v.defaultStudy',returnValue[0].value);
-                            }
-                        }
-                    helper.calloutAccessToken(component,component.get('v.defaultStudy'));
-
-                    }
-                    
-                }
-            );  
-        }
-         
         const humanApiVendors = component.get('v.participantState.medicalVendors');
+        if(obj.value == 'PARTICIPANT' &&  obj.isDelegate && obj.hasPatientDelegates)
+        {
+             component.set('v.showMedicalCard',true);
+        }
         let isHumanApiVendorChecked = false;
          if(humanApiVendors != null){
         for (const item in humanApiVendors) {
@@ -47,6 +23,58 @@
         }
          }
         component.set('v.isHumanApiChecked',isHumanApiVendorChecked);
+        if(communityService.getCurrentCommunityMode().currentDelegateId){
+            component.set('v.showAuthorizationLink',isHumanApiVendorChecked);
+        }
+
+        
+
+              if(((component.get('v.hasPastStudies') || obj.value == 'ALUMNI') && (!obj.hasPatientDelegates || communityService.getCurrentCommunityMode().currentDelegateId))){
+                  communityService.executeAction(
+                component,
+                'getHumanAPIPastPEList',{ 
+                    contactId :obj.currentContactId
+                },          
+                function (returnValue) {
+                    component.set('v.referrals',returnValue);
+                        if(returnValue){
+                        for (const item in returnValue) {
+
+                            if(communityService.getCurrentCommunityMode().currentPE && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
+                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
+                                     if(!component.get('v.isHumanApiChecked') ){
+                                         var list = component.get('v.referrals');
+                                         list.splice(item, 1); 
+                                         component.set('v.referrals',list);
+                                     }
+                                     component.set('v.defaultStudy',returnValue[item].value);
+                                break;
+                            }
+                            }
+                            else{
+                              component.set('v.defaultStudy',returnValue[0].value);
+                            }
+                        }
+        if(component.get('v.hasPastStudies')){
+                 if(component.get('v.referrals').length > 1  && component.get('v.defaultStudy').includes(communityService.getCurrentCommunityMode().currentPE)){
+                          component.set('v.showAuthorizationLink',component.get('v.isHumanApiChecked'));
+                 
+                 }
+            else{
+               
+
+                    component.set('v.showAuthorizationLink',component.get('v.hasPastStudies'));
+                 }
+        }
+
+                    helper.calloutAccessToken(component,component.get('v.defaultStudy'));
+
+                    }
+                    
+                }
+            );  
+        }
+         
 
         if(obj.value != 'ALUMNI'){
 
@@ -85,14 +113,24 @@
         window.open('https://hapi-connect.humanapi.co?token='+component.get('v.sessionToken'));
     },
     
-    
+      
     manageSources :  function(component, event, helper) {
         helper.calloutSession(component,component.get('v.defaultStudy'));
         
     },
     doListProviders: function(component, event, helper) {
         component.set('v.initialized',false);
-       component.find('spinner').show();
+        component.find('spinner').show();
+                if(component.get('v.hasPastStudies')){
+                 if(component.get('v.defaultStudy').includes(communityService.getCurrentCommunityMode().currentPE)){
+                          component.set('v.showAuthorizationLink',component.get('v.isHumanApiChecked'));
+                 
+                 }else{
+                     component.set('v.showAuthorizationLink',component.get('v.hasPastStudies'));
+
+                 }
+        }
+
         helper.calloutAccessToken(component,component.get('v.defaultStudy'));
         
     },
@@ -120,6 +158,5 @@
         //component.find('spinner').show();
         helper.calloutAccessToken(component,component.get('v.defaultStudy')); 
        // component.set("v.success",false);
-        console.log('itemsChange');
     }
 })
