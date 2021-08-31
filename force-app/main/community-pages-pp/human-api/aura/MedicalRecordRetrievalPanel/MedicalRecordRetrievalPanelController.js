@@ -39,9 +39,15 @@
                     component.set('v.referrals',returnValue);
                         if(returnValue){
                         for (const item in returnValue) {
+
                             if(communityService.getCurrentCommunityMode().currentPE && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
                                  if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
-                               component.set('v.defaultStudy',returnValue[item].value);
+                                     if(!component.get('v.isHumanApiChecked') ){
+                                         var list = component.get('v.referrals');
+                                         list.splice(item, 1); 
+                                         component.set('v.referrals',list);
+                                     }
+                                     component.set('v.defaultStudy',returnValue[item].value);
                                 break;
                             }
                             }
