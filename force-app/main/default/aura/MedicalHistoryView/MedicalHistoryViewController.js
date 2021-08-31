@@ -12,7 +12,8 @@
                                //console.log('MED123' +JSON.stringify(MD));
                                var CreatedDate =MD.attachments[0].CreatedDate
                                //Console.log('MED12345' +JSON.stringify(CreatedDate));
-                               component.set('v.CreatedDate' , Date.parse(CreatedDate));
+                            //    component.set('v.CreatedDate' , Date.parse(CreatedDate));
+                               component.set('v.CreatedDate' , $A.localizationService.formatDate(CreatedDate, 'MMM dd, yyyy, hh:mm a'));
                                //console.log('MED123456789' +JSON.stringify(Date.parse(CreatedDate)));
                                
                                
