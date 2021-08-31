@@ -7,15 +7,16 @@
     <aura:attribute name="backPage" type="String" />
     <aura:attribute name="smallTitle" type="String" />
     <aura:attribute name="bigTitle" type="String" />
-
+    <aura:attribute name="backLabelname" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!-- top page bar -->
     <div class="top-bar rr-all-content" style="{!if(v.isRTL == true, 'direction:rtl;', '')}">
         <div class="navigation-bar">
             <div class="rr-width-limiter side-padding tb-back-title">
                 <aura:if isTrue="{!v.isRTL}">
-                        <c:RRLink page="{!v.backPage}"> <c:RRIcon iconName="icon-arrow-right" />{!v.backLabel}</c:RRLink>
+                        <c:RRLink page="{!v.backPage}"> <c:RRIcon iconName="icon-arrow-right" />{!v.backLabelname}</c:RRLink>
                     <aura:set attribute="else">
-                        <c:RRLink page="{!v.backPage}"><c:RRIcon iconName="icon-arrow-left" />{!v.backLabel}</c:RRLink>
+                        <c:RRLink page="{!v.backPage}"><c:RRIcon iconName="icon-arrow-left" />{!v.backLabelname}</c:RRLink>
                     </aura:set>
                 </aura:if>
             </div>

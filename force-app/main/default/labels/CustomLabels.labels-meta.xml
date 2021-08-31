@@ -8781,6 +8781,13 @@ The expected format is REF##### to REF########</value>
         <value>Initial Visit</value>
     </labels>
     <labels>
+        <fullName>Import_Patient_Template_Link</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Import_Patient_Template_Link</shortDescription>
+        <value>https://fun-nosoftware-4733-dev-ed--c.documentforce.com/servlet/servlet.FileDownload?file=01554000001U88V</value>
+   </labels>
+    <labels>
         <fullName>Initial_Visit_Date</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -13456,6 +13463,20 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>false</protected>
         <shortDescription>PG MPS L Referrals overall</shortDescription>
         <value>Referrals overall</value>
+    </labels>
+	  <labels>
+        <fullName>Patient_Status_Exclude_For_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Patient Status Exclude For Referring</shortDescription>
+        <value>Exclude from referring</value>
+    </labels>
+    <labels>
+        <fullName>Patient_Status_Include_For_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Patient Status Include For Referring</shortDescription>
+        <value>Include for referring</value>
     </labels>
     <labels>
         <fullName>PG_MPS_L_Referrals_pending_acceptance</fullName>
@@ -18579,6 +18600,27 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>RSN Study Site on hold</shortDescription>
         <value>Study Site on hold</value>
+    </labels>
+	 <labels>
+        <fullName>RPR_Clear_All</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Clear All</shortDescription>
+        <value>Clear All</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Exclusion_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Exclusion Reason</shortDescription>
+        <value>Exclusion Reason</value>
+    </labels>
+    <labels>
+        <fullName>RPR_Select_Reason</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Reason</shortDescription>
+        <value>Select Reason</value>
     </labels>
     <labels>
         <fullName>RSN_Study_Site_permissions_do_not_permit_this_action</fullName>
