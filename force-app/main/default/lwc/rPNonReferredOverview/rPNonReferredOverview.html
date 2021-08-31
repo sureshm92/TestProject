@@ -7,9 +7,9 @@
                    <span class="overview-for-not-yet">Overview for</span><br>
                    <span class="not-yet-referred">Not Yet Referred</span>
                 </div>
-                <div class="slds-col" style="text-align: right;padding-right:53px;">
-                   <span class="total-patients">Total Patients</span> 
-                   <span class="total-patients-count">&nbsp;{data.totalpatients}</span>
+                <div class="slds-col" style="flex:none;padding-right:53px;">
+                   <span class="total-patients-count">{data.totalpatients}</span><br>
+                   <span class="total-patients">Total Patients</span>
                 </div>
              </div>
           </div>
@@ -42,10 +42,11 @@
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="medical-review-complete-count">{data.medicalreview}/{data.totalpatients}</span><br>
-                   <span class="medical-review-complete">Medical Review Complete</span>
+                   <span class="medical-review-complete">Medical Review<br> Complete</span>
                 </div>
                 <div class="slds-col" style="text-align: center;">
-                   <span class="outreach-mail-sent-count">{data.outreachmail}/{data.totalpatients}</span><br>
+                   <!--<span class="outreach-mail-sent-count">{data.outreachmail}/{data.totalpatients}</span><br>-->
+                   <span class="outreach-mail-sent-count">{data.outreachmail}</span><br>
                    <span class="outreach-mail-sent">Outreach Mail Sent</span>
                 </div>
              </div>
@@ -55,16 +56,16 @@
                 <div class="slds-col" >
                    <div style="text-align: center;">
                       <span class="added-last-month-count">{data.lastmonthper}</span><br>
-                      <span class="added-last-month">Added Last Month</span>
+                      <span class="added-last-month">Patients Added <br>Last Month</span>
                    </div>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="added-last-week-count">{data.lastweekper}</span><br>
-                   <span class="added-last-week">Added Last Week</span>
+                   <span class="added-last-week">Patients Added <br>Last Week</span>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="added-yesterday-count">{data.lastdayper}</span><br>
-                   <span class="added-yesterday">Added Yesterday</span>
+                   <span class="added-yesterday">Patients Added <br>Yesterday</span>
                 </div>
              </div>
           </div>

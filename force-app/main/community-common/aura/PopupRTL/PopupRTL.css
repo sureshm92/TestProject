@@ -288,7 +288,7 @@ overflow-x: hidden;
 
 @media all and (min-width: 1024px) {
 .THIS #p-modal .p-container.large {
-    width: 1000px;
+    width: 900px;
 }
 }
 @media all and (max-width: 500px) {

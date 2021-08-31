@@ -59,10 +59,10 @@
 }
 .THIS .textoverlap
 {
-    width: 15rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    width: 15rem;
 }
 .THIS .textoverlapDaytimeTelephoneNumbe1
 {

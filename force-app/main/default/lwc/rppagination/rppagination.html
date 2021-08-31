@@ -1,36 +1,35 @@
 <!--rppagination-->
+<!--Created By Sabir on 9-08-2021-->
 <template>
-    <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
-        <div class="slds-col"><!--RECORDS PER PAGE-->
-            <template if:true={end}>
-                <span class="items">Items {endRecord} of {totalRecords}</span>
-            </template>
-            <template if:false={end}>
-            <span class="items"> Items {startRecord}-{endRecord} of {totalRecords}</span>
-            </template>
-        </div>
-        <div class="slds-col"><!--PAGE NAVIGATION-->
-            <div class="slds-col slds-p-bottom_xx-small" style="margin-right: 14px;margin-top: 8px;"> 
-                <span class="iconColorChange">
-                    <lightning-icon icon-name="utility:arrow_left" size="xx-small" alternative-text="First Page" onclick={firstPage}></lightning-icon>
-                    <!--<lightning-button-icon disabled={lastDisabled} icon-name="utility:arrow_left" variant="bare" size="medium" alternative-text="First Page" onclick={firstPage}></lightning-button-icon>-->
-                </span>&nbsp;
-                <span class="iconColorChange">
-                    <lightning-icon icon-name="utility:chevronleft" size="xx-small" alternative-text="Previous Page" onclick={previousPage}></lightning-icon>
-                    <!--<lightning-button-icon disabled={previousDisabled} icon-name="utility:chevronleft" variant="bare" size="medium" alternative-text="Previous Page" onclick={previousPage}></lightning-button-icon>-->
-                </span>
-                <label class="slds-text-color_weak slds-p-horizontal_x-small" for="pageNum">Page</label>&nbsp;
-                <input type="number" id="pageNum" value={pageNumber} maxlength="4" onchange={handlePageNumberChange} class="customInput" title="Go to a Page"></input>
-                <span>&nbsp;of&nbsp;<b id="totalPages" style="color: #0768FD;">{totalPages}</b></span>&nbsp;&nbsp;
-                <span class="iconColorChange">
-                    <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
-                    <!--<lightning-button-icon disabled={nextDisabled} icon-name="utility:chevronright" variant="bare" size="medium" alternative-text="Next Page" onclick={nextPage} ></lightning-button-icon>-->
-                </span>&nbsp;
-                <span class="iconColorChange">
-                    <lightning-icon icon-name="utility:arrow_right" size="xx-small" alternative-text="Last Page" onclick={lastPage}></lightning-icon>
-                </span>
-                  <!-- <lightning-button-icon  disabled={firstDisabled} icon-name="utility:arrow_right" variant="bare" size="medium" alternative-text="Last Page" onclick={lastPage}></lightning-button-icon>-->
+    <template if:true={showPagination}>
+        <div class="slds-grid slds-grid_vertical-align-center slds-grid_align-spread">
+            <div class="slds-col">
+                <template if:true={end}>
+                    <span class="items"> Items {startRecord}-{endRecord} of {totalRecords}</span>
+                </template>
+                <template if:false={end}>
+                <span class="items"> Items {startRecord}-{endRecord} of {totalRecords}</span>
+                </template>
+            </div>
+            <div class="slds-col">
+                <div class="slds-col slds-p-bottom_xx-small" style="margin-right: 14px;margin-top: 8px;"> 
+                    <span>
+                        <img src={first_page_arrow} alt="First Page" class="first-page-arrow-button-icon-s"  onclick={firstPage}>
+                    </span>&nbsp;&nbsp;
+                    <span class="iconColorChange">
+                        <lightning-icon icon-name="utility:chevronleft" size="xx-small" alternative-text="Previous Page" onclick={previousPage}></lightning-icon>
+                    </span>
+                    <label class="slds-text-color_weak slds-p-horizontal_x-small" for="pageNum">Page</label>&nbsp;
+                    <input type="number" id="pageNum" value={pageNumber} min="1" max={totalPages} maxlength="4" onchange={handlePageNumberChange} class="customInput" title="Go to a Page"></input>
+                    <span>&nbsp;of&nbsp;<b id="totalPages" style="color: #0768FD;border-bottom:2px dotted;">{totalPages}</b></span>&nbsp;&nbsp;
+                    <span class="iconColorChange">
+                        <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
+                    </span>&nbsp;
+                    <!--<span class="iconColorChange">
+                        <lightning-icon icon-name="utility:jump_to_right" size="x-small" alternative-text="Last Page" onclick={lastPage}></lightning-icon>
+                    </span>-->
+                </div>
             </div>
         </div>
-    </div>
+    </template>
 </template>

@@ -1,0 +1,113 @@
+<!--rp_DelegateTab-->
+<!--Created By Gulam Sabir Khan on 15-08-2021-->
+<template>
+    <div>
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading..." variant="brand"> </lightning-spinner>
+        </div>
+    </div>
+    <div>
+       <template for:each={delegaterecord} for:item="pe">
+            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
+                <lightning-layout-item padding="around-small" size="6">
+                    <div>
+                        <lightning-input type="text" name="First Name" label="First Name" value={pe.peRecord.Primary_Delegate_First_Name__c} data-value="DelFirstName" 
+                            data-id={pe.peRecord.Id} onchange={changeInputValue} required="true"></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="3">
+                    <div>
+                        <lightning-input type="text" name="Phone Number" label="Phone Number" value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber" 
+                            data-id={pe.peRecord.Id} pattern="[0-9]*" required="true" onchange={changeInputValue} ></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item  padding="around-small" size="3">
+                    <div>
+                        <lightning-combobox label="Phone Type" name="Phone Type" required="true" placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}  
+                            options={pe.delegatePhoneTypeList} data-value="DelPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                        </lightning-combobox>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
+                <lightning-layout-item padding="around-small" size="6">
+                    <div>
+                        <lightning-input type="text" label="Last Name" name="Last Name" value={pe.peRecord.Primary_Delegate_Last_Name__c} data-value="DelLastName" 
+                            required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="3">
+                    <div>
+                        <lightning-input type="text" name="Birth Year" label="Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c} data-value="DelBirthYear" 
+                        required="true" pattern="[0-9]*" data-id={pe.peRecord.Id}  max-length="4" onchange={changeInputValue}></lightning-input>
+                    </div>    
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="1"> 
+                    <div>
+                        <lightning-input type="Date" name="Birth Year Date" label="Birth Year Date" variant="label-hidden"
+                             data-value="DelBirthDateYear" 
+                            data-id={pe.peRecord.Id} min="1900-01-01" max={todayDate} onchange={changeInputValue} date-style="short" 
+                            class="dateBox">
+                        </lightning-input>
+                    </div>
+                </lightning-layout-item>
+
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
+                    <lightning-layout-item padding="around-small" size="6">
+                        <div>
+                            <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
+                            required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                        </div>
+                    </lightning-layout-item>
+            </lightning-layout>
+            <div key={pe.peRecord.Id} style="margin-left: 10px;margin-top: 40px;">
+                <div>
+                    <lightning-input type="checkbox" label="IsDelegateCertify" name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c} data-value="IsDelegateCertify" 
+                    data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                </div>
+                <div class="information">
+                    I certify that the patient’s delegate/caregiver is over the age of legal majority for their state/country 
+                </div>
+            </div>
+        </template>
+    </div>
+    <div class="divider"></div>
+    <div class="patient-button">
+        <button class="apollo-btn secondary btn" onclick={cancelRecord} title="Cancel">
+            Cancel
+        </button>
+        <button class="apollo-btn primary btn" onclick={openUnsavedModal} title="Save">
+            Save
+        </button>
+    </div>
+     <!--for unsaved records--> 
+     <template if:true={isUnsavedModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="sldsmodalcontainer">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeUnsavedModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Unsaved Data</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>There is unsaved changes made to this records. Are you sure you want to proceed without saving changes?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button  class="apollo-btn tertiary custom-cancel"  onclick={closeUnsavedModal} title="Cancel" disabled={disableButton}>
+                        Cancel
+                    </button>
+                    <button class="apollo-btn primary search-more-btn" onclick={proceedDetailsModal} title="Proceed" disabled={disableButton}>
+                        Proceed
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

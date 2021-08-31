@@ -210,7 +210,7 @@
                                      />
                                  </lightning:layoutItem>
                              </div>
-                             <div class="rr-form-element slds-col slds-size--1-of-3">
+                             <div class="rr-form-element slds-col slds-size--1-of-4">
                                  <div class="label">{!$Label.c.PG_AS_F_Nickname}</div>
                                  <lightning:input
                                      type="text"
@@ -218,7 +218,7 @@
                                      onblur="{!c.doCheckFields}"
                                  />
                              </div>
-                             <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element slds-col slds-size--1-of-3'}">
+                             <div class="{!v.isRTL? 'rr-form-element rightAlign': 'rr-form-element slds-col slds-size--1-of-4'}">
                                  <div class="{!v.isRTL? 'label slds-text-align_right' : 'label slds-text-align_left'}">
                                      {!$Label.c.PG_AS_F_Date_of_Birth}<abbr
                                                                             title="required"
@@ -237,7 +237,7 @@
                                      dateStyle="medium"
                                  />
                              </div>
-                             <div class="rr-form-element slds-col slds-size--1-of-3">
+                             <div class="rr-form-element slds-col slds-size--1-of-4">
                                  <div class="label">
                                      {!$Label.c.PG_AS_F_Gender}<abbr
                                          title="required"
@@ -264,7 +264,7 @@
                                  {!$Label.c.PG_EMN_MSG_Update_Contact_Info}
                              </div>
                              <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3" style="width: fit-content;"
+                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
                              >
                                  <div class="label">
                                      {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr

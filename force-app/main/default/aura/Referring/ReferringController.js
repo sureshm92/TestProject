@@ -5,10 +5,19 @@
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
+        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        console.log('patientVeiwRedirection-->'+patientVeiwRedirection);
+        
+        if(patientVeiwRedirection){
+           component.set('v.patientVeiwRedirection',true); 
+        }
+        
         let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
-        
         if (!communityService.isDummy()) {
+            //let trialId = 'a0C54000005VRVTEA4'; 
+            //let peId = 'a0m54000003Fx9jAAC';
+            
             let trialId = communityService.getUrlParameter('id');
             let peId = communityService.getUrlParameter('peid');
             let hcpeId = communityService.getUrlParameter('hcpeid');
@@ -129,8 +138,10 @@
     doNoHadDiscussion: function (component) {
         component.set('v.hadDiscussion', false);
     },
-    
-    doStillInterested: function (component, event, helper) {
+    doStillInterested: function (component) {
+        component.set('v.hadDiscussionDocumented', true);
+    },
+   doDiscussionDocumented: function (component, event, helper) {
         if(component.get('v.authRequired') && component.get('v.contentDoc') != null){
             component.set('v.authorizationForm',true);
         }
@@ -197,11 +208,18 @@
         communityService.navigateToPage('sites-search?id=' + component.get('v.trialId'));
     },
     
-    doReferrAnotherPatient: function (component) {
-        let hcpeId = component.get('v.hcpeId');
-        communityService.navigateToPage(
-            'referring?id=' + component.get('v.trialId') + (hcpeId ? '&hcpeid=' + hcpeId : '')
-        );
+    doReferrAnotherPatient: function (component,event) {
+        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        if(patientVeiwRedirection){ 
+           
+            communityService.navigateToPage('my-patients');
+            window.location.reload();
+        }else{
+            let hcpeId = component.get('v.hcpeId');
+            communityService.navigateToPage(
+                'referring?id=' + component.get('v.trialId') + (hcpeId ? '&hcpeid=' + hcpeId : '')
+            );
+        }
     },
     
     doReferSelectedPE: function (component, event, helper) {
@@ -225,8 +243,10 @@
     },
     
     doCheckDateOfBith: function (component, event, helper) {
+       
         helper.checkParticipantNeedsGuardian(component, event, helper);
         //helper.checkFields(component, event, helper); REF-3070
+       
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -243,6 +263,10 @@
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
 	    helper.checkFields(component, event, helper);
+        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        if(patientVeiwRedirection){
+             helper.checkGuardianAge(component, event, helper);
+        }
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
@@ -271,7 +295,9 @@
     },
     doSaveParticipant: function (component) {
         let participant = component.get('v.participant');
+        console.log('part-->'+JSON.stringify(participant));
         let delegateParticipant = component.get('v.delegateParticipant');
+        console.log('delegateParticipant-->'+JSON.stringify(delegateParticipant));
         let trial = component.get('v.trial');
         let hcpeId = component.get('v.hcpeId');
         let pEnrollment = component.get('v.pEnrollment');
@@ -294,7 +320,12 @@
                 contentDocId:contentDocId
             },
             function (returnValue) {
-                component.set('v.currentState', 'Refer Success');
+                let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+                if(patientVeiwRedirection){ 
+                    communityService.navigateToPage('my-patients');
+                }else{
+                    component.set('v.currentState', 'Refer Success');
+                }
             },
             null,
             function () {
@@ -324,13 +355,18 @@
     
     doNoLongerInterested: function (component, event, helper) {
         helper.doFailedReferral(component, 'No Longer Interested', function () {
-            component.set('v.currentState', 'No Longer Interested');
+            let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+            if(patientVeiwRedirection){ 
+                communityService.navigateToPage('my-patients');
+            }else{
+                component.set('v.currentState', 'No Longer Interested');
+            }
         });
     },
     
     doHadDiscussionNotInterested: function (component, event, helper) {
         helper.doFailedReferral(component, 'Had Discussion, Not Interested', function () {
-            component.set('v.currentState', 'Had Discussion, Not Interested');
+           component.set('v.currentState', 'Had Discussion, Not Interested');
         });
     },
     
