@@ -18,6 +18,15 @@
     },
     resetTaskValues: function(component, event, helper) {
         component.set('v.dayRemind', 0);
+        if (component.get('v.dayRemind') != 0) {
+            component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
+        } else if (
+            component.get('v.dayRemind') == 0 &&
+            component.get('v.taskConfig.isRecurrence')
+        ) {
+            component.set('v.taskConfig.reminderDays', null);
+        }
+        console.log('resetRemDays: ' + component.get('v.dayRemind'));
         if (component.get('v.taskConfig.isRecurrence')) {
             component.set('v.showNumbersAdd', true);
         }
@@ -67,6 +76,7 @@
         console.log('isValid: ' + component.get('v.isValid'));
     },
     doCheckFields: function(component, event, helper) {
+        console.log('remDays: ' + component.get('v.dayRemind'));
         let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();
         }, true);
