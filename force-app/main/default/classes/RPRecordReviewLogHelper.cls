@@ -97,8 +97,8 @@ public with sharing class RPRecordReviewLogHelper {
                     );
                 }
             }
-            String dOBString = '01/'+month+'/'+year;            
-            Date birthDate =  Date.parse(dOBString);
+            String dOBString = year+'-'+month+'-01';        
+            Date birthDate =  Date.valueOf(dOBString);
             Integer participantAge = Date.newInstance(2000, birthDate.month(), birthDate.day()) <=
                 Date.newInstance(2000, Date.today().month(), Date.today().day())
                 ? Date.today().year() - birthDate.year()
