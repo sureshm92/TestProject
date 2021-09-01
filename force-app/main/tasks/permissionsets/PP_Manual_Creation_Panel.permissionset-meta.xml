@@ -26,11 +26,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.Next_Due_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
+        
         <field>Manual_Creation_Panel_Task__c.Next_Occurence_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -65,14 +61,44 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.TaskConfig__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Manual_Creation_Panel_Task__c.Task_Name__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.TaskFilter__c</field>
-        <readable>false</readable>
+        <field>Manual_Creation_Panel_Task__c.Make_this_Task_visible_to__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Patient_Status__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Platform_level_Task__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Site__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+	<fieldPermissions>
+        <editable>false</editable>
+        <field>Manual_Creation_Panel_Task__c.Therapeutic_Area__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Manual Creation Panel</label>

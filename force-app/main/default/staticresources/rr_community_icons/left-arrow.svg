@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="8px" height="10px" viewBox="0 0 8 10" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>left-arrow</title>
+    <defs>
+        <path d="M3.10490554,5.9046314 L7.68107016,11.3564868 L7.68107016,11.3564868 C7.76483189,11.4481651 7.88062433,11.5 8.00165999,11.5 C8.12269564,11.5 8.23848808,11.4481651 8.32224981,11.3564868 L12.8963313,5.9046314 C12.9702451,5.81725039 13.0072285,5.70215231 12.9988267,5.58564915 C12.9904249,5.46914599 12.9373564,5.36119828 12.8517529,5.28648342 L12.0810041,4.60582118 C11.9021789,4.44762534 11.6354729,4.46922758 11.4819032,4.65434623 L8.08019304,8.78684472 C8.06040667,8.81097265 8.03157871,8.82485005 8.00124336,8.82485005 C7.97090802,8.82485005 7.94208006,8.81097265 7.92229369,8.78684472 L4.51933369,4.65390907 C4.44546279,4.56534692 4.34124637,4.51098373 4.22936551,4.50265079 C4.11729255,4.49216629 4.00594317,4.52969369 3.92064937,4.6066955 L3.14948398,5.28648342 C3.06338803,5.36106571 3.00985731,5.46914577 3.00116692,5.58593983 C2.99273916,5.70258883 3.03023115,5.81776659 3.10490554,5.9046314 Z" id="path-1"></path>
+    </defs>
+    <g id="Referring-Provider-List-View" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd" opacity="0.4">
+        <g id="RP-List-Overview-Landing" transform="translate(-246.000000, -964.000000)">
+            <g id="left-arrow" transform="translate(234.171558, 953.000000)">
+                <g id="icon" transform="translate(8.000000, 8.000000)">
+                    <mask id="mask-2" fill="white">
+                        <use xlink:href="#path-1"></use>
+                    </mask>
+                    <use id="Mask" fill="#000000" fill-rule="nonzero" transform="translate(8.000000, 8.000000) scale(-1, 1) rotate(-90.000000) translate(-8.000000, -8.000000) " xlink:href="#path-1"></use>
+                    <g id="Group" mask="url(#mask-2)" fill="#595959">
+                        <g id="color">
+                            <rect id="Rectangle" x="0" y="0" width="16" height="16"></rect>
+                        </g>
+                    </g>
+                </g>
+                <rect id="container" x="8" y="8" width="16" height="16"></rect>
+            </g>
+        </g>
+    </g>
+</svg>

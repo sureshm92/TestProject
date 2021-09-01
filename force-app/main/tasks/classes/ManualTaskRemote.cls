@@ -52,11 +52,46 @@ public with sharing class ManualTaskRemote {
                 }
             }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
+            ManualTaskFilter mtf = (ManualTaskFilter) JSON.deserialize(filter,ManualTaskFilter.class);
+            List<LookupSearchResult> lsr = mtf.areas;//theraputic
+            List<LookupSearchResult> counties = mtf.countries;//countries
+            List<LookupSearchResult> studies = mtf.studies;//studies
+            List<LookupSearchResult> sites = mtf.sites;//sites
+            List<String> titleString = new List<String>();
+            List<String> CountryList = new List<String>();
+            List<String> studyList = new List<String>();
+            List<String> siteList = new List<String>();
+            for(LookupSearchResult l:lsr){
+                titleString.add(l.title);
+            }
+            for(LookupSearchResult l:counties){
+                CountryList.add(l.title);
+            }
+            for(LookupSearchResult l:studies){
+                studyList.add(l.subtitle.remove('Code name '));
+            }
+            for(LookupSearchResult l:sites){
+                siteList.add(l.title);
+            }
+            String visibleTo = taskConfig.visibility;
+            Boolean isPlatformLevel = mtf.isPlatformLevel;
+            String siteTitle = String.join(siteList, ',');
+            String studyTitle = String.join(studyList, ',');
+            String countryTitle = String.join(CountryList, ',');
+            String ts = String.join(titleString, ',');
+            String statusString = String.join(mtf.statuses, ',');
+            
             manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(
-                            Name = taskConfig.subject,
-                            TaskConfig__c = config,
+                            Task_Name__c = taskConfig.subject,
                             TaskFilter__c = filter,
+                            Country__c = countryTitle,
+                            Site__c = siteTitle,
+                            Make_this_Task_visible_to__c = visibleTo,
+                            Platform_level_Task__c = isPlatformLevel,
+                            Study__c = studyTitle,
+                            Therapeutic_Area__c = ts,
+                            TaskConfig__c = config,
                             Last_Occurrence_Date__c = lastOccurenceDate,
                             Next_Occurence_Date__c = nextTaskStartDate,
                             Is_Recurrence__c =  taskConfig.isRecurrence,

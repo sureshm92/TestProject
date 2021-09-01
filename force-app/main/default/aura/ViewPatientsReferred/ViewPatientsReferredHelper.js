@@ -79,7 +79,6 @@
         var peFilterData = component.get('v.peFilterDataBackup');
         var studies = [];
         var studySites = [];
-        var referralsPIsAndMedRevsContacts = [];
         for (var key in peFilterData.studies) {
             if (peFilterData.studies[key].value != null) {
                 studies.push(peFilterData.studies[key].value);
@@ -103,9 +102,7 @@
             if (state == 'SUCCESS') {
                 var temp = a.getReturnValue();
                 //console.log('partlistlength-->'+temp.partList.length);
-                if(temp.referralsPIsAndMedRevsContacts != undefined){
-                    referralsPIsAndMedRevsContacts.push(...temp.referralsPIsAndMedRevsContacts);
-                }
+                 //console.log('temp--->'+JSON.stringify(temp));
                 component.set('v.totalCount', temp.totalCount);
                 var csvFinalList = temp.partList;
                 var csvtemp = component.get('v.CsvList');
@@ -142,14 +139,14 @@
                 } else {
                     spinner.hide();
                     console.log('in else');
-                    helper.downloadCsvFile(component, event, helper, temp, referralsPIsAndMedRevsContacts);
+                    helper.downloadCsvFile(component, event, helper, temp);
                 }
             }
         });
         $A.enqueueAction(action);
     },
 
-    downloadCsvFile: function (component, event, helper, objectRecords, referralsPIsAndMedRevsContacts) {
+    downloadCsvFile: function (component, event, helper, objectRecords) {
         console.time('advf');
         //       component.set('v.CsvList','');
         var spinner = component.find('Spinnerpopup');
@@ -189,160 +186,143 @@
         csvStringResult = '';
         csvStringResult += header.join(columnDivider);
         csvStringResult += lineDivider;
-        console.log('@@@@@@ ' + objectRecords.length);
-                communityService.executeAction(
-            component,
-            'getPIRefRevNames',
-            {
-                referralsPIsAndMedRevsContacts: referralsPIsAndMedRevsContacts
-            },
-                    function (returnValue) {
-                        for (var i = 0; i < objectRecords.partList.length; i++) {
-                            //  console.log('objectRecords[i] ' +(objectRecords[i]["pe"]["Clinical_Trial_Profile__r"]["Study_Code_Name__c"]));
-                            
-                            if (objectRecords.partList[i]['Name'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Name'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['MRN_Id__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['MRN_Id__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Patient_ID__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Patient_ID__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if (objectRecords.partList[i]['Referred_Date__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Referred_Date__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' +
-                                    objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
-                                    '"' +
-                                    ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Study_Site__r']['Name'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Study_Site__r']['Name'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if(objectRecords.partList[i]['PI_Contact__c'] !== undefined && 
-                               returnValue[objectRecords.partList[i]['PI_Contact__c']] !== undefined){
-                                csvStringResult +=
-                                    '"' + returnValue[objectRecords.partList[i]['PI_Contact__c']] + '"' + ',';
-                            }else if (objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Participant_Status__c'] !== undefined) {
-                                let pstatus = objectRecords.partList[i]['Participant_Status__c'];
-                                if(objectRecords.partList[i]['Participant_Status__c']=='Eligibility Passed' 
-                                   && (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
-                                       || objectRecords.partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
-                                    pstatus = 'Sent to Study Hub';
-                                }
-                                
-                                csvStringResult += '"' + pstatus + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if (objectRecords.partList[i]['Non_Enrollment_Reason__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Non_Enrollment_Reason__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Last_Status_Changed_Notes__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Last_Status_Changed_Notes__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Medical_Record_Review_Status__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Medical_Record_Review_Status__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if(objectRecords.partList[i]['Medical_Record_Review_Completed_by__c'] !== undefined && 
-                               returnValue[objectRecords.partList[i]['Medical_Record_Review_Completed_by__c']] !== undefined){
-                                csvStringResult +=
-                                    '"' + returnValue[objectRecords.partList[i]['Medical_Record_Review_Completed_by__c']] + '"' + ',';
-                            }else if (objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if (objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if(objectRecords.partList[i]['Referral_Completed_by__c'] !== undefined && 
-                               returnValue[objectRecords.partList[i]['Referral_Completed_by__c']] !== undefined){
-                                csvStringResult +=
-                                    '"' + returnValue[objectRecords.partList[i]['Referral_Completed_by__c']] + '"' + ',';
-                            }else if (objectRecords.partList[i]['Referral_Completedby_Name__c'] !== undefined) {
-                                csvStringResult +=
-                                    '"' + objectRecords.partList[i]['Referral_Completedby_Name__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Referral_Source__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Referral_Source__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            
-                            if (objectRecords.partList[i]['Initial_visit_scheduled_date__c'] !== undefined) {
-                                csvStringResult += '"' + objectRecords.partList[i]['Initial_visit_scheduled_date__c'] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            if (objectRecords.initialVisitScheduleTime[i] !== undefined) {
-                               csvStringResult += '"' + objectRecords.initialVisitScheduleTime[i] + '"' + ',';
-                            } else {
-                                csvStringResult += '" "' + ',';
-                            }
-                            csvStringResult += lineDivider;
-                        }
-                        var hiddenElement = document.createElement('a');
-                        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
-                        hiddenElement.target = '_self'; //
-                        hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
-                        document.body.appendChild(hiddenElement); // Required for FireFox browser
-                        hiddenElement.click(); // using click() js function to download csv file
-                        //spinner.hide();
-                        component.find('Spinnerpopup').hide();
-                        console.timeEnd('advf');
-                    }
-                );
+        //console.log('@@@@@@ ' + objectRecords.partList.length);
+        for (var i = 0; i < objectRecords.partList.length; i++) {
+             //console.log('objectRecords ' +(objectRecords.partList[i]['Name']));
+
+            if (objectRecords.partList[i]['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Name'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['MRN_Id__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['MRN_Id__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Patient_ID__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Patient_ID__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords.partList[i]['Referred_Date__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Referred_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' +
+                    objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
+                    '"' +
+                    ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Study_Site__r']['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Study_Site__r']['Name'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Participant_Status__c'] !== undefined) {
+                let pstatus = objectRecords.partList[i]['Participant_Status__c'];
+                if(objectRecords.partList[i]['Participant_Status__c']=='Eligibility Passed' 
+                   && (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                       || objectRecords.partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+                    pstatus = 'Sent to Study Hub';
+                }
+                
+                csvStringResult += '"' + pstatus + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords.partList[i]['Non_Enrollment_Reason__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Non_Enrollment_Reason__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Last_Status_Changed_Notes__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Last_Status_Changed_Notes__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Medical_Record_Review_Status__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Medical_Record_Review_Status__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            if (objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Referral_Completedby_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords.partList[i]['Referral_Completedby_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords.partList[i]['Referral_Source__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Referral_Source__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            
+            if (objectRecords.partList[i]['Initial_visit_scheduled_date__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords.partList[i]['Initial_visit_scheduled_date__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+            //console.log('objectRecords[i] ' +(objectRecords.initialVisitScheduleTime[i]));
+            
+            if (objectRecords.initialVisitScheduleTime[i] !== undefined) {
+               csvStringResult += '"' + objectRecords.initialVisitScheduleTime[i] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            csvStringResult += lineDivider;
+        }
+        var hiddenElement = document.createElement('a');
+        hiddenElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvStringResult);
+        hiddenElement.target = '_self'; //
+        hiddenElement.download = 'ExportData.csv'; // CSV file Name* you can change it.[only name not .csv]
+        document.body.appendChild(hiddenElement); // Required for FireFox browser
+        hiddenElement.click(); // using click() js function to download csv file
+        //spinner.hide();
+        component.find('Spinnerpopup').hide();
+        console.timeEnd('advf');
     }
 });

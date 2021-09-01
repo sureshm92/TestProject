@@ -1310,6 +1310,26 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>RPRecordReviewFilterController</apexClass>
+        <enabled>true</enabled>
+   </classAccesses>
+    <classAccesses>
+        <apexClass>RPRecordReviewLogController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>RPRecordReviewLogHelper</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>FileContainer</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
+        <apexClass>nonReferedBulkUpload</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>ResourceTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -4845,6 +4865,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Manual_Creation_Panel_Task__c.Task_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Material_Sent__c.Contact__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5577,6 +5602,126 @@
         <editable>true</editable>
         <field>Participant_Enrollment__c.Referral_Completed_by__c</field>
         <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Birth_Month__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Date_of_Birth__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Excluded_for_Referring__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Included_for_Referring__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Is_Contact__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Is_Delegate_Certify__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Is_Email__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Is_Phone__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Is_SMS__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Legal_Status_of_Primary_Delegate__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Outreach_Mail_Sent__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Participant_Alt_Phone_Type__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Participant_Alternative_Phone__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Patient_Middle_Name_Initial__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Patient_Phone_Type__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Patient_Sex__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Postal_Code__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_Email__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_First_Name__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_Last_Name__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_Phone_Number__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_Phone_Type__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Primary_Delegate_YOB__c</field>
+            <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+            <editable>true</editable>
+            <field>Participant_Enrollment__c.Legal_Status__c</field>
+            <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>

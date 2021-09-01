@@ -1,3 +1,20 @@
-.combobox-filter{
-    color:grey;
+.combobox-filter {
+    color: grey;
+}
+.filterDiv {
+    background-color: white;
+    opacity: 1;
+    position: absolute;
+    top: 70px;
+    width: 310px;
+    margin-left: 15px !important;
+}
+.btn {
+    height: 50px;
+}
+.righDiv {
+    position: absolute;
+    right: 15px;
+    font-size: 14px;
+    line-height: 24px;
 }

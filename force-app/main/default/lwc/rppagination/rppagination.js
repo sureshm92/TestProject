@@ -1,7 +1,8 @@
-import { LightningElement, api, track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
+import community_icon from '@salesforce/resourceUrl/rr_community_icons';
 
 const DELAY = 300;
-const recordsPerPage = 15;
+const recordsPerPage = 10;
 const pageNumber = 1;
 const showIt = 'visibility:visible';
 const hideIt = 'visibility:hidden'; //visibility keeps the component space, but display:none doesn't
@@ -10,8 +11,8 @@ export default class Paginator extends LightningElement {
     @api showPagination; //Show/hide pagination; valid values are true/false
     //@api pageSizeOptions = recordsPerPage; //Page size options; valid values are array of integers
     @api totalRecords; //Total no.of records; valid type is Integer
-    @api records; //All records available in the data table; valid type is Array 
-    @track pageSize //No.of records to be displayed per page
+    @api records; //All records available in the data table; valid type is Array
+    @track pageSize; //No.of records to be displayed per page
     @track totalPages; //Total no.of pages
     @track pageNumber = pageNumber; //Page number
     @track searchKey; //Search Input
@@ -26,18 +27,19 @@ export default class Paginator extends LightningElement {
     @track lastDisabled = false;
     @track previousDisabled = false;
 
-
     @track startRecord;
     @track endRecord;
     @track end = false;
-    
+
+    left_arrow = community_icon + '/left-arrow.svg';
+    first_page_arrow = community_icon + '/first-page-arrow.svg';
+
     //Called after the component finishes inserting to DOM
     connectedCallback() {
-        if(this.recordsPerPage > 0) {
+        if (this.recordsPerPage > 0) {
             this.pageSize = this.recordsPerPage;
-            this.totalPages = Math.ceil(this.totalRecords/this.pageSize);
-        }
-        else{
+            this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+        } else {
             this.pageSize = this.totalRecords;
             this.showPagination = false;
         }
@@ -45,103 +47,127 @@ export default class Paginator extends LightningElement {
         this.setRecordsToDisplay();
     }
 
-    handleRecordsPerPage(event){
+    handleRecordsPerPage(event) {
         this.pageSize = event.target.value;
         this.setRecordsToDisplay();
     }
-    handlePageNumberChange(event){
-//if(event.keyCode === 13){
+    handlePageNumberChange(event) {
+        if (event.target.value > 0 && event.target.value <= this.totalPages) {
             this.pageNumber = event.target.value;
             this.setRecordsToDisplay();
-       // }
+        }
     }
-    previousPage(){
-        if(this.pageNumber > 1){
-        this.pageNumber = this.pageNumber-1;
+    previousPage() {
+        if (this.pageNumber > 1) {
+            this.pageNumber = this.pageNumber - 1;
+            this.setRecordsToDisplay();
+        }
+    }
+    nextPage() {
+        this.pageNumber = this.pageNumber + 1;
         this.setRecordsToDisplay();
     }
-    }
-    nextPage(){
-        this.pageNumber = this.pageNumber+1;
-        this.setRecordsToDisplay();
-    }
-    firstPage(){
+    firstPage() {
         this.pageNumber = 1;
         this.setRecordsToDisplay();
     }
-    lastPage(){
+
+    lastPage() {
         this.pageNumber = this.totalRecords;
         this.setRecordsToDisplay();
     }
-    setRecordsToDisplay(){
+    @api
+    setPageNumber() {
+        this.pageNumber = 1;
+    }
+    @api
+    setRecordsToDisplay() {
+        if (this.totalRecords == 0) {
+            this.showPagination = false;
+        } else {
+            this.showPagination = true;
+        }
         this.recordsToDisplay = [];
-        if(!this.pageSize)
-            this.pageSize = this.totalRecords;
+        if (!this.pageSize) this.pageSize = this.totalRecords;
 
-        this.totalPages = Math.ceil(this.totalRecords/this.pageSize);
+        this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
+
         let begin = (this.pageNumber - 1) * this.recordsPerPage;
+        console.log('this.pageNumber' + this.pageNumber);
+        console.log('this.recordsPerPage' + this.recordsPerPage);
+        console.log('begin-' + begin);
         let end = begin + this.recordsPerPage;
-        this.startRecord = begin + 1;
+        if (this.totalRecords == 0) {
+            this.startRecord = this.totalRecords;
+        } else if (begin < this.totalRecords) {
+            this.startRecord = begin + 1;
+        }
+
         this.endRecord = end > this.totalRecords ? this.totalRecords : end;
+        console.log(this.startRecord);
+        console.log(this.endRecord);
         this.end = end > this.totalRecords ? true : false;
         this.setPaginationControls();
 
-        for(let i=(this.pageNumber-1)*this.pageSize; i < this.pageNumber*this.pageSize; i++){
-            if(i === this.totalRecords) break;
+        for (
+            let i = (this.pageNumber - 1) * this.pageSize;
+            i < this.pageNumber * this.pageSize;
+            i++
+        ) {
+            if (i === this.totalRecords) break;
             this.recordsToDisplay.push(this.records[i]);
         }
-        this.dispatchEvent(new CustomEvent('paginatorchange', {detail: this.recordsToDisplay})); //Send records to display on table to the parent component
+        this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
     }
-    setPaginationControls(){
+    setPaginationControls() {
         //Control Pre/Next buttons visibility by Total pages
-        if(this.totalPages === 1){
+        if (this.totalPages === 1) {
             this.firstDisabled = true;
             this.nextDisabled = true;
             this.lastDisabled = true;
             this.previousDisabled = true;
-            
-        }else if(this.totalPages > 1){
+        } else if (this.totalPages > 1) {
             this.firstDisabled = false;
             this.nextDisabled = false;
             this.lastDisabled = false;
             this.previousDisabled = false;
         }
         //Control Pre/Next buttons visibility by Page number
-        if(this.pageNumber <= 1){
+        if (this.pageNumber <= 1) {
             this.pageNumber = 1;
             this.lastDisabled = true;
             this.previousDisabled = true;
-        }else if(this.pageNumber >= this.totalPages){
+        } else if (this.pageNumber >= this.totalPages) {
             this.pageNumber = this.totalPages;
             this.firstDisabled = true;
             this.nextDisabled = true;
         }
         //Control Pre/Next buttons visibility by Pagination visibility
-        if(this.controlPagination === hideIt){
+        if (this.controlPagination === hideIt) {
             this.controlPrevious = hideIt;
             this.controlNext = hideIt;
         }
     }
 
-    setPaginationControls1(){
+    setPaginationControls1() {
         //Control Pre/Next buttons visibility by Total pages
-        if(this.totalPages === 1){
+        if (this.totalPages === 1) {
             this.controlPrevious = hideIt;
             this.controlNext = hideIt;
-        }else if(this.totalPages > 1){
-           this.controlPrevious = showIt;
-           this.controlNext = showIt;
+        } else if (this.totalPages > 1) {
+            this.controlPrevious = showIt;
+            this.controlNext = showIt;
         }
         //Control Pre/Next buttons visibility by Page number
-        if(this.pageNumber <= 1){
+        if (this.pageNumber <= 1) {
             this.pageNumber = 1;
             this.controlPrevious = hideIt;
-        }else if(this.pageNumber >= this.totalPages){
+        } else if (this.pageNumber >= this.totalPages) {
             this.pageNumber = this.totalPages;
             this.controlNext = hideIt;
         }
         //Control Pre/Next buttons visibility by Pagination visibility
-        if(this.controlPagination === hideIt){
+        if (this.controlPagination === hideIt) {
             this.controlPrevious = hideIt;
             this.controlNext = hideIt;
         }
@@ -149,7 +175,7 @@ export default class Paginator extends LightningElement {
     handleKeyChange(event) {
         window.clearTimeout(this.delayTimeout);
         const searchKey = event.target.value;
-        if(searchKey){
+        if (searchKey) {
             this.delayTimeout = setTimeout(() => {
                 this.controlPagination = hideIt;
                 this.setPaginationControls();
@@ -158,13 +184,17 @@ export default class Paginator extends LightningElement {
                 //Use other field name here in place of 'Name' field if you want to search by other field
                 //this.recordsToDisplay = this.records.filter(rec => rec.includes(searchKey));
                 //Search with any column value (Updated as per the feedback)
-                this.recordsToDisplay = this.records.filter(rec => JSON.stringify(rec).includes(searchKey));
-                if(Array.isArray(this.recordsToDisplay) && this.recordsToDisplay.length > 0)
-                    this.dispatchEvent(new CustomEvent('paginatorchange', {detail: this.recordsToDisplay})); //Send records to display on table to the parent component
+                this.recordsToDisplay = this.records.filter((rec) =>
+                    JSON.stringify(rec).includes(searchKey)
+                );
+                if (Array.isArray(this.recordsToDisplay) && this.recordsToDisplay.length > 0)
+                    this.dispatchEvent(
+                        new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })
+                    ); //Send records to display on table to the parent component
             }, DELAY);
-        }else{
+        } else {
             this.controlPagination = showIt;
             this.setRecordsToDisplay();
-        }        
+        }
     }
 }

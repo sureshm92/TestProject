@@ -36,7 +36,6 @@
  <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private" />
  <aura:attribute name="peStatusesPathList" type="List" />
  <aura:attribute name="peStatusStateMap" type="Map" />
- <aura:attribute name="refSourceNames" type="Object" />    
  <aura:attribute
      name="emptyListMessage"
      type="String"
@@ -103,7 +102,7 @@
  <!-- component body: -->
  <c:RRSpinner aura:id="mainSpinner" size="medium" showSpinner="true" fixed="true" />
  <c:RRSpinner aura:id="Spinnerpopup" size="medium" showSpinner="false" />
- <div class="rr-min-body-height" >
+ <div class="rr-min-body-height" style="padding-left: 25px;padding-right: 25px;">
      <aura:if isTrue="{!v.isInitialized}">
          <aura:if isTrue="{!!empty(v.header)}">
              <div class="vpr-header">{!v.header}</div>
@@ -242,8 +241,7 @@
                      hasEmancipatedParticipants="{!item.hasEmancipatedParticipants}"
                      sendToSH="{!item.sendToSH}"
                      sendToSHDate="{!item.sendToSHDate}"
-                     sendToSHReason="{!item.sendToSHReason}"
-                     refSourceName="{!item.sourceName}"               
+                     sendToSHReason="{!item.sendToSHReason}"               
                  />
              </aura:iteration>
          </div>

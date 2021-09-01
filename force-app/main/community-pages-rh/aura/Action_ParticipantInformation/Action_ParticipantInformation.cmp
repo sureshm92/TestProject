@@ -406,10 +406,10 @@ isListView = "{!v.isListView}"
          </lightning:tab>
      </aura:if>
      <!--REF-2654, REF-2774-->
-     <aura:if isTrue="{!or(and(v.containsFile , !v.actions.medicalHistory.disabled) , (v.pe.Human_Id__c != null))}">
+     <aura:if isTrue="{!and(or(v.containsFile , (v.pe.Human_Id__c != null)) , !v.actions.medicalHistory.disabled)}">
          <lightning:tab class="slds-tabs_default__item" aura:id="MedicalHistory"
                         label="{!$Label.c.Tab_Medical_History}" onactive="{!c.checkTabs}">  
-             <c:MedicalHistoryView pe="{!v.pe}" containsFile="{!v.containsFile}" medicalHistoryDisabled="{!v.actions.medicalHistory.disabled}"/>
+             <c:MedicalHistoryView pe="{!v.pe}" containsFile="{!v.containsFile}"/>
          </lightning:tab>  
      </aura:if>
  </lightning:tabset>
