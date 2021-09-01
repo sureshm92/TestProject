@@ -52,12 +52,12 @@
             <aura:if isTrue="{!!empty(v.visitWrappers)}">
                 <c:RRTable>
                     <tr class="tableHeader">
-                        <th class="sv-t-name">{!$Label.c.Home_Page_StudyVisit_Visit}</th>
-                        <th class="sv-t-completed-date">{!$Label.c.PP_Visit_Date}</th>
-                        <th class="sv-t-time">{!$Label.c.PP_Visit_Time}</th>
-                        <th class="sv-t-time">{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
-                        <th class="sv-t-icons">{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
-                        <th class="sv-t-status">{!$Label.c.Home_Page_StudyVisit_Status}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Visit}</th>
+                        <th>{!$Label.c.PP_Visit_Date}</th>
+                        <th>{!$Label.c.PP_Visit_Time}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Schedule}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_WhToEx}</th>
+                        <th>{!$Label.c.Home_Page_StudyVisit_Status}</th>
                         <th>{!$Label.c.Home_Page_StudyVisit_Reminder}</th>
                         <!--<th class="sv-t-completed-date">
                             {!$Label.c.Home_Page_StudyVisit_Completed_On}
@@ -65,7 +65,7 @@
                     </tr>
                     <aura:iteration var="visitWrapper" items="{!v.currentVisits}" indexVar="index">
                         <tr>
-                            <td class="sv-t-name">
+                            <td>
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Visit}:
                                 </span>
@@ -101,7 +101,7 @@
                                     </aura:set>
                                 </aura:if>
                             </td>
-                            <td class="sv-t-visittime">
+                            <td>
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Completed_On}</span
                                 >
@@ -121,7 +121,7 @@
                                     </aura:set>
                                 </aura:if>
                             </td>
-                            <td class="sv-t-time">
+                            <td>
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Schedule}:
                                 </span>
@@ -145,7 +145,7 @@
                             >
                                 {!$Label.c.StudyVisit_Variable}
                             </td>
-                            <td class="sv-t-status">
+                            <td>
                                 <span class="visitsLabel"
                                     >{!$Label.c.Home_Page_StudyVisit_Status}:
                                 </span>
