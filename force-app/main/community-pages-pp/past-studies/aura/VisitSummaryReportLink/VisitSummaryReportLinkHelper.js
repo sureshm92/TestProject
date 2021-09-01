@@ -560,6 +560,8 @@
                     'normal'
                 );
                 this.addFont($A.get('$Resource.jsPDF_Fonts') + '/Heebo-Bold.ttf', 'Heebo', 'bold');
+                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Bold.ttf', 'NotoSans-JP', 'bold');
+                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Regular.ttf', 'NotoSans-JP', 'normal');
             };
             jsPDFAPI.events.push(['addFonts', callAddFont]);
         })(jsPDF.API);
