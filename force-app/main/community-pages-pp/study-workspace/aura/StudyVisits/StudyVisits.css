@@ -67,30 +67,6 @@
     margin-left: 0;
 }
 
-.THIS .sv-t-name {
-    width: 20%;
-}
-
-.THIS .sv-t-status {
-    width: 10%;
-}
-
-.THIS .sv-t-visittime {
-    width: 15%;
-}
-
-.THIS .sv-t-time {
-    width: 10%;
-}
-
-.THIS .sv-t-completed-date {
-    width: 20%;
-}
-
-.THIS .sv-t-icons {
-    width: 35%;
-}
-
 .THIS .cRRIconSplitter .dots {
     display: none;
 }
