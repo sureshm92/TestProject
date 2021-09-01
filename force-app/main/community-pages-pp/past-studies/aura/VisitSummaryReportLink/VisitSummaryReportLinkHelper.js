@@ -101,6 +101,8 @@
             doc.setFont('Amiri', 'normal'); //Arabic
         } else if (languageCode === 'fa' || languageCode === 'iw') {
             doc.setFont('Heebo', 'normal'); //Hebrew
+        }else if (languageCode === 'ja' ) {
+            doc.setFont('NotoSans-JP', 'normal'); //Japanese
         } else {
             //Check https://fonts.google.com/specimen/Roboto#glyphs for supported characters
             doc.setFont('Roboto', 'normal');
@@ -312,6 +314,42 @@
                     },
                     head: {
 						font: 'Heebo',
+                        fontStyle: 'normal',
+                        fontSize: 8,
+                        halign: 'center',
+                        valign: 'middle'
+                    },
+                    startY: heightY + 30,
+                    margin: {
+                        right: 50,
+                        left: 10,
+                        top: 60,
+                        bottom: 60
+                    },
+                    useCss: true
+                });
+				}else if (languageCode === 'ja' ) {
+					doc.autoTable({
+                    theme: 'plain',
+                    html: '#tbl' + ind,
+                    styles: {
+                        cellPadding: 2,
+                        halign: 'center',
+                        valign: 'middle',
+                        lineColor: 0,
+                        lineWidth: 1,
+                        font: 'NotoSans-JP',
+                        fontStyle: 'normal',
+                        minCellWidth: 63
+                    },
+                    columnStyles: {
+                        0: {
+                            cellWidth: 60,
+                            cellPadding: 0
+                        }
+                    },
+                    head: {
+						font: 'NotoSans-JP',
                         fontStyle: 'normal',
                         fontSize: 8,
                         halign: 'center',
