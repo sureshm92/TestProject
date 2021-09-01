@@ -1,0 +1,248 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Flow xmlns="http://soap.sforce.com/2006/04/metadata">
+    <actionCalls>
+        <description>This will fire push notification to the user</description>
+        <name>Push_Notification_for_Visit_Reminder</name>
+        <label>Push Notification for Visit Reminder</label>
+        <locationX>622</locationX>
+        <locationY>839</locationY>
+        <actionName>customNotificationAction</actionName>
+        <actionType>customNotificationAction</actionType>
+        <connector>
+            <targetReference>Update_Status_to_Sent</targetReference>
+        </connector>
+        <faultConnector>
+            <targetReference>Update_Status_to_Failed</targetReference>
+        </faultConnector>
+        <flowTransactionModel>CurrentTransaction</flowTransactionModel>
+        <inputParameters>
+            <name>customNotifTypeId</name>
+            <value>
+                <elementReference>Get_Custom_Notification_Id.Id</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>body</name>
+            <value>
+                <elementReference>$Record.Push_Message_Body__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>title</name>
+            <value>
+                <elementReference>$Record.Push_Message_Title__c</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>recipientIds</name>
+            <value>
+                <elementReference>NotificationRecipients</elementReference>
+            </value>
+        </inputParameters>
+        <inputParameters>
+            <name>targetPageRef</name>
+            <value>
+                <stringValue>{&quot;type&quot;: &quot;comm__namedPage&quot;,&quot;attributes&quot;: {&quot;name&quot;: &quot;Home&quot;}}</stringValue>
+            </value>
+        </inputParameters>
+    </actionCalls>
+    <apiVersion>52.0</apiVersion>
+    <assignments>
+        <description>Assign the recipient ids (user ids) to the collection</description>
+        <name>Assign_Recipient_Ids</name>
+        <label>Assign Recipient Ids</label>
+        <locationX>616</locationX>
+        <locationY>670</locationY>
+        <assignmentItems>
+            <assignToReference>NotificationRecipients</assignToReference>
+            <operator>Add</operator>
+            <value>
+                <elementReference>Get_Recipient_User_Id.Id</elementReference>
+            </value>
+        </assignmentItems>
+        <connector>
+            <targetReference>Validate_required_fields</targetReference>
+        </connector>
+    </assignments>
+    <decisions>
+        <description>Validate the mandatory fields</description>
+        <name>Validate_required_fields</name>
+        <label>Validate required fields</label>
+        <locationX>369</locationX>
+        <locationY>752</locationY>
+        <defaultConnectorLabel>Default Outcome</defaultConnectorLabel>
+        <rules>
+            <name>Fire_Push_Notification</name>
+            <conditionLogic>and</conditionLogic>
+            <conditions>
+                <leftValueReference>Get_Recipient_User_Id.Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <conditions>
+                <leftValueReference>Get_Custom_Notification_Id</leftValueReference>
+                <operator>IsNull</operator>
+                <rightValue>
+                    <booleanValue>false</booleanValue>
+                </rightValue>
+            </conditions>
+            <connector>
+                <targetReference>Push_Notification_for_Visit_Reminder</targetReference>
+            </connector>
+            <label>Fire Push Notification</label>
+        </rules>
+    </decisions>
+    <description>To fire custom push notifications for visit reminder to participants and their delegates.</description>
+    <interviewLabel>Notification for Participant and Delegate Visit Reminder {!$Flow.CurrentDateTime}</interviewLabel>
+    <label>Notification for Participant and Delegate Visit Reminder</label>
+    <processMetadataValues>
+        <name>BuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>CanvasMode</name>
+        <value>
+            <stringValue>FREE_FORM_CANVAS</stringValue>
+        </value>
+    </processMetadataValues>
+    <processMetadataValues>
+        <name>OriginBuilderType</name>
+        <value>
+            <stringValue>LightningFlowBuilder</stringValue>
+        </value>
+    </processMetadataValues>
+    <processType>AutoLaunchedFlow</processType>
+    <recordLookups>
+        <description>Get the record id for PP_RH_Push_Notification</description>
+        <name>Get_Custom_Notification_Id</name>
+        <label>Get Custom Notification Id</label>
+        <locationX>616</locationX>
+        <locationY>383</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Get_Recipient_User_Id</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>DeveloperName</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>PP_RH_Push_Notification</stringValue>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>CustomNotificationType</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordLookups>
+        <description>To get the User Id of the Participants</description>
+        <name>Get_Recipient_User_Id</name>
+        <label>Get Recipient User Id</label>
+        <locationX>616</locationX>
+        <locationY>503</locationY>
+        <assignNullValuesIfNoRecordsFound>false</assignNullValuesIfNoRecordsFound>
+        <connector>
+            <targetReference>Assign_Recipient_Ids</targetReference>
+        </connector>
+        <filterLogic>and</filterLogic>
+        <filters>
+            <field>ContactId</field>
+            <operator>EqualTo</operator>
+            <value>
+                <elementReference>$Record.Notification__r.Recipient__r.Id</elementReference>
+            </value>
+        </filters>
+        <getFirstRecordOnly>true</getFirstRecordOnly>
+        <object>User</object>
+        <queriedFields>Id</queriedFields>
+        <storeOutputAutomatically>true</storeOutputAutomatically>
+    </recordLookups>
+    <recordUpdates>
+        <description>Update status and capture fault message</description>
+        <name>Update_Status_to_Failed</name>
+        <label>Update Status to Failed</label>
+        <locationX>813</locationX>
+        <locationY>843</locationY>
+        <inputAssignments>
+            <field>Error__c</field>
+            <value>
+                <elementReference>$Flow.FaultMessage</elementReference>
+            </value>
+        </inputAssignments>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Failed</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <recordUpdates>
+        <description>Update the record status to &quot;Sent&quot; if the push notification is successful.</description>
+        <name>Update_Status_to_Sent</name>
+        <label>Update Status to Sent</label>
+        <locationX>623</locationX>
+        <locationY>1002</locationY>
+        <inputAssignments>
+            <field>Status__c</field>
+            <value>
+                <stringValue>Sent</stringValue>
+            </value>
+        </inputAssignments>
+        <inputReference>$Record</inputReference>
+    </recordUpdates>
+    <start>
+        <locationX>490</locationX>
+        <locationY>48</locationY>
+        <connector>
+            <targetReference>Get_Custom_Notification_Id</targetReference>
+        </connector>
+        <doesRequireRecordChangedToMeetCriteria>true</doesRequireRecordChangedToMeetCriteria>
+        <filterLogic>1 AND 2 AND (3 OR 4)</filterLogic>
+        <filters>
+            <field>Status__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>In Progress</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Target_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Push</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Notification_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Message_To_PT_Task_Reminder_Vis_Type</stringValue>
+            </value>
+        </filters>
+        <filters>
+            <field>Notification_Type__c</field>
+            <operator>EqualTo</operator>
+            <value>
+                <stringValue>Message_To_PT_Task_Reminder_Vis_Del_Type</stringValue>
+            </value>
+        </filters>
+        <object>Send_Result__c</object>
+        <recordTriggerType>CreateAndUpdate</recordTriggerType>
+        <triggerType>RecordAfterSave</triggerType>
+    </start>
+    <status>Active</status>
+    <variables>
+        <description>Collection variable that will hold the push notification recipient  ids</description>
+        <name>NotificationRecipients</name>
+        <dataType>String</dataType>
+        <isCollection>true</isCollection>
+        <isInput>true</isInput>
+        <isOutput>false</isOutput>
+    </variables>
+</Flow>
