@@ -1,5 +1,7 @@
 <template>
     <div class="mobileCards">
+        <div class="bufferSides"></div>
+        <div class="buffermain">
         <div>
             <div class="bulk-import-files"  style="display: inline;"> 
                 Bulk Import Files
@@ -10,163 +12,60 @@
             <template if:true={showButtons}>
                 <div class="slds-dropdown slds-dropdown_actions slds-dropdown_right">
                     <ul class="slds-dropdown__list" role="menu">
-                    <li class="slds-dropdown__item" role="presentation">
-                        <a href="#" role="menuitem" tabindex="0">
-                        <span class="slds-truncate" title="Action One">Action One</span>
-                        </a>
-                    </li>
-                    <li class="slds-dropdown__item" role="presentation">
-                        <a href="#" role="menuitem" tabindex="-1">
-                        <span class="slds-truncate" title="Action Two">Action Two</span>
-                        </a>
-                    </li>
-                    <li class="slds-dropdown__item" role="presentation">
-                        <a href="#" role="menuitem" tabindex="-1">
-                        <span class="slds-truncate" title="Action Three">Action Three</span>
-                        </a>
-                    </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a class="" onclick={openIntructModal}>
+                                <img src={instructionsSvgURL}/>&nbsp;&nbsp;
+                                Instructions
+                            </a> 
+                        </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                             <a type="button" class="" href={templateFile}>
+                                <img src={downloadSvgURL}/>&nbsp;&nbsp;
+                                File Template
+                             </a>  
+                        </li>
+                        <li class="slds-dropdown__item" role="presentation">
+                            <a type="button" class="bulk-importButton" onclick={openUploadModal}>
+                                <img src={impotrtSvgURL}/>&nbsp;&nbsp;
+                                Import Patients
+                            </a> 
+                        </li>
                     </ul>
                 </div>
             </template>
-            <template if:false={inProgress}>
+            <template if:true={inProgress}>
                 <div class="inprogress" >
                     In Progress
                 </div>
             </template>
-        </div>
-        <template if:true={nofiles}>
-            <div style="padding-top:20px">
-                <table
-                role="grid"
-                class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-            >
-                    <colgroup>
-                        <col style="width:28%">
-                        <col style="width:13%">
-                        <col span=2 style="width:10%">
-                        <col style="width:18%">
-                        <col style="width:15%">
-                        <col style="width:10%">
-                    </colgroup>
-                    <!--Header of the table-->
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title="File Name">File Name</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Initial Total Records">Initial Total Records</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Accepted">Accepted</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Rejected">Rejected</div>
-                            </th>
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title="Uploaded By">Uploaded By</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Uploaded On">Uploaded On</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Actions">Actions</div>
-                            </th>
-                        </tr>
-                    </thead>
-                </table>
-                <div class="slds-p-left--x-small">No files to display</div>
-            </div>
-        </template>
+        </div>        
         <template if:false={nofiles}>
         <template if:true={filesLoaded}>
-            <div style="padding-top:20px" >
-            
-                <table
-                role="grid"
-                class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-            >
-                    <colgroup>
-                        <col style="width:28%">
-                        <col style="width:13%">
-                        <col span=2 style="width:10%">
-                        <col style="width:18%">
-                        <col style="width:15%">
-                        <col style="width:10%">
-                    </colgroup>
-                    <!--Header of the table-->
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title="File Name">File Name</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Initial Total Records">Initial Total Records</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Accepted">Accepted</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Rejected">Rejected</div>
-                            </th>
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title="Uploaded By">Uploaded By</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Uploaded On">Uploaded On</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title="Actions">Actions</div>
-                            </th>
-                        </tr>
-                    </thead>
-
-                    <!--Body of the table-->
-                    <tbody>
-                        <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
-                            <tr key={item.ContentDocumentId} class="slds-hint-parent table-row">
-                                <td>
-                                    <div>
-                                    {item.Title}
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        {item.Initial_Total_Records__c}
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        {item.Accepted__c}
-                                    </div>
-                                </td>
-                                <td class="table-data table-rejected">
-                                    <div>
-                                        {item.Rejected_Records__c}
-                                    </div>
-                                </td>
-                                <td>
-                                    <div>
-                                        {item.CreatedBy.Name}
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        <lightning-formatted-date-time value={item.ContentModifiedDate}></lightning-formatted-date-time>
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        <template if:true={item.ContentUrl}>
-                                            <a href={item.ContentUrl} target="_blank"><lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon></a>
-                                        </template>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </div>
+            <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
+                <article key={item.ContentDocumentId}  class="slds-card">
+                    <div class="slds-card__header slds-grid">
+                      <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                        <div class="slds-media__body">
+                          <h2 class="slds-card__header-title">
+                            <span>{item.Title}</span>
+                          </h2>
+                        </div>
+                        <div class="slds-no-flex">
+                            <template if:true={item.ContentUrl}>
+                                <a href={item.ContentUrl} target="_blank"><lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon></a>
+                            </template>
+                        </div>
+                      </header>
+                    </div>
+                    <div class="slds-card__body slds-card__body_inner">
+                        <div>Initial Total Records : {item.Initial_Total_Records__c}</div>
+                        <div>Accepted : {item.Accepted__c}</div>
+                        <div>Rejected : {item.Rejected_Records__c}</div>
+                        <div>Uploaded By : {item.CreatedBy.Name}</div>
+                        <div>Uploaded On : <lightning-formatted-date-time value={item.ContentModifiedDate}></lightning-formatted-date-time></div>
+                    </div>
+                </article>
+            </template>
             <div style ="margin-top: 20px;">
                 <c-rppagination
                 records={contentFiles}
@@ -176,6 +75,8 @@
             </div>
         </template>
         </template>
+        
+    </div>
      </div>
      <div class="desktopList">
         <div class="slds-grid slds-p-top_large slds-p-bottom_large" style="height:30px">

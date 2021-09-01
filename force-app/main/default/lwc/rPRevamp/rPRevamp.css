@@ -235,4 +235,20 @@
     .inprogress{
         position: unset;
     }
+    .bufferSides{
+        float: left;
+        width: 10%;
+        border: .1px solid white;
+    }
+    .buffermain{
+        float: left;
+        width: 90%;
+    }
+    .slds-dropdown_right, .slds-dropdown--right{
+        right: 11%;
+    }
+    .bulk-importButton{
+        background: blue;
+        color: white !important;
+    }
 }

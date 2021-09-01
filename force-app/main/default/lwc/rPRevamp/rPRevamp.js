@@ -1,4 +1,5 @@
 import { LightningElement, api, track, wire } from 'lwc';
+import xlsxmin from '@salesforce/resourceUrl/xlsxmin';
 import getHCPInitData from '@salesforce/apex/FileContainer.getHCPInitData';
 import getShowInstructValue from '@salesforce/apex/FileContainer.getShowInstructValue';
 import bulkicons from '@salesforce/resourceUrl/bulkicons';
@@ -9,15 +10,14 @@ import fetchFiles from '@salesforce/apex/nonReferedBulkUpload.fetchFiles';
 import processvalidateFile from '@salesforce/apex/nonReferedBulkUpload.processvalidateFile';
 import deleteFile from '@salesforce/apex/nonReferedBulkUpload.deleteFile';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
-import Import_Patient_Template_Link from '@salesforce/label/c.Import_Patient_Template_Link';
-//import downloadBulkTemplate from '@salesforce/resourceUrl/RP_Bulk_Import_File';
+import downloadBulkTemplate from '@salesforce/resourceUrl/Import_Patient_Template';
 
 
 const MAX_FILE_SIZE = 2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 9000;//750000; max chunk size prog can handle
 
 export default class RPRevamp extends LightningElement {
-    templateFile = Import_Patient_Template_Link;
+    templateFile =downloadBulkTemplate;
     instructionsSvgURL = bulkicons+'/instructions.svg';
     downloadSvgURL = bulkicons+'/Download.svg';
     impotrtSvgURL = bulkicons+'/icon.svg';
@@ -42,14 +42,9 @@ export default class RPRevamp extends LightningElement {
     @api recordsToDisplay = [];
     baseUrl;
     filesLoaded = false;
-    //downloadBulkTemplate = downloadBulkTemplate;
     
     get dontshowInstruction(){
         return !this.showInstruction;
-    }
-
-    downloadFile() {
-       //window.open(downloadBulkTemplate,'_blank');
     }
 
     connectedCallback() {
@@ -77,6 +72,8 @@ export default class RPRevamp extends LightningElement {
                     this.isInstrModalOpen = result.showInstructions;
                     this.showInstruction = result.showInstructions;
                 });
+            });
+            loadScript(this, xlsxmin).then(() => {                
             });
             this.getDetailsApex();
         }
@@ -157,7 +154,7 @@ export default class RPRevamp extends LightningElement {
     isLoading = false;
     fileSize;
     fileId = '';
-
+    csvData = '';
     handleFilesChange(event) {
         if(event.target.files.length > 0) {
             this.filesUploaded = event.target.files;
@@ -186,8 +183,8 @@ export default class RPRevamp extends LightningElement {
             this.fileName = '';
             return;
         }
-        if(this.fileName.split('.')[1]!='csv'){
-            let message = 'Please upload only csv format files.';
+        if(this.fileName.split('.')[1]!='csv' && this.fileName.split('.')[1]!='xlsx' && this.fileName.split('.')[1]!='xls'){
+            let message = 'Please upload only csv, xlsc or xls format files.';
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
                 message: message,
@@ -211,6 +208,27 @@ export default class RPRevamp extends LightningElement {
             fileContents = fileContents.substring(dataStart);
             self.upload(fileCon, fileContents);
         };
+        var reader2 = new FileReader();    
+        reader2.onload = function (e) {  
+            try{
+                var binary = '';    
+                var bytes = new Uint8Array(e.target.result);    
+                var length = bytes.byteLength;    
+                
+                for (var i = 0; i < length; i++) {    
+                    binary += String.fromCharCode(bytes[i]);
+                }
+                var workbook = XLSX.read(binary, { type: 'binary', raw: true });    
+                var sheet_name_list = workbook.SheetNames;    
+                var fileData = String(XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]));
+                self.csvData = fileData;                  
+            }
+            catch(e){
+                console.log('error'+ e.message)
+            }
+
+        }
+        reader2.readAsArrayBuffer(fileCon); 
         reader.readAsDataURL(fileCon);
     }
 
@@ -334,7 +352,8 @@ export default class RPRevamp extends LightningElement {
             fileID: this.fileId,
             studyID: this.selectedStudy,
             rpState: this.rpState,
-            rpCountry: this.rpCountry
+            rpCountry: this.rpCountry,
+            csvData : this.csvData
         })
         .then(result => {
             this.selectedStudy = '';
