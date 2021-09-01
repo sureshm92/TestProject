@@ -11,7 +11,7 @@ public class Batch_RetryIPRRecord   extends Batch_ScheduledAbstract implements D
     public Database.QueryLocator start(Database.BatchableContext bc) {
         String strQuery = 'SELECT ID,Batch_consideration__c,Is_retry_required__c,Error_Message__c,Address_Country__c,address_state__c,Retry_Count__c';
         strQuery += ' ,Delegate_Mailing_State__c,Language_Preference__c,protocolId__c,siteSelected__c,Report_Count_Days__c FROM Integration_Patient_Referral__c';
-        strQuery += ' WHERE Is_retry_required__c = True AND Batch_consideration__c != \'Archieved\' ' ;
+        strQuery += ' WHERE Is_retry_required__c = True AND Batch_consideration__c = \'Processing\' ' ;
         
         return Database.getQueryLocator(strQuery);
     }
