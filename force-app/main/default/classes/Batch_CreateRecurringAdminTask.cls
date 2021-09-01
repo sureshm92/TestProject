@@ -41,16 +41,8 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
         }
         whatIdByContactIds = filter.getContactsWithWhatIds(taskConfig);
         idTypeOfContactMap = ManualTaskFilter.IdTypeOfContactMap;
-        contactWithoutUser.addAll(whatIdByContactIds.keySet());
-        Boolean isTasksCreated = insertTasks(
-                                        whatIdByContactIds, 
-                                        contactWithoutUser, 
-                                        idTypeOfContactMap,
-            							taskConfig
-                                    );
-        if(isTasksCreated){
-            updateManualTaskConfig(manualTasks[0], taskConfig);
-        }                          
+        System.enqueueJob(new BatchQueueableforAdminTasks(whatIdByContactIds,taskConfig,idTypeOfContactMap));
+        updateManualTaskConfig(manualTasks[0], taskConfig);
     }
     
     public override void finalAction() {
@@ -58,148 +50,10 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
             if(manualConfigList.size() != 0){
                 Database.update(manualConfigList);
             }
-            Messaging.SingleEmailMessage emailMessage = new Messaging.SingleEmailMessage();
-            List<User> user = [SELECT Id, Email FROM User WHERE Id = :userId];
-            emailMessage.setToAddresses(new List<String>{ user.get(0).Email });
-            emailMessage.setSubject('Batch Create Admin Task');
-            
-            String messageBody = 'Tasks : ' + '\n';
-            messageBody +=
-                'Task(s) created = ' +
-                taskCreated +
-                '. Task(s) failed = ' +
-                (failedContactsWithWhatIds.isEmpty()
-                 ? '0'
-                 : '' + (failedContactsWithWhatIds.values().size() + '\n'));
-            if (!failedContactsWithWhatIds.isEmpty()) {
-                messageBody += 'Failed contact ids:\n';
-                Integer i = 0;
-                for (Id conId : failedContactsWithWhatIds.keySet()) {
-                    messageBody += conId + ', ';
-                    if (Math.mod(3, ++i) == 0){
-                        messageBody += '\n';
-                    }
-                }
-                messageBody = messageBody.removeEnd(', ');
-            }
-            
-            emailMessage.setPlainTextBody(messageBody);
-            Messaging.sendEmail(
-                (List<Messaging.Email>) new List<Messaging.SingleEmailMessage>{ emailMessage }
-            );
         }catch (Exception e) {
             System.debug(e.getMessage());
         }
-        
     }
-    public Boolean insertTasks(
-        Map<Id, List<Id>> whatIdByContactIds, 
-        set<id> contactWithoutUser, 
-        Map<id,String> idTypeOfContactMap,
-        TaskService.TaskConfig taskConfig
-    ) {
-        try {
-            List<User> users = [
-                SELECT Id, ContactId, Name, TimeZoneSidKey
-                FROM User
-                WHERE
-                ContactId IN :whatIdByContactIds.keySet()
-                AND IsActive = TRUE
-                AND Profile.Name = :CommunityService.COMMUNITY_USER_PROFILE_NAME
-            ];
-            List<Task> tasks = new List<Task>();
-            for (User user : users) {
-                contactWithoutUser.remove(user.ContactId);
-                TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
-                Time eodTime = Time.newInstance(23,59, 0, 0);
-                Time remTime = Time.newInstance(11,30, 0, 0);
-                String typeOfContactTemp = idTypeOfContactMap.get(user.ContactId);
-                for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
-                    Datetime activityDT;
-                    Integer offsetSeconds;
-                    if (taskConfig.endTime != null){
-                        offsetSeconds = userTZ.getOffset(taskConfig.endTime) / 1000;
-                        activityDT = Datetime.newInstanceGmt(taskConfig.endTime, eodTime).addSeconds(-offsetSeconds);
-                    } 
-                    Datetime reminderDTGMT;
-                    Datetime reminderDT;
-                    if (taskConfig.reminderDate != null) {
-                        reminderDTGMT = Datetime.newInstanceGmt(
-                            taskConfig.reminderDate,
-                            Datetime.now().timeGmt()
-                        );
-                        reminderDT = Datetime.newInstanceGmt(
-                            taskConfig.reminderDate,
-                            remTime
-                        ).addSeconds(-offsetSeconds);
-                    }
-                    String visibleFor = taskConfig.visibility;
-                    if(String.isNotBlank(typeOfContactTemp) && typeOfContactTemp.contains('Participant')){ 
-                        typeOfContactTemp = typeOfContactTemp.remove('Participant');
-                    }else if(String.isNotBlank(typeOfContactTemp) && typeOfContactTemp.contains('Delegate')){
-                        visibleFor = 'Owner';
-                    }else{
-                        visibleFor = taskConfig.visibility;
-                    }
-                    // KK-End
-                    tasks.add(
-                        new Task(
-                            OwnerId = user.Id,
-                            Subject = taskConfig.subject,
-                            Priority = taskConfig.priority,
-                            Start_Date__c = taskConfig.startDate,
-                            Activity_Datetime__c = activityDT,
-                            ReminderDateTime = reminderDTGMT,
-                            Reminder_Date__c = reminderDT,
-                            Visible_For__c = VisibleFor,
-                            WhatId = whatId,
-                            WhoId = user.ContactId,
-                            Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
-                            CreatedByAdmin__c = true
-                            
-                        )
-                    );
-                }
-            }
-            List<Id> contactListOfId = new List<Id>(contactWithoutUser);
-            if(!contactListOfId.isEmpty()){
-                for(Id contactIds: contactListOfId){
-                    for (Id whatId : whatIdByContactIds.get(contactIds)) {
-                        String typeOfContactTemp = idTypeOfContactMap.get(contactIds);
-                        String visibleFor = taskConfig.visibility;
-                        if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Participant')){ 
-                            typeOfContactTemp = typeOfContactTemp.remove('Participant');
-                        }else if(String.isNotBlank(typeOfContactTemp) && typeOfContactTemp.contains('Delegate')){
-                            visibleFor = 'Owner';
-                        }else{
-                            visibleFor = taskConfig.visibility;
-                        }
-                        tasks.add(
-                            new Task(
-                                Owner_Contact__c = contactIds,
-                                Subject = taskConfig.subject,
-                                Priority = taskConfig.priority,
-                                Start_Date__c = taskConfig.startDate,
-                                Visible_For__c = VisibleFor,
-                                WhatId = whatId,
-                                WhoId = contactIds,
-                                Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
-                                CreatedByAdmin__c = true
-                                
-                            )
-                        );
-                    }
-                }
-            }
-            insert tasks;
-            taskCreated += tasks.size();
-            return true;
-        } catch (Exception e) {
-            failedContactsWithWhatIds.putAll(whatIdByContactIds);
-            return false;
-        }
-    }
-
     public void updateManualTaskConfig(Manual_Creation_Panel_Task__c manualTask, TaskService.TaskConfig taskConfig){
         manualTask.Last_Occurrence_Date__c = manualTask.Next_Occurence_Date__c;
         manualTask.Last_Recurrence_Reminder__c = manualTask.Next_Reminder_Date__c;

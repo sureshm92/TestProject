@@ -167,7 +167,7 @@
     </nameField>
     <pluralLabel>Recurring Tasks</pluralLabel>
     <searchLayouts>
-        <searchResultsAdditionalFields>Task_Name__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>TaskName__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date_Cancelled_Inactive__c</searchResultsAdditionalFields>
     </searchLayouts>
