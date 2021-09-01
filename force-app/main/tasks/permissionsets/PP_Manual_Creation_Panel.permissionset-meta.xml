@@ -26,11 +26,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.Next_Due_Date__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
+        
         <field>Manual_Creation_Panel_Task__c.Next_Occurence_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -65,14 +61,9 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
-        <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.TaskConfig__c</field>
-        <readable>false</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>false</editable>
-        <field>Manual_Creation_Panel_Task__c.TaskFilter__c</field>
-        <readable>false</readable>
+        <editable>true</editable>
+        <field>Manual_Creation_Panel_Task__c.Task_Name__c</field>
+        <readable>true</readable>
     </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Manual Creation Panel</label>

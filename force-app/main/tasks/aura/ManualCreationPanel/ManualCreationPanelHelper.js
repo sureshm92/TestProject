@@ -3,11 +3,13 @@
  */
 
 ({
-    reset: function (component) {
-        $A.enqueueAction(component.get('c.doInit'));
+    reset: function(component) {
+        component.set('v.remDays', 0);
+        $A.get('e.force:refreshView').fire();
+        //$A.enqueueAction(component.get('c.doInit'));
     },
 
-    checkChild: function (component, validity) {
+    checkChild: function(component, validity) {
         var currentTab = component.get('v.selectedTab');
         if (currentTab === 'task') {
             validity = validity && component.find('manTask').get('v.isValid');

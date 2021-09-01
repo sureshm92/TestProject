@@ -11,12 +11,11 @@ Created by Sumit S-->
     <aura:attribute name="openmodel" type="boolean" default="false"/>
     <aura:attribute name="closeModel" type="boolean" default="false"/>
     <aura:attribute name="ContentSize" type="String" />
-    <aura:attribute name="CreatedDate" type="Date"/>
+    <aura:attribute name="CreatedDate" type="String"/>
     <aura:attribute name="containsFile" type="boolean" default="false"/>
-    <aura:attribute name="medicalHistoryDisabled" type="boolean" default="false"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
-    <aura:if isTrue="{!v.containsFile &amp;&amp; !v.medicalHistoryDisabled}">
+    <aura:if isTrue="{!v.containsFile}">
     <div class="maindiv slds-border_bottom">
         <div class="headerdiv">
             {!$Label.c.Participant_Medical_History}
@@ -24,7 +23,7 @@ Created by Sumit S-->
         <aura:iteration items="{!v.medicalHistory.attachments}" var="item">
             <div class="divpadding">
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-col slds-size--2-of-4 slds-align_absolute-left">                            
+                    <div class="slds-col text-lng-truncate slds-medium-size--4-of-12 slds-small-size--6-of-12">                            
                         <a  onclick="{!c.openModel}" >{!item.Title}.{!item.FileExtension}</a>
                         
                         <aura:If isTrue="{!v.openmodel}">
@@ -53,27 +52,33 @@ Created by Sumit S-->
                             
                         </aura:If>
                     </div>  
-                    <div class="slds-col slds-size--1-of-4">
+                    <div class="slds-col slds-medium-size--4-of-12 slds-show_medium" style="text-align: center;">
                         <!--{!v.medicalHistory.fileDate}-->
                         <!--<lightning:formattedDateTime value="{!item.CreatedDate}" year="numeric" day="2-digit" month="short" hour="2-digit" minute="2-digit"/>-->
                         <!-- <ui:outputDateTime value="{!item.CreatedDate}" timezone="America/Panama"/>-->
-                        <lightning:formattedDateTime value="{!v.CreatedDate}" year="numeric" day="2-digit" month="short" hour="numeric" minute="numeric" timeZone="UTC"/>
+                        <!-- <lightning:formattedDateTime value="{!v.CreatedDate}" year="numeric" day="2-digit" month="short" hour="numeric" minute="numeric" timeZone="UTC"/> -->
+                        <span>{!v.CreatedDate}</span>
                         
                     </div>
                     <aura:if isTrue="{!v.HideDownloadButton}">
-                        <div class="slds-col slds-size--1-of-4">
-                            <span>	
-                                <img src="{!$Resource.icon_download}" width="16" height="16"/>
+                        <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
+                            <span style="float:right;">
+                                <span>	
+                                    <img src="{!$Resource.icon_download}" width="16" height="16"/>
+                                </span>
+                                <span class="slds-p-left_x-small">
+                                    <a href= "{!v.medicalHistory.baseURL + '/sfc/servlet.shepherd/document/download/'+ item.Id +'?operationContext=S1'}" target="_blank" download="{!item.Title}">Download</a>
+                                </span>
                             </span>
-                            <span class="slds-p-left_x-small">
-                                <a href= "{!v.medicalHistory.baseURL + '/sfc/servlet.shepherd/document/download/'+ item.Id +'?operationContext=S1'}" target="_blank" download="{!item.Title}">Download</a>
-                            </span>  
                         </div>
                     </aura:if>
                 </div>  
                 
             </div>
-            
+            <div class="slds-grid slds-hide_medium">
+                <!-- <lightning:formattedDateTime value="{!v.CreatedDate}" year="numeric" day="2-digit" month="short" hour="numeric" minute="numeric" timeZone="UTC"/> -->
+                <span>{!v.CreatedDate}</span>
+            </div>
         </aura:iteration>
     </div>
     </aura:if>

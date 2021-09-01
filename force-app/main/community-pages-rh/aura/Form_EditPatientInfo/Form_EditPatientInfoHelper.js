@@ -32,7 +32,12 @@
                         component.set('v.participantDelegate.Last_Name__c',returnValue.lastName);
                         component.set('v.participantDelegate.Email__c',returnValue.email);
                         component.set('v.participantDelegate.Phone__c',returnValue.participantPhoneNumber);
+                         component.set('v.participantDelegate.Attestation__c',returnValue.DelegateParticipant.Attestation__c);
                         component.set('v.participantDelegateUseExisiting',returnValue.DelegateParticipant);
+                        if($A.util.isEmpty(returnValue.DelegateParticipant.Birth_Year__c))
+                            component.set('v.participantDelegate.Birth_Year__c','');
+                        else
+                            component.set('v.participantDelegate.Birth_Year__c',returnValue.DelegateParticipant.Birth_Year__c);   
                         var DelegatePhoneField = component.find('DelegatePhoneName');
                         DelegatePhoneField.setCustomValidity('');
                         DelegatePhoneField.reportValidity();

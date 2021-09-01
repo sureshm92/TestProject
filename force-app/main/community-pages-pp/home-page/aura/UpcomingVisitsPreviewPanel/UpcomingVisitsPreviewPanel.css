@@ -24,7 +24,7 @@
 
 .THIS .sv-btn {
     box-shadow: 0 4px 8px 0 rgba(41, 125, 253, 0.16), 0 4px 4px 0 rgba(0, 0, 0, 0.04),
-    0 8px 16px 0 rgba(41, 125, 253, 0.32);
+        0 8px 16px 0 rgba(41, 125, 253, 0.32);
 }
 
 .THIS .sv-body {
@@ -93,7 +93,7 @@
 }
 
 .THIS .main-container .message {
-    padding: 20% 0 0;
+    padding: 10% 0 0;
 }
 
 .THIS .cEmptyListStub:after {
@@ -123,17 +123,17 @@
     text-overflow: ellipsis;
 }
 
-.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(n+7) {
+.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(n + 7) {
     display: none;
 }
 
-.THIS  .cRRTable.rr-table tr td.visitIcons .cRRIconSplitter .icon:nth-of-type(6) {
+.THIS .cRRTable.rr-table tr td.visitIcons .cRRIconSplitter .icon:nth-of-type(6) {
     pointer-events: none;
     cursor: not-allowed;
     position: relative;
 }
 
-.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(6) .icon-item{
+.THIS .visitIcons .cRRIconSplitter .icon:nth-of-type(6) .icon-item {
     visibility: hidden;
 }
 
@@ -153,9 +153,7 @@
     position: relative;
 }
 
-
 @media all and (max-width: 768px) {
-
     .THIS .sv-body {
         padding: 1rem;
     }
@@ -187,7 +185,7 @@
         max-width: 100%;
     }
 
-    .THIS .cRRTable.rr-table tr:nth-of-type(n+3) td:first-child {
+    .THIS .cRRTable.rr-table tr:nth-of-type(n + 3) td:first-child {
         padding-top: 15px;
     }
 
@@ -202,9 +200,7 @@
     .THIS .cRRIconSplitter .icons-row {
         width: 100%;
     }
-
 }
-
 
 @media (any-pointer: coarse) {
     .THIS .rr-table {
@@ -228,11 +224,9 @@
         padding-left: 5px;
         margin: 8px;
     }
-
 }
 
-@media all and (min-width: 769px)  {
-
+@media all and (min-width: 769px) {
     .THIS .cRRIconSplitter .icon .tooltiptext {
         left: auto;
         right: 0;
@@ -240,7 +234,6 @@
 }
 
 @media all and (max-width: 768px) {
-
     .THIS .cRRIconSplitter .icon .tooltiptext {
         left: -10%;
         right: auto;
@@ -248,7 +241,6 @@
 }
 
 @media all and (max-width: 468px) {
-
     .THIS .cRRTable.rr-table tr td .cRRIconSplitter .icon {
         position: static;
     }

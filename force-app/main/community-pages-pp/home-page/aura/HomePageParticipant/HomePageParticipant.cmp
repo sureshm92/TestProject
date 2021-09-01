@@ -13,6 +13,9 @@
     <aura:attribute name="showTrialSearch" type="Boolean" default="false" access="private" />
     <aura:attribute name="initialized" type="Boolean" />
     <aura:attribute name="hasAuthorized" type="Boolean"/>
+    <aura:attribute name="showPastStudies" type="Boolean"/>
+
+    
 
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
@@ -96,7 +99,7 @@
                                 />
                             </div>
                              <aura:if
-                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.participantState.value == 'ALUMNI')}"
+                                isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.showPastStudies)}"
                             >
                             <div class="slds-col">
                                 <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}"/>

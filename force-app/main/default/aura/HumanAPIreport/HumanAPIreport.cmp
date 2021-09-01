@@ -14,13 +14,20 @@
                 <span>Medical Records Providers</span>
                 </div>
                 <div class="slds-col slds-size--4-of-12 highlights">
-                <span class="fontStyle" style="float:right;"><a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a></span>
+                <span class="slds-truncate fontStyle" style="float:right;">
+                    <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
+                    <lightning:formattedUrl 
+                    value="{!v.highlightsReport.reportUrl}"
+                    label="{!v.highlightsReport.reportName}"
+                    title="{!v.highlightsReport.reportName}"
+                    target="_blank" />
+                </span>
                 </div>
             </div>
         <aura:iteration items="{!v.detailedReport}" var="item" indexVar="indx">
             <div class="slds-grid divpadding">
-                <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
-                <span class="fontStyle">{!item.providerName}</span>
+                <div class="slds-col text-lng-truncate slds-medium-size--4-of-12 slds-small-size--6-of-12">
+                <span>{!item.providerName}</span>
                 </div>
                 <div class="slds-col slds-size--4-of-12  slds-show_medium" style="text-align: center;">
                 	<span>{!item.createdAt}</span>
@@ -30,7 +37,7 @@
                 </div>
             </div>
             <div class="slds-grid slds-hide_medium">
-                <span>{!item.createdAt}</span>
+                <span style="font-size: 1rem; font-weight: 500;">{!item.createdAt}</span>
             </div>
         </aura:iteration>
         </div>
