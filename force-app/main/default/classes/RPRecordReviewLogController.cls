@@ -37,8 +37,21 @@ public without sharing class RPRecordReviewLogController {
             //(Medical_Record_Review_Status__c = 'Pass' OR  Medical_Record_Review_Status__c = 'Fail') AND 
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<peInitData> peInitWrapperDataList = new List<peInitData>();
+            
+            List<Id> lstcontactId = new List<Id>();
+            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+            if(RPD.size() != 0){
+                for(RP_Delegate_Relationship__c del: RPD){
+                    lstcontactId.add(del.Referring_Provider__c);
+                }
+                lstcontactId.add(currentContactId);
+            }else{
+                 lstcontactId.add(currentContactId);
+            }
+            
             List<Participant_Enrollment__c> peList = [Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,
-            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c=:currentContactId AND
+            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId AND
             (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
             Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL order by lastmodifiedDate DESC];
             for (Participant_Enrollment__c pe : peList) {
