@@ -295,11 +295,23 @@ public without sharing class RPRecordReviewLogController {
             
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             
+            List<Id> lstcontactId = new List<Id>();
+            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+            if(RPD.size() != 0){
+                for(RP_Delegate_Relationship__c del: RPD){
+                    lstcontactId.add(del.Referring_Provider__c);
+                }
+                lstcontactId.add(currentContactId);
+            }else{
+                 lstcontactId.add(currentContactId);
+            }
+            
             AggregateResult[] groupedResults = [
                  SELECT Included_for_Referring__c,
                      Excluded_for_Referring__c,
                      Patient_Auth__c,Medical_Record_Review_Status__c,Outreach_Mail_Sent__c, Count(Id) total 
-                 FROM Participant_Enrollment__c where HCP_Contact_HCPEnroll__c=:currentContactId AND
+                 FROM Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId AND
                       (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                       Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
                  GROUP BY 
@@ -337,19 +349,19 @@ public without sharing class RPRecordReviewLogController {
             }
             yesterdaycount =[SELECT count() FROM Participant_Enrollment__c 
                              WHERE
-                                  HCP_Contact_HCPEnroll__c=:currentContactId AND
+                                  HCP_Contact_HCPEnroll__c IN:lstcontactId AND
                                   (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                   Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                   CreatedDate = YESTERDAY];
             lastweekcount=[SELECT count() FROM Participant_Enrollment__c 
                            WHERE 
-                                HCP_Contact_HCPEnroll__c=:currentContactId AND
+                                HCP_Contact_HCPEnroll__c IN:lstcontactId AND
                                 (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                 Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                 CreatedDate = Last_week ];
             lastmonthcount=[SELECT count() FROM Participant_Enrollment__c 
                             WHERE 
-                               HCP_Contact_HCPEnroll__c=:currentContactId AND
+                               HCP_Contact_HCPEnroll__c IN:lstcontactId AND
                                (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                CreatedDate = Last_month ];
