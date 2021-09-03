@@ -87,11 +87,7 @@ public class MedicalRecordAccessRemote {
         
     }
     
-    @AuraEnabled
-    public static List<Provider> getHumanSourcesListwelcome()
-    {
-        return new List<Provider>();
-    }
+    
    
     @AuraEnabled
     public static List<LabelValueItem> getHumanAPIPastPEList(Id contactId)
@@ -99,11 +95,13 @@ public class MedicalRecordAccessRemote {
         
         ParticipantService.ParticipantState participantState = ParticipantService.getInstance().getState();
         List<Id> ownidList= new List<Id>();
-        if(participantState.pe != null && participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c) ownidList.add(participantState.pe.Id);
+        if(participantState.pe != null && participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
+            ownidList.add(participantState.pe.Id);
+        } 
+        
         String ownPEFilter ='(Human_Id__c != null OR Id IN '+DatabaseService.listToString(ownidList)+')  AND Participant__r.Contact__c IN ' + DatabaseService.listToString(new List<Id>{contactId}) +' order by CreatedDate desc';
         
-        
-        
+        System.debug('ownPEFilter'+ownPEFilter);
         List<Participant_Enrollment__c> ownPEList = DatabaseService.query(
             new List<String>{ 'Id','Participant__c','Name', 'Participant__r.Contact__c','Clinical_Trial_Profile__r.Study_Code_Name__c','Human_Id__c','Unique_HumanId__c','Participant__r.Email__c'},
             Participant_Enrollment__c.getSObjectType(),
@@ -114,6 +112,15 @@ public class MedicalRecordAccessRemote {
         if(ownPEList.size()>0){
             
             for(Participant_Enrollment__c pe : ownPEList){
+                if(participantState.pe != null) {
+                if(!participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c)
+                {
+                    if(pe.Id == participantState.pe.Id)
+                    {
+                    continue;
+                    }
+                }
+                }
                 
                 LabelValueItem labelItem = new LabelValueItem(pe.Clinical_Trial_Profile__r.Study_Code_Name__c,pe.Unique_HumanId__c+':::'+pe.Id);
                 if(!labelItems.contains(labelItem))
