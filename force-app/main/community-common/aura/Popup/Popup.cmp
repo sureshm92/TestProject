@@ -128,10 +128,7 @@
                     <!-- dialog footer: -->
                     <aura:if isTrue="{!v.showFooter}">
                         <div class="{!'p-footer p-variant-' + v.variant}">
-                            <div
-                                class="p-buttons-container"
-                                style="{!if(v.isRTL == true,'/*float:right; @noflip */  direction: rtl;','')}"
-                            >
+                            <div class="{!'p-buttons-container' + if(v.isRTL, ' rtl', '')}">
                                 <aura:if isTrue="{!empty(v.footerButtons)}">
                                     <button
                                         class="apollo-btn secondary"
