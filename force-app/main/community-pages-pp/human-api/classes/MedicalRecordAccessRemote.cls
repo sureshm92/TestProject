@@ -87,11 +87,7 @@ public class MedicalRecordAccessRemote {
         
     }
     
-    @AuraEnabled
-    public static List<Provider> getHumanSourcesListwelcome()
-    {
-        return new List<Provider>();
-    }
+    
    
     @AuraEnabled
     public static List<LabelValueItem> getHumanAPIPastPEList(Id contactId)
