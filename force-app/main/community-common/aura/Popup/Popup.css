@@ -67,9 +67,18 @@ top: 1px !important;
     top: 30px; /* 30px */
     right: 360px; /* 25px */
 }
+
+.THIS .p-buttons-container {
+    margin: 0 16px;
+}
+.THIS .rtl {
+    /* @noflip */
+    direction: rtl;
+}
+
 @media all and (max-width: 768px) {
     .THIS .p-container > .slds-button.btnRTL:after {
-        right:0px !important;
+        right: 0px !important;
     }
 }
 /*
@@ -350,9 +359,9 @@ top: 1px !important;
         width: 100%;
         border-top: 1px solid #efefef;
     }
-    .THIS.cPopup .p-container .p-footer {		
-		padding: 15px 12px 30px 12px;
-	}
+    .THIS.cPopup .p-container .p-footer {
+        padding: 15px 12px 30px 12px;
+    }
 }
 @media all and (orientation: landscape) {
     .THIS.cAction_ParticipantInformation #p-modal .p-container.large {
