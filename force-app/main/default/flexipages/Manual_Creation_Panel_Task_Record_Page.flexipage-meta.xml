@@ -126,11 +126,6 @@
                 <fieldItem>Record.Status__c</fieldItem>
             </fieldInstance>
         </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.TaskFilter__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
         <name>Facet-a879d5ae-8303-45dd-89d5-fdbd0395f619</name>
         <type>Facet</type>
     </flexiPageRegions>
@@ -176,11 +171,6 @@
                     <value>readonly</value>
                 </fieldInstanceProperties>
                 <fieldItem>Record.Date_Cancelled_Inactive__c</fieldItem>
-            </fieldInstance>
-        </itemInstances>
-        <itemInstances>
-            <fieldInstance>
-                <fieldItem>Record.TaskConfig__c</fieldItem>
             </fieldInstance>
         </itemInstances>
         <name>Facet-bd151b11-3e88-4d59-bc0f-5932fa92fd7b</name>
