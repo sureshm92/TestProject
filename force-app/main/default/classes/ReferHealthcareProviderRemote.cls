@@ -367,6 +367,7 @@ global without sharing class ReferHealthcareProviderRemote {
             Boolean boolisUserCreated;
             Id ContactId;
             Patient_Delegate__c delContact; 
+            List<User> existingUserPatientDelegate = new List<User>();
             if (delegateId != null) {
                 delContact = [SELECT ID, Contact__c,Is_Created_by_Bulk_Import__c FROM Patient_Delegate__c WHERE ID=:delegateId]; // Changed query to fetch Is_Created_by_Bulk_Import__c field
                 ContactId =delContact == null ? null : delContact.Contact__c; 
@@ -440,7 +441,10 @@ global without sharing class ReferHealthcareProviderRemote {
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
-                    createUser = false;
+                    if(delegateDuplicate.contactId != null){
+                        existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
+                    }
+                    //createUser = false;
                 }
 
                 Participant__c participantDelegate;
@@ -483,10 +487,15 @@ global without sharing class ReferHealthcareProviderRemote {
                     ptDelegateRef.Status__c = DEL_ACTIVE;
                 }
                 upsert ptDelegateRef;
-                if (createUser) {
+                if(createUser && delegateDuplicate == null) {
+                    //system.debug('INSIDEFIRST');
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
-                }
+                }else if(createUser && existingUserPatientDelegate.isEmpty()) {
+                    //system.debug('INSIDEFIFTH');
+                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                  }
             } else {
                 if (!boolisUserCreated) {
                     if (ContactId != null && createUser) {
