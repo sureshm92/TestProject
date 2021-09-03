@@ -18,6 +18,7 @@
     },
     resetTaskValues: function(component, event, helper) {
         component.set('v.dayRemind', 0);
+        component.set('v.showNumbersAdd', 'true');
         if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
         } else if (
@@ -26,19 +27,12 @@
         ) {
             component.set('v.taskConfig.reminderDays', null);
         }
-        console.log('resetRemDays: ' + component.get('v.dayRemind'));
-        if (component.get('v.taskConfig.isRecurrence')) {
-            component.set('v.showNumbersAdd', true);
-        }
     },
     checkRecurrence: function(component, event, helper) {
-        console.log('checkRecurrence');
         let startDate = component.get('v.taskConfig.startDate');
         let dueDate = component.get('v.taskConfig.endTime');
         let reccFrequency = component.get('v.taskConfig.recurrenceFrequency');
-        console.log('startDate: ' + startDate + ' dueDate: ' + dueDate);
         dueDate = moment(dueDate, 'YYYY-MM-DD');
-        console.log('date1: ' + dueDate.diff(startDate, 'months'));
         let yearsDiff = dueDate.diff(startDate, 'years');
         let monthDiff = dueDate.diff(startDate, 'months');
         let diffInDays = dueDate.diff(startDate, 'days');
@@ -73,10 +67,8 @@
             var a = component.get('c.doCheckFields');
             $A.enqueueAction(a);
         }
-        console.log('isValid: ' + component.get('v.isValid'));
     },
     doCheckFields: function(component, event, helper) {
-        console.log('remDays: ' + component.get('v.dayRemind'));
         let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {
             return validSoFar && inputCmp.checkValidity();
         }, true);
@@ -90,7 +82,7 @@
         let dueDate = component.get('v.taskConfig.endTime');
         let reminderDate = component.get('v.taskConfig.reminderDate');
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
-        if (component.get('v.dayRemind') != 0) {
+        if (component.get('v.dayRemind') != 0 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
         } else if (
             component.get('v.dayRemind') == 0 &&
@@ -130,10 +122,10 @@
         if (component.get('v.taskConfig.isRecurrence')) {
             $A.enqueueAction(a);
         }
+
         if (useDaysNumber) {
             let daysCount = component.get('v.dayRemind');
             let daysBetween = dueDate.diff(startDate, 'days');
-
             if (daysCount > daysBetween) {
                 component.set('v.dayRemind', daysBetween);
                 return;
