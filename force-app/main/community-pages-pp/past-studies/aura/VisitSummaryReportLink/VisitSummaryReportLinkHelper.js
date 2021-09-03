@@ -377,7 +377,7 @@
                             lineColor: 0,
                             lineWidth: 1,
                             font: 'NotoSans-JP',
-                            fontStyle: 'bold',
+                            fontStyle: 'normal',
                             minCellWidth: 63
                         },
                         columnStyles: {
@@ -388,15 +388,15 @@
                         },
                         head: {
                             font: 'NotoSans-JP',
-                            fontStyle: 'bold',
+                            fontStyle: 'normal',
                             fontSize: 8,
                             halign: 'center',
                             valign: 'middle'
                         },
                         startY: heightY + 30,
                         margin: {
-                            right: 50,
-                            left: 10,
+                            right: 10,
+                            left: 50,
                             top: 60,
                             bottom: 60
                         },
