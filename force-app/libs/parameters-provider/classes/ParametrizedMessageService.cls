@@ -47,7 +47,7 @@ public without sharing class ParametrizedMessageService {
                 if (value instanceof Date) {
                     valueStr = UserService.formatDate((Date) value, language);
                 } else if (value instanceof Datetime) {
-                    valueStr = UserService.formatDateTime((Date) value, language);
+                    valueStr = UserService.formatDateTime((Datetime) value, language);
                 } else {
                     valueStr = (value != null ? value : '') + '';
                 }

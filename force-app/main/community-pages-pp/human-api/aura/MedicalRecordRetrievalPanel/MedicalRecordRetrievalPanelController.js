@@ -37,14 +37,14 @@
                     contactId :obj.currentContactId
                 },          
                 function (returnValue) {
-                    var check = false;;
+                    var check = false;
                     component.set('v.referrals',returnValue);
-                    console.log('returnValue',returnValue);
                         if(returnValue){
                             if(obj.pe != null && obj.pe.Human_Id__c != null && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c && !component.get('v.isHumanApiChecked') )
                             {
                                 check =true;
                             }
+                            
                             //console.log('')
                         for (const item in returnValue) {
                           
@@ -56,9 +56,17 @@
                             {
                                          list.splice(item, 1); 
                             } 
+
                                          component.set('v.referrals',list);
-                                        component.set('v.defaultStudy',list[item].value);
-                                        
+                                        if(list[0] && !check){
+                                        component.set('v.defaultStudy',list[0].value);
+                                        }
+                                        else{
+                                            if(list.length>0 ){
+                                              component.set('v.defaultStudy',list[item].value);
+                                            }
+
+                                        }
 
                                     }else{
                                     console.log('returnValue[item].value set',returnValue[item].value);

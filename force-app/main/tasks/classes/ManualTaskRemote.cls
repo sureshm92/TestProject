@@ -92,6 +92,7 @@ public with sharing class ManualTaskRemote {
                             Study__c = studyTitle,
                             Therapeutic_Area__c = ts,
                             TaskConfig__c = config,
+                            Patient_Status__c = statusString,
                             Last_Occurrence_Date__c = lastOccurenceDate,
                             Next_Occurence_Date__c = nextTaskStartDate,
                             Is_Recurrence__c =  taskConfig.isRecurrence,
