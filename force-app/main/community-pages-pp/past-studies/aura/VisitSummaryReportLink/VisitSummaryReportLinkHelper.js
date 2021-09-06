@@ -91,9 +91,9 @@
 
     fillData: function (component, reportData, iqviaLogo, isSave) {
         let helper = this;
-        helper.uploadFontForUtf8();
         let languageCode = component.get('v.language');
         var RTL = component.get('v.isRTL');
+        helper.uploadFontForUtf8(RTL, languageCode);
         var doc = new jsPDF('l', 'pt', 'A4', true);
         let textFooter = $A.get('$Label.c.Report_Visits_Result_Text_Footer');
         //let numberPageForTable = 0;
@@ -101,6 +101,8 @@
             doc.setFont('Amiri', 'normal'); //Arabic
         } else if (languageCode === 'fa' || languageCode === 'iw') {
             doc.setFont('Heebo', 'normal'); //Hebrew
+        } else if (languageCode === 'ja') {
+            doc.setFont('NotoSans-JP', 'bold'); //Japanese
         } else {
             //Check https://fonts.google.com/specimen/Roboto#glyphs for supported characters
             doc.setFont('Roboto', 'normal');
@@ -254,150 +256,188 @@
                 heightY = helper.validationEndPage(doc, heightY + doc.internal.getLineHeight());
             });
             if (RTL) {
-				if(languageCode.includes('ar') || languageCode === 'ur'){
-					doc.autoTable({
-                    theme: 'plain',
-                    html: '#tbl' + ind,
-                    styles: {
-                        cellPadding: 2,
-                        halign: 'center',
-                        valign: 'middle',
-                        lineColor: 0,
-                        lineWidth: 1,
-                        font: 'Amiri',
-                        fontStyle: 'normal',
-                        minCellWidth: 63
-                    },
-                    columnStyles: {
-                        0: {
-                            cellWidth: 60,
-                            cellPadding: 0
-                        }
-                    },
-                    head: {
-						font: 'Amiri',
-                        fontStyle: 'normal',
-                        fontSize: 8,
-                        halign: 'center',
-                        valign: 'middle'
-                    },
-                    startY: heightY + 30,
-                    margin: {
-                        right: 50,
-                        left: 10,
-                        top: 60,
-                        bottom: 60
-                    },
-                    useCss: true
-                });
-				}else if (languageCode === 'fa' || languageCode === 'iw') {
-					doc.autoTable({
-                    theme: 'plain',
-                    html: '#tbl' + ind,
-                    styles: {
-                        cellPadding: 2,
-                        halign: 'center',
-                        valign: 'middle',
-                        lineColor: 0,
-                        lineWidth: 1,
-                        font: 'Heebo',
-                        fontStyle: 'normal',
-                        minCellWidth: 63
-                    },
-                    columnStyles: {
-                        0: {
-                            cellWidth: 60,
-                            cellPadding: 0
-                        }
-                    },
-                    head: {
-						font: 'Heebo',
-                        fontStyle: 'normal',
-                        fontSize: 8,
-                        halign: 'center',
-                        valign: 'middle'
-                    },
-                    startY: heightY + 30,
-                    margin: {
-                        right: 50,
-                        left: 10,
-                        top: 60,
-                        bottom: 60
-                    },
-                    useCss: true
-                });
-				}else {
-				doc.autoTable({
-                    theme: 'plain',
-                    html: '#tbl' + ind,
-                    styles: {
-                        cellPadding: 2,
-                        halign: 'center',
-                        valign: 'middle',
-                        lineColor: 0,
-                        lineWidth: 1,
-                        font: 'Roboto',
-                        fontStyle: 'normal',
-                        minCellWidth: 63
-                    },
-                    columnStyles: {
-                        0: {
-                            cellWidth: 60,
-                            cellPadding: 0
-                        }
-                    },
-                    head: {
-						font: 'Roboto',
-                        fontStyle: 'normal',
-                        fontSize: 8,
-                        halign: 'center',
-                        valign: 'middle'
-                    },
-                    startY: heightY + 30,
-                    margin: {
-                        right: 50,
-                        left: 10,
-                        top: 60,
-                        bottom: 60
-                    },
-                    useCss: true
-                });
-				}
+                if (languageCode.includes('ar') || languageCode === 'ur') {
+                    doc.autoTable({
+                        theme: 'plain',
+                        html: '#tbl' + ind,
+                        styles: {
+                            cellPadding: 2,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: 0,
+                            lineWidth: 1,
+                            font: 'Amiri',
+                            fontStyle: 'normal',
+                            minCellWidth: 63
+                        },
+                        columnStyles: {
+                            0: {
+                                cellWidth: 60,
+                                cellPadding: 0
+                            }
+                        },
+                        head: {
+                            font: 'Amiri',
+                            fontStyle: 'normal',
+                            fontSize: 8,
+                            halign: 'center',
+                            valign: 'middle'
+                        },
+                        startY: heightY + 30,
+                        margin: {
+                            right: 50,
+                            left: 10,
+                            top: 60,
+                            bottom: 60
+                        },
+                        useCss: true
+                    });
+                } else if (languageCode === 'fa' || languageCode === 'iw') {
+                    doc.autoTable({
+                        theme: 'plain',
+                        html: '#tbl' + ind,
+                        styles: {
+                            cellPadding: 2,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: 0,
+                            lineWidth: 1,
+                            font: 'Heebo',
+                            fontStyle: 'normal',
+                            minCellWidth: 63
+                        },
+                        columnStyles: {
+                            0: {
+                                cellWidth: 60,
+                                cellPadding: 0
+                            }
+                        },
+                        head: {
+                            font: 'Heebo',
+                            fontStyle: 'normal',
+                            fontSize: 8,
+                            halign: 'center',
+                            valign: 'middle'
+                        },
+                        startY: heightY + 30,
+                        margin: {
+                            right: 50,
+                            left: 10,
+                            top: 60,
+                            bottom: 60
+                        },
+                        useCss: true
+                    });
+                } else {
+                    doc.autoTable({
+                        theme: 'plain',
+                        html: '#tbl' + ind,
+                        styles: {
+                            cellPadding: 2,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: 0,
+                            lineWidth: 1,
+                            font: 'Roboto',
+                            fontStyle: 'normal',
+                            minCellWidth: 63
+                        },
+                        columnStyles: {
+                            0: {
+                                cellWidth: 60,
+                                cellPadding: 0
+                            }
+                        },
+                        head: {
+                            font: 'Roboto',
+                            fontStyle: 'normal',
+                            fontSize: 8,
+                            halign: 'center',
+                            valign: 'middle'
+                        },
+                        startY: heightY + 30,
+                        margin: {
+                            right: 50,
+                            left: 10,
+                            top: 60,
+                            bottom: 60
+                        },
+                        useCss: true
+                    });
+                }
             } else {
-                doc.autoTable({
-                    theme: 'plain',
-                    html: '#tbl' + ind,
-                    styles: {
-                        cellPadding: 2,
-                        halign: 'center',
-                        valign: 'middle',
-                        lineColor: 0,
-                        lineWidth: 1,
-                        font: 'Roboto-Regular',
-                        fontStyle: 'normal',
-                        minCellWidth: 63
-                    },
-                    columnStyles: {
-                        0: {
-                            cellWidth: 60,
-                            cellPadding: 0
-                        }
-                    },
-                    head: {
-                        fontStyle: 'normal',
-                        fontSize: 8,
-                        halign: 'center',
-                        valign: 'middle'
-                    },
-                    startY: heightY + 30,
-                    margin: {
-                        right: 10,
-                        left: 50,
-                        top: 60,
-                        bottom: 60
-                    },
-                    useCss: true
-                });
+                if (languageCode === 'ja') {
+                    doc.autoTable({
+                        theme: 'plain',
+                        html: '#tbl' + ind,
+                        styles: {
+                            cellPadding: 2,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: 0,
+                            lineWidth: 1,
+                            font: 'NotoSans-JP',
+                            fontStyle: 'normal',
+                            minCellWidth: 63
+                        },
+                        columnStyles: {
+                            0: {
+                                cellWidth: 60,
+                                cellPadding: 0
+                            }
+                        },
+                        head: {
+                            font: 'NotoSans-JP',
+                            fontStyle: 'normal',
+                            fontSize: 8,
+                            halign: 'center',
+                            valign: 'middle'
+                        },
+                        startY: heightY + 30,
+                        margin: {
+                            right: 10,
+                            left: 50,
+                            top: 60,
+                            bottom: 60
+                        },
+                        useCss: true
+                    });
+                } else {
+                    doc.autoTable({
+                        theme: 'plain',
+                        html: '#tbl' + ind,
+                        styles: {
+                            cellPadding: 2,
+                            halign: 'center',
+                            valign: 'middle',
+                            lineColor: 0,
+                            lineWidth: 1,
+                            font: 'Roboto',
+                            fontStyle: 'normal',
+                            minCellWidth: 63
+                        },
+                        columnStyles: {
+                            0: {
+                                cellWidth: 60,
+                                cellPadding: 0
+                            }
+                        },
+                        head: {
+                            fontStyle: 'normal',
+                            fontSize: 8,
+                            halign: 'center',
+                            valign: 'middle'
+                        },
+                        startY: heightY + 30,
+                        margin: {
+                            right: 10,
+                            left: 50,
+                            top: 60,
+                            bottom: 60
+                        },
+                        useCss: true
+                    });
+                }
             }
             heightY = doc.autoTable.previous.finalY;
         });
@@ -535,9 +575,47 @@
     },
 
     // add generated (using https://rawgit.com/MrRio/jsPDF/master/fontconverter/fontconverter.html) tff fonts into pdf
-    uploadFontForUtf8: function () {
+    uploadFontForUtf8: function (rtl, languageCode) {
         (function (jsPDFAPI) {
             let callAddFont = function () {
+                if (rtl) {
+                    if (languageCode.includes('ar') || languageCode === 'ur') {
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/Amiri-Regular.ttf',
+                            'Amiri',
+                            'normal'
+                        );
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/Amiri-Bold.ttf',
+                            'Amiri',
+                            'bold'
+                        );
+                    } else if (languageCode === 'fa' || languageCode === 'iw') {
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/Heebo-Regular.ttf',
+                            'Heebo',
+                            'normal'
+                        );
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/Heebo-Bold.ttf',
+                            'Heebo',
+                            'bold'
+                        );
+                    }
+                } else {
+                    if (languageCode === 'ja') {
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Bold.ttf',
+                            'NotoSans-JP',
+                            'bold'
+                        );
+                        this.addFont(
+                            $A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Regular.ttf',
+                            'NotoSans-JP',
+                            'normal'
+                        );
+                    }
+                }
                 this.addFont(
                     $A.get('$Resource.jsPDF_Fonts') + '/Roboto-Regular.ttf',
                     'Roboto',
@@ -548,20 +626,6 @@
                     'Roboto',
                     'bold'
                 );
-                this.addFont(
-                    $A.get('$Resource.jsPDF_Fonts') + '/Amiri-Regular.ttf',
-                    'Amiri',
-                    'normal'
-                );
-                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/Amiri-Bold.ttf', 'Amiri', 'bold');
-                this.addFont(
-                    $A.get('$Resource.jsPDF_Fonts') + '/Heebo-Regular.ttf',
-                    'Heebo',
-                    'normal'
-                );
-                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/Heebo-Bold.ttf', 'Heebo', 'bold');
-                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Bold.ttf', 'NotoSans-JP', 'bold');
-                this.addFont($A.get('$Resource.jsPDF_Fonts') + '/NotoSansCJKjp-Regular.ttf', 'NotoSans-JP', 'normal');
             };
             jsPDFAPI.events.push(['addFonts', callAddFont]);
         })(jsPDF.API);

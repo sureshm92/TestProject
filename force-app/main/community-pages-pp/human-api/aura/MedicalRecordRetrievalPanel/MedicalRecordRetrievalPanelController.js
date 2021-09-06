@@ -8,10 +8,11 @@
             
         }
         const humanApiVendors = component.get('v.participantState.medicalVendors');
-        if(obj.value == 'PARTICIPANT' &&  obj.isDelegate && obj.hasPatientDelegates)
+       /** if(obj.value == 'PARTICIPANT' &&  obj.isDelegate && obj.hasPatientDelegates)
         {
+            alert('set1');
              component.set('v.showMedicalCard',true);
-        }
+        } **/
         let isHumanApiVendorChecked = false;
          if(humanApiVendors != null){
         for (const item in humanApiVendors) {
@@ -36,18 +37,35 @@
                     contactId :obj.currentContactId
                 },          
                 function (returnValue) {
+                    var check = false;
                     component.set('v.referrals',returnValue);
                         if(returnValue){
+                            if(obj.pe != null && obj.pe.Human_Id__c != null && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c && !component.get('v.isHumanApiChecked') )
+                            {
+                                check =true;
+                            }
+                            
+                            //console.log('')
                         for (const item in returnValue) {
-
+                          
                             if(communityService.getCurrentCommunityMode().currentPE && obj.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c){
-                                 if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
-                                     if(!component.get('v.isHumanApiChecked') ){
+                                if(returnValue[item].value.includes(communityService.getCurrentCommunityMode().currentPE)){
+                                    if(!component.get('v.isHumanApiChecked') ){
                                          var list = component.get('v.referrals');
+                                        if(!check)
+                            {
                                          list.splice(item, 1); 
+                            } 
+
                                          component.set('v.referrals',list);
-                                     }
+                                        if(list[0]){
+                                        component.set('v.defaultStudy',list[0].value);
+                                        }
+
+                                    }else{
+                                    console.log('returnValue[item].value set',returnValue[item].value);
                                      component.set('v.defaultStudy',returnValue[item].value);
+                                    }
                                 break;
                             }
                             }
