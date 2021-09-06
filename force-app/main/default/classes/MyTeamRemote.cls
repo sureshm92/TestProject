@@ -804,14 +804,21 @@ public without sharing class MyTeamRemote {
     public static void savePatientDelegate(String delegate) {
         try {
             System.debug('savePatientDelegate:');
+            List<User> existingUserPatientDelegate = new List<User>();
+            User user;
             Contact contactDelegate = (Contact) JSON.deserialize(delegate, Contact.class);
-            Boolean isNewContact = contactDelegate.Id == null;
-            if (isNewContact) {
-                User user = [
+            user = [
                     SELECT Contact.AccountId, ContactId, TimeZoneSidKey
                     FROM User
                     WHERE Id = :UserInfo.getUserId()
                 ];
+            Boolean isNewContact = contactDelegate.Id == null;
+            if (isNewContact) {
+                /*User user = [
+                    SELECT Contact.AccountId, ContactId, TimeZoneSidKey
+                    FROM User
+                    WHERE Id = :UserInfo.getUserId()
+                ];*/
                 Participant__c participant = ParticipantService.getInstance()
                     .getState()
                     .participant;
@@ -862,7 +869,20 @@ public without sharing class MyTeamRemote {
                     user.TimeZoneSidKey
                 );
                 insert delegateUser;
-            } /*else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
+            }else{
+                if(contactDelegate.Id != null){
+                        existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :contactDelegate.Id];
+                    }
+                 if(existingUserPatientDelegate.isEmpty()){
+                User delegateUser = CommunityService.createUser(
+                    contactDelegate,
+                    null,
+                    null,
+                    user.TimeZoneSidKey
+                );
+                insert delegateUser;
+              }
+           }/*else if (!CommunityService.isUserInCommunity(contactDelegate.Id)) {
                 contactDelegate.UserCommunityIsDelegate__c = true;
                 Boolean check =
                     contactDelegate.userCommunytyType__c.contains('PI') ||
