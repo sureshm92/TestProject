@@ -16,7 +16,38 @@ private class Test_ManualCreationPanelRemote {
         taskConfig.endTime = System.today();
         taskConfig.reminderDate = System.today();
         taskConfig.visibility = 'Owner;Delegates';
+        taskConfig.isRecurrence = true;
+        taskConfig.recurrenceFrequency = 'Daily';
+        
+        ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
 
+        Test.startTest();
+        ManualCreationPanelRemote.getInitData();
+        ManualCreationPanelRemote.createTasks(
+            JSON.serialize(taskConfig),
+            JSON.serialize(adHocWrapper),
+            JSON.serialize(filter),
+            'task'
+        );
+        Test.stopTest();
+    }
+    
+    @IsTest
+    static void testTaskCreationWeekly() {
+        TestData.loadTestData();
+
+        ManualTaskFilter filter = new ManualTaskFilter();
+        filter.statuses = new List<String>{ PEStatusState.PE_ST_REFERRED };
+
+        TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
+        taskConfig.subject = 'Test';
+        taskConfig.startDate = System.today().addDays(1);
+        taskConfig.endTime = System.today().addDays(14);
+        taskConfig.reminderDays = 10;
+        taskConfig.visibility = 'Owner;Delegates';
+        taskConfig.isRecurrence = true;
+        taskConfig.recurrenceFrequency = 'Weekly';
+        
         ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
 
         Test.startTest();
