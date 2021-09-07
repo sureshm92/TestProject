@@ -254,6 +254,19 @@ public class TestData {
         ppList.add(ppTc);
         insert ppList;
 
+        Manual_Creation_Panel_Task__c mct = new Manual_Creation_Panel_Task__c(
+            TaskConfig__c ='{"isRecurrence":true,"priority":"Normal","visibility":"Owner;Delegates","subject":"Test Rec","startDate":"2021-08-30","endTime":"2021-09-06","recurrenceFrequency":"Weekly"}', 
+            TaskFilter__c ='	{"areas":[],"countries":[],"isPlatformLevel":true,"sites":[],"sponsors":[],"statuses":["Referred","Enrolled"],"studies":[]}', 
+            Recurrence_Frequency__c ='Weekly', 
+            Status__c = 'Active',
+            Start_Date__c = Date.today(),  
+            Recurrence_End_Date__c = Date.today().addDays(15),
+            Next_Occurence_Date__c = Date.today(), 
+            Next_Due_Date__c = Date.today().addDays(6)
+        );
+        insert mct;
+
+
         List<Account> accounts = new List<Account>();
         Account participantsAccount = new Account(
             Name = CommunityService.COMMUNITY_PARTICIPANT_ACCOUNT_NAME
