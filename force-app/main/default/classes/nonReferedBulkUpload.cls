@@ -345,7 +345,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         errStr += errMap.get(800);                        
                     }
                     else if(rec[8]=='No'){
-                        errStr += 'Patient Auth, if entered should be Yes.;';                        
+                        errStr += 'Patient Auth if entered should be Yes.;';                        
                     } 
                     
                     if(errStr == ''){
