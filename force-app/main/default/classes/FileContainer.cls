@@ -96,7 +96,7 @@ public without sharing class FileContainer {
                 StudyDetails studySiteWrapper = new StudyDetails();
                 studySiteWrapper.study = ctp;
                 studySiteWrapper.studySite = site;
-            	studySiteWrapper.studies = new LabelValueItem(ctp.Name, site.Id);
+            	studySiteWrapper.studies = new LabelValueItem(ctp.Study_Title__c, site.Id);
 				studyDetails.add(studySiteWrapper);  
             }   
         }

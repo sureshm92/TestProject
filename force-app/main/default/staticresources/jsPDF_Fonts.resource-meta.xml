@@ -2,5 +2,5 @@
 <StaticResource xmlns="http://soap.sforce.com/2006/04/metadata">
     <cacheControl>Public</cacheControl>
     <contentType>application/x-zip-compressed</contentType>
-    <description>Fonts in TTF format used in jsPDF. Currently Amiri, Heebo, Roboto fonts are added. Once new languages are enabled in the community, please update/add supporting TTF files.</description>
+    <description>Fonts in TTF format used in jsPDF. Currently Amiri, Heebo, Roboto and NotoSans JP fonts are added. Once new languages are enabled in the community, please update/add supporting TTF files.</description>
 </StaticResource>

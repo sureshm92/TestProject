@@ -19442,7 +19442,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>SitePreference</shortDescription>
-        <value>The site will communicate with the participant about schedule updates</value>
+        <value>The site will communicate with the participant for scheduling</value>
     </labels>
     <labels>
         <fullName>SS_Btn_Save</fullName>
