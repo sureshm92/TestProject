@@ -7,7 +7,7 @@ public with sharing class RPRecordReviewLogHelper {
         public Contact delegateDetails;
         public List<LabelValueItem> studyList = new List<LabelValueItem>();
         public List<LabelValueItem> studySiteList = new List<LabelValueItem>();
-	}
+    }
 
     public static HCPInit getHCPInitData(String delegateId, String userMode) {       
         HCPInit hInit = new HCPInit();
@@ -24,7 +24,7 @@ public with sharing class RPRecordReviewLogHelper {
                     //Get study site details
                     hInit.studySiteList = getStudySiteDetails(ctpIds); 
 
-            }		
+            }       
             return hInit;
         }
         catch (Exception e) {
@@ -170,5 +170,39 @@ public with sharing class RPRecordReviewLogHelper {
             }
         
         return '' + isAdult;
+    }
+
+    public static List<LabelValueItem> getMonthWithoutZero() {
+        List<LabelValueItem> monthOption = new List<LabelValueItem>();
+        for(Integer i=1; i<=12; i++){
+            String m = String.valueOf(i); 
+            monthOption.add(new LabelValueItem(m, m));
+        }
+        return monthOption;
+    }
+
+    public static List<LabelValueItem> getMonthWithZero() {
+        List<LabelValueItem> monthOption = new List<LabelValueItem>();
+        for(Integer i = 1; i<=12; i++){
+            String m;
+            if(i<10){
+               m = '0'+String.valueOf(i); 
+            }
+            else{
+                m = String.valueOf(i);
+            }
+            monthOption.add(new LabelValueItem(m, m));
+        }
+        return monthOption;
+    }
+
+    public static List<LabelValueItem> getYear() {
+        List<LabelValueItem> yearOption = new List<LabelValueItem>();
+        Integer currentYear = System.Today().year();
+        for(Integer i = 1900; i<= currentYear; i++){
+            String y = String.valueOf(i); 
+            yearOption.add(new LabelValueItem(y, y));
+        }
+        return yearOption;
     }
 }
