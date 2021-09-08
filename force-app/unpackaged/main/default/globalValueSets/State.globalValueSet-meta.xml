@@ -1227,66 +1227,6 @@
         <label>England</label>
     </customValue>
     <customValue>
-        <fullName>NLDR</fullName>
-        <default>false</default>
-        <label>Drenthe</label>
-    </customValue>
-    <customValue>
-        <fullName>NLFL</fullName>
-        <default>false</default>
-        <label>Flevoland</label>
-    </customValue>
-    <customValue>
-        <fullName>NLFR</fullName>
-        <default>false</default>
-        <label>Friesland</label>
-    </customValue>
-    <customValue>
-        <fullName>NLGE</fullName>
-        <default>false</default>
-        <label>Gelderland</label>
-    </customValue>
-    <customValue>
-        <fullName>NLGR</fullName>
-        <default>false</default>
-        <label>Groningen</label>
-    </customValue>
-    <customValue>
-        <fullName>NLLI</fullName>
-        <default>false</default>
-        <label>Limburg</label>
-    </customValue>
-    <customValue>
-        <fullName>NLNB</fullName>
-        <default>false</default>
-        <label>North Brabant</label>
-    </customValue>
-    <customValue>
-        <fullName>NLNH</fullName>
-        <default>false</default>
-        <label>North Holland</label>
-    </customValue>
-    <customValue>
-        <fullName>NLOV</fullName>
-        <default>false</default>
-        <label>Overijssel</label>
-    </customValue>
-    <customValue>
-        <fullName>NLZH</fullName>
-        <default>false</default>
-        <label>South Holland</label>
-    </customValue>
-    <customValue>
-        <fullName>NLUT</fullName>
-        <default>false</default>
-        <label>Utrecht</label>
-    </customValue>
-    <customValue>
-        <fullName>NLZE</fullName>
-        <default>false</default>
-        <label>Zeeland</label>
-    </customValue>    
-    <customValue>
         <fullName>GBNIR</fullName>
         <default>false</default>
         <isActive>false</isActive>
