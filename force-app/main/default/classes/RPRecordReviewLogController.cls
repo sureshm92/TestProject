@@ -100,9 +100,17 @@ public without sharing class RPRecordReviewLogController {
         @AuraEnabled 
         public List<LabelValueItem> delegatePhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_Phone_Type__c);
         @AuraEnabled 
+        public List<LabelValueItem> monthDateOption = RPRecordReviewLogHelper.getMonthWithZero();
+        @AuraEnabled 
+        public List<LabelValueItem> yearDateOption = RPRecordReviewLogHelper.getYear();
+        @AuraEnabled 
+        public List<LabelValueItem> delegateYearOption = RPRecordReviewLogHelper.getYear();
+        @AuraEnabled 
         public String accessLevel;
         @AuraEnabled 
         public boolean isRequired;
+
+        
         
         public peProfileSection(Participant_Enrollment__c peRecord,String createdDateFormat) {
             this.peRecord = peRecord;
@@ -118,7 +126,7 @@ public without sharing class RPRecordReviewLogController {
                 List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
                 Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,State__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
-                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,
+                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,
                 Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c
                 from Participant_Enrollment__c where Id =: peId];
 
@@ -142,18 +150,23 @@ public without sharing class RPRecordReviewLogController {
                         if(isAdult =='true') {
                             //Minor
                             peProfileSectionWrapperList[0].isRequired = false;
-                            pe.Legal_Status__c = 'Yes';
-                            pe.Is_Delegate_Certify__c = true;
+                            pe.Legal_Status__c = 'No';
                         }
                         else{
                             peProfileSectionWrapperList[0].isRequired = true;
-                            pe.Legal_Status__c = 'No';
-                            pe.Is_Delegate_Certify__c = false;
+                            pe.Legal_Status__c = 'Yes';
                         }
                     }
                     else{
                         peProfileSectionWrapperList[0].isRequired = true;
                     }
+
+                    /*if(pe.Birth_Month__c != null && (pe.Birth_Month__c.indexOf('0')>-1)){
+                        peProfileSectionWrapperList[0].monthDateOption = RPRecordReviewLogHelper.getMonthWithZero();
+                    }
+                    else{
+                        peProfileSectionWrapperList[0].monthDateOption = RPRecordReviewLogHelper.getMonthWithoutZero();
+                    }*/
                 }
                 
                 RPRecordReviewLogHelper.HCPInit hcp =RPRecordReviewLogHelper.getHCPInitData(delegateId, userMode);
@@ -199,7 +212,7 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static String checkPatientAge(String countryCode, String stateCode, String month ,String year) {
         try {
-            String isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(countryCode, stateCode, month,year);
+            String isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(countryCode, stateCode, month, year);
             return isAdult;
         } 
         catch (Exception e) {
@@ -238,7 +251,7 @@ public without sharing class RPRecordReviewLogController {
                 && peList[0].Legal_Status_of_Primary_Delegate__c == null) {
                     return 'Minor';
                 }
-                else if(legalStatus == 'No')
+                else if(legalStatus == 'Yes')
                 {
                     return 'LegalStatus';
                 }
@@ -406,11 +419,11 @@ public without sharing class RPRecordReviewLogController {
             pe.Medical_Record_Review_Status__c = status;
             pe.MRR_Survey_Results_URL__c = surveyGizmoData;
             pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
-            if (status == 'Pass') {
+            /**if (status == 'Pass') {
                 pe.Pre_screening_Status__c = 'Pass';
             } else {
                 pe.Pre_screening_Status__c = 'Fail';
-            }
+            }**/
             IncentiveProgramService.completeIncentiveTaskCurrentContact(
                 IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING,
                 pe.Study_Site__c,
@@ -451,5 +464,33 @@ public without sharing class RPRecordReviewLogController {
         public Integer lastdayper; 
         
     } 
+    
+    
+    @AuraEnabled
+    public static String changeStatusToExcludeFromReferring(String participantEnrollmentId) {
+        try {
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Id = participantEnrollmentId,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
+            );
+            update participantEnrollment;
+            return ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
+    @AuraEnabled
+    public static String undoChangeStatusToExcludeFromReferring(String participantEnrollmentId) {
+        try {
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Id = participantEnrollmentId,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL
+            );
+            update participantEnrollment;
+            return ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
 
 }

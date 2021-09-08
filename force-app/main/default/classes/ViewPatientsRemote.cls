@@ -896,4 +896,11 @@ public without sharing class ViewPatientsRemote {
 	@AuraEnabled
         public Set<Id> referralsPIsAndMedRevsContacts { get; set; }	
     }
+
+    //fix REF-4633
+    @AuraEnabled
+    public static String getDelAcceslevel(String delegateId){
+        return CommunityService.getInstance().getUserAccessLevel(delegateId);
+    }
+    //
 }

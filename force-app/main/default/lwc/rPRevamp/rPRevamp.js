@@ -71,16 +71,16 @@ export default class RPRevamp extends LightningElement {
                     this.rpCountry = result.delegateDetails.MailingCountry;
                     this.isInstrModalOpen = result.showInstructions;
                     this.showInstruction = result.showInstructions;
+                    this.getDetailsApex();
                 });
             });
             loadScript(this, xlsxmin).then(() => {                
             });
-            this.getDetailsApex();
         }
     }
     getDetailsApex() {
         this.nofiles = false;
-        fetchFiles()
+        fetchFiles({delegateId : this.userConID})
             .then((result) => {
                 this.contentFiles = result;
                 this.recordsToDisplay = result;                
@@ -272,7 +272,7 @@ export default class RPRevamp extends LightningElement {
                 this.progressWidth = 'width :'+this.progress+'%';
                 this.uploadChunk(file, fileContents, fromPos, toPos, attachId);  
             }else{
-                if(this.totalRecs > 501){
+                if(this.totalRecs > 500){
                     this.dispatchEvent(new ShowToastEvent({
                         title: 'Error',
                         message: 'Total number of records greater than 500, please try again with upto 500 records.',

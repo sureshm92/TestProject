@@ -2,7 +2,7 @@
  * Created by Leonid Bartenev
  */
 ({
-    doInit: function (component, event, hepler) {
+    doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         if (!communityService.isDummy()) {
             let spinner = component.find('mainSpinner');
@@ -15,6 +15,17 @@
             let siteId = communityService.getUrlParameter('siteId');
             component.set('v.siteId', siteId); 
             component.set('v.currentDelegateId', communityService.getDelegateId());
+            var actionGetAcceslevel = component.get("c.getDelAcceslevel");
+            actionGetAcceslevel.setParams({ 
+                delegateId : communityService.getDelegateId()
+            });
+            actionGetAcceslevel.setCallback(this, function(response) {
+                var state = response.getState();
+                if (state === "SUCCESS") {
+                    component.set('v.accessLevel',response.getReturnValue());
+                }                
+            });
+            $A.enqueueAction(actionGetAcceslevel);
  			//alert('delegateId---> ' + communityService.getDelegateId() + 'mode'+communityService.getUserMode());
             component.set('v.isInitialized', true);
             spinner.hide();

@@ -52,7 +52,8 @@ export default class Paginator extends LightningElement {
         this.setRecordsToDisplay();
     }
     handlePageNumberChange(event) {
-        if (event.target.value > 0 && event.target.value <= this.totalPages) {
+       // if (event.target.value > 0 && event.target.value <= this.totalPages) {
+        if (event.target.value > 0) {
             this.pageNumber = event.target.value;
             this.setRecordsToDisplay();
         }

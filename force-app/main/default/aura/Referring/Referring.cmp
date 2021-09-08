@@ -10,7 +10,7 @@
                 access="global" 
                 >
     <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
-     <lightning:navigation aura:id="navService"/>
+    <lightning:navigation aura:id="navService"/>
     <!-- attributes: -->
     <aura:attribute name="trialId" type="String" />
     <aura:attribute name="siteId" type="String" /> 
@@ -103,6 +103,12 @@
     <aura:attribute name="openmodel" type="boolean" default="false"/>
     <aura:attribute name="closeModel" type="boolean" default="false"/>
     
+    <aura:attribute name="days" type="List" />
+    <aura:attribute name="months" type="List" />
+    <aura:attribute name="years" type="List" />
+    <aura:attribute name="pday" type="string" default="null" />
+    <aura:attribute name="pmonth" type="string" default="null" />
+    <aura:attribute name="pyear" type="string" default="null" />
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
     <aura:handler name="change" value="{!v.mrrResult}" action="{!c.doStartPreScreening}" />
@@ -117,7 +123,8 @@
                   event="c:DDMessageEvent"
                   action="{!c.approveDelegate}"
                   />
-    
+    <aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}"  />
+    <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}"  />
     <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
     <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
     
@@ -551,7 +558,7 @@
                      <div class="big-alert" style="padding: 10px 0">
                          <div class="message">Contact info page TODO</div>
                      </div>
-                 </div-->
+                 </div--> 
                     <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'/* @noflip */  direction: rtl;')}">
                         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
                             <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
@@ -699,40 +706,80 @@
                                                  style="height: 20px"
                                                  ></div>
                                             <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
-                                                <div class="label">
-                                                    <abbr title="required" class="slds-required"
-                                                          >*</abbr
-                                                        >{!$Label.c.PG_AS_F_Date_of_Birth}
-                                                </div>
+                                                
                                                 <aura:if isTrue="{!v.patientVeiwRedirection}">
-                                                    <lightning:layout horizontalAlign="space">
-                                                        <lightning:layoutItem >
-                                                            <lightning:input name="input1" disabled="true" value="{!v.birthMonth}" style="width:35px;" />
-                                                        </lightning:layoutItem>
-                                                        <lightning:layoutItem >
-                                                            <lightning:input name="input2" disabled="true" value="{!v.yearofBirth}" style="width:50px;"/>
-                                                        </lightning:layoutItem>
-                                                        <lightning:layoutItem >
-                                                            <lightning:input
-                                                                         max="{!v.todayDate}"
-                                                                         min="1900-01-01"
-                                                                         type="date"
-                                                                         value="{!v.participant.Date_of_Birth__c}"
-                                                                         onblur="{!c.doCheckDateOfBith}"
-                                                                         dateStyle="medium"
-                                                                         style="width: 124px;;"
-                                                                         />
-                                                        </lightning:layoutItem>
-                                                    </lightning:layout>
-                                                    <!--<lightning:input
-                                                                         max="{!v.todayDate}"
-                                                                         min="1900-01-01"
-                                                                         type="date"
-                                                                         value="{!v.participant.Date_of_Birth__c}"
-                                                                         onblur="{!c.doCheckDateOfBith}"
-                                                                         dateStyle="medium"
-                                                                         />-->
+                                                    <div class="slds-grid slds-wrap">
+                                                        <div class="slds-col slds-size_1-of-3">
+                                                            <lightning:layout horizontalAlign="space">
+                                                                <lightning:layoutItem >
+                                                                    <div class="label">
+                                                                        <abbr title="required" class="slds-required"
+                                                                              >*</abbr
+                                                                            >MM
+                                                                    </div>
+                                                                    <div style="width:61px">
+                                                                        <c:rrSelect
+                                                                                    options="{!v.months}"
+                                                                                    value="{!v.pmonth}"
+                                                                                    placeholder="MM"
+                                                                                    useSentenceFont="false"
+                                                                                    onchange="{!c.doCheckParticipantDob}"
+                                                                                    />
+                                                                    </div>
+                                                                </lightning:layoutItem>
+                                                            </lightning:layout>
+                                                            
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-3">
+                                                            <lightning:layout horizontalAlign="space">
+                                                                <lightning:layoutItem >
+                                                                    <div class="label">
+                                                                        <abbr title="required" class="slds-required"
+                                                                              >*</abbr
+                                                                            >DD
+                                                                    </div>
+                                                                    <div style="width:57px">
+                                                                        <c:rrSelect
+                                                                                    options="{!v.days}"
+                                                                                    value="{!v.pday}"
+                                                                                    placeholder="DD"
+                                                                                    useSentenceFont="false"
+                                                                                    onchange="{!c.doCheckParticipantDob}"
+                                                                                    />
+                                                                    </div>
+                                                                </lightning:layoutItem>
+                                                            </lightning:layout>
+                                                            
+                                                        </div>
+                                                        <div class="slds-col slds-size_1-of-3">
+                                                            <lightning:layout horizontalAlign="space">
+                                                                <lightning:layoutItem >
+                                                                    <div class="label">
+                                                                        <abbr title="required" class="slds-required"
+                                                                              >*</abbr
+                                                                            >YYYY
+                                                                    </div>
+                                                                    <div style="width:75px">
+                                                                        <c:rrSelect
+                                                                                    options="{!v.years}"
+                                                                                    value="{!v.pyear}"
+                                                                                    placeholder="YYYY"
+                                                                                    useSentenceFont="false"
+                                                                                    onchange="{!c.doCheckParticipantDob}"
+                                                                                    /> 
+                                                                    </div>
+                                                                </lightning:layoutItem>
+                                                            </lightning:layout>
+                                                            
+                                                        </div>
+                                                    </div>
+                                                    
                                                     <aura:set attribute="else">
+                                                        <div class="label">
+                                                            <abbr title="required" class="slds-required"
+                                                                  >*</abbr
+                                                                >{!$Label.c.PG_AS_F_Date_of_Birth}
+                                                        </div>
                                                         <lightning:input
                                                                          max="{!v.todayDate}"
                                                                          min="1900-01-01"
