@@ -32,6 +32,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @api isBulkProfilePage;
     @api browserstore;
     isPaginationApplied = false;
+    
+     isSelectAll = false;
 
     constructor() {
         super();
@@ -96,7 +98,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var allRecords = [];
         var paginationList = [];
         var peIds = [];
-
+        this.isSelectAll = true;
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             row.isChecked = event.target.checked;
@@ -137,7 +139,9 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var allRecords = [];
         var paginationList = [];
         var ctpId;
-
+        console.log('selectall'+this.isSelectAll);
+        this.isSelectAll = false;
+        console.log('selectall'+this.isSelectAll);
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             row.isChecked = false;
@@ -246,13 +250,13 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         console.log(this.recordsToDisplay.length);
         let recddis;
         let allRec;
-        if (this.isFilterApplied) {
+        /*if (this.isFilterApplied) {
             recddis = this.masterFilterData;
             allRec = this.masterFilterData;
-        } else {
+        } else {*/
             recddis = this.masterData;
             allRec = this.masterData;
-        }
+        //}
         if (this.searchValue.length > 0) {
             this.disableFilter = true;
             if (this.searchValue.length > 2) {
@@ -273,8 +277,13 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         }
         if (this.searchValue.length == 0) {
             this.disableFilter = false;
-            this.data = allRec;
-            this.recordsToDisplay = allRec;
+            if (this.isFilterApplied) {
+                this.data = this.masterFilterData;
+                this.recordsToDisplay = this.masterFilterData;
+            } else {
+                this.data = allRec;
+                this.recordsToDisplay = allRec;
+            }
             this.isPaginationApplied = false;
         }
         this.redirectoOverviewPage();

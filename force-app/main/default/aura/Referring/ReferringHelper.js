@@ -54,8 +54,6 @@
     setParticipant: function (component, pe, markers) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-            //var today = $A.localizationService.formatDate(new Date(), "DD");
-            //var dob = pe.YOB__c+'-'+pe.Birth_Month__c+'-'+today;
             var participant = {
                 sobjectType: 'Participant__c',
                 First_Name__c: pe.Participant_Name__c,
@@ -82,9 +80,22 @@
             component.set('v.emailDelegateRepeat',pe.Primary_Delegate_Email__c);
             component.set('v.isDelegateCertify',pe.Is_Delegate_Certify__c);
             component.set('v.attestAge',pe.Is_Delegate_Certify__c);
+            
             component.set('v.birthMonth',pe.Birth_Month__c);
+            if(pe.Birth_Month__c != null){
+                component.set('v.pmonth',pe.Birth_Month__c);
+            }else{
+                component.set('v.pmonth',null);
+            }
+            
             component.set('v.yearofBirth',pe.YOB__c);
-            if(pe.Is_Contact__c && pe.Is_Email__c){
+             if(pe.YOB__c != null){
+                component.set('v.pyear',pe.YOB__c);
+            }else{
+                component.set('v.pyear',null);
+            }
+         
+            if(pe.Is_SMS__c && pe.Is_Email__c && pe.Is_Phone__c){
                 component.set('v.agreePolicy',true); 
             }
 
@@ -412,11 +423,13 @@
 	
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
+        let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
+       
         if(component.get('v.attestAge'))
         {
-            var attestCheckbox = component.find('checkBoxAttestation');
-            attestCheckbox.setCustomValidity('');
-            attestCheckbox.reportValidity('');
+                var attestCheckbox = component.find('checkBoxAttestation');
+                attestCheckbox.setCustomValidity('');
+                attestCheckbox.reportValidity('');
         }
         var spinner = component.find('mainSpinner');
         spinner.show();
