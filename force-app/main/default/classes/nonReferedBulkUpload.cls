@@ -61,12 +61,17 @@ public with sharing class nonReferedBulkUpload {
     
     //method to fetch existing error files
     @AuraEnabled(cacheable=false)
-    public static List<ContentVersion> fetchFiles(){
+    public static List<ContentVersion> fetchFiles(string delegateId){
         Set<Id> cntDocumentIds = new Set<Id>();
         List<ContentVersion> errcvList = new List<ContentVersion>();
         try{
             Contact cnt = new Contact();
-            cnt.id = [Select contactId from user where Id =: userInfo.getUserId()].contactId;
+            if(delegateId==null){
+            	cnt.id = [Select contactId from user where Id =: userInfo.getUserId()].contactId;
+            }
+            else{
+                cnt.id = delegateId;
+            }
             for(ContentDocumentLink cdlink : [Select Id, 
                                               LinkedEntityId, 
                                               ContentDocumentId 
