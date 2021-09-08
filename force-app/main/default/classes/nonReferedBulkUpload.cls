@@ -437,7 +437,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             
             // if(!errRowsCSV.isEmpty()){
             if(!hasErrRow){
-                errCSVFile = rows[0].trim()+',Error'+ '\n';
+                errCSVFile = rows[0].trim()+',Validation Errors'+ '\n';
                 errCSVFile = errCSVFile +rows[1].trim()+','+ '\n';
             }
             else{
