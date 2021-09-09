@@ -4,6 +4,8 @@
 
 <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
     <aura:attribute name="userMode" type="String" />
+    <aura:attribute name="currentPage" type="String" />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!-- component body: -->
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
