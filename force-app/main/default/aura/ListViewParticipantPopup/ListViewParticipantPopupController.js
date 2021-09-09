@@ -143,39 +143,48 @@
             console.log('empty');
             if(component.get('v.notesRequired')){
                 component.set('v.enable',true);
-            }else{ 
-                if(newStatus == 'Enrollment Success'){
-                    if(component.get('v.finalConsentvalue')){
-                        component.set('v.enable',false);
+            }else{
+                if(component.get('v.finalConsent')){
+                    if(newStatus == 'Enrollment Success'){
+                        if(component.get('v.finalConsentvalue')){
+                            component.set('v.enable',false);
+                        }else{
+                            component.set('v.enable',true);
+                        }
+                    }else if(newStatus == 'Randomization Success'){
+                        if(component.get('v.finalConsentvalue')){
+                            component.set('v.enable',false);
+                        }else{
+                            component.set('v.enable',true);
+                        }
                     }else{
-                        component.set('v.enable',true);
-                    }
-                }else if(newStatus == 'Randomization Success'){
-                    if(component.get('v.finalConsentvalue')){
                         component.set('v.enable',false);
-                    }else{
-                        component.set('v.enable',true);
                     }
-                }else{
+                }
+                else{
                     component.set('v.enable',false);
                 }
-             }
+            }
         }else{ console.log('notempty');
-             if(newStatus == 'Enrollment Success'){
-                    if(component.get('v.finalConsentvalue')){
-                        component.set('v.enable',false);
-                    }else{
-                        component.set('v.enable',true);
-                    }
-                }else if(newStatus == 'Randomization Success'){
-                    if(component.get('v.finalConsentvalue')){
-                        component.set('v.enable',false);
-                    }else{
-                        component.set('v.enable',true);
-                    }
-                }else{
-                    component.set('v.enable',false);
-                }
-        }
+              if(component.get('v.finalConsent')){
+                  if(newStatus == 'Enrollment Success'){
+                      if(component.get('v.finalConsentvalue')){
+                          component.set('v.enable',false);
+                      }else{
+                          component.set('v.enable',true);
+                      }
+                  }else if(newStatus == 'Randomization Success'){
+                      if(component.get('v.finalConsentvalue')){
+                          component.set('v.enable',false);
+                      }else{
+                          component.set('v.enable',true);
+                      }
+                  }else{
+                      component.set('v.enable',false);
+                  }
+              }else{
+                  component.set('v.enable',false);
+              }
+             }
     }
 })
