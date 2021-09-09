@@ -1,5 +1,5 @@
 @IsTest
-private class RemoveRecurrenceController_Test {
+private class Test_RemoveRecurrenceController {
      @TestSetup
     static void init() {
         Test.startTest();
