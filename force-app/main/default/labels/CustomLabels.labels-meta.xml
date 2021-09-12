@@ -18269,6 +18269,13 @@ communications using the toggles below.</value>
         <value>Select Results</value>
     </labels>
     <labels>
+        <fullName>RPR_Select_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RPR Select Status</shortDescription>
+        <value>Select Status</value>
+    </labels>
+    <labels>
         <fullName>RPR_Site_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
