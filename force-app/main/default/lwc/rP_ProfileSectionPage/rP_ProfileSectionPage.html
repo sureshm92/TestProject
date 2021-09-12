@@ -10,32 +10,38 @@
     <div style="margin-left: 20px;margin-right: 5px;">
         <template for:each={peRecordList} for:item="pe">
             <lightning-layout multiple-rows="true"  key={pe.Id}>
-                <lightning-layout-item padding="around-small" size="7">
+                <lightning-layout-item padding="around-small" size="6">
                     <div class="profile-patientID">
                         {pe.peRecord.Patient_ID__c}
                     </div>
-                    <div class="profile-patientName">
+                    <div class="profile-patientName slds-truncate">
                         {pe.peRecord.Participant_Name__c}  {pe.peRecord.Participant_Surname__c}
                     </div>
                 </lightning-layout-item>
-                <template if:false={referbuttonShow}>
-                    <lightning-layout-item padding="around-small" size="5">
-                        <button class="apollo-btn primary search-more-btn" style="float:right;" onclick={showmedicalreview} title="Medical Review">
-                            <lightning-button-icon icon-name="utility:edit"  variant="bare-inverse"></lightning-button-icon> &nbsp;
-                            Medical Review
+                <lightning-layout-item padding="around-small" size="6" style="text-align: right;">
+                    <template if:true={showExclude}>
+                        <button class="apollo-btn secondary search-more-btn"  onclick={excludepatient} title="Select to exclude patient from referring">
+                            Exclude
                         </button>
-                    </lightning-layout-item>
-                </template>
-                <template if:true={referbuttonShow}>
-                    <lightning-layout-item padding="around-small" size="5">
-                       <!-- <lightning-button  label="Refer" title="Refer" style="float:right;" class="apollo-btn primary search-more-btn" onclick={doRedirectToReferPatient}></lightning-button>-->
-                       <button class="apollo-btn primary search-more-btn" style="float:right;" onclick={doRedirectToReferPatient} title="Refer"  disabled={referbuttonDisable}>
-                        Refer
-                    </button>
-            
-
-                    </lightning-layout-item>
-                </template>
+                    </template>
+                    <template if:true={showInclude}>
+                        <button class="apollo-btn secondary search-more-btn"  onclick={includepatient} title="Select to include patient for referring">
+                            Include
+                        </button>
+                    </template>
+                    <template if:true={showMRR}>
+                        <button class="apollo-btn primary search-more-btn" onclick={showmedicalreview} title="Medical Review">
+                            <lightning-button-icon icon-name="utility:edit"  variant="bare-inverse"></lightning-button-icon> &nbsp;
+                                Medical Review
+                        </button>
+                    </template>
+                    <template if:true={showRefer}>
+                            <button class="apollo-btn primary search-more-btn" onclick={doRedirectToReferPatient} title="Refer" 
+                                disabled={referbuttonDisable}>
+                                Refer
+                            </button>
+                    </template>
+                </lightning-layout-item>                    
             </lightning-layout>
             <lightning-layout multiple-rows="true"  key={pe.Id}>
                 <lightning-layout-item padding="around-small" size="2">
@@ -120,6 +126,9 @@
                         <template if:true={emptyMedicalReviewStatus}> 
                             <div style="border-bottom: 2px solid #444444;width:20px;margin-top: -10px;"></div>
                         </template>
+                        <template if:false={medicalreviewConfigured}> 
+                            <div style="margin-top: -20px;">N/A</div>
+                        </template>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="2">
@@ -149,7 +158,6 @@
                         <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList} 
                             onrefreshpatienttabchange={handlePatientTabChange} states={states} ></c-rp_-patient-tab>
                     </lightning-tab>
-                    <!--&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp;-->
                     <lightning-tab label="Primary Delegate">
                         <c-rp_-delegate-tab delegaterecordlist={peRecordList} originaldelegaterecordlist={peRecordList} 
                             onrefreshdelegatetabchange={handlePatientTabChange}> </c-rp_-delegate-tab>
@@ -159,7 +167,6 @@
         </template>
     </div>   
    <template if:true={medicalReview}>
-        <c-r-p-medical-review-log gizmosrc={gizmosrc} onmedicalreviewresult={handleEventChange}>
-        </c-r-p-medical-review-log>
+        <c-r-p-medical-review-log gizmosrc={gizmosrc} onmedicalreviewresult={handleEventChange}></c-r-p-medical-review-log>
     </template>
 </template>
