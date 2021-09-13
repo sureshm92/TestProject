@@ -73,7 +73,8 @@ public with sharing class ManualTaskRemote {
             for(LookupSearchResult l:sites){
                 siteList.add(l.title);
             }
-            String visibleTo = taskConfig.visibility;
+            String visibilityStr = taskConfig.visibility.replace('Owner', 'Patients');
+            String visibleTo = visibilityStr;
             Boolean isPlatformLevel = mtf.isPlatformLevel;
             String siteTitle = String.join(siteList, ',');
             String studyTitle = String.join(studyList, ',');
@@ -123,7 +124,7 @@ public with sharing class ManualTaskRemote {
         public TaskPanelWrapper() {
             taskConfig = new TaskService.TaskConfig();
             taskConfig.priority = 'Normal';
-            taskConfig.visibility = 'Patients;Delegates';
+            taskConfig.visibility = 'Owner;Delegates';
 
             nowDate = Date.today();
 
@@ -132,8 +133,8 @@ public with sharing class ManualTaskRemote {
             priorities.add(new LabelValueItem('Critical', 'Critical'));
 
             visibility = new List<LabelValueItem>();
-            visibility.add(new LabelValueItem('All', 'Patients;Delegates'));
-            visibility.add(new LabelValueItem('Patients only', 'Patients'));
+            visibility.add(new LabelValueItem('All', 'Owner;Delegates'));
+            visibility.add(new LabelValueItem('Patients only', 'Owner'));
             visibility.add(new LabelValueItem('Delegates only', 'Delegates'));
         }
     }
