@@ -17,8 +17,8 @@ public without sharing class TaskService {
     public static final String TASK_PRIORITY_NORMAL = 'Normal';
     public static final String TASK_PRIORITY_CRITICAL = 'Critical';
 
-    public static final String TASK_VISIBILITY_ALL = 'Owner;Delegates';
-    public static final String TASK_VISIBILITY_OWNER = 'Owner';
+    public static final String TASK_VISIBILITY_ALL = 'Patients;Delegates';
+    public static final String TASK_VISIBILITY_OWNER = 'Patients';
     public static final String TASK_VISIBILITY_DELEGATES = 'Delegates';
 
     public static final String TASK_TYPE_MEDICATION = 'Medication';
