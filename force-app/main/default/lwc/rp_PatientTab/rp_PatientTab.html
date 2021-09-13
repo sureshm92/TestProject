@@ -14,9 +14,9 @@
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="6">
-            <div>
+            <div> 
                 <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Email__c} data-value="EmailID" 
-                required={pe.isRequired} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired} disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
     </lightning-layout>
@@ -71,12 +71,12 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Phone Number" name="Phone Number" value={pe.peRecord.Phone__c} data-value="PhoneNumber" 
-                required={pe.isRequired} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired}  disabled={pe.isMinor} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox required={pe.isRequired} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
+                <lightning-combobox required={pe.isRequired}  disabled={pe.isMinor} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
                     options={pe.phoneTypeList} data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -93,13 +93,13 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Alt Phone Number" name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
-                    data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                 data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-combobox label="Alt Phone Type" name="Alt Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Participant_Alt_Phone_Type__c}  
-                    options={pe.altPhoneTypeList} data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                 options={pe.altPhoneTypeList} data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
         </lightning-layout-item>

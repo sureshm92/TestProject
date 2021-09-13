@@ -7,6 +7,7 @@
     <aura:attribute name="currentPage" type="String" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <!-- component body: -->
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
         aura:id="navMenu"
