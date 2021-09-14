@@ -11,7 +11,7 @@ public with sharing class RPRecordReviewLogHelper {
 
     }
 
-    public static HCPInit getHCPInitData(String delegateId, String userMode,String ctpId) {       
+    public static HCPInit getHCPInitData(String delegateId, String userMode) {       
         HCPInit hInit = new HCPInit();
         try {
                 if(userMode == 'HCP') {
