@@ -85,7 +85,7 @@
                                                         year="numeric"
                                                         month="short"
                                                         day="2-digit"
-                                                        time-zone="UTC"
+                                                        time-zone={userTimezone}
                                                     >
                                                     </lightning-formatted-date-time>
                                                 </template>
@@ -98,7 +98,7 @@
                                                             year="numeric"
                                                             month="short"
                                                             day="2-digit"
-                                                            time-zone="UTC"
+                                                            time-zone={userTimezone}
                                                         >
                                                         </lightning-formatted-date-time>
                                                         <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>
@@ -489,7 +489,7 @@
                                                         year="numeric"
                                                         month="short"
                                                         day="2-digit"
-                                                        time-zone="UTC"
+                                                        time-zone={userTimezone}
                                                     ></lightning-formatted-date-time>
                                                 </template>
                                                 <template if:false={pathItem.complDate}>
@@ -504,7 +504,7 @@
                                                             year="numeric"
                                                             month="short"
                                                             day="2-digit"
-                                                            time-zone="UTC"
+                                                            time-zone={userTimezone}
                                                         >
                                                         </lightning-formatted-date-time>
                                                         <!--<div data-id={pathItem.id} onclick={handleOpenDialog}>

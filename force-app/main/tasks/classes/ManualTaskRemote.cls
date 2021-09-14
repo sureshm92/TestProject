@@ -73,7 +73,8 @@ public with sharing class ManualTaskRemote {
             for(LookupSearchResult l:sites){
                 siteList.add(l.title);
             }
-            String visibleTo = taskConfig.visibility;
+            String visibilityStr = taskConfig.visibility.replace('Owner', 'Patients');
+            String visibleTo = visibilityStr;
             Boolean isPlatformLevel = mtf.isPlatformLevel;
             String siteTitle = String.join(siteList, ',');
             String studyTitle = String.join(studyList, ',');
