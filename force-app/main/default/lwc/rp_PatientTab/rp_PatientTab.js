@@ -24,6 +24,7 @@ export default class Rp_PatientTab extends LightningElement {
     disabledSaveButton = true
     @api monthDateValue;
     @api yearDateValue;
+    @api isMinor = false;
 
     @api
     get patientrecordlist() {
@@ -32,7 +33,6 @@ export default class Rp_PatientTab extends LightningElement {
     set patientrecordlist(value) {
         this.patientrecord = JSON.parse(JSON.stringify(value));
     }
-
     label = {
         PG_Ref_L_Information_Sharing,
         PG_Ref_L_Permit_IQVIA_Confirmation,
@@ -96,11 +96,48 @@ export default class Rp_PatientTab extends LightningElement {
         else if(fieldValue && fieldLabel == 'Birth Year') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
             let monthValue = monthValueAvilable.value;
+            
+            let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
+            let yearValue = yearValueAvilable.value;
+            
+            monthValueAvilable.setCustomValidity('');
+
+            if(monthValue != null && yearValue != null){
+                var currentTime = new Date();
+                var year = currentTime.getFullYear();
+                var month = currentTime.getMonth() + 1;
+                
+                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.reportValidity();
+                    //element.value = '';
+                    returnvalue = false;
+                }
+            }
             if(!monthValue){
                 monthValueAvilable.setCustomValidity('Fill before Birth Year');
                 monthValueAvilable.reportValidity();
                 element.value = '';
                 returnvalue = false;
+            }
+        }
+        else if(fieldValue && fieldLabel == 'Birth Month') {
+            let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
+            let monthValue = monthValueAvilable.value;
+            let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
+            let yearValue = yearValueAvilable.value;
+            monthValueAvilable.setCustomValidity('');
+            if(monthValue != null && yearValue != null){
+                var currentTime = new Date();
+                var year = currentTime.getFullYear();
+                var month = currentTime.getMonth() + 1;
+                
+                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.reportValidity();
+                    element.value = '';
+                    returnvalue = false;
+                }
             }
         }
         else{
@@ -119,7 +156,7 @@ export default class Rp_PatientTab extends LightningElement {
     changeInputValue(event) {
         let isAllFieldValidated = false;
         this.disabledSaveButton = true;
-
+       
         let isRequired = this.patientrecord[0].isRequired;
         let dataValue = event.target.dataset.value;
         this.disabledSaveButton = true;
@@ -280,11 +317,20 @@ export default class Rp_PatientTab extends LightningElement {
         checkPatientAge({countryCode: countryCode,stateCode: stateCode, month: month, year: year})
         .then((result) => {
             if(result == 'true') {
-                this.patientrecord[0].isRequired = false;  
-                this.patientrecord[0].peRecord.Legal_Status__c = 'No';     
+                this.patientrecord[0].isRequired = false; 
+                this.patientrecord[0].isMinor = true; 
+                this.isMinor = true;
+                this.patientrecord[0].peRecord.Legal_Status__c = 'No';   
+                this.patientrecord[0].peRecord.Email__c = ''; 
+                this.patientrecord[0].peRecord.Phone__c = '';    
+                this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';  
+                this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';  
+                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';    
             }
             else {
                 this.patientrecord[0].isRequired = true;
+                this.patientrecord[0].isMinor = false; 
+                this.isMinor = false;
                 this.patientrecord[0].peRecord.Legal_Status__c = 'Yes';     
             }
         })

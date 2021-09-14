@@ -31,6 +31,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @api isProfilePage;
     @api isBulkProfilePage;
     @api browserstore;
+    @api isExcludedforReferring = false;
+    @api allRecords;
     isPaginationApplied = false;
     
      isSelectAll = false;
@@ -47,11 +49,15 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     getDetailsApex() {
         getPEDetails()
             .then((result) => {
-                this.apexRefreshList = result;
-                this.data = result;
-                this.masterData = result;
-                this.recordsToDisplay = result;
+                this.allRecords = result;
+                let includedRecords = result.filter(function(include) {
+                    return include.peRec.Participant_Status__c != "Excluded from Referring"; });
+                this.apexRefreshList = includedRecords;
+                this.data = includedRecords;
+                this.masterData = includedRecords;
+                this.recordsToDisplay = includedRecords;
                 this.error = undefined;
+                this.isExcludedforReferring = false;
                 //for empty records check
                 if (this.recordsToDisplay.length > 0) {
                     this.showTable = true;
@@ -63,6 +69,11 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             .catch((error) => {
                 console.log(error);
             });
+    }
+
+    handleExcludeRecords(event) {
+       this.isExcludedforReferring = event.detail;
+       console.log('Event Triggered---->'+this.isExcludedforReferring);
     }
 
     /*
@@ -257,9 +268,22 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             recddis = this.masterData;
             allRec = this.masterData;
         //}
+        
         if (this.searchValue.length > 0) {
             this.disableFilter = true;
             if (this.searchValue.length > 2) {
+                if(!this.isExcludedforReferring){
+                    console.log('Include Search');
+                    let includedRecords = recddis.filter(function(include) {
+                        return include.peRec.Participant_Status__c != "Excluded from Referring"; });
+                        allRec = includedRecords;  
+                }else{
+                    console.log('Exclude Search');
+                    let excludedRecords = this.allRecords.filter(function(ex) {
+                        return ex.peRec.Participant_Status__c == "Excluded from Referring"; });
+                        allRec = excludedRecords;   
+                }
+              
                 recddis = allRec.filter((rec) =>
                     JSON.stringify(rec).toLowerCase().includes(this.searchValue.toLowerCase())
                 );
@@ -269,11 +293,11 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 console.log(this.data.length);
                 console.log(this.recordsToDisplay.length);
                 this.isPaginationApplied = false;
-            } else {
+            } /**else {
                 this.data = allRec;
                 this.recordsToDisplay = allRec;
                 this.isPaginationApplied = false;
-            }
+            }**/
         }
         if (this.searchValue.length == 0) {
             this.disableFilter = false;
