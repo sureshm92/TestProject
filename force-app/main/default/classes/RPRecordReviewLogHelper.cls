@@ -7,9 +7,11 @@ public with sharing class RPRecordReviewLogHelper {
         public Contact delegateDetails;
         public List<LabelValueItem> studyList = new List<LabelValueItem>();
         public List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        public List<LabelValueItem> selectedstudySiteList = new List<LabelValueItem>();
+
     }
 
-    public static HCPInit getHCPInitData(String delegateId, String userMode) {       
+    public static HCPInit getHCPInitData(String delegateId, String userMode,String ctpId) {       
         HCPInit hInit = new HCPInit();
         try {
                 if(userMode == 'HCP') {
@@ -17,13 +19,13 @@ public with sharing class RPRecordReviewLogHelper {
                     //Check access level
                     hInit.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);                
                     String hcpDelegate = hInit.delegateAccessLevel != null ? delegateId : currentContactId; 
+
                     //Get delegate contact details
                     hInit.delegateDetails = getContact(hcpDelegate);
                     //Get study details
                     hInit.studyList = getStudyDetails(hcpDelegate); 
                     //Get study site details
                     hInit.studySiteList = getStudySiteDetails(ctpIds); 
-
             }       
             return hInit;
         }
@@ -49,6 +51,8 @@ public with sharing class RPRecordReviewLogHelper {
         
         return studyDetails;
     }
+    
+   
 
     public static List<LabelValueItem> getStudySiteDetails(Set<String> ctpIds) {
         List<LabelValueItem> studySiteList = new List<LabelValueItem>();
@@ -72,6 +76,30 @@ public with sharing class RPRecordReviewLogHelper {
         return studies;
     }
 
+    public static List<LabelValueItem> getSelectedStudySite(String currentContactId, String ctpId) {
+        List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        Set<String> studyId = new Set<String>();
+        List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+        List<Id> lstcontactId = new List<Id>();
+
+        RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+            if(RPD.size() != 0){
+                for(RP_Delegate_Relationship__c del: RPD){
+                    lstcontactId.add(del.Referring_Provider__c);
+                }
+                lstcontactId.add(currentContactId);
+            }else{
+                 lstcontactId.add(currentContactId);
+            }
+
+        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Study_Site__r.Name,Study_Site__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
+                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c =: lstcontactId and Clinical_Trial_Profile__c =: ctpId])
+        {
+            studySiteList.add(new LabelValueItem(hcpEnroll.Study_Site__r.Name,hcpEnroll.Study_Site__c));
+        }
+
+        return studySiteList;
+    }
     public static String checkNeedsGuardian(String countryCode, String stateCode, String month ,String year) {
         Boolean needsGuardian = false;
         Integer monthInt;

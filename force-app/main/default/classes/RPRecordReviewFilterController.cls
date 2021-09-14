@@ -38,13 +38,36 @@ public without sharing class  RPRecordReviewFilterController{
         peFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
         peFilterData.trialIds = new List<Id>();
         Map<Id, String> trialsByName = new Map<Id, String>();
-        for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, delegateId)) {
-            trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+        
+        Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+        List<Id> lstcontactId = new List<Id>();
+        List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+        RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+        if(RPD.size() != 0){
+            for(RP_Delegate_Relationship__c del: RPD){
+                lstcontactId.add(del.Referring_Provider__c);
+            }
+            lstcontactId.add(currentContactId);
+        }else{
+             lstcontactId.add(currentContactId);
+        } 
+        
+        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
+                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN:lstcontactId])
+        {
+            peFilterData.trialIds.add(hcpEnroll.Clinical_Trial_Profile__c);
+            peFilterData.studies.add(new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c,hcpEnroll.Clinical_Trial_Profile__c));
+           
         }
-        for(Id studyId : trialsByName.keySet()) {
-            peFilterData.trialIds.add(studyId);
-            peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
-        }
+        
+       
+        //for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, delegateId)) {
+            //trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+        //}
+       /** for(Id studyId : trialsByName.keySet()) {
+            //peFilterData.trialIds.add(studyId);
+            //peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
+        }*/
         
         peFilterData.reviewResults = new List<LabelValueItem>();
         peFilterData.reviewResults.add(new LabelValueItem(Label.PG_SDRC_L_All, ''));
@@ -86,10 +109,23 @@ public without sharing class  RPRecordReviewFilterController{
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<RPRecordReviewLogController.peInitData> peInitWrapperDataList = new List<RPRecordReviewLogController.peInitData>();
            
+            List<Id> lstcontactId = new List<Id>();
+            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+            if(RPD.size() != 0){
+                for(RP_Delegate_Relationship__c del: RPD){
+                    lstcontactId.add(del.Referring_Provider__c);
+                }
+                lstcontactId.add(currentContactId);
+            }else{
+                 lstcontactId.add(currentContactId);
+            }
             
+            system.debug('contactId-->'+lstcontactId.size());
+           
             filterWrapper filter = (filterWrapper) JSON.deserialize( filterJSON,filterWrapper.class);
             String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c ';
-            strQuery += ' from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c = \'' + currentContactId +  '\'';
+            strQuery += ' from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId ';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
             
             
@@ -130,6 +166,7 @@ public without sharing class  RPRecordReviewFilterController{
             strQuery += ' order by lastmodifiedDate DESC ';
             
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c> ();
+            system.debug('dynamicquery--->'+strQuery);
             peList = Database.query(strQuery);
             
             for (Participant_Enrollment__c pe : peList) {
