@@ -114,6 +114,10 @@
     margin-right: 0.5rem;
 }
 
+.THIS .ButtonWidth {
+	width: max-content;
+}
+
 .THIS .filterTitle {
     color: black;
     font-size: 13px;

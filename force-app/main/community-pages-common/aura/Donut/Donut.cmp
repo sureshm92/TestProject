@@ -40,7 +40,7 @@
                         valueLabel="{!v.valueLabel}"
                         totalLabel="{!v.totalLabel}"
                     />
-                    <div class="dt-total-text">
+                    <div class="dt-total-text" Style="word-break: break-all;">
                         <div>{!v.total}<br />{!v.totalLabel}</div>
                     </div>
                 </div>
