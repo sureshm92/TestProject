@@ -14,9 +14,9 @@
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="6">
-            <div>
+            <div> 
                 <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Email__c} data-value="EmailID" 
-                required={pe.isRequired} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired} disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
     </lightning-layout>
@@ -28,34 +28,19 @@
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
-                <lightning-input type="text" label="M.I." name="M.I." value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI" 
+                <lightning-input type="text" label="Middle Initial" name="Middle Initial" value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </lightning-layout-item>
-        <lightning-layout-item padding="around-small" size="2" flexibility="auto">
-                <lightning-input type="text" label="Birth Month" name="Birth Month" value={pe.peRecord.Birth_Month__c} data-value="BirthMonth" 
-                    data-id={pe.peRecord.Id}  pattern="[0-9]*" min-length="1" max-length="2" 
-                    onchange={changeInputValue} required="true" >
-                </lightning-input>
+        <lightning-layout-item padding="around-small" size="3">
+            <lightning-combobox required="true" label="Birth Month" name="Birth Month" placeholder="Select Birh Month" value={pe.peRecord.Birth_Month__c}  
+                options={pe.monthDateOption} data-value="BirthMonth" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
+            </lightning-combobox>                    
         </lightning-layout-item>
 
-        <lightning-layout-item padding="around-small" size="1">
-                <lightning-input type="Date" name="Birth Month Date" label="Birth Month Date" variant="label-hidden"
-                    data-value="BirthMonthDate" data-id={pe.peRecord.Id} min="1900-01-01" max={todayDate} onchange={changeInputValue} 
-                    date-style="short" class="dateBox">
-                </lightning-input>
-        </lightning-layout-item>
-        <lightning-layout-item padding="around-small" size="2" flexibility="auto">
-                <lightning-input type="text" label="Birth Year" name="Birth Year" value={pe.peRecord.YOB__c} data-value="BirthYear" 
-                    data-id={pe.peRecord.Id} pattern="[0-9]*" max-length="4" onchange={changeInputValue} required="true" ></lightning-input>
-        </lightning-layout-item>
-
-        <lightning-layout-item padding="around-small" size="1">
-            <div>
-                <lightning-input type="Date" name="Birth Year Date" label="Birth Year Date" variant="label-hidden"
-                    data-value="BirthYearDate" data-id={pe.peRecord.Id} onchange={changeInputValue} min="1900-01-01" max={todayDate}
-                    class="dateBox">
-                </lightning-input>
-            </div>
+        <lightning-layout-item padding="around-small" size="3">
+            <lightning-combobox required="true" label="Birth Year" name="Birth Year" placeholder="Select Birth Year" value={pe.peRecord.YOB__c}  
+            options={pe.yearDateOption} data-value="BirthYear" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
+        </lightning-combobox>                    
         </lightning-layout-item>
     </lightning-layout>
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
@@ -86,12 +71,12 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Phone Number" name="Phone Number" value={pe.peRecord.Phone__c} data-value="PhoneNumber" 
-                required={pe.isRequired} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
+                required={pe.isRequired}  disabled={pe.isMinor} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox required={pe.isRequired} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
+                <lightning-combobox required={pe.isRequired}  disabled={pe.isMinor} label="Phone Type" name="Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Patient_Phone_Type__c}  
                     options={pe.phoneTypeList} data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -108,13 +93,13 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label="Alt Phone Number" name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
-                    data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                 data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-combobox label="Alt Phone Type" name="Alt Phone Type" placeholder="Select Phone Type" value={pe.peRecord.Participant_Alt_Phone_Type__c}  
-                    options={pe.altPhoneTypeList} data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                 options={pe.altPhoneTypeList} data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
         </lightning-layout-item>
@@ -165,7 +150,7 @@
         </div>
         <div>
             <lightning-input type="checkbox" label="IsEmail" name="IsEmail" variant="label-hidden" checked={pe.peRecord.Is_Email__c} 
-                data-value="IsEmail" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+            data-value="IsEmail" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </div>
         <div class="patientConfirmation">
             {label.PG_Ref_L_Permit_IQVIA_To_Contact_Email}
@@ -191,8 +176,8 @@
 </div>
 <div class="divider"></div>
 <div class="patient-button">
-<button class="slds-button slds-button_neutral" onclick={cancelRecord} title="Cancel">Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;
-<button class="apollo-btn primary search-more-btn" onclick={openUnsavedModal} title="Save">
+<button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel">Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;
+<button class="apollo-btn primary search-more-btn" onclick={openUnsavedModal} title="Save" disabled={disabledSaveButton}>
     Save
 </button>
 </div>
@@ -211,11 +196,11 @@
                     size="small" ></lightning-icon>
                 <span class="slds-assistive-text">Close</span>
             </button>
-            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Unsaved Data</h2>
+            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Save Data</h2>
         </header>
         <!-- Modal/Popup Box LWC body starts here -->
         <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-            <p>There is unsaved changes made to this records. Are you sure you want to proceed without saving changes?</p>
+            <p>Are you sure you want to save the changes?</p>
         </div>
         <!-- Modal/Popup Box LWC footer starts here -->
         <footer class="slds-modal__footer">
@@ -229,5 +214,33 @@
     </div>
 </section>
 <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
+<template if:true={cancelOpen}>
+    <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+        <div class="sldsmodalcontainer">
+            <header class="slds-modal__header">
+                <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCancelModal}>
+                    <lightning-icon icon-name="utility:close"
+                        alternative-text="close"
+                        variant="inverse"
+                        size="small" ></lightning-icon>
+                    <span class="slds-assistive-text">Close</span>
+                </button>
+                <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">Cancel Record</h2>
+            </header>
+            <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                <p>Are you sure you want to discard changes?</p>
+            </div>
+            <footer class="slds-modal__footer">
+                <button  class="apollo-btn tertiary custom-cancel"  onclick={closeCancelModal} title="Cancel">
+                    Cancel
+                </button>
+                <button class="apollo-btn primary search-more-btn" onclick={cancelRecord} title="Ok" >
+                    Ok
+                </button>
+            </footer>
+        </div>
+    </section>
+    <div class="slds-backdrop slds-backdrop_open"></div>
 </template>
 </template>

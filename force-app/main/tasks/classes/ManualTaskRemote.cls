@@ -73,7 +73,8 @@ public with sharing class ManualTaskRemote {
             for(LookupSearchResult l:sites){
                 siteList.add(l.title);
             }
-            String visibleTo = taskConfig.visibility;
+            String visibilityStr = taskConfig.visibility.replace('Owner', 'Patients');
+            String visibleTo = visibilityStr;
             Boolean isPlatformLevel = mtf.isPlatformLevel;
             String siteTitle = String.join(siteList, ',');
             String studyTitle = String.join(studyList, ',');
@@ -92,6 +93,7 @@ public with sharing class ManualTaskRemote {
                             Study__c = studyTitle,
                             Therapeutic_Area__c = ts,
                             TaskConfig__c = config,
+                            Patient_Status__c = statusString,
                             Last_Occurrence_Date__c = lastOccurenceDate,
                             Next_Occurence_Date__c = nextTaskStartDate,
                             Is_Recurrence__c =  taskConfig.isRecurrence,

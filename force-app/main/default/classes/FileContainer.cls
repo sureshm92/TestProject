@@ -40,7 +40,7 @@ public without sharing class FileContainer {
 				//get show instructions flag from contact
                 showInstructions = getInstructionStatus(currentContactId);
                 //Check access level
-                delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);                
+                delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);  
                 hcpDelegate = delegateAccessLevel != null ? delegateId : currentContactId; 
                 //Get trials
                 trials = getTrials(hcpDelegate); 
@@ -75,30 +75,17 @@ public without sharing class FileContainer {
         List<Id> ctpIdList = new List<Id>();
         
         for(HCP_Enrollment__c hcpEnroll : [SELECT 
-                                           Id, 
-                                           Clinical_Trial_Profile__c
+                                           Id, Study_Site__c,
+                                           Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
                                            FROM HCP_Enrollment__c 
-                                           WHERE HCP_Contact__c =: delegateId])
+                                           WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling'])
         {
-            ctpIdList.add(hcpEnroll.Clinical_Trial_Profile__c);
-        }
-        
-        for(Clinical_Trial_Profile__c ctp : [SELECT 
-                                             Id,
-                                             Name,
-                                             Study_Title__c,
-                                             Study_Code_Name__c,
-                                             (SELECT Id, Name FROM Study_Site_Profiles__r limit 1)
-                                             FROM Clinical_Trial_Profile__c
-                                             WHERE Id IN :ctpIdList AND Override_Recruitment_Status__c = 'Actively Enrolling'])            
-        {
-            for(Study_Site__c site : ctp.Study_Site_Profiles__r){
+            if(!ctpIdList.contains(hcpEnroll.Clinical_Trial_Profile__c)){
+                ctpIdList.add(hcpEnroll.Clinical_Trial_Profile__c);
                 StudyDetails studySiteWrapper = new StudyDetails();
-                studySiteWrapper.study = ctp;
-                studySiteWrapper.studySite = site;
-            	studySiteWrapper.studies = new LabelValueItem(ctp.Name, site.Id);
-				studyDetails.add(studySiteWrapper);  
-            }   
+                studySiteWrapper.studies = new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c, hcpEnroll.Study_Site__c);
+                studyDetails.add(studySiteWrapper);  
+            }
         }
         return studyDetails;
     }

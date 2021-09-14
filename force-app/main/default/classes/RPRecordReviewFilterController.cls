@@ -16,15 +16,17 @@ public without sharing class  RPRecordReviewFilterController{
     public class filterWrapper {
         @AuraEnabled public List<Id>   SelectedStudies{get;set;}
         @AuraEnabled public String  SelectedExclusionReason{get;set;}
+        @AuraEnabled public String  selectedPatientStatus{get;set;}
         @AuraEnabled public String  SelectedDateRangeValue {get;set;}
         @AuraEnabled public String  SelectedReviewResult {get;set;}
         @AuraEnabled public List<Id>  trialIds {get;set;}
         
-        public filterWrapper(List<Id>   SelectedStudies,String  SelectedExclusionReason,String  SelectedDateRangeValue,String  SelectedReviewResult,List<Id>  trialIds) {
+        public filterWrapper(List<Id>   SelectedStudies,String  SelectedExclusionReason,String  SelectedDateRangeValue,String  SelectedReviewResult,String selectedPatientStatus,List<Id>  trialIds) {
             this.SelectedStudies = SelectedStudies;
             this.SelectedExclusionReason = SelectedExclusionReason;
             this.SelectedDateRangeValue = SelectedDateRangeValue;
             this.SelectedReviewResult = SelectedReviewResult;
+            this.selectedPatientStatus = selectedPatientStatus;
             this.trialIds = trialIds;
         }
     }    
@@ -89,14 +91,25 @@ public without sharing class  RPRecordReviewFilterController{
             String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c ';
             strQuery += ' from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c = \'' + currentContactId +  '\'';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
-            strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Excluded from Referring\' OR Participant_Status__c = \'Pending Referral\'  )';
+            
             
             if(!filter.SelectedStudies.isEmpty())
                 strQuery +=   ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.SelectedStudies, '\',\'') +  '\') ';
             else 
               strQuery += ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') +  '\') ';
         
-            
+             if(String.isNotBlank(filter.selectedPatientStatus))
+            {
+                String status='';
+                if(filter.selectedPatientStatus == ParticipantEnrollmentService.PART_STATUS_EXCLUDE_FROM_REFERRING_RP){
+                    status ='Excluded from Referring';
+                    strQuery +=' AND Participant_Status__c = \'' + status  +  '\'';
+                }else{
+                   strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Pending Referral\'  )';
+                }
+            }else{
+               strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Pending Referral\'  )';
+            }
                         
             if(String.isNotBlank(filter.SelectedExclusionReason))
             {

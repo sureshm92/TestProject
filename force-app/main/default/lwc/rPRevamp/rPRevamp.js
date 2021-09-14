@@ -71,16 +71,16 @@ export default class RPRevamp extends LightningElement {
                     this.rpCountry = result.delegateDetails.MailingCountry;
                     this.isInstrModalOpen = result.showInstructions;
                     this.showInstruction = result.showInstructions;
+                    this.getDetailsApex();
                 });
             });
             loadScript(this, xlsxmin).then(() => {                
             });
-            this.getDetailsApex();
         }
     }
     getDetailsApex() {
         this.nofiles = false;
-        fetchFiles()
+        fetchFiles({delegateId : this.userConID})
             .then((result) => {
                 this.contentFiles = result;
                 this.recordsToDisplay = result;                
@@ -155,7 +155,9 @@ export default class RPRevamp extends LightningElement {
     fileSize;
     fileId = '';
     csvData = '';
+    totalRecs = 0;
     handleFilesChange(event) {
+        
         if(event.target.files.length > 0) {
             this.filesUploaded = event.target.files;
             event.target.disabled = true;
@@ -163,6 +165,7 @@ export default class RPRevamp extends LightningElement {
             this.progress = 0;
             this.progressWidth='width :0%';
             this.base = 1;
+            this.totalRecs = 0;
             this.progressMultiplier = 0;
             this.saveFile();
         }
@@ -222,6 +225,10 @@ export default class RPRevamp extends LightningElement {
                 var sheet_name_list = workbook.SheetNames;    
                 var fileData = String(XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]));
                 self.csvData = fileData;                  
+                var csvRows = fileData.split('\n');
+                if(csvRows.length > 4){
+                    self.totalRecs = csvRows.length-2;
+                }
             }
             catch(e){
                 console.log('error'+ e.message)
@@ -265,14 +272,20 @@ export default class RPRevamp extends LightningElement {
                 this.progressWidth = 'width :'+this.progress+'%';
                 this.uploadChunk(file, fileContents, fromPos, toPos, attachId);  
             }else{
-                this.progress = 100;
-                this.progressWidth = 'width :'+this.progress+'%;background-color: #00C221;';
-               /* this.dispatchEvent(new ShowToastEvent({
-                    title: 'Success!',
-                    message: 'File Upload Success',
-                    variant: 'success'
-                }));*/
-                this.isLoading = false;
+                if(this.totalRecs > 500){
+                    this.dispatchEvent(new ShowToastEvent({
+                        title: 'Error',
+                        message: 'Total number of records greater than 500, please try again with upto 500 records.',
+                        variant: 'error'
+                    }));
+                    this.deleteFiles();
+                    this.isLoading = false;
+                }
+                else{
+                    this.progress = 100;
+                    this.progressWidth = 'width :'+this.progress+'%;background-color: #00C221;';
+                    this.isLoading = false;
+                }
             }
         })
         .catch(error => {

@@ -61,7 +61,7 @@
                 order: 1,
                 state: 'neutral'
             },
-            'Delegate': {
+            'Delegate(s)': {
                 order: 2,
                 state: 'neutral'
             },

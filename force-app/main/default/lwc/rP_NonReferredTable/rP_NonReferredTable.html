@@ -47,6 +47,7 @@
                             <lightning-input
                                 data-id="checkAll"
                                 onchange={allRowSelected}
+                                checked={isSelectAll}
                                 type="checkbox"
                             ></lightning-input>
                         </div>
@@ -169,6 +170,7 @@
             onfilterapply={handleFilterApply}
             onclearfilter={handleClearFilter}
             isdisabled={disableFilter}
+            onprogressvaluechange={handleExcludeRecords}
         ></c-filter-referred-l-w-c>
     </div>
 </template>

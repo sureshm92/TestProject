@@ -58,8 +58,14 @@
                             } 
 
                                          component.set('v.referrals',list);
-                                        if(list[0]){
+                                        if(list[0] && !check){
                                         component.set('v.defaultStudy',list[0].value);
+                                        }
+                                        else{
+                                            if(list.length>0 ){
+                                              component.set('v.defaultStudy',list[item].value);
+                                            }
+
                                         }
 
                                     }else{

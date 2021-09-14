@@ -20,7 +20,6 @@ export default class Rp_DelegateTab extends LightningElement {
         this.originaldelegaterecord = JSON.parse(JSON.stringify(value));
     }
 
-    @api todayDate;
     @api isLoading = false;
     @api delegaterecord;
     @api originaldelegaterecord;
@@ -31,21 +30,11 @@ export default class Rp_DelegateTab extends LightningElement {
     isInputValidated = false;
     isComboBoxValidated = false;
     isEmailFormatValidated = false;
+    disabledSaveButton = true;
+    cancelOpen = false;
 
-    connectedCallback() {
-        if(this.delegaterecord[0].peRecord.Legal_Status__c == 'Yes'){
-            this.delegaterecord[0].peRecord.Is_Delegate_Certify__c = true;
-        }
-        else{
-            this.delegaterecord[0].peRecord.Is_Delegate_Certify__c = false;
-        }
-        var today = new Date();
-        this.todayDate= today.toISOString();    
-    }
-    
     checkValidEmail(element) {
         this.isEmailFormatValidated = false;
-
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
         var regexpInvalid = new RegExp(/[\¡¿«»¢£¥€¤›]/);
         let emailValue = element.value;
@@ -68,6 +57,7 @@ export default class Rp_DelegateTab extends LightningElement {
     
     fieldValidation(name){
         this.template.querySelectorAll('lightning-input').forEach(element => {
+            
             if(element.label == name) {
               if(!element.value) {
                     element.setCustomValidity(element.label  +' ' + 'is missing.');
@@ -99,7 +89,6 @@ export default class Rp_DelegateTab extends LightningElement {
 
     inputValidatedAll() {
         this.isInputValidated = false;
-
         let isValid = [...this.template.querySelectorAll('lightning-input')].reduce( (val, inp) => {
             let inpVal = true;
             let fieldLabel = inp.label;
@@ -152,7 +141,7 @@ export default class Rp_DelegateTab extends LightningElement {
                         }
 
                     }
-                    break;
+                    break; 
                 default:
                     if(fieldLabel != 'Birth Year Date' && fieldLabel != 'IsDelegateCertify'){
                         inpVal = true;
@@ -190,8 +179,11 @@ export default class Rp_DelegateTab extends LightningElement {
 
     changeInputValue(event) {
         let fieldName = event.target.name;
-        if(fieldName  && fieldName !=='IsDelegateCertify'){
+        this.disabledSaveButton = false;
+
+        if(fieldName && fieldName !=='IsDelegateCertify'){
             this.fieldValidation(fieldName);
+            this.disabledSaveButton = false;
         }
         let record = this.delegaterecord.find(ele  => ele.peRecord.Id === event.target.dataset.id);
         if(event.target.dataset.value === 'DelFirstName') {
@@ -225,9 +217,14 @@ export default class Rp_DelegateTab extends LightningElement {
             record.peRecord.Is_Delegate_Certify__c = event.target.checked;
         }
         this.delegaterecord = [...this.delegaterecord];
+
+        if(this.delegaterecord[0].peRecord.Is_Delegate_Certify__c == false){
+            this.disabledSaveButton = true;
+        }
     }
 
     cancelRecord(event) {
+        this.cancelOpen = false;
         let record = this.delegaterecord.find(ele  => ele.peRecord.Id === this.originaldelegaterecord[0].peRecord.Id);
         record.peRecord.Primary_Delegate_First_Name__c = this.originaldelegaterecord[0].peRecord.Primary_Delegate_First_Name__c;
         record.peRecord.Primary_Delegate_Phone_Number__c = this.originaldelegaterecord[0].peRecord.Primary_Delegate_Phone_Number__c;
@@ -260,7 +257,6 @@ export default class Rp_DelegateTab extends LightningElement {
             let countryCode = this.delegaterecord[0].peRecord.Country__c;
             let stateCode = this.delegaterecord[0].peRecord.State__c;
             let year = this.delegaterecord[0].peRecord.Primary_Delegate_YOB__c;
-            
 
             checkDelegateAge({countryCode: countryCode, stateCode: stateCode, year: year})
             .then((result) => {
@@ -284,6 +280,8 @@ export default class Rp_DelegateTab extends LightningElement {
 
     proceedDetailsModal(event) {
         this.disableButton = true;
+        this.disabledSaveButton = true;
+
         delegateUpdatePeRecords({peRecord: this.delegaterecord[0].peRecord})
         .then((result) => {
             let record = this.originaldelegaterecord.find(ele  => ele.peRecord.Id === result.Id);
@@ -323,5 +321,12 @@ export default class Rp_DelegateTab extends LightningElement {
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);
+    }
+
+    cancelModelOpen(){
+        this.cancelOpen = true;
+    }
+    closeCancelModal() {
+        this.cancelOpen = false;
     }
 }

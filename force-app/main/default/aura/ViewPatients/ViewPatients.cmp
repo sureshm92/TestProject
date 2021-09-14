@@ -28,6 +28,7 @@
  <aura:attribute name="ctpIds" type="List" access="public" />
  <aura:attribute name="ctpId" type="String" access="public" />
  <aura:attribute name="currentDelegateId" type="String" access="public" /> 
+ <aura:attribute name="accessLevel" type="String" access="public" /> 
 <!--END : RP Revamp attributes:-->
 
  <aura:attribute
@@ -153,11 +154,12 @@
                                                         />
                                     </lightning:tab>
 
-                                    <lightning:tab label="Bulk Import"
-                                         onactive="{! c.handleActive }" id="tab3">
-                                       
-                                        <c:rPRevamp />
-                                    </lightning:tab>
+                                    <aura:if isTrue="{!v.accessLevel!='Level 2'}">
+                                        <lightning:tab label="Bulk Import"
+                                            onactive="{! c.handleActive }" id="tab3">                                        
+                                            <c:rPRevamp/>
+                                        </lightning:tab>
+                                    </aura:if>
                                 </lightning:tabset>
                             </lightning:card>
                         </lightning:layoutItem>

@@ -18,10 +18,13 @@ export default class Rp_PatientTab extends LightningElement {
     @api originalpatientrecord = [];
     @api isUnsavedModalOpen = false;
     @api disableButton = false;
-    @api todayDate;
     @track stateRequired = true;
     @track validationList = [];
-
+    cancelOpen = false;
+    disabledSaveButton = true
+    @api monthDateValue;
+    @api yearDateValue;
+    @api isMinor = false;
 
     @api
     get patientrecordlist() {
@@ -30,12 +33,6 @@ export default class Rp_PatientTab extends LightningElement {
     set patientrecordlist(value) {
         this.patientrecord = JSON.parse(JSON.stringify(value));
     }
-
-    connectedCallback() {
-        var today = new Date();
-        this.todayDate= today.toISOString();  
-    }
-
     label = {
         PG_Ref_L_Information_Sharing,
         PG_Ref_L_Permit_IQVIA_Confirmation,
@@ -51,53 +48,6 @@ export default class Rp_PatientTab extends LightningElement {
                                 'Sex','Country','PhoneType','States','SiteName','PatientAuthStatus','LegalStatus'];
     requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
                                 'Sex','Country','States','SiteName','PatientAuthStatus','LegalStatus'];
-    //requiredComboBoxForAdult = ['Sex','Country','PhoneType','States','SiteName','PatientAuthStatus','LegalStatus'];
-   // requiredComboBoxForMinor = ['Sex','Country','States','SiteName','PatientAuthStatus','LegalStatus'];
- 
-    inputNotIncludedField = ['AltPhoneNumber','AltPhoneType','MI','BirthMonthDate',
-                                    'BirthYearDate','IsEmail','IsPhone','IsSMS'];
-    inputNotIncludedFieldForMinor = ['Email ID','Phone Type','Alt Phone Type','Phone Number','Alt Phone Number','M.I.','Birth Month Date',
-                                        'Birth Year Date','IsEmail','IsPhone','IsSMS'];
-
-    yearValidation(year,element) {
-        var text = /^[0-9]+$/;
-        var current_year=new Date().getFullYear();
-        if (year.length != 4) {
-            element.setCustomValidity('You have entered an invalid format');
-            element.reportValidity();
-            return false;
-        }
-        else if(year != 0 && (year != "") && (!text.test(year))) {
-            element.setCustomValidity('You have entered an invalid format');
-            element.reportValidity();
-            return false;
-        }
-        else if((year < 1900) || (year > current_year)) {
-            element.setCustomValidity('Year should be in range 1900 to current year');
-            element.reportValidity();
-            return false;
-        }
-        else{
-            element.setCustomValidity('');
-            element.reportValidity();
-            return true;
-        }
-    }
-
-    monthValidation(month,element) {
-        var text =/^(0?[1-9]|1[012])$/;
-        if(!text.test(month)) {
-            element.setCustomValidity('You have entered an invalid format');
-            element.reportValidity();
-            return false;
-        }
-        else{
-            element.setCustomValidity('');
-            element.reportValidity();
-            return true;
-        }
-    }
-
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -134,34 +84,6 @@ export default class Rp_PatientTab extends LightningElement {
             element.setCustomValidity(fieldLabel +' ' + 'is missing.');
             returnvalue = false;
         }
-        else if(fieldValue && fieldLabel =='Birth Month') {
-            let isMonthValidated= this.monthValidation(fieldValue,element);
-            if(isMonthValidated) {
-                returnvalue = true;
-            }
-            else {
-                returnvalue = false;
-            }
-        }
-        else if(fieldValue && fieldLabel =='Birth Year') {
-            let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
-            let monthValue = monthValueAvilable.value;
-            if(!monthValue){
-                monthValueAvilable.setCustomValidity('Fill before Birth Year');
-                monthValueAvilable.reportValidity();
-                element.value = '';
-                returnvalue = false;
-            }
-            else {
-                let isYearValidated= this.yearValidation(fieldValue,element);
-                if(isYearValidated) {
-                    returnvalue = true;
-                }
-                else {
-                    returnvalue = false;
-                }
-            }
-        }
         else if(fieldValue && fieldLabel =='Email ID') {
             let isEmailValidated= this.checkValidEmail(element);
             if(isEmailValidated) {
@@ -169,6 +91,53 @@ export default class Rp_PatientTab extends LightningElement {
             }
             else {
                 returnvalue = false;
+            }
+        }
+        else if(fieldValue && fieldLabel == 'Birth Year') {
+            let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
+            let monthValue = monthValueAvilable.value;
+            
+            let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
+            let yearValue = yearValueAvilable.value;
+            
+            monthValueAvilable.setCustomValidity('');
+
+            if(monthValue != null && yearValue != null){
+                var currentTime = new Date();
+                var year = currentTime.getFullYear();
+                var month = currentTime.getMonth() + 1;
+                
+                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.reportValidity();
+                    //element.value = '';
+                    returnvalue = false;
+                }
+            }
+            if(!monthValue){
+                monthValueAvilable.setCustomValidity('Fill before Birth Year');
+                monthValueAvilable.reportValidity();
+                element.value = '';
+                returnvalue = false;
+            }
+        }
+        else if(fieldValue && fieldLabel == 'Birth Month') {
+            let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
+            let monthValue = monthValueAvilable.value;
+            let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
+            let yearValue = yearValueAvilable.value;
+            monthValueAvilable.setCustomValidity('');
+            if(monthValue != null && yearValue != null){
+                var currentTime = new Date();
+                var year = currentTime.getFullYear();
+                var month = currentTime.getMonth() + 1;
+                
+                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.reportValidity();
+                    element.value = '';
+                    returnvalue = false;
+                }
             }
         }
         else{
@@ -185,16 +154,23 @@ export default class Rp_PatientTab extends LightningElement {
     }
 
     changeInputValue(event) {
+        let isAllFieldValidated = false;
+        this.disabledSaveButton = true;
+       
         let isRequired = this.patientrecord[0].isRequired;
-        let dataValue = event.target.dataset.value.trim();
+        let dataValue = event.target.dataset.value;
+        this.disabledSaveButton = true;
+        this.validationList = [];
 
         if(isRequired && this.requiredFieldForAdult.includes(dataValue)) {
-             this.customFieldValidation(dataValue);
+            isAllFieldValidated = this.customFieldValidation(dataValue);
+            this.validationList.push(isAllFieldValidated);
         }
         else if(this.requiredfieldforMinor.includes(dataValue)){
-            this.customFieldValidation(dataValue);
+            isAllFieldValidated = this.customFieldValidation(dataValue);
+            this.validationList.push(isAllFieldValidated);
         }
-        
+
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === event.target.dataset.id);
         if(event.target.dataset.value === 'PatientID') {
             record.peRecord.Patient_ID__c = event.target.value;
@@ -211,49 +187,11 @@ export default class Rp_PatientTab extends LightningElement {
         else if(event.target.dataset.value === 'BirthMonth') {
             record.peRecord.Birth_Month__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'BirthMonthDate') {
-            let dt = new Date(event.target.value);
-            let month=  dt.getMonth() + 1;
-            record.peRecord.Birth_Month__c = month.toString();
-            window.setTimeout(() => {
-                const element = this.template.querySelector('[data-value="BirthMonth"]');
-                element.setCustomValidity('');
-                element.reportValidity();
-            }, 10);
-        }
         else if(event.target.dataset.value === 'BirthYear') {
-            let value = event.target.value;
-            if(value.length == 4) {
-                record.peRecord.YOB__c = event.target.value;
+            record.peRecord.YOB__c = event.target.value;
+            if(record.peRecord.YOB__c){
                 this.checkPatientAge();
-                this.patientrecord[0].isRequired
-
-                if(this.patientrecord[0].isRequired){
-                    record.peRecord.Legal_Status__c = 'Yes';
-                }
-                else{
-                    record.peRecord.Legal_Status__c = 'No';
-                }
             }
-        }
-        else if(event.target.dataset.value === 'BirthYearDate') {
-            let value = event.target.value;
-            var dt = new Date(value);
-            let year = dt.getFullYear();            
-            record.peRecord.YOB__c = year.toString();
-            this.checkPatientAge();
-            if(record.isRequired){
-                record.peRecord.Legal_Status__c = 'Yes';
-            }
-            else{
-                record.peRecord.Legal_Status__c = 'No';
-            }
-            window.setTimeout(() => {
-                const element = this.template.querySelector('[data-value="BirthYear"]');
-                element.setCustomValidity('');
-                element.reportValidity();
-            }, 10);
-            
         }
         else if(event.target.dataset.value === 'LastName') {
             record.peRecord.Participant_Surname__c = event.target.value;
@@ -298,12 +236,12 @@ export default class Rp_PatientTab extends LightningElement {
         }
         else if(event.target.dataset.value === 'LegalStatus') {
             this.checkPatientAge();
-            if(record.isRequired){
-                event.target.value = 'No'
+            if(this.patientrecord[0].isRequired){
+                event.target.value = 'Yes'
                 record.peRecord.Legal_Status__c = event.target.value 
             }
             else{
-                event.target.value = 'Yes'
+                event.target.value = 'No'
                 record.peRecord.Legal_Status__c = event.target.value;
             }
         }
@@ -317,10 +255,17 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Is_SMS__c = event.target.checked;
         }
         this.patientrecord = [...this.patientrecord];
-        
+
+        if(!this.patientrecord[0].peRecord.Patient_Auth__c && validationList.includes(false)){
+            this.disabledSaveButton = true;
+        }
+        else{
+            this.disabledSaveButton = false;
+        }
     }
 
     cancelRecord(event) {
+        this.cancelOpen = false;
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;
         record.peRecord.Email__c = this.originalpatientrecord[0].peRecord.Email__c;
@@ -356,7 +301,6 @@ export default class Rp_PatientTab extends LightningElement {
             });
            
         }
-
     }
 
     closeUnsavedModal(event) {
@@ -370,14 +314,24 @@ export default class Rp_PatientTab extends LightningElement {
         let year = this.patientrecord[0].peRecord.YOB__c;
         let month = this.patientrecord[0].peRecord.Birth_Month__c;
 
-        checkPatientAge({countryCode: countryCode,stateCode: stateCode,
-                            month: month, year: year})
+        checkPatientAge({countryCode: countryCode,stateCode: stateCode, month: month, year: year})
         .then((result) => {
             if(result == 'true') {
-                this.patientrecord[0].isRequired = false;               
+                this.patientrecord[0].isRequired = false; 
+                this.patientrecord[0].isMinor = true; 
+                this.isMinor = true;
+                this.patientrecord[0].peRecord.Legal_Status__c = 'No';   
+                this.patientrecord[0].peRecord.Email__c = ''; 
+                this.patientrecord[0].peRecord.Phone__c = '';    
+                this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';  
+                this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';  
+                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';    
             }
             else {
                 this.patientrecord[0].isRequired = true;
+                this.patientrecord[0].isMinor = false; 
+                this.isMinor = false;
+                this.patientrecord[0].peRecord.Legal_Status__c = 'Yes';     
             }
         })
         .catch((error) => {
@@ -385,10 +339,7 @@ export default class Rp_PatientTab extends LightningElement {
         })
     }
 
-
-
     openUnsavedModal(event) {
-
          let isAllFieldValidated = false;
          this.validationList = [];
          let checkCondition =[];
@@ -404,19 +355,13 @@ export default class Rp_PatientTab extends LightningElement {
             });
         }
         checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
+       
         for(let i=0; i<checkCondition.length; i++) {
-
-            isAllFieldValidated = this.customFieldValidation(checkCondition[i].trim());      
+            isAllFieldValidated = this.customFieldValidation(checkCondition[i]);      
             this.validationList.push(isAllFieldValidated);
         }
-        let check;
-        if(this.validationList.includes(false)){
-            check = false
-        }
-        else{
-            check = true
-        }
-        if(check) {  
+
+        if(!this.validationList.includes(false)) {  
             let newPatientId = this.patientrecord[0].peRecord.Patient_ID__c;
             let oldPatientId = this.originalpatientrecord[0].peRecord.Patient_ID__c;
             let countryCode = this.patientrecord[0].peRecord.Country__c;
@@ -424,29 +369,33 @@ export default class Rp_PatientTab extends LightningElement {
             let month = this.patientrecord[0].peRecord.Birth_Month__c;
             let year = this.patientrecord[0].peRecord.YOB__c;
             let legalStatus = this.patientrecord[0].peRecord.Legal_Status__c;
-
-            patientValidation({newPatientId: newPatientId, oldPatientId: oldPatientId ,
-                                countryCode: countryCode,stateCode: stateCode,
-                                    month: month,year: year,legalStatus: legalStatus})
-            .then((result) => {
-                if(result == 'DuplicatePatientId') {
-                    this.showErrorToast('Duplicate Patient Record found for'+' '+JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
-                }
-                else if(result == 'Minor') {                    
-                    this.showErrorToast('Delegate information is mandatory in case of minor Patient');
-                }
-                else if(result == 'LegalStatus') {                    
-                    this.showErrorToast('Legal Status should be Yes in case of minor Patient');
-                }
-                else{
-                    this.isUnsavedModalOpen = true; 
-                    this.disableButton = false; 
-                }
-            })
-            .catch((error) => {
-                this.showErrorToast(JSON.stringify(error.body.message));
-                this.isUnsavedModalOpen = false; 
-            })
+            if(this.patientrecord[0].peRecord.Patient_Auth__c == 'No') {
+                this.showErrorToast('Patient Auth should be Yes');
+            }
+            else{
+                patientValidation({newPatientId: newPatientId, oldPatientId: oldPatientId ,
+                                    countryCode: countryCode,stateCode: stateCode,
+                                        month: month,year: year,legalStatus: legalStatus})
+                .then((result) => {
+                    if(result == 'DuplicatePatientId') {
+                        this.showErrorToast('Duplicate Patient Record found for'+' '+JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
+                    }
+                    else if(result == 'Minor') {                    
+                        this.showErrorToast('Delegate information is mandatory in case of minor Patient');
+                    }
+                    else if(result == 'LegalStatus') {                    
+                        this.showErrorToast('Legal Status should be No in case of minor Patient');
+                    }
+                    else{
+                        this.isUnsavedModalOpen = true; 
+                        this.disableButton = false; 
+                    }
+                })
+                .catch((error) => {
+                    this.showErrorToast(JSON.stringify(error.body.message));
+                    this.isUnsavedModalOpen = false; 
+                })
+            }
         }
     }
 
@@ -485,5 +434,11 @@ export default class Rp_PatientTab extends LightningElement {
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);
+    }
+    cancelModelOpen(){
+        this.cancelOpen = true;
+    }
+    closeCancelModal() {
+        this.cancelOpen = false;
     }
 }

@@ -66,7 +66,7 @@
                 <lightning:input
                     aura:id="field"
                     type="date"
-                    label="Set Task Due Date"
+                    label="Set Task End Date"
                     value="{!v.taskConfig.endTime}"
                     onchange="{!c.onDaysChange}"
                     min="{!v.taskConfig.startDate}"
