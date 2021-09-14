@@ -311,6 +311,7 @@
                                           label="{!$Label.c.RH_Reset}"
                                           title="{!$Label.c.RH_Reset}"
                                           onclick="{! c.reset }"
+                                          class="ButtonWidth"
                                           />
                     </div>
                     <div class="searchHead">
@@ -318,6 +319,7 @@
                                 class="apollo-btn secondary mrc-invite-btn search"
                                 data-gtm="BTN_InviteRP"
                                 onclick="{!c.handleSearch}"
+                                class="ButtonWidth"
                                 >
                             {!$Label.c.RH_ApplyFilters}
                         </button>
