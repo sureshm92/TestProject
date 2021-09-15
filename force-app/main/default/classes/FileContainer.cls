@@ -41,7 +41,7 @@ public without sharing class FileContainer {
                 showInstructions = getInstructionStatus(currentContactId);
                 //Check access level
                 delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);  
-                hcpDelegate = delegateAccessLevel != null ? delegateId : currentContactId; 
+                hcpDelegate = (delegateAccessLevel != null && delegateAccessLevel != '') ? delegateId : currentContactId; 
                 //Get trials
                 trials = getTrials(hcpDelegate); 
                 //Get contact details
