@@ -134,8 +134,8 @@ public with sharing class ManualTaskRemote {
 
             visibility = new List<LabelValueItem>();
             visibility.add(new LabelValueItem('All', 'Owner;Delegates'));
-            visibility.add(new LabelValueItem('Patients only', 'Owner'));
-            visibility.add(new LabelValueItem('Delegates only', 'Delegates'));
+            visibility.add(new LabelValueItem('Patients', 'Owner'));
+            visibility.add(new LabelValueItem('Delegates', 'Delegates'));
         }
     }
 }
