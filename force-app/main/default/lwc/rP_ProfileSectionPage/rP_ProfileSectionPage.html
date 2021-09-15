@@ -20,12 +20,14 @@
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="6" style="text-align: right;">
                     <template if:true={showExclude}>
-                        <button class="apollo-btn secondary search-more-btn"  onclick={excludepatient} title="Select to exclude patient from referring">
+                        <button class="apollo-btn secondary search-more-btn"  onclick={excludepatient} title="Select to exclude patient from referring"
+                        disabled={referbuttonDisable}>
                             Exclude
                         </button>
                     </template>
                     <template if:true={showInclude}>
-                        <button class="apollo-btn secondary search-more-btn"  onclick={includepatient} title="Select to include patient for referring">
+                        <button class="apollo-btn secondary search-more-btn"  onclick={includepatient} title="Select to include patient for referring"
+                        disabled={referbuttonDisable}>
                             Include
                         </button>
                     </template>

@@ -174,8 +174,9 @@ public without sharing class RPRecordReviewLogController {
                     }*/
                 }
                 
-                RPRecordReviewLogHelper.HCPInit hcp =RPRecordReviewLogHelper.getHCPInitData(delegateId, userMode);
-                peProfileSectionWrapperList[0].siteList = hcp.studySiteList;
+                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
+                peList[0].Clinical_Trial_Profile__c);
+
                 
                 List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
                 RPD = [SELECT Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId LIMIT 1];
