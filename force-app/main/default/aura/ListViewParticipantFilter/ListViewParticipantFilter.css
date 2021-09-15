@@ -1,3 +1,78 @@
+/*  Tooltip for Text length overflow -added by Enugothula Srinath */
+.THIS .tooltip span
+{
+    text-decoration: none;
+   /* transform: translate(-50%, -100%) scale(.5); */
+    position: absolute;
+    background-color: #002448;
+    color: white;
+    padding: 0.5rem 1rem;
+    border-radius: 4px;
+    font-size: .850rem;
+    font-weight: 400;
+    text-align: left;
+/*    box-shadow: 0 0 4px 2px rgba(0,0,0,.2); */
+    width: max-content;
+    max-width: 220px;
+    top:0;
+    left:45%;
+    margin-top: -10px;
+    visibility: hidden;
+    opacity: 0;
+}
+.THIS .tooltip:hover{
+    position: relative;
+}
+.THIS .tooltip:hover span
+{
+    opacity: 1;
+    visibility: visible;
+    transform: translate(-50%, -100%) scale(1);
+    animation: pulse 1s;
+}
+.THIS .tooltip:hover span::after
+{
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    border: solid transparent;
+    content: '';
+    height: 0;
+    width: 0;
+    position: absolute;
+    pointer-events: none;
+    border-top: 8px solid #002448;
+    border-right: 8px solid transparent;
+    border-left: 8px solid transparent;
+    border-width: 10px;
+}
+.THIS .tooltip {
+    position: relative;
+ /*   display: inline-block; */
+    cursor: pointer;
+}
+.THIS .textoverlap
+{
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    width: 15rem;
+}
+.THIS .textoverlapDaytimeTelephoneNumbe1
+{
+    width: 16rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+.THIS .textoverlapDaytimeTelephoneNumbe2
+{
+    width: 12rem;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+}
+/*End*/
 .THIS .fp-form-element {
     display: inline-block;
     white-space: nowrap;
