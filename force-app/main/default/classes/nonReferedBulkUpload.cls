@@ -81,7 +81,7 @@ public with sharing class nonReferedBulkUpload {
                 cntDocumentIds.add(cdlink.ContentDocumentId);       
             }
             
-            errcvList = [SELECT VersionData,Title, CreatedBy.Name, ContentModifiedDate, ContentUrl, Initial_Total_Records__c, Accepted__c, Rejected_Records__c, ContentDocumentId, PathOnClient FROM ContentVersion WHERE IsLatest = true AND ContentDocumentId IN : cntDocumentIds ORDER BY createddate DESC];
+            errcvList = [SELECT VersionData,Title, CreatedBy.Name, ContentModifiedDate, ContentUrl, Initial_Total_Records__c, Accepted__c, Rejected_Records__c, ContentDocumentId, PathOnClient FROM ContentVersion WHERE IsLatest = true AND ContentDocumentId IN : cntDocumentIds and FileExtension = 'csv' ORDER BY createddate DESC];
             
             for(ContentVersion cv : errcvList){
                 if(cv.Rejected_Records__c != 0)
