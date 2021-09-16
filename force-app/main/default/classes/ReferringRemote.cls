@@ -396,6 +396,7 @@ public without sharing class ReferringRemote {
         enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
         enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
         enrollment.Show_Referring_Provider__c = true;
+        enrollment.Non_Referral_Reason__c='';
         //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
         if(filterCriteria){
             enrollment.Invited_To_PP_Date__c = DateTime.now();

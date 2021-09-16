@@ -51,13 +51,14 @@ public without sharing class  RPRecordReviewFilterController{
         }else{
              lstcontactId.add(currentContactId);
         } 
-        
+        Set<String>dupSet = new Set<String>();
         for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
                                             FROM HCP_Enrollment__c WHERE HCP_Contact__c IN:lstcontactId])
         {
-            peFilterData.trialIds.add(hcpEnroll.Clinical_Trial_Profile__c);
-            peFilterData.studies.add(new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c,hcpEnroll.Clinical_Trial_Profile__c));
-           
+            if(dupSet.add(hcpEnroll.Clinical_Trial_Profile__c)){
+                peFilterData.trialIds.add(hcpEnroll.Clinical_Trial_Profile__c);
+                peFilterData.studies.add(new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c,hcpEnroll.Clinical_Trial_Profile__c));
+            }
         }
         
        

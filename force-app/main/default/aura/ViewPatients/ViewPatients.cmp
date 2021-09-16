@@ -8,7 +8,7 @@
  controller="ViewPatientsRemote"
  extends="c:CommunityContext"
 >
-<aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+<aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
 
  <!--attributes:-->
 
@@ -29,6 +29,8 @@
  <aura:attribute name="ctpId" type="String" access="public" />
  <aura:attribute name="currentDelegateId" type="String" access="public" /> 
  <aura:attribute name="accessLevel" type="String" access="public" /> 
+ <aura:attribute name="peRecordList" type="List" access="public" />
+
 <!--END : RP Revamp attributes:-->
 
  <aura:attribute
@@ -137,7 +139,7 @@
                                     <lightning:tab   label="{!$Label.c.RPR_Not_Yet_Referred}" 
                                        onactive="{! c.handleActive }" id="tab1">
                                        
-                                       <c:rP_NonReferredTable userMode="{!v.userMode}" delegateId="{!v.currentDelegateId}" isProfilePage ="{!v.isProfilePage}"  
+                                       <c:rP_NonReferredTable userMode="{!v.userMode}" aura:id="table123" delegateId="{!v.currentDelegateId}" isProfilePage ="{!v.isProfilePage}" peRecordList="{!v.peRecordList}" 
                                        ontablerefreshevent="{!c.refreshFromTablecomponent}" onselectrecordevent="{!c.getValueFromProfileSectionPage}"/>
                                     </lightning:tab>
 
@@ -170,7 +172,8 @@
                                         <c:rPNonReferredOverview />
                                     </aura:if>
                                     <aura:if isTrue="{!and(v.isProfilePage,not(v.isBulkProfilePage))}">
-                                        <c:rP_ProfileSectionPage usermode="{!v.userMode}" delegateid="{!v.currentDelegateId}" peId ="{!v.peId}" ctpId="{!v.ctpId}"/>
+                                        <c:rP_ProfileSectionPage usermode="{!v.userMode}" delegateid="{!v.currentDelegateId}" 
+                                        peId ="{!v.peId}" ctpId="{!v.ctpId}" onpatienttabrefresh="{!c.refreshTable}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!and(v.isBulkProfilePage,not(v.isProfilePage))}">
                                         <c:rP_BulkProfileSectionPage />

@@ -120,8 +120,40 @@ export default class Paginator extends LightningElement {
         }
         this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
     }
+
+    changeStyle1 = false;
+    changeStyle2 = false;
+    changeStyle3 = false;
+
+
+    get class1(){
+        return this.changeStyle1 ? 'first-page-arrow-button-icon-s2': 'first-page-arrow-button-icon-s1';
+    }
+
+    get class2(){
+        return this.changeStyle2 ? 'iconColorChange1': 'iconColorChange2';
+    }
+
+    get class3(){
+        return this.changeStyle3 ? 'iconColorChange2': 'iconColorChange1';
+    }
+
+
     setPaginationControls() {
-        //Control Pre/Next buttons visibility by Total pages
+        this.changeStyle1 = false;
+        this.changeStyle2 = false;
+        this.changeStyle3 = false;
+
+        //Control Pre/Next buttons visibility by Total 
+        if (this.pageNumber === 1) {
+            this.changeStyle1 = true;
+        }
+        else if (this.totalPages > 1) {
+            this.changeStyle2 = true;
+        }
+        else if (this.pageNumber == this.totalPages) {
+            this.changeStyle3 = true;
+        }
         if (this.totalPages === 1) {
             this.firstDisabled = true;
             this.nextDisabled = true;
@@ -132,13 +164,17 @@ export default class Paginator extends LightningElement {
             this.nextDisabled = false;
             this.lastDisabled = false;
             this.previousDisabled = false;
+            
         }
         //Control Pre/Next buttons visibility by Page number
         if (this.pageNumber <= 1) {
             this.pageNumber = 1;
             this.lastDisabled = true;
-            this.previousDisabled = true;
-        } else if (this.pageNumber >= this.totalPages) {
+            this.previousDisabled = true;        
+        } 
+        else if (this.pageNumber >= this.totalPages) {
+            this.changeStyle3 = true;
+
             this.pageNumber = this.totalPages;
             this.firstDisabled = true;
             this.nextDisabled = true;
