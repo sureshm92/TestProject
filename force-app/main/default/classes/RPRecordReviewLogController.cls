@@ -2,9 +2,9 @@ public without sharing class RPRecordReviewLogController {
 
 
     public class peInitData {
-        @AuraEnabled public Participant_Enrollment__c peRec{get;set;}
-        @AuraEnabled public Boolean isChecked{get;set;}
-        @AuraEnabled public String doBFormat{get;set;}
+        @AuraEnabled public Participant_Enrollment__c peRec;
+        @AuraEnabled public Boolean isChecked;
+        @AuraEnabled public String doBFormat;
 
         public peInitData(Participant_Enrollment__c peRec,Boolean isChecked,String doBFormat) {
             this.peRec = peRec;

@@ -1,4 +1,5 @@
 import { LightningElement, wire, track, api } from 'lwc';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import updateMRRStatus from '@salesforce/apex/RPRecordReviewLogController.setMRRStatus';
 import getSelectedPeDetails from '@salesforce/apex/RPRecordReviewLogController.getSelectedPeDetails';
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.changeStatusToExcludeFromReferring';
@@ -52,6 +53,13 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             console.log('success');
             refreshApex(this.apexRefreshList);
             this.dispatchEvent(new CustomEvent("refreshpatienttabchange"));
+            if(this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
+                this.showSuccessToast('This Record has been Successfully Excluded.');
+            }
+            else {
+                this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +'has been Successfully Excluded.');
+            }
+
         })
         .catch((error) => {
             this.errors = error;
@@ -65,10 +73,18 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     includepatient(){
         this.isLoading = true;
         includeStatus({participantEnrollmentId: this.peId})
-        .then((result) => { console.log('success');
+        .then((result) => { 
+        console.log('success');
+        if(this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
+            this.showSuccessToast('This Record has been Successfully Included.');
+        }
+        else {
+            this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +'has been Successfully Included.');
+        }
+
         refreshApex(this.apexRefreshList);
             this.dispatchEvent(new CustomEvent("refreshpatienttabchange"));
-            eval("$A.get('e.force:refreshView').fire();");
+            
         })
         .catch((error) => {
             this.errors = error;
@@ -77,6 +93,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         })
         .finally(() => {
             this.isLoading = false;
+            eval("$A.get('e.force:refreshView').fire();");
         })
     }
 
@@ -124,6 +141,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         this.isLoading = true;
         getSelectedPeDetails({peId: this.peId,delegateId: this.delegateid ,userMode: this.usermode})
            .then(result => {
+            this.apexRefreshList = result;
            this.peRecordList = result;
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
@@ -218,7 +236,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             }
         }
         else{
-            this.showRefer = false;
+            this.showRefer = true;
             this.showMRR = false;
         }
     }
@@ -241,6 +259,29 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     }
 
     handlePatientTabChange(event) {
-        refreshApex(this.apexRefreshList);
+        var recList = [];
+        /*for (var i = 0; i < this.peRecordList.length; i++) {
+            let row = Object.assign({}, this.peRecordList[i]);
+            row.peRecord.Patient_ID__c = event.detail.patientId;
+            row.peRecord.Participant_Name__c = event.detail.firstName;
+            row.peRecord.Participant_Surname__c = event.detail.LastName;
+            recList.push(row);
+        }*/
+        this.peRecordList = [];
+        this.peRecordList = event.detail.patientRecord;       
+
+        const selectedvalue = { peRecordList:this.peRecordList};
+        const selectedEvent = new CustomEvent('patienttabrefresh', { detail: selectedvalue });
+        this.dispatchEvent(selectedEvent);
+    }
+
+    showSuccessToast(messageRec) {
+        const evt = new ShowToastEvent({
+            title: 'Success Message',
+            message: messageRec,
+            variant: 'success',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(evt);
     }
 }

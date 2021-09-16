@@ -1201,7 +1201,12 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            <aura:if isTrue="{!v.patientVeiwRedirection}">
+                                Back to My Patients
+                              <aura:set attribute="else">
+                                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                             </aura:set>
+                            </aura:if>
                         </button>
                     </div>
                 </div>
@@ -1296,7 +1301,12 @@
                             {!$Label.c.BTN_Find_study_sites}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            <aura:if isTrue="{!v.patientVeiwRedirection}">
+                               Back to My Patients
+                             <aura:set attribute="else">
+                               {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            </aura:set>
+                        </aura:if>
                         </button>
                     </div>
                 </div>
@@ -1319,7 +1329,12 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            <aura:if isTrue="{!v.patientVeiwRedirection}">
+                                Back to My Patients
+                              <aura:set attribute="else">
+                                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                             </aura:set>
+                           </aura:if>
                         </button>
                     </div>
                 </div>
@@ -1352,13 +1367,22 @@
                     </div>
                     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST1_Email_sent}</div>
                     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST2_Email_sent}</div>
-                    <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
-                        <!--disabled="{!v.actions.refer.disabled}"
+                    <aura:if isTrue="{!v.patientVeiwRedirection}">
+                        <aura:set attribute="else">
+                            <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
+                                <!--disabled="{!v.actions.refer.disabled}"
                          title="{!v.actions.refer.disableReason}"-->
-                        {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
-                    </button>
+                                {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+                            </button>
+                        </aura:set>
+                    </aura:if>
                     <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                        {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                        <aura:if isTrue="{!v.patientVeiwRedirection}">
+                               Back to My Patients
+                             <aura:set attribute="else">
+                               {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            </aura:set>
+                        </aura:if>
                     </button>
                 </div>
             </aura:if>

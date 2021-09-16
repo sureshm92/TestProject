@@ -404,8 +404,14 @@ export default class Rp_PatientTab extends LightningElement {
         updatePeRecords({peRecord: this.patientrecord[0].peRecord})
         .then((result) => {
             console.log(JSON.stringify(result));
-           this.dispatchEvent(new CustomEvent("refreshpatienttabchange"));
-           eval("$A.get('e.force:refreshView').fire();");
+            
+            const selectedvalue = {
+                patientRecord: this.patientrecord
+            };
+            const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
+           //this.dispatchEvent(new CustomEvent("refreshpatienttabchange"));
+          // eval("$A.get('e.force:refreshView').fire();");
 
         })
         .catch((error) => {

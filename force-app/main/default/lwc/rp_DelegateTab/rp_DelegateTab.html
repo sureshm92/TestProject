@@ -71,7 +71,7 @@
     </div>
     <div class="divider"></div>
     <div class="patient-button">
-        <button class="apollo-btn secondary btn" onclick={cancelModelOpen} title="Cancel">
+        <button class="apollo-btn secondary btn" onclick={cancelModelOpen} title="Cancel" disabled={disabledSaveButton}>
             Cancel
         </button>
         <button class="apollo-btn primary btn" onclick={openUnsavedModal} title="Save" disabled={disabledSaveButton}>

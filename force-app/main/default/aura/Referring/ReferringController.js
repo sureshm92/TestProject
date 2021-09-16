@@ -100,7 +100,9 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
-                        component.set('v.currentState', 'Search PE');
+                        if(!component.get('v.patientVeiwRedirection')){
+                           component.set('v.currentState', 'Search PE');
+                        }
                     }
                     //component.set('v.actions', initData.actions);
                     if(component.get('v.patientVeiwRedirection')){
@@ -257,8 +259,13 @@
         );
     },
     
-    doGoHome: function () {
-        communityService.navigateToPage('');
+    doGoHome: function (component) {
+        if(component.get('v.patientVeiwRedirection')){
+            communityService.navigateToPage('my-patients');
+            window.location.reload();
+        }else{
+             communityService.navigateToPage('');   
+        }
     },
     
     doGoFindStudySites: function (component) {
@@ -389,13 +396,7 @@
                 contentDocId:contentDocId
             },
             function (returnValue) {
-                let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-                if(patientVeiwRedirection){ 
-                    communityService.navigateToPage('my-patients');
-                    window.location.reload();
-                }else{
-                    component.set('v.currentState', 'Refer Success');
-                }
+                component.set('v.currentState', 'Refer Success');
             },
             null,
             function () {
