@@ -35,7 +35,12 @@
             </template>
             <template if:true={inProgress}>
                 <div class="inprogress" >
-                    In Progress
+                    Processing in Progress
+                </div>
+            </template>
+            <template if:true={completed}>
+                <div class="inprogress completed" >
+                    Processing Completed
                 </div>
             </template>
         </div>        
@@ -81,8 +86,13 @@
      <div class="desktopList">
         <div class="slds-grid slds-p-top_large slds-p-bottom_large" style="height:30px">
             <template if:true={inProgress}>
-                <div class="slds-float_right inprogress">
-                        In Progress
+                <div class="slds-float_right inprogress" >
+                    Processing in Progress
+                </div>
+            </template>
+            <template if:true={completed}>
+                <div class="slds-float_right inprogress completed" >
+                    Processing Completed
                 </div>
             </template>
             <div class="slds-col">
