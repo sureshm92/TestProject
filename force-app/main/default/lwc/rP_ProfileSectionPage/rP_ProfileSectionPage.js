@@ -57,7 +57,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                 this.showSuccessToast('This Record has been Successfully Excluded.');
             }
             else {
-                this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +'has been Successfully Excluded.');
+                this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c+' '+'has been Successfully Excluded.');
             }
 
         })
@@ -79,7 +79,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             this.showSuccessToast('This Record has been Successfully Included.');
         }
         else {
-            this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +'has been Successfully Included.');
+            this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +' '+'has been Successfully Included.');
         }
 
         refreshApex(this.apexRefreshList);
@@ -99,17 +99,35 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     doRedirectToReferPatient() {
        console.log('Redirect');
-        this[NavigationMixin.Navigate]({
-            type: 'comm__namedPage',
-            attributes: {
-                pageName: 'referring'
-            },
-            state: {
-                'peid': this.peId,
-                'id' : this.ctpId,
-                'patientVeiwRedirection':true,
-               }
-           });
+       if(this.peRecordList[0].peRecord.RP_Site_Selected__c != undefined) {
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'referring'
+                },
+                state: {
+                    'id' : this.ctpId,
+                    'peid' : this.peId,
+                    'hcpeid': this.peRecordList[0].peRecord.HCP__c,
+                    'siteid' : this.peRecordList[0].peRecord.Study_Site__c,
+                    'patientVeiwRedirection':true,
+                }
+            });
+        }
+        else{
+            this[NavigationMixin.Navigate]({
+                type: 'comm__namedPage',
+                attributes: {
+                    pageName: 'referring'
+                },
+                state: {
+                    'peid': this.peId,
+                    'id' : this.ctpId,
+                    'patientVeiwRedirection':true,
+                }
+            });
+        }
+       
     }
 
     @api
