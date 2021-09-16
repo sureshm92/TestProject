@@ -2,1385 +2,1388 @@
  - Created by Leonid Bartenev
  -->
 
-<aura:component
-                description="Referring"
-                implements="forceCommunity:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable,flexipage:availableForAllPageTypes"
-                controller="ReferringRemote"
-                extends="c:CommunityContext"
-                access="global" 
-                >
-    <ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
-    <lightning:navigation aura:id="navService"/>
-    <!-- attributes: -->
-    <aura:attribute name="trialId" type="String" />
-    <aura:attribute name="siteId" type="String" /> 
-    <aura:attribute name="trial" type="Object" />
-    <aura:attribute name="pEnrollment" type="Object" />
-    <aura:attribute name="hcpeId" type="String" />
-    <aura:attribute name="hcpEnrollment" type="Object" />
-    <aura:attribute name="pendingPEnrollments" type="List" />
-    <aura:attribute name="studySites" type="List" />
-    <aura:attribute name="studySitesPending" type="List" />
-    <aura:attribute name="studySiteMarkers" type="List" />
-    <aura:attribute name="participant" type="Object" />
-    <aura:attribute name="participantToInsert" type="Object"/>
-    <aura:attribute name="delegateParticipant" type="Object" />
-    <aura:attribute name="emailRepeat" type="String" />
-    <aura:attribute name="emailDelegateRepeat" type="String" />
-    <aura:attribute name="allRequiredCompleted" type="Boolean" default="false" />
-    <aura:attribute name="agreeShare" type="Boolean" default="false" />
-    <aura:attribute name="agreePolicy" type="Boolean" default="false" />
-    <aura:attribute name="actions" type="Object" access="private" />
-    <aura:attribute name="genders" type="List" />
-    <aura:attribute name="phoneTypes" type="List" />
-    <aura:attribute name="todayDate" type="Date" />
-    <aura:attribute name="markers" type="Object[]" />
-    <aura:attribute name="accessUserLevel" type="String" />
-    <aura:attribute name="delegateDuplicateInfo" type="Object" />
-    <aura:attribute name="useThisDelegate" type="Boolean" default="true" />
-    <aura:attribute name="emailInstance" type="String" />
-    <aura:attribute name="hadDiscussionDocumented" type="Boolean" default="false" />
-    <aura:attribute name="showMRRButton" type="Boolean" />
-    
-    <aura:attribute name="primaryDelegateFirstname" type="String" />
-    <aura:attribute name="primaryDelegateLastname" type="String" />
-    <aura:attribute name="primaryDelegateEmail" type="String" />
-    <aura:attribute name="primaryDelegatePhonenumber" type="String" />
-    <aura:attribute name="primaryDelegatePhonetype" type="String" />
-    <aura:attribute name="primaryDelegateYob" type="String" />
-    <aura:attribute name="isDelegateCertify" type="boolean" default="false"/>
-    <aura:attribute name="birthMonth" type="String" />
-    <aura:attribute name="yearofBirth" type="String" />
-    <aura:attribute name="birthdate" type="String" />
-    <aura:attribute name="participantDate" type="date" />
-    
-    <aura:attribute name="perecordid" type="string" access="global" />
-    <aura:attribute name="patientVeiwRedirection" type="Boolean" default="false"  access="global" />  
-    
-    <aura:attribute name="steps" type="String[]" default="[]" />
-    <aura:attribute
-                    name="currentStep"
-                    type="String"
-                    default="{!$Label.c.PG_Ref_Step_Contact_Info}"
-                    />
-    <aura:attribute
-                    name="currentState"
-                    type="String"
-                    description="Name of current state ('Select Source', 'Screening')"
-                    default="Screening"
-                    />
-    <aura:attribute name="hadDiscussion" type="Boolean" />
-    <aura:attribute name="stillInterested" type="Boolean" />
-    <aura:attribute name="frameHeight" type="Integer" default="500" />
-    <aura:attribute name="authorizationForm" type="Boolean" default="false"/>
-    <aura:attribute name="authRequired" type="Boolean"/>
-    <aura:attribute name="fileRequired" type="Boolean" default="true" />
-    
-    
-    <aura:attribute name="searchResult" type="Object" />
-    <aura:attribute name="searchData" type="Object" />
-    <aura:attribute name="mrrResult" type="String" />
-    
-    <aura:attribute name="counries" type="List" />
-    <aura:attribute name="selectedCountry" type="String" />
-    <aura:attribute name="states" type="List" />
-    <aura:attribute name="selectedState" type="String" />
-    <aura:attribute name="statesByCountyMap" type="Object" />
-    <aura:attribute name="yob" type="List" />  <!--added by sumit -->
-    <aura:attribute name="attestAge" type="Boolean" default="false" />  <!--added by sumit -->
-    <aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
-    <aura:attribute name="yobBlankErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
-    <aura:attribute name="delNotAdultErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
-    <aura:attribute name="errorMessage" type="String" default=''/> 
-    <aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true"/> <!--added by sumit -->       
-    
-    <aura:attribute name="needsGuardian" type="Boolean" default="false" />
-    <aura:attribute name="enableGuardian" type="Boolean" default="true" /> <!-- REF-3070-->
-    <aura:attribute name="fileName" type="String"/>
-    <aura:attribute name="disableFile" type="Boolean" default="false" />
-    <aura:attribute name="contentDocId" type="String"/>
-    <aura:attribute name="contentDoc" type="String"/>
-    <aura:attribute name="openmodel" type="boolean" default="false"/>
-    <aura:attribute name="closeModel" type="boolean" default="false"/>
-    
-    <aura:attribute name="days" type="List" />
-    <aura:attribute name="months" type="List" />
-    <aura:attribute name="years" type="List" />
-    <aura:attribute name="pday" type="string" default="null" />
-    <aura:attribute name="pmonth" type="string" default="null" />
-    <aura:attribute name="pyear" type="string" default="null" />
-    <!-- handlers: -->
-    <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
-    <aura:handler name="change" value="{!v.mrrResult}" action="{!c.doStartPreScreening}" />
-    <aura:handler
-                  name="change"
-                  value="{!v.participant.Mailing_Country_Code__c}"
-                  action="{!c.doCountryChange}"
-                  />
-    <!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
-    <aura:handler
-                  name="ddMessageButtonClick"
-                  event="c:DDMessageEvent"
-                  action="{!c.approveDelegate}"
-                  />
-    <aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}"  />
-    <aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}"  />
-    <!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
-    <c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
-    
-    <aura:if isTrue="{!!empty(v.trial)}">
-        <!-- top page bar -->
-        <c:RRTopBar
-                    backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
-                    backPage=""
-                    smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}"
-                    bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}"
-                    >
-            <aura:if isTrue="{!v.currentState == 'Screening'}">
-                <div class="buttons-area">
-                    <div class="rr-width-limiter buttons-block">
-                        <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}" style="{!if(v.isRTL,'margin-left: 1%;','')}">
-                            <div>{!$Label.c.BTN_Stat_Over}</div>
-                        </div>
-                        <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
-                            <div>{!$Label.c.BTN_Patient_no_longer_interested}</div>
-                        </div>
-                    </div>
-                </div>
-                <div class="path-area">
-                    <div class="rr-width-limiter side-padding">
-                        <c:RRPath steps="{!v.steps}" currentStep="{!v.currentStep}" />
-                    </div>
-                </div>
-            </aura:if>
-        </c:RRTopBar>
-        
-        <aura:if isTrue="{!v.currentState == 'Screening'}">
-            <div class="rr-body-content" style="height: 74px"></div>
-        </aura:if>
-        
-        <!-- page content -->
-        <div
-             class="rr-body-content"
-             style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'/* @noflip */  direction: rtl;','')}"
-             >
-            <!-- Select source -->
-            <aura:if isTrue="{!v.currentState == 'Select Source'}">
-                <div class="{!v.isRTL? 'rr-width-limiterRTL side-padding':'rr-width-limiter side-padding'}">
-                    <div class="{!v.isRTL? 'pe-large-headerRTL':'pe-large-header'}">
-                        {!$Label.c.PG_Ref_L_Please_select_your_referral_source}
-                    </div>
-                    <div class="pe-panel padding" style="padding-bottom: 30px">
-                        <c:RRIcon iconName="referral" />
-                        <div class="title">{!$Label.c.PG_Ref_L_New_Patient}</div>
-                        <div class="rr-sub-title">
-                            {!$Label.c.PG_Ref_L_Please_complete_Medical_Record_Review_first}
-                        </div>
-                        <button class="apollo-btn primary" onclick="{!c.doGoToMedicalRecordReview}">
-                            <!--disabled="{!v.actions.medicalRecordReview.disabled}"
-                         title="{!v.actions.medicalRecordReview.disableReason}"-->
-                            {!$Label.c.BTN_Start_Pre_eligibility_Screening}
-                        </button>
-                    </div>
-                    <aura:if
-                             isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2'}"
-                             >
-                        <div class="between-panels">
-                            or
-                            <!-- {!$Label.c.PG_Ref_L_OR} -->
-                        </div>
-                        <div class="pe-panel padding" style="margin-bottom: 50px">
-                            <c:RRIcon iconName="chart-review-sent" />
-                            <div class="title">
-                                {!$Label.c.PG_Ref_L_Select_from_Medical_Record_Review_Log}
-                            </div>
-                            <div class="mrr-items" style="margin-top: 30px">
-                                <aura:iteration items="{!v.pendingPEnrollments}" var="pe">
-                                    <div class="mrr-item">
-                                        <div class="mrr-item-content">
-                                            <div>
-                                                <div class="mrr-status-content">
-                                                    <div class="mrr-item-id">{!pe.Name}</div>
-                                                    <c:ReviewStatus pEnrollment="{!pe}" />
-                                                </div>
-                                                
-                                                <div class="sub-line" style="{!if(v.isRTL, 'float: right;','')}">{!pe.Patient_ID__c}</div>
-                                            </div>
-                                            <div class="{!v.isRTL? 'mrr-item-btnsRTL':'mrr-item-btns'}">
-                                                <!--<button class="apollo-btn tertiary">View Medical Record Result</button> todo delete-->
-                                                <button
-                                                        class="apollo-btn primary"
-                                                        id="{!pe.Id}"
-                                                        onclick="{!c.doReferSelectedPE}"
-                                                        >
-                                                    <!--disabled="{!v.actions.referToThisStudy.disabled}"
-                                                 title="{!v.actions.referToThisStudy.disableReason}"-->
-                                                    <!--{!v.actions.referToThisStudy.label}-->
-                                                    {!$Label.c.BTN_Refer_to_this_study}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </div>
-                                </aura:iteration>
-                            </div>
-                        </div>
-                    </aura:if>
-                </div>
-            </aura:if>
-            
-            <!-- Screening -->
-            <aura:if isTrue="{!v.currentState == 'Screening'}">
-                <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Discussion}">
-                    <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
-                        <div class="big-alert">
-                            <c:RRIcon iconName="communication" />
-                            <div class="message">
-                                {!$Label.c.PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl}
-                            </div>
-                            <div class="buttons">
-                                <button
-                                        class="{!'apollo-btn tertiary ' + if(v.hadDiscussion == true, ' selected', '')}"
-                                        style="{!if(v.isRTL, 'margin-left: 1%;','')}"
-                                        onclick="{!c.doHadDiscussion}"
-                                        disabled="{!!empty(v.hadDiscussion)}"
-                                        >
-                                    {!$Label.c.BTN_Yes}
-                                </button>
-                                <button
-                                        class="{!'apollo-btn tertiary ' + if(v.hadDiscussion == false, ' selected', '')}"
-                                        onclick="{!c.doNoHadDiscussion}"
-                                        disabled="{!!empty(v.hadDiscussion)}"
-                                        >
-                                    {!$Label.c.BTN_No}
-                                </button>
-                            </div>
-                        </div>
-                        <aura:if isTrue="{!v.hadDiscussion == false}">
-                            <div class="pe-panel padding big-alert">
-                                <div class="message">
-                                    {!$Label.c.PG_Ref_L_Please_first_have_a_meaningful_discussion_with_your_patient_about_parti}
-                                </div>
-                            </div>
-                        </aura:if>
-                        <aura:if isTrue="{!and(!empty(v.hadDiscussion), v.hadDiscussion)}">
-                            <div class="rr-width-limiter side-padding"></div>
-                            <div class="big-alert">
-                                <c:RRIcon iconName="verbal-agreement" />
-                                <div class="message">
-                                    {!$Label.c.PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study}
-                                </div>
-                                <div class="buttons">
-                                    <button
-                                            class="{!'apollo-btn tertiary ' + if(v.hadDiscussionDocumented == true, ' selected', '')}"
-                                            onclick="{!c.doStillInterested}"
-                                            style="{!if(v.isRTL, 'margin-left: 1%;','')}"
-                                            disabled="{!v.hadDiscussionDocumented}"
-                                            >
-                                        {!$Label.c.BTN_Yes}
-                                    </button>
-                                    <button
-                                            class="apollo-btn tertiary"
-                                            onclick="{!c.doHadDiscussionNotInterested}"
-                                            disabled="{!v.hadDiscussionDocumented}"
-                                            >
-                                        {!$Label.c.BTN_No}
-                                    </button>
-                                </div>
-                            </div>
-                            <!--New Changes-->
-                            <aura:if isTrue="{!v.hadDiscussionDocumented}">
-                                <div class="big-alert">
-                                    <div class="" style="font-size: 23px;font-weight:600;font-family:Proxima Nova;"> 
-                                        Have you documented the discussion?
-                                        <div>
-                                            <input type="checkbox" id="terms" name="terms" onclick="{!c.doDiscussionDocumented}" value="{!v.chkTerms}" onchange="{!c.termsChanged}" ></input>
-                                            <label for="terms" style="font-size:18px;color:black;font-weight:550;font-family:Proxima Nova;"> I confirm that this discussion will be noted in the patient's records</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                
-                            </aura:if>
-                            <!---New Changes End -->
-                        </aura:if>
-                        <!-- Added for REF-3229-->
-                        <aura:if isTrue="{!and(!empty(v.authorizationForm), v.authorizationForm)}">
-                            <div class="rr-width-limiter side-padding"></div>
-                            <div class="big-alert">
-                                <c:RRIcon iconName="verbal-agreement" />
-                                <div class="message">
-                                    {!$Label.c.PG_Ref_L_Authorization_Form}
-                                </div>
-                                <div>{!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_First_Part}  
-                                    <a
-                                       href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}" 
-                                       style="padding-left:5px;padding-right: 5px;">
-                                        {!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_Link}
-                                    </a>
-                                    {!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_Last_Part}
-                                </div>
-                                <div class="buttons">
-                                    <button
-                                            class="apollo-btn tertiary"
-                                            onclick="{!c.doNext}"
-                                            style="{!if(v.isRTL, 'margin-left: 1%;','')}"
-                                            >
-                                        {!$Label.c.BTN_Next}
-                                    </button>
-                                    
-                                </div>
-                            </div>
-                        </aura:if>
-                        
-                    </div>
-                </aura:if>
-                
-                <!-- Site selection -->
-                <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Site_Selection}">
-                    <div class="rr-width-limiter side-padding" style="padding-bottom: 25px;">
-                        <div class="big-alert" style="padding: 10px 0">
-                            <div class="message">
-                                {!$Label.c.PG_Ref_L_Please_select_referred_study_site_s_to_refer_your_patient_to}
-                            </div>
-                        </div>
-                        <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
-                            <div
-                                 class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
-                                 >
-                                <!-- todo -->
-                                <aura:iteration items="{!v.studySites}" var="ss" indexVar="index">
-                                    <!--                                    <div class="sdas-footer-info">-->
-                                    <!--                                        <div class="name">1. {!ss.name}</div>-->
-                                    <!--                                        <div class="address">-->
-                                    <!--                                            <div class="address-1">{!ss.addrStreet}</div>-->
-                                    <!--                                            <div class="address-3">{!ss.addrCity}</div>-->
-                                    <!--                                        </div>-->
-                                    <!--                                        <button data-hcpe-id="{!ss.hcpeId}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">-->
-                                    <!--                                            {!$Label.c.BTN_Select_as_Preferred_Site}-->
-                                    <!--                                        </button>-->
-                                    <!--                                    </div>-->
-                                    <div class="slds-grid slds-wrap slds-p-around--medium">
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
-                                             >
-                                            <div class="ssi-site-name" style="{!if(v.isRTL, 'text-align: right;','')}">
-                                                {!index+1 +'. '+ ss.site.Name}
-                                            </div>
-                                            <div class="ssi-pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
-                                                {!ss.site.Principal_Investigator__r.Salutation + ' '
-                                                + ss.site.Principal_Investigator__r.Name}
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                             >
-                                            <div class="ssi-site-type" style="{!if(v.isRTL, 'text-align: left;','')}">
-                                                {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' +
-                                                $Label.c.PG_SFS_L_Site,'')}
-                                            </div>
-                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                <div class="ssi-site-distance" style="{!if(v.isRTL, 'text-align: left;','')}">
-                                                    <aura:unescapedHtml
-                                                                        value="{!ss.formatedDistance}"
-                                                                        />
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                             >
-                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                <div class="ssi-address" style="{!if(v.isRTL, 'text-align: right;','')}">
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStreet
-                                                    :
-                                                    ss.site.Principal_Investigator__r.Account.BillingStreet}
-                                                    <br />
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?
-                                                    ss.site.Site__r.BillingCity?
-                                                    ss.site.Site__r.BillingCity : '' :
-                                                    ss.site.Principal_Investigator__r.Account.BillingCity?
-                                                    ss.site.Principal_Investigator__r.Account.BillingCity
-                                                    : ''}
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?
-                                                    ss.site.Site__r.BillingStateCode? ',
-                                                    '+ss.site.Site__r.BillingStateCode : '' :
-                                                    ss.site.Principal_Investigator__r.Account.BillingStateCode?
-                                                    ', ' +
-                                                    ss.site.Principal_Investigator__r.Account.BillingStateCode
-                                                    : ''}
-                                                    {!(!empty(ss.site.Site__r.BillingAddress))?
-                                                    ss.site.Site__r.BillingPostalCode? ',
-                                                    '+ss.site.Site__r.BillingPostalCode : '' :
-                                                    ss.site.Principal_Investigator__r.Account.BillingPostalCode?
-                                                    ', ' +
-                                                    ss.site.Principal_Investigator__r.Account.BillingPostalCode
-                                                    : ''}
-                                                    <!-- ss.site.Site__r.BillingStateCode ? ',' + ss.site.Site__r.BillingStateCode : '' +
-                                                         ss.site.Site__r.BillingPostalCode ? ',' + ss.site.Site__r.BillingPostalCode : '') :
-                                                         (ss.site.Principal_Investigator__r.Account.BillingCity? ',' +  ss.site.Principal_Investigator__r.Account.BillingCity : '' +
-                                                         ss.site.Principal_Investigator__r.Account.BillingStateCode ? ',' + ss.site.Principal_Investigator__r.Account.BillingStateCode : '' +
-                                                         ss.site.Principal_Investigator__r.Account.BillingPostalCode ? ',' + ss.site.Principal_Investigator__r.Account.BillingPostalCode : '')}-->
-                                                    <!--ss.site.Site__r.BillingCity},&ndash;&gt;
-                                                 {!ss.site.Site__r.BillingCity},
-                                                 &lt;!&ndash;{!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
-                                                 ss.site.Site__r.BillingStateCode},&ndash;&gt;
-                                                 {!ss.site.Site__r.BillingStateCode},
-                                                 &lt;!&ndash;{!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
-                                                 ss.site.Site__r.BillingPostalCode}&ndash;&gt;
-                                                 {!ss.site.Site__r.BillingPostalCode}-->
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                        
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button" style="{!if(v.isRTL, 'text-align: left;','')}"
-                                             >
-                                            <button
-                                                    data-hcpe-id="{!ss.hcpe.Id}"
-                                                    data-site-id="{!ss.site.Site__c}"
-                                                    class="apollo-btn secondary"
-                                                    style="margin-top: 10px"
-                                                    onclick="{!c.doSelectSite}"
-                                                    >
-                                                {!$Label.c.BTN_Refer_to_this_Site}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </aura:iteration>
-                                <aura:iteration items="{!v.studySitesPending}" var="ss">
-                                    <div class="slds-grid slds-wrap slds-p-around--medium">
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
-                                             >
-                                            <div class="ssi-site-name">{!ss.site.Name}</div>
-                                            <div class="ssi-pi-name">
-                                                {!ss.site.Principal_Investigator__r.Salutation + ' '
-                                                + ss.site.Principal_Investigator__r.Name}
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                             >
-                                            <div class="ssi-site-type">
-                                                {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' +
-                                                $Label.c.PG_SFS_L_Site,'')}
-                                            </div>
-                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                <div class="ssi-site-distance">
-                                                    <aura:unescapedHtml
-                                                                        value="{!ss.formatedDistance}"
-                                                                        />
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                             >
-                                            <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                <div class="ssi-address">
-                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
-                                                    ss.site.Site__r.BillingStreet}
-                                                    <br />
-                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
-                                                    ss.site.Site__r.BillingCity},
-                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
-                                                    ss.site.Site__r.BillingStateCode},
-                                                    {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
-                                                    ss.site.Site__r.BillingPostalCode}
-                                                </div>
-                                            </aura:if>
-                                        </div>
-                                        
-                                        <div
-                                             class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button"
-                                             >
-                                            <button
-                                                    class="apollo-btn secondary"
-                                                    style="margin-top: 10px"
-                                                    disabled="true"
-                                                    >
-                                                {!ss.siteStatusLabel}
-                                            </button>
-                                        </div>
-                                    </div>
-                                </aura:iteration>
-                                <div
-                                     class="slds-grid slds-wrap slds-grid_align-center slds-p-around--medium slds-grid_vertical-align-center"
-                                     style="min-height: 100%"
-                                     >
-                                    <div
-                                         class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item"
+ <aura:component
+ description="Referring"
+ implements="forceCommunity:availableForAllPageTypes,flexipage:availableForRecordHome,force:hasRecordId,lightning:isUrlAddressable,flexipage:availableForAllPageTypes"
+ controller="ReferringRemote"
+ extends="c:CommunityContext"
+ access="global" 
+ >
+<ltng:require scripts="{!$Resource.rr_community_js}" afterScriptsLoaded="{!c.doInit}" />
+<lightning:navigation aura:id="navService"/>
+<!-- attributes: -->
+<aura:attribute name="trialId" type="String" />
+<aura:attribute name="siteId" type="String" /> 
+<aura:attribute name="trial" type="Object" />
+<aura:attribute name="pEnrollment" type="Object" />
+<aura:attribute name="hcpeId" type="String" />
+<aura:attribute name="hcpEnrollment" type="Object" />
+<aura:attribute name="pendingPEnrollments" type="List" />
+<aura:attribute name="studySites" type="List" />
+<aura:attribute name="studySitesPending" type="List" />
+<aura:attribute name="studySiteMarkers" type="List" />
+<aura:attribute name="participant" type="Object" />
+<aura:attribute name="participantToInsert" type="Object"/>
+<aura:attribute name="delegateParticipant" type="Object" />
+<aura:attribute name="emailRepeat" type="String" />
+<aura:attribute name="emailDelegateRepeat" type="String" />
+<aura:attribute name="allRequiredCompleted" type="Boolean" default="false" />
+<aura:attribute name="agreeShare" type="Boolean" default="false" />
+<aura:attribute name="agreePolicy" type="Boolean" default="false" />
+<aura:attribute name="actions" type="Object" access="private" />
+<aura:attribute name="genders" type="List" />
+<aura:attribute name="phoneTypes" type="List" />
+<aura:attribute name="todayDate" type="Date" />
+<aura:attribute name="markers" type="Object[]" />
+<aura:attribute name="accessUserLevel" type="String" />
+<aura:attribute name="delegateDuplicateInfo" type="Object" />
+<aura:attribute name="useThisDelegate" type="Boolean" default="true" />
+<aura:attribute name="emailInstance" type="String" />
+<aura:attribute name="hadDiscussionDocumented" type="Boolean" default="false" />
+<aura:attribute name="showMRRButton" type="Boolean" />
+
+<aura:attribute name="primaryDelegateFirstname" type="String" />
+<aura:attribute name="primaryDelegateLastname" type="String" />
+<aura:attribute name="primaryDelegateEmail" type="String" />
+<aura:attribute name="primaryDelegatePhonenumber" type="String" />
+<aura:attribute name="primaryDelegatePhonetype" type="String" />
+<aura:attribute name="primaryDelegateYob" type="String" />
+<aura:attribute name="isDelegateCertify" type="boolean" default="false"/>
+<aura:attribute name="birthMonth" type="String" />
+<aura:attribute name="yearofBirth" type="String" />
+<aura:attribute name="birthdate" type="String" />
+<aura:attribute name="participantDate" type="date" />
+
+<aura:attribute name="perecordid" type="string" access="global" />
+<aura:attribute name="patientVeiwRedirection" type="Boolean" default="false"  access="global" />  
+
+<aura:attribute name="steps" type="String[]" default="[]" />
+<aura:attribute
+     name="currentStep"
+     type="String"
+     default="{!$Label.c.PG_Ref_Step_Contact_Info}"
+     />
+<aura:attribute
+     name="currentState"
+     type="String"
+     description="Name of current state ('Select Source', 'Screening')"
+     default="Screening"
+     />
+<aura:attribute name="hadDiscussion" type="Boolean" />
+<aura:attribute name="stillInterested" type="Boolean" />
+<aura:attribute name="frameHeight" type="Integer" default="500" />
+<aura:attribute name="authorizationForm" type="Boolean" default="false"/>
+<aura:attribute name="authRequired" type="Boolean"/>
+<aura:attribute name="fileRequired" type="Boolean" default="true" />
+
+
+<aura:attribute name="searchResult" type="Object" />
+<aura:attribute name="searchData" type="Object" />
+<aura:attribute name="mrrResult" type="String" />
+
+<aura:attribute name="counries" type="List" />
+<aura:attribute name="selectedCountry" type="String" />
+<aura:attribute name="states" type="List" />
+<aura:attribute name="selectedState" type="String" />
+<aura:attribute name="statesByCountyMap" type="Object" />
+<aura:attribute name="yob" type="List" />  <!--added by sumit -->
+<aura:attribute name="attestAge" type="Boolean" default="false" />  <!--added by sumit -->
+<aura:attribute name="isAdultDel" type="Boolean" />  <!--added by sumit -->
+<aura:attribute name="yobBlankErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+<aura:attribute name="delNotAdultErrMsg" type="Boolean" default="false"/>  <!--added by sumit -->
+<aura:attribute name="errorMessage" type="String" default=''/> 
+<aura:attribute name="isNewPrimaryDelegate" type="Boolean" default="true"/> <!--added by sumit -->       
+
+<aura:attribute name="needsGuardian" type="Boolean" default="false" />
+<aura:attribute name="enableGuardian" type="Boolean" default="true" /> <!-- REF-3070-->
+<aura:attribute name="fileName" type="String"/>
+<aura:attribute name="disableFile" type="Boolean" default="false" />
+<aura:attribute name="contentDocId" type="String"/>
+<aura:attribute name="contentDoc" type="String"/>
+<aura:attribute name="openmodel" type="boolean" default="false"/>
+<aura:attribute name="closeModel" type="boolean" default="false"/>
+
+<aura:attribute name="days" type="List" />
+<aura:attribute name="months" type="List" />
+<aura:attribute name="years" type="List" />
+<aura:attribute name="pday" type="string" default="null" />
+<aura:attribute name="pmonth" type="string" default="null" />
+<aura:attribute name="pyear" type="string" default="null" />
+<aura:attribute name="doNext" type="Boolean" default = "false" />
+<!-- handlers: -->
+<aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
+<aura:handler name="change" value="{!v.mrrResult}" action="{!c.doStartPreScreening}" />
+<aura:handler
+   name="change"
+   value="{!v.participant.Mailing_Country_Code__c}"
+   action="{!c.doCountryChange}"
+   />
+<!--<aura:handler name="change" value="{!v.participant.Mailing_State_Code__c}" action="{!c.doCheckfields}"/>-->
+<aura:handler
+   name="ddMessageButtonClick"
+   event="c:DDMessageEvent"
+   action="{!c.approveDelegate}"
+   />
+<aura:method name="checkdobMethod" action="{!c.doCheckDateOfBith}"  />
+<aura:method name="checkdoneeedgaurdian" action="{!c.doNeedsGuardian}"  />
+<!--<c:ExceptionHandlerPopup aura:id="exceptionHandler" />-->
+<c:RRSpinner aura:id="mainSpinner" size="medium" fixed="true" />
+
+<aura:if isTrue="{!!empty(v.trial)}">
+<!-- top page bar -->
+<c:RRTopBar
+     backLabel="{!$Label.c.PG_MRR_L_Back_to_Study_Workspace}"
+     backPage=""
+     smallTitle="{!if(!empty(v.trial),v.trial.Study_Code_Name__c,'')}"
+     bigTitle="{!$Label.c.DLIT_L_Pre_eligibility_screening}"
+     >
+<aura:if isTrue="{!v.currentState == 'Screening'}">
+ <div class="buttons-area">
+     <div class="rr-width-limiter buttons-block">
+         <div class="apollo-btn secondary" onclick="{!c.doReferrAnotherPatient}" style="{!if(v.isRTL,'margin-left: 1%;','')}">
+             <div>{!$Label.c.BTN_Stat_Over}</div>
+         </div>
+         <div class="apollo-btn secondary" onclick="{!c.doNoLongerInterested}">
+             <div>{!$Label.c.BTN_Patient_no_longer_interested}</div>
+         </div>
+     </div>
+ </div>
+ <div class="path-area">
+     <div class="rr-width-limiter side-padding">
+         <c:RRPath steps="{!v.steps}" currentStep="{!v.currentStep}" />
+     </div>
+ </div>
+</aura:if>
+</c:RRTopBar>
+
+<aura:if isTrue="{!v.currentState == 'Screening'}">
+<div class="rr-body-content" style="height: 74px"></div>
+</aura:if>
+
+<!-- page content -->
+<div
+class="rr-body-content"
+style="{!'min-height: 500px; position: relative; padding-bottom: 100px;padding-top:25px' + if(v.isRTL,'/* @noflip */  direction: rtl;','')}"
+>
+<!-- Select source -->
+<aura:if isTrue="{!v.currentState == 'Select Source'}">
+ <div class="{!v.isRTL? 'rr-width-limiterRTL side-padding':'rr-width-limiter side-padding'}">
+     <div class="{!v.isRTL? 'pe-large-headerRTL':'pe-large-header'}">
+         {!$Label.c.PG_Ref_L_Please_select_your_referral_source}
+     </div>
+     <div class="pe-panel padding" style="padding-bottom: 30px">
+         <c:RRIcon iconName="referral" />
+         <div class="title">{!$Label.c.PG_Ref_L_New_Patient}</div>
+         <div class="rr-sub-title">
+             {!$Label.c.PG_Ref_L_Please_complete_Medical_Record_Review_first}
+         </div>
+         <button class="apollo-btn primary" onclick="{!c.doGoToMedicalRecordReview}">
+             <!--disabled="{!v.actions.medicalRecordReview.disabled}"
+          title="{!v.actions.medicalRecordReview.disableReason}"-->
+             {!$Label.c.BTN_Start_Pre_eligibility_Screening}
+         </button>
+     </div>
+     <aura:if
+              isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2'}"
+              >
+         <div class="between-panels">
+             or
+             <!-- {!$Label.c.PG_Ref_L_OR} -->
+         </div>
+         <div class="pe-panel padding" style="margin-bottom: 50px">
+             <c:RRIcon iconName="chart-review-sent" />
+             <div class="title">
+                 {!$Label.c.PG_Ref_L_Select_from_Medical_Record_Review_Log}
+             </div>
+             <div class="mrr-items" style="margin-top: 30px">
+                 <aura:iteration items="{!v.pendingPEnrollments}" var="pe">
+                     <div class="mrr-item">
+                         <div class="mrr-item-content">
+                             <div>
+                                 <div class="mrr-status-content">
+                                     <div class="mrr-item-id">{!pe.Name}</div>
+                                     <c:ReviewStatus pEnrollment="{!pe}" />
+                                 </div>
+                                 
+                                 <div class="sub-line" style="{!if(v.isRTL, 'float: right;','')}">{!pe.Patient_ID__c}</div>
+                             </div>
+                             <div class="{!v.isRTL? 'mrr-item-btnsRTL':'mrr-item-btns'}">
+                                 <!--<button class="apollo-btn tertiary">View Medical Record Result</button> todo delete-->
+                                 <button
+                                         class="apollo-btn primary"
+                                         id="{!pe.Id}"
+                                         onclick="{!c.doReferSelectedPE}"
                                          >
-                                        <span class="header-white-panel" style="font-size: 16px"
-                                              >{!$Label.c.MyStudy_None_of_these_sites_work}</span
-                                            >
-                                    </div>
-                                    <div
-                                         class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item"
-                                         >
-                                        <button
-                                                class="apollo-btn secondary slvi-search-site-btn"
-                                                onclick="{!c.doGoFindStudySites}"
-                                                >
-                                            {!$Label.c.MyStudy_Find_More_Sites}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                            <div
-                                 class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2 ss-map"
-                                 >
-                                <aura:if isTrue="{!v.markers}">
-                                    <lightning:map
-                                                   mapMarkers="{!v.markers}"
-                                                   zoomLevel="{!if(empty(v.markers),1,10)}"
-                                                   />
-                                </aura:if>
-                                <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
-                            </div>
-                        </div>
-                    </div>
-                </aura:if>
-                
-                <!-- Questionare -->
-                <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Questionnaire}">
-                    <div class="rr-width-limiter">
-                        <iframe src="{!v.trial.Link_to_Pre_screening__c}"
-                                class="screening-gizmo-frame"
-                                style="{!'height: '+v.frameHeight + 'px'}"
-                                onload="{!c.doFrameLoaded}">
-                        </iframe>
-                    </div>
-                </aura:if>
-                
-                <!-- Contact Info -->
-                <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Contact_Info}">
-                    <!--div class="rr-width-limiter">
-                     <div class="big-alert" style="padding: 10px 0">
-                         <div class="message">Contact info page TODO</div>
+                                     <!--disabled="{!v.actions.referToThisStudy.disabled}"
+                                  title="{!v.actions.referToThisStudy.disableReason}"-->
+                                     <!--{!v.actions.referToThisStudy.label}-->
+                                     {!$Label.c.BTN_Refer_to_this_study}
+                                 </button>
+                             </div>
+                         </div>
                      </div>
-                 </div--> 
-                    <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'/* @noflip */  direction: rtl;')}">
-                        <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
-                            <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
-                                <div class="slds-grid slds-wrap">
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                        <div class="rr-big-title inverse" style="margin-top: 70px">
-                                            {!$Label.c.PG_Ref_L_Congratulations}
-                                        </div>
-                                        <div class="rr-title inverse" style="margin-bottom: 20px">
-                                            {!$Label.c.PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa}
-                                        </div>
-                                        <div class="rr-text inverse" style="margin-bottom: 20px">
-                                            {!$Label.c.PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site}
-                                        </div>
-                                        <div
-                                             class="rr-sub-text inverse ci-ico-message"
-                                             style="margin-bottom: 20px"
-                                             >
-                                            <c:RRIcon iconName="icon-note" />
-                                            {!$Label.c.PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con}
-                                        </div>
-                                        <div
-                                             class="rr-sub-text inverse ci-ico-message"
-                                             style="margin-bottom: 50px"
-                                             >
-                                            <c:RRIcon iconName="icon-privacy" />
-                                            {!$Label.c.PG_Ref_L_Your_patient_s_contact_information_will_only_be_used_to_contact_them_ab}
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div
-                             class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 rr-body-content"
+                 </aura:iteration>
+             </div>
+         </div>
+     </aura:if>
+ </div>
+</aura:if>
+
+<!-- Screening -->
+<aura:if isTrue="{!v.currentState == 'Screening'}">
+ <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Discussion}">
+     <div class="rr-width-limiter side-padding" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
+         <div class="big-alert">
+             <c:RRIcon iconName="communication" />
+             <div class="message">
+                 {!$Label.c.PG_Ref_L_Have_you_had_a_discussion_with_your_patient_about_participating_in_a_cl}
+             </div>
+             <div class="buttons">
+                 <button
+                         class="{!'apollo-btn tertiary ' + if(v.hadDiscussion == true, ' selected', '')}"
+                         style="{!if(v.isRTL, 'margin-left: 1%;','')}"
+                         onclick="{!c.doHadDiscussion}"
+                         disabled="{!!empty(v.hadDiscussion)}"
+                         >
+                     {!$Label.c.BTN_Yes}
+                 </button>
+                 <button
+                         class="{!'apollo-btn tertiary ' + if(v.hadDiscussion == false, ' selected', '')}"
+                         onclick="{!c.doNoHadDiscussion}"
+                         disabled="{!!empty(v.hadDiscussion)}"
+                         >
+                     {!$Label.c.BTN_No}
+                 </button>
+             </div>
+         </div>
+         <aura:if isTrue="{!v.hadDiscussion == false}">
+             <div class="pe-panel padding big-alert">
+                 <div class="message">
+                     {!$Label.c.PG_Ref_L_Please_first_have_a_meaningful_discussion_with_your_patient_about_parti}
+                 </div>
+             </div>
+         </aura:if>
+         <aura:if isTrue="{!and(!empty(v.hadDiscussion), v.hadDiscussion)}">
+             <div class="rr-width-limiter side-padding"></div>
+             <div class="big-alert">
+                 <c:RRIcon iconName="verbal-agreement" />
+                 <div class="message">
+                     {!$Label.c.PG_Ref_L_Is_the_patient_still_interested_in_participating_in_this_study}
+                 </div>
+                 <div class="buttons">
+                     <button
+                             class="{!'apollo-btn tertiary ' + if(v.hadDiscussionDocumented == true, ' selected', '')}"
+                             onclick="{!c.doStillInterested}"
+                             style="{!if(v.isRTL, 'margin-left: 1%;','')}"
+                             disabled="{!v.hadDiscussionDocumented}"
                              >
-                            <div class="rr-width-limiter-half side-padding">
-                                <div class="slds-grid slds-wrap">
-                                    <div
-                                         class="slds-col slds-size_1-of-1 slds-large-size_1-of-6"
-                                         ></div>
-                                    <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
-                                        <aura:if isTrue="{!v.authorizationForm}">
-                                            <div
-                                                 class="rr-form-element part-header"
-                                                 >
-                                                <b><label
-                                                          >{!$Label.c.PG_Ref_L_Patient_Authorization}</label
-                                                    ></b>
-                                                <div
-                                                     class="rr-form-element slds-no-label"
-                                                     style="margin-top: 15px"
-                                                     >
-                                                    <div class="rr-cb-container">
-                                                        <lightning:input
-                                                                         type="checkbox"
-                                                                         label=""
-                                                                         checked="{!v.agreePolicy}"
-                                                                         onchange="{!c.doCheckfields}"
-                                                                         />
-                                                    </div>
-                                                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                        {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
-                                                    </div>
-                                                </div>
-                                                <div>
-                                                    <lightning:fileUpload label="{!$Label.c.Signed_Auth_Form}"
-                                                                          name="fileUploader"
-                                                                          multiple="false"
-                                                                          disabled="{!v.disableFile}"
-                                                                          onuploadfinished="{!c.handleUploadFinished}" />
-                                                    <div class="slds-grid slds-gutters slds-wrap" style= "padding-top:5px;">
-                                                        <div class="slds-col slds-size--2-of-5">
-                                                            <a style= "padding-top: 5px;"
-                                                               onclick="{!c.openModel}">
-                                                                {!v.fileName}
-                                                            </a>
-                                                        </div>
-                                                        <div class="slds-col slds-size--1-of-5">
-                                                            <aura:if isTrue="{!v.disableFile}">
-                                                                
-                                                                <lightning:buttonIcon iconName="utility:delete"  
-                                                                                      alternativeText="Delete" 
-                                                                                      title="Delete" 
-                                                                                      size= "small"
-                                                                                      onclick="{!c.handleDeleteFile}"/>
-                                                                
-                                                            </aura:if>
-                                                        </div>
-                                                    </div>
-                                                </div>
-                                                <br></br>
-                                                <div>
-                                                    <a href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}">
-                                                        {!$Label.c.PG_Ref_L_Download_Authorization}</a>
-                                                </div>
-                                                
-                                            </div>
-                                        </aura:if>
-                                        <aura:If isTrue="{!v.openmodel}">
-                                            
-                                            <div  class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop " >
-                                                <div class="slds-modal__container ">
-                                                    <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
-                                                        
-                                                        <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
-                                                            <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
-                                                        </button>
-                                                    </div>
-                                                    <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
-                                                        <!--  Write Your Content here  -->
-                                                        <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
-                                                            <span>
-                                                                <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
-                                                                        
-                                                                        src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.contentDocId}"  frameborder="0"  >
-                                                                </iframe>               
-                                                            </span>
-                                                        </div>
-                                                        <br/>
-                                                    </div>
-                                                </div>
-                                            </div>    
-                                        </aura:If>
-                                        <div
-                                             class="{! v.authorizationForm ? 'part-header-removed' : 'part-header' }"
-                                             >
-                                            <label>
-                                                {!$Label.c.PG_Ref_L_Participant_Information}
-                                            </label>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PE_Patient_Id}"
-                                                                 value="{!v.pEnrollment.Patient_ID__c}"
-                                                                 disabled="true"
-                                                                 onchange="{!c.doCheckfields}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
-                                                
-                                                <aura:if isTrue="{!v.patientVeiwRedirection}">
-                                                    <div class="slds-grid slds-wrap">
-                                                        <div class="slds-col slds-size_1-of-3">
-                                                            <lightning:layout horizontalAlign="space">
-                                                                <lightning:layoutItem >
-                                                                    <div class="label">
-                                                                        <abbr title="required" class="slds-required"
-                                                                              >*</abbr
-                                                                            >MM
-                                                                    </div>
-                                                                    <div style="width:61px">
-                                                                        <c:rrSelect
-                                                                                    options="{!v.months}"
-                                                                                    value="{!v.pmonth}"
-                                                                                    placeholder="MM"
-                                                                                    useSentenceFont="false"
-                                                                                    onchange="{!c.doCheckParticipantDob}"
-                                                                                    />
-                                                                    </div>
-                                                                </lightning:layoutItem>
-                                                            </lightning:layout>
-                                                            
-                                                        </div>
-                                                        <div class="slds-col slds-size_1-of-3">
-                                                            <lightning:layout horizontalAlign="space">
-                                                                <lightning:layoutItem >
-                                                                    <div class="label">
-                                                                        <abbr title="required" class="slds-required"
-                                                                              >*</abbr
-                                                                            >DD
-                                                                    </div>
-                                                                    <div style="width:57px">
-                                                                        <c:rrSelect
-                                                                                    options="{!v.days}"
-                                                                                    value="{!v.pday}"
-                                                                                    placeholder="DD"
-                                                                                    useSentenceFont="false"
-                                                                                    onchange="{!c.doCheckParticipantDob}"
-                                                                                    />
-                                                                    </div>
-                                                                </lightning:layoutItem>
-                                                            </lightning:layout>
-                                                            
-                                                        </div>
-                                                        <div class="slds-col slds-size_1-of-3">
-                                                            <lightning:layout horizontalAlign="space">
-                                                                <lightning:layoutItem >
-                                                                    <div class="label">
-                                                                        <abbr title="required" class="slds-required"
-                                                                              >*</abbr
-                                                                            >YYYY
-                                                                    </div>
-                                                                    <div style="width:75px">
-                                                                        <c:rrSelect
-                                                                                    options="{!v.years}"
-                                                                                    value="{!v.pyear}"
-                                                                                    placeholder="YYYY"
-                                                                                    useSentenceFont="false"
-                                                                                    onchange="{!c.doCheckParticipantDob}"
-                                                                                    /> 
-                                                                    </div>
-                                                                </lightning:layoutItem>
-                                                            </lightning:layout>
-                                                            
-                                                        </div>
-                                                    </div>
-                                                    
-                                                    <aura:set attribute="else">
-                                                        <div class="label">
-                                                            <abbr title="required" class="slds-required"
-                                                                  >*</abbr
-                                                                >{!$Label.c.PG_AS_F_Date_of_Birth}
-                                                        </div>
-                                                        <lightning:input
-                                                                         max="{!v.todayDate}"
-                                                                         min="1900-01-01"
-                                                                         type="date"
-                                                                         value="{!v.participant.Date_of_Birth__c}"
-                                                                         onblur="{!c.doCheckDateOfBith}"
-                                                                         dateStyle="medium"
-                                                                         />
-                                                    </aura:set>
-                                                </aura:if> 
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_AS_F_First_name}"
-                                                                 value="{!v.participant.First_Name__c}"
-                                                                 required="true"
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_AS_F_Middle_name}"
-                                                                 value="{!v.participant.Middle_Name__c}"
-                                                                 />
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_AS_F_Last_name}"
-                                                                 value="{!v.participant.Last_Name__c}"
-                                                                 required="true"
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <div class="label">
-                                                    <abbr title="required" class="slds-required"
-                                                          >*</abbr
-                                                        >{!$Label.c.PG_AS_F_Gender}
-                                                </div>
-                                                <c:rrSelect
-                                                            options="{!v.genders}"
-                                                            value="{!v.participant.Gender__c}"
-                                                            useSentenceFont="false"
-                                                            />
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <!-- REF-3070 - Added disabled -->
-                                                <lightning:input
-                                                                 aura:id="emailField"
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_AS_F_Email_address}"
-                                                                 value="{!v.participant.Email__c}"
-                                                                 required="{!!v.needsGuardian}"
-                                                                 disabled="{!v.enableGuardian}"   
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <!-- REF-3070 - Added disabled -->
-                                                <lightning:input
-                                                                 aura:id="emailRepeatField"
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
-                                                                 value="{!v.emailRepeat}"
-                                                                 pattern="{!$Label.c.RH_Email_Validation_Pattern}"
-                                                                 required="{!!v.needsGuardian}"
-                                                                 disabled="{!v.enableGuardian}"   
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                                                 />
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <!-- REF-3070 - Added disabled -->
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
-                                                                 value="{!v.participant.Phone__c}"
-                                                                 required="{!!v.needsGuardian}"
-                                                                 disabled="{!v.enableGuardian}"
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <div class="label">
-                                                    <abbr title="required" class="slds-required"
-                                                          >{!!v.needsGuardian ? '*' : ''}</abbr
-                                                        >{!$Label.c.PG_AS_F_Phone_Type}
-                                                </div>
-                                                <!-- REF-3070 - Added disabled -->
-                                                <c:rrSelect
-                                                            options="{!v.phoneTypes}"
-                                                            value="{!v.participant.Phone_Type__c}"
-                                                            disabled="{!v.enableGuardian}"
-                                                            useSentenceFont="false"
-                                                            />
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <div class="label">
-                                                    <abbr title="required" class="slds-required"
-                                                          >*</abbr
-                                                        >{!$Label.c.PE_Country}
-                                                </div>
-                                                <c:rrSelect
-                                                            options="{!v.counries}"
-                                                            value="{!v.participant.Mailing_Country_Code__c}"
-                                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.doCheckDateOfBith}"
-                                                            />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <div class="label">
-                                                    <aura:if isTrue="{!!empty(v.states)}"
-                                                             ><abbr
-                                                                    title="required"
-                                                                    class="slds-required"
-                                                                    >*</abbr
-                                                        ></aura:if
-                                                        >{!$Label.c.PE_State}
-                                                </div>
-                                                <c:rrSelect
-                                                            options="{!v.states}"
-                                                            value="{!v.participant.Mailing_State_Code__c}"
-                                                            placeholder="{!$Label.c.PG_AC_Select}"
-                                                            disabled="{!empty(v.states)}"
-                                                            useSentenceFont="false"
-                                                            onchange="{!c.doCheckDateOfBith}"
-                                                            />
-                                            </div>
-                                        </div>
-                                        <div
-                                             class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                             >
-                                            <div class="slds-col slds-size--1-of-2">
-                                                <lightning:input
-                                                                 type="text"
-                                                                 label="{!$Label.c.PG_AS_F_Zip_Postal_Code}"
-                                                                 value="{!v.participant.Mailing_Zip_Postal_Code__c}"
-                                                                 required="true"
-                                                                 onblur="{!c.doCheckfields}"
-                                                                 />
-                                            </div>
-                                            <div
-                                                 class="slds-col rr-medium-up-hide"
-                                                 style="height: 20px"
-                                                 ></div>
-                                            <div class="slds-col slds-size--1-of-2"></div>
-                                        </div>
-                                        
-                                        <div class="rr-form-element slds-no-label">
-                                            <div class="rr-cb-container">
-                                                <!-- REF-3070 - Added disabled -->
-                                                <lightning:input
-                                                                 type="checkbox"
-                                                                 label=""
-                                                                 checked="{!v.participant.Health_care_proxy_is_needed__c}"
-                                                                 onchange="{!c.doNeedsGuardian}"
-                                                                 disabled="{!v.enableGuardian}" 
-                                                                 />
-                                            </div>
-                                            <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                {!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}
-                                            </div>
-                                        </div>
-                                        <aura:if isTrue="{!v.needsGuardian}">
-                                            <div
-                                                 class="rr-form-element"
-                                                 style="size: 16px; margin-top: 15px"
-                                                 >
-                                                <label
-                                                       >{!$Label.c.PG_Ref_L_Primary_Delegate_Information}</label
-                                                    >
-                                            </div>
-                                            <div
-                                                 class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                                 >
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <lightning:input
-                                                                     type="text"
-                                                                     label="{!$Label.c.PG_AS_F_First_name}"
-                                                                     value="{!v.delegateParticipant.First_Name__c}"
-                                                                     required="{!v.needsGuardian}"
-                                                                     onblur="{!c.doCheckfields}"
-                                                                     />
-                                                </div>
-                                                <div
-                                                     class="slds-col rr-medium-up-hide"
-                                                     style="height: 20px"
-                                                     ></div>
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <lightning:input
-                                                                     type="text"
-                                                                     label="{!$Label.c.PG_AS_F_Last_name}"
-                                                                     value="{!v.delegateParticipant.Last_Name__c}"
-                                                                     required="{!v.needsGuardian}"
-                                                                     onblur="{!c.doCheckfields}"
-                                                                     />
-                                                </div>
-                                            </div>
-                                            <div
-                                                 class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                                 >
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <lightning:input
-                                                                     aura:id="emailDelegateField"
-                                                                     type="text"
-                                                                     label="{!$Label.c.PG_AS_F_Email_address}"
-                                                                     value="{!v.delegateParticipant.Email__c}"
-                                                                     pattern="{!$Label.c.RH_Email_Validation_Pattern}"
-                                                                     required="{!v.needsGuardian}"
-                                                                     onblur="{!c.doCheckfields}"
-                                                                     messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                                                     />
-                                                </div>
-                                                <div
-                                                     class="slds-col rr-medium-up-hide"
-                                                     style="height: 20px"
-                                                     ></div>
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <lightning:input
-                                                                     aura:id="emailDelegateRepeatField"
-                                                                     type="text"
-                                                                     label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
-                                                                     value="{!v.emailDelegateRepeat}"
-                                                                     pattern="{!$Label.c.RH_Email_Validation_Pattern}"
-                                                                     required="{!v.needsGuardian}"
-                                                                     onblur="{!c.doCheckfields}"
-                                                                     messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
-                                                                     />
-                                                </div>
-                                            </div>
-                                            <aura:if
-                                                     isTrue="{!(v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; !v.useThisDelegate}"
-                                                     >
-                                                <c:DuplicateDelegateMessage
-                                                                            delegateDuplicateInfo="{!v.delegateDuplicateInfo}"
-                                                                            />
-                                            </aura:if>
-                                            <div
-                                                 class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                                 >
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <lightning:input
-                                                                     type="text"
-                                                                     label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
-                                                                     value="{!v.delegateParticipant.Phone__c}"
-                                                                     required="{!v.needsGuardian}"
-                                                                     onblur="{!c.doCheckfields}"
-                                                                     aura:id="delegate-phone"
-                                                                     />
-                                                </div>
-                                                <div
-                                                     class="slds-col rr-medium-up-hide"
-                                                     style="height: 20px"
-                                                     ></div>
-                                                <div class="slds-col slds-size--1-of-2">
-                                                    <div class="label">
-                                                        <abbr title="required" class="slds-required"
-                                                              >{!v.needsGuardian ? '*' : ''}</abbr
-                                                            >{!$Label.c.PG_AS_F_Phone_Type}
-                                                    </div>
-                                                    <c:rrSelect
-                                                                options="{!v.phoneTypes}"
-                                                                value="{!v.delegateParticipant.Phone_Type__c}"
-                                                                useSentenceFont="false"
-                                                                />
-                                                </div>
-                                            </div>
-                                            <!-- added by sumit-->
-                                            <aura:if isTrue="{!v.isNewPrimaryDelegate}">
-                                                <div
-                                                     class="slds-grid slds-gutters slds-wrap rr-form-element"
-                                                     >
-                                                    <div class="slds-col slds-size--1-of-4">
-                                                        <div class="label">
-                                                            <abbr title="required" class="slds-required"
-                                                                  >{!v.needsGuardian ? '*' : ''}</abbr
-                                                                > {!$Label.c.RH_YearofBirth}
-                                                        </div>
-                                                        <c:rrSelect
-                                                                    options="{!v.yob}"
-                                                                    value="{!v.delegateParticipant.Birth_Year__c}"
-                                                                    useSentenceFont="false"
-                                                                    onchange="{!c.doCheckYearOfBith}"
-                                                                    /> 
-                                                        
-                                                    </div>
-                                                    
-                                                    <div
-                                                         class="slds-col rr-medium-up-hide"
-                                                         style="height: 20px"
-                                                         ></div>
-                                                    
-                                                </div>
-                                                <div class="slds-p-top_xx-small slds-col slds-size--1-of-10 rr-error">
-                                                    <aura:if isTrue="{!v.yobBlankErrMsg}">
-                                                        {!$Label.c.PP_RequiredErrorMessage}
-                                                    </aura:if>
-                                                    <aura:if isTrue="{!v.delNotAdultErrMsg}">
-                                                        {!$Label.c.RH_MinorDelegateErrMsg}
-                                                    </aura:if>
-                                                </div>
-                                                <div
-                                                     class="rr-form-element slds-no-label"
-                                                     style="margin-top: 20px"
-                                                     >
-                                                    <div class="rr-cb-container">
-                                                        <lightning:input
-                                                                         type="checkbox"
-                                                                         label=""
-                                                                         checked="{!v.attestAge}"
-                                                                         required="true"
-                                                                         disabled= "{!!v.isAdultDel}"
-                                                                         aura:id="checkBoxAttestation" 
-                                                                         onchange="{!c.doCheckYearOfBith}"
-                                                                         />
-                                                    </div>
-                                                    <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
-                                                        {!$Label.c.RH_DelegateAttestation}
-                                                    </div>
-                                                </div>                                    
-                                            </aura:if>
-                                        </aura:if>
-                                        <aura:if isTrue="{!(!v.authorizationForm)}">
-                                            
-                                            <div
-                                                 class="rr-form-element slds-no-label"
-                                                 style="margin-top: 25px"
-                                                 >
-                                                <div class="rr-cb-container">
-                                                    <lightning:input
-                                                                     type="checkbox"
-                                                                     label=""
-                                                                     checked="{!v.agreePolicy}"
-                                                                     onchange="{!c.doCheckfields}"
-                                                                     />
-                                                </div>
-                                                <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
-                                                    {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study}
-                                                </div>
-                                            </div>
-                                        </aura:if>
-                                        <button
-                                                class="apollo-btn primary"
-                                                style="width: 100%; margin: 20px 0 50px 0"
-                                                data-gtm="btn_SaveParticipant_referring"
-                                                onclick="{!c.doSaveParticipant}"
-                                                disabled="{!(!((v.allRequiredCompleted) &amp;&amp; (v.fileRequired)))}"
-                                                >
-                                            <!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
-                                            <!--                                                title="{!v.actions.refer.disableReason}">-->
-                                            {!$Label.c.BTN_Refer_Now}
-                                        </button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </aura:if>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'Questionare Failed'}">
-                <div class="rr-width-limiter">
-                    <div class="big-alert" style="padding: 10px 0">
-                        <div class="message">
-                            {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
-                        </div>
-                    </div>
-                    <div class="q-failed">
-                        <!--span>Text relating to patient who failed questionare</span-->
-                        <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
-                            <!--disabled="{!v.actions.refer.disabled}"
-                         title="{!v.actions.refer.disableReason}"-->
-                            
-                            {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
-                        </button>
-                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
-                        </button>
-                    </div>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'No Active Sites'}">
-                <div class="rr-width-limiter">
-                    <div class="big-alert" style="padding: 10px 0">
-                        <div class="message">{!$Label.c.PG_Ref_L_You_must_be_approved}</div>
-                    </div>
-                    <div class="q-failed">
-                        <!--span>Text relating to patient who failed questionare</span-->
-                        
-                        <aura:if isTrue="{!!empty(v.studySitesPending)}">
-                            <div class="slds-grid slds-wrap pe-panel">
-                                <div
-                                     class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
+                         {!$Label.c.BTN_Yes}
+                     </button>
+                     <button
+                             class="apollo-btn tertiary"
+                             onclick="{!c.doHadDiscussionNotInterested}"
+                             disabled="{!v.hadDiscussionDocumented}"
+                             >
+                         {!$Label.c.BTN_No}
+                     </button>
+                 </div>
+             </div>
+             <!--New Changes-->
+             <aura:if isTrue="{!v.hadDiscussionDocumented}">
+                 <div class="big-alert">
+                     <div class="" style="font-size: 23px;font-weight:600;font-family:Proxima Nova;"> 
+                         Have you documented the discussion?
+                         <div>
+                             <input type="checkbox" id="terms" name="terms" onclick="{!c.doDiscussionDocumented}" value="{!v.chkTerms}" onchange="{!c.termsChanged}" ></input>
+                             <label for="terms" style="font-size:18px;color:black;font-weight:550;font-family:Proxima Nova;"> I confirm that this discussion will be noted in the patient's records</label>
+                         </div>
+                     </div>
+                 </div>
+                 
+             </aura:if>
+             <!---New Changes End -->
+         </aura:if>
+         <!-- Added for REF-3229-->
+         <aura:if isTrue="{!and(!empty(v.authorizationForm), v.authorizationForm)}">
+             <div class="rr-width-limiter side-padding"></div>
+             <div class="big-alert">
+                 <c:RRIcon iconName="verbal-agreement" />
+                 <div class="message">
+                     {!$Label.c.PG_Ref_L_Authorization_Form}
+                 </div>
+                 <div>{!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_First_Part}  
+                     <a
+                        href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}" 
+                        style="padding-left:5px;padding-right: 5px;">
+                         {!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_Link}
+                     </a>
+                     {!$Label.c.PG_Ref_L_Download_Authorization_Form_Template_Last_Part}
+                 </div>
+                 
+             </div>
+         </aura:if>
+         <aura:if isTrue="{!v.doNext}">
+         <div class="buttons">
+                     <button
+                             class="apollo-btn tertiary"
+                             onclick="{!c.doNext}"
+                             style="{!if(v.isRTL, 'margin-left: 1%;','')}"
+                             >
+                         {!$Label.c.BTN_Next}
+                     </button>
+                     
+                 </div>
+         </aura:if>
+     </div>
+ </aura:if>
+ 
+ <!-- Site selection -->
+ <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Site_Selection}">
+     <div class="rr-width-limiter side-padding" style="padding-bottom: 25px;">
+         <div class="big-alert" style="padding: 10px 0">
+             <div class="message">
+                 {!$Label.c.PG_Ref_L_Please_select_referred_study_site_s_to_refer_your_patient_to}
+             </div>
+         </div>
+         <div class="slds-grid slds-wrap pe-panel" style="{!if(v.isRTL, '/* @noflip */  direction: rtl;','')}">
+             <div
+                  class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
+                  >
+                 <!-- todo -->
+                 <aura:iteration items="{!v.studySites}" var="ss" indexVar="index">
+                     <!--                                    <div class="sdas-footer-info">-->
+                     <!--                                        <div class="name">1. {!ss.name}</div>-->
+                     <!--                                        <div class="address">-->
+                     <!--                                            <div class="address-1">{!ss.addrStreet}</div>-->
+                     <!--                                            <div class="address-3">{!ss.addrCity}</div>-->
+                     <!--                                        </div>-->
+                     <!--                                        <button data-hcpe-id="{!ss.hcpeId}" class="apollo-btn tertiary" style="margin-top: 10px" onclick="{!c.doSelectSite}">-->
+                     <!--                                            {!$Label.c.BTN_Select_as_Preferred_Site}-->
+                     <!--                                        </button>-->
+                     <!--                                    </div>-->
+                     <div class="slds-grid slds-wrap slds-p-around--medium">
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
+                              >
+                             <div class="ssi-site-name" style="{!if(v.isRTL, 'text-align: right;','')}">
+                                 {!index+1 +'. '+ ss.site.Name}
+                             </div>
+                             <div class="ssi-pi-name" style="{!if(v.isRTL, 'text-align: right;','')}">
+                                 {!ss.site.Principal_Investigator__r.Salutation + ' '
+                                 + ss.site.Principal_Investigator__r.Name}
+                             </div>
+                         </div>
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                              >
+                             <div class="ssi-site-type" style="{!if(v.isRTL, 'text-align: left;','')}">
+                                 {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' +
+                                 $Label.c.PG_SFS_L_Site,'')}
+                             </div>
+                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                 <div class="ssi-site-distance" style="{!if(v.isRTL, 'text-align: left;','')}">
+                                     <aura:unescapedHtml
+                                                         value="{!ss.formatedDistance}"
+                                                         />
+                                 </div>
+                             </aura:if>
+                         </div>
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                              >
+                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                 <div class="ssi-address" style="{!if(v.isRTL, 'text-align: right;','')}">
+                                     {!(!empty(ss.site.Site__r.BillingAddress))?ss.site.Site__r.BillingStreet
+                                     :
+                                     ss.site.Principal_Investigator__r.Account.BillingStreet}
+                                     <br />
+                                     {!(!empty(ss.site.Site__r.BillingAddress))?
+                                     ss.site.Site__r.BillingCity?
+                                     ss.site.Site__r.BillingCity : '' :
+                                     ss.site.Principal_Investigator__r.Account.BillingCity?
+                                     ss.site.Principal_Investigator__r.Account.BillingCity
+                                     : ''}
+                                     {!(!empty(ss.site.Site__r.BillingAddress))?
+                                     ss.site.Site__r.BillingStateCode? ',
+                                     '+ss.site.Site__r.BillingStateCode : '' :
+                                     ss.site.Principal_Investigator__r.Account.BillingStateCode?
+                                     ', ' +
+                                     ss.site.Principal_Investigator__r.Account.BillingStateCode
+                                     : ''}
+                                     {!(!empty(ss.site.Site__r.BillingAddress))?
+                                     ss.site.Site__r.BillingPostalCode? ',
+                                     '+ss.site.Site__r.BillingPostalCode : '' :
+                                     ss.site.Principal_Investigator__r.Account.BillingPostalCode?
+                                     ', ' +
+                                     ss.site.Principal_Investigator__r.Account.BillingPostalCode
+                                     : ''}
+                                     <!-- ss.site.Site__r.BillingStateCode ? ',' + ss.site.Site__r.BillingStateCode : '' +
+                                          ss.site.Site__r.BillingPostalCode ? ',' + ss.site.Site__r.BillingPostalCode : '') :
+                                          (ss.site.Principal_Investigator__r.Account.BillingCity? ',' +  ss.site.Principal_Investigator__r.Account.BillingCity : '' +
+                                          ss.site.Principal_Investigator__r.Account.BillingStateCode ? ',' + ss.site.Principal_Investigator__r.Account.BillingStateCode : '' +
+                                          ss.site.Principal_Investigator__r.Account.BillingPostalCode ? ',' + ss.site.Principal_Investigator__r.Account.BillingPostalCode : '')}-->
+                                     <!--ss.site.Site__r.BillingCity},&ndash;&gt;
+                                  {!ss.site.Site__r.BillingCity},
+                                  &lt;!&ndash;{!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                  ss.site.Site__r.BillingStateCode},&ndash;&gt;
+                                  {!ss.site.Site__r.BillingStateCode},
+                                  &lt;!&ndash;{!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                  ss.site.Site__r.BillingPostalCode}&ndash;&gt;
+                                  {!ss.site.Site__r.BillingPostalCode}-->
+                                 </div>
+                             </aura:if>
+                         </div>
+                         
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button" style="{!if(v.isRTL, 'text-align: left;','')}"
+                              >
+                             <button
+                                     data-hcpe-id="{!ss.hcpe.Id}"
+                                     data-site-id="{!ss.site.Site__c}"
+                                     class="apollo-btn secondary"
+                                     style="margin-top: 10px"
+                                     onclick="{!c.doSelectSite}"
                                      >
-                                    <aura:iteration items="{!v.studySitesPending}" var="ss">
-                                        <div class="slds-grid slds-wrap slds-p-around--medium">
-                                            <div
-                                                 class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
-                                                 >
-                                                <div class="ssi-site-name">{!ss.site.Name}</div>
-                                                <div class="ssi-pi-name">
-                                                    {!ss.site.Principal_Investigator__r.Salutation +
-                                                    ' ' + ss.site.Principal_Investigator__r.Name}
-                                                </div>
-                                            </div>
-                                            <div
-                                                 class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                                 >
-                                                <div class="ssi-site-type">
-                                                    {!if(!empty(ss.siteType),ss.siteTypeLabel + ' '
-                                                    + $Label.c.PG_SFS_L_Site,'')}
-                                                </div>
-                                                <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                    <div class="ssi-site-distance">
-                                                        <aura:unescapedHtml
-                                                                            value="{!ss.formatedDistance}"
-                                                                            />
-                                                    </div>
-                                                </aura:if>
-                                            </div>
-                                            <div
-                                                 class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
-                                                 >
-                                                <aura:if isTrue="{!!empty(ss.formatedDistance)}">
-                                                    <div class="ssi-address">
-                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
-                                                        ss.site.Site__r.BillingStreet}
-                                                        <br />
-                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
-                                                        ss.site.Site__r.BillingCity},
-                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
-                                                        ss.site.Site__r.BillingStateCode},
-                                                        {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
-                                                        ss.site.Site__r.BillingPostalCode}
-                                                    </div>
-                                                </aura:if>
-                                            </div>
-                                            
-                                            <div
-                                                 class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button"
-                                                 >
-                                                <button
-                                                        class="apollo-btn secondary ssi-btn"
-                                                        style="margin-top: 10px"
-                                                        disabled="true"
-                                                        >
-                                                    {!ss.siteStatusLabel}
-                                                </button>
-                                            </div>
-                                        </div>
-                                    </aura:iteration>
-                                </div>
-                                <div
-                                     class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2"
+                                 {!$Label.c.BTN_Refer_to_this_Site}
+                             </button>
+                         </div>
+                     </div>
+                 </aura:iteration>
+                 <aura:iteration items="{!v.studySitesPending}" var="ss">
+                     <div class="slds-grid slds-wrap slds-p-around--medium">
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
+                              >
+                             <div class="ssi-site-name">{!ss.site.Name}</div>
+                             <div class="ssi-pi-name">
+                                 {!ss.site.Principal_Investigator__r.Salutation + ' '
+                                 + ss.site.Principal_Investigator__r.Name}
+                             </div>
+                         </div>
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                              >
+                             <div class="ssi-site-type">
+                                 {!if(!empty(ss.siteType),ss.siteTypeLabel + ' ' +
+                                 $Label.c.PG_SFS_L_Site,'')}
+                             </div>
+                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                 <div class="ssi-site-distance">
+                                     <aura:unescapedHtml
+                                                         value="{!ss.formatedDistance}"
+                                                         />
+                                 </div>
+                             </aura:if>
+                         </div>
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                              >
+                             <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                 <div class="ssi-address">
+                                     {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                     ss.site.Site__r.BillingStreet}
+                                     <br />
+                                     {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                     ss.site.Site__r.BillingCity},
+                                     {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                     ss.site.Site__r.BillingStateCode},
+                                     {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                     ss.site.Site__r.BillingPostalCode}
+                                 </div>
+                             </aura:if>
+                         </div>
+                         
+                         <div
+                              class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button"
+                              >
+                             <button
+                                     class="apollo-btn secondary"
+                                     style="margin-top: 10px"
+                                     disabled="true"
                                      >
-                                    <aura:if isTrue="{!v.markers}">
-                                        <lightning:map
-                                                       mapMarkers="{!v.markers}"
-                                                       zoomLevel="{!if(empty(v.markers),1,10)}"
-                                                       />
-                                    </aura:if>
-                                    <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
-                                </div>
-                            </div>
-                        </aura:if>
-                        
-                        <button class="apollo-btn primary" onclick="{!c.doGoFindStudySites}">
-                            {!$Label.c.BTN_Find_study_sites}
-                        </button>
-                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
-                        </button>
-                    </div>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'No Longer Interested'}">
-                <div class="rr-width-limiter">
-                    <div class="big-alert" style="padding: 10px 0">
-                        <div class="message">
-                            {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
-                        </div>
-                    </div>
-                    <div class="q-failed">
-                        <span
-                              >{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span
-                            >
-                        <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
-                            <!--                                disabled="{!v.actions.refer.disabled}"-->
-                            <!--                                title="{!v.actions.refer.disableReason}"-->
-                            {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
-                        </button>
-                        <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
-                        </button>
-                    </div>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'Had Discussion, Not Interested'}">
-                <div class="rr-width-limiter">
-                    <div class="big-alert" style="padding: 10px 0">
-                        <div class="message">{!$Label.c.PG_Ref_MSG_Response_Saved}</div>
-                    </div>
-                    <div class="q-failed">
-                        <span
-                              >{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span
-                            >
-                        <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
-                            <!--disabled="{!v.actions.refer.disabled}"
-                             title="{!v.actions.refer.disableReason}"-->
-                            {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
-                        </button>
-                    </div>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'Refer Success'}">
-                <div class="ref-alert pass">
-                    <c:RRIcon iconName="icon-check-circle" />
-                    <div class="main-title">{!$Label.c.PG_Ref_L_Referral_Sent}</div>
-                    <div class="rr-sub-title rr-green">
-                        {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
-                    </div>
-                    <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST1_Email_sent}</div>
-                    <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST2_Email_sent}</div>
-                    <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
-                        <!--disabled="{!v.actions.refer.disabled}"
-                         title="{!v.actions.refer.disableReason}"-->
-                        {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
-                    </button>
-                    <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                        {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
-                    </button>
-                </div>
-            </aura:if>
-            
-            <aura:if isTrue="{!v.currentState == 'Search PE'}">
-                <div class="rr-width-limiter side-padding">
-                    <c:SearchParticipantEnrollment
-                                                   aura:id="searchPECmp"
-                                                   trialId="{!v.trialId}"
-                                                   trial="{!v.trial}"
-                                                   searchData="{!v.searchData}"
-                                                   searchResult="{!v.searchResult}"
-                                                   mrrResult="{!v.mrrResult}"
-                                                   />
-                </div>
-            </aura:if>
-        </div>
-        
-        <div class="rr-width-limiter side-padding">
-            <c:CommunityFooter />
-        </div>
-    </aura:if>
-    
-    <c:builderStub aura:id="builderStub" />
+                                 {!ss.siteStatusLabel}
+                             </button>
+                         </div>
+                     </div>
+                 </aura:iteration>
+                 <div
+                      class="slds-grid slds-wrap slds-grid_align-center slds-p-around--medium slds-grid_vertical-align-center"
+                      style="min-height: 100%"
+                      >
+                     <div
+                          class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item"
+                          >
+                         <span class="header-white-panel" style="font-size: 16px"
+                               >{!$Label.c.MyStudy_None_of_these_sites_work}</span
+                             >
+                     </div>
+                     <div
+                          class="slds-col slds-medium-size_1-of-1 slds-size_1-of-1 slvi-header-item"
+                          >
+                         <button
+                                 class="apollo-btn secondary slvi-search-site-btn"
+                                 onclick="{!c.doGoFindStudySites}"
+                                 >
+                             {!$Label.c.MyStudy_Find_More_Sites}
+                         </button>
+                     </div>
+                 </div>
+             </div>
+             <div
+                  class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2 ss-map"
+                  >
+                 <aura:if isTrue="{!v.markers}">
+                     <lightning:map
+                                    mapMarkers="{!v.markers}"
+                                    zoomLevel="{!if(empty(v.markers),1,10)}"
+                                    />
+                 </aura:if>
+                 <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
+             </div>
+         </div>
+     </div>
+ </aura:if>
+ 
+ <!-- Questionare -->
+ <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Questionnaire}">
+     <div class="rr-width-limiter">
+         <iframe src="{!v.trial.Link_to_Pre_screening__c}"
+                 class="screening-gizmo-frame"
+                 style="{!'height: '+v.frameHeight + 'px'}"
+                 onload="{!c.doFrameLoaded}">
+         </iframe>
+     </div>
+ </aura:if>
+ 
+ <!-- Contact Info -->
+ <aura:if isTrue="{!v.currentStep == $Label.c.PG_Ref_Step_Contact_Info}">
+     <!--div class="rr-width-limiter">
+      <div class="big-alert" style="padding: 10px 0">
+          <div class="message">Contact info page TODO</div>
+      </div>
+  </div--> 
+     <div class="slds-grid slds-wrap" style="{!'align-items: stretch; ' + if(v.isRTL,'/* @noflip */  direction: rtl;')}">
+         <div class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 ci-left">
+             <div class="rr-width-limiter-half side-padding" style="{!if(v.isRTL, 'float: left;','float: right')}">
+                 <div class="slds-grid slds-wrap">
+                     <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
+                         <div class="rr-big-title inverse" style="margin-top: 70px">
+                             {!$Label.c.PG_Ref_L_Congratulations}
+                         </div>
+                         <div class="rr-title inverse" style="margin-bottom: 20px">
+                             {!$Label.c.PG_Ref_L_Your_patient_passed_the_pre_eligibility_screening_and_may_be_able_to_pa}
+                         </div>
+                         <div class="rr-text inverse" style="margin-bottom: 20px">
+                             {!$Label.c.PG_Ref_L_Please_enter_your_patient_s_details_into_the_form_so_that_a_study_site}
+                         </div>
+                         <div
+                              class="rr-sub-text inverse ci-ico-message"
+                              style="margin-bottom: 20px"
+                              >
+                             <c:RRIcon iconName="icon-note" />
+                             {!$Label.c.PG_Ref_L_IQVIA_may_also_contact_your_patient_to_ensure_that_your_patient_has_con}
+                         </div>
+                         <div
+                              class="rr-sub-text inverse ci-ico-message"
+                              style="margin-bottom: 50px"
+                              >
+                             <c:RRIcon iconName="icon-privacy" />
+                             {!$Label.c.PG_Ref_L_Your_patient_s_contact_information_will_only_be_used_to_contact_them_ab}
+                         </div>
+                     </div>
+                 </div>
+             </div>
+         </div>
+         <div
+              class="slds-col slds-size_1-of-1 slds-large-size_1-of-2 rr-body-content"
+              >
+             <div class="rr-width-limiter-half side-padding">
+                 <div class="slds-grid slds-wrap">
+                     <div
+                          class="slds-col slds-size_1-of-1 slds-large-size_1-of-6"
+                          ></div>
+                     <div class="slds-col slds-size_1-of-1 slds-large-size_5-of-6">
+                         <aura:if isTrue="{!v.authorizationForm}">
+                             <div
+                                  class="rr-form-element part-header"
+                                  >
+                                 <b><label
+                                           >{!$Label.c.PG_Ref_L_Patient_Authorization}</label
+                                     ></b>
+                                 <div
+                                      class="rr-form-element slds-no-label"
+                                      style="margin-top: 15px"
+                                      >
+                                     <div class="rr-cb-container">
+                                         <lightning:input
+                                                          type="checkbox"
+                                                          label=""
+                                                          checked="{!v.agreePolicy}"
+                                                          onchange="{!c.doCheckfields}"
+                                                          />
+                                     </div>
+                                     <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                         {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_study_top}
+                                     </div>
+                                 </div>
+                                 <div>
+                                     <lightning:fileUpload label="{!$Label.c.Signed_Auth_Form}"
+                                                           name="fileUploader"
+                                                           multiple="false"
+                                                           disabled="{!v.disableFile}"
+                                                           onuploadfinished="{!c.handleUploadFinished}" />
+                                     <div class="slds-grid slds-gutters slds-wrap" style= "padding-top:5px;">
+                                         <div class="slds-col slds-size--2-of-5">
+                                             <a style= "padding-top: 5px;"
+                                                onclick="{!c.openModel}">
+                                                 {!v.fileName}
+                                             </a>
+                                         </div>
+                                         <div class="slds-col slds-size--1-of-5">
+                                             <aura:if isTrue="{!v.disableFile}">
+                                                 
+                                                 <lightning:buttonIcon iconName="utility:delete"  
+                                                                       alternativeText="Delete" 
+                                                                       title="Delete" 
+                                                                       size= "small"
+                                                                       onclick="{!c.handleDeleteFile}"/>
+                                                 
+                                             </aura:if>
+                                         </div>
+                                     </div>
+                                 </div>
+                                 <br></br>
+                                 <div>
+                                     <a href= "{!v.contentDoc.baseURL + '/sfc/servlet.shepherd/document/download/'+ v.contentDoc.attachments[0].Id +'?operationContext=S1'}" target="_blank" download="{!v.contentDoc.attachments.Title}">
+                                         {!$Label.c.PG_Ref_L_Download_Authorization}</a>
+                                 </div>
+                                 
+                             </div>
+                         </aura:if>
+                         <aura:If isTrue="{!v.openmodel}">
+                             
+                             <div  class="slds-modal slds-fade-in-open slds-modal_medium slds-backdrop " >
+                                 <div class="slds-modal__container ">
+                                     <div class="slds-modal__header" style="padding-top:0rem;padding-bottom:0rem;">
+                                         
+                                         <button class="slds-button slds-modal__close slds-button--icon button-color" title="Close" onclick="{!c.closeModal}">
+                                             <lightning:icon iconName="utility:close" size="small" style= "background:none;"/>
+                                         </button>
+                                     </div>
+                                     <div class="slds-modal__content slds-p-around--small slds-grid slds-wrap ">
+                                         <!--  Write Your Content here  -->
+                                         <div class="slds-size--1-of-2 slds-large-size--1-of-2 ">
+                                             <span>
+                                                 <iframe id="my_iframe" style="min-width:870px;height:400px;z-index:-999;" 
+                                                         
+                                                         src="{!v.subDomain + '/apex/SignedAuthorizationFormPreview?resourceId=' + v.contentDocId}"  frameborder="0"  >
+                                                 </iframe>               
+                                             </span>
+                                         </div>
+                                         <br/>
+                                     </div>
+                                 </div>
+                             </div>    
+                         </aura:If>
+                         <div
+                              class="{! v.authorizationForm ? 'part-header-removed' : 'part-header' }"
+                              >
+                             <label>
+                                 {!$Label.c.PG_Ref_L_Participant_Information}
+                             </label>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PE_Patient_Id}"
+                                                  value="{!v.pEnrollment.Patient_ID__c}"
+                                                  disabled="true"
+                                                  onchange="{!c.doCheckfields}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="{!v.isRTL? 'slds-col slds-size--1-of-2 rightAlign':'slds-col slds-size--1-of-2'}">
+                                 
+                                 <aura:if isTrue="{!v.patientVeiwRedirection}">
+                                     <div class="slds-grid slds-wrap">
+                                         <div class="slds-col slds-size_1-of-3">
+                                             <lightning:layout horizontalAlign="space">
+                                                 <lightning:layoutItem >
+                                                     <div class="label">
+                                                         <abbr title="required" class="slds-required"
+                                                               >*</abbr
+                                                             >MM
+                                                     </div>
+                                                     <div style="width:61px">
+                                                         <c:rrSelect
+                                                                     options="{!v.months}"
+                                                                     value="{!v.pmonth}"
+                                                                     placeholder="MM"
+                                                                     useSentenceFont="false"
+                                                                     onchange="{!c.doCheckParticipantDob}"
+                                                                     />
+                                                     </div>
+                                                 </lightning:layoutItem>
+                                             </lightning:layout>
+                                             
+                                         </div>
+                                         <div class="slds-col slds-size_1-of-3">
+                                             <lightning:layout horizontalAlign="space">
+                                                 <lightning:layoutItem >
+                                                     <div class="label">
+                                                         <abbr title="required" class="slds-required"
+                                                               >*</abbr
+                                                             >DD
+                                                     </div>
+                                                     <div style="width:57px">
+                                                         <c:rrSelect
+                                                                     options="{!v.days}"
+                                                                     value="{!v.pday}"
+                                                                     placeholder="DD"
+                                                                     useSentenceFont="false"
+                                                                     onchange="{!c.doCheckParticipantDob}"
+                                                                     />
+                                                     </div>
+                                                 </lightning:layoutItem>
+                                             </lightning:layout>
+                                             
+                                         </div>
+                                         <div class="slds-col slds-size_1-of-3">
+                                             <lightning:layout horizontalAlign="space">
+                                                 <lightning:layoutItem >
+                                                     <div class="label">
+                                                         <abbr title="required" class="slds-required"
+                                                               >*</abbr
+                                                             >YYYY
+                                                     </div>
+                                                     <div style="width:75px">
+                                                         <c:rrSelect
+                                                                     options="{!v.years}"
+                                                                     value="{!v.pyear}"
+                                                                     placeholder="YYYY"
+                                                                     useSentenceFont="false"
+                                                                     onchange="{!c.doCheckParticipantDob}"
+                                                                     /> 
+                                                     </div>
+                                                 </lightning:layoutItem>
+                                             </lightning:layout>
+                                             
+                                         </div>
+                                     </div>
+                                     
+                                     <aura:set attribute="else">
+                                         <div class="label">
+                                             <abbr title="required" class="slds-required"
+                                                   >*</abbr
+                                                 >{!$Label.c.PG_AS_F_Date_of_Birth}
+                                         </div>
+                                         <lightning:input
+                                                          max="{!v.todayDate}"
+                                                          min="1900-01-01"
+                                                          type="date"
+                                                          value="{!v.participant.Date_of_Birth__c}"
+                                                          onblur="{!c.doCheckDateOfBith}"
+                                                          dateStyle="medium"
+                                                          />
+                                     </aura:set>
+                                 </aura:if> 
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PG_AS_F_First_name}"
+                                                  value="{!v.participant.First_Name__c}"
+                                                  required="true"
+                                                  onblur="{!c.doCheckfields}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2">
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PG_AS_F_Middle_name}"
+                                                  value="{!v.participant.Middle_Name__c}"
+                                                  />
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PG_AS_F_Last_name}"
+                                                  value="{!v.participant.Last_Name__c}"
+                                                  required="true"
+                                                  onblur="{!c.doCheckfields}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2">
+                                 <div class="label">
+                                     <abbr title="required" class="slds-required"
+                                           >*</abbr
+                                         >{!$Label.c.PG_AS_F_Gender}
+                                 </div>
+                                 <c:rrSelect
+                                             options="{!v.genders}"
+                                             value="{!v.participant.Gender__c}"
+                                             useSentenceFont="false"
+                                             />
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <!-- REF-3070 - Added disabled -->
+                                 <lightning:input
+                                                  aura:id="emailField"
+                                                  type="text"
+                                                  label="{!$Label.c.PG_AS_F_Email_address}"
+                                                  value="{!v.participant.Email__c}"
+                                                  required="{!!v.needsGuardian}"
+                                                  disabled="{!v.enableGuardian}"   
+                                                  onblur="{!c.doCheckfields}"
+                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2">
+                                 <!-- REF-3070 - Added disabled -->
+                                 <lightning:input
+                                                  aura:id="emailRepeatField"
+                                                  type="text"
+                                                  label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
+                                                  value="{!v.emailRepeat}"
+                                                  pattern="{!$Label.c.RH_Email_Validation_Pattern}"
+                                                  required="{!!v.needsGuardian}"
+                                                  disabled="{!v.enableGuardian}"   
+                                                  onblur="{!c.doCheckfields}"
+                                                  messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                  />
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <!-- REF-3070 - Added disabled -->
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
+                                                  value="{!v.participant.Phone__c}"
+                                                  required="{!!v.needsGuardian}"
+                                                  disabled="{!v.enableGuardian}"
+                                                  onblur="{!c.doCheckfields}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2">
+                                 <div class="label">
+                                     <abbr title="required" class="slds-required"
+                                           >{!!v.needsGuardian ? '*' : ''}</abbr
+                                         >{!$Label.c.PG_AS_F_Phone_Type}
+                                 </div>
+                                 <!-- REF-3070 - Added disabled -->
+                                 <c:rrSelect
+                                             options="{!v.phoneTypes}"
+                                             value="{!v.participant.Phone_Type__c}"
+                                             disabled="{!v.enableGuardian}"
+                                             useSentenceFont="false"
+                                             />
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <div class="label">
+                                     <abbr title="required" class="slds-required"
+                                           >*</abbr
+                                         >{!$Label.c.PE_Country}
+                                 </div>
+                                 <c:rrSelect
+                                             options="{!v.counries}"
+                                             value="{!v.participant.Mailing_Country_Code__c}"
+                                             placeholder="{!$Label.c.PG_AC_Select}"
+                                             useSentenceFont="false"
+                                             onchange="{!c.doCheckDateOfBith}"
+                                             />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2">
+                                 <div class="label">
+                                     <aura:if isTrue="{!!empty(v.states)}"
+                                              ><abbr
+                                                     title="required"
+                                                     class="slds-required"
+                                                     >*</abbr
+                                         ></aura:if
+                                         >{!$Label.c.PE_State}
+                                 </div>
+                                 <c:rrSelect
+                                             options="{!v.states}"
+                                             value="{!v.participant.Mailing_State_Code__c}"
+                                             placeholder="{!$Label.c.PG_AC_Select}"
+                                             disabled="{!empty(v.states)}"
+                                             useSentenceFont="false"
+                                             onchange="{!c.doCheckDateOfBith}"
+                                             />
+                             </div>
+                         </div>
+                         <div
+                              class="slds-grid slds-gutters slds-wrap rr-form-element"
+                              >
+                             <div class="slds-col slds-size--1-of-2">
+                                 <lightning:input
+                                                  type="text"
+                                                  label="{!$Label.c.PG_AS_F_Zip_Postal_Code}"
+                                                  value="{!v.participant.Mailing_Zip_Postal_Code__c}"
+                                                  required="true"
+                                                  onblur="{!c.doCheckfields}"
+                                                  />
+                             </div>
+                             <div
+                                  class="slds-col rr-medium-up-hide"
+                                  style="height: 20px"
+                                  ></div>
+                             <div class="slds-col slds-size--1-of-2"></div>
+                         </div>
+                         
+                         <div class="rr-form-element slds-no-label">
+                             <div class="rr-cb-container">
+                                 <!-- REF-3070 - Added disabled -->
+                                 <lightning:input
+                                                  type="checkbox"
+                                                  label=""
+                                                  checked="{!v.participant.Health_care_proxy_is_needed__c}"
+                                                  onchange="{!c.doNeedsGuardian}"
+                                                  disabled="{!v.enableGuardian}" 
+                                                  />
+                             </div>
+                             <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                 {!$Label.c.PG_Ref_L_Health_care_proxy_is_needed}
+                             </div>
+                         </div>
+                         <aura:if isTrue="{!v.needsGuardian}">
+                             <div
+                                  class="rr-form-element"
+                                  style="size: 16px; margin-top: 15px"
+                                  >
+                                 <label
+                                        >{!$Label.c.PG_Ref_L_Primary_Delegate_Information}</label
+                                     >
+                             </div>
+                             <div
+                                  class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                  >
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <lightning:input
+                                                      type="text"
+                                                      label="{!$Label.c.PG_AS_F_First_name}"
+                                                      value="{!v.delegateParticipant.First_Name__c}"
+                                                      required="{!v.needsGuardian}"
+                                                      onblur="{!c.doCheckfields}"
+                                                      />
+                                 </div>
+                                 <div
+                                      class="slds-col rr-medium-up-hide"
+                                      style="height: 20px"
+                                      ></div>
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <lightning:input
+                                                      type="text"
+                                                      label="{!$Label.c.PG_AS_F_Last_name}"
+                                                      value="{!v.delegateParticipant.Last_Name__c}"
+                                                      required="{!v.needsGuardian}"
+                                                      onblur="{!c.doCheckfields}"
+                                                      />
+                                 </div>
+                             </div>
+                             <div
+                                  class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                  >
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <lightning:input
+                                                      aura:id="emailDelegateField"
+                                                      type="text"
+                                                      label="{!$Label.c.PG_AS_F_Email_address}"
+                                                      value="{!v.delegateParticipant.Email__c}"
+                                                      pattern="{!$Label.c.RH_Email_Validation_Pattern}"
+                                                      required="{!v.needsGuardian}"
+                                                      onblur="{!c.doCheckfields}"
+                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                      />
+                                 </div>
+                                 <div
+                                      class="slds-col rr-medium-up-hide"
+                                      style="height: 20px"
+                                      ></div>
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <lightning:input
+                                                      aura:id="emailDelegateRepeatField"
+                                                      type="text"
+                                                      label="{!$Label.c.PG_Ref_L_Re_enter_email_address}"
+                                                      value="{!v.emailDelegateRepeat}"
+                                                      pattern="{!$Label.c.RH_Email_Validation_Pattern}"
+                                                      required="{!v.needsGuardian}"
+                                                      onblur="{!c.doCheckfields}"
+                                                      messageWhenBadInput="{!$Label.c.PG_Ref_MSG_Email_s_not_equals}"
+                                                      />
+                                 </div>
+                             </div>
+                             <aura:if
+                                      isTrue="{!(v.delegateDuplicateInfo.isDuplicateDelegate || v.delegateDuplicateInfo.contactId || v.delegateDuplicateInfo.participantId) &amp;&amp; !v.useThisDelegate}"
+                                      >
+                                 <c:DuplicateDelegateMessage
+                                                             delegateDuplicateInfo="{!v.delegateDuplicateInfo}"
+                                                             />
+                             </aura:if>
+                             <div
+                                  class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                  >
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <lightning:input
+                                                      type="text"
+                                                      label="{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}"
+                                                      value="{!v.delegateParticipant.Phone__c}"
+                                                      required="{!v.needsGuardian}"
+                                                      onblur="{!c.doCheckfields}"
+                                                      aura:id="delegate-phone"
+                                                      />
+                                 </div>
+                                 <div
+                                      class="slds-col rr-medium-up-hide"
+                                      style="height: 20px"
+                                      ></div>
+                                 <div class="slds-col slds-size--1-of-2">
+                                     <div class="label">
+                                         <abbr title="required" class="slds-required"
+                                               >{!v.needsGuardian ? '*' : ''}</abbr
+                                             >{!$Label.c.PG_AS_F_Phone_Type}
+                                     </div>
+                                     <c:rrSelect
+                                                 options="{!v.phoneTypes}"
+                                                 value="{!v.delegateParticipant.Phone_Type__c}"
+                                                 useSentenceFont="false"
+                                                 />
+                                 </div>
+                             </div>
+                             <!-- added by sumit-->
+                             <aura:if isTrue="{!v.isNewPrimaryDelegate}">
+                                 <div
+                                      class="slds-grid slds-gutters slds-wrap rr-form-element"
+                                      >
+                                     <div class="slds-col slds-size--1-of-4">
+                                         <div class="label">
+                                             <abbr title="required" class="slds-required"
+                                                   >{!v.needsGuardian ? '*' : ''}</abbr
+                                                 > {!$Label.c.RH_YearofBirth}
+                                         </div>
+                                         <c:rrSelect
+                                                     options="{!v.yob}"
+                                                     value="{!v.delegateParticipant.Birth_Year__c}"
+                                                     useSentenceFont="false"
+                                                     onchange="{!c.doCheckYearOfBith}"
+                                                     /> 
+                                         
+                                     </div>
+                                     
+                                     <div
+                                          class="slds-col rr-medium-up-hide"
+                                          style="height: 20px"
+                                          ></div>
+                                     
+                                 </div>
+                                 <div class="slds-p-top_xx-small slds-col slds-size--1-of-10 rr-error">
+                                     <aura:if isTrue="{!v.yobBlankErrMsg}">
+                                         {!$Label.c.PP_RequiredErrorMessage}
+                                     </aura:if>
+                                     <aura:if isTrue="{!v.delNotAdultErrMsg}">
+                                         {!$Label.c.RH_MinorDelegateErrMsg}
+                                     </aura:if>
+                                 </div>
+                                 <div
+                                      class="rr-form-element slds-no-label"
+                                      style="margin-top: 20px"
+                                      >
+                                     <div class="rr-cb-container">
+                                         <lightning:input
+                                                          type="checkbox"
+                                                          label=""
+                                                          checked="{!v.attestAge}"
+                                                          required="true"
+                                                          disabled= "{!!v.isAdultDel}"
+                                                          aura:id="checkBoxAttestation" 
+                                                          onchange="{!c.doCheckYearOfBith}"
+                                                          />
+                                     </div>
+                                     <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 17px;','padding-left: 10px;')}">
+                                         {!$Label.c.RH_DelegateAttestation}
+                                     </div>
+                                 </div>                                    
+                             </aura:if>
+                         </aura:if>
+                         <aura:if isTrue="{!(!v.authorizationForm)}">
+                             
+                             <div
+                                  class="rr-form-element slds-no-label"
+                                  style="margin-top: 25px"
+                                  >
+                                 <div class="rr-cb-container">
+                                     <lightning:input
+                                                      type="checkbox"
+                                                      label=""
+                                                      checked="{!v.agreePolicy}"
+                                                      onchange="{!c.doCheckfields}"
+                                                      />
+                                 </div>
+                                 <div class="label rr-cb-label" style="{!if(v.isRTL, 'padding-right: 7px;','')}">
+                                     {!$Label.c.PG_Ref_L_My_patient_agrees_to_share_their_contact_details_with_IQVIA_the_study}
+                                 </div>
+                             </div>
+                         </aura:if>
+                         <button
+                                 class="apollo-btn primary"
+                                 style="width: 100%; margin: 20px 0 50px 0"
+                                 data-gtm="btn_SaveParticipant_referring"
+                                 onclick="{!c.doSaveParticipant}"
+                                 disabled="{!(!((v.allRequiredCompleted) &amp;&amp; (v.fileRequired)))}"
+                                 >
+                             <!--                                                disabled="{!v.actions.refer.disabled || !v.allRequiredCompleted}"-->
+                             <!--                                                title="{!v.actions.refer.disableReason}">-->
+                             {!$Label.c.BTN_Refer_Now}
+                         </button>
+                     </div>
+                 </div>
+             </div>
+         </div>
+     </div>
+ </aura:if>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'Questionare Failed'}">
+ <div class="rr-width-limiter">
+     <div class="big-alert" style="padding: 10px 0">
+         <div class="message">
+             {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
+         </div>
+     </div>
+     <div class="q-failed">
+         <!--span>Text relating to patient who failed questionare</span-->
+         <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
+             <!--disabled="{!v.actions.refer.disabled}"
+          title="{!v.actions.refer.disableReason}"-->
+             
+             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+         </button>
+         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+             {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+         </button>
+     </div>
+ </div>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'No Active Sites'}">
+ <div class="rr-width-limiter">
+     <div class="big-alert" style="padding: 10px 0">
+         <div class="message">{!$Label.c.PG_Ref_L_You_must_be_approved}</div>
+     </div>
+     <div class="q-failed">
+         <!--span>Text relating to patient who failed questionare</span-->
+         
+         <aura:if isTrue="{!!empty(v.studySitesPending)}">
+             <div class="slds-grid slds-wrap pe-panel">
+                 <div
+                      class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_2 slds-medium-order_1"
+                      >
+                     <aura:iteration items="{!v.studySitesPending}" var="ss">
+                         <div class="slds-grid slds-wrap slds-p-around--medium">
+                             <div
+                                  class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3"
+                                  >
+                                 <div class="ssi-site-name">{!ss.site.Name}</div>
+                                 <div class="ssi-pi-name">
+                                     {!ss.site.Principal_Investigator__r.Salutation +
+                                     ' ' + ss.site.Principal_Investigator__r.Name}
+                                 </div>
+                             </div>
+                             <div
+                                  class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                                  >
+                                 <div class="ssi-site-type">
+                                     {!if(!empty(ss.siteType),ss.siteTypeLabel + ' '
+                                     + $Label.c.PG_SFS_L_Site,'')}
+                                 </div>
+                                 <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                     <div class="ssi-site-distance">
+                                         <aura:unescapedHtml
+                                                             value="{!ss.formatedDistance}"
+                                                             />
+                                     </div>
+                                 </aura:if>
+                             </div>
+                             <div
+                                  class="slds-col slds-size--1-of-1 slds-medium-size--1-of-3"
+                                  >
+                                 <aura:if isTrue="{!!empty(ss.formatedDistance)}">
+                                     <div class="ssi-address">
+                                         {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStreet:
+                                         ss.site.Site__r.BillingStreet}
+                                         <br />
+                                         {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingCity:
+                                         ss.site.Site__r.BillingCity},
+                                         {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingStateCode:
+                                         ss.site.Site__r.BillingStateCode},
+                                         {!(!empty(ss.site.Principal_Investigator__r.Account.BillingAddress))?ss.site.Principal_Investigator__r.Account.BillingPostalCode:
+                                         ss.site.Site__r.BillingPostalCode}
+                                     </div>
+                                 </aura:if>
+                             </div>
+                             
+                             <div
+                                  class="slds-col slds-size--1-of-1 slds-medium-size--2-of-3 ssi-button"
+                                  >
+                                 <button
+                                         class="apollo-btn secondary ssi-btn"
+                                         style="margin-top: 10px"
+                                         disabled="true"
+                                         >
+                                     {!ss.siteStatusLabel}
+                                 </button>
+                             </div>
+                         </div>
+                     </aura:iteration>
+                 </div>
+                 <div
+                      class="slds-col slds-size_1-of-1 slds-medium-size_7-of-12 slds-order_1 slds-medium-order_2"
+                      >
+                     <aura:if isTrue="{!v.markers}">
+                         <lightning:map
+                                        mapMarkers="{!v.markers}"
+                                        zoomLevel="{!if(empty(v.markers),1,10)}"
+                                        />
+                     </aura:if>
+                     <!-- <c:RRGoogleMap accounts="{!v.studySiteMarkers}"/>-->
+                 </div>
+             </div>
+         </aura:if>
+         
+         <button class="apollo-btn primary" onclick="{!c.doGoFindStudySites}">
+             {!$Label.c.BTN_Find_study_sites}
+         </button>
+         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+         </button>
+     </div>
+ </div>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'No Longer Interested'}">
+ <div class="rr-width-limiter">
+     <div class="big-alert" style="padding: 10px 0">
+         <div class="message">
+             {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
+         </div>
+     </div>
+     <div class="q-failed">
+         <span
+               >{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span
+             >
+         <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
+             <!--                                disabled="{!v.actions.refer.disabled}"-->
+             <!--                                title="{!v.actions.refer.disableReason}"-->
+             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+         </button>
+         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+         </button>
+     </div>
+ </div>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'Had Discussion, Not Interested'}">
+ <div class="rr-width-limiter">
+     <div class="big-alert" style="padding: 10px 0">
+         <div class="message">{!$Label.c.PG_Ref_MSG_Response_Saved}</div>
+     </div>
+     <div class="q-failed">
+         <span
+               >{!$Label.c.PG_Ref_L_Thank_you_for_having_a_discussion_with_your_patient_about_clinical_stud}</span
+             >
+         <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
+             <!--disabled="{!v.actions.refer.disabled}"
+              title="{!v.actions.refer.disableReason}"-->
+             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+         </button>
+     </div>
+ </div>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'Refer Success'}">
+ <div class="ref-alert pass">
+     <c:RRIcon iconName="icon-check-circle" />
+     <div class="main-title">{!$Label.c.PG_Ref_L_Referral_Sent}</div>
+     <div class="rr-sub-title rr-green">
+         {!$Label.c.PG_Ref_L_Thank_you_for_your_time_and_interest_in_this_study}
+     </div>
+     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST1_Email_sent}</div>
+     <div class="rr-sub-text rr-dark-gray">{!$Label.c.PG_Ref_ST2_Email_sent}</div>
+             <button class="apollo-btn primary" onclick="{!c.doReferrAnotherPatient}">
+                 <!--disabled="{!v.actions.refer.disabled}"
+          title="{!v.actions.refer.disableReason}"-->
+                 {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
+             </button>
+     <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
+                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+     </button>
+ </div>
+</aura:if>
+
+<aura:if isTrue="{!v.currentState == 'Search PE'}">
+ <div class="rr-width-limiter side-padding">
+     <c:SearchParticipantEnrollment
+                                    aura:id="searchPECmp"
+                                    trialId="{!v.trialId}"
+                                    trial="{!v.trial}"
+                                    searchData="{!v.searchData}"
+                                    searchResult="{!v.searchResult}"
+                                    mrrResult="{!v.mrrResult}"
+                                    />
+ </div>
+</aura:if>
+</div>
+
+<div class="rr-width-limiter side-padding">
+<c:CommunityFooter />
+</div>
+</aura:if>
+
+<c:builderStub aura:id="builderStub" />
 </aura:component>
