@@ -436,7 +436,8 @@ export default class RPRevamp extends LightningElement {
             studyID: this.selectedStudy,
             rpState: this.rpState,
             rpCountry: this.rpCountry,
-            csvData : this.csvData
+            csvData : this.csvData,
+            delegateId : this.userConID
         })
         .then(result => {
             this.selectedStudy = '';

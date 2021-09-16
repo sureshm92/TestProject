@@ -1,4 +1,4 @@
-public with sharing class nonReferedBulkUpload {
+public without sharing class nonReferedBulkUpload {
     public nonReferedBulkUpload() {
         
     }
@@ -97,7 +97,7 @@ public with sharing class nonReferedBulkUpload {
     }
     
     @AuraEnabled
-    public static void processvalidateFile(string fileID,string studyID,string rpState,string rpCountry, string csvData){
+    public static void processvalidateFile(string fileID,string studyID,string rpState,string rpCountry, string csvData, string delegateId){
         try {
             
             TriggerHandlerExecutor.bypassHandler(
@@ -142,9 +142,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     );
                 }
             }
-            
-            string usrContId = CommunityService.getInstance().getCurrentContactId();
-            String HCPid = [select id from HCP_Enrollment__c where Study_Site__c =: studyID and HCP_Contact__c =: usrContId limit 1].id;
+            if(delegateId==null)
+            delegateId = CommunityService.getInstance().getCurrentContactId();
+            String HCPid = [select id from HCP_Enrollment__c where Study_Site__c =: studyID and HCP_Contact__c =: delegateId limit 1].id;
             
             ContentVersion cv = [SELECT VersionData,Title, ContentDocumentId, PathOnClient FROM ContentVersion WHERE id = :fileId AND IsLatest = true];
             string fileBody = csvData;
@@ -403,7 +403,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     } 
                     if(errStr == '' || (!hasPatientErrRow && hasDelErrRow && rec[7]=='Yes')){
                         if(errStr != '' ){
-                            errStr = 'Only Patient was brought in the system, Primary Delegate has errors;'+errStr;
+                            errStr = 'Only Patient was brought in the system as Primary Delegate has errors;'+errStr;
                         }
 
                         //Empty Patient Phone,email if Minor
@@ -420,7 +420,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         if(rec[10]=='') rec[10]=rpState;
                         
                         Participant_Enrollment__c peRec = new Participant_Enrollment__c() ;
-                        peRec.HCP_Contact_HCPEnroll__c = usrContId;
+                        peRec.HCP_Contact_HCPEnroll__c = delegateId;
                         peRec.Participant_Status__c = 'Pending Referral';
                         peRec.HCP__c = HCPid;
                         
