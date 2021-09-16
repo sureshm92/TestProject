@@ -406,8 +406,12 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                             errStr = 'Only Patient was brought in the system as Primary Delegate has errors;'+errStr;
                         }
 
+                        //REF-4881
+                        String dlgAltPhone = '';
+
                         //Empty Patient Phone,email if Minor
                         if(rec[7]=='No' || isMajorPatient=='No'){
+                            dlgAltPhone =  rec[11]; 
                             rec[14]='' ;   
                             rec[12]='' ;   
                             rec[13]='' ;   
@@ -441,6 +445,10 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.Participant_Alternative_Phone__c=rec[13];
                         peRec.Participant_Alt_Phone_Type__c=rec[14];
                         if(!hasDelErrRow){
+                            if(dlgAltPhone !=''){
+                                peRec.Primary_Delegate_s_Alt_Phone__c=dlgAltPhone;
+                                peRec.Primary_Delegate_s_Alt_Phone_Type__c = 'Home';
+                            }
                             peRec.Primary_Delegate_First_Name__c=rec[15];
                             peRec.Primary_Delegate_Last_Name__c=rec[16];
                             peRec.Primary_Delegate_Email__c=rec[17];
