@@ -154,13 +154,14 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             String errCSVFile ='';
             map<string,string> rowsCSV = new map<string,string>();
             map<string,string> IndexPatientMap = new map<string,string>();
-            list<String> pIds= new list<String>();
+            list<String> pIds= new list<String>();            
+            map<string,string> prRowIndexMap = new map<string,string>();
             list<Integer> mandatoryIndexes =  new list<Integer>{0};            
-                list<Integer> emailIndexes =  new list<Integer>{5,17};    
-                    list<Integer> yobIndexes =  new list<Integer>{6,20};   
-                        list<Integer> legalIndexes =  new list<Integer>{7,21};
-                            list<Integer> phoneTypeIndexes =  new list<Integer>{12,14,19};
-                                set<string> pidset = new set<string>();
+            list<Integer> emailIndexes =  new list<Integer>{5,17};    
+            list<Integer> yobIndexes =  new list<Integer>{6,20};   
+            list<Integer> legalIndexes =  new list<Integer>{7,21};
+            list<Integer> phoneTypeIndexes =  new list<Integer>{12,14,19};
+            set<string> pidset = new set<string>();
             integer totalRow = 0;
             string errStr = '';
             map<integer,string> errMap = getErrMessages();
@@ -181,6 +182,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             
             
             for(Integer i=2; i < rows.size(); i++){
+                boolean hasPatientErrRow = false;
+                boolean hasDelErrRow = false;
+                list<Integer> delegateIndexes =  new list<Integer>{15,16,17,18,19,20,21}; 
                 String[] rec = rows[i].split(',');
                 if(rec.size()==0){
                     continue;
@@ -206,6 +210,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     } 
                     else if(rec[0]!=''){
                         errStr += 'Duplicate Patient ID in sheet.;';
+                        hasPatientErrRow = true;
                     }                   
                     pIds.add(rec[0]);
                     if(rec[0] !='' && errStr==''){
@@ -222,12 +227,18 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                             //Legal Status of Primary Delegate should be Yes 
                             if(rec[21]=='No'){
                                 errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                                hasDelErrRow = true;
                             }
                     }
                     else{
+                        //if any delgate info is present all delegate fields are mandatory
+                        if(!(rec[15]==''&&rec[16]==''&&rec[17]==''&&rec[18]==''&&rec[19]==''&&rec[20]==''&&rec[21]=='')){
+                            mandatoryIndexes =  new list<Integer>{0,15,16,17,18,19,20,21};
+                        }
                         //Legal Status of Primary Delegate should be Yes 
                         if(rec[21]=='No'){
                             errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                            hasDelErrRow = true;
                         }
                     }
                     //if(!(rec[1]==''&&rec[5]==''&&rec[3]==''&&rec[11]=='')){ //if personal info entered YOB and Patient Auth is mandatory
@@ -238,6 +249,13 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     for(integer j : mandatoryIndexes){
                         if(rec[j]==''){
                             errStr += errMap.get(j);
+                            if(delegateIndexes.contains(j)){
+                                hasDelErrRow = true;
+                            }
+                            else{
+                                hasPatientErrRow = true;
+                            }
+
                         }
                     }
                     
@@ -246,6 +264,12 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         if(rec[j]!=''){
                             if(!Pattern.matches('[a-zA-Z0-9.+_-]+@[a-zA-Z0-9]+.[a-zA-Z]{2,4}', rec[j])){
                                 errStr += errMap.get(j*100);
+                                if(delegateIndexes.contains(j)){
+                                    hasDelErrRow = true;
+                                }
+                                else{
+                                    hasPatientErrRow = true;
+                                }
                             }
                         }   
                     }
@@ -256,7 +280,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string stateCode='';
                     string countryCode = '';
                     if(rec[9]!='' && !ccMap.containsKey(rec[9])){
-                        errStr += 'Invalid Country;';
+                        errStr += 'Invalid Country;';                        
+                        hasPatientErrRow = true;
                     }
                     else if(rec[9]!=''){
                         if(ccMap.containsKey(rec[9])) countryCode= ccMap.get(rec[9]);
@@ -267,6 +292,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     
                     if(rec[10]!='' && !scMap.containsKey(rec[10])){
                         errStr += 'Invalid State;';
+                        hasPatientErrRow = true;
                     }
                     else if(rec[10]!=''){
                         if(scMap.containsKey(rec[10])) stateCode= scMap.get(rec[10]);
@@ -279,6 +305,12 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         if(rec[j]!=''){
                             if(!Pattern.matches('[0-9]{4}', rec[j])){
                                 errStr += errMap.get(j*100);
+                                if(delegateIndexes.contains(j)){
+                                    hasDelErrRow = true;
+                                }
+                                else{
+                                    hasPatientErrRow = true;
+                                }
                             }
                             else if(!(stateCode=='' && countryCode =='')){  
                                 string isMajor ='';
@@ -317,17 +349,25 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     //Legal Status validation
                     for(integer j : legalIndexes){
                         if(rec[j]!='' && rec[j]!='Yes' && rec[j]!='No'){
-                            errStr += errMap.get(j*100);                        
+                            errStr += errMap.get(j*100);
+                            if(delegateIndexes.contains(j)){
+                                hasDelErrRow = true;
+                            }
+                            else{
+                                hasPatientErrRow = true;
+                            }                        
                         }
                         else{
                             if(j==7){
                                 if(rec[j] !='' && isMajorPatient != rec[j]){
-                                    errStr = errStr + 'Legal Status of patient does not match the Patient YOB.;' ;
+                                    errStr = errStr + 'Legal Status of Patient does not match the Patient YOB.;' ;                                    
+                                    hasPatientErrRow = true;
                                 }
                             }
                             else if(j==21){
                                 if(rec[j] !='' && isMajorDelegate != rec[j]){
                                     errStr = errStr + 'Legal Status of Primary Delegate does not match the Primary Delegate YOB.;' ;
+                                    hasDelErrRow = true;
                                 }
                             }
                         }
@@ -336,24 +376,36 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     //Phone type validation
                     for(integer j : phoneTypeIndexes){
                         if(rec[j]!='' && rec[j]!='Home' && rec[j]!='Work' && rec[j]!='Mobile'){
-                            errStr += errMap.get(j*100);                        
+                            errStr += errMap.get(j*100);   
+                            if(delegateIndexes.contains(j)){
+                                hasDelErrRow = true;
+                            }
+                            else{
+                                hasPatientErrRow = true;
+                            }                     
                         }
                     }
                     
                     //Patient sex validation
                     if(rec[4]!='' && rec[4]!='Male' && rec[4]!='Female' ){
-                        errStr += errMap.get(4*100);                        
+                        errStr += errMap.get(4*100);  
+                        hasPatientErrRow = true;                      
                     }      
                     
                     //Patient Auth validation
                     if(rec[8]!='' && rec[8]!='Yes' && rec[8]!='No'){
-                        errStr += errMap.get(800);                        
+                        errStr += errMap.get(800);   
+                        hasPatientErrRow = true;                     
                     }
                     else if(rec[8]=='No'){
-                        errStr += 'Patient Auth if entered should be Yes.;';                        
+                        errStr += 'Patient Auth if entered should be Yes.;';   
+                        hasPatientErrRow = true;                     
                     } 
-                    
-                    if(errStr == ''){
+                    if(errStr == '' || (!hasPatientErrRow && hasDelErrRow && rec[7]=='Yes')){
+                        if(errStr != '' ){
+                            errStr = 'Only Patient was brought in the system, Primary Delegate has errors;'+errStr;
+                        }
+
                         //Empty Patient Phone,email if Minor
                         if(rec[7]=='No' || isMajorPatient=='No'){
                             rec[14]='' ;   
@@ -388,17 +440,21 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.Patient_Phone_Type__c=rec[12];
                         peRec.Participant_Alternative_Phone__c=rec[13];
                         peRec.Participant_Alt_Phone_Type__c=rec[14];
-                        peRec.Primary_Delegate_First_Name__c=rec[15];
-                        peRec.Primary_Delegate_Last_Name__c=rec[16];
-                        peRec.Primary_Delegate_Email__c=rec[17];
-                        peRec.Primary_Delegate_Phone_Number__c=rec[18];
-                        peRec.Primary_Delegate_Phone_Type__c=rec[19];
-                        peRec.Primary_Delegate_YOB__c=rec[20];
-                        peRec.Legal_Status_of_Primary_Delegate__c=rec[21];
+                        if(!hasDelErrRow){
+                            peRec.Primary_Delegate_First_Name__c=rec[15];
+                            peRec.Primary_Delegate_Last_Name__c=rec[16];
+                            peRec.Primary_Delegate_Email__c=rec[17];
+                            peRec.Primary_Delegate_Phone_Number__c=rec[18];
+                            peRec.Primary_Delegate_Phone_Type__c=rec[19];
+                            peRec.Primary_Delegate_YOB__c=rec[20];
+                            peRec.Legal_Status_of_Primary_Delegate__c=rec[21];
+                        }
                         peList.put(rec[0],peRec);
-                    }
-                    else{
+                        prRowIndexMap.put(rec[0],i+'_index');
+                    }                    
+                    if(errStr != '' ){
                         rec.add(errStr);
+                        prRowIndexMap.put(rec[0],i+'_index');
                         errRowsCSV.put(i+'_index',String.join( rec, ',' ));
                     }
                 }
@@ -408,16 +464,27 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 }
             }
             for(Participant_Enrollment__c pe : [select id,Patient_ID__c from Participant_Enrollment__c where Patient_ID__c in :pIds ]){
+                string errKey = prRowIndexMap.get(pe.Patient_ID__c);
                 if(peList.containsKey(pe.Patient_ID__c)){
-                    string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
-                    row = row.trim() + ',Duplicate Patient Record.;';
-                    errRowsCSV.put(pe.Patient_ID__c,row);
+                    
+                    if(errRowsCSV.containsKey(errKey)){
+                        string row = errRowsCSV.get(errKey);
+                        row= row.remove('Only Patient was brought in the system, Primary Delegate has errors;');
+                        row  = row.trim() + 'Duplicate Patient Record.;';
+                        errRowsCSV.put(errKey,row);
+                    }
+                    else{
+                        string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
+                        row = row.trim() + ',Duplicate Patient Record.;';
+                        errRowsCSV.put(pe.Patient_ID__c,row);  
+                    }
+                                         
                     peList.remove(pe.Patient_ID__c);
                 }
-                else if(errRowsCSV.containsKey(pe.Patient_ID__c)){
-                    string row = errRowsCSV.get(pe.Patient_ID__c);
+                else if(errRowsCSV.containsKey(errKey)){
+                    string row = errRowsCSV.get(errKey);
                     row  = row.trim() + 'Duplicate Patient Record.;';
-                    errRowsCSV.put(pe.Patient_ID__c,row);
+                    errRowsCSV.put(errKey,row);
                 }
             }
             
