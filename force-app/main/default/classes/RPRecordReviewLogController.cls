@@ -111,9 +111,11 @@ public without sharing class RPRecordReviewLogController {
         public boolean isRequired;
         @AuraEnabled 
         public boolean isMinor;
+        @AuraEnabled 
+        public List<LabelValueItem> altDelPhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_s_Alt_Phone_Type__c);
+        @AuraEnabled 
+        public String backendSelectedSite;
 
-        
-        
         public peProfileSection(Participant_Enrollment__c peRecord,String createdDateFormat) {
             this.peRecord = peRecord;
             this.createdDateFormat = createdDateFormat;
@@ -128,8 +130,8 @@ public without sharing class RPRecordReviewLogController {
                 List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
                 Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,State__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
-                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,
-                Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c
+                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
+                RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c
                 from Participant_Enrollment__c where Id =: peId];
 
                 String isAdult = '';
@@ -147,7 +149,7 @@ public without sharing class RPRecordReviewLogController {
                         pe.State__c = 'NY';
                     }
                     //if no YOB and Month and Adult than field will email,phone number and phone type required 
-                    if(pe.Birth_Month__c != null && pe.YOB__c != null) {
+                    if(pe.YOB__c != null) {
                         isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Country__c, pe.State__c, pe.Birth_Month__c,pe.YOB__c);
                         if(isAdult =='true') {
                             //Minor
@@ -165,13 +167,12 @@ public without sharing class RPRecordReviewLogController {
                         peProfileSectionWrapperList[0].isRequired = true;
                         peProfileSectionWrapperList[0].isMinor = false;
                     }
-
-                    /*if(pe.Birth_Month__c != null && (pe.Birth_Month__c.indexOf('0')>-1)){
-                        peProfileSectionWrapperList[0].monthDateOption = RPRecordReviewLogHelper.getMonthWithZero();
+                    if(pe.RP_Site_Selected__c == null) {
+                        peProfileSectionWrapperList[0].backendSelectedSite = '';
                     }
                     else{
-                        peProfileSectionWrapperList[0].monthDateOption = RPRecordReviewLogHelper.getMonthWithoutZero();
-                    }*/
+                        peProfileSectionWrapperList[0].backendSelectedSite = pe.Study_Site__c;
+                    }
                 }
                 
                 peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
@@ -252,13 +253,12 @@ public without sharing class RPRecordReviewLogController {
                 return 'DuplicatePatientId';
             }
             else if(isAdult == 'false') {
-                if(peList[0].Primary_Delegate_First_Name__c == null && peList[0].Primary_Delegate_Last_Name__c == null && peList[0].Primary_Delegate_Email__c == null
+                if(peList.size() >0 && peList[0].Primary_Delegate_First_Name__c == null && peList[0].Primary_Delegate_Last_Name__c == null && peList[0].Primary_Delegate_Email__c == null
                 && peList[0].Primary_Delegate_Phone_Number__c == null && peList[0].Primary_Delegate_Phone_Type__c == null && peList[0].Primary_Delegate_YOB__c == null
                 && peList[0].Legal_Status_of_Primary_Delegate__c == null) {
                     return 'Minor';
                 }
-                else if(legalStatus == 'Yes')
-                {
+                else if(legalStatus == 'Yes') {
                     return 'LegalStatus';
                 }
             }

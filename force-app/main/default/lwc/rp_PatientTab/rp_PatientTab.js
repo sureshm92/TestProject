@@ -26,6 +26,7 @@ export default class Rp_PatientTab extends LightningElement {
     @api yearDateValue;
     @api isMinor = false;
 
+
     @api
     get patientrecordlist() {
         return this.patientrecord;
@@ -114,12 +115,12 @@ export default class Rp_PatientTab extends LightningElement {
                     returnvalue = false;
                 }
             }
-            if(!monthValue){
+            /*if(!monthValue){
                 monthValueAvilable.setCustomValidity('Fill before Birth Year');
                 monthValueAvilable.reportValidity();
                 element.value = '';
                 returnvalue = false;
-            }
+            }*/
         }
         else if(fieldValue && fieldLabel == 'Birth Month') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
@@ -230,6 +231,8 @@ export default class Rp_PatientTab extends LightningElement {
         }
         else if(event.target.dataset.value === 'SiteName') {
             record.peRecord.Study_Site__c = event.target.value;
+            record.peRecord.RP_Site_Selected__c = event.target.value;
+            record.backendSelectedSite = event.target.value;
         }
         else if(event.target.dataset.value === 'PatientAuthStatus') {
             record.peRecord.Patient_Auth__c = event.target.value;
@@ -299,7 +302,6 @@ export default class Rp_PatientTab extends LightningElement {
             this.requiredFieldForAdult.forEach(item => {
                 this.removeCustomFieldValidation(item);
             });
-           
         }
     }
 
@@ -404,21 +406,18 @@ export default class Rp_PatientTab extends LightningElement {
         updatePeRecords({peRecord: this.patientrecord[0].peRecord})
         .then((result) => {
             console.log(JSON.stringify(result));
-            
-            const selectedvalue = {
-                patientRecord: this.patientrecord
-            };
+            this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c +' '+'has been successfully saved.');
+
+            const selectedvalue = {patientRecord: this.patientrecord};
             const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
             this.dispatchEvent(selectedEvent);
-           //this.dispatchEvent(new CustomEvent("refreshpatienttabchange"));
-          // eval("$A.get('e.force:refreshView').fire();");
-
         })
         .catch((error) => {
             this.showErrorToast(JSON.stringify(error.body.message));
         })
         .finally(() => {
             this.isUnsavedModalOpen = false;
+            this.disabledSaveButton = true; 
         })
     }
 
@@ -426,6 +425,16 @@ export default class Rp_PatientTab extends LightningElement {
         const evt = new ShowToastEvent({
             title: 'Record Saved Successfully',
             message: 'Record Saved Successfully',
+            variant: 'success',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(evt);
+    }
+
+    showSuccessToastSave(MessageRec) {
+        const evt = new ShowToastEvent({
+            title: MessageRec,
+            message: MessageRec,
             variant: 'success',
             mode: 'dismissable'
         });

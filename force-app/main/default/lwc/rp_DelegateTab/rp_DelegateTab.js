@@ -143,7 +143,8 @@ export default class Rp_DelegateTab extends LightningElement {
                     }
                     break; 
                 default:
-                    if(fieldLabel != 'Birth Year Date' && fieldLabel != 'IsDelegateCertify'){
+                    if(fieldLabel != 'Birth Year Date' && fieldLabel != 'IsDelegateCertify' && 
+                    fieldLabel != 'Primary Delegate’s Alt. Phone'){
                         inpVal = true;
                         inp.setCustomValidity("");
                         inp.reportValidity();
@@ -181,7 +182,7 @@ export default class Rp_DelegateTab extends LightningElement {
         let fieldName = event.target.name;
         this.disabledSaveButton = false;
 
-        if(fieldName && fieldName !=='IsDelegateCertify'){
+        if(fieldName && fieldName !=='IsDelegateCertify' && fieldName !=='PDAP' && fieldName !=='PDAT'){
             this.fieldValidation(fieldName);
             this.disabledSaveButton = false;
         }
@@ -215,6 +216,12 @@ export default class Rp_DelegateTab extends LightningElement {
         }
         else if(event.target.dataset.value === 'IsDelegateCertify') {
             record.peRecord.Is_Delegate_Certify__c = event.target.checked;
+        }
+        else if(event.target.dataset.value === 'PDAP') {
+            record.peRecord.Primary_Delegate_s_Alt_Phone__c = event.target.value;
+        }
+        else if(event.target.dataset.value === 'PDAT') {
+            record.peRecord.Primary_Delegate_s_Alt_Phone_Type__c = event.target.value;
         }
         this.delegaterecord = [...this.delegaterecord];
 
@@ -293,7 +300,7 @@ export default class Rp_DelegateTab extends LightningElement {
             record.peRecord.Primary_Delegate_Email__c =result.Primary_Delegate_Email__c;
             record.peRecord.Is_Delegate_Certify__c = result.Is_Delegate_Certify__c;        
             this.originaldelegaterecord = [...this.originaldelegaterecord];
-            this.showSuccessToast(result.Primary_Delegate_First_Name__c +' '+ 'Record Successfully Saved.');
+            this.showSuccessToast(result.Primary_Delegate_First_Name__c +' '+ 'has been successfully saved.');
         })
         .catch((error) => {
            this.showErrorToast(JSON.stringify(error.body.message));
