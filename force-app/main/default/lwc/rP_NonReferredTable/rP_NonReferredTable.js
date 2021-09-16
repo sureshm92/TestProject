@@ -34,8 +34,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @api isExcludedforReferring = false;
     @api allRecords;
     isPaginationApplied = false;
-    
-     isSelectAll = false;
+    isSelectAll = false;
+    @api peRecordList;
 
     constructor() {
         super();
@@ -46,12 +46,44 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         this.getDetailsApex();
     }
 
+    @api
+    getPatientRecords() {
+        var panginationRecList = [];
+        var allRecList = [];
+
+        let paginationRecord = JSON.parse(JSON.stringify(this.recordsToDisplay));        
+        for (var i = 0; i < paginationRecord.length; i++) {
+            if(paginationRecord[i].peRec.Id == this.peRecordList[0].peRecord.Id){
+                paginationRecord[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
+                paginationRecord[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+            }
+            panginationRecList.push(paginationRecord[i]);
+        }
+
+        let allRecords = JSON.parse(JSON.stringify(this.data));        
+        for (var i = 0; i < allRecords.length; i++) {
+            if(allRecords[i].peRec.Id == this.peRecordList[0].peRecord.Id){
+                allRecords[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
+                allRecords[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                allRecords[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+            }
+            allRecList.push(allRecords[i]);
+        }
+        this.recordsToDisplay = [];
+        this.recordsToDisplay = panginationRecList;   
+
+        this.data = [];
+        this.data = allRecList;   
+
+    }
+
     getDetailsApex() {
         getPEDetails()
             .then((result) => {
                 this.allRecords = result;
                 let includedRecords = result.filter(function(include) {
-                    return include.peRec.Participant_Status__c != "Excluded from Referring"; });
+                return include.peRec.Participant_Status__c != "Excluded from Referring"; });
                 this.apexRefreshList = includedRecords;
                 this.data = includedRecords;
                 this.masterData = includedRecords;
