@@ -32,7 +32,7 @@
                     data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
-            <lightning-combobox required="true" label="Birth Month" name="Birth Month" placeholder="Select Birh Month" value={pe.peRecord.Birth_Month__c}  
+            <lightning-combobox required="true" label="Birth Month" name="Birth Month" placeholder="Select Birth Month" value={pe.peRecord.Birth_Month__c}  
                 options={pe.monthDateOption} data-value="BirthMonth" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
             </lightning-combobox>                    
         </lightning-layout-item>
@@ -116,7 +116,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true"  label="Site Name" name="Site Name" placeholder="Select Site Name" value={pe.peRecord.Study_Site__c}  
+                <lightning-combobox required="true"  label="Site Name" name="Site Name" placeholder="Select Site Name" value={pe.backendSelectedSite}  
                     options={pe.siteList} data-value="SiteName" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>                    
             </div>
@@ -176,7 +176,7 @@
 </div>
 <div class="divider"></div>
 <div class="patient-button">
-<button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel">Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;
+<button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel" disabled={disabledSaveButton}>Cancel</button> &nbsp;&nbsp;&nbsp;&nbsp;
 <button class="apollo-btn primary search-more-btn" onclick={openUnsavedModal} title="Save" disabled={disabledSaveButton}>
     Save
 </button>

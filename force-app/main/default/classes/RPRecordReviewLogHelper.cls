@@ -1,4 +1,4 @@
-public with sharing class RPRecordReviewLogHelper {
+public  without sharing class RPRecordReviewLogHelper {
 
     public static Set<String> ctpIds;
 
@@ -18,8 +18,7 @@ public with sharing class RPRecordReviewLogHelper {
                     Id currentContactId = CommunityService.getInstance().getCurrentContactId();
                     //Check access level
                     hInit.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);                
-                    String hcpDelegate = hInit.delegateAccessLevel != null ? delegateId : currentContactId; 
-
+                    String hcpDelegate = hInit.delegateAccessLevel != null ? delegateId : currentContactId;
                     //Get delegate contact details
                     hInit.delegateDetails = getContact(hcpDelegate);
                     //Get study details
@@ -91,11 +90,13 @@ public with sharing class RPRecordReviewLogHelper {
             }else{
                  lstcontactId.add(currentContactId);
             }
-
+         Set<String>dupSet = new Set<String>();
         for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Study_Site__r.Name,Study_Site__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
-                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c =: lstcontactId and Clinical_Trial_Profile__c =: ctpId])
+                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN: lstcontactId and Clinical_Trial_Profile__c =: ctpId])
         {
-            studySiteList.add(new LabelValueItem(hcpEnroll.Study_Site__r.Name,hcpEnroll.Study_Site__c));
+            if(dupSet.add(hcpEnroll.Study_Site__c)){
+                studySiteList.add(new LabelValueItem(hcpEnroll.Study_Site__r.Name,hcpEnroll.Study_Site__c));
+            }
         }
 
         return studySiteList;
@@ -104,6 +105,11 @@ public with sharing class RPRecordReviewLogHelper {
         Boolean needsGuardian = false;
         Integer monthInt;
         Integer yearInt;
+
+        if(month == null || month == ''){
+            //System.debug(2/0);
+            month = '01';
+        }
 
         boolean monthCheck = month != null && month != '' &&  month != 'undefined' ? true : false;
         boolean yearCheck = year != null && year != '' &&  year != 'undefined' ? true : false;

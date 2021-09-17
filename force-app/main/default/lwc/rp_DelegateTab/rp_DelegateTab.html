@@ -36,6 +36,29 @@
                             required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
                     </div>
                 </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="6">
+                    <div>
+                        <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
+                        required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                    </div>
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
+                <lightning-layout-item padding="around-small" size="6">
+                    <div>
+                        <lightning-input type="text" label="Primary Delegate’s Alt. Phone"  name="PDAP" value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP" 
+                           data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
+                    </div>    
+                </lightning-layout-item>
+                <lightning-layout-item padding="around-small" size="6">
+                    <div>
+                        <lightning-combobox label="Primary Delegate’s Alt. Phone Type" name="PDAT" placeholder="Select Alternative Type" value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}  
+                            options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
+                        </lightning-combobox>
+                    </div>    
+                </lightning-layout-item>
+            </lightning-layout>
+            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
                 <lightning-layout-item padding="around-small" size="3">
                     <div>
                         <lightning-combobox required="true" label="Birth Year" name="Birth Year" placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}  
@@ -44,14 +67,7 @@
                     </div>    
                 </lightning-layout-item>
             </lightning-layout>
-            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
-                    <lightning-layout-item padding="around-small" size="6">
-                        <div>
-                            <lightning-input type="text" label="Email ID" name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
-                            required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                        </div>
-                    </lightning-layout-item>
-            </lightning-layout>
+
 
             <div key={pe.peRecord.Id} style="margin-left: 10px;margin-top: 40px;">
                 <div>
@@ -71,7 +87,7 @@
     </div>
     <div class="divider"></div>
     <div class="patient-button">
-        <button class="apollo-btn secondary btn" onclick={cancelModelOpen} title="Cancel">
+        <button class="apollo-btn secondary btn" onclick={cancelModelOpen} title="Cancel" disabled={disabledSaveButton}>
             Cancel
         </button>
         <button class="apollo-btn primary btn" onclick={openUnsavedModal} title="Save" disabled={disabledSaveButton}>

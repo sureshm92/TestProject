@@ -17,7 +17,8 @@
             component.set('v.currentDelegateId', communityService.getDelegateId());
             var actionGetAcceslevel = component.get("c.getDelAcceslevel");
             actionGetAcceslevel.setParams({ 
-                delegateId : communityService.getDelegateId()
+                delegateId : communityService.getDelegateId(),
+                userMode :  communityService.getUserMode()
             });
             actionGetAcceslevel.setCallback(this, function(response) {
                 var state = response.getState();
@@ -126,8 +127,14 @@
             'referring?id=' +
                 component.get('v.trialId') +
                 '&peid=' +
-                component.get('v.v.peIds')
+                component.get('v.peIds')
         );
     },
 
+    refreshTable : function(component, event) {
+        component.set("v.peRecordList",event.getParam('peRecordList'));
+        component.find('table123').getPatientRecords();
+        //alert('profile called' + JSON.stringify(component.get('v.peRecordList')));
+        getPatientRecords
+    },
 });

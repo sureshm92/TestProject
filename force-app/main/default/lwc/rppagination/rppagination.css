@@ -27,16 +27,28 @@
   }
 
 
-.iconColorChange {
+.iconColorChange1 {
     color: #595959;
     cursor: pointer;
     opacity: .5 !important;
 
 }
 
-.first-page-arrow-button-icon-s {
+.first-page-arrow-button-icon-s1 {
     height: 13px;
     width: 13px;
     opacity: 1 !important;
     cursor: pointer;
+  }
+
+  .iconColorChange2 {
+    color: #595959;
+    opacity: .5 !important;
+
+}
+
+.first-page-arrow-button-icon-s2 {
+    height: 13px;
+    width: 13px;
+    opacity: 1 !important;
   }

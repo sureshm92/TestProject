@@ -33,8 +33,8 @@
 
   .inprogress {
     height: 24px;
-    width: 82px;
-    color: #EB8100;
+    width: 166px;
+    color: yellow;
     font-family: "Proxima Nova";
     font-size: 16px;
     font-weight: bold;
@@ -43,6 +43,9 @@
     position: absolute;
     top: -42px;
     right: 124px;
+  }
+  .completed{
+    color: green;
   }
 
   .table-header {

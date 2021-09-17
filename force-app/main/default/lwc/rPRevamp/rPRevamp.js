@@ -36,6 +36,7 @@ export default class RPRevamp extends LightningElement {
     rpCountry;
     userConID;
     inProgress = false;
+    completed = false;
     loaded = false;
     showInstruction =false;
     nofiles=false;
@@ -429,18 +430,21 @@ export default class RPRevamp extends LightningElement {
         this.progressMultiplier = 0;
         this.isUploadModalOpen = false;
         this.inProgress = true;
+        this.completed = false;
         processvalidateFile({ 
             fileID: this.fileId,
             studyID: this.selectedStudy,
             rpState: this.rpState,
             rpCountry: this.rpCountry,
-            csvData : this.csvData
+            csvData : this.csvData,
+            delegateId : this.userConID
         })
         .then(result => {
             this.selectedStudy = '';
-            this.inProgress = false;
+            this.inProgress = false;     
             this.filesLoaded = false;
             this.getDetailsApex();
+            this.completed = true;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Success!',
                 message: 'Your file was processed successfully. Please check to see if there are any errors in the Rejected table',
