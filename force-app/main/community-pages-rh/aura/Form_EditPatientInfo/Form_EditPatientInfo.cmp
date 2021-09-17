@@ -187,7 +187,6 @@
                                                          type="text"
                                                          value="{!v.pe.MRN_Id__c}"
                                                          onblur="{!c.doCheckFields}"
-                                                         style="width: 315px"
                                                          />
                                     </div>
                                 </aura:set>
