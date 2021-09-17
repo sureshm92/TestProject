@@ -116,7 +116,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true"  label="Site Name" name="Site Name" placeholder="Select Site Name" value={pe.peRecord.Study_Site__c}  
+                <lightning-combobox required="true"  label="Site Name" name="Site Name" placeholder="Select Site Name" value={pe.backendSelectedSite}  
                     options={pe.siteList} data-value="SiteName" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>                    
             </div>
