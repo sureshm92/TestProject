@@ -248,6 +248,13 @@
         <shortDescription>About the Study</shortDescription>
         <value>About the Study</value>
     </labels>
+     <labels>
+        <fullName>Abort_Batch_UpsertEprParticipantAndPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Abort_Batch_UpsertEprParticipantAndPE</shortDescription>
+        <value>False</value>
+    </labels>
     <labels>
         <fullName>Accees_Personal_Information</fullName>
         <categories>Opt Out And Technical Support</categories>
