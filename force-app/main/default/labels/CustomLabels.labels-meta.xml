@@ -1,6 +1,167 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>BulkImport_Instructions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Instructions</shortDescription>
+        <value>Instructions</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_File_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_File_Template</shortDescription>
+        <value>File Template</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_File_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Accepted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Accepted</shortDescription>
+        <value>Accepted</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Rejected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Rejected</shortDescription>
+        <value>Rejected</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_By</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_By</shortDescription>
+        <value>Uploaded By</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_On</shortDescription>
+        <value>Uploaded On</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Actions</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Bulk_Import_Process</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Bulk_Import_Process</shortDescription>
+        <value>Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Dont_show_me_again_on_landing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Dont_show_me_again_on_landing</shortDescription>
+        <value>Don't show me again on landing</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Ok</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Ok</shortDescription>
+        <value>Ok</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Import_Patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Import_Patients</shortDescription>
+        <value>Import Patients</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Select_Study_Here</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Select_Study_Here</shortDescription>
+        <value>Select Study Here...</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Select_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Select_Study</shortDescription>
+        <value>Select Study</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Drag_file_here_or</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Drag_file_here_or</shortDescription>
+        <value>Drag file here or</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_browse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_browse</shortDescription>
+        <value>browse</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Max_size</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Max_size</shortDescription>
+        <value>Max size 2.5mb Max records 500</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Wait_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Wait_Warning</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Import</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_format</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_format</shortDescription>
+        <value>Uploaded file does not match the template file format.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Total_number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Total_number</shortDescription>
+        <value>Total number of records greater than 500, please try again with upto 500 records.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</shortDescription>
+        <value>Please upload only csv, xlsx or xls format files.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Initial_Total_Records</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Initial_Total_Records</shortDescription>
+        <value>Initial Total Records</value>
+    </labels>
+    <labels>
         <fullName>AF_All</fullName>
         <language>en_US</language>
         <protected>false</protected>
