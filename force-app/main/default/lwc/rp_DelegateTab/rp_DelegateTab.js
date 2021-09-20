@@ -345,8 +345,13 @@ export default class Rp_DelegateTab extends LightningElement {
             record.peRecord.Primary_Delegate_s_Alt_Phone__c = result.Primary_Delegate_s_Alt_Phone__c;        
             record.peRecord.Primary_Delegate_s_Alt_Phone_Type__c = result.Primary_Delegate_s_Alt_Phone_Type__c;        
             record.peRecord.Is_Delegate_Certify__c = result.Is_Delegate_Certify__c;        
-            this.originaldelegaterecord = [...this.originaldelegaterecord];
+            this.originaldelegaterecord = [...this.originaldelegaterecord]; 
             this.showSuccessToast(result.Primary_Delegate_First_Name__c +' '+ this.label.RH_RP_Delegate_Successfully_Saved);
+          
+            const selectedvalue = {patientRecord: this.delegaterecord};
+            const selectedEvent = new CustomEvent('refreshdelegatetabchange', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
+
         })
         .catch((error) => {
            this.showErrorToast(JSON.stringify(error.body.message));

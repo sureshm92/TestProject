@@ -197,7 +197,30 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static String updatePeRecords(Participant_Enrollment__c peRecord){
         try {
-                update peRecord;
+              Participant_Enrollment__c peEnrollment = new Participant_Enrollment__c();
+               peEnrollment.id = peRecord.id;
+               peEnrollment.Patient_ID__c=peRecord.Patient_ID__c;
+               peEnrollment.Email__c = peRecord.Email__c;
+               peEnrollment.Participant_Name__c=peRecord.Participant_Name__c;
+               peEnrollment.Patient_Middle_Name_Initial__c=peRecord.Patient_Middle_Name_Initial__c;
+               peEnrollment.Birth_Month__c=peRecord.Birth_Month__c;
+               peEnrollment.YOB__c=peRecord.YOB__c;
+               peEnrollment.Participant_Surname__c=peRecord.Participant_Surname__c;
+               peEnrollment.Patient_Sex__c=peRecord.Patient_Sex__c;
+               peEnrollment.Country__c=peRecord.Country__c;
+               peEnrollment.Phone__c=peRecord.Phone__c;
+               peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
+               peEnrollment.State__c=peRecord.State__c;
+               peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
+               peEnrollment.Participant_Alt_Phone_Type__c=peRecord.Participant_Alt_Phone_Type__c;
+               peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
+               peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
+               peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
+               peEnrollment.Is_Email__c=peRecord.Is_Email__c;
+               peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
+               peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               update peEnrollment;
+                //update peRecord;
                 return 'Success';
         } 
         catch (Exception e) {

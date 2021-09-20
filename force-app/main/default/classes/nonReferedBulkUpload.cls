@@ -67,7 +67,7 @@ public without sharing class nonReferedBulkUpload {
         try{
             Contact cnt = new Contact();
             if(delegateId==null){
-            	cnt.id = [Select contactId from user where Id =: userInfo.getUserId()].contactId;
+                cnt.id = [Select contactId from user where Id =: userInfo.getUserId()].contactId;
             }
             else{
                 cnt.id = delegateId;
@@ -456,6 +456,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                             peRec.Primary_Delegate_Phone_Type__c=rec[19];
                             peRec.Primary_Delegate_YOB__c=rec[20];
                             peRec.Legal_Status_of_Primary_Delegate__c=rec[21];
+                            if(rec[21] == 'Yes' || rec[21] == 'yes'){
+                              peRec.Is_Delegate_Certify__c = true;
+                            }
                         }
                         peList.put(rec[0],peRec);
                         prRowIndexMap.put(rec[0],i+'_index');
