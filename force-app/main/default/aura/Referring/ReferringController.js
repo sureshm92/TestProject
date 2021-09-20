@@ -101,7 +101,7 @@
                         initData.trial.Link_to_Pre_screening__c
                     ) {
                         if(!component.get('v.patientVeiwRedirection')){
-                           component.set('v.currentState', 'Search PE');
+                            component.set('v.currentState', 'Search PE');
                         }
                     }
                     //component.set('v.actions', initData.actions);
@@ -151,6 +151,9 @@
                         //let participant = component.get('v.participant');
                         if(component.get('v.primaryDelegateFirstname') != null){
                             component.set('v.participant.Health_care_proxy_is_needed__c',true);
+                            //component.set('v.needsGuardian', true);
+                            //component.set('v.enableGuardian', true);
+                            component.set('v.delegateExist',true);
                             console.log('DelegateExist');
                         }
                         component.checkdoneeedgaurdian();
@@ -193,6 +196,7 @@
             component.set('v.authorizationForm',true);
         }
         else{
+            //component.set('v.doNext',true);
             let trial = component.get('v.trial');
             let hcpeId = component.get('v.hcpeId');
             window.scrollTo(0, 0);
@@ -227,6 +231,16 @@
                 helper.checkGuardianAge(component, event, helper);
             }
         }  
+        /*let peID = communityService.getUrlParameter('peid');
+        communityService.executeAction(
+            component,
+            'saveUpdatedPER',
+            { peID:peID},
+            function (returnValue) {
+                console.log('recordUpdated');
+            }
+        );*/
+        
     },
     doSelectSite: function (component, event, helper) {
         let trial = component.get('v.trial');
@@ -238,12 +252,8 @@
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
             helper.addEventListener(component, helper);
-        } else {
+        } else { 
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
-            let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-            if(frmpatientVeiw){
-                helper.checkGuardianAge(component, event, helper);
-            }
         }
         window.scrollTo(0, 0);
     },
@@ -333,16 +343,32 @@
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component, participant);
+             if(component.get('v.patientVeiwRedirection')){
+                    component.set('v.hasGaurdian', true);
+              }
         } else {
             component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
+             if(component.get('v.patientVeiwRedirection')){
+                 var delegateParticipant = {
+                     sobjectType: 'Participant__c',
+                     First_Name__c:'',
+                     Last_Name__c:'',
+                     Email__c:'',
+                     Phone__c:'',
+                     Phone_Type__c:'',
+                     Birth_Year__c:''
+                 };
+                 component.set('v.delegateParticipant', delegateParticipant);
+                 component.set('v.primaryDelegateYob', '');
+                 component.set('v.attestAge', false);
+                 component.set('v.delegateValueRemoved',true);
+                 component.set('v.hasGaurdian', false);
+              }
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
         helper.checkFields(component, event, helper);
-        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        if(patientVeiwRedirection){
-            // helper.checkGuardianAge(component, event, helper);
-        }
+        
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
