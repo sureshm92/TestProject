@@ -4,13 +4,9 @@
  */
 
 ({
-    doInit: function (component, event, helper) {
-        component.set('v.initialized', true);
-    },
-
     doGenerateReport: function (component, event, helper) {
         const ctpId = component.get('v.ctpId');
-        if (component.get('v.initialized') && component.get('v.isMobileApp')) {
+        if (component.get('v.isMobileApp')) {
             communityService.executeAction(
                 component,
                 'getBase64LearnMoreData',

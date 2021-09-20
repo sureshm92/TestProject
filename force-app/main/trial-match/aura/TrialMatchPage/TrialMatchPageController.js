@@ -41,7 +41,7 @@
         if (component.get('v.isMobileApp')) {
             communityService.executeAction(
                 component,
-                'getBase64fromTrialMatchApexPage',
+                'getBase64TrialMatchData',
                 {
                     peId: partenrollid
                 },
