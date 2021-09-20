@@ -121,7 +121,8 @@
     setDelegate: function (component, helper, participant) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-              var delegateParticipant = {
+            if(!component.get('v.delegateValueRemoved')){
+                   var delegateParticipant = {
                   sobjectType: 'Participant__c',
                   First_Name__c:component.get('v.primaryDelegateFirstname'),
                   Last_Name__c:component.get('v.primaryDelegateLastname'),
@@ -131,12 +132,13 @@
                   Birth_Year__c:component.get('v.primaryDelegateYob')
               };
               component.set('v.delegateParticipant', delegateParticipant);
+            }
         }else{
             var delegateParticipant = {
                 sobjectType: 'Participant__c'
             };
             component.set('v.delegateParticipant', delegateParticipant);
-            component.set('v.emailDelegateRepeat', '');   
+            component.set('v.emailDelegateRepeat', '');  
         }
     },
 
@@ -145,7 +147,19 @@
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
-        let needsDelegate = component.get('v.needsGuardian');
+        
+        if(component.get('v.patientVeiwRedirection')){
+            if(component.get('v.hasGaurdian')){
+                var needsDelegate = component.get('v.hasGaurdian');
+            }else{
+                var needsDelegate = component.get('v.needsGuardian');
+            }
+        }else{
+             var needsDelegate = component.get('v.needsGuardian');
+        }
+         
+       
+       
         let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Participant
@@ -406,10 +420,24 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
                     component.set('v.participant.Adult__c', true);
-                }     
-                helper.checkFields(component, event, helper, true);
+                }  
                 if(component.get('v.patientVeiwRedirection')){
-                    if(component.get('v.primaryDelegateYob') != null){
+                    if(component.get('v.primaryDelegateFirstname') != null && !component.get('v.delegateValueRemoved')){
+                        component.set('v.hasGaurdian', true);
+                        component.set('v.participant.Health_care_proxy_is_needed__c', true);
+                    }else{
+                        if(isNeedGuardian){
+                             component.set('v.hasGaurdian', true);
+                        }else{
+                           component.set('v.hasGaurdian', false);
+                        }
+                       
+                    }
+                }
+                helper.checkFields(component, event, helper, true);
+                
+                if(component.get('v.patientVeiwRedirection')){
+                    if(component.get('v.primaryDelegateYob') != null && component.get('v.primaryDelegateYob') != ''){
                         helper.checkGuardianAge(component, event, helper);  
                     }
                 }
@@ -466,7 +494,6 @@
                         attestCheckbox.setCustomValidity('');
                         attestCheckbox.reportValidity('');
                     }
-                    
                     helper.checkFields(component, event, helper, true);
                 } ,         
                 null,

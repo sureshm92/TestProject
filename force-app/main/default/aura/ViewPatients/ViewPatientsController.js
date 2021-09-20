@@ -27,7 +27,6 @@
                 }                
             });
             $A.enqueueAction(actionGetAcceslevel);
- 			//alert('delegateId---> ' + communityService.getDelegateId() + 'mode'+communityService.getUserMode());
             component.set('v.isInitialized', true);
             spinner.hide();
         } else {
@@ -55,9 +54,11 @@
         var childComponent = component.find('childCmp');
         childComponent.childMethod();
     },
+    
     onClickListView: function (component, event, helper) {
         communityService.navigateToPage('my-referrals-list');
     },
+
     doNeedsGuardian: function (component, event) {
         let childCmp = event.getSource();
         let hasEmancipatedParticipants = childCmp.get('v.hasEmancipatedParticipants');
@@ -93,16 +94,14 @@
                 break;
         }
     },
+
     doGoHome: function () {
         communityService.navigateToPage('');
     },
 
    getValueFromProfileSectionPage : function(component, event) {
         component.set("v.isProfilePage",false);
-        component.set("v.isBulkProfilePage",false);
-       // component.set("v.peIds",null);
-       // component.set("v.ctpIds",null);
-            
+        component.set("v.isBulkProfilePage",false);            
         if(event.getParam('isProfilePage') == true) {
             component.set("v.isProfilePage",event.getParam('isProfilePage'));
             component.set("v.peId",event.getParam('peId'));
@@ -113,12 +112,9 @@
             component.set("v.peIds",event.getParam('peIds'));
             component.set("v.ctpIds",event.getParam('ctpIds')); 
         }
-       
-       // alert(JSON.stringify(component.get("v.ctpId")));
     },
 
     refreshFromTablecomponent : function(component, event) {
-        alert('ddd');
         $A.get('e.force:refreshView').fire();
     },
 
@@ -134,7 +130,11 @@
     refreshTable : function(component, event) {
         component.set("v.peRecordList",event.getParam('peRecordList'));
         component.find('table123').getPatientRecords();
-        //alert('profile called' + JSON.stringify(component.get('v.peRecordList')));
-        getPatientRecords
     },
+
+    onExcludeIncluderefreshTable : function(component, event) {
+        component.set("v.peRecordList",event.getParam('peRecordList'));
+        component.find('table123').getOnExcludeIncluderefresh();
+    },
+
 });

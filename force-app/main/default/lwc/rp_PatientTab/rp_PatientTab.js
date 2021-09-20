@@ -11,6 +11,55 @@ import PG_Ref_L_Permit_IQVIA_To_Contact_Phone from '@salesforce/label/c.PG_Ref_L
 import PG_Ref_L_Permit_IQVIA_To_Contact_SMS from '@salesforce/label/c.PG_Ref_L_Permit_IQVIA_To_Contact_SMS';
 import RH_Email_Validation_Pattern from '@salesforce/label/c.RH_Email_Validation_Pattern';
 import RH_Email_Invalid_Characters from '@salesforce/label/c.RH_Email_Invalid_Characters';
+import RH_RP_Main_Info from '@salesforce/label/c.RH_RP_Main_Info';
+import RH_RP_Patient_ID from '@salesforce/label/c.RH_RP_Patient_ID';
+import RH_RP_Email_ID from '@salesforce/label/c.RH_RP_Email_ID';
+import RH_RP_First_Name from '@salesforce/label/c.RH_RP_First_Name';
+import RH_RP_Middle_Initial from '@salesforce/label/c.RH_RP_Middle_Initial';
+import RH_RP_Birth_Month from '@salesforce/label/c.RH_RP_Birth_Month';
+import RH_RP_Birth_Year from '@salesforce/label/c.RH_RP_Birth_Year';
+import RH_RP_Last_Name from '@salesforce/label/c.RH_RP_Last_Name';
+import RH_RP_Sex from '@salesforce/label/c.RH_RP_Sex';
+import RH_RP_Address from '@salesforce/label/c.RH_RP_Address';
+import RH_RP_Country from '@salesforce/label/c.RH_RP_Country';
+import RH_RP_Phone_Number from '@salesforce/label/c.RH_RP_Phone_Number';
+import RH_RP_Phone_Type from '@salesforce/label/c.RH_RP_Phone_Type';
+import RH_RP_State from '@salesforce/label/c.RH_RP_State';
+import RH_RP_Alt_Phone_Number from '@salesforce/label/c.RH_RP_Alt_Phone_Number';
+import RH_RP_Alt_Phone_Type from '@salesforce/label/c.RH_RP_Alt_Phone_Type';
+import RH_RP_Postal_Code from '@salesforce/label/c.RH_RP_Postal_Code';
+import RH_RP_site_info from '@salesforce/label/c.RH_RP_site_info';
+import RH_RP_Site_Name from '@salesforce/label/c.RH_RP_Site_Name';
+import RH_RP_Patient_Auth_Status from '@salesforce/label/c.RH_RP_Patient_Auth_Status';
+import RH_RP_Legal_Status from '@salesforce/label/c.RH_RP_Legal_Status';
+import RH_RP_Patient_Authorization from '@salesforce/label/c.RH_RP_Patient_Authorization';
+import RH_RP_Save_Data from '@salesforce/label/c.RH_RP_Save_Data';
+import RH_RP_Save_Changes from '@salesforce/label/c.RH_RP_Save_Changes';
+import RH_RP_Cancel_Record from '@salesforce/label/c.RH_RP_Cancel_Record';
+import RH_RP_discard_changes from '@salesforce/label/c.RH_RP_discard_changes';
+import Save from '@salesforce/label/c.Save';
+import BTN_Close from '@salesforce/label/c.BTN_Close';
+import Cancel from '@salesforce/label/c.Cancel';
+import Proceed from '@salesforce/label/c.Proceed';
+import BTN_OK from '@salesforce/label/c.BTN_OK';
+import RH_RP_Select_Birth_Month from '@salesforce/label/c.RH_RP_Select_Birth_Month';
+import RH_RP_Select_Birth_Year from '@salesforce/label/c.RH_RP_Select_Birth_Year';
+import RH_RP_Select_Sex from '@salesforce/label/c.RH_RP_Select_Sex';
+import RH_RP_Select_Country from '@salesforce/label/c.RH_RP_Select_Country';
+import RH_RP_Select_Phone_Type from '@salesforce/label/c.RH_RP_Select_Phone_Type';
+import RH_RP_Select_State from '@salesforce/label/c.RH_RP_Select_State';
+import RH_RP_Select_Site_Name from '@salesforce/label/c.RH_RP_Select_Site_Name';
+import RH_RP_Patient_Auth_Status_Verified from '@salesforce/label/c.RH_RP_Patient_Auth_Status_Verified';
+import RH_RP_Legal_Status_Verified from '@salesforce/label/c.RH_RP_Legal_Status_Verified';
+import RH_RP_Invalid_Email from '@salesforce/label/c.RH_RP_Invalid_Email';
+import RH_RP_is_missing from '@salesforce/label/c.RH_RP_is_missing';
+import RH_RP_Future_Month from '@salesforce/label/c.RH_RP_Future_Month';
+import RH_RP_Patient_Auth_should_be_Yes from '@salesforce/label/c.RH_RP_Patient_Auth_should_be_Yes';
+import RH_RP_Duplicate_Record_Found from '@salesforce/label/c.RH_RP_Duplicate_Record_Found';
+import RH_RP_Delegate_Information_is_mandatory from '@salesforce/label/c.RH_RP_Delegate_Information_is_mandatory';
+import RH_RP_Legal_status_warning_message from '@salesforce/label/c.RH_RP_Legal_status_warning_message';
+import RH_RP_success_message from '@salesforce/label/c.RH_RP_success_message';
+import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
 
 export default class Rp_PatientTab extends LightningElement {
     @track patientrecord;
@@ -42,13 +91,62 @@ export default class Rp_PatientTab extends LightningElement {
         PG_Ref_L_Permit_IQVIA_To_Contact_Phone,
         PG_Ref_L_Permit_IQVIA_To_Contact_SMS,
         RH_Email_Validation_Pattern,
-        RH_Email_Invalid_Characters
+        RH_Email_Invalid_Characters,
+        RH_RP_Main_Info,
+        RH_RP_Patient_ID,
+        RH_RP_Email_ID,
+        RH_RP_First_Name,
+        RH_RP_Middle_Initial,
+        RH_RP_Birth_Month,
+        RH_RP_Birth_Year,
+        RH_RP_Last_Name,
+        RH_RP_Sex,
+        RH_RP_Address,
+        RH_RP_Country,
+        RH_RP_Phone_Number,
+        RH_RP_Phone_Type,
+        RH_RP_State,
+        RH_RP_Alt_Phone_Number,
+        RH_RP_Alt_Phone_Type,
+        RH_RP_Postal_Code,
+        RH_RP_site_info,
+        RH_RP_Site_Name,
+        RH_RP_Patient_Auth_Status,
+        RH_RP_Legal_Status,
+        RH_RP_Patient_Authorization,
+        RH_RP_Save_Data,
+        RH_RP_Save_Changes,
+        RH_RP_Cancel_Record,
+        RH_RP_discard_changes,
+        Save,
+        BTN_Close,
+        Cancel,
+        Proceed,
+        BTN_OK,
+        RH_RP_Select_Birth_Month,
+        RH_RP_Select_Birth_Year,
+        RH_RP_Select_Sex,
+        RH_RP_Select_Country,
+        RH_RP_Select_Phone_Type,
+        RH_RP_Select_State,
+        RH_RP_Select_Site_Name,
+        RH_RP_Patient_Auth_Status_Verified,
+        RH_RP_Legal_Status_Verified,
+        RH_RP_Invalid_Email,
+        RH_RP_is_missing,
+        RH_RP_Future_Month,
+        RH_RP_Patient_Auth_should_be_Yes,
+        RH_RP_Duplicate_Record_Found,
+        RH_RP_Delegate_Information_is_mandatory,
+        RH_RP_Legal_status_warning_message,
+        RH_RP_success_message,
+        RH_RP_Record_Saved_Successfully
     };
 
     requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthMonth','BirthYear','LastName','PhoneNumber','PostalCode',
-                                'Sex','Country','PhoneType','States','SiteName','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','PhoneType','States','PatientAuthStatus','LegalStatus'];
     requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
-                                'Sex','Country','States','SiteName','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','States','PatientAuthStatus','LegalStatus'];
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -62,16 +160,16 @@ export default class Rp_PatientTab extends LightningElement {
                 returnValue = true;
             } 
             else {
-                element.setCustomValidity('You have entered an invalid format');
+                element.setCustomValidity(this.label.RH_RP_Invalid_Email);
                 returnValue = false;
             }
         } 
         else {
-            email.setCustomValidity('You have entered an invalid format');
-            returnValue = false;
+            email.setCustomValidity(this.label.RH_RP_Invalid_Email);
+            returnValue = false; 
         }
         element.reportValidity();
-        return returnValue;
+        return returnValue; 
     }
     
     customFieldValidation(dataValue) {
@@ -79,13 +177,14 @@ export default class Rp_PatientTab extends LightningElement {
         let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
         let fieldValue = element.value;
         let fieldLabel = element.label;
+        let fieldname = element.name;
         let returnvalue;
 
         if(!fieldValue) {
-            element.setCustomValidity(fieldLabel +' ' + 'is missing.');
+            element.setCustomValidity(fieldLabel +' ' + this.label.RH_RP_is_missing);
             returnvalue = false;
         }
-        else if(fieldValue && fieldLabel =='Email ID') {
+        else if(fieldValue && fieldname =='Email ID') {
             let isEmailValidated= this.checkValidEmail(element);
             if(isEmailValidated) {
                 returnvalue = true;
@@ -94,13 +193,11 @@ export default class Rp_PatientTab extends LightningElement {
                 returnvalue = false;
             }
         }
-        else if(fieldValue && fieldLabel == 'Birth Year') {
+        else if(fieldValue && fieldname == 'Birth Year') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
             let monthValue = monthValueAvilable.value;
-            
             let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
             let yearValue = yearValueAvilable.value;
-            
             monthValueAvilable.setCustomValidity('');
 
             if(monthValue != null && yearValue != null){
@@ -109,20 +206,13 @@ export default class Rp_PatientTab extends LightningElement {
                 var month = currentTime.getMonth() + 1;
                 
                 if(parseInt(monthValue) > parseInt(month) && year == yearValue){
-                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.setCustomValidity(this.label.RH_RP_Future_Month);
                     monthValueAvilable.reportValidity();
-                    //element.value = '';
                     returnvalue = false;
                 }
             }
-            /*if(!monthValue){
-                monthValueAvilable.setCustomValidity('Fill before Birth Year');
-                monthValueAvilable.reportValidity();
-                element.value = '';
-                returnvalue = false;
-            }*/
         }
-        else if(fieldValue && fieldLabel == 'Birth Month') {
+        else if(fieldValue && fieldname == 'Birth Month') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
             let monthValue = monthValueAvilable.value;
             let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
@@ -134,7 +224,7 @@ export default class Rp_PatientTab extends LightningElement {
                 var month = currentTime.getMonth() + 1;
                 
                 if(parseInt(monthValue) > parseInt(month) && year == yearValue){
-                    monthValueAvilable.setCustomValidity('Choosen Future Month');
+                    monthValueAvilable.setCustomValidity(this.label.RH_RP_Future_Month);
                     monthValueAvilable.reportValidity();
                     element.value = '';
                     returnvalue = false;
@@ -372,7 +462,7 @@ export default class Rp_PatientTab extends LightningElement {
             let year = this.patientrecord[0].peRecord.YOB__c;
             let legalStatus = this.patientrecord[0].peRecord.Legal_Status__c;
             if(this.patientrecord[0].peRecord.Patient_Auth__c == 'No') {
-                this.showErrorToast('Patient Auth should be Yes');
+                this.showErrorToast(this.label.RH_RP_Patient_Auth_should_be_Yes);
             }
             else{
                 patientValidation({newPatientId: newPatientId, oldPatientId: oldPatientId ,
@@ -380,13 +470,13 @@ export default class Rp_PatientTab extends LightningElement {
                                         month: month,year: year,legalStatus: legalStatus})
                 .then((result) => {
                     if(result == 'DuplicatePatientId') {
-                        this.showErrorToast('Duplicate Patient Record found for'+' '+JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
+                        this.showErrorToast(this.label.RH_RP_Duplicate_Record_Found+' '+JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
                     }
                     else if(result == 'Minor') {                    
-                        this.showErrorToast('Delegate information is mandatory in case of minor Patient');
+                        this.showErrorToast(this.label.RH_RP_Delegate_Information_is_mandatory);
                     }
                     else if(result == 'LegalStatus') {                    
-                        this.showErrorToast('Legal Status should be No in case of minor Patient');
+                        this.showErrorToast(this.label.RH_RP_Legal_status_warning_message);
                     }
                     else{
                         this.isUnsavedModalOpen = true; 
@@ -406,7 +496,7 @@ export default class Rp_PatientTab extends LightningElement {
         updatePeRecords({peRecord: this.patientrecord[0].peRecord})
         .then((result) => {
             console.log(JSON.stringify(result));
-            this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c +' '+'has been successfully saved.');
+            this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c +' '+this.label.RH_RP_success_message);
 
             const selectedvalue = {patientRecord: this.patientrecord};
             const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
@@ -423,8 +513,8 @@ export default class Rp_PatientTab extends LightningElement {
 
     showSuccessToast(event) {
         const evt = new ShowToastEvent({
-            title: 'Record Saved Successfully',
-            message: 'Record Saved Successfully',
+            title: this.label.RH_RP_Record_Saved_Successfully,
+            message: this.label.RH_RP_Record_Saved_Successfully,
             variant: 'success',
             mode: 'dismissable'
         });

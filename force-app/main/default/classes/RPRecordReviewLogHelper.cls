@@ -50,8 +50,6 @@ public  without sharing class RPRecordReviewLogHelper {
         
         return studyDetails;
     }
-    
-   
 
     public static List<LabelValueItem> getStudySiteDetails(Set<String> ctpIds) {
         List<LabelValueItem> studySiteList = new List<LabelValueItem>();
@@ -91,10 +89,10 @@ public  without sharing class RPRecordReviewLogHelper {
                  lstcontactId.add(currentContactId);
             }
          Set<String>dupSet = new Set<String>();
-        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Study_Site__r.Name,Study_Site__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
-                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN: lstcontactId and Clinical_Trial_Profile__c =: ctpId])
+        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Study_Site__r.Site__r.BillingCity,Study_Site__r.Site__r.BillingAddress,Study_Site__r.Site__r.BillingState,Study_Site__r.Name,Study_Site__r.Site__r.BillingPostalCode,Study_Site__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
+                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN: lstcontactId and Clinical_Trial_Profile__c =: ctpId AND  Status__c='Activated'])
         {
-            if(dupSet.add(hcpEnroll.Study_Site__c)){
+            if(dupSet.add(hcpEnroll.Study_Site__c) && hcpEnroll.Study_Site__r.Site__r.BillingState != null ){
                 studySiteList.add(new LabelValueItem(hcpEnroll.Study_Site__r.Name,hcpEnroll.Study_Site__c));
             }
         }
