@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import community_icon from '@salesforce/resourceUrl/rr_community_icons';
+import RH_RP_Items from '@salesforce/label/c.RH_RP_Items';
+import RH_RP_of from '@salesforce/label/c.RH_RP_of';
+import RH_RP_Page from '@salesforce/label/c.RH_RP_Page';
 
 const DELAY = 300;
 const recordsPerPage = 10;
@@ -31,6 +34,12 @@ export default class Paginator extends LightningElement {
     @track endRecord;
     @track end = false;
 
+    label = {
+        RH_RP_Items,
+        RH_RP_of,
+        RH_RP_Page
+    };
+
     left_arrow = community_icon + '/left-arrow.svg';
     first_page_arrow = community_icon + '/first-page-arrow.svg';
 
@@ -48,7 +57,10 @@ export default class Paginator extends LightningElement {
     }
 
     handleRecordsPerPage(event) {
-        this.pageSize = event.target.value;
+        this.records = event.target.value;
+    }
+
+    setRecords(event) {
         this.setRecordsToDisplay();
     }
     handlePageNumberChange(event) {
@@ -86,6 +98,8 @@ export default class Paginator extends LightningElement {
     }
     @api
     setRecordsToDisplay() {
+        console.log('this.totalRecords' + this.totalRecords);
+
         if (this.totalRecords == 0) {
             this.showPagination = false;
         } else {
