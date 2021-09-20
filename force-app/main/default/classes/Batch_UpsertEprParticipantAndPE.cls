@@ -1,10 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 09-20-2021
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
 public without sharing class Batch_UpsertEprParticipantAndPE implements Database.Batchable<sObject> {
     
     private Account tempAccount; 
