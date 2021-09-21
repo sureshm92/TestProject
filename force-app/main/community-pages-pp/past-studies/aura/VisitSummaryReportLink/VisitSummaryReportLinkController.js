@@ -15,6 +15,21 @@
                 100
             ); 
             return; **/
+            communityService.executeAction(
+                component,
+                'getBase64fromVisitSummaryReportPage',
+                {
+                    peId: component.get('v.peId'),
+                    isRTL : component.get('v.isRTL')
+
+                },
+                function (returnValue) {
+                 // alert(returnValue);
+                  communityService.navigateToPage('mobile-pdf-viewer?pdfData='+returnValue);   
+                }
+            );
+          
+           return;
         }
        /** 
          helper.uploadReportData(component, function () {

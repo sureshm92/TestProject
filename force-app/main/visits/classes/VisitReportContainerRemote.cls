@@ -157,4 +157,17 @@ public inherited sharing class VisitReportContainerRemote {
             this.value = value;
         }
     }
+
+    @AuraEnabled
+    public static String getBase64fromVisitSummaryReportPage(String peId,Boolean isRTL)
+    {
+
+      PageReference page = Page.VisitSummaryReportPage;
+        page.getParameters().put('peId',peId);
+        page.getParameters().put('isRTL',isRTL);
+
+        Blob content = page.getContent();
+        String encoded = EncodingUtil.base64Encode(content);
+        return encoded;
+    }
 }
