@@ -37,17 +37,32 @@
     },
 
     doGenerateReport: function (component, event, helper) {
+        let partenrollid = component.get('v.partenrollid');
         if (component.get('v.isMobileApp')) {
-            communityService.showWarningToast(
-                'Warning!',
-                $A.get('$Label.c.Pdf_Not_Available'),
-                100
+            communityService.executeAction(
+                component,
+                'getBase64TrialMatchData',
+                {
+                    peId: partenrollid
+                },
+                function (returnValue) {
+                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
+                },
+                function (error) {
+                    communityService.showToast(
+                        'error',
+                        'error',
+                        $A.get('$Label.c.TST_Something_went_wrong')
+                    );
+                    communityService.logErrorFromResponse(error);
+                }
             );
             return;
         }
-        var partenrollid = component.get('v.partenrollid');
+
         var pageurl = window.location.href;
-        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchData?id=' + partenrollid, '_blank');
+        if (pageurl.includes('gsk'))
+            window.open('/gsk/apex/TrialMatchData?id=' + partenrollid, '_blank');
         else window.open('/apex/TrialMatchData?id=' + partenrollid, '_blank');
     }
 });
