@@ -15,6 +15,7 @@ public class nonReferedBulkUpload_Test {
         nonReferedBulkUpload.processvalidateFile(fId, studyID, 'New York', 'United States', csvData, u.ContactId);
        	nonReferedBulkUpload.fetchFiles(u.ContactId);
         nonReferedBulkUpload.deleteFile(fId);
+        nonReferedBulkUpload n = new nonReferedBulkUpload();
         test.stopTest();
     }
     @isTest
