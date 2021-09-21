@@ -581,6 +581,7 @@ export default class VisitsPath extends LightningElement {
                 .then(() => {
                     eval("$A.get('e.force:refreshView').fire();");
                     spinner.hide();
+                    location.reload(true);
                 })
                 .catch((error) => {
                     let message = 'Unknown error';
@@ -607,6 +608,7 @@ export default class VisitsPath extends LightningElement {
         }
         if (!this.reminderOption) {
             eval("$A.get('e.force:refreshView').fire();");
+            location.reload(true);
         }
         this.handleHideDialog();
         spinner.hide();

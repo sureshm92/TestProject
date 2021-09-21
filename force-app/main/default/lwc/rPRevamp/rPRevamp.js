@@ -12,11 +12,61 @@ import deleteFile from '@salesforce/apex/nonReferedBulkUpload.deleteFile';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import downloadBulkTemplate from '@salesforce/resourceUrl/Import_Patient_Template';
 
+import BulkImport_Instructions from '@salesforce/label/c.BulkImport_Instructions';
+import BulkImport_File_Template from '@salesforce/label/c.BulkImport_File_Template';
+import BulkImport_File_Name from '@salesforce/label/c.BulkImport_File_Name';
+import BulkImport_Accepted from '@salesforce/label/c.BulkImport_Accepted';
+import BulkImport_Rejected from '@salesforce/label/c.BulkImport_Rejected';
+import BulkImport_Uploaded_By from '@salesforce/label/c.BulkImport_Uploaded_By';
+import BulkImport_Uploaded_On from '@salesforce/label/c.BulkImport_Uploaded_On';
+import BulkImport_Actions from '@salesforce/label/c.BulkImport_Actions';
+import BulkImport_Bulk_Import_Process from '@salesforce/label/c.BulkImport_Bulk_Import_Process';
+import BulkImport_Dont_show_me_again_on_landing from '@salesforce/label/c.BulkImport_Dont_show_me_again_on_landing';
+import BulkImport_Ok from '@salesforce/label/c.BulkImport_Ok';
+import BulkImport_Import_Patients from '@salesforce/label/c.BulkImport_Import_Patients';
+import BulkImport_Select_Study_Here from '@salesforce/label/c.BulkImport_Select_Study_Here';
+import BulkImport_Select_Study from '@salesforce/label/c.BulkImport_Select_Study';
+import BulkImport_Drag_file_here_or from '@salesforce/label/c.BulkImport_Drag_file_here_or';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
+import BulkImport_Max_size from '@salesforce/label/c.BulkImport_Max_size';
+import BulkImport_Wait_Warning from '@salesforce/label/c.BulkImport_Wait_Warning';
+import BulkImport_Import from '@salesforce/label/c.BulkImport_Import';
+import BulkImport_Uploaded_format from '@salesforce/label/c.BulkImport_Uploaded_format';
+import BulkImport_Total_number from '@salesforce/label/c.BulkImport_Total_number';
+import BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files from '@salesforce/label/c.BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files';
+import BulkImport_TableHeading from '@salesforce/label/c.BulkImport_TableHeading';
+import BulkImport_Initial_Total_Records from '@salesforce/label/c.BulkImport_Initial_Total_Records';
+
 
 const MAX_FILE_SIZE = 2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 9000;//750000; max chunk size prog can handle
 
 export default class RPRevamp extends LightningElement {
+    BulkImport_Instructions = BulkImport_Instructions;
+    BulkImport_File_Template = BulkImport_File_Template;
+    BulkImport_File_Name = BulkImport_File_Name;
+    BulkImport_Accepted = BulkImport_Accepted;
+    BulkImport_Rejected = BulkImport_Rejected;
+    BulkImport_Uploaded_By = BulkImport_Uploaded_By;
+    BulkImport_Uploaded_On = BulkImport_Uploaded_On;
+    BulkImport_Actions = BulkImport_Actions;
+    BulkImport_Bulk_Import_Process = BulkImport_Bulk_Import_Process;
+    BulkImport_Dont_show_me_again_on_landing = BulkImport_Dont_show_me_again_on_landing;
+    BulkImport_Ok = BulkImport_Ok;
+    BulkImport_Import_Patients = BulkImport_Import_Patients;
+    BulkImport_Select_Study_Here = BulkImport_Select_Study_Here;
+    BulkImport_Select_Study = BulkImport_Select_Study;
+    BulkImport_Drag_file_here_or = BulkImport_Drag_file_here_or;
+    BulkImport_browse = BulkImport_browse;
+    BulkImport_Max_size = BulkImport_Max_size;
+    BulkImport_Wait_Warning = BulkImport_Wait_Warning;
+    BulkImport_Import = BulkImport_Import;
+    BulkImport_Uploaded_format = BulkImport_Uploaded_format;
+    BulkImport_Total_number = BulkImport_Total_number;
+    BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files = BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
+    BulkImport_TableHeading = BulkImport_TableHeading;
+    BulkImport_Initial_Total_Records = BulkImport_Initial_Total_Records;
+
     templateFile =downloadBulkTemplate;
     instructionsSvgURL = bulkicons+'/instructions.svg';
     downloadSvgURL = bulkicons+'/Download.svg';
@@ -189,7 +239,7 @@ export default class RPRevamp extends LightningElement {
             return;
         }
         if(this.fileName.split('.')[1]!='csv' && this.fileName.split('.')[1]!='xlsx' && this.fileName.split('.')[1]!='xls'){
-            let message = 'Please upload only csv, xlsx or xls format files.';
+            let message = this.BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
                 message: message,
@@ -335,7 +385,7 @@ export default class RPRevamp extends LightningElement {
                 if(!this.validFile){
                     this.dispatchEvent(new ShowToastEvent({
                         title: 'Error',
-                        message: 'Uploaded file does not match the template file format.',
+                        message: this.BulkImport_Uploaded_format,
                         variant: 'error'
                     }));
                     this.deleteFiles();
@@ -344,7 +394,7 @@ export default class RPRevamp extends LightningElement {
                 else if(this.totalRecs > 500){
                     this.dispatchEvent(new ShowToastEvent({
                         title: 'Error',
-                        message: 'Total number of records greater than 500, please try again with upto 500 records.',
+                        message: this.BulkImport_Total_number,
                         variant: 'error'
                     }));
                     this.deleteFiles();

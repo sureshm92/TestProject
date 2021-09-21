@@ -1,6 +1,174 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
     <labels>
+        <fullName>BulkImport_Instructions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Instructions</shortDescription>
+        <value>Instructions</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_File_Template</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_File_Template</shortDescription>
+        <value>File Template</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_File_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_File_Name</shortDescription>
+        <value>File Name</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Accepted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Accepted</shortDescription>
+        <value>Accepted</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Rejected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Rejected</shortDescription>
+        <value>Rejected</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_By</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_By</shortDescription>
+        <value>Uploaded By</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_On</shortDescription>
+        <value>Uploaded On</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Actions</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Actions</shortDescription>
+        <value>Actions</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Bulk_Import_Process</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Bulk_Import_Process</shortDescription>
+        <value>Bulk Import Process</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Dont_show_me_again_on_landing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Dont_show_me_again_on_landing</shortDescription>
+        <value>Don't show me again on landing</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Ok</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Ok</shortDescription>
+        <value>Ok</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Import_Patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Import_Patients</shortDescription>
+        <value>Import Patients</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Select_Study_Here</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Select_Study_Here</shortDescription>
+        <value>Select Study Here...</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Select_Study</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Select_Study</shortDescription>
+        <value>Select Study</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Drag_file_here_or</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Drag_file_here_or</shortDescription>
+        <value>Drag file here or</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_browse</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_browse</shortDescription>
+        <value>browse</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Max_size</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Max_size</shortDescription>
+        <value>Max size 2.5mb Max records 500</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Wait_Warning</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Wait_Warning</shortDescription>
+        <value>Your wait time may vary based on the number of records you upload</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Import</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Import</shortDescription>
+        <value>Import</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Uploaded_format</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Uploaded_format</shortDescription>
+        <value>Uploaded file does not match the template file format.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Total_number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Total_number</shortDescription>
+        <value>Total number of records greater than 500, please try again with upto 500 records.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files</shortDescription>
+        <value>Please upload only csv, xlsx or xls format files.</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_Initial_Total_Records</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_Initial_Total_Records</shortDescription>
+        <value>Initial Total Records</value>
+    </labels>
+    <labels>
+        <fullName>BulkImport_TableHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_TableHeading</shortDescription>
+        <value>Bulk Import Files</value>
+    </labels>
+    <labels>
         <fullName>AF_All</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -247,6 +415,13 @@
         <protected>true</protected>
         <shortDescription>About the Study</shortDescription>
         <value>About the Study</value>
+    </labels>
+     <labels>
+        <fullName>Abort_Batch_UpsertEprParticipantAndPE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Abort_Batch_UpsertEprParticipantAndPE</shortDescription>
+        <value>False</value>
     </labels>
     <labels>
         <fullName>Accees_Personal_Information</fullName>
@@ -18775,6 +18950,790 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>Referring_Provider</shortDescription>
         <value>Referring Provider</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Added_On</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Added On</shortDescription>
+        <value>Added On</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Address</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Address</shortDescription>
+        <value>Address &amp; Contact Info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Alt_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Alt Phone Number</shortDescription>
+        <value>Alt Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Alt_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Alt Phone Type</shortDescription>
+        <value>Alt Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Back_to_My_Patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Back to My Patients</shortDescription>
+        <value>Back to My Patients</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Birth_Day</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Birth Day</shortDescription>
+        <value>Birth Day</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Birth_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Birth Month</shortDescription>
+        <value>Birth Month</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Birth_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Birth Year</shortDescription>
+        <value>Birth Year</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Bulk_Import</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Bulk Import</shortDescription>
+        <value>Bulk Import</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Cancel</shortDescription>
+        <value>Cancel</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Cancel_Record</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Cancel Record</shortDescription>
+        <value>Cancel Record</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Country</shortDescription>
+        <value>Country</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Alt_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Alt Phone Number</shortDescription>
+        <value>Primary Delegate’s Alt. Phone</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Alt_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Alt Phone Type</shortDescription>
+        <value>Primary Delegate’s Alt. Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Ask_For_Cancel</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Ask For Cancel</shortDescription>
+        <value>Are you sure you want to discard changes?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Ask_for_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Ask for Save</shortDescription>
+        <value>Are you sure you want to save the changes?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Birth_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Birth Year</shortDescription>
+        <value>Birth Year</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Cancel_Record</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Cancel Record</shortDescription>
+        <value>Cancel Record</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Certify</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Certify</shortDescription>
+        <value>I certify that the patient’s delegate/caregiver is over the age of legal majority for their state/country.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Email_Format_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Email Format Error</shortDescription>
+        <value>You have entered an invalid format.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Email_Id</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Email Id</shortDescription>
+        <value>Email Id</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Information_is_mandatory</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Information is mandatory</shortDescription>
+        <value>Delegate information is mandatory in case of minor Patient</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Minor_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Minor Error</shortDescription>
+        <value>Delegate age should not be minor.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Missing_field</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Missing field</shortDescription>
+        <value>is missing.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Phone Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Phone Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Proceed</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Proceed</shortDescription>
+        <value>Proceed</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Save_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Save Data</shortDescription>
+        <value>Save Data</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Save_Ok</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Save Ok</shortDescription>
+        <value>Ok</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Delegate_Successfully_Saved</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Delegate Successfully Saved</shortDescription>
+        <value>has been successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Duplicate_Record_Found</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Duplicate Record Found</shortDescription>
+        <value>Duplicate Patient Record found for</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Email_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Email ID</shortDescription>
+        <value>Email ID</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Exclude</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Exclude</shortDescription>
+        <value>Exclude</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Exclude_From_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Exclude From Referring</shortDescription>
+        <value>Select to exclude patient from referring</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Exclude_Record</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Exclude Record</shortDescription>
+        <value>Exclude Record</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Excluded_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Excluded Successfully</shortDescription>
+        <value>This Record has been Successfully Excluded.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Excluded_for_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Excluded for Referring</shortDescription>
+        <value>Excluded for Referring</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_First_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP First Name</shortDescription>
+        <value>First Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Future_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Future Month</shortDescription>
+        <value>Choosen Future Month</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Include</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Include</shortDescription>
+        <value>Include</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Include_From_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Include From Referring</shortDescription>
+        <value>Select to include patient for referring</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Include_Record</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Include Record</shortDescription>
+        <value>Include Record</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Included_for_Referring</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Included for Referring</shortDescription>
+        <value>Included for Referring</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Invalid_Email</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Invalid Email</shortDescription>
+        <value>You have entered an invalid format</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Items</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Items</shortDescription>
+        <value>Items</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Last_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Last Month</shortDescription>
+        <value>Last Month</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Last_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Last Name</shortDescription>
+        <value>Last Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Last_Week</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Last Week</shortDescription>
+        <value>Last Week</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Legal Status</shortDescription>
+        <value>Legal Status</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_Status_Verified</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Legal Status Verified</shortDescription>
+        <value>Legal Status Verified</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Legal_status_warning_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Legal status warning message</shortDescription>
+        <value>Legal Status should be No in case of minor Patient</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_MM_YYYY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP MM_YYYY</shortDescription>
+        <value>MM/YYYY</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Main_Info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Main Info</shortDescription>
+        <value>Main Info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Medical_Review</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Medical Review</shortDescription>
+        <value>Medical Review</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Middle_Initial</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Middle Initial</shortDescription>
+        <value>Middle Initial</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_My_Patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP My Patients</shortDescription>
+        <value>My Patients</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_N_A</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP N/A</shortDescription>
+        <value>N/A</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_No_Item_To_Display</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP No Item To Display</shortDescription>
+        <value>Oh no, there are no items to display.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Not_Yet_Referred</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Not Yet Referred</shortDescription>
+        <value>Not Yet Referred</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Outreach_Mail_Sent</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Outreach Mail Sent</shortDescription>
+        <value>Outreach Mail Sent</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Overview_for</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Overview for</shortDescription>
+        <value>Overview for</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Page</shortDescription>
+        <value>Page</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth</shortDescription>
+        <value>Patient Auth</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth_Aquired</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth Aquired</shortDescription>
+        <value>Patient Auth Aquired</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth_Help</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth Help</shortDescription>
+        <value>My patient, and/or patient&apos;s legal guardian if applicable, agrees to share their contact information and patient&apos;s pre-screener data with IQVIA and its affiliates, and the study doctors so that they may contact the patient and/or their delegate regarding study participation</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth_Status</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth Status</shortDescription>
+        <value>Patient Auth Status</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth_Status_Verified</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth Status Verified</shortDescription>
+        <value>Patient Auth Status Verified</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Auth_should_be_Yes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
+        <value>Patient Auth should be Yes</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_Authorization</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient Authorization</shortDescription>
+        <value>I confirm that the patient, and/or patient&apos;s legal guardian if applicable, agrees to share the above information with IQVIA and its affiliates</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patient_ID</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patient ID</shortDescription>
+        <value>Patient ID</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Patients_Added</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Patients Added</shortDescription>
+        <value>Patients Added</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Phone_Number</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Phone Number</shortDescription>
+        <value>Phone Number</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Phone Type</shortDescription>
+        <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Postal_Code</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Postal Code</shortDescription>
+        <value>Postal Code</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Pre_Eligibility_Screening</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Pre-Eligibility Screening</shortDescription>
+        <value>Pre-Eligibility Screening</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Record_Saved_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Record Saved Successfully</shortDescription>
+        <value>Record Saved Successfully</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Refer</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Refer</shortDescription>
+        <value>Refer</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Refresh_page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP  Refresh page</shortDescription>
+        <value>Refresh page</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Save</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Save</shortDescription>
+        <value>Save</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Save_Changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Save Changes</shortDescription>
+        <value>Are you sure you want to save the changes?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Save_Data</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Save Data</shortDescription>
+        <value>Save Data</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Birth_Month</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Birth Month</shortDescription>
+        <value>Select Birth Month</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Birth_Year</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Birth Year</shortDescription>
+        <value>Select Birth Year</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Country</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Country</shortDescription>
+        <value>Select Country</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Phone_Type</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Phone Type</shortDescription>
+        <value>Select Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Sex</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Sex</shortDescription>
+        <value>Select Sex</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select Site Name</shortDescription>
+        <value>Select Site Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Select_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Select State</shortDescription>
+        <value>Select State</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Sex</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Sex</shortDescription>
+        <value>Sex</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Site_Name</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Site Name</shortDescription>
+        <value>Site Name</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_State</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP State</shortDescription>
+        <value>State</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Study_Code</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP  Study Code</shortDescription>
+        <value>Study Code</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Total_Patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Total Patients</shortDescription>
+        <value>Total Patients</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Want_to_Refresh_Page</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Want to Refresh Page</shortDescription>
+        <value>Are you sure want to refresh page?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Yesterday</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Yesterday</shortDescription>
+        <value>Yesterday</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_discard_changes</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP discard changes</shortDescription>
+        <value>Are you sure you want to discard changes?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_discussion_noted</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP discussion noted</shortDescription>
+        <value>I confirm that this discussion will be noted in the patient&apos;s records</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_documented_the_discussion</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP documented the discussion</shortDescription>
+        <value>Have you documented the discussion?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_exclude_this_patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP exclude this patient</shortDescription>
+        <value>Are you sure you want to exclude this patient?</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_has_been_excluded</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP has been excluded</shortDescription>
+        <value>has been Successfully Excluded.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_has_been_included</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP has been included</shortDescription>
+        <value>has been Successfully Included.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_included_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP included successfully</shortDescription>
+        <value>This Record has been Successfully Included.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP info</shortDescription>
+        <value>info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_is_missing</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP is missing</shortDescription>
+        <value>is missing.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_legal_status_attest</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP legal status attest</shortDescription>
+        <value>I have confirmed that this patient is of legal age.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_of</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP of</shortDescription>
+        <value>of</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_select_single_patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP select single patient</shortDescription>
+        <value>Please select a single patient record.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_site_info</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP site info</shortDescription>
+        <value>Site &amp; Status Info</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_success_message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP success message</shortDescription>
+        <value>has been successfully saved.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_want_to_include_patients</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP want to include patients</shortDescription>
+        <value>Are you sure you want to include this patient?</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>

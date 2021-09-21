@@ -5,6 +5,16 @@ import { refreshApex } from '@salesforce/apex';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
+import CC_Btn_Search from '@salesforce/label/c.CC_Btn_Search';
+import RH_RP_Patient_ID from '@salesforce/label/c.RH_RP_Patient_ID';
+import RH_RP_Last_Name from '@salesforce/label/c.RH_RP_Last_Name';
+import RH_RP_MM_YYYY from '@salesforce/label/c.RH_RP_MM_YYYY';
+import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
+import BTN_Close from '@salesforce/label/c.BTN_Close';
+import RH_RP_Refresh_page from '@salesforce/label/c.RH_RP_Refresh_page';
+import RH_RP_Want_to_Refresh_Page from '@salesforce/label/c.RH_RP_Want_to_Refresh_Page';
+import Cancel from '@salesforce/label/c.Cancel';
+import BTN_OK from '@salesforce/label/c.BTN_OK';
 
 export default class RP_NonReferredTable extends NavigationMixin(LightningElement) {
     @api userMode;
@@ -36,6 +46,19 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     isPaginationApplied = false;
     isSelectAll = false;
     @api peRecordList;
+
+    label = {
+        CC_Btn_Search,
+        RH_RP_Patient_ID,
+        RH_RP_Last_Name,
+        RH_RP_MM_YYYY,
+        RH_RP_No_Item_To_Display,
+        BTN_Close,
+        RH_RP_Refresh_page,
+        RH_RP_Want_to_Refresh_Page,
+        Cancel,
+        BTN_OK
+    };
 
     constructor() {
         super();
@@ -75,7 +98,21 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
         this.data = [];
         this.data = allRecList;   
+    }
 
+    @api
+    getOnExcludeIncluderefresh() {
+        this.recordsToDisplay = this.recordsToDisplay.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id );
+        this.data = this.data.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id);
+        this.redirectoOverviewPage();
+        this.template.querySelector('c-rppagination').records = this.data;
+        this.template.querySelector('c-rppagination').totalRecords = this.data.length;
+        this.template.querySelector('c-rppagination').setRecordsToDisplay();
+        if (this.data.length == 0) {
+            this.noFilterRecords = true;
+        } else {
+            this.noFilterRecords = false;
+        }
     }
 
     getDetailsApex() {
@@ -108,28 +145,6 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
        console.log('Event Triggered---->'+this.isExcludedforReferring);
     }
 
-    /*
-    @wire(getPEDetails) peList(result) {
-        this.isLoading = true;
-        if (result.data) {
-            this.data = result.data;
-            this.masterData = result.data;
-            this.recordsToDisplay = result.data;
-            this.error = undefined;
-            //for empty records check
-            if (this.recordsToDisplay.length > 0) {
-                this.showTable = true;
-            } else {
-                this.showTable = false;
-            }
-            this.isLoading = false;
-        } else if (result.error) {
-            this.error = result.error;
-            alert(JSON.stringify(this.error));
-            this.data = undefined;
-            this.isLoading = false;
-        }
-    }*/
     //Capture the event fired from the paginator component
     handlePaginatorChange(event) {
         this.recordsToDisplay = event.detail;
@@ -267,11 +282,9 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     //Refresh page
     refreshComponent(event) {
         refreshApex(this.apexRefreshList);
-        //eval("$A.get('e.force:refreshView').fire();");
         eval("$A.get('e.force:refreshView').fire();");
-
-        // this.dispatchEvent(new CustomEvent("tablerefreshevent"));
     }
+
     handleFilterApply(event) {
         this.showFilterModal = false;
         if (event.detail.isFilterApplied) {
@@ -283,6 +296,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             this.data = filterValue;
             this.recordsToDisplay = filterValue;
             this.isPaginationApplied = false;
+            this.template.querySelector('c-rppagination').setPageNumber();
+
         }
     }
 

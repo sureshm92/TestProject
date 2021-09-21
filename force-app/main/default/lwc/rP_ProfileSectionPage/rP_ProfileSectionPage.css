@@ -57,3 +57,16 @@
     padding: 2px 8px 2px 8px;
     border-radius: 2px;
 }
+
+.slds-modal__container {
+  max-width: 60rem !important;
+  width: 60% !important;
+  height: auto;
+}
+
+.sldsmodalcontainer {
+  max-width: 100%;
+  padding-left: 25%;
+  padding-right: 25%;
+  padding-top: 10%;
+}
