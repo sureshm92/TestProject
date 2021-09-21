@@ -322,7 +322,8 @@
                 email.setCustomValidity('');
                 isValid = true;
             } else {
-                email.setCustomValidity('You have entered an invalid format');
+                if(emailValue != ''){
+                email.setCustomValidity('You have entered an invalid format');}
                 isValid = false;
             }
         } else {
