@@ -162,6 +162,13 @@
         <value>Initial Total Records</value>
     </labels>
     <labels>
+        <fullName>BulkImport_TableHeading</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport_TableHeading</shortDescription>
+        <value>Bulk Import Files</value>
+    </labels>
+    <labels>
         <fullName>AF_All</fullName>
         <language>en_US</language>
         <protected>false</protected>
