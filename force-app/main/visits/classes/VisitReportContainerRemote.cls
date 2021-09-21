@@ -159,7 +159,7 @@ public inherited sharing class VisitReportContainerRemote {
     }
 
     @AuraEnabled
-    public static String getBase64fromVisitSummaryReportPage(String peId,Boolean isRTL)
+    public static String getBase64fromVisitSummaryReportPage(String peId,String isRTL)
     {
 
       PageReference page = Page.VisitSummaryReportPage;
