@@ -202,7 +202,7 @@ public without sharing class TaskEditRemote {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
             if(state.value == ParticipantService.ParticipantStates.REFERRAL){
-                return state.ctp.Received_Until_Consent_Is_Available__c;
+                return (state.ctp.Received_Until_Consent_Is_Available__c || state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
             }
             else{
                 return state.isTravelSupportEnabled;
