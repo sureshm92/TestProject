@@ -1,11 +1,6 @@
 @isTest
-public class RPRecordReviewLogController_TEST {
-    @TestSetup
-    static void setup() {
-        //Test.startTest();
-        //TestData.loadTestData();
-        //Test.stopTest();
-    }
+public class RPRecordReviewLogHelper_TEST {
+   
     @isTest
     public static void TestM1(){
        
@@ -125,44 +120,29 @@ public class RPRecordReviewLogController_TEST {
         );
         insert pe;
 
-         
+        set<string> ctpids = new set<string>{clinical.id};
     
-        //TestData testData = new TestData();
-        //Test.startTest();
-        RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
-        RPRecordReviewLogController.getPEDetails(); 
-        RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
-        RPRecordReviewLogController.getRecordsDetails();  
-        RPRecordReviewLogController.getContactList();  
-        RPRecordReviewLogController.getPECountDetails();  
-        RPRecordReviewLogController.dateFormatChange(system.today());
-        Test.stopTest();
+        RPRecordReviewLogHelper.getStudyDetails(contact_1.id);
+        RPRecordReviewLogHelper.getStudies('HCP',contact_1.id);
+        RPRecordReviewLogHelper.checkNeedsGuardian('US','NY','04','2000');
        
-        RPRecordReviewLogController.changeStatusToExcludeFromReferring(pe.id);
-        RPRecordReviewLogController.setMRRStatus(pe.id,'Pass',null);
-        RPRecordReviewLogController.patientValidation('SomePatientId1','SomePatientId1','US','NY','04','2000','Yes');
-        RPRecordReviewLogController.checkPatientAge('US','NY','04','2000');
-        try
+        RPRecordReviewLogHelper.checkDelegateAge('US','NY', '2000');
+        RPRecordReviewLogHelper.getMonthWithZero();
+        RPRecordReviewLogHelper.getMonthWithoutZero();
+        RPRecordReviewLogHelper.getYear();
+        RPRecordReviewLogHelper.getYear();
+        RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
+        RPRecordReviewLogHelper.getStudySiteDetails(ctpids );
+        RPRecordReviewLogHelper.getContact(contact_1.id);
+         try
         {
-          RPRecordReviewLogController.checkDelegateAge('US','NY','2000');
-         RPRecordReviewLogController.checkDelegateAge(null,null,null);
+          RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP',clinical.id);
         }
         catch (AuraHandledException e)
         {
           system.debug('Error handled');
         }
-        try
-        {
-          RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(pe.id);
-         RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(null);
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
-        }
-        RPRecordReviewLogController.updatePeRecords(pe);
-        RPRecordReviewLogController.delegateUpdatePeRecords(pe);
-        RPRecordReviewLogController.peInitData pei =  new RPRecordReviewLogController.peInitData(null,null,null);
+        Test.stopTest();
         
     }
 }

@@ -1,11 +1,5 @@
 @isTest
-public class RPRecordReviewLogController_TEST {
-    @TestSetup
-    static void setup() {
-        //Test.startTest();
-        //TestData.loadTestData();
-        //Test.stopTest();
-    }
+public class RPRecordReviewFilterController_TEST {
     @isTest
     public static void TestM1(){
        
@@ -124,45 +118,9 @@ public class RPRecordReviewLogController_TEST {
             YOB__c='2000'
         );
         insert pe;
-
-         
-    
-        //TestData testData = new TestData();
-        //Test.startTest();
-        RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
-        RPRecordReviewLogController.getPEDetails(); 
-        RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
-        RPRecordReviewLogController.getRecordsDetails();  
-        RPRecordReviewLogController.getContactList();  
-        RPRecordReviewLogController.getPECountDetails();  
-        RPRecordReviewLogController.dateFormatChange(system.today());
+        List<id> studys = new list<id>{clinical.id};
+        List<id> trialid = new list<id>{clinical.id};
+        RPRecordReviewFilterController.setFilterData('HCP',contact_1.id);
         Test.stopTest();
-       
-        RPRecordReviewLogController.changeStatusToExcludeFromReferring(pe.id);
-        RPRecordReviewLogController.setMRRStatus(pe.id,'Pass',null);
-        RPRecordReviewLogController.patientValidation('SomePatientId1','SomePatientId1','US','NY','04','2000','Yes');
-        RPRecordReviewLogController.checkPatientAge('US','NY','04','2000');
-        try
-        {
-          RPRecordReviewLogController.checkDelegateAge('US','NY','2000');
-         RPRecordReviewLogController.checkDelegateAge(null,null,null);
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
-        }
-        try
-        {
-          RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(pe.id);
-         RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(null);
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
-        }
-        RPRecordReviewLogController.updatePeRecords(pe);
-        RPRecordReviewLogController.delegateUpdatePeRecords(pe);
-        RPRecordReviewLogController.peInitData pei =  new RPRecordReviewLogController.peInitData(null,null,null);
-        
     }
 }

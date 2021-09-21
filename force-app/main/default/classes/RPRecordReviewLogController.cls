@@ -219,6 +219,7 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.Is_Email__c=peRecord.Is_Email__c;
                peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
                peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
                update peEnrollment;
                 //update peRecord;
                 return 'Success';
