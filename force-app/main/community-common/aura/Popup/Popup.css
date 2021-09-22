@@ -64,9 +64,9 @@ top: 1px !important;
     background-image: url(/resource/1569269587000/iconCloseBlack);
     height: 14px;
     width: 14px;
-    top: 30px; /* 30px */
-    right: 360px; /* 25px */
-}
+    top: 30px;
+    /* @noflip */
+    left: 90%
 
 .THIS .p-buttons-container {
     margin: 0 16px;
@@ -78,6 +78,7 @@ top: 1px !important;
 
 @media all and (max-width: 768px) {
     .THIS .p-container > .slds-button.btnRTL:after {
+        /* @noflip */
         right: 0px !important;
     }
 }

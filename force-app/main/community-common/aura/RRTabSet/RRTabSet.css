@@ -25,6 +25,7 @@
     min-height: 62px;
 }
 .THIS.ts-tab-container .ts-tab-right {
+    /* @noflip */
     float: right;
 }
 
@@ -41,7 +42,9 @@
 }
 
 .THIS.ts-tab-container .ts-tab-left {
+    /* @noflip */
     float: left;
+    /* @noflip */
     margin-right: auto;
 }
 
