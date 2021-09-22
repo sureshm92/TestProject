@@ -223,7 +223,10 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
                peEnrollment.State__c=peRecord.State__c;
                peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
-               peEnrollment.Participant_Alt_Phone_Type__c=peRecord.Participant_Alt_Phone_Type__c;
+               if(peEnrollment.Participant_Alt_Phone_Type__c != null && peEnrollment.Participant_Alt_Phone_Type__c != ''  
+               && peEnrollment.Participant_Alt_Phone_Type__c != 'undefined'){
+                    peEnrollment.Participant_Alt_Phone_Type__c = peRecord.Participant_Alt_Phone_Type__c;
+               }
                peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
                peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
                peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
@@ -359,6 +362,7 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
+               
             }else{
                  lstcontactId.add(currentContactId);
             }

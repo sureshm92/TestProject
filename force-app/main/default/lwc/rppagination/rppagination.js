@@ -64,12 +64,16 @@ export default class Paginator extends LightningElement {
         this.setRecordsToDisplay();
     }
     handlePageNumberChange(event) {
-        if (event.target.value > 0) {
+        let totalpgs =  Math.ceil(this.totalRecords / this.pageSize)
+        if (event.target.value > 0 && event.target.value <= totalpgs ){
             this.pageNumber =  parseInt(event.target.value) ;
             this.setRecordsToDisplay();
         }
         else if (!event.target.value) {
             this.pageNumber = this.pageNumber;
+            this.setRecordsToDisplay();
+        }else if (event.target.value > totalpgs){
+            this.pageNumber = totalpgs;
             this.setRecordsToDisplay();
         }
     }

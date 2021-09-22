@@ -274,6 +274,8 @@ export default class Rp_DelegateTab extends LightningElement {
     }
 
     cancelRecord(event) {
+        this.disabledSaveButton = true;
+
         this.cancelOpen = false;
         let record = this.delegaterecord.find(ele  => ele.peRecord.Id === this.originaldelegaterecord[0].peRecord.Id);
         record.peRecord.Primary_Delegate_First_Name__c = this.originaldelegaterecord[0].peRecord.Primary_Delegate_First_Name__c;
