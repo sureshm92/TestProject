@@ -11,7 +11,7 @@ public class Test_ContactTriggerHandler {
             FirstName = 'PITD',
             LastName = 'PITD',
             Email = 'pi@emil.com',
-            Language__c = 'ur',
+            Language__c = 'en_US',
             MailingCountry = 'United States'
         );
         contactList.add(partContact);
@@ -21,7 +21,7 @@ public class Test_ContactTriggerHandler {
             Last_Name__c = 'ParticipantTD',
             Phone__c = '55313535',
             Email__c = 'pi@emil.com',
-            Preferred_Language__c = 'ur',
+            Preferred_Language__c = 'en_US',
             Mailing_Country_Code__c = 'US',
             Mailing_State_Code__c = 'AL',
             Mailing_Zip_Postal_Code__c = '2733',
