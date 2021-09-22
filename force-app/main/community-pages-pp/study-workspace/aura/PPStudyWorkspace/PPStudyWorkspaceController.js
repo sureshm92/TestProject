@@ -8,6 +8,7 @@
         spinner.show();
         var recId = communityService.getUrlParameter('id');
         var tabId = communityService.getUrlParameter('tab');
+        component.set('v.participantStateValue',communityService.getParticipantState());
         if (tabId === undefined) tabId = 'tab-about-the-study'; //tab by default;
         var resourceMode = communityService.getUrlParameter('resourcemode');
         if (!resourceMode) resourceMode = 'Default';
