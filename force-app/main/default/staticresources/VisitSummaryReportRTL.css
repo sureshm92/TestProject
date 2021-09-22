@@ -1,0 +1,74 @@
+@page {
+    size: A4 landscape;
+    /* @noflip */  direction: rtl;
+    border: 9px solid RGB(216, 216, 216);
+    border-left: 0;
+    margin-left: -8px;
+
+    @top-right {
+                content: element(header);
+                }
+                
+                @top-left {
+                content: element(header2);
+                }
+                
+                @bottom-left {
+                content: element(footer);
+                }
+}
+
+div.header {
+                margin-top: 15px;
+                width:10px;
+    margin-right: -9px;
+                position: running(header);
+                }
+                
+                div.header2 {
+                text-align: left;
+                margin-top: 15px;
+                margin-left: 50px;
+                color:#6e6e6e;
+                font-family: Arial Unicode MS;
+                font-size: 14px;
+                display: block; /* or in-line block according to your requirement */
+                overflow: hidden;
+                white-space: nowrap;
+                text-overflow: ellipsis;
+                position: running(header2);
+                }
+                
+                div.footer {
+                display: block;
+                font-size:11px;
+                text-align: center;
+                color:#6e6e6e;
+                font-family: Arial Unicode MS;
+                margin-left:20px;
+                margin-right: 20px;
+                position: running(footer);
+                }
+
+#logo img {
+    visibility: hidden;
+
+    width: 140px;
+    height: 35px;
+}
+
+.rtlEnable {
+   /* @noflip */  direction: rtl;
+    unicode-bidi: bidi-override !important;
+    direction: unset !important;
+    text-align: right;
+    margin-right: 22px;
+}
+
+.datatab
+{
+    margin-left:40px;
+    font-size:16px;
+
+
+}

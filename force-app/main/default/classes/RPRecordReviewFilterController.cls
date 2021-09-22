@@ -47,7 +47,7 @@ public without sharing class  RPRecordReviewFilterController{
             for(RP_Delegate_Relationship__c del: RPD){
                 lstcontactId.add(del.Referring_Provider__c);
             }
-            lstcontactId.add(currentContactId);
+            //lstcontactId.add(currentContactId);
         }else{
              lstcontactId.add(currentContactId);
         } 
@@ -117,7 +117,7 @@ public without sharing class  RPRecordReviewFilterController{
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
+                //lstcontactId.add(currentContactId);
             }else{
                  lstcontactId.add(currentContactId);
             }

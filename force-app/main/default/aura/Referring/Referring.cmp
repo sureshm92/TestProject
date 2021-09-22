@@ -300,7 +300,7 @@
                                         {!$Label.c.RH_RP_documented_the_discussion}
                                         <div>
                                             <input type="checkbox" id="terms" name="terms" onclick="{!c.doDiscussionDocumented}" value="{!v.chkTerms}" onchange="{!c.termsChanged}" ></input>
-                                            <label for="terms" style="font-size:18px;color:black;font-weight:550;font-family:Proxima Nova;"> {!$Label.c.RH_RP_discussion_noted}</label>
+                                            <label for="terms" style="font-size:18px;color:black;font-weight:550;font-family:Proxima Nova;">&nbsp;{!$Label.c.RH_RP_discussion_noted}</label>
                                         </div>
                                     </div>
                                 </div>
