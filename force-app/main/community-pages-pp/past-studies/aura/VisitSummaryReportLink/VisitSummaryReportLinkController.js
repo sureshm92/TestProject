@@ -15,14 +15,38 @@
                 100
             ); 
             return; **/
+            communityService.executeAction(
+                component,
+                'getBase64fromVisitSummaryReportPage',
+                {
+                    peId: component.get('v.peId'),
+                    isRTL : component.get('v.isRTL')
+
+                },
+                function (returnValue) {
+                 // alert(returnValue);
+                  communityService.navigateToPage('mobile-pdf-viewer?pdfData='+returnValue);   
+                }
+            );
+          
+           return;
         }
-        helper.uploadReportData(component, function () {
+       /** 
+         helper.uploadReportData(component, function () {
             window.setTimeout(
                 $A.getCallback(function () {
                     helper.generateReport(component);
                 }),
                 100
             );
-        });
+        });  **/ 
+
+        const peId = component.get('v.peId');
+        const isRTl=  component.get('v.isRTL');
+        var pageurl = window.location.href;
+        if (pageurl.includes('gsk')) window.open('/gsk/apex/VisitSummaryReportPage?peId='+peId+'&isRTL='+isRTl);
+        else window.open('/apex/VisitSummaryReportPage?peId='+peId+'&isRTL='+isRTl);
+         
+
     }
 });
