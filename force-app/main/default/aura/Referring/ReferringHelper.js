@@ -323,7 +323,7 @@
                 isValid = true;
             } else {
                 if(emailValue != ''){
-                email.setCustomValidity('You have entered an invalid format');}
+                    email.setCustomValidity('You have entered an invalid format');}
                 isValid = false;
             }
         } else {

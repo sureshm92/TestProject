@@ -45,7 +45,7 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
+                //lstcontactId.add(currentContactId);
             }else{
                  lstcontactId.add(currentContactId);
             }
@@ -174,8 +174,19 @@ public without sharing class RPRecordReviewLogController {
                         peProfileSectionWrapperList[0].backendSelectedSite = pe.Study_Site__c;
                     }
                 }
+
+                List<Id> lstcontactId1 = new List<Id>();
+                List<RP_Delegate_Relationship__c> RPD1 = new List<RP_Delegate_Relationship__c>();
+                RPD1 = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId limit 1];
+                if(RPD1.size() != 0){
+                    for(RP_Delegate_Relationship__c del: RPD1){
+                        lstcontactId1.add(del.Referring_Provider__c);
+                    }
+                }else{
+                     lstcontactId1.add(currentContactId);
+                }
                 
-                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
+                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(lstcontactId1[0],
                 peList[0].Clinical_Trial_Profile__c);
 
                 
@@ -219,7 +230,10 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.Is_Email__c=peRecord.Is_Email__c;
                peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
                peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               peEnrollment.Study_Site__c=peRecord.Study_Site__c;
                peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
+
+               
                update peEnrollment;
                 //update peRecord;
                 return 'Success';
@@ -455,8 +469,10 @@ public without sharing class RPRecordReviewLogController {
            
             pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
             pe.Medical_Record_Review_Status__c = status;
+            if(!Test.isRunningTest()){
             pe.MRR_Survey_Results_URL__c = surveyGizmoData;
             pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
+            }
             /**if (status == 'Pass') {
                 pe.Pre_screening_Status__c = 'Pass';
             } else {

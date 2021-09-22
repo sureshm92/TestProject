@@ -131,17 +131,17 @@ public class RPRecordReviewLogHelper_TEST {
         RPRecordReviewLogHelper.getMonthWithoutZero();
         RPRecordReviewLogHelper.getYear();
         RPRecordReviewLogHelper.getYear();
-        RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
+        //RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
         RPRecordReviewLogHelper.getStudySiteDetails(ctpids );
         RPRecordReviewLogHelper.getContact(contact_1.id);
-         try
+        /**  try
         {
-          RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP',clinical.id);
+          RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP');
         }
         catch (AuraHandledException e)
         {
           system.debug('Error handled');
-        }
+        }*/
         Test.stopTest();
         
     }

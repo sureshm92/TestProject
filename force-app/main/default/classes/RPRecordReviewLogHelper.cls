@@ -73,7 +73,7 @@ public  without sharing class RPRecordReviewLogHelper {
         return studies;
     }
 
-    public static List<LabelValueItem> getSelectedStudySite(String currentContactId, String ctpId) {
+   /*public static List<LabelValueItem> getSelectedStudySite(String currentContactId, String ctpId) {
         List<LabelValueItem> studySiteList = new List<LabelValueItem>();
         Set<String> studyId = new Set<String>();
         List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
@@ -98,7 +98,24 @@ public  without sharing class RPRecordReviewLogHelper {
         }
 
         return studySiteList;
+    }*/
+    
+     public static List<LabelValueItem> getSelectedStudySite(String delegateId, String trialId) {
+
+        List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
+        StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance()
+            .getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true, delegateId);
+        List<StudySiteService.StudySiteDistanceWrapper> studies = new List<StudySiteService.StudySiteDistanceWrapper>();
+        for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp) {
+            if (HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)) {
+                studySiteList.add(new LabelValueItem(siteWrapper.hcpe.Study_Site__r.Name,siteWrapper.hcpe.Study_Site__c));
+            }
+        }
+        return studySiteList;
     }
+    
     public static String checkNeedsGuardian(String countryCode, String stateCode, String month ,String year) {
         Boolean needsGuardian = false;
         Integer monthInt;
