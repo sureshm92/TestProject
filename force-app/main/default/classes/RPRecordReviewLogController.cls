@@ -359,7 +359,6 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
             }else{
                  lstcontactId.add(currentContactId);
             }
