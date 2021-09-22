@@ -8,6 +8,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
     private Map<Id, List<Id>> failedContactsWithWhatIds;
     
     private Id userId;
+    private Boolean isQueueable;
     private Integer taskCreated;
     private Integer launchCount;
     Private Map<id,String> IdTypeOfContactMap;
@@ -18,7 +19,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         Id userId,
         Integer taskCreated,
         Integer launchCount,
-        Map<id,String> IdTypeOfContactMap
+        Map<id,String> IdTypeOfContactMap,
+        Boolean isQueueable
     ) {
         this.contactsWithWhatIds = contactsWithWhatIds;
         this.failedContactsWithWhatIds = new Map<Id, List<Id>>();
@@ -27,6 +29,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         this.taskCreated = taskCreated;
         this.launchCount = launchCount;
         this.IdTypeOfContactMap = IdTypeOfContactMap;
+        this.isQueueable = isQueueable;
     }
     
     public List<WhatIdByContactWrapper> start(Database.BatchableContext param1) {
@@ -59,6 +62,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                 contactWithoutUser.remove(user.ContactId);
                 TimeZone userTZ = TimeZone.getTimeZone(user.TimeZoneSidKey);
                 Time eodTime = Time.newInstance(23,59, 0, 0);
+                Time remTime = Time.newInstance(11,30, 0, 0);
                 String TypeOfContactTemp = IdTypeOfContactMap.get(user.ContactId);
                 for (Id whatId : whatIdByContactIds.get(user.ContactId)) {
                     Datetime activityDT;
@@ -74,10 +78,19 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             taskConfig.reminderDate,
                             Datetime.now().timeGmt()
                         );
-                        reminderDT = Datetime.newInstance(
-                            taskConfig.reminderDate,
-                            Datetime.now().time()
-                        );
+                        if(isQueueable){
+                            reminderDT = Datetime.newInstanceGmt(
+                                taskConfig.reminderDate,
+                                remTime
+                        	).addSeconds(-offsetSeconds);
+                        }
+                        else{
+                            reminderDT = Datetime.newInstance(
+                                taskConfig.reminderDate,
+                                Datetime.now().time()
+                            );
+                        }
+                        
                     }
                     String VisibleFor = taskConfig.visibility;
                     if(String.isNotBlank(TypeOfContactTemp) && TypeOfContactTemp.contains('Participant')){ 
@@ -153,7 +166,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     userId,
                     taskCreated,
                     ++launchCount,
-                    IdTypeOfContactMap
+                    IdTypeOfContactMap,
+                    isQueueable
                 )
             );
         } else {
@@ -200,7 +214,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
         Map<id,String> IdTypeOfContactMap
     ) {
         Database.executeBatch(
-            new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1,IdTypeOfContactMap)
+            new Batch_CreateAdminTasks(contactsWithWhatIds, adminTask, UserInfo.getUserId(), 0, 1,IdTypeOfContactMap, System.isQueueable())
         );
     }
     

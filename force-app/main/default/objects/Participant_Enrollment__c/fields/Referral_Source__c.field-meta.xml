@@ -52,6 +52,7 @@
                 <fullName>Autocruitment</fullName>
                 <default>false</default>
                 <label>Autocruitment</label>
+                <isActive>false</isActive>
             </value>
             <value>
                 <fullName>23andMe</fullName>

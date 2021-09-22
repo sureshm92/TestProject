@@ -114,7 +114,7 @@ global without sharing class ReferHealthcareProviderRemote {
     ) {
         HealthcareProvider hp = new HealthcareProvider();
         if (!String.isBlank(email)) {
-            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE userCommunityMode__c != \'CC\'';
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone, HomePhone, MobilePhone, AccountId, userCommunytyType__c FROM Contact WHERE userCommunityMode__c != \'CC\'';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 email = String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
@@ -160,7 +160,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 ];
                 if (!delegateParticipants.isEmpty()) {
                     contacts = [
-                        SELECT Id, FirstName, LastName, Name, Email, Phone, userCommunytyType__c
+                        SELECT Id, FirstName, LastName, Name, Email, Phone,HomePhone, MobilePhone,AccountId, userCommunytyType__c
                         FROM Contact
                         WHERE
                             userCommunityMode__c != 'CC'
@@ -174,7 +174,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 hp.firstName = contacts[0].FirstName;
                 hp.lastName = contacts[0].LastName;
                 firstName = contacts[0].FirstName;
-                lastName = contacts[0].LastName;
+                lastName = contacts[0].LastName; 
+                //Added for ePR batch fix
+                if(Batch_UpsertEprParticipantAndPE.eprBatchRunning==true){
+                    hp.conObject = contacts[0]; 
+                } 
                 // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
                 List<Participant__c> participants;
                 if (delegateParticipants.isEmpty()) {
@@ -367,6 +371,7 @@ global without sharing class ReferHealthcareProviderRemote {
             Boolean boolisUserCreated;
             Id ContactId;
             Patient_Delegate__c delContact; 
+			List<User> existingUserPatientDelegate = new List<User>();
             if (delegateId != null) {
                 delContact = [SELECT ID, Contact__c,Is_Created_by_Bulk_Import__c FROM Patient_Delegate__c WHERE ID=:delegateId]; // Changed query to fetch Is_Created_by_Bulk_Import__c field
                 ContactId =delContact == null ? null : delContact.Contact__c; 
@@ -440,7 +445,10 @@ global without sharing class ReferHealthcareProviderRemote {
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
-                    createUser = false;
+					if(delegateDuplicate.contactId != null){
+                        existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
+                    }
+                    //createUser = false;
                 }
 
                 Participant__c participantDelegate;
@@ -483,10 +491,15 @@ global without sharing class ReferHealthcareProviderRemote {
                     ptDelegateRef.Status__c = DEL_ACTIVE;
                 }
                 upsert ptDelegateRef;
-                if (createUser) {
+                if(createUser && delegateDuplicate == null) {
+                    //system.debug('INSIDEFIRST');
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
                         .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
-                }
+                }else if(createUser && existingUserPatientDelegate.isEmpty()) {
+                    //system.debug('INSIDEFIFTH');
+                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                        .createParticipantUsers(new Map<Id, Id>{ newContact.Id => null });
+                  }
             } else {
                 if (!boolisUserCreated) {
                     if (ContactId != null && createUser) {
@@ -871,6 +884,8 @@ global without sharing class ReferHealthcareProviderRemote {
         public String contactPhoneType { get; set; }
         @AuraEnabled
         public String DelegateYOB { get; set; }
+        @AuraEnabled 
+        public Contact conObject { get; set; } // Added for ePR batch Fix
     }
 
     public class PDWrapper {

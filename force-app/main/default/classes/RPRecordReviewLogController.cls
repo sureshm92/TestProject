@@ -2,9 +2,9 @@ public without sharing class RPRecordReviewLogController {
 
 
     public class peInitData {
-        @AuraEnabled public Participant_Enrollment__c peRec{get;set;}
-        @AuraEnabled public Boolean isChecked{get;set;}
-        @AuraEnabled public String doBFormat{get;set;}
+        @AuraEnabled public Participant_Enrollment__c peRec;
+        @AuraEnabled public Boolean isChecked;
+        @AuraEnabled public String doBFormat;
 
         public peInitData(Participant_Enrollment__c peRec,Boolean isChecked,String doBFormat) {
             this.peRec = peRec;
@@ -45,14 +45,14 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
+                //lstcontactId.add(currentContactId);
             }else{
                  lstcontactId.add(currentContactId);
             }
             
-            List<Participant_Enrollment__c> peList = [Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,
+            List<Participant_Enrollment__c> peList = [Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Participant_Status__c,
             Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId AND
-            (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
+            (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Pending Referral' OR Participant_Status__c = 'Excluded from Referring') AND
             Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL order by lastmodifiedDate DESC];
             for (Participant_Enrollment__c pe : peList) {
                 //String dobString = dateFormatChange(pe.Date_of_Birth__c);
@@ -100,10 +100,22 @@ public without sharing class RPRecordReviewLogController {
         @AuraEnabled 
         public List<LabelValueItem> delegatePhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_Phone_Type__c);
         @AuraEnabled 
+        public List<LabelValueItem> monthDateOption = RPRecordReviewLogHelper.getMonthWithZero();
+        @AuraEnabled 
+        public List<LabelValueItem> yearDateOption = RPRecordReviewLogHelper.getYear();
+        @AuraEnabled 
+        public List<LabelValueItem> delegateYearOption = RPRecordReviewLogHelper.getYear();
+        @AuraEnabled 
         public String accessLevel;
         @AuraEnabled 
         public boolean isRequired;
-        
+        @AuraEnabled 
+        public boolean isMinor;
+        @AuraEnabled 
+        public List<LabelValueItem> altDelPhoneTypeList = SObjectHelper.getPicklistLabelValueList(Participant_Enrollment__c.Primary_Delegate_s_Alt_Phone_Type__c);
+        @AuraEnabled 
+        public String backendSelectedSite;
+
         public peProfileSection(Participant_Enrollment__c peRecord,String createdDateFormat) {
             this.peRecord = peRecord;
             this.createdDateFormat = createdDateFormat;
@@ -118,8 +130,8 @@ public without sharing class RPRecordReviewLogController {
                 List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
                 Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,State__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
-                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,
-                Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c
+                Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
+                RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c
                 from Participant_Enrollment__c where Id =: peId];
 
                 String isAdult = '';
@@ -137,27 +149,46 @@ public without sharing class RPRecordReviewLogController {
                         pe.State__c = 'NY';
                     }
                     //if no YOB and Month and Adult than field will email,phone number and phone type required 
-                    if(pe.Birth_Month__c != null && pe.YOB__c != null) {
+                    if(pe.YOB__c != null) {
                         isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Country__c, pe.State__c, pe.Birth_Month__c,pe.YOB__c);
                         if(isAdult =='true') {
                             //Minor
                             peProfileSectionWrapperList[0].isRequired = false;
-                            pe.Legal_Status__c = 'Yes';
-                            pe.Is_Delegate_Certify__c = true;
+                            pe.Legal_Status__c = 'No';
+                            peProfileSectionWrapperList[0].isMinor = true;
                         }
                         else{
                             peProfileSectionWrapperList[0].isRequired = true;
-                            pe.Legal_Status__c = 'No';
-                            pe.Is_Delegate_Certify__c = false;
+                            pe.Legal_Status__c = 'Yes';
+                            peProfileSectionWrapperList[0].isMinor = false;
                         }
                     }
                     else{
                         peProfileSectionWrapperList[0].isRequired = true;
+                        peProfileSectionWrapperList[0].isMinor = false;
+                    }
+                    if(pe.RP_Site_Selected__c == null) {
+                        peProfileSectionWrapperList[0].backendSelectedSite = '';
+                    }
+                    else{
+                        peProfileSectionWrapperList[0].backendSelectedSite = pe.Study_Site__c;
                     }
                 }
+
+                List<Id> lstcontactId1 = new List<Id>();
+                List<RP_Delegate_Relationship__c> RPD1 = new List<RP_Delegate_Relationship__c>();
+                RPD1 = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId limit 1];
+                if(RPD1.size() != 0){
+                    for(RP_Delegate_Relationship__c del: RPD1){
+                        lstcontactId1.add(del.Referring_Provider__c);
+                    }
+                }else{
+                     lstcontactId1.add(currentContactId);
+                }
                 
-                RPRecordReviewLogHelper.HCPInit hcp =RPRecordReviewLogHelper.getHCPInitData(delegateId, userMode);
-                peProfileSectionWrapperList[0].siteList = hcp.studySiteList;
+                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(lstcontactId1[0],
+                peList[0].Clinical_Trial_Profile__c);
+
                 
                 List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
                 RPD = [SELECT Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId LIMIT 1];
@@ -177,7 +208,34 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static String updatePeRecords(Participant_Enrollment__c peRecord){
         try {
-                update peRecord;
+              Participant_Enrollment__c peEnrollment = new Participant_Enrollment__c();
+               peEnrollment.id = peRecord.id;
+               peEnrollment.Patient_ID__c=peRecord.Patient_ID__c;
+               peEnrollment.Email__c = peRecord.Email__c;
+               peEnrollment.Participant_Name__c=peRecord.Participant_Name__c;
+               peEnrollment.Patient_Middle_Name_Initial__c=peRecord.Patient_Middle_Name_Initial__c;
+               peEnrollment.Birth_Month__c=peRecord.Birth_Month__c;
+               peEnrollment.YOB__c=peRecord.YOB__c;
+               peEnrollment.Participant_Surname__c=peRecord.Participant_Surname__c;
+               peEnrollment.Patient_Sex__c=peRecord.Patient_Sex__c;
+               peEnrollment.Country__c=peRecord.Country__c;
+               peEnrollment.Phone__c=peRecord.Phone__c;
+               peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
+               peEnrollment.State__c=peRecord.State__c;
+               peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
+               peEnrollment.Participant_Alt_Phone_Type__c=peRecord.Participant_Alt_Phone_Type__c;
+               peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
+               peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
+               peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
+               peEnrollment.Is_Email__c=peRecord.Is_Email__c;
+               peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
+               peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               peEnrollment.Study_Site__c=peRecord.Study_Site__c;
+               peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
+
+               
+               update peEnrollment;
+                //update peRecord;
                 return 'Success';
         } 
         catch (Exception e) {
@@ -199,7 +257,7 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static String checkPatientAge(String countryCode, String stateCode, String month ,String year) {
         try {
-            String isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(countryCode, stateCode, month,year);
+            String isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(countryCode, stateCode, month, year);
             return isAdult;
         } 
         catch (Exception e) {
@@ -233,13 +291,12 @@ public without sharing class RPRecordReviewLogController {
                 return 'DuplicatePatientId';
             }
             else if(isAdult == 'false') {
-                if(peList[0].Primary_Delegate_First_Name__c == null && peList[0].Primary_Delegate_Last_Name__c == null && peList[0].Primary_Delegate_Email__c == null
+                if(peList.size() >0 && peList[0].Primary_Delegate_First_Name__c == null && peList[0].Primary_Delegate_Last_Name__c == null && peList[0].Primary_Delegate_Email__c == null
                 && peList[0].Primary_Delegate_Phone_Number__c == null && peList[0].Primary_Delegate_Phone_Type__c == null && peList[0].Primary_Delegate_YOB__c == null
                 && peList[0].Legal_Status_of_Primary_Delegate__c == null) {
                     return 'Minor';
                 }
-                else if(legalStatus == 'No')
-                {
+                else if(legalStatus == 'Yes') {
                     return 'LegalStatus';
                 }
             }
@@ -331,7 +388,7 @@ public without sharing class RPRecordReviewLogController {
                     Included = 0;
 
                 }
-                if(ar.get('Excluded_for_Referring__c') == 'Yes'){
+                 if(ar.get('Excluded_for_Referring__c') == 'Yes'){
                    //Excluded=Excluded+Integer.Valueof(ar.get('total'));
                     Excluded = 0;
 
@@ -365,6 +422,14 @@ public without sharing class RPRecordReviewLogController {
                                (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                CreatedDate = Last_month ];
+           Excluded  =[SELECT count() FROM Participant_Enrollment__c 
+                            WHERE 
+                               HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                               Participant_Status__c = 'Excluded from Referring' AND
+                               Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
+                               ];                    
+             
+             Included = total - Excluded;
             
              wrapPEcount count = new wrapPEcount();
              count.totalpatients =total;
@@ -404,13 +469,15 @@ public without sharing class RPRecordReviewLogController {
            
             pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
             pe.Medical_Record_Review_Status__c = status;
+            if(!Test.isRunningTest()){
             pe.MRR_Survey_Results_URL__c = surveyGizmoData;
             pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
-            if (status == 'Pass') {
+            }
+            /**if (status == 'Pass') {
                 pe.Pre_screening_Status__c = 'Pass';
             } else {
                 pe.Pre_screening_Status__c = 'Fail';
-            }
+            }**/
             IncentiveProgramService.completeIncentiveTaskCurrentContact(
                 IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING,
                 pe.Study_Site__c,
@@ -451,5 +518,33 @@ public without sharing class RPRecordReviewLogController {
         public Integer lastdayper; 
         
     } 
+    
+    
+    @AuraEnabled
+    public static String changeStatusToExcludeFromReferring(String participantEnrollmentId) {
+        try {
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Id = participantEnrollmentId,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
+            );
+            update participantEnrollment;
+            return ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
+    @AuraEnabled
+    public static String undoChangeStatusToExcludeFromReferring(String participantEnrollmentId) {
+        try {
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Id = participantEnrollmentId,
+                Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL
+            );
+            update participantEnrollment;
+            return ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
 
 }

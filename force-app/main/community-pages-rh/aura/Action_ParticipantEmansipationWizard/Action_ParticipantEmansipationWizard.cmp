@@ -263,15 +263,16 @@
                              <div class="rr-form-element slds-col slds-size--1-of-1">
                                  {!$Label.c.PG_EMN_MSG_Update_Contact_Info}
                              </div>
-                             <div
-                                 class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
-                             >
-                                 <div class="label">
+                             
+                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3">
+                                 <div class="label tooltip">
+                                     <div class="textoverlap">
                                      {!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}<abbr
                                          title="required"
                                          class="slds-required"
-                                         >*</abbr
-                                     >
+                                         >*</abbr>
+                                 </div>
+                                     <span>{!$Label.c.PG_Ref_L_Primary_daytime_telephone_number}</span>
                                  </div>
                                  <lightning:input
                                      aura:id="phoneInput"
@@ -281,6 +282,7 @@
                                      onblur="{!c.doCheckFields}"
                                  />
                              </div>
+                             
                              <div
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-3"
                              >
@@ -597,7 +599,7 @@
              <aura:if isTrue="{!v.isRTL}">
                   <div
                  class="rr-form-element slds-no-label slds-float--left"
-                 style="margin-right: -411px;margin-bottom: -30px;width: 350px"
+                 style="margin-right: -500px;margin-bottom: -30px;"
              >
                  <div class="rr-cb-container">
                      <lightning:input
@@ -613,7 +615,7 @@
                  <aura:set attribute="else">
                   <div
                  class="rr-form-element slds-no-label slds-float--left"
-                 style="margin-left: 12px; margin-top: 5px;width: 350px"
+                 style="margin-top: 5px;"
              >
                  <div class="rr-cb-container">
                      <lightning:input

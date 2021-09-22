@@ -33,7 +33,7 @@
 
   .inprogress {
     height: 24px;
-    width: 82px;
+    width: 166px;
     color: #EB8100;
     font-family: "Proxima Nova";
     font-size: 16px;
@@ -43,6 +43,9 @@
     position: absolute;
     top: -42px;
     right: 124px;
+  }
+  .completed{
+    color: green;
   }
 
   .table-header {
@@ -138,6 +141,11 @@
     letter-spacing: 0;
     line-height: 24px;
 }
+.elipsis{
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
 .iconBlue {
     fill : #297dfd;
 }
@@ -155,7 +163,7 @@
     font-family: Proxima Nova;
     font-size: 20px;
     line-height: 24px;
-    padding-left: 45px;
+    padding-left: 22px;
     padding-right: 25px;
     padding-top: 20px;
     padding-bottom: 20px;
@@ -167,9 +175,18 @@
     list-style : lower-alpha;
     padding-left: 2rem;
 }
-.importInfo>ol>li 
+.importInfo>.processTextBody>ol>li 
 {
     padding-bottom: 10px;
+    margin-left: 23px;
+}
+.slds-checkbox .slds-checkbox__label .slds-form-element__label {
+    font-size: 14px;
+}
+.processtext
+{
+    overflow-y: scroll;
+    height: 22rem;
 }
 .importInfo .header1 {
     position: absolute;
@@ -177,6 +194,10 @@
     left: 24px;
     font-size: 24px;
     font-weight: 600;
+}
+.okButton{
+    height: 40px;
+    width: 80px;
 }
 .disabledB{
     opacity : 0.5;

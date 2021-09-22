@@ -115,7 +115,7 @@
                         </button>
                         <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            {!$Label.c.RH_RP_Back_to_My_Patients}
                         </button>
                     </div>
                 </aura:if>
@@ -142,7 +142,7 @@
                         </button>
                         <!--button class="apollo-btn tertiary">View and Print Medical Record Review Result</button-->
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            {!$Label.c.RH_RP_Back_to_My_Patients}
                         </button>
                     </div>
                 </aura:if>

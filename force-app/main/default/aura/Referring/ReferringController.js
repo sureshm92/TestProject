@@ -1,23 +1,18 @@
 /**
  * Created by Leonid Bartenev
  */
- ({
+({
     doInit: function (component, event, helper) {
         if (!communityService.isInitialized()) return;
         
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        console.log('patientVeiwRedirection-->'+patientVeiwRedirection);
-        
         if(patientVeiwRedirection){
-           component.set('v.patientVeiwRedirection',true); 
+            component.set('v.patientVeiwRedirection',true); 
         }
         
         let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
         if (!communityService.isDummy()) {
-            //let trialId = 'a0C54000005VRVTEA4'; 
-            //let peId = 'a0m54000003Fx9jAAC';
-            
             let trialId = communityService.getUrlParameter('id');
             let peId = communityService.getUrlParameter('peid');
             let hcpeId = communityService.getUrlParameter('hcpeid');
@@ -105,9 +100,63 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
-                        component.set('v.currentState', 'Search PE');
+                        if(!component.get('v.patientVeiwRedirection')){
+                            component.set('v.currentState', 'Search PE');
+                        }
                     }
                     //component.set('v.actions', initData.actions);
+                    if(component.get('v.patientVeiwRedirection')){
+                        var dayList = [];
+                        var obj = {};
+                        for (var i = 1; i <= 31; i++) {
+                            if(i >= 10){
+                                obj.label = i;
+                                obj.value = i;
+                            }else{
+                                obj.label = '0'+i;
+                                obj.value = '0'+i;
+                            }
+                            dayList.push(obj);
+                            obj = {};
+                        }
+                        component.set('v.days', dayList);
+                        var monthList = [];
+                        var obj = {};
+                        for (var i = 1; i <= 12; i++) {
+                            if(i >= 10){
+                                obj.label = i;
+                                obj.value = i;
+                            }else{
+                                obj.label = '0'+i;
+                                obj.value = '0'+i;
+                            }
+                            monthList.push(obj);
+                            obj = {};
+                        }
+                        component.set('v.months', monthList);
+                        var yearNow = $A.localizationService.formatDateTime(new Date(), "YYYY");
+                        var oldyear = yearNow - 121;
+                        var yearList = [];
+                        var obj = {};
+                        for (var i = oldyear; i <= yearNow; i++) {
+                            obj.label = i;
+                            obj.value = i;
+                            yearList.push(obj);
+                            obj = {};
+                        }
+                        component.set('v.years', yearList);
+                        component.set('v.pday',null);
+                        var penrollment = component.get('v.pEnrollment');
+                        //let participant = component.get('v.participant');
+                        if(component.get('v.primaryDelegateFirstname') != null){
+                            component.set('v.participant.Health_care_proxy_is_needed__c',true);
+                            //component.set('v.needsGuardian', true);
+                            //component.set('v.enableGuardian', true);
+                            component.set('v.delegateExist',true);
+                            console.log('DelegateExist');
+                        }
+                        component.checkdoneeedgaurdian();
+                    }
                     spinner.hide();
                 },
                 function (errHandler) {
@@ -141,11 +190,12 @@
     doStillInterested: function (component) {
         component.set('v.hadDiscussionDocumented', true);
     },
-   doDiscussionDocumented: function (component, event, helper) {
+    doDiscussionDocumented: function (component, event, helper) {
         if(component.get('v.authRequired') && component.get('v.contentDoc') != null){
             component.set('v.authorizationForm',true);
         }
         else{
+            //component.set('v.doNext',true);
             let trial = component.get('v.trial');
             let hcpeId = component.get('v.hcpeId');
             window.scrollTo(0, 0);
@@ -156,6 +206,10 @@
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             } else {
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
+                let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
+                if(frmpatientVeiw){
+                    helper.checkGuardianAge(component, event, helper);
+                }
             }
         }
     },
@@ -171,7 +225,21 @@
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
         } else {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
+            let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
+            if(frmpatientVeiw){
+                helper.checkGuardianAge(component, event, helper);
+            }
         }  
+        /*let peID = communityService.getUrlParameter('peid');
+        communityService.executeAction(
+            component,
+            'saveUpdatedPER',
+            { peID:peID},
+            function (returnValue) {
+                console.log('recordUpdated');
+            }
+        );*/
+        
     },
     doSelectSite: function (component, event, helper) {
         let trial = component.get('v.trial');
@@ -183,7 +251,7 @@
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
             helper.addEventListener(component, helper);
-        } else {
+        } else { 
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
         }
         window.scrollTo(0, 0);
@@ -200,8 +268,13 @@
         );
     },
     
-    doGoHome: function () {
-        communityService.navigateToPage('');
+    doGoHome: function (component) {
+        if(component.get('v.patientVeiwRedirection')){
+            communityService.navigateToPage('my-patients');
+            window.location.reload();
+        }else{
+             communityService.navigateToPage('');   
+        }
     },
     
     doGoFindStudySites: function (component) {
@@ -211,7 +284,7 @@
     doReferrAnotherPatient: function (component,event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-           
+            
             communityService.navigateToPage('my-patients');
             window.location.reload();
         }else{
@@ -242,11 +315,23 @@
         helper.checkFields(component, event, helper);
     },
     
+    doCheckParticipantDob: function (component, event, helper) {
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        if((pday && pmonth && pyear) != null){
+            console.log('notnull==>'+pyear+'-'+pmonth+'-'+pday);
+            var dt = pyear+'-'+pmonth+'-'+pday;
+            component.set('v.participant.Date_of_Birth__c',dt);
+            component.checkdobMethod();
+        }
+    },
+    
     doCheckDateOfBith: function (component, event, helper) {
-       
+        console.log('dob'+component.get('v.participant.Date_of_Birth__c'));
         helper.checkParticipantNeedsGuardian(component, event, helper);
         //helper.checkFields(component, event, helper); REF-3070
-       
+        
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -257,16 +342,32 @@
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component, participant);
+             if(component.get('v.patientVeiwRedirection')){
+                    component.set('v.hasGaurdian', true);
+              }
         } else {
             component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
+             if(component.get('v.patientVeiwRedirection')){
+                 var delegateParticipant = {
+                     sobjectType: 'Participant__c',
+                     First_Name__c:'',
+                     Last_Name__c:'',
+                     Email__c:'',
+                     Phone__c:'',
+                     Phone_Type__c:'',
+                     Birth_Year__c:''
+                 };
+                 component.set('v.delegateParticipant', delegateParticipant);
+                 component.set('v.primaryDelegateYob', '');
+                 component.set('v.attestAge', false);
+                 component.set('v.delegateValueRemoved',true);
+                 component.set('v.hasGaurdian', false);
+              }
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
-	    helper.checkFields(component, event, helper);
-        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        if(patientVeiwRedirection){
-             helper.checkGuardianAge(component, event, helper);
-        }
+        helper.checkFields(component, event, helper);
+        
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
@@ -305,7 +406,7 @@
         let spinner = component.find('mainSpinner');
         if (!$A.util.isUndefinedOrNull(JSON.stringify(pEnrollment.HCP__r))) {
             pEnrollment.HCP__r.Study__c="";
-      }
+        }
         spinner.show();
         communityService.executeAction(
             component,
@@ -320,12 +421,7 @@
                 contentDocId:contentDocId
             },
             function (returnValue) {
-                let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-                if(patientVeiwRedirection){ 
-                    communityService.navigateToPage('my-patients');
-                }else{
-                    component.set('v.currentState', 'Refer Success');
-                }
+                component.set('v.currentState', 'Refer Success');
             },
             null,
             function () {
@@ -366,7 +462,7 @@
     
     doHadDiscussionNotInterested: function (component, event, helper) {
         helper.doFailedReferral(component, 'Had Discussion, Not Interested', function () {
-           component.set('v.currentState', 'Had Discussion, Not Interested');
+            component.set('v.currentState', 'Had Discussion, Not Interested');
         });
     },
     
@@ -409,7 +505,7 @@
     },
     
     openModel : function(component, event, helper){ 
-         component.set('v.openmodel',true);
+        component.set('v.openmodel',true);
     },
     closeModal:function(component,event,helper){    
         component.set('v.openmodel',false);

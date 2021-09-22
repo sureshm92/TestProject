@@ -54,8 +54,6 @@
     setParticipant: function (component, pe, markers) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-            //var today = $A.localizationService.formatDate(new Date(), "DD");
-            //var dob = pe.YOB__c+'-'+pe.Birth_Month__c+'-'+today;
             var participant = {
                 sobjectType: 'Participant__c',
                 First_Name__c: pe.Participant_Name__c,
@@ -82,9 +80,22 @@
             component.set('v.emailDelegateRepeat',pe.Primary_Delegate_Email__c);
             component.set('v.isDelegateCertify',pe.Is_Delegate_Certify__c);
             component.set('v.attestAge',pe.Is_Delegate_Certify__c);
+            
             component.set('v.birthMonth',pe.Birth_Month__c);
+            if(pe.Birth_Month__c != null){
+                component.set('v.pmonth',pe.Birth_Month__c);
+            }else{
+                component.set('v.pmonth',null);
+            }
+            
             component.set('v.yearofBirth',pe.YOB__c);
-            if(pe.Is_Contact__c && pe.Is_Email__c){
+             if(pe.YOB__c != null){
+                component.set('v.pyear',pe.YOB__c);
+            }else{
+                component.set('v.pyear',null);
+            }
+         
+            if(pe.Is_SMS__c && pe.Is_Email__c && pe.Is_Phone__c){
                 component.set('v.agreePolicy',true); 
             }
 
@@ -110,7 +121,8 @@
     setDelegate: function (component, helper, participant) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-              var delegateParticipant = {
+            if(!component.get('v.delegateValueRemoved')){
+                   var delegateParticipant = {
                   sobjectType: 'Participant__c',
                   First_Name__c:component.get('v.primaryDelegateFirstname'),
                   Last_Name__c:component.get('v.primaryDelegateLastname'),
@@ -120,12 +132,13 @@
                   Birth_Year__c:component.get('v.primaryDelegateYob')
               };
               component.set('v.delegateParticipant', delegateParticipant);
+            }
         }else{
             var delegateParticipant = {
                 sobjectType: 'Participant__c'
             };
             component.set('v.delegateParticipant', delegateParticipant);
-            component.set('v.emailDelegateRepeat', '');   
+            component.set('v.emailDelegateRepeat', '');  
         }
     },
 
@@ -134,7 +147,19 @@
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
-        let needsDelegate = component.get('v.needsGuardian');
+        
+        if(component.get('v.patientVeiwRedirection')){
+            if(component.get('v.hasGaurdian')){
+                var needsDelegate = component.get('v.hasGaurdian');
+            }else{
+                var needsDelegate = component.get('v.needsGuardian');
+            }
+        }else{
+             var needsDelegate = component.get('v.needsGuardian');
+        }
+         
+       
+       
         let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
 
         //Participant
@@ -297,7 +322,8 @@
                 email.setCustomValidity('');
                 isValid = true;
             } else {
-                email.setCustomValidity('You have entered an invalid format');
+                if(emailValue != ''){
+                    email.setCustomValidity('You have entered an invalid format');}
                 isValid = false;
             }
         } else {
@@ -395,10 +421,24 @@
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
                     component.set('v.participant.Adult__c', true);
-                }     
-                helper.checkFields(component, event, helper, true);
+                }  
                 if(component.get('v.patientVeiwRedirection')){
-                    if(component.get('v.primaryDelegateYob') != null){
+                    if(component.get('v.primaryDelegateFirstname') != null && !component.get('v.delegateValueRemoved')){
+                        component.set('v.hasGaurdian', true);
+                        component.set('v.participant.Health_care_proxy_is_needed__c', true);
+                    }else{
+                        if(isNeedGuardian){
+                             component.set('v.hasGaurdian', true);
+                        }else{
+                           component.set('v.hasGaurdian', false);
+                        }
+                       
+                    }
+                }
+                helper.checkFields(component, event, helper, true);
+                
+                if(component.get('v.patientVeiwRedirection')){
+                    if(component.get('v.primaryDelegateYob') != null && component.get('v.primaryDelegateYob') != ''){
                         helper.checkGuardianAge(component, event, helper);  
                     }
                 }
@@ -412,11 +452,13 @@
 	
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
+        let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
+       
         if(component.get('v.attestAge'))
         {
-            var attestCheckbox = component.find('checkBoxAttestation');
-            attestCheckbox.setCustomValidity('');
-            attestCheckbox.reportValidity('');
+                var attestCheckbox = component.find('checkBoxAttestation');
+                attestCheckbox.setCustomValidity('');
+                attestCheckbox.reportValidity('');
         }
         var spinner = component.find('mainSpinner');
         spinner.show();
@@ -453,7 +495,6 @@
                         attestCheckbox.setCustomValidity('');
                         attestCheckbox.reportValidity('');
                     }
-                    
                     helper.checkFields(component, event, helper, true);
                 } ,         
                 null,

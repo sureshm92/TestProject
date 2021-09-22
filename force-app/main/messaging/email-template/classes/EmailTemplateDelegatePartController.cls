@@ -45,6 +45,10 @@ global without sharing class EmailTemplateDelegatePartController {
                 Participant__c IN :participantIds
                 AND Clinical_Trial_Profile__r.CommunityTemplate__c = :EmailTemplateProviderService.getProvider()
                     .getCommunityTemplateName()
+				AND Study_Site__r.Study_Site_Type__c ='Traditional'
+            	AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
+            	AND Study_Site__r.Suppress_Participant_Emails__c = FALSE 
+            	AND Clinical_Trial_Profile__r.Suppress_Participant_Emails__c = FALSE
             ORDER BY CreatedDate
         ];
         for (Participant_Enrollment__c pe : delegatePE)

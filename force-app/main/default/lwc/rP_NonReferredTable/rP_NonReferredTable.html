@@ -13,7 +13,7 @@
                 <lightning-input
                     label=""
                     type="text"
-                    placeholder="Search"
+                    placeholder={label.CC_Btn_Search}
                     variant="label-hidden"
                     onchange={handleSearch}
                     class="searchBox1"
@@ -47,18 +47,19 @@
                             <lightning-input
                                 data-id="checkAll"
                                 onchange={allRowSelected}
+                                checked={isSelectAll}
                                 type="checkbox"
                             ></lightning-input>
                         </div>
                     </th>
                     <th scope="col" class="table-header">
-                        <div title="Patient ID">Patient ID</div>
+                        <div title="Patient ID">{label.RH_RP_Patient_ID}</div>
                     </th>
                     <th scope="col" class="table-header">
-                        <div title="Last Name">Last Name</div>
+                        <div title="Last Name">{label.RH_RP_Last_Name}</div>
                     </th>
                     <th scope="col" class="table-header">
-                        <div title="DOB">MM/YYYY</div>
+                        <div title="DOB">{label.RH_RP_MM_YYYY}</div>
                     </th>
                 </tr>
             </thead>
@@ -109,7 +110,7 @@
         <span class="noRecords">Oh no, there are no items to display.</span>
     </template>-->
     <template if:true={noFilterRecords}>
-        <span class="noRecords">Oh no, there are no items to display.</span>
+        <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
     </template>
     <template if:true={isModalOpen}>
         <section
@@ -133,14 +134,14 @@
                             variant="inverse"
                             size="small"
                         ></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
+                        <span class="slds-assistive-text">{label.BTN_Close}</span>
                     </button>
                     <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
-                        Refresh page
+                        {label.RH_RP_Refresh_page}
                     </h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <p><b>Are you sure want to refresh page?</b></p>
+                    <p><b>  {label.RH_RP_Want_to_Refresh_Page}</b></p>
                 </div>
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">
@@ -149,7 +150,7 @@
                         onclick={closeModal}
                         title="Cancel"
                     >
-                        Cancel
+                    {label.Cancel}
                     </button>
                     &nbsp;&nbsp;&nbsp;&nbsp;
                     <button
@@ -157,7 +158,7 @@
                         onclick={refreshComponent}
                         title="OK"
                     >
-                        OK
+                    {label.BTN_OK}
                     </button>
                 </footer>
             </div>
@@ -169,6 +170,7 @@
             onfilterapply={handleFilterApply}
             onclearfilter={handleClearFilter}
             isdisabled={disableFilter}
+            onprogressvaluechange={handleExcludeRecords}
         ></c-filter-referred-l-w-c>
     </div>
 </template>
