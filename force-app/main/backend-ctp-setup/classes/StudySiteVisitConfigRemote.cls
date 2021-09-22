@@ -110,9 +110,6 @@ public without sharing class StudySiteVisitConfigRemote {
 	@TestVisible
     private static void updatePEsAndStartBatch(Map<String,Object> studySiteVisitPlan, Id ctpId){
         if(studySiteVisitPlan != null && !studySiteVisitPlan.isEmpty() && ctpId !=null){
-            debug__c d = new debug__c();
-            d.log__c = studySiteVisitPlan.isEmpty()+'onnextstudySiteVisitPlan'+ String.valueOf(studySiteVisitPlan);
-            insert d;
             List<Study_Site__c> ssList = new List<Study_Site__c>();
             for(String ssId:studySiteVisitPlan.keySet()){
                 Study_Site__c ss = new Study_Site__c();
