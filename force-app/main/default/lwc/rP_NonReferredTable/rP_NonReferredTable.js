@@ -107,7 +107,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         this.redirectoOverviewPage();
         this.template.querySelector('c-rppagination').records = this.data;
         this.template.querySelector('c-rppagination').totalRecords = this.data.length;
-        this.template.querySelector('c-rppagination').setRecordsToDisplay();
+        //this.template.querySelector('c-rppagination').setRecordsToDisplay();
+        this.template.querySelector('c-rppagination').refreshPageNumber();
         if (this.data.length == 0) {
             this.noFilterRecords = true;
         } else {

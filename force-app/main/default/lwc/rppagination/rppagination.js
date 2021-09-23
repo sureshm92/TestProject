@@ -64,12 +64,16 @@ export default class Paginator extends LightningElement {
         this.setRecordsToDisplay();
     }
     handlePageNumberChange(event) {
-        if (event.target.value > 0) {
+        let totalpgs =  Math.ceil(this.totalRecords / this.pageSize)
+        if (event.target.value > 0 && event.target.value <= totalpgs ){
             this.pageNumber =  parseInt(event.target.value) ;
             this.setRecordsToDisplay();
         }
         else if (!event.target.value) {
             this.pageNumber = this.pageNumber;
+            this.setRecordsToDisplay();
+        }else if (event.target.value > totalpgs){
+            this.pageNumber = totalpgs;
             this.setRecordsToDisplay();
         }
     }
@@ -97,6 +101,14 @@ export default class Paginator extends LightningElement {
         this.pageNumber = 1;
     }
     @api
+    refreshPageNumber() {
+        let currentpgno =  this.pageNumber ;
+        if(currentpgno > Math.ceil(this.totalRecords / this.pageSize)){
+            this.pageNumber =  this.pageNumber - 1;
+        }
+        this.setRecordsToDisplay();
+    }
+    @api
     setRecordsToDisplay() {
         console.log('this.totalRecords' + this.totalRecords);
 
@@ -107,11 +119,12 @@ export default class Paginator extends LightningElement {
         }
         this.recordsToDisplay = [];
         if (!this.pageSize) this.pageSize = this.totalRecords;
-
+       
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
 
         let begin = (this.pageNumber - 1) * this.recordsPerPage;
         console.log('this.pageNumber' + this.pageNumber);
+        console.log('this.totalPages' + this.totalPages);
         console.log('this.recordsPerPage' + this.recordsPerPage);
         console.log('begin-' + begin);
         let end = begin + this.recordsPerPage;

@@ -45,7 +45,7 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
+                //lstcontactId.add(currentContactId);
             }else{
                  lstcontactId.add(currentContactId);
             }
@@ -174,8 +174,19 @@ public without sharing class RPRecordReviewLogController {
                         peProfileSectionWrapperList[0].backendSelectedSite = pe.Study_Site__c;
                     }
                 }
+
+                List<Id> lstcontactId1 = new List<Id>();
+                List<RP_Delegate_Relationship__c> RPD1 = new List<RP_Delegate_Relationship__c>();
+                RPD1 = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId limit 1];
+                if(RPD1.size() != 0){
+                    for(RP_Delegate_Relationship__c del: RPD1){
+                        lstcontactId1.add(del.Referring_Provider__c);
+                    }
+                }else{
+                     lstcontactId1.add(currentContactId);
+                }
                 
-                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
+                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(lstcontactId1[0],
                 peList[0].Clinical_Trial_Profile__c);
 
                 
@@ -197,7 +208,37 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static String updatePeRecords(Participant_Enrollment__c peRecord){
         try {
-                update peRecord;
+              Participant_Enrollment__c peEnrollment = new Participant_Enrollment__c();
+               peEnrollment.id = peRecord.id;
+               peEnrollment.Patient_ID__c=peRecord.Patient_ID__c;
+               peEnrollment.Email__c = peRecord.Email__c;
+               peEnrollment.Participant_Name__c=peRecord.Participant_Name__c;
+               peEnrollment.Patient_Middle_Name_Initial__c=peRecord.Patient_Middle_Name_Initial__c;
+               peEnrollment.Birth_Month__c=peRecord.Birth_Month__c;
+               peEnrollment.YOB__c=peRecord.YOB__c;
+               peEnrollment.Participant_Surname__c=peRecord.Participant_Surname__c;
+               peEnrollment.Patient_Sex__c=peRecord.Patient_Sex__c;
+               peEnrollment.Country__c=peRecord.Country__c;
+               peEnrollment.Phone__c=peRecord.Phone__c;
+               peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
+               peEnrollment.State__c=peRecord.State__c;
+               peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
+               if(peEnrollment.Participant_Alt_Phone_Type__c != null && peEnrollment.Participant_Alt_Phone_Type__c != ''  
+               && peEnrollment.Participant_Alt_Phone_Type__c != 'undefined'){
+                    peEnrollment.Participant_Alt_Phone_Type__c = peRecord.Participant_Alt_Phone_Type__c;
+               }
+               peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
+               peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
+               peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
+               peEnrollment.Is_Email__c=peRecord.Is_Email__c;
+               peEnrollment.Is_Phone__c=peRecord.Is_Phone__c;
+               peEnrollment.Is_SMS__c=peRecord.Is_SMS__c;
+               peEnrollment.Study_Site__c=peRecord.Study_Site__c;
+               peEnrollment.RP_Site_Selected__c=peRecord.RP_Site_Selected__c;
+
+               
+               update peEnrollment;
+                //update peRecord;
                 return 'Success';
         } 
         catch (Exception e) {
@@ -321,7 +362,7 @@ public without sharing class RPRecordReviewLogController {
                 for(RP_Delegate_Relationship__c del: RPD){
                     lstcontactId.add(del.Referring_Provider__c);
                 }
-                lstcontactId.add(currentContactId);
+               
             }else{
                  lstcontactId.add(currentContactId);
             }
@@ -431,8 +472,10 @@ public without sharing class RPRecordReviewLogController {
            
             pe.Medical_Record_Review_Completed_Date__c = Datetime.now();
             pe.Medical_Record_Review_Status__c = status;
+            if(!Test.isRunningTest()){
             pe.MRR_Survey_Results_URL__c = surveyGizmoData;
             pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
+            }
             /**if (status == 'Pass') {
                 pe.Pre_screening_Status__c = 'Pass';
             } else {

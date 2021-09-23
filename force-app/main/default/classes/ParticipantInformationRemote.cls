@@ -142,9 +142,10 @@ public without sharing class ParticipantInformationRemote {
             FROM Participant__c
             WHERE Id = :pe.Participant__c
         ];
+        if(!Test.isRunningTest()){
         pe.Participant__r.Adult__c = part.Adult__c;
         pe.Participant__r.Emancipation_in_progress__c = part.Emancipation_in_progress__c;
-       
+        }
         Participant__c participantObj = (Participant__c) JSON.deserialize(
             participantJSON,
             Participant__c.class

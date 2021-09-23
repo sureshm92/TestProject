@@ -358,6 +358,8 @@ export default class Rp_PatientTab extends LightningElement {
     }
 
     cancelRecord(event) {
+        this.disabledSaveButton = true;
+
         this.cancelOpen = false;
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;

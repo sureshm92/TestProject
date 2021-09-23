@@ -147,7 +147,6 @@
                         component.set('v.years', yearList);
                         component.set('v.pday',null);
                         var penrollment = component.get('v.pEnrollment');
-                        console.log('penrollment==>'+penrollment.YOB__c);
                         //let participant = component.get('v.participant');
                         if(component.get('v.primaryDelegateFirstname') != null){
                             component.set('v.participant.Health_care_proxy_is_needed__c',true);
