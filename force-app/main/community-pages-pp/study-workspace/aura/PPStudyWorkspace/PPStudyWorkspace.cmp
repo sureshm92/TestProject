@@ -9,6 +9,7 @@
 >
     <!-- attributes: -->
     <aura:attribute name="parent" type="Aura.Component" required="true" />
+    <aura:attribute name="participantStateValue" type="string" />
     <aura:attribute name="studyDetail" type="StudyDetailViewController.TrialDetail" />
     <aura:attribute name="userMode" type="String" description="HCP / PI / Participant" />
     <aura:attribute
@@ -230,7 +231,20 @@
                                 {!$Label.c.Home_Page_StudyVisit_Tab_Study_Visits}
                             </button>
                         </aura:if>
-                        <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
+                                    
+                            <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
+                              <aura:if isTrue="{!or(v.studyDetail.trial.Enrolled_Or_Randomized_Consent_Available__c,v.studyDetail.trial.Received_Until_Consent_Is_Available__c)}">
+                                <button
+                                id="changeVisitMode"
+                                data-visit-mode="TravelSupportDetails"
+                                class="{!'apollo-btn text ' + if(v.visitMode == 'TravelSupportDetails', ' current', '')}"
+                                onclick="{!c.doAction}"
+                               >
+                                {!$Label.c.Home_Page_Travel_Support_Details_Tab}
+                            </button>
+                        </aura:if>                            
+                         <aura:set attribute="else">
+                            <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
                             <button
                                 id="changeVisitMode"
                                 data-visit-mode="TravelSupportDetails"
@@ -240,8 +254,9 @@
                                 {!$Label.c.Home_Page_Travel_Support_Details_Tab}
                             </button>
                         </aura:if>
+                        </aura:set>
+                     </aura:if>
                     </div>
-
                     <div
                         class="{!'links rr-width-limiter side-padding' + if(v.currentTab == 'tab-tasks', '', ' collapsed')}"
                     >
