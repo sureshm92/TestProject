@@ -329,9 +329,18 @@
     
     doCheckDateOfBith: function (component, event, helper) {
         console.log('dob'+component.get('v.participant.Date_of_Birth__c'));
-        helper.checkParticipantNeedsGuardian(component, event, helper);
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        if(component.get('v.patientVeiwRedirection')){
+            if((pday && pmonth && pyear) != null){
+               helper.checkParticipantNeedsGuardian(component, event, helper);
+            }
+        }else{
+           helper.checkParticipantNeedsGuardian(component, event, helper);
+        }
         //helper.checkFields(component, event, helper); REF-3070
-        
+ 
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -487,7 +496,6 @@
         } else {
             component.set('v.states', []);
         }
-        
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         helper.checkFields(component, event, helper);
     },

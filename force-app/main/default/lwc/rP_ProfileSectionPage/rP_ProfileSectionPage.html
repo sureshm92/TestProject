@@ -158,8 +158,8 @@
                             onrefreshpatienttabchange={handlePatientTabChange} states={states} ></c-rp_-patient-tab>
                     </lightning-tab>
                     <lightning-tab label="Primary Delegate">
-                        <c-rp_-delegate-tab delegaterecordlist={peRecordList} originaldelegaterecordlist={peRecordList} 
-                            onrefreshdelegatetabchange={handlePatientTabChange}> </c-rp_-delegate-tab>
+                        <c-rp_-delegate-tab delegaterecordlist={delegatepeRecordList} originaldelegaterecordlist={delegatepeRecordList} 
+                            onrefreshdelegatetabchange={handleDelegateChange}> </c-rp_-delegate-tab>
                     </lightning-tab>
                 </lightning-tabset>
             </div>
