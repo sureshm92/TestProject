@@ -448,5 +448,64 @@ private class Test_ParticipantInformationRemote {
         }
     }
     
+    @isTest
+    static void testUpdatePatientInfoWithDelegate(){
+        TestData testData = new TestData();
+        Account a = new Account(name = 'Test');
+        insert a;
+        Test.startTest();
+        System.runAs(testData.piUser) {
+            List<String> PE_COMMON_FIELDS = new List<String>();
+            PE_COMMON_FIELDS.addAll(ParticipantEnrollmentService.PE_COMMON_FIELDS);
+            PE_COMMON_FIELDS.add('(SELECT Id,Date__c,Non_Enrollment_Reason__c FROM Participant_Enrollment_Status_History__r WHERE Status__c =\'Eligibility Passed\' ORDER BY CreatedDate DESC LIMIT 1)');
+            PE_COMMON_FIELDS.add('Clinical_Trial_Profile__r.Initial_Visit_Required__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__c');
+            PE_COMMON_FIELDS.add('Study_Hub_Log__r.Response_Status_Code__c');  
+            Participant_Enrollment__c pe = ParticipantEnrollmentService.getParticipantEnrollment(
+                testData.pe.Id,
+                CommunityService.USER_MODE_PI,
+                null,
+                PE_COMMON_FIELDS
+            );
+            ParticipantWorkflowService.ParticipantWorkflowWrapper path = ParticipantWorkflowService.prepareParticipantWorkflow(
+                testData.ctp,
+                pe
+            );
+            path.steps[path.currentStepInd].outcome = PEStatusState.PE_STATUS_CONTACT_ATTEMPTED;
+            Participant__c participantDel = new Participant__c();
+            participantDel.Email__c = 'Test011@mail.ru';
+            participantDel.First_Name__c = 'testName1';
+            participantDel.Last_Name__c = 'testLastName1';
+            participantDel.Date_of_Birth__c = '2000-04-18';
+            Contact cn = New Contact(
+            LastName = 'testUser'+'1',
+            FirstName = 'testName'+'1',
+            email = 'testuser'+'1'+'@cc.vv',
+            AccountId = a.id);
+            ParticipantInformationRemote.updatePatientInfoWithDelegate(
+                JSON.serialize(testData.participant),
+                JSON.serialize(testData.pe),
+                JSON.serialize(participantDel),
+                '',
+                JSON.serialize(cn)
+                
+            );
+            ParticipantInformationRemote.updatePatientInfoAndStatusWithDelegate(
+                JSON.serialize(testData.participant),
+                JSON.serialize(testData.pe),
+                JSON.serialize(path),
+                testData.pe.Id,
+                JSON.serialize(participantDel),
+                '',
+                true,
+                true,
+                '',
+                JSON.serialize(cn)
+            );
+        }
+        Test.stopTest();
+    
+    }
+
     
 }

@@ -63,7 +63,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true" label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Country__c}  
+                <lightning-combobox required="true" label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Mailing_Country_Code__c}  
                     options={pe.countryList} data-value="Country" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
             </lightning-combobox>
             </div>
@@ -85,8 +85,8 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required={stateRequired} label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.State__c}  
-                    options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                <lightning-combobox required={stateRequired} label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.Mailing_State_Code__c}  
+                    options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top"> 
                 </lightning-combobox>
             </div>
         </lightning-layout-item>
@@ -107,7 +107,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-input required="true"  type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
+                <lightning-input required="true" type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
                 data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>

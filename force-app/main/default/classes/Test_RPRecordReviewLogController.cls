@@ -1,5 +1,5 @@
 @isTest
-public class RPRecordReviewLogController_TEST {
+public class Test_RPRecordReviewLogController {
     @TestSetup
     static void setup() {
         //Test.startTest();
@@ -131,7 +131,7 @@ public class RPRecordReviewLogController_TEST {
         //Test.startTest();
         RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
         RPRecordReviewLogController.getPEDetails(); 
-        RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
+        //RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
         RPRecordReviewLogController.getRecordsDetails();  
         RPRecordReviewLogController.getContactList();  
         RPRecordReviewLogController.getPECountDetails();  

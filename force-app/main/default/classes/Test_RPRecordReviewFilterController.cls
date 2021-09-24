@@ -1,6 +1,5 @@
 @isTest
-public class RPRecordReviewLogHelper_TEST {
-   
+public class Test_RPRecordReviewFilterController {
     @isTest
     public static void TestM1(){
        
@@ -119,30 +118,9 @@ public class RPRecordReviewLogHelper_TEST {
             YOB__c='2000'
         );
         insert pe;
-
-        set<string> ctpids = new set<string>{clinical.id};
-    
-        RPRecordReviewLogHelper.getStudyDetails(contact_1.id);
-        RPRecordReviewLogHelper.getStudies('HCP',contact_1.id);
-        RPRecordReviewLogHelper.checkNeedsGuardian('US','NY','04','2000');
-       
-        RPRecordReviewLogHelper.checkDelegateAge('US','NY', '2000');
-        RPRecordReviewLogHelper.getMonthWithZero();
-        RPRecordReviewLogHelper.getMonthWithoutZero();
-        RPRecordReviewLogHelper.getYear();
-        RPRecordReviewLogHelper.getYear();
-        //RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
-        RPRecordReviewLogHelper.getStudySiteDetails(ctpids );
-        RPRecordReviewLogHelper.getContact(contact_1.id);
-        /**  try
-        {
-          RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP');
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
-        }*/
+        List<id> studys = new list<id>{clinical.id};
+        List<id> trialid = new list<id>{clinical.id};
+        RPRecordReviewFilterController.setFilterData('HCP',contact_1.id);
         Test.stopTest();
-        
     }
 }

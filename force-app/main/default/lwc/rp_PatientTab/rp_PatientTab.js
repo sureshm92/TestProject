@@ -144,9 +144,9 @@ export default class Rp_PatientTab extends LightningElement {
     };
 
     requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthMonth','BirthYear','LastName','PhoneNumber','PostalCode',
-                                'Sex','Country','PhoneType','States','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','PhoneType','PatientAuthStatus','LegalStatus'];
     requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
-                                'Sex','Country','States','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','PatientAuthStatus','LegalStatus'];
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -240,7 +240,7 @@ export default class Rp_PatientTab extends LightningElement {
     }
     removeCustomFieldValidation(dataValue) {
         let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
-        element.setCustomValidity('');
+        element.setCustomValidity(" ");
         element.reportValidity();
     }
 
@@ -291,18 +291,18 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Patient_Sex__c = event.target.value;
         }
         else if(event.target.dataset.value === 'Country') {
-            record.peRecord.Country__c = event.target.value;
-            this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Country__c];
+            record.peRecord.Mailing_Country_Code__c = event.target.value;
+            this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Mailing_Country_Code__c];
             if(this.states.length> 0){
                 this.stateRequired = true;
             }
             else{
                 this.stateRequired = false;
-                record.peRecord.State__c = '';
+                record.peRecord.Mailing_State_Code__c = '';
             }
         }
         else if(event.target.dataset.value === 'States') {
-            record.peRecord.State__c = event.target.value;
+            record.peRecord.Mailing_State_Code__c = event.target.value;
         }
         else if(event.target.dataset.value === 'PhoneNumber') {
             record.peRecord.Phone__c = event.target.value;
@@ -359,7 +359,6 @@ export default class Rp_PatientTab extends LightningElement {
 
     cancelRecord(event) {
         this.disabledSaveButton = true;
-
         this.cancelOpen = false;
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;
@@ -370,13 +369,13 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.YOB__c = this.originalpatientrecord[0].peRecord.YOB__c;
         record.peRecord.Participant_Surname__c = this.originalpatientrecord[0].peRecord.Participant_Surname__c;
         record.peRecord.Patient_Sex__c = this.originalpatientrecord[0].peRecord.Patient_Sex__c;
-        record.peRecord.Country__c = this.originalpatientrecord[0].peRecord.Country__c;
-        record.peRecord.State__c = this.originalpatientrecord[0].peRecord.State__c;
+        record.peRecord.Mailing_Country_Code__c = this.originalpatientrecord[0].peRecord.Mailing_Country_Code__c;
+        record.peRecord.Mailing_State_Code__c = this.originalpatientrecord[0].peRecord.Mailing_State_Code__c;
         record.peRecord.Phone__c = this.originalpatientrecord[0].peRecord.Phone__c;
         record.peRecord.Patient_Phone_Type__c = this.originalpatientrecord[0].peRecord.Patient_Phone_Type__c;
         record.peRecord.Participant_Alternative_Phone__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
         record.peRecord.Participant_Alt_Phone_Type__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
-        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c;
+        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c ;
         record.peRecord.Study_Site__c = this.originalpatientrecord[0].peRecord.Study_Site__c;
         record.peRecord.Patient_Auth__c = this.originalpatientrecord[0].peRecord.Patient_Auth__c;
         record.peRecord.Legal_Status__c = this.originalpatientrecord[0].peRecord.Legal_Status__c;
@@ -384,17 +383,15 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Is_Phone__c = this.originalpatientrecord[0].peRecord.Is_Phone__c;
         record.peRecord.Is_SMS__c = this.originalpatientrecord[0].peRecord.Is_SMS__c;
         this.patientrecord = [...this.patientrecord];
+        this.checkPatientAge();
 
-        if(this.patientrecord[0].isRequired) {
-            this.requiredfieldforMinor.forEach(item => {
-                this.removeCustomFieldValidation(item);
-            });
-        }
-        else{
-            this.requiredFieldForAdult.forEach(item => {
-                this.removeCustomFieldValidation(item);
-            });
-        }
+        this.requiredfieldforMinor.forEach(item => {
+            this.removeCustomFieldValidation(item);
+        });
+
+        this.requiredFieldForAdult.forEach(item => {
+            this.removeCustomFieldValidation(item);            
+        });
     }
 
     closeUnsavedModal(event) {
@@ -403,8 +400,8 @@ export default class Rp_PatientTab extends LightningElement {
     }
 
     checkPatientAge() {
-        let countryCode = this.patientrecord[0].peRecord.Country__c;
-        let stateCode = this.patientrecord[0].peRecord.State__c;
+        let countryCode = this.patientrecord[0].peRecord.Mailing_Country_Code__c;
+        let stateCode = this.patientrecord[0].peRecord.Mailing_State_Code__c;
         let year = this.patientrecord[0].peRecord.YOB__c;
         let month = this.patientrecord[0].peRecord.Birth_Month__c;
 
@@ -419,7 +416,10 @@ export default class Rp_PatientTab extends LightningElement {
                 this.patientrecord[0].peRecord.Phone__c = '';    
                 this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';  
                 this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';  
-                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';    
+                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';   
+                this.removeCustomFieldValidation('EmailID');
+                this.removeCustomFieldValidation('PhoneNumber');
+                this.removeCustomFieldValidation('PhoneType');
             }
             else {
                 this.patientrecord[0].isRequired = true;
@@ -445,7 +445,7 @@ export default class Rp_PatientTab extends LightningElement {
         }
         else{
             this.requiredFieldForAdult.forEach(item => {
-                this.removeCustomFieldValidation(item);
+                this.removeCustomFieldValidation(item);            
             });
         }
         checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
@@ -458,8 +458,8 @@ export default class Rp_PatientTab extends LightningElement {
         if(!this.validationList.includes(false)) {  
             let newPatientId = this.patientrecord[0].peRecord.Patient_ID__c;
             let oldPatientId = this.originalpatientrecord[0].peRecord.Patient_ID__c;
-            let countryCode = this.patientrecord[0].peRecord.Country__c;
-            let stateCode = this.patientrecord[0].peRecord.State__c;
+            let countryCode = this.patientrecord[0].peRecord.Mailing_Country_Code__c;
+            let stateCode = this.patientrecord[0].peRecord.Mailing_State_Code__c;
             let month = this.patientrecord[0].peRecord.Birth_Month__c;
             let year = this.patientrecord[0].peRecord.YOB__c;
             let legalStatus = this.patientrecord[0].peRecord.Legal_Status__c;

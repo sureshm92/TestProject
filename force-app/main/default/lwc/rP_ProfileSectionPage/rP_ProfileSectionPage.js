@@ -41,6 +41,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api peId; 
     @api ctpId;
     @api peRecordList =[];
+    @api delegatepeRecordList =[];
     @api error;
     @api icon_Url_LegalStatus;
     @api isLegalStatus;
@@ -189,6 +190,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            .then(result => {
             this.apexRefreshList = result;
            this.peRecordList = result;
+           this.delegatepeRecordList = result;
+
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
            if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined){
@@ -201,7 +204,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
            this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
            this.error = undefined;
-           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Country__c];
+           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
            if(this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring'){
                 this.showInclude = true;
                 this.showExclude = false;
@@ -311,6 +314,10 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         const selectedvalue = { peRecordList:this.peRecordList};
         const selectedEvent = new CustomEvent('patienttabrefresh', { detail: selectedvalue });
         this.dispatchEvent(selectedEvent);
+    }
+
+    handleDelegateChange(event) {
+        this.peRecordList = event.detail.patientRecord;       
     }
 
     showSuccessToast(messageRec) {
