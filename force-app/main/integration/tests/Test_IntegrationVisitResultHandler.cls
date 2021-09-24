@@ -1,5 +1,5 @@
 /**
- * Created by Denis Z on 09-Jul-19.
+ * Created by Denis Z on 09-Jul-19
  */
 
 @IsTest

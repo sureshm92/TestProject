@@ -7,8 +7,7 @@ public class RPRecordReviewLogController_TEST {
         //Test.stopTest();
     }
     @isTest
-    public static void TestM1(){
-       
+    public static void TestM1() {
         Terms_And_Conditions__c portalTC = new Terms_And_Conditions__c(Active__c = true);
         insert portalTC;
 
@@ -61,7 +60,6 @@ public class RPRecordReviewLogController_TEST {
             insert user_1;
         }
         Test.startTest();
-      
 
         Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
@@ -120,49 +118,52 @@ public class RPRecordReviewLogController_TEST {
             Participant_Status__c = 'Pending Referral',
             Participant__c = participant.Id,
             Screening_ID__c = 'PESCR1',
-            Birth_Month__c='04',
-            YOB__c='2000'
+            Birth_Month__c = '04',
+            YOB__c = '2000'
         );
         insert pe;
 
-         
-    
         //TestData testData = new TestData();
         //Test.startTest();
         RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
-        RPRecordReviewLogController.getPEDetails(); 
+        RPRecordReviewLogController.getPEDetails();
         //RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
-        RPRecordReviewLogController.getRecordsDetails();  
-        RPRecordReviewLogController.getContactList();  
-        RPRecordReviewLogController.getPECountDetails();  
+        RPRecordReviewLogController.getRecordsDetails();
+        RPRecordReviewLogController.getContactList();
+        RPRecordReviewLogController.getPECountDetails();
         RPRecordReviewLogController.dateFormatChange(system.today());
         Test.stopTest();
-       
+
         RPRecordReviewLogController.changeStatusToExcludeFromReferring(pe.id);
-        RPRecordReviewLogController.setMRRStatus(pe.id,'Pass',null);
-        RPRecordReviewLogController.patientValidation('SomePatientId1','SomePatientId1','US','NY','04','2000','Yes');
-        RPRecordReviewLogController.checkPatientAge('US','NY','04','2000');
-        try
-        {
-          RPRecordReviewLogController.checkDelegateAge('US','NY','2000');
-         RPRecordReviewLogController.checkDelegateAge(null,null,null);
+        RPRecordReviewLogController.setMRRStatus(pe.id, 'Pass', null);
+        RPRecordReviewLogController.patientValidation(
+            'SomePatientId1',
+            'SomePatientId1',
+            'US',
+            'NY',
+            '04',
+            '2000',
+            'Yes'
+        );
+        RPRecordReviewLogController.checkPatientAge('US', 'NY', '04', '2000');
+        try {
+            RPRecordReviewLogController.checkDelegateAge('US', 'NY', '2000');
+            RPRecordReviewLogController.checkDelegateAge(null, null, null);
+        } catch (AuraHandledException e) {
+            system.debug('Error handled');
         }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
-        }
-        try
-        {
-          RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(pe.id);
-         RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(null);
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
+        try {
+            RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(pe.id);
+            RPRecordReviewLogController.undoChangeStatusToExcludeFromReferring(null);
+        } catch (AuraHandledException e) {
+            system.debug('Error handled');
         }
         RPRecordReviewLogController.updatePeRecords(pe);
         RPRecordReviewLogController.delegateUpdatePeRecords(pe);
-        RPRecordReviewLogController.peInitData pei =  new RPRecordReviewLogController.peInitData(null,null,null);
-        
+        RPRecordReviewLogController.peInitData pei = new RPRecordReviewLogController.peInitData(
+            null,
+            null,
+            null
+        );
     }
 }
