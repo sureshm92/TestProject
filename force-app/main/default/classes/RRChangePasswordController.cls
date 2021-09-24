@@ -770,6 +770,26 @@ public without sharing class RRChangePasswordController {
         }
 
         update userVal.Contact;
+         countries = new List<SelectOption>();
+        for (LabelValueItem country : CountryStateUtil.getCountries()) {
+            countries.add(new SelectOption(country.value, country.label));
+            countryCodeByName.put(country.value, country.label);
+        }
+        states = new List<SelectOption>();
+        List<LabelValueItem> statesByCountry;
+        statesByCountryMap = CountryStateUtil.getStatesByCountryMap();
+        if (isParticipant) {
+            statesByCountry = statesByCountryMap.get(participant.Mailing_Country_Code__c);
+            country = participant.Mailing_Country_Code__c;
+        } else {
+            statesByCountry = statesByCountryMap.get(contact.MailingCountryCode);
+        }
+        if (statesByCountry != null) {
+            for (LabelValueItem state : statesByCountry) {
+                states.add(new SelectOption(state.value, state.label));
+                stateCodeByName.put(state.value, state.label);
+            }
+        }
         updateTranslations();
     }
 
