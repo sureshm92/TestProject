@@ -128,7 +128,7 @@ public without sharing class RPRecordReviewLogController {
                 List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
                 Id currentContactId = CommunityService.getInstance().getCurrentContactId();
                 List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
-                Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,State__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
+                Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,Mailing_Country_Code__c,State__c,Mailing_State_Code__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
                 Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
                 RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c
@@ -142,15 +142,15 @@ public without sharing class RPRecordReviewLogController {
                     peProfileSectionWrapperList.add(new peProfileSection(pe, createdDateString));
 
                     //By defult value if country and state null
-                    if(pe.Country__c == null) {
-                        pe.Country__c = 'US';
+                    if(pe.Mailing_Country_Code__c == null) {
+                        pe.Mailing_Country_Code__c = 'US';
                     }
-                    if(pe.State__c == null) {
-                        pe.State__c = 'NY';
+                    if(pe.Mailing_State_Code__c == null) {
+                        pe.Mailing_State_Code__c = 'NY';
                     }
                     //if no YOB and Month and Adult than field will email,phone number and phone type required 
                     if(pe.YOB__c != null) {
-                        isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Country__c, pe.State__c, pe.Birth_Month__c,pe.YOB__c);
+                        isAdult = RPRecordReviewLogHelper.checkNeedsGuardian(pe.Mailing_Country_Code__c, pe.Mailing_State_Code__c, pe.Birth_Month__c,pe.YOB__c);
                         if(isAdult =='true') {
                             //Minor
                             peProfileSectionWrapperList[0].isRequired = false;
@@ -218,10 +218,10 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.YOB__c=peRecord.YOB__c;
                peEnrollment.Participant_Surname__c=peRecord.Participant_Surname__c;
                peEnrollment.Patient_Sex__c=peRecord.Patient_Sex__c;
-               peEnrollment.Country__c=peRecord.Country__c;
+               peEnrollment.Mailing_Country_Code__c=peRecord.Mailing_Country_Code__c;
                peEnrollment.Phone__c=peRecord.Phone__c;
                peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
-               peEnrollment.State__c=peRecord.State__c;
+               peEnrollment.Mailing_State_Code__c=peRecord.Mailing_State_Code__c;
                peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
                if(peRecord.Participant_Alt_Phone_Type__c != null && peRecord.Participant_Alt_Phone_Type__c != ''  
                && peRecord.Participant_Alt_Phone_Type__c != 'undefined'){
