@@ -249,6 +249,80 @@
                emailDelegateRepeatValid &&
                delegateParticipant.Email__c == emailDelegateRepeat)) &&
              agreePolicy);
+        
+             if(component.get('v.patientVeiwRedirection'))
+             {
+              
+                let needsGuardian = false;
+                if(component.get('v.needsGuardian')){
+                    needsGuardian = true;
+                }
+              
+                if(needsDelegate && needsGuardian &&
+                 delegateParticipant &&
+                 participant.Health_care_proxy_is_needed__c &&
+                 delegateParticipant.First_Name__c &&
+                 delegateParticipant.Last_Name__c &&
+                 delegateParticipant.Phone__c &&
+                 delegateParticipant.Email__c &&
+                 emailDelegateVaild &&
+                 emailDelegateRepeatValid &&
+                 delegateParticipant.Email__c == emailDelegateRepeat &&
+                 agreePolicy && attestAge &&
+                 participant.First_Name__c &&
+                 participant.Last_Name__c &&
+                 participant.Date_of_Birth__c &&
+                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+                 participant.Mailing_Zip_Postal_Code__c &&
+                selectedCountry &&
+                (selectedState || states.length === 0))
+                {
+                     isValid = true;
+                    
+                }else if(needsDelegate && !needsGuardian &&
+                 delegateParticipant &&
+                 participant.Health_care_proxy_is_needed__c &&
+                 delegateParticipant.First_Name__c &&
+                 delegateParticipant.Last_Name__c &&
+                 delegateParticipant.Phone__c &&
+                 delegateParticipant.Email__c &&
+                 emailDelegateVaild &&
+                 emailDelegateRepeatValid &&
+                 delegateParticipant.Email__c == emailDelegateRepeat &&
+                 agreePolicy && attestAge &&
+                 participant.First_Name__c &&
+                 participant.Last_Name__c &&
+                 participant.Date_of_Birth__c &&
+                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+                 participant.Email__c &&
+                 participant.Email__c == emailRepeat &&
+                 participant.Phone__c &&
+                 participant.Mailing_Zip_Postal_Code__c &&
+                selectedCountry &&
+                (selectedState || states.length === 0))
+                {
+                      isValid = true;
+                    
+                }else if(!needsDelegate && !needsGuardian &&
+                 agreePolicy &&
+                 participant.First_Name__c &&
+                 participant.Last_Name__c &&
+                 participant.Date_of_Birth__c &&
+                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+                 participant.Email__c &&
+                 participant.Email__c == emailRepeat &&
+                 participant.Phone__c &&
+                 participant.Mailing_Zip_Postal_Code__c &&
+                selectedCountry &&
+                (selectedState || states.length === 0))
+                {
+                      isValid = true;
+                }else{
+                     isValid = false;
+                }
+              
+            }     
+    
 
         if(needsDelegate && isNewPrimaryDelegate)
         {
