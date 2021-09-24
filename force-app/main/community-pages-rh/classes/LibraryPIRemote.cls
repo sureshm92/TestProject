@@ -397,21 +397,7 @@ public without sharing class LibraryPIRemote {
         }
         return null;
     }
-    //This method returns the Content document ID attached to the resource
-  /*  private static String getFileId(string resId) {
-        if (resId != null && resId != '') {
-            list<ContentDocumentLink> cd = [
-                SELECT ContentDocumentId, LinkedEntityId
-                FROM ContentDocumentLink
-                WHERE LinkedEntityId = :resId
-            ];
-            if (!cd.isEmpty())
-                return cd[0].ContentDocumentId;
-        }
-
-        return null;
-    } */
-
+ //REF-4924
     //This Method will return Map of Resource with content document id
     private static Map<Id,Id> getFileId(List<Id> lstResourceId_ForContentDoc) {
         Map<Id,Id> mapResourceIdToContentDoc = new Map<Id,Id> ();
