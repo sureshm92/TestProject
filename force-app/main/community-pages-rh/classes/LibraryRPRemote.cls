@@ -92,6 +92,10 @@ public without sharing class LibraryRPRemote {
         Set<Id> HCPID = new Set<Id>();
         Set<Id> ctpIds = new Set<Id>();
         Set<Id> resIds = new Set<Id>();
+        List<Res_study__c> lstResStudy = new List<Res_study__c> ();
+        List<Resource__c> lstResource = new List<Resource__c> ();
+        List<Id> lstResourceId_ForContentDoc = new List<Id> ();
+        Map<Id,Id> mapResourceIdToContentDocId = new Map<Id,Id> ();
         Map<String, String> resourceLanguageMap = new Map<String, String>();
         String strQuery = 'SELECT ID,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c' ;
          strQuery += ' from HCP_Enrollment__c WHERE ';
@@ -148,7 +152,6 @@ public without sharing class LibraryRPRemote {
                 );
             } 
         }
-        
 
         if (Searchstr == null) {
             for (Res_study__c rs : [
@@ -167,8 +170,33 @@ public without sharing class LibraryRPRemote {
                     Clinical_Trial_Profile__r.Study_Code_Name__c
                 FROM Res_study__c
                 WHERE Clinical_Trial_Profile__c IN :ctpIds AND Visible_To_RP__c = TRUE
-            ]) {
+            ]){
                 resIds.add(rs.Resource__c);
+                lstResStudy.add(rs);
+                lstResourceId_ForContentDoc.add(rs.Resource__c);
+            }
+            for (Resource__c res : [
+                SELECT
+                    Id,
+                    toLabel(RecordType.Name),
+                    RecordType.DeveloperName,
+                    Title__c,
+                    Languages__c,
+                    Language__c,
+                    Resource_Type__c,
+                    Version_Date__c,
+                    Video__c,
+                    URL__c
+                FROM Resource__c
+                WHERE Resource_Visibility__c INCLUDES ('RP') AND Id NOT IN :resIds
+            ]){
+                lstResource.add(res);
+                lstResourceId_ForContentDoc.add(res.id);
+            }
+            mapResourceIdToContentDocId = getFileId(lstResourceId_ForContentDoc);
+
+            for (Res_study__c rs :  lstResStudy) {
+              //  resIds.add(rs.Resource__c);
                 Set<String> rlLanguages = new Set<String>();
                 if (rs.Resource__r.Languages__c != null) {
                     for (String lang : rs.Resource__r.Languages__c.split(';')) {
@@ -197,26 +225,13 @@ public without sharing class LibraryRPRemote {
                                 rs.Resource__r.Version_Date__c,
                                 rs.Resource__r.URL__c,
                                 rs.Resource__r.Video__c,
-                                getFileId(rs.Resource__c)
+                                mapResourceIdToContentDocId.containsKey(rs.Resource__c) ? mapResourceIdToContentDocId.get(rs.Resource__c) : null
+                               // getFileId(rs.Resource__c)
                             )
                         ); //for download
                 }
             }
-            for (Resource__c res : [
-                SELECT
-                    Id,
-                    toLabel(RecordType.Name),
-                    RecordType.DeveloperName,
-                    Title__c,
-                    Languages__c,
-                    Language__c,
-                    Resource_Type__c,
-                    Version_Date__c,
-                    Video__c,
-                    URL__c
-                FROM Resource__c
-                WHERE Resource_Visibility__c INCLUDES ('RP') AND Id NOT IN :resIds
-            ]) {
+            for (Resource__c res :  lstResource) {
                 Set<String> rlLanguages = new Set<String>();
                 if (res.Languages__c != null) {
                     for (String lang : res.Languages__c.split(';')) {
@@ -242,7 +257,8 @@ public without sharing class LibraryRPRemote {
                                 res.Version_Date__c,
                                 res.URL__c,
                                 res.Video__c,
-                                getFileId(res.Id)
+                                mapResourceIdToContentDocId.containsKey(res.Id) ? mapResourceIdToContentDocId.get(res.Id) : null
+                               // getFileId(res.Id)
                             )
                         ); //for download
                 }
@@ -269,8 +285,37 @@ public without sharing class LibraryRPRemote {
                     AND (Resource__r.Title__c LIKE :searchstring
                     OR Resource__r.RecordType.Name LIKE :searchstring
                     OR Resource__r.Resource_Type__c LIKE :searchstring)
-            ]) {
+            ]){
                 resIds.add(rs.Resource__c);
+                lstResStudy.add(rs);
+                lstResourceId_ForContentDoc.add(rs.Resource__c);
+            }
+            for (Resource__c res : [
+                SELECT
+                    Id,
+                    toLabel(RecordType.Name),
+                    RecordType.DeveloperName,
+                    Title__c,
+                    Languages__c,
+                    Language__c,
+                    Resource_Type__c,
+                    Version_Date__c,
+                    Video__c,
+                    URL__c
+                FROM Resource__c
+                WHERE
+                    Resource_Visibility__c INCLUDES ('RP')
+                    AND Id NOT IN :resIds
+                    AND (Title__c LIKE :searchstring
+                    OR RecordType.Name LIKE :searchstring
+                    OR Resource_Type__c LIKE :searchstring)
+            ]){
+                lstResource.add(res);
+                lstResourceId_ForContentDoc.add(res.id);
+            }
+            mapResourceIdToContentDocId = getFileId(lstResourceId_ForContentDoc);
+            for (Res_study__c rs : lstResStudy) {
+               // resIds.add(rs.Resource__c);
                 Set<String> rlLanguages = new Set<String>();
                 if (rs.Resource__r.Languages__c != null) {
                     for (String lang : rs.Resource__r.Languages__c.split(';')) {
@@ -299,31 +344,13 @@ public without sharing class LibraryRPRemote {
                                 rs.Resource__r.Version_Date__c,
                                 rs.Resource__r.URL__c,
                                 rs.Resource__r.Video__c,
-                                getFileId(rs.Resource__c)
+                                mapResourceIdToContentDocId.containsKey(rs.Resource__c) ? mapResourceIdToContentDocId.get(rs.Resource__c) : null
+                               // getFileId(rs.Resource__c)
                             )
                         ); //for download
                 }
             }
-            for (Resource__c res : [
-                SELECT
-                    Id,
-                    toLabel(RecordType.Name),
-                    RecordType.DeveloperName,
-                    Title__c,
-                    Languages__c,
-                    Language__c,
-                    Resource_Type__c,
-                    Version_Date__c,
-                    Video__c,
-                    URL__c
-                FROM Resource__c
-                WHERE
-                    Resource_Visibility__c INCLUDES ('RP')
-                    AND Id NOT IN :resIds
-                    AND (Title__c LIKE :searchstring
-                    OR RecordType.Name LIKE :searchstring
-                    OR Resource_Type__c LIKE :searchstring)
-            ]) {
+            for (Resource__c res :  lstResource) {
                 Set<String> rlLanguages = new Set<String>();
                 if (res.Languages__c != null) {
                     for (String lang : res.Languages__c.split(';')) {
@@ -346,7 +373,8 @@ public without sharing class LibraryRPRemote {
                                 res.Version_Date__c,
                                 res.URL__c,
                                 res.Video__c,
-                                getFileId(res.Id)
+                                mapResourceIdToContentDocId.containsKey(res.Id) ? mapResourceIdToContentDocId.get(res.Id) : null
+                               // getFileId(res.Id)
                             )
                         ); //for download
                 }
@@ -376,7 +404,7 @@ public without sharing class LibraryRPRemote {
         return null;
     }
     //This method returns the Content document ID attached to the resource
-    private static String getFileId(string resId) {
+  /*  private static String getFileId(string resId) {
         if (resId != null && resId != '') {
             list<ContentDocumentLink> cd = [
                 SELECT ContentDocumentId, LinkedEntityId
@@ -388,7 +416,25 @@ public without sharing class LibraryRPRemote {
         }
 
         return null;
+    } */
+
+    //This Method will return Map of Resource with content document id
+    private static Map<Id,Id> getFileId(List<Id> lstResourceId_ForContentDoc) {
+        Map<Id,Id> mapResourceIdToContentDoc = new Map<Id,Id> ();
+        if (!lstResourceId_ForContentDoc.isEmpty()) {
+
+            for(ContentDocumentLink objcontentDoc : [SELECT ContentDocumentId, LinkedEntityId
+             FROM ContentDocumentLink
+              WHERE LinkedEntityId IN: lstResourceId_ForContentDoc]){
+                  if(!mapResourceIdToContentDoc.containsKey(objcontentDoc.LinkedEntityId))
+                  mapResourceIdToContentDoc.put(objcontentDoc.LinkedEntityId,objcontentDoc.ContentDocumentId);
+              }
+              return mapResourceIdToContentDoc;  
+        } 
+        return null;
     }
+
+
 	//This method returns the base64 values of the resource document 
     @AuraEnabled
     public static String getBase64Resource( String resourceId,String language)
