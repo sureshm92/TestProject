@@ -223,8 +223,8 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.Patient_Phone_Type__c=peRecord.Patient_Phone_Type__c;
                peEnrollment.State__c=peRecord.State__c;
                peEnrollment.Participant_Alternative_Phone__c=peRecord.Participant_Alternative_Phone__c;
-               if(peEnrollment.Participant_Alt_Phone_Type__c != null && peEnrollment.Participant_Alt_Phone_Type__c != ''  
-               && peEnrollment.Participant_Alt_Phone_Type__c != 'undefined'){
+               if(peRecord.Participant_Alt_Phone_Type__c != null && peRecord.Participant_Alt_Phone_Type__c != ''  
+               && peRecord.Participant_Alt_Phone_Type__c != 'undefined'){
                     peEnrollment.Participant_Alt_Phone_Type__c = peRecord.Participant_Alt_Phone_Type__c;
                }
                peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
@@ -249,8 +249,23 @@ public without sharing class RPRecordReviewLogController {
     @AuraEnabled
     public static Participant_Enrollment__c delegateUpdatePeRecords(Participant_Enrollment__c peRecord){
         try {
-                update peRecord;
-                return peRecord;
+
+            Participant_Enrollment__c peEnrollment = new Participant_Enrollment__c();
+            peEnrollment.id = peRecord.id;
+            peEnrollment.Primary_Delegate_First_Name__c=peRecord.Primary_Delegate_First_Name__c;
+            peEnrollment.Primary_Delegate_Phone_Number__c = peRecord.Primary_Delegate_Phone_Number__c;
+            peEnrollment.Primary_Delegate_Phone_Type__c = peRecord.Primary_Delegate_Phone_Type__c;
+            peEnrollment.Primary_Delegate_Last_Name__c = peRecord.Primary_Delegate_Last_Name__c;
+            peEnrollment.Primary_Delegate_YOB__c = peRecord.Primary_Delegate_YOB__c;
+            peEnrollment.Primary_Delegate_Email__c = peRecord.Primary_Delegate_Email__c;
+            peEnrollment.Primary_Delegate_s_Alt_Phone__c = peRecord.Primary_Delegate_s_Alt_Phone__c;
+            if(peRecord.Primary_Delegate_s_Alt_Phone_Type__c != null && peRecord.Primary_Delegate_s_Alt_Phone_Type__c != ''  
+            && peRecord.Primary_Delegate_s_Alt_Phone_Type__c != 'undefined'){
+                 peEnrollment.Primary_Delegate_s_Alt_Phone_Type__c = peRecord.Primary_Delegate_s_Alt_Phone_Type__c;
+            }
+            peEnrollment.Is_Delegate_Certify__c = peRecord.Is_Delegate_Certify__c;
+                update peEnrollment;
+                return peEnrollment;
         } 
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

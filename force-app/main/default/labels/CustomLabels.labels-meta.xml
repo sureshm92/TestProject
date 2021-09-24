@@ -19411,7 +19411,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth Aquired</shortDescription>
-        <value>Patient Auth Aquired</value>
+        <value>Patient Auth Acquired</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>

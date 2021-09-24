@@ -144,9 +144,9 @@ export default class Rp_PatientTab extends LightningElement {
     };
 
     requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthMonth','BirthYear','LastName','PhoneNumber','PostalCode',
-                                'Sex','Country','PhoneType','States','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','PhoneType','PatientAuthStatus','LegalStatus'];
     requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
-                                'Sex','Country','States','PatientAuthStatus','LegalStatus'];
+                                'Sex','Country','PatientAuthStatus','LegalStatus'];
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -240,7 +240,7 @@ export default class Rp_PatientTab extends LightningElement {
     }
     removeCustomFieldValidation(dataValue) {
         let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
-        element.setCustomValidity('');
+        element.setCustomValidity(" ");
         element.reportValidity();
     }
 
@@ -359,7 +359,6 @@ export default class Rp_PatientTab extends LightningElement {
 
     cancelRecord(event) {
         this.disabledSaveButton = true;
-
         this.cancelOpen = false;
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;
@@ -376,7 +375,7 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Patient_Phone_Type__c = this.originalpatientrecord[0].peRecord.Patient_Phone_Type__c;
         record.peRecord.Participant_Alternative_Phone__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
         record.peRecord.Participant_Alt_Phone_Type__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
-        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c;
+        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c ;
         record.peRecord.Study_Site__c = this.originalpatientrecord[0].peRecord.Study_Site__c;
         record.peRecord.Patient_Auth__c = this.originalpatientrecord[0].peRecord.Patient_Auth__c;
         record.peRecord.Legal_Status__c = this.originalpatientrecord[0].peRecord.Legal_Status__c;
@@ -384,17 +383,15 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Is_Phone__c = this.originalpatientrecord[0].peRecord.Is_Phone__c;
         record.peRecord.Is_SMS__c = this.originalpatientrecord[0].peRecord.Is_SMS__c;
         this.patientrecord = [...this.patientrecord];
+        this.checkPatientAge();
 
-        if(this.patientrecord[0].isRequired) {
-            this.requiredfieldforMinor.forEach(item => {
-                this.removeCustomFieldValidation(item);
-            });
-        }
-        else{
-            this.requiredFieldForAdult.forEach(item => {
-                this.removeCustomFieldValidation(item);
-            });
-        }
+        this.requiredfieldforMinor.forEach(item => {
+            this.removeCustomFieldValidation(item);
+        });
+
+        this.requiredFieldForAdult.forEach(item => {
+            this.removeCustomFieldValidation(item);            
+        });
     }
 
     closeUnsavedModal(event) {
@@ -419,7 +416,10 @@ export default class Rp_PatientTab extends LightningElement {
                 this.patientrecord[0].peRecord.Phone__c = '';    
                 this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';  
                 this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';  
-                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';    
+                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';   
+                this.removeCustomFieldValidation('EmailID');
+                this.removeCustomFieldValidation('PhoneNumber');
+                this.removeCustomFieldValidation('PhoneType');
             }
             else {
                 this.patientrecord[0].isRequired = true;
@@ -445,7 +445,7 @@ export default class Rp_PatientTab extends LightningElement {
         }
         else{
             this.requiredFieldForAdult.forEach(item => {
-                this.removeCustomFieldValidation(item);
+                this.removeCustomFieldValidation(item);            
             });
         }
         checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;

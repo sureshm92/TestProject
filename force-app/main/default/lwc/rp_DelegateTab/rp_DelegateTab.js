@@ -187,7 +187,7 @@ export default class Rp_DelegateTab extends LightningElement {
                     }
                     break; 
                 default:
-                    if( fieldLabel != 'IsDelegateCertify' && fieldLabel != 'PDAP'){
+                    if( fieldname != 'IsDelegateCertify' && fieldname != 'PDAP' && fieldname != 'PDAT'){
                         inpVal = true;
                         inp.setCustomValidity("");
                         inp.reportValidity();
@@ -275,7 +275,6 @@ export default class Rp_DelegateTab extends LightningElement {
 
     cancelRecord(event) {
         this.disabledSaveButton = true;
-
         this.cancelOpen = false;
         let record = this.delegaterecord.find(ele  => ele.peRecord.Id === this.originaldelegaterecord[0].peRecord.Id);
         record.peRecord.Primary_Delegate_First_Name__c = this.originaldelegaterecord[0].peRecord.Primary_Delegate_First_Name__c;
@@ -289,12 +288,18 @@ export default class Rp_DelegateTab extends LightningElement {
         record.peRecord.Is_Delegate_Certify__c = this.originaldelegaterecord[0].peRecord.Is_Delegate_Certify__c;        
         this.delegaterecord = [...this.delegaterecord];
 
-        window.setTimeout(() => {
-            this.template.querySelectorAll('lightning-input').forEach((element) => { 
-                element.setCustomValidity('');
+        this.template.querySelectorAll('lightning-input').forEach((element) => { 
+            if(element.name != 'IsDelegateCertify'){
+                element.setCustomValidity(" ");
                 element.reportValidity();
-            });
-        }, 10);
+            }
+        });
+
+        this.template.querySelectorAll('lightning-combobox').forEach((element) => { 
+            element.setCustomValidity(" ");
+            element.reportValidity();
+        });
+
     }
 
     closeUnsavedModal(event) {
@@ -337,7 +342,7 @@ export default class Rp_DelegateTab extends LightningElement {
 
         delegateUpdatePeRecords({peRecord: this.delegaterecord[0].peRecord})
         .then((result) => {
-           /* let record = this.originaldelegaterecord.find(ele  => ele.peRecord.Id === result.Id);
+           /** let record = this.originaldelegaterecord.find(ele  => ele.peRecord.Id === result.Id);
             record.peRecord.Primary_Delegate_First_Name__c = result.Primary_Delegate_First_Name__c;
             record.peRecord.Primary_Delegate_Phone_Number__c = result.Primary_Delegate_Phone_Number__c;
             record.peRecord.Primary_Delegate_Phone_Type__c = result.Primary_Delegate_Phone_Type__c;
@@ -347,12 +352,12 @@ export default class Rp_DelegateTab extends LightningElement {
             record.peRecord.Primary_Delegate_s_Alt_Phone__c = result.Primary_Delegate_s_Alt_Phone__c;        
             record.peRecord.Primary_Delegate_s_Alt_Phone_Type__c = result.Primary_Delegate_s_Alt_Phone_Type__c;        
             record.peRecord.Is_Delegate_Certify__c = result.Is_Delegate_Certify__c;        
-            this.originaldelegaterecord = [...this.originaldelegaterecord];*/
+            this.originaldelegaterecord = [...this.originaldelegaterecord]; **/
             this.showSuccessToast(result.Primary_Delegate_First_Name__c +' '+ this.label.RH_RP_Delegate_Successfully_Saved);
           
-            const selectedvalue = {patientRecord: this.delegaterecord};
+            /*const selectedvalue = {patientRecord: this.delegaterecord}; 
             const selectedEvent = new CustomEvent('refreshdelegatetabchange', { detail: selectedvalue });
-            this.dispatchEvent(selectedEvent);
+            this.dispatchEvent(selectedEvent);*/
 
         })
         .catch((error) => {
