@@ -166,20 +166,6 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             string errStr = '';
             map<integer,string> errMap = getErrMessages();
             boolean hasErrRow = false;
-            //Generate Counrty Code and state code
-            map<string,string> ccMap = new map<string,string>();
-            map<string,string> scMap = new map<string,string>();
-            Schema.DescribeFieldResult country_field = Participant_Enrollment__c.Country__c.getDescribe(); 
-            Schema.DescribeFieldResult state_field = Participant_Enrollment__c.State__c.getDescribe(); 
-            List<Schema.PicklistEntry> country_values = country_field.getPicklistValues(); 
-            List<Schema.PicklistEntry> state_values = state_field.getPicklistValues(); 
-            for( Schema.PicklistEntry v : country_values) { 
-                ccMap.put(v.getLabel(), v.getValue()); 
-            }
-            for( Schema.PicklistEntry v : state_values) { 
-                scMap.put(v.getLabel(), v.getValue()); 
-            }
-            
             
             for(Integer i=2; i < rows.size(); i++){
                 boolean hasPatientErrRow = false;
@@ -279,26 +265,28 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string isMajorDelegate = '';
                     string stateCode='';
                     string countryCode = '';
-                    if(rec[9]!='' && !ccMap.containsKey(rec[9])){
+                    if(rec[9]!='' && !CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rec[9])){
                         errStr += 'Invalid Country;';                        
                         hasPatientErrRow = true;
                     }
                     else if(rec[9]!=''){
-                        if(ccMap.containsKey(rec[9])) countryCode= ccMap.get(rec[9]);
+                        if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rec[9])) countryCode= CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(rec[9]);
                     }
                     else{
-                        if(ccMap.containsKey(rpCountry)) countryCode= ccMap.get(rpCountry);
+                        if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rpCountry)) countryCode= CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(rpCountry);
                     }
                     
-                    if(rec[10]!='' && !scMap.containsKey(rec[10])){
-                        errStr += 'Invalid State;';
-                        hasPatientErrRow = true;
-                    }
-                    else if(rec[10]!=''){
-                        if(scMap.containsKey(rec[10])) stateCode= scMap.get(rec[10]);
-                    }
-                    else{
-                        if(scMap.containsKey(rpState)) stateCode= scMap.get(rpState);
+                    if(countryCode != '' && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(countryCode)){
+                        if(rec[10]!='' && !CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rec[10])){
+                            errStr += 'Invalid State;';
+                            hasPatientErrRow = true;
+                        }
+                        else if(rec[10]!=''){
+                            if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rec[10])) stateCode= CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).get(rec[10]);
+                        }
+                        else{
+                            if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rpState)) stateCode= CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).get(rpState);
+                        }
                     }
                     
                     for(integer j : yobIndexes){
@@ -312,7 +300,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                                     hasPatientErrRow = true;
                                 }
                             }
-                            else if(!(stateCode=='' && countryCode =='')){  
+                            else if(!(stateCode=='' || countryCode =='')){  
                                 string isMajor ='';
                                 if (yearByCountryStateCode.containsKey(countryCode +'_' +stateCode)) {
                                     if(integer.valueOf(rec[j])>yearByCountryStateCode.get(countryCode +'_' +stateCode)){
@@ -359,13 +347,13 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         }
                         else{
                             if(j==7){
-                                if(rec[j] !='' && isMajorPatient != rec[j]){
+                                if(rec[j] !='' && isMajorPatient != rec[j] && isMajorPatient!=''){
                                     errStr = errStr + 'Legal Status of Patient does not match the Patient YOB.;' ;                                    
                                     hasPatientErrRow = true;
                                 }
                             }
                             else if(j==21){
-                                if(rec[j] !='' && isMajorDelegate != rec[j]){
+                                if(rec[j] !='' && isMajorDelegate != rec[j] && isMajorDelegate!=''){
                                     errStr = errStr + 'Legal Status of Primary Delegate does not match the Primary Delegate YOB.;' ;
                                     hasDelErrRow = true;
                                 }
@@ -438,8 +426,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.YOB__c=rec[6];
                         peRec.Legal_Status__c=rec[7];
                         peRec.Patient_Auth__c=rec[8];
-                        if(ccMap.containsKey(rec[9])) peRec.Country__c= ccMap.get(rec[9]);
-                        if(ccMap.containsKey(rec[10])) peRec.State__c= scMap.get(rec[10]);
+                        peRec.mailing_country_code__c= countryCode;
+                        peRec.mailing_state_code__c= stateCode;
                         peRec.Phone__c=rec[11];
                         peRec.Patient_Phone_Type__c=rec[12];
                         peRec.Participant_Alternative_Phone__c=rec[13];
