@@ -313,8 +313,8 @@ export default class Rp_DelegateTab extends LightningElement {
 
         if(this.isInputValidated && this.isComboBoxValidated) {  
             this.isLoading = true;
-            let countryCode = this.delegaterecord[0].peRecord.Country__c;
-            let stateCode = this.delegaterecord[0].peRecord.State__c;
+            let countryCode = this.delegaterecord[0].peRecord.Mailing_Country_Code__c;
+            let stateCode = this.delegaterecord[0].peRecord.Mailing_State_Code__c;
             let year = this.delegaterecord[0].peRecord.Primary_Delegate_YOB__c;
 
             checkDelegateAge({countryCode: countryCode, stateCode: stateCode, year: year})

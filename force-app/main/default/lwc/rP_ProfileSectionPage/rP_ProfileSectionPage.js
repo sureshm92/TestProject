@@ -204,7 +204,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
            this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
            this.error = undefined;
-           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Country__c];
+           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
            if(this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring'){
                 this.showInclude = true;
                 this.showExclude = false;
