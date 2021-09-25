@@ -103,6 +103,8 @@ stages:
   - SonarCheck
   - VALIDATE
   - Deploy
+  - RUNTEST
+
 
   
 cache:
@@ -240,5 +242,15 @@ DeltaDeploy:
       - merge_requests
   stage: Deploy
   timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
+
+RUNTEST:
+  only:
+    - INF9.1
+  except:
+    - merge_requests
+  
+  stage: RUNTEST
+  script: 
+  - . ./scripts/ci/run-tests.sh INF91
 
 image: salesforce/salesforcedx:7.82.1-0-full
