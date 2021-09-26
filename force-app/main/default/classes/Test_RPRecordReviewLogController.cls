@@ -2,9 +2,7 @@
 public class Test_RPRecordReviewLogController {
     @TestSetup
     static void setup() {
-        //Test.startTest();
-        //TestData.loadTestData();
-        //Test.stopTest();
+      
     }
     @isTest
     public static void TestM1(){
@@ -125,16 +123,11 @@ public class Test_RPRecordReviewLogController {
         );
         insert pe;
 
-         
-    
-        //TestData testData = new TestData();
-        //Test.startTest();
         RPRecordReviewLogController.dateFormatChangeForCreatedDate(system.today());
-        RPRecordReviewLogController.getPEDetails(); 
-        //RPRecordReviewLogController.getSelectedPeDetails(pe.id,contact_1.id,'HCP');
+        RPRecordReviewLogController.getPEDetails('HCP',null); 
         RPRecordReviewLogController.getRecordsDetails();  
         RPRecordReviewLogController.getContactList();  
-        RPRecordReviewLogController.getPECountDetails();  
+        RPRecordReviewLogController.getPECountDetails('HCP',null);  
         RPRecordReviewLogController.dateFormatChange(system.today());
         Test.stopTest();
        
@@ -144,7 +137,7 @@ public class Test_RPRecordReviewLogController {
         RPRecordReviewLogController.checkPatientAge('US','NY','04','2000');
         try
         {
-          RPRecordReviewLogController.checkDelegateAge('US','NY','2000');
+         RPRecordReviewLogController.checkDelegateAge('US','NY','2000');
          RPRecordReviewLogController.checkDelegateAge(null,null,null);
         }
         catch (AuraHandledException e)

@@ -19,6 +19,8 @@ import getFilterPEDetails from '@salesforce/apex/RPRecordReviewFilterController.
 export default class FilterReferredLWC extends LightningElement {
     filterData;
     @api isdisabled = false;
+    @api userMode;
+    @api delegateId;
     @track filter = {
         selectedStudies: [],
         selectedExclusionReason: null,
@@ -46,9 +48,11 @@ export default class FilterReferredLWC extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS).then(() => {
             let uMode = communityService.getUserMode();
             console.log(uMode);
+            this.userMode = uMode;
             let delId = communityService.getDelegateId();
             console.log(delId);
-            setFilterData({ userMode: uMode, delegateId: delId })
+            this.delegateId = delId;
+            setFilterData({ userMode: this.userMode, delegateId: this.delegateId })
                 .then((response) => {
                     this.filterData = response;
                     this.filter.trialIds = this.filterData.trialIds;
@@ -88,7 +92,7 @@ export default class FilterReferredLWC extends LightningElement {
         });
         this.dispatchEvent(selectedEvent);
 
-        getFilterPEDetails({ filterJSON: jsonFilter })
+        getFilterPEDetails({ filterJSON: jsonFilter, delegateId:this.delegateId })
             .then((response) => {
                 console.log(response);
                 let filterApplyMap = { filterRecords: response, isFilterApplied: true };
