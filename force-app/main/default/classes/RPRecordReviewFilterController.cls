@@ -1,4 +1,5 @@
 public without sharing class  RPRecordReviewFilterController{
+   
     public class PEFilterData {
         @AuraEnabled
         public List<Id> trialIds;
@@ -40,35 +41,19 @@ public without sharing class  RPRecordReviewFilterController{
         Map<Id, String> trialsByName = new Map<Id, String>();
         
         Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-        List<Id> lstcontactId = new List<Id>();
-        List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-        RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
-        if(RPD.size() != 0){
-            for(RP_Delegate_Relationship__c del: RPD){
-                lstcontactId.add(del.Referring_Provider__c);
-            }
-            //lstcontactId.add(currentContactId);
-        }else{
-             lstcontactId.add(currentContactId);
-        } 
-        Set<String>dupSet = new Set<String>();
-        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
-                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN:lstcontactId])
-        {
-            if(dupSet.add(hcpEnroll.Clinical_Trial_Profile__c)){
-                peFilterData.trialIds.add(hcpEnroll.Clinical_Trial_Profile__c);
-                peFilterData.studies.add(new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c,hcpEnroll.Clinical_Trial_Profile__c));
-            }
-        }
         
+       if (delegateId != null && delegateId != '') {
+         currentContactId = delegateId;
+        }
+      
        
-        //for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, delegateId)) {
-            //trialsByName.put(trial.Id, trial.Study_Code_Name__c);
-        //}
-       /** for(Id studyId : trialsByName.keySet()) {
-            //peFilterData.trialIds.add(studyId);
-            //peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
-        }*/
+       for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, currentContactId)) {
+            trialsByName.put(trial.Id, trial.Study_Code_Name__c);
+        }
+       for(Id studyId : trialsByName.keySet()) {
+            peFilterData.trialIds.add(studyId);
+            peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
+        } 
         
         peFilterData.reviewResults = new List<LabelValueItem>();
         peFilterData.reviewResults.add(new LabelValueItem(Label.PG_SDRC_L_All, ''));
@@ -105,28 +90,18 @@ public without sharing class  RPRecordReviewFilterController{
         
     }
     @AuraEnabled 
-    public static List<RPRecordReviewLogController.peInitData> getFilterPEDetails(String filterJSON) {
+    public static List<RPRecordReviewLogController.peInitData> getFilterPEDetails(String filterJSON,String delegateId) {
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<RPRecordReviewLogController.peInitData> peInitWrapperDataList = new List<RPRecordReviewLogController.peInitData>();
            
-            List<Id> lstcontactId = new List<Id>();
-            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
-            if(RPD.size() != 0){
-                for(RP_Delegate_Relationship__c del: RPD){
-                    lstcontactId.add(del.Referring_Provider__c);
-                }
-                //lstcontactId.add(currentContactId);
-            }else{
-                 lstcontactId.add(currentContactId);
+            if (delegateId != null && delegateId != '') {
+                 currentContactId = delegateId ;
             }
-            
-            system.debug('contactId-->'+lstcontactId.size());
-           
+ 
             filterWrapper filter = (filterWrapper) JSON.deserialize( filterJSON,filterWrapper.class);
             String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c ';
-            strQuery += ' from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId ';
+            strQuery += ' from Participant_Enrollment__c where HCP__r.HCP_Contact__c = \'' + currentContactId +  '\'';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
             
             

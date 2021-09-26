@@ -32,28 +32,19 @@ public without sharing class RPRecordReviewLogController {
     }
 
     @AuraEnabled
-    public static List<peInitData> getPEDetails() {
+    public static List<peInitData> getPEDetails(String userMode,String delegateId) {
         try {
-            //(Medical_Record_Review_Status__c = 'Pass' OR  Medical_Record_Review_Status__c = 'Fail') AND 
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<peInitData> peInitWrapperDataList = new List<peInitData>();
             
-            List<Id> lstcontactId = new List<Id>();
-            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
-            if(RPD.size() != 0){
-                for(RP_Delegate_Relationship__c del: RPD){
-                    lstcontactId.add(del.Referring_Provider__c);
-                }
-                //lstcontactId.add(currentContactId);
-            }else{
-                 lstcontactId.add(currentContactId);
+            if (delegateId != null && delegateId != '') {
+               currentContactId = delegateId;
             }
             
             List<Participant_Enrollment__c> peList = [Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Participant_Status__c,
-            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where
             (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Pending Referral' OR Participant_Status__c = 'Excluded from Referring') AND
-            Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL order by lastmodifiedDate DESC];
+            Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND HCP__r.HCP_Contact__c =:currentContactId  order by lastmodifiedDate DESC];
             for (Participant_Enrollment__c pe : peList) {
                 //String dobString = dateFormatChange(pe.Date_of_Birth__c);
                 String dobString = '';
@@ -127,6 +118,7 @@ public without sharing class RPRecordReviewLogController {
         try {
                 List<peProfileSection> peProfileSectionWrapperList = new List<peProfileSection>();
                 Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+                
                 List<Participant_Enrollment__c> peList = [Select Id,Patient_ID__c,Study_Site__c,Study_Site__r.Name,Participant_Name__c,Participant_Surname__c,Patient_Middle_Name_Initial__c,Pre_screening_Status__c,
                 Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,Mailing_Country_Code__c,State__c,Mailing_State_Code__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
@@ -175,18 +167,11 @@ public without sharing class RPRecordReviewLogController {
                     }
                 }
 
-                List<Id> lstcontactId1 = new List<Id>();
-                List<RP_Delegate_Relationship__c> RPD1 = new List<RP_Delegate_Relationship__c>();
-                RPD1 = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId limit 1];
-                if(RPD1.size() != 0){
-                    for(RP_Delegate_Relationship__c del: RPD1){
-                        lstcontactId1.add(del.Referring_Provider__c);
-                    }
-                }else{
-                     lstcontactId1.add(currentContactId);
+                if (delegateId != null && delegateId != '') {
+                    currentContactId = delegateId;
                 }
                 
-                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(lstcontactId1[0],
+                peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
                 peList[0].Clinical_Trial_Profile__c);
 
                 
@@ -355,8 +340,9 @@ public without sharing class RPRecordReviewLogController {
     }
     
     @AuraEnabled(cacheable=false)
-    public static wrapPEcount  getPECountDetails() {
+    public static wrapPEcount  getPECountDetails(String userMode,String delegateId) {
        try {
+            
             Integer total=0;
             Integer Included=0;
             Integer Excluded=0;
@@ -366,27 +352,18 @@ public without sharing class RPRecordReviewLogController {
             Integer yesterdaycount=0;
             Integer lastweekcount=0;
             Integer lastmonthcount=0;
-            String UserMode='HCP';
+            
             
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
-            
-            List<Id> lstcontactId = new List<Id>();
-            List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-            RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
-            if(RPD.size() != 0){
-                for(RP_Delegate_Relationship__c del: RPD){
-                    lstcontactId.add(del.Referring_Provider__c);
-                }
-               
-            }else{
-                 lstcontactId.add(currentContactId);
+            if (delegateId != null && delegateId != '') {
+               currentContactId = delegateId;
             }
-            
+           
             AggregateResult[] groupedResults = [
                  SELECT Included_for_Referring__c,
                      Excluded_for_Referring__c,
                      Patient_Auth__c,Medical_Record_Review_Status__c,Outreach_Mail_Sent__c, Count(Id) total 
-                 FROM Participant_Enrollment__c where HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                 FROM Participant_Enrollment__c where HCP__r.HCP_Contact__c =:currentContactId  AND
                       (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                       Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
                  GROUP BY 
@@ -424,25 +401,25 @@ public without sharing class RPRecordReviewLogController {
             }
             yesterdaycount =[SELECT count() FROM Participant_Enrollment__c 
                              WHERE
-                                  HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                                  HCP__r.HCP_Contact__c =:currentContactId  AND
                                   (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                   Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                   CreatedDate = YESTERDAY];
             lastweekcount=[SELECT count() FROM Participant_Enrollment__c 
                            WHERE 
-                                HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                               HCP__r.HCP_Contact__c =:currentContactId  AND
                                 (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                 Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                 CreatedDate = Last_week ];
             lastmonthcount=[SELECT count() FROM Participant_Enrollment__c 
                             WHERE 
-                               HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                               HCP__r.HCP_Contact__c =:currentContactId  AND
                                (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Excluded from Referring' OR Participant_Status__c = 'Pending Referral') AND
                                Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND
                                CreatedDate = Last_month ];
            Excluded  =[SELECT count() FROM Participant_Enrollment__c 
                             WHERE 
-                               HCP_Contact_HCPEnroll__c IN:lstcontactId AND
+                               HCP__r.HCP_Contact__c =:currentContactId  AND
                                Participant_Status__c = 'Excluded from Referring' AND
                                Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL
                                ];                    
