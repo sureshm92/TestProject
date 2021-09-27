@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev
+ * Created by Leonid Bartenev for testing
  */
 
 public without sharing class Path {
