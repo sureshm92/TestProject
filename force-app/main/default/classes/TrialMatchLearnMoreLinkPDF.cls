@@ -1,21 +1,21 @@
 /**
-* @author        Sravani Dasari
+* @author        Enugothula Srinath 
 * @date          21/05/2020
 * @description   This Controller is used in a Aura LC which pulls Clinical_Trial_Profile__c record information to form a pdf. 
 Modification Log:
 -----------------------------------------------------------------------------------------------------------------
 Developer                Date            Description
 -----------------------------------------------------------------------------------------------------------------
-Pijush Kar       		13/09/2021       Get base64 encoded data for Mobile App
+Srinath       			21/05/2020      			Initial Version
 */
 public without sharing class TrialMatchLearnMoreLinkPDF {
-    private static final String base64PNG = 'data:image/png;base64,';
+    private static String base64PNG = 'data:image/png;base64,';
 
     /**
-     * @author        Sravani Dasari
+     * @author        Enugothula Srinath
      * @date          21/05/2020
      * @description   This method retrives a Image from static resource.
-     * @param         String
+     * @param         Id
      * @return        String
      */
     @AuraEnabled
@@ -34,7 +34,7 @@ public without sharing class TrialMatchLearnMoreLinkPDF {
     }
 
     /**
-     * @author        Sravani Dasari
+     * @author        Enugothula Srinath
      * @date          21/05/2020
      * @description   This method digets ctpId and returns a ctp record.
      * @param         Id
@@ -57,19 +57,6 @@ public without sharing class TrialMatchLearnMoreLinkPDF {
             return ctpDetails;
         } catch (Exception e) {
             return (Clinical_Trial_Profile__c) AuraHelper.throwException(e);
-        }
-    }
-
-    @AuraEnabled
-    public static String getBase64LearnMoreData(String ctpId) {
-        try {
-            PageReference page = Page.TrialMatchLearnMorePage;
-            page.getParameters().put('CTPId', ctpId);
-            Blob content = page.getContent();
-            String encoded = EncodingUtil.base64Encode(content);
-            return encoded;
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
         }
     }
 }

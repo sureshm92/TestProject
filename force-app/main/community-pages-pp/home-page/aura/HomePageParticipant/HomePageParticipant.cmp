@@ -98,18 +98,17 @@
                                     isAlumni="{!v.participantState.value == 'ALUMNI'}"
                                 />
                             </div>
-                            <aura:if
+                             <aura:if
                                 isTrue="{!or(v.participantState.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.showPastStudies)}"
                             >
-                                <div class="slds-col">
-                                    <c:MedicalRecordRetrievalPanel
-                                        participantState="{!v.participantState}"
-                                    />
-                                </div>
-                            </aura:if>
-
+                            <div class="slds-col">
+                                <c:MedicalRecordRetrievalPanel participantState="{!v.participantState}"/>
+                            </div>
+                          </aura:if>
+                                
+                           
                             <aura:if
-                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, or(v.participantState.value == 'PARTICIPANT',and(v.participantState.value == 'REFERRAL',or(v.participantState.pe.Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c,v.participantState.pe.Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c)))))}"
+                                isTrue="{!and(v.participantState.pe.Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c, and(v.participantState.isPremium, v.participantState.value == 'PARTICIPANT'))}"
                             >
                                 <div class="slds-col">
                                     <c:TravelSupportPanel isRTL="{!v.isRTL}" />

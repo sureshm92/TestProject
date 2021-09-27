@@ -58,7 +58,7 @@
                             onclick="{!c.doSearch}"
                         />
                     </div>
-                    <div class="ssp-button-reset slds-size_1-of-6">
+                    <div class="ssp-button-reset slds-size_1-of-6" style="width: fit-content;">
                         <lightning:button
                             variant="base"
                             disabled="{!v.sectionDisabled}"

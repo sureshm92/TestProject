@@ -17,9 +17,6 @@ public without sharing class ParticipantItem {
     public List<ViewPatientsRemote.PEWrapper> currentPageList;
     @AuraEnabled
     public Boolean showVisits;
-    @AuraEnabled
-    public Boolean showVisitsinPreTrial;
-    
     @AuraEnabled//REF-2826
     public Boolean containsFile;
 
@@ -55,9 +52,6 @@ public without sharing class ParticipantItem {
         this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(
             participantState.pe
         );
-
-        this.showVisitsinPreTrial = participantState.showVisits &&
-            pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && participantState.value == ParticipantService.ParticipantStates.REFERRAL;
         this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(participantState.pe)
             .contains(participantState.pe.Participant_Status__c);
     }

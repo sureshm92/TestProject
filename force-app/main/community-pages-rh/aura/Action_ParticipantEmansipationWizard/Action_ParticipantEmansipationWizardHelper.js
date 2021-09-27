@@ -2,13 +2,12 @@
  * Created by Alexey Moseev.
  */
 
-({
+ ({
     preparePathItems: function (component) {
         let statuses = this.getStatuses();
         let statusesMap = this.getStatusesMap();
         let currentTab = component.get('v.currentTab');
         let currentImansipationWizardState = statusesMap[statuses[+currentTab - 1]];
-
         component.set('v.showPath', true);
 
         let pathList = [];
@@ -55,13 +54,14 @@
         return [participantNameStr, delegateStr, providerAccessStr, reviewAndConfirmStr];
         },
 
-    getStatusesMap: function () {
-        return {
-            Participant: {
+    getStatusesMap: function () { 
+
+        let StatusRec= {
+            'Participant': {
                 order: 1,
                 state: 'neutral'
             },
-            'Delegate(s)': {
+            'Delegate': {
                 order: 2,
                 state: 'neutral'
             },
@@ -78,7 +78,7 @@
         let delegateStr = $A.get("$Label.c.PP_Delegate");
 		let providerAccessStr = $A.get("$Label.c.PP_Provider_Access");
         let reviewAndConfirmStr = $A.get("$Label.c.PP_Review_and_Confirm");
-
+        
         let StatusRecReplace = JSON.stringify(StatusRec);
         StatusRecReplace = StatusRecReplace.replace(/Participant/, participantNameStr);
         StatusRecReplace = StatusRecReplace.replace(/Delegate/, delegateStr);
@@ -86,7 +86,7 @@
         StatusRecReplace = StatusRecReplace.replace(/Review and Confirm/, reviewAndConfirmStr);
         let json = JSON.parse(StatusRecReplace);
         return json;
-    },
+      },
 
     updateParticipantAndDelegate: function (component) {
         component.find('spinner').show();

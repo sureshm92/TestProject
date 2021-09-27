@@ -4,12 +4,12 @@
           <div class="slds-p-bottom_xx-large" style="height: 153px;">
              <div class="slds-grid slds-gutters">
                 <div class="slds-col" style="padding-left:27px;">
-                   <span class="overview-for-not-yet">Overview for</span><br>
-                   <span class="not-yet-referred">Not Yet Referred</span>
+                   <span class="overview-for-not-yet">{label.RH_RP_Overview_for}</span><br>
+                   <span class="not-yet-referred">{label.RH_RP_Not_Yet_Referred}</span>
                 </div>
                 <div class="slds-col" style="flex:none;padding-right:53px;">
                    <span class="total-patients-count">{data.totalpatients}</span><br>
-                   <span class="total-patients">Total Patients</span>
+                   <span class="total-patients">{label.RH_RP_Total_Patients}</span>
                 </div>
              </div>
           </div>
@@ -20,14 +20,14 @@
                    <div style="text-align: center;
                    width: 70%;">
                       <span class="included-for-referring">{data.includedreferring}</span><br>
-                      <span class="included-for-referring-count">Included for Referring</span>
+                      <span class="included-for-referring-count">{label.RH_RP_Included_for_Referring}</span>
                    </div>
                 </div>
                 <div class="slds-col">
                   <div style="width: 70%;
                   text-align: center;">
                      <span class="excluded-for-referring">{data.excludedreferring}</span><br>
-                     <span class="excluded-for-referring-count">Excluded for Referring</span>
+                     <span class="excluded-for-referring-count">{label.RH_RP_Excluded_for_Referring}</span>
                   </div>
                 </div>
              </div>
@@ -37,17 +37,17 @@
                 <div class="slds-col" >
                    <div style="text-align: center;">
                       <span class="patient-auth-aquired-count">{data.patientauthreq}/{data.totalpatients}</span><br>
-                      <span class="patient-auth-aquired">Patient Auth Aquired</span>
+                      <span class="patient-auth-aquired">{label.RH_RP_Patient_Auth_Aquired}</span>
                    </div>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="medical-review-complete-count">{data.medicalreview}/{data.totalpatients}</span><br>
-                   <span class="medical-review-complete">Medical Review<br> Complete</span>
+                   <span class="medical-review-complete">{label.RH_RP_Medical_Review}<br> {label.BTN_Complete}</span>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <!--<span class="outreach-mail-sent-count">{data.outreachmail}/{data.totalpatients}</span><br>-->
                    <span class="outreach-mail-sent-count">{data.outreachmail}</span><br>
-                   <span class="outreach-mail-sent">Outreach Mail Sent</span>
+                   <span class="outreach-mail-sent">{label.RH_RP_Outreach_Mail_Sent}</span>
                 </div>
              </div>
           </div>
@@ -56,16 +56,16 @@
                 <div class="slds-col" >
                    <div style="text-align: center;">
                       <span class="added-last-month-count">{data.lastmonthper}</span><br>
-                      <span class="added-last-month">Patients Added <br>Last Month</span>
+                      <span class="added-last-month">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Last_Month}</span>
                    </div>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="added-last-week-count">{data.lastweekper}</span><br>
-                   <span class="added-last-week">Patients Added <br>Last Week</span>
+                   <span class="added-last-week">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Last_Week}</span>
                 </div>
                 <div class="slds-col" style="text-align: center;">
                    <span class="added-yesterday-count">{data.lastdayper}</span><br>
-                   <span class="added-yesterday">Patients Added <br>Yesterday</span>
+                   <span class="added-yesterday">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Yesterday}</span>
                 </div>
              </div>
           </div>

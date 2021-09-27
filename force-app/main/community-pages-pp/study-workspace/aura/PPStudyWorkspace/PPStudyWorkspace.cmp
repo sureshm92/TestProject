@@ -115,21 +115,19 @@
                                 <c:RRTabSet>
                                     <!-- tabs: -->
 
-                                        <aura:set attribute="floatPositionLeft">
-                                            <div class="tabScroller">
-                                            <aura:if isTrue="{!v.userMode != 'HCP'}">
-
-                                                <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
-                                                    <c:RRTabSetItem
-                                                        tabId="{!tab.id}"
-                                                        currentTab="{!v.currentTab}"
-                                                        title="{!tab.title}"
-                                                    />
-                                                </aura:iteration>
-
-                                            </aura:if>
-                                            </div>
-                                        </aura:set>
+                                    <aura:set attribute="floatPositionLeft">
+                                        <!--<div class="tabScroller">-->
+                                        <aura:if isTrue="{!v.userMode != 'HCP'}">
+                                            <aura:iteration items="{!v.studyDetail.tabs}" var="tab">
+                                                <c:RRTabSetItem
+                                                    tabId="{!tab.id}"
+                                                    currentTab="{!v.currentTab}"
+                                                    title="{!tab.title}"
+                                                />
+                                            </aura:iteration>
+                                        </aura:if>
+                                        <!--</div>-->
+                                    </aura:set>
 
                                     <!-- action buttons: -->
                                     <aura:set attribute="floatPositionRight">
