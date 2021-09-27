@@ -32,6 +32,8 @@ import RH_RP_Excluded_Successfully from '@salesforce/label/c.RH_RP_Excluded_Succ
 import RH_RP_has_been_excluded from '@salesforce/label/c.RH_RP_has_been_excluded';
 import RH_RP_included_successfully from '@salesforce/label/c.RH_RP_included_successfully';
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
     @api usermode; 
@@ -186,6 +188,21 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     connectedCallback(){
         this.isLoading = true;
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.userMode = communityService.getUserMode();
+            console.log('frmtablemode'+ this.userMode);
+            this.delegateId = communityService.getDelegateId();
+            console.log('frmtableid'+  this.delegateId );
+        })
+        .then(() => {
+            this.getPEdetails();
+        }).catch((error) => {
+            console.log('Error: ' + error);
+        });     
+    }
+
+    getPEdetails(){
         getSelectedPeDetails({peId: this.peId,delegateId: this.delegateid ,userMode: this.usermode})
            .then(result => {
             this.apexRefreshList = result;
@@ -219,10 +236,9 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            }else{
                this.referbuttonDisable = false;
            }
-           this.isLoading = false;
+               this.isLoading = false;
            })
            .catch(error => {
-               this.error = error;
                console.log(JSON.stringify(error));
                this.peRecordList = undefined;
                this.isLoading = false;   
