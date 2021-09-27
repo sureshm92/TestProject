@@ -13,7 +13,7 @@ ValidateInt:
       refs: 
         - merge_requests
       variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO"
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
   artifacts:
       untracked: true      
       when: always
@@ -66,7 +66,7 @@ SonarCheckInt:
       refs: 
         - merge_requests
       variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO"
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -120,6 +120,7 @@ DeployInt:
     stage: DeployInt
     only:
       - CICDDEMO
+      
     before_script: 
       - |
          set -x
