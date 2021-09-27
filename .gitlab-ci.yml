@@ -1,439 +1,135 @@
+image: ajit2408/studyhub-sfdx
 stages:
-
-  #Validation:
-  - SonarCheck
-  - VALIDATE
-
-  #5.0 INT
-  - DeployINT5.0
-  - RunTestINT5.0
-
-  #5.0 INF
-  - DeployINF5.0
-  - RunTestINF5.0
-
-  #5.1 INT
-  - DeployINT5.1
-  - RunTestINT5.1
+    - ValidateInt
+    - SonarCheckInt 
+    - DeployInt
   
-  #6.0 INT
-  - DeployINT6.0
-  - RunTestINT6.0
-  
-  #6.0 INF
-  - DeployINF6.0
-  - RunTestINF6.0
-  
-   #6.1 INT
-  -  DeployINT6.1
-  - RunTestINT6.1
-  
-  #6.1 INF
-  - DeployINF6.1
-  - RunTestINF6.1
-
-#6.1 INT
-  - DeployINT6.1
-  - RunTestINT6.1
-  
-  #6.1 INF
-  - DeployINF6.1
-  - RunTestINF6.1
-
-  
-  #5.1 INF
-  - DeployINF5.1
-  - RunTestINF5.1
-
- #5.1 INF
-  - DeployClonedFml
-  - RunTestClonedFml
-
-
-cache:
-  paths:
-    - ~/.sfdx
-    - .sfdx
-
-
-# Validation: ------------------------------------------------------------------
-SonarCheck:
+ValidateInt:
+  stage: ValidateInt
   allow_failure: true
-  tags:
-    - RHPP
   only:
-   - merge_requests
-  except:
-   - push
-   - commit
-  stage: SonarCheck
+      refs: 
+        - merge_requests
+      variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO"
+  artifacts:
+      untracked: true      
+      when: always
+      paths:
+          - results
+          - package/package.xml
+  before_script: 
+      - |
+         # “get_mr_parent” function allows to get parent commit of merge request
+         # only valid for pipelines started in scope of MR.
+         set -x 
+         function get_mr_parent() {
+         
+           git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --depth=2147483647
+           git fetch origin $CI_COMMIT_REF_NAME --depth=2147483647
+         
+           get_parent_command="git merge-base origin/$CI_COMMIT_REF_NAME origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+                   
+           PARENT="$(eval $get_parent_command || true)"
+         
+           if [[ -z $PARENT ]]; then
+              git fetch --unshallow --update-head-ok origin '+refs/heads/*:refs/heads/*'  # global var GIT_DEPTH: "2147483647" is about the same
+             PARENT="$(eval $get_parent_command)"
+           fi  
+           
+           echo "[DEBUG] Parent commit for the MR #$CI_MERGE_REQUEST_IID is $PARENT"
+           # git merge --squash FETCH_HEAD
+         }
+         get_mr_parent
+         export PARENT
+         echo 'y' | sfdx plugins:install sfdx-git-delta
+         sfdx sgd:source:delta --to "HEAD" --from $PARENT --output "."
+         echo "--- package.xml generated with added and modified metadata ---"
+         cat package/package.xml
+         #echo "---- Deploying added and modified metadata ----"
+      #- sfdx force:source:deploy -x package/package.xml      
+  script:
+      - mkdir results  
+      - echo "$INT" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d"
+      - sfdx force:source:deploy -x package/package.xml -u INT -c -w 60 
+      #- sfdx force:apex:test:run -y -u INT --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
+      - echo "Validate success!"
+      
+
+SonarCheckInt:
+  stage: SonarCheckInt
+  allow_failure: true
+  only:
+      refs: 
+        - merge_requests
+      variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO"
   image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
+      name: sonarsource/sonar-scanner-cli:latest
+      entrypoint: [""]
   cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
+     key: "${CI_JOB_NAME}"
+     paths:
+       - .sonar/cache
   before_script:
-   - echo "Sonar Analysis"
+     - echo "Sonar Analysis"
   script:
-   - . ./scripts/ci/sonar-check.sh
+     - |
+             ls -ll
+             apk upgrade --update-cache --available && apk add openssl curl jq 
+             openssl s_client -connect  sonarqube-dev:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+             sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
+             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=master
+             cat .scannerwork/report-task.txt
+             export url=$(cat .scannerwork/report-task.txt | grep ceTaskUrl | cut -c11- ) #URL where report gets stored
+             echo $url
+             sleep 90s #Wait time for the report
+             curl -k -u "$SONAR_TOKEN":"" $url -o analysis.json
+             cat analysis.json
+             export status=$(cat analysis.json | jq -r '.task.status') #Status as SUCCESS, CANCELED or FAILED
+             export analysisId=$(cat analysis.json | jq -r '.task.analysisId') #Get the analysis Id
+             echo "URL" $url
+             echo "status" $status
+             echo  "analysisId" $analysisId
+     - |
+       if [ "$status" == "SUCCESS" ];then 
+         echo -e "SONAR ANALYSIS SUCCESSFUL...ANALYSING RESULTS";
+         curl -k -u "$SONAR_TOKEN":"" $SONAR_HOST_URL/api/qualitygates/project_status?analysisId=$analysisId -o result.txt; #Analysis result like critical, major and minor issues
+         export result=$(cat result.txt | jq -r '.projectStatus.status');
+          if [ "$result" == "ERROR" ];then
+           echo -e "SONAR RESULTS FAILED";
+           echo "$(cat result.txt | jq -r '.projectStatus.conditions')"; #prints the critical, major and minor violations
+           exit 1 #breaks the build for violations
+          else
+           echo -e "SONAR RESULTS SUCCESSFUL";
+           echo "$(cat result.txt | jq -r '.projectStatus.conditions')";
+           exit 0 
+          fi
+       else 
+        echo -e "\e[91mSONAR ANALYSIS FAILED\e[0m";
+        exit 1 #breaks the build for failure in Step2
+       fi
 
+      
 
-VALIDATE:
-  tags:
-    - RHPP
-  only:
-    - merge_requests
-  except:
-    - push
-    - commit
-
-  stage: VALIDATE
-  script:
-    - . ./scripts/ci/validate.sh INF61
-
-
-# 5.0 INT: ---------------------------------------------------------------------
-DeployINT5.0:
-  #tags:
-   # - shell
-  only:
-    - INT5.0
-  except:
-    - merge_requests
-
-  stage: DeployINT5.0
-  script:
-    - . ./scripts/ci/deploy.sh INT5_0
-
-RunTestINT5.0:
-  #tags:
-   # - shell
-  only:
-    - INT5.0
-  except:
-    - merge_requests
-
-  stage: RunTestINT5.0
-  script:
-    - . ./scripts/ci/run-tests.sh INT5_0
-
-
-
-# 5.0 INF: ---------------------------------------------------------------------
-DeployINF5.0:
-  #tags:
-   # - shell
-  only:
-    - INF5.0
-  except:
-    - merge_requests
-
-  stage: DeployINF5.0
-  script:
-    - . ./scripts/ci/deploy.sh INF5_0
-
-RunTestINF5.0:
-  #tags:
-   # - shell
-  only:
-    - INF5.0
-  except:
-    - merge_requests
-
-  stage: RunTestINF5.0
-  script:
-    - . ./scripts/ci/run-tests.sh INF5_0
-
-# 5.1 INT: ---------------------------------------------------------------------
-DeployINT5.1:
-  #tags:
-   # - shell
-  only:
-    - INT5.1
-  except:
-    - merge_requests
-
-  stage: DeployINT5.1
-  script:
-    - . ./scripts/ci/deploy.sh INT5_1
-
-RunTestINT5.1:
-  #tags:
-   # - shell
-  only:
-    - INT5.1
-  except:
-    - merge_requests
-
-  stage: RunTestINT5.1
-  script:
-    - . ./scripts/ci/run-tests.sh INT5_1
-    
-    # 6.0 INT: ---------------------------------------------------------------------
-DeployINT6.0:
-  #tags:
-   # - shell
-  only:
-    - INT6.0
-  except:
-    - merge_requests
-
-  stage: DeployINT6.0
-  script:
-    - . ./scripts/ci/deploy.sh INT60
-
-RunTestINT6.0:
-  #tags:
-   # - shell
-  only:
-    - INT6.0
-  except:
-    - merge_requests
-
-  stage: RunTestINT6.0
-  script:
-    - . ./scripts/ci/run-tests.sh INT60
-    
-     # 6.0 INF: ---------------------------------------------------------------------
-DeployINF6.0:
-  #tags:
-   # - shell
-  only:
-    - INF6.0
-  except:
-    - merge_requests
-
-  stage: DeployINF6.0
-  script:
-    - . ./scripts/ci/deploy.sh INF60
-
-RunTestINF6.0:
-  #tags:
-   # - shell
-  only:
-    - INF6.0
-  except:
-    - merge_requests
-
-  stage: RunTestINF6.0
-  script:
-    - . ./scripts/ci/run-tests.sh INF60
-     # 6.1 INT: ---------------------------------------------------------------------
-DeployINT6.1:
-  #tags:
-   # - shell
-  only:
-    - INT6.1
-  except:
-    - merge_requests
-
-  stage: DeployINT6.1
-  script:
-    - . ./scripts/ci/deploy.sh INT61
-
-RunTestINT6.1:
-  #tags:
-   # - shell
-  only:
-    - INT6.1
-  except:
-    - merge_requests
-
-  stage: RunTestINT6.1
-  script:
-    - . ./scripts/ci/run-tests.sh INT61
-    
-     # 6.0 INF: ---------------------------------------------------------------------
-DeployINF6.1:
-  #tags:
-   # - shell
-  only:
-    - INF6.1
-  except:
-    - merge_requests
-
-  stage: DeployINF6.1
-  script:
-    - . ./scripts/ci/deploy.sh INF61
-
-RunTestINF6.1:
-  #tags:
-   # - shell
-  only:
-    - INF6.1
-  except:
-    - merge_requests
-
-  stage: RunTestINF6.1
-  script:
-    - . ./scripts/ci/run-tests.sh INF61
-    
-    # 5.1 INF: ---------------------------------------------------------------------
-DeployINF5.1:
-  #tags:
-   # - shell
-  only:
-    - INF5.1
-  except:
-    - merge_requests
-
-  stage: DeployINF5.1
-  script:
-    - . ./scripts/ci/deploy.sh INF5_1
-
-RunTestINF5.1:
-  #tags:
-   # - shell
-  only:
-    - INF5.1
-  except:
-    - merge_requests
-
-  stage: RunTestINF5.1
-  script:
-    - . ./scripts/ci/run-tests.sh INF5_1
-    # 6.1 INT: ---------------------------------------------------------------------
-DeployINT6.1:
-  #tags:
-   # - shell
-  only:
-    - INT6.1
-  except:
-    - merge_requests
-
-  stage: DeployINT6.1
-  script:
-    - . ./scripts/ci/deploy.sh INT61
-
-RunTestINT6.1:
-  #tags:
-   # - shell
-  only:
-    - INT6.1
-  except:
-    - merge_requests
-
-  stage: RunTestINT6.1
-  script:
-    - . ./scripts/ci/run-tests.sh INT61
-    
-     # 6.0 INF: ---------------------------------------------------------------------
-DeployINF6.1:
-  #tags:
-   # - shell
-  only:
-    - INF6.1
-  except:
-    - merge_requests
-
-  stage: DeployINF6.1
-  script:
-    - . ./scripts/ci/deploy.sh INF61
-
-RunTestINF6.1:
-  #tags:
-   # - shell
-  only:
-    - INF6.1
-  except:
-    - merge_requests
-
-  stage: RunTestINF6.1
-  script:
-    - . ./scripts/ci/run-tests.sh INF61
-    
-
-    
- # ClonedFml: ---------------------------------------------------------------------
-DeployClonedFml:
-  #tags:
-   # - shell
-  only:
-    - Formal
-  except:
-    - merge_requests
-
-  stage: DeployClonedFml
-  script:
-    - . ./scripts/ci/deploy.sh Clonedformal
-
-RunTestClonedFml:
-  #tags:
-   # - shell
-  only:
-    - Formal
-  except:
-    - merge_requests
-
-  stage: RunTestClonedFml
-  script:
-    - . ./scripts/ci/run-tests.sh Clonedformal
-.sfdx_helpers: &sfdx_helpers |
-
-  # Function to authenticate to Salesforce.
-  # Don't expose the auth url to the logs.
-  # Arguments:
-  #     $1 = alias to set
-  #     $2 = Sfdx Auth URL
-  #     $3 = SFDX AUth URL to use if the previous one isn't set (optional)
-
-  function authenticate() {
-
-    local alias_to_set=$1
-    local org_auth_url=$2
-    local org_auth_url_backup=$3
-
-    local file=$(mktemp)
-    echo $org_auth_url > $file
-    local cmd="sfdx force:auth:sfdxurl:store --sfdxurlfile $file --setalias $alias_to_set -d --json" && (echo $cmd >&2)
-    local output=$($cmd)
-
-    sfdx force:config:set defaultusername=$alias_to_set
-    sfdx force:config:set defaultdevhubusername=$alias_to_set
-
-    rm $file
-  }
-
-
-
-image: salesforce/salesforcedx:latest-full
-
-.sfdx_helpers: &sfdx_helpers |
-
-  # Function to authenticate to Salesforce.
-  # Don't expose the auth url to the logs.
-  # Arguments:
-  #     $1 = alias to set
-  #     $2 = Sfdx Auth URL
-  #     $3 = SFDX AUth URL to use if the previous one isn't set (optional)
-
-  function authenticate() {
-
-    local alias_to_set=$1
-    local org_auth_url=$2
-    local org_auth_url_backup=$3
-
-    local file=$(mktemp)
-    echo $org_auth_url > $file
-    local cmd="sfdx force:auth:sfdxurl:store --sfdxurlfile $file --setalias $alias_to_set -d --json" && (echo $cmd >&2)
-    local output=$($cmd)
-
-    sfdx force:config:set defaultusername=$alias_to_set
-    sfdx force:config:set defaultdevhubusername=$alias_to_set
-
-    rm $file
-  }
-
-
-
-image: salesforce/salesforcedx:latest-full
-
-before_script:
-    - apt-get update -y
-    - apt-get install nodejs -y
-    - npm update -y
-    - npm install sfdx-cli@7.63.0 --global -y
-    #- sfdx update
-    - *sfdx_helpers
+DeployInt:
+    #when: manual
+    stage: DeployInt
+    only:
+      - CICDDEMO
+    before_script: 
+      - |
+         set -x
+         echo 'y' | sfdx plugins:install sfdx-git-delta
+         sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
+         echo "--- package.xml generated with added and modified metadata ---"
+         cat package/package.xml
+         #echo "---- Deploying added and modified metadata ----"
+      #- sfdx force:source:deploy -x package/package.xml      
+    script:
+      - ls -ll
+      - echo "$INT" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d"
+      - sfdx force:source:deploy -x package/package.xml -u INT -w 60
+      - echo "Deploy success!"
