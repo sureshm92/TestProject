@@ -118,6 +118,8 @@ DeployInt:
     stage: DeployInt
     only:
       - CICDDEMO
+    except:
+      - merge_requests  
     before_script: 
       - |
          set -x
