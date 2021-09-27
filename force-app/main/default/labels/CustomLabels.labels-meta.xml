@@ -19414,6 +19414,13 @@ communications using the toggles below.</value>
         <value>Patient Auth Acquired</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Add_Update_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Add_Update Patient</shortDescription>
+        <value>Add/Update Patient</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
         <language>en_US</language>
         <protected>true</protected>
