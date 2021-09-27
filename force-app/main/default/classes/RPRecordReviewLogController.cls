@@ -173,16 +173,7 @@ public without sharing class RPRecordReviewLogController {
                 
                 peProfileSectionWrapperList[0].siteList = RPRecordReviewLogHelper.getSelectedStudySite(currentContactId,
                 peList[0].Clinical_Trial_Profile__c);
-
-                
-                List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
-                RPD = [SELECT Delegate_Access_Level__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId LIMIT 1];
-                if(RPD.size() != 0){
-                    peProfileSectionWrapperList[0].accessLevel =  RPD[0].Delegate_Access_Level__c;
-                }
-                else{
-                    peProfileSectionWrapperList[0].accessLevel ='All';
-                }     
+                peProfileSectionWrapperList[0].accessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
                 return peProfileSectionWrapperList;
         } 
         catch (Exception e) {
