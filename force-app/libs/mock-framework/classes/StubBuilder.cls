@@ -1,5 +1,5 @@
 /**
- * Created by Yehor Dobrovolskyi for testing
+ * Created by Yehor Dobrovolskyi for testing today
  */
 public with sharing class StubBuilder {
     private Stub stub;
