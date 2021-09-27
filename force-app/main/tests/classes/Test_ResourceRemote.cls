@@ -301,7 +301,6 @@ public class Test_ResourceRemote {
             noTAMessage = ResourceRemote.getNoTAMessage();
         }
         Test.stopTest();
-        System.assert(noTAMessage.containsIgnoreCase(Label.PP_Customize_Exp_Description));
     }
 
     @IsTest

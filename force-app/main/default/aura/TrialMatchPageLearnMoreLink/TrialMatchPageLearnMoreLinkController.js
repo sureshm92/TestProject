@@ -1,35 +1,33 @@
 /**
- * Created by Sravani Dasari
+ * Created by Enugothula Srinath
  * Date-21/05/2020
  */
 
 ({
+    doInit: function (component, event, helper) {
+        component.set('v.initialized', true);
+    },
+
     doGenerateReport: function (component, event, helper) {
-        const ctpId = component.get('v.ctpId');
-        if (component.get('v.isMobileApp')) {
-            communityService.executeAction(
-                component,
-                'getBase64LearnMoreData',
-                {
-                    ctpId: ctpId
-                },
-                function (returnValue) {
-                    communityService.navigateToPage('mobile-pdf-viewer?pdfData=' + returnValue);
-                },
-                function (error) {
-                    communityService.showToast(
-                        'error',
-                        'error',
-                        $A.get('$Label.c.TST_Something_went_wrong')
-                    );
-                    communityService.logErrorFromResponse(error);
-                }
+        if (component.get('v.initialized') && component.get('v.isMobileApp')) {
+            communityService.showWarningToast(
+                'Warning!',
+                $A.get('$Label.c.Pdf_Not_Available'),
+                100
             );
             return;
         }
+      /**  helper.uploadReportData(component, function () {
+            window.setTimeout(
+                $A.getCallback(function () {
+                    helper.generateLearnMorePDF(component);
+                }),
+                100
+            );
+        }); **/
+        const ctpId = component.get('v.ctpId');    
         var pageurl = window.location.href;
-        if (pageurl.includes('gsk'))
-            window.open('/gsk/apex/TrialMatchLearnMorePage?CTPId=' + ctpId);
-        else window.open('/apex/TrialMatchLearnMorePage?CTPId=' + ctpId);
+        if (pageurl.includes('gsk')) window.open('/gsk/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
+        else window.open('/apex/TrialMatchLearnMorePage?CTPId='+ctpId);
     }
 });

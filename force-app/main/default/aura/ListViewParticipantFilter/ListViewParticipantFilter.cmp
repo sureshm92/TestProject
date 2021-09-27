@@ -311,11 +311,12 @@
                                           label="{!$Label.c.RH_Reset}"
                                           title="{!$Label.c.RH_Reset}"
                                           onclick="{! c.reset }"
+                                          class="ButtonWidth"
                                           />
                     </div>
                     <div class="searchHead">
                         <button
-                                class="apollo-btn secondary mrc-invite-btn search"
+                                class="apollo-btn secondary mrc-invite-btn search ButtonWidth"
                                 data-gtm="BTN_InviteRP"
                                 onclick="{!c.handleSearch}"
                                 >

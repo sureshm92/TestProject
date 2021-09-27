@@ -41,7 +41,7 @@ public without sharing class FileContainer {
                 showInstructions = getInstructionStatus(currentContactId);
                 //Check access level
                 delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);  
-                hcpDelegate = delegateAccessLevel != null ? delegateId : currentContactId; 
+                hcpDelegate = (delegateAccessLevel != null && delegateAccessLevel != '') ? delegateId : currentContactId; 
                 //Get trials
                 trials = getTrials(hcpDelegate); 
                 //Get contact details
@@ -76,14 +76,14 @@ public without sharing class FileContainer {
         
         for(HCP_Enrollment__c hcpEnroll : [SELECT 
                                            Id, Study_Site__c,
-                                           Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Title__c 
+                                           Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
                                            FROM HCP_Enrollment__c 
                                            WHERE HCP_Contact__c =: delegateId and Clinical_Trial_Profile__r.Override_Recruitment_Status__c = 'Actively Enrolling'])
         {
             if(!ctpIdList.contains(hcpEnroll.Clinical_Trial_Profile__c)){
                 ctpIdList.add(hcpEnroll.Clinical_Trial_Profile__c);
                 StudyDetails studySiteWrapper = new StudyDetails();
-                studySiteWrapper.studies = new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Title__c, hcpEnroll.Study_Site__c);
+                studySiteWrapper.studies = new LabelValueItem(hcpEnroll.Clinical_Trial_Profile__r.Study_Code_Name__c, hcpEnroll.Study_Site__c);
                 studyDetails.add(studySiteWrapper);  
             }
         }

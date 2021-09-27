@@ -34,12 +34,16 @@
     height: 40px;
 }
 .THIS .rightAlign > .slds-pill__action {
+    /* @noflip */
     padding-right: 0px !important;
+    /* @noflip */
     padding-left: calc(1rem + 0.25rem + 2px);
 }
 
 .THIS .rightAlign button {
+    /* @noflip */
     left: 0.125rem;
+    /* @noflip */
     right: auto !important;
 }
 .THIS .button.slds-pill:hover {
@@ -72,7 +76,6 @@
 }
 
 .THIS .slds-pill__remove {
-    top: 50%;
     position: absolute;
     margin-right: 10px;
     z-index: 1;
@@ -81,8 +84,9 @@
     height: 0.75rem;
     width: 0.75rem;
     line-height: 0;
+    /* @noflip */
     left: 85%;
-    top: 22%;
+    top: 30%;
 }
 
 .THIS .title-desc {

@@ -13,7 +13,9 @@ public without sharing class TrialMatchPageRemote {
             TrialMatchHelper helper = (TrialMatchHelper) ClassFactory.newInstance(
                 TrialMatchHelper.class
             );
-            TrialMatchContainer trialMatchContainer = helper.getInitTrialMatchContainer(peId);
+            TrialMatchContainer trialMatchContainer = helper.getInitTrialMatchContainer(
+                peId
+            );
             return trialMatchContainer;
         } catch (Exception e) {
             return (TrialMatchContainer) AuraHelper.throwException(e);
@@ -29,19 +31,6 @@ public without sharing class TrialMatchPageRemote {
         public TrialMatchContainer() {
             this.trialmatchctps = new List<TrialMatchPageRemote.TrialMatchCTP>();
             partenrollid = peId;
-        }
-    }
-
-    @AuraEnabled
-    public static String getBase64TrialMatchData(String peId) {
-        try {
-            PageReference page = Page.TrialMatchData;
-            page.getParameters().put('id', peId);
-            Blob content = page.getContent();
-            String encoded = EncodingUtil.base64Encode(content);
-            return encoded;
-        } catch (Exception e) {
-            return (String) AuraHelper.throwException(e);
         }
     }
 

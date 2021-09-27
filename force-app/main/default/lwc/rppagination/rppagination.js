@@ -1,5 +1,8 @@
 import { LightningElement, api, track } from 'lwc';
 import community_icon from '@salesforce/resourceUrl/rr_community_icons';
+import RH_RP_Items from '@salesforce/label/c.RH_RP_Items';
+import RH_RP_of from '@salesforce/label/c.RH_RP_of';
+import RH_RP_Page from '@salesforce/label/c.RH_RP_Page';
 
 const DELAY = 300;
 const recordsPerPage = 10;
@@ -31,6 +34,12 @@ export default class Paginator extends LightningElement {
     @track endRecord;
     @track end = false;
 
+    label = {
+        RH_RP_Items,
+        RH_RP_of,
+        RH_RP_Page
+    };
+
     left_arrow = community_icon + '/left-arrow.svg';
     first_page_arrow = community_icon + '/first-page-arrow.svg';
 
@@ -48,13 +57,23 @@ export default class Paginator extends LightningElement {
     }
 
     handleRecordsPerPage(event) {
-        this.pageSize = event.target.value;
+        this.records = event.target.value;
+    }
+
+    setRecords(event) {
         this.setRecordsToDisplay();
     }
     handlePageNumberChange(event) {
-       // if (event.target.value > 0 && event.target.value <= this.totalPages) {
-        if (event.target.value > 0) {
-            this.pageNumber = event.target.value;
+        let totalpgs =  Math.ceil(this.totalRecords / this.pageSize)
+        if (event.target.value > 0 && event.target.value <= totalpgs ){
+            this.pageNumber =  parseInt(event.target.value) ;
+            this.setRecordsToDisplay();
+        }
+        else if (!event.target.value) {
+            this.pageNumber = this.pageNumber;
+            this.setRecordsToDisplay();
+        }else if (event.target.value > totalpgs){
+            this.pageNumber = totalpgs;
             this.setRecordsToDisplay();
         }
     }
@@ -82,7 +101,17 @@ export default class Paginator extends LightningElement {
         this.pageNumber = 1;
     }
     @api
+    refreshPageNumber() {
+        let currentpgno =  this.pageNumber ;
+        if(currentpgno > Math.ceil(this.totalRecords / this.pageSize)){
+            this.pageNumber =  this.pageNumber - 1;
+        }
+        this.setRecordsToDisplay();
+    }
+    @api
     setRecordsToDisplay() {
+        console.log('this.totalRecords' + this.totalRecords);
+
         if (this.totalRecords == 0) {
             this.showPagination = false;
         } else {
@@ -90,11 +119,12 @@ export default class Paginator extends LightningElement {
         }
         this.recordsToDisplay = [];
         if (!this.pageSize) this.pageSize = this.totalRecords;
-
+       
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
 
         let begin = (this.pageNumber - 1) * this.recordsPerPage;
         console.log('this.pageNumber' + this.pageNumber);
+        console.log('this.totalPages' + this.totalPages);
         console.log('this.recordsPerPage' + this.recordsPerPage);
         console.log('begin-' + begin);
         let end = begin + this.recordsPerPage;
@@ -120,8 +150,40 @@ export default class Paginator extends LightningElement {
         }
         this.dispatchEvent(new CustomEvent('paginatorchange', { detail: this.recordsToDisplay })); //Send records to display on table to the parent component
     }
+
+    changeStyle1 = false;
+    changeStyle2 = false;
+    changeStyle3 = false;
+
+
+    get class1(){
+        return this.changeStyle1 ? 'first-page-arrow-button-icon-s2': 'first-page-arrow-button-icon-s1';
+    }
+
+    get class2(){
+        return this.changeStyle2 ? 'iconColorChange1': 'iconColorChange2';
+    }
+
+    get class3(){
+        return this.changeStyle3 ? 'iconColorChange2': 'iconColorChange1';
+    }
+
+
     setPaginationControls() {
-        //Control Pre/Next buttons visibility by Total pages
+        this.changeStyle1 = false;
+        this.changeStyle2 = false;
+        this.changeStyle3 = false;
+
+        //Control Pre/Next buttons visibility by Total 
+        if (this.pageNumber === 1) {
+            this.changeStyle1 = true;
+        }
+        else if (this.totalPages > 1) {
+            this.changeStyle2 = true;
+        }
+        else if (this.pageNumber == this.totalPages) {
+            this.changeStyle3 = true;
+        }
         if (this.totalPages === 1) {
             this.firstDisabled = true;
             this.nextDisabled = true;
@@ -132,13 +194,17 @@ export default class Paginator extends LightningElement {
             this.nextDisabled = false;
             this.lastDisabled = false;
             this.previousDisabled = false;
+            
         }
         //Control Pre/Next buttons visibility by Page number
         if (this.pageNumber <= 1) {
             this.pageNumber = 1;
             this.lastDisabled = true;
-            this.previousDisabled = true;
-        } else if (this.pageNumber >= this.totalPages) {
+            this.previousDisabled = true;        
+        } 
+        else if (this.pageNumber >= this.totalPages) {
+            this.changeStyle3 = true;
+
             this.pageNumber = this.totalPages;
             this.firstDisabled = true;
             this.nextDisabled = true;

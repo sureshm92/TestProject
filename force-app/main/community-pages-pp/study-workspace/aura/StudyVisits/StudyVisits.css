@@ -10,6 +10,9 @@
     box-shadow: 1px 0 2px 0 rgba(0, 0, 0, 0.04);
     margin-top: -15px;
 }
+.THIS .cRRTable.rr-table .wrapText {
+    white-space: nowrap;
+}
 
 .THIS.sv-body .rr-white-panel {
     border: none;

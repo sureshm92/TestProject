@@ -100,8 +100,10 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
+                        if(!component.get('v.patientVeiwRedirection')){
                             component.set('v.currentState', 'Search PE');
                         }
+                    }
                     //component.set('v.actions', initData.actions);
                     if(component.get('v.patientVeiwRedirection')){
                         var dayList = [];
@@ -145,10 +147,12 @@
                         component.set('v.years', yearList);
                         component.set('v.pday',null);
                         var penrollment = component.get('v.pEnrollment');
-                        console.log('penrollment==>'+penrollment.YOB__c);
                         //let participant = component.get('v.participant');
                         if(component.get('v.primaryDelegateFirstname') != null){
                             component.set('v.participant.Health_care_proxy_is_needed__c',true);
+                            //component.set('v.needsGuardian', true);
+                            //component.set('v.enableGuardian', true);
+                            component.set('v.delegateExist',true);
                             console.log('DelegateExist');
                         }
                         component.checkdoneeedgaurdian();
@@ -191,8 +195,8 @@
             component.set('v.authorizationForm',true);
         }
         else{
-            component.set('v.doNext',true);
-            /*let trial = component.get('v.trial');
+            //component.set('v.doNext',true);
+            let trial = component.get('v.trial');
             let hcpeId = component.get('v.hcpeId');
             window.scrollTo(0, 0);
             if (!hcpeId) {
@@ -206,7 +210,7 @@
                 if(frmpatientVeiw){
                     helper.checkGuardianAge(component, event, helper);
                 }
-            }*/
+            }
         }
     },
     
@@ -226,7 +230,7 @@
                 helper.checkGuardianAge(component, event, helper);
             }
         }  
-        let peID = communityService.getUrlParameter('peid');
+        /*let peID = communityService.getUrlParameter('peid');
         communityService.executeAction(
             component,
             'saveUpdatedPER',
@@ -234,7 +238,7 @@
             function (returnValue) {
                 console.log('recordUpdated');
             }
-        );
+        );*/
         
     },
     doSelectSite: function (component, event, helper) {
@@ -247,12 +251,8 @@
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
             component.find('mainSpinner').show();
             helper.addEventListener(component, helper);
-        } else {
+        } else { 
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
-            let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-            if(frmpatientVeiw){
-                helper.checkGuardianAge(component, event, helper);
-            }
         }
         window.scrollTo(0, 0);
     },
@@ -268,8 +268,13 @@
         );
     },
     
-    doGoHome: function () {
-             communityService.navigateToPage(''); 
+    doGoHome: function (component) {
+        if(component.get('v.patientVeiwRedirection')){
+            communityService.navigateToPage('my-patients');
+            window.location.reload();
+        }else{
+             communityService.navigateToPage('');   
+        }
     },
     
     doGoFindStudySites: function (component) {
@@ -324,9 +329,18 @@
     
     doCheckDateOfBith: function (component, event, helper) {
         console.log('dob'+component.get('v.participant.Date_of_Birth__c'));
-        helper.checkParticipantNeedsGuardian(component, event, helper);
+        var pday = component.get('v.pday');
+        var pmonth = component.get('v.pmonth');
+        var pyear = component.get('v.pyear');
+        if(component.get('v.patientVeiwRedirection')){
+            if((pday && pmonth && pyear) != null){
+               helper.checkParticipantNeedsGuardian(component, event, helper);
+            }
+        }else{
+           helper.checkParticipantNeedsGuardian(component, event, helper);
+        }
         //helper.checkFields(component, event, helper); REF-3070
-        
+ 
     },
     
     doCheckYearOfBith: function (component, event, helper) {
@@ -337,16 +351,32 @@
         let participant = component.get('v.participant');
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component, participant);
+             if(component.get('v.patientVeiwRedirection')){
+                    component.set('v.hasGaurdian', true);
+              }
         } else {
             component.set('v.useThisDelegate', true);
             component.set('v.emailDelegateRepeat', '');
+             if(component.get('v.patientVeiwRedirection')){
+                 var delegateParticipant = {
+                     sobjectType: 'Participant__c',
+                     First_Name__c:'',
+                     Last_Name__c:'',
+                     Email__c:'',
+                     Phone__c:'',
+                     Phone_Type__c:'',
+                     Birth_Year__c:''
+                 };
+                 component.set('v.delegateParticipant', delegateParticipant);
+                 component.set('v.primaryDelegateYob', '');
+                 component.set('v.attestAge', false);
+                 component.set('v.delegateValueRemoved',true);
+                 component.set('v.hasGaurdian', false);
+              }
         }
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
         helper.checkFields(component, event, helper);
-        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        if(patientVeiwRedirection){
-            // helper.checkGuardianAge(component, event, helper);
-        }
+        
     },
     handleUploadFinished: function (component, event) {
         // Get the list of uploaded files
@@ -400,13 +430,7 @@
                 contentDocId:contentDocId
             },
             function (returnValue) {
-                let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-                if(patientVeiwRedirection){ 
-                    communityService.navigateToPage('my-patients');
-                    window.location.reload();
-                }else{
-                    component.set('v.currentState', 'Refer Success');
-                }
+                component.set('v.currentState', 'Refer Success');
             },
             null,
             function () {
@@ -472,7 +496,6 @@
         } else {
             component.set('v.states', []);
         }
-        
         component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
         helper.checkFields(component, event, helper);
     },

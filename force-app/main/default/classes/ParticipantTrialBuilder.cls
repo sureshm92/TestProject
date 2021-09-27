@@ -80,7 +80,7 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
             );
              if (
                 participantState.isPremium &&
-                (participantState.showVisits || participantState.ctp.Travel_Vendor_Is_Available__c)
+                (participantState.showVisits || (participantState.ctp.Received_Until_Consent_Is_Available__c || participantState.ctp.Enrolled_Or_Randomized_Consent_Available__c))
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
