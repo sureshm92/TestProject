@@ -10,7 +10,10 @@ public class Test_LibraryPIRemote {
         Test.startTest();
         TestData testDataInstance = new TestData();
         List<Resource__c> resources = new List<Resource__c>{
-            new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US'),
+            new Resource__c(Resource_Visibility__c = 'PI', Language__c = 'en_US',
+                           RecordTypeId = Schema.SObjectType.Resource__c.getRecordTypeInfosByName()
+                    .get('Study Document')
+                    .getRecordTypeId()),
             new Resource__c(
                 Language__c = 'en_US',
                 Resource_Visibility__c = 'PI',
@@ -82,6 +85,7 @@ public class Test_LibraryPIRemote {
             LinkedEntityId = resources[1].Id
         );
         insert DDL;
+        LibraryPIRemote.getBase64Resource(resources[1].id,'en_US' );
         Test.stopTest();
     }
 }
