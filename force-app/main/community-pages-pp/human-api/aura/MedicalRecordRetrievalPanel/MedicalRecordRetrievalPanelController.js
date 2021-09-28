@@ -130,6 +130,21 @@
             component.find('spinner').hide();
         }
         }
+		
+		//Added to create content for external disclaimer i Icon
+        communityService.executeAction(component, 'getCommunityName', {}, function (returnValue) {
+            if (returnValue !== null) {
+                var disclaimerText =
+                	$A.get('$Label.c.RH_Manage_Auth_Disclaimer') +
+                    ' ' +
+                    $A.get('$Label.c.RH_External_Link_Disclaimer') +
+                    ' ' +
+                    returnValue +
+                    ' ' +
+                    $A.get('$Label.c.RH_External_Link_Disclaimer1');
+                component.set('v.externalLinkDisclaimer', disclaimerText);
+            }
+        });
                   
     },
     

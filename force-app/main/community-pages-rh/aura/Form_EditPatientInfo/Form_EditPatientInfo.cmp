@@ -221,7 +221,7 @@
                                              value="{!v.participant.Date_of_Birth__c}"
                                              required="true"
                                              autocomplete="off"
-                                             onblur="{!c.doCheckDateOfBith}"
+                                             onchange="{!c.doCheckDateOfBith}"
                                              dateStyle="medium"
                                              />
                         </div>

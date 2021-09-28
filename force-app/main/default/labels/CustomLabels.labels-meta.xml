@@ -18580,6 +18580,13 @@ communications using the toggles below.</value>
         <value>IQVIA</value>
     </labels>
     <labels>
+        <fullName>RH_Manage_Auth_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Manage_Auth_Disclaimer</shortDescription>
+        <value>Note that in order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page.</value>
+    </labels>
+    <labels>
         <fullName>RH_MinorDelegateErrMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19412,6 +19419,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth Aquired</shortDescription>
         <value>Patient Auth Acquired</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Add_Update_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Add_Update Patient</shortDescription>
+        <value>Add/Update Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>

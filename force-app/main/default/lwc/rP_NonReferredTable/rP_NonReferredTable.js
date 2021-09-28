@@ -66,7 +66,20 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     connectedCallback() {
-        this.getDetailsApex();
+        console.log('UsrMode'+this.userMode);
+        console.log('DelegateId'+this.delegateId);
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.userMode = communityService.getUserMode();
+            console.log('frmtablemode'+ this.userMode);
+            this.delegateId = communityService.getDelegateId();
+            console.log('frmtableid'+  this.delegateId );
+        }).then(() => {
+            this.getDetailsApex();
+        }).catch((error) => {
+            console.log('Error: ' + error);
+        });
+       
     }
 
     @api
@@ -117,7 +130,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     getDetailsApex() {
-        getPEDetails()
+        getPEDetails({ userMode: this.userMode, delegateId: this.delegateId })
             .then((result) => {
                 this.allRecords = result;
                 let includedRecords = result.filter(function(include) {

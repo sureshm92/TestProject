@@ -14,11 +14,15 @@ import RH_RP_Patients_Added from '@salesforce/label/c.RH_RP_Patients_Added';
 import RH_RP_Last_Month from '@salesforce/label/c.RH_RP_Last_Month';
 import RH_RP_Last_Week from '@salesforce/label/c.RH_RP_Last_Week';
 import RH_RP_Yesterday from '@salesforce/label/c.RH_RP_Yesterday';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class RPNonReferredOverview extends LightningElement {
 
     @track data = [];
     @track error;
+    @api userMode;
+    @api delegateId;
 
     label = {
         RH_RP_Overview_for,
@@ -38,14 +42,25 @@ export default class RPNonReferredOverview extends LightningElement {
     
     // Getting PE Details
     connectedCallback() {
-         console.log('connectedcallback');
-         getPEDetails()
-         .then(result => {
-             this.data = result;
-             console.log('cc'+JSON.stringify(result));
-         })
-         .catch(error => { 
-             this.error = error;
-         });
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.userMode = communityService.getUserMode();
+            console.log('frmtablemode'+ this.userMode);
+            this.delegateId = communityService.getDelegateId();
+            console.log('frmtableid'+  this.delegateId );
+        })
+        .then(() => {
+            getPEDetails({ userMode: this.userMode, delegateId: this.delegateId })
+            .then(result => {
+                this.data = result;
+                console.log('cc'+JSON.stringify(result));
+            }) .catch((error => {
+                console.log('Err:'+JSON.stringify(error));
+            })); 
+        })
+        .catch((error) => {
+            console.log('Error: ' + error);
+        });
+        
     }
 }
