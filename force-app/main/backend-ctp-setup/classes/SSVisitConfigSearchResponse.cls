@@ -69,6 +69,9 @@ public without sharing class SSVisitConfigSearchResponse {
                 ? ssVisitPlansBySSIdMap.get(ss.Id)
                 : new List<StudySiteVisitPlan__c>();
             item.emptyAssignments = ssVPList.isEmpty();
+            if(!ssVPList.isEmpty() && ssVPList.size()==1){
+             item.soleVisitPlan = ssVPList[0].Visit_Plan__c;   
+            }
             for (LabelValueItem vp : visitPlans) {
                 Id ssVPId;
                 for (StudySiteVisitPlan__c ssVP : ssVPList) {

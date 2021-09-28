@@ -1,0 +1,119 @@
+<apex:page standardStylesheets="false" applyBodyTag="false" renderAs="pdf" controller="VisitSummaryReportPageController" applyHtmlTag="false"
+           showHeader="false"  readOnly="true">
+    <html>
+        <head>
+            <meta http-equiv="Content-Type" content="text/html;charset=UTF-8" />
+            <style type="text/css" media="print">
+                .ltr {
+                margin-left: 20px;
+                margin-right: 40px;
+                font-family: Arial Unicode MS;
+                }
+                
+                .rtl {
+                margin-left: 60px;
+                margin-right: 60px;
+                font-family: Arial Unicode MS;
+                }
+            </style>
+            <apex:stylesheet value="{!if(isRTL == true, $Resource.VisitSummaryReportRTL, $Resource.VisitSummaryReportLTR)}" />
+            <!--<apex:stylesheet value="{!$Resource.TrailMatchLearnMoreRTL}" />  -->
+            
+        </head>
+        <body class="{!if(isRTL == true, 'rtlEnable', '')}">
+            <div class="header">
+                <apex:image url="{!URLFOR($Resource.ReportBrandingLogos, imgUrl)}" alt="logo"  width="140px" height="35px" />
+            </div>
+            <div class="header2">
+                <div>
+                    {!pdfStudyHeaderName}
+                </div>
+            </div>
+            <div class="footer">
+                <div>{!footerText} </div>
+            </div>
+            <div class="content" style="display:block;margin-top:140px;font-family: {!fontFamily} ;">
+                <!--<div style="font-size: 28px;margin:140px;text-align: center; display:inline-block;">
+<apex:outputText value="{!studyCodeName}"></apex:outputText>
+
+</div>
+<div style="font-size: 24px;margin:80px;margin-top:30px;text-align: center; display:inline-block;">
+<apex:outputText value="{!studyTitle}"></apex:outputText>
+
+</div>
+<div style="font-size: 24px;margin-top:90px;margin:60px; justify-content: center;display:inline-block;">
+<apex:outputText value="{!$Label.Report_My_Study_Data}" style="font-weight:bold"/>
+
+</div> --> 
+             
+               
+                
+                <div style="font-size: 24px;margin:200px;"  >
+                </div>
+                <table style="width:80%;margin:120px;">
+                    <tr style="height: 50px;text-align:center;font-size:20px;">
+                        <td>  <apex:outputText value="{!studyCodeName}"></apex:outputText></td>
+                    </tr>
+                    <tr style="height: 150px;text-align:center;font-size:18px; ">
+                        <td><apex:outputText value="{!studyTitle}"></apex:outputText></td>
+                    </tr>
+                    <tr style="height: 150px;text-align:center;font-size:18px;">
+                        <td><apex:outputText value="{!$Label.Report_My_Study_Data}" /></td>
+                    </tr>
+                </table>
+                <div style="margin-left:40px;color:#000096;font-size:20px; font-weight:bold">
+                    <apex:outputText value="{!participantFullName}" />                        <br/>
+                    <apex:outputText value="{!$Label.Report_Enrollment_Date}" /> &nbsp;<apex:outputText value="{!enrollmentDate}" />  <br/>                      
+                    <apex:outputText value="{!$Label.Report_Participant_Status}" /> :&nbsp;<apex:outputText value="{!participantStatus}" />  <br/>                      
+                    <apex:outputText value="{!$Label.Report_Study_Site}" /> :&nbsp;<apex:outputText value="{!studySiteName}" />  <br/>                      
+                </div>
+                <div  class="datatab">
+                    <apex:repeat value="{!reportWrapperFinalObj.dataTables}" var="line">  
+                        <br/>
+                        <b> <span style="font-size:20px;"> <apex:outputText value="{!line.tableName}" /></span></b>
+                        <br/>    
+                        <apex:repeat value="{!line.labsDescription}" var="labdesc">
+                            <br/>
+                            <b><span style="font-size:14px;"> <apex:outputText value="{!labdesc.nameLabs}" /></span></b> <br/>
+                            <span style="font-size:14px;"><apex:outputText value="{!labdesc.descriptionLab}" /> </span>
+                            <br/>
+                        </apex:repeat>
+                        <br/>
+                        <br/>
+                        <div style="direction:rtl;">
+                            <table   style="width:97%; border-collapse: collapse;margin-top:10px; page-break-inside: avoid;direction: rtl; ">
+                            <thead>
+                                <tr>
+                                    <apex:repeat value="{!line.tHead}" var="tableHead">
+                                        <th style="border: 1px solid black;text-align: center;padding-left: 2px;padding-right: 2px;"
+                                            >
+                                            <div
+                                                 style="text-transform: none; font-size: 14px; display: block"
+                                                 >
+                                                {!tableHead.value} &nbsp;<apex:outputText rendered="{!(tableHead.isShowRange!=false)}">{! $Label.Report_Expected_Range}&nbsp;{!tableHead.minValue} - {!tableHead.maxValue} </apex:outputText> <apex:outputText rendered="{!!ISBLANK(tableHead.measurement)}" value="{!(' ('+ tableHead.measurement+')')}" />
+                                                <br/>
+                                            </div>
+                                            
+                                        </th>
+                                    </apex:repeat>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <apex:repeat value="{!line.visitResultsWrapper}" var="rows">
+                                    <tr>
+                                        <apex:repeat value="{!rows}" var="row">
+                                            
+                                            <td style="font-size: 14px;text-align: center;border: 1px solid black; padding: 4px;  ">{!row.value}</td>
+                                        </apex:repeat> 
+                                    </tr>
+                                </apex:repeat>
+                            </tbody>
+                        </table>  
+                        </div>
+                        
+                    </apex:repeat>
+                </div>
+            </div>
+        </body>
+    </html>
+</apex:page>

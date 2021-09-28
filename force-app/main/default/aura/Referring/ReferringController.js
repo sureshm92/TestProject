@@ -100,8 +100,8 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
-                        component.set('v.currentState', 'Search PE');
-                    }
+                            component.set('v.currentState', 'Search PE');
+                        }
                     //component.set('v.actions', initData.actions);
                     if(component.get('v.patientVeiwRedirection')){
                         var dayList = [];
@@ -191,7 +191,8 @@
             component.set('v.authorizationForm',true);
         }
         else{
-            let trial = component.get('v.trial');
+            component.set('v.doNext',true);
+            /*let trial = component.get('v.trial');
             let hcpeId = component.get('v.hcpeId');
             window.scrollTo(0, 0);
             if (!hcpeId) {
@@ -205,7 +206,7 @@
                 if(frmpatientVeiw){
                     helper.checkGuardianAge(component, event, helper);
                 }
-            }
+            }*/
         }
     },
     
@@ -225,6 +226,16 @@
                 helper.checkGuardianAge(component, event, helper);
             }
         }  
+        let peID = communityService.getUrlParameter('peid');
+        communityService.executeAction(
+            component,
+            'saveUpdatedPER',
+            { peID:peID},
+            function (returnValue) {
+                console.log('recordUpdated');
+            }
+        );
+        
     },
     doSelectSite: function (component, event, helper) {
         let trial = component.get('v.trial');
@@ -258,7 +269,7 @@
     },
     
     doGoHome: function () {
-        communityService.navigateToPage('');
+             communityService.navigateToPage(''); 
     },
     
     doGoFindStudySites: function (component) {

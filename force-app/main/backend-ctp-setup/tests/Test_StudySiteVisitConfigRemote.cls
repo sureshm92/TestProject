@@ -18,8 +18,8 @@ private class Test_StudySiteVisitConfigRemote {
         String filterJS = JSON.serialize(initData.filter);
         String paginationJS = JSON.serialize(initData.searchResponse.pagination);
 
-        StudySiteVisitConfigRemote.getItems(ssItemsJS, filterJS, paginationJS);
-        StudySiteVisitConfigRemote.setVisitPlanForAll(visitPlan.Id, true, filterJS, paginationJS, ssItemsJS);
+        StudySiteVisitConfigRemote.getItems(ssItemsJS, filterJS, paginationJS, null, testData.ctp.Id);
+        StudySiteVisitConfigRemote.setVisitPlanForAll(visitPlan.Id, true, filterJS, paginationJS, ssItemsJS, null, testData.ctp.Id, null,false);
         StudySiteVisitConfigRemote.deleteVisitPlan(visitPlan.Id, filterJS, paginationJS);
         Test.stopTest();
     }

@@ -729,6 +729,20 @@
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</shortDescription>
+        <value>Proceed to select this visit plan to assign to all these participants.</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
+        <value>Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants).</value>
+    </labels>    
+    <labels>
         <fullName>Attestation_Confirmation_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -756,6 +770,14 @@
         <protected>true</protected>
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
+    </labels>
+    <labels>
+        <fullName>BATCH_RUNNING</fullName>
+        <categories>BATCH_RUNNING</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BATCH_RUNNING</shortDescription>
+        <value>There is a batch running for selected Visit Plan(s). Uncheck is currently not possible. Please uncheck after batch is completed.</value>
     </labels>
     <labels>
         <fullName>BMI</fullName>
@@ -21099,6 +21121,20 @@ communications using the toggles below.</value>
         <shortDescription>Total Cholesterol Description</shortDescription>
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_VP</shortDescription>
+        <value>There are ##PEs participants with no visit plan attached.</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_VP_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_VP_LIMIT</shortDescription>
+        <value>There are more than ##PEs participants with no visit plan attached.</value>
+    </labels>    
     <labels>
         <fullName>Total_protein</fullName>
         <language>en_US</language>

@@ -201,7 +201,13 @@ public without sharing class TaskEditRemote {
     public static Boolean getisTravelSupportEnabled() {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            return state.isTravelSupportEnabled;
+            if(state.value == ParticipantService.ParticipantStates.REFERRAL){
+                return (state.ctp.Received_Until_Consent_Is_Available__c || state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
+            }
+            else{
+                return state.isTravelSupportEnabled;
+            }
+
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
