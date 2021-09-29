@@ -7,7 +7,7 @@
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
-
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="isRTL" type="Boolean" />
