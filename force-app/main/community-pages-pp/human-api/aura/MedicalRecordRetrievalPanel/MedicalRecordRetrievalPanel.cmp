@@ -1,7 +1,7 @@
 <!--
  - Created by Sandeep
  -->
-<aura:component controller="MedicalRecordAccessRemote" implements="flexipage:availableForAllPageTypes" >
+ <aura:component controller="MedicalRecordAccessRemote" implements="flexipage:availableForAllPageTypes" >
     <ltng:require
                   scripts="{!join(',', $Resource.rr_community_js,$Resource.humanapijs)}" 
                   afterScriptsLoaded="{!c.doInit}"  
@@ -26,6 +26,7 @@
    
     <aura:attribute name="showMedicalCard" type="Boolean" default="false"/>
     <aura:attribute name="isDelegate" type="Boolean" default="false"/>
+    <aura:attribute name="externalLinkDisclaimer" type="String" />
     
     <aura:handler name="change" value="{!v.success}" action="{!c.listProvidersChange}"/>
      
@@ -75,12 +76,14 @@
                         
                         <aura:if isTrue="{!and(or(v.participantState.value == 'PARTICIPANT',v.participantState.value == 'REFERRAL'),not(v.hasPastStudies))}">
                             <aura:if isTrue="{!and(v.isHumanApiChecked,v.initialized)}">
-                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
+                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a> &nbsp;<lightning:helptext
+                        content="{!v.externalLinkDisclaimer}" />
                             </aura:if>
                         </aura:if> 
                         <aura:if isTrue="{!v.hasPastStudies}">
                             <aura:if isTrue="{!and(v.showAuthorizationLink,v.initialized)}">
-                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a>
+                                <a href="javascript:void(0)" onclick="{!c.manageSources}">Manage Authorizations</a> &nbsp;<lightning:helptext
+                        content="{!v.externalLinkDisclaimer}" />
                             </aura:if>
                         </aura:if>
                         <!-- Manage Authorizations -->

@@ -1,3 +1,10 @@
+/**
+ * @description       : 
+ * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
+ * @group             : 
+ * @last modified on  : 09-29-2021
+ * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
+**/
 public class MedicalRecordAccessRemote {
     
     public static String clientId='72cd1f1f7b36cc80e104efd2a9332e74372fcb24';
@@ -132,8 +139,22 @@ public class MedicalRecordAccessRemote {
         return labelItems;
     }
     
-    
-    
+        
+    /*
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┐
+    * This method will return the current communityName
+    * ────────────────────────────────────────────────────────────────────────────────────────────────
+    * @Method:   getCommunityName
+    * @param:    NA
+    * @return:   Strings
+    * ───────────────────────────────────────────────────────────────────────────────────────────────┘
+    */
+    @AuraEnabled
+    public static String getCommunityName() {
+        String communityName = FindCommunityName.getCommunityName();
+        return communityName;
+    }
+
     
     
 }
