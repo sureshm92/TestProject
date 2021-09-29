@@ -45,7 +45,7 @@ export default class ConversationItem extends LightningElement {
             markRead({
                 conversation: this.item.conversation,
                 isIE: navigator.userAgent.match(/Trident|Edge/) !== null,
-                piContactNames: piContactNames
+                piContactNames: this.piContactNames
             })
                 .then((data) => {
                     try {
