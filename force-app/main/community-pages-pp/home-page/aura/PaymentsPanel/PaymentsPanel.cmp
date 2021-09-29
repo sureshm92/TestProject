@@ -11,6 +11,7 @@
         scripts="{!join(',', $Resource.rr_community_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
+    <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:attribute name="initialized" type="Boolean" />
     <aura:attribute name="initData" type="Object" />
     <aura:attribute name="href" type="String" />

@@ -18580,6 +18580,13 @@ communications using the toggles below.</value>
         <value>IQVIA</value>
     </labels>
     <labels>
+        <fullName>RH_Manage_Auth_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Manage_Auth_Disclaimer</shortDescription>
+        <value>Note that in order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page.</value>
+    </labels>
+    <labels>
         <fullName>RH_MinorDelegateErrMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
