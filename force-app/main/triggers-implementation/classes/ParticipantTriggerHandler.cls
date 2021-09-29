@@ -148,6 +148,9 @@ public without sharing class ParticipantTriggerHandler {
                     }else if(oldMap.get(part.Id)!=null && part.Phone__c != oldMap.get(part.Id).Phone__c){
                         updateContactsMap.put(part.Contact__c,part);
                     }
+                    if(oldMap.get(part.Id)!=null && part.Email__c != oldMap.get(part.Id).Email__c){
+                        updateContactsMap.put(part.Contact__c,part);
+                    }
                     if(oldMap.get(part.Id)!=null && part.First_Name__c != oldMap.get(part.Id).First_Name__c){
                         updateUsersMap.put(part.Contact__c,part);
                     }else if(oldMap.get(part.Id)!=null && part.Last_Name__c != oldMap.get(part.Id).Last_Name__c){
@@ -162,7 +165,7 @@ public without sharing class ParticipantTriggerHandler {
         }
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone,Email,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;
@@ -175,6 +178,9 @@ public without sharing class ParticipantTriggerHandler {
 						updateNeeded= true;
 					}if(con.Phone != updateContactsMap.get(con.Id).Phone__c){
 						con.Phone = updateContactsMap.get(con.Id).Phone__c;
+						updateNeeded= true;
+					}if(con.Email != updateContactsMap.get(con.Id).Email__c){
+						con.Email = updateContactsMap.get(con.Id).Email__c;
 						updateNeeded= true;
 					}
                      if(con.Language__c != updateContactsMap.get(con.Id).Preferred_Language__c && String.isEmpty(con.Second_Choice_Language__c)){
