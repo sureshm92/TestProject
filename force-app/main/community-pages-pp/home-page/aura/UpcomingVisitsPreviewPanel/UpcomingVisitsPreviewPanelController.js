@@ -3,28 +3,34 @@
  */
 ({
     doInit: function (component, event, helper) {
-        communityService.executeAction(component, 'getVisitsPreview', null, function (response) {
-            component.set('v.visitWrappers', response);
-            component.set('v.initialized', true);
-            component.find('spinner').hide();
-        });
-         communityService.executeAction(component, 'getIsVisitPathEnabled', null, function (response) {
-            component.set('v.isVisitPathEnabled', response);
-            component.find('spinner').hide();
-        });
+        if (communityService) {
+            communityService.executeAction(component, 'getVisitsPreview', null, function (
+                response
+            ) {
+                component.set('v.visitWrappers', response);
+                component.set('v.initialized', true);
+                component.find('spinner').hide();
+            });
+            communityService.executeAction(component, 'getIsVisitPathEnabled', null, function (
+                response
+            ) {
+                component.set('v.isVisitPathEnabled', response);
+                component.find('spinner').hide();
+            });
+        }
     },
 
     closeModal: function (component, event, helper) {
         component.find('showVendors').hide();
     },
-      createEditTask: function (component, event, helper) {
+    createEditTask: function (component, event, helper) {
         var currentVisits = component.get('v.visitWrappers');
         var indexVar = event.getSource().get('v.value');
         var visitWrapper = currentVisits[indexVar];
         var firstLoad = component.get('v.firstLoad');
 
-       // if (!firstLoad) {
-            helper.createStudyVisitReminder(component, visitWrapper);
+        // if (!firstLoad) {
+        helper.createStudyVisitReminder(component, visitWrapper);
         /*} else {
             //var title = $A.util.isUndefinedOrNull(visitWrapper.task)
               //  ? $A.get('$Label.c.PP_Create_Visit_Reminder')

@@ -1,7 +1,7 @@
 ({
     doInit: function (component, event, helper) {
         component.set('v.initialized', false);
-        if (communityService.isInitialized()) {
+        if (communityService && communityService.isInitialized()) {
             communityService.executeAction(component, 'getTrialId', {}, function (returnValue) {
                 component.set('v.trialId', returnValue);
                 communityService.executeAction(component, 'getNoTAMessage', {}, function (
