@@ -435,7 +435,19 @@
                     <aura:if
                         isTrue="{!and(v.currentTab == 'tab-visits', v.visitMode == 'TravelSupportDetails')}"
                     >
-                        <c:TravelSupportDetails />
+                        <aura:if isTrue="{!v.participantStateValue == 'REFERRAL'}">
+                              <aura:if isTrue="{!or(v.studyDetail.trial.Enrolled_Or_Randomized_Consent_Available__c,v.studyDetail.trial.Received_Until_Consent_Is_Available__c)}">
+                                                       <c:TravelSupportDetails />
+
+                        </aura:if>                            
+                         <aura:set attribute="else">
+                            <aura:if isTrue="{!v.studyDetail.trial.Travel_Vendor_Is_Available__c}">
+                                                  <c:TravelSupportDetails />
+
+                        </aura:if>
+                        </aura:set>
+                     </aura:if>
+
                     </aura:if>
 
                     <aura:if isTrue="{!v.currentTab == 'tab-tasks'}">

@@ -4,6 +4,7 @@
 
 <aura:component description="CommunityNavigation" extends="c:AbstractNavigation">
     <aura:attribute name="userMode" type="String" />
+    <input type="hidden" id="userMode" name="userMode" value="{!v.userMode}" />
     <!-- component body: -->
     <ul
         class="{!'nav-menu ' + if(v.isRTL, 'rtl ', ' ') + if(v.scrollRequired, v.scrollDirection, '')}"
@@ -14,7 +15,7 @@
                 <c:CommunityResourcesNavigation
                     itemResource="{!v.item}"
                     communityTemplate="{!v.communityTemplate}"
-                    currentUserMode = "{!v.userMode}"                            
+                    currentUserMode="{!v.userMode}"
                 />
                 <aura:set attribute="else">
                     <li
