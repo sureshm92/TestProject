@@ -1,10 +1,3 @@
-/**
- * @description       : 
- * @author            : ChangeMeIn@UserSettingsUnder.SFDoc
- * @group             : 
- * @last modified on  : 09-29-2021
- * @last modified by  : ChangeMeIn@UserSettingsUnder.SFDoc
-**/
 public class MedicalRecordAccessRemote {
     
     public static String clientId='72cd1f1f7b36cc80e104efd2a9332e74372fcb24';
