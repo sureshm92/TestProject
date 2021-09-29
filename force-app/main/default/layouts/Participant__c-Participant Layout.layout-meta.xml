@@ -81,6 +81,10 @@
                 <behavior>Readonly</behavior>
                 <field>Attestation_TimeStamp__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Preferred_Contact_Time__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -282,7 +286,7 @@
         <style>CustomLinks</style>
     </layoutSections>
     <relatedLists>
-	<relatedList>RelatedFileList</relatedList>
+        <relatedList>RelatedFileList</relatedList>
     </relatedLists>
     <relatedLists>
         <fields>NAME</fields>
