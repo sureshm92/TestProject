@@ -17,7 +17,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             [SELECT Comorbidities__c,UTM_campaignSource__c,UTM_campaignTerm__c,UTM_campaignCookie__c,UTM_GCLID__c,Atid__c,HighRisk_Indicator__c,
              Id,UTM_campaignMedium__c,UTM_campaignContent__c,UTM_campaignName__c,Referred_Date__c,acceptedTermsAndConditions__c,
              MRR_Survey_Results_URL__c,ePRPatient_ID_Number__c, Pass_Fail__c,Name,Ethnicity__c, Batch_consideration__c, Is_retry_required__c,
-             Address_AddressLine1__c, Address_City__c, Address_Country__c, Address_State__c, Address_ZipCode__c, BirthDate__c, birthYear__c, BMI__c, 
+             Address_AddressLine1__c, Address_City__c, Address_Country__c, Address_State__c, Address_ZipCode__c, BirthDate__c, birthYear__c, BMI__c,Preferred_Contact_Time__c, 
              Data_Source__c, Delegate_Alternative_Phone_Number__c, Delegate_Daytime_Phone_Number__c, Delegate_Email_Address__c, Delegate_First_Name__c, 
              Delegate_Last_Name__c, Delegate_Mailing_City__c, Delegate_Mailing_State__c, Delegate_Middle_Name__c, Delegate_Phone_Number_Type__c, 
              Delegate_Zip_Postal_Code__c, email__c, firstName__c, Language_Preference__c, lastName__c, Middle_Initial__c, Participant_MobileNumber__c, 

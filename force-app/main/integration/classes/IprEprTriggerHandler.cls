@@ -266,7 +266,8 @@ public without sharing class IprEprTriggerHandler {
             Alternative_Phone_Number__c = ipr.Participant_MobileNumber__c,
             Language_Preference_Code__c = ipr.Language_Preference__c,
             Preferred_Language__c = ipr.Language_Preference__c,
-            BMI__c = ipr.BMI__c
+            BMI__c = ipr.BMI__c,
+            Preferred_Contact_Time__c = ipr.Preferred_Contact_Time__c
             //  Alternative_Phone_Type__c = 'Mobile'
         );
         

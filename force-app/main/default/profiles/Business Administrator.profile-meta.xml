@@ -2320,6 +2320,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Preferred_Contact_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_City__c</field>
         <readable>true</readable>
     </fieldPermissions>

@@ -874,6 +874,18 @@
                                  class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8"
                                  />
                         </aura:if>
+                        <div
+                                class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--4-of-8"
+                            >
+                                <div class="label">
+                                    {!$Label.c.PG_AP_F_Preferred_Contact_Time}
+                                </div>
+                                <lightning:input
+                                    type="text"
+                                    value="{!v.participant.Preferred_Contact_Time__c}"
+                                    onblur="{!c.doCheckFields}"
+                                />
+                            </div>
                     </div>
                 </aura:set>
             </aura:if>
