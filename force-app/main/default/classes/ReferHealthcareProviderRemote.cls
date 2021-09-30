@@ -366,14 +366,20 @@ global without sharing class ReferHealthcareProviderRemote {
             system.debug('>>>lstPatientDelegate>>' + lstPatientDelegate);
             Boolean boolisUserCreated;
             Id ContactId;
+			Id delegateContactId;
             Patient_Delegate__c delContact; 
-            List<User> existingUserPatientDelegate = new List<User>();
+			List<User> existingUserPatientDelegate = new List<User>();
+			Id delegateUser;
+            Id participantShareIds;
+            List<User> particpantUser = new List<User>();
+            set<Id> participantAndDelIds = new set<Id>();
             if (delegateId != null) {
                 delContact = [SELECT ID, Contact__c,Is_Created_by_Bulk_Import__c FROM Patient_Delegate__c WHERE ID=:delegateId]; // Changed query to fetch Is_Created_by_Bulk_Import__c field
                 ContactId =delContact == null ? null : delContact.Contact__c; 
                 List<User> lstUser = [SELECT ID, Email FROM User WHERE ContactId = :ContactId];
                 boolisUserCreated = lstUser.isEmpty() ? false : true;
             }
+			//Contact newContact;
             if (delegateId == null) {
                 String countryCode = participantObj.Mailing_Country_Code__c;
                 String stateCode = participantObj.Mailing_State_Code__c;
@@ -441,7 +447,7 @@ global without sharing class ReferHealthcareProviderRemote {
                         FROM Contact
                         WHERE Id = :delegateDuplicate.contactId
                     ];
-                    if(delegateDuplicate.contactId != null){
+					if(delegateDuplicate.contactId != null){
                         existingUserPatientDelegate = [SELECT ID, Email FROM User WHERE ContactId = :delegateDuplicate.contactId];
                     }
                     //createUser = false;
@@ -487,6 +493,7 @@ global without sharing class ReferHealthcareProviderRemote {
                     ptDelegateRef.Status__c = DEL_ACTIVE;
                 }
                 upsert ptDelegateRef;
+				delegateContactId = newContact.Id;
                 if(createUser && delegateDuplicate == null) {
                     //system.debug('INSIDEFIRST');
                     ((CommunityService) ClassFactory.newInstance(CommunityService.class))
@@ -514,6 +521,41 @@ global without sharing class ReferHealthcareProviderRemote {
                     );
                 }
                 update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
+            }
+			if(participantObj != null && participantObj.Contact__c != null && (delegateContactId != null || ContactId != null)){
+                participantAndDelIds.add(participantObj.Contact__c);
+                if(delegateContactId != null){
+                participantAndDelIds.add(delegateContactId);
+                }else{
+                    participantAndDelIds.add(ContactId);
+                }
+               }
+            if(participantAndDelIds != null){
+                particpantUser = [SELECT ID, Email, ContactId FROM User WHERE ContactId IN :participantAndDelIds];
+            }
+            List<Conversation__c> patientConversation = new List<Conversation__c>();
+			
+            for(User usr: particpantUser){
+                if(participantObj != null && participantObj.Contact__c != null && usr.ContactId == participantObj.Contact__c){
+                    participantShareIds = usr.Id;
+                }else{
+                    delegateUser = usr.Id;  
+                }
+            }
+			if(participantShareIds != null){
+			patientConversation = ConversationService.getSharedConversations(
+                        participantShareIds
+                    );
+			}
+            if (patientConversation != null && delegateUser != null) {
+                List<Id> conversationIds = new List<Id>();
+                for (Conversation__c conversation : patientConversation)
+                    conversationIds.add(conversation.Id);
+                
+                insert ConversationService.createConversationSharesForUser(
+                    conversationIds,
+                    delegateUser
+                );
             }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
