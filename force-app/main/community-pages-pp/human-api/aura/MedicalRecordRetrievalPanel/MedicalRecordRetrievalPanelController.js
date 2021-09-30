@@ -142,8 +142,7 @@
                     } else {
                         component.set('v.showMedicalCard', false);
                     }
-
-                    component.find('spinner').hide();
+                    if (component.find('spinner')) component.find('spinner').hide();
                 }
             }
 
