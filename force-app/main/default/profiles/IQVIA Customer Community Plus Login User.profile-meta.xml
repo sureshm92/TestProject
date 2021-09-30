@@ -7051,6 +7051,8 @@
      <fieldPermissions>
         <editable>true</editable>
         <field>Task.CronTriggerIdExpired__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Task.IsRecurranceTask__c</field>
