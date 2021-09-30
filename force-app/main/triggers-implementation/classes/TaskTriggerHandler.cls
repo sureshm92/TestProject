@@ -103,7 +103,7 @@ public without sharing class TaskTriggerHandler {
 
         Set<Id> ownerIds = new Set<Id>();
         List<Task> tasksWithOwner = [
-            SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId
+            SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId
             FROM Task
             WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
@@ -182,6 +182,19 @@ public without sharing class TaskTriggerHandler {
                         }
                     }
                 }
+            }
+            if(task.IsRecurranceTask__c)
+            {
+                //code here
+               notifications.add(
+                new Notification__c(
+                    Recipient__c = task.WhoId,
+                    WhatId__c = task.Id,
+                    Notification_Type__c = 'Message_To_PT_Task_Instant_Reminder_Type',
+                    RemindUsing__c = 'Email'
+                )
+            );  
+                
             }
         }
         if (!notifications.isEmpty())

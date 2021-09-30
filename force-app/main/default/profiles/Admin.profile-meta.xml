@@ -7539,6 +7539,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Task.IsRecurranceTask__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Task.Is_Reminder_Sent__c</field>
         <readable>true</readable>
     </fieldPermissions>
