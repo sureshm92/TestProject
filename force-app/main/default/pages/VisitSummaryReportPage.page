@@ -81,14 +81,14 @@
                         <br/>
                         <br/>
                         <div style="direction:rtl;">
-                            <table   style="width:97%; border-collapse: collapse;margin-top:10px; page-break-inside: avoid;direction: rtl; ">
+                            <table   style="font-size: 11px;width:97%; border-collapse: collapse;margin-top:10px; page-break-inside: avoid;direction: rtl; ">
                             <thead>
                                 <tr>
                                     <apex:repeat value="{!line.tHead}" var="tableHead">
                                         <th style="border: 1px solid black;text-align: center;padding-left: 2px;padding-right: 2px;"
                                             >
                                             <div
-                                                 style="text-transform: none; font-size: 14px; display: block"
+                                                 style="font-size: 10px;text-transform: none;  display: block"
                                                  >
                                                 {!tableHead.value} &nbsp;<apex:outputText rendered="{!(tableHead.isShowRange!=false)}">{! $Label.Report_Expected_Range}&nbsp;{!tableHead.minValue} - {!tableHead.maxValue} </apex:outputText> <apex:outputText rendered="{!!ISBLANK(tableHead.measurement)}" value="{!(' ('+ tableHead.measurement+')')}" />
                                                 <br/>
@@ -103,7 +103,7 @@
                                     <tr>
                                         <apex:repeat value="{!rows}" var="row">
                                             
-                                            <td style="font-size: 14px;text-align: center;border: 1px solid black; padding: 4px;  ">{!row.value}</td>
+                                            <td style="text-align: center;border: 1px solid black; padding: 4px;  ">{!row.value}</td>
                                         </apex:repeat> 
                                     </tr>
                                 </apex:repeat>

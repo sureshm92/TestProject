@@ -191,6 +191,8 @@ public without sharing class TaskEditRemote {
             taskToUpsert.ReminderDateTime = newReminderDate;
             taskToUpsert.Is_Reminder_Sent__c = false;
             taskToUpsert.Status = 'Open';
+            taskToUpsert.IsRecurranceTask__c = true;
+
             upsert taskToUpsert;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -311,6 +313,7 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
                 taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
                 taskToUpsert.Is_Reminder_Sent__c = false;
+
             }
             if (taskToUpsert.Id != null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId) {
                 update taskToUpsert;
