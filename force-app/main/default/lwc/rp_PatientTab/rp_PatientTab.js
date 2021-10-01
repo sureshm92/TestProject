@@ -345,10 +345,17 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Is_SMS__c = event.target.checked;
         }
         this.patientrecord = [...this.patientrecord];
-
+        
         if(this.patientrecord[0].peRecord.Patient_ID__c != undefined && this.patientrecord[0].peRecord.Participant_Name__c != undefined
             && this.patientrecord[0].peRecord.YOB__c != undefined && this.patientrecord[0].peRecord.Patient_Auth__c != undefined
-            && this.patientrecord[0].peRecord.Participant_Surname__c != undefined && this.patientrecord[0].peRecord.Legal_Status__c != undefined){
+            && this.patientrecord[0].peRecord.Participant_Surname__c != undefined
+            && this.patientrecord[0].peRecord.Participant_Surname__c != ''
+            && this.patientrecord[0].peRecord.Participant_Surname__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != null
+            ){
                 this.disabledsavebutton = false;
            }
            else{
