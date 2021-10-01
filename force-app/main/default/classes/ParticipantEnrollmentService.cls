@@ -586,6 +586,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Tasks_Are_Available__c',
         'Clinical_Trial_Profile__r.Payment_Is_Available__c',
         'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
+        'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c',
+         'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c',
         'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
         'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
@@ -763,7 +765,7 @@ public without sharing class ParticipantEnrollmentService {
         'Is_Email__c',
         'Is_SMS__c',
         'Is_Phone__c',
-        'Mailing_State_Code__c',
+		'Mailing_State_Code__c',
         'Mailing_Country_Code__c'
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
