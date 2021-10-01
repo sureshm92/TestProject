@@ -67,6 +67,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showExclude = false;
     @api showMRR = false;
     @api showRefer = false;
+    disabledSaveButton = false;
 
     label = {
         RH_RP_Exclude,
@@ -211,6 +212,16 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
+           
+           if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
+            && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined && this.peRecordList[0].peRecord.Legal_Status__c != undefined){
+                this.disabledSaveButton = false;
+           }
+           else{
+                this.disabledSaveButton = true;
+           }                
+
            if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined){
                this.medicalreviewConfigured = true;
                this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;

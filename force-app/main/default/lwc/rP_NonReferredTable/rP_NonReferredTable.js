@@ -92,7 +92,13 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             if(paginationRecord[i].peRec.Id == this.peRecordList[0].peRecord.Id){
                 paginationRecord[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
                 paginationRecord[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
-                paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
+                    && this.peRecordList[0].peRecord.Birth_Month__c != null){
+                    paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                }
+                else {
+                    paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.YOB__c;
+                }
             }
             panginationRecList.push(paginationRecord[i]);
         }
@@ -102,7 +108,13 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             if(allRecords[i].peRec.Id == this.peRecordList[0].peRecord.Id){
                 allRecords[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
                 allRecords[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
-                allRecords[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
+                    && this.peRecordList[0].peRecord.Birth_Month__c != null){
+                        allRecords[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                }
+                else {
+                    allRecords[i].doBFormat = this.peRecordList[0].peRecord.YOB__c;
+                }
             }
             allRecList.push(allRecords[i]);
         }
@@ -145,7 +157,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 if (this.recordsToDisplay.length > 0) {
                     this.showTable = true;
                 } else {
-                    this.showTable = false;
+                    this.showTable = true;
                 }
                 this.isLoading = false;
             })

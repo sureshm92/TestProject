@@ -1007,7 +1007,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add a Participant</value>
+        <value>Add a Patient</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Provider</fullName>
@@ -19117,7 +19117,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Information is mandatory</shortDescription>
-        <value>Delegate information is mandatory in case of minor Patient</value>
+        <value>Delegate information is mandatory in case of minor patient.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Last_Name</fullName>
@@ -19131,7 +19131,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Minor Error</shortDescription>
-        <value>Delegate age should not be minor.</value>
+        <value>This delegate is a minor and cannot be added.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Missing_field</fullName>
@@ -19453,7 +19453,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>Patient Auth should be Yes</value>
+        <value>This patient auth status should be 'Yes'.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>

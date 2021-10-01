@@ -123,7 +123,8 @@ public without sharing class RPRecordReviewLogController {
                 Patient_Sex__c,Email__c,YOB__c,Birth_Month__c,Date_of_Birth__c,Postal_Code__c,Legal_Status__c,Patient_Auth__c,Country__c,Mailing_Country_Code__c,State__c,Mailing_State_Code__c,Phone__c,Patient_Phone_Type__c,Participant_Alternative_Phone__c,
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
                 Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
-                RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c
+                RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,
+                Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c
                 from Participant_Enrollment__c where Id =: peId];
 
                 String isAdult = '';
@@ -190,6 +191,10 @@ public without sharing class RPRecordReviewLogController {
                peEnrollment.Email__c = peRecord.Email__c;
                peEnrollment.Participant_Name__c=peRecord.Participant_Name__c;
                peEnrollment.Patient_Middle_Name_Initial__c=peRecord.Patient_Middle_Name_Initial__c;
+               
+               if(peRecord.Birth_Month__c != null && peRecord.Birth_Month__c != '' && peRecord.Birth_Month__c != 'undefined'){
+                    peEnrollment.Birth_Month__c = peRecord.Birth_Month__c;
+               }
                peEnrollment.Birth_Month__c=peRecord.Birth_Month__c;
                peEnrollment.YOB__c=peRecord.YOB__c;
                peEnrollment.Participant_Surname__c=peRecord.Participant_Surname__c;
@@ -203,6 +208,9 @@ public without sharing class RPRecordReviewLogController {
                && peRecord.Participant_Alt_Phone_Type__c != 'undefined'){
                     peEnrollment.Participant_Alt_Phone_Type__c = peRecord.Participant_Alt_Phone_Type__c;
                }
+               peEnrollment.Permit_SMS_Text_for_this_study__c = peRecord.Is_SMS__c;
+               peEnrollment.Permit_Voice_Text_contact_for_this_study__c = peRecord.Is_Phone__c;
+               peEnrollment.Permit_Mail_Email_contact_for_this_study__c = peRecord.Is_Email__c;
                peEnrollment.Postal_Code__c=peRecord.Postal_Code__c;
                peEnrollment.Patient_Auth__c=peRecord.Patient_Auth__c;
                peEnrollment.Legal_Status__c=peRecord.Legal_Status__c;
