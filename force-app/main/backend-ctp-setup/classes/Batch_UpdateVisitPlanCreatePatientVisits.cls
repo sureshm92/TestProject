@@ -17,6 +17,9 @@ public class Batch_UpdateVisitPlanCreatePatientVisits implements Database.Batcha
     
     public void execute(Database.BatchableContext bc,List<Participant_Enrollment__c> peList){
         List<Id> peIds = new List<Id>();
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+        );
         for(Participant_Enrollment__c peToUpdate: peList){
             peIds.add(peToUpdate.Id);
             peToUpdate.Visit_Plan__c = (Id)studySiteVisitPlan.get(peToUpdate.Study_Site__c);
