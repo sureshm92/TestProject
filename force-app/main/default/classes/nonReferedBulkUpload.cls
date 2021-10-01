@@ -212,7 +212,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         mandatoryIndexes =  new list<Integer>{0,15,16,17,18,19,20,21};
                             //Legal Status of Primary Delegate should be Yes 
                             if(rec[21]=='No'){
-                                errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                                errStr += 'Legal Status of Primary Delegate should be Yes.;';
                                 hasDelErrRow = true;
                             }
                     }
@@ -223,15 +223,19 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         }
                         //Legal Status of Primary Delegate should be Yes 
                         if(rec[21]=='No'){
-                            errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                            errStr += 'Legal Status of Primary Delegate should be Yes.;';
                             hasDelErrRow = true;
                         }
                     }
                     //if(!(rec[1]==''&&rec[5]==''&&rec[3]==''&&rec[11]=='')){ //if personal info entered YOB and Patient Auth is mandatory
                     if(!(rec[5]==''&&rec[11]==''&&rec[13]==''&&rec[12]==''&&rec[14]=='')){ //if contact info entered YOB is mandatory
                         mandatoryIndexes.add(6); 
-                        // mandatoryIndexes.add(8); 
                     }
+                    //if personal info entered Patient Auth is mandatory
+                    if(!(rec[1]==''&&rec[2]==''&&rec[3]==''&&rec[5]==''&&rec[11]==''&&rec[13]==''&&rec[12]==''&&rec[14]=='')){ 
+                        mandatoryIndexes.add(8);                     
+                    }
+
                     for(integer j : mandatoryIndexes){
                         if(rec[j]==''){
                             errStr += errMap.get(j);
@@ -335,6 +339,10 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     }
                     
                     //Legal Status validation
+                    if(isMajorDelegate=='No'){
+                        errStr = errStr + 'Primary Delegate YOB is not over the age of legal majority.;';
+                    }
+                    
                     for(integer j : legalIndexes){
                         if(rec[j]!='' && rec[j]!='Yes' && rec[j]!='No'){
                             errStr += errMap.get(j*100);
@@ -389,11 +397,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         errStr += 'Patient Auth if entered should be Yes.;';   
                         hasPatientErrRow = true;                     
                     } 
-                    if(errStr == '' || (!hasPatientErrRow && hasDelErrRow && rec[7]=='Yes')){
-                        if(errStr != '' ){
-                            errStr = 'Only Patient was brought in the system as Primary Delegate has errors;'+errStr;
-                        }
-
+                    if(errStr == ''){
+                    
                         //REF-4881
                         String dlgAltPhone = '';
 
@@ -466,18 +471,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 string errKey = prRowIndexMap.get(pe.Patient_ID__c);
                 if(peList.containsKey(pe.Patient_ID__c)){
                     
-                    if(errRowsCSV.containsKey(errKey)){
-                        string row = errRowsCSV.get(errKey);
-                        row= row.remove('Only Patient was brought in the system, Primary Delegate has errors;');
-                        row  = row.trim() + 'Duplicate Patient Record.;';
-                        errRowsCSV.put(errKey,row);
-                    }
-                    else{
-                        string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
-                        row = row.trim() + ',Duplicate Patient Record.;';
-                        errRowsCSV.put(pe.Patient_ID__c,row);  
-                    }
-                                         
+                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
+                    row = row.trim() + ',Duplicate Patient Record.;';
+                    errRowsCSV.put(pe.Patient_ID__c,row);  
                     peList.remove(pe.Patient_ID__c);
                 }
                 else if(errRowsCSV.containsKey(errKey)){
