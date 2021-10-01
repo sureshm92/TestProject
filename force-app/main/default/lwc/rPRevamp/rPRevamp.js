@@ -12,11 +12,61 @@ import deleteFile from '@salesforce/apex/nonReferedBulkUpload.deleteFile';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import downloadBulkTemplate from '@salesforce/resourceUrl/Import_Patient_Template';
 
+import BulkImport_Instructions from '@salesforce/label/c.BulkImport_Instructions';
+import BulkImport_File_Template from '@salesforce/label/c.BulkImport_File_Template';
+import BulkImport_File_Name from '@salesforce/label/c.BulkImport_File_Name';
+import BulkImport_Accepted from '@salesforce/label/c.BulkImport_Accepted';
+import BulkImport_Rejected from '@salesforce/label/c.BulkImport_Rejected';
+import BulkImport_Uploaded_By from '@salesforce/label/c.BulkImport_Uploaded_By';
+import BulkImport_Uploaded_On from '@salesforce/label/c.BulkImport_Uploaded_On';
+import BulkImport_Actions from '@salesforce/label/c.BulkImport_Actions';
+import BulkImport_Bulk_Import_Process from '@salesforce/label/c.BulkImport_Bulk_Import_Process';
+import BulkImport_Dont_show_me_again_on_landing from '@salesforce/label/c.BulkImport_Dont_show_me_again_on_landing';
+import BulkImport_Ok from '@salesforce/label/c.BulkImport_Ok';
+import BulkImport_Import_Patients from '@salesforce/label/c.BulkImport_Import_Patients';
+import BulkImport_Select_Study_Here from '@salesforce/label/c.BulkImport_Select_Study_Here';
+import BulkImport_Select_Study from '@salesforce/label/c.BulkImport_Select_Study';
+import BulkImport_Drag_file_here_or from '@salesforce/label/c.BulkImport_Drag_file_here_or';
+import BulkImport_browse from '@salesforce/label/c.BulkImport_browse';
+import BulkImport_Max_size from '@salesforce/label/c.BulkImport_Max_size';
+import BulkImport_Wait_Warning from '@salesforce/label/c.BulkImport_Wait_Warning';
+import BulkImport_Import from '@salesforce/label/c.BulkImport_Import';
+import BulkImport_Uploaded_format from '@salesforce/label/c.BulkImport_Uploaded_format';
+import BulkImport_Total_number from '@salesforce/label/c.BulkImport_Total_number';
+import BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files from '@salesforce/label/c.BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files';
+import BulkImport_TableHeading from '@salesforce/label/c.BulkImport_TableHeading';
+import BulkImport_Initial_Total_Records from '@salesforce/label/c.BulkImport_Initial_Total_Records';
+
 
 const MAX_FILE_SIZE = 2621440;// 4500000; max file size prog can handle
 const CHUNK_SIZE = 9000;//750000; max chunk size prog can handle
 
 export default class RPRevamp extends LightningElement {
+    BulkImport_Instructions = BulkImport_Instructions;
+    BulkImport_File_Template = BulkImport_File_Template;
+    BulkImport_File_Name = BulkImport_File_Name;
+    BulkImport_Accepted = BulkImport_Accepted;
+    BulkImport_Rejected = BulkImport_Rejected;
+    BulkImport_Uploaded_By = BulkImport_Uploaded_By;
+    BulkImport_Uploaded_On = BulkImport_Uploaded_On;
+    BulkImport_Actions = BulkImport_Actions;
+    BulkImport_Bulk_Import_Process = BulkImport_Bulk_Import_Process;
+    BulkImport_Dont_show_me_again_on_landing = BulkImport_Dont_show_me_again_on_landing;
+    BulkImport_Ok = BulkImport_Ok;
+    BulkImport_Import_Patients = BulkImport_Import_Patients;
+    BulkImport_Select_Study_Here = BulkImport_Select_Study_Here;
+    BulkImport_Select_Study = BulkImport_Select_Study;
+    BulkImport_Drag_file_here_or = BulkImport_Drag_file_here_or;
+    BulkImport_browse = BulkImport_browse;
+    BulkImport_Max_size = BulkImport_Max_size;
+    BulkImport_Wait_Warning = BulkImport_Wait_Warning;
+    BulkImport_Import = BulkImport_Import;
+    BulkImport_Uploaded_format = BulkImport_Uploaded_format;
+    BulkImport_Total_number = BulkImport_Total_number;
+    BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files = BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
+    BulkImport_TableHeading = BulkImport_TableHeading;
+    BulkImport_Initial_Total_Records = BulkImport_Initial_Total_Records;
+
     templateFile =downloadBulkTemplate;
     instructionsSvgURL = bulkicons+'/instructions.svg';
     downloadSvgURL = bulkicons+'/Download.svg';
@@ -36,13 +86,14 @@ export default class RPRevamp extends LightningElement {
     rpCountry;
     userConID;
     inProgress = false;
+    completed = false;
     loaded = false;
     showInstruction =false;
     nofiles=false;
     @api recordsToDisplay = [];
     baseUrl;
     filesLoaded = false;
-    
+
     get dontshowInstruction(){
         return !this.showInstruction;
     }
@@ -156,6 +207,7 @@ export default class RPRevamp extends LightningElement {
     fileId = '';
     csvData = '';
     totalRecs = 0;
+    validFile =true;
     handleFilesChange(event) {
         
         if(event.target.files.length > 0) {
@@ -187,7 +239,7 @@ export default class RPRevamp extends LightningElement {
             return;
         }
         if(this.fileName.split('.')[1]!='csv' && this.fileName.split('.')[1]!='xlsx' && this.fileName.split('.')[1]!='xls'){
-            let message = 'Please upload only csv, xlsc or xls format files.';
+            let message = this.BulkImport_Please_upload_only_csv_xlsx_or_xls_format_files;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Error',
                 message: message,
@@ -198,6 +250,58 @@ export default class RPRevamp extends LightningElement {
             this.fileName = '';
             return;
         }
+
+        //file first two rows 
+        
+        this.validFile = true;
+        var row1 = [];
+        row1.push("Patient ID");
+        row1.push("First Name");
+        row1.push("Patient Middle Name Initial");
+        row1.push("Last Name");
+        row1.push("Patient Sex");
+        row1.push("Email Address");
+        row1.push("YOB");
+        row1.push("Legal Status");
+        row1.push("Patient Auth.");
+        row1.push("Country");
+        row1.push("State/Province");
+        row1.push("Phone number");
+        row1.push("Patient  Phone Type");
+        row1.push("Patient Alternative Phone");
+        row1.push("Patient Alt. Phone Type");
+        row1.push("Primary Delegate First Name");
+        row1.push("Primary Delegate Last Name");
+        row1.push("Primary Delegate Email");
+        row1.push("Primary Delegate Phone Number");
+        row1.push("Primary Delegate Phone Type");
+        row1.push("Primary Delegate YOB");
+        row1.push("Legal Status of Primary Delegate");
+
+        var row2 = [];
+        row2.push("ID entered by the RP");
+        row2.push("Capitalized as you want the name to appear in the platform.    Text. Considered personal information");
+        row2.push("May write out name or use intial with a period. Examples: Mary or M");
+        row2.push("Text Considered personal information");
+        row2.push("Enter spelled out as either:Female or Male");
+        row2.push("If patient is a minor the email address will not be stored.          youremail@yourdomain.com Considered personal information");
+        row2.push("YOB of the patient in YYYY or blank when not filled");
+        row2.push("\"\"\"I attest that patient or legal guardian are of the age of legal majority\"\".   Options: Yes/No             I attest that patient or legal guardian are of the age of legal majority.\"");
+        row2.push("\"\"\"My patient, and/or patient's legal guardian if applicable, agrees to share their contact information and patient's pre-screener data with IQVIA and its affiliates, and the study doctors, so that they may contact the patient and/or their delegate regarding study participation.\"\"  Options: Yes/No  To indicate whether the RP has the authorization from the patient or  blank when not filled. Required Only if the file has Personal Information\"");
+        row2.push("\"Defaulted to the RP's country if not filled. If the country is changed, then age of legal majority check has to be done depending on the new value. Spell out the country name if entering it, example: United States\"");
+        row2.push("Defaulted to RP's State/Province if not filled.");
+        row2.push("For a minor patient enter the participant delegate's phone number.       Format per country 919-555-1212");
+        row2.push("Enter one of these values: Home         Work        Mobile");
+        row2.push("Format per country 919-555-1212");
+        row2.push("Enter one of these values: Home         Work        Mobile");
+        row2.push("Mandatory for a minor patient.      (when Legal Status of participant is No) Text");
+        row2.push("Mandatory for a minor patient. (when Legal Status of participant is No) Text");
+        row2.push("Mandatory for a minor participant.           youremail@yourdomain.com");
+        row2.push("Format per country 919-555-1212.");
+        row2.push("Enter one of these values: Home        Work      Mobile");
+        row2.push("YYYY (formatted as text) ex. 1987");
+        row2.push("\"\"\"I attest that patient or legal guardian are of the age of legal majority\"\".  Mandatory for a minor participant.  Enter Yes to attest the delegate is of/over the age of legal majority\"");
+        //
         this.progressWidth='width :8%';
         this.progress = 8;
         this.base = Math.floor((CHUNK_SIZE/fileCon.size)*100);
@@ -226,9 +330,15 @@ export default class RPRevamp extends LightningElement {
                 var fileData = String(XLSX.utils.sheet_to_csv(workbook.Sheets[sheet_name_list[0]]));
                 self.csvData = fileData;                  
                 var csvRows = fileData.split('\n');
-                if(csvRows.length > 4){
-                    self.totalRecs = csvRows.length-2;
+                self.totalRecs = csvRows.length-2;
+                if(!(csvRows[0]==row1.join() && csvRows[1]== row2.join())){
+                    row1.push("Validation Errors");
+                    row2.push("");
+                    if(!(csvRows[0]==row1.join() && csvRows[1]== row2.join())){
+                        self.validFile = false;
+                    }
                 }
+
             }
             catch(e){
                 console.log('error'+ e.message)
@@ -272,10 +382,19 @@ export default class RPRevamp extends LightningElement {
                 this.progressWidth = 'width :'+this.progress+'%';
                 this.uploadChunk(file, fileContents, fromPos, toPos, attachId);  
             }else{
-                if(this.totalRecs > 500){
+                if(!this.validFile){
                     this.dispatchEvent(new ShowToastEvent({
                         title: 'Error',
-                        message: 'Total number of records greater than 500, please try again with upto 500 records.',
+                        message: this.BulkImport_Uploaded_format,
+                        variant: 'error'
+                    }));
+                    this.deleteFiles();
+                    this.isLoading = false;
+                }
+                else if(this.totalRecs > 500){
+                    this.dispatchEvent(new ShowToastEvent({
+                        title: 'Error',
+                        message: this.BulkImport_Total_number,
                         variant: 'error'
                     }));
                     this.deleteFiles();
@@ -361,21 +480,24 @@ export default class RPRevamp extends LightningElement {
         this.progressMultiplier = 0;
         this.isUploadModalOpen = false;
         this.inProgress = true;
+        this.completed = false;
         processvalidateFile({ 
             fileID: this.fileId,
             studyID: this.selectedStudy,
             rpState: this.rpState,
             rpCountry: this.rpCountry,
-            csvData : this.csvData
+            csvData : this.csvData,
+            delegateId : this.userConID
         })
         .then(result => {
             this.selectedStudy = '';
-            this.inProgress = false;
+            this.inProgress = false;     
             this.filesLoaded = false;
             this.getDetailsApex();
+            this.completed = true;
             this.dispatchEvent(new ShowToastEvent({
                 title: 'Success!',
-                message: 'File Upload Success',
+                message: 'Your file was processed successfully. Please check to see if there are any errors in the Rejected table',
                 variant: 'success'
             }));
 

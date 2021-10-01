@@ -47,6 +47,7 @@ import getVisitsDetails from '@salesforce/apex/ParticipantVisitsRemote.getPartic
 import getTaskEditDetails from '@salesforce/apex/TaskEditRemote.getTaskEditData';
 import createTask from '@salesforce/apex/TaskEditRemote.upsertTaskForVisit';
 import getIsTravelSupportEnabled from '@salesforce/apex/TravelSupportRemote.getisTravelSupportEnabled';
+import TIMEZONE from '@salesforce/i18n/timeZone';
 
 const stateClass = 'slds-col width-basis state ';
 const lineClass = 'slds-col width-basis line-div ';
@@ -125,8 +126,6 @@ export default class VisitsPath extends LightningElement {
     @track isVisitMissed = false;
     @track reRender = true;
     @track lineBreak;
-    // = [{ "Id": "a0M1100000DDOfGEAX", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a0M1100000DDOfQEAX", "Name": "height-and-weight", "Label__c": "Height and weight" }, { "Id": "a0M1100000DDOfVEAX", "Name": "multiple-users-2", "Label__c": "Demographics" }];
-    //= [{ "Id": "a2t3O0000000xQ2QAI", "Name": "biopsy", "Label__c": "Biopsy" }, { "Id": "a2t3O0000000xQ1QAI", "Name": "Hand-X-Ray", "Label__c": "Hand and feet X-rays" }, { "Id": "a2t3O0000000xQ8QAI", "Name": "health_checkup", "Label__c": "Physical examination" }];
     @track visitTaskId;
     @track visitTitle;
     @track visitId;
@@ -169,6 +168,7 @@ export default class VisitsPath extends LightningElement {
     fromLeftCorner;
     fromRightCorner;
     @track isLessThan5 = false;
+    userTimezone = TIMEZONE;
 
     connectedCallback() {
         let context = this;
@@ -581,6 +581,7 @@ export default class VisitsPath extends LightningElement {
                 .then(() => {
                     eval("$A.get('e.force:refreshView').fire();");
                     spinner.hide();
+                    location.reload(true);
                 })
                 .catch((error) => {
                     let message = 'Unknown error';
@@ -607,6 +608,7 @@ export default class VisitsPath extends LightningElement {
         }
         if (!this.reminderOption) {
             eval("$A.get('e.force:refreshView').fire();");
+            location.reload(true);
         }
         this.handleHideDialog();
         spinner.hide();

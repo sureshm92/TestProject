@@ -615,7 +615,7 @@
                  <aura:set attribute="else">
                   <div
                  class="rr-form-element slds-no-label slds-float--left"
-                 style="margin-left: 12px; margin-top: 5px;"
+                 style="margin-top: 5px;"
              >
                  <div class="rr-cb-container">
                      <lightning:input
