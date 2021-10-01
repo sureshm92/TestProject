@@ -90,6 +90,9 @@
                         component.set('v.currentState', 'Select Source');
                     }
                     if (!initData.trial.Link_to_Pre_screening__c) {
+                        if(!component.get('v.patientVeiwRedirection')){
+                            component.set('v.currentState', 'Search PE');
+                            }
                         component.set('v.steps', [
                             $A.get('$Label.c.PG_Ref_Step_Discussion'),
                             $A.get('$Label.c.PG_Ref_Step_Site_Selection'),
