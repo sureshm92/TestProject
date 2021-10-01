@@ -222,7 +222,7 @@ public without sharing class CommunityModeService {
                             ' ' +
                             userParticipant.Last_Name__c;
                         modeItem.subItems.add(
-                            new CommunityModes.PPCommunityModeItem(
+                            new CommunityModes.PPCommunityModgetReferralModeItemseItem(
                                 USER_MODE_PARTICIPANT,
                                 participantName,
                                 pe.Clinical_Trial_Profile__r.Study_Code_Name__c,
