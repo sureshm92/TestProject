@@ -1,7 +1,7 @@
 /**
- * Created by user on 14-May-20.
+ * Created by user on 14-May-20
  */
-@IsTest(IsParallel=true)
+@IsTest
 public with sharing class Test_IncentivePlanConfigurationRemote {
     @TestSetup
     static void init() {

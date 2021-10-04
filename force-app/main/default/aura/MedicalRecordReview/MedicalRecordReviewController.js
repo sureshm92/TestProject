@@ -69,7 +69,8 @@
     },
 
     doGoHome: function () {
-        communityService.navigateToPage('');
+        //communityService.navigateToPage('');
+        communityService.navigateToPage('my-patients');
     },
 
     doStartMRR: function (component) {

@@ -3,6 +3,7 @@
  */
 
 public without sharing class IntegrationPatientRefCovidTriggerHandler {
+    /*
     private static final List<String> SS_STATUSES_ACCEPT_REFERRALS = new List<String>{
         StudySiteService.PI_S_ACCEPTED,
         StudySiteService.PI_S_ACCEPTED_A,
@@ -20,7 +21,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
         }
     }
     public static Map<String, String> mapEthinicCodeToDescription = new Map<String, String>();
-
+	*/
+    /*
     public without sharing class CheckRequiredFieldsAndUpsertParticipantAndPEHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             setNewList(newList);
@@ -112,7 +114,6 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
                     ipr.addError(String.join(errorsLog, '\n'));
             }
         }
-	*/
 
         private void upsertParticipantAndPE() {
             Map<String, Participant__c> newParticipantsMap = new Map<String, Participant__c>();
@@ -274,7 +275,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
             }
         }
     }
-
+	*/
+    /*
     private static Participant__c createDelegateParticipant(
         Contact contactDelegate,
         String phoneType
@@ -304,7 +306,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
         }
         return participantDelegate;
     }
-
+	*/	
+	/*
     private static Participant__c convertToParticipant(Integration_Patient_Referral__c ipr) {
         String strEthnicityDescr = '';
         Participant__c participant = new Participant__c(
@@ -351,7 +354,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
 
         return participant;
     }
-
+	*/
+    /*
     public static ContactAndSiteType convertToDelegateContact(
         Integration_Patient_Referral__c ipr,
         Account participantAccount,
@@ -383,7 +387,8 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
         ContactAndSiteType conAndSt = new ContactAndSiteType(newContact, studySiteType);
         return conAndSt;
     }
-
+	*/
+    /*
     private static Participant_Enrollment__c createPE(
         Integration_Patient_Referral__c ipr,
         Id participantId,
@@ -430,4 +435,5 @@ public without sharing class IntegrationPatientRefCovidTriggerHandler {
     private static String getSitePrimaryKeyEPR(Integration_Patient_Referral__c ipr) {
         return ipr.protocolId__c + '_' + ipr.Address_Country__c + '_' + ipr.siteSelected__c;
     }
+*/
 }

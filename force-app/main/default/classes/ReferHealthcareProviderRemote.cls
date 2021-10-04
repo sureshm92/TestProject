@@ -114,7 +114,7 @@ global without sharing class ReferHealthcareProviderRemote {
     ) {
         HealthcareProvider hp = new HealthcareProvider();
         if (!String.isBlank(email)) {
-            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone,  userCommunytyType__c FROM Contact WHERE userCommunityMode__c != \'CC\'';
+            String contactQuery = 'SELECT Id, FirstName, LastName, Name, Email, Phone, HomePhone, MobilePhone, AccountId, userCommunytyType__c FROM Contact WHERE userCommunityMode__c != \'CC\'';
             if (!String.isBlank(firstName) && !String.isBlank(lastName)) {
                 email = String.escapeSingleQuotes(email);
                 firstName = String.escapeSingleQuotes(firstName);
@@ -160,7 +160,7 @@ global without sharing class ReferHealthcareProviderRemote {
                 ];
                 if (!delegateParticipants.isEmpty()) {
                     contacts = [
-                        SELECT Id, FirstName, LastName, Name, Email, Phone, userCommunytyType__c
+                        SELECT Id, FirstName, LastName, Name, Email, Phone,HomePhone, MobilePhone,AccountId, userCommunytyType__c
                         FROM Contact
                         WHERE
                             userCommunityMode__c != 'CC'
@@ -174,7 +174,11 @@ global without sharing class ReferHealthcareProviderRemote {
                 hp.firstName = contacts[0].FirstName;
                 hp.lastName = contacts[0].LastName;
                 firstName = contacts[0].FirstName;
-                lastName = contacts[0].LastName;
+                lastName = contacts[0].LastName; 
+                //Added for ePR batch fix
+                if(Batch_UpsertEprParticipantAndPE.eprBatchRunning==true){
+                    hp.conObject = contacts[0]; 
+                } 
                 // if (String.isBlank(contacts[0].FirstName) || String.isBlank(contacts[0].LastName)) {
                 List<Participant__c> participants;
                 if (delegateParticipants.isEmpty()) {
@@ -922,6 +926,8 @@ global without sharing class ReferHealthcareProviderRemote {
         public String contactPhoneType { get; set; }
         @AuraEnabled
         public String DelegateYOB { get; set; }
+        @AuraEnabled 
+        public Contact conObject { get; set; } // Added for ePR batch Fix
     }
 
     public class PDWrapper {

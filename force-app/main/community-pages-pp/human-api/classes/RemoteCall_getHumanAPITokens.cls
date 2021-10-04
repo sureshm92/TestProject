@@ -50,7 +50,11 @@ public class RemoteCall_getHumanAPITokens{
             clientUserEmail =participantState.participant.Email__c;
         //}
         clientUserId = referralId;
-        
+
+        if(clientUserEmail==null)
+        {
+            clientUserEmail =UserInfo.getUserEmail();
+        }
         if(String.isBlank(humanId) && participantState.pe != null )
         {
             requestMap = new Map<String, String>{ 'client_id' => clientId, 'client_user_id' => uniqueHumanId ,'client_user_email' => clientUserEmail,'client_secret' => clientSecret, 'type' => 'session'};

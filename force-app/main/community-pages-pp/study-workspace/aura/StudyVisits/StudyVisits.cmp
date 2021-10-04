@@ -74,6 +74,7 @@
                                     variant="base"
                                     value="{!index}"
                                     onclick="{!c.createEditTask}"
+                                    class="wrapText"
                                 >
                                     {!(visitWrapper.visit.Is_Adhoc__c ?
                                     $Label.c.StudyVisit_Unscheduled_Visit :

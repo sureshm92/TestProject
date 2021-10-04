@@ -131,6 +131,21 @@ public class MedicalRecordAccessRemote {
             return labelItems;}
         return labelItems;
     }
+ 
+/*
+* ───────────────────────────────────────────────────────────────────────────────────────────────┐
+* This method will return the current communityName
+* ────────────────────────────────────────────────────────────────────────────────────────────────
+* @Method:   getCommunityName
+* @param:    NA
+* @return:   Strings
+* ───────────────────────────────────────────────────────────────────────────────────────────────┘
+*/
+    @AuraEnabled
+    public static String getCommunityName() {
+        String communityName = FindCommunityName.getCommunityName();
+        return communityName;
+    }
     
         
     /*

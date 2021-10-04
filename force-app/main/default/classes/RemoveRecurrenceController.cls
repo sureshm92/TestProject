@@ -2,7 +2,6 @@ public class RemoveRecurrenceController {
 
     @AuraEnabled
     public static Manual_Creation_Panel_Task__c getTaskDetails(String configId){
-        System.debug('getTaskDetails: '+configId);
         Manual_Creation_Panel_Task__c mcpt = new Manual_Creation_Panel_Task__c();
         if(configId != null && configId != ''){
             mcpt = [Select Id,Next_Occurence_Date__c,Status__c,Start_Date__c From Manual_Creation_Panel_Task__c Where Id=:configId];
@@ -12,7 +11,6 @@ public class RemoveRecurrenceController {
     
     @AuraEnabled
     public static String removeRecurrence(String configId){
-        System.debug('Id: '+configId);
         if(configId != null && configId != ''){
             Manual_Creation_Panel_Task__c mcpt = [Select Id,Next_Occurence_Date__c,Status__c,Start_Date__c From Manual_Creation_Panel_Task__c Where Id=:configId];
             try {

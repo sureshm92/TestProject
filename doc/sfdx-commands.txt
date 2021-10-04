@@ -50,3 +50,6 @@ sfdx force:mdapi:deploy --testlevel RunLocalTests --wait 60 -u destOrgAlias --zi
 
 13) retrieve from package in metadata format
 sfdx force:mdapi:retrieve -r ./retrieveDirectory -u <username or alias> -k ./package.xml
+
+14) Logout from a Sandbox [This will remove the org from org list]
+sfdx force:auth:logout -u <hub alias>
