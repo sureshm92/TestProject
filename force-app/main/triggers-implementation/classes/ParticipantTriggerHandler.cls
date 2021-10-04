@@ -165,7 +165,7 @@ public without sharing class ParticipantTriggerHandler {
         }
 
         if(!updateContactsMap.isEmpty()){
-			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Phone,Email,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
+			for(Contact con: [SELECT Id,MailingStateCode,MailingCountryCode,MailingPostalCode,Email,Phone,Language__c,Second_Choice_Language__c,Third_Choice_Language__c FROM Contact WHERE Id IN:updateContactsMap.keySet()]){
 					Boolean updateNeeded= false;
 					if(con.MailingCountryCode != updateContactsMap.get(con.Id).Mailing_Country_Code__c){
 						con.MailingCountryCode = updateContactsMap.get(con.Id).Mailing_Country_Code__c;

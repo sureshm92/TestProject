@@ -114,7 +114,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             WhatId = whatId,
                             WhoId = user.ContactId,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
-                            CreatedByAdmin__c = true
+                            CreatedByAdmin__c = true,
+                            IsRecurranceTask__c = taskConfig.isRecurrence ? true:false
                             
                         )
                     );
@@ -143,7 +144,9 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                                 WhatId = whatId,
                                 WhoId = contactIds,
                                 Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
-                                CreatedByAdmin__c = true
+                                CreatedByAdmin__c = true,
+                                IsRecurranceTask__c = taskConfig.isRecurrence ? true:false
+
                                 
                             )
                         );

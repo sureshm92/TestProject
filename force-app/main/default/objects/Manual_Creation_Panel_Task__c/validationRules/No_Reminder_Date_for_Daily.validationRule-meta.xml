@@ -4,5 +4,5 @@
     <active>true</active>
     <errorConditionFormula>ISPICKVAL( Recurrence_Frequency__c , &apos;Daily&apos;) &amp;&amp;  NOT( ISBLANK( Reminder_days_before_due_date__c ) )</errorConditionFormula>
     <errorDisplayField>Reminder_days_before_due_date__c</errorDisplayField>
-    <errorMessage>Reminder cannot be set for task with daily recurrence</errorMessage>
+    <errorMessage>Reminder is not acceptable for Daily Recurrence</errorMessage>
 </ValidationRule>

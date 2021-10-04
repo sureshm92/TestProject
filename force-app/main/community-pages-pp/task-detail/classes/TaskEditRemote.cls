@@ -191,6 +191,8 @@ public without sharing class TaskEditRemote {
             taskToUpsert.ReminderDateTime = newReminderDate;
             taskToUpsert.Is_Reminder_Sent__c = false;
             taskToUpsert.Status = 'Open';
+            taskToUpsert.IsRecurranceTask__c = true;
+
             upsert taskToUpsert;
         } catch (Exception e) {
             AuraHelper.throwException(e);
@@ -201,7 +203,13 @@ public without sharing class TaskEditRemote {
     public static Boolean getisTravelSupportEnabled() {
         try {
             ParticipantService.ParticipantState state = ParticipantService.getInstance().getState();
-            return state.isTravelSupportEnabled;
+            if(state.value == ParticipantService.ParticipantStates.REFERRAL){
+                return (state.ctp.Received_Until_Consent_Is_Available__c || state.ctp.Enrolled_Or_Randomized_Consent_Available__c);
+            }
+            else{
+                return state.isTravelSupportEnabled;
+            }
+
         } catch (Exception e) {
             AuraHelper.throwException(e);
         }
@@ -305,6 +313,7 @@ public without sharing class TaskEditRemote {
                 taskToUpsert.Remind_Using_SMS__c = taskWrapper.smsOptIn;
                 taskToUpsert.Patient_Visit__c = taskWrapper.visitId;
                 taskToUpsert.Is_Reminder_Sent__c = false;
+
             }
             if (taskToUpsert.Id != null && taskToUpsert.Patient_Visit__c == taskWrapper.visitId) {
                 update taskToUpsert;

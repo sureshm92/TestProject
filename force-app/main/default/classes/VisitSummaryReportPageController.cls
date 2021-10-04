@@ -6,12 +6,9 @@ public without sharing class  VisitSummaryReportPageController {
     public String studyTitle {get;set;}
     public String str {get;set;}
     public String studyCodeName{get;set;}
-    public String communityTemplate{get;set;}
     public String participantFullName{get;set;}
-    public String participantLastName{get;set;}
     public String enrollmentDate{get;set;}
     public String studySiteName{get;set;}
-    public String notAvailableMessage{get;set;}
     public String participantStatus{get;set;}
     public String pdfStudyHeaderName {get;set;}
     public ReportDataWrapper reportWrapperFinalObj { get;set;}

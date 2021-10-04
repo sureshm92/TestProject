@@ -730,4 +730,20 @@ public without sharing class ReferringRemote {
     ) {
         return ReferHealthcareProviderRemote.checkDuplicate(null, email, firstName, lastName, null);
     }
+
+    @AuraEnabled
+    public static void saveUpdatedPER(String peID){
+        try{
+            Participant_Enrollment__c per = new Participant_Enrollment__c(
+                Id = peId,
+                Contacted__c = true,
+                Contacted_Date__c = System.today(),
+                Consulted__c = true,
+                Consulted_Date__c = System.today());
+            update per;
+        } catch(Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+        
+    }
 }

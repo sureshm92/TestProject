@@ -4169,6 +4169,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Integration_Patient_Referral__c.Preferred_Contact_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Integration_Patient_Referral__c.Address_City__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -6408,6 +6413,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant__c.Preferred_Contact_Time__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Participant__c.Secondary_Source__c</field>
         <readable>true</readable>
@@ -7535,6 +7545,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Task.Community_Template_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Task.IsRecurranceTask__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

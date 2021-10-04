@@ -904,6 +904,20 @@
         <value>3- Asian</value>
     </labels>
     <labels>
+        <fullName>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE</shortDescription>
+        <value>Proceed to select this visit plan to assign to all these participants.</value>
+    </labels>
+    <labels>
+        <fullName>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY</shortDescription>
+        <value>Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants).</value>
+    </labels>    
+    <labels>
         <fullName>Attestation_Confirmation_Message</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -931,6 +945,14 @@
         <protected>true</protected>
         <shortDescription>Avaliable Icons</shortDescription>
         <value>Avaliable Icons</value>
+    </labels>
+     <labels>
+        <fullName>BATCH_RUNNING</fullName>
+        <categories>BATCH_RUNNING</categories>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BATCH_RUNNING</shortDescription>
+        <value>There is a batch running for selected Visit Plan(s). Uncheck is currently not possible. Please uncheck after batch is completed.</value>
     </labels>
     <labels>
         <fullName>BMI</fullName>
@@ -4970,6 +4992,15 @@ Your username is ##UserName.</value>
         <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your username is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Task Reminder Type Not Selected</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have a new task awaiting your action : ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6171,6 +6202,20 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
         <value>Your access level has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Instant_Header_Reminder_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Header Reminder Type Not Selected</shortDescription>
+        <value>This is a task notification</value>
+    </labels>
+    <labels>
+        <fullName>Email_Instant_Subject_Reminder_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Subject Reminder Type Not Selected</shortDescription>
+        <value>You have a new task</value>
     </labels>
     <labels>
         <fullName>Email_Label_View_Information</fullName>
@@ -11736,6 +11781,13 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <protected>true</protected>
         <shortDescription>PG AP F Phone Type</shortDescription>
         <value>Phone Type</value>
+    </labels>
+    <labels>
+        <fullName>PG_AP_F_Preferred_Contact_Time</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PG_AP_F_Preferred_Contact_Time</shortDescription>
+        <value>Preferred Contact Time</value>
     </labels>
     <labels>
         <fullName>PG_AP_F_Referred_By</fullName>
@@ -22079,6 +22131,20 @@ communications using the toggles below.</value>
         <shortDescription>Total Cholesterol Description</shortDescription>
         <value>Cholesterol is a type of fat made by the liver that is found in your blood. You can also take in cholesterol by eating certain foods, such as meat, fish, eggs, and dairy products. Your total cholesterol value is the sum of your low-density lipoprotein (LDL, or &quot;bad&quot; cholesterol) and your high-density lipoprotein (HDL, or &quot;good&quot; cholesterol).</value>
     </labels>
+     <labels>
+        <fullName>TOTAL_PE_WITHOUT_VP</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_VP</shortDescription>
+        <value>There are ##PEs participants with no visit plan attached.</value>
+    </labels>
+    <labels>
+        <fullName>TOTAL_PE_WITHOUT_VP_LIMIT</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>TOTAL_PE_WITHOUT_VP_LIMIT</shortDescription>
+        <value>There are more than ##PEs participants with no visit plan attached.</value>
+    </labels>    
     <labels>
         <fullName>Total_protein</fullName>
         <language>en_US</language>

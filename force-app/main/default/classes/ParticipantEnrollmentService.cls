@@ -27,9 +27,9 @@ public without sharing class ParticipantEnrollmentService {
     public static final String PART_STATUS_FAILED_REFERRAL = 'Failed Referral';
     public static final String PART_STATUS_EXCLUDED_FROM_REFERRING = 'Excluded from Referring';
     public static final String PART_STATUS_RECEIVED = 'Received';
-    public static final String PART_STATUS_EXCLUDE_FROM_REFERRING_RP='Exclude from referring';
-    public static final String PART_STATUS_INCLUDE_FROM_REFERRING_RP='Include for referring';
-    
+    public static final String PART_STATUS_EXCLUDE_FROM_REFERRING_RP = 'Exclude from referring';
+    public static final String PART_STATUS_INCLUDE_FROM_REFERRING_RP = 'Include for referring';
+
     // Non referral reason
     public static final String NON_REF_REASON_STATUS_NOT_INTERESTED = 'No Longer Interested';
     public static final String NON_REF_REASON_STATUS_FAILED_PE_SCREENING = 'Failed Pre-Eligibility Screening';
@@ -586,6 +586,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Tasks_Are_Available__c',
         'Clinical_Trial_Profile__r.Payment_Is_Available__c',
         'Clinical_Trial_Profile__r.Travel_Vendor_Is_Available__c',
+        'Clinical_Trial_Profile__r.Received_Until_Consent_Is_Available__c',
+        'Clinical_Trial_Profile__r.Enrolled_Or_Randomized_Consent_Available__c',
         'Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c',
         'Clinical_Trial_Profile__r.Relevant_Links_Are_Available__c',
         'Clinical_Trial_Profile__r.CommunityTemplate__c',
@@ -595,8 +597,8 @@ public without sharing class ParticipantEnrollmentService {
         'Clinical_Trial_Profile__r.Shareback_Availability_Timing__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
         'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
-		'isAuthorized__c',	
-        'Human_Id__c',	
+        'isAuthorized__c',
+        'Human_Id__c',
         'Unique_HumanId__c',
         'CreatedDate',
         'Enrolled_Date__c',
@@ -622,7 +624,7 @@ public without sharing class ParticipantEnrollmentService {
         'IsSubjectIDverifiedInSDH__c',
         'Medical_Record_Review_Status__c',
         'Medical_Record_Review_Completedby_Name__c',
-	    'Medical_Record_Review_Completed_by__r.Id', 
+        'Medical_Record_Review_Completed_by__r.Id',
         'Motivational_Message_Id__c',
         'MRN_Id__c',
         'MRR_Survey_Results_URL__c',
@@ -667,8 +669,8 @@ public without sharing class ParticipantEnrollmentService {
         'Participant__r.Contact__r.Visit_Results_OptIn__c',
         'Participant_Contact__c',
         'Participant_Contact__r.Visit_Results_OptIn__c',
-		'PI_Contact__c',  	
-        'PI_Contact__r.Id', 
+        'PI_Contact__c',
+        'PI_Contact__r.Id',
         'PI_Contact__r.Name',
         'PI_Contact__r.Phone',
         'Pre_screening_Status__c',
@@ -679,7 +681,7 @@ public without sharing class ParticipantEnrollmentService {
         'HCP_Contact_HCPEnroll__r.Name',
         'Referral_ID__c',
         'Referral_Source__c',
-		'Referral_Completed_by__r.Id',   
+        'Referral_Completed_by__r.Id',
         'Referral_Completedby_Name__c',
         'Source_Type__c',
         'Visit_Plan__c',
@@ -715,7 +717,7 @@ public without sharing class ParticipantEnrollmentService {
         'Study_Site__r.Site__r.BillingStreet',
         'Study_Site__r.Site__r.BillingPostalCode',
         'Study_Site__r.Site__r.BillingCountryCode',
-		'Study_Site__r.Principal_Investigator__c',    
+        'Study_Site__r.Principal_Investigator__c',
         'Study_Site__r.Principal_Investigator__r.Name',
         'Study_Site__r.Principal_Investigator__r.Salutation',
         'Study_Site__r.Principal_Investigator__r.Language__c',
@@ -1799,9 +1801,9 @@ public without sharing class ParticipantEnrollmentService {
     }
 
     public static void updateParticipantState(List<Participant__c> participants) {
-        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c> ();
-        if(!participants.isEmpty()){
-             enrollments = [
+        List<Participant_Enrollment__c> enrollments = new List<Participant_Enrollment__c>();
+        if (!participants.isEmpty()) {
+            enrollments = [
                 SELECT Id, Participant__c, Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE Participant__c IN :participants
