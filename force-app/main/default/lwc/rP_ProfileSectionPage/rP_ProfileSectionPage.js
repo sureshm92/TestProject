@@ -67,7 +67,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showExclude = false;
     @api showMRR = false;
     @api showRefer = false;
-    disabledSaveButton = false;
+    @api disabledSaveButton = false;
+    @api isaccessLevelthree = false;
 
     label = {
         RH_RP_Exclude,
@@ -224,7 +225,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             && this.peRecordList[0].peRecord.Patient_ID__c != ''
             && this.peRecordList[0].peRecord.Patient_ID__c != null
             ){
-                this.disabledSaveButton = false;
+                if(this.peRecordList[0].accessLevel == "Level 3"){
+                this.disabledSaveButton = true;}else{ this.disabledSaveButton = false;}
            }
            else{
                 this.disabledSaveButton = true;
@@ -252,7 +254,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             }
            if(this.peRecordList[0].accessLevel == "Level 2"){
                this.referbuttonDisable = true;
-           }else{
+           }else if(this.peRecordList[0].accessLevel == "Level 3"){
+               this.isaccessLevelthree = true;
+               this.referbuttonDisable = true;
+               this.disabledSaveButton = true;
+           }
+           else{
                this.referbuttonDisable = false;
            }
                this.isLoading = false;

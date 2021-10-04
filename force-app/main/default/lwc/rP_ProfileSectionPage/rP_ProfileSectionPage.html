@@ -155,11 +155,14 @@
                 <lightning-tabset>
                     <lightning-tab label="Patient">
                         <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList} 
-                            onrefreshpatienttabchange={handlePatientTabChange} states={states} disabledsavebutton={disabledSaveButton}></c-rp_-patient-tab>
+                        isaccesslevelthree={isaccessLevelthree} onrefreshpatienttabchange={handlePatientTabChange} states={states} disabledsavebutton={disabledSaveButton}></c-rp_-patient-tab>
                     </lightning-tab>
                     <lightning-tab label="Primary Delegate">
                         <c-rp_-delegate-tab delegaterecordlist={delegatepeRecordList} originaldelegaterecordlist={delegatepeRecordList} 
-                            onrefreshdelegatetabchange={handleDelegateChange}> </c-rp_-delegate-tab>
+                        isaccesslevelthree={isaccessLevelthree} onrefreshdelegatetabchange={handleDelegateChange}> </c-rp_-delegate-tab>
+                    </lightning-tab>
+                    <lightning-tab label="Notes">
+                        <c-rp_-notes-tab delegateid={delegateId} patientrecord={peRecordList}> </c-rp_-notes-tab>
                     </lightning-tab>
                 </lightning-tabset>
             </div>

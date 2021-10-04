@@ -13,7 +13,7 @@ public  without sharing class RPRecordReviewLogHelper {
 
     public static HCPInit getHCPInitData(String delegateId, String userMode) {       
         HCPInit hInit = new HCPInit();
-        try {
+        //try {
                 if(userMode == 'HCP') {
                     Id currentContactId = CommunityService.getInstance().getCurrentContactId();
                     //Check access level
@@ -27,10 +27,11 @@ public  without sharing class RPRecordReviewLogHelper {
                     hInit.studySiteList = getStudySiteDetails(ctpIds); 
             }       
             return hInit;
-        }
+        //}
+        /*
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+        }*/
     }   
     
      public static Contact getContact(Id currentContact){
