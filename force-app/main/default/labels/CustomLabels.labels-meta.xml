@@ -19136,6 +19136,13 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Delegate Cancel Record</shortDescription>
         <value>Cancel Record</value>
     </labels>
+     <labels>
+        <fullName>RH_RP_Outreach_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Outreach Patient</shortDescription>
+        <value>Outreach Patient</value>
+    </labels>
     <labels>
         <fullName>RH_RP_Delegate_Certify</fullName>
         <language>en_US</language>

@@ -189,7 +189,7 @@
                         </button>
                     </div>
                     <aura:if
-                             isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2'}"
+                             isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2' &amp;&amp; v.accessUserLevel != 'Level 3'}"
                              >
                         <div class="between-panels">
                             or

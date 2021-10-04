@@ -9,36 +9,36 @@
     <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-input type="text" label={label.RH_RP_Patient_ID} name="Patient ID" value={pe.peRecord.Patient_ID__c} data-value="PatientID" 
+                <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Patient_ID} name="Patient ID" value={pe.peRecord.Patient_ID__c} data-value="PatientID" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue} required="true"></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="6">
             <div> 
                 <lightning-input type="text" label={label.RH_RP_Email_ID} name="Email ID" value={pe.peRecord.Email__c} data-value="EmailID" 
-                 disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                 disabled={disableField} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
     </lightning-layout>
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-input type="text" label={label.RH_RP_First_Name} name="First Name" value={pe.peRecord.Participant_Name__c} data-value="FirstName" 
+                <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_First_Name} name="First Name" value={pe.peRecord.Participant_Name__c} data-value="FirstName" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue} required="true" ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
-                <lightning-input type="text" label={label.RH_RP_Middle_Initial} name="Middle Initial" value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI" 
+                <lightning-input type="text" disabled={isaccesslevelthree} label={label.RH_RP_Middle_Initial} name="Middle Initial" value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
-            <lightning-combobox label={label.RH_RP_Birth_Month} name="Birth Month" placeholder={label.RH_RP_Select_Birth_Month} value={pe.peRecord.Birth_Month__c}  
+            <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Birth_Month} name="Birth Month" placeholder={label.RH_RP_Select_Birth_Month} value={pe.peRecord.Birth_Month__c}  
                 options={pe.monthDateOption} data-value="BirthMonth" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
             </lightning-combobox>                    
         </lightning-layout-item>
 
         <lightning-layout-item padding="around-small" size="3">
-            <lightning-combobox required="true" label={label.RH_RP_Birth_Year} name="Birth Year" placeholder={label.RH_RP_Select_Birth_Year} value={pe.peRecord.YOB__c}  
+            <lightning-combobox disabled={isaccesslevelthree} required="true" label={label.RH_RP_Birth_Year} name="Birth Year" placeholder={label.RH_RP_Select_Birth_Year} value={pe.peRecord.YOB__c}  
             options={pe.yearDateOption} data-value="BirthYear" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
         </lightning-combobox>                    
         </lightning-layout-item>
@@ -46,13 +46,13 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-input type="text" label={label.RH_RP_Last_Name} name="Last Name" value={pe.peRecord.Participant_Surname__c} data-value="LastName" 
+                <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Last_Name} name="Last Name" value={pe.peRecord.Participant_Surname__c} data-value="LastName" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue} required="true" ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox label ={label.RH_RP_Sex} name ="Sex" placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}  
+                <lightning-combobox disabled={isaccesslevelthree} label ={label.RH_RP_Sex} name ="Sex" placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}  
                     options={pe.sexList} data-value="Sex" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
                 </lightning-combobox>                    
             </div>
@@ -63,7 +63,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Mailing_Country_Code__c}  
+                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Mailing_Country_Code__c}  
                     options={pe.countryList} data-value="Country" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
             </lightning-combobox>
             </div>
@@ -71,12 +71,12 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label={label.RH_RP_Phone_Number} name="Phone Number" value={pe.peRecord.Phone__c} data-value="PhoneNumber" 
-                 disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                 disabled={disableField} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox disabled={pe.isMinor} label={label.RH_RP_Phone_Type} name="Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Patient_Phone_Type__c}  
+                <lightning-combobox disabled={disableField} label={label.RH_RP_Phone_Type} name="Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Patient_Phone_Type__c}  
                     options={pe.phoneTypeList} data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -85,20 +85,20 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.Mailing_State_Code__c}  
+                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.Mailing_State_Code__c}  
                     options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top"> 
                 </lightning-combobox>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-input type="text" label={label.RH_RP_Alt_Phone_Number} name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
+                <lightning-input type="text" disabled={isaccesslevelthree} label={label.RH_RP_Alt_Phone_Number} name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
                  data-value="AltPhoneNumber" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox label={label.RH_RP_Alt_Phone_Type} name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Participant_Alt_Phone_Type__c}  
+                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Alt_Phone_Type} name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Participant_Alt_Phone_Type__c}  
                  options={pe.altPhoneTypeList} data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -107,7 +107,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-input type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
+                <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
                 data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
@@ -116,14 +116,14 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox label={label.RH_RP_Site_Name} name="Site Name" placeholder={label.RH_RP_Select_Site_Name} value={pe.backendSelectedSite}  
+                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Site_Name} name="Site Name" placeholder={label.RH_RP_Select_Site_Name} value={pe.backendSelectedSite}  
                     options={pe.siteList} data-value="SiteName" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>                    
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true"  label={label.RH_RP_Patient_Auth_Status} name="Patient Auth Status" placeholder={label.RH_RP_Patient_Auth_Status_Verified} value={pe.peRecord.Patient_Auth__c}  
+                <lightning-combobox disabled={isaccesslevelthree} required="true"  label={label.RH_RP_Patient_Auth_Status} name="Patient Auth Status" placeholder={label.RH_RP_Patient_Auth_Status_Verified} value={pe.peRecord.Patient_Auth__c}  
                     options={pe.patientAuthStatusList} data-value="PatientAuthStatus" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -148,14 +148,14 @@
             {label.RH_RP_Patient_Authorization}
         </div>
         <div>
-            <lightning-input type="checkbox" label="IsEmail" name="IsEmail" variant="label-hidden" checked={pe.peRecord.Is_Email__c} 
+            <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsEmail" name="IsEmail" variant="label-hidden" checked={pe.peRecord.Is_Email__c} 
             data-value="IsEmail" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </div>
         <div class="patientConfirmation">
             {label.PG_Ref_L_Permit_IQVIA_To_Contact_Email}
         </div>
         <div>
-            <lightning-input type="checkbox" label="IsPhone" name="IsPhone" variant="label-hidden" checked={pe.peRecord.Is_Phone__c} 
+            <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsPhone" name="IsPhone" variant="label-hidden" checked={pe.peRecord.Is_Phone__c} 
                 data-value="IsPhone" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </div>
         <div class="patientConfirmation">
@@ -163,7 +163,7 @@
         </div>
 
         <div>
-            <lightning-input type="checkbox" label="IsSMS" name="IsSMS" variant="label-hidden" checked={pe.peRecord.Is_SMS__c} 
+            <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsSMS" name="IsSMS" variant="label-hidden" checked={pe.peRecord.Is_SMS__c} 
                 data-value="IsSMS" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </div>
         <div class="patientConfirmation">
