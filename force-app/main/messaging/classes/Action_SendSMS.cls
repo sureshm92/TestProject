@@ -79,7 +79,7 @@ public with sharing class Action_SendSMS implements Action {
                 Notification__c,
                 Notification__r.Recipient__c,
                 Notification__r.Recipient__r.Phone,
-                Recipient__r.Language__c
+                Notification__r.Recipient__r.Language__c
             FROM Send_Result__c
             WHERE
                 Notification__c IN :notificationIds

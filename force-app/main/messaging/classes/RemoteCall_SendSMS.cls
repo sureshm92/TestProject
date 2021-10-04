@@ -53,26 +53,28 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         public Boolean isSensitive;
     }
 
-    public List<MessageWrapper> messageWrapperList;
+    private MessageWrapper messageWrapper;
 
-    public RemoteCall_SendSMS(List<MessageParameters> messageParametersList) {
+    public RemoteCall_SendSMS(List<Action_SendSMS.MessageParameters> messageParametersList) {
         this.endPointURL = 'callout:MulesoftSMS';
         this.httpMethod = METHOD_POST;
         this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' });
-        messageWrapperList = new List<MessageWrapper>();
+        messageWrapper = new MessageWrapper();
+        Action_SendSMS.MessageParameters msgParam = messageParametersList.get(0);
         logAutoInsert = false;
-        for (MessageParameters messageParameters : messageParametersList) {
-            MessageWrapper messageWrapper = new MessageWrapper();
-            messageWrapper.sourceMetadata = new SourceMetadata();
-            messageWrapper.notificationMetadata = new NotificationMetadata();
-            messageWrapper.notificationOption = new NotificationOption();
-            messageWrapper.preferredDeliveryPeriod = new PreferredDeliveryPeriod();
-            messageWrapper.arguments = new Arguments();
-            messageWrapper.arguments.argument = new List<Argument>();
-
-            //TO-DO:
-            messageWrapperList.add(messageWrapper);
-        }
+        //Initialize
+        messageWrapper.sourceMetadata = new SourceMetadata();
+        messageWrapper.notificationMetadata = new NotificationMetadata();
+        messageWrapper.notificationOption = new NotificationOption();
+        messageWrapper.preferredDeliveryPeriod = new PreferredDeliveryPeriod();
+        messageWrapper.arguments = new Arguments();
+        messageWrapper.arguments.argument = new List<Argument>();
+        //Assign
+        messageWrapper.sourceMetadata.transactionId = msgParam.transactionId;
+        messageWrapper.notificationMetadata.fromNumber = msgParam.fromNumber;
+        messageWrapper.notificationMetadata.toNumber = msgParam.toNumber;
+        messageWrapper.notificationMetadata.messageBody = msgParam.messageBody;
+        messageWrapper.notificationMetadata.subject = msgParam.subject;
     }
 
     public override Type getType() {
@@ -80,7 +82,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     protected override String buildRequestBody() {
-        return JSON.serializePretty(messageWrapperList, true);
+        return JSON.serializePretty(messageWrapper, true);
     }
 
     protected override Object parseResponse(String responseBody) {
