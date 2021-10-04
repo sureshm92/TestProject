@@ -952,7 +952,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BATCH_RUNNING</shortDescription>
-        <value>There is a batch running for selected Visit Plan(s). Uncheck is currently not possible. Please uncheck after batch is completed.</value>
+        <value>Editing is currently not possible until the batch is completed.</value>
     </labels>
     <labels>
         <fullName>BMI</fullName>
