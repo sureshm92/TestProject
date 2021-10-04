@@ -119,22 +119,11 @@ DeployInt:
     #when: manual
     stage: DeployInt
     only:
-      - CICDDEMO
-      
-    before_script: 
-      - |
-         set -x
-         echo 'y' | sfdx plugins:install sfdx-git-delta
-         sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
-         echo "--- package.xml generated with added and modified metadata ---"
-         cat package/package.xml
-         #echo "---- Deploying added and modified metadata ----"
-      #- sfdx force:source:deploy -x package/package.xml      
+      - CICDDEMO 
     script:
-      - ls -ll
       - echo "$INT" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d"
-      - sfdx force:source:deploy -x package/package.xml -u INT -w 60
+      - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d
+      - sfdx force:source:deploy -p force-app -u INT -w 60
       - echo "Deploy success!"
 
 ValidateInf:
