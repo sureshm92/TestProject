@@ -16,9 +16,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
@@ -41,7 +43,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -53,11 +56,11 @@ public class Test_UploadParticipantsRemote {
         TestData tstData = new TestData();
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
-
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+		Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
-
+		List<LabelValueItem> statuses = result.participantStatuses;
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
             'Participant First Name,Participant Middle Name,Participant Last Name,Participant Nickname,Participant Sex,Participant Date of Birth,Participant Email Address,Participant Phone,Phone Type,PARTICIPANT ALTERNATIVE PHONE,Alt.Phone Type,Street Address,City,State,Postal Code,Country,Language,Primary Delegate First Name,Primary Delegate Last Name,Primary Delegate Email,Primary Delegate Phone Number,Primary Delegate Phone Type'
@@ -82,7 +85,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -96,10 +100,12 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
-
+        List<LabelValueItem> statuses = result.participantStatuses;
+        
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
             'Participant First Name,Participant Middle Name,Participant Last Name,Participant Nickname,Participant Sex,Participant Date of Birth,Participant Email Address,Participant Phone,Phone Type,PARTICIPANT ALTERNATIVE PHONE,Alt.Phone Type,Street Address,City,State,Postal Code,Country,Language,Primary Delegate First Name,Primary Delegate Last Name,Primary Delegate Email,Primary Delegate Phone Number,Primary Delegate Phone Type'
@@ -122,7 +128,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -135,9 +142,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
@@ -160,7 +169,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -173,9 +183,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
@@ -198,7 +210,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -212,9 +225,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
@@ -237,7 +252,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -251,9 +267,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines2 = new List<String>();
         csvFileLines2.add(
@@ -273,7 +291,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();
@@ -287,9 +306,11 @@ public class Test_UploadParticipantsRemote {
         List<String> headerColumns = Action_UploadParticipantsRemote.HEADER_COLUMNS;
         List<String> mandatoryHeaders = Action_UploadParticipantsRemote.MANDATORY_HEADER_COLUMNS;
 
-        List<LabelValueItem> statuses = Action_UploadParticipantsRemote.getParticipantsStatuses(
+        Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans result = new Action_UploadParticipantsRemote.ParticipantStatusesVisitPlans();
+        result = Action_UploadParticipantsRemote.getParticipantsStatusesAndVisitPlans(
             tstData.ss.Id
         );
+        List<LabelValueItem> statuses = result.participantStatuses;
 
         List<String> csvFileLines = new List<String>();
         csvFileLines.add(
@@ -313,7 +334,8 @@ public class Test_UploadParticipantsRemote {
                 false,
                 false,
                 false,
-                false
+                false,
+                null
             );
         }
         Test.stopTest();

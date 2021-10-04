@@ -1,5 +1,5 @@
 ({
-    search: function (component, event, helper) {
+    search: function(component, event, helper) {
         const action = event.getParam('arguments').serverAction;
         helper.toggleSearchSpinner(component);
 
@@ -8,7 +8,7 @@
             selectedIds: helper.getSelectedIds(component)
         });
 
-        action.setCallback(this, function (response) {
+        action.setCallback(this, function(response) {
             const state = response.getState();
             if (state === 'SUCCESS') {
                 helper.toggleSearchSpinner(component);
@@ -56,7 +56,7 @@
         $A.enqueueAction(action);
     },
 
-    onInput: function (component, event, helper) {
+    onInput: function(component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
@@ -65,7 +65,7 @@
         helper.updateSearchTerm(component, newSearchTerm);
     },
 
-    onResultClick: function (component, event, helper) {
+    onResultClick: function(component, event, helper) {
         const recordId = event.currentTarget.id;
         helper.selectResult(component, recordId);
 
@@ -78,7 +78,7 @@
         }
     },
 
-    onComboboxClick: function (component, event, helper) {
+    onComboboxClick: function(component, event, helper) {
         // Hide combobox immediatly
         const blurTimeout = component.get('v.blurTimeout');
         if (blurTimeout) {
@@ -87,7 +87,7 @@
         component.set('v.hasFocus', false);
     },
 
-    onFocus: function (component, event, helper) {
+    onFocus: function(component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
@@ -95,14 +95,14 @@
         component.set('v.hasFocus', true);
     },
 
-    onBlur: function (component, event, helper) {
+    onBlur: function(component, event, helper) {
         // Prevent action if selection is not allowed
         if (!helper.isSelectionAllowed(component)) {
             return;
         }
         // Delay hiding combobox so that we can capture selected result
         const blurTimeout = window.setTimeout(
-            $A.getCallback(function () {
+            $A.getCallback(function() {
                 component.set('v.hasFocus', false);
                 component.set('v.blurTimeout', null);
             }),
@@ -111,12 +111,15 @@
         component.set('v.blurTimeout', blurTimeout);
     },
 
-    onRemoveSelectedItem: function (component, event, helper) {
+    onRemoveSelectedItem: function(component, event, helper) {
         const itemId = event.getSource().get('v.name');
         helper.removeSelectedItem(component, itemId);
     },
+    cannotRemoveSelectedItem: function(component, event, helper) {
+        communityService.showWarningToast('Fail!', 'Cannot edit Inactive/Completed tasks');
+    },
 
-    onClearSelection: function (component, event, helper) {
+    onClearSelection: function(component, event, helper) {
         helper.clearSelection(component);
     }
 });
