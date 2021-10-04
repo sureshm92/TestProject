@@ -213,9 +213,17 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
            
-           if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
+           
+        if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
             && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
-            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined && this.peRecordList[0].peRecord.Legal_Status__c != undefined){
+            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != ''
+            && this.peRecordList[0].peRecord.Participant_Surname__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != null
+            ){
                 this.disabledSaveButton = false;
            }
            else{
