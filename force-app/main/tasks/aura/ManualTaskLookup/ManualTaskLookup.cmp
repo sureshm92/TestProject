@@ -7,8 +7,8 @@
     <aura:attribute name="objType" type="String" />
     <aura:attribute access="private" type="List" name="errors" default="[]" />
     <aura:attribute access="private" type="Boolean" name="isMultiEntry" default="true" />
+    <aura:attribute name="isDisabled" type="Boolean" default="false" />
     <aura:attribute name="selection" type="List" />
-
     <c:Lookup
         aura:id="lookup"
         selection="{!v.selection}"
@@ -17,5 +17,6 @@
         errors="{!v.errors}"
         label="{!v.label}"
         isMultiEntry="{!v.isMultiEntry}"
+        isDisabled="{!v.isDisabled}"
     />
 </aura:component>
