@@ -6,13 +6,15 @@
 private class Test_Batch_AssignLanguagePreferences {
     @IsTest
     static void testBehavior() {
+        Test.startTest();
         TestData.loadTestData();
         TestData td = new TestData();
+        TriggerHandlerExecutor.bypassHandler(
+            ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+        );
         td.participant.Preferred_Language__c = null;
         td.participant.Language_Preference_Code__c = 'en_US';
-        Test.startTest();
-        update td.participant;
-        
+        update td.participant;       
         Batch_AssignLanguagePreferences.run();
         Test.stopTest();
     } 

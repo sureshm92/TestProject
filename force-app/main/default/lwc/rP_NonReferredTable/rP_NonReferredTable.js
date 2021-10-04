@@ -5,6 +5,16 @@ import { refreshApex } from '@salesforce/apex';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { NavigationMixin } from 'lightning/navigation';
+import CC_Btn_Search from '@salesforce/label/c.CC_Btn_Search';
+import RH_RP_Patient_ID from '@salesforce/label/c.RH_RP_Patient_ID';
+import RH_RP_Last_Name from '@salesforce/label/c.RH_RP_Last_Name';
+import RH_RP_MM_YYYY from '@salesforce/label/c.RH_RP_MM_YYYY';
+import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
+import BTN_Close from '@salesforce/label/c.BTN_Close';
+import RH_RP_Refresh_page from '@salesforce/label/c.RH_RP_Refresh_page';
+import RH_RP_Want_to_Refresh_Page from '@salesforce/label/c.RH_RP_Want_to_Refresh_Page';
+import Cancel from '@salesforce/label/c.Cancel';
+import BTN_OK from '@salesforce/label/c.BTN_OK';
 
 export default class RP_NonReferredTable extends NavigationMixin(LightningElement) {
     @api userMode;
@@ -31,9 +41,24 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @api isProfilePage;
     @api isBulkProfilePage;
     @api browserstore;
+    @api isExcludedforReferring = false;
+    @api allRecords;
     isPaginationApplied = false;
-    
-     isSelectAll = false;
+    isSelectAll = false;
+    @api peRecordList;
+
+    label = {
+        CC_Btn_Search,
+        RH_RP_Patient_ID,
+        RH_RP_Last_Name,
+        RH_RP_MM_YYYY,
+        RH_RP_No_Item_To_Display,
+        BTN_Close,
+        RH_RP_Refresh_page,
+        RH_RP_Want_to_Refresh_Page,
+        Cancel,
+        BTN_OK
+    };
 
     constructor() {
         super();
@@ -41,22 +66,98 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     connectedCallback() {
-        this.getDetailsApex();
+        console.log('UsrMode'+this.userMode);
+        console.log('DelegateId'+this.delegateId);
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.userMode = communityService.getUserMode();
+            console.log('frmtablemode'+ this.userMode);
+            this.delegateId = communityService.getDelegateId();
+            console.log('frmtableid'+  this.delegateId );
+        }).then(() => {
+            this.getDetailsApex();
+        }).catch((error) => {
+            console.log('Error: ' + error);
+        });
+       
+    }
+
+    @api
+    getPatientRecords() {
+        var panginationRecList = [];
+        var allRecList = [];
+
+        let paginationRecord = JSON.parse(JSON.stringify(this.recordsToDisplay));        
+        for (var i = 0; i < paginationRecord.length; i++) {
+            if(paginationRecord[i].peRec.Id == this.peRecordList[0].peRecord.Id){
+                paginationRecord[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
+                paginationRecord[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
+                    && this.peRecordList[0].peRecord.Birth_Month__c != null){
+                    paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                }
+                else {
+                    paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.YOB__c;
+                }
+            }
+            panginationRecList.push(paginationRecord[i]);
+        }
+
+        let allRecords = JSON.parse(JSON.stringify(this.data));        
+        for (var i = 0; i < allRecords.length; i++) {
+            if(allRecords[i].peRec.Id == this.peRecordList[0].peRecord.Id){
+                allRecords[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
+                allRecords[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
+                    && this.peRecordList[0].peRecord.Birth_Month__c != null){
+                        allRecords[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
+                }
+                else {
+                    allRecords[i].doBFormat = this.peRecordList[0].peRecord.YOB__c;
+                }
+            }
+            allRecList.push(allRecords[i]);
+        }
+        this.recordsToDisplay = [];
+        this.recordsToDisplay = panginationRecList;   
+
+        this.data = [];
+        this.data = allRecList;   
+    }
+
+    @api
+    getOnExcludeIncluderefresh() {
+        this.recordsToDisplay = this.recordsToDisplay.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id );
+        this.data = this.data.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id);
+        this.redirectoOverviewPage();
+        this.template.querySelector('c-rppagination').records = this.data;
+        this.template.querySelector('c-rppagination').totalRecords = this.data.length;
+        //this.template.querySelector('c-rppagination').setRecordsToDisplay();
+        this.template.querySelector('c-rppagination').refreshPageNumber();
+        if (this.data.length == 0) {
+            this.noFilterRecords = true;
+        } else {
+            this.noFilterRecords = false;
+        }
     }
 
     getDetailsApex() {
-        getPEDetails()
+        getPEDetails({ userMode: this.userMode, delegateId: this.delegateId })
             .then((result) => {
-                this.apexRefreshList = result;
-                this.data = result;
-                this.masterData = result;
-                this.recordsToDisplay = result;
+                this.allRecords = result;
+                let includedRecords = result.filter(function(include) {
+                return include.peRec.Participant_Status__c != "Excluded from Referring"; });
+                this.apexRefreshList = includedRecords;
+                this.data = includedRecords;
+                this.masterData = includedRecords;
+                this.recordsToDisplay = includedRecords;
                 this.error = undefined;
+                this.isExcludedforReferring = false;
                 //for empty records check
                 if (this.recordsToDisplay.length > 0) {
                     this.showTable = true;
                 } else {
-                    this.showTable = false;
+                    this.showTable = true;
                 }
                 this.isLoading = false;
             })
@@ -65,28 +166,11 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             });
     }
 
-    /*
-    @wire(getPEDetails) peList(result) {
-        this.isLoading = true;
-        if (result.data) {
-            this.data = result.data;
-            this.masterData = result.data;
-            this.recordsToDisplay = result.data;
-            this.error = undefined;
-            //for empty records check
-            if (this.recordsToDisplay.length > 0) {
-                this.showTable = true;
-            } else {
-                this.showTable = false;
-            }
-            this.isLoading = false;
-        } else if (result.error) {
-            this.error = result.error;
-            alert(JSON.stringify(this.error));
-            this.data = undefined;
-            this.isLoading = false;
-        }
-    }*/
+    handleExcludeRecords(event) {
+       this.isExcludedforReferring = event.detail;
+       console.log('Event Triggered---->'+this.isExcludedforReferring);
+    }
+
     //Capture the event fired from the paginator component
     handlePaginatorChange(event) {
         this.recordsToDisplay = event.detail;
@@ -224,11 +308,9 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     //Refresh page
     refreshComponent(event) {
         refreshApex(this.apexRefreshList);
-        //eval("$A.get('e.force:refreshView').fire();");
         eval("$A.get('e.force:refreshView').fire();");
-
-        // this.dispatchEvent(new CustomEvent("tablerefreshevent"));
     }
+
     handleFilterApply(event) {
         this.showFilterModal = false;
         if (event.detail.isFilterApplied) {
@@ -240,6 +322,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             this.data = filterValue;
             this.recordsToDisplay = filterValue;
             this.isPaginationApplied = false;
+            this.template.querySelector('c-rppagination').setPageNumber();
+
         }
     }
 
@@ -257,9 +341,22 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             recddis = this.masterData;
             allRec = this.masterData;
         //}
+        
         if (this.searchValue.length > 0) {
             this.disableFilter = true;
             if (this.searchValue.length > 2) {
+                if(!this.isExcludedforReferring){
+                    console.log('Include Search');
+                    let includedRecords = recddis.filter(function(include) {
+                        return include.peRec.Participant_Status__c != "Excluded from Referring"; });
+                        allRec = includedRecords;  
+                }else{
+                    console.log('Exclude Search');
+                    let excludedRecords = this.allRecords.filter(function(ex) {
+                        return ex.peRec.Participant_Status__c == "Excluded from Referring"; });
+                        allRec = excludedRecords;   
+                }
+              
                 recddis = allRec.filter((rec) =>
                     JSON.stringify(rec).toLowerCase().includes(this.searchValue.toLowerCase())
                 );
@@ -269,11 +366,11 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 console.log(this.data.length);
                 console.log(this.recordsToDisplay.length);
                 this.isPaginationApplied = false;
-            } else {
+            } /**else {
                 this.data = allRec;
                 this.recordsToDisplay = allRec;
                 this.isPaginationApplied = false;
-            }
+            }**/
         }
         if (this.searchValue.length == 0) {
             this.disableFilter = false;

@@ -8,7 +8,6 @@
         component.set('v.ssItems', searchResponse.studySiteItems);
         component.set('v.pagination', searchResponse.pagination);
         component.set('v.visitPlans', searchResponse.visitPlans);
-        component.set('v.studySiteVisitPlan',undefined);
         component.find('spinner').hide();
     },
 
@@ -16,7 +15,6 @@
         component.find('spinner').show();
         let helper = this;
         let ssItemsJSON = null;
-        let studySiteVisitPlan = component.get('v.studySiteVisitPlan');
         if (saveCurrentState) ssItemsJSON = JSON.stringify(component.get('v.ssItems'));
         communityService.executeAction(
             component,
@@ -24,9 +22,7 @@
             {
                 ssItemsJSON: ssItemsJSON,
                 filterJSON: JSON.stringify(component.get('v.filter')),
-                paginationJSON: JSON.stringify(component.get('v.pagination')),
-                studySiteVisitPlanJSON: JSON.stringify(component.get('v.studySiteVisitPlan')),
-                ctpId: component.get('v.recordId')
+                paginationJSON: JSON.stringify(component.get('v.pagination'))
             },
             function (searchResponse) {
                 helper.setSearchResponse(component, searchResponse);

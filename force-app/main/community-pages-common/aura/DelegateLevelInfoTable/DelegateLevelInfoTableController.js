@@ -103,7 +103,7 @@
                         levels: [true, true]
                     },
                     {
-                        text: 'Add/Update Patient',
+                        text: $A.get('$Label.c.RH_RP_Add_Update_Patient'),
                         levels: [true, true]
                     },
                     // {

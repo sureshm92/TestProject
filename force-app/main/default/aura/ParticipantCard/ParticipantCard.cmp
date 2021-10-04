@@ -17,7 +17,7 @@
     <aura:attribute name="sendToSHReason" type="String"/>
     <aura:attribute name="refSourceName" type="String"/>
     <!-- component body: -->
-    <aura:if isTrue="{!or(v.participantItem.showParticipationSteps,v.participantItem.showVisitsinPreTrial)}">
+    <aura:if isTrue="{!v.participantItem.showParticipationSteps}">
         <c:PSECard
             pe="{!v.participantItem.pe}"
             steps="{!v.participantItem.participationFlowSteps}"

@@ -109,3 +109,8 @@
 .THIS .p-footer {
     text-align: left !important;
 }
+@media (max-width: 768px) {
+    .THIS .p-content {
+        max-height: 40vh !important;
+    }
+}

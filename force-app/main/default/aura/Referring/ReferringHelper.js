@@ -1,7 +1,7 @@
 /**
  * Created by Leonid Bartenev
  */
- ({
+({
     addEventListener: function (component, helper) {
         if (!component.serveyGizmoResultHandler) {
             component.serveyGizmoResultHandler = $A.getCallback(function (e) {
@@ -28,12 +28,25 @@
             window.addEventListener('message', component.serveyGizmoResultHandler);
         }
     },
-
+    
     doFailedReferral: function (component, reason, successCallBack) {
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        communityService.executeAction(
+        let action = component.get("c.setfailedReferral");
+        action.setParams({peJSON: JSON.stringify(pEnrollment),reason: reason });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+               successCallBack();
+               spinner.hide();
+            }
+            else {
+                console.log(action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);
+       /**  communityService.executeAction(
             component,
             'setfailedReferral',
             {
@@ -47,10 +60,10 @@
             function () {
                 spinner.hide();
             }
-        );
+        );**/
     },
-
-   
+    
+    
     setParticipant: function (component, pe, markers) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
@@ -63,10 +76,10 @@
                 Gender__c:pe.Patient_Sex__c,
                 Phone__c:pe.Phone__c,
                 Phone_Type__c:pe.Patient_Phone_Type__c,
-                Mailing_Country_Code__c:pe.Country__c,
-                Mailing_State_Code__c:pe.State__c,
+                Mailing_Country_Code__c:pe.Mailing_Country_Code__c,
+                Mailing_State_Code__c:pe.Mailing_State_Code__c,
                 Mailing_Zip_Postal_Code__c:pe.Postal_Code__c,
-    
+                
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
@@ -89,16 +102,16 @@
             }
             
             component.set('v.yearofBirth',pe.YOB__c);
-             if(pe.YOB__c != null){
+            if(pe.YOB__c != null){
                 component.set('v.pyear',pe.YOB__c);
             }else{
                 component.set('v.pyear',null);
             }
-         
+            
             if(pe.Is_SMS__c && pe.Is_Email__c && pe.Is_Phone__c){
                 component.set('v.agreePolicy',true); 
             }
-
+            
         }else{
             var participant = {
                 sobjectType: 'Participant__c',
@@ -107,47 +120,62 @@
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
                 // Mailing_State_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingStateCode
             };
+            if (pe.HCP__r) {
+                participant.Mailing_Country_Code__c =
+                    pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
+                participant.Mailing_State_Code__c = pe.HCP__r.HCP_Contact__r.Account.BillingStateCode;
+                component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
+            }
         }
-       
-        if (pe.HCP__r) {
-            participant.Mailing_Country_Code__c =
-                pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode;
-            participant.Mailing_State_Code__c = pe.HCP__r.HCP_Contact__r.Account.BillingStateCode;
-            component.set('v.selectedCountry', participant.Mailing_Country_Code__c);
-        }
+        
+        
         component.set('v.participant', participant);
     },
-
+    
     setDelegate: function (component, helper, participant) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
         if(patientVeiwRedirection){ 
-              var delegateParticipant = {
-                  sobjectType: 'Participant__c',
-                  First_Name__c:component.get('v.primaryDelegateFirstname'),
-                  Last_Name__c:component.get('v.primaryDelegateLastname'),
-                  Email__c:component.get('v.primaryDelegateEmail'),
-                  Phone__c:component.get('v.primaryDelegatePhonenumber'),
-                  Phone_Type__c:component.get('v.primaryDelegatePhonetype'),
-                  Birth_Year__c:component.get('v.primaryDelegateYob')
-              };
-              component.set('v.delegateParticipant', delegateParticipant);
+            if(!component.get('v.delegateValueRemoved')){
+                var delegateParticipant = {
+                    sobjectType: 'Participant__c',
+                    First_Name__c:component.get('v.primaryDelegateFirstname'),
+                    Last_Name__c:component.get('v.primaryDelegateLastname'),
+                    Email__c:component.get('v.primaryDelegateEmail'),
+                    Phone__c:component.get('v.primaryDelegatePhonenumber'),
+                    Phone_Type__c:component.get('v.primaryDelegatePhonetype'),
+                    Birth_Year__c:component.get('v.primaryDelegateYob')
+                };
+                component.set('v.delegateParticipant', delegateParticipant);
+            }
         }else{
             var delegateParticipant = {
                 sobjectType: 'Participant__c'
             };
             component.set('v.delegateParticipant', delegateParticipant);
-            component.set('v.emailDelegateRepeat', '');   
+            component.set('v.emailDelegateRepeat', '');  
         }
     },
-
+    
     checkFields: function (component, event, helper, doNotCheckFields) {
         let agreePolicy = component.get('v.agreePolicy');
         let isAdultDel = component.get('v.isAdultDel');
         let attestAge = component.get('v.attestAge');
         let states = component.get('v.states');
-        let needsDelegate = component.get('v.needsGuardian');
+        
+        if(component.get('v.patientVeiwRedirection')){
+            if(component.get('v.hasGaurdian')){
+                var needsDelegate = component.get('v.hasGaurdian');
+            }else{
+                var needsDelegate = component.get('v.needsGuardian');
+            }
+        }else{
+            var needsDelegate = component.get('v.needsGuardian');
+        }
+        
+        
+        
         let isNewPrimaryDelegate =  component.get('v.isNewPrimaryDelegate');
-
+        
         //Participant
         let participant = component.get('v.participant');
         let emailRepeat = component.get('v.emailRepeat');
@@ -157,7 +185,7 @@
         let emailRepeatValid = emailRepeatCmp && communityService.isValidEmail(emailRepeat);
         let selectedCountry = participant.Mailing_Country_Code__c;
         let selectedState = participant.Mailing_State_Code__c;
-
+        
         //Guardian (Participant delegate)
         let delegateParticipant = component.get('v.delegateParticipant');
         let emailDelegateRepeat = component.get('v.emailDelegateRepeat');
@@ -169,24 +197,24 @@
         let emailDelegateVaild = false;        
         if(delegateParticipantemail){
             emailDelegateVaild = needsDelegate &&
-                    emailDelegateCmp &&
-                    helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
+                emailDelegateCmp &&
+                helper.checkValidEmail(emailCmp, delegateParticipant.Email__c);
         }else{
             emailDelegateVaild = false;
         }    
-
+        
         let emailDelegateRepeatValid = false;        
         if(emailDelegateRepeat && emailDelegateRepeat !== undefined){ 
             emailDelegateRepeatValid = 
                 needsDelegate &&
                 emailDelegateRepeatCmp &&
-            	helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
+                helper.checkValidEmail(emailDelegateRepeatCmp, emailDelegateRepeat);
         }else {
             emailDelegateRepeatValid = false;
         }
         //let emailDelegateVaild = needsDelegate && emailDelegateCmp && emailDelegateCmp.get('v.validity') && emailDelegateCmp.get('v.validity').valid;
         //let emailDelegateRepeatValid = needsDelegate && emailDelegateRepeatCmp && emailDelegateRepeatCmp.get('v.validity') && emailDelegateRepeatCmp.get('v.validity').valid;
-
+        
         if (
             emailDelegateVaild &&
             emailDelegateRepeatValid &&
@@ -210,41 +238,115 @@
         isValid =
             isValid ||
             (participant.First_Name__c &&
-                participant.Last_Name__c &&
-                participant.Date_of_Birth__c &&
-                participant.Date_of_Birth__c <= component.get('v.todayDate') &&
-                (needsDelegate || participant.Email__c) &&
-                (needsDelegate || emailVaild) &&
-                (needsDelegate || emailRepeatValid) &&
-                participant.Email__c == emailRepeat &&
-                (needsDelegate || participant.Phone__c) &&
-                participant.Mailing_Zip_Postal_Code__c &&
-                selectedCountry &&
-                (selectedState || states.length === 0) &&
-                (!needsDelegate ||
-                    (needsDelegate &&
-                        delegateParticipant &&
-                        participant.Health_care_proxy_is_needed__c &&
-                        delegateParticipant.First_Name__c &&
-                        delegateParticipant.Last_Name__c &&
-                        delegateParticipant.Phone__c &&
-                        delegateParticipant.Email__c &&
+             participant.Last_Name__c &&
+             participant.Date_of_Birth__c &&
+             participant.Date_of_Birth__c <= component.get('v.todayDate') &&
+             (needsDelegate || participant.Email__c) &&
+             (needsDelegate || emailVaild) &&
+             (needsDelegate || emailRepeatValid) &&
+             participant.Email__c == emailRepeat &&
+             (needsDelegate || participant.Phone__c) &&
+             participant.Mailing_Zip_Postal_Code__c &&
+             selectedCountry &&
+             (selectedState || states.length === 0) &&
+             (!needsDelegate ||
+              (needsDelegate &&
+               delegateParticipant &&
+               participant.Health_care_proxy_is_needed__c &&
+               delegateParticipant.First_Name__c &&
+               delegateParticipant.Last_Name__c &&
+               delegateParticipant.Phone__c &&
+               delegateParticipant.Email__c &&
+               
+               emailDelegateVaild &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c == emailDelegateRepeat)) &&
+             agreePolicy);
+        
+         if(component.get('v.patientVeiwRedirection')){
+              
+              let needsGuardian = false;
+              if(component.get('v.needsGuardian')){
+                  needsGuardian = true;
+              }
+            
+              if(needsDelegate && needsGuardian &&
+               delegateParticipant &&
+               participant.Health_care_proxy_is_needed__c &&
+               delegateParticipant.First_Name__c &&
+               delegateParticipant.Last_Name__c &&
+               delegateParticipant.Phone__c &&
+               delegateParticipant.Email__c &&
+               emailDelegateVaild &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c == emailDelegateRepeat &&
+               agreePolicy && attestAge &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                   isValid = true;
+                  
+              }else if(needsDelegate && !needsGuardian &&
+               delegateParticipant &&
+               participant.Health_care_proxy_is_needed__c &&
+               delegateParticipant.First_Name__c &&
+               delegateParticipant.Last_Name__c &&
+               delegateParticipant.Phone__c &&
+               delegateParticipant.Email__c &&
+               emailDelegateVaild &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c == emailDelegateRepeat &&
+               agreePolicy && attestAge &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Email__c &&
+               participant.Email__c == emailRepeat &&
+               participant.Phone__c &&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                    isValid = true;
+                  
+              }else if(!needsDelegate && !needsGuardian &&
+               agreePolicy &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Email__c &&
+               participant.Email__c == emailRepeat &&
+               participant.Phone__c &&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                    isValid = true;
+              }else{
+                   isValid = false;
+              }
+            
+        }
 
-                        emailDelegateVaild &&
-                        emailDelegateRepeatValid &&
-                        delegateParticipant.Email__c == emailDelegateRepeat)) &&
-                agreePolicy);
         if(needsDelegate && isNewPrimaryDelegate)
         {
             if(!(isAdultDel && attestAge))
-            	isValid = false;
+                isValid = false;
         }
-		if(isValid == undefined){
+        
+        if(isValid == undefined){
             component.set('v.allRequiredCompleted', false);
         }else{
-			component.set('v.allRequiredCompleted', isValid);
-		}
-
+            component.set('v.allRequiredCompleted', isValid);
+        } 
+        
         if (!needsDelegate && emailCmp && emailRepeatCmp) {
             if (
                 participant.Email__c &&
@@ -293,10 +395,11 @@
                 emailDelegateRepeatCmp.reportValidity();
             }
         }
-
+        
         console.log('VALIDATION isValid RESULT2: ' + isValid);
+        console.log(component.get('v.allRequiredCompleted'));
     },
-
+    
     checkValidEmail: function (email, emailValue) {
         var isValid = false;
         var regexp = $A.get('$Label.c.RH_Email_Validation_Pattern');
@@ -308,13 +411,15 @@
                 email.setCustomValidity('');
                 isValid = true;
             } else {
-                email.setCustomValidity('You have entered an invalid format');
+                if(emailValue != ''){
+                    email.setCustomValidity('You have entered an invalid format');}
                 isValid = false;
             }
         } else {
             email.setCustomValidity('You have entered an invalid format');
             isValid = false;
         }
+        
         email.reportValidity();
         return isValid;
     },
@@ -338,13 +443,13 @@
                 ) {
                     component.set('v.useThisDelegate', true);
                     component.set('v.useThisDelegate', false);
-                     component.set('v.isNewPrimaryDelegate', false);
+                    component.set('v.isNewPrimaryDelegate', false);
                 } else {
                     component.set('v.useThisDelegate', true); 
                     if(!component.get('v.isNewPrimaryDelegate')){
-                         component.set('v.isNewPrimaryDelegate', true);
+                        component.set('v.isNewPrimaryDelegate', true);
                         component.set('v.delegateParticipant.Birth_Year__c','');
-                    component.set('v.attestAge', false);
+                        component.set('v.attestAge', false);
                     }
                 }
                 var participantDelegate = component.get('v.delegateParticipant');
@@ -364,7 +469,7 @@
             }
         );
     },
-
+    
     checkParticipantNeedsGuardian: function (component, event, helper) {
         var spinner = component.find('mainSpinner');
         spinner.show();
@@ -372,10 +477,10 @@
         console.log('checkParticipantNeedsGuardian');
         console.log(JSON.stringify(participant));
         if (component.get('v.states').length === 0) {
-        component.set('v.participant.Mailing_State_Code__c', ''); 
-        component.set('v.participantToInsert', participant); 
+            component.set('v.participant.Mailing_State_Code__c', ''); 
+            component.set('v.participantToInsert', participant); 
         }else{
-        component.set('v.participantToInsert', participant); 
+            component.set('v.participantToInsert', participant); 
         }
         var participantToInsert = component.get('v.participantToInsert');
         communityService.executeAction(
@@ -386,7 +491,7 @@
             },
             function (returnValue) {
                 var isNeedGuardian = returnValue == 'true';
-
+                
                 if (isNeedGuardian != component.get('v.needsGuardian')) {
                     component.set('v.needsGuardian', isNeedGuardian);
                     component.set('v.participant.Health_care_proxy_is_needed__c', isNeedGuardian);
@@ -394,22 +499,36 @@
                 }
                 //REF-3070
                 if (isNeedGuardian) {
-                   		component.set('v.needsGuardian', true);
-                        component.set('v.enableGuardian', true);
-                    	component.set('v.participant.Email__c', ''); 
-                    	component.set('v.emailRepeat', '');
-                    	component.set('v.participant.Phone__c', '');
-                    	component.set('v.participant.Phone_Type__c', '');
-                    	component.set('v.participant.Adult__c', false);
-                        helper.setDelegate(component);
+                    component.set('v.needsGuardian', true);
+                    component.set('v.enableGuardian', true);
+                    component.set('v.participant.Email__c', ''); 
+                    component.set('v.emailRepeat', '');
+                    component.set('v.participant.Phone__c', '');
+                    component.set('v.participant.Phone_Type__c', '');
+                    component.set('v.participant.Adult__c', false);
+                    helper.setDelegate(component);
                 }else{
                     component.set('v.enableGuardian', false);
                     component.set('v.needsGuardian', false);
                     component.set('v.participant.Adult__c', true);
-                }     
-                helper.checkFields(component, event, helper, true);
+                }  
                 if(component.get('v.patientVeiwRedirection')){
-                    if(component.get('v.primaryDelegateYob') != null){
+                    if(component.get('v.primaryDelegateFirstname') != null && !component.get('v.delegateValueRemoved')){
+                        component.set('v.hasGaurdian', true);
+                        component.set('v.participant.Health_care_proxy_is_needed__c', true);
+                    }else{
+                        if(isNeedGuardian){
+                            component.set('v.hasGaurdian', true);
+                        }else{
+                            component.set('v.hasGaurdian', false);
+                        }
+                        
+                    }
+                }
+                helper.checkFields(component, event, helper, true);
+                
+                if(component.get('v.patientVeiwRedirection')){
+                    if(component.get('v.primaryDelegateYob') != null && component.get('v.primaryDelegateYob') != ''){
                         helper.checkGuardianAge(component, event, helper);  
                     }
                 }
@@ -420,26 +539,26 @@
             }
         );
     },
-	
+    
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
         let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-       
+        
         if(component.get('v.attestAge'))
         {
-                var attestCheckbox = component.find('checkBoxAttestation');
-                attestCheckbox.setCustomValidity('');
-                attestCheckbox.reportValidity('');
+            var attestCheckbox = component.find('checkBoxAttestation');
+            attestCheckbox.setCustomValidity('');
+            attestCheckbox.reportValidity('');
         }
         var spinner = component.find('mainSpinner');
         spinner.show();
         var participant = component.get('v.participant');
         var delegateParticipant = component.get('v.delegateParticipant');
         if(delegateParticipant.Birth_Year__c == ''){
-        	component.set('v.yobBlankErrMsg', true);
+            component.set('v.yobBlankErrMsg', true);
             component.set('v.delNotAdultErrMsg', false);
             component.set('v.attestAge', false);
-           component.set('v.isAdultDel', false);
+            component.set('v.isAdultDel', false);
             var attestCheckbox = component.find('checkBoxAttestation');
             attestCheckbox.setCustomValidity('');
             attestCheckbox.reportValidity('');
@@ -462,11 +581,10 @@
                         component.set('v.isAdultDel', false);
                         component.set('v.attestAge', false);
                         component.set('v.delNotAdultErrMsg' , true);
-                         var attestCheckbox = component.find('checkBoxAttestation');
+                        var attestCheckbox = component.find('checkBoxAttestation');
                         attestCheckbox.setCustomValidity('');
                         attestCheckbox.reportValidity('');
                     }
-                    
                     helper.checkFields(component, event, helper, true);
                 } ,         
                 null,
@@ -486,7 +604,7 @@
             component.set('v.currentState', 'No Active Sites');
         }
     },
-
+    
     fillMarkers: function (component) {
         var markers = [];
         var descriptionLink = '';

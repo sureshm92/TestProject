@@ -27,7 +27,7 @@
                             class="slds-size_1-of-1 ss-info-container ss-container-border"
                         >
                             <div class="slds-grid slds-gutters slds-wrap">
-                                <div class="slds-col ss-info-details">
+                                <div class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
                                         <div class="rr-form-element">
                                             <lightning:input
@@ -43,7 +43,7 @@
                                         </div>
                                     </span>
                                 </div>
-                                <div class="slds-col ss-info-details">
+                                <div class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
                                         <div class="input-fields-labels">
                                             {!$Label.c.SS_Primary_Contact}
@@ -60,7 +60,7 @@
                                         />
                                     </span>
                                 </div>
-                                <div class="slds-col ss-info-details">
+                                <div class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
                                     <span>
                                         <div
                                             class="input-fields-labels"
@@ -79,7 +79,7 @@
                                 </div>
 
                                 <div
-                                    class="slds-col slds-size--1-of-1 slds-large-size--3-of-8 rr-form-element"
+                                    class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element"
                                 >
                                     <div class="input-fields-labels">{!$Label.c.CC_Email}</div>
                                     <div class="rr-form-element">
@@ -93,7 +93,7 @@
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 slds-grid slds-wrap">
                                     <span
-                                        class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap"
+                                        class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap"
                                         style="{!if(v.isRTL,'padding-right: 0px;','padding-left: 0px;')}"
                                     >
                                         <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
@@ -110,7 +110,7 @@
                                         </div>
                                     </span>
 
-                                    <span class="slds-col slds-size--3-of-12 slds-small-size--3-of-8 slds-grid slds-wrap">
+                                    <span class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap">
                                         <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>

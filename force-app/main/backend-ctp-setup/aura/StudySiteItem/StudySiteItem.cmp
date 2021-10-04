@@ -2,34 +2,25 @@
  - Created by Igor Malyuta on 19.09.2019.
  -->
 
- <aura:component description="StudySiteItem" controller="StudySiteItemRemote">
+<aura:component description="StudySiteItem">
     <!-- attributes: -->
     <aura:attribute name="item" type="Object" />
     <aura:attribute name="parent" type="Aura.Component" />
     <aura:attribute name="viewMode" type="String" />
     <aura:attribute name="isSingleChoice" type="Boolean" default="false" />
-	<aura:attribute name="isModalOpen" type="boolean" default="false"/>
-    <aura:attribute name="isNotificationModalOpen" type="boolean" default="false"/>    
+
     <aura:attribute name="fromComponent" type="String" default="Visit" />
     <aura:attribute name="selectedItem" type="String" />
     <aura:attribute name="selectedGlobalItems" type="Object" />
     <aura:attribute name="initilizedMap" type="Boolean" default="false" />
-    <aura:attribute name="enableOKButton" type="Boolean" default="false" />
-    <aura:attribute name="optionselected" type="String"/>
-    <aura:attribute name="options" type="List" default="[
-    {'label': '  Proceed to select this visit plan to assign to all these participants', 'value': 'option1'},
-    {'label': '  Proceed to only associate this visit plan to the study site (Note: This will not assign any visit plan to these participants)', 'value': 'option2'}
-    ]"/>
+
     <aura:attribute name="showHelp" type="Boolean" />
-    <aura:attribute name="count" type="Integer" />
     <aura:attribute name="helpText" type="String" default="Help text stub" />
     <aura:attribute name="helpIcon" type="String" default="utility:info" />
     <aura:attribute name="helpIconVariant" type="String" default="inverse" />
 
     <aura:attribute name="scrollLeft" type="Integer" default="0" />
-    <aura:attribute name="selectedVisitPlan" type="String"/>
-    <aura:attribute name="popupMessage" type="String"/>    
-	<aura:attribute name="studySiteVisitPlan" type="Object"/>  
+
     <!-- handlers: -->
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
 
@@ -74,7 +65,7 @@
             </c:uiCol>
         </aura:if>
 
-        <aura:iteration items="{!v.item.assignments}" var="asg" indexVar="indx">
+        <aura:iteration items="{!v.item.assignments}" var="asg">
             <c:uiCol class="cell cell-center" scrollLeft="{!v.scrollLeft}">
                 <aura:if isTrue="{!v.isSingleChoice}">
                     <ui:inputRadio
@@ -87,50 +78,12 @@
                         <ui:inputCheckbox
                             value="{!asg.state}"
                             label=""
-                            aura:id="currentItemInputCheckbox"              
                             disabled="{!v.viewMode != 'Edit'}"
                             change="{!c.sscCheckboxStateChange}"
-                            name="{!asg.value}"              
                         />
                     </aura:set>
                 </aura:if>
             </c:uiCol>
         </aura:iteration>
     </tr>
-    <c:RRSpinner aura:id="spinner" size="medium" fixed="true" showSpinner="false"/>
-    <aura:if isTrue="{!v.isModalOpen}">
-        <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="PopupModal" class="slds-modal slds-modal_large">
-            <div class="slds-modal__container " style="width: 35%;">
-                <div class="slds-modal__header slds-box">
-                            <h3 style="font-size: 1rem;" title="">{!v.popupMessage}</h3>
-                </div>
-                <div class="slds-modal__content slds-p-around--medium slds-box">                        
-                            <lightning:radioGroup name="radioGroup"
-                                                  label=""
-                                                  options="{! v.options }"
-                                                  value="{! v.value }"
-                                                  aura:id="currentItemOptions"                        
-                                                  type="radio"
-                                                  onchange="{!c.selectButton}" 
-                                                  />  
-                </div>
-                <div class="slds-modal__footer slds-box">
-                    <lightning:button label="Ok" onclick="{!c.saveModal}" disabled = "{!!v.enableOKButton}"/>
-                    <lightning:button label="Cancel" onclick="{!c.cancelModal}" />
-                </div>
-            </div>
-        </div> 
-    </aura:if>
-    <aura:if isTrue="{!v.isNotificationModalOpen}">
-        <div role="dialog" tabindex="-1" aria-labelledby="header43" aura:id="NotificationPopupModal" class="slds-modal slds-modal_large">
-            <div class="slds-modal__container " style="width: 35%;">
-                <div class="slds-modal__header slds-box">
-                    <h3 style="font-size: 1rem;" title="">{!$Label.c.BATCH_RUNNING}</h3>                    
-                </div>
-                <div class="slds-modal__footer slds-box">
-                    <lightning:button label="Ok" onclick="{!c.exitNotificationModal}"/>
-                </div>
-            </div>
-        </div> 
-    </aura:if>    
 </aura:component>

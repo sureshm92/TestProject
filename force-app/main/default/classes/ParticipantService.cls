@@ -46,7 +46,6 @@ public without sharing class ParticipantService {
         public Boolean isVisitPathEnabled;
         @AuraEnabled
         public Boolean isTravelSupportEnabled;
-        public Boolean showVisitsInPreTrial;
 
         public ParticipantState() {
             value = ParticipantStates.ALUMNI;
@@ -54,7 +53,6 @@ public without sharing class ParticipantService {
             isPremium = false;
             showTerms = false;
             showVisits = false;
-            showVisitsInPreTrial = false;
             showResults = false;
             communityName = '';
             isVisitPathEnabled = false;
@@ -125,8 +123,6 @@ public without sharing class ParticipantService {
                     participantState.showResults = showResults();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
-                    participantState.showVisits = showVisits();
-
                 }
             }
         } else {

@@ -95,8 +95,10 @@ public class Test_ListViewParticipantController {
             Mailing_State_Code__c = 'AL',
             age__c = 23,
             site__c = account_1.id,
-            // Present_Age__c =
-            Adult__c = true
+            Gender_Technical__c = 'Male',
+            // Present_Age__c = 24,
+            Adult__c = true,
+            Ethnicity__c = ''
         );
         insert participant;
 
@@ -111,13 +113,17 @@ public class Test_ListViewParticipantController {
             Referral_Source__c = 'HCP',
             Source_Type__c = 'Referring Provider',
             HighRisk_Indicator__c = 'Yes',
-            Participant_Status__c = 'Received',
             Participant__c = participant.Id,
-            Screening_ID__c = 'PESCR1'
+            Screening_ID__c = 'PESCR1',
+            Comorbidities__c = 'Yes'
         );
         insert pe;
-
-      
+        Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c(
+            Date__c = date.today(),
+            ParticipantEnrollment__c = pe.Id,
+            Status__c = 'Contact Attempted'
+        );
+       insert pesh;
     }
     @IsTest
     public static void runTest() {
@@ -125,7 +131,24 @@ public class Test_ListViewParticipantController {
         Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
         Participant_Enrollment__c pe = [SELECT ID FROM Participant_Enrollment__c LIMIT 1];
         participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
-        system.debug(p.Present_Age__c);
+        Incentive_Plan__c ip = new Incentive_Plan__c(
+        Clinical_Trial_Profile__c = clinical.id,
+            Plan_Name__c = 'test'
+        );
+        insert ip;
+        Study_Incentive_Plan__c si = new Study_Incentive_Plan__c(
+            Clinical_Trial_Profile__c = clinical.id,
+            Study_Site__c = studySite.id,
+            Incentive_Plan__c = ip.id
+        );
+        insert si;
+        
+        Incentive_Plan_Task__c ipt = new Incentive_Plan_Task__c(
+            Incentive_Task_Catalog__c = 'PI_TASK03',
+            Enabled__c=TRUE,
+            Incentive_Plan__c= ip.id
+        );
+        insert ipt;
         contact con = [SELECT id FROM contact LIMIT 1];
         user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
         List<Id> peList = new List<Id>{ pe.id };
@@ -162,7 +185,9 @@ public class Test_ListViewParticipantController {
 
             ListViewParticipantController.getSSList(clinical.Id,'Active');
             ListViewParticipantController.getAvailableStatuses('Received',clinical.Id);
+            ListViewParticipantController.getAvailableStatuses('Randomization Success',clinical.Id);
             ListViewParticipantController.statusDetail('Received',clinical.Id);
+            ListViewParticipantController.statusDetail('Pre-review Failed',clinical.Id);
             ListViewParticipantController.createUserForPatientProtal(peList,True);
             ListViewParticipantController.updateParticipantStatus(peList,
                                                                   'Received',
@@ -195,7 +220,6 @@ public class Test_ListViewParticipantController {
                 new List<String>{ pe.id },
                 new List<String>{ pe.id }
             );
-
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
             );
@@ -237,7 +261,7 @@ public class Test_ListViewParticipantController {
         lw.pageSize = 5;
         lw.pageNumber = 3;
         lw.Sortby = 'Ascending';
-        lw.Status = 'Active';
+        //lw.Status = 'Active';
         lw.Study = clinical.id;
         lw.StudySites = '';
         lw.Source = '';
@@ -253,12 +277,21 @@ public class Test_ListViewParticipantController {
         lw.isExport = 'true';
         lw.startPos = 1;
         lw.endPos = 45000;
+        
+        
 
         System.runAs(u) {
             ListViewParticipantController.getInitData(
                 clinical.ID,
                 studySite.Id,
                 'PI',
+                null,
+                'Janssen'
+            );
+            ListViewParticipantController.getInitData(
+                clinical.ID,
+                studySite.Id,
+                'HCP',
                 null,
                 'Janssen'
             );
@@ -277,6 +310,10 @@ public class Test_ListViewParticipantController {
 
             ListViewParticipantController.fetchData(
                 JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),null,null
+            );
+            
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
             );
             LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
 
@@ -302,5 +339,69 @@ public class Test_ListViewParticipantController {
         }
     }
     
+    @IsTest
+    public static void runTest2() {
+        Clinical_Trial_Profile__c clinical = [SELECT ID FROM Clinical_Trial_Profile__c LIMIT 1];
+        Study_Site__c studySite = [SELECT ID FROM Study_Site__c LIMIT 1];
+        Participant_Enrollment__c pe = [SELECT ID,Study_Hub_Log__c,Participant_Status__c,Clinical_Trial_Profile__r.Promote_to_SH__c FROM Participant_Enrollment__c LIMIT 1];
+        participant__c p = [SELECT Present_Age__c FROM participant__c LIMIT 1];
+        system.debug(p.Present_Age__c);
+        contact con = [SELECT id FROM contact LIMIT 1];
+        user u = [SELECT id FROM user WHERE email = 'yourusername@gmail.com' LIMIT 1];
+        ListViewParticipantController.ListWrapper lw = new ListViewParticipantController.ListWrapper();
+        lw.SelectedIds = new List<Id>{pe.id};
+        lw.pageSize = 5;
+        lw.pageNumber = 3;
+        lw.Sortby = 'Received Date(Oldest First)';
+        lw.Study = clinical.id;
+        lw.StudySites = '';
+        lw.Source = '';
+        lw.isHighRiskOccupation = 'true';
+        lw.isComorbidities = 'true';
+        lw.Ethnicity = 'Indian';
+        lw.AgeFrom = '0';
+        lw.AgeTo = '150';
+        lw.highPrioritySelected_YesIds = new List<Id>{ pe.id };
+        lw.highPrioritySelected_NoIds = new List<id>();
+        lw.isInitialVisitScheduled = 'true';
+        lw.Sex = 'Male';
+        lw.isExport = 'true';
+        lw.startPos = 1;
+        lw.endPos = 45000;
+        lw.ParticipantStatus = 'Received';
+
+        System.runAs(u) {
+            ListViewParticipantController.getInitData(
+                clinical.ID,
+                studySite.Id,
+                'PI',
+                null,
+                'Janssen'
+            );
+            
+            List<String> strList =new List<String>{'Received'};
+            
+            ListViewParticipantController.ifAllowedForSH(pe,strList);
+
+            
+            ListViewParticipantController.fetchData(
+                JSON.serialize(new List<ListViewParticipantController.ListWrapper>{ lw }),'Invite to Patient Portal',null
+            );
+            LabelValueItem lv = new LabelValueItem(Label.Referring_Provider, 'Referring Provider');
+
+            ListViewParticipantController.labelValueItemsHaveItem(
+                new List<LabelValueItem>{ lv },
+                'Referring Provider'
+            );
+            ListViewParticipantController.SearchResult sr = new ListViewParticipantController.SearchResult();
+            sr.peList = new List<ListViewParticipantController.PEWrapper>();
+            sr.PaginationData = new PaginationData();
+            ListViewParticipantService.PEFilter pef;
+            sr.peFilter = new ListViewParticipantService.PEFilter(
+                new ListViewParticipantService.PEFilterData()
+            ); //PEFilter;
+
+        }
+    }
     
 }

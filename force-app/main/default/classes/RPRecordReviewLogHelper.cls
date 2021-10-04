@@ -1,4 +1,4 @@
-public with sharing class RPRecordReviewLogHelper {
+public  without sharing class RPRecordReviewLogHelper {
 
     public static Set<String> ctpIds;
 
@@ -7,6 +7,8 @@ public with sharing class RPRecordReviewLogHelper {
         public Contact delegateDetails;
         public List<LabelValueItem> studyList = new List<LabelValueItem>();
         public List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        public List<LabelValueItem> selectedstudySiteList = new List<LabelValueItem>();
+
     }
 
     public static HCPInit getHCPInitData(String delegateId, String userMode) {       
@@ -16,14 +18,13 @@ public with sharing class RPRecordReviewLogHelper {
                     Id currentContactId = CommunityService.getInstance().getCurrentContactId();
                     //Check access level
                     hInit.delegateAccessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);                
-                    String hcpDelegate = hInit.delegateAccessLevel != null ? delegateId : currentContactId; 
+                    String hcpDelegate = hInit.delegateAccessLevel != null ? delegateId : currentContactId;
                     //Get delegate contact details
                     hInit.delegateDetails = getContact(hcpDelegate);
                     //Get study details
                     hInit.studyList = getStudyDetails(hcpDelegate); 
                     //Get study site details
                     hInit.studySiteList = getStudySiteDetails(ctpIds); 
-
             }       
             return hInit;
         }
@@ -72,10 +73,58 @@ public with sharing class RPRecordReviewLogHelper {
         return studies;
     }
 
+   /*public static List<LabelValueItem> getSelectedStudySite(String currentContactId, String ctpId) {
+        List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        Set<String> studyId = new Set<String>();
+        List<RP_Delegate_Relationship__c> RPD = new List<RP_Delegate_Relationship__c>();
+        List<Id> lstcontactId = new List<Id>();
+
+        RPD = [SELECT Delegate_Access_Level__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :currentContactId];
+            if(RPD.size() != 0){
+                for(RP_Delegate_Relationship__c del: RPD){
+                    lstcontactId.add(del.Referring_Provider__c);
+                }
+                lstcontactId.add(currentContactId);
+            }else{
+                 lstcontactId.add(currentContactId);
+            }
+         Set<String>dupSet = new Set<String>();
+        for(HCP_Enrollment__c hcpEnroll : [SELECT Id, Study_Site__r.Site__r.BillingCity,Study_Site__r.Site__r.BillingAddress,Study_Site__r.Site__r.BillingState,Study_Site__r.Name,Study_Site__r.Site__r.BillingPostalCode,Study_Site__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c 
+                                            FROM HCP_Enrollment__c WHERE HCP_Contact__c IN: lstcontactId and Clinical_Trial_Profile__c =: ctpId AND  Status__c='Activated'])
+        {
+            if(dupSet.add(hcpEnroll.Study_Site__c) && hcpEnroll.Study_Site__r.Site__r.BillingState != null ){
+                studySiteList.add(new LabelValueItem(hcpEnroll.Study_Site__r.Name,hcpEnroll.Study_Site__c));
+            }
+        }
+
+        return studySiteList;
+    }*/
+    
+     public static List<LabelValueItem> getSelectedStudySite(String delegateId, String trialId) {
+
+        List<LabelValueItem> studySiteList = new List<LabelValueItem>();
+        StudySiteService.SiteFilterData siteFilterData = StudySiteService.getInstance().getSiteFilterDataImpl(trialId, 'HCP');
+        StudySiteService.SiteFilter siteFilter = new StudySiteService.SiteFilter(siteFilterData);
+        List<StudySiteService.StudySiteDistanceWrapper> studiesTemp = StudySiteService.getInstance()
+            .getStudySitesWithDistanceForHCPByTrialIdImpl(siteFilter, null, true, delegateId);
+        List<StudySiteService.StudySiteDistanceWrapper> studies = new List<StudySiteService.StudySiteDistanceWrapper>();
+        for (StudySiteService.StudySiteDistanceWrapper siteWrapper : studiesTemp) {
+            if (HCPEnrollmentService.STATUS_GROUP_ACTIVATED.contains(siteWrapper.hcpe.Status__c)) {
+                studySiteList.add(new LabelValueItem(siteWrapper.hcpe.Study_Site__r.Name,siteWrapper.hcpe.Study_Site__c));
+            }
+        }
+        return studySiteList;
+    }
+    
     public static String checkNeedsGuardian(String countryCode, String stateCode, String month ,String year) {
         Boolean needsGuardian = false;
         Integer monthInt;
         Integer yearInt;
+
+        if(month == null || month == ''){
+            //System.debug(2/0);
+            month = '01';
+        }
 
         boolean monthCheck = month != null && month != '' &&  month != 'undefined' ? true : false;
         boolean yearCheck = year != null && year != '' &&  year != 'undefined' ? true : false;

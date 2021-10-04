@@ -1,4 +1,5 @@
 public without sharing class  RPRecordReviewFilterController{
+   
     public class PEFilterData {
         @AuraEnabled
         public List<Id> trialIds;
@@ -16,15 +17,17 @@ public without sharing class  RPRecordReviewFilterController{
     public class filterWrapper {
         @AuraEnabled public List<Id>   SelectedStudies{get;set;}
         @AuraEnabled public String  SelectedExclusionReason{get;set;}
+        @AuraEnabled public String  selectedPatientStatus{get;set;}
         @AuraEnabled public String  SelectedDateRangeValue {get;set;}
         @AuraEnabled public String  SelectedReviewResult {get;set;}
         @AuraEnabled public List<Id>  trialIds {get;set;}
         
-        public filterWrapper(List<Id>   SelectedStudies,String  SelectedExclusionReason,String  SelectedDateRangeValue,String  SelectedReviewResult,List<Id>  trialIds) {
+        public filterWrapper(List<Id>   SelectedStudies,String  SelectedExclusionReason,String  SelectedDateRangeValue,String  SelectedReviewResult,String selectedPatientStatus,List<Id>  trialIds) {
             this.SelectedStudies = SelectedStudies;
             this.SelectedExclusionReason = SelectedExclusionReason;
             this.SelectedDateRangeValue = SelectedDateRangeValue;
             this.SelectedReviewResult = SelectedReviewResult;
+            this.selectedPatientStatus = selectedPatientStatus;
             this.trialIds = trialIds;
         }
     }    
@@ -36,13 +39,21 @@ public without sharing class  RPRecordReviewFilterController{
         peFilterData.studies.add(new LabelValueItem(Label.PG_MRRL_L_All_studies, null));
         peFilterData.trialIds = new List<Id>();
         Map<Id, String> trialsByName = new Map<Id, String>();
-        for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, delegateId)) {
+        
+        Id currentContactId = CommunityService.getInstance().getCurrentContactId();
+        
+       if (delegateId != null && delegateId != '') {
+         currentContactId = delegateId;
+        }
+      
+       
+       for(Clinical_Trial_Profile__c trial : TrialService.getAvailableTrials(userMode, currentContactId)) {
             trialsByName.put(trial.Id, trial.Study_Code_Name__c);
         }
-        for(Id studyId : trialsByName.keySet()) {
+       for(Id studyId : trialsByName.keySet()) {
             peFilterData.trialIds.add(studyId);
             peFilterData.studies.add(new LabelValueItem(trialsByName.get(studyId), studyId));
-        }
+        } 
         
         peFilterData.reviewResults = new List<LabelValueItem>();
         peFilterData.reviewResults.add(new LabelValueItem(Label.PG_SDRC_L_All, ''));
@@ -79,24 +90,38 @@ public without sharing class  RPRecordReviewFilterController{
         
     }
     @AuraEnabled 
-    public static List<RPRecordReviewLogController.peInitData> getFilterPEDetails(String filterJSON) {
+    public static List<RPRecordReviewLogController.peInitData> getFilterPEDetails(String filterJSON,String delegateId) {
         try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<RPRecordReviewLogController.peInitData> peInitWrapperDataList = new List<RPRecordReviewLogController.peInitData>();
            
-            
+            if (delegateId != null && delegateId != '') {
+                 currentContactId = delegateId ;
+            }
+ 
             filterWrapper filter = (filterWrapper) JSON.deserialize( filterJSON,filterWrapper.class);
             String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c ';
-            strQuery += ' from Participant_Enrollment__c where HCP_Contact_HCPEnroll__c = \'' + currentContactId +  '\'';
+            strQuery += ' from Participant_Enrollment__c where HCP__r.HCP_Contact__c = \'' + currentContactId +  '\'';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
-            strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Excluded from Referring\' OR Participant_Status__c = \'Pending Referral\'  )';
+            
             
             if(!filter.SelectedStudies.isEmpty())
                 strQuery +=   ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.SelectedStudies, '\',\'') +  '\') ';
             else 
               strQuery += ' AND Study_Site__r.Clinical_Trial_Profile__c IN (\'' + String.join(filter.trialIds, '\',\'') +  '\') ';
         
-            
+             if(String.isNotBlank(filter.selectedPatientStatus))
+            {
+                String status='';
+                if(filter.selectedPatientStatus == ParticipantEnrollmentService.PART_STATUS_EXCLUDE_FROM_REFERRING_RP){
+                    status ='Excluded from Referring';
+                    strQuery +=' AND Participant_Status__c = \'' + status  +  '\'';
+                }else{
+                   strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Pending Referral\'  )';
+                }
+            }else{
+               strQuery += ' AND (Participant_Status__c = \'Failed Referral\' OR Participant_Status__c = \'Failed Review\' OR Participant_Status__c = \'Pending Referral\'  )';
+            }
                         
             if(String.isNotBlank(filter.SelectedExclusionReason))
             {
@@ -117,6 +142,7 @@ public without sharing class  RPRecordReviewFilterController{
             strQuery += ' order by lastmodifiedDate DESC ';
             
             List<Participant_Enrollment__c> peList = new List<Participant_Enrollment__c> ();
+            system.debug('dynamicquery--->'+strQuery);
             peList = Database.query(strQuery);
             
             for (Participant_Enrollment__c pe : peList) {

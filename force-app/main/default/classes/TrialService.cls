@@ -40,8 +40,6 @@ public without sharing class TrialService {
         'Video_And_Articles_Are_Available__c',
         'Tasks_Are_Available__c',
         'Travel_Vendor_Is_Available__c',
-        'Received_Until_Consent_Is_Available__c',
-        'Enrolled_Or_Randomized_Consent_Available__c',   
         'Visit_Schedule_Is_Available__c',
         'Participant_Workflow_Final_Step__c',
         'Initial_Visit_Required__c',

@@ -37,8 +37,7 @@ public without sharing class StudySiteFilter implements SearchFilter {
             'Name',
             'Site__r.BillingCountry',
             'Site__r.BillingCountryCode',
-            'Study_Site_Number__c',
-            'Is_Patient_Visit_Batch_Running__c'    
+            'Study_Site_Number__c'
         };
     }
 
