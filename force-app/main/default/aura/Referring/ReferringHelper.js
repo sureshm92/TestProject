@@ -33,7 +33,20 @@
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        communityService.executeAction(
+        let action = component.get("c.setfailedReferral");
+        action.setParams({peJSON: JSON.stringify(pEnrollment),reason: reason });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+               successCallBack();
+               spinner.hide();
+            }
+            else {
+                console.log(action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);
+       /**  communityService.executeAction(
             component,
             'setfailedReferral',
             {
@@ -47,7 +60,7 @@
             function () {
                 spinner.hide();
             }
-        );
+        );**/
     },
     
     

@@ -18,7 +18,7 @@
                 <lightning-layout-item padding="around-small" size="3">
                     <div>
                         <lightning-input type="text" name="Phone Number" label={label.RH_RP_Delegate_Phone_Number} value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber" 
-                            data-id={pe.peRecord.Id} pattern="[0-9]*" required="true" onchange={changeInputValue} ></lightning-input>
+                            data-id={pe.peRecord.Id}  required="true" onchange={changeInputValue} ></lightning-input>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item  padding="around-small" size="3">
@@ -47,10 +47,10 @@
                 <lightning-layout-item padding="around-small" size="6">
                     <div>
                         <lightning-input type="text" label={label.RH_RP_Delegate_Alt_Phone_Number}  name="PDAP" value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP" 
-                        pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
+                         data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
                     </div>    
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="6">
+                <lightning-layout-item padding="around-small" size="6"> 
                     <div>
                         <lightning-combobox label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT" placeholder="Select Alternative Type" value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}  
                             options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
