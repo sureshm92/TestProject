@@ -155,7 +155,7 @@
                 <lightning-tabset>
                     <lightning-tab label="Patient">
                         <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList} 
-                            onrefreshpatienttabchange={handlePatientTabChange} states={states} ></c-rp_-patient-tab>
+                            onrefreshpatienttabchange={handlePatientTabChange} states={states} disabledsavebutton={disabledSaveButton}></c-rp_-patient-tab>
                     </lightning-tab>
                     <lightning-tab label="Primary Delegate">
                         <c-rp_-delegate-tab delegaterecordlist={delegatepeRecordList} originaldelegaterecordlist={delegatepeRecordList} 

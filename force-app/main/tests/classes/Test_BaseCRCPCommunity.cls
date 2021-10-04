@@ -628,6 +628,15 @@ private class Test_BaseCRCPCommunity {
                     null
                 );
                 ReferHealthcareProviderRemote.stopSharing(hp.Id, null);
+                 Conversation__c conversation = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForParticipant__c = true
+        );
+        insert conversation;
+        insert ConversationService.createConversationSharesForUser(
+            new List<Id>{ conversation.Id },
+            testData.participantUser.Id
+        );
                 ReferHealthcareProviderRemote.invitePatientDelegate(
                     JSON.serialize(testData.participant),
                     JSON.serialize(
@@ -652,6 +661,15 @@ private class Test_BaseCRCPCommunity {
             .Id;
             System.runAs(testData.piUser) {
                 ReferHealthcareProviderRemote.stopSharing(null, patientDelegateId);
+                Conversation__c conversationSecond = new Conversation__c(
+            Participant_Enrollment__c = testData.pe.Id,
+            haveUnreadForParticipant__c = true
+        );
+        insert conversationSecond;
+        insert ConversationService.createConversationSharesForUser(
+            new List<Id>{ conversationSecond.Id },
+            testData.participantUser.Id
+        );
                 ReferHealthcareProviderRemote.invitePatientDelegate(
                     JSON.serialize(testData.participant),
                     JSON.serialize(

@@ -262,7 +262,7 @@ export default class RPRevamp extends LightningElement {
         row1.push("Patient Sex");
         row1.push("Email Address");
         row1.push("YOB");
-        row1.push("Legal Status");
+        row1.push("Legal Status of Patient");
         row1.push("Patient Auth.");
         row1.push("Country");
         row1.push("State/Province");
@@ -286,7 +286,7 @@ export default class RPRevamp extends LightningElement {
         row2.push("Enter spelled out as either:Female or Male");
         row2.push("If patient is a minor the email address will not be stored.          youremail@yourdomain.com Considered personal information");
         row2.push("YOB of the patient in YYYY or blank when not filled");
-        row2.push("\"\"\"I attest that patient or legal guardian are of the age of legal majority\"\".   Options: Yes/No             I attest that patient or legal guardian are of the age of legal majority.\"");
+        row2.push("\"\"\"I attest that patient is of the age of legal majority\"\".   Options: Yes/No            Whether the attestation from RP to indicate whether this patient is above the legal age or not.\"");
         row2.push("\"\"\"My patient, and/or patient's legal guardian if applicable, agrees to share their contact information and patient's pre-screener data with IQVIA and its affiliates, and the study doctors, so that they may contact the patient and/or their delegate regarding study participation.\"\"  Options: Yes/No  To indicate whether the RP has the authorization from the patient or  blank when not filled. Required Only if the file has Personal Information\"");
         row2.push("\"Defaulted to the RP's country if not filled. If the country is changed, then age of legal majority check has to be done depending on the new value. Spell out the country name if entering it, example: United States\"");
         row2.push("Defaulted to RP's State/Province if not filled.");
@@ -300,7 +300,7 @@ export default class RPRevamp extends LightningElement {
         row2.push("Format per country 919-555-1212.");
         row2.push("Enter one of these values: Home        Work      Mobile");
         row2.push("YYYY (formatted as text) ex. 1987");
-        row2.push("\"\"\"I attest that patient or legal guardian are of the age of legal majority\"\".  Mandatory for a minor participant.  Enter Yes to attest the delegate is of/over the age of legal majority\"");
+        row2.push("\"\"\"I attest that legal guardian is of the age of legal majority\"\".  Mandatory for a minor participant.  Enter Yes to attest the delegate is of/over the age of legal majority\"");
         //
         this.progressWidth='width :8%';
         this.progress = 8;

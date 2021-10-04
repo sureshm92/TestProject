@@ -189,12 +189,12 @@ public without sharing class IprEprTriggerHandler {
             Map<String,String> states = CountryStateUtil.getStateCodeByNameMap(ipr.Address_Country__c);       
             if(String.isNotBlank(ipr.address_state__c)) 
                 if(!states.containskey(ipr.address_state__c))
-                
+                       errorsLog.add(err.get('state_invalid').Error_Message__c);                
                 
                 // check state 
                 if(String.isNotBlank(ipr.Delegate_Mailing_State__c)) 
-                if(!states.containskey(ipr.Delegate_Mailing_State__c))
-                errorsLog.add(err.get('state_invalid').Error_Message__c);
+					if(!states.containskey(ipr.Delegate_Mailing_State__c))
+						errorsLog.add(err.get('state_invalid').Error_Message__c);
             
             // check langauge  
             if(String.isNotBlank(ipr.Language_Preference__c)) {
