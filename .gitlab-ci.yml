@@ -194,18 +194,8 @@ DeployInf:
     stage: DeployInf
     only:
       - CICDDEMO1
-    before_script: 
-      - |
-         set -x
-         echo 'y' | sfdx plugins:install sfdx-git-delta
-         sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
-         echo "--- package.xml generated with added and modified metadata ---"
-         cat package/package.xml
-         #echo "---- Deploying added and modified metadata ----"
-      #- sfdx force:source:deploy -x package/package.xml      
     script:
-      - ls -ll
       - echo "$INF" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d"
-      - sfdx force:source:deploy -x package/package.xml -u INF -w 60
+      - sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF -d
+      - sfdx force:source:deploy -p force-app -u INF -w 60
       - echo "Deploy success!"
