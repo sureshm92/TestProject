@@ -5,7 +5,8 @@
 <aura:component
     description="ManualCreationPanel"
     controller="ManualCreationPanelRemote"
-    implements="forceCommunity:availableForAllPageTypes,force:appHostable"
+    implements="forceCommunity:availableForAllPageTypes,force:appHostable,lightning:isUrlAddressable"
+    access="global"
 >
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
@@ -15,15 +16,21 @@
     <!-- attributes: -->
     <aura:attribute name="initialized" type="Boolean" />
     <aura:attribute name="taskPanelWrapper" type="Object" />
+    <aura:attribute name="mcpt" type="Manual_Creation_Panel_Task__c" />
     <aura:attribute name="adHocWrapper" type="Object" />
     <aura:attribute name="taskConfig" type="Object" />
     <aura:attribute name="filter" type="ManualTaskFilter" />
     <aura:attribute name="patientStatusOptions" type="List" />
     <aura:attribute name="selectedTab" type="String" default="task" />
+    <aura:attribute name="recordId" type="String" />
+    <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isOpen" type="Boolean" default="false" />
     <aura:attribute name="remDays" type="Integer" />
+    <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
 
     <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkValid}" />
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.loadRecord}" />
 
     <aura:method name="setValidity" action="{!c.checkValid}">
         <aura:attribute name="childValidity" type="Boolean" />
@@ -46,15 +53,20 @@
                         taskConfig="{!v.taskConfig}"
                         wrapper="{!v.taskPanelWrapper}"
                         dayRemind="{!v.remDays}"
+                        isEdit="{!v.isEdit}"
+                        mcpt="{!v.mcpt}"
+                        oneTimeTaskInProgress="{!v.oneTimeTaskInProgress}"
                     />
                 </lightning:tab>
-                <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
-                    <c:ManualAdHocSurvey
-                        aura:id="manAdhoc"
-                        parent="{!this}"
-                        wrapper="{!v.adHocWrapper}"
-                    />
-                </lightning:tab>
+                <aura:if isTrue="{!not(v.isEdit)}">
+                    <lightning:tab label="Survey" id="adHoc" onactive="{!c.handleActiveTab}">
+                        <c:ManualAdHocSurvey
+                            aura:id="manAdhoc"
+                            parent="{!this}"
+                            wrapper="{!v.adHocWrapper}"
+                        />
+                    </lightning:tab>
+                </aura:if>
             </lightning:tabset>
             <!-- Filter section -->
             <lightning:accordion
@@ -76,17 +88,20 @@
                                 options="{!v.patientStatusOptions}"
                                 value="{!v.filter.statuses}"
                                 required="true"
+                                disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
                             />
                             <div style="padding: 10px"></div>
                             <c:ManualTaskLookup
                                 label="Therapeutic Area"
                                 selection="{!v.filter.areas}"
                                 objType="therapeutic"
+                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
                             />
                             <c:ManualTaskLookup
                                 label="Study"
                                 selection="{!v.filter.studies}"
                                 objType="study"
+                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
                             />
                         </div>
                         <div class="slds-col slds-size--1-of-2">
@@ -97,6 +112,7 @@
                                         label="Platform-level Task"
                                         value="{!v.filter.isPlatformLevel}"
                                         checked="{!v.filter.isPlatformLevel}"
+                                        disabled="{!v.isEdit}"
                                     />
                                     <lightning:helptext
                                         content="Toggle in Study Configuration will be ignored"
@@ -110,25 +126,78 @@
                                 label="Select country"
                                 selection="{!v.filter.countries}"
                                 objType="countries"
+                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
                             />
                             <c:ManualTaskLookup
                                 label="Select Site"
                                 selection="{!v.filter.sites}"
                                 objType="site"
+                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
                             />
                         </div>
                     </div>
                 </lightning:accordionSection>
             </lightning:accordion>
+            <aura:if isTrue="{!v.isOpen}">
+                <!--###### MODAL BOX Start######-->
+                <section
+                    role="dialog"
+                    tabindex="-1"
+                    aria-labelledby="modal-heading-01"
+                    aria-modal="true"
+                    aria-describedby="modal-content-id-1"
+                    class="slds-modal slds-fade-in-open"
+                >
+                    <div class="slds-modal__container">
+                        <!-- ###### MODAL BOX HEADER Start ######-->
+                        <header class="slds-modal__header slds-modal__header_empty">
+                            <lightning:buttonIcon
+                                iconName="utility:close"
+                                onclick="{! c.closeModel }"
+                                alternativeText="close"
+                                variant="bare-inverse"
+                                class="slds-modal__close"
+                            />
+                        </header>
+                        <!--###### MODAL BOX BODY Part Start######-->
+                        <div
+                            class="slds-modal__content slds-p-around_medium"
+                            id="modal-content-id-1"
+                        >
+                            <c:RemoveRecurrenceButton recordId="{!v.recordId}" />
+                        </div>
+                    </div>
+                </section>
+                <div class="slds-backdrop slds-backdrop_open"></div>
+                <!--###### MODAL BOX Part END Here ######-->
+            </aura:if>
             <!-- Controls buttons -->
             <div class="slds-text-align_right slds-p-right_small">
-                <lightning:button
-                    variant="brand"
-                    label="Create"
-                    onclick="{!c.createClick}"
-                    disabled="{!not(v.isValid)}"
-                />
-                <lightning:button label="Reset" onclick="{!c.resetClick}" />
+                <aura:if isTrue="{!v.isEdit}">
+                    <lightning:button
+                        variant="brand"
+                        label="Save"
+                        onclick="{!c.createClick}"
+                        disabled=""
+                    />
+                    <aura:if isTrue="{!v.taskConfig.isRecurrence}">
+                        <lightning:button
+                            variant="brand"
+                            label="Remove Recurrence"
+                            onclick="{!c.removeRecc}"
+                            disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                        />
+                    </aura:if>
+                    <aura:set attribute="else">
+                        <lightning:button
+                            variant="brand"
+                            label="Create"
+                            onclick="{!c.createClick}"
+                            disabled="{!not(v.isValid)}"
+                        />
+                        <lightning:button label="Reset" onclick="{!c.resetClick}" />
+                    </aura:set>
+                </aura:if>
             </div>
         </aura:if>
     </lightning:card>

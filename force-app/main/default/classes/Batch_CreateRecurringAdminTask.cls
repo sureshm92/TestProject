@@ -30,8 +30,11 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
         taskConfig.subject = manualTasks[0].Task_Name__c;
         taskConfig.startDate = manualTasks[0].Next_Occurence_Date__c;
         taskConfig.endTime = manualTasks[0].Next_Due_Date__c;
-        if(manualTasks[0].Next_Reminder_Date__c != null){
-            taskConfig.reminderDate = manualTasks[0].Next_Reminder_Date__c;
+        if(taskConfig.isRecurrence && manualTasks[0].Next_Reminder_Date__c != null){	
+            taskConfig.reminderDate = manualTasks[0].Next_Reminder_Date__c;	
+        }
+        if((!taskConfig.isRecurrence) && manualTasks[0].Reminder_Date__c != null){	
+            taskConfig.reminderDate = manualTasks[0].Reminder_Date__c;	
         }
         whatIdByContactIds = filter.getContactsWithWhatIds(taskConfig);
         idTypeOfContactMap = ManualTaskFilter.IdTypeOfContactMap;
@@ -50,8 +53,8 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
     }
     public void updateManualTaskConfig(Manual_Creation_Panel_Task__c manualTask, TaskService.TaskConfig taskConfig){
         manualTask.Last_Occurrence_Date__c = manualTask.Next_Occurence_Date__c;
-        manualTask.Last_Recurrence_Reminder__c = manualTask.Next_Reminder_Date__c;
         if(taskConfig.isRecurrence){
+            manualTask.Last_Recurrence_Reminder__c = manualTask.Next_Reminder_Date__c;
             if(manualTask.Next_Due_Date__c != manualTask.Recurrence_End_Date__c){
                 if(taskConfig.recurrenceFrequency == 'Daily'){
                 manualTask.Next_Occurence_Date__c = taskConfig.startDate + 1;
@@ -80,7 +83,14 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
                 manualTask.Status__c = 'Completed';
                 manualConfigList.add(manualTask);
             }
-        }
+        }else{	
+            	manualTask.Last_Recurrence_Reminder__c = manualTask.Reminder_Date__c;	
+                manualTask.Next_Occurence_Date__c = null;	
+                manualTask.Next_Due_Date__c = null;	
+            	manualTask.Reminder_Date__c = null;	
+                manualTask.Status__c = 'Task Completed';	
+                manualConfigList.add(manualTask);	
+            }
     }
     public override Type getType() {
         return Batch_CreateRecurringAdminTask.class;

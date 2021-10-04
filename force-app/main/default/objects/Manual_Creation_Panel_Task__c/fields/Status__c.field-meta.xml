@@ -30,6 +30,11 @@
                 <default>false</default>
                 <label>Recurrence Completed</label>
             </value>
+            <value>
+                <fullName>Task Completed</fullName>
+                <default>false</default>
+                <label>One-Time Task Completed</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
