@@ -18,6 +18,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
     private Boolean allowPhone;
     private Boolean allowSMS;
     private User uploadUser;
+    private Id visitPlanId;
 
     private String emailError = '';
     private Boolean valid = true;
@@ -44,7 +45,8 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         Boolean doContact,
         Boolean allowEmail,
         Boolean allowPhone,
-        Boolean allowSMS
+        Boolean allowSMS,
+        Id visitPlanId
     ) {
         uploadTime = DateTime.now();
         Integer totalRowCount = csvFileLines.size();
@@ -55,6 +57,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
         this.allowEmail = allowEmail;
         this.allowPhone = allowPhone;
         this.allowSMS = allowSMS;
+		this.visitPlanId = visitPlanId;
 
         studySiteDetails = [
             SELECT
@@ -1231,6 +1234,7 @@ global without sharing class UploadParticipantsBatch implements Database.Batchab
                             Permit_SMS_Text_for_this_study__c = allowSMS,
                             Permit_IQVIA_to_contact_about_study__c = doContact,
                             Is_Created_by_Bulk_Import__c = true,
+                    		Visit_Plan__c = visitPlanId,
                             Initial_visit_scheduled_date__c= String.ValueOf(mapParticipantFov.get(i)) !=null ? Date.ValueOf(mapParticipantFov.get(i)):null,
                             Initial_visit_scheduled_time__c=String.ValueOf(mapParticipantFovTime.get(i)) !=null ? Time.newInstance(Integer.ValueOf(fovhr), Integer.ValueOf(fovmin), 0, 0):null
                         );

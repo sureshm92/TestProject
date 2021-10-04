@@ -28,7 +28,11 @@
     <aura:attribute name="isSMS" type="Boolean" default="false" />
     <aura:attribute name="isSuppressed" type="Boolean" default="false" />
     <aura:attribute name="patientPortalEnabled" type="Boolean" default="false" />
-
+    <aura:attribute name="visitPlanAvailable" type="Boolean" default="true" />
+    <aura:attribute name="visitPlanRequired" type="Boolean" default="false" />
+    <aura:attribute name="visitPlanDisabled" type="Boolean" default="false" />
+    <aura:attribute name="visitPlansLVList" type="Object" />
+    <aura:attribute name="visitPlanId" type="String" />
     <!-- methods:-->
     <aura:method name="execute" action="{!c.doExecute}" access="public">
         <aura:attribute name="studySiteId" type="String" />
@@ -117,27 +121,55 @@
                     </div>
                 </div>
                 <div class="slds-grid slds-wrap">
-                    <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
-                        <div
-                            class="slds-m-around--small"
-                            data-gtm="pnl_UploadNewParticipants_status"
-                        >
-                            <div class="input-fields-labels">
-                                {!$Label.c.PG_AP_F_Patient_Status}<abbr
-                                    class="slds-required"
-                                    title="required"
-                                    >*</abbr
-                                >
+                    <div class="ap-section">
+                        <div class="slds-size_1-of-1 slds-p-horizontal_x-medium">
+                            <div
+                                 class="slds-m-around--small"
+                                 data-gtm="pnl_UploadNewParticipants_status"
+                                 >
+                                <div class="input-fields-labels">
+                                    {!$Label.c.PG_AP_F_Patient_Status}<abbr
+                                                                            class="slds-required"
+                                                                            title="required"
+                                                                            >*</abbr
+                                    >
+                                </div>
+                                <c:rrSelect
+                                            id="statusesPicklist"
+                                            options="{!v.participantStatuses}"
+                                            value="{!v.selectedStatus}"
+                                            class="{!v.isRTL? 'delegate-selectRTL':'delegate-select'}"
+                                            placeholder="{!$Label.c.PG_AC_Select}"
+                                            useSentenceFont="false"
+                                            onchange="{!c.setVisitPlanRequiredOrNot}"        
+                                            />
                             </div>
-                            <c:rrSelect
-                                id="statusesPicklist"
-                                options="{!v.participantStatuses}"
-                                value="{!v.selectedStatus}"
-                                class="{!v.isRTL? 'delegate-selectRTL':'delegate-select'}"
-                                placeholder="{!$Label.c.PG_AC_Select}"
-                                useSentenceFont="false"
-                            />
                         </div>
+                        <aura:if isTrue="{!v.visitPlanAvailable}">
+                            <div class="slds-size_1-of-1 slds-p-horizontal_x-medium ">
+                                <div
+                                     class="slds-m-around--small"
+                                     data-gtm="pnl_UploadNewParticipants_status"
+                                     >
+                                    <div class="label">
+                                        <aura:if isTrue="{!v.visitPlanRequired}">
+                                                <abbr title="required" class="slds-required"
+                                                      >*</abbr
+                                                    > </aura:if
+                                                >{!$Label.c.FD_PE_Field_Arm_Cohort}
+                                    </div>
+                                    <c:rrSelect
+                                                options="{!v.visitPlansLVList}"
+                                                disabled="{!v.visitPlanDisabled || v.visitPlansLVList.length == 1}"
+                                                placeholder="{!$Label.c.PG_AC_Select}"
+                                                class="{!v.isRTL? 'delegate-selectRTL':'delegate-select'}"
+                                                value="{!v.visitPlanId}"
+                                                useSentenceFont="false"
+                                                setValueAsSelected="true"
+                                                />
+                                </div>
+                            </div>
+                        </aura:if>
                     </div>
                 </div>
             </div>

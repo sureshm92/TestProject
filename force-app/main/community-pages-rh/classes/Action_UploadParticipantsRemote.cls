@@ -42,8 +42,8 @@ public without sharing class Action_UploadParticipantsRemote {
     };
 
     @AuraEnabled
-    public static List<LabelValueItem> getParticipantsStatuses(Id studySiteId) {
-        List<LabelValueItem> participantStatuses = new List<LabelValueItem>();
+    public static ParticipantStatusesVisitPlans getParticipantsStatusesAndVisitPlans(Id studySiteId) {
+        ParticipantStatusesVisitPlans result = new ParticipantStatusesVisitPlans();
         List<Study_Site__c> sites = [
             SELECT
                 Id,
@@ -53,11 +53,23 @@ public without sharing class Action_UploadParticipantsRemote {
             FROM Study_Site__c
             WHERE Id = :studySiteId
         ];
-        if (sites.isEmpty())
-            return participantStatuses;
-        return PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
+        if (sites.isEmpty()){
+            result.participantStatuses = new List<LabelValueItem>();
+            result.visitPlansLVList = new List<LabelValueItem>();
+        }else{
+            result.participantStatuses = PEStatusState.getParticipantImportStatusesLV(sites[0].Clinical_Trial_Profile__r);
+        	result.visitPlansLVList =StudySiteService.getVisitPlansLVList(studySiteId);
+        }
+        return result;    
     }
 
+    public Class ParticipantStatusesVisitPlans{
+        @AuraEnabled
+        public List<LabelValueItem> participantStatuses;
+        @AuraEnabled
+        public List<LabelValueItem> visitPlansLVList;
+    }
+    
     @AuraEnabled
     public static void uploadParticipants(
         List<String> csvFileLines,
@@ -68,7 +80,8 @@ public without sharing class Action_UploadParticipantsRemote {
         Boolean doContact,
         Boolean allowEmail,
         Boolean allowPhone,
-        Boolean allowSMS
+        Boolean allowSMS,
+        Id visitPlanId
     ) {
         try {
             Map<String, Integer> headerIndexes = new Map<String, Integer>();
@@ -122,7 +135,8 @@ public without sharing class Action_UploadParticipantsRemote {
                     doContact,
                     allowEmail,
                     allowPhone,
-                    allowSMS
+                    allowSMS,
+                    visitPlanId
                 ),
                 7
             );

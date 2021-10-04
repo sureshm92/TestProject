@@ -9,6 +9,10 @@
         component.set('v.isPhone', false);
         component.set('v.isSMS', false);
         component.set('v.doContact', false);
+        component.set('v.visitPlanAvailable', false);
+        component.set('v.visitPlanRequired', false);
+        component.set('v.visitPlanDisabled', false);
+        component.set('v.visitPlanId', undefined);
         var params = event.getParam('arguments');
         component.find('uploadParticipantsDialog').show();
         var studySiteId = params['studySiteId'];
@@ -25,13 +29,23 @@
 
         communityService.executeAction(
             component,
-            'getParticipantsStatuses',
+            'getParticipantsStatusesAndVisitPlans',
             {
                 studySiteId: studySiteId
             },
             function (returnValue) {
                 component.find('upModalSpinner').hide();
-                component.set('v.participantStatuses', returnValue);
+                component.set('v.participantStatuses', returnValue.participantStatuses);
+                if(returnValue.visitPlansLVList!=undefined && returnValue.visitPlansLVList.length >0){
+                    component.set('v.visitPlanAvailable', true);
+                    if(returnValue.visitPlansLVList.length!=1){
+                        returnValue.visitPlansLVList.push({label:$A.get('$Label.c.None'),value:''});
+                    }else{
+                        component.set('v.visitPlanDisabled', true);
+                        component.set('v.visitPlanId',returnValue.visitPlansLVList[0].value);
+                    }
+                }
+                component.set('v.visitPlansLVList', returnValue.visitPlansLVList);                             
             }
         );
     },
@@ -44,7 +58,17 @@
         helper.clearFields(component, event, helper);
         component.find('uploadParticipantsDialog').cancel();
     },
-
+    
+    setVisitPlanRequiredOrNot: function (component, event, helper){
+        if((component.get('v.selectedStatus') =='Enrollment Success' || 
+           component.get('v.selectedStatus') =='Randomization Success') && 
+          component.get('v.visitPlanDisabled') == true){
+            component.set('v.visitPlanRequired', true);
+        }else{
+            component.set('v.visitPlanRequired', false);
+        }
+    },
+    
     doClearFile: function (component, event, helper) {
         component.set('v.FileList', []);
         component.set('v.fullFileName', '');
@@ -65,6 +89,7 @@
             component.get('v.isEmail'),
             component.get('v.isPhone'),
             component.get('v.isSMS'),
+            component.get('v.visitPlanId'),
             helper
         );
     },
