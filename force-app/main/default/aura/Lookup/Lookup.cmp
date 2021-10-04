@@ -58,6 +58,7 @@
     <aura:attribute access="private" type="Boolean" name="hasFocus" default="false" />
     <aura:attribute access="private" type="Map" name="blurTimeout" />
     <aura:attribute access="private" type="Map" name="searchThrottlingTimeout" />
+    <aura:attribute name="isDisabled" type="Boolean" default="false" />
 
     <aura:registerEvent
         name="onSearch"
@@ -115,6 +116,7 @@
                                 onfocus="{!c.onFocus}"
                                 onblur="{!c.onBlur}"
                                 oninput="{!c.onInput}"
+                                disabled="{!v.isDisabled}"
                             />
 
                             <!-- search icon and spinner -->
@@ -193,14 +195,15 @@
                                     alternativeText="Search icon"
                                     class="{! 'slds-input__icon slds-input__icon_right '+ (empty(v.selection) ? '' : 'slds-hide') }"
                                 />
-
-                                <lightning:buttonIcon
-                                    iconName="utility:close"
-                                    variant="bare"
-                                    alternativeText="Remove"
-                                    onclick="{!c.onClearSelection}"
-                                    class="{! 'slds-input__icon slds-input__icon_right '+ (empty(v.selection) ? 'slds-hide' : '') }"
-                                />
+                                <aura:if isTrue="{!(v.mcpt.Status__c !='Task Completed')}">
+                                    <lightning:buttonIcon
+                                        iconName="utility:close"
+                                        variant="bare"
+                                        alternativeText="Remove"
+                                        onclick="{!c.onClearSelection}"
+                                        class="{! 'slds-input__icon slds-input__icon_right '+ (empty(v.selection) ? 'slds-hide' : '') }"
+                                    />
+                                </aura:if>
                             </div>
                         </aura:set>
                         <!-- Single-entry combobox end -->
@@ -260,17 +263,32 @@
                     >
                         <aura:iteration items="{!v.selection}" var="item">
                             <li role="presentation" class="slds-listbox__item">
-                                <lightning:pill
-                                    label="{!item.title}"
-                                    onremove="{! c.onRemoveSelectedItem }"
-                                    name="{!item.id}"
-                                >
-                                    <aura:set attribute="media">
-                                        <lightning:icon
-                                            iconName="{! empty(item.icon) ? 'standard:default' : item.icon}"
-                                        />
+                                <aura:if isTrue="{!!v.isDisabled}">
+                                    <lightning:pill
+                                        label="{!item.title}"
+                                        onremove="{! c.onRemoveSelectedItem }"
+                                        name="{!item.id}"
+                                    >
+                                        <aura:set attribute="media">
+                                            <lightning:icon
+                                                iconName="{! empty(item.icon) ? 'standard:default' : item.icon}"
+                                            />
+                                        </aura:set>
+                                    </lightning:pill>
+                                    <aura:set attribute="else">
+                                        <lightning:pill
+                                            label="{!item.title}"
+                                            onremove="{! c.cannotRemoveSelectedItem }"
+                                            name="{!item.id}"
+                                        >
+                                            <aura:set attribute="media">
+                                                <lightning:icon
+                                                    iconName="{! empty(item.icon) ? 'standard:default' : item.icon}"
+                                                />
+                                            </aura:set>
+                                        </lightning:pill>
                                     </aura:set>
-                                </lightning:pill>
+                                </aura:if>
                             </li>
                         </aura:iteration>
                     </ul>

@@ -3,52 +3,71 @@
  */
 
 public with sharing class ManualTaskRemote {
-    public static Boolean createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
+    public static String createTasks(TaskService.TaskConfig taskConfig, ManualTaskFilter filter) {
+        List<Manual_Creation_Panel_Task__c> oneTimeTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             system.debug('******filterLINE8>>'+taskConfig);
             //system.debug('******filterLINE8>>'+filter + 'ManualTaskFilter.IdTypeOfContactMap: '+ManualTaskFilter.IdTypeOfContactMap);
             //Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig,filter.IdTypeOfContactMap);
             Batch_CreateAdminTasks.launch(filter.getContactsWithWhatIds(taskConfig), taskConfig, ManualTaskFilter.IdTypeOfContactMap);
-            return true;
+            //return '';
+            return 'true';
         } catch (Exception e) {
-            return (Boolean) AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
     }
     
     //To create a record for recurring task PEH-3716
-    public static void createManualConfigTasks(Boolean isFirst, String config, String filter, TaskService.TaskConfig taskConfig) {
+    public static String createManualConfigTasks(Boolean isFirst, String config, String filter, TaskService.TaskConfig taskConfig,Manual_Creation_Panel_Task__c mcpt) {
+        System.debug('recc Id: '+mcpt);
         List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             Date nextTaskDueDate;
             Date lastOccurenceDate;
             Date lastReminderDate;
-            Date nextTaskStartDate; 
+            Date nextTaskStartDate;
+            Date nextTaskReminderDate;	
+            String status = 'Active'; 
             TaskService.TaskConfig actualTaskConfig = (TaskService.TaskConfig) JSON.deserialize(
                     config,
                     TaskService.TaskConfig.class
                 );
+            //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
+            //If start date is future date
             if(isFirst){
                 nextTaskDueDate = taskConfig.endTime;
                 nextTaskStartDate = taskConfig.startDate;
+                if(!taskConfig.isRecurrence){	
+                    nextTaskReminderDate = taskConfig.reminderDate;	
+                }
+                System.debug('taskConfig.reminderDate: '+taskConfig.reminderDate);
+                System.debug('tnextTaskReminderDate: '+nextTaskReminderDate);
             }
-            else{
+            
+            else{//If task start date is today.
                 lastOccurenceDate = Date.today();
                 lastReminderDate = taskConfig.reminderDate;
-                nextTaskStartDate = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day());
-                if(taskConfig.recurrenceFrequency == 'Daily'){
-                    nextTaskDueDate = taskConfig.endTime.addDays(1);
-                }
-                if(taskConfig.recurrenceFrequency == 'Weekly'){
-                    nextTaskDueDate = taskConfig.endTime.addDays(7);
-                }
-                if(taskConfig.recurrenceFrequency == 'Monthly'){
-                    nextTaskDueDate = taskConfig.endTime.addMonths(1);
-                }
-                if(taskConfig.recurrenceFrequency == 'Yearly'){
-                    nextTaskDueDate = taskConfig.endTime.addYears(1);
-                }
-                if(nextTaskDueDate > actualTaskConfig.endTime){
-                    nextTaskDueDate = actualTaskConfig.endTime;
+                if(!taskConfig.isRecurrence){	
+                    status = 'Active';	
+                }else{
+                    System.debug('taskConfig.endTime: '+taskConfig.endTime);
+                    nextTaskStartDate = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day());
+                    System.debug('nextTaskStartDate: '+nextTaskStartDate);
+                    if(taskConfig.recurrenceFrequency == 'Daily'){
+                        nextTaskDueDate = taskConfig.endTime.addDays(1);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Weekly'){
+                        nextTaskDueDate = taskConfig.endTime.addDays(7);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Monthly'){
+                        nextTaskDueDate = taskConfig.endTime.addMonths(1);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Yearly'){
+                        nextTaskDueDate = taskConfig.endTime.addYears(1);
+                    }
+                    if(nextTaskDueDate > actualTaskConfig.endTime){
+                        nextTaskDueDate = actualTaskConfig.endTime;
+                    }
                 }
             }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
@@ -81,7 +100,7 @@ public with sharing class ManualTaskRemote {
             String countryTitle = String.join(CountryList, ',');
             String ts = String.join(titleString, ',');
             String statusString = String.join(mtf.statuses, ',');
-            
+             // creting config record
             manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(
                             Task_Name__c = taskConfig.subject,
@@ -102,15 +121,160 @@ public with sharing class ManualTaskRemote {
                             Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
                             Next_Due_Date__c = nextTaskDueDate,
                             Reminder_days_before_due_date__c = taskConfig.reminderDays,
-                            Last_Recurrence_Reminder__c = lastReminderDate
+                            Last_Recurrence_Reminder__c = lastReminderDate,
+                            Status__c = status,	
+                            Reminder_Date__c = nextTaskReminderDate
                         )
                     );
-            Database.insert(manualTaskLists, true);
+            Database.SaveResult[] srList = Database.insert(manualTaskLists, true);
+            String insId;
+            
+                for(Integer i=0;i<srList.size();i++){
+                    if (srList.get(i).isSuccess()){
+                        insId= srList.get(i).getId();
+
+                    }else if (!srList.get(i).isSuccess()){
+                        // DML operation failed
+                    }
+
+                }
+                return insId;
         } catch (Exception e) {
             System.debug('Exception Occured : '+e);
+            return '';
         }
     }
+    public static String updateTasks(String config, String filter, TaskService.TaskConfig taskConfig,Manual_Creation_Panel_Task__c mcpt) {
+        List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
+        try {
+            Date nextTaskDueDate;
+            Date lastOccurenceDate;
+            Date lastReminderDate;
+            Date nextTaskStartDate;
+            Date nextTaskReminderDate;	
+            String status = 'Active'; 
+            TaskService.TaskConfig actualTaskConfig = (TaskService.TaskConfig) JSON.deserialize(
+                    config,
+                    TaskService.TaskConfig.class
+                );
+                System.debug('Update taskConfig.endTime'+taskConfig.endTime);
+            //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
+            //If start date is future date
+            if(taskConfig.startDate > Date.today()){
+             /*   if(mcpt.Last_Occurrence_Date__c != null)
+                lastOccurenceDate = mcpt.Last_Occurrence_Date__c;
+                if(mcpt.Last_Recurrence_Reminder__c != null){
+                    lastReminderDate = mcpt.Last_Recurrence_Reminder__c;
+                }
+                nextTaskDueDate = taskConfig.endTime;
+                nextTaskStartDate = taskConfig.startDate;
+                if(!taskConfig.isRecurrence){	
+                    nextTaskReminderDate = taskConfig.reminderDate;	
+                }*/
+            }
+            else{//If task start date is today.
+                /*lastOccurenceDate = Date.today();
+                if(mcpt.Last_Recurrence_Reminder__c != null){
+                    lastReminderDate = mcpt.Last_Recurrence_Reminder__c;
+                }else{
+                    lastReminderDate = taskConfig.reminderDate;
+                }
+                if(!taskConfig.isRecurrence){	
+                    status = 'Active';	
+                }else{
+                    nextTaskStartDate = date.newinstance(taskConfig.endTime.addDays(1).year(), taskConfig.endTime.addDays(1).month(), taskConfig.endTime.addDays(1).day());
+                    if(taskConfig.recurrenceFrequency == 'Daily'){
+                        nextTaskDueDate = taskConfig.endTime.addDays(1);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Weekly'){
+                        nextTaskDueDate = taskConfig.endTime.addDays(7);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Monthly'){
+                        nextTaskDueDate = taskConfig.endTime.addMonths(1);
+                    }
+                    if(taskConfig.recurrenceFrequency == 'Yearly'){
+                        nextTaskDueDate = taskConfig.endTime.addYears(1);
+                    }
+                    if(nextTaskDueDate > actualTaskConfig.endTime){
+                        nextTaskDueDate = actualTaskConfig.endTime;
+                    }
+                }*/
+            }
+            Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
+            ManualTaskFilter mtf = (ManualTaskFilter) JSON.deserialize(filter,ManualTaskFilter.class);
+            List<LookupSearchResult> lsr = mtf.areas;//theraputic
+            List<LookupSearchResult> counties = mtf.countries;//countries
+            List<LookupSearchResult> studies = mtf.studies;//studies
+            List<LookupSearchResult> sites = mtf.sites;//sites
+            List<String> titleString = new List<String>();
+            List<String> CountryList = new List<String>();
+            List<String> studyList = new List<String>();
+            List<String> siteList = new List<String>();
+            for(LookupSearchResult l:lsr){
+                titleString.add(l.title);
+            }
+            for(LookupSearchResult l:counties){
+                CountryList.add(l.title);
+            }
+            for(LookupSearchResult l:studies){
+                studyList.add(l.subtitle.remove('Code name '));
+            }
+            for(LookupSearchResult l:sites){
+                siteList.add(l.title);
+            }
+            String visibilityStr = taskConfig.visibility.replace('Owner', 'Patients');
+            String visibleTo = visibilityStr;
+            Boolean isPlatformLevel = mtf.isPlatformLevel;
+            String siteTitle = String.join(siteList, ',');
+            String studyTitle = String.join(studyList, ',');
+            String countryTitle = String.join(CountryList, ',');
+            String ts = String.join(titleString, ',');
+            String statusString = String.join(mtf.statuses, ',');
 
+              manualTaskLists.add(
+                        new Manual_Creation_Panel_Task__c(
+                            Id=mcpt.Id,
+                            Task_Name__c = taskConfig.subject,
+                            TaskFilter__c = filter,
+                            Country__c = countryTitle,
+                            Site__c = siteTitle,
+                            Make_this_Task_visible_to__c = visibleTo,
+                            Platform_level_Task__c = isPlatformLevel,
+                            Study__c = studyTitle,
+                            Therapeutic_Area__c = ts,
+                            TaskConfig__c = config,
+                            Patient_Status__c = statusString,
+                            //Last_Occurrence_Date__c = lastOccurenceDate,
+                            //Next_Occurence_Date__c = nextTaskStartDate,
+                            Is_Recurrence__c =  taskConfig.isRecurrence,
+                            Start_Date__c = actualTaskConfig.startDate,
+                            Recurrence_End_Date__c = actualTaskConfig.endTime,
+                            Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
+                            //Next_Due_Date__c = nextTaskDueDate,
+                            Reminder_days_before_due_date__c = taskConfig.reminderDays,
+                            //Last_Recurrence_Reminder__c = lastReminderDate,
+                            Status__c = status	
+                            //Reminder_Date__c = nextTaskReminderDate
+                        )
+                    );
+                    Database.SaveResult[] srList = Database.update(manualTaskLists, true);
+                    String insId;
+            
+                    for(Integer i=0;i<srList.size();i++){
+                        if (srList.get(i).isSuccess()){
+                            insId= srList.get(i).getId();
+
+                        }else if (!srList.get(i).isSuccess()){
+                            // DML operation failed
+                        }
+
+                    }
+                    return insId;
+        } catch (Exception e) {
+            System.debug('Exception Occured : '+e);
+            return '';
+        }
+    }
     public class TaskPanelWrapper {
         @AuraEnabled
         public TaskService.TaskConfig taskConfig;
