@@ -9687,10 +9687,10 @@
         <tab>Media_Outreach__c</tab>
         <visibility>DefaultOn</visibility>
     </tabVisibilities>
-    <tabSettings>
+    <tabVisibilities>
         <tab>Manual_Creation_Panel_Task__c</tab>
-        <visibility>Visible</visibility>
-    </tabSettings>
+        <visibility>DefaultOn</visibility>
+    </tabVisibilities>
     <tabVisibilities>
         <tab>Trial_Survey__c</tab>
         <visibility>DefaultOn</visibility>
