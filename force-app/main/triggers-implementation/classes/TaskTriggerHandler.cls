@@ -100,7 +100,7 @@ public without sharing class TaskTriggerHandler {
     private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
-
+        List<Id> allContactsIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
         List<Task> tasksWithOwner = [
             SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId
@@ -108,7 +108,32 @@ public without sharing class TaskTriggerHandler {
             WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
         for (Task t : tasksWithOwner)
+        {
             ownerIds.add(t.OwnerId);
+            allContactsIds.add(t.WhoId);
+        }
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+            allContactsIds
+        );
+        for (Id paKey : delConIdsByPACon.keySet())
+            allContactsIds.addAll(delConIdsByPACon.get(paKey));
+
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+            [
+                SELECT Id, Participant_Opt_In_Status_Emails__c
+                FROM Contact
+                WHERE Id IN :allContactsIds
+            ]
+        );
+        Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
+        for (Id paKey : delConIdsByPACon.keySet()) {
+            List<Contact> delegateContacts = new List<Contact>();
+            for (Id delId : delConIdsByPACon.get(paKey))
+                delegateContacts.add(contactsMap.get(delId));
+
+            delegatesByPAContact.put(paKey, delegateContacts);
+        }
+            
         Map<Id, User> usersByIds = new Map<Id, User>(
             [
                 SELECT
@@ -185,15 +210,29 @@ public without sharing class TaskTriggerHandler {
             }
             if(task.IsRecurranceTask__c)
             {
-                //code here
+                if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)){
                notifications.add(
                 new Notification__c(
                     Recipient__c = task.WhoId,
                     WhatId__c = task.Id,
-                    Notification_Type__c = 'Message_To_PT_Task_Instant_Reminder_Type',
+                    Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
                     RemindUsing__c = 'Email'
                 )
             );  
+                }
+            if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
+            List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+            for (Contact delContact : delegates) {
+                notifications.add(
+                    new Notification__c(
+                        Recipient__c = delContact.Id,
+                        WhatId__c = task.Id,
+                        Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                        RemindUsing__c = 'Email'
+                    )
+                );
+            }
+        }
                 
             }
         }
