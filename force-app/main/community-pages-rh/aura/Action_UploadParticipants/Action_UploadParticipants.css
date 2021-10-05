@@ -73,6 +73,12 @@
     background-color: #f2f2f2;
 }
 
+.THIS .ap-section {
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+}
+
 @media screen and (max-width: 500px) {
     .THIS .cPopup .p-container .p-footer {
         max-height: 40vh;
