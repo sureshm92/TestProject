@@ -31,7 +31,7 @@
                     component.set('v.paginationData', initData.paginationData);
                     component.set('v.siteFilter', initData.siteFilter);
                     component.set('v.isInitialized', true);
-
+                    component.set('v.accessLevel',initData.accessLevel);
                     component.set('v.mapMarkers', initData.mapMarkers);
 
                     component.set('v.skipUpdate', false);
