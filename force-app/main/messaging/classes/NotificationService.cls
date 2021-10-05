@@ -421,19 +421,14 @@ public without sharing class NotificationService {
         }
 
         sendResultService.updateResults();
+
         //Send emails:
         if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
         }
-        //Async send SMS and Push
-        ActionStack actionStack = new ActionStack();
-        if (smsNotifications.size() > 0) {
-            actionStack.add(new Action_SendSMS(smsNotifications));
+        //Async send SMS
+        if (!smsNotifications.isEmpty()) {
+            SMSService.sendQueueable(smsNotifications);
         }
-        //Push to be sent from Flow
-        /*if (pushNotifications.size() > 0) {
-            actionStack.add(new Action_SendPush(pushNotifications));
-        }*/
-        actionStack.run();
     }
 }

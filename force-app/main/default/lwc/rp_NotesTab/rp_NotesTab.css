@@ -1,0 +1,94 @@
+.text textarea{
+    height: 279px ;
+    width: 286px;
+    color: #999999;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+  }
+
+.mask {
+    padding-left: 13px;
+    width: 326px;
+    border-left: 4px solid rgb(7, 104, 253);
+    border-radius: 4px;
+    background-color: #FFFFFF;
+    box-shadow: 0 4px 4px 0 rgba(0,0,0,0.04);
+}
+
+.innerbox {
+    max-height: 360px;
+    padding-right: 15px;
+    overflow: auto;
+    margin-bottom: 20px;
+}
+::-webkit-scrollbar {
+    width: 8px;
+  }
+  
+  /* Track */
+::-webkit-scrollbar-track {
+    box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+    border-radius: 4px;
+    background: #dbdbdb;
+  }
+  
+  /* Handle */
+::-webkit-scrollbar-thumb {
+    background: #999999;
+    border-radius: 4px;
+  }
+
+.this-is-a-comment-ma {
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    font-weight: bold;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.this-is-a-comment-other{
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;
+}
+
+.searchBox1 {
+    width: 350px;
+    line-height: 80px;
+}
+
+.note-button {
+    padding-left: 120px;
+}
+:host {
+    --sds-c-textarea-sizing-min-height: 200px;
+ }
+
+.slds-modal__container {
+    max-width: 60rem !important;
+    width: 60% !important;
+    height: auto;
+}
+  
+.sldsmodalcontainer {
+    max-width: 100%;
+    padding-left: 25%;
+    padding-right: 25%;
+    padding-top: 10%;
+}
+
+.slds-spinner_container {
+    background-color: white;
+}
+
+.noRecords {
+    padding-left: 60px;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    color: #999;
+}

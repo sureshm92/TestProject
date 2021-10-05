@@ -29,6 +29,12 @@ public class RecurringTaskTriggerHandler {
                             }
                         }
                     }
+                    if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){
+                        System.debug('Change in feq: '+rTask.Recurrence_Frequency__c);
+                        
+                        nextOccDateUpdate(rTask);
+                        dueDateUpdate(rTask);
+                    }
                 }
                 
             }
@@ -49,6 +55,33 @@ public class RecurringTaskTriggerHandler {
             }
             if(rTask.Recurrence_Frequency__c == 'Yearly'){
                 rTask.Next_Due_Date__c = rTask.Next_Occurence_Date__c.addYears(1).addDays(-1);
+            }
+        }
+        public void nextOccDateUpdate(Manual_Creation_Panel_Task__c rTask){
+            Date firstRecDate;
+            if(rTask.Recurrence_Frequency__c == 'Daily'){
+                rTask.Next_Occurence_Date__c = Date.today().addDays(1);
+            }
+            if(rTask.Recurrence_Frequency__c == 'Weekly'){
+                firstRecDate = rTask.Start_Date__c.addDays(7);
+                while (firstRecDate <= Date.today()) {
+                    firstRecDate = firstRecDate.addDays(7);
+                }
+                rTask.Next_Occurence_Date__c = firstRecDate;
+            }
+            if(rTask.Recurrence_Frequency__c == 'Yearly'){
+                firstRecDate = rTask.Start_Date__c.addYears(1);
+                while (firstRecDate <= Date.today()) {
+                    firstRecDate = firstRecDate.addYears(1);
+                }
+                rTask.Next_Occurence_Date__c = firstRecDate;
+            }
+            if(rTask.Recurrence_Frequency__c == 'Monthly'){
+                firstRecDate = rTask.Start_Date__c.addMonths(1);
+                while (firstRecDate <= Date.today()) {
+                    firstRecDate = firstRecDate.addMonths(1);
+                }
+                rTask.Next_Occurence_Date__c = firstRecDate;
             }
         }
     }

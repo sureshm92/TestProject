@@ -7,7 +7,7 @@ public  without sharing class StudySiteItemRemote {
             
             totalParticipants = [SELECT count(Id) FROM Participant_Enrollment__c 
                                  WHERE Study_Site__c =:ssId AND Clinical_Trial_Profile__c=:ctpId 
-                                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS 
+                                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED 
                                  AND Visit_Plan__c =null];
             if(totalParticipants.size()>0){
                 count = Integer.valueOf(totalParticipants[0].get('expr0'));

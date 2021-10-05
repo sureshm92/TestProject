@@ -91,7 +91,7 @@ public without sharing class  RPRecordReviewFilterController{
     }
     @AuraEnabled 
     public static List<RPRecordReviewLogController.peInitData> getFilterPEDetails(String filterJSON,String delegateId) {
-        try {
+       // try {
             Id currentContactId = CommunityService.getInstance().getCurrentContactId();
             List<RPRecordReviewLogController.peInitData> peInitWrapperDataList = new List<RPRecordReviewLogController.peInitData>();
            
@@ -100,7 +100,7 @@ public without sharing class  RPRecordReviewFilterController{
             }
  
             filterWrapper filter = (filterWrapper) JSON.deserialize( filterJSON,filterWrapper.class);
-            String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c ';
+            String strQuery = 'Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c,Participant_Status__c ';
             strQuery += ' from Participant_Enrollment__c where HCP__r.HCP_Contact__c = \'' + currentContactId +  '\'';
             strQuery += ' AND Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c !=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL ';
             
@@ -160,9 +160,9 @@ public without sharing class  RPRecordReviewFilterController{
                 peInitWrapperDataList.add(new RPRecordReviewLogController.peInitData(pe, false, dobString));
             }
             return peInitWrapperDataList;
-        } 
-        catch (Exception e) {
+       // } 
+      /*  catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
-        }
+        } */
     }
 }

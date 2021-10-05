@@ -11,7 +11,7 @@ public class Batch_UpdateVisitPlanCreatePatientVisits implements Database.Batcha
     }
     public Database.QueryLocator start(Database.BatchableContext bc) {
         Set<String> ssIds= studySiteVisitPlan.keySet();
-        List<String> peStatuses = PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS;
+        List<String> peStatuses = PEStatusState.PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED;
         return Database.getQueryLocator('SELECT ID,Study_Site__c,Visit_Plan__c,Clinical_Trial_Profile__c FROM Participant_Enrollment__c WHERE Visit_Plan__c = NULL AND Participant_Status__c IN:peStatuses AND Study_Site__c IN:ssIds AND Clinical_Trial_Profile__c =:ctpId');
     }
     
