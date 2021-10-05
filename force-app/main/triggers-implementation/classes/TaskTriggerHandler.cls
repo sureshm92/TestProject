@@ -190,7 +190,7 @@ public without sharing class TaskTriggerHandler {
                 new Notification__c(
                     Recipient__c = task.WhoId,
                     WhatId__c = task.Id,
-                    Notification_Type__c = 'Message_To_PT_Task_Instant_Reminder_Type',
+                    Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
                     RemindUsing__c = 'Email'
                 )
             );  
