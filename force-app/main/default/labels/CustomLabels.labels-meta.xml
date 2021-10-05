@@ -1029,7 +1029,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add a Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Provider</fullName>
@@ -19143,6 +19143,13 @@ communications using the toggles below.</value>
         <shortDescription>RH_RP_Outreach Patient</shortDescription>
         <value>Outreach Patient</value>
     </labels>
+     <labels>
+        <fullName>RH_RP_Add_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP Add a Patient</shortDescription>
+        <value>Add a Patient</value>
+    </labels>
     <labels>
         <fullName>RH_RP_Delegate_Certify</fullName>
         <language>en_US</language>
@@ -19484,7 +19491,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Add/Update Patient</value>
+        <value>Bulk Add/Update Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
