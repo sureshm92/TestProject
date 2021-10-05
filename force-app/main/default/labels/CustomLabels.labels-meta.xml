@@ -19141,6 +19141,13 @@ communications using the toggles below.</value>
         <value>is missing.</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Add_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP Add a Patient</shortDescription>
+        <value>Add a Patient</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Delegate_Phone_Number</fullName>
         <language>en_US</language>
         <protected>true</protected>

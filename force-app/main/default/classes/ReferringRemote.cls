@@ -417,8 +417,6 @@ public without sharing class ReferringRemote {
                 participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
-                    participantDelegate.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
-                    participantDelegate.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
             }
 
             ParticipantService.createParticipantAndUpdatePE(
