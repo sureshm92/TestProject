@@ -879,7 +879,7 @@
                                 <div class="label">
                                     {!$Label.c.PG_AP_F_Preferred_Contact_Time}
                                 </div>
-                                <lightning:input
+                                <lightning:textarea
                                     type="text"
                                     value="{!v.participant.Preferred_Contact_Time__c}"
                                     onblur="{!c.doCheckFields}"
