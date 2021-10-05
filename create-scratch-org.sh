@@ -8,13 +8,13 @@ echo "Step 1 - Move current files to scratch-org-files/original-files"
 sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
 mv ./force-app/communities/community-iqvia/experiences ./scratch-org-files/original-files
 mv ./force-app/communities/community-gsk/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
-mv ./force-app/communities/community-iqvia/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
-mv ./force-app/communities/community-janssen/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
-mv ./force-app/main/default/profiles/Business Administrator.profile-meta.xml ./scratch-org-files/original-files
-mv ./force-app/main/default/profiles/Business Lead.profile-meta.xml ./scratch-org-files/original-files
-mv ./force-app/main/default/profiles/IQVIA Customer Community Plus Login User.profile-meta.xml ./scratch-org-files/original-files
-mv ./force-app/main/default/profiles/IQVIA SPNL2.profile-meta.xml ./scratch-org-files/original-files
-mv ./force-app/main/default/profiles/Product Owner.profile-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-iqvia/sites/IQVIA_Referral_Hub.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/communities/community-janssen/sites/Janssen_Community.site-meta.xml ./scratch-org-files/original-files
+mv ./force-app/main/default/profiles/Business\ Administrator.profile-meta.xml ./scratch-org-files/original-files
+mv ./force-app/main/default/profiles/Business\ Lead.profile-meta.xml ./scratch-org-files/original-files
+mv ./force-app/main/default/profiles/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./scratch-org-files/original-files
+mv ./force-app/main/default/profiles/IQVIA\ SPNL2.profile-meta.xml ./scratch-org-files/original-files
+mv ./force-app/main/default/profiles/Product\ Owner.profile-meta.xml ./scratch-org-files/original-files
 mv ./force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml ./scratch-org-files/original-files
 
 echo "Step 2 - Move backup files the project directory"
@@ -22,11 +22,11 @@ mv ./scratch-org-files/experiences ./force-app/communities/community-iqvia
 mv ./scratch-org-files/GSK_Community.site-meta.xml ./force-app/communities/community-gsk/sites
 mv ./scratch-org-files/IQVIA_Referral_Hub.site-meta.xml ./force-app/communities/community-iqvia/sites
 mv ./scratch-org-files/Janssen_Community.site-meta.xml ./force-app/communities/community-janssen/sites
-mv ./scratch-org-files/Business Administrator.profile-meta.xml ./force-app/main/default/profiles
-mv ./scratch-org-files/Business Lead.profile-meta.xml ./force-app/main/default/profiles
-mv ./scratch-org-files/IQVIA Customer Community Plus Login User.profile-meta.xml ./force-app/main/default/profiles
-mv ./scratch-org-files/IQVIA SPNL2.profile-meta.xml ./force-app/main/default/profiles
-mv ./scratch-org-files/Product Owner.profile-meta.xml ./force-app/main/default/profiles
+mv ./scratch-org-files/Business\ Administrator.profile-meta.xml ./force-app/main/default/profiles
+mv ./scratch-org-files/Business\ Lead.profile-meta.xml ./force-app/main/default/profiles
+mv ./scratch-org-files/IQVIA\ Customer\ Community\ Plus\ Login\ User.profile-meta.xml ./force-app/main/default/profiles
+mv ./scratch-org-files/IQVIA\ SPNL2.profile-meta.xml ./force-app/main/default/profiles
+mv ./scratch-org-files/Product\ Owner.profile-meta.xml ./force-app/main/default/profiles
 mv ./scratch-org-files/Participant_Enrollment__c.workflow-meta.xml ./force-app/main/default/workflows
 
 echo "Move communities"
@@ -86,7 +86,7 @@ then
     sfdx force:user:permset:assign --permsetname Patient_Portal_Edit_Study_Settings
     sfdx force:user:permset:assign --permsetname SurveyCreator
 
-    echo "Push completed successfully!"
+    echo "Push completed successfully, discard all the file changes!"
 else
     echo "Return communities"
     mv ./communities ./force-app/
