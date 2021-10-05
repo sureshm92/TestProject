@@ -16,7 +16,7 @@
         <lightning-layout-item padding="around-small" size="6">
             <div> 
                 <lightning-input type="text" label={label.RH_RP_Email_ID} name="Email ID" value={pe.peRecord.Email__c} data-value="EmailID" 
-                required={pe.isRequired} disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
+                 disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
     </lightning-layout>
@@ -32,7 +32,7 @@
                     data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
-            <lightning-combobox required="true" label={label.RH_RP_Birth_Month} name="Birth Month" placeholder={label.RH_RP_Select_Birth_Month} value={pe.peRecord.Birth_Month__c}  
+            <lightning-combobox label={label.RH_RP_Birth_Month} name="Birth Month" placeholder={label.RH_RP_Select_Birth_Month} value={pe.peRecord.Birth_Month__c}  
                 options={pe.monthDateOption} data-value="BirthMonth" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
             </lightning-combobox>                    
         </lightning-layout-item>
@@ -52,7 +52,7 @@
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox required="true" label ={label.RH_RP_Sex} name ="Sex" placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}  
+                <lightning-combobox label ={label.RH_RP_Sex} name ="Sex" placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}  
                     options={pe.sexList} data-value="Sex" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
                 </lightning-combobox>                    
             </div>
@@ -63,7 +63,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required="true" label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Country__c}  
+                <lightning-combobox label={label.RH_RP_Country} name="Country" placeholder={label.RH_RP_Select_Country} value={pe.peRecord.Mailing_Country_Code__c}  
                     options={pe.countryList} data-value="Country" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
             </lightning-combobox>
             </div>
@@ -71,12 +71,12 @@
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label={label.RH_RP_Phone_Number} name="Phone Number" value={pe.peRecord.Phone__c} data-value="PhoneNumber" 
-                required={pe.isRequired}  disabled={pe.isMinor} data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue} ></lightning-input>
+                 disabled={pe.isMinor} data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
-                <lightning-combobox required={pe.isRequired}  disabled={pe.isMinor} label={label.RH_RP_Phone_Type} name="Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Patient_Phone_Type__c}  
+                <lightning-combobox disabled={pe.isMinor} label={label.RH_RP_Phone_Type} name="Phone Type" placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Patient_Phone_Type__c}  
                     options={pe.phoneTypeList} data-value="PhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
@@ -85,15 +85,15 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-combobox required={stateRequired} label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.State__c}  
-                    options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                <lightning-combobox label={label.RH_RP_State} name="State" placeholder={label.RH_RP_Select_State} value={pe.peRecord.Mailing_State_Code__c}  
+                    options={states} data-value="States" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top"> 
                 </lightning-combobox>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
             <div>
                 <lightning-input type="text" label={label.RH_RP_Alt_Phone_Number} name="Alt Phone Number" value={pe.peRecord.Participant_Alternative_Phone__c} 
-                 data-value="AltPhoneNumber" pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                 data-value="AltPhoneNumber" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
         <lightning-layout-item padding="around-small" size="3">
@@ -107,7 +107,7 @@
     <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
         <lightning-layout-item padding="around-small" size="6">
             <div>
-                <lightning-input required="true" type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
+                <lightning-input type="text" label={label.RH_RP_Postal_Code} name="Postal Code" value={pe.peRecord.Postal_Code__c} data-value="PostalCode"
                 data-id={pe.peRecord.Id} pattern="[0-9]*" onchange={changeInputValue}></lightning-input>
             </div>
         </lightning-layout-item>
@@ -133,7 +133,7 @@
         <lightning-layout-item padding="around-small" size="6">
             <div>
                 <lightning-combobox required="true" label={label.RH_RP_Legal_Status} name="Legal Status" placeholder={label.RH_RP_Legal_Status_Verified} value={pe.peRecord.Legal_Status__c}  
-                    options={pe.legalStatusList} data-value="LegalStatus" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                    options={pe.legalStatusList} disabled="true" data-value="LegalStatus" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                 </lightning-combobox>
             </div>
         </lightning-layout-item>
@@ -175,8 +175,8 @@
 </div>
 <div class="divider"></div>
 <div class="patient-button">
-<button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel" disabled={disabledSaveButton}>{label.Cancel}</button> &nbsp;&nbsp;&nbsp;&nbsp;
-<button class="apollo-btn primary search-more-btn" onclick={openUnsavedModal} title="Save" disabled={disabledSaveButton}>
+<button class="slds-button slds-button_neutral" onclick={cancelModelOpen} title="Cancel" disabled={disabledsavebutton}>{label.Cancel}</button> &nbsp;&nbsp;&nbsp;&nbsp;
+<button class="apollo-btn primary search-more-btn" onclick={openUnsavedModal} title="Save" disabled={disabledsavebutton}>
     {label.Save}   
 </button>
 </div>

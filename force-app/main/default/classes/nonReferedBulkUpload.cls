@@ -166,20 +166,6 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
             string errStr = '';
             map<integer,string> errMap = getErrMessages();
             boolean hasErrRow = false;
-            //Generate Counrty Code and state code
-            map<string,string> ccMap = new map<string,string>();
-            map<string,string> scMap = new map<string,string>();
-            Schema.DescribeFieldResult country_field = Participant_Enrollment__c.Country__c.getDescribe(); 
-            Schema.DescribeFieldResult state_field = Participant_Enrollment__c.State__c.getDescribe(); 
-            List<Schema.PicklistEntry> country_values = country_field.getPicklistValues(); 
-            List<Schema.PicklistEntry> state_values = state_field.getPicklistValues(); 
-            for( Schema.PicklistEntry v : country_values) { 
-                ccMap.put(v.getLabel(), v.getValue()); 
-            }
-            for( Schema.PicklistEntry v : state_values) { 
-                scMap.put(v.getLabel(), v.getValue()); 
-            }
-            
             
             for(Integer i=2; i < rows.size(); i++){
                 boolean hasPatientErrRow = false;
@@ -226,7 +212,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         mandatoryIndexes =  new list<Integer>{0,15,16,17,18,19,20,21};
                             //Legal Status of Primary Delegate should be Yes 
                             if(rec[21]=='No'){
-                                errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                                errStr += 'Legal Status of Primary Delegate should be Yes.;';
                                 hasDelErrRow = true;
                             }
                     }
@@ -237,15 +223,19 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         }
                         //Legal Status of Primary Delegate should be Yes 
                         if(rec[21]=='No'){
-                            errStr += 'Delegate is not over the age of legal majority - Legal Status of Primary Delegate should be Yes.;';
+                            errStr += 'Legal Status of Primary Delegate should be Yes.;';
                             hasDelErrRow = true;
                         }
                     }
                     //if(!(rec[1]==''&&rec[5]==''&&rec[3]==''&&rec[11]=='')){ //if personal info entered YOB and Patient Auth is mandatory
                     if(!(rec[5]==''&&rec[11]==''&&rec[13]==''&&rec[12]==''&&rec[14]=='')){ //if contact info entered YOB is mandatory
                         mandatoryIndexes.add(6); 
-                        // mandatoryIndexes.add(8); 
                     }
+                    //if personal info entered Patient Auth is mandatory
+                    if(!(rec[1]==''&&rec[2]==''&&rec[3]==''&&rec[5]==''&&rec[11]==''&&rec[13]==''&&rec[12]==''&&rec[14]=='')){ 
+                        mandatoryIndexes.add(8);                     
+                    }
+
                     for(integer j : mandatoryIndexes){
                         if(rec[j]==''){
                             errStr += errMap.get(j);
@@ -279,26 +269,28 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     string isMajorDelegate = '';
                     string stateCode='';
                     string countryCode = '';
-                    if(rec[9]!='' && !ccMap.containsKey(rec[9])){
+                    if(rec[9]!='' && !CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rec[9])){
                         errStr += 'Invalid Country;';                        
                         hasPatientErrRow = true;
                     }
                     else if(rec[9]!=''){
-                        if(ccMap.containsKey(rec[9])) countryCode= ccMap.get(rec[9]);
+                        if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rec[9])) countryCode= CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(rec[9]);
                     }
                     else{
-                        if(ccMap.containsKey(rpCountry)) countryCode= ccMap.get(rpCountry);
+                        if(CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.containsKey(rpCountry)) countryCode= CountryStateUtil.COUNTRY_CODE_BY_NAME_MAP_Mdt.get(rpCountry);
                     }
                     
-                    if(rec[10]!='' && !scMap.containsKey(rec[10])){
-                        errStr += 'Invalid State;';
-                        hasPatientErrRow = true;
-                    }
-                    else if(rec[10]!=''){
-                        if(scMap.containsKey(rec[10])) stateCode= scMap.get(rec[10]);
-                    }
-                    else{
-                        if(scMap.containsKey(rpState)) stateCode= scMap.get(rpState);
+                    if(countryCode != '' && CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.containsKey(countryCode)){
+                        if(rec[10]!='' && !CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rec[10])){
+                            errStr += 'Invalid State;';
+                            hasPatientErrRow = true;
+                        }
+                        else if(rec[10]!=''){
+                            if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rec[10])) stateCode= CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).get(rec[10]);
+                        }
+                        else{
+                            if(CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).containsKey(rpState)) stateCode= CountryStateUtil.STATES_CODE_BY_NAME_MAP_Mdt.get(countryCode).get(rpState);
+                        }
                     }
                     
                     for(integer j : yobIndexes){
@@ -312,7 +304,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                                     hasPatientErrRow = true;
                                 }
                             }
-                            else if(!(stateCode=='' && countryCode =='')){  
+                            else if(!(stateCode=='' || countryCode =='')){  
                                 string isMajor ='';
                                 if (yearByCountryStateCode.containsKey(countryCode +'_' +stateCode)) {
                                     if(integer.valueOf(rec[j])>yearByCountryStateCode.get(countryCode +'_' +stateCode)){
@@ -347,6 +339,10 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                     }
                     
                     //Legal Status validation
+                    if(isMajorDelegate=='No'){
+                        errStr = errStr + 'Primary Delegate YOB is not over the age of legal majority.;';
+                    }
+                    
                     for(integer j : legalIndexes){
                         if(rec[j]!='' && rec[j]!='Yes' && rec[j]!='No'){
                             errStr += errMap.get(j*100);
@@ -359,13 +355,13 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         }
                         else{
                             if(j==7){
-                                if(rec[j] !='' && isMajorPatient != rec[j]){
+                                if(rec[j] !='' && isMajorPatient != rec[j] && isMajorPatient!=''){
                                     errStr = errStr + 'Legal Status of Patient does not match the Patient YOB.;' ;                                    
                                     hasPatientErrRow = true;
                                 }
                             }
                             else if(j==21){
-                                if(rec[j] !='' && isMajorDelegate != rec[j]){
+                                if(rec[j] !='' && isMajorDelegate != rec[j] && isMajorDelegate!=''){
                                     errStr = errStr + 'Legal Status of Primary Delegate does not match the Primary Delegate YOB.;' ;
                                     hasDelErrRow = true;
                                 }
@@ -401,11 +397,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         errStr += 'Patient Auth if entered should be Yes.;';   
                         hasPatientErrRow = true;                     
                     } 
-                    if(errStr == '' || (!hasPatientErrRow && hasDelErrRow && rec[7]=='Yes')){
-                        if(errStr != '' ){
-                            errStr = 'Only Patient was brought in the system as Primary Delegate has errors;'+errStr;
-                        }
-
+                    if(errStr == ''){
+                    
                         //REF-4881
                         String dlgAltPhone = '';
 
@@ -438,8 +431,8 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.YOB__c=rec[6];
                         peRec.Legal_Status__c=rec[7];
                         peRec.Patient_Auth__c=rec[8];
-                        if(ccMap.containsKey(rec[9])) peRec.Country__c= ccMap.get(rec[9]);
-                        if(ccMap.containsKey(rec[10])) peRec.State__c= scMap.get(rec[10]);
+                        peRec.mailing_country_code__c= countryCode;
+                        peRec.mailing_state_code__c= stateCode;
                         peRec.Phone__c=rec[11];
                         peRec.Patient_Phone_Type__c=rec[12];
                         peRec.Participant_Alternative_Phone__c=rec[13];
@@ -478,18 +471,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 string errKey = prRowIndexMap.get(pe.Patient_ID__c);
                 if(peList.containsKey(pe.Patient_ID__c)){
                     
-                    if(errRowsCSV.containsKey(errKey)){
-                        string row = errRowsCSV.get(errKey);
-                        row= row.remove('Only Patient was brought in the system, Primary Delegate has errors;');
-                        row  = row.trim() + 'Duplicate Patient Record.;';
-                        errRowsCSV.put(errKey,row);
-                    }
-                    else{
-                        string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
-                        row = row.trim() + ',Duplicate Patient Record.;';
-                        errRowsCSV.put(pe.Patient_ID__c,row);  
-                    }
-                                         
+                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
+                    row = row.trim() + ',Duplicate Patient Record.;';
+                    errRowsCSV.put(pe.Patient_ID__c,row);  
                     peList.remove(pe.Patient_ID__c);
                 }
                 else if(errRowsCSV.containsKey(errKey)){

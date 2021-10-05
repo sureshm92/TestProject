@@ -70,11 +70,10 @@ export default class Rp_PatientTab extends LightningElement {
     @track stateRequired = true;
     @track validationList = [];
     cancelOpen = false;
-    disabledSaveButton = true
+    @api disabledsavebutton ;
     @api monthDateValue;
     @api yearDateValue;
     @api isMinor = false;
-
 
     @api
     get patientrecordlist() {
@@ -143,10 +142,8 @@ export default class Rp_PatientTab extends LightningElement {
         RH_RP_Record_Saved_Successfully
     };
 
-    requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthMonth','BirthYear','LastName','PhoneNumber','PostalCode',
-                                'Sex','Country','PhoneType','PatientAuthStatus','LegalStatus'];
-    requiredfieldforMinor = ['PatientID','FirstName','BirthMonth','BirthYear','LastName','PostalCode',
-                                'Sex','Country','PatientAuthStatus','LegalStatus'];
+    requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthYear','LastName','Country','PatientAuthStatus','LegalStatus'];
+    requiredfieldforMinor = ['PatientID','EmailID','FirstName','BirthYear','LastName','Country','PatientAuthStatus','LegalStatus'];
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -180,7 +177,7 @@ export default class Rp_PatientTab extends LightningElement {
         let fieldname = element.name;
         let returnvalue;
 
-        if(!fieldValue) {
+        if(!fieldValue  && fieldname !='Email ID' ) {
             element.setCustomValidity(fieldLabel +' ' + this.label.RH_RP_is_missing);
             returnvalue = false;
         }
@@ -246,11 +243,11 @@ export default class Rp_PatientTab extends LightningElement {
 
     changeInputValue(event) {
         let isAllFieldValidated = false;
-        this.disabledSaveButton = true;
+        this.disabledsavebutton = true;
        
         let isRequired = this.patientrecord[0].isRequired;
         let dataValue = event.target.dataset.value;
-        this.disabledSaveButton = true;
+        this.disabledsavebutton = true;
         this.validationList = [];
 
         if(isRequired && this.requiredFieldForAdult.includes(dataValue)) {
@@ -291,18 +288,18 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Patient_Sex__c = event.target.value;
         }
         else if(event.target.dataset.value === 'Country') {
-            record.peRecord.Country__c = event.target.value;
-            this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Country__c];
+            record.peRecord.Mailing_Country_Code__c = event.target.value;
+            this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Mailing_Country_Code__c];
             if(this.states.length> 0){
                 this.stateRequired = true;
             }
             else{
                 this.stateRequired = false;
-                record.peRecord.State__c = '';
+                record.peRecord.Mailing_State_Code__c = '';
             }
         }
         else if(event.target.dataset.value === 'States') {
-            record.peRecord.State__c = event.target.value;
+            record.peRecord.Mailing_State_Code__c = event.target.value;
         }
         else if(event.target.dataset.value === 'PhoneNumber') {
             record.peRecord.Phone__c = event.target.value;
@@ -348,17 +345,26 @@ export default class Rp_PatientTab extends LightningElement {
             record.peRecord.Is_SMS__c = event.target.checked;
         }
         this.patientrecord = [...this.patientrecord];
-
-        if(!this.patientrecord[0].peRecord.Patient_Auth__c && validationList.includes(false)){
-            this.disabledSaveButton = true;
-        }
-        else{
-            this.disabledSaveButton = false;
-        }
+        
+        if(this.patientrecord[0].peRecord.Patient_ID__c != undefined && this.patientrecord[0].peRecord.Participant_Name__c != undefined
+            && this.patientrecord[0].peRecord.YOB__c != undefined && this.patientrecord[0].peRecord.Patient_Auth__c != undefined
+            && this.patientrecord[0].peRecord.Participant_Surname__c != undefined
+            && this.patientrecord[0].peRecord.Participant_Surname__c != ''
+            && this.patientrecord[0].peRecord.Participant_Surname__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != null
+            && this.patientrecord[0].peRecord.Participant_Name__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != ''
+            && this.patientrecord[0].peRecord.Patient_ID__c != null
+            ){
+                this.disabledsavebutton = false;
+           }
+           else{
+                this.disabledsavebutton = true;
+           } 
     }
 
     cancelRecord(event) {
-        this.disabledSaveButton = true;
+        this.disabledsavebutton = true;
         this.cancelOpen = false;
         let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;
@@ -369,8 +375,8 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.YOB__c = this.originalpatientrecord[0].peRecord.YOB__c;
         record.peRecord.Participant_Surname__c = this.originalpatientrecord[0].peRecord.Participant_Surname__c;
         record.peRecord.Patient_Sex__c = this.originalpatientrecord[0].peRecord.Patient_Sex__c;
-        record.peRecord.Country__c = this.originalpatientrecord[0].peRecord.Country__c;
-        record.peRecord.State__c = this.originalpatientrecord[0].peRecord.State__c;
+        record.peRecord.Mailing_Country_Code__c = this.originalpatientrecord[0].peRecord.Mailing_Country_Code__c;
+        record.peRecord.Mailing_State_Code__c = this.originalpatientrecord[0].peRecord.Mailing_State_Code__c;
         record.peRecord.Phone__c = this.originalpatientrecord[0].peRecord.Phone__c;
         record.peRecord.Patient_Phone_Type__c = this.originalpatientrecord[0].peRecord.Patient_Phone_Type__c;
         record.peRecord.Participant_Alternative_Phone__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
@@ -400,8 +406,8 @@ export default class Rp_PatientTab extends LightningElement {
     }
 
     checkPatientAge() {
-        let countryCode = this.patientrecord[0].peRecord.Country__c;
-        let stateCode = this.patientrecord[0].peRecord.State__c;
+        let countryCode = this.patientrecord[0].peRecord.Mailing_Country_Code__c;
+        let stateCode = this.patientrecord[0].peRecord.Mailing_State_Code__c;
         let year = this.patientrecord[0].peRecord.YOB__c;
         let month = this.patientrecord[0].peRecord.Birth_Month__c;
 
@@ -458,8 +464,8 @@ export default class Rp_PatientTab extends LightningElement {
         if(!this.validationList.includes(false)) {  
             let newPatientId = this.patientrecord[0].peRecord.Patient_ID__c;
             let oldPatientId = this.originalpatientrecord[0].peRecord.Patient_ID__c;
-            let countryCode = this.patientrecord[0].peRecord.Country__c;
-            let stateCode = this.patientrecord[0].peRecord.State__c;
+            let countryCode = this.patientrecord[0].peRecord.Mailing_Country_Code__c;
+            let stateCode = this.patientrecord[0].peRecord.Mailing_State_Code__c;
             let month = this.patientrecord[0].peRecord.Birth_Month__c;
             let year = this.patientrecord[0].peRecord.YOB__c;
             let legalStatus = this.patientrecord[0].peRecord.Legal_Status__c;
@@ -509,7 +515,7 @@ export default class Rp_PatientTab extends LightningElement {
         })
         .finally(() => {
             this.isUnsavedModalOpen = false;
-            this.disabledSaveButton = true; 
+            this.disabledsavebutton = true; 
         })
     }
 

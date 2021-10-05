@@ -33,7 +33,20 @@
         var pEnrollment = component.get('v.pEnrollment');
         var spinner = component.find('mainSpinner');
         spinner.show();
-        communityService.executeAction(
+        let action = component.get("c.setfailedReferral");
+        action.setParams({peJSON: JSON.stringify(pEnrollment),reason: reason });
+        action.setCallback(this, function(response) {
+            let state = response.getState();
+            if (state === "SUCCESS") {
+               successCallBack();
+               spinner.hide();
+            }
+            else {
+                console.log(action.getError()[0].message);
+            }
+        });
+        $A.enqueueAction(action);
+       /**  communityService.executeAction(
             component,
             'setfailedReferral',
             {
@@ -47,7 +60,7 @@
             function () {
                 spinner.hide();
             }
-        );
+        );**/
     },
     
     
@@ -63,8 +76,8 @@
                 Gender__c:pe.Patient_Sex__c,
                 Phone__c:pe.Phone__c,
                 Phone_Type__c:pe.Patient_Phone_Type__c,
-                Mailing_Country_Code__c:pe.Country__c,
-                Mailing_State_Code__c:pe.State__c,
+                Mailing_Country_Code__c:pe.Mailing_Country_Code__c,
+                Mailing_State_Code__c:pe.Mailing_State_Code__c,
                 Mailing_Zip_Postal_Code__c:pe.Postal_Code__c,
                 
                 // Mailing_Country_Code__c: pe.HCP__r.HCP_Contact__r.Account.BillingCountryCode,
@@ -250,79 +263,77 @@
                delegateParticipant.Email__c == emailDelegateRepeat)) &&
              agreePolicy);
         
-             if(component.get('v.patientVeiwRedirection'))
-             {
+         if(component.get('v.patientVeiwRedirection')){
               
-                let needsGuardian = false;
-                if(component.get('v.needsGuardian')){
-                    needsGuardian = true;
-                }
-              
-                if(needsDelegate && needsGuardian &&
-                 delegateParticipant &&
-                 participant.Health_care_proxy_is_needed__c &&
-                 delegateParticipant.First_Name__c &&
-                 delegateParticipant.Last_Name__c &&
-                 delegateParticipant.Phone__c &&
-                 delegateParticipant.Email__c &&
-                 emailDelegateVaild &&
-                 emailDelegateRepeatValid &&
-                 delegateParticipant.Email__c == emailDelegateRepeat &&
-                 agreePolicy && attestAge &&
-                 participant.First_Name__c &&
-                 participant.Last_Name__c &&
-                 participant.Date_of_Birth__c &&
-                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
-                 participant.Mailing_Zip_Postal_Code__c &&
-                selectedCountry &&
-                (selectedState || states.length === 0))
-                {
-                     isValid = true;
-                    
-                }else if(needsDelegate && !needsGuardian &&
-                 delegateParticipant &&
-                 participant.Health_care_proxy_is_needed__c &&
-                 delegateParticipant.First_Name__c &&
-                 delegateParticipant.Last_Name__c &&
-                 delegateParticipant.Phone__c &&
-                 delegateParticipant.Email__c &&
-                 emailDelegateVaild &&
-                 emailDelegateRepeatValid &&
-                 delegateParticipant.Email__c == emailDelegateRepeat &&
-                 agreePolicy && attestAge &&
-                 participant.First_Name__c &&
-                 participant.Last_Name__c &&
-                 participant.Date_of_Birth__c &&
-                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
-                 participant.Email__c &&
-                 participant.Email__c == emailRepeat &&
-                 participant.Phone__c &&
-                 participant.Mailing_Zip_Postal_Code__c &&
-                selectedCountry &&
-                (selectedState || states.length === 0))
-                {
-                      isValid = true;
-                    
-                }else if(!needsDelegate && !needsGuardian &&
-                 agreePolicy &&
-                 participant.First_Name__c &&
-                 participant.Last_Name__c &&
-                 participant.Date_of_Birth__c &&
-                 participant.Date_of_Birth__c <= component.get('v.todayDate')&&
-                 participant.Email__c &&
-                 participant.Email__c == emailRepeat &&
-                 participant.Phone__c &&
-                 participant.Mailing_Zip_Postal_Code__c &&
-                selectedCountry &&
-                (selectedState || states.length === 0))
-                {
-                      isValid = true;
-                }else{
-                     isValid = false;
-                }
-              
-            }     
-    
+              let needsGuardian = false;
+              if(component.get('v.needsGuardian')){
+                  needsGuardian = true;
+              }
+            
+              if(needsDelegate && needsGuardian &&
+               delegateParticipant &&
+               participant.Health_care_proxy_is_needed__c &&
+               delegateParticipant.First_Name__c &&
+               delegateParticipant.Last_Name__c &&
+               delegateParticipant.Phone__c &&
+               delegateParticipant.Email__c &&
+               emailDelegateVaild &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c == emailDelegateRepeat &&
+               agreePolicy && attestAge &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                   isValid = true;
+                  
+              }else if(needsDelegate && !needsGuardian &&
+               delegateParticipant &&
+               participant.Health_care_proxy_is_needed__c &&
+               delegateParticipant.First_Name__c &&
+               delegateParticipant.Last_Name__c &&
+               delegateParticipant.Phone__c &&
+               delegateParticipant.Email__c &&
+               emailDelegateVaild &&
+               emailDelegateRepeatValid &&
+               delegateParticipant.Email__c == emailDelegateRepeat &&
+               agreePolicy && attestAge &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Email__c &&
+               participant.Email__c == emailRepeat &&
+               participant.Phone__c &&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                    isValid = true;
+                  
+              }else if(!needsDelegate && !needsGuardian &&
+               agreePolicy &&
+               participant.First_Name__c &&
+               participant.Last_Name__c &&
+               participant.Date_of_Birth__c &&
+               participant.Date_of_Birth__c <= component.get('v.todayDate')&&
+               participant.Email__c &&
+               participant.Email__c == emailRepeat &&
+               participant.Phone__c &&
+               participant.Mailing_Zip_Postal_Code__c &&
+              selectedCountry &&
+              (selectedState || states.length === 0))
+              {
+                    isValid = true;
+              }else{
+                   isValid = false;
+              }
+            
+        }
 
         if(needsDelegate && isNewPrimaryDelegate)
         {
@@ -386,6 +397,7 @@
         }
         
         console.log('VALIDATION isValid RESULT2: ' + isValid);
+        console.log(component.get('v.allRequiredCompleted'));
     },
     
     checkValidEmail: function (email, emailValue) {

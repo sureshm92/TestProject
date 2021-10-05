@@ -18580,6 +18580,13 @@ communications using the toggles below.</value>
         <value>IQVIA</value>
     </labels>
     <labels>
+        <fullName>RH_Manage_Auth_Disclaimer</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_Manage_Auth_Disclaimer</shortDescription>
+        <value>Note that in order to complete this transaction, your email address will be shared with the third-party servicer per our Privacy Policy at the bottom of the page.</value>
+    </labels>
+    <labels>
         <fullName>RH_MinorDelegateErrMsg</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -19110,7 +19117,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Information is mandatory</shortDescription>
-        <value>Delegate information is mandatory in case of minor Patient</value>
+        <value>Delegate information is mandatory in case of minor patient.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Last_Name</fullName>
@@ -19124,7 +19131,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Minor Error</shortDescription>
-        <value>Delegate age should not be minor.</value>
+        <value>This delegate is a minor and cannot be added.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Missing_field</fullName>
@@ -19132,6 +19139,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Missing field</shortDescription>
         <value>is missing.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Add_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP Add a Patient</shortDescription>
+        <value>Add a Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Phone_Number</fullName>
@@ -19414,6 +19428,13 @@ communications using the toggles below.</value>
         <value>Patient Auth Acquired</value>
     </labels>
     <labels>
+        <fullName>RH_RP_Add_Update_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Add_Update Patient</shortDescription>
+        <value>Add/Update Patient</value>
+    </labels>
+    <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19439,7 +19460,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>Patient Auth should be Yes</value>
+        <value>This patient auth status should be 'Yes'.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>

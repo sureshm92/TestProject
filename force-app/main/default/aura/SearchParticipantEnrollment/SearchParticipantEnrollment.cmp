@@ -70,7 +70,7 @@
                     onclick="{!c.doSearchEnrollment}"
                     disabled="{!v.isEmptiId}"
                 >
-                    {!$Label.c.BTN_Add_Patient}
+                    {!$Label.c.RH_RP_Add_a_Patient}
                 </button>
             </aura:if>
         </div>

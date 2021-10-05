@@ -32,6 +32,8 @@ import RH_RP_Excluded_Successfully from '@salesforce/label/c.RH_RP_Excluded_Succ
 import RH_RP_has_been_excluded from '@salesforce/label/c.RH_RP_has_been_excluded';
 import RH_RP_included_successfully from '@salesforce/label/c.RH_RP_included_successfully';
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
     @api usermode; 
@@ -65,6 +67,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showExclude = false;
     @api showMRR = false;
     @api showRefer = false;
+    disabledSaveButton = false;
 
     label = {
         RH_RP_Exclude,
@@ -186,6 +189,21 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     connectedCallback(){
         this.isLoading = true;
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.userMode = communityService.getUserMode();
+            console.log('frmtablemode'+ this.userMode);
+            this.delegateId = communityService.getDelegateId();
+            console.log('frmtableid'+  this.delegateId );
+        })
+        .then(() => {
+            this.getPEdetails();
+        }).catch((error) => {
+            console.log('Error: ' + error);
+        });     
+    }
+
+    getPEdetails(){
         getSelectedPeDetails({peId: this.peId,delegateId: this.delegateid ,userMode: this.usermode})
            .then(result => {
             this.apexRefreshList = result;
@@ -194,6 +212,24 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
+           
+           
+        if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
+            && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != ''
+            && this.peRecordList[0].peRecord.Participant_Surname__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != null
+            ){
+                this.disabledSaveButton = false;
+           }
+           else{
+                this.disabledSaveButton = true;
+           }                
+
            if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined){
                this.medicalreviewConfigured = true;
                this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
@@ -204,7 +240,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
            this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
            this.error = undefined;
-           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Country__c];
+           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
            if(this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring'){
                 this.showInclude = true;
                 this.showExclude = false;
@@ -219,10 +255,9 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
            }else{
                this.referbuttonDisable = false;
            }
-           this.isLoading = false;
+               this.isLoading = false;
            })
            .catch(error => {
-               this.error = error;
                console.log(JSON.stringify(error));
                this.peRecordList = undefined;
                this.isLoading = false;   
