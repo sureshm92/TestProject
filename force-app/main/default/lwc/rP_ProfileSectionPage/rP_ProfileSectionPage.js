@@ -67,6 +67,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showExclude = false;
     @api showMRR = false;
     @api showRefer = false;
+    @api disabledSaveButton = false;
+    @api isaccessLevelthree = false;
 
     label = {
         RH_RP_Exclude,
@@ -211,6 +213,25 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
            this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
            this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
+           
+           
+        if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
+            && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined
+            && this.peRecordList[0].peRecord.Participant_Surname__c != ''
+            && this.peRecordList[0].peRecord.Participant_Surname__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != null
+            && this.peRecordList[0].peRecord.Participant_Name__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != ''
+            && this.peRecordList[0].peRecord.Patient_ID__c != null
+            ){
+                if(this.peRecordList[0].accessLevel == "Level 3"){
+                this.disabledSaveButton = true;}else{ this.disabledSaveButton = false;}
+           }
+           else{
+                this.disabledSaveButton = true;
+           }                
+
            if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined){
                this.medicalreviewConfigured = true;
                this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
@@ -233,7 +254,12 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             }
            if(this.peRecordList[0].accessLevel == "Level 2"){
                this.referbuttonDisable = true;
-           }else{
+           }else if(this.peRecordList[0].accessLevel == "Level 3"){
+               this.isaccessLevelthree = true;
+               this.referbuttonDisable = true;
+               this.disabledSaveButton = true;
+           }
+           else{
                this.referbuttonDisable = false;
            }
                this.isLoading = false;

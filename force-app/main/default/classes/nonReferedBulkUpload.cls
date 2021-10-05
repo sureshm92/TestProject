@@ -398,11 +398,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         hasPatientErrRow = true;                     
                     } 
                     if(errStr == ''){
-                    /*if(errStr == '' || (!hasPatientErrRow && hasDelErrRow && rec[7]=='Yes')){
-                        if(errStr != '' ){
-                            errStr = 'Only Patient was brought in the system as Primary Delegate has errors;'+errStr;
-                        }*/
-
+                    
                         //REF-4881
                         String dlgAltPhone = '';
 
@@ -475,18 +471,9 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                 string errKey = prRowIndexMap.get(pe.Patient_ID__c);
                 if(peList.containsKey(pe.Patient_ID__c)){
                     
-                    /*if(errRowsCSV.containsKey(errKey)){
-                        string row = errRowsCSV.get(errKey);
-                        //row= row.remove('Only Patient was brought in the system, Primary Delegate has errors;');
-                        row  = row.trim() + 'Duplicate Patient Record.;';
-                        errRowsCSV.put(errKey,row);
-                    }
-                    else{*/
-                    string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
+                     string row = rowsCSV.get(IndexPatientMap.get(pe.Patient_ID__c));
                     row = row.trim() + ',Duplicate Patient Record.;';
                     errRowsCSV.put(pe.Patient_ID__c,row);  
-                    //}
-                                         
                     peList.remove(pe.Patient_ID__c);
                 }
                 else if(errRowsCSV.containsKey(errKey)){
