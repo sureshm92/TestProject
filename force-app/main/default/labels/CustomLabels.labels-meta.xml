@@ -1007,7 +1007,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add a Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Provider</fullName>
@@ -19139,6 +19139,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Missing field</shortDescription>
         <value>is missing.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Add_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP Add a Patient</shortDescription>
+        <value>Add a Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Phone_Number</fullName>
