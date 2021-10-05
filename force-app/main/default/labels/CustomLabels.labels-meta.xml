@@ -1007,7 +1007,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>BTN Add Patient</shortDescription>
-        <value>Add a Patient</value>
+        <value>Add a Participant</value>
     </labels>
     <labels>
         <fullName>BTN_Add_Provider</fullName>
