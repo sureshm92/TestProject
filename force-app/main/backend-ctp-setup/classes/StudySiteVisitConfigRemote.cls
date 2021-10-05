@@ -56,7 +56,7 @@ public without sharing class StudySiteVisitConfigRemote {
             List<Participant_Enrollment__c> totalParticipants = new List<Participant_Enrollment__c>();
             totalParticipants = [SELECT Id FROM Participant_Enrollment__c 
                                  WHERE  Clinical_Trial_Profile__c=:ctpId AND Study_Site__c IN :ssIds
-                                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPATION_IN_ENROLLMENT_SUCCESS 
+                                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED 
                                  AND Visit_Plan__c =null LIMIT:limitRows];
             if(totalParticipants.size()>0){
                 count = totalParticipants.size();

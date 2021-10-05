@@ -197,6 +197,16 @@ public without sharing class PEStatusState {
         PE_STATUS_DECEASED
     };
 
+    public static final List<String> PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED = new List<String>{
+        PE_STATUS_ENROLLMENT_SUCCESS,
+        PE_STATUS_RANDOMIZATION_SUCCESS,
+        PE_STATUS_TREATMENT_PERIOD_STARTED,
+        PE_STATUS_FOLLOW_UP_PERIOD_STARTED,
+        PE_STATUS_PARTICIPATION_COMPLETE,
+        PE_STATUS_TRIAL_COMPLETE,
+        PE_STATUS_DROP_OUT
+    };
+
     public static final List<String> PE_STATUS_GROUP_ACTIVE = new List<String>{
         PE_STATUS_REFERRAL_SENT_TO_PI,
         PE_STATUS_REFERRAL_ACCEPTED,

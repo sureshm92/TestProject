@@ -1,5 +1,6 @@
 /**
  * Created by Olga Skrynnikova on 12/16/2019.
+ * Refactored by Pijush Kar on 09/30/2021
  */
 
 public with sharing class Action_SendSMS implements Action {
@@ -13,7 +14,16 @@ public with sharing class Action_SendSMS implements Action {
         this.notificationIds = SObjectHelper.toIdsList(notifications);
     }
 
+    public class MessageParameters {
+        public String transactionId;
+        public String fromNumber;
+        public List<String> toNumber;
+        public String subject;
+        public String messageBody;
+    }
+
     public void execute() {
+        List<MessageParameters> messageParametersList = new List<MessageParameters>();
         List<Notification__c> notifications = [
             SELECT
                 Id,
@@ -26,19 +36,21 @@ public with sharing class Action_SendSMS implements Action {
             WHERE Id IN :notificationIds
         ];
         sendResultService = new NotificationResultService(notifications);
-        Map<String, String> messageByPhone = new Map<String, String>();
         List<Id> conIds = new List<Id>();
-        for (Notification__c n : notifications)
+        for (Notification__c n : notifications) {
             conIds.add(n.Recipient__c);
+        }
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
         List<Participant__c> participants = [
             SELECT Id, Contact__c, Phone__c
             FROM Participant__c
             WHERE Contact__c IN :conIds
         ];
-        for (Participant__c participant : participants)
-            if (participant.Contact__c != null)
+        for (Participant__c participant : participants) {
+            if (participant.Contact__c != null) {
                 participantMap.put(participant.Contact__c, participant);
+            }
+        }
         ParametrizedMessageService parametrizedMessageService = new ParametrizedMessageService();
         for (Notification__c n : notifications) {
             Notification_Type__mdt messageType = NotificationService.getNotificationType(
@@ -58,33 +70,75 @@ public with sharing class Action_SendSMS implements Action {
         }
         parametrizedMessageService.processMessages();
 
-        for (Notification__c n : notifications) {
+        for (Send_Result__c smsChannel : [
+            SELECT
+                Id,
+                Target_Type__c,
+                Status__c,
+                CreatedDate,
+                Notification__c,
+                Notification__r.Recipient__c,
+                Notification__r.Recipient__r.Phone,
+                Notification__r.Recipient__r.Language__c
+            FROM Send_Result__c
+            WHERE
+                Notification__c IN :notificationIds
+                AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
+        ]) {
+            String phoneNumber = smsChannel.Notification__r.Recipient__r.Phone;
+            if (
+                phoneNumber == null &&
+                participantMap.get(smsChannel.Notification__r.Recipient__c) != null
+            ) {
+                phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c).Phone__c;
+            }
+            String title = parametrizedMessageService.getMessage(
+                smsChannel.Notification__c + '_title'
+            );
+            String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
+            if (phoneNumber != null) {
+                MessageParameters msgParam = new MessageParameters();
+                msgParam.transactionId = smsChannel.Id + '~' + smsChannel.CreatedDate; //
+                msgParam.fromNumber = 'XXXX'; //TO-DO
+                msgParam.toNumber = new List<String>{ phoneNumber };
+                msgParam.subject = title;
+                msgParam.messageBody = message;
+                messageParametersList.add(msgParam);
+            }
+        }
+        /*for (Notification__c n : notifications) {
             String phoneNumber = n.Recipient__r.Phone;
-            if (phoneNumber == null && participantMap.get(n.Recipient__c) != null)
+            if (phoneNumber == null && participantMap.get(n.Recipient__c) != null) {
                 phoneNumber = participantMap.get(n.Recipient__c).Phone__c;
+            }
             String message = parametrizedMessageService.getMessage(n.Id);
             if (phoneNumber != null) {
-                messageByPhone.put(phoneNumber, message);
+                messageParametersList.add(new MessageParameters('XXXX', new List<String>{phoneNumber},
+            }
+        }*/
+        if (!messageParametersList.isEmpty()) {
+            RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageParametersList);
+            remoteCallSendSMS.execute();
+            log = remoteCallSendSMS.log;
+            for (Notification__c n : notifications) {
+                if (remoteCallSendSMS.log.Success__c) {
+                    sendResultService.setSent(
+                        n.Id,
+                        NotificationService.NOTIFICATION_TARGET_TYPE_SMS
+                    );
+                } else {
+                    sendResultService.setFailed(
+                        n.Id,
+                        NotificationService.NOTIFICATION_TARGET_TYPE_SMS,
+                        remoteCallSendSMS.log.Error_Message__c
+                    );
+                }
+            }
+
+            if (!log.Success__c) {
+                throw new Action_SendSMS_Exception(log.Error_Message__c);
             }
         }
-
-        RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageByPhone);
-        remoteCallSendSMS.execute();
-        log = remoteCallSendSMS.log;
-        for (Notification__c n : notifications) {
-            if (remoteCallSendSMS.log.Success__c) {
-                sendResultService.setSent(n.Id, NotificationService.NOTIFICATION_TARGET_TYPE_SMS);
-            } else {
-                sendResultService.setFailed(
-                    n.Id,
-                    NotificationService.NOTIFICATION_TARGET_TYPE_SMS,
-                    remoteCallSendSMS.log.Error_Message__c
-                );
-            }
-        }
-
-        if (!log.Success__c)
-            throw new Action_SendSMS_Exception(log.Error_Message__c);
     }
 
     public Type getType() {

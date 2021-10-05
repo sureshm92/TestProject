@@ -11,19 +11,19 @@
             <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
                 <lightning-layout-item padding="around-small" size="6">
                     <div>
-                        <lightning-input type="text" name="First Name" label={label.RH_RP_Delegate_First_Name} value={pe.peRecord.Primary_Delegate_First_Name__c} data-value="DelFirstName" 
+                        <lightning-input type="text" disabled={isaccesslevelthree} name="First Name" label={label.RH_RP_Delegate_First_Name} value={pe.peRecord.Primary_Delegate_First_Name__c} data-value="DelFirstName" 
                             data-id={pe.peRecord.Id} onchange={changeInputValue} required="true"></lightning-input>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="3">
                     <div>
-                        <lightning-input type="text" name="Phone Number" label={label.RH_RP_Delegate_Phone_Number} value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber" 
-                            data-id={pe.peRecord.Id} pattern="[0-9]*" required="true" onchange={changeInputValue} ></lightning-input>
+                        <lightning-input type="text" disabled={isaccesslevelthree} name="Phone Number" label={label.RH_RP_Delegate_Phone_Number} value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber" 
+                            data-id={pe.peRecord.Id}  required="true" onchange={changeInputValue} ></lightning-input>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item  padding="around-small" size="3">
                     <div>
-                        <lightning-combobox label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true" placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}  
+                        <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true" placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}  
                             options={pe.delegatePhoneTypeList} data-value="DelPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                         </lightning-combobox>
                     </div>
@@ -32,13 +32,13 @@
             <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
                 <lightning-layout-item padding="around-small" size="6">
                     <div>
-                        <lightning-input type="text" label={label.RH_RP_Delegate_Last_Name} name="Last Name" value={pe.peRecord.Primary_Delegate_Last_Name__c} data-value="DelLastName" 
+                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Last_Name} name="Last Name" value={pe.peRecord.Primary_Delegate_Last_Name__c} data-value="DelLastName" 
                             required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
                     </div>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="6">
                     <div>
-                        <lightning-input type="text" label={label.RH_RP_Delegate_Email_Id} name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
+                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Email_Id} name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
                         required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
                     </div>
                 </lightning-layout-item>
@@ -46,13 +46,13 @@
             <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
                 <lightning-layout-item padding="around-small" size="6">
                     <div>
-                        <lightning-input type="text" label={label.RH_RP_Delegate_Alt_Phone_Number}  name="PDAP" value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP" 
-                        pattern="[0-9]*" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
+                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Alt_Phone_Number}  name="PDAP" value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP" 
+                         data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
                     </div>    
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="6">
+                <lightning-layout-item padding="around-small" size="6"> 
                     <div>
-                        <lightning-combobox label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT" placeholder="Select Alternative Type" value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}  
+                        <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT" placeholder="Select Alternative Type" value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}  
                             options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
                         </lightning-combobox>
                     </div>    
@@ -61,7 +61,7 @@
             <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
                 <lightning-layout-item padding="around-small" size="3">
                     <div>
-                        <lightning-combobox required="true" label={label.RH_RP_Delegate_Birth_Year} name="Birth Year" placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}  
+                        <lightning-combobox disabled={isaccesslevelthree} required="true" label={label.RH_RP_Delegate_Birth_Year} name="Birth Year" placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}  
                             options={pe.delegateYearOption} data-value="DelBirthYear" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
                         </lightning-combobox>
                     </div>    
@@ -74,7 +74,7 @@
                 </div>
 
                 <div style="margin-top: -15px;">
-                    <lightning-input type="checkbox" label="IsDelegateCertify" name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c} data-value="IsDelegateCertify" 
+                    <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertify" name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c} data-value="IsDelegateCertify" 
                     data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
                 </div>
                 <div class="information">

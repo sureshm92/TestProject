@@ -78,41 +78,46 @@
             case 'HCP':
                 header = {
                     text: $A.get('$Label.c.DLIT_L_PERMISSIONS_BY_LEVEL'),
-                    levels: ['1', '2']
+                    levels: ['1', '2','3']
                 };
                 component.set('v.header', header);
                 capList = [
                     {
                         text: $A.get('$Label.c.DLIT_L_Manage_team_member'),
-                        levels: [true, false]
+                        levels: [true, false, false]
                     },
                     {
                         text: $A.get('$Label.c.DLIT_L_Select_new_study_to_refer_to'),
-                        levels: [true, false]
+                        levels: [true, false, false]
                     },
                     {
                         text: $A.get('$Label.c.DLIT_L_Select_a_study_site_to_refer_to'),
-                        levels: [true, false]
+                        levels: [true, false, false]
                     },
                     {
                         text: $A.get('$Label.c.DLIT_L_Refer_a_patient_to_a_study_site'),
-                        levels: [true, false]
+                        levels: [true, false, false]
                     },
                     {
-                        text: $A.get('$Label.c.DLIT_L_Pre_eligibility_screening'),
-                        levels: [true, true]
+                        text: $A.get('$Label.c.RH_RP_Outreach_Patient'),
+                        levels: [true, false, false]
                     },
                     {
                         text: $A.get('$Label.c.RH_RP_Add_Update_Patient'),
-                        levels: [true, true]
+                        levels: [true, true, false]
                     },
+                    {
+                        text: $A.get('$Label.c.DLIT_L_Pre_eligibility_screening'),
+                        levels: [true, true,true]
+                    },
+                   
                     // {
                     //     text : $A.get("$Label.c.DLIT_L_Medical_Record_Review"),
                     //     levels : [true,true]
                     // },
                     {
                         text: $A.get('$Label.c.DLIT_L_View_Export_Reports'),
-                        levels: [true, true]
+                        levels: [true, true,true]
                     }
                 ];
                 component.set('v.capList', capList);
