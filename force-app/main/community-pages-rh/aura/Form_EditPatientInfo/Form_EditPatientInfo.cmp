@@ -187,7 +187,6 @@
                                                          type="text"
                                                          value="{!v.pe.MRN_Id__c}"
                                                          onblur="{!c.doCheckFields}"
-                                                         style="width: 315px"
                                                          />
                                     </div>
                                 </aura:set>
@@ -222,7 +221,7 @@
                                              value="{!v.participant.Date_of_Birth__c}"
                                              required="true"
                                              autocomplete="off"
-                                             onblur="{!c.doCheckDateOfBith}"
+                                             onchange="{!c.doCheckDateOfBith}"
                                              dateStyle="medium"
                                              />
                         </div>
@@ -880,7 +879,7 @@
                                 <div class="label">
                                     {!$Label.c.PG_AP_F_Preferred_Contact_Time}
                                 </div>
-                                <lightning:input
+                                <lightning:textarea
                                     type="text"
                                     value="{!v.participant.Preferred_Contact_Time__c}"
                                     onblur="{!c.doCheckFields}"

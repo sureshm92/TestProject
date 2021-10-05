@@ -38,6 +38,25 @@
                     large-device-size="12"
                 >
                     <lightning-combobox
+                        label={label.RPR_Patient_Status}
+                        name={label.RPR_Patient_Status}
+                        value={filter.selectedPatientStatus}
+                        placeholder={label.RPR_Select_Status}
+                        options={filterData.patientStatus}
+                        onchange={handlePatientStatusChange}
+                        class="combobox-filter"
+                        disabled={isdisabled}
+                    >
+                    </lightning-combobox>
+                </lightning-layout-item>
+                <lightning-layout-item
+                    padding="around-small"
+                    size="12"
+                    small-device-size="6"
+                    medium-device-size="4"
+                    large-device-size="12"
+                >
+                    <lightning-combobox
                         label={label.RPR_Exclusion_Reason}
                         name={label.RPR_Exclusion_Reason}
                         value={filter.selectedExclusionReason}

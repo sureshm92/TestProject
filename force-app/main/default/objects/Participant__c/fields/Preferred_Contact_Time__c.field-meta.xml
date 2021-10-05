@@ -4,10 +4,9 @@
     <encryptionScheme>None</encryptionScheme>
     <externalId>false</externalId>
     <label>Preferred Contact Time</label>
-    <length>255</length>
-    <required>false</required>
-    <trackHistory>false</trackHistory>
+    <length>131072</length>
+    <trackHistory>true</trackHistory>
     <trackTrending>false</trackTrending>
-    <type>Text</type>
-    <unique>false</unique>
+    <type>LongTextArea</type>
+    <visibleLines>3</visibleLines>
 </CustomField>

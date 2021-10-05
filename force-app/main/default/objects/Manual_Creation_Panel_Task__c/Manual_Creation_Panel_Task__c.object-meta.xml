@@ -159,16 +159,19 @@
     <enableSharing>false</enableSharing>
     <enableStreamingApi>false</enableStreamingApi>
     <externalSharingModel>Private</externalSharingModel>
-    <label>Recurring Task</label>
+    <label>Community Task</label>
     <nameField>
         <displayFormat>MT-{0000}</displayFormat>
         <label>Task  Number</label>
         <type>AutoNumber</type>
     </nameField>
-    <pluralLabel>Recurring Tasks</pluralLabel>
+    <pluralLabel>Community Tasks</pluralLabel>
     <searchLayouts>
         <searchResultsAdditionalFields>TaskName__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Status__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Platform_level_Task__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Study__c</searchResultsAdditionalFields>
+        <searchResultsAdditionalFields>Is_Recurrence__c</searchResultsAdditionalFields>
         <searchResultsAdditionalFields>Date_Cancelled_Inactive__c</searchResultsAdditionalFields>
     </searchLayouts>
     <sharingModel>ReadWrite</sharingModel>

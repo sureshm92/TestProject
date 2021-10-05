@@ -13,6 +13,7 @@
         isEmail,
         isPhone,
         isSMS,
+        visitPlanId,
         helper
     ) {
         component.find('upModalSpinner').show();
@@ -28,7 +29,8 @@
                 doContact: doContact,
                 allowEmail: isEmail,
                 allowPhone: isPhone,
-                allowSMS: isSMS
+                allowSMS: isSMS,
+                visitPlanId: visitPlanId==''?undefined:visitPlanId
             },
             function (returnValue) {
                 component.find('upModalSpinner').hide();

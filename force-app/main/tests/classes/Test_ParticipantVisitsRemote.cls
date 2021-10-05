@@ -58,15 +58,32 @@ private class Test_ParticipantVisitsRemote {
         System.runAs(testData.participantUser) {
             ssHasVisit = ParticipantVisitsRemote.isStudySiteHasVisits();
             visitsPreview = ParticipantVisitsRemote.getVisitsPreview();
-            participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
-            cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
+           // participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+           // cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
         }
         Test.stopTest();
         System.assert(ssHasVisit);
         System.assertEquals('Pending', visitsPreview[0].visitStatus);
+        //System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
+        //System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
+    }
+
+    @IsTest
+    static void test1() {
+        TestData testData = new TestData();
+
+        Test.startTest();
+        List<PatientVisitService.VisitWrapper> participantVisits;
+        List<Patient_Visit__c> cardPatientVisits;
+        System.runAs(testData.participantUser) {
+           participantVisits = ParticipantVisitsRemote.getParticipantVisits('Current');
+           cardPatientVisits = ParticipantVisitsRemote.getCardPatientVisits();
+        }
+        Test.stopTest();
         System.assertEquals('TestVisit1', participantVisits[0].visit.Name);
         System.assertEquals('TestVisit1', cardPatientVisits[0].Name);
     }
+
 
     
    @IsTest static void updatePatientVisitTest() {

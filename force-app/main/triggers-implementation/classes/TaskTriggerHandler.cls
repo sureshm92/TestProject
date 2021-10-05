@@ -1,28 +1,28 @@
 /**
- * Created by Leonid Bartenev
- */
+* Created by Leonid Bartenev
+*/
 
 public without sharing class TaskTriggerHandler {
     // Handlers: -------------------------------------------------------------------------------------------------------
-
+    
     public class CheckTaskFieldsWithTaskCodeHandler extends TriggerHandler {
         public override void beforeInsert(List<SObject> newList) {
             checkTaskFields(newList);
         }
-
+        
         public override void beforeUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             checkTaskFields(newList);
         }
     }
-
+    
     public class SendImmediateEmailsForTaskCodeHandler extends TriggerHandler {
         public override void afterInsert(List<SObject> newList) {
             processSendImmediateEmails(newList);
         }
     }
-
+    
     // Logic: ----------------------------------------------------------------------------------------------------------
-
+    
     @TestVisible
     private static void checkTaskFields(List<Task> newList) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(newList);
@@ -70,7 +70,7 @@ public without sharing class TaskTriggerHandler {
                 );
                 continue;
             }
-
+            
             Id whatId = task.WhatId;
             if (whatId == null) {
                 whatId = task.Survey_Invitation__c;
@@ -95,12 +95,12 @@ public without sharing class TaskTriggerHandler {
             checkedTasks.add(task);
         }
     }
-
+    
     @TestVisible
     private static void processSendImmediateEmails(List<Task> tasks) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         List<Notification__c> notifications = new List<Notification__c>();
-
+        List<Id> allContactsIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
         List<Task> tasksWithOwner = [
             SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId
@@ -108,29 +108,54 @@ public without sharing class TaskTriggerHandler {
             WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
         for (Task t : tasksWithOwner)
+        {
             ownerIds.add(t.OwnerId);
+            allContactsIds.add(t.WhoId);
+        }
+        Map<Id, List<Id>> delConIdsByPACon = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+            allContactsIds
+        );
+        for (Id paKey : delConIdsByPACon.keySet())
+            allContactsIds.addAll(delConIdsByPACon.get(paKey));
+        
+        Map<Id, Contact> contactsMap = new Map<Id, Contact>(
+            [
+                SELECT Id, Participant_Opt_In_Status_Emails__c
+                FROM Contact
+                WHERE Id IN :allContactsIds
+            ]
+        );
+        Map<Id, List<Contact>> delegatesByPAContact = new Map<Id, List<Contact>>();
+        for (Id paKey : delConIdsByPACon.keySet()) {
+            List<Contact> delegateContacts = new List<Contact>();
+            for (Id delId : delConIdsByPACon.get(paKey))
+                delegateContacts.add(contactsMap.get(delId));
+            
+            delegatesByPAContact.put(paKey, delegateContacts);
+        }
+        
         Map<Id, User> usersByIds = new Map<Id, User>(
             [
                 SELECT
-                    Id,
-                    ContactId,
-                    Contact.Participant_Opt_In_Status_Emails__c,
-                    Contact.UserCommunityIsDelegate__c
+                Id,
+                ContactId,
+                Contact.Participant_Opt_In_Status_Emails__c,
+                Contact.UserCommunityIsDelegate__c
                 FROM User
                 WHERE Id IN :ownerIds AND IsActive = TRUE
             ]
         );
-
+        
         List<Id> partContactsIds = new List<Id>();
         for (Id usId : usersByIds.keySet())
             partContactsIds.add(usersByIds.get(usId).ContactId);
-
+        
         List<Patient_Delegate__c> patientDelegates = [
             SELECT Contact__c, Participant__r.Contact__c
             FROM Patient_Delegate__c
             WHERE
-                Participant__r.Contact__c IN :partContactsIds
-                AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
+            Participant__r.Contact__c IN :partContactsIds
+            AND Contact__r.Participant_Opt_In_Status_Emails__c = TRUE
         ];
         Map<Id, List<Id>> delegatesCntByPartCnt = new Map<Id, List<Id>>();
         for (Patient_Delegate__c pd : patientDelegates) {
@@ -139,7 +164,7 @@ public without sharing class TaskTriggerHandler {
             }
             delegatesCntByPartCnt.get(pd.Participant__r.Contact__c).add(pd.Contact__c);
         }
-
+        
         for (Task task : tasksWithOwner) {
             if (task.Task_Code__c != null) {
                 Task_Catalog__mdt card = cardsMap.get(task.Task_Code__c);
@@ -165,7 +190,7 @@ public without sharing class TaskTriggerHandler {
                                 )
                             )
                                 continue;
-
+                            
                             for (
                                 Id delContactId : delegatesCntByPartCnt.get(
                                     usersByIds.get(task.OwnerId).ContactId
@@ -185,26 +210,42 @@ public without sharing class TaskTriggerHandler {
             }
             if(task.IsRecurranceTask__c)
             {
-                //code here
-               notifications.add(
-                new Notification__c(
-                    Recipient__c = task.WhoId,
-                    WhatId__c = task.Id,
-                    Notification_Type__c = 'Message_To_PT_Task_Instant_Reminder_Type',
-                    RemindUsing__c = 'Email'
-                )
-            );  
+                if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)){
+                    notifications.add(
+                        new Notification__c(
+                            Recipient__c = task.WhoId,
+                            WhatId__c = task.Id,
+                            Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
+                            RemindUsing__c = 'Email'
+                        )
+                    );  
+                }
+                if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
+                    List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
+                    if(delegates!=null && !delegates.isEmpty()) {     
+                        for (Contact delContact : delegates) {
+                            notifications.add(
+                                new Notification__c(
+                                    Recipient__c = delContact.Id,
+                                    WhatId__c = task.Id,
+                                    Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                                    RemindUsing__c = 'Email'
+                                )
+                            );
+                        }
+                    }
+                }
                 
             }
         }
         if (!notifications.isEmpty())
             insert notifications;
     }
-
+    
     public static void processDefaultFieldValues(List<Task> tasks) {
         processDefaultFieldValues(tasks, UserInfo.getLanguage());
     }
-
+    
     public static void processDefaultFieldValues(List<Task> tasks, String language) {
         Map<String, Task_Catalog__mdt> cardsMap = getCardsMap(tasks);
         Map<String, Set<Id>> idsByObjectType = new Map<String, Set<Id>>();
@@ -217,7 +258,7 @@ public without sharing class TaskTriggerHandler {
                 continue;
             if (card.Source_Object_Type__c == null)
                 continue;
-
+            
             if (task.WhatId == null && card.Parameters__c != null) {
                 if (
                     task.Task_Code__c == TaskService.TASK_CODE_COMPLETE_SURVEY &&
@@ -229,26 +270,26 @@ public without sharing class TaskTriggerHandler {
                     continue;
                 }
             }
-
+            
             if (String.isEmpty(card.Parameters__c))
                 continue;
             Map<String, String> cardParametersMap = CatalogParametersHelper.getParamsMap(
                 card.Parameters__c
             );
-
+            
             Set<Id> objectIds = idsByObjectType.get(card.Source_Object_Type__c);
             if (objectIds == null)
                 objectIds = new Set<Id>();
             objectIds.add(task.WhatId);
             idsByObjectType.put(card.Source_Object_Type__c, objectIds);
-
+            
             Set<String> objectFields = fieldsByObjectType.get(card.Source_Object_Type__c);
             if (objectFields == null)
                 objectFields = new Set<String>();
             objectFields.addAll(cardParametersMap.values());
             fieldsByObjectType.put(card.Source_Object_Type__c, objectFields);
         }
-
+        
         Map<Id, SObject> objectsMap = new Map<Id, SObject>();
         for (String objectType : idsByObjectType.keySet()) {
             List<SObject> objectsList = new List<SObject>();
@@ -261,7 +302,7 @@ public without sharing class TaskTriggerHandler {
                 objectsMap.put(sobj.Id, sobj);
         }
         TranslateHelper.translate(objectsMap.values(), language);
-
+        
         for (Task task : tasks) {
             Map<String, String> cardParametersValueMap = new Map<String, String>();
             if (String.isEmpty(task.Task_Code__c))
@@ -282,38 +323,38 @@ public without sharing class TaskTriggerHandler {
                 card.Subject_Label__c,
                 cardParametersValueMap
             );
-
+            
             String description = CatalogParametersHelper.prepareLabel(
                 card.Comments_Label__c,
                 cardParametersValueMap
             );
             if (description != null)
                 task.Description = description;
-
+            
             task.Action_URL__c = CatalogParametersHelper.prepareMergeFields(
                 card.Action_Link__c,
                 cardParametersValueMap
             );
         }
     }
-
+    
     @TestVisible
     private static Map<String, Task_Catalog__mdt> getCardsMap(List<Task> tasks) {
         Set<String> catalogCodes = new Set<String>();
         for (Task task : tasks)
             if (task.Task_Code__c != null)
-                catalogCodes.add(task.Task_Code__c);
+            catalogCodes.add(task.Task_Code__c);
         List<Task_Catalog__mdt> cards = [
             SELECT
-                Id,
-                DeveloperName,
-                Subject_Label__c,
-                Comments_Label__c,
-                Source_Object_Type__c,
-                Action_Link__c,
-                Parameters__c,
-                Immediate_Email_Template__c,
-                Immediate_Notification_Type__c
+            Id,
+            DeveloperName,
+            Subject_Label__c,
+            Comments_Label__c,
+            Source_Object_Type__c,
+            Action_Link__c,
+            Parameters__c,
+            Immediate_Email_Template__c,
+            Immediate_Notification_Type__c
             FROM Task_Catalog__mdt
             WHERE DeveloperName IN :catalogCodes
         ];

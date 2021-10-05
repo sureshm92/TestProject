@@ -371,7 +371,7 @@ public without sharing class ReferringRemote {
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Referral_Completed_by__c = CommunityService.getInstance()
                 .getCurrentContactId();
-            enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
+            //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
             if (
                 enrollment.Pre_screening_Status__c ==
@@ -396,6 +396,7 @@ public without sharing class ReferringRemote {
         enrollment.PI_Contact__c = hcpEnrollment.Study_Site__r.Principal_Investigator__c;
         enrollment.Referral_Source__c = ParticipantEnrollmentService.PE_REFERRAL_SOURCE_HCP;
         enrollment.Show_Referring_Provider__c = true;
+        enrollment.Non_Referral_Reason__c='';
         //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
         if(filterCriteria){
             enrollment.Invited_To_PP_Date__c = DateTime.now();
@@ -412,8 +413,12 @@ public without sharing class ReferringRemote {
             }
             if (sSite[0].Site__c != null) {
                 participant.Site__c = sSite[0].Site__c;
+                participant.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
+                participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
+                    participantDelegate.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
+                    participantDelegate.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
             }
 
             ParticipantService.createParticipantAndUpdatePE(

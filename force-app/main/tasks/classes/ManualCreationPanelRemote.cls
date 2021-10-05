@@ -73,13 +73,26 @@ public without sharing class ManualCreationPanelRemote {
     }
 
     @AuraEnabled
-    public static Boolean createTasks(
+    public static Manual_Creation_Panel_Task__c getTaskData(Id recId) {
+        Manual_Creation_Panel_Task__c mcpt = [SELECT Id,Country__c,Date_Cancelled_Inactive__c,Is_Recurrence__c,Last_Occurrence_Date__c,
+                                                Last_Recurrence_Reminder__c,Make_this_Task_visible_to__c,Next_Occurence_Date__c,Next_Reminder_Date__c,
+                                                Next_Due_Date__c,Patient_Status__c,Platform_level_Task__c,Recurrence_Frequency__c,Reminder_days_before_due_date__c,
+                                                Site__c,Status__c,Study__c,Recurrence_End_Date__c,Start_Date__c,TaskConfig__c,TaskFilter__c,Therapeutic_Area__c
+                                                FROM Manual_Creation_Panel_Task__c 
+                                                where Id=:recId];
+        return mcpt;
+    }
+
+    @AuraEnabled
+    public static String createTasks(
         String config,
         String adHoc,
         String filter,
-        String activeTab
-    ) {
+        String activeTab,
+        Manual_Creation_Panel_Task__c mcpt    
+        ) {
         try {
+            System.debug('mcpt: '+mcpt);
             ManualTaskFilter manualTaskFilter = (ManualTaskFilter) JSON.deserialize(
                 filter,
                 ManualTaskFilter.class
@@ -89,6 +102,10 @@ public without sharing class ManualCreationPanelRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
+                if(mcpt != null){
+                    String retVal = ManualTaskRemote.updateTasks( config, filter, taskConfig, mcpt);
+                    return retVal;
+                }
                 // If the task is recurrence to recalculate the due date and reminder date for PEH-3716
                 if(taskConfig.isRecurrence){
                     if(taskConfig.recurrenceFrequency == 'Daily'){
@@ -109,24 +126,28 @@ public without sharing class ManualCreationPanelRemote {
                     if(taskConfig.reminderDate < taskConfig.startDate){
                             taskConfig.reminderDate = null;
                     }
-                    if(taskConfig.startDate > Date.today()){
-                        ManualTaskRemote.createManualConfigTasks(true, config, filter, taskConfig);
-                        return true;
-                    }
-                    ManualTaskRemote.createManualConfigTasks(false, config, filter, taskConfig);
+                    
                 }
-                //End of PEH-3716 change
-                return ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);
+                if(taskConfig.startDate > Date.today()){
+                    String a = ManualTaskRemote.createManualConfigTasks(true, config, filter, taskConfig,mcpt);
+                    System.debug('a1: '+a);
+                    return a;
+                }
+                String a1 = ManualTaskRemote.createManualConfigTasks(false, config, filter, taskConfig,mcpt);
+                System.debug('a2: '+a1);
+                String mtr = ManualTaskRemote.createTasks(taskConfig, manualTaskFilter);
+                System.debug('mtr: '+mtr);
+                return a1;                
             } else if (activeTab.equals('adHoc')) {
                 AdHocWrapper adHocWrapper = (AdHocWrapper) JSON.deserialize(
                     adHoc,
                     AdHocWrapper.class
                 );
-                return createInvitationAndTask(adHocWrapper, manualTaskFilter);
+                //return createInvitationAndTask(adHocWrapper, manualTaskFilter);
             }
-            return false;
+            return 'false';
         } catch (Exception e) {
-            return (Boolean) AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
     }
 
