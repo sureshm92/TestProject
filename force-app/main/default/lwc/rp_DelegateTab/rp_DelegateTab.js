@@ -74,7 +74,8 @@ export default class Rp_DelegateTab extends LightningElement {
     @api disableButton =false;
     @api requiredFieldList = ['First Name','Phone Number','Last Name','Email ID'];
     @api requiredFieldComboBoxList = ['Phone Type','Birth Year'];
-
+    @api isaccesslevelthree = false;
+    
     isInputValidated = false;
     isComboBoxValidated = false;
     isEmailFormatValidated = false;

@@ -24,6 +24,9 @@
                 var state = response.getState();
                 if (state === "SUCCESS") {
                     component.set('v.accessLevel',response.getReturnValue());
+                    if(component.get('v.accessLevel') == 'Level 3' || component.get('v.accessLevel') == 'Level 2'){
+                        component.set('v.isaccesslevelthree',true);
+                    }
                 }                
             });
             $A.enqueueAction(actionGetAcceslevel);
@@ -111,6 +114,7 @@
             component.set("v.isBulkProfilePage",event.getParam('isBulkProfilePage'));
             component.set("v.peIds",event.getParam('peIds'));
             component.set("v.ctpIds",event.getParam('ctpIds')); 
+            component.set("v.verifyFilterValue",event.getParam('verifyFilterValue')); 
         }
     },
 

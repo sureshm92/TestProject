@@ -183,6 +183,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var paginationList = [];
         var peIds = [];
         this.isSelectAll = true;
+        var verifyFilterValue;
+        
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             row.isChecked = event.target.checked;
@@ -193,6 +195,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         for (var i = 0; i < this.recordsToDisplay.length; i++) {
             let row = Object.assign({}, this.recordsToDisplay[i]);
             row.isChecked = event.target.checked;
+            verifyFilterValue = row.peRec.Participant_Status__c;
             paginationList.push(row);
         }
 
@@ -203,12 +206,14 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
         if (event.target.checked == true) {
             this.isBulkProfilePage = true;
-            const selectedvalue = { peIds: peIds, isBulkProfilePage: this.isBulkProfilePage };
-            const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
+            const selectedvalue = { peIds: peIds, isBulkProfilePage: this.isBulkProfilePage, verifyFilterValue: verifyFilterValue };
+            const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue});
             this.dispatchEvent(selectedEvent);
         } else {
             this.isBulkProfilePage = false;
-            const selectedvalue = { isBulkProfilePage: this.isBulkProfilePage };
+            const selectedvalue = { 
+                isBulkProfilePage: this.isBulkProfilePage,
+            };
             const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
             this.dispatchEvent(selectedEvent);
         }
@@ -219,29 +224,43 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     get filterVisible() {
         return this.showFilterModal ? 'slds-show' : 'slds-hide';
     }
+    
     doRecordSelection(event) {
         var allRecords = [];
         var paginationList = [];
         var ctpId;
-        console.log('selectall'+this.isSelectAll);
+        var selectPeId = '';
         this.isSelectAll = false;
-        console.log('selectall'+this.isSelectAll);
+        var verifyFilterValue;
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
-            row.isChecked = false;
-            if (row.peRec.Id === event.target.dataset.id && event.target.checked == true) {
-                row.isChecked = true;
-                ctpId = row.peRec.Study_Site__r.Clinical_Trial_Profile__c;
+
+            if (row.peRec.Id === event.target.dataset.id) {
+                if(event.target.checked) {
+                    row.isChecked = true;
+                    ctpId = row.peRec.Study_Site__r.Clinical_Trial_Profile__c;
+                    selectPeId = row.peRec.Id;    
+                    verifyFilterValue = row.peRec.Participant_Status__c;
+                }
+                else{
+                    row.isChecked = false;
+                }
             }
             allRecords.push(row);
         }
         for (var i = 0; i < this.recordsToDisplay.length; i++) {
             let row = Object.assign({}, this.recordsToDisplay[i]);
-            row.isChecked = false;
-
-            if (row.peRec.Id === event.target.dataset.id && event.target.checked == true) {
-                row.isChecked = true;
+            if (row.peRec.Id === event.target.dataset.id ) {
+                if(event.target.checked) {
+                    row.isChecked = true;
+                    selectPeId = row.peRec.Id;
+                    verifyFilterValue = row.peRec.Participant_Status__c;
+                }
+                else{
+                    row.isChecked = false;
+                }
             }
+            
             paginationList.push(row);
         }
         this.recordsToDisplay = [];
@@ -253,38 +272,39 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var ctpIds = [];
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
-            if (row.isChecked === true) {
+            if (row.isChecked) {
                 peIds.push(row.peRec.Id);
             }
         }
+        if(peIds.length == 1){
+            selectPeId = peIds[0];
+        }
         if (peIds.length > 1) {
-            //refreshApex(this.apexRefreshList);
-            //eval("$A.get('e.force:refreshView').fire();");
             this.isBulkProfilePage = true;
             const selectedvalue = {
                 peIds: peIds,
                 ctpIds: ctpIds,
-                isBulkProfilePage: this.isBulkProfilePage
+                isBulkProfilePage: this.isBulkProfilePage,
+                verifyFilterValue: verifyFilterValue 
             };
             const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
             this.dispatchEvent(selectedEvent);
-        } else if (peIds.length == 1) {
+        } 
+        else if (peIds.length == 1) {
             this.isProfilePage = true;
-            let selectedId = event.target.dataset.id;
             const selectedvalue = {
-                peId: selectedId,
+                peId: selectPeId,
                 ctpId: ctpId,
                 isProfilePage: this.isProfilePage
             };
             const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
             this.dispatchEvent(selectedEvent);
-        } else if (peIds.length == 0) {
+        } 
+        else if (peIds.length == 0) {
             this.isProfilePage = false;
             this.isBulkProfilePage = false;
-
-            let selectedId = event.target.dataset.id;
             const selectedvalue = {
-                peId: selectedId,
+                peId: selectPeId,
                 ctpId: ctpId,
                 isProfilePage: this.isProfilePage,
                 isBulkProfilePage: this.isBulkProfilePage

@@ -74,6 +74,7 @@ export default class Rp_PatientTab extends LightningElement {
     @api monthDateValue;
     @api yearDateValue;
     @api isMinor = false;
+    @api isaccesslevelthree = false;
 
     @api
     get patientrecordlist() {
@@ -81,6 +82,8 @@ export default class Rp_PatientTab extends LightningElement {
     }
     set patientrecordlist(value) {
         this.patientrecord = JSON.parse(JSON.stringify(value));
+        if(this.isaccesslevelthree){
+        disabledsavebutton = true;}
     }
     label = {
         PG_Ref_L_Information_Sharing,
@@ -239,6 +242,16 @@ export default class Rp_PatientTab extends LightningElement {
         let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
         element.setCustomValidity(" ");
         element.reportValidity();
+    }
+
+    get disableField() {
+        if (this.isaccesslevelthree){
+            return true;
+        }else if(this.patientrecord[0].isMinor){
+            return true;
+        }else{
+            return false;
+        }
     }
 
     changeInputValue(event) {

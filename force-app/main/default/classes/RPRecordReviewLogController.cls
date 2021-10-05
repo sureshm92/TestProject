@@ -540,5 +540,177 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }
+    @AuraEnabled
+    public static String bulkChangeStatusToExcludeFromReferring(List<String> participantEnrollmentIds) {
+        try {
+            List<Participant_Enrollment__c> updatePeRecords = new List<Participant_Enrollment__c>();
+            for(String participantEnrollmentId :participantEnrollmentIds) {
+                Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                    Id = participantEnrollmentId,
+                    Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING
+                );
+                updatePeRecords.add(participantEnrollment);
+            }
+            update updatePeRecords;
+            return ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
+    
+     public class peExportData {
+        @AuraEnabled public String Name;
+        @AuraEnabled public String MRNID;
+        @AuraEnabled public String PatientID;
+        @AuraEnabled public String StudyCodeName;
+        @AuraEnabled public String StudySiteName;
+        @AuraEnabled public String InvestigatorName;
+        @AuraEnabled public String ParticipantStatus;
+        @AuraEnabled public String StatusChangeReason;
+        @AuraEnabled public Datetime ParticipantStatusLastChangedDt;
+        @AuraEnabled public String LastStatusChangedNotes;
+        @AuraEnabled public String PreScreeningStatus;
+        @AuraEnabled public String PreScreeningCompletedby;
+        @AuraEnabled public Date PreScreeningdate;
+        @AuraEnabled public String ReferralSource;
+
+        public peExportData(String Name,String MRNID,String PatientID, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
+              String StatusChangeReason,Datetime ParticipantStatusLastChangedDt,String LastStatusChangedNotes,String PreScreeningStatus,String PreScreeningCompletedby,
+              Date PreScreeningdate,String ReferralSource               
+        ) {
+            this.Name= Name;
+            this.MRNID=MRNID;
+            this.PatientID= PatientID;
+            this.StudyCodeName=StudyCodeName;
+            this.StudySiteName =StudySiteName;
+            this.InvestigatorName=InvestigatorName;
+            this.ParticipantStatus=ParticipantStatus;
+            this.StatusChangeReason=StatusChangeReason;
+            this.ParticipantStatusLastChangedDt=ParticipantStatusLastChangedDt;
+            this.LastStatusChangedNotes=LastStatusChangedNotes;
+            this.PreScreeningStatus=PreScreeningStatus;
+            this.PreScreeningCompletedby=PreScreeningCompletedby;
+            this.PreScreeningdate =PreScreeningdate;
+            this.ReferralSource = ReferralSource;
+        }
+    }
+    
+     @AuraEnabled
+    public static List<peExportData> getExportRecords(List<String> participantEnrollmentIds) {
+        try {
+            List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
+            List<peExportData> peInitWrapperDataList = new List<peExportData>();
+            PeRecords = [Select id,Name,Patient_ID__c,
+                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,
+                          Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,
+                          Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c
+                         from Participant_Enrollment__c where id IN:participantEnrollmentIds];
+            for(Participant_Enrollment__c per:PeRecords){
+                /** String dobString = '';
+                if(per.Birth_Month__c != null && per.YOB__c == null) {
+                    dobString = per.Birth_Month__c ;
+                }
+                if(per.YOB__c != null && per.Birth_Month__c == null) {
+                    dobString = per.YOB__c ;
+                }
+                if(per.YOB__c != null && per.Birth_Month__c != null) {
+                    dobString = per.Birth_Month__c+'/'+per.YOB__c;
+                }**/
+                
+                peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                             per.Site__c,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,per.Participant_Status_Last_Changed_Date__c,
+                                             per.Last_Status_Changed_Notes__c,per.Pre_screening_Status__c,per.Medical_Record_Review_Completedby_Name__c,
+                                             per.Screening_Date__c,per.Referral_Source__c
+                                             
+                ));
+            }
+            return peInitWrapperDataList;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }
+
+    @AuraEnabled
+    public static String bulkUndoChangeStatusToExcludeFromReferring(list<String> participantEnrollmentIds) {
+        try {
+            List<Participant_Enrollment__c> updatePeRecords = new List<Participant_Enrollment__c>();
+            for(String participantEnrollmentId :participantEnrollmentIds) {
+                Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                    Id = participantEnrollmentId,
+                    Participant_Status__c = ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL
+                );
+                updatePeRecords.add(participantEnrollment);
+            }
+            update updatePeRecords;
+            return ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
+        } catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }    
+    
+    //GN: logic to validate if the Email Outreach button to be visible based on Delegate Role access.
+    @AuraEnabled
+    public static boolean checkDelegateRole(){
+        boolean isDelegateRoleEligible = false;
+        User loggedinUser = [select id,ContactId from user where Id =: UserInfo.getUserId()];
+        
+        if(!String.isBlank(loggedinUser?.ContactId)){
+            for(RP_Delegate_Relationship__c delegateRelRec : [SELECT Delegate_Access_Level__c,Referring_Provider__c,Delegate__c 
+                                                              FROM RP_Delegate_Relationship__c WHERE Delegate__c =:loggedinUser.ContactId])
+            {
+                if(delegateRelRec.Delegate_Access_Level__c == 'Level 1'){// enabled only if access level is Level 1.
+                    isDelegateRoleEligible = true;
+                }
+            }
+        }        
+        return isDelegateRoleEligible;        
+    }
+
+    //Create note records
+    @AuraEnabled
+    public static void createNotes(String notes, String peId,String delegateId) {
+        try {
+            if(delegateId == null || delegateId == '' || delegateId == 'undefined') {
+                delegateId = UserInfo.getUserId();
+            }
+            else{
+                User loggedinUser = [select id,ContactId from user where ContactId =: delegateId];
+                delegateId = loggedinUser.id;
+            }
+            ContentNote noteRecord = new ContentNote();
+            noteRecord.Title = notes;
+            String body = notes;
+            noteRecord.Content = Blob.valueOf(body.escapeHTML4());
+            insert noteRecord;
+
+            ContentDocumentLink link = new ContentDocumentLink();
+            link.ContentDocumentId = noteRecord.id;
+            link.LinkedEntityId = peId;
+            link.ShareType = 'V';
+            link.Visibility = 'AllUsers';
+            insert link;
+        } 
+        catch (Exception ex) {
+            throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
+        }
+    }    
+
+    //get note records based on participant enrolment ID
+    @AuraEnabled(cacheable=true)    
+    public static List<ContentNote> getNotesDetails(String peId){
+        try {
+            Set<Id> contentDocumentIds = new Set<Id>();
+            for(ContentDocumentLink conDoc : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId]){
+                contentDocumentIds.add(conDoc.ContentDocumentId);
+            }
+            //get all the content notes using contentDocumentIds
+            List<ContentNote> contentNotes = [SELECT Id, Title, TextPreview,Content,CreatedDate,CreatedBy.Name 
+            from ContentNote where Id In: contentDocumentIds order by CreatedDate DESC];
+            return contentNotes;
+        } 
+        catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
 
 }

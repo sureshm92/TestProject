@@ -28,6 +28,8 @@
  <aura:attribute name="currentDelegateId" type="String" access="public" /> 
  <aura:attribute name="accessLevel" type="String" access="public" /> 
  <aura:attribute name="peRecordList" type="List" access="public" />
+ <aura:attribute name="verifyFilterValue" type="String" access="public"/>
+
 <!--END : RP Revamp attributes:-->
 
  <aura:attribute
@@ -40,6 +42,7 @@
  <aura:attribute name="hasEmancipatedParticipants" type="Boolean" default="false" />
  <aura:attribute name="entriesOnPage" type="Integer" access="global" />
  <aura:attribute name="isJanssen" type="Boolean" default="false" />
+ <aura:attribute name="isaccesslevelthree" type="Boolean" default="false" />
 
  <!--handlers:-->
  <aura:handler name="init" value="{!this}" action="{!c.doInit}"/>
@@ -154,7 +157,7 @@
                                                         />
                                     </lightning:tab>
 
-                                    <aura:if isTrue="{!v.accessLevel!='Level 2'}">
+                                    <aura:if isTrue="{!(v.accessLevel!='Level 2'  &amp;&amp; v.accessLevel!='Level 3')}">
                                         <lightning:tab label="{!$Label.c.RH_RP_Bulk_Import}"
                                             onactive="{! c.handleActive }" id="tab3">                                        
                                             <c:rPRevamp/>
@@ -175,7 +178,8 @@
                                             onincludeexcluderefresh="{!c.onExcludeIncluderefreshTable}"/>
                                     </aura:if>
                                     <aura:if isTrue="{!and(v.isBulkProfilePage,not(v.isProfilePage))}">
-                                        <c:rP_BulkProfileSectionPage />
+                                        <c:rP_BulkProfileSectionPage isaccessLevelthree="{!v.isaccesslevelthree}" delegateid="{!v.currentDelegateId}" 
+                                        peIds="{!v.peIds}" ctpIds="{!v.ctpIds}" verifyFilterValue="{!v.verifyFilterValue}"/>
                                     </aura:if>
                                 </lightning:card>
                             </lightning:layoutItem>
