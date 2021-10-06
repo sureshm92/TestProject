@@ -19281,14 +19281,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Exclude Record</shortDescription>
-        <value>Exclude Record</value>
+        <value>Exclude Record(s)</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_Successfully</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Excluded Successfully</shortDescription>
-        <value>This Record has been Successfully Excluded.</value>
+        <value>This record has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_for_Referring</fullName>
@@ -19330,7 +19330,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Include Record</shortDescription>
-        <value>Include Record</value>
+        <value>Include Record(s)</value>
     </labels>
     <labels>
         <fullName>RH_RP_Included_for_Referring</fullName>
@@ -19736,28 +19736,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP exclude this patient</shortDescription>
-        <value>Are you sure you want to exclude this patient?</value>
+        <value>Are you sure you want to exclude the patient(s)?</value>
     </labels>
     <labels>
         <fullName>RH_RP_has_been_excluded</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP has been excluded</shortDescription>
-        <value>has been Successfully Excluded.</value>
+        <value>has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_has_been_included</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP has been included</shortDescription>
-        <value>has been Successfully Included.</value>
+        <value>has been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_included_successfully</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP included successfully</shortDescription>
-        <value>This Record has been Successfully Included.</value>
+        <value>This Record has been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_info</fullName>
@@ -19813,7 +19813,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP want to include patients</shortDescription>
-        <value>Are you sure you want to include this patient?</value>
+        <value>Are you sure you want to include the patient(s)?</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>
