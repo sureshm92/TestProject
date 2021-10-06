@@ -36,7 +36,7 @@
 
     <!-- component body -->
     <aura:if
-        isTrue="{!and(v.mcpt.Status__c !='Task Completed' , v.mcpt.Status__c !='Inactive',v.mcpt.Status__c !='Cancelled')}"
+        isTrue="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c == 'Inactive' || v.mcpt.Status__c == 'Cancelled' || v.oneTimeTaskInProgress}"
     >
         <div class="mt-panel">
             <!-- Task Subject -->
@@ -45,6 +45,7 @@
                 label="Enter Subject"
                 value="{!v.taskConfig.subject}"
                 required="true"
+                disabled="{!v.isEdit}"
             />
             <div class="slds-grid slds-gutters">
                 <div class="slds-col slds-size--1-of-2">
@@ -68,6 +69,7 @@
                         onchange="{!c.onDaysChange}"
                         min="{!v.todayDate}"
                         dateStyle="medium"
+                        disabled="{!v.isEdit}"
                     />
                     <!-- Due Date -->
                     <lightning:input
@@ -77,7 +79,7 @@
                         value="{!v.taskConfig.endTime}"
                         onchange="{!c.onDaysChange}"
                         min="{!v.taskConfig.startDate}"
-                        disabled="{!empty(v.taskConfig.startDate)}"
+                        disabled="{!v.isEdit}"
                         dateStyle="medium"
                         required="{!v.taskConfig.isRecurrence}"
                     />
@@ -90,7 +92,7 @@
                             onchange="{!c.resetTaskValues}"
                             value="{!v.taskConfig.isRecurrence}"
                             checked="{!v.taskConfig.isRecurrence}"
-                            disabled="{!empty(v.taskConfig.endTime)}"
+                            disabled="{!v.isEdit}"
                         />
                     </div>
                 </div>
@@ -99,6 +101,7 @@
                     <lightning:select
                         label="Make this Task visible to:"
                         value="{!v.taskConfig.visibility}"
+                        disabled="{!v.isEdit}"
                     >
                         <aura:iteration items="{!v.visibility}" var="visible">
                             <option label="{!visible.label}" value="{!visible.value}"></option>
@@ -108,7 +111,7 @@
                     <lightning:select
                         label="Set Task Reminder"
                         value="{!v.showNumbersAdd}"
-                        disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                        disabled="{!v.isEdit}"
                     >
                         <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                             <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
@@ -129,7 +132,7 @@
                                 value="{!v.dayRemind}"
                                 onchange="{!c.onDaysChange}"
                                 min="0"
-                                disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                                disabled="{!v.isEdit}"
                             />
                         </span>
                         <aura:set attribute="else">
@@ -142,7 +145,7 @@
                                 min="{!v.taskConfig.startDate}"
                                 max="{!v.taskConfig.endTime}"
                                 dateStyle="medium"
-                                disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                                disabled="{!v.isEdit}"
                             />
                         </aura:set>
                     </aura:if>
@@ -155,6 +158,7 @@
                             required="true"
                             onchange="{!c.resetTaskValues}"
                             value="{!v.taskConfig.recurrenceFrequency}"
+                            disabled="{!v.isEdit}"
                         >
                             <aura:iteration items="{!v.recurrenceFrequency}" var="freq">
                                 <option text="{!freq.value}" value="{!freq.value}"></option>
@@ -223,6 +227,7 @@
                 </div>
             </aura:if>
         </div>
+
         <aura:set attribute="else">
             <div class="mt-panel">
                 <!-- Task Subject -->
@@ -231,7 +236,6 @@
                     label="Enter Subject"
                     value="{!v.taskConfig.subject}"
                     required="true"
-                    disabled="{!v.isEdit}"
                 />
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2">
@@ -255,7 +259,6 @@
                             onchange="{!c.onDaysChange}"
                             min="{!v.todayDate}"
                             dateStyle="medium"
-                            disabled="{!v.isEdit}"
                         />
                         <!-- Due Date -->
                         <lightning:input
@@ -265,7 +268,7 @@
                             value="{!v.taskConfig.endTime}"
                             onchange="{!c.onDaysChange}"
                             min="{!v.taskConfig.startDate}"
-                            disabled="{!v.isEdit}"
+                            disabled="{!empty(v.taskConfig.startDate)}"
                             dateStyle="medium"
                             required="{!v.taskConfig.isRecurrence}"
                         />
@@ -278,7 +281,7 @@
                                 onchange="{!c.resetTaskValues}"
                                 value="{!v.taskConfig.isRecurrence}"
                                 checked="{!v.taskConfig.isRecurrence}"
-                                disabled="{!v.isEdit}"
+                                disabled="{!empty(v.taskConfig.endTime)}"
                             />
                         </div>
                     </div>
@@ -287,7 +290,6 @@
                         <lightning:select
                             label="Make this Task visible to:"
                             value="{!v.taskConfig.visibility}"
-                            disabled="{!v.isEdit}"
                         >
                             <aura:iteration items="{!v.visibility}" var="visible">
                                 <option label="{!visible.label}" value="{!visible.value}"></option>
@@ -297,7 +299,7 @@
                         <lightning:select
                             label="Set Task Reminder"
                             value="{!v.showNumbersAdd}"
-                            disabled="{!v.isEdit}"
+                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
                         >
                             <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                                 <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
@@ -320,7 +322,7 @@
                                     value="{!v.dayRemind}"
                                     onchange="{!c.onDaysChange}"
                                     min="0"
-                                    disabled="{!v.isEdit}"
+                                    disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
                                 />
                             </span>
                             <aura:set attribute="else">
@@ -333,7 +335,7 @@
                                     min="{!v.taskConfig.startDate}"
                                     max="{!v.taskConfig.endTime}"
                                     dateStyle="medium"
-                                    disabled="{!v.isEdit}"
+                                    disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
                                 />
                             </aura:set>
                         </aura:if>
@@ -346,7 +348,6 @@
                                 required="true"
                                 onchange="{!c.resetTaskValues}"
                                 value="{!v.taskConfig.recurrenceFrequency}"
-                                disabled="{!v.isEdit}"
                             >
                                 <aura:iteration items="{!v.recurrenceFrequency}" var="freq">
                                     <option text="{!freq.value}" value="{!freq.value}"></option>
