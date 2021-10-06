@@ -313,7 +313,7 @@
                             </aura:if>
                         </lightning:select>
                         <aura:if
-                            isTrue="{!or(v.showNumbersAdd == 'true', v.taskConfig.isRecurrence)}"
+                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || v.taskConfig.reminderDays > 0}"
                         >
                             <span onkeypress="{!c.dueNumberKeyPress}">
                                 <lightning:input
