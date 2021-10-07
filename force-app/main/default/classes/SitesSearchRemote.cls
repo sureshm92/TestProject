@@ -11,6 +11,7 @@ public without sharing class SitesSearchRemote {
         public PaginationData paginationData;
         public List<Id> trialIds;
         public List<MapMarker> mapMarkers;
+        Public String accessLevel;
     }
 
     public class MapMarker {
@@ -71,7 +72,7 @@ public without sharing class SitesSearchRemote {
                     initData.mapMarkers.add(new MapMarker(siteWrapper.site));
                 }
             }
-
+            initData.accessLevel = CommunityService.getInstance().getUserAccessLevel(delegateId);
             return JSON.serialize(initData);
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
