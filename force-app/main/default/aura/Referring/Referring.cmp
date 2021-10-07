@@ -2042,34 +2042,6 @@
                                 <div class="rr-secondary-text" style="padding-top: 4px">
                                     {!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}
                                 </div>
-                                <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
-                                    <div class="rr-primary-text">
-                                        <aura:if isTrue="{!or(v.hcpEnrollmentParticipantName==undefined,v.hcpEnrollmentParticipantName==null)}">
-                                        {!v.hcpEnrollment.HCP_Contact__r.Salutation ?
-                                        v.hcpEnrollment.HCP_Contact__r.Salutation + ' ' : ''}
-                                        {!v.hcpEnrollment.HCP_Contact__r.Name}
-                                          <aura:set attribute="else">
-                                              {!v.hcpEnrollmentParticipantName}
-                                            </aura:set>
-                                        </aura:if> 
-                                    </div>
-                                    <div class="rr-secondary-text">
-                                        {!$Label.c.PG_DBPI_at + ' ' +
-                                        v.hcpEnrollment.Study_Site__r.Name}
-                                    </div>
-                                    <aura:set attribute="else">
-                                        <aura:if isTrue="{!!empty(v.hcpContact)}">
-                                            <div class="rr-primary-text">
-                                                <aura:if isTrue="{!or(v.hcpContactParticipant==undefined,v.hcpContactParticipant==null)}">
-                                                    {!v.hcpContact.Salutation} {!v.hcpContact.Name}
-                                                    <aura:set attribute="else">
-                                                        {!v.hcpContactParticipantSal} {!v.hcpContactParticipantName}
-                                                    </aura:set>
-                                                </aura:if> 
-                                            </div>
-                                        </aura:if>
-                                    </aura:set>
-                                </aura:if>
                             </div>
 							<br />
                             <div class="rr-secondary-text" style="padding-top: 20px">
