@@ -108,24 +108,55 @@
                         </aura:iteration>
                     </lightning:select>
                     <!-- Reminder Mode -->
-                    <lightning:select
-                        label="Set Task Reminder"
-                        value="{!v.showNumbersAdd}"
-                        disabled="{!v.isEdit}"
-                    >
-                        <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
-                            <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
-                                <option value="true"
-                                    >Number of days before the Task due date</option
-                                >
+                    <aura:if isTrue="{!v.taskConfig.isRecurrence}">
+                        <lightning:select
+                            label="Set Task Reminder"
+                            value="{!v.showNumbersAdd}"
+                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                        >
+                            <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
+                                <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
+                                    <option value="true"
+                                        >Number of days before the Task due date</option
+                                    >
+                                </aura:if>
                             </aura:if>
-                        </aura:if>
-                        <aura:if isTrue="{!not(v.taskConfig.isRecurrence)}">
-                            <option value="false">Specific Date</option>
-                        </aura:if>
-                    </lightning:select>
+                        </lightning:select>
+                        <aura:set attribute="else">
+                            <lightning:select
+                                label="Set Task Reminder"
+                                value="{!v.showNumbersAdd}"
+                                disabled="{!v.isEdit}"
+                            >
+                                <aura:if isTrue="{!v.isEdit}">
+                                    <aura:if isTrue="{!v.taskConfig.showNumbersAdd == 'true'}">
+                                        <option value="true"
+                                            >Number of days before the Task due date</option
+                                        >
+                                        <aura:set attribute="else">
+                                            <option value="false">Specific Date</option>
+                                        </aura:set>
+                                    </aura:if>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
+                                            <aura:if
+                                                isTrue="{!not(v.taskConfig.endTime == v.todayDate)}"
+                                            >
+                                                <option value="true"
+                                                    >Number of days before the Task due date</option
+                                                >
+                                            </aura:if>
+                                        </aura:if>
+                                        <aura:if isTrue="{!not(v.taskConfig.isRecurrence)}">
+                                            <option value="false">Specific Date</option>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                            </lightning:select>
+                        </aura:set>
+                    </aura:if>
                     <aura:if
-                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || v.taskConfig.reminderDays > 0}"
+                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
                     >
                         <span onkeypress="{!c.dueNumberKeyPress}">
                             <lightning:input
@@ -298,24 +329,57 @@
                             </aura:iteration>
                         </lightning:select>
                         <!-- Reminder Mode -->
-                        <lightning:select
-                            label="Set Task Reminder"
-                            value="{!v.showNumbersAdd}"
-                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
-                        >
-                            <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
-                                <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
-                                    <option value="true"
-                                        >Number of days before the Task due date</option
-                                    >
+                        <aura:if isTrue="{!v.taskConfig.isRecurrence}">
+                            <lightning:select
+                                label="Set Task Reminder"
+                                value="{!v.showNumbersAdd}"
+                                disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                            >
+                                <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
+                                    <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
+                                        <option value="true"
+                                            >Number of days before the Task due date</option
+                                        >
+                                    </aura:if>
                                 </aura:if>
-                            </aura:if>
-                            <aura:if isTrue="{!not(v.taskConfig.isRecurrence)}">
-                                <option value="false">Specific Date</option>
-                            </aura:if>
-                        </lightning:select>
+                            </lightning:select>
+                            <aura:set attribute="else">
+                                <lightning:select
+                                    label="Set Task Reminder"
+                                    value="{!v.showNumbersAdd}"
+                                    disabled="{!v.isEdit}"
+                                >
+                                    <aura:if isTrue="{!v.isEdit}">
+                                        <aura:if isTrue="{!v.taskConfig.showNumbersAdd == 'true'}">
+                                            <option value="true"
+                                                >Number of days before the Task due date</option
+                                            >
+                                            <aura:set attribute="else">
+                                                <option value="false">Specific Date</option>
+                                            </aura:set>
+                                        </aura:if>
+                                        <aura:set attribute="else">
+                                            <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
+                                                <aura:if
+                                                    isTrue="{!not(v.taskConfig.endTime == v.todayDate)}"
+                                                >
+                                                    <option value="true"
+                                                        >Number of days before the Task due
+                                                        date</option
+                                                    >
+                                                </aura:if>
+                                            </aura:if>
+                                            <aura:if isTrue="{!not(v.taskConfig.isRecurrence)}">
+                                                <option value="false">Specific Date</option>
+                                            </aura:if>
+                                        </aura:set>
+                                    </aura:if>
+                                </lightning:select>
+                            </aura:set>
+                        </aura:if>
+
                         <aura:if
-                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || v.taskConfig.reminderDays > 0}"
+                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
                         >
                             <span onkeypress="{!c.dueNumberKeyPress}">
                                 <lightning:input
