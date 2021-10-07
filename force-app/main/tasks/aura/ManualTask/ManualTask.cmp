@@ -124,7 +124,9 @@
                             <option value="false">Specific Date</option>
                         </aura:if>
                     </lightning:select>
-                    <aura:if isTrue="{!or(v.showNumbersAdd == 'true', v.taskConfig.isRecurrence)}">
+                    <aura:if
+                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || v.taskConfig.reminderDays > 0}"
+                    >
                         <span onkeypress="{!c.dueNumberKeyPress}">
                             <lightning:input
                                 aura:id="field"
