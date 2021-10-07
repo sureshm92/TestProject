@@ -16,7 +16,6 @@ public with sharing class Action_SendSMS implements Action {
 
     public class MessageParameters {
         public String transactionId;
-        public String fromNumber;
         public List<String> toNumber;
         public String subject;
         public String messageBody;
@@ -92,30 +91,19 @@ public with sharing class Action_SendSMS implements Action {
             ) {
                 phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c).Phone__c;
             }
-            String title = parametrizedMessageService.getMessage(
+            //Uncomment and set the value in metadata if needed in future.
+            /*String title = parametrizedMessageService.getMessage(
                 smsChannel.Notification__c + '_title'
-            );
+            );*/
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
-                msgParam.transactionId = smsChannel.Id + '~' + smsChannel.CreatedDate; //
-                msgParam.fromNumber = 'XXXX'; //TO-DO
+                msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
-                msgParam.subject = title;
                 msgParam.messageBody = message;
                 messageParametersList.add(msgParam);
             }
         }
-        /*for (Notification__c n : notifications) {
-            String phoneNumber = n.Recipient__r.Phone;
-            if (phoneNumber == null && participantMap.get(n.Recipient__c) != null) {
-                phoneNumber = participantMap.get(n.Recipient__c).Phone__c;
-            }
-            String message = parametrizedMessageService.getMessage(n.Id);
-            if (phoneNumber != null) {
-                messageParametersList.add(new MessageParameters('XXXX', new List<String>{phoneNumber},
-            }
-        }*/
         if (!messageParametersList.isEmpty()) {
             RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageParametersList);
             remoteCallSendSMS.execute();

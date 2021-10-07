@@ -1,5 +1,6 @@
 /**
  * Created by Olga Skrynnikova on 12/16/2019.
+ * Refactored by Pijush Kar on 10/07/2021
  */
 
 public with sharing class RemoteCall_SendSMS extends RemoteCall {
@@ -7,6 +8,9 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         TRANSACTIONAL,
         PROMOTIONAL
     }
+    public static final String FROM_NUMBER = 'FromNumber';
+    public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
+    public static final String API_MULESOFT_SMS = 'MulesoftSMS';
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
@@ -17,7 +21,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     public class SourceMetadata {
-        public String sourceIdentifier = 'PP';
+        public String sourceIdentifier; // = 'RH_PP' as per initial design discussion
         public String transactionId;
     }
 
@@ -40,7 +44,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public class PreferredDeliveryPeriod {
         public String deliveryStartTime; //Format HH:MM:SS
         public String deliveryEndTime; //Format HH:MM:SS
-        public String timezone;
+        public String timezone; //ISO code
     }
 
     public class Arguments {
@@ -62,6 +66,15 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         messageWrapper = new MessageWrapper();
         Action_SendSMS.MessageParameters msgParam = messageParametersList.get(0);
         logAutoInsert = false;
+
+        Map<String, Config_API_Param__mdt> apiParamsMap = new Map<String, Config_API_Param__mdt>();
+        for (Config_API_Param__mdt mdt : [
+            SELECT DeveloperName, ParamValue__c
+            FROM Config_API_Param__mdt
+            WHERE ConfigAPI__r.DeveloperName = :API_MULESOFT_SMS
+        ]) {
+            apiParamsMap.put(mdt.DeveloperName, mdt);
+        }
         //Initialize
         messageWrapper.sourceMetadata = new SourceMetadata();
         messageWrapper.notificationMetadata = new NotificationMetadata();
@@ -71,10 +84,13 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         messageWrapper.arguments.argument = new List<Argument>();
         //Assign
         messageWrapper.sourceMetadata.transactionId = msgParam.transactionId;
-        messageWrapper.notificationMetadata.fromNumber = msgParam.fromNumber;
+        messageWrapper.sourceMetadata.sourceIdentifier = apiParamsMap.get(SOURCE_IDENTIFIER)
+            .ParamValue__c;
+        messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
+        messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
+            .ParamValue__c;
         messageWrapper.notificationMetadata.toNumber = msgParam.toNumber;
         messageWrapper.notificationMetadata.messageBody = msgParam.messageBody;
-        messageWrapper.notificationMetadata.subject = msgParam.subject;
     }
 
     public override Type getType() {
@@ -86,6 +102,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     protected override Object parseResponse(String responseBody) {
+        //TO:DO
         return null;
     }
 }

@@ -30,7 +30,9 @@ public without sharing class NotificationAvailabilityService {
                 Participant_Opt_In_Status_Emails__c,
                 Participant_Opt_In_Status_SMS__c,
                 UserCommunityIsDelegate__c,
-                userCommunityMode__c
+                userCommunityMode__c,
+                Language__c,
+                MailingCountryCode
             FROM Contact
             WHERE Id IN :recipientIds
         ];
@@ -40,11 +42,11 @@ public without sharing class NotificationAvailabilityService {
         allPermissions = new List<String>(CommunityTemplateService.getAllPermissionSets());
 
         permissionSetsByConIdMap = new Map<Id, List<String>>();
-        List<User> users = new List<User> ();
-        List<PermissionSetAssignment> userPerSetAssignments = new List<PermissionSetAssignment> ();
-        if(!contacts.isEmpty())
-        	  users = [SELECT Id, ContactId FROM User WHERE ContactId = :contacts];
-        if(!users.isEmpty()){
+        List<User> users = new List<User>();
+        List<PermissionSetAssignment> userPerSetAssignments = new List<PermissionSetAssignment>();
+        if (!contacts.isEmpty())
+            users = [SELECT Id, ContactId FROM User WHERE ContactId = :contacts];
+        if (!users.isEmpty()) {
             userPerSetAssignments = [
                 SELECT Id, AssigneeId, Assignee.ContactId, PermissionSet.Name
                 FROM PermissionSetAssignment
@@ -321,7 +323,11 @@ public without sharing class NotificationAvailabilityService {
         Boolean isAvailable = true;
         Id objId = whatId;
         Contact contact = contactByIdMap.get(contactId);
-        isAvailable = isAvailable && contact.Participant_Opt_In_Status_SMS__c;
+        isAvailable =
+            isAvailable &&
+            contact.Participant_Opt_In_Status_SMS__c &&
+            contact.MailingCountryCode.equals('US') &&
+            contact.Language__c.contains('en');
         if (objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(
                 Id.valueOf(whatId)
@@ -441,13 +447,13 @@ public without sharing class NotificationAvailabilityService {
         for (Id contactId : contactIds) {
             resultMap.put(contactId, false);
         }
-        if(!contactIds.isEmpty()){
+        if (!contactIds.isEmpty()) {
             for (Study_Site__c site : [
                 SELECT Id, Principal_Investigator__c
                 FROM Study_Site__c
                 WHERE
-                Suppress_Study_Site_PI_Emails__c = FALSE
-                AND Principal_Investigator__c IN :contactIds
+                    Suppress_Study_Site_PI_Emails__c = FALSE
+                    AND Principal_Investigator__c IN :contactIds
             ]) {
                 resultMap.put(site.Principal_Investigator__c, true);
             }
@@ -462,13 +468,13 @@ public without sharing class NotificationAvailabilityService {
         for (Id contactId : contactIds) {
             resultMap.put(contactId, false);
         }
-        if(!contactIds.isEmpty()){
+        if (!contactIds.isEmpty()) {
             for (Site_Staff__c staff : [
                 SELECT Id, Site_Contact__c
                 FROM Site_Staff__c
                 WHERE
-                Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
-                AND Site_Contact__c IN :contactIds
+                    Study_Site__r.Suppress_Study_Site_PI_Emails__c = FALSE
+                    AND Site_Contact__c IN :contactIds
             ]) {
                 resultMap.put(staff.Site_Contact__c, true);
             }
