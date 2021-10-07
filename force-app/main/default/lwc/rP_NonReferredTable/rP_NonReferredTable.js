@@ -350,7 +350,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 recddis = allRec
                 .filter(rec => (rec.peRec.Patient_ID__c  != undefined  && rec.peRec.Patient_ID__c.toLowerCase().includes(this.searchValue.toLowerCase())) || 
                     (rec.peRec.Participant_Name__c != undefined && rec.peRec.Participant_Name__c.toLowerCase().includes(this.searchValue.toLowerCase())) ||
-                    (rec.peRec.Participant_Name__c != undefined && rec.peRec.Participant_Surname__c.toLowerCase().includes(this.searchValue.toLowerCase()))
+                    (rec.peRec.Participant_Surname__c != undefined && rec.peRec.Participant_Surname__c.toLowerCase().includes(this.searchValue.toLowerCase()))
                 );
                 this.recordsToDisplay = recddis;
                 this.data = recddis;
