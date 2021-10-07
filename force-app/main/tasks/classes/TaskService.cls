@@ -608,6 +608,8 @@ public without sharing class TaskService {
         @AuraEnabled
         public Boolean isRecurrence = false;
         @AuraEnabled
+        public String showNumbersAdd;
+        @AuraEnabled
         public String recurrenceFrequency;
         @AuraEnabled
         public Integer reminderDays;

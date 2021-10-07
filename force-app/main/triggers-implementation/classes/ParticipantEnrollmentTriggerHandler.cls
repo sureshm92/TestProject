@@ -752,7 +752,8 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         for (Participant_Enrollment__c pe : enrollments) {
             if (
                 oldMap == null ||
-                pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c
+                pe.Participant_Status__c != oldMap.get(pe.Id).Participant_Status__c ||
+                (oldMap.get(pe.Id).Visit_Plan__c !=null || pe.Visit_Plan__c !=null)
             ) {
                 if (
                     (pe.Participant_Status__c == PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS ||
@@ -792,18 +793,43 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         );
 
         List<Patient_Visit__c> patientVisits = new List<Patient_Visit__c>();
+        List<Patient_Visit__c> dupCheckpatientVisits = new List<Patient_Visit__c>();
+        Map<Id,List<Patient_Visit__c>>mapVisit = new Map<Id,List<Patient_Visit__c>>();
+        Map<Id,Id>enrollmentPlandId = new Map<Id,Id>();
+        set<Id>visitPlanId = new set<Id>();
+        set<Id>participantEnrollmentId = new set<Id>();
         for (Participant_Enrollment__c pe : peEnrollSuccessWithParticipating) {
             Clinical_Trial_Profile__c ctp = ctpMap.get(pe.Clinical_Trial_Profile__c);
+             participantEnrollmentId.add(pe.Id);
             Id vpId = pe.Visit_Plan__c;
             if (vpId == null)
                 vpId = ctp.Visit_Plan__c;
             if (vpId == null)
                 continue;
             Visit_Plan__c vp = visitPlansMap.get(vpId);
+            visitPlanId.add(vp.Id);
+            enrollmentPlandId.put(pe.Id,vp.Id);
             if (vp == null)
                 continue;
             for (Visit__c visit : vp.Visits__r) {
-                patientVisits.add(PatientVisitService.createPatientVisit(visit, pe.Id));
+                if(mapVisit.containsKey(pe.Id)){
+                    mapVisit.get(pe.Id).add(PatientVisitService.createPatientVisit(visit, pe.Id ));
+                }else{
+                    mapVisit.put(pe.Id,new List<Patient_Visit__c>{PatientVisitService.createPatientVisit(visit, pe.Id )});
+                } 
+            }
+        }
+        if(participantEnrollmentId != null && visitPlanId != null){
+        dupCheckpatientVisits = [SELECT Participant_Enrollment__c,Visit__r.Visit_Plan__r.Id FROM Patient_Visit__c WHERE Participant_Enrollment__c IN :participantEnrollmentId AND Visit__r.Visit_Plan__r.Id IN :visitPlanId];
+        }
+        for(Patient_Visit__c pv : dupCheckpatientVisits){
+            if(enrollmentPlandId.get(pv.Participant_Enrollment__c) == pv.Visit__r.Visit_Plan__r.Id){
+                participantEnrollmentId.remove(pv.Participant_Enrollment__c);
+            }
+        }
+        for(Id peId:mapVisit.Keyset()){
+            if(participantEnrollmentId.contains(peId)){
+                patientVisits.addAll(mapVisit.get(peId));
             }
         }
         if (patientVisits.size() > 0)
