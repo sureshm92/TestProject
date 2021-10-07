@@ -22,11 +22,12 @@ export default class Rp_NotesTab extends LightningElement {
     pId;
     charCount = 0;
     totalCount = 250;
-    disabledSaveButton = false;
+    disabledOkButton = false;
     isLoading = false;
     noRecords = false;
     openSaveModel = false;
     searchValue = '';
+    disabledSaveButton = true;
 
     //get participant enrolment Id during onload
     connectedCallback(){
@@ -37,12 +38,21 @@ export default class Rp_NotesTab extends LightningElement {
     handleTextAreaChange(event) {
         this.commentValue = event.target.value;
         this.charCount = this.commentValue.length;
+        let charCountLength = this.commentValue.replace(/\s+/g, '');
+       
+        if(charCountLength.length == 0){
+            this.disabledSaveButton = true;
+        }
+        else {
+            this.disabledSaveButton = false;
+        }
     }
 
     //clear text area value
     clearComments(){
         this.commentValue = '';
         this.charCount = 0;
+        this.disabledSaveButton = true;
     }
 
     //search records if char more than 2 length
@@ -87,7 +97,7 @@ export default class Rp_NotesTab extends LightningElement {
 
     //create note 
     createNoteRecords() {
-        this.disabledSaveButton = true;
+        this.disabledOkButton = true;
         this.openSaveModel = false
         this.isLoading = true;
 
@@ -97,19 +107,23 @@ export default class Rp_NotesTab extends LightningElement {
             this.charCount = 0;
             refreshApex(this.noteRefreshList);
             this.isLoading = false;
+            this.disabledSaveButton = true;
+            this.showSuccessToastSave('Notes has been successfully saved.');
         })
         .catch((error) => {
             console.log(JSON.stringify(error));
-            this.disabledSaveButton = false;
+            this.disabledOkButton = false;
             this.isLoading = false;
+            this.disabledSaveButton = false;
         })
     }
     
     //open model while click on save
     openCommentModel(){
-        this.disabledSaveButton = false;
+        this.disabledOkButton = false;
+       
         if(this.charCount == 0){
-            this.showErrorToast('You have not added any comments.')
+           this.disabledSaveButton = true;
         }
         else{
             this.openSaveModel = true;
@@ -119,6 +133,7 @@ export default class Rp_NotesTab extends LightningElement {
     //close model
     closeSaveModel(){
         this.openSaveModel = false;
+        this.disabledOkButton = false;
         this.disabledSaveButton = false;
     }
 
@@ -128,6 +143,16 @@ export default class Rp_NotesTab extends LightningElement {
             title: errorRec,
             message: errorRec,
             variant: 'error',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(evt);
+    }
+
+    showSuccessToastSave(MessageRec) {
+        const evt = new ShowToastEvent({
+            title: MessageRec,
+            message: MessageRec,
+            variant: 'success',
             mode: 'dismissable'
         });
         this.dispatchEvent(evt);

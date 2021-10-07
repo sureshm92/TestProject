@@ -1,4 +1,4 @@
-<messaging:emailTemplate subject="{!$Label.Email_Instant_Subject_Reminder_Type_Not_Selected} : {!relatedTo.Subject}"
+<messaging:emailTemplate subject="{!$Label.Email_Instant_Subject_Reminder_Type_Not_Selected}: {!relatedTo.Subject}"
                          recipientType="Contact"
                          relatedToType="Task"
                          language="{!recipient.Language__c}">

@@ -88,20 +88,20 @@
                                 options="{!v.patientStatusOptions}"
                                 value="{!v.filter.statuses}"
                                 required="true"
-                                disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                                disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <div style="padding: 10px"></div>
                             <c:ManualTaskLookup
                                 label="Therapeutic Area"
                                 selection="{!v.filter.areas}"
                                 objType="therapeutic"
-                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <c:ManualTaskLookup
                                 label="Study"
                                 selection="{!v.filter.studies}"
                                 objType="study"
-                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                         </div>
                         <div class="slds-col slds-size--1-of-2">
@@ -126,13 +126,13 @@
                                 label="Select country"
                                 selection="{!v.filter.countries}"
                                 objType="countries"
-                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <c:ManualTaskLookup
                                 label="Select Site"
                                 selection="{!v.filter.sites}"
                                 objType="site"
-                                isDisabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                         </div>
                     </div>
@@ -178,7 +178,7 @@
                         variant="brand"
                         label="Save"
                         onclick="{!c.createClick}"
-                        disabled=""
+                        disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                     />
                     <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                         <lightning:button
