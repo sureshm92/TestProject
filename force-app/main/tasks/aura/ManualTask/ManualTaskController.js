@@ -13,10 +13,12 @@
             { label: 'Monthly', value: 'Monthly' },
             { label: 'Yearly', value: 'Yearly' }
         ];
-        if (component.get('v.mcpt') != null) {
+        component.set('v.recurrenceFrequency', val);
+    },
+    doneRendering: function(component, event, helper) {
+        if (component.get('v.isEdit')) {
             component.set('v.showNumbersAdd', component.get('v.taskConfig').showNumbersAdd);
         }
-        component.set('v.recurrenceFrequency', val);
     },
     resetTaskValues: function(component, event, helper) {
         component.set('v.dayRemind', 0);
@@ -41,7 +43,9 @@
         let diffInDays = dueDate.diff(startDate, 'days');
         if (reccFrequency == 'Weekly' && diffInDays < 7) {
             component.set('v.isValid', false);
+            component.set('v.isValidSave', false);
             component.get('v.parent').setValidity(false);
+            component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -50,7 +54,9 @@
             );
         } else if (reccFrequency == 'Monthly' && monthDiff < 1) {
             component.set('v.isValid', false);
+            component.set('v.isValidSave', false);
             component.get('v.parent').setValidity(false);
+            component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -59,7 +65,9 @@
             );
         } else if (reccFrequency == 'Yearly' && yearsDiff < 1) {
             component.set('v.isValid', false);
+            component.set('v.isValidSave', false);
             component.get('v.parent').setValidity(false);
+            component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -67,9 +75,12 @@
                 10000
             );
         } else {
+            component.set('v.isValidSave', true);
+            component.get('v.parent').setSaveValidity(true);
             var a = component.get('c.doCheckFields');
             $A.enqueueAction(a);
         }
+        console.log('saveValid: ' + component.get('v.isValidSave'));
     },
     doCheckFields: function(component, event, helper) {
         let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {

@@ -18,5 +18,10 @@
         }
 
         return validity;
+    },
+    checkChildSave: function(component) {
+        var validity;
+        validity = component.find('manTask').get('v.isValidSave');
+        return validity;
     }
 });
