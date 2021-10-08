@@ -32,12 +32,31 @@ private class Test_PatientVisitSchedule {
         update testDataInstance.pe;
         PETriggerBuffer.clearBuffer();
         testDataInstance.updatePEStatusEnrollmentSuccess();
+        List<Patient_Visit__c> createpatientVisitsLST = new List<Patient_Visit__c>();
+        createpatientVisitsLST.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testDataInstance.pe.Id,
+                Status__c = 'Completed',
+                Visit__c = visits.get(0).Id,
+                Visit_Number__c = 1
+            )
+        );
+        createpatientVisitsLST.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testDataInstance.pe.Id,
+                Status__c = 'Missed',
+                Visit__c = visits.get(1).Id,
+                Visit_Number__c = 2
+            )
+        );
+        
+        insert createpatientVisitsLST;
         Test.stopTest();
         List<Patient_Visit__c> patientVisits = [
             SELECT Id, Visit_Number__c, Visit_Schedule__c
             FROM Patient_Visit__c
             WHERE Participant_Enrollment__c = :testDataInstance.pe.Id
         ];
-        System.assertEquals(2, patientVisits.size());
+        System.assertEquals(4, patientVisits.size());
     }
 }

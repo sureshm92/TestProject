@@ -10,38 +10,62 @@
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="recTask" type="Object" />
     <aura:attribute name="futureTask" type="Boolean" />
+    <aura:attribute name="parent" type="Aura.Component" />
+    <aura:registerEvent name="closeModalEvent" type="c:closeModalEvent" />
 
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
     <lightning:overlayLibrary aura:id="overlayLib" />
-    <aura:if isTrue="{!v.futureTask}">
+
+    <aura:if isTrue="{!!v.recTask.Is_Recurrence__c}">
         <ui:message title="Warning" severity="warning" closable="false">
-            This action will cancel this task, do you want to proceed.
+            Are you sure you want to cancel this task?
         </ui:message>
         <div class="slds-text-align_center slds-m-around_x-medium">
             <lightning:button
                 name="Confirm"
                 label="Confirm"
                 variant="brand"
-                onclick="{!c.handleRemoveFutureTask}"
+                onclick="{!c.handleCancelTaskTask}"
             />
             <lightning:button name="Cancel" label="Cancel" onclick="{!c.handleCancel}" />
         </div>
         <aura:set attribute="else">
-            <ui:message title="Warning" severity="warning" closable="false">
-                This will remove only future recurrences of the task. Click Confirm to proceed.
-            </ui:message>
-            <div class="slds-text-align_center slds-m-around_x-medium">
-                <lightning:button
-                    name="Confirm"
-                    label="Confirm"
-                    variant="brand"
-                    onclick="{!c.handleConfirm}"
-                />
-                <lightning:button name="Cancel" label="Cancel" onclick="{!c.handleCancel}" />
-            </div>
+            <aura:if isTrue="{!v.futureTask}">
+                <ui:message title="Warning" severity="warning" closable="false">
+                    This action will cancel this task, do you want to proceed.
+                </ui:message>
+                <div class="slds-text-align_center slds-m-around_x-medium">
+                    <lightning:button
+                        name="Confirm"
+                        label="Confirm"
+                        variant="brand"
+                        onclick="{!c.handleRemoveFutureTask}"
+                    />
+                    <lightning:button name="Cancel" label="Cancel" onclick="{!c.handleCancel}" />
+                </div>
+                <aura:set attribute="else">
+                    <ui:message title="Warning" severity="warning" closable="false">
+                        This will remove only future recurrences of the task. Click Confirm to
+                        proceed.
+                    </ui:message>
+                    <div class="slds-text-align_center slds-m-around_x-medium">
+                        <lightning:button
+                            name="Confirm"
+                            label="Confirm"
+                            variant="brand"
+                            onclick="{!c.handleConfirm}"
+                        />
+                        <lightning:button
+                            name="Cancel"
+                            label="Cancel"
+                            onclick="{!c.handleCancel}"
+                        />
+                    </div>
+                </aura:set>
+            </aura:if>
         </aura:set>
     </aura:if>
 
