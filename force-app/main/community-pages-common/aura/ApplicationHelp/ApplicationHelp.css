@@ -70,6 +70,7 @@
     font-weight: bold;
     letter-spacing: 0;
     line-height: 19px;
+    width: 250px;
 }
 .THIS.ah-main-container {
     margin-top: 30px;
@@ -164,7 +165,7 @@
 }
 .THIS .create-ticket-for {
     height: 29px;
-    width: 188px;
+    width: 250px;
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 24px;
@@ -177,7 +178,7 @@
 }
 .THIS .email-match {
     width: 450px;
-    white-space: nowrap;
+ /*   white-space: nowrap; */
     font-size: 14px;
     color: #444444;
 }
