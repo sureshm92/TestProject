@@ -31,6 +31,7 @@
 
     <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkValid}" />
     <aura:handler name="change" value="{!v.pageReference}" action="{!c.loadRecord}" />
+    <aura:handler name="closeModalEvent" event="c:closeModalEvent" action="{!c.closeModel}" />
 
     <aura:method name="setValidity" action="{!c.checkValid}">
         <aura:attribute name="childValidity" type="Boolean" />
@@ -164,7 +165,7 @@
                             class="slds-modal__content slds-p-around_medium"
                             id="modal-content-id-1"
                         >
-                            <c:RemoveRecurrenceButton recordId="{!v.recordId}" />
+                            <c:RemoveRecurrenceButton parent="{! this }" recordId="{!v.recordId}" />
                         </div>
                     </div>
                 </section>
@@ -186,6 +187,16 @@
                             label="Remove Recurrence"
                             onclick="{!c.removeRecc}"
                             disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                        />
+                    </aura:if>
+                    <aura:if
+                        isTrue="{!(!v.taskConfig.isRecurrence &amp;&amp; empty(v.taskConfig.Last_Occurrence_Date__c ))}"
+                    >
+                        <lightning:button
+                            variant="brand"
+                            label="Cancel Task"
+                            onclick="{!c.removeRecc}"
+                            disabled="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'}"
                         />
                     </aura:if>
                     <aura:set attribute="else">
