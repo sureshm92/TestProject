@@ -41,6 +41,11 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
     };
+        
+    static public List<String> taskSurveyReminderTypes = new List<String>{
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_REMINDER_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_SURVEY_FINAL_REMINDER_TYPE 
+    };   
 
     static public String NOTIFICATION_STATUS_PENDING = 'Pending';
     static public String NOTIFICATION_STATUS_PROCESSED = 'Processed';
@@ -333,13 +338,8 @@ public without sharing class NotificationService {
                                     n.Recipient__c
                                 )
                             ) {
-                                if (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) {
-                                    if (
-                                        !String.isBlank(n.Task_Id__c) &&
-                                        taskMap != null &&
-                                        taskMap.containsKey(n.Task_Id__c) &&
-                                        taskMap.get(n.Task_Id__c).Remind_Using_Email__c
-                                    ) {
+                                if ((taskAndVisitReminderTypes.contains(n.Notification_Type__c) ) ||(taskSurveyReminderTypes.contains(n.Notification_Type__c)&&!String.isBlank(n.Task_Id__c))) {
+                                    if (!String.isBlank(n.Task_Id__c) && taskMap!=null && taskMap.containsKey(n.Task_Id__c) && taskMap.get(n.Task_Id__c).Remind_Using_Email__c) {
                                         emailNotifications.add(n);
                                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                                     }
@@ -375,13 +375,8 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
-                        if (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) {
-                            if (
-                                !String.isBlank(n.Task_Id__c) &&
-                                taskMap != null &&
-                                taskMap.containsKey(n.Task_Id__c) &&
-                                taskMap.get(n.Task_Id__c).Remind_Using_SMS__c
-                            ) {
+                        if ((taskAndVisitReminderTypes.contains(n.Notification_Type__c)) ||(taskSurveyReminderTypes.contains(n.Notification_Type__c)&&!String.isBlank(n.Task_Id__c))) {
+                            if (!String.isBlank(n.Task_Id__c) && taskMap!=null && taskMap.containsKey(n.Task_Id__c) && taskMap.get(n.Task_Id__c).Remind_Using_SMS__c) {
                                 smsNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                             }
