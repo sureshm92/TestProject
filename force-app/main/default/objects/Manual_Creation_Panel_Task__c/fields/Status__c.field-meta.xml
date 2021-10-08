@@ -35,6 +35,11 @@
                 <default>false</default>
                 <label>One-Time Task Completed</label>
             </value>
+            <value>
+                <fullName>InProgress</fullName>
+                <default>false</default>
+                <label>In-Progress</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>
