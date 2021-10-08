@@ -21028,6 +21028,20 @@ communications using the toggles below.</value>
         <value>Signed Authorization Form</value>
     </labels>
     <labels>
+        <fullName>SMS_Body_Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SMS Body Task Reminder</shortDescription>
+        <value>You have an upcoming task ##TaskName;Due Date: ##Taskdate ;Please log in to ##CommunityURL for additional details.</value>
+    </labels>
+    <labels>
+        <fullName>SMS_Body_Visit_Task_Reminder</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>SMS Body Visit Task Reminder</shortDescription>
+        <value>You have an upcoming visit for the ##StudyName clinical research study.Visit date:##PlannedDate.Please log in to ##CommunityURL for additional details.</value>
+    </labels>
+    <labels>
         <fullName>Sodium</fullName>
         <language>en_US</language>
         <protected>false</protected>

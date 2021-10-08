@@ -23,6 +23,7 @@ public without sharing class Batch_PatientTaskReminder extends Batch_ScheduledAb
                     Visible_For__c,
                     WhatId,
                     Remind_Using_Email__c,
+                    Remind_Using_SMS__c,
                     WhoId,
                     CreatedByAdmin__c
                 FROM Task
