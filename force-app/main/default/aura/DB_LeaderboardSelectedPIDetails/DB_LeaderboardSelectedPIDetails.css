@@ -73,7 +73,7 @@
     padding-right: 10px;
     margin-left: -2px;
     padding-top: 12px;
-    width: 178px;
+    /*width: 178px; REF-4989 REf-4991*/
 }
 
 .THIS .innerdiv {
