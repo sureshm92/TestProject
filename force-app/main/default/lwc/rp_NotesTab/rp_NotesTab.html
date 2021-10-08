@@ -10,7 +10,7 @@
 
     <lightning-layout multiple-rows="true">
         <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="6" padding="around-small">
-            <lightning-textarea name="Comments" label="Comments" placeholder="Add comments here..."
+            <lightning-textarea  spellcheck="true" name="Comments" label="Comments" placeholder="Add comments here..."
                 value={commentValue} onchange={handleTextAreaChange} max-length	={totalCount}  class="text">
             </lightning-textarea>
             <div>
@@ -18,16 +18,16 @@
             </div>
             <div class="note-button">
                 <button class="apollo-btn secondary search-more-btn" onclick={clearComments}
-                    title="Clear">
+                    title="Clear" disabled={disabledSaveButton}>
                     Clear
                 </button>
-                <button class="apollo-btn primary search-more-btn" onclick={openCommentModel} title="Save Note" >
+                <button class="apollo-btn primary search-more-btn" onclick={openCommentModel} title="Save Note" disabled={disabledSaveButton}>
                     Save Note
                 </button>
             </div>
         </lightning-layout-item>
         <lightning-layout-item  size="12" small-device-size="6" medium-device-size="4" large-device-size="6" padding="around-small">
-            <lightning-input label="" type="text" value={searchValue} placeholder="Search" variant="label-hidden" onchange={handleSearch}
+            <lightning-input label="" type="search" value={searchValue} placeholder="Search" variant="label-hidden" onchange={handleSearch}
                 class="searchBox1">
             </lightning-input>
 
@@ -83,7 +83,7 @@
                     <button  class="apollo-btn tertiary custom-cancel"  onclick={closeSaveModel} title="Cancel">
                         Cancel
                     </button>
-                    <button class="apollo-btn primary search-more-btn" onclick={createNoteRecords} title="Ok" disabled={disabledSaveButton}>
+                    <button class="apollo-btn primary search-more-btn" onclick={createNoteRecords} title="Ok" disabled={disabledOkButton}>
                         Ok
                     </button>
                 </footer>

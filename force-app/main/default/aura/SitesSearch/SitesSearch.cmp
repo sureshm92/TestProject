@@ -20,6 +20,7 @@
     <aura:attribute name="pageList" type="List" />
     <aura:attribute name="isInitialized" type="Boolean" default="false" access="private" />
     <aura:attribute name="skipUpdate" type="Boolean" default="true" access="private" />
+    <aura:attribute name="accessLevel" type="String" access="public" /> 
     <aura:attribute
         name="emptyListMessage"
         type="String"
@@ -106,6 +107,7 @@
                                 <c:SitesSearchItem
                                     studySiteWrapper="{!item}"
                                     parentComponent="{!this}"
+                                    accessLevel ="{!v.accessLevel}"
                                 />
                             </aura:iteration>
                         </div>

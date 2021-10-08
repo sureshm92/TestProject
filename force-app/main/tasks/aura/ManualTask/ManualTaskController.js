@@ -13,7 +13,9 @@
             { label: 'Monthly', value: 'Monthly' },
             { label: 'Yearly', value: 'Yearly' }
         ];
-
+        if (component.get('v.mcpt') != null) {
+            component.set('v.showNumbersAdd', component.get('v.taskConfig').showNumbersAdd);
+        }
         component.set('v.recurrenceFrequency', val);
     },
     resetTaskValues: function(component, event, helper) {
@@ -27,6 +29,7 @@
         ) {
             component.set('v.taskConfig.reminderDays', null);
         }
+        component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
     },
     checkRecurrence: function(component, event, helper) {
         let startDate = component.get('v.taskConfig.startDate');
@@ -82,7 +85,7 @@
         let dueDate = component.get('v.taskConfig.endTime');
         let reminderDate = component.get('v.taskConfig.reminderDate');
         let useDaysNumber = component.get('v.showNumbersAdd') === 'true';
-        if (component.get('v.dayRemind') != 0 && component.get('v.taskConfig.isRecurrence')) {
+        if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
         } else if (
             component.get('v.dayRemind') == 0 &&
@@ -149,6 +152,7 @@
 
             component.set('v.dayRemind', diff);
         }
+        component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
     },
 
     dueNumberKeyPress: function(component, event, helper) {
