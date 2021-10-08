@@ -52,3 +52,21 @@
         margin-top: 2rem;
     }
 }
+/*REF-4985*/
+.THIS .showMobile {
+    display: none;
+}
+.THIS .hideMobile {
+    display: block;
+}
+.THIS .buttonMargin{
+    margin-bottom: 20px
+}
+@media all and (max-width: 768px) {
+    .THIS .showMobile {
+        display: block;
+    }
+    .THIS .hideMobile {
+        display: none;
+    }
+}
