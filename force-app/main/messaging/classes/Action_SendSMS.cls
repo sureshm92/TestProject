@@ -39,6 +39,7 @@ public with sharing class Action_SendSMS implements Action {
         ];
         sendResultService = new NotificationResultService(notifications);
         List<Id> conIds = new List<Id>();
+        List<Id> taskIds = new List<Id>();
         for (Notification__c n : notifications) {
             conIds.add(n.Recipient__c);
             if (!String.isBlank(n.Task_Id__c)) {
