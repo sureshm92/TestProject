@@ -50,6 +50,24 @@
             }
         );
     },
+    handleCancelTaskTask: function(component, event, helper) {
+        communityService.executeAction(
+            component,
+            'cancelTask',
+            {
+                configId: component.get('v.recordId')
+            },
+            function(value) {
+                console.log('val: ' + value);
+                communityService.showToast('Success', 'Success', 'Task cancelled');
+                $A.get('e.force:refreshView').fire();
+            },
+            null,
+            function() {
+                component.set('v.showSpinner', false);
+            }
+        );
+    },
     handleRemoveFutureTask: function(component, event, helper) {
         console.log('Confirm: ');
         communityService.executeAction(
@@ -72,6 +90,8 @@
     },
     handleCancel: function(component, event, helper) {
         console.log('Cancel: ');
-        $A.get('e.force:closeQuickAction').fire();
+        var compEvent = component.getEvent('closeModalEvent');
+        compEvent.setParams({ message: 'close' });
+        compEvent.fire();
     }
 });
