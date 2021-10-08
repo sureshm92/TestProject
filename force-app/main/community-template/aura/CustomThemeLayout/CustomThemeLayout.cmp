@@ -141,6 +141,7 @@
                                                  hasMessage="{!v.hasMessage}"
                                                  class="{!if(v.availableModes.length > 1, ' multi-mode', '')}"
                                                  communityTemplate="{!v.template}"
+                                                 userMode = "{!v.currentMode.userMode}"
                                                  />
                 </aura:if>
                 {!v.body}

@@ -282,9 +282,23 @@ public without sharing class NotificationService {
     public static void sendNotifications(List<Notification__c> notifications) {
         List<Id> whatIds = new List<Id>();
         List<Id> recipientIds = new List<Id>();
+        List<Id> taskIds = new List<Id>();
+        Map<Id, Task> taskMap;
         for (Notification__c n : notifications) {
             whatIds.add(n.WhatId__c);
             recipientIds.add(n.Recipient__c);
+            if (!String.isBlank(n.Task_Id__c)) {
+                taskIds.add(n.Task_Id__c);
+            }
+        }
+        if (!taskIds.isEmpty()) {
+            taskMap = new Map<Id, Task>(
+                [
+                    SELECT Id, Remind_Using_Email__c, Remind_Using_SMS__c
+                    FROM Task
+                    WHERE Id IN :taskIds
+                ]
+            );
         }
         NotificationAvailabilityService availabilityService = new NotificationAvailabilityService(
             recipientIds,
@@ -320,7 +334,12 @@ public without sharing class NotificationService {
                                 )
                             ) {
                                 if (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) {
-                                    if (n.RemindUsing__c == 'Email') {
+                                    if (
+                                        !String.isBlank(n.Task_Id__c) &&
+                                        taskMap != null &&
+                                        taskMap.containsKey(n.Task_Id__c) &&
+                                        taskMap.get(n.Task_Id__c).Remind_Using_Email__c
+                                    ) {
                                         emailNotifications.add(n);
                                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
                                     }
@@ -356,8 +375,20 @@ public without sharing class NotificationService {
                     }
                 } else if (nt.Target_Type__c == NOTIFICATION_TARGET_TYPE_SMS) {
                     if (availabilityService.isAvailableForSMS(n.Recipient__c, n.WhatId__c)) {
-                        smsNotifications.add(n);
-                        sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        if (taskAndVisitReminderTypes.contains(n.Notification_Type__c)) {
+                            if (
+                                !String.isBlank(n.Task_Id__c) &&
+                                taskMap != null &&
+                                taskMap.containsKey(n.Task_Id__c) &&
+                                taskMap.get(n.Task_Id__c).Remind_Using_SMS__c
+                            ) {
+                                smsNotifications.add(n);
+                                sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                            }
+                        } else {
+                            smsNotifications.add(n);
+                            sendResultService.setInProgress(n.Id, nt.Target_Type__c);
+                        }
                     } else {
                         sendResultService.setSkipped(n.Id, nt.Target_Type__c);
                     }
@@ -421,7 +452,6 @@ public without sharing class NotificationService {
         }
 
         sendResultService.updateResults();
-
         //Send emails:
         if (!emailNotifications.isEmpty()) {
             EmailService.send(emailNotifications, orgWideEmailByNotifyMap);
