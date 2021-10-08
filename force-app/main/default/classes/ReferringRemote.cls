@@ -371,7 +371,7 @@ public without sharing class ReferringRemote {
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
             enrollment.Referral_Completed_by__c = CommunityService.getInstance()
                 .getCurrentContactId();
-            enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
+            //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
             enrollment.Permit_IQVIA_to_contact_about_study__c = true;
             if (
                 enrollment.Pre_screening_Status__c ==
@@ -413,6 +413,8 @@ public without sharing class ReferringRemote {
             }
             if (sSite[0].Site__c != null) {
                 participant.Site__c = sSite[0].Site__c;
+                participant.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
+                participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
             }

@@ -952,7 +952,7 @@
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>BATCH_RUNNING</shortDescription>
-        <value>There is a batch running for selected Visit Plan(s). Uncheck is currently not possible. Please uncheck after batch is completed.</value>
+        <value>Editing is currently not possible until the batch is completed.</value>
     </labels>
     <labels>
         <fullName>BMI</fullName>
@@ -4996,9 +4996,9 @@ Your username is ##UserName.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Body Instant Task Reminder Type Not Selected</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;You have a new task awaiting your action : ##TaskName&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have a new task awaiting your action: ##TaskName&lt;/span&gt;
 
-&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
         <fullName>Email_Body_Janssen_Initial_PI</fullName>
@@ -19136,6 +19136,20 @@ communications using the toggles below.</value>
         <shortDescription>RH RP Delegate Cancel Record</shortDescription>
         <value>Cancel Record</value>
     </labels>
+     <labels>
+        <fullName>RH_RP_Outreach_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Outreach Patient</shortDescription>
+        <value>Outreach Patient</value>
+    </labels>
+     <labels>
+        <fullName>RH_RP_Add_a_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP Add a Patient</shortDescription>
+        <value>Add a Patient</value>
+    </labels>
     <labels>
         <fullName>RH_RP_Delegate_Certify</fullName>
         <language>en_US</language>
@@ -19169,7 +19183,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Information is mandatory</shortDescription>
-        <value>Delegate information is mandatory in case of minor Patient</value>
+        <value>Delegate information is mandatory in case of minor patient.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Last_Name</fullName>
@@ -19183,7 +19197,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Delegate Minor Error</shortDescription>
-        <value>Delegate age should not be minor.</value>
+        <value>This delegate is a minor and cannot be added.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Delegate_Missing_field</fullName>
@@ -19267,14 +19281,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Exclude Record</shortDescription>
-        <value>Exclude Record</value>
+        <value>Exclude Record(s)</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_Successfully</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Excluded Successfully</shortDescription>
-        <value>This Record has been Successfully Excluded.</value>
+        <value>This record has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_for_Referring</fullName>
@@ -19316,7 +19330,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Include Record</shortDescription>
-        <value>Include Record</value>
+        <value>Include Record(s)</value>
     </labels>
     <labels>
         <fullName>RH_RP_Included_for_Referring</fullName>
@@ -19477,7 +19491,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Add/Update Patient</value>
+        <value>Bulk Add/Update Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
@@ -19505,7 +19519,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Patient Auth should be Yes</shortDescription>
-        <value>Patient Auth should be Yes</value>
+        <value>This patient auth status should be 'Yes'.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Authorization</fullName>
@@ -19722,28 +19736,28 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP exclude this patient</shortDescription>
-        <value>Are you sure you want to exclude this patient?</value>
+        <value>Are you sure you want to exclude the patient(s)?</value>
     </labels>
     <labels>
         <fullName>RH_RP_has_been_excluded</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP has been excluded</shortDescription>
-        <value>has been Successfully Excluded.</value>
+        <value>has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_has_been_included</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP has been included</shortDescription>
-        <value>has been Successfully Included.</value>
+        <value>has been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_included_successfully</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP included successfully</shortDescription>
-        <value>This Record has been Successfully Included.</value>
+        <value>This Record has been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_info</fullName>
@@ -19799,7 +19813,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP want to include patients</shortDescription>
-        <value>Are you sure you want to include this patient?</value>
+        <value>Are you sure you want to include the patient(s)?</value>
     </labels>
     <labels>
         <fullName>Remind_Me</fullName>

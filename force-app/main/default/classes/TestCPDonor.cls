@@ -212,7 +212,7 @@ public class TestCPDonor {
         
         CPDonorReferralFormController.enrollPatient(Date.today(),ipr3,createFormResultRecord(),JSON.serialize(testWrap));
         CPDonorReferralFormController.checkScheduledMaintenance();
-        IntegrationPatientRefCovidTriggerHandler.convertToDelegateContact(ipr3, accounts[0],studySite.Study_Site_Type__c);
+       // IntegrationPatientRefCovidTriggerHandler.convertToDelegateContact(ipr3, accounts[0],studySite.Study_Site_Type__c);
         Form_Results__c formResult = createFormResultRecord(); 
         formResult.Participant_Enrollment__c = ipr3.Participant_Enrollment__c;
         insert formResult;

@@ -1,0 +1,94 @@
+<!--rp_NotesTab-->
+<!--Created By Sabir on 9-08-2021-->
+<template>
+    <div class="slds-m-around_large">
+        <div if:true={isLoading} class="slds-is-relative">
+            <lightning-spinner alternative-text="Loading..." variant="brand">
+            </lightning-spinner>
+        </div>
+    </div>
+
+    <lightning-layout multiple-rows="true">
+        <lightning-layout-item size="12" small-device-size="6" medium-device-size="4" large-device-size="6" padding="around-small">
+            <lightning-textarea  spellcheck="true" name="Comments" label="Comments" placeholder="Add comments here..."
+                value={commentValue} onchange={handleTextAreaChange} max-length	={totalCount}  class="text">
+            </lightning-textarea>
+            <div>
+                {charCount} of {totalCount}
+            </div>
+            <div class="note-button">
+                <button class="apollo-btn secondary search-more-btn" onclick={clearComments}
+                    title="Clear" disabled={disabledSaveButton}>
+                    Clear
+                </button>
+                <button class="apollo-btn primary search-more-btn" onclick={openCommentModel} title="Save Note" disabled={disabledSaveButton}>
+                    Save Note
+                </button>
+            </div>
+        </lightning-layout-item>
+        <lightning-layout-item  size="12" small-device-size="6" medium-device-size="4" large-device-size="6" padding="around-small">
+            <lightning-input label="" type="search" value={searchValue} placeholder="Search" variant="label-hidden" onchange={handleSearch}
+                class="searchBox1">
+            </lightning-input>
+
+           <div class="innerbox">
+                <template for:each={noteList} for:item="note">
+                    <div key={note.Id} class="mask">
+                        <div title={note.TextPreview} class="this-is-a-comment-other">
+                            {note.TextPreview}
+                        </div>
+                        <div title={note.CreatedBy.Name} class="this-is-a-comment-ma">
+                            {note.CreatedBy.Name} 
+                        </div>
+                        <div title={note.CreatedDate} class="this-is-a-comment-ma">
+                                <lightning-formatted-date-time
+                                               value= {note.CreatedDate} 
+                                               year="numeric"
+                                               month="numeric"
+                                               day="numeric"
+                                               hour="2-digit"
+                                               minute="2-digit"
+                                               time-zone="UTC">
+                               </lightning-formatted-date-time>
+                           
+                        </div>
+                    </div>
+                    <div key={note.Id} style="height: 20px">
+                    </div>
+                </template>
+            </div>
+            <template if:true={noRecords}>
+                <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
+            </template>
+        </lightning-layout-item>
+    </lightning-layout>
+
+    <template if:true={openSaveModel}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="sldsmodalcontainer">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeSaveModel}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">Create Note</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>Are you sure you want to save comments?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button  class="apollo-btn tertiary custom-cancel"  onclick={closeSaveModel} title="Cancel">
+                        Cancel
+                    </button>
+                    <button class="apollo-btn primary search-more-btn" onclick={createNoteRecords} title="Ok" disabled={disabledOkButton}>
+                        Ok
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>

@@ -22,7 +22,7 @@
                     </span>
                     <label class="slds-text-color_weak slds-p-horizontal_x-small" for="pageNum">{label.RH_RP_Page}</label>&nbsp;
                     <input type="number" id="pageNum" value={pageNumber} min="1" max={totalPages} maxlength="4" onchange={handlePageNumberChange} class="customInput" title="Go to a Page"></input>
-                    <span>&nbsp;{label.RH_RP_of}&nbsp;<b id="totalPages" style="color: #0768FD;border-bottom:2px dotted;">{totalPages}</b></span>&nbsp;&nbsp;
+                    <span>&nbsp;{label.RH_RP_of}&nbsp;<span id="totalPages" style="border-bottom:2px dotted;">{totalPages}</span></span>&nbsp;&nbsp;
                     <span class={class3}>
                         <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
                     </span>&nbsp;

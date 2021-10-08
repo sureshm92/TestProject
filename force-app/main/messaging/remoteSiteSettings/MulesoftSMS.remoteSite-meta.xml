@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<RemoteSiteSetting xmlns="http://soap.sforce.com/2006/04/metadata">
+    <description>Cloudhub endpoint for SMS API. The request is processed by Mulesoft</description>
+    <disableProtocolSecurity>false</disableProtocolSecurity>
+    <isActive>true</isActive>
+    <url>https://iqvia-rds-send-sms-message-proc-1-0-dev.us-e1.cloudhub.io</url>
+</RemoteSiteSetting>
