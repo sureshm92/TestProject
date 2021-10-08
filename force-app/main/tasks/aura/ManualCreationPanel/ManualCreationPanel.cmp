@@ -196,7 +196,7 @@
                             variant="brand"
                             label="Cancel Task"
                             onclick="{!c.removeRecc}"
-                            disabled="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'}"
+                            disabled="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled' || v.oneTimeTaskInProgress}"
                         />
                     </aura:if>
                     <aura:set attribute="else">
