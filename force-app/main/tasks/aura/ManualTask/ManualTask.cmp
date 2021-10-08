@@ -17,12 +17,14 @@
     <aura:attribute name="dayRemind" type="Integer" />
     <aura:attribute name="todayDate" type="Date" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isValidSave" type="Boolean" default="true" />
     <aura:attribute name="recurrenceFrequency" type="List" />
     <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
     <aura:attribute name="mcpt" type="Manual_Creation_Panel_Task__c" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}" />
     <aura:handler name="change" value="{!v.taskConfig.subject}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.startDate}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.endTime}" action="{!c.doCheckFields}" />
@@ -156,7 +158,7 @@
                         </aura:set>
                     </aura:if>
                     <aura:if
-                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
+                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.showNumbersAdd == 'true')}"
                     >
                         <span onkeypress="{!c.dueNumberKeyPress}">
                             <lightning:input
@@ -377,9 +379,8 @@
                                 </lightning:select>
                             </aura:set>
                         </aura:if>
-
                         <aura:if
-                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
+                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.showNumbersAdd == 'true')}"
                         >
                             <span onkeypress="{!c.dueNumberKeyPress}">
                                 <lightning:input

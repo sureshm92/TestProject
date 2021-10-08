@@ -25,6 +25,7 @@
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isValidSave" type="Boolean" default="true" />
     <aura:attribute name="isOpen" type="Boolean" default="false" />
     <aura:attribute name="remDays" type="Integer" />
     <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
@@ -35,6 +36,9 @@
 
     <aura:method name="setValidity" action="{!c.checkValid}">
         <aura:attribute name="childValidity" type="Boolean" />
+    </aura:method>
+    <aura:method name="setSaveValidity" action="{!c.checkSaveValid}">
+        <aura:attribute name="childSaveValidity" type="Boolean" />
     </aura:method>
 
     <!-- component body -->
@@ -179,7 +183,7 @@
                         variant="brand"
                         label="Save"
                         onclick="{!c.createClick}"
-                        disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                        disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress || !v.isValidSave)}"
                     />
                     <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                         <lightning:button
