@@ -71,7 +71,13 @@
         validity = helper.checkChild(component, validity);
         component.set('v.isValid', validity);
     },
-
+    checkSaveValid: function(component, event, helper) {
+        var valid;
+        if (component.get('v.initialized')) {
+            valid = helper.checkChildSave(component);
+        }
+        component.set('v.isValidSave', valid);
+    },
     checkValid: function(component, event, helper) {
         if (component.get('v.initialized')) {
             var validity = component.get('v.filter.statuses').length > 0;
