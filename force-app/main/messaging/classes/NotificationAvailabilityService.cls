@@ -21,6 +21,7 @@ public without sharing class NotificationAvailabilityService {
 
     private Map<Id, Boolean> piHasSiteWithEnabledEmailMap;
     private Map<Id, Boolean> piDelegateHasSiteWithEnabledEmailMap;
+    private Map<String, List<String>> countryDialCodeMap;
 
     public NotificationAvailabilityService(List<Id> recipientIds, List<String> whatIds) {
         contactByIdMap = new Map<Id, Contact>();
@@ -201,6 +202,15 @@ public without sharing class NotificationAvailabilityService {
         piDelegateHasSiteWithEnabledEmailMap = checkIfPIContactsHasDelegatedSitesWithEnabledEmails(
             recipientIds
         );
+
+        countryDialCodeMap = new Map<String, List<String>>();
+        for (Dialing_Country_Code__mdt mdt : [
+            SELECT Id, DeveloperName, Dialing_Code__c, Enabled_for_SMS__c
+            FROM Dialing_Country_Code__mdt
+            WHERE Enabled_for_SMS__c = TRUE
+        ]) {
+            countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
+        }
     }
 
     public Boolean isAvailable(
@@ -326,7 +336,7 @@ public without sharing class NotificationAvailabilityService {
         isAvailable =
             isAvailable &&
             contact.Participant_Opt_In_Status_SMS__c &&
-            contact.MailingCountryCode.equals('US') &&
+            countryDialCodeMap.containsKey(contact.MailingCountryCode) &&
             contact.Language__c.contains('en');
         if (objId.getSobjectType() == Participant_Enrollment__c.getSObjectType()) {
             Participant_Enrollment__c pe = (Participant_Enrollment__c) objectsByIds.get(

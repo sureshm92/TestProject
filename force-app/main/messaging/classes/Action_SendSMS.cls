@@ -9,6 +9,7 @@ public with sharing class Action_SendSMS implements Action {
     private List<Id> notificationIds;
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
+    public static final String PHONE_TYPE_MOBILE = 'Mobile';
 
     public Action_SendSMS(List<Notification__c> notifications) {
         this.notificationIds = SObjectHelper.toIdsList(notifications);
@@ -35,13 +36,27 @@ public with sharing class Action_SendSMS implements Action {
             WHERE Id IN :notificationIds
         ];
         sendResultService = new NotificationResultService(notifications);
+        Map<String, List<String>> countryDialCodeMap = new Map<String, List<String>>();
+        for (Dialing_Country_Code__mdt mdt : [
+            SELECT Id, DeveloperName, Dialing_Code__c, Enabled_for_SMS__c
+            FROM Dialing_Country_Code__mdt
+            WHERE Enabled_for_SMS__c = TRUE
+        ]) {
+            countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
+        }
         List<Id> conIds = new List<Id>();
         for (Notification__c n : notifications) {
             conIds.add(n.Recipient__c);
         }
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
         List<Participant__c> participants = [
-            SELECT Id, Contact__c, Phone__c
+            SELECT
+                Id,
+                Contact__c,
+                Phone__c,
+                Phone_Type__c,
+                Alternative_Phone_Number__c,
+                Alternative_Phone_Type__c
             FROM Participant__c
             WHERE Contact__c IN :conIds
         ];
@@ -77,19 +92,24 @@ public with sharing class Action_SendSMS implements Action {
                 CreatedDate,
                 Notification__c,
                 Notification__r.Recipient__c,
-                Notification__r.Recipient__r.Phone,
-                Notification__r.Recipient__r.Language__c
+                Notification__r.Recipient__r.MobilePhone,
+                Notification__r.Recipient__r.Language__c,
+                Notification__r.Recipient__r.MailingCountryCode
             FROM Send_Result__c
             WHERE
                 Notification__c IN :notificationIds
                 AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
         ]) {
-            String phoneNumber = smsChannel.Notification__r.Recipient__r.Phone;
+            String phoneNumber = smsChannel.Notification__r.Recipient__r.MobilePhone;
             if (
                 phoneNumber == null &&
                 participantMap.get(smsChannel.Notification__r.Recipient__c) != null
             ) {
-                phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c).Phone__c;
+                phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c)
+                        .Alternative_Phone_Type__c.equals(PHONE_TYPE_MOBILE)
+                    ? participantMap.get(smsChannel.Notification__r.Recipient__c)
+                          .Alternative_Phone_Number__c
+                    : null;
             }
             //Uncomment and set the value in metadata if needed in future.
             /*String title = parametrizedMessageService.getMessage(
@@ -98,6 +118,11 @@ public with sharing class Action_SendSMS implements Action {
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
+                phoneNumber =
+                    countryDialCodeMap.get(
+                            smsChannel.Notification__r.Recipient__r.MailingCountryCode
+                        )
+                        .get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
                 msgParam.messageBody = message;
