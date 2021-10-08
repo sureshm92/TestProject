@@ -24,6 +24,7 @@ public with sharing class Action_SendSMS implements Action {
 
     public void execute() {
         List<MessageParameters> messageParametersList = new List<MessageParameters>();
+        Map<Id, Task> taskMap;
         List<Notification__c> notifications = [
             SELECT
                 Id,
@@ -31,7 +32,8 @@ public with sharing class Action_SendSMS implements Action {
                 Recipient__c,
                 Recipient__r.Phone,
                 Recipient__r.Language__c,
-                WhatId__c
+                WhatId__c,
+                Task_Id__c
             FROM Notification__c
             WHERE Id IN :notificationIds
         ];
@@ -39,6 +41,14 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> conIds = new List<Id>();
         for (Notification__c n : notifications) {
             conIds.add(n.Recipient__c);
+            if (!String.isBlank(n.Task_Id__c)) {
+                taskIds.add(n.Task_Id__c);
+            }
+        }
+        if (!taskIds.isEmpty()) {
+            taskMap = new Map<Id, Task>(
+                [SELECT Id, Community_Template_Name__c FROM Task WHERE Id IN :taskIds]
+            );
         }
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
         List<Participant__c> participants = [
@@ -79,7 +89,9 @@ public with sharing class Action_SendSMS implements Action {
                 Notification__c,
                 Notification__r.Recipient__c,
                 Notification__r.Recipient__r.Phone,
-                Notification__r.Recipient__r.Language__c
+                Notification__r.Recipient__r.Language__c,
+                Notification__r.Notification_Type__c,
+                Notification__r.Task_Id__c
             FROM Send_Result__c
             WHERE
                 Notification__c IN :notificationIds
@@ -96,6 +108,32 @@ public with sharing class Action_SendSMS implements Action {
                 smsChannel.Notification__c + '_title'
             );
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
+            if (
+                !String.isBlank(message) &&
+                NotificationService.taskAndVisitReminderTypes.contains(
+                    smsChannel.Notification__r.Notification_Type__c
+                )
+            ) {
+                if (
+                    !String.isBlank(smsChannel.Notification__r.Task_Id__c) &&
+                    taskMap.containsKey(smsChannel.Notification__r.Task_Id__c) &&
+                    !String.isBlank(
+                        taskMap.get(smsChannel.Notification__r.Task_Id__c)
+                            .Community_Template_Name__c
+                    )
+                ) {
+                    String communityTemaplteName = taskMap.get(
+                            smsChannel.Notification__r.Task_Id__c
+                        )
+                        .Community_Template_Name__c;
+                    if (!String.isBlank(communityTemaplteName)) {
+                        String commUrl = CommunityService.getCommunityURLFromTemplateName(
+                            communityTemaplteName
+                        );
+                        message = message.replace('##CommunityURL', commUrl);
+                    }
+                }
+            }
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
                 msgParam.transactionId = smsChannel.Id + '~' + smsChannel.CreatedDate; //
