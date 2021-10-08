@@ -5,7 +5,7 @@ stages:
     - DeployInt
     - ValidateInf
     - DeployInf
-	
+    
 SonarCheckInt:
   stage: SonarCheckInt
   allow_failure: true
