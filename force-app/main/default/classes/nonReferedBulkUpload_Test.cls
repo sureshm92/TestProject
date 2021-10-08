@@ -1,4 +1,4 @@
-@isTest
+@isTest(isParallel = false)
 public class nonReferedBulkUpload_Test {
 	@TestSetup
     static void setup() {

@@ -66,14 +66,10 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     connectedCallback() {
-        console.log('UsrMode'+this.userMode);
-        console.log('DelegateId'+this.delegateId);
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.userMode = communityService.getUserMode();
-            console.log('frmtablemode'+ this.userMode);
             this.delegateId = communityService.getDelegateId();
-            console.log('frmtableid'+  this.delegateId );
         }).then(() => {
             this.getDetailsApex();
         }).catch((error) => {
@@ -168,7 +164,6 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
     handleExcludeRecords(event) {
        this.isExcludedforReferring = event.detail;
-       console.log('Event Triggered---->'+this.isExcludedforReferring);
     }
 
     //Capture the event fired from the paginator component
@@ -223,9 +218,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var allRecords = [];
         var paginationList = [];
         var ctpId;
-        console.log('selectall'+this.isSelectAll);
         this.isSelectAll = false;
-        console.log('selectall'+this.isSelectAll);
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             row.isChecked = false;
@@ -329,9 +322,6 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
     handleSearch(event) {
         this.searchValue = event.target.value;
-        console.log(this.searchValue);
-        console.log(this.data.length);
-        console.log(this.recordsToDisplay.length);
         let recddis;
         let allRec;
         /*if (this.isFilterApplied) {
@@ -357,14 +347,15 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                         allRec = excludedRecords;   
                 }
               
-                recddis = allRec.filter((rec) =>
-                    JSON.stringify(rec).toLowerCase().includes(this.searchValue.toLowerCase())
+                recddis = allRec
+                .filter(rec => (rec.peRec.Patient_ID__c  != undefined  && rec.peRec.Patient_ID__c.toLowerCase().includes(this.searchValue.toLowerCase())) || 
+                    (rec.peRec.Participant_Name__c != undefined && rec.peRec.Participant_Name__c.toLowerCase().includes(this.searchValue.toLowerCase())) ||
+                    (rec.peRec.Participant_Surname__c != undefined && rec.peRec.Participant_Surname__c.toLowerCase().includes(this.searchValue.toLowerCase()))
                 );
                 this.recordsToDisplay = recddis;
                 this.data = recddis;
                 this.template.querySelector('c-rppagination').setPageNumber();
-                console.log(this.data.length);
-                console.log(this.recordsToDisplay.length);
+            
                 this.isPaginationApplied = false;
             } /**else {
                 this.data = allRec;
