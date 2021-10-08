@@ -15,7 +15,8 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
                     Email__c,
                     From__c,
                     IsDelegate__c,
-                    RemindUsing__c
+                    RemindUsing__c,
+                    Task_Id__c
                 FROM Notification__c
                 WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING
             ]

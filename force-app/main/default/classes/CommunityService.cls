@@ -6,7 +6,7 @@ public without sharing class CommunityService {
     public static final String GSK_NETWORK_NAME = 'GSK Community';
     public static final String JANSSEN_NETWORK_NAME = 'Janssen Community';
     public static final String JANSSEN_COMMUNITY_TEMPLATE = 'Janssen';
-    
+
     public static List<String> strusrName = new List<String>();
     public static final String COMMUNITY_USER_PROFILE_NAME = 'IQVIA Customer Community Plus Login User';
     public static final String CC_COMMUNITY_USER_PROFILE_NAME = 'IQVIA Call Center Login User';
@@ -16,7 +16,7 @@ public without sharing class CommunityService {
         WHERE Name = :COMMUNITY_USER_PROFILE_NAME
     ]
     .Id;
-    
+
     public static final Id CC_COMMUNITY_USER_PROFILE_ID = [
         SELECT Id
         FROM Profile
@@ -97,12 +97,17 @@ public without sharing class CommunityService {
     public static Id getUserId() {
         return UserContext.getUserId();
     }
-    
-    public static Map<String,Integer> getMaxLength(Sobject so,List<String> fieldNames) {
-        Map<String,Integer> lengthByFieldName = new Map<String,Integer>();
-        for(String field : fieldNames){
-            Integer length = so.getSObjectType().getDescribe().fields.getMap().get(field).getDescribe().length;
-            lengthByFieldName.put(field,length);
+
+    public static Map<String, Integer> getMaxLength(Sobject so, List<String> fieldNames) {
+        Map<String, Integer> lengthByFieldName = new Map<String, Integer>();
+        for (String field : fieldNames) {
+            Integer length = so.getSObjectType()
+                .getDescribe()
+                .fields.getMap()
+                .get(field)
+                .getDescribe()
+                .length;
+            lengthByFieldName.put(field, length);
         }
         return lengthByFieldName;
     }
@@ -134,31 +139,32 @@ public without sharing class CommunityService {
         return [
             SELECT Id, userCommunityMode__c, userCommunytyType__c
             FROM Contact
-            WHERE Id IN :userContactIds FOR UPDATE
+            WHERE Id IN :userContactIds
+            FOR UPDATE
         ];
     }
 
     public static List<User> getCommunityUsersByContactIds(Set<Id> contactIds) {
-        List<User> lstUser = new List<User> ();
-        if(!contactIds.isEmpty()){
+        List<User> lstUser = new List<User>();
+        if (!contactIds.isEmpty()) {
             lstUser = [
-            SELECT
-                Id,
-                Name,
-                FirstName,
-                LastName,
-                ContactId,
-                Email,
-                IsActive,
-                (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
-            FROM User
-            WHERE
-                //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
-                ContactId IN :contactIds];
-    }
-        return  lstUser;
-            //AND email != null
-       
+                SELECT
+                    Id,
+                    Name,
+                    FirstName,
+                    LastName,
+                    ContactId,
+                    Email,
+                    IsActive,
+                    (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)
+                FROM User
+                WHERE
+                    //Profile.Name = :COMMUNITY_USER_PROFILE_NAME AND
+                    ContactId IN :contactIds
+            ];
+        }
+        return lstUser;
+        //AND email != null
     }
 
     public static Boolean isUserModeValid(String userMode) {
@@ -184,7 +190,7 @@ public without sharing class CommunityService {
             newPortalUsers.add(createUser(cont, null, null, null));
         insert newPortalUsers;
     }
-    
+
     public void createCCPortalUsers(Set<Id> contactIds) {
         List<Contact> contacts = getContacts(contactIds);
         List<User> newPortalUsers = new List<User>();
@@ -322,7 +328,12 @@ public without sharing class CommunityService {
         return newUser;
     }
 
-    public static User createUserBulk(Contact cont, String locale, String language, String timeZone) {
+    public static User createUserBulk(
+        Contact cont,
+        String locale,
+        String language,
+        String timeZone
+    ) {
         if (locale == null)
             locale = 'en_US';
         if (language == null) {
@@ -376,46 +387,55 @@ public without sharing class CommunityService {
     }
 
     public static List<Contact> getContacts(Set<Id> contactIds, Boolean queryParticipants) {
-        if(queryParticipants== true){
-        return [
-            SELECT
-                Id,
-            	(SELECT Id,First_Name__c,Salutation__c,Full_Name__c,Suffix__c,Last_Name__c FROM Participants__r),
-                Email,
-                FirstName,
-                LastName,
-                Name,
-                Language__c,
-                Library_Primary_Language__c,
-                Full_Name__c,
-                Salutation,
-                Suffix
-            FROM Contact
-            WHERE Id = :contactIds
-            FOR UPDATE
-            //ORDER BY Name
-        ];            
-        }else{
-        return [
-            SELECT
-                Id,
-                Email,
-                FirstName,
-                LastName,
-                Name,
-                Language__c,
-                Library_Primary_Language__c,
-                Full_Name__c,
-                Salutation,
-                Suffix
-            FROM Contact
-            WHERE Id = :contactIds
-            FOR UPDATE
-            //ORDER BY Name
-        ];
+        if (queryParticipants == true) {
+            return [
+                SELECT
+                    Id,
+                    (
+                        SELECT
+                            Id,
+                            First_Name__c,
+                            Salutation__c,
+                            Full_Name__c,
+                            Suffix__c,
+                            Last_Name__c
+                        FROM Participants__r
+                    ),
+                    Email,
+                    FirstName,
+                    LastName,
+                    Name,
+                    Language__c,
+                    Library_Primary_Language__c,
+                    Full_Name__c,
+                    Salutation,
+                    Suffix
+                FROM Contact
+                WHERE Id = :contactIds
+                FOR UPDATE
+                //ORDER BY Name
+            ];
+        } else {
+            return [
+                SELECT
+                    Id,
+                    Email,
+                    FirstName,
+                    LastName,
+                    Name,
+                    Language__c,
+                    Library_Primary_Language__c,
+                    Full_Name__c,
+                    Salutation,
+                    Suffix
+                FROM Contact
+                WHERE Id = :contactIds
+                FOR UPDATE
+                //ORDER BY Name
+            ];
         }
-    }    
-    
+    }
+
     public static List<Contact> getContacts(Set<Id> contactIds) {
         return [
             SELECT
@@ -482,16 +502,26 @@ public without sharing class CommunityService {
             WHERE Username IN :names OR Email IN :names
         ];
         System.debug('usersAvailable:' + users);
-        
-         Set<String> usedNames = new Set<String>();
-            for (User user : users)
-                usedNames.add(user.Username);
-                
+
+        Set<String> usedNames = new Set<String>();
+        for (User user : users)
+            usedNames.add(user.Username);
+
         string email1 = email + '01';
         string email2 = email + '02';
-        if (users != null && users.size() == 1 && !strusrName.contains(email1) && !usedNames.contains(email1)) {
+        if (
+            users != null &&
+            users.size() == 1 &&
+            !strusrName.contains(email1) &&
+            !usedNames.contains(email1)
+        ) {
             return email + '01';
-        } else if (users != null && users.size() == 2 && !strusrName.contains(email2) && !usedNames.contains(email2)) {
+        } else if (
+            users != null &&
+            users.size() == 2 &&
+            !strusrName.contains(email2) &&
+            !usedNames.contains(email2)
+        ) {
             return email + '02';
         } else {
             for (String userName : names) {
@@ -562,6 +592,16 @@ public without sharing class CommunityService {
         return isNewSession;
     }
 
+    public static String getCommunityURLFromTemplateName(String templateName) {
+        String communityName = '';
+        if (templateName == 'Default') {
+            communityName = CommunityTemplateService.getCommunityURL('IQVIA Referral Hub');
+        } else if (templateName == 'GSK') {
+            communityName = CommunityTemplateService.getCommunityURL('GSK Community');
+        }
+        return communityName;
+    }
+
     public class CreateParticipantUsersAsync implements Queueable {
         Set<Id> participantContactIds;
         Map<Id, Id> contactIdsMap = new Map<Id, Id>();
@@ -592,7 +632,7 @@ public without sharing class CommunityService {
             }
         }
     }
-    
+
     public static User createCCUser(Contact cont, String locale, String language, String timeZone) {
         if (locale == null)
             locale = 'en_US';
