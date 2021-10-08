@@ -177,7 +177,7 @@
 }
 .THIS .email-match {
     width: 450px;
-    white-space: nowrap;
+ /*   white-space: nowrap; */
     font-size: 14px;
     color: #444444;
 }
