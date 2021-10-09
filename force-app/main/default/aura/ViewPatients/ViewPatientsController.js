@@ -141,4 +141,9 @@
         component.find('table123').getOnExcludeIncluderefresh();
     },
 
+    onBulkExcludeIncluderefreshTable : function(component, event) {
+        component.set("v.bulkPeIds",event.getParam('bulkPeIds'));
+        component.find('table123').getOnbBulkExcludeIncluderefresh();
+    },
+
 });

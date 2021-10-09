@@ -10,7 +10,7 @@
     <aura:attribute name="detailsExpanded" type="Boolean" />
     <aura:attribute name="searchItem" type="Boolean" default="false" />
     <aura:attribute name="accessUserLevel" type="String" />
-
+    
     <!-- component body: -->
     <div class="rr-white-panel slvi-container">
         <div class="slvi-top-container-hcp slvi-section">
@@ -18,81 +18,81 @@
             <div class="slvi-name-section-hcp">
                 <div class="slds-grid slds-wrap">
                     <div
-                        class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_2-of-3 slds-large-size_3-of-4 study-name"
-                    >
+                         class="slds-col slds-small-size_1-of-1 slds-x-small-size_1-of-1 slds-medium-size_2-of-3 slds-large-size_3-of-4 study-name"
+                         >
                         <!--   <c:uiLimitTextByLines maxLines="{!if($Browser.formFactor == 'DESKTOP', 1, 3)}" lineHeight="33" unitsType="px"> -->
                         <c:RRLink
-                            class="{!v.isRTL ? 'study-titleRTL':'study-title'}"
-                            label="{!v.currentStudy.trial.Study_Code_Name__c}"
-                            page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                        />
+                                  class="{!v.isRTL ? 'study-titleRTL':'study-title'}"
+                                  label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                                  page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
+                                  />
                         <!--    </c:uiLimitTextByLines> -->
                     </div>
                     <div
-                        class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name"
-                    >
+                         class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-1 slds-large-size_1-of-1 slds-large-order_3 slds-medium-order_3 sponsor-name"
+                         >
                         {!v.currentStudy.trial.Study_Sponsor__c}
                     </div>
-
+                    
                     <!--Social Widgets-->
                     <div
-                        class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2"
-                    >
+                         class="slds-col slds-small-size_1-of-1 slds-x-small-size--1-of-1 slds-medium-size_1-of-3 slds-large-size_1-of-4 slds-large-order_2 slds-medium-order_2"
+                         >
                         <aura:if isTrue="{!!empty(v.currentStudy.trial.NCT_Number__c)}">
                             <div
-                                class="{!v.userMode == 'PI'? 'rri-icon-pi slds-float_right':'rri-icon slds-float_right'}"
-                                style="{!if(v.isRTL, 'float:left;','')}"
-                            >
+                                 class="{!v.userMode == 'PI'? 'rri-icon-pi slds-float_right':'rri-icon slds-float_right'}"
+                                 style="{!if(v.isRTL, 'float:left;','')}"
+                                 >
                                 <a
-                                    href="javascript:void(0);"
-                                    data-id="email"
-                                    onclick="{!c.onShareClick}"
-                                >
+                                   href="javascript:void(0);"
+                                   data-id="email"
+                                   onclick="{!c.onShareClick}"
+                                   >
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon
-                                            iconName="icon-mail"
-                                            id="icon-mail"
-                                            color="#297DFD"
-                                        />
+                                                  iconName="icon-mail"
+                                                  id="icon-mail"
+                                                  color="#297DFD"
+                                                  />
                                     </span>
                                 </a>
                                 <a
-                                    href="javascript:void(0);"
-                                    data-id="facebook"
-                                    onclick="{!c.onShareClick}"
-                                >
+                                   href="javascript:void(0);"
+                                   data-id="facebook"
+                                   onclick="{!c.onShareClick}"
+                                   >
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon
-                                            iconName="icon-facebook-2"
-                                            id="icon-facebook"
-                                            color="#475993"
-                                        />
+                                                  iconName="icon-facebook-2"
+                                                  id="icon-facebook"
+                                                  color="#475993"
+                                                  />
                                     </span>
                                 </a>
                                 <a
-                                    href="javascript:void(0);"
-                                    data-id="twitter"
-                                    onclick="{!c.onShareClick}"
-                                >
+                                   href="javascript:void(0);"
+                                   data-id="twitter"
+                                   onclick="{!c.onShareClick}"
+                                   >
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon
-                                            iconName="icon-twitter"
-                                            id="icon-twitter"
-                                            color="#2AA2EE"
-                                        />
+                                                  iconName="icon-twitter"
+                                                  id="icon-twitter"
+                                                  color="#2AA2EE"
+                                                  />
                                     </span>
                                 </a>
                                 <a
-                                    href="javascript:void(0);"
-                                    data-id="linkedin"
-                                    onclick="{!c.onShareClick}"
-                                >
+                                   href="javascript:void(0);"
+                                   data-id="linkedin"
+                                   onclick="{!c.onShareClick}"
+                                   >
                                     <span class="slds-m-around_x-small">
                                         <c:RRIcon
-                                            iconName="icon-linkedin-2"
-                                            id="icon-linkedin"
-                                            color="#0077B7"
-                                        />
+                                                  iconName="icon-linkedin-2"
+                                                  id="icon-linkedin"
+                                                  color="#0077B7"
+                                                  />
                                     </span>
                                 </a>
                             </div>
@@ -104,14 +104,14 @@
                 <div class="objective-text">{!v.currentStudy.trial.Brief_Summary__c}</div>
                 <div class="objective-link">
                     <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                        >
+                              >
                         <aura:if isTrue="{!v.isRTL}">
                             {!$Label.c.BTN_Learn_More}
                             <c:RRIcon iconName="icon-chevron-left" />
-                        <aura:set attribute="else">
-                            {!$Label.c.BTN_Learn_More}
-                            <c:RRIcon iconName="icon-chevron-right" />
-                        </aura:set>    
+                            <aura:set attribute="else">
+                                {!$Label.c.BTN_Learn_More}
+                                <c:RRIcon iconName="icon-chevron-right" />
+                            </aura:set>    
                         </aura:if>
                     </c:RRLink>
                 </div>
@@ -122,18 +122,18 @@
                 <div class="slvi-name-section">
                     <div class="study-name study-name-pi">
                         <c:RRLink
-                            label="{!v.currentStudy.trial.Study_Code_Name__c}"
-                            page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                        />
+                                  label="{!v.currentStudy.trial.Study_Code_Name__c}"
+                                  page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
+                                  />
                     </div>
                     <!-- Status: -->
                     <div
-                        class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}"
-                    >
+                         class="{!'slvi-status status-' + v.currentStudy.trial.Override_Recruitment_Status__c}"
+                         >
                         {!v.currentStudy.trialRecruitmentStatusLabel}
                     </div>
                 </div>
-
+                
                 <div class="sponsor-name">{!v.currentStudy.trial.Study_Sponsor__c}</div>
                 <div class="slvi-objective-section">
                     <div class="objective-text">
@@ -141,14 +141,14 @@
                     </div>
                     <div class="objective-link">
                         <c:RRLink page="{!'study-workspace?id=' + v.currentStudy.trial.Id}"
-                            >
+                                  >
                             <aura:if isTrue="{!v.isRTL}">
                                 {!$Label.c.BTN_Learn_More}
                                 <c:RRIcon iconName="icon-chevron-left" />
-                            <aura:set attribute="else">
-                                {!$Label.c.BTN_Learn_More}
-                                <c:RRIcon iconName="icon-chevron-right" />
-                            </aura:set>    
+                                <aura:set attribute="else">
+                                    {!$Label.c.BTN_Learn_More}
+                                    <c:RRIcon iconName="icon-chevron-right" />
+                                </aura:set>    
                             </aura:if>
                         </c:RRLink>
                     </div>
@@ -159,26 +159,36 @@
         <aura:if isTrue="{!!empty(v.currentStudy.studyActions)}">
             <div class="slds-grid slvi-buttons slvi-section">
                 <aura:iteration
-                    items="{!v.currentStudy.studyActions}"
-                    var="action"
-                    indexVar="actionIndex"
-                >
-                    <div
-                        class="{!'apollo-btn secondary' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
-                        title="{!action.disableReason}"
-                        style="{!if(v.isRTL, 'margin-left: 1.2%;','')}"
-                    >
-                        <div
-                            id="{!action.id}"
-                            class="{!if(action.disabled, ' disabled', '')}"
-                            onclick="{!c.doAction}"
-                        >
-                            <!--  <div class="btn-content"> -->
-                            <!--  <c:RRIcon iconName="{!action.iconName}"/> -->
-                            {!action.label}
-                            <!--   </div>  -->
+                                items="{!v.currentStudy.studyActions}"
+                                var="action"
+                                indexVar="actionIndex"
+                                >
+                    <aura:if isTrue="{!and(or(action.id == 'medicalRecordReview',action.id == 'refer'),v.accessUserLevel =='Level 3')}"> 
+                        <button
+                                    class="apollo-btn secondary"
+                                    disabled="true"
+                                    >
+                                {!action.label}
+                            </button>
+                        <aura:set attribute="else">
+                            <div
+                             class="{!'apollo-btn secondary' + if(action.disabled, ' disabled', '') + if(and(v.userMode=='PI',actionIndex != v.currentStudy.studyActions.length-1), ' btn-pi-border', '')}"
+                             title="{!action.disableReason}"
+                             style="{!if(v.isRTL, 'margin-left: 1.2%;','')}"
+                             >
+                            <div
+                                 id="{!action.id}"
+                                 class="{!if(action.disabled, ' disabled', '')}"
+                                 onclick="{!c.doAction}"
+                                 >
+                                <!--  <div class="btn-content"> -->
+                                <!--  <c:RRIcon iconName="{!action.iconName}"/> -->
+                                {!action.label}
+                                <!--   </div>  -->
+                            </div>
                         </div>
-                    </div>
+                        </aura:set>   
+                    </aura:if>
                 </aura:iteration>
             </div>
         </aura:if>
@@ -187,26 +197,26 @@
             <div style="background-color: #f8f9fb; box-sizing: border-box">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small"
-                    >
+                         class="slds-col slds-size_1-of-1 slds-medium-size_10-of-12 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small"
+                         >
                         <div>
                             <div class="{!empty(v.currentStudy.ssList) ? 'slds-hide' : ''}">
                                 <a
-                                    href="javascript:void(0);"
-                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
-                                    onclick="{!c.toggleStudySiteListView}"
-                                >
+                                   href="javascript:void(0);"
+                                   class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
+                                   onclick="{!c.toggleStudySiteListView}"
+                                   >
                                     <aura:if isTrue="{!v.isRTL}">
-                                            <span class="slds-m-right--xx-small"
-                                            >{!$Label.c.SS_View_Sites}</span
-                                        >
+                                        <span class="slds-m-right--xx-small"
+                                              >{!$Label.c.SS_View_Sites}</span
+                                            >
                                         <c:RRIcon iconName="icon-chevron-right" />
-                                    <aura:set attribute="else">
+                                        <aura:set attribute="else">
                                             <span class="slds-m-right--xx-small"
-                                            >{!$Label.c.SS_View_Sites}</span
-                                        >
-                                        <c:RRIcon iconName="icon-chevron-right" />
-                                    </aura:set>    
+                                                  >{!$Label.c.SS_View_Sites}</span
+                                                >
+                                            <c:RRIcon iconName="icon-chevron-right" />
+                                        </aura:set>    
                                     </aura:if> 
                                     
                                 </a>
@@ -217,15 +227,15 @@
             </div>
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                 <aura:iteration
-                    items="{!v.currentStudy.ssList}"
-                    var="siteWrapper"
-                    indexVar="siteWrappIndx"
-                >
+                                items="{!v.currentStudy.ssList}"
+                                var="siteWrapper"
+                                indexVar="siteWrappIndx"
+                                >
                     <c:StudySiteCardForPI
-                        siteWrapper="{!siteWrapper}"
-                        userMode="{!v.userMode}"
-                        studyListViewComponent="{!v.parent}"
-                    />
+                                          siteWrapper="{!siteWrapper}"
+                                          userMode="{!v.userMode}"
+                                          studyListViewComponent="{!v.parent}"
+                                          />
                 </aura:iteration>
             </div>
         </aura:if>
@@ -234,52 +244,52 @@
             <div class="accordion-bar">
                 <div class="slds-grid slds-wrap slds-p-horizontal_medium">
                     <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small"
-                    >
+                         class="slds-col slds-size_1-of-1 slds-medium-size_5-of-12 slds-order_4 slds-medium-order_1 slds-m-vertical_x-small"
+                         >
                         <div>
                             <div
-                                class="{!or(v.searchItem, !v.currentStudy.hasActiveHCPEnrollments)? 'slds-hide' : ''}"
-                            >
+                                 class="{!or(v.searchItem, !v.currentStudy.hasActiveHCPEnrollments)? 'slds-hide' : ''}"
+                                 >
                                 <a
-                                    href="javascript:void(0);"
-                                    class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
-                                    onclick="{!c.toggleStudySiteListView}"
-                                >   
-                                <aura:if isTrue="{!v.isRTL}">
-                                    <span class="slds-m-right--xx-small accordion-label"
-                                    >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
-                                    >
-                                    <c:RRIcon iconName="icon-chevron-right" />
-                                <aura:set attribute="else">
-                                    <span class="slds-m-right--xx-small accordion-label"
-                                    >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
-                                    >
-                                    <c:RRIcon iconName="icon-chevron-right" />
-                                </aura:set>    
-                                </aura:if>
+                                   href="javascript:void(0);"
+                                   class="{!(v.detailsExpanded == true ? 'expanded-icon ': 'expanded-icon hidden-icon ') + 'rr-link'}"
+                                   onclick="{!c.toggleStudySiteListView}"
+                                   >   
+                                    <aura:if isTrue="{!v.isRTL}">
+                                        <span class="slds-m-right--xx-small accordion-label"
+                                              >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
+                                            >
+                                        <c:RRIcon iconName="icon-chevron-right" />
+                                        <aura:set attribute="else">
+                                            <span class="slds-m-right--xx-small accordion-label"
+                                                  >{!$Label.c.MyStudy_Associated_Sites_and_Site_Details}</span
+                                                >
+                                            <c:RRIcon iconName="icon-chevron-right" />
+                                        </aura:set>    
+                                    </aura:if>
                                 </a>
                             </div>
                             <aura:if isTrue="{!v.searchItem}">
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments}">
                                     <div>
                                         <span class="slds-m-right--xx-small rr-blue-color"
-                                            >{!$Label.c.MyStudy_You_are_already_associated}</span
-                                        >
+                                              >{!$Label.c.MyStudy_You_are_already_associated}</span
+                                            >
                                     </div>
                                 </aura:if>
                                 <aura:if isTrue="{!v.currentStudy.hasHCPEnrollments == false}">
                                     <div>
                                         <span class="slds-m-right--xx-small"
-                                            >{!$Label.c.MyStudy_No_sites_associated_yet}</span
-                                        >
+                                              >{!$Label.c.MyStudy_No_sites_associated_yet}</span
+                                            >
                                     </div>
                                 </aura:if>
                             </aura:if>
                         </div>
                     </div>
                     <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-order_3 slds-medium-order_2 slds-m-vertical_x-small"
-                    >
+                         class="slds-col slds-size_1-of-1 slds-medium-size_3-of-12 slds-order_3 slds-medium-order_2 slds-m-vertical_x-small"
+                         >
                         <div class="slvi-status-item">
                             <aura:if isTrue="{!v.currentStudy.distance != null}">
                                 <div style="float: left">
@@ -294,8 +304,8 @@
                         </div>
                     </div>
                     <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6 slds-order_2 slds-medium-order_3 slds-m-vertical_x-small"
-                    >
+                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6 slds-order_2 slds-medium-order_3 slds-m-vertical_x-small"
+                         >
                         <div class="slvi-status-item">
                             <aura:if isTrue="{!v.currentStudy.therapeuticArea != null}">
                                 <div style="float: left">
@@ -306,10 +316,10 @@
                             </aura:if>
                         </div>
                     </div>
-
+                    
                     <div
-                        class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6 slds-order_1 slds-medium-order_4 slds-m-vertical_x-small"
-                    >
+                         class="slds-col slds-size_1-of-1 slds-medium-size_1-of-6 slds-order_1 slds-medium-order_4 slds-m-vertical_x-small"
+                         >
                         <div class="slvi-status-item">
                             <div style="float: left">
                                 <img src="{!$Resource.IconActivelyEnrollingNew}" width="16" />
@@ -324,31 +334,31 @@
             <div class="{!v.detailsExpanded == true ? ' ' : 'slds-hide '}">
                 <aura:iteration items="{!v.currentStudy.sites}" var="siteWrapper">
                     <c:StudySiteCardForRP
-                        siteWrapper="{!siteWrapper}"
-                        hasPatients="{!v.currentStudy.hasPatients}"
-                    />
+                                          siteWrapper="{!siteWrapper}"
+                                          hasPatients="{!v.currentStudy.hasPatients}"
+                                          />
                 </aura:iteration>
                 <div class="slds-p-around--medium">
                     <div
-                        class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
-                        style="min-height: 100%"
-                    >
+                         class="slds-grid slds-wrap slds-grid_align-center slds-grid_vertical-align-center"
+                         style="min-height: 100%"
+                         >
                         <div
-                            class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item"
-                        >
+                             class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-left slvi-header-item"
+                             >
                             <span class="header-white-panel" style="font-size: 16px"
-                                >{!$Label.c.MyStudy_None_of_these_sites_work}</span
-                            >
+                                  >{!$Label.c.MyStudy_None_of_these_sites_work}</span
+                                >
                         </div>
                         <div
-                            class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item"
-                        >
+                             class="slds-col slds-medium-size_1-of-2 slds-size_1-of-1 slvi-padded-panel-right slvi-header-item"
+                             >
                             <button
-                                class="apollo-btn primary slvi-search-site-btn"
-                                onclick="{!c.navigateToSitesSearch}"
-                                disabled="{!v.accessUserLevel=='Level 2'}"
-                                title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}"
-                            >
+                                    class="apollo-btn primary slvi-search-site-btn"
+                                    onclick="{!c.navigateToSitesSearch}"
+                                    disabled="{!v.accessUserLevel=='Level 2'}"
+                                    title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}"
+                                    >
                                 {!$Label.c.MyStudy_Find_More_Sites}
                             </button>
                         </div>

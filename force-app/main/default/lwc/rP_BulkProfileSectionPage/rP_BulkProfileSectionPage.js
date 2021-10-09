@@ -91,12 +91,17 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         .then((result) => { 
             this.showSuccessToast(this.label.RH_RP_Excluded_Successfully);
             this.openExclude = false;
-            eval("$A.get('e.force:refreshView').fire();");
         })
         .catch((error) => {
             this.errors = error;
             console.log(error);
             this.disableButton = false;
+        })
+        .finally(() => {
+            //eval("$A.get('e.force:refreshView').fire();");
+            const selectedvalue = {bulkPeIds: this.peIds};
+            const selectedEvent = new CustomEvent('bulkincludeexcluderefresh', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
         })
     }
 
@@ -113,14 +118,14 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         })
         .finally(() => {
             this.openInclude = false;
-            eval("$A.get('e.force:refreshView').fire();");
+            const selectedvalue =  {bulkPeIds: this.peIds};
+            const selectedEvent = new CustomEvent('bulkincludeexcluderefresh', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
         })
     }
     exportBulkepatient(){
-       console.log('export');
        getExportRecords({participantEnrollmentIds: this.peIds})
        .then((result) => {
-             //console.log('Result-->'+JSON.stringify(result));
              this.peList = result;
        })
        .then(() => {
@@ -132,9 +137,8 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
        })
     }
     downloadasExcel() {  
-      console.log('downloading...');
-      let columnHeader = ["Participant Profile Name", "MRN Id","Patient ID","Study Code Name", "Study Site Name","Investigator Name","Participant Status","Status Change Reason","Participant Status Last Changed Date","Last Status Changed Notes","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referral Source"]; 
-      let queryFields = ["Name", "MRNID", "PatientID", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralSource"]; 
+      let columnHeader = ["Participant Profile Name", "MRN Id","Patient ID","Referred Date","Study Code Name", "Study Site Name","Investigator Name","Participant Status","Status Change Reason","Participant Status Last Changed Date","Last Status Changed Notes","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referral Completed by","Referral Source","Last Added Notes","Outreach Email"]; 
+      let queryFields = ["Name", "MRNID", "PatientID","Referreddate", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralCompletedby","ReferralSource"]; 
       var jsonRecordsData = this.peList;  
       let csvIterativeData;  
       let csvSeperator;  
@@ -158,7 +162,6 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         }  
         csvIterativeData += newLineCharacter;  
       }  
-      console.log("csvIterativeData", csvIterativeData);  
         let downloadElement = document.createElement('a');
         downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvIterativeData);
         downloadElement.target = '_self';
