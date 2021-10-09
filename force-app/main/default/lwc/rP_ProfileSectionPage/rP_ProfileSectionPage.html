@@ -22,12 +22,14 @@
                     <template if:true={showExclude}>
                         <button class="apollo-btn secondary search-more-btn"  onclick={openExcludeModal} title={label.RH_RP_Exclude_From_Referring}
                         disabled={referbuttonDisable}>
+                        <lightning-button-icon icon-name="utility:close"  variant="bare"></lightning-button-icon> &nbsp;
                         {label.RH_RP_Exclude}
                         </button>
                     </template>
                     <template if:true={showInclude}>
                         <button class="apollo-btn secondary search-more-btn"  onclick={openIncludeModal} title={label.RH_RP_Include_From_Referring}
                         disabled={referbuttonDisable}>
+                        <lightning-button-icon icon-name="utility:add"  variant="bare"></lightning-button-icon> &nbsp;
                         {label.RH_RP_Include}
                         </button>
                     </template>

@@ -19141,7 +19141,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Outreach Patient</shortDescription>
-        <value>Outreach Patient</value>
+        <value>Send Patient Outreach</value>
     </labels>
      <labels>
         <fullName>RH_RP_Add_a_Patient</fullName>
@@ -19491,7 +19491,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Bulk Add/Update Patient</value>
+        <value>Add/Update Patient</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Bulk_Import_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Bulk_Import_Patient</shortDescription>
+        <value>Bulk Import Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>

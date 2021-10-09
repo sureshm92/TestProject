@@ -18,30 +18,35 @@
                Select what bulk action you would like to perform
            </div>
        </div>
-       <div class="slds-grid slds-grid_align-center slds-gutters_x-small mob-left-space">
+       <div class="slds-grid slds-grid_align-center slds-gutters_x-small mob-left-space top-padding">
            <div class="slds-col">
                <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient}
-                   title="Export to Excel">
+                   title="Export  a downloadable log of the selected patients.">
+                   <lightning-button-icon variant="bare" class="removeborder"  icon-name="utility:ad_set"></lightning-button-icon> &nbsp;
                    Export to Excel
                </button>
            </div>
            <div class="slds-col">
-               <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openOutreach} title="Outreach Email">
-                   Outreach Email
+               <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openOutreach} 
+                title="Initiate a request to send  an outreach email to the selected patients.">
+                <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email"></lightning-button-icon> &nbsp;   
+                Outreach Email
                </button>
            </div>
+           <template if:false={showExclude}>
            <div class="slds-col">
-               <template if:false={showExclude}>
                    <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openExcludeModal} 
                         title={label.RH_RP_Exclude_From_Referring}>
+                        <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:close" ></lightning-button-icon> &nbsp;
                         {label.RH_RP_Exclude}
                    </button>
-               </template>
            </div>
+         </template>
            <div class="slds-col">
                <template if:true={showExclude}>
                    <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openIncludeModal} 
                         title={label.RH_RP_Include_From_Referring}>
+                        <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:add" ></lightning-button-icon> &nbsp;
                         {label.RH_RP_Include}
                    </button>
                </template>
