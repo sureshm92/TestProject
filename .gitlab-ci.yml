@@ -10,8 +10,8 @@ SonarCheck:
   only:
       refs: 
         - merge_requests
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
+      #variables:
+      #  - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
