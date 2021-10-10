@@ -65,8 +65,8 @@ Validate:
       refs: 
         - merge_requests
           echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-      #variables:
-       # - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
+      variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
   artifacts:
       untracked: true      
       when: always
