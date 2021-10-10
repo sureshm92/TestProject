@@ -105,7 +105,7 @@ Validate:
       #- sfdx force:source:deploy -x package/package.xml      
   script:
       - mkdir results  
-      - echo "$"$CI_MERGE_REQUEST_TARGET_BRANCH_NAME > sfdx-auth-url
+      - echo "$!CI_MERGE_REQUEST_TARGET_BRANCH_NAME" > sfdx-auth-url
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
       - sfdx force:source:deploy -x package/package.xml -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -c -w 60 
       #- sfdx force:apex:test:run -y -u INT --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
