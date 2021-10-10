@@ -126,6 +126,7 @@ Deploy:
       #- sfdx force:source:deploy -x package/package.xml      
     script:
       - ls -ll
+      - echo $CI_COMMIT_REF_NAME
       - echo "${!$CI_COMMIT_REF_NAME}" > sfdx-auth-url
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"
       - sfdx force:source:deploy -x package/package.xml -u $CI_COMMIT_REF_NAME -w 60
