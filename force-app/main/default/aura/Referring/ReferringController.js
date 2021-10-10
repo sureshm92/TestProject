@@ -198,22 +198,7 @@
             component.set('v.authorizationForm',true);
         }
         else{
-            //component.set('v.doNext',true);
-            let trial = component.get('v.trial');
-            let hcpeId = component.get('v.hcpeId');
-            window.scrollTo(0, 0);
-            if (!hcpeId) {
-                component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Site_Selection'));
-            } else if (trial.Link_to_Pre_screening__c) {
-                helper.addEventListener(component, helper);
-                component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Questionnaire'));
-            } else {
-                component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
-                let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-                if(frmpatientVeiw){
-                    helper.checkGuardianAge(component, event, helper);
-                }
-            }
+            component.set('v.doNext',true);
         }
     },
     
@@ -233,7 +218,7 @@
                 helper.checkGuardianAge(component, event, helper);
             }
         }  
-        /*let peID = communityService.getUrlParameter('peid');
+        let peID = communityService.getUrlParameter('peid');
         communityService.executeAction(
             component,
             'saveUpdatedPER',
@@ -241,7 +226,7 @@
             function (returnValue) {
                 console.log('recordUpdated');
             }
-        );*/
+        );
         
     },
     doSelectSite: function (component, event, helper) {

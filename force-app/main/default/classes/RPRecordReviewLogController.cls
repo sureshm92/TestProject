@@ -575,10 +575,11 @@ public without sharing class RPRecordReviewLogController {
         @AuraEnabled public Date PreScreeningdate;
         @AuraEnabled public String ReferralCompletedby;
         @AuraEnabled public String ReferralSource;
+        @AuraEnabled public String LastAddedNotes;
 
         public peExportData(String Name,String MRNID,String PatientID, Date Referreddate, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
               String StatusChangeReason,String ParticipantStatusLastChangedDt,String LastStatusChangedNotes,String PreScreeningStatus,String PreScreeningCompletedby,
-              Date PreScreeningdate,String ReferralCompletedby,String ReferralSource               
+              Date PreScreeningdate,String ReferralCompletedby,String ReferralSource, String LastAddedNotes               
         ) {
             this.Name= Name;
             this.MRNID=MRNID;
@@ -596,6 +597,7 @@ public without sharing class RPRecordReviewLogController {
             this.PreScreeningdate =PreScreeningdate;
             this.ReferralCompletedby =ReferralCompletedby;
             this.ReferralSource = ReferralSource;
+            this.LastAddedNotes = LastAddedNotes;
         }
     }
     
@@ -607,27 +609,40 @@ public without sharing class RPRecordReviewLogController {
             PeRecords = [Select id,Name,Patient_ID__c,
                           MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,
                           Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,
-                          Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c
+                          Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c,RP_Site_Selected__c 
                          from Participant_Enrollment__c where id IN:participantEnrollmentIds];
+            
+            Map<Id, Id> mapContentDocId = new Map<Id, Id>();
+            Map<Id, string> mapLastNotes = new Map<Id, string>();
+            Set<Id> lstEntityId = new Set<Id>();
+            for(ContentDocumentLink conDoc : [SELECT ContentDocumentId,LinkedEntityId,SystemModstamp  FROM ContentDocumentLink WHERE LinkedEntityId IN:participantEnrollmentIds order by SystemModstamp DESC]){
+                if(lstEntityId.add(conDoc.LinkedEntityId)){
+                mapContentDocId.put(conDoc.ContentDocumentId,conDoc.LinkedEntityId);}
+                
+            }
+            List<ContentDocument> ContentDoc = [SELECT Id, Title from ContentDocument where Id In: mapContentDocId.keySet() order by CreatedDate DESC];
+            for(ContentDocument cd:ContentDoc)
+            {
+                mapLastNotes.put(mapContentDocId.get(cd.id),cd.Title);  
+            }
+                         
             for(Participant_Enrollment__c per:PeRecords){
-                /** String dobString = '';
-                if(per.Birth_Month__c != null && per.YOB__c == null) {
-                    dobString = per.Birth_Month__c ;
-                }
-                if(per.YOB__c != null && per.Birth_Month__c == null) {
-                    dobString = per.YOB__c ;
-                }
-                if(per.YOB__c != null && per.Birth_Month__c != null) {
-                    dobString = per.Birth_Month__c+'/'+per.YOB__c;
-                }**/
                 String dateTimeofStatuschng='';
+                String lastNotes='';
+                String sitename='';
                 if(per.Participant_Status_Last_Changed_Date__c !=null){
                 dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');}
                 
+                if(mapLastNotes.containsKey(per.id)){
+                lastNotes = mapLastNotes.get(per.id);}
+                if(per.RP_Site_Selected__c != null){
+                   sitename = per.Site__c;
+                }
+                
                 peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,per.Referred_Date__c,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                             per.Site__c,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
+                                             sitename,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
                                              per.Last_Status_Changed_Notes__c,per.Pre_screening_Status__c,per.Medical_Record_Review_Completedby_Name__c,
-                                             per.Screening_Date__c,per.Referral_Completedby_Name__c,per.Referral_Source__c
+                                             per.Screening_Date__c,per.Referral_Completedby_Name__c,per.Referral_Source__c,lastNotes
                                              
                 ));
             }
