@@ -1,17 +1,17 @@
 image: ajit2408/studyhub-sfdx
 stages:
-    - SonarCheckInt 
+    - SonarCheck 
     - Validate
-    - DeployInt
+    - Deploy
     
-SonarCheckInt:
-  stage: SonarCheckInt
+SonarCheck:
+  stage: SonarCheck
   allow_failure: true
   only:
       refs: 
         - merge_requests
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
+      #variables:
+       # - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -112,11 +112,9 @@ Validate:
       - echo "Validate success!"
       
 
-DeployInt:
+Deploy:
     #when: manual
-    stage: DeployInt
-    only:
-      - CICDDEMO
+    stage: Deploy
     before_script: 
       - |
          set -x
@@ -128,7 +126,7 @@ DeployInt:
       #- sfdx force:source:deploy -x package/package.xml      
     script:
       - ls -ll
-      - echo "$INT" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INT -d"
-      - sfdx force:source:deploy -x package/package.xml -u INT -w 60
+      - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
+      - sfdx force:source:deploy -x package/package.xml -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -w 60
       - echo "Deploy success!"
