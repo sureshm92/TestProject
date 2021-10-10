@@ -105,6 +105,8 @@ Validate:
       #- sfdx force:source:deploy -x package/package.xml      
   script:
       - mkdir results  
+      - echo "$CICDDEMO1" 
+      - echo "$INT"
       - echo "$CICDDEMO1" > sfdx-auth-url
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a CICDDEMO1 -d"
       - sfdx force:source:deploy -x package/package.xml -u CICDDEMO1 -c -w 60 
