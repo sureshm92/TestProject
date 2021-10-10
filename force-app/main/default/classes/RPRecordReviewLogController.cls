@@ -562,25 +562,28 @@ public without sharing class RPRecordReviewLogController {
         @AuraEnabled public String Name;
         @AuraEnabled public String MRNID;
         @AuraEnabled public String PatientID;
+        @AuraEnabled public Date Referreddate;
         @AuraEnabled public String StudyCodeName;
         @AuraEnabled public String StudySiteName;
         @AuraEnabled public String InvestigatorName;
         @AuraEnabled public String ParticipantStatus;
         @AuraEnabled public String StatusChangeReason;
-        @AuraEnabled public Datetime ParticipantStatusLastChangedDt;
+        @AuraEnabled public String  ParticipantStatusLastChangedDt;
         @AuraEnabled public String LastStatusChangedNotes;
         @AuraEnabled public String PreScreeningStatus;
         @AuraEnabled public String PreScreeningCompletedby;
         @AuraEnabled public Date PreScreeningdate;
+        @AuraEnabled public String ReferralCompletedby;
         @AuraEnabled public String ReferralSource;
 
-        public peExportData(String Name,String MRNID,String PatientID, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
-              String StatusChangeReason,Datetime ParticipantStatusLastChangedDt,String LastStatusChangedNotes,String PreScreeningStatus,String PreScreeningCompletedby,
-              Date PreScreeningdate,String ReferralSource               
+        public peExportData(String Name,String MRNID,String PatientID, Date Referreddate, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
+              String StatusChangeReason,String ParticipantStatusLastChangedDt,String LastStatusChangedNotes,String PreScreeningStatus,String PreScreeningCompletedby,
+              Date PreScreeningdate,String ReferralCompletedby,String ReferralSource               
         ) {
             this.Name= Name;
             this.MRNID=MRNID;
             this.PatientID= PatientID;
+            this.Referreddate = Referreddate;
             this.StudyCodeName=StudyCodeName;
             this.StudySiteName =StudySiteName;
             this.InvestigatorName=InvestigatorName;
@@ -591,6 +594,7 @@ public without sharing class RPRecordReviewLogController {
             this.PreScreeningStatus=PreScreeningStatus;
             this.PreScreeningCompletedby=PreScreeningCompletedby;
             this.PreScreeningdate =PreScreeningdate;
+            this.ReferralCompletedby =ReferralCompletedby;
             this.ReferralSource = ReferralSource;
         }
     }
@@ -601,7 +605,7 @@ public without sharing class RPRecordReviewLogController {
             List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
             List<peExportData> peInitWrapperDataList = new List<peExportData>();
             PeRecords = [Select id,Name,Patient_ID__c,
-                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,
+                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,
                           Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,
                           Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c
                          from Participant_Enrollment__c where id IN:participantEnrollmentIds];
@@ -616,11 +620,14 @@ public without sharing class RPRecordReviewLogController {
                 if(per.YOB__c != null && per.Birth_Month__c != null) {
                     dobString = per.Birth_Month__c+'/'+per.YOB__c;
                 }**/
+                String dateTimeofStatuschng='';
+                if(per.Participant_Status_Last_Changed_Date__c !=null){
+                dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');}
                 
-                peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
-                                             per.Site__c,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,per.Participant_Status_Last_Changed_Date__c,
+                peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,per.Referred_Date__c,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                                             per.Site__c,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
                                              per.Last_Status_Changed_Notes__c,per.Pre_screening_Status__c,per.Medical_Record_Review_Completedby_Name__c,
-                                             per.Screening_Date__c,per.Referral_Source__c
+                                             per.Screening_Date__c,per.Referral_Completedby_Name__c,per.Referral_Source__c
                                              
                 ));
             }
@@ -689,6 +696,11 @@ public without sharing class RPRecordReviewLogController {
             link.ShareType = 'V';
             link.Visibility = 'AllUsers';
             insert link;
+
+            Participant_Enrollment__c participantEnrollment = new Participant_Enrollment__c(
+                Id = peId
+            );
+            Update participantEnrollment;
         } 
         catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
@@ -697,16 +709,22 @@ public without sharing class RPRecordReviewLogController {
 
     //get note records based on participant enrolment ID
     @AuraEnabled(cacheable=true)    
-    public static List<ContentNote> getNotesDetails(String peId){
+    public static List<ContentDocument> getNotesDetails(String peId){
         try {
             Set<Id> contentDocumentIds = new Set<Id>();
             for(ContentDocumentLink conDoc : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId]){
                 contentDocumentIds.add(conDoc.ContentDocumentId);
             }
             //get all the content notes using contentDocumentIds
-            List<ContentNote> contentNotes = [SELECT Id, Title, TextPreview,Content,CreatedDate,CreatedBy.Name 
-            from ContentNote where Id In: contentDocumentIds order by CreatedDate DESC];
-            return contentNotes;
+            //List<ContentNote> contentNotes = [SELECT Id, Title, TextPreview,Content,CreatedDate,CreatedBy.Name 
+            //from ContentNote where Id In: contentDocumentIds order by CreatedDate DESC];
+            //return contentNotes;
+            
+            List<ContentDocument> ContentDoc = [SELECT Id, Title,description,CreatedDate,CreatedBy.Name 
+            from ContentDocument where Id In: contentDocumentIds order by CreatedDate DESC];
+            
+            return ContentDoc;
+            
         } 
         catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());

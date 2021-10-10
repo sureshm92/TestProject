@@ -66,14 +66,10 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     }
 
     connectedCallback() {
-        console.log('UsrMode'+this.userMode);
-        console.log('DelegateId'+this.delegateId);
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.userMode = communityService.getUserMode();
-            console.log('frmtablemode'+ this.userMode);
             this.delegateId = communityService.getDelegateId();
-            console.log('frmtableid'+  this.delegateId );
         }).then(() => {
             this.getDetailsApex();
         }).catch((error) => {
@@ -91,7 +87,9 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         for (var i = 0; i < paginationRecord.length; i++) {
             if(paginationRecord[i].peRec.Id == this.peRecordList[0].peRecord.Id){
                 paginationRecord[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
+                paginationRecord[i].peRec.Participant_Name__c = this.peRecordList[0].peRecord.Participant_Name__c;
                 paginationRecord[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+
                 if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
                     && this.peRecordList[0].peRecord.Birth_Month__c != null){
                     paginationRecord[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
@@ -107,7 +105,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         for (var i = 0; i < allRecords.length; i++) {
             if(allRecords[i].peRec.Id == this.peRecordList[0].peRecord.Id){
                 allRecords[i].peRec.Patient_ID__c = this.peRecordList[0].peRecord.Patient_ID__c;
-                allRecords[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                paginationRecord[i].peRec.Participant_Surname__c = this.peRecordList[0].peRecord.Participant_Surname__c;
+                allRecords[i].peRec.Participant_Name__c = this.peRecordList[0].peRecord.Participant_Name__c;
                 if(this.peRecordList[0].peRecord.Birth_Month__c != '' && this.peRecordList[0].peRecord.Birth_Month__c != undefined
                     && this.peRecordList[0].peRecord.Birth_Month__c != null){
                         allRecords[i].doBFormat = this.peRecordList[0].peRecord.Birth_Month__c+'/'+this.peRecordList[0].peRecord.YOB__c;
@@ -133,6 +132,27 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         this.template.querySelector('c-rppagination').records = this.data;
         this.template.querySelector('c-rppagination').totalRecords = this.data.length;
         //this.template.querySelector('c-rppagination').setRecordsToDisplay();
+        this.template.querySelector('c-rppagination').refreshPageNumber();
+        if (this.data.length == 0) {
+            this.noFilterRecords = true;
+        } else {
+            this.noFilterRecords = false;
+        }
+    }
+
+    @api bulkPeIds;
+
+    @api
+    getOnbBulkExcludeIncluderefresh() {
+        for(let i = 0; i < this.bulkPeIds.length; i++){
+            this.recordsToDisplay = this.recordsToDisplay.filter(element => element.peRec.Id !== this.bulkPeIds[i]);
+        }
+        for(let i = 0; i < this.bulkPeIds.length; i++){
+            this.data = this.data.filter(element => element.peRec.Id !== this.bulkPeIds[i]);
+        }
+        this.redirectoOverviewPage();
+        this.template.querySelector('c-rppagination').records = this.data;
+        this.template.querySelector('c-rppagination').totalRecords = this.data.length;
         this.template.querySelector('c-rppagination').refreshPageNumber();
         if (this.data.length == 0) {
             this.noFilterRecords = true;
@@ -168,7 +188,6 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
     handleExcludeRecords(event) {
        this.isExcludedforReferring = event.detail;
-       console.log('Event Triggered---->'+this.isExcludedforReferring);
     }
 
     //Capture the event fired from the paginator component
@@ -349,9 +368,6 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
     handleSearch(event) {
         this.searchValue = event.target.value;
-        console.log(this.searchValue);
-        console.log(this.data.length);
-        console.log(this.recordsToDisplay.length);
         let recddis;
         let allRec;
         /*if (this.isFilterApplied) {
@@ -376,21 +392,18 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                         return ex.peRec.Participant_Status__c == "Excluded from Referring"; });
                         allRec = excludedRecords;   
                 }
-              
-                recddis = allRec.filter((rec) =>
-                    JSON.stringify(rec).toLowerCase().includes(this.searchValue.toLowerCase())
+                
+               recddis = allRec
+                .filter(rec => (rec.peRec.Patient_ID__c  != undefined  && rec.peRec.Patient_ID__c.toLowerCase().includes(this.searchValue.toLowerCase())) || 
+                    (rec.peRec.Participant_Name__c != undefined && rec.peRec.Participant_Name__c.toLowerCase().includes(this.searchValue.toLowerCase())) ||
+                    (rec.peRec.Participant_Surname__c != undefined && rec.peRec.Participant_Surname__c.toLowerCase().includes(this.searchValue.toLowerCase()))
                 );
+
                 this.recordsToDisplay = recddis;
                 this.data = recddis;
                 this.template.querySelector('c-rppagination').setPageNumber();
-                console.log(this.data.length);
-                console.log(this.recordsToDisplay.length);
                 this.isPaginationApplied = false;
-            } /**else {
-                this.data = allRec;
-                this.recordsToDisplay = allRec;
-                this.isPaginationApplied = false;
-            }**/
+            } 
         }
         if (this.searchValue.length == 0) {
             this.disableFilter = false;

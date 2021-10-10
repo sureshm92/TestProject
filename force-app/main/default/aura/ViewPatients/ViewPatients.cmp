@@ -29,6 +29,7 @@
  <aura:attribute name="accessLevel" type="String" access="public" /> 
  <aura:attribute name="peRecordList" type="List" access="public" />
  <aura:attribute name="verifyFilterValue" type="String" access="public"/>
+ <aura:attribute name="bulkPeIds" type="List" access="public" />
 
 <!--END : RP Revamp attributes:-->
 
@@ -141,7 +142,7 @@
                                        onactive="{! c.handleActive }" id="tab1">
                                        
                                        <c:rP_NonReferredTable userMode="{!v.userMode}" aura:id="table123" delegateId="{!v.currentDelegateId}" isProfilePage ="{!v.isProfilePage}" peRecordList="{!v.peRecordList}" 
-                                       ontablerefreshevent="{!c.refreshFromTablecomponent}" onselectrecordevent="{!c.getValueFromProfileSectionPage}"/>
+                                       ontablerefreshevent="{!c.refreshFromTablecomponent}" onselectrecordevent="{!c.getValueFromProfileSectionPage}" bulkPeIds="{!v.bulkPeIds}"/>
                                     </lightning:tab>
 
                                     <lightning:tab  label="{!$Label.c.RPR_Referred}"                                           
@@ -179,7 +180,7 @@
                                     </aura:if>
                                     <aura:if isTrue="{!and(v.isBulkProfilePage,not(v.isProfilePage))}">
                                         <c:rP_BulkProfileSectionPage isaccessLevelthree="{!v.isaccesslevelthree}" delegateid="{!v.currentDelegateId}" 
-                                        peIds="{!v.peIds}" ctpIds="{!v.ctpIds}" verifyFilterValue="{!v.verifyFilterValue}"/>
+                                        peIds="{!v.peIds}" ctpIds="{!v.ctpIds}" verifyFilterValue="{!v.verifyFilterValue}" onbulkincludeexcluderefresh="{!c.onBulkExcludeIncluderefreshTable}"/>
                                     </aura:if>
                                 </lightning:card>
                             </lightning:layoutItem>

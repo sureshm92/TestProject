@@ -34,8 +34,8 @@
            <div class="innerbox">
                 <template for:each={noteList} for:item="note">
                     <div key={note.Id} class="mask">
-                        <div title={note.TextPreview} class="this-is-a-comment-other">
-                            {note.TextPreview}
+                        <div title={note.Title} class="this-is-a-comment-other">
+                            {note.Title}
                         </div>
                         <div title={note.CreatedBy.Name} class="this-is-a-comment-ma">
                             {note.CreatedBy.Name} 

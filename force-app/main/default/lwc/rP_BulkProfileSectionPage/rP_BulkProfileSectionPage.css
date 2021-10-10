@@ -18,6 +18,14 @@
   /* margin-left: 36px; */
 }
 
+.removeborder{
+  box-shadow:none;
+}
+
+.top-padding{
+  padding-top: 19px;
+}
+
 .layout-align {
   margin-left: 150px;
 }

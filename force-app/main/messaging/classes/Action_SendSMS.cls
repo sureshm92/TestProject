@@ -9,6 +9,7 @@ public with sharing class Action_SendSMS implements Action {
     private List<Id> notificationIds;
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
+    public static final String PHONE_TYPE_MOBILE = 'Mobile';
 
     public Action_SendSMS(List<Notification__c> notifications) {
         this.notificationIds = SObjectHelper.toIdsList(notifications);
@@ -16,7 +17,6 @@ public with sharing class Action_SendSMS implements Action {
 
     public class MessageParameters {
         public String transactionId;
-        public String fromNumber;
         public List<String> toNumber;
         public String subject;
         public String messageBody;
@@ -38,6 +38,14 @@ public with sharing class Action_SendSMS implements Action {
             WHERE Id IN :notificationIds
         ];
         sendResultService = new NotificationResultService(notifications);
+        Map<String, List<String>> countryDialCodeMap = new Map<String, List<String>>();
+        for (Dialing_Country_Code__mdt mdt : [
+            SELECT Id, DeveloperName, Dialing_Code__c, Enabled_for_SMS__c
+            FROM Dialing_Country_Code__mdt
+            WHERE Enabled_for_SMS__c = TRUE
+        ]) {
+            countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
+        }
         List<Id> conIds = new List<Id>();
         List<Id> taskIds = new List<Id>();
         for (Notification__c n : notifications) {
@@ -53,7 +61,13 @@ public with sharing class Action_SendSMS implements Action {
         }
         Map<Id, Participant__c> participantMap = new Map<Id, Participant__c>();
         List<Participant__c> participants = [
-            SELECT Id, Contact__c, Phone__c
+            SELECT
+                Id,
+                Contact__c,
+                Phone__c,
+                Phone_Type__c,
+                Alternative_Phone_Number__c,
+                Alternative_Phone_Type__c
             FROM Participant__c
             WHERE Contact__c IN :conIds
         ];
@@ -89,8 +103,9 @@ public with sharing class Action_SendSMS implements Action {
                 CreatedDate,
                 Notification__c,
                 Notification__r.Recipient__c,
-                Notification__r.Recipient__r.Phone,
+                Notification__r.Recipient__r.MobilePhone,
                 Notification__r.Recipient__r.Language__c,
+                Notification__r.Recipient__r.MailingCountryCode,
                 Notification__r.Notification_Type__c,
                 Notification__r.Task_Id__c
             FROM Send_Result__c
@@ -98,16 +113,21 @@ public with sharing class Action_SendSMS implements Action {
                 Notification__c IN :notificationIds
                 AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
         ]) {
-            String phoneNumber = smsChannel.Notification__r.Recipient__r.Phone;
+            String phoneNumber = smsChannel.Notification__r.Recipient__r.MobilePhone;
             if (
                 phoneNumber == null &&
                 participantMap.get(smsChannel.Notification__r.Recipient__c) != null
             ) {
-                phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c).Phone__c;
+                phoneNumber = participantMap.get(smsChannel.Notification__r.Recipient__c)
+                        .Alternative_Phone_Type__c.equals(PHONE_TYPE_MOBILE)
+                    ? participantMap.get(smsChannel.Notification__r.Recipient__c)
+                          .Alternative_Phone_Number__c
+                    : null;
             }
-            String title = parametrizedMessageService.getMessage(
+            //Uncomment and set the value in metadata if needed in future.
+            /*String title = parametrizedMessageService.getMessage(
                 smsChannel.Notification__c + '_title'
-            );
+            );*/
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
             if (
                 !String.isBlank(message) &&
@@ -137,24 +157,17 @@ public with sharing class Action_SendSMS implements Action {
             }
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
-                msgParam.transactionId = smsChannel.Id + '~' + smsChannel.CreatedDate; //
-                msgParam.fromNumber = 'XXXX'; //TO-DO
+                phoneNumber =
+                    countryDialCodeMap.get(
+                            smsChannel.Notification__r.Recipient__r.MailingCountryCode
+                        )
+                        .get(0) + phoneNumber.replaceAll('\\D', '');
+                msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
-                msgParam.subject = title;
                 msgParam.messageBody = message;
                 messageParametersList.add(msgParam);
             }
         }
-        /*for (Notification__c n : notifications) {
-            String phoneNumber = n.Recipient__r.Phone;
-            if (phoneNumber == null && participantMap.get(n.Recipient__c) != null) {
-                phoneNumber = participantMap.get(n.Recipient__c).Phone__c;
-            }
-            String message = parametrizedMessageService.getMessage(n.Id);
-            if (phoneNumber != null) {
-                messageParametersList.add(new MessageParameters('XXXX', new List<String>{phoneNumber},
-            }
-        }*/
         if (!messageParametersList.isEmpty()) {
             RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageParametersList);
             remoteCallSendSMS.execute();
