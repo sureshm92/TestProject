@@ -3,8 +3,8 @@ stages:
     - SonarCheckInt 
     - ValidateInt
     - DeployInt
-	- ValidateInf
-	- DeployInf
+    - ValidateInf
+    - DeployInf
 
     
 SonarCheckInt:
