@@ -1,7 +1,7 @@
 image: ajit2408/studyhub-sfdx
 stages:
     - SonarCheckInt 
-    - ValidateInt
+    - Validate
     - DeployInt
     - DeployInf
 
@@ -59,8 +59,8 @@ SonarCheckInt:
         exit 1 #breaks the build for failure in Step2
        fi	
   
-ValidateInt:
-  stage: ValidateInt
+Validate:
+  stage: Validate
   allow_failure: true
   only:
       refs: 
