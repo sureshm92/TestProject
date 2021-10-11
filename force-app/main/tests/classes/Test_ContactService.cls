@@ -61,10 +61,11 @@ private without sharing class Test_ContactService {
         Datetime dt = Datetime.newInstance(2020, 1, 1);
         ContactService.updateNextNotifyDate(conId, dt);
         Contact delCon = [SELECT Id, LastName FROM Contact WHERE Id = :pdUser.ContactId];
+        Test.stopTest();
         ContactService.updateNextNotifyDate(delCon.Id, dt);
         Contact testCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :conId];
-        Test.stopTest();
-        Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
+        
+        //Contact testDelCont = [SELECT Id, Next_Notify_Date__c FROM Contact WHERE Id = :delCon.Id];
         System.assert(testCont.Next_Notify_Date__c != Null);
        // System.assertEquals(null, testDelCont.Next_Notify_Date__c); 
     }
@@ -163,6 +164,25 @@ private without sharing class Test_ContactService {
             Adult__c = true,
             Site__c = piAccount.Id
         );
+
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
+                        );
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
+                        );
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
+                        );
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
+                        );
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.CheckBecomesAdultHandler.class
+                        );
+        TriggerHandlerExecutor.bypassHandler(
+                            ParticipantTriggerHandler.UpdateNameOnPE.class
+                        );
         insert participantupdate;
         List<Participant_Enrollment__c> participantPeList = new List<Participant_Enrollment__c>();
         Participant_Enrollment__c pe4 = new Participant_Enrollment__c(
