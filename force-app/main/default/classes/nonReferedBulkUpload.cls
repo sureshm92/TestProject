@@ -420,6 +420,7 @@ ParticipantEnrollmentTriggerHandler.CreateStatusTrackingHistoryRecordsHandler.cl
                         peRec.HCP_Contact_HCPEnroll__c = delegateId;
                         peRec.Participant_Status__c = 'Pending Referral';
                         peRec.HCP__c = HCPid;
+                        peRec.Referral_Source__c = 'HCP';
                         
                         peRec.Study_Site__c = studyID;
                         peRec.Patient_ID__c=rec[0];

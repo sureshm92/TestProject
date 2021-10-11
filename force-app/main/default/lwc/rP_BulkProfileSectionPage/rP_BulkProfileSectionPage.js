@@ -17,6 +17,12 @@ import RH_RP_Exclude from '@salesforce/label/c.RH_RP_Exclude';
 import RH_RP_Include from '@salesforce/label/c.RH_RP_Include';
 import RH_RP_Bulk_Excluded_Successfully from '@salesforce/label/c.RH_RP_Bulk_Excluded_Successfully';
 import RH_RP_Bulk_included_successfully from '@salesforce/label/c.RH_RP_Bulk_included_successfully';
+import RH_RP_Export_to_excel from '@salesforce/label/c.RH_RP_Export_to_excel';
+import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
+import RH_RP_Export_downloadable_log from '@salesforce/label/c.RH_RP_Export_downloadable_log';
+import RH_RP_Bulk_Action from '@salesforce/label/c.RH_RP_Bulk_Action';
+import RH_RP_OutreachEmail from '@salesforce/label/c.RH_RP_OutreachEmail';
+import RH_RP_Patients_Selected from '@salesforce/label/c.RH_RP_Patients_Selected';
 
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring';
@@ -45,7 +51,13 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         RH_RP_Exclude,
         RH_RP_Include,
         RH_RP_Bulk_Excluded_Successfully,
-        RH_RP_Bulk_included_successfully
+        RH_RP_Bulk_included_successfully,
+        RH_RP_Export_to_excel,
+        RH_RP_Outreach_Email,
+        RH_RP_Export_downloadable_log,
+        RH_RP_Bulk_Action,
+        RH_RP_OutreachEmail,
+        RH_RP_Patients_Selected
     };
 
     @api usermode; 
