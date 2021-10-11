@@ -34,15 +34,15 @@
            <div class="innerbox">
                 <template for:each={noteList} for:item="note">
                     <div key={note.Id} class="mask">
-                        <div title={note.Title} class="this-is-a-comment-other">
-                            {note.Title}
+                        <div title={note.title} class="this-is-a-comment-other">
+                            {note.title}
                         </div>
-                        <div title={note.CreatedBy.Name} class="this-is-a-comment-ma">
-                            {note.CreatedBy.Name} 
+                        <div title={note.createdBy} class="this-is-a-comment-ma">
+                            {note.createdBy} 
                         </div>
                         <div title={note.CreatedDate} class="this-is-a-comment-ma">
                                 <lightning-formatted-date-time
-                                               value= {note.CreatedDate} 
+                                               value= {note.createdDate} 
                                                year="numeric"
                                                month="numeric"
                                                day="numeric"

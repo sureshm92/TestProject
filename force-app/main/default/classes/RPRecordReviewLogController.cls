@@ -721,12 +721,25 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }    
+     
+     public class peNoteData {
+        @AuraEnabled public String title;
+        @AuraEnabled public DateTime createdDate;
+        @AuraEnabled public String createdBy;
 
+        public peNoteData(String title,DateTime createdDate,String createdBy) {
+            this.title= title;
+            this.createdDate=createdDate;
+            this.createdBy= createdBy;
+        }
+    }
+     
     //get note records based on participant enrolment ID
     @AuraEnabled(cacheable=true)    
-    public static List<ContentDocument> getNotesDetails(String peId){
+    public static List<peNoteData> getNotesDetails(String peId){
         try {
             Set<Id> contentDocumentIds = new Set<Id>();
+            List<peNoteData> lstofNotes = new List<peNoteData>();
             for(ContentDocumentLink conDoc : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId]){
                 contentDocumentIds.add(conDoc.ContentDocumentId);
             }
@@ -735,10 +748,34 @@ public without sharing class RPRecordReviewLogController {
             //from ContentNote where Id In: contentDocumentIds order by CreatedDate DESC];
             //return contentNotes;
             
-            List<ContentDocument> ContentDoc = [SELECT Id, Title,description,CreatedDate,CreatedBy.Name 
+            List<ContentDocument> ContentDoc = [SELECT Id, Title,description,CreatedDate,CreatedBy.Name,LastModifiedDate,LastModifiedById,CreatedById   
             from ContentDocument where Id In: contentDocumentIds order by CreatedDate DESC];
             
-            return ContentDoc;
+            Set<Id> lstusr = new Set<Id>();
+            List<User> lstusrRecord = new List<User>();
+            Map<Id,String> mapUsrmsk = new Map<Id,String>();
+            for(ContentDocument cd:ContentDoc){
+              lstusr.add(cd.CreatedById);
+            }
+            lstusrRecord = [select id,Name,IsPortalEnabled,ContactId,Contact.userCommunityMode__c from User where id IN:lstusr];
+            
+            for(User u:lstusrRecord ){
+                if(u.IsPortalEnabled){
+                    if(u.ContactId != null && u.Contact.userCommunityMode__c == 'CC'){
+                        mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
+                    }else{
+                        mapUsrmsk.put(u.id,u.Name);
+                    }
+                }else{
+                    mapUsrmsk.put(u.id,System.Label.RH_Masked_IQVIA_User);
+                }
+            } 
+            
+            for(ContentDocument cds:ContentDoc){
+                  lstofNotes.add(new peNoteData(cds.Title,cds.CreatedDate,mapUsrmsk.get(cds.CreatedById)));
+            }
+           
+            return lstofNotes;
             
         } 
         catch (Exception e) {

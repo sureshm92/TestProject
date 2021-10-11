@@ -10,27 +10,27 @@
        </div>
        <div class="slds-grid slds-grid_align-center">
            <div class="patients-selected">
-               {totalRecords} Patients Selected
+               {totalRecords}  {label.RH_RP_Patients_Selected}
            </div>
        </div>
        <div class="slds-grid slds-grid_align-center">
            <div class="select-label">
-               Select what bulk action you would like to perform
+            {label.RH_RP_Bulk_Action}
            </div>
        </div>
        <div class="slds-grid slds-grid_align-center slds-gutters_x-small mob-left-space top-padding">
            <div class="slds-col">
                <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient}
-                   title="Export  a downloadable log of the selected patients.">
+                   title={label.RH_RP_Export_downloadable_log}>
                    <lightning-button-icon variant="bare" class="removeborder"  icon-name="utility:ad_set"></lightning-button-icon> &nbsp;
-                   Export to Excel
+                    {label.RH_RP_Export_to_excel}
                </button>
            </div>
            <div class="slds-col">
                <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openOutreach} 
-                title="Initiate a request to send  an outreach email to the selected patients.">
+                title={label.RH_RP_OutreachEmail}>
                 <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email"></lightning-button-icon> &nbsp;   
-                Outreach Email
+                  {label.RH_RP_Outreach_Email}
                </button>
            </div>
            <template if:false={showExclude}>
