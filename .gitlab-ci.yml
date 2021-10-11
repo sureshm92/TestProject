@@ -115,6 +115,9 @@ Validate:
 Deploy:
     #when: manual
     stage: Deploy
+      only:
+      - push
+      - commit
     before_script: 
       - |
          set -x
