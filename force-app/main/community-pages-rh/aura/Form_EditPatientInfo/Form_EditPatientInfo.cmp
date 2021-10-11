@@ -879,10 +879,11 @@
                                 <div class="label">
                                     {!$Label.c.PG_AP_F_Preferred_Contact_Time}
                                 </div>
-                                <lightning:textarea
+                                <lightning:input
                                     type="text"
                                     value="{!v.participant.Preferred_Contact_Time__c}"
                                     onblur="{!c.doCheckFields}"
+                                    maxlength = "255"
                                 />
                             </div>
                     </div>
