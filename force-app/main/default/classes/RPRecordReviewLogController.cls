@@ -467,11 +467,9 @@ public without sharing class RPRecordReviewLogController {
             pe.MRR_Survey_Results_URL__c = surveyGizmoData;
             pe.Medical_Record_Review_Completed_by__c = CommunityService.getUserContact().Id;
             }
-            /**if (status == 'Pass') {
-                pe.Pre_screening_Status__c = 'Pass';
-            } else {
-                pe.Pre_screening_Status__c = 'Fail';
-            }**/
+            if (status == 'Fail') {
+                pe.Participant_Status__c = 'Failed Review';
+            }
             IncentiveProgramService.completeIncentiveTaskCurrentContact(
                 IncentiveTaskCatalog.INCENTIVE_TASK_PRE_SCREENING,
                 pe.Study_Site__c,
