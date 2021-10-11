@@ -5,7 +5,7 @@
 <aura:component
     description="ManualCreationPanel"
     controller="ManualCreationPanelRemote"
-    implements="forceCommunity:availableForAllPageTypes,force:appHostable,lightning:isUrlAddressable"
+    implements="lightning:actionOverride,forceCommunity:availableForAllPageTypes,force:appHostable,lightning:isUrlAddressable"
     access="global"
 >
     <ltng:require
