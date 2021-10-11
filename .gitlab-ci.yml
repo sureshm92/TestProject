@@ -116,7 +116,8 @@ Deploy:
     #when: manual
     stage: Deploy
     only:
-      - $CI_COMMIT_REF_NAME = INT10
+       refs:
+        - pushes
     before_script: 
       - |
          set -x
