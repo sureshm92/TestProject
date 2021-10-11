@@ -19,7 +19,6 @@ public with sharing class ManualTaskRemote {
     
     //To create a record for recurring task PEH-3716
     public static String createManualConfigTasks(Boolean isFirst, String config, String filter, TaskService.TaskConfig taskConfig,Manual_Creation_Panel_Task__c mcpt) {
-        System.debug('recc Id: '+mcpt);
         List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             Date nextTaskDueDate;
@@ -32,6 +31,11 @@ public with sharing class ManualTaskRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
+            if(taskConfig.isRecurrence){
+                if(taskConfig.reminderDays == null){
+                    taskConfig.reminderDate = null;
+                }
+            }
             //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
             //If start date is future date
             if(isFirst){
