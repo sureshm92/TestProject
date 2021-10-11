@@ -146,7 +146,8 @@ public without sharing class ParticipantDuplicateService {
                 Secondary_Source__c,
                 ZIP_Code__c,
                 Adult__c,
-                Mailing_Zip_Postal_Code__c
+                Mailing_Zip_Postal_Code__c,
+                Preferred_Contact_Time__c
             FROM Participant__c
             WHERE
                 Email__c IN :emails
@@ -639,7 +640,5 @@ public without sharing class ParticipantDuplicateService {
         //if (String.isNotBlank(newParticipant.Language_Preference_Code__c)) sourceParticipant.Language_Preference_Code__c = newParticipant.Language_Preference_Code__c;
         if (String.isNotBlank(newParticipant.Preferred_Language__c)) sourceParticipant.Preferred_Language__c = newParticipant.Preferred_Language__c;
         if (newParticipant.BMI__c != null) sourceParticipant.BMI__c = newParticipant.BMI__c;
-        if (String.isNotBlank(newParticipant.Preferred_Contact_Time__c))
-            sourceParticipant.Preferred_Contact_Time__c = newParticipant.Preferred_Contact_Time__c;
     }
 }

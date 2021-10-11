@@ -127,6 +127,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
         List<Contact> contactsToInsert = new List<Contact>();
         Map<String, String> conEmailAccMap = new Map<String, String>();
         Map<Id, Id> dupPartContMap = new Map<Id, Id>();
+
+        //REF-4741
+        Map<Id, Participant__c> dupPartUpdateMap = new Map<Id, Participant__c>();
+        list<Participant__c> dupPartToUpdateList = new list<Participant__c>();
         
         for (Integration_Patient_Referral__c ipr : scope) {
             Participant__c participant = newParticipantsMap.get(ipr.referralID__c);
@@ -168,7 +172,14 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     participantsByEmailRefid.put(participantDuplicate.Email__c, ipr.referralID__c);
                     String duplicateKey = newContact.Email?.toLowerCase() + newContact.LastName?.toLowerCase();
                     conEmailAccMap.put(duplicateKey,participantDuplicate.Site__c);
-                }                
+                } 
+
+                //REF-4741
+                Participant__c dupPartToUdate = new Participant__c();
+                dupPartToUdate.id = participantDuplicate.Id;
+                dupPartToUdate.Preferred_Contact_Time__c = participantDuplicate.Preferred_Contact_Time__c;
+                dupPartUpdateMap.put(dupPartToUdate.id,dupPartToUdate);
+                //               
             } else {
                 if (contactDuplicate != null)
                     participant.Contact__c = contactDuplicate.Id;
@@ -232,6 +243,11 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                     participantsWithoutErrors.add(pe.Participant__c);
                     ipr.Batch_consideration__c = 'Completed';
                     ipr.Participant_Enrollment__c = sr.getId();
+
+                    //REF-4741
+                    if(dupPartUpdateMap.containsKey(pe.Participant__c))
+                        dupPartToUpdateList.add(dupPartUpdateMap.get(pe.Participant__c));
+                    //    
                 } else {
                     ipr.Batch_consideration__c = 'Completed';
                     ipr.Error_Message__c = EPR_Validation_Message__mdt.getinstance('enrollment_duplicate').Error_Message__c;
@@ -243,6 +259,10 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
             }
         }
         update iprListToUpdate;
+
+        //REF-4741
+        if(!dupPartToUpdateList.isEmpty())
+        update dupPartToUpdateList;
 
         
         set<Contact> updateDelegateContacts = new set<Contact>();
