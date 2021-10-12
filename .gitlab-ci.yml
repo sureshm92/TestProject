@@ -10,8 +10,8 @@ SonarCheck:
   only:
       refs: 
         - merge_requests
-      #variables:
-       #$CI_COMMIT_REF_NAME =~ /^INT|^CICDDEMO/
+      variables:
+        -$CI_COMMIT_REF_NAME =~ /^INT|^CICDDEMO/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
