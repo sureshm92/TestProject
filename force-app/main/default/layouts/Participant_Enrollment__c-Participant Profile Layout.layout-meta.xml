@@ -115,6 +115,14 @@
                 <behavior>Edit</behavior>
                 <field>isAuthorized__c</field>
             </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Have_you_Documented_the_Discussion__c</field>
+            </layoutItems>
+             <layoutItems>
+                <behavior>Edit</behavior>
+                <field>Discussion_Documented_Date__c</field>
+            </layoutItems>
             <layoutItems>
                 <behavior>Readonly</behavior>
                 <field>Unique_HumanId__c</field>

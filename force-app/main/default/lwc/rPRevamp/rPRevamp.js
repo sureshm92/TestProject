@@ -300,8 +300,8 @@ export default class RPRevamp extends LightningElement {
         row2.push("Format per country 919-555-1212.");
         row2.push("Enter one of these values: Home        Work      Mobile");
         row2.push("YYYY (formatted as text) ex. 1987");
-        row2.push("\"\"\"I attest that legal guardian is of the age of legal majority\"\".  Mandatory for a minor participant.  Enter Yes to attest the delegate is of/over the age of legal majority\"");
-        //
+        row2.push("\"\"\"I attest that primary delegate or legal guardian is of the age of legal majority\"\".  Mandatory for a minor participant.  Enter Yes to attest the delegate is of/over the age of legal majority\"");
+        // I attest that primary delegate or legal guardian is of the age of legal majority.
         this.progressWidth='width :8%';
         this.progress = 8;
         this.base = Math.floor((CHUNK_SIZE/fileCon.size)*100);
