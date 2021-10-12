@@ -116,6 +116,7 @@ Deploy:
     #when: manual
     stage: Deploy
     only:
+      variables:
       - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
     before_script: 
       - |
