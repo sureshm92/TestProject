@@ -22,6 +22,7 @@
     },
     resetTaskValues: function(component, event, helper) {
         component.set('v.dayRemind', 0);
+        component.set('v.taskConfig.reminderDate', null);
         component.set('v.showNumbersAdd', 'true');
         if (component.get('v.dayRemind') != 0) {
             component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
