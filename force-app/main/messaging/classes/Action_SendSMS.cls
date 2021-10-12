@@ -170,7 +170,12 @@ public with sharing class Action_SendSMS implements Action {
         }
         if (!messageParametersList.isEmpty()) {
             RemoteCall_SendSMS remoteCallSendSMS = new RemoteCall_SendSMS(messageParametersList);
-            remoteCallSendSMS.execute();
+           // remoteCallSendSMS.execute();
+           String respBody = (String)remoteCallSendSMS.execute();
+           MessagegResponseWrapper respWrapper =  parseResponseBody(respBody);
+           System.debug('respWrapper::'+respWrapper);
+           //  Contact c=null;
+           // System.debug(c.Id);
             log = remoteCallSendSMS.log;
             for (Notification__c n : notifications) {
                 if (remoteCallSendSMS.log.Success__c) {
@@ -178,6 +183,8 @@ public with sharing class Action_SendSMS implements Action {
                         n.Id,
                         NotificationService.NOTIFICATION_TARGET_TYPE_SMS
                     );
+                    sendResultService.getSendResult( n.Id, NotificationService.NOTIFICATION_TARGET_TYPE_SMS).Msg_Id__c=respWrapper.result[0].status.messageId;
+                   
                 } else {
                     sendResultService.setFailed(
                         n.Id,
@@ -211,4 +218,35 @@ public with sharing class Action_SendSMS implements Action {
         sendResultService.setAction(dbAction);
         sendResultService.updateResults(log);
     }
+
+
+    public MessagegResponseWrapper parseResponseBody(String responseBody) {
+      
+        MessagegResponseWrapper msgResponseWrap =(MessagegResponseWrapper) JSON.deserialize(responseBody, MessagegResponseWrapper.class);
+        System.debug('msgResponseWrap:::-::'+msgResponseWrap);
+        return msgResponseWrap;
+
+    }
+
+    class MessagegResponseWrapper
+    {
+        public string applicationId;
+        public string requestId;
+        public List<MsgResult> result;
+        
+    }
+    class MsgResult{
+        public String toNumber;
+        public MsgStatus status;
+    }
+    class MsgStatus
+    {
+        public String deliveryStatus;
+        public String statusCode;
+        public String statusMessage;
+        public String messageId;
+    }
+
+   
+
 }

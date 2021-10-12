@@ -3,5 +3,5 @@
     <description>Cloudhub endpoint for SMS API. The request is processed by Mulesoft</description>
     <disableProtocolSecurity>false</disableProtocolSecurity>
     <isActive>true</isActive>
-    <url>https://iqvia-rds-send-sms-message-proc-1-0-dev.us-e1.cloudhub.io</url>
+    <url>https://iqvia-rds-sms-send-message-exp-1-0-dev.us-e1.cloudhub.io</url>
 </RemoteSiteSetting>

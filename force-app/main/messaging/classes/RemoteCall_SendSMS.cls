@@ -11,6 +11,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public static final String FROM_NUMBER = 'FromNumber';
     public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
     public static final String API_MULESOFT_SMS = 'MulesoftSMS';
+  
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
@@ -60,13 +61,9 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     private MessageWrapper messageWrapper;
 
     public RemoteCall_SendSMS(List<Action_SendSMS.MessageParameters> messageParametersList) {
+        //this.endPointURL = 'https://iqvia-rds-sms-send-message-exp-1-0-dev.us-e1.cloudhub.io/api/messages';
         this.endPointURL = 'callout:MulesoftSMS';
         this.httpMethod = METHOD_POST;
-        this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' });
-        messageWrapper = new MessageWrapper();
-        Action_SendSMS.MessageParameters msgParam = messageParametersList.get(0);
-        logAutoInsert = false;
-
         Map<String, Config_API_Param__mdt> apiParamsMap = new Map<String, Config_API_Param__mdt>();
         for (Config_API_Param__mdt mdt : [
             SELECT DeveloperName, ParamValue__c
@@ -74,7 +71,14 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
             WHERE ConfigAPI__r.DeveloperName = :API_MULESOFT_SMS
         ]) {
             apiParamsMap.put(mdt.DeveloperName, mdt);
-        }
+        }  
+        //Blob headerValue = Blob.valueOf('d6c57791b10c4298b47b916477527379' + ':' + 'f164546763174eB6A726A929746d08c5');
+        //String authorizationHeader = 'BASIC ' + EncodingUtil.base64Encode(headerValue);
+        //this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' ,'Authorization' => authorizationHeader });
+        this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json'  });
+        messageWrapper = new MessageWrapper();
+        Action_SendSMS.MessageParameters msgParam = messageParametersList.get(0);
+        logAutoInsert = false;
         //Initialize
         messageWrapper.sourceMetadata = new SourceMetadata();
         messageWrapper.notificationMetadata = new NotificationMetadata();
@@ -98,11 +102,12 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     protected override String buildRequestBody() {
+        //System.debug('reqBody:::'+JSON.serializePretty(messageWrapper, true));
         return JSON.serializePretty(messageWrapper, true);
     }
 
     protected override Object parseResponse(String responseBody) {
         //TO:DO
-        return null;
+        return responseBody;
     }
 }
