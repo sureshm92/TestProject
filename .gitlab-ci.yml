@@ -10,8 +10,8 @@ SonarCheck:
   only:
       refs: 
         - merge_requests
-      #variables:
-      #  - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
+      variables:
+       $CI_COMMIT_REF_NAME =~ /^INT|^CICDDEMO/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -27,7 +27,7 @@ SonarCheck:
              apk upgrade --update-cache --available && apk add openssl curl jq 
              openssl s_client -connect  sonarqube-dev:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
              sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
-             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=master
+             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=$CI_COMMIT_REF_NAME
              cat .scannerwork/report-task.txt
              export url=$(cat .scannerwork/report-task.txt | grep ceTaskUrl | cut -c11- ) #URL where report gets stored
              echo $url
@@ -115,6 +115,9 @@ Validate:
 Deploy:
     #when: manual
     stage: Deploy
+    only:
+      variables:
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
     before_script: 
       - |
          set -x
