@@ -31,6 +31,12 @@
             component.get('v.taskConfig.isRecurrence')
         ) {
             component.set('v.taskConfig.reminderDays', null);
+        } else if (
+            component.get('v.dayRemind') == 0 &&
+            !component.get('v.taskConfig.isRecurrence') &&
+            component.get('v.showNumbersAdd') == 'true'
+        ) {
+            component.set('v.taskConfig.reminderDays', null);
         }
         component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
     },
@@ -122,6 +128,8 @@
         ) {
             console.log('inside new condition 2');
             component.set('v.taskConfig.reminderDate', null);
+            component.set('v.taskConfig.reminderDays', null);
+            component.set('v.dayRemind', null);
         }
         if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);

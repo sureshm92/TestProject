@@ -29,11 +29,16 @@ public class RecurringTaskTriggerHandler {
                             }
                         }
                     }
-                    if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){
+                    if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){// change in freq
                         System.debug('Change in feq: '+rTask.Recurrence_Frequency__c);
                         
                         nextOccDateUpdate(rTask);
                         dueDateUpdate(rTask);
+                    }
+                    if(rTask.Is_Recurrence__c != oldRTask.Is_Recurrence__c){// change in recurrence
+                        if(!rTask.Is_Recurrence__c){
+                            rTask.Next_Due_Date__c = rTask.Recurrence_End_Date__c;
+                        }
                     }
 
                 }
