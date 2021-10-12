@@ -167,6 +167,9 @@ public with sharing class ManualTaskRemote {
                 }
             }
             if(taskConfig.isRecurrence){
+                if(taskConfig.reminderDays == null){
+                    taskConfig.reminderDate = null;
+                }
                 if(taskConfig.recurrenceFrequency == 'Daily'){
                     taskConfig.reminderDate = null;
                 }
