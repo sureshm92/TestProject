@@ -7074,6 +7074,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Send_Result__c.Msg_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Send_Result__c.Notification_Type__c</field>
         <readable>true</readable>
     </fieldPermissions>
