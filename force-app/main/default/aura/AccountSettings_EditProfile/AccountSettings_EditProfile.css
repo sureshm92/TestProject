@@ -125,7 +125,7 @@
 }
 
 .THIS .slds-select_container {
-    width: fit-content;
+  /*  width: fit-content; */
 }
 
 .THIS .slds-input {
@@ -268,11 +268,11 @@
 }
 
 .THIS .longName {
-    max-width: 350px;
+    max-width: 325px;
 }
 
 .THIS .smallName {
-    width: 115px;
+    width: 150px;
 }
 .THIS .smallNameRTL {
     width: fit-content;
