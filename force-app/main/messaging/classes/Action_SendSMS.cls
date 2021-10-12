@@ -173,9 +173,6 @@ public with sharing class Action_SendSMS implements Action {
            // remoteCallSendSMS.execute();
            String respBody = (String)remoteCallSendSMS.execute();
            MessagegResponseWrapper respWrapper =  parseResponseBody(respBody);
-           System.debug('respWrapper::'+respWrapper);
-           //  Contact c=null;
-           // System.debug(c.Id);
             log = remoteCallSendSMS.log;
             for (Notification__c n : notifications) {
                 if (remoteCallSendSMS.log.Success__c) {
