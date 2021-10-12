@@ -9,3 +9,6 @@ Add Batch_CreateRecurringAdminTask to the Batch Control Panel :
 
 Go to setup > Go to 'Community Task' object > click on Search Layout > Edit the default layout >
 Remove Task Number from the selected list > click save
+
+## Update the password for Mulesoft SMS API
+Go to setup > Named Credentials > click on 'MulesoftSMS' > Edit > copy the password  from sent mail > Save
