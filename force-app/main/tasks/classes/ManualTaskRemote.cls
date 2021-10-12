@@ -19,7 +19,6 @@ public with sharing class ManualTaskRemote {
     
     //To create a record for recurring task PEH-3716
     public static String createManualConfigTasks(Boolean isFirst, String config, String filter, TaskService.TaskConfig taskConfig,Manual_Creation_Panel_Task__c mcpt) {
-        System.debug('recc Id: '+mcpt);
         List<Manual_Creation_Panel_Task__c> manualTaskLists = new List<Manual_Creation_Panel_Task__c>();
         try {
             Date nextTaskDueDate;
@@ -32,6 +31,11 @@ public with sharing class ManualTaskRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
+            if(taskConfig.isRecurrence){
+                if(taskConfig.reminderDays == null){
+                    taskConfig.reminderDate = null;
+                }
+            }
             //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
             //If start date is future date
             if(isFirst){
@@ -157,8 +161,18 @@ public with sharing class ManualTaskRemote {
                     config,
                     TaskService.TaskConfig.class
                 );
-                System.debug('Update taskConfig.endTime'+taskConfig.endTime);
+            if(!taskConfig.isRecurrence){
+                if(taskConfig.reminderDate != mcpt.Reminder_Date__c){
+                    nextTaskReminderDate = taskConfig.reminderDate;
+                }
+            }
+            if(taskConfig.isRecurrence){
+                if(taskConfig.recurrenceFrequency == 'Daily'){
+                    taskConfig.reminderDate = null;
+                }
+            }
             //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
+            
             //If start date is future date
             if(taskConfig.startDate > Date.today()){
              /*   if(mcpt.Last_Occurrence_Date__c != null)
@@ -230,6 +244,7 @@ public with sharing class ManualTaskRemote {
             String countryTitle = String.join(CountryList, ',');
             String ts = String.join(titleString, ',');
             String statusString = String.join(mtf.statuses, ',');
+            String taskConfigToString = JSON.serialize(taskConfig);
 
               manualTaskLists.add(
                         new Manual_Creation_Panel_Task__c(
@@ -242,7 +257,7 @@ public with sharing class ManualTaskRemote {
                             Platform_level_Task__c = isPlatformLevel,
                             Study__c = studyTitle,
                             Therapeutic_Area__c = ts,
-                            TaskConfig__c = config,
+                            TaskConfig__c = taskConfigToString,
                             Patient_Status__c = statusString,
                             //Last_Occurrence_Date__c = lastOccurenceDate,
                             //Next_Occurence_Date__c = nextTaskStartDate,
@@ -253,8 +268,8 @@ public with sharing class ManualTaskRemote {
                             //Next_Due_Date__c = nextTaskDueDate,
                             Reminder_days_before_due_date__c = taskConfig.reminderDays,
                             //Last_Recurrence_Reminder__c = lastReminderDate,
-                            Status__c = status	
-                            //Reminder_Date__c = nextTaskReminderDate
+                            Status__c = status,	
+                            Reminder_Date__c = nextTaskReminderDate
                         )
                     );
                     Database.SaveResult[] srList = Database.update(manualTaskLists, true);

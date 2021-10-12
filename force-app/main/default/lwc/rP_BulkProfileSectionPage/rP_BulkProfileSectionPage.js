@@ -15,6 +15,15 @@ import RH_RP_Exclude_From_Referring from '@salesforce/label/c.RH_RP_Exclude_From
 import RH_RP_Include_From_Referring from '@salesforce/label/c.RH_RP_Include_From_Referring';
 import RH_RP_Exclude from '@salesforce/label/c.RH_RP_Exclude';
 import RH_RP_Include from '@salesforce/label/c.RH_RP_Include';
+import RH_RP_Bulk_Excluded_Successfully from '@salesforce/label/c.RH_RP_Bulk_Excluded_Successfully';
+import RH_RP_Bulk_included_successfully from '@salesforce/label/c.RH_RP_Bulk_included_successfully';
+import RH_RP_Export_to_excel from '@salesforce/label/c.RH_RP_Export_to_excel';
+import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
+import RH_RP_Export_downloadable_log from '@salesforce/label/c.RH_RP_Export_downloadable_log';
+import RH_RP_Bulk_Action from '@salesforce/label/c.RH_RP_Bulk_Action';
+import RH_RP_OutreachEmail from '@salesforce/label/c.RH_RP_OutreachEmail';
+import RH_RP_Patients_Selected from '@salesforce/label/c.RH_RP_Patients_Selected';
+
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring';
 import includeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring';
@@ -40,7 +49,15 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         RH_RP_Exclude_From_Referring,
         RH_RP_Include_From_Referring,
         RH_RP_Exclude,
-        RH_RP_Include
+        RH_RP_Include,
+        RH_RP_Bulk_Excluded_Successfully,
+        RH_RP_Bulk_included_successfully,
+        RH_RP_Export_to_excel,
+        RH_RP_Outreach_Email,
+        RH_RP_Export_downloadable_log,
+        RH_RP_Bulk_Action,
+        RH_RP_OutreachEmail,
+        RH_RP_Patients_Selected
     };
 
     @api usermode; 
@@ -89,7 +106,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         this.disableButton = true;
         excludeStatus({participantEnrollmentIds: this.peIds})
         .then((result) => { 
-            this.showSuccessToast(this.label.RH_RP_Excluded_Successfully);
+            this.showSuccessToast(this.label.RH_RP_Bulk_Excluded_Successfully);
             this.openExclude = false;
         })
         .catch((error) => {
@@ -109,7 +126,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         this.disableButton = true;
         includeStatus({participantEnrollmentIds: this.peIds})
         .then((result) => {
-            this.showSuccessToast(this.label.RH_RP_included_successfully);
+            this.showSuccessToast(this.label.RH_RP_Bulk_included_successfully);
         })
         .catch((error) => {
             this.errors = error;
@@ -138,7 +155,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     }
     downloadasExcel() {  
       let columnHeader = ["Participant Profile Name", "MRN Id","Patient ID","Referred Date","Study Code Name", "Study Site Name","Investigator Name","Participant Status","Status Change Reason","Participant Status Last Changed Date","Last Status Changed Notes","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referral Completed by","Referral Source","Last Added Notes","Outreach Email"]; 
-      let queryFields = ["Name", "MRNID", "PatientID","Referreddate", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralCompletedby","ReferralSource"]; 
+      let queryFields = ["Name", "MRNID", "PatientID","Referreddate", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralCompletedby","ReferralSource","LastAddedNotes"]; 
       var jsonRecordsData = this.peList;  
       let csvIterativeData;  
       let csvSeperator;  

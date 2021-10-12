@@ -19274,7 +19274,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Exclude From Referring</shortDescription>
-        <value>Select to exclude patient from referring</value>
+        <value>Include the selected patients for referring to a study</value>
     </labels>
     <labels>
         <fullName>RH_RP_Exclude_Record</fullName>
@@ -19288,7 +19288,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Excluded Successfully</shortDescription>
-        <value>This record has been successfully excluded.</value>
+        <value>This patient has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_for_Referring</fullName>
@@ -19323,7 +19323,49 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Include From Referring</shortDescription>
-        <value>Select to include patient for referring</value>
+        <value>Include the selected patients for referring to a study</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Export_downloadable_log</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Export_downloadable log</shortDescription>
+        <value>Export a downloadable log of the selected patients.</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Export_to_excel</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Export to excel</shortDescription>
+            <value>Export to Excel</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Outreach_Email</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Outreach Email</shortDescription>
+            <value>Outreach Email</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Bulk_Action</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Bulk Action</shortDescription>
+            <value>Select what bulk action you would like to perform</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_OutreachEmail</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_OutreachEmail</shortDescription>
+            <value>Initiate a request to send an outreach email to the selected patients.</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Patients_Selected</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Patients_Selected</shortDescription>
+            <value>Patients Selected</value>
     </labels>
     <labels>
         <fullName>RH_RP_Include_Record</fullName>
@@ -19764,7 +19806,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP included successfully</shortDescription>
-        <value>This Record has been successfully included.</value>
+        <value>This patient has been successfully included.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Bulk_Excluded_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Bulk Excluded Successfully</shortDescription>
+        <value>These patients have been successfully excluded.</value>
+    </labels>
+	 <labels>
+        <fullName>RH_RP_Bulk_included_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Bulk included successfully</shortDescription>
+        <value>These patients have been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_info</fullName>
