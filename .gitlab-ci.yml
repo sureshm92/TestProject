@@ -11,7 +11,7 @@ SonarCheck:
       refs: 
         - merge_requests
       variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT/
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
