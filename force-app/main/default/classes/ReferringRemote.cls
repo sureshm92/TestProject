@@ -737,7 +737,9 @@ public without sharing class ReferringRemote {
                 Contacted__c = true,
                 Contacted_Date__c = System.today(),
                 Consulted__c = true,
-                Consulted_Date__c = System.today());
+                Consulted_Date__c = System.today(),
+                Have_you_Documented_the_Discussion__c = true,
+                Discussion_Documented_Date__c = System.today());
             update per;
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());

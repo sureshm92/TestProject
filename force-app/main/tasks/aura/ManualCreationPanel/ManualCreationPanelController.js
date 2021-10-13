@@ -72,9 +72,9 @@
         component.set('v.isValid', validity);
     },
     checkSaveValid: function(component, event, helper) {
-        var valid;
         if (component.get('v.initialized')) {
-            valid = helper.checkChildSave(component);
+            var valid = component.get('v.filter.statuses').length > 0;
+            valid = helper.checkChildSave(component, valid);
         }
         component.set('v.isValidSave', valid);
     },

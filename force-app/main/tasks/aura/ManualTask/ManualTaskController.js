@@ -31,6 +31,12 @@
             component.get('v.taskConfig.isRecurrence')
         ) {
             component.set('v.taskConfig.reminderDays', null);
+        } else if (
+            component.get('v.dayRemind') == 0 &&
+            !component.get('v.taskConfig.isRecurrence') &&
+            component.get('v.showNumbersAdd') == 'true'
+        ) {
+            component.set('v.taskConfig.reminderDays', null);
         }
         component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
     },
@@ -44,9 +50,9 @@
         let diffInDays = dueDate.diff(startDate, 'days');
         if (reccFrequency == 'Weekly' && diffInDays < 7) {
             component.set('v.isValid', false);
-            component.set('v.isValidSave', false);
+            component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            component.get('v.parent').setSaveValidity(false);
+            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -55,9 +61,9 @@
             );
         } else if (reccFrequency == 'Monthly' && monthDiff < 1) {
             component.set('v.isValid', false);
-            component.set('v.isValidSave', false);
+            component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            component.get('v.parent').setSaveValidity(false);
+            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -66,9 +72,9 @@
             );
         } else if (reccFrequency == 'Yearly' && yearsDiff < 1) {
             component.set('v.isValid', false);
-            component.set('v.isValidSave', false);
+            component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            component.get('v.parent').setSaveValidity(false);
+            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -76,20 +82,37 @@
                 10000
             );
         } else {
-            component.set('v.isValidSave', true);
-            component.get('v.parent').setSaveValidity(true);
+            component.set('v.freqValidation', true);
+            //component.get('v.parent').setSaveValidity(true);
             var a = component.get('c.doCheckFields');
             $A.enqueueAction(a);
         }
         console.log('saveValid: ' + component.get('v.isValidSave'));
     },
     doCheckFields: function(component, event, helper) {
-        let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {
-            return validSoFar && inputCmp.checkValidity();
-        }, true);
+        if (component.get('v.isEdit')) {
+            let allValid;
+            if (
+                component.find('fieldEdit1').get('v.validity').valid &&
+                component.find('fieldEdit2').get('v.validity').valid &&
+                component.find('fieldEdit3').get('v.validity').valid &&
+                component.get('v.freqValidation')
+            ) {
+                allValid = true;
+            } else {
+                allValid = false;
+            }
+            console.log('allValid: ' + allValid);
+            component.set('v.isValidSave', allValid);
+            component.get('v.parent').setSaveValidity(allValid);
+        } else {
+            let allValid = component.find('field').reduce(function(validSoFar, inputCmp) {
+                return validSoFar && inputCmp.checkValidity();
+            }, true);
 
-        component.set('v.isValid', allValid);
-        component.get('v.parent').setValidity(allValid);
+            component.set('v.isValid', allValid);
+            component.get('v.parent').setValidity(allValid);
+        }
     },
 
     onDaysChange: function(component, event, helper) {
@@ -122,6 +145,8 @@
         ) {
             console.log('inside new condition 2');
             component.set('v.taskConfig.reminderDate', null);
+            component.set('v.taskConfig.reminderDays', null);
+            component.set('v.dayRemind', null);
         }
         if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);

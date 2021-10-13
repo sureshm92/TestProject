@@ -19326,7 +19326,7 @@ communications using the toggles below.</value>
         <value>Include the selected patients for referring to a study</value>
     </labels>
     <labels>
-        <fullName>RH_RP_Export_downloadable_log</fullName>
+        <fullName>RH_RP_Export_downloadable_log</fullName> 
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Export_downloadable log</shortDescription>

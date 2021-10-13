@@ -154,9 +154,9 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
        })
     }
     downloadasExcel() {  
-      let columnHeader = ["Participant Profile Name", "MRN Id","Patient ID","Referred Date","Study Code Name", "Study Site Name","Investigator Name","Participant Status","Status Change Reason","Participant Status Last Changed Date","Last Status Changed Notes","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referral Completed by","Referral Source","Last Added Notes","Outreach Email"]; 
-      let queryFields = ["Name", "MRNID", "PatientID","Referreddate", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralCompletedby","ReferralSource","LastAddedNotes"]; 
-      var jsonRecordsData = this.peList;  
+      let columnHeader = ["Study Code Name","Participant Profile Name", "Patient ID","Participant Status","Participant Status Last Changed Date","Last Added Notes","Outreach Email","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referred Date","Referral Completed by","Referral Source","Study Site Name","Investigator Name","Status Change Reason","Last Status Changed Notes","MRN Id"]; 
+      let queryFields = ["StudyCodeName","Name", "PatientID","ParticipantStatus","ParticipantStatusLastChangedDt","LastAddedNotes","OutreachMail","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","Referreddate","ReferralCompletedby","ReferralSource","StudySiteName","InvestigatorName","StatusChangeReason","LastStatusChangedNotes","MRNID"]; 
+      var jsonRecordsData = this.peList; 
       let csvIterativeData;  
       let csvSeperator;  
       let newLineCharacter;  

@@ -556,11 +556,11 @@ public without sharing class RPRecordReviewLogController {
         }
     }
     
-     public class peExportData {
+    public class peExportData {
         @AuraEnabled public String Name;
         @AuraEnabled public String MRNID;
         @AuraEnabled public String PatientID;
-        @AuraEnabled public Date Referreddate;
+        @AuraEnabled public String Referreddate;
         @AuraEnabled public String StudyCodeName;
         @AuraEnabled public String StudySiteName;
         @AuraEnabled public String InvestigatorName;
@@ -570,14 +570,15 @@ public without sharing class RPRecordReviewLogController {
         @AuraEnabled public String LastStatusChangedNotes;
         @AuraEnabled public String PreScreeningStatus;
         @AuraEnabled public String PreScreeningCompletedby;
-        @AuraEnabled public Date PreScreeningdate;
+        @AuraEnabled public String PreScreeningdate;
         @AuraEnabled public String ReferralCompletedby;
         @AuraEnabled public String ReferralSource;
         @AuraEnabled public String LastAddedNotes;
+        @AuraEnabled public String OutreachMail;
 
-        public peExportData(String Name,String MRNID,String PatientID, Date Referreddate, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
+        public peExportData(String Name,String MRNID,String PatientID, String Referreddate, String StudyCodeName,String StudySiteName,String InvestigatorName,String ParticipantStatus,
               String StatusChangeReason,String ParticipantStatusLastChangedDt,String LastStatusChangedNotes,String PreScreeningStatus,String PreScreeningCompletedby,
-              Date PreScreeningdate,String ReferralCompletedby,String ReferralSource, String LastAddedNotes               
+              String PreScreeningdate,String ReferralCompletedby,String ReferralSource, String LastAddedNotes ,String OutreachMail               
         ) {
             this.Name= Name;
             this.MRNID=MRNID;
@@ -596,17 +597,18 @@ public without sharing class RPRecordReviewLogController {
             this.ReferralCompletedby =ReferralCompletedby;
             this.ReferralSource = ReferralSource;
             this.LastAddedNotes = LastAddedNotes;
+            this.OutreachMail = OutreachMail;
         }
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static List<peExportData> getExportRecords(List<String> participantEnrollmentIds) {
         try {
             List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
             List<peExportData> peInitWrapperDataList = new List<peExportData>();
             PeRecords = [Select id,Name,Patient_ID__c,
-                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,
-                          Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,
+                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_Date__c,
+                          Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Study_Site__c,Study_Site__r.Name,
                           Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c,RP_Site_Selected__c 
                          from Participant_Enrollment__c where id IN:participantEnrollmentIds];
             
@@ -628,19 +630,37 @@ public without sharing class RPRecordReviewLogController {
                 String dateTimeofStatuschng='';
                 String lastNotes='';
                 String sitename='';
-                if(per.Participant_Status_Last_Changed_Date__c !=null){
-                dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');}
+                String OutreachMail='';
+                String ReferredDt='';
+                String preScreeningDt='';
+                if(per.Participant_Status_Last_Changed_Date__c !=null)
+                {
+                //dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.format('MM/dd/yyyy, hh:mm a');
+                
+                  dateTimeofStatuschng = per.Participant_Status_Last_Changed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy');
+                }
+                if(per.Referred_Date__c!=null)
+                {
+                    Date refdt = per.Referred_Date__c;
+                    Datetime dt = datetime.newInstance(refdt.year(), refdt.month(),refdt.day());
+                    ReferredDt = dt.formatGMT('EEE MMM d 00:00:00 zz yyyy');
+                }
+                if(per.Medical_Record_Review_Completed_Date__c!=null)
+                {
+                   preScreeningDt = per.Medical_Record_Review_Completed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy');
+                    
+                }
                 
                 if(mapLastNotes.containsKey(per.id)){
                 lastNotes = mapLastNotes.get(per.id);}
                 if(per.RP_Site_Selected__c != null){
-                   sitename = per.Site__c;
+                   sitename = per.Study_Site__r.Name;
                 }
                 
-                peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,per.Referred_Date__c,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
+                peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,ReferredDt,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                              sitename,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
-                                             per.Last_Status_Changed_Notes__c,per.Pre_screening_Status__c,per.Medical_Record_Review_Completedby_Name__c,
-                                             per.Screening_Date__c,per.Referral_Completedby_Name__c,per.Referral_Source__c,lastNotes
+                                             per.Last_Status_Changed_Notes__c,per.Medical_Record_Review_Status__c,per.Medical_Record_Review_Completedby_Name__c,
+                                             preScreeningDt,per.Referral_Completedby_Name__c,per.Referral_Source__c,lastNotes,OutreachMail
                                              
                 ));
             }
@@ -649,7 +669,7 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }
-
+    
     @AuraEnabled
     public static String bulkUndoChangeStatusToExcludeFromReferring(list<String> participantEnrollmentIds) {
         try {
