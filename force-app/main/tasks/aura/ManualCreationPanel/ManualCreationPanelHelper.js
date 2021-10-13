@@ -19,9 +19,8 @@
 
         return validity;
     },
-    checkChildSave: function(component) {
-        var validity;
-        validity = component.find('manTask').get('v.isValidSave');
+    checkChildSave: function(component, validity) {
+        validity = validity && component.find('manTask').get('v.isValidSave');
         return validity;
     }
 });
