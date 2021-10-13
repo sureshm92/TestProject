@@ -601,13 +601,13 @@ public without sharing class RPRecordReviewLogController {
         }
     }
     
-     @AuraEnabled
+    @AuraEnabled
     public static List<peExportData> getExportRecords(List<String> participantEnrollmentIds) {
         try {
             List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
             List<peExportData> peInitWrapperDataList = new List<peExportData>();
             PeRecords = [Select id,Name,Patient_ID__c,
-                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,
+                          MRN_Id__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Site__c,PI_Contact__c,PI_Contact__r.Name,Referred_Date__c,Referral_Completedby_Name__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_Date__c,
                           Participant_Status__c,Non_Referral_Reason__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Study_Site__c,Study_Site__r.Name,
                           Pre_screening_Status__c,Medical_Record_Review_Completedby_Name__c,Screening_Date__c,Referral_Source__c,RP_Site_Selected__c 
                          from Participant_Enrollment__c where id IN:participantEnrollmentIds];
@@ -645,11 +645,10 @@ public without sharing class RPRecordReviewLogController {
                     Datetime dt = datetime.newInstance(refdt.year(), refdt.month(),refdt.day());
                     ReferredDt = dt.formatGMT('EEE MMM d 00:00:00 zz yyyy');
                 }
-                if(per.Screening_Date__c!=null)
+                if(per.Medical_Record_Review_Completed_Date__c!=null)
                 {
-                    Date screngdt = per.Screening_Date__c;
-                    Datetime dt1 = datetime.newInstance(screngdt.year(), screngdt.month(),screngdt.day());
-                    preScreeningDt = dt1.formatGMT('EEE MMM d 00:00:00 zz yyyy');
+                   preScreeningDt = per.Medical_Record_Review_Completed_Date__c.formatGMT('EEE MMM d HH:mm:ss zz yyyy');
+                    
                 }
                 
                 if(mapLastNotes.containsKey(per.id)){
@@ -660,7 +659,7 @@ public without sharing class RPRecordReviewLogController {
                 
                 peInitWrapperDataList.add(new peExportData(per.Name,per.MRN_Id__c,per.Patient_ID__c,ReferredDt,per.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                              sitename,per.PI_Contact__r.Name,per.Participant_Status__c,per.Non_Referral_Reason__c,dateTimeofStatuschng,
-                                             per.Last_Status_Changed_Notes__c,per.Pre_screening_Status__c,per.Medical_Record_Review_Completedby_Name__c,
+                                             per.Last_Status_Changed_Notes__c,per.Medical_Record_Review_Status__c,per.Medical_Record_Review_Completedby_Name__c,
                                              preScreeningDt,per.Referral_Completedby_Name__c,per.Referral_Source__c,lastNotes,OutreachMail
                                              
                 ));
