@@ -192,8 +192,8 @@
                              isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2' &amp;&amp; v.accessUserLevel != 'Level 3'}"
                              >
                         <div class="between-panels">
-                            or
-                            <!-- {!$Label.c.PG_Ref_L_OR} -->
+                            
+                             {!$Label.c.PG_Ref_L_OR}
                         </div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent" />
