@@ -1,7 +1,7 @@
 #!/bin/sh
 
 echo "Clean up previous scratch org"
-sfdx force:org:delete -p
+#sfdx force:org:delete -p 
 
 echo "Modifying files for scratch org"
 echo "Step 1 - Move current files to scratch-org-files/original-files"
@@ -33,24 +33,24 @@ echo "Move communities"
 mv ./force-app/communities ./
 
 echo "Creating scratch org..."
-sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
+#sfdx force:org:create -f config/project-scratch-def.json -d 30 -s -a $1
 
 echo "Creating OrgWideEmailSddresses..."
-sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
+#sfdx force:data:tree:import -f data/OrgWideEmailAddresses.json
 
 echo "Pushing project in progress..."
 sfdx force:org:open -p 'lightning/setup/DeployStatus/home'
 
-sfdx force:source:push -f
+#sfdx force:source:push -f
 
-if [ $? = 0 ]; 
-then
+#if [ $? = 0 ]; 
+#then
     echo "Return communities"
     mv ./communities ./force-app/
     
     echo "Post setup in progress..."
     
-    sfdx force:source:push -f
+    #sfdx force:source:push -f
 
     sfdx force:apex:execute -f scripts/apex/SFDX_Setup_UpdateUserRole.apex
 
@@ -87,9 +87,9 @@ then
     sfdx force:user:permset:assign --permsetname SurveyCreator
 
     echo "Push completed successfully, discard all the file changes!"
-else
+#else
     echo "Return communities"
     mv ./communities ./force-app/
     
     echo "Push not completed properly, check logs and try again"
-fi
+#fi
