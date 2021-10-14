@@ -265,7 +265,6 @@
         </div>
 
         <aura:set attribute="else">
-            validity:{!v.isValidSave}
             <div class="mt-panel">
                 <!-- Task Subject -->
                 <aura:if isTrue="{!v.isEdit}">
