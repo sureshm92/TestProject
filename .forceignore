@@ -26,57 +26,21 @@ force-app/main/default/flows/customer_satisfaction.flow-meta.xml
 force-app/main/default/flows/Send_Email_to_the_delegate.flow-meta.xml
 force-app/main/default/flows/Create_Task_For_OutReach_User-3.flow-meta.xml
 force-app/main/default/flows/Create_Task_For_OutReach_User.flow-meta.xml
-force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
+#force-app/main/default/flows/Email_to_Technical_Support_for_Optout_option.flow-meta.xml
 force-app/main/default/workflows/Integration_Patient_Referral__c.workflow-meta.xml
 force-app/main/default/workflows/Case.workflow-meta.xml
 
 #Ignore all onboarding slides, comment line for include
-**/onboarding-tour/staticresources
-force-app/unpackaged/main/default/staticresources/os_*
-force-app/main/onboarding-tour/staticresources/os_*
-#force-app/main/default/staticresources/Flags.svg
-#force-app/main/default/staticresources/Flags.resource-meta.xml
+#**/onboarding-tour/staticresources
+#force-app/unpackaged/main/default/staticresources/os_*
+#force-app/main/onboarding-tour/staticresources/os_*
+force-app/main/default/staticresources/Flags.svg
+force-app/main/default/staticresources/Flags.resource-meta.xml
 #force-app/main/tools/staticresources/*
 
 
 #Ignore State globalValueSet
-force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
+#force-app/unpackaged/main/default/globalValueSets/State.globalValueSet-meta.xml
 #force-app/main/default/profiles
-force-app/communities/community-iqvia
-force-app/communities/community-gsk
-force-app/communities/community-janssen
-#force-app/main/backend-ctp-setup/classes/Batch_UpdateVisitPlanCreatePatientVisits.cls-meta.xml
-#force-app\main\backend-ctp-setup\classes\StudySiteItemRemote.cls-meta.xml
-force-app\main\backend-ctp-setup\tests\Test_Batch_UpdateVisitPlanCreatePVisits.cls-meta.xml
-#force-app\main\backend-ctp-setup\tests\Test_StudySiteItemRemote.cls-meta.xml
-#force-app\main\backend-ctp-setup\classes\Batch_UpdateVisitPlanCreatePatientVisits.cls-meta.xml
-#force-app\main\backend-ctp-setup\classes\Batch_UpdateVisitPlanCreatePatientVisits.cls
-#force-app\main\backend-ctp-setup\tests\Test_StudySiteItemRemote.cls-meta.xml
-force-app\main\default\workflows\Participant_Enrollment__c.workflow-meta.xml
-#force-app\main\default\experiences\IQVIA_Referral_Hub1.site-meta.xml  
-#force-app\main\messaging\email\Referral_Hub_Emails
-#force-app\main\default\experiences\GSK_Community1.site-meta.xml  
-force-app\main\default\flows\demo.flow-meta.xml   
-force-app\main\default\experiences
-
-#force-app\main\default\customMetadata
-force-app\main\backend-ctp-setup\tests\Test_StudySiteItemRemote.cls
-force-app\main\backend-ctp-setup\tests\Test_Batch_UpdateVisitPlanCreatePVisits.cls
-#force-app\main\backend-ctp-setup\classes\StudySiteItemRemote.cls
-force-app\main\default\classes\Test_UploadParticipantsBatchHelper.cls
-force-app\main\default\classes\TestCPDonor.cls  
-#force-app\main\tests\classes\Test_ManualCreationPanelRemote.cls  
-force-app\main\default\flows\Patient_Welcome_to_the_Study_Email.flow-meta.xml   
-#force-app\main\backend-ctp-setup\aura\StudySiteVisitConfig\StudySiteVisitConfig.cmp 
-#force-app\main\default\aura\DB_LeaderboardSSRank\DB_LeaderboardSSRank.cmp  
-#force-app\main\backend-ctp-setup\aura
-#force-app\main\default\flows\Study_Resources.flow-meta.xml
-#force-app\main\default\quickActions\Clinical_Trial_Profile__c.Recourses.quickAction-meta.xml
-#force-app\main\default\flexipages
-#force-app\main\backend-ctp-setup\aura\flowCOILookup\flowCOILookup.cmp     
-#force-app\main\default\layouts\Clinical_Trial_Profile__c-Clinical Trial Profile View Layout.layout-meta.xml  
-#force-app\main\default\layouts\Clinical_Trial_Profile__c-Clinical Trial Profile Layout.layout-meta.xml 
-#force-app\main\default\quickActions\Clinical_Trial_Profile__c.Recourses.quickAction-meta.xml  
-force-app\main\backend-ctp-setup\tests\Test_StudySiteVisitConfigRemote.cls 
-force-app\main\tests\classes\Test_ManualCreationPanelRemote.cls
-force-app\main\integration\objects\Integration_Patient_Referral__c\fields\Preferred_Contact_Time__c.field-meta.xml
+#force-app/communities
+#force-app/main/default/workflows/Participant_Enrollment__c.workflow-meta.xml
