@@ -9960,6 +9960,20 @@ The expected format is REF##### to REF########</value>
         <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
+        <fullName>Message_PT_Survey_Final_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
+        <value>This is your final reminder. Please complete ##SurveyName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_PT_Survey_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message PT Survey Reminder SMS</shortDescription>
+        <value>This is a reminder that you have not completed ##SurveyName.</value>
+    </labels>
+    <labels>
         <fullName>Message_Studies_Length</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17491,6 +17505,13 @@ communications using the toggles below.</value>
         <protected>true</protected>
         <shortDescription>PS_Site_Location</shortDescription>
         <value>Site Location</value>
+    </labels>
+    <labels>
+        <fullName>PT_Complete_BL_Survey_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Complete BL Survey SMS</shortDescription>
+        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
