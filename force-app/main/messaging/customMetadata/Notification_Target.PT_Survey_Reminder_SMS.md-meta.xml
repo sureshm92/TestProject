@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">Email_Body_Survey_Reminder</value>
+        <value xsi:type="xsd:string">Message_PT_Survey_Reminder_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>
