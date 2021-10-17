@@ -29,6 +29,7 @@ import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChan
 import includeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring';
 import getExportRecords from '@salesforce/apex/RPRecordReviewLogController.getExportRecords';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
 export default class RP_BulkProfileSectionPage extends LightningElement {
 
@@ -75,6 +76,9 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     openInclude = false;
     disableButton = false;
     showExclude = false;
+    topIcon = icon_chevron_up_white;
+
+
     connectedCallback() {
         this.totalRecords = this.peIds.length; 
 
@@ -84,6 +88,13 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         else{
             this.showExclude = true;
         }
+    }
+
+    goTop(){
+        window.scrollTo({
+            top: 100,
+            behavior: 'smooth'
+          });
     }
 
     openExcludeModal(){
@@ -156,7 +167,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     downloadasExcel() {  
       let columnHeader = ["Study Code Name","Participant Profile Name", "Patient ID","Participant Status","Participant Status Last Changed Date","Last Added Notes","Outreach Email","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referred Date","Referral Completed by","Referral Source","Study Site Name","Investigator Name","Status Change Reason","Last Status Changed Notes","MRN Id"]; 
       let queryFields = ["StudyCodeName","Name", "PatientID","ParticipantStatus","ParticipantStatusLastChangedDt","LastAddedNotes","OutreachMail","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","Referreddate","ReferralCompletedby","ReferralSource","StudySiteName","InvestigatorName","StatusChangeReason","LastStatusChangedNotes","MRNID"]; 
-      var jsonRecordsData = this.peList; 
+      var jsonRecordsData = this.peList;  
       let csvIterativeData;  
       let csvSeperator;  
       let newLineCharacter;  
