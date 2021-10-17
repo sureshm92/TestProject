@@ -1,4 +1,4 @@
-import { LightningElement,api,track} from 'lwc';
+import { LightningElement, api, track } from 'lwc';
 import updatePeRecords from '@salesforce/apex/RPRecordReviewLogController.updatePeRecords';
 import patientValidation from '@salesforce/apex/RPRecordReviewLogController.patientValidation';
 import checkPatientAge from '@salesforce/apex/RPRecordReviewLogController.checkPatientAge';
@@ -60,6 +60,8 @@ import RH_RP_Delegate_Information_is_mandatory from '@salesforce/label/c.RH_RP_D
 import RH_RP_Legal_status_warning_message from '@salesforce/label/c.RH_RP_Legal_status_warning_message';
 import RH_RP_success_message from '@salesforce/label/c.RH_RP_success_message';
 import RH_RP_Record_Saved_Successfully from '@salesforce/label/c.RH_RP_Record_Saved_Successfully';
+import FORM_FACTOR from '@salesforce/client/formFactor';
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
 export default class Rp_PatientTab extends LightningElement {
     @track patientrecord;
@@ -70,7 +72,7 @@ export default class Rp_PatientTab extends LightningElement {
     @track stateRequired = true;
     @track validationList = [];
     cancelOpen = false;
-    @api disabledsavebutton ;
+    @api disabledsavebutton;
     @api monthDateValue;
     @api yearDateValue;
     @api isMinor = false;
@@ -82,9 +84,13 @@ export default class Rp_PatientTab extends LightningElement {
     }
     set patientrecordlist(value) {
         this.patientrecord = JSON.parse(JSON.stringify(value));
-        if(this.isaccesslevelthree){
-        disabledsavebutton = true;}
+        if (this.isaccesslevelthree) {
+            disabledsavebutton = true;
+        }
     }
+
+    topIcon = icon_chevron_up_white;
+
     label = {
         PG_Ref_L_Information_Sharing,
         PG_Ref_L_Permit_IQVIA_Confirmation,
@@ -145,8 +151,16 @@ export default class Rp_PatientTab extends LightningElement {
         RH_RP_Record_Saved_Successfully
     };
 
-    requiredFieldForAdult = ['PatientID','EmailID','FirstName','BirthYear','LastName','Country','PatientAuthStatus','LegalStatus'];
-    requiredfieldforMinor = ['PatientID','EmailID','FirstName','BirthYear','LastName','Country','PatientAuthStatus','LegalStatus'];
+    requiredFieldForAdult = ['PatientID', 'EmailID', 'FirstName', 'BirthYear', 'LastName', 'Country', 'PatientAuthStatus', 'LegalStatus'];
+    requiredfieldforMinor = ['PatientID', 'EmailID', 'FirstName', 'BirthYear', 'LastName', 'Country', 'PatientAuthStatus', 'LegalStatus'];
+
+    goTop() {
+        window.scrollTo({
+            top: 100,
+            behavior: 'smooth'
+        });
+    }
+
     checkValidEmail(element) {
         let returnValue = false;
         var regexp = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]+\.)+[A-Za-z0-9a-À-ÖØ-öø-ÿÀÁÂÃÈÉÊÌÑÍÒÓÔÕÙÚĂĐĨŨƠàáâãèéêìíòóôõùúăđĩũơƯĂẠẢẤẦẨẪẬẮẰẲẴẶẸẺẼỀỀỂưËẾăạảấầẩẫậắằẳẵÇặẹẻẽềềếểỄỆỈỊỌỎỐỒỔỖỘỚỜỞỠỢỤỦỨỪễệỉịọỏốồổỗộớờởỡợụủứừỬỮỰỲỴÝỶỸửữựỳỵỷỹ]{2,}))$/;
@@ -158,72 +172,72 @@ export default class Rp_PatientTab extends LightningElement {
             if (emailValue.match(regexp)) {
                 element.setCustomValidity('');
                 returnValue = true;
-            } 
+            }
             else {
                 element.setCustomValidity(this.label.RH_RP_Invalid_Email);
                 returnValue = false;
             }
-        } 
+        }
         else {
             email.setCustomValidity(this.label.RH_RP_Invalid_Email);
-            returnValue = false; 
+            returnValue = false;
         }
         element.reportValidity();
-        return returnValue; 
+        return returnValue;
     }
-    
+
     customFieldValidation(dataValue) {
 
-        let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
+        let element = this.template.querySelector('[data-value="' + dataValue + '"]');
         let fieldValue = element.value;
         let fieldLabel = element.label;
         let fieldname = element.name;
         let returnvalue;
 
-        if(!fieldValue  && fieldname !='Email ID' ) {
-            element.setCustomValidity(fieldLabel +' ' + this.label.RH_RP_is_missing);
+        if (!fieldValue && fieldname != 'Email ID') {
+            element.setCustomValidity(fieldLabel + ' ' + this.label.RH_RP_is_missing);
             returnvalue = false;
         }
-        else if(fieldValue && fieldname =='Email ID') {
-            let isEmailValidated= this.checkValidEmail(element);
-            if(isEmailValidated) {
+        else if (fieldValue && fieldname == 'Email ID') {
+            let isEmailValidated = this.checkValidEmail(element);
+            if (isEmailValidated) {
                 returnvalue = true;
             }
             else {
                 returnvalue = false;
             }
         }
-        else if(fieldValue && fieldname == 'Birth Year') {
+        else if (fieldValue && fieldname == 'Birth Year') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
             let monthValue = monthValueAvilable.value;
             let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
             let yearValue = yearValueAvilable.value;
             monthValueAvilable.setCustomValidity('');
 
-            if(monthValue != null && yearValue != null){
+            if (monthValue != null && yearValue != null) {
                 var currentTime = new Date();
                 var year = currentTime.getFullYear();
                 var month = currentTime.getMonth() + 1;
-                
-                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+
+                if (parseInt(monthValue) > parseInt(month) && year == yearValue) {
                     monthValueAvilable.setCustomValidity(this.label.RH_RP_Future_Month);
                     monthValueAvilable.reportValidity();
                     returnvalue = false;
                 }
             }
         }
-        else if(fieldValue && fieldname == 'Birth Month') {
+        else if (fieldValue && fieldname == 'Birth Month') {
             let monthValueAvilable = this.template.querySelector('[data-value="BirthMonth"]');
             let monthValue = monthValueAvilable.value;
             let yearValueAvilable = this.template.querySelector('[data-value="BirthYear"]');
             let yearValue = yearValueAvilable.value;
             monthValueAvilable.setCustomValidity('');
-            if(monthValue != null && yearValue != null){
+            if (monthValue != null && yearValue != null) {
                 var currentTime = new Date();
                 var year = currentTime.getFullYear();
                 var month = currentTime.getMonth() + 1;
-                
-                if(parseInt(monthValue) > parseInt(month) && year == yearValue){
+
+                if (parseInt(monthValue) > parseInt(month) && year == yearValue) {
                     monthValueAvilable.setCustomValidity(this.label.RH_RP_Future_Month);
                     monthValueAvilable.reportValidity();
                     element.value = '';
@@ -231,7 +245,7 @@ export default class Rp_PatientTab extends LightningElement {
                 }
             }
         }
-        else{
+        else {
             element.setCustomValidity('');
             returnvalue = true;
         }
@@ -239,17 +253,17 @@ export default class Rp_PatientTab extends LightningElement {
         return returnvalue;
     }
     removeCustomFieldValidation(dataValue) {
-        let element = this.template.querySelector('[data-value="' +dataValue+ '"]');
+        let element = this.template.querySelector('[data-value="' + dataValue + '"]');
         element.setCustomValidity(" ");
         element.reportValidity();
     }
 
     get disableField() {
-        if (this.isaccesslevelthree){
+        if (this.isaccesslevelthree) {
             return true;
-        }else if(this.patientrecord[0].isMinor){
+        } else if (this.patientrecord[0].isMinor) {
             return true;
-        }else{
+        } else {
             return false;
         }
     }
@@ -257,109 +271,109 @@ export default class Rp_PatientTab extends LightningElement {
     changeInputValue(event) {
         let isAllFieldValidated = false;
         this.disabledsavebutton = true;
-       
+
         let isRequired = this.patientrecord[0].isRequired;
         let dataValue = event.target.dataset.value;
         this.disabledsavebutton = true;
         this.validationList = [];
 
-        if(isRequired && this.requiredFieldForAdult.includes(dataValue)) {
+        if (isRequired && this.requiredFieldForAdult.includes(dataValue)) {
             isAllFieldValidated = this.customFieldValidation(dataValue);
             this.validationList.push(isAllFieldValidated);
         }
-        else if(this.requiredfieldforMinor.includes(dataValue)){
+        else if (this.requiredfieldforMinor.includes(dataValue)) {
             isAllFieldValidated = this.customFieldValidation(dataValue);
             this.validationList.push(isAllFieldValidated);
         }
 
-        let record = this.patientrecord.find(ele  => ele.peRecord.Id === event.target.dataset.id);
-        if(event.target.dataset.value === 'PatientID') {
+        let record = this.patientrecord.find(ele => ele.peRecord.Id === event.target.dataset.id);
+        if (event.target.dataset.value === 'PatientID') {
             record.peRecord.Patient_ID__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'EmailID') {
+        else if (event.target.dataset.value === 'EmailID') {
             record.peRecord.Email__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'FirstName') {
+        else if (event.target.dataset.value === 'FirstName') {
             record.peRecord.Participant_Name__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'MI') {
+        else if (event.target.dataset.value === 'MI') {
             record.peRecord.Patient_Middle_Name_Initial__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'BirthMonth') {
+        else if (event.target.dataset.value === 'BirthMonth') {
             record.peRecord.Birth_Month__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'BirthYear') {
+        else if (event.target.dataset.value === 'BirthYear') {
             record.peRecord.YOB__c = event.target.value;
-            if(record.peRecord.YOB__c){
+            if (record.peRecord.YOB__c) {
                 this.checkPatientAge();
             }
         }
-        else if(event.target.dataset.value === 'LastName') {
+        else if (event.target.dataset.value === 'LastName') {
             record.peRecord.Participant_Surname__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'Sex') {
+        else if (event.target.dataset.value === 'Sex') {
             record.peRecord.Patient_Sex__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'Country') {
+        else if (event.target.dataset.value === 'Country') {
             record.peRecord.Mailing_Country_Code__c = event.target.value;
             this.states = this.patientrecord[0].statesByCountryMap[record.peRecord.Mailing_Country_Code__c];
-            if(this.states.length> 0){
+            if (this.states.length > 0) {
                 this.stateRequired = true;
             }
-            else{
+            else {
                 this.stateRequired = false;
                 record.peRecord.Mailing_State_Code__c = '';
             }
         }
-        else if(event.target.dataset.value === 'States') {
+        else if (event.target.dataset.value === 'States') {
             record.peRecord.Mailing_State_Code__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'PhoneNumber') {
+        else if (event.target.dataset.value === 'PhoneNumber') {
             record.peRecord.Phone__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'PhoneType') {
+        else if (event.target.dataset.value === 'PhoneType') {
             record.peRecord.Patient_Phone_Type__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'AltPhoneNumber') {
+        else if (event.target.dataset.value === 'AltPhoneNumber') {
             record.peRecord.Participant_Alternative_Phone__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'AltPhoneType') {
+        else if (event.target.dataset.value === 'AltPhoneType') {
             record.peRecord.Participant_Alt_Phone_Type__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'PostalCode') {
+        else if (event.target.dataset.value === 'PostalCode') {
             record.peRecord.Postal_Code__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'SiteName') {
+        else if (event.target.dataset.value === 'SiteName') {
             record.peRecord.Study_Site__c = event.target.value;
             record.peRecord.RP_Site_Selected__c = event.target.value;
             record.backendSelectedSite = event.target.value;
         }
-        else if(event.target.dataset.value === 'PatientAuthStatus') {
+        else if (event.target.dataset.value === 'PatientAuthStatus') {
             record.peRecord.Patient_Auth__c = event.target.value;
         }
-        else if(event.target.dataset.value === 'LegalStatus') {
+        else if (event.target.dataset.value === 'LegalStatus') {
             this.checkPatientAge();
-            if(this.patientrecord[0].isRequired){
+            if (this.patientrecord[0].isRequired) {
                 event.target.value = 'Yes'
-                record.peRecord.Legal_Status__c = event.target.value 
+                record.peRecord.Legal_Status__c = event.target.value
             }
-            else{
+            else {
                 event.target.value = 'No'
                 record.peRecord.Legal_Status__c = event.target.value;
             }
         }
-        else if(event.target.dataset.value === 'IsEmail') {
+        else if (event.target.dataset.value === 'IsEmail') {
             record.peRecord.Is_Email__c = event.target.checked;
         }
-        else if(event.target.dataset.value === 'IsPhone') {
+        else if (event.target.dataset.value === 'IsPhone') {
             record.peRecord.Is_Phone__c = event.target.checked;
         }
-        else if(event.target.dataset.value === 'IsSMS') {
+        else if (event.target.dataset.value === 'IsSMS') {
             record.peRecord.Is_SMS__c = event.target.checked;
         }
         this.patientrecord = [...this.patientrecord];
-        
-        if(this.patientrecord[0].peRecord.Patient_ID__c != undefined && this.patientrecord[0].peRecord.Participant_Name__c != undefined
+
+        if (this.patientrecord[0].peRecord.Patient_ID__c != undefined && this.patientrecord[0].peRecord.Participant_Name__c != undefined
             && this.patientrecord[0].peRecord.YOB__c != undefined && this.patientrecord[0].peRecord.Patient_Auth__c != undefined
             && this.patientrecord[0].peRecord.Participant_Surname__c != undefined
             && this.patientrecord[0].peRecord.Participant_Surname__c != ''
@@ -368,18 +382,18 @@ export default class Rp_PatientTab extends LightningElement {
             && this.patientrecord[0].peRecord.Participant_Name__c != ''
             && this.patientrecord[0].peRecord.Patient_ID__c != ''
             && this.patientrecord[0].peRecord.Patient_ID__c != null
-            ){
-                this.disabledsavebutton = false;
-           }
-           else{
-                this.disabledsavebutton = true;
-           } 
+        ) {
+            this.disabledsavebutton = false;
+        }
+        else {
+            this.disabledsavebutton = true;
+        }
     }
 
     cancelRecord(event) {
         this.disabledsavebutton = true;
         this.cancelOpen = false;
-        let record = this.patientrecord.find(ele  => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
+        let record = this.patientrecord.find(ele => ele.peRecord.Id === this.originalpatientrecord[0].peRecord.Id);
         record.peRecord.Patient_ID__c = this.originalpatientrecord[0].peRecord.Patient_ID__c;
         record.peRecord.Email__c = this.originalpatientrecord[0].peRecord.Email__c;
         record.peRecord.Participant_Name__c = this.originalpatientrecord[0].peRecord.Participant_Name__c;
@@ -394,7 +408,7 @@ export default class Rp_PatientTab extends LightningElement {
         record.peRecord.Patient_Phone_Type__c = this.originalpatientrecord[0].peRecord.Patient_Phone_Type__c;
         record.peRecord.Participant_Alternative_Phone__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
         record.peRecord.Participant_Alt_Phone_Type__c = this.originalpatientrecord[0].peRecord.Participant_Alternative_Phone__c;
-        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c ;
+        record.peRecord.Postal_Code__c = this.originalpatientrecord[0].peRecord.Postal_Code__c;
         record.peRecord.Study_Site__c = this.originalpatientrecord[0].peRecord.Study_Site__c;
         record.peRecord.Patient_Auth__c = this.originalpatientrecord[0].peRecord.Patient_Auth__c;
         record.peRecord.Legal_Status__c = this.originalpatientrecord[0].peRecord.Legal_Status__c;
@@ -409,12 +423,12 @@ export default class Rp_PatientTab extends LightningElement {
         });
 
         this.requiredFieldForAdult.forEach(item => {
-            this.removeCustomFieldValidation(item);            
+            this.removeCustomFieldValidation(item);
         });
     }
 
     closeUnsavedModal(event) {
-        this.isUnsavedModalOpen = false;  
+        this.isUnsavedModalOpen = false;
         this.disableButton = false;
     }
 
@@ -424,57 +438,57 @@ export default class Rp_PatientTab extends LightningElement {
         let year = this.patientrecord[0].peRecord.YOB__c;
         let month = this.patientrecord[0].peRecord.Birth_Month__c;
 
-        checkPatientAge({countryCode: countryCode,stateCode: stateCode, month: month, year: year})
-        .then((result) => {
-            if(result == 'true') {
-                this.patientrecord[0].isRequired = false; 
-                this.patientrecord[0].isMinor = true; 
-                this.isMinor = true;
-                this.patientrecord[0].peRecord.Legal_Status__c = 'No';   
-                this.patientrecord[0].peRecord.Email__c = ''; 
-                this.patientrecord[0].peRecord.Phone__c = '';    
-                this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';  
-                this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';  
-                this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';   
-                this.removeCustomFieldValidation('EmailID');
-                this.removeCustomFieldValidation('PhoneNumber');
-                this.removeCustomFieldValidation('PhoneType');
-            }
-            else {
-                this.patientrecord[0].isRequired = true;
-                this.patientrecord[0].isMinor = false; 
-                this.isMinor = false;
-                this.patientrecord[0].peRecord.Legal_Status__c = 'Yes';     
-            }
-        })
-        .catch((error) => {
-            this.showErrorToast(JSON.stringify(error.body.message));
-        })
+        checkPatientAge({ countryCode: countryCode, stateCode: stateCode, month: month, year: year })
+            .then((result) => {
+                if (result == 'true') {
+                    this.patientrecord[0].isRequired = false;
+                    this.patientrecord[0].isMinor = true;
+                    this.isMinor = true;
+                    this.patientrecord[0].peRecord.Legal_Status__c = 'No';
+                    this.patientrecord[0].peRecord.Email__c = '';
+                    this.patientrecord[0].peRecord.Phone__c = '';
+                    this.patientrecord[0].peRecord.Patient_Phone_Type__c = '';
+                    this.patientrecord[0].peRecord.Participant_Alternative_Phone__c = '';
+                    this.patientrecord[0].peRecord.Participant_Alt_Phone_Type__c = '';
+                    this.removeCustomFieldValidation('EmailID');
+                    this.removeCustomFieldValidation('PhoneNumber');
+                    this.removeCustomFieldValidation('PhoneType');
+                }
+                else {
+                    this.patientrecord[0].isRequired = true;
+                    this.patientrecord[0].isMinor = false;
+                    this.isMinor = false;
+                    this.patientrecord[0].peRecord.Legal_Status__c = 'Yes';
+                }
+            })
+            .catch((error) => {
+                this.showErrorToast(JSON.stringify(error.body.message));
+            })
     }
 
     openUnsavedModal(event) {
-         let isAllFieldValidated = false;
-         this.validationList = [];
-         let checkCondition =[];
+        let isAllFieldValidated = false;
+        this.validationList = [];
+        let checkCondition = [];
 
-         if(this.patientrecord[0].isRequired) {
+        if (this.patientrecord[0].isRequired) {
             this.requiredfieldforMinor.forEach(item => {
                 this.removeCustomFieldValidation(item);
             });
         }
-        else{
+        else {
             this.requiredFieldForAdult.forEach(item => {
-                this.removeCustomFieldValidation(item);            
+                this.removeCustomFieldValidation(item);
             });
         }
-        checkCondition= this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
-       
-        for(let i=0; i<checkCondition.length; i++) {
-            isAllFieldValidated = this.customFieldValidation(checkCondition[i]);      
+        checkCondition = this.patientrecord[0].isRequired ? this.requiredFieldForAdult : this.requiredfieldforMinor;
+
+        for (let i = 0; i < checkCondition.length; i++) {
+            isAllFieldValidated = this.customFieldValidation(checkCondition[i]);
             this.validationList.push(isAllFieldValidated);
         }
 
-        if(!this.validationList.includes(false)) {  
+        if (!this.validationList.includes(false)) {
             let newPatientId = this.patientrecord[0].peRecord.Patient_ID__c;
             let oldPatientId = this.originalpatientrecord[0].peRecord.Patient_ID__c;
             let countryCode = this.patientrecord[0].peRecord.Mailing_Country_Code__c;
@@ -482,54 +496,55 @@ export default class Rp_PatientTab extends LightningElement {
             let month = this.patientrecord[0].peRecord.Birth_Month__c;
             let year = this.patientrecord[0].peRecord.YOB__c;
             let legalStatus = this.patientrecord[0].peRecord.Legal_Status__c;
-            if(this.patientrecord[0].peRecord.Patient_Auth__c == 'No') {
+            if (this.patientrecord[0].peRecord.Patient_Auth__c == 'No') {
                 this.showErrorToast(this.label.RH_RP_Patient_Auth_should_be_Yes);
             }
-            else{
-                patientValidation({newPatientId: newPatientId, oldPatientId: oldPatientId ,
-                                    countryCode: countryCode,stateCode: stateCode,
-                                        month: month,year: year,legalStatus: legalStatus})
-                .then((result) => {
-                    if(result == 'DuplicatePatientId') {
-                        this.showErrorToast(this.label.RH_RP_Duplicate_Record_Found+' '+JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
-                    }
-                    else if(result == 'Minor') {                    
-                        this.showErrorToast(this.label.RH_RP_Delegate_Information_is_mandatory);
-                    }
-                    else if(result == 'LegalStatus') {                    
-                        this.showErrorToast(this.label.RH_RP_Legal_status_warning_message);
-                    }
-                    else{
-                        this.isUnsavedModalOpen = true; 
-                        this.disableButton = false; 
-                    }
+            else {
+                patientValidation({
+                    newPatientId: newPatientId, oldPatientId: oldPatientId,
+                    countryCode: countryCode, stateCode: stateCode,
+                    month: month, year: year, legalStatus: legalStatus
                 })
-                .catch((error) => {
-                    this.showErrorToast(JSON.stringify(error.body.message));
-                    this.isUnsavedModalOpen = false; 
-                })
+                    .then((result) => {
+                        if (result == 'DuplicatePatientId') {
+                            this.showErrorToast(this.label.RH_RP_Duplicate_Record_Found + ' ' + JSON.stringify(this.patientrecord[0].peRecord.Patient_ID__c));
+                        }
+                        else if (result == 'Minor') {
+                            this.showErrorToast(this.label.RH_RP_Delegate_Information_is_mandatory);
+                        }
+                        else if (result == 'LegalStatus') {
+                            this.showErrorToast(this.label.RH_RP_Legal_status_warning_message);
+                        }
+                        else {
+                            this.isUnsavedModalOpen = true;
+                            this.disableButton = false;
+                        }
+                    })
+                    .catch((error) => {
+                        this.showErrorToast(JSON.stringify(error.body.message));
+                        this.isUnsavedModalOpen = false;
+                    })
             }
         }
     }
 
     proceedDetailsModal(event) {
         this.disableButton = true;
-        updatePeRecords({peRecord: this.patientrecord[0].peRecord})
-        .then((result) => {
-            console.log(JSON.stringify(result));
-            this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c +' '+this.label.RH_RP_success_message);
+        updatePeRecords({ peRecord: this.patientrecord[0].peRecord })
+            .then((result) => {
+                this.showSuccessToastSave(this.patientrecord[0].peRecord.Participant_Name__c + ' ' + this.label.RH_RP_success_message);
 
-            const selectedvalue = {patientRecord: this.patientrecord};
-            const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
-            this.dispatchEvent(selectedEvent);
-        })
-        .catch((error) => {
-            this.showErrorToast(JSON.stringify(error.body.message));
-        })
-        .finally(() => {
-            this.isUnsavedModalOpen = false;
-            this.disabledsavebutton = true; 
-        })
+                const selectedvalue = { patientRecord: this.patientrecord };
+                const selectedEvent = new CustomEvent('refreshpatienttabchange', { detail: selectedvalue });
+                this.dispatchEvent(selectedEvent);
+            })
+            .catch((error) => {
+                this.showErrorToast(JSON.stringify(error.body.message));
+            })
+            .finally(() => {
+                this.isUnsavedModalOpen = false;
+                this.disabledsavebutton = true;
+            })
     }
 
     showSuccessToast(event) {
@@ -561,7 +576,7 @@ export default class Rp_PatientTab extends LightningElement {
         });
         this.dispatchEvent(evt);
     }
-    cancelModelOpen(){
+    cancelModelOpen() {
         this.cancelOpen = true;
     }
     closeCancelModal() {
