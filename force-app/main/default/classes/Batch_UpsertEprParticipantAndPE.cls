@@ -177,7 +177,7 @@ public without sharing class Batch_UpsertEprParticipantAndPE implements Database
                 //REF-4741
                 Participant__c dupPartToUdate = new Participant__c();
                 dupPartToUdate.id = participantDuplicate.Id;
-                dupPartToUdate.Preferred_Contact_Time__c = participantDuplicate.Preferred_Contact_Time__c;
+                dupPartToUdate.Preferred_Contact_Time__c = participant.Preferred_Contact_Time__c;
                 dupPartUpdateMap.put(dupPartToUdate.id,dupPartToUdate);
                 //               
             } else {
