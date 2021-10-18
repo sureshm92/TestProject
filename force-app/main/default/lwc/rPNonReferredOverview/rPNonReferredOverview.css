@@ -1,148 +1,206 @@
-.overview-for-not-yet{
-    font-weight: bold;
-    font-size: 35px;
-    width: 376px;
-    height: 42px;
-    line-height: 21px;color:#595959;
+.slds-p-bottom_xx-large {
+  padding-bottom: 4rem;
 }
-.not-yet-referred{
-    font-weight: bold;
-    font-size: 18px;
-    width: 376px;
-    height: 36px;
-    line-height: 16px;color:#595959;
+
+.overviewHeader {
+  display: flex;
 }
-.total-patients{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
+
+.overviewTitle {
+  padding-left: 27px;
+  width: 66.66%;
 }
-.total-patients-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 21px;
-    padding-left: 34px;
+
+.totalPatients {
+  width: 33.33%;
 }
-.included-for-referring{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
+
+.twoUp {
+  width: 80%;
+  margin-left: auto;
+  margin-right: auto;
 }
-.included-for-referring-count{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
+
+.overview-for-not-yet {
+  font-weight: bold;
+  font-size: 35px;
+  line-height: 21px;
+  color: #595959;
 }
-.excluded-for-referring{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
+.not-yet-referred {
+  font-weight: bold;
+  font-size: 18px;
+  margin-top: 5px;
+  color: #595959;
 }
-.excluded-for-referring-count{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
+
+.total-patients {
+  font-weight: bold;
+  font-size: 21px;
+  color: #595959;
+  margin-top: 12px;
+  text-align: center;
 }
-.patient-auth-aquired{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
+.total-patients-count {
+  font-weight: bold;
+  font-size: 48px;
+  color: #595959;
+  line-height: 16px;
+  text-align: center;
 }
-.patient-auth-aquired-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
+
+.included-for-referring,
+.excluded-for-referring,
+.patient-auth-aquired-count,
+.medical-review-complete-count,
+.outreach-mail-sent-count,
+.added-last-month-count,
+.added-last-week-count,
+.added-yesterday-count {
+  font-weight: bold;
+  font-size: 48px;
+  color: #595959;
+  line-height: 80px;
 }
-.medical-review-complete{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
+
+.included-for-referring-count,
+.excluded-for-referring-count,
+.patient-auth-aquired,
+.medical-review-complete,
+.outreach-mail-sent,
+.added-last-month,
+.added-last-week,
+.added-yesterday {
+  font-weight: bold;
+  font-size: 21px;
+  color: #595959;
+  line-height: 24px;
 }
-.medical-review-complete-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
+
+.overview-content-pad {
+  padding-top: inherit;
 }
-.outreach-mail-sent{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
-} 
-.outreach-mail-sent-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
-}
-.added-last-month{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
-}
-.added-last-month-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
-}
-.added-last-week{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
-}
-.added-last-week-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
-}
-.added-yesterday{
-    font-weight: bold;
-    font-size: 21px;
-    width: 376px;
-    height: 36px;color:#595959;
-    line-height: 16px;
-}
-.added-yesterday-count{
-    font-weight: bold;
-    font-size: 48px;
-    width: 376px;
-    height: 42px;color:#595959;
-    line-height: 80px;
+.mobileRow {
+  text-align: center;
 }
 
 /*temp hide on mobile*/
 @media (max-device-width: 768px) {
-    .overview{
-        display:none;
-    }
+  .overview {
+    display: block;
+  }
+}
+
+@media (max-device-width: 486px) {
+  .slds-p-around_large {
+    background: #fff;
+    margin: 20px 10px 0;
+    padding: 0;
+  }
+
+  .rr-min-body-height .rr-min-body-height {
+    min-height: 0px !important;
+  }
+
+  .overviewHeader {
+    flex-direction: column;
+  }
+
+  .overviewTitle {
+    width: 100%;
+    padding-left: 0.75rem;
+  }
+
+  .totalPatients {
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    flex-direction: row-reverse;
+    align-items: center;
+    margin-top: 1.25rem;
+  }
+
+  .total-patients {
+    margin-top: 0;
+    margin-right: 1rem;
+    font-size: 1rem;
+  }
+
+  .total-patients-count {
+    font-size: 1.75rem;
+  }
+
+  .slds-p-bottom_xx-large {
+    padding: 1.75rem 0;
+    border-bottom: 1px solid #e9e9e9;
+  }
+
+  .slds-p-bottom_xx-large:first-child {
+    padding: 0 0 1.75rem;
+  }
+  .rr-min-body-height {
+    min-height: 0px !important;
+  }
+  .footer {
+    display: none !important;
+  }
+
+  /* .slds-p-bottom_xx-large:last-child {
+    border: none;
+  } */
+
+  .slds-p-bottom_xx-large > .slds-grid > .slds-grid {
+    height: 2rem;
+  }
+
+  .twoUp {
+    width: 100%;
+    margin: 0;
+  }
+
+  .twoUp .slds-col {
+    padding: 0;
+  }
+
+  .slds-p-bottom_xx-large > .slds-grid {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .mobileRow {
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    flex-direction: row-reverse;
+    align-items: center;
+    text-align: left;
+    height: 1.5rem;
+    width: 95%;
+  }
+
+  .included-for-referring,
+  .excluded-for-referring,
+  .patient-auth-aquired-count,
+  .medical-review-complete-count,
+  .outreach-mail-sent-count,
+  .added-last-month-count,
+  .added-last-week-count,
+  .added-yesterday-count {
+    font-size: 1.5rem;
+  }
+
+  .included-for-referring-count,
+  .excluded-for-referring-count,
+  .patient-auth-aquired,
+  .medical-review-complete,
+  .outreach-mail-sent,
+  .added-last-month,
+  .added-last-week,
+  .added-yesterday {
+    font-size: 1rem;
+  }
+
+  .mobileRow br {
+    display: none;
+  }
 }

@@ -24,6 +24,7 @@ import RH_RP_Delegate_Missing_field from '@salesforce/label/c.RH_RP_Delegate_Mis
 import RH_RP_Delegate_Email_Format_Error from '@salesforce/label/c.RH_RP_Delegate_Email_Format_Error';
 import RH_RP_Delegate_Minor_Error from '@salesforce/label/c.RH_RP_Delegate_Minor_Error';
 import RH_RP_Delegate_Successfully_Saved from '@salesforce/label/c.RH_RP_Delegate_Successfully_Saved';
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
 
 export default class Rp_DelegateTab extends LightningElement {
@@ -50,6 +51,7 @@ export default class Rp_DelegateTab extends LightningElement {
         RH_RP_Delegate_Minor_Error,
         RH_RP_Delegate_Successfully_Saved
     };
+    topIcon = icon_chevron_up_white;
 
     @api
     get delegaterecordlist() {
@@ -81,6 +83,14 @@ export default class Rp_DelegateTab extends LightningElement {
     isEmailFormatValidated = false;
     disabledSaveButton = true;
     cancelOpen = false;
+
+    goTop(){
+        window.scrollTo({
+            top: 100,
+            left: 0,
+            behavior: 'smooth'
+          });
+    }
 
     checkValidEmail(element) {
         this.isEmailFormatValidated = false;
