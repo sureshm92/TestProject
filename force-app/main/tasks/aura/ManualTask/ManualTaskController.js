@@ -52,7 +52,6 @@
             component.set('v.isValid', false);
             component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -63,7 +62,6 @@
             component.set('v.isValid', false);
             component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -74,7 +72,6 @@
             component.set('v.isValid', false);
             component.set('v.freqValidation', false);
             component.get('v.parent').setValidity(false);
-            //component.get('v.parent').setSaveValidity(false);
             communityService.showToast(
                 'Error',
                 'error',
@@ -83,11 +80,9 @@
             );
         } else {
             component.set('v.freqValidation', true);
-            //component.get('v.parent').setSaveValidity(true);
             var a = component.get('c.doCheckFields');
             $A.enqueueAction(a);
         }
-        console.log('saveValid: ' + component.get('v.isValidSave'));
     },
     doCheckFields: function(component, event, helper) {
         if (component.get('v.isEdit')) {
@@ -102,7 +97,6 @@
             } else {
                 allValid = false;
             }
-            console.log('allValid: ' + allValid);
             component.set('v.isValidSave', allValid);
             component.get('v.parent').setSaveValidity(allValid);
         } else {
@@ -128,25 +122,6 @@
         ) {
             component.set('v.taskConfig.reminderDays', null);
             component.set('v.taskConfig.reminderDate', null);
-        }
-        if (
-            //condition for resetting rem days to 0
-            component.get('v.taskConfig.reminderDate') == null &&
-            component.get('v.showNumbersAdd') != 'true'
-        ) {
-            console.log('inside new condition');
-            component.set('v.taskConfig.reminderDays', null);
-            component.set('v.dayRemind', null);
-        }
-        if (
-            //condition for resetting rem date to null
-            component.get('v.dayRemind') == 0 &&
-            component.get('v.showNumbersAdd') == 'true'
-        ) {
-            console.log('inside new condition 2');
-            component.set('v.taskConfig.reminderDate', null);
-            component.set('v.taskConfig.reminderDays', null);
-            component.set('v.dayRemind', null);
         }
         if (component.get('v.dayRemind') > 365 && component.get('v.taskConfig.isRecurrence')) {
             component.set('v.isValid', false);
@@ -206,6 +181,25 @@
             }
 
             component.set('v.dayRemind', diff);
+        }
+        if (
+            //condition for resetting rem days to 0
+            component.get('v.taskConfig.reminderDate') == null &&
+            component.get('v.showNumbersAdd') != 'true'
+        ) {
+            console.log('inside new condition');
+            component.set('v.taskConfig.reminderDays', null);
+            component.set('v.dayRemind', null);
+        }
+        if (
+            //condition for resetting rem date to null
+            component.get('v.dayRemind') == 0 &&
+            component.get('v.showNumbersAdd') == 'true'
+        ) {
+            console.log('inside new condition 2');
+            component.set('v.taskConfig.reminderDate', null);
+            component.set('v.taskConfig.reminderDays', null);
+            component.set('v.dayRemind', null);
         }
         component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
     },
