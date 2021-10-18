@@ -356,7 +356,7 @@
                             <button
                                     class="apollo-btn primary slvi-search-site-btn"
                                     onclick="{!c.navigateToSitesSearch}"
-                                    disabled="{!v.accessUserLevel=='Level 2'}"
+                                    disabled="{!(v.accessUserLevel=='Level 2' || v.accessUserLevel=='Level 3')}"
                                     title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}"
                                     >
                                 {!$Label.c.MyStudy_Find_More_Sites}
