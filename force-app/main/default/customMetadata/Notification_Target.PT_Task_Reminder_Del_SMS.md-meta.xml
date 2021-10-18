@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:nil="true"/>
+        <value xsi:type="xsd:string">SMS_Body_Task_Reminder</value>
     </values>
     <values>
         <field>Notification_Type__c</field>
