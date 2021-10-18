@@ -139,9 +139,7 @@ Deploy:
 RUNTEST:
   only:
     - CICDDEMO1
-  except:
     - merge_requests
-  
   stage: RUNTEST
   script: 
   - . ./scripts/ci/run-tests.sh INF62
