@@ -56,7 +56,7 @@
                         label="Actions" onselect={handleMenuItem}>
                         <template if:true={showExclude}>
                             <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
-                                label={label.RH_RP_Exclude} onclick={openIncludeModal} disabled={referbuttonDisable}>
+                                label={label.RH_RP_Exclude} onclick={openExcludeModal} disabled={referbuttonDisable}>
                             </lightning-menu-item>
                         </template>
                         <template if:true={showInclude}>
