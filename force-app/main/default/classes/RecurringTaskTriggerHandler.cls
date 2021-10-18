@@ -29,12 +29,18 @@ public class RecurringTaskTriggerHandler {
                             }
                         }
                     }
-                    if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){
+                    if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){// change in freq
                         System.debug('Change in feq: '+rTask.Recurrence_Frequency__c);
                         
                         nextOccDateUpdate(rTask);
                         dueDateUpdate(rTask);
                     }
+                    if(rTask.Is_Recurrence__c != oldRTask.Is_Recurrence__c){// change in recurrence
+                        if(!rTask.Is_Recurrence__c){
+                            rTask.Next_Due_Date__c = rTask.Recurrence_End_Date__c;
+                        }
+                    }
+
                 }
                 
             }
@@ -59,29 +65,33 @@ public class RecurringTaskTriggerHandler {
         }
         public void nextOccDateUpdate(Manual_Creation_Panel_Task__c rTask){
             Date firstRecDate;
-            if(rTask.Recurrence_Frequency__c == 'Daily'){
-                rTask.Next_Occurence_Date__c = Date.today().addDays(1);
-            }
-            if(rTask.Recurrence_Frequency__c == 'Weekly'){
-                firstRecDate = rTask.Start_Date__c.addDays(7);
-                while (firstRecDate <= Date.today()) {
-                    firstRecDate = firstRecDate.addDays(7);
+            if(rTask.Start_Date__c <= Date.today()){
+                if(rTask.Recurrence_Frequency__c == 'Daily'){
+                    rTask.Next_Occurence_Date__c = Date.today().addDays(1);
                 }
-                rTask.Next_Occurence_Date__c = firstRecDate;
-            }
-            if(rTask.Recurrence_Frequency__c == 'Yearly'){
-                firstRecDate = rTask.Start_Date__c.addYears(1);
-                while (firstRecDate <= Date.today()) {
-                    firstRecDate = firstRecDate.addYears(1);
+                if(rTask.Recurrence_Frequency__c == 'Weekly'){
+                    firstRecDate = rTask.Start_Date__c.addDays(7);
+                    while (firstRecDate <= Date.today()) {
+                        firstRecDate = firstRecDate.addDays(7);
+                    }
+                    rTask.Next_Occurence_Date__c = firstRecDate;
                 }
-                rTask.Next_Occurence_Date__c = firstRecDate;
-            }
-            if(rTask.Recurrence_Frequency__c == 'Monthly'){
-                firstRecDate = rTask.Start_Date__c.addMonths(1);
-                while (firstRecDate <= Date.today()) {
-                    firstRecDate = firstRecDate.addMonths(1);
+                if(rTask.Recurrence_Frequency__c == 'Yearly'){
+                    firstRecDate = rTask.Start_Date__c.addYears(1);
+                    while (firstRecDate <= Date.today()) {
+                        firstRecDate = firstRecDate.addYears(1);
+                    }
+                    rTask.Next_Occurence_Date__c = firstRecDate;
                 }
-                rTask.Next_Occurence_Date__c = firstRecDate;
+                if(rTask.Recurrence_Frequency__c == 'Monthly'){
+                    firstRecDate = rTask.Start_Date__c.addMonths(1);
+                    while (firstRecDate <= Date.today()) {
+                        firstRecDate = firstRecDate.addMonths(1);
+                    }
+                    rTask.Next_Occurence_Date__c = firstRecDate;
+                }
+            }else{
+                rTask.Next_Occurence_Date__c = rTask.Start_Date__c;
             }
         }
     }

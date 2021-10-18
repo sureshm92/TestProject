@@ -2,7 +2,7 @@
  * Created by Nargiz Mamedova on 3/23/2020.
  */
 
-@IsTest
+@IsTest(isParallel = false)
 private class Test_EmptyPagePanelRemote {
     @IsTest
     static void testBehavior() {

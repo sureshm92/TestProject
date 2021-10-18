@@ -2,6 +2,55 @@
  * Created by Leonid Bartenev
  */
 
+.THIS .rr-card {
+    margin-top: 140px;
+    border-bottom: 1px solid #d9d9d9;
+    min-height: 40px;
+}
+
+.THIS .right-column {
+    padding-left: 0px;
+}
+
+.THIS .small-info-text {
+    color: #444;
+    font-size: 13px;
+    line-height: 18px;
+    margin-top: 8px;
+}
+
+.THIS .rtlView{
+    /* @noflip */  direction: rtl;
+}
+.THIS .rr-card .rr-card-ico {
+    width: 16px;
+    height: 25px;
+    fill: black;
+    float: left;
+    margin-right: 5px;
+}
+.THIS .rr-card .rr-card-icoRTL {
+    width: 16px;
+    height: 25px;
+    fill: black;
+      /* @noflip */  float: right;
+       /* @noflip */ margin-left: 5px;
+}
+
+.THIS .rr-secondary-text {
+    color: #666666;
+    font-size: 13px;
+    line-height: 17px;
+    padding-top: 10px;
+    padding-bottom: 10px;
+}
+
+.THIS .rr-primary-text {
+    font-size: 17px;
+    line-height: 21px;
+    font-weight: 600;
+}
+
  .THIS.rr-body-content > .rr-width-limiter {
     margin-top: 50px;
 }
@@ -189,11 +238,10 @@
     text-align: center;
 }
 
-.THIS .rr-sub-title {
-    font-size: 14px;
-    color: #444;
-    font-weight: 400;
-    padding: 5px 10px 20px 10px;
+.THIS .rr-sub-title {  
+    font-size: 17px;
+    line-height: 22px;
+    font-weight: 600;
 }
 
 .THIS .mrr-items {
@@ -379,6 +427,14 @@
     width: auto;
 }
 
+.THIS .left-column {
+    border-right: none;
+}
+.THIS .left-column .pdf-ico {
+    width: 28px;
+    height: 28px;
+    fill: #333333;
+}
 @media all and (max-width: 500px) {
     .THIS .mrr-item-btns,
     .THIS .mrr-item-btns button {
@@ -434,6 +490,9 @@
 
     .THIS .slds-p-top_xx-small.rr-error + .rr-form-element .slds-form-element__help {
         margin-top: 0;
+    }
+    .THIS .rr-card{
+        margin-top:0px;
     }
 }
 
@@ -495,4 +554,22 @@
 
 .THIS .slds-checkbox{
     display: inline-flex;
+}
+@media all and (min-width: 1024px) {
+    .THIS .left-column {
+        border-right: 1px solid #d9d9d9;
+        padding-right: 30px;
+    }
+    .THIS .left-columnRTL {
+      /* @noflip */  border-left: 1px solid #d9d9d9;
+       /* @noflip */ padding-right: 0px;
+    }
+    .THIS .right-columnRTL {
+           /* @noflip */ padding-right: 20px;
+          /* @noflip */  min-height: 500px;
+    }
+    .THIS .right-column {
+        padding-left: 20px;
+        min-height: 500px;
+    }
 }

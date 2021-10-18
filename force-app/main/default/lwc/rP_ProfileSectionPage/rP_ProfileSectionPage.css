@@ -1,21 +1,35 @@
+.rightColContent {
+  padding: 0 1.75rem 0 3rem;
+}
+
+.actionButtons {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.patientInfo {
+  min-width: 9rem; /* 200px; */
+}
+
 .profile-patientID {
-    color: #595959;
-    font-family: "Proxima Nova";
-    font-size: 32px;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 25px;
-    width: auto;
+  min-width: 200px;
+  color: #595959;
+  font-family: "Proxima Nova";
+  font-size: 21px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 21px;
 }
 
 .profile-patientName {
-    width: 191px;
-    color: #595959;
-    font-family: "Proxima Nova";
-    font-size: 18px;
-    font-weight: bold;
-    letter-spacing: 0;
-    line-height: 35px;
+  min-width: 200px;
+  color: #595959;
+  font-family: "Proxima Nova";
+  font-size: 18px;
+  font-weight: bold;
+  letter-spacing: 0;
+  line-height: 1;
+  margin-top: 0.5rem;
 }
 
 .header-label {
@@ -58,15 +72,162 @@
     border-radius: 2px;
 }
 
-.slds-modal__container {
-  max-width: 60rem !important;
-  width: 60% !important;
-  height: auto;
+.slds-modal__container:before {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(to right, #250056 10%, #0076ae 90%);
+  border-radius: 0;
 }
 
-.sldsmodalcontainer {
-  max-width: 100%;
-  padding-left: 25%;
-  padding-right: 25%;
-  padding-top: 10%;
+.testGrid {
+  margin-bottom: 30px;
 }
+innerbox {
+  max-height: 360px;
+  padding-right: 15px;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+/* Track */
+::-webkit-scrollbar-track {
+  opacity: 0;
+}
+
+/* Handle */
+::-webkit-scrollbar-thumb {
+  background: #999999;
+  border-radius: 4px;
+}
+
+
+.search-more-btn {
+  min-width: 115px;
+  white-space: nowrap;
+  height: 40px;
+}
+
+.actionBtn {
+  margin-left: 15px;
+}
+
+.actionBtn .slds-button {
+   height: 40px;
+}
+
+.bulkUploadBtn {
+  color: #0768fd;
+  text-align: left;
+  padding-left: 0;
+}
+
+.bulkUploadBtn .slds-icon-utility-down {
+ display: none;
+}
+
+.bulkUploadBtn:after {
+  content: "";
+  position: absolute;
+  background-image: url(/resource/1630921848000/IconTriangleDownBlue);
+  background-size: 16px 16px;
+  height: 16px;
+  width: 16px;
+  /* top: 25px; */
+  right: 19px;
+}
+
+.slds-modal__header {
+  border-bottom: none;
+  border-radius: 0;
+}
+.slds-modal__content {
+  margin-top: -1px;
+}
+.slds-modal__footer {
+  border-top: none;
+}
+.slds-text-heading_medium {
+  text-align: left;
+  color: #000;
+  font-weight: 600;
+}
+
+.label-icon-color{
+  -webkit-text-fill-color:  #297dfd;
+  --lwc-colorTextIconDefault:  #297dfd;
+}
+
+@media screen and (max-width: 1150px) {
+  .slds-medium-size_4-of-12.patientInfo,
+  .slds-medium-size_8-of-12.actionButtons {
+    min-width: 100%;
+  }
+}
+/* Imteyaz code for Action button dropdown */
+@media screen and (max-width: 768px) {
+  .slds-medium-size_4-of-12.patientInfo {
+    min-width: 66%;
+  }
+  .mobActionButtons {
+    padding-right: 10px;
+  }
+  .action-color {
+    color: #297dfd;
+  }
+  /* .slds-p-around_medium {
+    padding: 0;
+  } */
+  .slds-dropdown_right, 
+  .slds-dropdown--right{
+    top: 90px;
+    width: 175px;
+    right: 10px;
+  }
+  .bulk-importButton{
+    background: #0768fd;
+    color: white !important;
+  }
+}
+/* end here */
+
+@media screen and (max-width: 1024px) {
+  .testGrid {
+    overflow: hidden;
+    overflow-x: auto;
+    padding-bottom: 1rem;
+  }
+
+  .testGrid .slds-grid {
+    width: 775px;
+  }
+}
+
+@media screen and (max-width: 486px) {
+  .rightColContent {
+    padding: 0;
+  }
+  .bulkUploadTitle .slds-dropdown_right {
+    top: 55px;
+    right: 10px;
+
+}
+
+  .slds-dropdown__item > a {
+    font-size: 14px;
+    justify-content: flex-start;
+  }
+}
+/* @media (max-width: 768px) {
+  .sldsmodalcontainer {
+    max-width: 100%;
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 30%;
+  }
+} */

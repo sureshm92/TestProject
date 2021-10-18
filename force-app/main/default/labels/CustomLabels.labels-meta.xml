@@ -9960,6 +9960,20 @@ The expected format is REF##### to REF########</value>
         <value>You should only invite a participant&apos;s provider with the participant&apos;s explicit permission. Upon registration, the provider will be able to track a participant&apos;s status.</value>
     </labels>
     <labels>
+        <fullName>Message_PT_Survey_Final_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
+        <value>This is your final reminder. Please complete ##SurveyName.</value>
+    </labels>
+    <labels>
+        <fullName>Message_PT_Survey_Reminder_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Message PT Survey Reminder SMS</shortDescription>
+        <value>This is a reminder that you have not completed ##SurveyName.</value>
+    </labels>
+    <labels>
         <fullName>Message_Studies_Length</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -17493,6 +17507,13 @@ communications using the toggles below.</value>
         <value>Site Location</value>
     </labels>
     <labels>
+        <fullName>PT_Complete_BL_Survey_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Complete BL Survey SMS</shortDescription>
+        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName</value>
+    </labels>
+    <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -19141,7 +19162,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH_RP_Outreach Patient</shortDescription>
-        <value>Outreach Patient</value>
+        <value>Send Patient Outreach</value>
     </labels>
      <labels>
         <fullName>RH_RP_Add_a_Patient</fullName>
@@ -19274,7 +19295,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Exclude From Referring</shortDescription>
-        <value>Select to exclude patient from referring</value>
+        <value>Include the selected patients for referring to a study</value>
     </labels>
     <labels>
         <fullName>RH_RP_Exclude_Record</fullName>
@@ -19288,7 +19309,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Excluded Successfully</shortDescription>
-        <value>This record has been successfully excluded.</value>
+        <value>This patient has been successfully excluded.</value>
     </labels>
     <labels>
         <fullName>RH_RP_Excluded_for_Referring</fullName>
@@ -19323,7 +19344,49 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Include From Referring</shortDescription>
-        <value>Select to include patient for referring</value>
+        <value>Include the selected patients for referring to a study</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Export_downloadable_log</fullName> 
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Export_downloadable log</shortDescription>
+        <value>Export a downloadable log of the selected patients.</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Export_to_excel</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Export to excel</shortDescription>
+            <value>Export to Excel</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Outreach_Email</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Outreach Email</shortDescription>
+            <value>Outreach Email</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Bulk_Action</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Bulk Action</shortDescription>
+            <value>Select what bulk action you would like to perform</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_OutreachEmail</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_OutreachEmail</shortDescription>
+            <value>Initiate a request to send an outreach email to the selected patients.</value>
+    </labels>
+    <labels>
+            <fullName>RH_RP_Patients_Selected</fullName>
+            <language>en_US</language>
+            <protected>true</protected>
+            <shortDescription>RH_RP_Patients_Selected</shortDescription>
+            <value>Patients Selected</value>
     </labels>
     <labels>
         <fullName>RH_RP_Include_Record</fullName>
@@ -19491,7 +19554,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP Add_Update Patient</shortDescription>
-        <value>Bulk Add/Update Patient</value>
+        <value>Add/Update Patient</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Bulk_Import_Patient</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH_RP_Bulk_Import_Patient</shortDescription>
+        <value>Bulk Import Patient</value>
     </labels>
     <labels>
         <fullName>RH_RP_Patient_Auth_Help</fullName>
@@ -19757,7 +19827,21 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>RH RP included successfully</shortDescription>
-        <value>This Record has been successfully included.</value>
+        <value>This patient has been successfully included.</value>
+    </labels>
+    <labels>
+        <fullName>RH_RP_Bulk_Excluded_Successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Bulk Excluded Successfully</shortDescription>
+        <value>These patients have been successfully excluded.</value>
+    </labels>
+	 <labels>
+        <fullName>RH_RP_Bulk_included_successfully</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>RH RP Bulk included successfully</shortDescription>
+        <value>These patients have been successfully included.</value>
     </labels>
     <labels>
         <fullName>RH_RP_info</fullName>

@@ -103,12 +103,16 @@
                         levels: [true, false, false]
                     },
                     {
+                        text: $A.get('$Label.c.RH_RP_Bulk_Import_Patient'),
+                        levels: [true, false, false]
+                    },
+                    {
                         text: $A.get('$Label.c.RH_RP_Add_Update_Patient'),
                         levels: [true, true, false]
                     },
                     {
                         text: $A.get('$Label.c.DLIT_L_Pre_eligibility_screening'),
-                        levels: [true, true,true]
+                        levels: [true, true,false]
                     },
                    
                     // {

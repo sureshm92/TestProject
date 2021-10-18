@@ -10,7 +10,7 @@ import RPR_Select_Reason from '@salesforce/label/c.RPR_Select_Reason';
 import RPR_Select_Status from '@salesforce/label/c.RPR_Select_Status';
 import RPR_Clear_All from '@salesforce/label/c.RPR_Clear_All';
 import RPR_Apply from '@salesforce/label/c.RPR_Apply';
-import BTN_Cancel from '@salesforce/label/c.BTN_Cancel';
+import BTN_Close from '@salesforce/label/c.BTN_Close';
 import RPR_Studies from '@salesforce/label/c.RPR_Studies';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
@@ -39,7 +39,7 @@ export default class FilterReferredLWC extends LightningElement {
         RPR_Patient_Status,
         RPR_Select_Status,
         RPR_Apply,
-        BTN_Cancel,
+        BTN_Close,
         RPR_Studies,
         RPR_Clear_All
     };

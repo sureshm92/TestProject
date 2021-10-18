@@ -158,7 +158,7 @@
                                 <button
                                     class="apollo-btn primary search-more-btn"
                                     onclick="{!c.switchToSearchResume}"
-                                    disabled="{!v.accessUserLevel=='Level 2'}"
+                                    disabled="{!(v.accessUserLevel=='Level 2' || v.accessUserLevel=='Level 3')}"
                                     title="{!v.accessUserLevel=='Level 2'?$Label.c.RSN_Your_permissions_do_not_permit_this_action:''}"
                                 >
                                     {!$Label.c.PG_MS_L_Search_for_More_Studies}

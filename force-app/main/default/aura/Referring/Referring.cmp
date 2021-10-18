@@ -109,7 +109,7 @@
     <aura:attribute name="pday" type="string" default="null" />
     <aura:attribute name="pmonth" type="string" default="null" />
     <aura:attribute name="pyear" type="string" default="null" />
-    <!--aura:attribute name="doNext" type="Boolean" default = "false" /-->
+    <aura:attribute name="doNext" type="Boolean" default = "false" />
     <aura:attribute name="delegateExist" type="Boolean" default = "false" />
     
     <aura:attribute name="hasGaurdian" type="Boolean" default = "false" />
@@ -192,8 +192,8 @@
                              isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2' &amp;&amp; v.accessUserLevel != 'Level 3'}"
                              >
                         <div class="between-panels">
-                            or
-                            <!-- {!$Label.c.PG_Ref_L_OR} -->
+                            
+                             {!$Label.c.PG_Ref_L_OR}
                         </div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent" />
@@ -337,8 +337,8 @@
 
                             </div>
                         </aura:if>
-                        <!--<aura:if isTrue="{!v.doNext}">
-                            <div class="buttons">
+                        <aura:if isTrue="{!v.doNext}">
+                            <div class="buttons" style="text-align:center;">
                                 <button
                                         class="apollo-btn tertiary"
                                         onclick="{!c.doNext}"
@@ -348,7 +348,7 @@
                                 </button>
                                 
                             </div>
-                        </aura:if>-->
+                        </aura:if>
                     </div>
                 </aura:if>
                 
@@ -2033,18 +2033,66 @@
                 </div>
             </aura:if>
             
+            <div class="rr-width-limiter side-padding">
             <aura:if isTrue="{!v.currentState == 'Search PE'}">
-                <div class="rr-width-limiter side-padding">
-                    <c:SearchParticipantEnrollment
-                                                   aura:id="searchPECmp"
-                                                   trialId="{!v.trialId}"
-                                                   trial="{!v.trial}"
-                                                   searchData="{!v.searchData}"
-                                                   searchResult="{!v.searchResult}"
-                                                   mrrResult="{!v.mrrResult}"
-                                                   />
-                </div>
+                 <div class="slds-grid slds-wrap" style="align-items: stretch">
+                        <div class="{!'slds-col slds-size_1-of-1 slds-large-size_4-of-12 ' + if(v.isRTL,'left-columnRTL','left-column')}">
+                          <div class="rr-card">
+                                <c:RRIcon iconName="chart-review-sent" class="{!v.isRTL? 'rr-card-icoRTL':'rr-card-ico'}"/>
+                                <div class="rr-secondary-text" style="padding-top: 4px">
+                                    {!$Label.c.PG_MRR_L_Please_complete_medical_record_review_for}
+                                </div>
+                                <aura:if isTrue="{!!empty(v.hcpEnrollment)}">
+                                    <div class="rr-primary-text">
+                                        <aura:if isTrue="{!or(v.hcpEnrollmentParticipantName==undefined,v.hcpEnrollmentParticipantName==null)}">
+                                        {!v.hcpEnrollment.HCP_Contact__r.Salutation ?
+                                        v.hcpEnrollment.HCP_Contact__r.Salutation + ' ' : ''}
+                                        {!v.hcpEnrollment.HCP_Contact__r.Name}
+                                          <aura:set attribute="else">
+                                              {!v.hcpEnrollmentParticipantName}
+                                            </aura:set>
+                                        </aura:if> 
+                                    </div>
+                                    <div class="rr-secondary-text">
+                                        {!$Label.c.PG_DBPI_at + ' ' +
+                                        v.hcpEnrollment.Study_Site__r.Name}
+                                    </div>
+                                    <aura:set attribute="else">
+                                        <aura:if isTrue="{!!empty(v.hcpContact)}">
+                                            <div class="rr-primary-text">
+                                                <aura:if isTrue="{!or(v.hcpContactParticipant==undefined,v.hcpContactParticipant==null)}">
+                                                    {!v.hcpContact.Salutation} {!v.hcpContact.Name}
+                                                    <aura:set attribute="else">
+                                                        {!v.hcpContactParticipantSal} {!v.hcpContactParticipantName}
+                                                    </aura:set>
+                                                </aura:if> 
+                                            </div>
+                                        </aura:if>
+                                    </aura:set>
+                                </aura:if>
+                            </div>
+							<br />
+                            <div class="rr-secondary-text" style="padding-top: 20px">
+                                {!$Label.c.PG_MRR_Note_Remember}
+                            </div>                           
+                        </div>
+                        <div class="{!'slds-col slds-size_1-of-1 slds-large-size_8-of-12 ' + if(v.isRTL,'right-columnRTL','right-column')}">
+                            
+                                <c:SearchParticipantEnrollment
+                                                               aura:id="searchPECmp"
+                                                               trialId="{!v.trialId}"
+                                                               trial="{!v.trial}"
+                                                               searchData="{!v.searchData}"
+                                                               searchResult="{!v.searchResult}"
+                                                               mrrResult="{!v.mrrResult}"
+                                                               />
+                            
+						   
+                        </div>
+                    </div>
+               
             </aura:if>
+            </div>
         </div>
         
         <div class="rr-width-limiter side-padding">

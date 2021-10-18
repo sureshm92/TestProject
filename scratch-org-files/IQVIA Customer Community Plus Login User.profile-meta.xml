@@ -8593,7 +8593,7 @@
     <tabVisibilities>
         <tab>Visit__c</tab>
         <visibility>DefaultOn</visibility>
-    </tabVisibilities>
+    </tabVisibilities>-->
     <userLicense>Customer Community Plus Login</userLicense>
     <userPermissions>
         <enabled>true</enabled>
@@ -8702,5 +8702,5 @@
     <userPermissions>
         <enabled>true</enabled>
         <name>WorkDotComUserPerm</name>
-    </userPermissions>-->
+    </userPermissions>
 </Profile>

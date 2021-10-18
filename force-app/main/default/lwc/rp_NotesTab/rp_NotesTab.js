@@ -4,6 +4,7 @@ import createNotes from '@salesforce/apex/RPRecordReviewLogController.createNote
 import { refreshApex } from '@salesforce/apex';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
 export default class Rp_NotesTab extends LightningElement {
     
@@ -28,10 +29,18 @@ export default class Rp_NotesTab extends LightningElement {
     openSaveModel = false;
     searchValue = '';
     disabledSaveButton = true;
+    topIcon = icon_chevron_up_white;
 
     //get participant enrolment Id during onload
     connectedCallback(){
         this.pId =this.patientrecord[0].peRecord.Id;
+    }
+
+    goTop(){
+        window.scrollTo({
+            top: 100,
+            behavior: 'smooth'
+          });
     }
 
     //on text area value change
@@ -83,6 +92,7 @@ export default class Rp_NotesTab extends LightningElement {
             if (result.data) {
                 this.noteList = result.data;
                 this.masterList = result.data;
+                console.log(this.noteList.length);
                 this.searchValue = '';
                 this.error = undefined;
                 this.isLoading = false;
