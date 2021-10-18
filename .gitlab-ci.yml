@@ -10,8 +10,8 @@ SonarCheck:
   only:
       refs: 
         - merge_requests
-      #variables:
-         #-$CI_COMMIT_REF_NAME =~ /^INT|^CICDDEMO/
+      variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^CICDDEMO/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -26,8 +26,8 @@ SonarCheck:
              ls -ll
              apk upgrade --update-cache --available && apk add openssl curl jq 
              openssl s_client -connect  sonarqube:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
-             sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
-             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=$CI_COMMIT_REF_NAME
+             sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.exclusions=**/*.js,**/*.xml,**/*.html -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
+             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=master
              cat .scannerwork/report-task.txt
              export url=$(cat .scannerwork/report-task.txt | grep ceTaskUrl | cut -c11- ) #URL where report gets stored
              echo $url
@@ -108,7 +108,7 @@ Validate:
       - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
       - sfdx force:source:deploy -x package/package.xml -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -c -w 60 
-      #- sfdx force:apex:test:run -y -u INT --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
+      - sfdx force:apex:test:run -y -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
       - echo "Validate success!"
       
 
@@ -117,7 +117,7 @@ Deploy:
     stage: Deploy
     only:
       variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
+      - $CI_COMMIT_REF_NAME =~ /^CICDDEMO/
     before_script: 
       - |
          set -x
