@@ -542,6 +542,9 @@
 
 @media all and (max-height: 500px) and (max-width: 850px) {
 
+    .THIS.all-content {
+        height: 150vh;
+    }
 
     .THIS .janssen-logo {
         margin-bottom: 0.25rem;
