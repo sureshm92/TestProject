@@ -82,7 +82,9 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.getParticipantData(
                 CommunityService.USER_MODE_HCP,
                 null,
-                testDataInst.participant.Id
+                testDataInst.participant.Id,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
             );
             // Added
             //DashboardRemoteNew.prepareAwaitingContactList(CommunityService.USER_MODE_HCP,testDataInst.ss.Principal_Investigator__c,testDataInst.piContact.Id,testDataInst.ctp.Id);
@@ -191,7 +193,9 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.getParticipantData(
                 CommunityService.USER_MODE_PI,
                 null,
-                testDataInst.participant.Id
+                testDataInst.participant.Id,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
             );
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
@@ -339,7 +343,9 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.getParticipantData(
                 CommunityService.USER_MODE_PI,
                 testDataInst.ss.Principal_Investigator__c,
-                testDataInst.participant.Id
+                testDataInst.participant.Id,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
             );
             DashboardRemoteNew.prepareAwaitingContactList(
                 testDataInst.piContact.Id,
@@ -439,7 +445,9 @@ private class Test_DashboardRemoteNew {
             DashboardRemoteNew.getParticipantData(
                 CommunityService.USER_MODE_PI,
                 testDataInst.ss.Principal_Investigator__c,
-                testDataInst.participant.Id
+                testDataInst.participant.Id,
+                testDataInst.piContact.Id,
+                testDataInst.ctp.Id
             );
             DashboardRemoteNew.prepareWaitingList(
                 CommunityService.USER_MODE_PI,
