@@ -169,7 +169,7 @@
     <!-- @Krishna Mahto - Changes for REF-1390 - start -->
    
     <!-- @Krishna Mahto - Changes for REF-1390 - end -->
-    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.historyList1)}">
+    <aura:if isTrue="{!v.stepWrapper.historyTitle != '' || !empty(v.historyList1) || !empty(v.stepWrapper.stepHistory)}">
         <div class="step-history">
             <div class="step-history-title">{!v.stepWrapper.historyTitle}</div>
             <div class="step-history-records">

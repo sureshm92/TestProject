@@ -18,7 +18,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                     <lightning-layout multiple-rows="true">
-                        <lightning-layout-item padding="around-small" size="6">
+                        <lightning-layout-item padding="around-small" size="9">
                             <div>
                                 <lightning-input disabled={isaccesslevelthree} type="text"
                                     label={label.RH_RP_First_Name} name="First Name"
@@ -27,13 +27,13 @@
                                 </lightning-input>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="6">
+                        <lightning-layout-item padding="around-small" size="3">
                             <lightning-input type="text" disabled={isaccesslevelthree}
                                 label={label.RH_RP_Middle_Initial} name="Middle Initial"
                                 value={pe.peRecord.Patient_Middle_Name_Initial__c} data-value="MI"
                                 data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="6">
+                        <lightning-layout-item padding="around-small" size="12">
                             <div>
                                 <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Last_Name}
                                     name="Last Name" value={pe.peRecord.Participant_Surname__c} data-value="LastName"
@@ -41,7 +41,7 @@
                                 </lightning-input>
                             </div>
                         </lightning-layout-item>
-                        <lightning-layout-item padding="around-small" size="6">
+                        <!--<lightning-layout-item padding="around-small" size="6">
                             <div>
                                 <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Sex} name="Sex"
                                     placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}
@@ -49,7 +49,7 @@
                                     onchange={changeInputValue} class="col-top">
                                 </lightning-combobox>
                             </div>
-                        </lightning-layout-item>
+                        </lightning-layout-item>-->
                     </lightning-layout>
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="12" small-device-size="6" medium-device-size="12"
@@ -79,6 +79,15 @@
                                 options={pe.yearDateOption} data-value="BirthYear" data-id={pe.peRecord.Id}
                                 onchange={changeInputValue} class="col-top">
                             </lightning-combobox>
+                        </lightning-layout-item>
+                         <lightning-layout-item padding="around-small" size="6">
+                            <div>
+                                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Sex} name="Sex"
+                                    placeholder={label.RH_RP_Select_Sex} value={pe.peRecord.Patient_Sex__c}
+                                    options={pe.sexList} data-value="Sex" data-id={pe.peRecord.Id}
+                                    onchange={changeInputValue} class="col-top">
+                                </lightning-combobox>
+                            </div>
                         </lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>
@@ -137,16 +146,16 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-input type="text" disabled={isaccesslevelthree}
-                                    label={label.RH_RP_Alt_Phone_Number} name="Alt Phone Number"
+                                <lightning-input type="text" disabled={disableField}
+                                    label={label.RH_RP_Alt_Phone_Number} name="Alt Phone Number" 
                                     value={pe.peRecord.Participant_Alternative_Phone__c} data-value="AltPhoneNumber"
-                                    data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                                    data-id={pe.peRecord.Id} onchange={changeInputValue}> 
                                 </lightning-input>
                             </div>
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Alt_Phone_Type}
+                                <lightning-combobox disabled={disableField} label={label.RH_RP_Alt_Phone_Type}
                                     name="Alt Phone Type" placeholder={label.RH_RP_Select_Phone_Type}
                                     value={pe.peRecord.Participant_Alt_Phone_Type__c} options={pe.altPhoneTypeList}
                                     data-value="AltPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue}
