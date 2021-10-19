@@ -144,6 +144,6 @@
 }
 /*REF-4990*/
 .THIS .header .sub-title {
-    max-height: 102px;
+    max-height: 77px;
     overflow: auto;
 }

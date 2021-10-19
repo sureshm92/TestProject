@@ -18,6 +18,8 @@
     background: url(/resource/1623075522000/Lofi_Login_Icons/Background.png) no-repeat;
     background-size: cover;
     background-position: center;
+    height: 100%;
+    min-height: 101vh;
 }
 
 .THIS > .slds-col.slds-large-size_4-of-7 {

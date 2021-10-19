@@ -5,9 +5,11 @@
     background-color: white;
     opacity: 1;
     position: absolute;
-    top: 70px;
-    width: 310px;
-    margin-left: 15px !important;
+    left: 1px;
+    top: 60px;
+    z-index: 25;
+    /*width: 310px;
+    margin-left: 15px !important;*/
 }
 .btn {
     height: 50px;

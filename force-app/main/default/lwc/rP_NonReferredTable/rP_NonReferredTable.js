@@ -29,6 +29,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @track rowNumberOffset; //Row number
     @track isModalOpen = false;
     masterData = [];
+    searchData = [];
     @track masterFilterData = [];
     //get icons from static resource to be displayed on the page
     refresh_icon = community_icon + '/Refresh_Icons.png';
@@ -127,6 +128,18 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     @api
     getOnExcludeIncluderefresh() {
         this.recordsToDisplay = this.recordsToDisplay.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id );
+        
+        var sts = '';
+        if(this.isExcludedforReferring){
+           sts ='Pending Referral'
+        }else{
+           sts ='Excluded from Referring'
+        }
+       let state = this.searchData;
+       var index = state.findIndex(project => project.peRec.Id === this.peRecordList[0].peRecord.Id);
+       this.searchData[index].peRec.Participant_Status__c = sts;
+     
+        
         this.data = this.data.filter(element => element.peRec.Id !== this.peRecordList[0].peRecord.Id);
         this.redirectoOverviewPage();
         this.template.querySelector('c-rppagination').records = this.data;
@@ -146,6 +159,17 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
     getOnbBulkExcludeIncluderefresh() {
         for(let i = 0; i < this.bulkPeIds.length; i++){
             this.recordsToDisplay = this.recordsToDisplay.filter(element => element.peRec.Id !== this.bulkPeIds[i]);
+        }
+        var sts = '';
+        if(this.isExcludedforReferring){
+           sts ='Pending Referral'
+        }else{
+           sts ='Excluded from Referring'
+        }
+        for(let i = 0; i < this.bulkPeIds.length; i++){
+            let state = this.searchData;
+            var index = state.findIndex(project => project.peRec.Id === this.bulkPeIds[i]);
+            this.searchData[index].peRec.Participant_Status__c = sts;
         }
         for(let i = 0; i < this.bulkPeIds.length; i++){
             this.data = this.data.filter(element => element.peRec.Id !== this.bulkPeIds[i]);
@@ -170,6 +194,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 this.apexRefreshList = includedRecords;
                 this.data = includedRecords;
                 this.masterData = includedRecords;
+                this.searchData = result;
                 this.recordsToDisplay = includedRecords;
                 this.error = undefined;
                 this.isExcludedforReferring = false;
@@ -374,9 +399,12 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             recddis = this.masterFilterData;
             allRec = this.masterFilterData;
         } else {*/
-            recddis = this.masterData;
-            allRec = this.masterData;
+            //recddis = this.masterData;
+            //allRec = this.masterData;
         //}
+        recddis = this.searchData;
+        allRec = this.searchData;
+
         
         if (this.searchValue.length > 0) {
             this.disableFilter = true;
@@ -411,8 +439,11 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 this.data = this.masterFilterData;
                 this.recordsToDisplay = this.masterFilterData;
             } else {
-                this.data = allRec;
-                this.recordsToDisplay = allRec;
+                //this.data = allRec;
+                //this.recordsToDisplay = allRec;
+                this.data = this.masterData;
+                this.recordsToDisplay = this.masterData;
+                
             }
             this.isPaginationApplied = false;
         }

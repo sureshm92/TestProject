@@ -10,7 +10,7 @@
 
 .mask {
     padding-left: 13px;
-    width: 326px;
+    /*width: 326px;*/
     border-left: 4px solid rgb(7, 104, 253);
     border-radius: 4px;
     background-color: #FFFFFF;
@@ -20,24 +20,25 @@
 .innerbox {
     max-height: 360px;
     padding-right: 15px;
-    overflow: auto;
+    overflow-y: scroll;
     margin-bottom: 20px;
 }
 ::-webkit-scrollbar {
-    width: 8px;
+    width: 7px;
+    height: 7px;
   }
   
   /* Track */
 ::-webkit-scrollbar-track {
     box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
-    border-radius: 4px;
+    border-radius: 2px;
     background: #dbdbdb;
   }
   
   /* Handle */
 ::-webkit-scrollbar-thumb {
     background: #999999;
-    border-radius: 4px;
+    border-radius: 2px;
   }
 
 .this-is-a-comment-ma {
@@ -58,29 +59,44 @@
 }
 
 .searchBox1 {
-    width: 350px;
     line-height: 80px;
 }
 
 .note-button {
-    padding-left: 120px;
+    padding-left: 64px;
 }
 :host {
     --sds-c-textarea-sizing-min-height: 200px;
  }
 
-.slds-modal__container {
-    max-width: 60rem !important;
-    width: 60% !important;
-    height: auto;
-}
+ .slds-modal__header {
+    border-bottom: none;
+    border-radius: 0;
+  }
   
-.sldsmodalcontainer {
-    max-width: 100%;
-    padding-left: 25%;
-    padding-right: 25%;
-    padding-top: 10%;
-}
+  .slds-modal__container:before {
+    content: '';
+    display: block;
+    height: 4px;
+    width: 100%;
+    background: linear-gradient(to right, #250056 10%, #0076ae 90%);
+    border-radius: 0;
+  }
+  
+  .slds-modal__content {
+    margin-top: -1px;
+  }
+  
+  .slds-modal__footer {
+    border-top: none;
+  }
+  
+  .slds-text-heading_medium {
+    text-align: left;
+    color: #000;
+    font-weight: 600;
+  }
+
 
 .slds-spinner_container {
     background-color: white;
@@ -92,3 +108,29 @@
     font-size: 14px;
     color: #999;
 }
+
+/*@media all and (max-width: 500px) {
+    .note-button {
+        padding-left: unset;
+    }
+}*/
+@media (max-width:768px){
+    .noRecords {
+        padding-bottom: 40px;
+        text-align: center;
+        padding-left: unset;
+    }
+    .innerbox {
+      max-height: none;
+      overflow: hidden;
+    }
+    .topIcon {
+      width: 38px;
+      height: 40px;
+      background: #297DFD;
+    }
+    .topIcon-control {
+      position: absolute;
+      right: 0;
+    }
+  }

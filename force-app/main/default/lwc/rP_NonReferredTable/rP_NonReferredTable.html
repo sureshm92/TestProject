@@ -8,9 +8,10 @@
         </template>
     </div>
     <template if:true={showTable}>
-        <div class="slds-grid">
-            <div class="slds-col">
-                <lightning-input
+        <div class="mobileBkgd" data-id="patientTableBlock">
+        <div class="slds-grid searchGrid">
+            <div class="slds-col searchGroup">
+                <!--<lightning-input
                     label=""
                     type="text"
                     placeholder={label.CC_Btn_Search}
@@ -24,8 +25,12 @@
                     alt="Filter Records"
                     class={filterIconClass}
                     onclick={openFilterModal}
-                />
-            </div>
+                />-->
+            <lightning-icon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
+                icon-name="utility:search" size="small"></lightning-icon>
+                <input type="text" placeholder={label.CC_Btn_Search} onchange={handleSearch} class="searchBox1" value={searchValue} />
+                <img src={filter_icon} alt="Filter Records" class={filterIconClass} onclick={openFilterModal} />
+             </div>
             <div class="slds-col refreshPointer">
                 <img
                     src={refresh_icon}
@@ -36,10 +41,10 @@
             </div>
         </div>
         <br />
-        <table
-            role="grid"
-            class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-        >
+        <table role="grid" class="
+            slds-table slds-table_bordered
+            slds-max-medium-table_stacked-horizontal
+            slds-table_fixed-layout patientList">
             <thead>
                 <tr>
                     <th scope="col" class="table-header" style="width: 2rem">
@@ -53,6 +58,7 @@
                         </div>
                     </th>
                     <th scope="col" class="table-header">
+                        <span>Select All</span>
                         <div title="Patient ID">{label.RH_RP_Patient_ID}</div>
                     </th>
                     <th scope="col" class="table-header">
@@ -75,6 +81,7 @@
                             ></lightning-input>
                         </td>
                         <td>
+                            <span>{label.RH_RP_Patient_ID}</span>
                             <div
                                 class="slds-truncate table-patientrow"
                                 title={pe.peRec.Patient_ID__c}
@@ -83,6 +90,7 @@
                             </div>
                         </td>
                         <td>
+                            <span>{label.RH_RP_Last_Name}</span>
                             <div
                                 class="slds-truncate table-row"
                                 title={pe.peRec.Participant_Surname__c}
@@ -91,6 +99,7 @@
                             </div>
                         </td>
                         <td>
+                            <span>{label.RH_RP_MM_YYYY}</span>
                             <div class="slds-truncate table-row" title={pe.doBFormat}>
                                 {pe.doBFormat}
                             </div>
@@ -105,6 +114,7 @@
             show-search-box="false"
             onpaginatorchange={handlePaginatorChange}
         ></c-rppagination>
+    </div>
     </template>
     <!--<template if:false={showTable}>
         <span class="noRecords">Oh no, there are no items to display.</span>
@@ -141,7 +151,7 @@
                     </h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                    <p><b>  {label.RH_RP_Want_to_Refresh_Page}</b></p>
+                    <p>{label.RH_RP_Want_to_Refresh_Page}</p>
                 </div>
                 <!-- Modal/Popup Box LWC footer starts here -->
                 <footer class="slds-modal__footer">

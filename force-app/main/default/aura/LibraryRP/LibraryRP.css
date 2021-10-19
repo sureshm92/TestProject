@@ -287,5 +287,5 @@
 }
 /*REF-4986*/
 .THIS .language-filter .menu-popup-panel.popupTargetContainer {
-    min-height: 82px;
+    height: fit-content;
 }

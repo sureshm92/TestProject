@@ -6,6 +6,10 @@ sfdx force:org:delete -p
 echo "Modifying files for scratch org"
 echo "Step 1 - Move current files to scratch-org-files/original-files"
 sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
+sed -i 's/#force-app\/main\/default\/flows/force-app\/main\/default\/flows/g' '.forceignore'
+sed -i 's/#\*\*/\*\*/' '.forceignore'
+sed -i 's/#force-app\/unpackaged\/main\/default\/staticresources\/os_*/force-app\/unpackaged\/main\/default\/staticresources\/os_*/' '.forceignore'
+sed -i 's/#force-app\/main\/onboarding-tour\/staticresources\/os_*/force-app\/main\/onboarding-tour\/staticresources\/os_*/' '.forceignore'
 mv ./force-app/communities/community-iqvia/experiences ./scratch-org-files/original-files
 mv ./force-app/communities/community-gsk/sites/GSK_Community.site-meta.xml ./scratch-org-files/original-files
 mv ./force-app/communities/community-iqvia/sites/IQVIA_Referral_Hub.site-meta.xml ./scratch-org-files/original-files
