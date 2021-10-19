@@ -2,96 +2,121 @@
     <div class="mobileCards">
         <div class="bufferSides"></div>
         <div class="buffermain">
-        <div>
-            <div class="bulk-import-files"  style="display: inline;"> 
-                {BulkImport_TableHeading}
-            </div>
-            <div style="display: inline; float: right;border: 1px solid grey;border-radius: 5px;" onclick={toggleButtons}>
-                <lightning-icon icon-name="utility:down" size="x-small" alternative-text="options" title="Options"> </lightning-icon>
-            </div>
-            <template if:true={showButtons}>
-                <div class="slds-dropdown slds-dropdown_actions slds-dropdown_right">
-                    <ul class="slds-dropdown__list" role="menu">
-                        <li class="slds-dropdown__item" role="presentation">
-                            <a class="" onclick={openIntructModal}>
-                                <img src={instructionsSvgURL}/>&nbsp;&nbsp;
-                                {BulkImport_Instructions}
-                            </a> 
-                        </li>
-                        <li class="slds-dropdown__item" role="presentation">
-                             <a type="button" class="" href={templateFile}>
-                                <img src={downloadSvgURL}/>&nbsp;&nbsp;
-                                {BulkImport_File_Template}
-                             </a>  
-                        </li>
-                        <li class="slds-dropdown__item" role="presentation">
-                            <a type="button" class="bulk-importButton" onclick={openUploadModal}>
-                                <img src={impotrtSvgURL}/>&nbsp;&nbsp;
-                                {BulkImport_Import_Patients}
-                            </a> 
-                        </li>
-                    </ul>
+            <div class="bulkUploadTitle">
+                <div class="bulk-import-files" style="display: inline;">
+                    {BulkImport_TableHeading}
                 </div>
-            </template>
-            <template if:true={inProgress}>
-                <div class="inprogress" >
-                    Processing in Progress
-                </div>
-            </template>
-            <template if:true={completed}>
-                <div class="inprogress completed" >
-                    Processing Completed
-                </div>
-            </template>
-        </div>        
-        <template if:false={nofiles}>
-        <template if:true={filesLoaded}>
-            <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
-                <article key={item.ContentDocumentId}  class="slds-card">
-                    <div class="slds-card__header slds-grid">
-                      <header class="slds-media slds-media_center slds-has-flexi-truncate">
-                        <div class="slds-media__body">
-                          <h2 class="slds-card__header-title">
-                            <span>{item.Title}</span>
-                          </h2>
-                        </div>
-                        <div class="slds-no-flex">
-                            <template if:true={item.ContentUrl}>
-                                <a href={item.ContentUrl} target="_blank"><lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon></a>
-                            </template>
-                        </div>
-                      </header>
+                <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
+                    onselect={handleMenuItem}>
+                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:activity"
+                        label={BulkImport_Instructions} onclick={openIntructModal}>
+                    </lightning-menu-item>
+                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
+                        label={BulkImport_File_Template} href={templateFile}>
+                    </lightning-menu-item>
+                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:file"
+                        label={BulkImport_Import_Patients} onclick={openUploadModal}>
+                    </lightning-menu-item>
+                </lightning-button-menu>
+                <!-- <div class="bulkUploadBtn secondary apollo-btn" onclick={toggleButtons}>
+                    Actions <lightning-icon icon-name="utility:down" size="x-small" alternative-text="options"
+                        title="Options">
+                    </lightning-icon>
+                </div> -->
+                <!-- <template if:true={showButtons}>
+                    <div class="slds-dropdown slds-dropdown_actions slds-dropdown_right">
+                        <ul class="slds-dropdown__list" role="menu">
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a class="" onclick={openIntructModal}>
+                                    <img src={instructionsSvgURL} />&nbsp;&nbsp;
+                                    {BulkImport_Instructions}
+                                </a>
+                            </li>
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a type="button" class="" href={templateFile}>
+                                    <img src={downloadSvgURL} />&nbsp;&nbsp;
+                                    {BulkImport_File_Template}
+                                </a>
+                            </li>
+                            <li class="slds-dropdown__item" role="presentation">
+                                <a type="button" class="bulk-importButton" onclick={openUploadModal}>
+                                    <img src={impotrtSvgURL} />&nbsp;&nbsp;
+                                    {BulkImport_Import_Patients}
+                                </a>
+                            </li>
+                        </ul>
                     </div>
-                    <div class="slds-card__body slds-card__body_inner">
-                        <div>{BulkImport_Initial_Total_Records} : {item.Initial_Total_Records__c}</div>
-                        <div>{BulkImport_Accepted} : {item.Accepted__c}</div>
-                        <div>{BulkImport_Rejected} : {item.Rejected_Records__c}</div>
-                        <div>{BulkImport_Uploaded_By} : {item.CreatedBy.Name}</div>
-                        <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time value={item.ContentModifiedDate}></lightning-formatted-date-time></div>
+                </template> -->
+                <template if:true={inProgress}>
+                    <div class="inprogress">
+                        Processing in Progress
                     </div>
-                </article>
-            </template>
-            <div style ="margin-top: 20px;">
-                <c-rppagination
-                records={contentFiles}
-                total-records={contentFiles.length}
-                show-search-box="false"
-                onpaginatorchange={handlePaginatorChange}   ></c-rppagination>
+                </template>
+                <template if:true={completed}>
+                    <div class="inprogress completed">
+                        Processing Completed
+                    </div>
+                </template>
             </div>
-        </template>
-        </template>
-        
+            <template if:false={nofiles}>
+                <template if:true={filesLoaded}>
+                    <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
+                        <article key={item.ContentDocumentId} class="slds-card">
+                            <div class="slds-card__header slds-grid">
+                                <header class="slds-media slds-media_center slds-has-flexi-truncate">
+                                    <div class="slds-media__body">
+                                        <h2 class="slds-card__header-title">
+                                            <span>{item.Title}</span>
+                                        </h2>
+                                    </div>
+                                    <div class="slds-no-flex">
+                                        <template if:true={item.ContentUrl}>
+                                            <a href={item.ContentUrl} target="_blank">
+                                                <lightning-icon icon-name="utility:download" size="small"
+                                                    alternative-text="Download" title="Download"> </lightning-icon>
+                                            </a>
+                                        </template>
+                                    </div>
+                                </header>
+                            </div>
+                            <div class="slds-card__body slds-card__body_inner">
+                                <div title={BulkImport_File_Name}>{BulkImport_File_Name} : {item.Title}</div>
+                                <div>{BulkImport_Initial_Total_Records} : {item.Initial_Total_Records__c}</div>
+                                <div>{BulkImport_Accepted} : {item.Accepted__c}</div>
+                                <div>{BulkImport_Rejected} : {item.Rejected_Records__c}</div>
+                                <div>{BulkImport_Uploaded_By} : {item.CreatedBy.Name}</div>
+                                <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time
+                                        value={item.ContentModifiedDate}></lightning-formatted-date-time>
+                                </div>
+                                <div title={BulkImport_Actions}>{BulkImport_Actions} :
+                                    &nbsp; &nbsp;<template if:true={item.ContentUrl}>
+                                        <a href={item.ContentUrl} target="_blank">
+                                            <lightning-icon icon-name="utility:download" size="x-small"
+                                                alternative-text="Download" title="Download"></lightning-icon>
+                                        </a>
+                                    </template>
+                                </div>
+                            </div>
+                        </article>
+                    </template>
+                    <div style="margin-top: 20px;">
+                        <c-rppagination records={contentFiles} total-records={contentFiles.length}
+                            show-search-box="false" onpaginatorchange={handlePaginatorChange}></c-rppagination>
+                    </div>
+                </template>
+            </template>
+
+        </div>
     </div>
-     </div>
-     <div class="desktopList">
+    <div class="desktopList">
         <div class="slds-grid slds-p-top_large slds-p-bottom_large" style="height:30px">
             <template if:true={inProgress}>
-                <div class="slds-float_right inprogress" >
+                <div class="slds-float_right inprogress">
                     Processing in Progress
                 </div>
             </template>
             <template if:true={completed}>
-                <div class="slds-float_right inprogress completed" >
+                <div class="slds-float_right inprogress completed">
                     Processing Completed
                 </div>
             </template>
@@ -101,33 +126,31 @@
             <div class="slds-col">
                 <span class="slds-float_right bulk-import-buttons">
                     <button class="slds-button slds-button_neutral leftMargin" onclick={openIntructModal}>
-                        <img src={instructionsSvgURL}/>&nbsp;&nbsp;
+                        <img src={instructionsSvgURL} />&nbsp;&nbsp;
                         {BulkImport_Instructions}
-                    </button> 
+                    </button>
                     <a href={templateFile}>
                         <button class="slds-button slds-button_neutral leftMargin">
-                            <img src={downloadSvgURL}/>&nbsp;&nbsp;
+                            <img src={downloadSvgURL} />&nbsp;&nbsp;
                             {BulkImport_File_Template}
-                        </button>  
+                        </button>
                     </a>
 
-                   <!-- <button type="button" class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
+                    <!-- <button type="button" class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
                         <img src={downloadSvgURL}/>&nbsp;&nbsp;
                         {BulkImport_File_Template}
                     </button>  -->
                     <button type="button" class="slds-button slds-button_brand saveButton" onclick={openUploadModal}>
-                        <img src={impotrtSvgURL}/>&nbsp;&nbsp;
+                        <img src={impotrtSvgURL} />&nbsp;&nbsp;
                         {BulkImport_Import_Patients}
-                    </button>              
+                    </button>
                 </span>
             </div>
         </div>
         <template if:true={nofiles}>
             <div style="padding-top:20px">
-                <table
-                role="grid"
-                class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-            >
+                <table role="grid"
+                    class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
                     <colgroup>
                         <col style="width:28%">
                         <col style="width:13%">
@@ -140,10 +163,12 @@
                     <thead>
                         <tr class="slds-line-height_reset">
                             <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title={BulkImport_File_Name}>{BulkImport_File_Name}</div>
+                                <div class="table-header-label" title={BulkImport_File_Name}>{BulkImport_File_Name}
+                                </div>
                             </th>
                             <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Initial_Total_Records}>{BulkImport_Initial_Total_Records}</div>
+                                <div class="table-header-label" title={BulkImport_Initial_Total_Records}>
+                                    {BulkImport_Initial_Total_Records}</div>
                             </th>
                             <th class="table-header" style="text-align:center" scope="col">
                                 <div class="table-header-label" title={BulkImport_Accepted}>{BulkImport_Accepted}</div>
@@ -152,10 +177,12 @@
                                 <div class="table-header-label" title={BulkImport_Rejected}>{BulkImport_Rejected}</div>
                             </th>
                             <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title={BulkImport_Uploaded_By}>{BulkImport_Uploaded_By}</div>
+                                <div class="table-header-label" title={BulkImport_Uploaded_By}>{BulkImport_Uploaded_By}
+                                </div>
                             </th>
                             <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Uploaded_On}>{BulkImport_Uploaded_On}</div>
+                                <div class="table-header-label" title={BulkImport_Uploaded_On}>{BulkImport_Uploaded_On}
+                                </div>
                             </th>
                             <th class="table-header" style="text-align:center" scope="col">
                                 <div class="table-header-label" title={BulkImport_Actions}>{BulkImport_Actions}</div>
@@ -165,238 +192,250 @@
                 </table>
                 <div class="slds-p-left--x-small">No files to display</div>
             </div>
-        </template>        
+        </template>
         <template if:false={nofiles}>
-        <template if:true={filesLoaded}>
-            <div style="padding-top:20px" >
-            
-                <table
-                role="grid"
-                class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout"
-            >
-                    <colgroup>
-                        <col style="width:28%">
-                        <col style="width:13%">
-                        <col span=2 style="width:10%">
-                        <col style="width:18%">
-                        <col style="width:15%">
-                        <col style="width:10%">
-                    </colgroup>
-                    <!--Header of the table-->
-                    <thead>
-                        <tr class="slds-line-height_reset">
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title={BulkImport_File_Name}>{BulkImport_File_Name}</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Initial_Total_Records}>{BulkImport_Initial_Total_Records}</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Accepted}>{BulkImport_Accepted}</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Rejected}>{BulkImport_Rejected}</div>
-                            </th>
-                            <th class="table-header" style="text-align:left" scope="col">
-                                <div class="table-header-label" title={BulkImport_Uploaded_By}>{BulkImport_Uploaded_By}</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Uploaded_On}>{BulkImport_Uploaded_On}</div>
-                            </th>
-                            <th class="table-header" style="text-align:center" scope="col">
-                                <div class="table-header-label" title={BulkImport_Actions}>{BulkImport_Actions}</div>
-                            </th>
-                        </tr>
-                    </thead>
+            <template if:true={filesLoaded}>
+                <div style="padding-top:20px">
 
-                    <!--Body of the table-->
-                    <tbody>
-                        <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
-                            <tr key={item.ContentDocumentId} class="slds-hint-parent table-row">
-                                <td>
-                                    <div class="elipsis" title={item.Title}>
-                                        {item.Title}
+                    <table role="grid"
+                        class="slds-table slds-table_bordered slds-max-medium-table_stacked-horizontal slds-table_fixed-layout">
+                        <colgroup>
+                            <col style="width:28%">
+                            <col style="width:13%">
+                            <col span=2 style="width:10%">
+                            <col style="width:18%">
+                            <col style="width:15%">
+                            <col style="width:10%">
+                        </colgroup>
+                        <!--Header of the table-->
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="table-header" style="text-align:left" scope="col">
+                                    <div class="table-header-label" title={BulkImport_File_Name}>{BulkImport_File_Name}
                                     </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        {item.Initial_Total_Records__c}
+                                </th>
+                                <th class="table-header" style="text-align:center" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Initial_Total_Records}>
+                                        {BulkImport_Initial_Total_Records}</div>
+                                </th>
+                                <th class="table-header" style="text-align:center" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Accepted}>{BulkImport_Accepted}
                                     </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        {item.Accepted__c}
+                                </th>
+                                <th class="table-header" style="text-align:center" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Rejected}>{BulkImport_Rejected}
                                     </div>
-                                </td>
-                                <template if:true={item.ContentUrl}>
-                                    <td class="table-data table-rejected">
-                                        <div>
-                                            {item.Rejected_Records__c}
+                                </th>
+                                <th class="table-header" style="text-align:left" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Uploaded_By}>
+                                        {BulkImport_Uploaded_By}</div>
+                                </th>
+                                <th class="table-header" style="text-align:center" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Uploaded_On}>
+                                        {BulkImport_Uploaded_On}</div>
+                                </th>
+                                <th class="table-header" style="text-align:center" scope="col">
+                                    <div class="table-header-label" title={BulkImport_Actions}>{BulkImport_Actions}
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!--Body of the table-->
+                        <tbody>
+                            <template for:each={recordsToDisplay} for:item="item" for:index="indexVar">
+                                <tr key={item.ContentDocumentId} class="slds-hint-parent table-row">
+                                    <td>
+                                        <div class="elipsis" title={item.Title}>
+                                            {item.Title}
                                         </div>
                                     </td>
-                                </template>
-                                <template if:false={item.ContentUrl}>
                                     <td class="table-data">
                                         <div>
-                                            {item.Rejected_Records__c}
+                                            {item.Initial_Total_Records__c}
                                         </div>
                                     </td>
-                                </template>
-                                
-                                <td>
-                                    <div class="elipsis">
-                                        {item.CreatedBy.Name}
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        <lightning-formatted-date-time year="numeric" month="short" day="2-digit" value={item.ContentModifiedDate}></lightning-formatted-date-time>
-                                    </div>
-                                </td>
-                                <td class="table-data">
-                                    <div>
-                                        <template if:true={item.ContentUrl}>
-                                            <a href={item.ContentUrl} target="_blank"><lightning-icon icon-name="utility:download" size="small" alternative-text="Download" title="Download"> </lightning-icon></a>
-                                        </template>
-                                    </div>
-                                </td>
-                            </tr>
-                        </template>
-                    </tbody>
-                </table>
-            </div>
-            <div style ="margin-top: 20px;">
-                <c-rppagination
-                records={contentFiles}
-                total-records={contentFiles.length}
-                show-search-box="false"
-                onpaginatorchange={handlePaginatorChange}   ></c-rppagination>
-            </div>
+                                    <td class="table-data">
+                                        <div>
+                                            {item.Accepted__c}
+                                        </div>
+                                    </td>
+                                    <template if:true={item.ContentUrl}>
+                                        <td class="table-data table-rejected">
+                                            <div>
+                                                {item.Rejected_Records__c}
+                                            </div>
+                                        </td>
+                                    </template>
+                                    <template if:false={item.ContentUrl}>
+                                        <td class="table-data">
+                                            <div>
+                                                {item.Rejected_Records__c}
+                                            </div>
+                                        </td>
+                                    </template>
+
+                                    <td>
+                                        <div class="elipsis">
+                                            {item.CreatedBy.Name}
+                                        </div>
+                                    </td>
+                                    <td class="table-data">
+                                        <div>
+                                            <lightning-formatted-date-time year="numeric" month="short" day="2-digit"
+                                                value={item.ContentModifiedDate}></lightning-formatted-date-time>
+                                        </div>
+                                    </td>
+                                    <td class="table-data">
+                                        <div>
+                                            <template if:true={item.ContentUrl}>
+                                                <a href={item.ContentUrl} target="_blank">
+                                                    <lightning-icon icon-name="utility:download" size="small"
+                                                        alternative-text="Download" title="Download"> </lightning-icon>
+                                                </a>
+                                            </template>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+                <div style="margin-top: 20px;">
+                    <c-rppagination records={contentFiles} total-records={contentFiles.length} show-search-box="false"
+                        onpaginatorchange={handlePaginatorChange}></c-rppagination>
+                </div>
+            </template>
         </template>
-        </template>
-     </div>
+    </div>
     <template if:true={isInstrModalOpen}>
-        <c-popup-l-w-c
-        show-modal=true
-        onclose={closeIntructModal} 
-        header2=true
-        header-value2=""
-        modalsize="medium">      
-        
-        <div slot="body" class="processBody"> 
-            <div class="slds-form-element modalBody">
-                <div class="importInfo">
-                    <div class="header1">{BulkImport_Bulk_Import_Process}</div>
-                    <span class="processTextBody">
-                        <ol type="1" class="processtext">
-                            <li>Download the acceptable bulk format from the download <b>Template File</b> button at the top right of the table. </li>
-                            <li>Enter available information for the patients in the file.</li>
-                            <li>Select the <b>Study Name</b>.</li>
-                            <li>Upload the file.</li>
-                            <li>After upload is complete select <b>Import</b>.</li>
-                            <li>Your upload results will appear at the top of the table with the total records, accepted records, and rejected records displayed.</li>
-                            <li>All accepted records can now be found under the <b>Not Yet Referred Tab</b>.</li>
-                            <li>All rejected records will need to be fixed by doing the following
-                                <ol type="a">
-                                    <li>Download the result sheet from the action icon in the last column</li>
-                                    <li>Check the column <b>Validation Errors</b> in the sheet for the rejection reason</li>
-                                    <li>Make changes based on the rejection reason and save the file</li>
-                                    <li>Do not change the file name and follow Step 2 above.</li>    
-                                </ol>
-                            </li>
-                        </ol>
+        <c-popup-l-w-c show-modal=true onclose={closeIntructModal} header2=true header-value2="" modalsize="medium">
+
+            <div slot="body" class="processBody">
+                <div class="slds-form-element modalBody">
+                    <div class="importInfo">
+                        <div class="header1">{BulkImport_Bulk_Import_Process}</div>
+                        <span class="processTextBody">
+                            <ol type="1" class="processtext">
+                                <li>Download the acceptable bulk format from the download <b>Template File</b> button at
+                                    the top right of the table. </li>
+                                <li>Enter available information for the patients in the file.</li>
+                                <li>Select the <b>Study Name</b>.</li>
+                                <li>Upload the file.</li>
+                                <li>After upload is complete select <b>Import</b>.</li>
+                                <li>Your upload results will appear at the top of the table with the total records,
+                                    accepted records, and rejected records displayed.</li>
+                                <li>All accepted records can now be found under the <b>Not Yet Referred Tab</b>.</li>
+                                <li>All rejected records will need to be fixed by doing the following
+                                    <ol type="a">
+                                        <li>Download the result sheet from the action icon in the last column</li>
+                                        <li>Check the column <b>Validation Errors</b> in the sheet for the rejection
+                                            reason</li>
+                                        <li>Make changes based on the rejection reason and save the file</li>
+                                        <li>Do not change the file name and follow Step 2 above.</li>
+                                    </ol>
+                                </li>
+                            </ol>
+                        </span>
+                    </div>
+                </div>
+                <div style="margin: 0px 25px;">
+                    <span style="display: inline-block;">
+                        <lightning-input onchange={instructionUpdate} type="checkbox"
+                            label={BulkImport_Dont_show_me_again_on_landing} name="input1"
+                            checked={dontshowInstruction}></lightning-input>
+                    </span>
+                    <span class="slds-float--right">
+                        <button type="button" class="slds-button slds-button_brand saveButton okButton"
+                            onclick={updateShowInstructValue}>{BulkImport_Ok}</button>
                     </span>
                 </div>
-            </div>    
-            <div style="margin: 0px 25px;">
-            <span style="display: inline-block;">
-                <lightning-input onchange={instructionUpdate} type="checkbox" label={BulkImport_Dont_show_me_again_on_landing} name="input1" checked={dontshowInstruction}></lightning-input>
-            </span>
-            <span class="slds-float--right">
-               <button type="button" class="slds-button slds-button_brand saveButton okButton" onclick={updateShowInstructValue}>{BulkImport_Ok}</button>
-            </span>
             </div>
-        </div>
         </c-popup-l-w-c>
     </template>
     <template if:true={isUploadModalOpen}>
-        <c-popup-l-w-c
-        show-modal=true
-        header2=true
-        onclose={closeUploadModal}
-        header-value2={BulkImport_Import_Patients}
-        modalsize="small">      
-        
-        <div slot="body" class="processBody"> 
-            <div class="slds-form-element modalBody">
-                <div class="slds-p-bottom--medium slds-p-top--medium">  
-                    <div>
-                        <div class="fileName">{BulkImport_Select_Study_Here}</div>
-                        <lightning-combobox variant="label-hidden"
-                        value={selectedStudy}
-                        placeholder={BulkImport_Select_Study}
-                        options={studies}
-                        onchange={selectStudy} ></lightning-combobox>
-                    </div>
-                    <div class="fileName">{BulkImport_File_Template}</div>
-                    <div class="fileHolder">
-                        <input onchange={handleFilesChange} type="file" class="fileInput"></input>
-                        <div class="fileBox slds-grid slds-wrap">
-                            <div class="slds-size_full slds-align_absolute-center slds-p-top--small"> 
-                                <lightning-icon icon-name="utility:upload" alternative-text="Upload" title="Upload"></lightning-icon>
-                            </div>
-                            <div class="slds-size_full slds-align_absolute-center uploadLabel">  
-                                {BulkImport_Drag_file_here_or} <span class="linkLabel">&nbsp;{BulkImport_browse}</span> 
-                            </div>
-                            <div class="slds-size_full slds-align_absolute-center uploadLabel "  style="font-style: italic;">  
-                                {BulkImport_Max_size}
-                           </div>
-                           <div class="slds-size_full slds-align_absolute-center uploadLabel slds-p-bottom--small"  style="font-style: italic;font-weight: 700;">  
-                                {BulkImport_Wait_Warning}
-                          </div>
+        <c-popup-l-w-c show-modal=true header2=true onclose={closeUploadModal}
+            header-value2={BulkImport_Import_Patients} modalsize="small">
+
+            <div slot="body" class="processBody">
+                <div class="slds-form-element modalBody">
+                    <div class="slds-p-bottom--medium slds-p-top--medium">
+                        <div>
+                            <div class="fileName">{BulkImport_Select_Study_Here}</div>
+                            <lightning-combobox variant="label-hidden" value={selectedStudy}
+                                placeholder={BulkImport_Select_Study} options={studies} onchange={selectStudy}>
+                            </lightning-combobox>
                         </div>
-                    </div>
-                    <div>
-                        <template if:true={fileName}>
-                            <div class="fileName">{fileName} </div>
-                            <div class="slds-align--absolute-center">
-                                <div class="progressBar">
-                                    <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress} aria-busy="true" role="progressbar" class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
-                                        <span class="slds-progress-bar__value" style={progressWidth}></span>
+                        <div class="fileName">{BulkImport_File_Template}</div>
+                        <div class="fileHolder">
+                            <input onchange={handleFilesChange} type="file" class="fileInput"></input>
+                            <div class="fileBox slds-grid slds-wrap">
+                                <div class="slds-size_full slds-align_absolute-center slds-p-top--small">
+                                    <lightning-icon icon-name="utility:upload" alternative-text="Upload" title="Upload">
+                                    </lightning-icon>
+                                </div>
+                                <div class="slds-size_full slds-align_absolute-center uploadLabel">
+                                    {BulkImport_Drag_file_here_or} <span
+                                        class="linkLabel">&nbsp;{BulkImport_browse}</span>
+                                </div>
+                                <div class="slds-size_full slds-align_absolute-center uploadLabel "
+                                    style="font-style: italic;">
+                                    {BulkImport_Max_size}
+                                </div>
+                                <div class="slds-size_full slds-align_absolute-center uploadLabel slds-p-bottom--small"
+                                    style="font-style: italic;font-weight: 700;">
+                                    {BulkImport_Wait_Warning}
+                                </div>
+                            </div>
+                        </div>
+                        <div>
+                            <template if:true={fileName}>
+                                <div class="fileName">{fileName} </div>
+                                <div class="slds-align--absolute-center">
+                                    <div class="progressBar">
+                                        <div aria-valuemin="0" aria-valuemax="100" aria-valuenow={progress}
+                                            aria-busy="true" role="progressbar"
+                                            class="slds-progress-bar slds-progress-bar_large slds-progress-bar_circular">
+                                            <span class="slds-progress-bar__value" style={progressWidth}></span>
+                                        </div>
+                                    </div>
+                                    <div class="closeIcon">
+                                        <template if:true={enableDel}>
+                                            <span onclick={deleteFiles}>
+                                                <lightning-icon icon-name="utility:close" alternative-text="Delete"
+                                                    title="Delete" size="xx-small"></lightning-icon>
+                                            </span>
+                                        </template>
                                     </div>
                                 </div>
-                                <div class="closeIcon">
-                                    <template if:true={enableDel}>
-                                        <span  onclick={deleteFiles}><lightning-icon icon-name="utility:close" alternative-text="Delete" title="Delete" size="xx-small"></lightning-icon></span>
-                                </template>
+
+                                <div>
+                                    <span class="fileName">{fileRemaining}</span>
+                                    <span class="fileName slds-float--right">{progress}%</span>
                                 </div>
-                            </div>
-                            
-                            <div>
-                                <span class="fileName">{fileRemaining}</span>
-                                <span class="fileName slds-float--right">{progress}%</span>
-                            </div>
-                        </template>
+                            </template>
+                        </div>
                     </div>
                 </div>
-            </div>               
 
-            <span class="slds-float--right">
-                <a href={templateFile}>
-                    <button class="slds-button slds-button_neutral leftMargin">
-                        <img src={downloadSvgURL}/>&nbsp;&nbsp;
-                        File Template
-                    </button>  
-                </a>
-                <template if:true={enableImport}>
-                    <button type="button" class="slds-button slds-button_brand saveButton leftMargin" onclick={importRec}>{BulkImport_Import}</button>
-                </template>
-                <template if:false={enableImport}>
-                    <button type="button" class="slds-button slds-button_brand saveButton disabledB" >{BulkImport_Import}</button>
-                </template>
-            </span>
-            
-        </div>
-    </c-popup-l-w-c>
+                <span class="slds-float--right">
+                    <a href={templateFile}>
+                        <button class="slds-button slds-button_neutral leftMargin">
+                            <img src={downloadSvgURL} />&nbsp;&nbsp;
+                            File Template
+                        </button>
+                    </a>
+                    <template if:true={enableImport}>
+                        <button type="button" class="slds-button slds-button_brand saveButton leftMargin"
+                            onclick={importRec}>{BulkImport_Import}</button>
+                    </template>
+                    <template if:false={enableImport}>
+                        <button type="button"
+                            class="slds-button slds-button_brand saveButton disabledB">{BulkImport_Import}</button>
+                    </template>
+                </span>
+
+            </div>
+        </c-popup-l-w-c>
     </template>
 </template>

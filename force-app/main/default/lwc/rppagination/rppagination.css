@@ -17,6 +17,7 @@
     border: 1px solid #dddbda;
     border-radius: 3px;
     background-color:#fff;
+    text-align: center;
 }
 .items {
     margin-left:10px;
@@ -33,6 +34,19 @@
     opacity: .5 !important;
 
 }
+
+@media screen and (max-width: 1000px) {
+    .slds-grid_align-spread {   
+         flex-direction: column-reverse;
+         padding: 5px 0 10px;
+        }
+        .items {
+           margin-left: 0;
+           display: block;                            
+           margin-top: 10px;
+       }
+}
+    
 
 .first-page-arrow-button-icon-s1 {
     height: 13px;

@@ -7,82 +7,107 @@
         </div>
     </div>
     <div>
-       <template for:each={delegaterecord} for:item="pe">
-            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
-                <lightning-layout-item padding="around-small" size="6">
-                    <div>
-                        <lightning-input type="text" disabled={isaccesslevelthree} name="First Name" label={label.RH_RP_Delegate_First_Name} value={pe.peRecord.Primary_Delegate_First_Name__c} data-value="DelFirstName" 
-                            data-id={pe.peRecord.Id} onchange={changeInputValue} required="true"></lightning-input>
-                    </div>
+        <template for:each={delegaterecord} for:item="pe">
+            <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="12" large-device-size="6">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-input type="text" disabled={isaccesslevelthree} name="First Name"
+                                    label={label.RH_RP_Delegate_First_Name}
+                                    value={pe.peRecord.Primary_Delegate_First_Name__c} data-value="DelFirstName"
+                                    data-id={pe.peRecord.Id} onchange={changeInputValue} required="true">
+                                </lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-input disabled={isaccesslevelthree} type="text"
+                                    label={label.RH_RP_Delegate_Last_Name} name="Last Name"
+                                    value={pe.peRecord.Primary_Delegate_Last_Name__c} data-value="DelLastName"
+                                    required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                                </lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-input disabled={isaccesslevelthree} type="text"
+                                    label={label.RH_RP_Delegate_Email_Id} name="Email ID"
+                                    value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" required="true"
+                                    data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="6">
+                            <div>
+                                <lightning-combobox disabled={isaccesslevelthree} required="true"
+                                    label={label.RH_RP_Delegate_Birth_Year} name="Birth Year"
+                                    placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}
+                                    options={pe.delegateYearOption} data-value="DelBirthYear" data-id={pe.peRecord.Id}
+                                    onchange={changeInputValue} class="col-top">
+                                </lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="3">
-                    <div>
-                        <lightning-input type="text" disabled={isaccesslevelthree} name="Phone Number" label={label.RH_RP_Delegate_Phone_Number} value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber" 
-                            data-id={pe.peRecord.Id}  required="true" onchange={changeInputValue} ></lightning-input>
-                    </div>
-                </lightning-layout-item>
-                <lightning-layout-item  padding="around-small" size="3">
-                    <div>
-                        <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true" placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}  
-                            options={pe.delegatePhoneTypeList} data-value="DelPhoneType" data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
-                        </lightning-combobox>
-                    </div>
+                <lightning-layout-item size="12" small-device-size="6" medium-device-size="12" large-device-size="6">
+                    <lightning-layout multiple-rows="true">
+                        <lightning-layout-item padding="around-small" size="6">
+                            <div>
+                                <lightning-input type="text" disabled={isaccesslevelthree} name="Phone Number"
+                                    label={label.RH_RP_Delegate_Phone_Number}
+                                    value={pe.peRecord.Primary_Delegate_Phone_Number__c} data-value="DelPhoneNumber"
+                                    data-id={pe.peRecord.Id} required="true" onchange={changeInputValue}>
+                                </lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="6">
+                            <div>
+                                <lightning-combobox disabled={isaccesslevelthree}
+                                    label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true"
+                                    placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}
+                                    options={pe.delegatePhoneTypeList} data-value="DelPhoneType"
+                                    data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
+                                </lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-input disabled={isaccesslevelthree} type="text"
+                                    label={label.RH_RP_Delegate_Alt_Phone_Number} name="PDAP"
+                                    value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP"
+                                    data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
+                            </div>
+                        </lightning-layout-item>
+                        <lightning-layout-item padding="around-small" size="12">
+                            <div>
+                                <lightning-combobox disabled={isaccesslevelthree}
+                                    label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT"
+                                    placeholder="Select Alternative Type"
+                                    value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}
+                                    options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}
+                                    onchange={changeInputValue} class="col-top">
+                                </lightning-combobox>
+                            </div>
+                        </lightning-layout-item>
+                    </lightning-layout>
                 </lightning-layout-item>
             </lightning-layout>
-            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
-                <lightning-layout-item padding="around-small" size="6">
-                    <div>
-                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Last_Name} name="Last Name" value={pe.peRecord.Primary_Delegate_Last_Name__c} data-value="DelLastName" 
-                            required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                    </div>
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="6">
-                    <div>
-                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Email_Id} name="Email ID" value={pe.peRecord.Primary_Delegate_Email__c} data-value="DelEmail" 
-                        required="true" data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>
-                    </div>
-                </lightning-layout-item>
-            </lightning-layout>
-            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
-                <lightning-layout-item padding="around-small" size="6">
-                    <div>
-                        <lightning-input disabled={isaccesslevelthree} type="text" label={label.RH_RP_Delegate_Alt_Phone_Number}  name="PDAP" value={pe.peRecord.Primary_Delegate_s_Alt_Phone__c} data-value="PDAP" 
-                         data-id={pe.peRecord.Id} onchange={changeInputValue}></lightning-input>                        
-                    </div>    
-                </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="6"> 
-                    <div>
-                        <lightning-combobox disabled={isaccesslevelthree} label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT" placeholder="Select Alternative Type" value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}  
-                            options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
-                        </lightning-combobox>
-                    </div>    
-                </lightning-layout-item>
-            </lightning-layout>
-            <lightning-layout multiple-rows="true"  key={pe.peRecord.Id}>
-                <lightning-layout-item padding="around-small" size="3">
-                    <div>
-                        <lightning-combobox disabled={isaccesslevelthree} required="true" label={label.RH_RP_Delegate_Birth_Year} name="Birth Year" placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}  
-                            options={pe.delegateYearOption} data-value="DelBirthYear" data-id={pe.peRecord.Id}  onchange={changeInputValue} class="col-top">
-                        </lightning-combobox>
-                    </div>    
-                </lightning-layout-item>
-            </lightning-layout>
-
             <div key={pe.peRecord.Id} style="margin-left: 10px;margin-top: 40px;">
-                <div>
-                    <abbr title="required" class="slds-required">*</abbr>
-                </div>
-
-                <div style="margin-top: -15px;">
-                    <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertify" name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c} data-value="IsDelegateCertify" 
-                    data-id={pe.peRecord.Id} onchange={changeInputValue} ></lightning-input>
-                </div>
                 <div class="information">
-                    {label.RH_RP_Delegate_Certify}
+                    <abbr title="required" class="slds-required">*</abbr>
+                    <lightning-input disabled={isaccesslevelthree} type="checkbox" label="IsDelegateCertify"
+                        name="IsDelegateCertify" variant="label-hidden" checked={pe.peRecord.Is_Delegate_Certify__c}
+                        data-value="IsDelegateCertify" data-id={pe.peRecord.Id} onchange={changeInputValue}>
+                    </lightning-input>
+                    <div>
+                        {label.RH_RP_Delegate_Certify}
+                    </div>
                 </div>
             </div>
-            
         </template>
+        <div class="topIcon-control slds-hide_medium" >
+            <img src={topIcon} class="topIcon"  onclick={goTop}>
+        </div>
     </div>
     <div class="divider"></div>
     <div class="patient-button">
@@ -93,28 +118,25 @@
             {label.RH_RP_Save}
         </button>
     </div>
-     <!--for unsaved records--> 
-     <template if:true={isUnsavedModalOpen}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="sldsmodalcontainer">
+    <!--for unsaved records-->
+    <template if:true={isUnsavedModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
                 <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeUnsavedModal}>
-                        <lightning-icon icon-name="utility:close"
-                            alternative-text="close"
-                            variant="inverse"
-                            size="small" ></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{label.RH_RP_Delegate_Save_Data}</h2>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        {label.RH_RP_Delegate_Save_Data}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
                     <p>{label.RH_RP_Delegate_Ask_for_Save}</p>
                 </div>
                 <footer class="slds-modal__footer">
-                    <button  class="apollo-btn tertiary custom-cancel"  onclick={closeUnsavedModal} title="Cancel" disabled={disableButton}>
+                    <button class="slds-button slds-button_neutral" onclick={closeUnsavedModal} title="Cancel"
+                        disabled={disableButton}>
                         {label.RH_RP_Cancel}
-                    </button>
-                    <button class="apollo-btn primary search-more-btn" onclick={proceedDetailsModal} title="Proceed" disabled={disableButton}>
+                    </button> &nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="apollo-btn primary search-more-btn" onclick={proceedDetailsModal} title="Proceed"
+                        disabled={disableButton}>
                         {label.RH_RP_Delegate_Proceed}
                     </button>
                 </footer>
@@ -123,28 +145,23 @@
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
 
-     <!--for unsaved records--> 
-     <template if:true={cancelOpen}>
-        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-            <div class="sldsmodalcontainer">
+    <!--for unsaved records-->
+    <template if:true={cancelOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
                 <header class="slds-modal__header">
-                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeCancelModal}>
-                        <lightning-icon icon-name="utility:close"
-                            alternative-text="close"
-                            variant="inverse"
-                            size="small" ></lightning-icon>
-                        <span class="slds-assistive-text">Close</span>
-                    </button>
-                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">{label.RH_RP_Delegate_Cancel_Record}</h2>
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        {label.RH_RP_Delegate_Cancel_Record}</h2>
                 </header>
                 <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
                     <p>{label.RH_RP_Delegate_Ask_For_Cancel}</p>
                 </div>
                 <footer class="slds-modal__footer">
-                    <button  class="apollo-btn tertiary custom-cancel"  onclick={closeCancelModal} title="Cancel">
+                    <button class="slds-button slds-button_neutral" onclick={closeCancelModal} title="Cancel">
                         {label.RH_RP_Cancel}
-                    </button>
-                    <button class="apollo-btn primary search-more-btn" onclick={cancelRecord} title="Ok" >
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="apollo-btn primary search-more-btn" onclick={cancelRecord} title="Ok">
                         {label.RH_RP_Delegate_Save_Ok}
                     </button>
                 </footer>

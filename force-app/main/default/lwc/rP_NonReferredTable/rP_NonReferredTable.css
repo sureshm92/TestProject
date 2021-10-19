@@ -1,79 +1,321 @@
-.table-header {
-    height: 21px;
-    width: 108px;
-    color: #000000;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    font-weight: bold !important;
-    letter-spacing: 0;
-    line-height: 21px;
-    background-color: #f2f2f2;
+.searchGrid {
+  padding: 0.5rem 15px 0 0;
 }
 
-.table-patientrow {
-    height: 21px;
-    width: 87px;
-    color: #595959;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 21px;
+.searchGroup {
+  flex-wrap: nowrap;
+  display: flex;
+  flex: 11;
+  position: relative;
 }
 
-.table-row {
-    height: 21px;
-    width: 138px;
-    color: #000000;
-    font-family: 'Proxima Nova';
-    font-size: 16px;
-    letter-spacing: 0;
-    line-height: 21px;
+.slds-icon-utility-search {
+  position: absolute;
+  top: 7px;
+  left: 15px;
+  opacity: 0.5;
+  z-index: 10;
+  transform: scale(0.75);
 }
 
 .searchBox1 {
-    width: 310px;
+  width: 100%;
+  margin: 0 10px;
+  border: 1px solid #d9d9d9;
+  border-radius: 0.25rem;
+  height: 40px;
+  padding-left: 30px;
+}
+
+.searchBox1:focus-visible {
+  outline: none;
+}
+
+.filterTab {
+  height: 40px;
+}
+
+/*.filterIcon {
+  width: 18px;
+  filter: brightness(0%) saturate(0);
+}*/
+
+.table-header {
+  height: 21px;
+  /*   width: 108px; */
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  font-weight: bold !important;
+  letter-spacing: 0;
+  line-height: 21px;
+  background-color: #f2f2f2;
+}
+
+.table-patientrow {
+  height: 21px;
+  width: 87px;
+  color: #595959;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+}
+
+.table-row {
+  height: 21px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 16px;
+  letter-spacing: 0;
+  line-height: 21px;
+}
+
+.searchBox1 {
+   /* width: 310px;*/
     margin-left: 15px;
 }
 
 .refreshIcon {
-    height: 26px;
-    width: 28px;
-    margin-top: 4px;
-    cursor: pointer;
+  height: 23px;
+  width: 25px;
+  margin-top: 8px;
+  margin-left: 2px;
+  cursor: pointer;
 }
 
 .slds-spinner_container {
-    position: fixed;
-    top: 47px;
-    background-color: white;
+  position: fixed;
+  top: 47px;
+  background-color: white;
 }
 .refreshPointer {
-    cursor: pointer;
+  cursor: pointer;
+  flex: 1;
 }
 
 .noRecords {
-    margin-left: 5rem;
-    font-family: 'Proxima Nova';
-    font-size: 14px;
-    color: #999;
+  margin-left: 3rem;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  color: #999;
 }
-.unFilterIcon {
-    position: absolute;
-    top: 44px;
-    left: 300px;
-    cursor: pointer;
-}
+.unFilterIcon,
 .filterIcon {
-    position: absolute;
-    top: 36.5px;
-    left: 295px;
-    cursor: pointer;
+  position: absolute;
+  cursor: pointer;
+  /*top: 10px;
+  right: 20px;*/
+  top: 8px;
+  right: 16px;
+  width: 26px;
 }
 
 .siteforceLoadingBalls {
-    visibility: hidden;
+  visibility: hidden;
 }
 :host {
-    --sds-c-checkbox-color-background-checked:#297dfd;
-    --sds-c-checkbox-mark-color-foreground: white;
+  --sds-c-checkbox-color-background-checked: #297dfd;
+  --sds-c-checkbox-mark-color-foreground: white;
+}
+
+.slds-table_bordered tbody td span {
+  display: none;
+}
+
+.segmentBtns {
+  display: none;
+}
+
+.slds-modal__header {
+  border-bottom: none;
+  border-radius: 0;
+}
+
+.slds-modal__container:before {
+  content: '';
+  display: block;
+  height: 4px;
+  width: 100%;
+  background: linear-gradient(to right, #250056 10%, #0076ae 90%);
+  border-radius: 0;
+}
+
+.slds-modal__content {
+  margin-top: -1px;
+}
+
+.slds-modal__footer {
+  border-top: none;
+}
+
+.slds-text-heading_medium {
+  text-align: left;
+  color: #000;
+  font-weight: 600;
+}
+
+.slds-modal__close {
+  top: .75rem;
+  right: .75rem;
+}
+
+.slds-icon-utility-close {
+  position: relative;
+}
+
+.slds-modal__close:after {
+  position: absolute;
+  content: "";
+  background-image: url(/resource/1630921848000/IconClose595959);
+  background-size: 16px 16px;
+  height: 16px;
+  width: 16px;
+  top: 0;
+  right: 0;
+}
+
+.slds-modal__close svg.slds-icon_small {
+  display: none;
+}
+
+.table-header span {
+  display: none;
+}
+
+
+@media screen and (max-width: 768px) {
+
+  .slds-max-medium-table_stacked-horizontal thead {
+    position: relative!important;
+    margin: 0!important;
+    border: 0!important;
+    padding: 0!important;
+    width: 100%!important;
+    height: 40px!important;
+    overflow: visible!important;
+  }
+
+   .slds-max-medium-table_stacked-horizontal thead th:first-child {
+     width: 5rem!important;
+     padding-top: 7px;
+     padding-left: 12px;
+     padding-right: 3px;
+   }
+
+   .slds-max-medium-table_stacked-horizontal thead tr {
+     display: flex;
+     width: 100%;
+     border: none;
+   }
+
+   .slds-max-medium-table_stacked-horizontal thead tr:last-child {
+     border: none;
+   }
+
+
+  .slds-table_bordered tbody td {
+    border: none;
+    padding: 0 0.75rem;
+    text-align: left;
+    width: 100%;
+    display: flex;
+    align-items: center;
+  }
+
+  .slds-table_bordered tbody td span {
+    display: inline-flex;
+    font-weight: bold;
+    padding-right: 5px;
+    width: 92px;
+  }
+
+  .slds-table_bordered tbody td:first-child {
+    display: inline-flex;
+    width: 40px;
+    padding-top: 0.75rem;
+  }
+
+   .slds-table_bordered .table-header {
+    height: auto;
+    background: #fff;
+    border-bottom: none;
+  }
+
+  .slds-table_bordered .table-header:nth-of-type(n+2) > div {
+    display: none;
+  }
+
+  .slds-table_bordered .table-header span {
+    display: block;
+    font-weight: bold;
+  }
+
+   .slds-table_bordered tbody td:nth-of-type(2) {
+    display: inline-flex;
+    padding-left: 0px;
+    padding-top: 12px;
+  }
+
+  .slds-table_bordered tbody td:nth-of-type(n + 3) {
+    padding-left: 40px;
+  }
+
+  .slds-table_bordered tbody td:last-child {
+    margin-bottom: 0.75rem;
+  }
+
+  .slds-max-medium-table_stacked-horizontal tr {
+    border-top-width: 1px;
+  }
+
+  .slds-max-medium-table_stacked-horizontal tr:last-child {
+    border-bottom: 1px solid #d4d4d4;
+  }
+
+
+}
+@media screen and (max-width: 486px) {
+  .mobileBkgd {
+    border: 1px solid #d4d4d4;
+    background: #fff;
+    border-radius: 0.25rem;
+    margin-top: 10px;
+    /*display: none;*/
+  }
+
+  .segmentBtns {
+    display: block;
+    margin: 0.25rem .5rem 0;
+  }
+
+  .segmentBtns .slds-button {
+    color: #595959;
+    font-weight: 600;
+  }
+
+  .segmentBtns .slds-button.active {
+    background-color: #0768fd;
+    color: #fff;
+  }
+
+  .segmentBtns .slds-button.active img {
+    filter: invert(1) saturate(0) brightness(2);
+  }
+
+  .searchGroup .unFilterIcon,
+  .searchGroup .filterIcon {
+   /* display: none;*/
+  }
+
+  .refreshIcon {
+    margin-top: 8px;
+  }
+
+  .filterTab .filterIcon {
+    position: static;
+  }
+
+
+
 }
