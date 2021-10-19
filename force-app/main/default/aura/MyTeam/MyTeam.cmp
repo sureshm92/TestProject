@@ -61,7 +61,7 @@
                         </button>
                         <aura:set attribute="else">
                             <button
-                                class="apollo-btn primary mt-button"
+                                class="apollo-btn primary mt-button hideMobile"
                                 onclick="{!c.inviteTeamMembers}"
                             >
                                 {!$Label.c.PG_PST_L_Delegates_Add}
@@ -93,7 +93,7 @@
                                 </button>
                                 <aura:set attribute="else">
                                     <button
-                                        class="apollo-btn primary mt-button"
+                                        class="apollo-btn primary mt-button showMobile buttonMargin"
                                         onclick="{!c.inviteTeamMembers}"
                                     >
                                         {!$Label.c.PG_PST_L_Delegates_Add}
