@@ -11,7 +11,6 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public static final String FROM_NUMBER = 'FromNumber';
     public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
     public static final String API_MULESOFT_SMS = 'MulesoftSMS';
-  
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
@@ -61,7 +60,6 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     private MessageWrapper messageWrapper;
 
     public RemoteCall_SendSMS(List<Action_SendSMS.MessageParameters> messageParametersList) {
-        //this.endPointURL = 'https://iqvia-rds-sms-send-message-exp-1-0-dev.us-e1.cloudhub.io/api/messages';
         this.endPointURL = 'callout:MulesoftSMS';
         this.httpMethod = METHOD_POST;
         Map<String, Config_API_Param__mdt> apiParamsMap = new Map<String, Config_API_Param__mdt>();
@@ -71,11 +69,8 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
             WHERE ConfigAPI__r.DeveloperName = :API_MULESOFT_SMS
         ]) {
             apiParamsMap.put(mdt.DeveloperName, mdt);
-        }  
-        //Blob headerValue = Blob.valueOf('d6c57791b10c4298b47b916477527379' + ':' + 'f164546763174eB6A726A929746d08c5');
-        //String authorizationHeader = 'BASIC ' + EncodingUtil.base64Encode(headerValue);
-        //this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' ,'Authorization' => authorizationHeader });
-        this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json'  });
+        }
+        this.headersMap.putAll(new Map<String, String>{ 'Content-Type' => 'application/json' });
         messageWrapper = new MessageWrapper();
         Action_SendSMS.MessageParameters msgParam = messageParametersList.get(0);
         logAutoInsert = false;
