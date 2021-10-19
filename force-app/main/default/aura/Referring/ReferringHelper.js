@@ -516,6 +516,7 @@
                     if(component.get('v.primaryDelegateFirstname') != null && !component.get('v.delegateValueRemoved')){
                         component.set('v.hasGaurdian', true);
                         component.set('v.participant.Health_care_proxy_is_needed__c', true);
+                        component.set('v.needsGuardian', true); /*change -5124**/
                     }else{
                         if(isNeedGuardian){
                             component.set('v.hasGaurdian', true);
