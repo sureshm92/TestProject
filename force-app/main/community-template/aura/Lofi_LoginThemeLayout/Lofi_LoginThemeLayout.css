@@ -18,6 +18,8 @@
     background: url(/resource/1623075522000/Lofi_Login_Icons/Background.png) no-repeat;
     background-size: cover;
     background-position: center;
+    height: 100%;
+    min-height: 101vh;
 }
 
 .THIS > .slds-col.slds-large-size_4-of-7 {
@@ -285,9 +287,6 @@
         margin-top: 0.875rem;
     }
 
-    .THIS .main-logo {
-        margin: 20px 0 40px 0;
-    }
 }
 
 @media all and (max-width: 900px) {
@@ -317,6 +316,8 @@
         height: 24px;
         width: 26px;
     }
+
+
 }
 
 @media all and (max-width: 486px) {
@@ -350,11 +351,7 @@
     }
 }
 
-@media all and (max-width: 468px) and (max-height: 500px) {
-    .THIS.mobile-content {
-        height: 150vh;
-    }
-}
+
 
 @media all and (max-width: 400px) {
     .THIS.mobile-content .appTitles {
@@ -544,6 +541,7 @@
 }
 
 @media all and (max-height: 500px) and (max-width: 850px) {
+
     .THIS.all-content {
         height: 150vh;
     }
