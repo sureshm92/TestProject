@@ -196,9 +196,11 @@
     doDiscussionDocumented: function (component, event, helper) {
         if(component.get('v.authRequired') && component.get('v.contentDoc') != null){
             component.set('v.authorizationForm',true);
+            component.set('v.discussiondocumented',true);
         }
         else{
             component.set('v.doNext',true);
+            component.set('v.discussiondocumented',true);
         }
     },
     
