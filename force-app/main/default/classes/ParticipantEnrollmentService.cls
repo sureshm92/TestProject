@@ -768,7 +768,13 @@ public without sharing class ParticipantEnrollmentService {
         'Mailing_State_Code__c',
         'Mailing_Country_Code__c',
         'Participant_Alternative_Phone__c',
-        'Participant_Alt_Phone_Type__c'
+        'Participant_Alt_Phone_Type__c',
+        'Contacted__c',
+        'Contacted_Date__c',
+        'Consulted__c',
+        'Consulted_Date__c',
+        'Have_you_Documented_the_Discussion__c',
+        'Discussion_Documented_Date__c' 
     };
     public static final List<String> ACTIVE_PE_FIELDS_FOR_CTP_SS = new List<String>{
         'Id',
