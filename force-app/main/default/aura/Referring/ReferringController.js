@@ -66,6 +66,7 @@
                         initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     );
+                    component.set('v.mrrExist',  initData.trial.Link_to_Medical_Record_Review__c);
                     component.set('v.searchResult', undefined);
                     component.set('v.mrrResult', 'Pending');
                     component.set('v.searchData', { participantId: '' });
@@ -221,14 +222,16 @@
             }
         }  
         let peID = communityService.getUrlParameter('peid');
-        communityService.executeAction(
-            component,
-            'saveUpdatedPER',
-            { peID:peID},
-            function (returnValue) {
-                console.log('recordUpdated');
-            }
-        );
+        if(component.get('v.mrrExist') != undefined){
+            communityService.executeAction(
+                component,
+                'saveUpdatedPER',
+                { peID:peID},
+                function (returnValue) {
+                    console.log('recordUpdated');
+                }
+            );
+        }
         
     },
     doSelectSite: function (component, event, helper) {

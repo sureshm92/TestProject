@@ -112,6 +112,7 @@
     <aura:attribute name="doNext" type="Boolean" default = "false" />
     <aura:attribute name="delegateExist" type="Boolean" default = "false" />
     <aura:attribute name="discussiondocumented" type="Boolean" default = "false" />
+    <aura:attribute name="mrrExist" type="Boolean" default = "false" />
     
     <aura:attribute name="hasGaurdian" type="Boolean" default = "false" />
     <aura:attribute name="delegateValueRemoved" type="Boolean" default = "false" />
