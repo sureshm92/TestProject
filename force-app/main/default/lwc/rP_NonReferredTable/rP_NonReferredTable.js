@@ -253,13 +253,17 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             const selectedvalue = { peIds: peIds, isBulkProfilePage: this.isBulkProfilePage, verifyFilterValue: verifyFilterValue };
             const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue});
             this.dispatchEvent(selectedEvent);
+            if(this.noFilterRecords){
+            const selectedEvent1 = new CustomEvent('selected', { });
+            this.dispatchEvent(selectedEvent1);
+            }
         } else {
             this.isBulkProfilePage = false;
             const selectedvalue = { 
                 isBulkProfilePage: this.isBulkProfilePage,
             };
-            const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
-            this.dispatchEvent(selectedEvent);
+                const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
+                this.dispatchEvent(selectedEvent);   
         }
     }
     get filterIconClass() {
@@ -421,7 +425,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                         allRec = excludedRecords;   
                 }
                 
-                recddis = allRec
+               recddis = allRec
                 .filter(rec => (rec.peRec.Patient_ID__c  != undefined  && rec.peRec.Patient_ID__c.toLowerCase().includes(this.searchValue.toLowerCase())) || 
                     (rec.peRec.Participant_Name__c != undefined && rec.peRec.Participant_Name__c.toLowerCase().includes(this.searchValue.toLowerCase())) ||
                     (rec.peRec.Participant_Surname__c != undefined && rec.peRec.Participant_Surname__c.toLowerCase().includes(this.searchValue.toLowerCase())) ||
