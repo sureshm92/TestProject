@@ -218,11 +218,15 @@ public with sharing class Action_SendSMS implements Action {
     }
 
     public MessagegResponseWrapper parseResponseBody(String responseBody) {
-        MessagegResponseWrapper msgResponseWrap = (MessagegResponseWrapper) JSON.deserialize(
-            responseBody,
-            MessagegResponseWrapper.class
-        );
-        return msgResponseWrap;
+        try {
+            MessagegResponseWrapper msgResponseWrap = (MessagegResponseWrapper) JSON.deserialize(
+                responseBody,
+                MessagegResponseWrapper.class
+            );
+            return msgResponseWrap;
+        } catch (JSONException e) {
+            return new MessagegResponseWrapper();
+        }
     }
 
     class MessagegResponseWrapper {
