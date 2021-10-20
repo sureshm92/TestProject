@@ -20,7 +20,7 @@
         </div>
         <div class="slds-grid slds-grid_align-center slds-show_medium slds-gutters_x-small mob-left-space top-padding">
             <div class="slds-col">
-                <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient}
+                <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient} disabled={disableExceldownload}
                     title={label.RH_RP_Export_downloadable_log}>
                     <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:ad_set">
                     </lightning-button-icon> &nbsp;
@@ -60,14 +60,14 @@
         <div class="slds-grid slds-grid_align-center lgc-bg actionBtn lgc-bg slds-hide_large">
             <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
                 onselect={handleMenuItem}>
-                <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
+               <!-- <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
                     label={label.RH_RP_Export_to_excel} onclick={exportBulkepatient}
                     title={label.RH_RP_Export_downloadable_log}>
                 </lightning-menu-item>
                 <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
                     label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
                     title={label.RH_RP_OutreachEmail} disabled={isaccessLevelthree}>
-                </lightning-menu-item>
+                </lightning-menu-item>-->
                 <template if:false={showExclude}>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
                         label={label.RH_RP_Exclude} onclick={openExcludeModal}

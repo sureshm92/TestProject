@@ -133,7 +133,8 @@
                                                 peRecordList="{!v.peRecordList}"
                                                 ontablerefreshevent="{!c.refreshFromTablecomponent}"
                                                 onselectrecordevent="{!c.getValueFromProfileSectionPage}"
-                                                bulkPeIds="{!v.bulkPeIds}" />
+                                                bulkPeIds="{!v.bulkPeIds}"
+                                                onselected="{!c.noRecords}" />
                                         </aura:if>
                                     </lightning:tab>
 
@@ -167,7 +168,7 @@
                                             onincludeexcluderefresh="{!c.onExcludeIncluderefreshTable}" aura:id="scroller"/>
                                     </aura:if>
                                     <aura:if isTrue="{!v.showBulkPage}">
-                                        <c:rP_BulkProfileSectionPage isaccessLevelthree="{!v.isaccesslevelthree}"
+                                        <c:rP_BulkProfileSectionPage aura:id="BulkProfile"  isaccessLevelthree="{!v.isaccesslevelthree}" 
                                             delegateid="{!v.currentDelegateId}" peIds="{!v.peIds}" ctpIds="{!v.ctpIds}"
                                             verifyFilterValue="{!v.verifyFilterValue}"
                                             onbulkincludeexcluderefresh="{!c.onBulkExcludeIncluderefreshTable}" />
