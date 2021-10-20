@@ -1,71 +1,60 @@
 <template>
     <lightning-card class="overview" >
-       <div class="slds-p-around_large" style="padding-top: inherit;">
-          <div class="slds-p-bottom_xx-large" style="height: 153px;">
-             <div class="slds-grid slds-gutters">
-                <div class="slds-col" style="padding-left:27px;">
-                   <span class="overview-for-not-yet">{label.RH_RP_Overview_for}</span><br>
-                   <span class="not-yet-referred">{label.RH_RP_Not_Yet_Referred}</span>
+       <div class="slds-p-around_large overview-content-pad">
+          <div class="slds-p-bottom_xx-large">
+             <div class="slds-grid slds-gutters overviewHeader">
+                <div class="slds-col overviewTitle">
+                   <div class="overview-for-not-yet">{label.RH_RP_Overview_for}</div>
+                   <div class="not-yet-referred">{label.RH_RP_Not_Yet_Referred}</div>
                 </div>
-                <div class="slds-col" style="flex:none;padding-right:53px;">
-                   <span class="total-patients-count">{data.totalpatients}</span><br>
-                   <span class="total-patients">{label.RH_RP_Total_Patients}</span>
-                </div>
-             </div>
-          </div>
-          <div class="slds-p-bottom_xx-large" style="height: 180px;">
-             <div class="slds-grid slds-gutters">
-                <div class="slds-col" style="justify-content: flex-end;
-                display: flex;">
-                   <div style="text-align: center;
-                   width: 70%;">
-                      <span class="included-for-referring">{data.includedreferring}</span><br>
-                      <span class="included-for-referring-count">{label.RH_RP_Included_for_Referring}</span>
-                   </div>
-                </div>
-                <div class="slds-col">
-                  <div style="width: 70%;
-                  text-align: center;">
-                     <span class="excluded-for-referring">{data.excludedreferring}</span><br>
-                     <span class="excluded-for-referring-count">{label.RH_RP_Excluded_for_Referring}</span>
-                  </div>
+                <div class="slds-col totalPatients">
+                   <div class="total-patients-count">{data.totalpatients}</div>
+                   <div class="total-patients">{label.RH_RP_Total_Patients}</div>
                 </div>
              </div>
           </div>
-          <div class="slds-p-bottom_xx-large" style="height: 188px;">
+          <div class="slds-p-bottom_xx-large">
+             <div class="slds-grid slds-gutters twoUp">
+                <div class="slds-col mobileRow">
+                     <div class="included-for-referring">{data.includedreferring}</div>
+                     <div class="included-for-referring-count">{label.RH_RP_Included_for_Referring}</div>
+                </div>
+                <div class="slds-col mobileRow">
+                     <div class="excluded-for-referring">{data.excludedreferring}</div>
+                     <div class="excluded-for-referring-count">{label.RH_RP_Excluded_for_Referring}</div>
+                </div>
+             </div>
+          </div>
+          <div class="slds-p-bottom_xx-large">
              <div class="slds-grid slds-gutters">
-                <div class="slds-col" >
-                   <div style="text-align: center;">
-                      <span class="patient-auth-aquired-count">{data.patientauthreq}/{data.totalpatients}</span><br>
-                      <span class="patient-auth-aquired">{label.RH_RP_Patient_Auth_Aquired}</span>
-                   </div>
+                <div class="slds-col mobileRow" >
+                      <div class="patient-auth-aquired-count">{data.patientauthreq}/{data.totalpatients}</div>
+                      <div class="patient-auth-aquired">{label.RH_RP_Patient_Auth_Aquired}</div>
                 </div>
-                <div class="slds-col" style="text-align: center;">
-                   <span class="medical-review-complete-count">{data.medicalreview}/{data.totalpatients}</span><br>
-                   <span class="medical-review-complete">{label.RH_RP_Medical_Review}<br> {label.BTN_Complete}</span>
+                <div class="slds-col mobileRow">
+                   <div class="medical-review-complete-count">{data.medicalreview}/{data.totalpatients}</div>
+                   <div class="medical-review-complete">{label.RH_RP_Medical_Review}<br> {label.BTN_Complete}</div>
                 </div>
-                <div class="slds-col" style="text-align: center;">
+                <div class="slds-col mobileRow">
                    <!--<span class="outreach-mail-sent-count">{data.outreachmail}/{data.totalpatients}</span><br>-->
-                   <span class="outreach-mail-sent-count">N/A</span><br>
-                   <span class="outreach-mail-sent">{label.RH_RP_Outreach_Mail_Sent}</span>
+                   <div class="outreach-mail-sent-count">N/A</div>
+                   <div class="outreach-mail-sent">{label.RH_RP_Outreach_Mail_Sent}</div>
                 </div>
              </div>
           </div>
-          <div class="slds-p-bottom_xx-large" style="height: 245px;">
+          <div class="slds-p-bottom_xx-large">
              <div class="slds-grid slds-gutters">
-                <div class="slds-col" >
-                   <div style="text-align: center;">
-                      <span class="added-last-month-count">{data.lastmonthper}</span><br>
-                      <span class="added-last-month">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Last_Month}</span>
-                   </div>
+                <div class="slds-col mobileRow">
+                     <div class="added-last-month-count">{data.lastmonthper}</div>
+                     <div class="added-last-month">{label.RH_RP_Patients_Added} <br/>{label.RH_RP_Last_Month}</div>
                 </div>
-                <div class="slds-col" style="text-align: center;">
-                   <span class="added-last-week-count">{data.lastweekper}</span><br>
-                   <span class="added-last-week">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Last_Week}</span>
+                <div class="slds-col mobileRow">
+                   <div class="added-last-week-count">{data.lastweekper}</div>
+                   <div class="added-last-week">{label.RH_RP_Patients_Added} <br/>{label.RH_RP_Last_Week}</div>
                 </div>
-                <div class="slds-col" style="text-align: center;">
-                   <span class="added-yesterday-count">{data.lastdayper}</span><br>
-                   <span class="added-yesterday">{label.RH_RP_Patients_Added} <br>{label.RH_RP_Yesterday}</span>
+                <div class="slds-col mobileRow">
+                   <div class="added-yesterday-count">{data.lastdayper}</div>
+                   <div class="added-yesterday">{label.RH_RP_Patients_Added} <br/>{label.RH_RP_Yesterday}</div>
                 </div>
              </div>
           </div>

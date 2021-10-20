@@ -285,3 +285,8 @@
         max-width: 30%;
     }
 }
+
+/*REF-4986*/
+.THIS .language-filter .menu-popup-panel.popupTargetContainer {
+    height: fit-content;
+}

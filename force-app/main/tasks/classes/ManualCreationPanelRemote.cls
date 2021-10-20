@@ -84,6 +84,15 @@ public without sharing class ManualCreationPanelRemote {
     }
 
     @AuraEnabled
+    public static List<ListView> getListViews() {
+        List<ListView> listviews =
+            [SELECT Id, Name FROM ListView WHERE SobjectType = 'Manual_Creation_Panel_Task__c' and Name='All'];
+
+        // Perform isAccessible() check here
+        return listviews;
+    }
+
+    @AuraEnabled
     public static String createTasks(
         String config,
         String adHoc,

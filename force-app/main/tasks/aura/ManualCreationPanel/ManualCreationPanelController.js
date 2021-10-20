@@ -71,7 +71,13 @@
         validity = helper.checkChild(component, validity);
         component.set('v.isValid', validity);
     },
-
+    checkSaveValid: function(component, event, helper) {
+        if (component.get('v.initialized')) {
+            var valid = component.get('v.filter.statuses').length > 0;
+            valid = helper.checkChildSave(component, valid);
+        }
+        component.set('v.isValidSave', valid);
+    },
     checkValid: function(component, event, helper) {
         if (component.get('v.initialized')) {
             var validity = component.get('v.filter.statuses').length > 0;
@@ -142,11 +148,21 @@
                                 'Creation process is launched!'
                             );
                         }
-                        var urlEvent = $A.get('e.force:navigateToURL');
-                        urlEvent.setParams({
-                            url: '/lightning/n/Manual_Creation_Panel?c__id=' + found
+                        var action = component.get('c.getListViews');
+                        action.setCallback(this, function(response) {
+                            var state = response.getState();
+                            if (state === 'SUCCESS') {
+                                var listviews = response.getReturnValue();
+                                var navEvent = $A.get('e.force:navigateToList');
+                                navEvent.setParams({
+                                    listViewId: listviews.Id,
+                                    listViewName: null,
+                                    scope: 'Manual_Creation_Panel_Task__c'
+                                });
+                                navEvent.fire();
+                            }
                         });
-                        urlEvent.fire();
+                        $A.enqueueAction(action);
                     }
                 } else
                     communityService.showWarningToast(

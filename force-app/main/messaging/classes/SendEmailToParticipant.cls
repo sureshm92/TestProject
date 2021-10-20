@@ -14,7 +14,6 @@ public without sharing class SendEmailToParticipant {
         TaskService.TASK_TYPE_VISIT => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE,
         TaskService.TASK_TYPE_MEDICATION => NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_MED_DEL_TYPE
     };
-
     public static List<Notification__c> createTaskReminderEmail(
         Task task,
         Contact paCont,
@@ -48,48 +47,56 @@ public without sharing class SendEmailToParticipant {
         ) {
             whatId = task.WhatId;
         }
-        if(((patientNotificationType != null) && patientNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE)) || ((delegateNotificationType != null) && delegateNotificationType.equals(NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE) ))
-        {
-            whatId  = task.Id;  // Task Id for Visit and Task Reminders 
+        if (
+            ((patientNotificationType != null) &&
+            patientNotificationType.equals(
+                NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_TYPE
+            )) ||
+            ((delegateNotificationType != null) &&
+            delegateNotificationType.equals(
+                NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_VIS_DEL_TYPE
+            ))
+        ) {
+            whatId = task.Id; // Task Id for Visit and Task Reminders
         }
 
         if (
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER) &&
-            patientNotificationType != null 
+            patientNotificationType != null
         ) {
-            String remindusing;
-            if(task.Remind_Using_Email__c || task.CreatedByAdmin__c == true){
-                 remindUsing = 'Email';
-            }
-
-            
-            notifications.add(
-                new Notification__c(
-                    Recipient__c = paCont.Id,
-                    WhatId__c = whatId,
-                    Notification_Type__c = patientNotificationType,
-                    RemindUsing__c = remindUsing
-                )
+            Notification__c objNotification = new Notification__c(
+                Recipient__c = paCont.Id,
+                WhatId__c = whatId,
+                Notification_Type__c = patientNotificationType
             );
+            if (
+                task.Remind_Using_Email__c ||
+                task.Remind_Using_SMS__c ||
+                task.CreatedByAdmin__c == true
+            ) {
+                objNotification.Task_Id__c = task.Id;
+            }
+            notifications.add(objNotification);
         }
         if (
             task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES) &&
             delegateNotificationType != null
         ) {
-            String remindusing;
-            if(task.Remind_Using_Email__c || task.CreatedByAdmin__c == true){
-                 remindUsing = 'Email';
-            }
             if (delegates != null && !delegates.isEmpty()) {
                 for (Contact delContact : delegates) {
-                    notifications.add(
-                        new Notification__c(
-                            Recipient__c = delContact.Id,
-                            WhatId__c = whatId,
-                            Notification_Type__c = delegateNotificationType,
-                            RemindUsing__c = remindUsing
-                        )
+                    Notification__c objDelNotification = new Notification__c(
+                        Recipient__c = delContact.Id,
+                        WhatId__c = whatId,
+                        Notification_Type__c = delegateNotificationType
                     );
+                    if (
+                        task.Remind_Using_Email__c ||
+                        task.CreatedByAdmin__c == true ||
+                        task.Remind_Using_SMS__c
+                    ) {
+                        objDelNotification.Task_Id__c = task.Id;
+                    }
+                    notifications.add(objDelNotification);
                 }
             }
         }

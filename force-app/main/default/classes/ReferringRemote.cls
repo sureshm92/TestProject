@@ -417,8 +417,6 @@ public without sharing class ReferringRemote {
                 participant.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
                 if (participantDelegate != null)
                     participantDelegate.Site__c = sSite[0].Site__c;
-                    participantDelegate.Alternative_Phone_Number__c =  enrollment.Participant_Alternative_Phone__c;
-                    participantDelegate.Alternative_Phone_Type__c = enrollment.Participant_Alt_Phone_Type__c;
             }
 
             ParticipantService.createParticipantAndUpdatePE(
@@ -739,7 +737,9 @@ public without sharing class ReferringRemote {
                 Contacted__c = true,
                 Contacted_Date__c = System.today(),
                 Consulted__c = true,
-                Consulted_Date__c = System.today());
+                Consulted_Date__c = System.today(),
+                Have_you_Documented_the_Discussion__c = true,
+                Discussion_Documented_Date__c = System.today());
             update per;
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());

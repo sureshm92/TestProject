@@ -5084,6 +5084,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Notification__c.Task_Id__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Notification__c.From__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -5095,6 +5100,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Notification__c.Recipient__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Notification__c.StartDate__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5615,6 +5625,16 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Participant_Enrollment__c.Permit_SMS_Text_for_this_study__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Have_you_Documented_the_Discussion__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Participant_Enrollment__c.Discussion_Documented_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7065,6 +7085,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Send_Result__c.Integration_Log__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Send_Result__c.Msg_Id__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

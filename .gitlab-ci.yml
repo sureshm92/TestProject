@@ -1,244 +1,136 @@
-before_script:
-  - |
-    IFS=$'\n'
-
-    # INFO section aimed to avoid printing out all 'env' variables, leaving only needed
-    echo "#################################################################################################"
-    echo "#"
-    echo "# Starting $CI_JOB_NAME in stage $CI_BUILD_STAGE at $(date --rfc-3339=seconds)"
-    echo "#"
-    env | grep -E 'CI_COMMIT_BRANCH|CI_MERGE_REQUEST_IID|CI_MERGE_REQUEST_TARGET_BRANCH_NAME|CI_JOB_ID|CI_JOB_URL'
-    env | grep -E 'CI_COMMIT_SHORT_SHA|CI_BUILD_BEFORE_SHA|CI_COMMIT_REF_NAME|CI_PIPELINE_IID|CI_PIPELINE_SOURCE'
-    echo "#"
-    echo "#################################################################################################"
-  
-
-    git config --global user.email "mahadev.garad@quiniles.com"  # group email of DevOps team
-    git config --global user.name "GitLab Bot"
-
-
-    # accepts one argument - the variable name with creds to the org. Will be moved into sfdx.wrapper.sh soon.
-    function login_to_org() {
-      echo "[INFO] Logging in to org for $1..."
-      #echo "${!1}" > authFile
-     # echo "${!INF10}" > authFile
-       echo "$INF10" > authFile
-      sfdx force:auth:sfdxurl:store -f authFile --setalias TargetOrg --setdefaultdevhubusername || true
-      rm -rf authFile
-    }
-
-    # accepts 2 arguments: commit IDs FROM and TO.
-    function populate_file_list() {
-      
-      mkdir -p tmp
-      
-      list_raw="$CI_PROJECT_DIR/tmp/files.list.raw.txt"            # internal to this function
-      list_filtered="$CI_PROJECT_DIR/tmp/files.list.filtered.txt"  # internal to this function
-
-      # These variables are results of the function and may be used in other steps.
-      export FILENAME_AM_PMD="$CI_PROJECT_DIR/tmp/files-added-modified-comma-newline.txt"
-      export FILENAME_AM_COL="$CI_PROJECT_DIR/tmp/files-added-modified-newline.txt"
-      export FILENAME_AM_STR="$CI_PROJECT_DIR/tmp/files-added-modified-comma-space.txt"
-      export FILENAME_D_STR="$CI_PROJECT_DIR/tmp/files-deleted-comma-space.txt"
-      export FILENAME_MAN_COL_ALPHA="$CI_PROJECT_DIR/tmp/manual-steps-files-added-modified-newline.txt"
-      export FILENAME_MAN_COL_OMEGA="$CI_PROJECT_DIR/tmp/files.list.manual.txt"  # TODO: internal to this function ?
-      export FILENAME_MAN_D_COL="$CI_PROJECT_DIR/tmp/manual-steps-files-deleted-newline.txt"
-
-      rm -f $FILENAME_AM_PMD $FILENAME_AM_COL $FILENAME_AM_STR $FILENAME_D_STR $FILENAME_MAN_COL_ALPHA $FILENAME_MAN_COL_OMEGA
-
-      FORCE_IGNORE_LIST=$(cat .forceignore | sed 's@^/@@g' | sed 's@^*@@g' | sed 's@^#.*@@' | sed 's@*/@.*/@g' | sed 's@*$@@g' | sed 's@*$@.*@g')
-
-      # 1. get whole list for added and modified files (some files in project root, like README.md will still match if modified)
-      git diff --no-renames --pretty=format:"" --name-status $1..$2 > $list_raw
-      # dumping to file coz a shell varible should not be longer than `getconf ARG_MAX` (131072)
-      echo "[INFO] Number of lines in $list_raw: $(wc -l < $list_raw)"
-      grep -E '^\w+\s+force-app' $list_raw > $list_filtered || true
-      grep -E '^\w+\s+manual_steps' $list_raw > $FILENAME_MAN_COL_OMEGA || true
-      ls -l $list_raw $list_filtered $FILENAME_MAN_COL_OMEGA && rm $list_raw
-      echo "[INFO] Number of lines in $list_filtered: $(wc -l < $list_filtered)"
-      for file in $(awk -F $'\t' 'match($1, "A|M"){print $2}' < $FILENAME_MAN_COL_OMEGA); do
-        echo "$file" >> $FILENAME_MAN_COL_ALPHA
-      done
-      # 2. fill list for added and modified files
-      for file in $(awk -F $'\t' 'match($1, "A|M"){print $2}' < $list_filtered); do
-
-        has_to_be_ignored=false
-
-        for force_ignore_item in $FORCE_IGNORE_LIST; do
-          if [[ $file =~ $force_ignore_item ]]; then
-            has_to_be_ignored=true
-          fi
-        done
-
-        if [[ $has_to_be_ignored == true ]]; then
-          true
-        else
-          echo "$file," >> $FILENAME_AM_PMD
-          echo "$file" >> $FILENAME_AM_COL
-          echo -n "$file, " >> $FILENAME_AM_STR
-      fi
-      done
-
-      # 3. fill list for deleted files
-      for file in $(awk -F $'\t' 'match($1, "D"){print $2}' < $list_filtered); do
-        echo -n "$file, " >> $FILENAME_D_STR
-      done
-      for file in $(awk -F $'\t' 'match($1, "D"){print $2}' < $FILENAME_MAN_COL_OMEGA); do
-        echo "$file" >> $FILENAME_MAN_D_COL
-      done
-
-      # 4. removing trailing commas from result files
-      if [[ -s $FILENAME_AM_STR ]]; then
-        sed -i 's/, $//' "$FILENAME_AM_STR"
-      fi
-      if [[ -s $FILENAME_D_STR ]]; then
-        sed -i 's/, $//' "$FILENAME_D_STR"
-      fi
-      export FILES_AM_COL="$(cat $FILENAME_AM_COL)"
-    }  # end of populate_file_list
-
+image: ajit2408/studyhub-sfdx
 stages:
-
-  #Validation:
-  - SonarCheck
-  - VALIDATE
-  - Deploy
-
-  
-cache:
-  paths:
-    - ~/.sfdx
-    - .sfdx
-
-
-# Validation: ------------------------------------------------------------------
+    - SonarCheck 
+    - Validate
+    - Deploy
+    
 SonarCheck:
+  stage: SonarCheck
   allow_failure: true
   only:
-   - merge_requests
-  except:
-   - push
-   - commit
-  stage: SonarCheck
+      refs: 
+        - merge_requests
+      variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
   image:
-    name: sonarsource/sonar-scanner-cli:latest
-    entrypoint: [""]
+      name: sonarsource/sonar-scanner-cli:latest
+      entrypoint: [""]
   cache:
-    key: "${CI_JOB_NAME}"
-    paths:
-      - .sonar/cache
+     key: "${CI_JOB_NAME}"
+     paths:
+       - .sonar/cache
   before_script:
-   - echo "Sonar Analysis"
+     - echo "Sonar Analysis"
   script:
-   - . ./scripts/ci/sonar-check.sh
-
-.validate_script:
-  script:
-    - |
- 
-      export flag="validate"
-      #next actions needs for populate_file_list can be executed
-      git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-      git fetch origin $CI_COMMIT_REF_NAME
-      PARENT=$(git merge-base origin/$CI_COMMIT_REF_NAME origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME)
-      echo "[INFO] Parent commit for the MR is $PARENT"
-      git merge --squash FETCH_HEAD
-
-      populate_file_list $PARENT HEAD
-      
-      
-      git merge origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME #merge target branch to work dir
-      
-      
-  
-
-      if [[ ! -s $FILENAME_AM_STR ]]; then
-        echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
-      else
-        echo "[INFO] Please see logs in artifact validate.sfdx.log."
-        set -x
-           chmod 777 ./scripts/ci/sfdx.wrapper.sh
-   
-          bash -x scripts/ci/sfdx.wrapper.sh validate_RunSpecifiedTests "$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
-       fi
-
-      # checking if committed text files are with proper line endings (Fail the build if CRLF found).
-      for file in $FILES_AM_COL; do
-        if [[ ! $file =~ ^.*/staticresources/.*$ ]]; then  # check all but staticresources
-          if (grep -qU $'\r' "$file"); then # -U prevents grep from stripping CR characters. $'\r' is a bash built-in for carriage return symbol.
-            echo -e "[ERROR] Committed file with CRLF (Windows style) line endings, while only LF (Linux style) are allowed:\n$file"
-            RC=100  # actually any non-zero code will do, but different error codes are better for local debug.
+     - |
+             ls -ll
+             apk upgrade --update-cache --available && apk add openssl curl jq 
+             openssl s_client -connect  sonarqube:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
+             sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.exclusions=**/*.js,**/*.xml,**/*.html -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
+             #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=master
+             cat .scannerwork/report-task.txt
+             export url=$(cat .scannerwork/report-task.txt | grep ceTaskUrl | cut -c11- ) #URL where report gets stored
+             echo $url
+             sleep 90s #Wait time for the report
+             curl -k -u "$SONAR_TOKEN":"" $url -o analysis.json
+             cat analysis.json
+             export status=$(cat analysis.json | jq -r '.task.status') #Status as SUCCESS, CANCELED or FAILED
+             export analysisId=$(cat analysis.json | jq -r '.task.analysisId') #Get the analysis Id
+             echo "URL" $url
+             echo "status" $status
+             echo  "analysisId" $analysisId
+     - |
+       if [ "$status" == "SUCCESS" ];then 
+         echo -e "SONAR ANALYSIS SUCCESSFUL...ANALYSING RESULTS";
+         curl -k -u "$SONAR_TOKEN":"" $SONAR_HOST_URL/api/qualitygates/project_status?analysisId=$analysisId -o result.txt; #Analysis result like critical, major and minor issues
+         export result=$(cat result.txt | jq -r '.projectStatus.status');
+          if [ "$result" == "ERROR" ];then
+           echo -e "SONAR RESULTS FAILED";
+           echo "$(cat result.txt | jq -r '.projectStatus.conditions')"; #prints the critical, major and minor violations
+           exit 1 #breaks the build for violations
+          else
+           echo -e "SONAR RESULTS SUCCESSFUL";
+           echo "$(cat result.txt | jq -r '.projectStatus.conditions')";
+           exit 0 
           fi
-        else
-          continue
-        fi
-      done
-      exit $RC
-  artifacts:
-    when: always
-    paths:
-     # - "*.sfdx.log"
-      - "tmp/*.txt"
-      #- "MR.json"
-
-.deploy_script:
-  script:
-    - |
-        set -x
-        export flag="deploy"
-        chmod 777 ./scripts/ci/sfdx.wrapper.sh
-        if [[ $CI_PIPELINE_SOURCE == @(schedule|web) ]]; then
-             echo "[INFO] Running full deployment if pipeline was started by schedule or 'Run' button on web interface."
-             bash -x scripts/ci/sfdx.wrapper.sh deploy_full "$CI_COMMIT_REF_NAME"
-        else 
-           populate_file_list $CI_COMMIT_BEFORE_SHA HEAD 
-           if [[ ! -s $FILENAME_AM_STR ]]; then
-               echo "[INFO] Files, changed in current scope of commits are not project files. $CI_JOB_NAME will NOT be executed."
-               exit 0
-           else
-              bash -x scripts/ci/sfdx.wrapper.sh deploy_without_testlevel "$CI_COMMIT_REF_NAME"
-           fi  
-        fi
-  artifacts:
-    when: always
-    paths:
-      - "tmp/*.txt"
-
-
-VALIDATE:
-  only:
-    - merge_requests
-  except:
-    - push
-    - commit
+       else 
+        echo -e "\e[91mSONAR ANALYSIS FAILED\e[0m";
+        exit 1 #breaks the build for failure in Step2
+       fi	
   
-  stage: VALIDATE
-  extends: .validate_script
-
-   
-FullDeploy:
-  extends: .deploy_script
+Validate:
+  stage: Validate
+  #allow_failure: true
   only:
-    refs:
-      - schedules
-      - web
-    variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
-  except:
-      - merge_requests
-  stage: Deploy
-  timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
+      refs: 
+        - merge_requests
+          #echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      #variables:
+        #- $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
+  artifacts:
+      untracked: true      
+      when: always
+      paths:
+          - results
+          - package/package.xml
+  before_script: 
+      - |
+         # “get_mr_parent” function allows to get parent commit of merge request
+         # only valid for pipelines started in scope of MR.
+         set -x 
+         function get_mr_parent() {
+         
+           git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --depth=2147483647
+           git fetch origin $CI_COMMIT_REF_NAME --depth=2147483647
+         
+           get_parent_command="git merge-base origin/$CI_COMMIT_REF_NAME origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
+                   
+           PARENT="$(eval $get_parent_command || true)"
+         
+           if [[ -z $PARENT ]]; then
+              git fetch --unshallow --update-head-ok origin '+refs/heads/*:refs/heads/*'  # global var GIT_DEPTH: "2147483647" is about the same
+             PARENT="$(eval $get_parent_command)"
+           fi  
+           
+           echo "[DEBUG] Parent commit for the MR #$CI_MERGE_REQUEST_IID is $PARENT"
+           # git merge --squash FETCH_HEAD
+         }
+         get_mr_parent
+         export PARENT
+         echo 'y' | sfdx plugins:install sfdx-git-delta
+         sfdx sgd:source:delta --to "HEAD" --from $PARENT --output "."
+         echo "--- package.xml generated with added and modified metadata ---"
+         cat package/package.xml
+         #echo "---- Deploying added and modified metadata ----"
+      #- sfdx force:source:deploy -x package/package.xml      
+  script:
+      - mkdir results  
+      - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
+      - sfdx force:source:deploy -x package/package.xml -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -c -w 60 
+      #- sfdx force:apex:test:run -y -u INT --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
+      - echo "Validate success!"
+      
 
-DeltaDeploy:
-  extends: .deploy_script
-  only:
-    refs:
-      - pushes
-    variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF|^Callcenter/
-  except:
-      - merge_requests
-  stage: Deploy
-  timeout: 3h  # sum of run-tests.sh and deploy.sh timeouts.
-
-image: salesforce/salesforcedx:7.82.1-0-full
+Deploy:
+    #when: manual
+    stage: Deploy
+    only:
+      variables:
+      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
+    before_script: 
+      - |
+         set -x
+         echo 'y' | sfdx plugins:install sfdx-git-delta
+         sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
+         echo "--- package.xml generated with added and modified metadata ---"
+         cat package/package.xml
+         #echo "---- Deploying added and modified metadata ----"
+      #- sfdx force:source:deploy -x package/package.xml      
+    script:
+      - ls -ll
+      - echo $CI_COMMIT_REF_NAME
+      - echo "${!CI_COMMIT_REF_NAME}" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"
+      - sfdx force:source:deploy -x package/package.xml -u $CI_COMMIT_REF_NAME -w 60
+      - echo "Deploy success!"

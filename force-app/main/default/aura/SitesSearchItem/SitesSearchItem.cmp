@@ -5,6 +5,7 @@
 <aura:component description="SiteSearchItem" extends="c:CommunityContext">
     <!-- arrtibutes: -->
     <aura:attribute name="studySiteWrapper" type="Object" required="true" />
+    <aura:attribute name="accessLevel" type="String" access="public" /> 
     <aura:attribute
         name="parentComponent"
         type="Aura.Component"
@@ -67,7 +68,7 @@
                     <button
                         class="apollo-btn secondary"
                         onclick="{!c.requestToRefer}"
-                        disabled="{!v.studySiteWrapper.actions.requestToRefer.disabled}"
+                        disabled="{! (v.studySiteWrapper.actions.requestToRefer.disabled || v.accessLevel =='Level 3' || v.accessLevel =='Level 2')}"
                         title="{!v.studySiteWrapper.actions.requestToRefer.disableReason}"
                     >
                         {!$Label.c.BTN_Request_to_refer}

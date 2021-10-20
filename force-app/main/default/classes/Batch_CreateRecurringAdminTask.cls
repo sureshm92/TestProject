@@ -6,7 +6,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
     private List<Manual_Creation_Panel_Task__c> manualConfigList;
     
     public Batch_CreateRecurringAdminTask() {
-        this.query = 'Select Task_Name__c, Recurrence_End_Date__c, Last_Recurrence_Reminder__c, Status__c, Start_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c <= TOMORROW';
+        this.query = 'Select Task_Name__c, Recurrence_End_Date__c, Last_Recurrence_Reminder__c, Status__c, Start_Date__c,Reminder_Date__c, Next_Due_Date__c, Next_Reminder_Date__c, Next_Occurence_Date__c, Last_Occurrence_Date__c, TaskConfig__c, TaskFilter__c from Manual_Creation_Panel_Task__c where Status__c = \'Active\' and Next_Occurence_Date__c <= TOMORROW';
         this.manualConfigList = new List<Manual_Creation_Panel_Task__c>();
     }
     
@@ -88,7 +88,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
                 manualTask.Next_Occurence_Date__c = null;	
                 manualTask.Next_Due_Date__c = null;	
             	manualTask.Reminder_Date__c = null;	
-                manualTask.Status__c = 'Task Completed';	
+                manualTask.Status__c = 'InProgress';	
                 manualConfigList.add(manualTask);	
             }
     }

@@ -1,5 +1,6 @@
 /**
  * Created by Olga Skrynnikova on 12/9/2019.
+ * Refactored by Pijush Kar on 10/04/2021
  */
 
 public with sharing class SMSService {

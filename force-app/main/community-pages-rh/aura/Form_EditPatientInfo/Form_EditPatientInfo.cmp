@@ -484,11 +484,15 @@
                     </div>
                     <div class="slds-col rr-medium-up-hide" style="height: 20px"></div>
                     <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--1-of-4">
-                        <div class="label" style="width: 300px;">
-                            <abbr title="required" class="slds-required"
-                                  >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
-                                >{!$Label.c.PG_Ref_L_Re_enter_email_address}
-                        </div>
+                        <div class="label tooltip">
+                            <div class="textoverlap">                                 
+                                
+                                <abbr title="required" class="slds-required"
+                                      >{!!v.needsGuardian || v.participant.Email__c ? '*' : ''}</abbr
+                                    >{!$Label.c.PG_Ref_L_Re_enter_email_address}
+                            </div>
+                            <span>{!$Label.c.PG_Ref_L_Re_enter_email_address}</span>
+                            </div>
                         <!-- REF-3070 Added disabled-->
                         <lightning:input
                                          aura:id="emailParticipantRepeatField"
@@ -879,10 +883,11 @@
                                 <div class="label">
                                     {!$Label.c.PG_AP_F_Preferred_Contact_Time}
                                 </div>
-                                <lightning:textarea
+                                <lightning:input
                                     type="text"
                                     value="{!v.participant.Preferred_Contact_Time__c}"
                                     onblur="{!c.doCheckFields}"
+                                    maxlength = "255"
                                 />
                             </div>
                     </div>
