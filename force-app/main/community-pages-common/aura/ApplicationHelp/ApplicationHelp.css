@@ -180,6 +180,7 @@
     width: 450px;
     font-size: 14px;
     color: #444444;
+    margin-left: 5px;
 }
 .THIS .slds-checkbox .slds-checkbox__label .slds-form-element__label {
     height: 24px;
