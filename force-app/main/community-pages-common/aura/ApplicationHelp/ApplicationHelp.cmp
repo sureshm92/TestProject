@@ -274,12 +274,11 @@
                     style="{!if(v.isRTL,'padding-right:20px;padding-top:20px;','padding-left:20px;padding-top:20px;')}"
                 >
                     {!$Label.c.PP_HelpResponse}&nbsp;
-                    <span class="update-all"
-                        ><a onclick="{!c.navigateToAccountSettings}"
-                            ><b>{!$Label.c.PP_Account_Settings}&nbsp;</b></a
-                        >
-                        {!$Label.c.PP_UpdateProfileResp}</span
-                    >
+                <span><a onclick="{!c.navigateToAccountSettings}"><b>
+                    {!$Label.c.PP_Account_Settings}&nbsp;</b></a>
+                    {!$Label.c.PP_UpdateProfileResp}
+                    </span
+                >
                 </div>
             </aura:set>
         </aura:if></aura:if
