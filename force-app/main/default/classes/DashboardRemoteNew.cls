@@ -772,7 +772,9 @@ public without sharing class DashboardRemoteNew {
     public static String getParticipantData(
         String userMode,
         String delegateId,
-        String participantId
+        String participantId,
+        String piId,
+        String ctpId
     ) {
         ViewPatientsRemote.InitData initData = new ViewPatientsRemote.InitData();
         initData.peStatusStateMap = PEStatusState.STATUSES_MAP;
@@ -803,10 +805,13 @@ public without sharing class DashboardRemoteNew {
         
         Integer participantEnrollmentSize = pes.size();
         for (Integer i = 0; i < participantEnrollmentSize; ++i) {
-            if (pes[i].Participant__c == participantId) {
+            if (pes[i].Participant__c == participantId 
+                && pes[i].Study_Site__c != null
+                && pes[i].Study_Site__r.Clinical_Trial_Profile__c == ctpId 
+                && pes[i].Study_Site__r.Principal_Investigator__c == piId) {
                 initData.currentPageList = new List<ViewPatientsRemote.PEWrapper>{
                     new ViewPatientsRemote.PEWrapper(pes[i], new StudyActionsPI(pes[i]).actions)
-                };   
+                };
             }
         }
         return JSON.serialize(initData);
