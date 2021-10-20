@@ -137,22 +137,19 @@ public with sharing class Action_SendSMS implements Action {
             ) {
                 if (
                     !String.isBlank(smsChannel.Notification__r.Task_Id__c) &&
-                    taskMap.containsKey(smsChannel.Notification__r.Task_Id__c) &&
-                    !String.isBlank(
-                        taskMap.get(smsChannel.Notification__r.Task_Id__c)
-                            .Community_Template_Name__c
-                    )
+                    taskMap.containsKey(smsChannel.Notification__r.Task_Id__c)
                 ) {
                     String communityTemaplteName = taskMap.get(
                             smsChannel.Notification__r.Task_Id__c
                         )
                         .Community_Template_Name__c;
-                    if (!String.isBlank(communityTemaplteName)) {
-                        String commUrl = CommunityService.getCommunityURLFromTemplateName(
-                            communityTemaplteName
-                        );
-                        message = message.replace('##CommunityURL', commUrl);
+                    if (String.isBlank(communityTemaplteName)) {
+                        communityTemaplteName = 'Default';
                     }
+                    String commUrl = CommunityService.getCommunityURLFromTemplateName(
+                        communityTemaplteName
+                    );
+                    message = message.replace('##CommunityURL', commUrl);
                 }
             }
             if (phoneNumber != null) {
@@ -220,11 +217,15 @@ public with sharing class Action_SendSMS implements Action {
     }
 
     public MessagegResponseWrapper parseResponseBody(String responseBody) {
-        MessagegResponseWrapper msgResponseWrap = (MessagegResponseWrapper) JSON.deserialize(
-            responseBody,
-            MessagegResponseWrapper.class
-        );
-        return msgResponseWrap;
+        try {
+            MessagegResponseWrapper msgResponseWrap = (MessagegResponseWrapper) JSON.deserialize(
+                responseBody,
+                MessagegResponseWrapper.class
+            );
+            return msgResponseWrap;
+        } catch (JSONException e) {
+            return new MessagegResponseWrapper();
+        }
     }
 
     class MessagegResponseWrapper {

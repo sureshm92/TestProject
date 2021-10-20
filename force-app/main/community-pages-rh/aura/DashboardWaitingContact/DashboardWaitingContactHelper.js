@@ -59,7 +59,9 @@
             {
                 userMode: communityService.getUserMode(),
                 delegateId: communityService.getDelegateId(),
-                participantId: event.currentTarget.id
+                participantId: event.currentTarget.id,
+                piId: component.get('v.currentPi'),
+                ctpId: component.get('v.currentStudy')
             },
             function (returnValue) {
                 returnValue = JSON.parse(returnValue);
