@@ -111,19 +111,6 @@
                 component.find('spinner').hide();
                 return;
             }
-            if (
-                component.get('v.mcpt').Start_Date__c != component.get('v.taskConfig').startDate &&
-                component.get('v.taskConfig').startDate <=
-                    $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD')
-            ) {
-                // start date cannot be changed to past or today's date
-                communityService.showWarningToast(
-                    'Fail!',
-                    "New start date should be greater than today's date"
-                );
-                component.find('spinner').hide();
-                return;
-            }
         }
         communityService.executeAction(
             component,

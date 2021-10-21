@@ -191,7 +191,7 @@
                             variant="brand"
                             label="Remove Recurrence"
                             onclick="{!c.removeRecc}"
-                            disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                            disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled')}"
                         />
                     </aura:if>
                     <aura:if
