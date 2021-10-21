@@ -51,6 +51,7 @@
     line-height: 19px;
     margin-left: 2px;
     font-weight: 400;
+    overflow-wrap: break-word;
 }
 
 .THIS .nameGrp .column3 {
