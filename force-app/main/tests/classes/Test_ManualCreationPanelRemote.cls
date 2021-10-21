@@ -10,6 +10,18 @@ private class Test_ManualCreationPanelRemote {
         ManualTaskFilter filter = new ManualTaskFilter();
         filter.statuses = new List<String>{ PEStatusState.PE_ST_REFERRED };
 
+        Manual_Creation_Panel_Task__c mct = new Manual_Creation_Panel_Task__c(
+            TaskConfig__c ='{"isRecurrence":true,"priority":"Normal","visibility":"Owner;Delegates","subject":"Test Rec","startDate":"2021-08-30","endTime":"2021-09-06","recurrenceFrequency":"Weekly"}', 
+            TaskFilter__c ='	{"areas":[],"countries":[],"isPlatformLevel":true,"sites":[],"sponsors":[],"statuses":["Referred","Enrolled"],"studies":[]}', 
+            Recurrence_Frequency__c ='Weekly', 
+            Status__c = 'Active',
+            Start_Date__c = Date.today(),  
+            Recurrence_End_Date__c = Date.today().addDays(15),
+            Next_Occurence_Date__c = Date.today(), 
+            Next_Due_Date__c = Date.today().addDays(6)
+        );
+        insert mct;
+
         TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
         taskConfig.subject = 'Test';
         taskConfig.startDate = System.today();
@@ -27,7 +39,8 @@ private class Test_ManualCreationPanelRemote {
             JSON.serialize(taskConfig),
             JSON.serialize(adHocWrapper),
             JSON.serialize(filter),
-            'task'
+            'task',
+            mct
         );
         Test.stopTest();
     }
@@ -38,6 +51,8 @@ private class Test_ManualCreationPanelRemote {
 
         ManualTaskFilter filter = new ManualTaskFilter();
         filter.statuses = new List<String>{ PEStatusState.PE_ST_REFERRED };
+
+        Manual_Creation_Panel_Task__c mct = new Manual_Creation_Panel_Task__c();
 
         TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
         taskConfig.subject = 'Test';
@@ -56,7 +71,8 @@ private class Test_ManualCreationPanelRemote {
             JSON.serialize(taskConfig),
             JSON.serialize(adHocWrapper),
             JSON.serialize(filter),
-            'task'
+            'task',
+            mct
         );
         Test.stopTest();
     }
@@ -108,6 +124,8 @@ private class Test_ManualCreationPanelRemote {
         filter.statuses = new List<String>{ PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS };
         filter.studies = searchResults;
 
+        Manual_Creation_Panel_Task__c mct = new Manual_Creation_Panel_Task__c();
+
         TaskService.TaskConfig taskConfig = new TaskService.TaskConfig();
 
         ManualCreationPanelRemote.AdHocWrapper adHocWrapper = new ManualCreationPanelRemote.AdHocWrapper();
@@ -123,7 +141,8 @@ private class Test_ManualCreationPanelRemote {
             JSON.serialize(taskConfig),
             JSON.serialize(adHocWrapper),
             JSON.serialize(filter),
-            'adHoc'
+            'adHoc',
+            mct
         );
         ManualCreationPanelRemote.searchReminderScheduleByValue(schedule.Id);
         ManualCreationPanelRemote.searchReminderSchedule('RS', '');
