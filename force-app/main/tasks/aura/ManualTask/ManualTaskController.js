@@ -16,8 +16,23 @@
         component.set('v.recurrenceFrequency', val);
     },
     doneRendering: function(component, event, helper) {
-        if (component.get('v.isEdit')) {
-            component.set('v.showNumbersAdd', component.get('v.taskConfig').showNumbersAdd);
+        if (!component.get('v.isDoneRendering')) {
+            if (component.get('v.isEdit')) {
+                component.set('v.showNumbersAdd', component.get('v.taskConfig').showNumbersAdd);
+                if (
+                    component.get('v.taskConfig').showNumbersAdd == 'true' &&
+                    component.find('a_opt')
+                ) {
+                    component.set('v.isDoneRendering', true);
+                    component.find('a_opt').set('v.value', 'true');
+                } else if (
+                    component.get('v.taskConfig').showNumbersAdd == 'false' &&
+                    component.find('a_opt')
+                ) {
+                    component.set('v.isDoneRendering', true);
+                    component.find('a_opt').set('v.value', 'false');
+                }
+            }
         }
     },
     resetTaskValues: function(component, event, helper) {
@@ -161,6 +176,7 @@
             let daysBetween = dueDate.diff(startDate, 'days');
             if (daysCount > daysBetween) {
                 component.set('v.dayRemind', daysBetween);
+                component.set('v.taskConfig.reminderDays', daysBetween);
                 return;
             } else if (daysCount < 0) {
                 component.set('v.dayRemind', 0);
