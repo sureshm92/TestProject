@@ -207,4 +207,50 @@ private class Test_MyTeamRemote {
         Test.stopTest();
         System.assertEquals(false, result);
     }
+    
+    @isTest
+    static void Test_savePatientDelegate(){
+        TestData tstData = new TestData();
+        tstData.createPatientDelegate();
+        MyTeamRemote.MyTeamDetail detail;
+        Test.startTest();
+        System.runAs(tstData.participantUser) {
+            Contact c = new Contact();
+            c.FirstName = 'dummy';
+            c.LastName = 'd';
+            c.Email = 'lol@l.com';
+            MyTeamRemote.savePatientDelegate(JSON.serialize(c));
+        }
+        Test.stopTest();
+    }
+
+    @isTest
+    static void Test_DelegateWrapper(){
+        TestData tstData = new TestData();
+        tstData.createPatientDelegate();
+        MyTeamRemote.MyTeamDetail detail;
+        Test.startTest();
+        System.runAs(tstData.participantUser) {
+            Contact c1 = new Contact();
+            c1.FirstName = 'dummy';
+            c1.LastName = 'd';
+            c1.Email = 'lol@l.com';
+			MyTeamRemote.DelegateWrapper dw1 = new MyTeamRemote.DelegateWrapper();
+            dw1.delegateContact = c1;
+            
+            Contact c2 = new Contact();
+            c2.FirstName = 'dummy';
+            c2.LastName = 'd';
+            c2.Email = 'lol@l.com';
+			MyTeamRemote.DelegateWrapper dw2 = new MyTeamRemote.DelegateWrapper();
+            dw2.delegateContact = c2;
+            
+            List<MyTeamRemote.DelegateWrapper> dwList = new List<MyTeamRemote.DelegateWrapper>();
+            dwList.add(dw1);
+            dwList.add(dw2);
+            dwList.sort();
+        }
+        Test.stopTest();
+    }
+
 }
