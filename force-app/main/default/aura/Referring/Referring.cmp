@@ -111,11 +111,12 @@
     <aura:attribute name="pyear" type="string" default="null" />
     <aura:attribute name="doNext" type="Boolean" default = "false" />
     <aura:attribute name="delegateExist" type="Boolean" default = "false" />
-    <aura:attribute name="discussiondocumented" type="Boolean" default = "false" />
-    <aura:attribute name="mrrExist" type="Boolean" default = "false" />
     
     <aura:attribute name="hasGaurdian" type="Boolean" default = "false" />
     <aura:attribute name="delegateValueRemoved" type="Boolean" default = "false" />
+    <aura:attribute name="discussiondocumented" type="Boolean" default = "false" />
+    <aura:attribute name="mrrExist" type="Boolean" default = "false" />
+    <aura:attribute name="myStudies" type="Boolean" default = "false" />
     
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
@@ -194,8 +195,8 @@
                              isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2' &amp;&amp; v.accessUserLevel != 'Level 3'}"
                              >
                         <div class="between-panels">
-                            
-                             {!$Label.c.PG_Ref_L_OR}
+
+                            {!$Label.c.PG_Ref_L_OR}
                         </div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent" />
@@ -301,7 +302,7 @@
                                     <div class="" style="font-size: 23px;font-weight:600;font-family:Proxima Nova;"> 
                                         {!$Label.c.RH_RP_documented_the_discussion}
                                         <div>
-                                            <input type="checkbox" id="terms" disabled="{!v.discussiondocumented}" name="terms" onclick="{!c.doDiscussionDocumented}" value="{!v.chkTerms}" onchange="{!c.termsChanged}" ></input>
+                                            <input type="checkbox" disabled="{!v.discussiondocumented}" id="terms" name="terms" onclick="{!c.doDiscussionDocumented}" value="{!v.chkTerms}" onchange="{!c.termsChanged}" ></input>
                                             <label for="terms" style="font-size:18px;color:black;font-weight:550;font-family:Proxima Nova;">&nbsp;{!$Label.c.RH_RP_discussion_noted}</label>
                                         </div>
                                     </div>
@@ -1860,10 +1861,10 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                           <aura:if isTrue="{!v.patientVeiwRedirection}">
-                                 {!$Label.c.RH_RP_Back_to_My_Patients}
+                           <aura:if isTrue="{!v.myStudies}">
+                                  {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                                    {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -1960,10 +1961,10 @@
                             {!$Label.c.BTN_Find_study_sites}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            <aura:if isTrue="{!v.patientVeiwRedirection}">
-                               {!$Label.c.RH_RP_Back_to_My_Patients}
-                                <aura:set attribute="else">
+                            <aura:if isTrue="{!v.myStudies}">
                                     {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                                <aura:set attribute="else">
+                                   {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -1988,10 +1989,10 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            <aura:if isTrue="{!v.patientVeiwRedirection}">
-                               {!$Label.c.RH_RP_Back_to_My_Patients}
+                            <aura:if isTrue="{!v.myStudies}">
+                                   {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                                 <aura:set attribute="else">
-                                    {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                                    {!$Label.c.RH_RP_Back_to_My_Patients}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -2036,10 +2037,10 @@
                         </aura:set>
                     </aura:if>
                     <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                        <aura:if isTrue="{!v.patientVeiwRedirection}">
-                           {!$Label.c.RH_RP_Back_to_My_Patients}
+                        <aura:if isTrue="{!v.myStudies}">
+                               {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                             <aura:set attribute="else">
-                                {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                                 {!$Label.c.RH_RP_Back_to_My_Patients}
                             </aura:set>
                         </aura:if>
                     </button>
