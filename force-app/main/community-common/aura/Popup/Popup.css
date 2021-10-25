@@ -346,6 +346,12 @@ top: 1px !important;
     }
 }
 @media all and (max-width: 500px) {
+
+    .THIS h2#p-header {
+        max-height: 125px;
+        overflow-y: auto;
+    }
+
     .THIS #p-modal .p-container {
         /*   height: 95%; */
         max-height: 95%;

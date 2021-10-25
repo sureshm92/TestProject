@@ -369,6 +369,12 @@ public without sharing class ReferringRemote {
                 Participant_Enrollment__c.class
             );
             enrollment.Participant_Status__c = PEStatusState.PE_STATUS_RECEIVED;
+            enrollment.Contacted__c = true;
+            enrollment.Contacted_Date__c = System.today();
+            enrollment.Consulted__c = true;
+            enrollment.Consulted_Date__c = System.today();
+            enrollment.Have_you_Documented_the_Discussion__c = true;
+            enrollment.Discussion_Documented_Date__c = System.today();
             enrollment.Referral_Completed_by__c = CommunityService.getInstance()
                 .getCurrentContactId();
             //enrollment.Permit_Mail_Email_contact_for_this_study__c = true;
@@ -737,7 +743,9 @@ public without sharing class ReferringRemote {
                 Contacted__c = true,
                 Contacted_Date__c = System.today(),
                 Consulted__c = true,
-                Consulted_Date__c = System.today());
+                Consulted_Date__c = System.today(),
+                Have_you_Documented_the_Discussion__c = true,
+                Discussion_Documented_Date__c = System.today());
             update per;
         } catch(Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());

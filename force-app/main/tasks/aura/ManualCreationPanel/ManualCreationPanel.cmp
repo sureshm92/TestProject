@@ -5,7 +5,7 @@
 <aura:component
     description="ManualCreationPanel"
     controller="ManualCreationPanelRemote"
-    implements="forceCommunity:availableForAllPageTypes,force:appHostable,lightning:isUrlAddressable"
+    implements="lightning:actionOverride,forceCommunity:availableForAllPageTypes,force:appHostable,lightning:isUrlAddressable"
     access="global"
 >
     <ltng:require
@@ -25,16 +25,21 @@
     <aura:attribute name="recordId" type="String" />
     <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isValidSave" type="Boolean" default="true" />
     <aura:attribute name="isOpen" type="Boolean" default="false" />
     <aura:attribute name="remDays" type="Integer" />
     <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
 
     <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkValid}" />
+    <aura:handler name="change" value="{!v.filter.statuses}" action="{!c.checkSaveValid}" />
     <aura:handler name="change" value="{!v.pageReference}" action="{!c.loadRecord}" />
     <aura:handler name="closeModalEvent" event="c:closeModalEvent" action="{!c.closeModel}" />
 
     <aura:method name="setValidity" action="{!c.checkValid}">
         <aura:attribute name="childValidity" type="Boolean" />
+    </aura:method>
+    <aura:method name="setSaveValidity" action="{!c.checkSaveValid}">
+        <aura:attribute name="childSaveValidity" type="Boolean" />
     </aura:method>
 
     <!-- component body -->
@@ -89,20 +94,20 @@
                                 options="{!v.patientStatusOptions}"
                                 value="{!v.filter.statuses}"
                                 required="true"
-                                disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                                disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <div style="padding: 10px"></div>
                             <c:ManualTaskLookup
                                 label="Therapeutic Area"
                                 selection="{!v.filter.areas}"
                                 objType="therapeutic"
-                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <c:ManualTaskLookup
                                 label="Study"
                                 selection="{!v.filter.studies}"
                                 objType="study"
-                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                         </div>
                         <div class="slds-col slds-size--1-of-2">
@@ -127,13 +132,13 @@
                                 label="Select country"
                                 selection="{!v.filter.countries}"
                                 objType="countries"
-                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                             <c:ManualTaskLookup
                                 label="Select Site"
                                 selection="{!v.filter.sites}"
                                 objType="site"
-                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                                isDisabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
                             />
                         </div>
                     </div>
@@ -179,14 +184,14 @@
                         variant="brand"
                         label="Save"
                         onclick="{!c.createClick}"
-                        disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress)}"
+                        disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled'|| v.oneTimeTaskInProgress || !v.isValidSave)}"
                     />
                     <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                         <lightning:button
                             variant="brand"
                             label="Remove Recurrence"
                             onclick="{!c.removeRecc}"
-                            disabled="{!or(v.mcpt.Status__c =='Task Completed',v.mcpt.Status__c =='Inactive',v.mcpt.Status__c =='Cancelled')}"
+                            disabled="{!(v.mcpt.Status__c =='Task Completed'|| v.mcpt.Status__c =='Completed'|| v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled')}"
                         />
                     </aura:if>
                     <aura:if
@@ -196,7 +201,7 @@
                             variant="brand"
                             label="Cancel Task"
                             onclick="{!c.removeRecc}"
-                            disabled="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled' || v.oneTimeTaskInProgress}"
+                            disabled="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Completed' || v.mcpt.Status__c =='Inactive'|| v.mcpt.Status__c =='Cancelled' || v.oneTimeTaskInProgress}"
                         />
                     </aura:if>
                     <aura:set attribute="else">

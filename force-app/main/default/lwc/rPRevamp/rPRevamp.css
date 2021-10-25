@@ -1,3 +1,32 @@
+.desktopList,
+.mobileCards {
+    height: 100%;
+    min-height: 69vh;
+    display: block;
+}
+
+.desktopList > div:last-child {
+    position: relative;
+    width: 100%;
+    bottom: 0;
+}
+
+.mobileCards .buffermain > div:last-child {
+    width: 100%;
+}
+
+.mobileCards .buffermain .slds-card {
+    height: 100%;
+   /* min-height: 52vh; */
+    overflow-y: auto;
+}
+
+.mobileCards .buffermain .slds-card .slds-card__body_inner {
+    padding-left: 0;
+    padding-right: 0;
+}
+
+
 .bulk-import-files {
     height: 30px;
     width: 304px;
@@ -17,7 +46,11 @@
     letter-spacing: 0;
     line-height: 24px;
 }
-
+/*
+.bulk-import-buttons .leftMargin {
+    margin-bottom: 6px;
+}
+*/
 .neutral-button {
     color: #0768FD;
 }
@@ -94,7 +127,7 @@
 
 }
 .modalBody{
-    font-family: "Inv Maison Neue","Maison Neue",-apple-system,BlinkMacSystemFont,"Open Sans",open-sans,sans-serif;
+    /* font-family: "Inv Maison Neue","Maison Neue",-apple-system,BlinkMacSystemFont,"Open Sans",open-sans,sans-serif;*/
     min-height: 250px;
 }
 .modalBody .label {
@@ -140,7 +173,9 @@
     font-weight: bold;
     letter-spacing: 0;
     line-height: 24px;
+    margin-top: 1rem;
 }
+
 .elipsis{
     white-space: nowrap;
     overflow: hidden;
@@ -155,7 +190,7 @@
 }
 .closeIcon {
     width: 5%;
-    display: inline;
+    display: inline-block;
     padding-left: 2%;
 }
 
@@ -205,10 +240,80 @@
 .leftMargin{
     margin: 0px 8px 0px 0px;
 }
-@media (max-device-width: 768px) {    
+
+.label-icon-color{
+    -webkit-text-fill-color:  #297dfd;
+    --lwc-colorTextIconDefault:  #297dfd;
+  }
+
+/*mobile*/
+
+.mobileCards{
+    display:none;
+}
+
+@media (max-device-width: 768px) {
+    .desktopList{
+        display:none;
+    }
+
+    .slds-card__body.slds-card__body_inner div {
+        padding-bottom: 2px;
+    }
+
+    .mobileCards
+    .bulk-import-files,
+    .inprogress {
+        padding: unset;
+    }
+
+    .bufferSides{
+        float: left;
+        width: 10%;
+        border: .1px solid white;
+    }
+
+    .slds-dropdown_right, 
+    .slds-dropdown--right{
+        top: 55px;
+        width: 175px;
+        right: 10px;
+    }
+    .bulk-importButton{
+        background: #0768fd;
+        color: white !important;
+    }
+
+    .bulkUploadTitle {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        width: 100%;
+    }
+
+    .bulkUploadBtn {
+        color: #0768fd;
+        text-align: left;
+        padding-left: 0;
+    }
+
+     .bulkUploadBtn .slds-icon-utility-down {
+       display: none;
+    }
+
+     .bulkUploadBtn:after {
+        content: "";
+        position: absolute;
+        background-image: url(/resource/1630921848000/IconTriangleDownBlue);
+        background-size: 16px 16px;
+        height: 16px;
+        width: 16px;
+        top: 25px;
+        right: 19px;
+     }
+    
     .processtext{
-        overflow: scroll;
-        height: 210px;
+        height: auto;
     }
     .processBody{
         zoom: 0.8;
@@ -220,56 +325,65 @@
     .importInfo{
         padding: 10px 12px 10px 7px;
     }
-}
-@media (max-device-width: 360px) {
-    .processtext{
-        overflow: scroll;
-        height: 350px;
+
+    .popUpDisplay {
+        width: auto;
+        height: auto;
+        max-height: 60vh;
+        overflow-y: auto;
     }
+    .mobileCards{
+        display:block;
+    }
+}
+
+
+@media (max-device-width: 486px) {
+    .popUpDisplay {
+        width: auto;
+        height: auto;
+        max-height: 90vh;
+        overflow-y: auto;
+    }
+    .processtext {
+        overflow-y: scroll;
+        height: 30rem;
+    }
+
+    /* .processtext{
+        height: auto;
+    } */
     .processBody{
         zoom: 0.8;
     }
-}
 
-/*mobile*/
+    .modalBody {
+        min-height: 400px;
+    }
 
-.mobileCards{
-    display:none;
-}
-.desktopList{
-    display:unset;
-}
-@media (max-device-width: 768px) {
-    .desktopList{
-        display:none;
+    .fileHolder {
+        min-height: 250px;
     }
-    .mobileCards
-    {
-        display:unset;
+
+    .fileBox,
+    .fileInput {
+        height: 250px;
     }
-    .slds-card__body.slds-card__body_inner div {
-        padding-bottom: 2px;
+
+    .uploadLabel {
+        text-align: center;
+        overflow-wrap: anywhere;
+        max-width: 15rem;
     }
-    .bulk-import-files{
-        padding: unset;
+
+    .bulkUploadTitle .slds-dropdown_right {
+        top: 55px;
+        right: 10px;
+
     }
-    .inprogress{
-        position: unset;
-    }
-    .bufferSides{
-        float: left;
-        width: 10%;
-        border: .1px solid white;
-    }
-    .buffermain{
-        float: left;
-        width: 90%;
-    }
-    .slds-dropdown_right, .slds-dropdown--right{
-        right: 11%;
-    }
-    .bulk-importButton{
-        background: blue;
-        color: white !important;
+
+    .slds-dropdown__item > a {
+        font-size: 14px;
+        justify-content: flex-start;
     }
 }

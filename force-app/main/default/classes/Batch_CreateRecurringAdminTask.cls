@@ -88,7 +88,7 @@ public class Batch_CreateRecurringAdminTask extends Batch_ScheduledAbstract {
                 manualTask.Next_Occurence_Date__c = null;	
                 manualTask.Next_Due_Date__c = null;	
             	manualTask.Reminder_Date__c = null;	
-                manualTask.Status__c = 'Task Completed';	
+                manualTask.Status__c = 'InProgress';	
                 manualConfigList.add(manualTask);	
             }
     }

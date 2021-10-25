@@ -71,7 +71,13 @@
         validity = helper.checkChild(component, validity);
         component.set('v.isValid', validity);
     },
-
+    checkSaveValid: function(component, event, helper) {
+        if (component.get('v.initialized')) {
+            var valid = component.get('v.filter.statuses').length > 0;
+            valid = helper.checkChildSave(component, valid);
+        }
+        component.set('v.isValidSave', valid);
+    },
     checkValid: function(component, event, helper) {
         if (component.get('v.initialized')) {
             var validity = component.get('v.filter.statuses').length > 0;
@@ -105,19 +111,6 @@
                 component.find('spinner').hide();
                 return;
             }
-            if (
-                component.get('v.mcpt').Start_Date__c != component.get('v.taskConfig').startDate &&
-                component.get('v.taskConfig').startDate <=
-                    $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD')
-            ) {
-                // start date cannot be changed to past or today's date
-                communityService.showWarningToast(
-                    'Fail!',
-                    "New start date should be greater than today's date"
-                );
-                component.find('spinner').hide();
-                return;
-            }
         }
         communityService.executeAction(
             component,
@@ -142,11 +135,21 @@
                                 'Creation process is launched!'
                             );
                         }
-                        var urlEvent = $A.get('e.force:navigateToURL');
-                        urlEvent.setParams({
-                            url: '/lightning/n/Manual_Creation_Panel?c__id=' + found
+                        var action = component.get('c.getListViews');
+                        action.setCallback(this, function(response) {
+                            var state = response.getState();
+                            if (state === 'SUCCESS') {
+                                var listviews = response.getReturnValue();
+                                var navEvent = $A.get('e.force:navigateToList');
+                                navEvent.setParams({
+                                    listViewId: listviews.Id,
+                                    listViewName: null,
+                                    scope: 'Manual_Creation_Panel_Task__c'
+                                });
+                                navEvent.fire();
+                            }
                         });
-                        urlEvent.fire();
+                        $A.enqueueAction(action);
                     }
                 } else
                     communityService.showWarningToast(

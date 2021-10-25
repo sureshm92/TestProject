@@ -103,7 +103,7 @@ public without sharing class TaskTriggerHandler {
         List<Id> allContactsIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
         List<Task> tasksWithOwner = [
-            SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId
+            SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId,Start_Date__c 
             FROM Task
             WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
@@ -208,7 +208,7 @@ public without sharing class TaskTriggerHandler {
                     }
                 }
             }
-            if(task.IsRecurranceTask__c)
+            if(task.IsRecurranceTask__c && task.Task_Type__c==TaskService.TASK_TYPE_NOT_SELECTED)
             {
                 if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)){
                     notifications.add(
@@ -216,6 +216,7 @@ public without sharing class TaskTriggerHandler {
                             Recipient__c = task.WhoId,
                             WhatId__c = task.Id,
                             Notification_Type__c = 'Message_To_PT_Task_Instant_Type',
+                            StartDate__c = task.Start_Date__c,
                             RemindUsing__c = 'Email'
                         )
                     );  
@@ -229,6 +230,7 @@ public without sharing class TaskTriggerHandler {
                                     Recipient__c = delContact.Id,
                                     WhatId__c = task.Id,
                                     Notification_Type__c = 'Message_To_PT_Task_Instant_Del_Type',
+                                    StartDate__c = task.Start_Date__c,
                                     RemindUsing__c = 'Email'
                                 )
                             );

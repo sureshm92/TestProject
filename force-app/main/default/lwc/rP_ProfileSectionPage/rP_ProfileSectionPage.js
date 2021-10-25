@@ -36,14 +36,14 @@ import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
-    @api usermode; 
-    @api delegateid; 
-    @api isLoading; 
+    @api usermode;
+    @api delegateid;
+    @api isLoading;
     @track medicalReview = false;
-    @api peId; 
+    @api peId;
     @api ctpId;
-    @api peRecordList =[];
-    @api delegatepeRecordList =[];
+    @api peRecordList = [];
+    @api delegatepeRecordList = [];
     @api error;
     @api icon_Url_LegalStatus;
     @api isLegalStatus;
@@ -55,14 +55,14 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api isMedicalReviewStatus;
     @api emptyMedicalReviewStatus = false;
     @api icon_Url_PreEligibilityStatus;
-    @api isPreEligibilityStatus =false;
+    @api isPreEligibilityStatus = false;
     @api emptyPreEligibilityStatus = false;
     @track apexRefreshList = [];
     referbuttonShow = false;
     @api state;
     @api referbuttonDisable = false;
     @api medicalreviewConfigured = false;
-    @api gizmosrc='';
+    @api gizmosrc = '';
     @api showInclude = false;
     @api showExclude = false;
     @api showMRR = false;
@@ -99,57 +99,56 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     };
 
     showmedicalreview() {
-        this.medicalReview = !this.medicalReview; 
-       this.showMRR = !this.showMRR;
+        this.medicalReview = !this.medicalReview;
+        this.showMRR = !this.showMRR;
     }
 
-    excludepatient(){
+    excludepatient() {
         this.disableButton = true;
-        excludeStatus({participantEnrollmentId: this.peId})
-        .then((result) => { 
-            if(this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
-                this.showSuccessToast(this.label.RH_RP_Excluded_Successfully);
-            }
-            else {
-                this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c+' '+this.label.RH_RP_has_been_excluded);
-            }
-            const selectedvalue = { peRecordList:this.peRecordList};
-            const selectedEvent = new CustomEvent('includeexcluderefresh', { detail: selectedvalue });
-            this.dispatchEvent(selectedEvent);
-        })
-        .catch((error) => {
-            this.errors = error;
-            console.log(error);
+        excludeStatus({ participantEnrollmentId: this.peId })
+            .then((result) => {
+                if (this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
+                    this.showSuccessToast(this.label.RH_RP_Excluded_Successfully);
+                }
+                else {
+                    this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c + ' ' + this.label.RH_RP_has_been_excluded);
+                }
+                const selectedvalue = { peRecordList: this.peRecordList };
+                const selectedEvent = new CustomEvent('includeexcluderefresh', { detail: selectedvalue });
+                this.dispatchEvent(selectedEvent);
+            })
+            .catch((error) => {
+                this.errors = error;
+                console.log(error);
 
-        })
-        .finally(() => {
-        })
+            })
+            .finally(() => {
+            })
     }
-    includepatient(){
+    includepatient() {
         this.disableButton = true;
-        includeStatus({participantEnrollmentId: this.peId})
-        .then((result) => { 
-            if(this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
-                this.showSuccessToast(this.label.RH_RP_included_successfully);
-            }
-            else {
-                this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c +' '+this.label.RH_RP_has_been_included);
-            }
+        includeStatus({ participantEnrollmentId: this.peId })
+            .then((result) => {
+                if (this.peRecordList[0].peRecord.Participant_Name__c == undefined) {
+                    this.showSuccessToast(this.label.RH_RP_included_successfully);
+                }
+                else {
+                    this.showSuccessToast(this.peRecordList[0].peRecord.Participant_Name__c + ' ' + this.label.RH_RP_has_been_included);
+                }
 
-            const selectedvalue = { peRecordList:this.peRecordList};
-            const selectedEvent = new CustomEvent('includeexcluderefresh', { detail: selectedvalue });
-            this.dispatchEvent(selectedEvent);
-        })
-        .catch((error) => {
-            this.errors = error;
-            console.log(error);
-        })
-        .finally(() => {
-        })
+                const selectedvalue = { peRecordList: this.peRecordList };
+                const selectedEvent = new CustomEvent('includeexcluderefresh', { detail: selectedvalue });
+                this.dispatchEvent(selectedEvent);
+            })
+            .catch((error) => {
+                this.errors = error;
+                console.log(error);
+            })
+            .finally(() => {
+            })
     }
 
     doRedirectToReferPatient() {
-       console.log('Redirect');
         this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
@@ -157,192 +156,190 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
             },
             state: {
                 'peid': this.peId,
-                'id' : this.ctpId,
-                'patientVeiwRedirection':true,
+                'id': this.ctpId,
+                'patientVeiwRedirection': true,
             }
         });
     }
 
     @api
-    handleEventChange(event){
+    handleEventChange(event) {
         this.isLoading = true;
         var status;
-        if(event.detail.result == true){
-             status = 'Pass';
-        }else{
+        if (event.detail.result == true) {
+            status = 'Pass';
+        } else {
             status = 'Fail';
         }
         this.medicalReview = false;
 
-        updateMRRStatus({ peId: this.peId, status: status, surveyGizmoData:event.detail.gizmoData })
-        .then((result) => {
-            console.log(result); console.log('success');
-            refreshApex(this.peRecordList);  
-            this.checkMedicalReviewStatus(status);
-            this.isLoading = false;
-        })
-        .catch((error) => {
-            this.errors = error;
-            console.log(error);
+        updateMRRStatus({ peId: this.peId, status: status, surveyGizmoData: event.detail.gizmoData })
+            .then((result) => {
+                refreshApex(this.peRecordList);
+                this.checkMedicalReviewStatus(status);
+                this.isLoading = false;
+            })
+            .catch((error) => {
+                this.errors = error;
+                console.log(error);
 
-        });
+            });
     }
 
-    connectedCallback(){
+    connectedCallback() {
         this.isLoading = true;
         loadScript(this, RR_COMMUNITY_JS)
-        .then(() => {
-            this.userMode = communityService.getUserMode();
-            console.log('frmtablemode'+ this.userMode);
-            this.delegateId = communityService.getDelegateId();
-            console.log('frmtableid'+  this.delegateId );
-        })
-        .then(() => {
-            this.getPEdetails();
-        }).catch((error) => {
-            console.log('Error: ' + error);
-        });     
+            .then(() => {
+                this.userMode = communityService.getUserMode();
+                this.delegateId = communityService.getDelegateId();
+            })
+            .then(() => {
+                this.getPEdetails();
+            }).catch((error) => {
+                console.log('Error: ' + error);
+            });
     }
 
-    getPEdetails(){
-        getSelectedPeDetails({peId: this.peId,delegateId: this.delegateid ,userMode: this.usermode})
-           .then(result => {
-            this.apexRefreshList = result;
-           this.peRecordList = result;
-           this.delegatepeRecordList = result;
+    getPEdetails() {
+        getSelectedPeDetails({ peId: this.peId, delegateId: this.delegateid, userMode: this.usermode })
+            .then(result => {
+                this.apexRefreshList = result;
+                this.peRecordList = result;
+                this.delegatepeRecordList = result;
 
-           this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
-           this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
-           
-           
-        if(this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
-            && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
-            && this.peRecordList[0].peRecord.Participant_Surname__c != undefined
-            && this.peRecordList[0].peRecord.Participant_Surname__c != ''
-            && this.peRecordList[0].peRecord.Participant_Surname__c != null
-            && this.peRecordList[0].peRecord.Participant_Name__c != null
-            && this.peRecordList[0].peRecord.Participant_Name__c != ''
-            && this.peRecordList[0].peRecord.Patient_ID__c != ''
-            && this.peRecordList[0].peRecord.Patient_ID__c != null
-            ){
-                if(this.peRecordList[0].accessLevel == "Level 3"){
-                this.disabledSaveButton = true;}else{ this.disabledSaveButton = false;}
-           }
-           else{
-                this.disabledSaveButton = true;
-           }                
+                this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
+                this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
 
-           if(this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined){
-               this.medicalreviewConfigured = true;
-               this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
-          }else{
-               this.medicalreviewConfigured = false;
-          }
-          
-           this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
-           this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
-           this.error = undefined;
-           this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
-           if(this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring'){
-                this.showInclude = true;
-                this.showExclude = false;
-                this.showRefer = false;
-                this.showMRR = false;
-            }else{
-                this.showInclude = false;
-                this.showExclude = true;
-            }
-           if(this.peRecordList[0].accessLevel == "Level 2"){
-               this.referbuttonDisable = true;
-           }else if(this.peRecordList[0].accessLevel == "Level 3"){
-               this.isaccessLevelthree = true;
-               this.referbuttonDisable = true;
-               this.disabledSaveButton = true;
-           }
-           else{
-               this.referbuttonDisable = false;
-           }
-               this.isLoading = false;
-           })
-           .catch(error => {
-               console.log(JSON.stringify(error));
-               this.peRecordList = undefined;
-               this.isLoading = false;   
-           });
+
+                if (this.peRecordList[0].peRecord.Patient_ID__c != undefined && this.peRecordList[0].peRecord.Participant_Name__c != undefined
+                    && this.peRecordList[0].peRecord.YOB__c != undefined && this.peRecordList[0].peRecord.Patient_Auth__c != undefined
+                    && this.peRecordList[0].peRecord.Participant_Surname__c != undefined
+                    && this.peRecordList[0].peRecord.Participant_Surname__c != ''
+                    && this.peRecordList[0].peRecord.Participant_Surname__c != null
+                    && this.peRecordList[0].peRecord.Participant_Name__c != null
+                    && this.peRecordList[0].peRecord.Participant_Name__c != ''
+                    && this.peRecordList[0].peRecord.Patient_ID__c != ''
+                    && this.peRecordList[0].peRecord.Patient_ID__c != null
+                ) {
+                    if (this.peRecordList[0].accessLevel == "Level 3") {
+                        this.disabledSaveButton = true;
+                    } else { this.disabledSaveButton = false; }
+                }
+                else {
+                    this.disabledSaveButton = true;
+                }
+
+                if (this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c != undefined) {
+                    this.medicalreviewConfigured = true;
+                    this.gizmosrc = this.peRecordList[0].peRecord.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
+                } else {
+                    this.medicalreviewConfigured = false;
+                }
+
+                this.checkMedicalReviewStatus(this.peRecordList[0].peRecord.Medical_Record_Review_Status__c);
+                this.checkPrescreeningStatus(this.peRecordList[0].peRecord.Pre_screening_Status__c);
+                this.error = undefined;
+                this.states = this.peRecordList[0].statesByCountryMap[this.peRecordList[0].peRecord.Mailing_Country_Code__c];
+                if (this.peRecordList[0].peRecord.Participant_Status__c == 'Excluded from Referring') {
+                    this.showInclude = true;
+                    this.showExclude = false;
+                    this.showRefer = false;
+                    this.showMRR = false;
+                } else {
+                    this.showInclude = false;
+                    this.showExclude = true;
+                }
+                if (this.peRecordList[0].accessLevel == "Level 2") {
+                    this.referbuttonDisable = true;
+                } else if (this.peRecordList[0].accessLevel == "Level 3") {
+                    this.isaccessLevelthree = true;
+                    this.referbuttonDisable = true;
+                    this.disabledSaveButton = true;
+                }
+                else {
+                    this.referbuttonDisable = false;
+                }
+                this.isLoading = false;
+            })
+            .catch(error => {
+                console.log(JSON.stringify(error));
+                this.peRecordList = undefined;
+                this.isLoading = false;
+            });
     }
 
     checkLegalStatus(legalStatus) {
-        if(legalStatus == 'Yes'){
+        if (legalStatus == 'Yes') {
             this.icon_Url_LegalStatus = community_icon + '/checkGreen.svg';
             this.legalStatus = true;
             this.emptyLegalStatus = false;
-        } 
-        else if(legalStatus == 'No'){
+        }
+        else if (legalStatus == 'No') {
             this.icon_Url_LegalStatus = community_icon + '/close.svg';
             this.isLegalStatus = false;
             this.emptyLegalStatus = false;
-        } 
+        }
         else {
             this.emptyLegalStatus = true;
         }
     }
 
     checkPatientAuthStatus(patientAuthStatus) {
-        if(patientAuthStatus == 'Yes'){
+        if (patientAuthStatus == 'Yes') {
             this.icon_Url_PatientAuthStatus = community_icon + '/checkGreen.svg';
             this.ispatientAuthStatus = true;
             this.emptyPatientAuthStatus = false;
-        } 
-        else if(patientAuthStatus == 'No'){
+        }
+        else if (patientAuthStatus == 'No') {
             this.icon_Url_PatientAuthStatus = community_icon + '/close.svg';
             this.ispatientAuthStatus = false;
             this.emptyPatientAuthStatus = false;
-        } 
+        }
         else {
             this.emptyPatientAuthStatus = true;
         }
     }
 
     checkMedicalReviewStatus(medicalReviewStatus) {
-        if(this.medicalreviewConfigured){
-            if(medicalReviewStatus == 'Pass'){
+        if (this.medicalreviewConfigured) {
+            if (medicalReviewStatus == 'Pass') {
                 this.icon_Url_MedicalReviewStatus = community_icon + '/checkGreen.svg';
                 this.isMedicalReviewStatus = true;
                 this.emptyMedicalReviewStatus = false;
                 this.showRefer = true;
                 this.showMRR = false;
-            } 
-            else if(medicalReviewStatus == 'Fail'){
+            }
+            else if (medicalReviewStatus == 'Fail') {
                 this.icon_Url_MedicalReviewStatus = community_icon + '/close.svg';
                 this.isMedicalReviewStatus = false;
                 this.emptyMedicalReviewStatus = false;
                 this.showRefer = true;
                 this.showMRR = false;
-            } 
-            else if(medicalReviewStatus == undefined){
+            }
+            else if (medicalReviewStatus == undefined) {
                 this.emptyMedicalReviewStatus = true;
                 this.showRefer = false;
-                this.showMRR = true; 
+                this.showMRR = true;
             }
         }
-        else{
+        else {
             this.showRefer = true;
             this.showMRR = false;
         }
     }
 
     checkPrescreeningStatus(prescreeningStatus) {
-        
-        if(prescreeningStatus == 'Pass'){
+
+        if (prescreeningStatus == 'Pass') {
             this.icon_Url_PreEligibilityStatus = community_icon + '/checkGreen.svg';
             this.isPreEligibilityStatus = true;
             this.emptyPreEligibilityStatus = false;
-        } 
-        else if(prescreeningStatus == 'Fail'){
+        }
+        else if (prescreeningStatus == 'Fail') {
             this.icon_Url_PreEligibilityStatus = community_icon + '/close.svg';
             this.isPreEligibilityStatus = false;
             this.emptyPreEligibilityStatus = false;
-        } 
+        }
         else {
             this.emptyPreEligibilityStatus = true;
         }
@@ -350,16 +347,16 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     handlePatientTabChange(event) {
         this.peRecordList = [];
-        this.peRecordList = event.detail.patientRecord;       
+        this.peRecordList = event.detail.patientRecord;
         this.checkPatientAuthStatus(this.peRecordList[0].peRecord.Patient_Auth__c);
         this.checkLegalStatus(this.peRecordList[0].peRecord.Legal_Status__c);
-        const selectedvalue = { peRecordList:this.peRecordList};
+        const selectedvalue = { peRecordList: this.peRecordList };
         const selectedEvent = new CustomEvent('patienttabrefresh', { detail: selectedvalue });
         this.dispatchEvent(selectedEvent);
     }
 
     handleDelegateChange(event) {
-        this.peRecordList = event.detail.patientRecord;       
+        this.peRecordList = event.detail.patientRecord;
     }
 
     showSuccessToast(messageRec) {
@@ -376,7 +373,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     openInclude = false;
     disableButton = false;
 
-    openExcludeModal(){
+    openExcludeModal() {
         this.openExclude = true;
     }
 
@@ -384,13 +381,20 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         this.openExclude = false;
         this.disableButton = false;
     }
-    
-    openIncludeModal(){
+
+    openIncludeModal() {
         this.openInclude = true;
     }
-    
+
     closeIncludeModal() {
         this.openInclude = false;
         this.disableButton = false;
+    }
+
+    //mobile
+    showButtons = false;
+
+    toggleButtons() {
+        this.showButtons = !this.showButtons;
     }
 }

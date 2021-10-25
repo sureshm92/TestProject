@@ -17,12 +17,16 @@
     <aura:attribute name="dayRemind" type="Integer" />
     <aura:attribute name="todayDate" type="Date" />
     <aura:attribute name="isValid" type="Boolean" default="false" />
+    <aura:attribute name="isValidSave" type="Boolean" default="true" />
+    <aura:attribute name="freqValidation" type="Boolean" default="true" />
     <aura:attribute name="recurrenceFrequency" type="List" />
     <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
     <aura:attribute name="mcpt" type="Manual_Creation_Panel_Task__c" />
+    <aura:attribute name="isDoneRendering" type="Boolean" default="false" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
+    <aura:handler event="aura:doneRendering" action="{!c.doneRendering}" />
     <aura:handler name="change" value="{!v.taskConfig.subject}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.startDate}" action="{!c.doCheckFields}" />
     <aura:handler name="change" value="{!v.taskConfig.endTime}" action="{!c.doCheckFields}" />
@@ -36,7 +40,7 @@
 
     <!-- component body -->
     <aura:if
-        isTrue="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c == 'Inactive' || v.mcpt.Status__c == 'Cancelled' || v.oneTimeTaskInProgress}"
+        isTrue="{!v.mcpt.Status__c =='Task Completed' || v.mcpt.Status__c =='Completed' || v.mcpt.Status__c == 'Inactive' || v.mcpt.Status__c == 'Cancelled' || v.oneTimeTaskInProgress}"
     >
         <div class="mt-panel">
             <!-- Task Subject -->
@@ -112,7 +116,7 @@
                         <lightning:select
                             label="Set Task Reminder"
                             value="{!v.showNumbersAdd}"
-                            disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
+                            disabled="{!v.isEdit}"
                         >
                             <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                                 <aura:if isTrue="{!not(v.taskConfig.endTime == v.todayDate)}">
@@ -156,7 +160,7 @@
                         </aura:set>
                     </aura:if>
                     <aura:if
-                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
+                        isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.showNumbersAdd == 'true')}"
                     >
                         <span onkeypress="{!c.dueNumberKeyPress}">
                             <lightning:input
@@ -264,12 +268,23 @@
         <aura:set attribute="else">
             <div class="mt-panel">
                 <!-- Task Subject -->
-                <lightning:input
-                    aura:id="field"
-                    label="Enter Subject"
-                    value="{!v.taskConfig.subject}"
-                    required="true"
-                />
+                <aura:if isTrue="{!v.isEdit}">
+                    <lightning:input
+                        aura:id="fieldEdit1"
+                        label="Enter Subject"
+                        value="{!v.taskConfig.subject}"
+                        required="true"
+                    />
+                    <aura:set attribute="else">
+                        <lightning:input
+                            aura:id="field"
+                            label="Enter Subject"
+                            value="{!v.taskConfig.subject}"
+                            required="true"
+                        />
+                    </aura:set>
+                </aura:if>
+
                 <div class="slds-grid slds-gutters">
                     <div class="slds-col slds-size--1-of-2">
                         <!-- Task Priority -->
@@ -283,28 +298,59 @@
                             </aura:iteration>
                         </lightning:select>
                         <!-- Start Date -->
-                        <lightning:input
-                            aura:id="field"
-                            type="date"
-                            label="Set Task Start Date"
-                            value="{!v.taskConfig.startDate}"
-                            required="true"
-                            onchange="{!c.onDaysChange}"
-                            min="{!v.todayDate}"
-                            dateStyle="medium"
-                        />
+                        <aura:if isTrue="{!v.isEdit}">
+                            <lightning:input
+                                aura:id="fieldEdit2"
+                                type="date"
+                                label="Set Task Start Date"
+                                value="{!v.taskConfig.startDate}"
+                                required="true"
+                                onchange=""
+                                min=""
+                                dateStyle="medium"
+                            />
+                            <aura:set attribute="else">
+                                <lightning:input
+                                    aura:id="field"
+                                    type="date"
+                                    label="Set Task Start Date"
+                                    value="{!v.taskConfig.startDate}"
+                                    required="true"
+                                    onchange="{!c.onDaysChange}"
+                                    min="{!v.todayDate}"
+                                    dateStyle="medium"
+                                />
+                            </aura:set>
+                        </aura:if>
+
                         <!-- Due Date -->
-                        <lightning:input
-                            aura:id="field"
-                            type="date"
-                            label="Set Task Due Date"
-                            value="{!v.taskConfig.endTime}"
-                            onchange="{!c.onDaysChange}"
-                            min="{!v.taskConfig.startDate}"
-                            disabled="{!empty(v.taskConfig.startDate)}"
-                            dateStyle="medium"
-                            required="{!v.taskConfig.isRecurrence}"
-                        />
+                        <aura:if isTrue="{!v.isEdit}">
+                            <lightning:input
+                                aura:id="fieldEdit3"
+                                type="date"
+                                label="Set Task Due Date"
+                                value="{!v.taskConfig.endTime}"
+                                onchange="{!c.onDaysChange}"
+                                min="{!v.taskConfig.startDate}"
+                                disabled="{!empty(v.taskConfig.startDate)}"
+                                dateStyle="medium"
+                                required="{!v.taskConfig.isRecurrence}"
+                            />
+                            <aura:set attribute="else">
+                                <lightning:input
+                                    aura:id="field"
+                                    type="date"
+                                    label="Set Task Due Date"
+                                    value="{!v.taskConfig.endTime}"
+                                    onchange="{!c.onDaysChange}"
+                                    min="{!v.taskConfig.startDate}"
+                                    disabled="{!empty(v.taskConfig.startDate)}"
+                                    dateStyle="medium"
+                                    required="{!v.taskConfig.isRecurrence}"
+                                />
+                            </aura:set>
+                        </aura:if>
+
                         <!-- Recurrence -->
                         <div class="recurringCheckbox">
                             <lightning:input
@@ -331,6 +377,8 @@
                         <!-- Reminder Mode -->
                         <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                             <lightning:select
+                                name="a_optRec"
+                                aura:id="a_optRec"
                                 label="Set Task Reminder"
                                 value="{!v.showNumbersAdd}"
                                 disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
@@ -345,19 +393,17 @@
                             </lightning:select>
                             <aura:set attribute="else">
                                 <lightning:select
+                                    name="a_opt"
+                                    aura:id="a_opt"
                                     label="Set Task Reminder"
                                     value="{!v.showNumbersAdd}"
-                                    disabled="{!v.isEdit}"
+                                    disabled=""
                                 >
                                     <aura:if isTrue="{!v.isEdit}">
-                                        <aura:if isTrue="{!v.taskConfig.showNumbersAdd == 'true'}">
-                                            <option value="true"
-                                                >Number of days before the Task due date</option
-                                            >
-                                            <aura:set attribute="else">
-                                                <option value="false">Specific Date</option>
-                                            </aura:set>
-                                        </aura:if>
+                                        <option value="false">Specific Date</option>
+                                        <option value="true"
+                                            >Number of days before the Task due date</option
+                                        >
                                         <aura:set attribute="else">
                                             <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                                                 <aura:if
@@ -377,9 +423,8 @@
                                 </lightning:select>
                             </aura:set>
                         </aura:if>
-
                         <aura:if
-                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.taskConfig.showNumbersAdd == 'true')}"
+                            isTrue="{!v.showNumbersAdd == 'true'|| v.taskConfig.isRecurrence || (!v.taskConfig.isRecurrence &amp;&amp; v.showNumbersAdd == 'true')}"
                         >
                             <span onkeypress="{!c.dueNumberKeyPress}">
                                 <lightning:input

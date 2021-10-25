@@ -15,11 +15,21 @@ import RH_RP_Exclude_From_Referring from '@salesforce/label/c.RH_RP_Exclude_From
 import RH_RP_Include_From_Referring from '@salesforce/label/c.RH_RP_Include_From_Referring';
 import RH_RP_Exclude from '@salesforce/label/c.RH_RP_Exclude';
 import RH_RP_Include from '@salesforce/label/c.RH_RP_Include';
+import RH_RP_Bulk_Excluded_Successfully from '@salesforce/label/c.RH_RP_Bulk_Excluded_Successfully';
+import RH_RP_Bulk_included_successfully from '@salesforce/label/c.RH_RP_Bulk_included_successfully';
+import RH_RP_Export_to_excel from '@salesforce/label/c.RH_RP_Export_to_excel';
+import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
+import RH_RP_Export_downloadable_log from '@salesforce/label/c.RH_RP_Export_downloadable_log';
+import RH_RP_Bulk_Action from '@salesforce/label/c.RH_RP_Bulk_Action';
+import RH_RP_OutreachEmail from '@salesforce/label/c.RH_RP_OutreachEmail';
+import RH_RP_Patients_Selected from '@salesforce/label/c.RH_RP_Patients_Selected';
+
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring';
 import includeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkUndoChangeStatusToExcludeFromReferring';
 import getExportRecords from '@salesforce/apex/RPRecordReviewLogController.getExportRecords';
 import { ShowToastEvent } from 'lightning/platformShowToastEvent';
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
 
 export default class RP_BulkProfileSectionPage extends LightningElement {
 
@@ -40,7 +50,15 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         RH_RP_Exclude_From_Referring,
         RH_RP_Include_From_Referring,
         RH_RP_Exclude,
-        RH_RP_Include
+        RH_RP_Include,
+        RH_RP_Bulk_Excluded_Successfully,
+        RH_RP_Bulk_included_successfully,
+        RH_RP_Export_to_excel,
+        RH_RP_Outreach_Email,
+        RH_RP_Export_downloadable_log,
+        RH_RP_Bulk_Action,
+        RH_RP_OutreachEmail,
+        RH_RP_Patients_Selected
     };
 
     @api usermode; 
@@ -53,11 +71,16 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     @api verifyFilterValue;
     @api peList;
     @api isaccessLevelthree = false;
+    @api disableExceldownload = false;
+    
 
     openExclude = false;
     openInclude = false;
     disableButton = false;
     showExclude = false;
+    topIcon = icon_chevron_up_white;
+
+
     connectedCallback() {
         this.totalRecords = this.peIds.length; 
 
@@ -69,10 +92,21 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         }
     }
 
+    goTop(){
+        window.scrollTo({
+            top: 100,
+            behavior: 'smooth'
+          });
+    }
+
     openExcludeModal(){
         this.openExclude = true;
     }
-
+    @api
+    noRecords() {
+        this.isaccessLevelthree = true;
+        this.disableExceldownload = true;
+    }
     closeExcludeModal() {
         this.openExclude = false;
     }
@@ -89,14 +123,19 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         this.disableButton = true;
         excludeStatus({participantEnrollmentIds: this.peIds})
         .then((result) => { 
-            this.showSuccessToast(this.label.RH_RP_Excluded_Successfully);
+            this.showSuccessToast(this.label.RH_RP_Bulk_Excluded_Successfully);
             this.openExclude = false;
-            eval("$A.get('e.force:refreshView').fire();");
         })
         .catch((error) => {
             this.errors = error;
             console.log(error);
             this.disableButton = false;
+        })
+        .finally(() => {
+            //eval("$A.get('e.force:refreshView').fire();");
+            const selectedvalue = {bulkPeIds: this.peIds};
+            const selectedEvent = new CustomEvent('bulkincludeexcluderefresh', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
         })
     }
 
@@ -104,7 +143,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         this.disableButton = true;
         includeStatus({participantEnrollmentIds: this.peIds})
         .then((result) => {
-            this.showSuccessToast(this.label.RH_RP_included_successfully);
+            this.showSuccessToast(this.label.RH_RP_Bulk_included_successfully);
         })
         .catch((error) => {
             this.errors = error;
@@ -113,14 +152,14 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         })
         .finally(() => {
             this.openInclude = false;
-            eval("$A.get('e.force:refreshView').fire();");
+            const selectedvalue =  {bulkPeIds: this.peIds};
+            const selectedEvent = new CustomEvent('bulkincludeexcluderefresh', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
         })
     }
     exportBulkepatient(){
-       console.log('export');
        getExportRecords({participantEnrollmentIds: this.peIds})
        .then((result) => {
-             //console.log('Result-->'+JSON.stringify(result));
              this.peList = result;
        })
        .then(() => {
@@ -132,9 +171,8 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
        })
     }
     downloadasExcel() {  
-      console.log('downloading...');
-      let columnHeader = ["Participant Profile Name", "MRN Id","Patient ID","Study Code Name", "Study Site Name","Investigator Name","Participant Status","Status Change Reason","Participant Status Last Changed Date","Last Status Changed Notes","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referral Source"]; 
-      let queryFields = ["Name", "MRNID", "PatientID", "StudyCodeName", "StudySiteName","InvestigatorName","ParticipantStatus","StatusChangeReason","ParticipantStatusLastChangedDt","LastStatusChangedNotes","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","ReferralSource"]; 
+      let columnHeader = ["Study Code Name","Participant Profile Name", "Patient ID","Participant Status","Participant Status Last Changed Date","Last Added Notes","Outreach Email","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referred Date","Referral Completed by","Referral Source","Study Site Name","Investigator Name","Status Change Reason","Last Status Changed Notes","MRN Id"]; 
+      let queryFields = ["StudyCodeName","Name", "PatientID","ParticipantStatus","ParticipantStatusLastChangedDt","LastAddedNotes","OutreachMail","PreScreeningStatus","PreScreeningCompletedby","PreScreeningdate","Referreddate","ReferralCompletedby","ReferralSource","StudySiteName","InvestigatorName","StatusChangeReason","LastStatusChangedNotes","MRNID"]; 
       var jsonRecordsData = this.peList;  
       let csvIterativeData;  
       let csvSeperator;  
@@ -158,7 +196,6 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         }  
         csvIterativeData += newLineCharacter;  
       }  
-      console.log("csvIterativeData", csvIterativeData);  
         let downloadElement = document.createElement('a');
         downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvIterativeData);
         downloadElement.target = '_self';

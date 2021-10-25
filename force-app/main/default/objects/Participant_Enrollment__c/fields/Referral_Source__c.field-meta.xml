@@ -74,6 +74,16 @@
                 <default>false</default>
                 <label>MassiveBio</label>
             </value>
+            <value>
+                <fullName>SubjectWell</fullName>
+                <default>false</default>
+                <label>SubjectWell</label>
+            </value>
+            <value>
+                <fullName>Piper</fullName>
+                <default>false</default>
+                <label>Piper</label>
+            </value>
         </valueSetDefinition>
     </valueSet>
 </CustomField>

@@ -2,119 +2,158 @@
 <!--Created By Sabir on 21-09-21-->
 
 <template>
-   <div style="height: 500px;margin-top: 140px;">
-       <div class="slds-grid slds-grid_align-center">
-           <lightning-icon icon-name="utility:user" alternative-text="User" class="icon-user" title="User"
-               size="large">
-           </lightning-icon>
-       </div>
-       <div class="slds-grid slds-grid_align-center">
-           <div class="patients-selected">
-               {totalRecords} Patients Selected
-           </div>
-       </div>
-       <div class="slds-grid slds-grid_align-center">
-           <div class="select-label">
-               Select what bulk action you would like to perform
-           </div>
-       </div>
-       <div class="slds-grid slds-grid_align-center slds-gutters_x-small mob-left-space">
-           <div class="slds-col">
-               <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient}
-                   title="Export to Excel">
-                   Export to Excel
-               </button>
-           </div>
-           <div class="slds-col">
-               <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openOutreach} title="Outreach Email">
-                   Outreach Email
-               </button>
-           </div>
-           <div class="slds-col">
-               <template if:false={showExclude}>
-                   <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openExcludeModal} 
-                        title={label.RH_RP_Exclude_From_Referring}>
+    <div style="height: 500px;margin-top: 140px;">
+        <div class="slds-grid slds-grid_align-center">
+            <lightning-icon icon-name="utility:user" alternative-text="User" class="icon-user" title="User"
+                size="large">
+            </lightning-icon>
+        </div>
+        <div class="slds-grid slds-grid_align-center">
+            <div class="patients-selected">
+                {totalRecords} {label.RH_RP_Patients_Selected}
+            </div>
+        </div>
+        <div class="slds-grid slds-grid_align-center">
+            <div class="select-label">
+                {label.RH_RP_Bulk_Action}
+            </div>
+        </div>
+        <div class="slds-grid slds-grid_align-center slds-show_medium slds-gutters_x-small mob-left-space top-padding">
+            <div class="slds-col">
+                <button class="apollo-btn secondary search-more-btn" onclick={exportBulkepatient} disabled={disableExceldownload}
+                    title={label.RH_RP_Export_downloadable_log}>
+                    <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:ad_set">
+                    </lightning-button-icon> &nbsp;
+                    {label.RH_RP_Export_to_excel}
+                </button>
+            </div>
+            <div class="slds-col">
+                <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
+                    onclick={openOutreach} title={label.RH_RP_OutreachEmail}>
+                    <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email">
+                    </lightning-button-icon> &nbsp;
+                    {label.RH_RP_Outreach_Email}
+                </button>
+            </div>
+            <template if:false={showExclude}>
+                <div class="slds-col">
+                    <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
+                        onclick={openExcludeModal} title={label.RH_RP_Exclude_From_Referring}>
+                        <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:close">
+                        </lightning-button-icon> &nbsp;
                         {label.RH_RP_Exclude}
-                   </button>
-               </template>
-           </div>
-           <div class="slds-col">
-               <template if:true={showExclude}>
-                   <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree} onclick={openIncludeModal} 
-                        title={label.RH_RP_Include_From_Referring}>
+                    </button>
+                </div>
+            </template>
+            <div class="slds-col">
+                <template if:true={showExclude}>
+                    <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
+                        onclick={openIncludeModal} title={label.RH_RP_Include_From_Referring}>
+                        <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:add">
+                        </lightning-button-icon> &nbsp;
                         {label.RH_RP_Include}
-                   </button>
-               </template>
-           </div>
-       </div>
-   </div>
+                    </button>
+                </template>
+            </div>
+        </div>
+        <!-- Imteyaz code for mob Action button dropdown -->
+        <div class="slds-grid slds-grid_align-center lgc-bg actionBtn lgc-bg slds-hide_large">
+            <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
+                onselect={handleMenuItem}>
+               <!-- <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
+                    label={label.RH_RP_Export_to_excel} onclick={exportBulkepatient}
+                    title={label.RH_RP_Export_downloadable_log}>
+                </lightning-menu-item>
+                <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
+                    label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
+                    title={label.RH_RP_OutreachEmail} disabled={isaccessLevelthree}>
+                </lightning-menu-item>-->
+                <template if:false={showExclude}>
+                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
+                        label={label.RH_RP_Exclude} onclick={openExcludeModal}
+                        title={label.RH_RP_Exclude_From_Referring} disabled={isaccessLevelthree}>
+                    </lightning-menu-item>
+                </template>
+                <template if:true={showExclude}>
+                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:add"
+                        label={label.RH_RP_Include} onclick={openIncludeModal}
+                        title={label.RH_RP_Include_From_Referring} disabled={isaccessLevelthree}>
+                    </lightning-menu-item>
+                </template>
+            </lightning-button-menu>
+        </div>
 
-   <!--for Exclude records-->
-   <template if:true={openExclude}>
-       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-           aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-           <div class="sldsmodalcontainer">
-               <header class="slds-modal__header">
-                   <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                       title="Close" onclick={closeExcludeModal}>
-                       <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
-                           size="small"></lightning-icon>
-                       <span class="slds-assistive-text">{label.BTN_Close}</span>
-                   </button>
-                   <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
-                       {label.RH_RP_Exclude_Record}</h2>
-               </header>
-               <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
-                   <p>{label.RH_RP_exclude_this_patient}</p>
-               </div>
-               <footer class="slds-modal__footer">
-                   <button class="apollo-btn tertiary custom-cancel" onclick={closeExcludeModal} title="Cancel"
-                   disabled={disableButton}>
-                       {label.Cancel}
-                   </button>
-                   <button class="apollo-btn primary search-more-btn" onclick={excludBulkepatient} title="Ok"
-                   disabled={disableButton}>
-                       {label.BTN_OK}
-                   </button>
-               </footer>
-           </div>
-       </section>
-       <div class="slds-backdrop slds-backdrop_open"></div>
-   </template>
+        <div class="topIcon-control slds-hide_medium">
+            <img src={topIcon} class="topIcon" onclick={goTop}>
+        </div>
+    </div>
 
-   <!--for Include records-->
-   <template if:true={openInclude}>
-       <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
-           aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
-           <div class="sldsmodalcontainer">
-               <header class="slds-modal__header">
-                   <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
-                       title="Close" onclick={closeIncludeModal}>
-                       <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
-                           size="small"></lightning-icon>
-                       <span class="slds-assistive-text">{label.BTN_Close}</span>
-                   </button>
-                   <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
-                       {label.RH_RP_Include_Record}</h2>
-               </header>
-               <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
-                   <p>{label.RH_RP_want_to_include_patients}</p>
-               </div>
-               <footer class="slds-modal__footer">
-                   <button class="apollo-btn tertiary custom-cancel" onclick={closeIncludeModal} title="Cancel"
-                       disabled={disableButton}>
-                       {label.Cancel}
-                   </button>
-                   <button class="apollo-btn primary search-more-btn" onclick={includeBulkpatient} title="Ok"
-                       disabled={disableButton}>
-                       {label.BTN_OK}
-                   </button>
-               </footer>
-           </div>
-       </section>
-       <div class="slds-backdrop slds-backdrop_open"></div>
-   </template>
-   <!--<template if:true={showSendOutreach}>
+    <!--for Exclude records-->
+    <template if:true={openExclude}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeExcludeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">{label.BTN_Close}</span>
+                    </button> -->
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">
+                        {label.RH_RP_Exclude_Record}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <p>{label.RH_RP_exclude_this_patient}</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeExcludeModal} title="Cancel"
+                        disabled={disableButton}>
+                        {label.Cancel}
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="apollo-btn primary search-more-btn" onclick={excludBulkepatient} title="Ok"
+                        disabled={disableButton}>
+                        {label.BTN_OK}
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+
+    <!--for Include records-->
+    <template if:true={openInclude}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true"
+            aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <!-- <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse"
+                        title="Close" onclick={closeIncludeModal}>
+                        <lightning-icon icon-name="utility:close" alternative-text="close" variant="inverse"
+                            size="small"></lightning-icon>
+                        <span class="slds-assistive-text">{label.BTN_Close}</span>
+                    </button> -->
+                    <h2 id="modal-heading-02" class="slds-text-heading_medium slds-hyphenate">
+                        {label.RH_RP_Include_Record}</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-2">
+                    <p>{label.RH_RP_want_to_include_patients}</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeIncludeModal} title="Cancel"
+                        disabled={disableButton}>
+                        {label.Cancel}
+                    </button>&nbsp;&nbsp;&nbsp;&nbsp;
+                    <button class="apollo-btn primary search-more-btn" onclick={includeBulkpatient} title="Ok"
+                        disabled={disableButton}>
+                        {label.BTN_OK}
+                    </button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <!--<template if:true={showSendOutreach}>
        <c-rp_-patient-outreach pe-ids={peIds} onclose={closeOutreachdModal}>
        </c-rp_-patient-outreach>
    </template>-->
