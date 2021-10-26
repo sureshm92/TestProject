@@ -1,0 +1,143 @@
+.patientOutreach .tabScroll {
+  overflow-x: auto;
+  overflow-y: hidden;
+  display: -webkit-box;
+  display: -moz-box;
+}
+.patientOutreach .bufferSides {
+  float: left;
+  width: 2%;
+  height: 44px;
+  cursor: pointer;
+}
+.patientOutreach .buffermain {
+  float: left;
+  width: 96%;
+}
+.patientOutreach ::-webkit-scrollbar {
+  display: none;
+}
+.patientOutreach .saveButton {
+  background-color: rgb(41, 125, 253);
+  color: white;
+  border-color: #297dfd;
+}
+.patientOutreach .saveButton:hover {
+  background-color: #1c577f;
+  border-color: #1c577f;
+}
+.patientOutreach {
+  font-family: Proxima Nova;
+  font-size: 16px;
+  color: black;
+}
+.patientOutreach .studyTitle {
+  font-weight: 600;
+  padding: 10px 0px 0px 20px;
+}
+.patientOutreach .tabScroll li a {
+  font-weight: 500;
+  color: black;
+}
+.patientOutreach .tabScroll .slds-is-active a {
+  font-weight: 600;
+}
+.patientOutreach .slds-tabs_default__item.slds-active:after,
+.slds-tabs_default__item.slds-is-active:after,
+.slds-tabs--default__item.slds-active:after,
+.slds-tabs--default__item.slds-is-active:after {
+  background-color: #0768fd;
+  border-radius: 4px;
+}
+.patientOutreach .outreachInfo {
+  padding: 10px 14px 15px 14px;
+}
+.outreachOkButton {
+  background-color: rgb(41, 125, 253);
+  color: white;
+  border-color: #297dfd;
+  width: 80px;
+}
+.outreachOkButton:hover {
+  background-color: #1c577f;
+  border-color: #1c577f;
+}
+.patientOutreachValidation .subtitle {
+  font-size: 16px;
+  font-weight: bold;
+}
+.patientOutreachValidation .outreach-sent {
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 12px;
+  border-bottom: 2px solid black;
+}
+.patientOutreachValidation .outreach-notsent {
+  font-size: 16px;
+  font-weight: bold;
+  padding-top: 12px;
+}
+.patientOutreachValidation .success {
+  color: #444444;
+  font-size: 14px;
+  font-weight: bold;
+  padding: 15px 10px;
+}
+.patientOutreachValidation th {
+  border-bottom: 2px solid black;
+  font-size: 14px;
+}
+.patientOutreachValidation td {
+  font-size: 14px;
+  font-weight: bold;
+  padding: 13px 0px;
+}
+.patientOutreachValidation .innerbox {
+  max-height: 360px;
+  padding-right: 15px;
+  overflow: auto;
+  margin-bottom: 20px;
+}
+.patientOutreachValidation ::-webkit-scrollbar {
+  width: 8px;
+}
+
+/* Track */
+.patientOutreachValidation ::-webkit-scrollbar-track {
+  box-shadow: 0 8px 20px 0 rgba(0, 0, 0, 0.08);
+  border-radius: 4px;
+  background: #dbdbdb;
+}
+
+/* Handle */
+.patientOutreachValidation ::-webkit-scrollbar-thumb {
+  background: #999999;
+  border-radius: 4px;
+}
+
+/* Handle on hover */
+.patientOutreachValidation ::-webkit-scrollbar-thumb:hover {
+  background: #7a7a7a;
+}
+
+/* ol li {
+  list-style: lower-roman !important;
+} */
+@media (max-width: 768px) {
+  .patientOutreach .outreachInfo {
+    padding: 20px 0px 0px 0px !important;
+  }
+  .patientOutreach .studyTitle {
+    font-weight: 900;
+    padding: 22px 0px 0px 0px;
+  }
+  /* .slds-rich-text-editor__output ol {
+    list-style: lower-roman !important;
+  }
+  .slds-rich-text-editor__output ol li {
+    padding-bottom: 15px;
+  }
+  .slds-rich-text-editor__output ol li span {
+    line-height: 20px;
+  } */
+}
