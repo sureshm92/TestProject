@@ -78,11 +78,9 @@ public without sharing class ParametrizedMessageService {
             }
             resultMessage = sourceMessage;
             if (valuesMap.get('ShortTaskName') != null) {
-                System.debug(valuesMap.get('ShortTaskName'));
-                if (valuesMap.get('ShortTaskName').length() > 12) {
                     valuesMap.put(
                         'ShortTaskName',
-                        valuesMap.get('ShortTaskName').substring(0, 12) + '..'
+                        valuesMap.get('ShortTaskName').abbreviate(12).removeEnd('.')
                     );
                 }
             }
