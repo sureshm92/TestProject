@@ -47,7 +47,9 @@ public with sharing class Action_SendSMS implements Action {
         ]) {
             DialingCountryConfig obj = new DialingCountryConfig();
             obj.dialCountryCodeList = mdt.Dialing_Code__c.split(',');
-            obj.characterLimit = Integer.valueOf(mdt.Character_Limit__c);
+            obj.characterLimit = mdt.Character_Limit__c == null
+                ? 160
+                : Integer.valueOf(mdt.Character_Limit__c);
             //countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
             countryDialCodeMap.put(mdt.DeveloperName, obj);
         }
