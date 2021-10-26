@@ -77,6 +77,15 @@ public without sharing class ParametrizedMessageService {
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;
+            if (valuesMap.get('ShortTaskName') != null) {
+                System.debug(valuesMap.get('ShortTaskName'));
+                if (valuesMap.get('ShortTaskName').length() > 12) {
+                    valuesMap.put(
+                        'ShortTaskName',
+                        valuesMap.get('ShortTaskName').substring(0, 12) + '..'
+                    );
+                }
+            }
             for (String parameterName : valuesMap.keySet()) {
                 resultMessage = resultMessage.replace(
                     '##' + parameterName,

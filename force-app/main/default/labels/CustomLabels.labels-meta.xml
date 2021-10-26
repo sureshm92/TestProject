@@ -21116,7 +21116,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>You have an upcoming task ##TaskName;Due Date: ##Taskdate ;Please log in to ##CommunityURL for additional details.</value>
+        <value>You have an upcoming task ##ShortTaskName;Due Date: ##Taskdate ;Please log in to ##CommunityURL for additional details.</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
