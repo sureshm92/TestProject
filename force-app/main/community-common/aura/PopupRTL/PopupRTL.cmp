@@ -81,7 +81,7 @@
                 <lightning:button
                     onclick="{!c.doCancel}"
                     name="Close"
-                    class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close') + if(v.isRTL, ' btnRTL')}"
+                    class="{!'slds-button slds-modal__close slds-button--icon-inverse' + if(not(v.showClose), ' slds-hide') + if($Browser.isPhone, ' p-mobile-close') + if(v.isRTL, ' ')}"
                 >
                     <c:RRIcon iconName="icon-close" class="close-icon" />
                 </lightning:button>
