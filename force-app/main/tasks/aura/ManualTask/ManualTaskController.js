@@ -18,19 +18,16 @@
     doneRendering: function(component, event, helper) {
         if (!component.get('v.isDoneRendering')) {
             if (component.get('v.isEdit')) {
+                var elements = component.find('a_opt');
                 component.set('v.showNumbersAdd', component.get('v.taskConfig').showNumbersAdd);
-                if (
-                    component.get('v.taskConfig').showNumbersAdd == 'true' &&
-                    component.find('a_opt')
-                ) {
-                    component.set('v.isDoneRendering', true);
-                    component.find('a_opt').set('v.value', 'true');
-                } else if (
-                    component.get('v.taskConfig').showNumbersAdd == 'false' &&
-                    component.find('a_opt')
-                ) {
-                    component.set('v.isDoneRendering', true);
-                    component.find('a_opt').set('v.value', 'false');
+                if (elements) {
+                    if (component.get('v.taskConfig').showNumbersAdd == true) {
+                        component.set('v.isDoneRendering', true);
+                        component.find('a_opt').set('v.value', 'true');
+                    } else if (component.get('v.taskConfig').showNumbersAdd == false) {
+                        component.set('v.isDoneRendering', true);
+                        component.find('a_opt').set('v.value', 'false');
+                    }
                 }
             }
         }

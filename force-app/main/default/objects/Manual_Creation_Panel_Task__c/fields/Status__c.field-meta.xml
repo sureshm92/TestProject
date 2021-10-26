@@ -28,12 +28,7 @@
             <value>
                 <fullName>Completed</fullName>
                 <default>false</default>
-                <label>Recurrence Completed</label>
-            </value>
-            <value>
-                <fullName>Task Completed</fullName>
-                <default>false</default>
-                <label>One-Time Task Completed</label>
+                <label>Completed</label>
             </value>
             <value>
                 <fullName>InProgress</fullName>
