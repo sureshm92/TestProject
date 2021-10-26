@@ -78,11 +78,10 @@ public without sharing class ParametrizedMessageService {
             }
             resultMessage = sourceMessage;
             if (valuesMap.get('ShortTaskName') != null) {
-                    valuesMap.put(
-                        'ShortTaskName',
-                        valuesMap.get('ShortTaskName').abbreviate(12).removeEnd('.')
-                    );
-                }
+                valuesMap.put(
+                    'ShortTaskName',
+                    valuesMap.get('ShortTaskName').abbreviate(12).removeEnd('.')
+                );
             }
             for (String parameterName : valuesMap.keySet()) {
                 resultMessage = resultMessage.replace(
