@@ -9,7 +9,7 @@
     <div>
         <template for:each={delegaterecord} for:item="pe">
             <lightning-layout multiple-rows="true" key={pe.peRecord.Id}>
-                <lightning-layout-item size="12" small-device-size="6" medium-device-size="12" large-device-size="6">
+                <lightning-layout-item size="12" small-device-size="6">
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item padding="around-small" size="12">
                             <div>
@@ -49,7 +49,7 @@
                         </lightning-layout-item>
                     </lightning-layout>
                 </lightning-layout-item>
-                <lightning-layout-item size="12" small-device-size="6" medium-device-size="12" large-device-size="6">
+                <lightning-layout-item size="12" small-device-size="6">
                     <lightning-layout multiple-rows="true">
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
@@ -64,7 +64,7 @@
                             <div>
                                 <lightning-combobox disabled={isaccesslevelthree}
                                     label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true"
-                                    placeholder="Select Phone Type" value={pe.peRecord.Primary_Delegate_Phone_Type__c}
+                                    placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Primary_Delegate_Phone_Type__c}
                                     options={pe.delegatePhoneTypeList} data-value="DelPhoneType"
                                     data-id={pe.peRecord.Id} onchange={changeInputValue} class="col-top">
                                 </lightning-combobox>
@@ -82,7 +82,7 @@
                             <div>
                                 <lightning-combobox disabled={isaccesslevelthree}
                                     label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT"
-                                    placeholder="Select Alternative Type"
+                                    placeholder={label.RH_RP_Select_Phone_Type}
                                     value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}
                                     options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}
                                     onchange={changeInputValue} class="col-top">

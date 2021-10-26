@@ -1,0 +1,140 @@
+<template>
+    <lightning-card  icon-name="standard:note" title="Notes">
+        <lightning-button label="New" slot="actions"  onclick={openModal} ></lightning-button>
+        <template if:false={nodata}>
+            <div class="tableDiv" style="height:200px;overflow-y:scroll;">
+                <div class={tableStyle}>
+                    <table aria-describedby="conatact-list" class="slds-table  slds-table_bordered ">
+
+                        <!--Header of the table-->
+                        <thead>
+                            <tr class="slds-line-height_reset">
+                                <th class="slds-size_1-of-6 " scope="col">
+                                    <div class="slds-truncate " title="Last Name">Description</div>
+                                </th>
+                                <th class="slds-size_1-of-6 " scope="col">
+                                    <div class="slds-truncate " title="Email">Created Date</div>
+                                </th>
+                                <th class="slds-size_1-of-6" scope="col">
+                                    <div class="slds-truncate " title="Phone">Modified By
+                                    </div>
+                                </th>
+                                <th class="slds-size_1-of-6" scope="col">
+                                    <div class="slds-truncate " title="Mobile">Action
+                                    </div>
+                                </th>
+                            </tr>
+                        </thead>
+
+                        <!--Body of the table-->
+                        <tbody>
+                            <template for:each={notedata} for:item="item" for:index="indexVar">
+                                <tr key={item.Id} class="slds-hint-parent">
+                                    <td class="slds-size_1-of-6">
+                                        <div style="white-space:normal;width:30rem">
+                                            {item.Title}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-6">
+                                        <div style="white-space:normal">
+                                            <lightning-formatted-date-time value={item.CreatedDate} year="numeric" month="numeric"
+                                                day="numeric" hour="2-digit" minute="2-digit" time-zone="UTC">
+                                              </lightning-formatted-date-time>
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-6">
+                                        <div style="white-space:normal">
+                                            {item.CreatedBy.Name}
+                                        </div>
+                                    </td>
+                                    <td class="slds-size_1-of-6">
+                                        <div>
+                                            <lightning-button name={item.Title} variant="Neutral" label="Edit" title="Primary action" onclick={handleClickEdit} data-id={item.Id} class="slds-m-left_x-small"></lightning-button> 
+                                            <lightning-button  data-id={item.Id} variant="Neutral" label="Delete" title="Primary action" onclick={handleClickDelete} class="slds-m-left_x-small"></lightning-button>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </template>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </template>
+        <template if:true={nodata}>
+              <p>No Records to display</p>
+        </template>
+
+    </lightning-card>
+    <template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">New Notes</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                    <lightning-textarea name="input1" maxlength="250" placeholder="Enter a note..." required label="Notes" onchange={handleDataChange}></lightning-textarea>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={submitDetails} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isModalOpenEdit}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-001" class="slds-text-heading_medium slds-hyphenate">Edit Notes</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-01">
+                    <lightning-textarea maxlength="250" name="input1" required label="Notes" value={editNote} onchange={handleDataChangeUpd}></lightning-textarea>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={UpdateDetails} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+    <template if:true={isModalOpenDelete}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open">
+            <div class="slds-modal__container">
+                <header class="slds-modal__header">
+                    <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                        <lightning-icon icon-name="utility:close"
+                            alternative-text="close"
+                            variant="inverse"
+                            size="small" ></lightning-icon>
+                        <span class="slds-assistive-text">Close</span>
+                    </button>
+                    <h2 id="modal-heading-0001" class="slds-text-heading_medium slds-hyphenate">Delete Notes</h2>
+                </header>
+                <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-001">
+                    <p>Do you want to delete notes?</p>
+                </div>
+                <footer class="slds-modal__footer">
+                    <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel">Cancel</button>
+                    <button class="slds-button slds-button_brand" onclick={DeleteDetails} title="OK">OK</button>
+                </footer>
+            </div>
+        </section>
+        <div class="slds-backdrop slds-backdrop_open"></div>
+    </template>
+</template>
