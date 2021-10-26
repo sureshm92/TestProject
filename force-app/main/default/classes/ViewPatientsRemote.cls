@@ -844,8 +844,8 @@ public without sharing class ViewPatientsRemote {
         String filter = '';
         filter =
             filter + ' Clinical_Trial_Profile__c IN : studies AND Study_Site__c IN : studySites ';
-        String addCondition = '  AND Participant_Status__c  IN (\'Received\',\'Pre-review Passed\',\'In Wash Out Period\',\'Successfully Contacted\',\'Contact Attempted\',\'Eligibility Passed\',\'Screening Passed\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Ready to Screen\',\'Enrollment Success\',\'Randomization Success\',\'Pre-review Failed\',\'Unable to Reach\',\'Contacted - Not Suitable\',\'Eligibility Failed\',\'Declined Consent\',\'Unable to Screen\',\'Withdrew Consent\',\'Screening Failed\', \'Withdrew Consent After Screening\', \'Enrollment Failed\', \'Randomization Failed\')';
-        filter = filter + addCondition;
+        // String addCondition = '  AND Participant_Status__c  IN (\'Received\',\'Pre-review Passed\',\'In Wash Out Period\',\'Successfully Contacted\',\'Contact Attempted\',\'Eligibility Passed\',\'Screening Passed\',\'Screening In Progress\',\'Screening In Progress - Wash Out Period\',\'Ready to Screen\',\'Enrollment Success\',\'Randomization Success\',\'Pre-review Failed\',\'Unable to Reach\',\'Contacted - Not Suitable\',\'Eligibility Failed\',\'Declined Consent\',\'Unable to Screen\',\'Withdrew Consent\',\'Screening Failed\', \'Withdrew Consent After Screening\', \'Enrollment Failed\', \'Randomization Failed\')';
+        // filter = filter + addCondition;
         String queryCount = qCountString + filter;
         String strTemp = ' AND PerCounter__c >= :startPos ' + ' AND PerCounter__c <= :endPos ';
         filter = filter + strTemp;
