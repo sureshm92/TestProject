@@ -24,7 +24,8 @@ import RH_RP_Delegate_Missing_field from '@salesforce/label/c.RH_RP_Delegate_Mis
 import RH_RP_Delegate_Email_Format_Error from '@salesforce/label/c.RH_RP_Delegate_Email_Format_Error';
 import RH_RP_Delegate_Minor_Error from '@salesforce/label/c.RH_RP_Delegate_Minor_Error';
 import RH_RP_Delegate_Successfully_Saved from '@salesforce/label/c.RH_RP_Delegate_Successfully_Saved';
-import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white'
+import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white';
+import RH_RP_Select_Phone_Type from '@salesforce/label/c.RH_RP_Select_Phone_Type';
 
 
 export default class Rp_DelegateTab extends LightningElement {
@@ -49,7 +50,8 @@ export default class Rp_DelegateTab extends LightningElement {
         RH_RP_Delegate_Missing_field,
         RH_RP_Delegate_Email_Format_Error,
         RH_RP_Delegate_Minor_Error,
-        RH_RP_Delegate_Successfully_Saved
+        RH_RP_Delegate_Successfully_Saved,
+        RH_RP_Select_Phone_Type
     };
     topIcon = icon_chevron_up_white;
 
