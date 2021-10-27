@@ -28,7 +28,7 @@
                 />-->
             <lightning-icon class="slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"
                 icon-name="utility:search" size="small"></lightning-icon>
-                <input type="text" placeholder={label.CC_Btn_Search} onchange={handleSearch} class="searchBox1" value={searchValue} />
+                <input type="text" placeholder={label.CC_Btn_Search} onkeyup={handleSearch} class="searchBox1" value={searchValue} />
                 <img src={filter_icon} alt="Filter Records" class={filterIconClass} onclick={openFilterModal} />
              </div>
             <div class="slds-col refreshPointer">
