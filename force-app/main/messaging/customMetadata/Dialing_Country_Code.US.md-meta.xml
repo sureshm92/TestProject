@@ -3,6 +3,10 @@
     <label>US</label>
     <protected>false</protected>
     <values>
+        <field>Character_Limit__c</field>
+        <value xsi:type="xsd:double">160.0</value>
+    </values>
+    <values>
         <field>Country_Name__c</field>
         <value xsi:type="xsd:string">United States</value>
     </values>
