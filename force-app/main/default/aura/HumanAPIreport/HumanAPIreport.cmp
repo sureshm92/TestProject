@@ -1,65 +1,119 @@
-<aura:component controller='HumanAPIcontroller' implements="flexipage:availableForAllPageTypes,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId" access="global" >
-<aura:handler name="init" value="{!this}" action="{!c.getListofAvailableReports}" />
-<aura:attribute name="pe" type="Participant_Enrollment__c"/>
-<aura:attribute name="highlightsReport" type="Object" />
-<aura:attribute name="detailedReport" type="Object" />
-<aura:attribute name="isReportAvailable" type="Boolean" default="false" />
+<aura:component
+  controller="HumanAPIcontroller"
+  implements="flexipage:availableForAllPageTypes,force:appHostable,flexipage:availableForRecordHome,force:hasRecordId"
+  access="global"
+>
+  <aura:handler
+    name="init"
+    value="{!this}"
+    action="{!c.getListofAvailableReports}"
+  />
+  <aura:attribute name="pe" type="Participant_Enrollment__c" />
+  <aura:attribute name="highlightsReport" type="Object" />
+  <aura:attribute name="detailedReport" type="Object" />
+  <aura:attribute name="requestHistory" type="Object" />
+  <aura:attribute name="isReportAvailable" type="Boolean" default="false" />
+  <aura:attribute name="isSiteEnabledforHAPI" type="Boolean" default="false" />
 
-<c:RRSpinner aura:id="spinner" size="medium" />
-<aura:if isTrue="{!v.isReportAvailable}">
+  <c:RRSpinner aura:id="spinner" size="medium" />
+  <aura:if isTrue="{!v.isReportAvailable}">
     <div class="maindiv slds-border_bottom">
-        <div class="headerdiv">
-            <div class="slds-grid">
-                <div class="slds-col slds-size--8-of-12">
-                <span>Medical Records Providers</span>
-                </div>
-                <div class="slds-col slds-size--4-of-12 highlights">
-                <span class="slds-truncate fontStyle" style="float:right;">
-                    <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
-                    <lightning:formattedUrl 
-                    value="{!v.highlightsReport.reportUrl}"
-                    label="{!v.highlightsReport.reportName}"
-                    title="{!v.highlightsReport.reportName}"
-                    target="_blank" />
-                </span>
-                </div>
-            </div>
-        <aura:iteration items="{!v.detailedReport}" var="item" indexVar="indx">
-            <div class="slds-grid divpadding">
-                <div class="slds-col text-lng-truncate slds-medium-size--4-of-12 slds-small-size--6-of-12">
-                <span>{!item.providerName}</span>
-                </div>
-                <div class="slds-col slds-size--4-of-12  slds-show_medium" style="text-align: center;">
-                	<span>{!item.createdAt}</span>
-                </div>
-                <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
-                	<span class="fontStyle" style="float:right;"><a href="{!item.reportUrl}" target="_blank">{!item.reportName}</a></span>
-                </div>
-            </div>
-            <div class="slds-grid slds-hide_medium">
-                <span style="font-size: 1rem; font-weight: 500;">{!item.createdAt}</span>
-            </div>
-        </aura:iteration>
+      <div class="headerdiv">
+        <div class="slds-grid">
+          <div class="slds-col slds-size--8-of-12">
+            <span>Medical Records Providers</span>
+          </div>
+          <div class="slds-col slds-size--4-of-12 highlights">
+            <span class="slds-truncate fontStyle" style="float: right">
+              <!-- <a href="{!v.highlightsReport.reportUrl}" target="_blank">{!v.highlightsReport.reportName}</a> -->
+              <lightning:formattedUrl
+                value="{!v.highlightsReport.reportUrl}"
+                label="{!v.highlightsReport.reportName}"
+                title="{!v.highlightsReport.reportName}"
+                target="_blank"
+              />
+            </span>
+          </div>
         </div>
+        <aura:iteration items="{!v.detailedReport}" var="item" indexVar="indx">
+          <div class="slds-grid divpadding">
+            <div
+              class="
+                slds-col
+                text-lng-truncate
+                slds-medium-size--4-of-12
+                slds-small-size--6-of-12
+              "
+            >
+              <span>{!item.providerName}</span>
+            </div>
+            <div
+              class="slds-col slds-size--4-of-12 slds-show_medium"
+              style="text-align: center"
+            >
+              <span>{!item.createdAt}</span>
+            </div>
+            <div
+              class="
+                slds-col
+                slds-medium-size--4-of-12
+                slds-small-size--6-of-12
+              "
+            >
+              <span class="fontStyle" style="float: right"
+                ><a href="{!item.reportUrl}" target="_blank"
+                  >{!item.reportName}</a
+                ></span
+              >
+            </div>
+          </div>
+          <div class="slds-grid slds-hide_medium">
+            <span style="font-size: 1rem; font-weight: 500"
+              >{!item.createdAt}</span
+            >
+          </div>
+        </aura:iteration>
+      </div>
     </div>
-       <aura:set attribute="else">
-        <!-- <div class="slds-grid slds-grid_align-spread">
+    <aura:set attribute="else">
+      <!-- <div class="slds-grid slds-grid_align-spread">
             <div class="slds-col">
             <div>Medical Records Providers</div>
             <div>No Medical Reports Available</div>
             </div>
         </div> -->
-        <div class="maindiv slds-border_bottom">
-            <div class="headerdiv">
-                <div class="slds-grid slds-grid_align-spread">
-                    <div class="slds-col">
-                        <div>Medical Records Providers</div>
-                        <div>No Medical Reports Available</div>
-                    </div>
+      <div class="maindiv slds-border_bottom" style="display: none;">
+        <div class="headerdiv">
+          <div class="slds-grid">
+            <div class="slds-col slds-size--8-of-12">
+              <span>Medical Records Providers</span>
+              <aura:iteration items="{!v.requestHistory}" var="item">
+                <div>
+                  <span style="font-size: 1rem; font-weight: 500"
+                    >Authorization Requested on:
+                    <lightning:formattedDateTime
+                      value="{!item.NewValue}"
+                      year="numeric"
+                      day="2-digit"
+                      month="short"
+                      hour="2-digit"
+                      minute="2-digit"
+                  /></span>
                 </div>
+              </aura:iteration>
             </div>
+            <div class="slds-col slds-size--4-of-12 slds-p-top_medium slds-p-bottom_medium">
+              <span style="float: right">
+                <lightning:button
+                  class="apollo-btn primary slds-button--neutral"
+                  onclick="{!c.requestRecords}"
+                  >Request Medical Records</lightning:button
+                >
+              </span>
+            </div>
+          </div>
         </div>
-       </aura:set>
-</aura:if>
-    
+      </div>
+    </aura:set>
+  </aura:if>
 </aura:component>
