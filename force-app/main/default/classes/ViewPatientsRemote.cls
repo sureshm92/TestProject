@@ -45,6 +45,7 @@ public without sharing class ViewPatientsRemote {
         'Clinical_Trial_Profile__r.Initial_Visit_Required__c',
         'Clinical_Trial_Profile__r.Participant_Workflow_Final_Step__c',
         'Clinical_Trial_Profile__r.Promote_to_SH__c',
+        'Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c',
         'CreatedDate',
         'Enrolled_Date__c',
         'Enrolled_DateTime__c',

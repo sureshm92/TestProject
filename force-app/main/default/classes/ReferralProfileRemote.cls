@@ -16,6 +16,7 @@ public without sharing class ReferralProfileRemote {
         Boolean isEnrolled;
         Boolean isBulkImport;
         Boolean containsFile; //REF-2654
+        Boolean isSiteEnabledforHAPI = false;
         User userInfo;
         Contact contactInfo; 
     }
@@ -118,8 +119,15 @@ public without sharing class ReferralProfileRemote {
                  containsFile = false;
              }
              initData.containsFile = containsFile;
-             //END REF-2654	
-             
+             //END REF-2654
+             List<Medical_Record_Vendor__c> medicalRecordVendors = MedicalRecordVendorPanelRemote.getVendors(pe.Study_Site__c);
+             System.debug('$$$$$$$ medicalRecordVendors: ' + medicalRecordVendors);
+             for (Medical_Record_Vendor__c item: medicalRecordVendors){
+                 if(item.Medical_Vendor__c == 'HumanApi'){
+                    initData.isSiteEnabledforHAPI = true;
+                    break;
+                 }
+             }
             List<User> participantUsers = [
                 SELECT Id, LanguageLocaleKey
                 FROM User
