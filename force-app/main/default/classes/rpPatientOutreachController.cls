@@ -10,7 +10,7 @@ public without sharing class rpPatientOutreachController {
     @AuraEnabled(cacheable=false)                          
     public static List<Participant_Enrollment__c> getPatientInfo(String peId) {
         List<Participant_Enrollment__c> res = [SELECT id, Outreach_Email_Status__c,Patient_ID__c, Participant_Name__c, Participant_Surname__c, Email__c, Study_Name__c, Legal_Status__c, YOB__c, Patient_Auth__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
-               FROM Participant_Enrollment__c where Id=:peId];
+               FROM Participant_Enrollment__c where Id=:peId and Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c = true];
         res[0].Outreach_Email_Status__c = 'Submitted';
         update res;
        return res;

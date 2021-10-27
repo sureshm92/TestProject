@@ -42,7 +42,7 @@ public without sharing class RPRecordReviewLogController {
             }
             
             List<Participant_Enrollment__c> peList = [Select Id,Participant_Name__c,Participant_Surname__c,YOB__c,Birth_Month__c,Participant_Status__c,
-            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c from Participant_Enrollment__c where
+            Patient_ID__c,Date_of_Birth__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c from Participant_Enrollment__c where
             (Participant_Status__c = 'Failed Referral' OR Participant_Status__c = 'Failed Review' OR Participant_Status__c = 'Pending Referral' OR Participant_Status__c = 'Excluded from Referring') AND
             Study_Site__r.Override_PI_Referral_Status__c !=NULL AND HCP__c!=NULL AND HCP__r.Status__c !=NULL AND HCP__r.Override_PI_Status__c !=NULL AND HCP__r.HCP_Contact__c =:currentContactId  order by lastmodifiedDate DESC];
             for (Participant_Enrollment__c pe : peList) {
@@ -124,7 +124,7 @@ public without sharing class RPRecordReviewLogController {
                 Participant_Alt_Phone_Type__c,Primary_Delegate_First_Name__c,Primary_Delegate_Last_Name__c,Primary_Delegate_Email__c,Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c,
                 Primary_Delegate_Phone_Number__c,Primary_Delegate_Phone_Type__c,Primary_Delegate_YOB__c,Legal_Status_of_Primary_Delegate__c,CreatedDate,Participant_Status__c,Primary_Delegate_s_Alt_Phone__c,Primary_Delegate_s_Alt_Phone_Type__c,
                 RP_Site_Selected__c,Medical_Record_Review_Status__c,Study_Site__r.Clinical_Trial_Profile__c,Clinical_Trial_Profile__r.Study_Code_Name__c,Is_Contact__c,Is_Email__c,Is_Phone__c,Is_SMS__c,Is_Delegate_Certify__c,HCP__c,
-                Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c
+                Permit_SMS_Text_for_this_study__c,Permit_Voice_Text_contact_for_this_study__c,Permit_Mail_Email_contact_for_this_study__c, Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c
                 from Participant_Enrollment__c where Id =: peId];
 
                 String isAdult = '';
@@ -556,7 +556,7 @@ public without sharing class RPRecordReviewLogController {
         }
     }
     
-    public class peExportData {
+     public class peExportData {
         @AuraEnabled public String Name;
         @AuraEnabled public String MRNID;
         @AuraEnabled public String PatientID;
@@ -601,7 +601,7 @@ public without sharing class RPRecordReviewLogController {
         }
     }
     
-    @AuraEnabled
+     @AuraEnabled
     public static List<peExportData> getExportRecords(List<String> participantEnrollmentIds) {
         try {
             List<Participant_Enrollment__c> PeRecords = new List<Participant_Enrollment__c>();
@@ -669,7 +669,7 @@ public without sharing class RPRecordReviewLogController {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
         }
     }
-    
+
     @AuraEnabled
     public static String bulkUndoChangeStatusToExcludeFromReferring(list<String> participantEnrollmentIds) {
         try {
