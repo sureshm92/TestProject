@@ -261,7 +261,9 @@ public with sharing class ManualTaskRemote {
                         }else{
                             //one time
                         }
-                        createTasks(taskConfig,mtf);
+                        if(taskConfig.startDate != mcpt.Start_Date__c){
+                            createTasks(taskConfig,mtf);
+                        }
                     }
                     for(Integer i=0;i<srList.size();i++){
                         if (srList.get(i).isSuccess()){
