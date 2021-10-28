@@ -6,7 +6,7 @@
                 <div class="bulk-import-files" style="display: inline;">
                     {BulkImport_TableHeading}
                 </div>
-               <!-- <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
+               <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
                     onselect={handleMenuItem}>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:activity"
                         label={BulkImport_Instructions} onclick={openIntructModal}>
@@ -17,7 +17,7 @@
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:file"
                         label={BulkImport_Import_Patients} onclick={openUploadModal}>
                     </lightning-menu-item>
-                </lightning-button-menu>-->
+                </lightning-button-menu>
                 <!-- <div class="bulkUploadBtn secondary apollo-btn" onclick={toggleButtons}>
                     Actions <lightning-icon icon-name="utility:down" size="x-small" alternative-text="options"
                         title="Options">
@@ -88,14 +88,14 @@
                                 <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time
                                         value={item.ContentModifiedDate}></lightning-formatted-date-time>
                                 </div>
-                               <!-- <div title={BulkImport_Actions}>{BulkImport_Actions} :
+                               <div title={BulkImport_Actions}>{BulkImport_Actions} :
                                     &nbsp; &nbsp;<template if:true={item.ContentUrl}>
                                         <a href={item.ContentUrl} target="_blank">
                                             <lightning-icon icon-name="utility:download" size="x-small"
                                                 alternative-text="Download" title="Download"></lightning-icon>
                                         </a>
                                     </template>
-                                </div>-->
+                                </div>
                             </div>
                         </article>
                     </template>
