@@ -74,7 +74,7 @@
                     );
                     component.set('v.mrrExist',  initData.trial.Link_to_Medical_Record_Review__c);
                     if(component.get('v.mrrExist') == undefined){
-                         component.set('v.patientVeiwRedirection',true);
+                         //component.set('v.patientVeiwRedirection',true);
                     }
                     component.set('v.searchResult', undefined);
                     component.set('v.mrrResult', 'Pending');
@@ -100,10 +100,9 @@
                         component.set('v.currentState', 'Select Source');
                     }
                     if (!initData.trial.Link_to_Pre_screening__c) {
-                       let pvr = communityService.getUrlParameter('patientVeiwRedirection');
-                        if(pvr == undefined){
+                        if(!component.get('v.patientVeiwRedirection')){
                             component.set('v.currentState', 'Search PE');
-                            }
+                          }
                         component.set('v.steps', [
                             $A.get('$Label.c.PG_Ref_Step_Discussion'),
                             $A.get('$Label.c.PG_Ref_Step_Site_Selection'),
@@ -114,8 +113,8 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
-                        let pvr = communityService.getUrlParameter('patientVeiwRedirection');
-                        if(pvr == undefined){
+                        //let pvr = communityService.getUrlParameter('patientVeiwRedirection');
+                        if(!component.get('v.patientVeiwRedirection')){
                             component.set('v.currentState', 'Search PE');
                         }
                     }
@@ -306,19 +305,11 @@
         for (let i = 0; i < pendingList.length; i++) {
             let pe = pendingList[i];
             if (pe.Id === peId) {
-                /**component.set('v.pEnrollment', pe);
+                component.set('v.pEnrollment', pe);
                 helper.setParticipant(component, pe);
                 helper.checkSites(component);
                 component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Discussion'));
-                window.scrollTo(0, 0);*/
-                communityService.navigateToPage(
-                    'referring?id=' +
-                     trialId +
-                    '&peid=' +
-                     peId  +
-                    '&patientVeiwRedirection=true'  +
-                    '&mystudies=true'
-                );
+                window.scrollTo(0, 0);
                 return;
             }
         }
