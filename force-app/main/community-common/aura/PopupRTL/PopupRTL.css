@@ -40,13 +40,13 @@ display: block;
 width: 0; /* 1rem */
 height: 0; /* 1rem */
 position: absolute;
-top: 0px;
+top: 5px;
 right: 15px;
 background: none;
 border: none;
 }
 
-.THIS .p-container > .slds-button:after {
+.THIS .p-container > .slds-button.slds-modal__close:after {
 content: '';
 position: absolute;
 background-size: 14px 14px;
@@ -55,7 +55,7 @@ height: 14px;
 width: 14px;
 top: 30px; /* 30px */
 }
-.THIS .p-container > .slds-button.btnRTL:after {
+.THIS .p-container > .slds-button.slds-modal__close.btnRTL:after {
     content: '';
     position: absolute;
     background-size: 14px 14px;
