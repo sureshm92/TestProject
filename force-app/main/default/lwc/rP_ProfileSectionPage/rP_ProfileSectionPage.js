@@ -70,6 +70,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showRefer = false;
     @api disabledSaveButton = false;
     @api isaccessLevelthree = false;
+    @api isRTL;
 
     label = {
         RH_RP_Exclude,
