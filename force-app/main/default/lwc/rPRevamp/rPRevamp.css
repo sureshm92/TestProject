@@ -226,7 +226,6 @@
 .importInfo .header1 {
     position: absolute;
     top: -20px;
-    left: 24px;
     font-size: 24px;
     font-weight: 600;
 }
@@ -238,7 +237,7 @@
     opacity : 0.5;
 }
 .leftMargin{
-    margin: 0px 8px 0px 0px;
+    margin: 0px 8px 0px 8px;
 }
 
 .label-icon-color{
