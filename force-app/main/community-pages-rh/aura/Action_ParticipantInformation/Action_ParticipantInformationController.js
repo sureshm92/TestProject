@@ -2,7 +2,7 @@
  * Created by Nikita Abrazhevitch on 05-Sep-19.
  */
 
-({
+ ({
     doInit: function (component, event, helper) {
         communityService.executeAction(component, 'getInitData', null, function (formData) {
             var todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
@@ -83,6 +83,7 @@
                             }
                             component.set('v.pe', returnValue.enrollment);
                             component.set('v.containsFile', returnValue.containsFile);//REF-2654
+                            component.set('v.isSiteEnabledforHAPI', returnValue.isSiteEnabledforHAPI);
                             component.set('v.init', true);
                             component.set(
                                 'v.isEmail',

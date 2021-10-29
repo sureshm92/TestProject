@@ -78,20 +78,20 @@
     },
 
     doReferPatient: function (component) {
-        /**communityService.navigateToPage(
+        communityService.navigateToPage(
             'referring?id=' +
                 component.get('v.trialId') +
                 '&peid=' +
                 component.get('v.searchResult').pe.Id  
-        ); **/
-        communityService.navigateToPage(
+        ); 
+        /**communityService.navigateToPage(
             'referring?id=' +
                 component.get('v.trialId') +
                 '&peid=' +
                 component.get('v.searchResult').pe.Id  +
                 '&patientVeiwRedirection=true'  +
                 '&mystudies=true'
-        );
+        );**/
     },
 
     doClearForm: function (component) {

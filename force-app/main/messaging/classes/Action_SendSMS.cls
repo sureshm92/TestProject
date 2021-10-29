@@ -38,13 +38,20 @@ public with sharing class Action_SendSMS implements Action {
             WHERE Id IN :notificationIds
         ];
         sendResultService = new NotificationResultService(notifications);
-        Map<String, List<String>> countryDialCodeMap = new Map<String, List<String>>();
+        // Map<String, List<String>> countryDialCodeMap = new Map<String, List<String>>();
+        Map<String, DialingCountryConfig> countryDialCodeMap = new Map<String, DialingCountryConfig>();
         for (Dialing_Country_Code__mdt mdt : [
-            SELECT Id, DeveloperName, Dialing_Code__c, Enabled_for_SMS__c
+            SELECT Id, DeveloperName, Dialing_Code__c, Enabled_for_SMS__c, Character_Limit__c
             FROM Dialing_Country_Code__mdt
             WHERE Enabled_for_SMS__c = TRUE
         ]) {
-            countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
+            DialingCountryConfig obj = new DialingCountryConfig();
+            obj.dialCountryCodeList = mdt.Dialing_Code__c.split(',');
+            obj.characterLimit = mdt.Character_Limit__c == null
+                ? 160
+                : Integer.valueOf(mdt.Character_Limit__c);
+            //countryDialCodeMap.put(mdt.DeveloperName, mdt.Dialing_Code__c.split(','));
+            countryDialCodeMap.put(mdt.DeveloperName, obj);
         }
         List<Id> conIds = new List<Id>();
         List<Id> taskIds = new List<Id>();
@@ -154,13 +161,34 @@ public with sharing class Action_SendSMS implements Action {
             }
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
-                phoneNumber =
+                /** phoneNumber =
                     countryDialCodeMap.get(
                             smsChannel.Notification__r.Recipient__r.MailingCountryCode
                         )
                         .get(0) + phoneNumber.replaceAll('\\D', '');
+                         */
+                phoneNumber =
+                    countryDialCodeMap.get(
+                            smsChannel.Notification__r.Recipient__r.MailingCountryCode
+                        )
+                        .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
+                if (
+                    message.length() >
+                    countryDialCodeMap.get(
+                            smsChannel.Notification__r.Recipient__r.MailingCountryCode
+                        )
+                        .characterLimit
+                ) {
+                    message = message.substring(
+                        0,
+                        countryDialCodeMap.get(
+                                smsChannel.Notification__r.Recipient__r.MailingCountryCode
+                            )
+                            .characterLimit
+                    );
+                }
                 msgParam.messageBody = message;
                 messageParametersList.add(msgParam);
             }
@@ -242,5 +270,10 @@ public with sharing class Action_SendSMS implements Action {
         public String statusCode;
         public String statusMessage;
         public String messageId;
+    }
+
+    class DialingCountryConfig {
+        public List<String> dialCountryCodeList;
+        public Integer characterLimit;
     }
 }
