@@ -110,7 +110,7 @@ public without sharing class CommunityModeService {
                 true,
                 true
             );
-            if (availableModes.contains(USER_MODE_HCP)) {
+            /*if (availableModes.contains(USER_MODE_HCP)) {
                 String rpName = getRPName(userContact, participantByContactMap);
                 modeItem.subItems.add(
                     new CommunityModes.RHCommunityModeItem(
@@ -123,7 +123,7 @@ public without sharing class CommunityModeService {
                         false
                     )
                 );
-            }
+            }*/
             for (RP_Delegate_Relationship__c delegate : rpDelegates) {
                 String rpName = getRPName(delegate.Referring_Provider__r, participantByContactMap);
                 modeItem.subItems.add(
@@ -352,7 +352,7 @@ public without sharing class CommunityModeService {
         } else if (rhModes.isEmpty()) {
             return CommunityModes.MODE_TYPE_PP_ONLY;
         } else if (ppModes.isEmpty()) {
-            if (rhModes.size() == 1 && rhModes[0].subItems.size() < 2) {
+            if (rhModes.size() == 1 && rhModes[0].subItems.size() < 2 && rhModes[0].itemType == USER_MODE_PI) {
                 return CommunityModes.MODE_TYPE_RH_SINGLE_VIEW;
             }
             return CommunityModes.MODE_TYPE_RH_ONLY;
