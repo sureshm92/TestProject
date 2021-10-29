@@ -17,6 +17,7 @@
 <aura:attribute name="refProvider" type="Contact" />
 <aura:attribute name="participant" type="Participant__c" access="private" />
 <aura:attribute name="containsFile" type="Boolean" default="false"/> 
+<aura:attribute name="isSiteEnabledforHAPI" type="Boolean" default="false"/>
 <aura:attribute name="participantDelegate" type="Participant__c" access="private" />
 <aura:attribute name="callback" type="Object" access="private" />
 <aura:attribute name="callbackDOB" type="Object" access="private" />     
@@ -406,10 +407,10 @@ isListView = "{!v.isListView}"
          </lightning:tab>
      </aura:if>
      <!--REF-2654, REF-2774-->
-     <aura:if isTrue="{!and(or(v.containsFile , (v.pe.Human_Id__c != null)) , !v.actions.medicalHistory.disabled)}">
+     <aura:if isTrue="{!and(or(v.containsFile , (and(v.pe.Clinical_Trial_Profile__r.Medical_Vendor_is_Available__c,v.isSiteEnabledforHAPI))) , !v.actions.medicalHistory.disabled)}">
          <lightning:tab class="slds-tabs_default__item" aura:id="MedicalHistory"
                         label="{!$Label.c.Tab_Medical_History}" onactive="{!c.checkTabs}">  
-             <c:MedicalHistoryView pe="{!v.pe}" containsFile="{!v.containsFile}"/>
+             <c:MedicalHistoryView pe="{!v.pe}" containsFile="{!v.containsFile}" isSiteEnabledforHAPI="{!v.isSiteEnabledforHAPI}"/>
          </lightning:tab>  
      </aura:if>
  </lightning:tabset>

@@ -8,20 +8,17 @@
         <div class="slds-button_icon-inverse">
             <div class={modalClass}>
                 <div class={containerSizeClass}>
-                    <slot name="headerButtons"></slot>
-                    <div class={iconButtonClass} onclick={doCancel}>
-                        <!--<c-web-icon icon-name="icon-close"></c-web-icon>-->
-                    </div>
-                    <!-- title: -->
+                    <!-- <slot name="headerButtons"></slot> -->
                     <div class={divHeaderClass}>
-                        <div class="slds-grid slds-col slds-size--1-of-1">
-                            <template if:true={showTitleImage}>
-                                <div class="slds-size--1-of-9">
-                                    <img src={titleImageUrl} />
-                                </div>
-                            </template>
-                            <div class="slds-size--8-of-9">
+                        <div class="slds-grid">
+                            <div class="slds-col slds-size_1-of-12">
+                                <img src={titleImageUrl} />
+                            </div>
+                            <div class="slds-col slds-size_10-of-12">
                                 <h2 class={h2Class}>{title}</h2>
+                            </div>
+                            <div class="slds-col slds-size_1-of-12">
+                                <span class="close-btn-container" onclick={doCancel}></span>
                             </div>
                         </div>
                     </div>
@@ -40,18 +37,10 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button
-                                            class="apollo-btn secondary"
-                                            onclick={clickedSecondary}
-                                            tabindex="0"
-                                        >
+                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button
-                                            class="apollo-btn primary"
-                                            onclick={clickedPrimary}
-                                            tabindex="-1"
-                                        >
+                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
                                             {primaryButtonLabel}
                                         </button>
                                     </template>
@@ -100,18 +89,10 @@
                                         <slot name="footerButtons"></slot>
                                     </template>
                                     <template if:false={customButtons}>
-                                        <button
-                                            class="apollo-btn secondary"
-                                            onclick={clickedSecondary}
-                                            tabindex="0"
-                                        >
+                                        <button class="apollo-btn secondary" onclick={clickedSecondary} tabindex="0">
                                             {secondaryButtonLabel}
                                         </button>
-                                        <button
-                                            class="apollo-btn primary"
-                                            onclick={clickedPrimary}
-                                            tabindex="-1"
-                                        >
+                                        <button class="apollo-btn primary" onclick={clickedPrimary} tabindex="-1">
                                             {primaryButtonLabel}
                                         </button>
                                     </template>

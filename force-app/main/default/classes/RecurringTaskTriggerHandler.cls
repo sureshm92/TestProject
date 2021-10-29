@@ -8,8 +8,12 @@ public class RecurringTaskTriggerHandler {
                 for(Manual_Creation_Panel_Task__c rTask: (List<Manual_Creation_Panel_Task__c>)newList){
                     Manual_Creation_Panel_Task__c oldRTask = (Manual_Creation_Panel_Task__c)oldMap.get(rTask.id);
                     if(rTask.Start_Date__c != oldRTask.Start_Date__c){
-                        rTask.Next_Occurence_Date__c = rTask.Start_Date__c;
-                        dueDateUpdate(rTask);
+                        if(rTask.Start_Date__c == Date.today()){
+                            startDateToday(rTask);
+                        }else{
+                            rTask.Next_Occurence_Date__c = rTask.Start_Date__c;
+                            dueDateUpdate(rTask);
+                        }
                     }
                     if(rTask.Recurrence_End_Date__c != oldRTask.Recurrence_End_Date__c){
                         if(rTask.Recurrence_End_Date__c < rTask.Next_Occurence_Date__c && 
@@ -48,6 +52,52 @@ public class RecurringTaskTriggerHandler {
                 System.debug(e);
             }
             
+        }
+        public void startDateToday(Manual_Creation_Panel_Task__c rTask){
+            rTask.Last_Occurrence_Date__c = Date.today();
+            nextOccDateUpdate(rTask);
+            dueDateUpdate(rTask);
+            TaskService.TaskConfig taskConfig = (TaskService.TaskConfig) JSON.deserialize(
+                    rTask.TaskConfig__c,
+                    TaskService.TaskConfig.class
+                );
+            if(taskConfig.isRecurrence){
+                if(taskConfig.recurrenceFrequency == 'Daily'){
+                    taskConfig.endTime = taskConfig.startDate;
+                }
+                if(taskConfig.recurrenceFrequency == 'Weekly'){
+                    taskConfig.endTime = taskConfig.startDate.addDays(6);
+                }
+                if(taskConfig.recurrenceFrequency == 'Monthly'){
+                    taskConfig.endTime = taskConfig.startDate.addMonths(1).addDays(-1);
+                }
+                if(taskConfig.recurrenceFrequency == 'Yearly'){
+                    taskConfig.endTime = taskConfig.startDate.addYears(1).addDays(-1);
+                }
+                if(taskConfig.reminderDays != null){
+                    taskConfig.reminderDate = taskConfig.endTime.addDays(-taskConfig.reminderDays);
+                }
+                if(taskConfig.reminderDate < taskConfig.startDate){
+                        taskConfig.reminderDate = null;
+                }
+                
+            }
+            if(rTask.Is_Recurrence__c){
+                if(taskConfig.reminderDays != null){
+                    //taskConfig.reminderDate = 
+                    rTask.Last_Recurrence_Reminder__c = taskConfig.endTime.addDays(-taskConfig.reminderDays);
+                }
+            }else{
+                rTask.Next_Due_Date__c = null;
+                rTask.Next_Occurence_Date__c = null;
+                if(taskConfig.reminderDays != null){
+                    taskConfig.reminderDate = taskConfig.endTime.addDays(-taskConfig.reminderDays);
+                }
+                rTask.Last_Recurrence_Reminder__c = taskConfig.reminderDate;
+                rTask.Status__c = 'InProgress';
+            }
+            
+            //rTask.TaskConfig__c = JSON.serialize(taskConfig);
         }
         public void dueDateUpdate(Manual_Creation_Panel_Task__c rTask){
             if(rTask.Recurrence_Frequency__c == 'Daily'){

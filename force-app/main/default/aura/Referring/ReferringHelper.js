@@ -65,7 +65,8 @@
     
     
     setParticipant: function (component, pe, markers) {
-        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        //let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        let patientVeiwRedirection = component.get('v.patientVeiwRedirection');
         if(patientVeiwRedirection){ 
             var participant = {
                 sobjectType: 'Participant__c',
@@ -133,7 +134,8 @@
     },
     
     setDelegate: function (component, helper, participant) {
-        let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        //let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        let patientVeiwRedirection =  component.get('v.patientVeiwRedirection');
         if(patientVeiwRedirection){ 
             if(!component.get('v.delegateValueRemoved')){
                 var delegateParticipant = {
@@ -516,6 +518,7 @@
                     if(component.get('v.primaryDelegateFirstname') != null && !component.get('v.delegateValueRemoved')){
                         component.set('v.hasGaurdian', true);
                         component.set('v.participant.Health_care_proxy_is_needed__c', true);
+                         component.set('v.needsGuardian', true); /*change -5124**/
                     }else{
                         if(isNeedGuardian){
                             component.set('v.hasGaurdian', true);
@@ -542,8 +545,8 @@
     
     //added by sumit
     checkGuardianAge: function (component, event, helper) {
-        let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-        
+        //let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
+        let frmpatientVeiw =  component.get('v.patientVeiwRedirection');
         if(component.get('v.attestAge'))
         {
             var attestCheckbox = component.find('checkBoxAttestation');

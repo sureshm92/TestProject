@@ -71,6 +71,8 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     @api verifyFilterValue;
     @api peList;
     @api isaccessLevelthree = false;
+    @api disableExceldownload = false;
+    
 
     openExclude = false;
     openInclude = false;
@@ -100,7 +102,11 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     openExcludeModal(){
         this.openExclude = true;
     }
-
+    @api
+    noRecords() {
+        this.isaccessLevelthree = true;
+        this.disableExceldownload = true;
+    }
     closeExcludeModal() {
         this.openExclude = false;
     }

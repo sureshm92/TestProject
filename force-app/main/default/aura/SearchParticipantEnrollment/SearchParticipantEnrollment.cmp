@@ -37,12 +37,19 @@
             </div>
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3">
                 <div class="rr-form-element mrr-fe">
-                    <lightning:input
-                        type="text"
-                        label="{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional}"
-                        value="{!v.searchData.firstName}"
-                        disabled="{!!empty(v.searchResult)}"
-                    />
+                    <div class="tooltip">
+                        <legend class="textoverlap" style="margin-top: 4px; margin-bottom: 6PX;">{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional}</legend>
+                        
+                        <lightning:input
+                                         type="text"
+                                         variant="label-hidden"
+                                         value="{!v.searchData.firstName}"
+                                         disabled="{!!empty(v.searchResult)}"
+                                         />
+                        
+                        <span>{!$Label.c.PG_SPE_L_Patient_s_first_name_Optional}</span>
+                    </div>
+                    
                     <div class="small-info-text">
                         {!$Label.c.PG_SPE_L_Patient_s_first_name_Optional_tip}
                     </div>

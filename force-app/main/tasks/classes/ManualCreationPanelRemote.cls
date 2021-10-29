@@ -152,7 +152,7 @@ public without sharing class ManualCreationPanelRemote {
                     adHoc,
                     AdHocWrapper.class
                 );
-                //return createInvitationAndTask(adHocWrapper, manualTaskFilter);
+                return createInvitationAndTask(adHocWrapper, manualTaskFilter);
             }
             return 'false';
         } catch (Exception e) {
@@ -308,7 +308,7 @@ public without sharing class ManualCreationPanelRemote {
 
     //Inner logic:------------------------------------------------------------------------------------------------------
     @TestVisible
-    private static Boolean createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
+    private static String createInvitationAndTask(AdHocWrapper wrapper, ManualTaskFilter filter) {
         try {
             Survey survey = [SELECT Id, Name FROM Survey WHERE Id = :wrapper.selectedSurvey];
             List<Reminder_Schedule__c> rsList = [
@@ -358,11 +358,11 @@ public without sharing class ManualCreationPanelRemote {
                     invitationsVisible.put(inv.Id, wrapper.neededResponse);
 
                 Batch_CreateSurveyTasks.launch(invitationsVisible);
-                return true;
+                return 'true';
             }
         } catch (Exception e) {
-            return (Boolean) AuraHelper.throwException(e);
+            return (String) AuraHelper.throwException(e);
         }
-        return false;
+        return 'false';
     }
 }

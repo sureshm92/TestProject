@@ -12,6 +12,7 @@
 
     onClick: function (component, event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
+        //let mystudies = communityService.getUrlParameter('mystudies');
         if(patientVeiwRedirection){ 
               event.preventDefault();
             communityService.navigateToPage('my-patients');
