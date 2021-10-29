@@ -135,21 +135,24 @@
                                 'Creation process is launched!'
                             );
                         }
-                        var action = component.get('c.getListViews');
-                        action.setCallback(this, function(response) {
-                            var state = response.getState();
-                            if (state === 'SUCCESS') {
-                                var listviews = response.getReturnValue();
-                                var navEvent = $A.get('e.force:navigateToList');
-                                navEvent.setParams({
-                                    listViewId: listviews.Id,
-                                    listViewName: null,
-                                    scope: 'Manual_Creation_Panel_Task__c'
-                                });
-                                navEvent.fire();
-                            }
-                        });
-                        $A.enqueueAction(action);
+                        var currentTab = component.get('v.selectedTab');
+                        if (currentTab != 'adHoc') {
+                            var action = component.get('c.getListViews');
+                            action.setCallback(this, function(response) {
+                                var state = response.getState();
+                                if (state === 'SUCCESS') {
+                                    var listviews = response.getReturnValue();
+                                    var navEvent = $A.get('e.force:navigateToList');
+                                    navEvent.setParams({
+                                        listViewId: listviews.Id,
+                                        listViewName: null,
+                                        scope: 'Manual_Creation_Panel_Task__c'
+                                    });
+                                    navEvent.fire();
+                                }
+                            });
+                            $A.enqueueAction(action);
+                        }
                     }
                 } else
                     communityService.showWarningToast(
