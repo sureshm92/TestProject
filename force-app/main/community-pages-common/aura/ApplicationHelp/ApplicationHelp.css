@@ -2,7 +2,7 @@
  * Created by Kryvolap on 12.10.2018.
  */
 
-.THIS .duplicate-usernames {
+ .THIS .duplicate-usernames {
     height: 51px;
     width: 400px;
     color: #000000;
@@ -149,7 +149,7 @@
 .THIS .ah-item-panel {
     box-sizing: border-box;
     background-color: #f8f9fb;
-    padding: 11px;
+    padding: 6px;
 }
 .THIS .ah-item-panel-merge {
     box-sizing: border-box;
@@ -165,7 +165,7 @@
 }
 .THIS .create-ticket-for {
     height: 29px;
-    width: 400px;
+    width: max-content;  /*for Finnish language support code changes*/
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 24px;
@@ -176,8 +176,7 @@
 .THIS .slds-radio__label {
     font-size: 14px;
 }
-.THIS .email-match 
-{
+.THIS .email-match {
     width: 450px;
     font-size: 14px;
     color: #444444;
