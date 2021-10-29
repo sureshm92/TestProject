@@ -9,14 +9,14 @@
     <div class="rightColContent">
         <template for:each={peRecordList} for:item="pe">
             <lightning-layout multiple-rows="true" key={pe.Id}>
-                <lightning-layout-item padding="around-small" size="6" small-device-size="4" class="patientInfo">
+                <lightning-layout-item padding="around-small" size="8" small-device-size="4" class="patientInfo">
                     <div class="profile-patientID">{pe.peRecord.Patient_ID__c}</div>
                     <div class="profile-patientName">
                         {pe.peRecord.Participant_Name__c}
                         {pe.peRecord.Participant_Surname__c}
                     </div>
                 </lightning-layout-item>
-                <lightning-layout-item padding="around-small" size="6" small-device-size="8" class="actionButtons">
+                <lightning-layout-item padding="around-small" size="4" small-device-size="8" class="actionButtons">
                     <div class="actionButtons slds-show_medium">
                         <template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>
                             <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
@@ -53,7 +53,7 @@
                             </button>
                         </template>
                         <template if:true={showRefer}>
-                            <button class="apollo-btn primary search-more-btn" onclick={doRedirectToReferPatient}
+                            <button class="apollo-btn apollo-btn-rtl primary search-more-btn" onclick={doRedirectToReferPatient}
                                 title="Refer" disabled={referbuttonDisable}>
                                 {label.RH_RP_Refer}
                             </button>
