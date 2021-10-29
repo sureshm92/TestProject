@@ -70,7 +70,7 @@ public without sharing class GetNotes {
             }
             List<ContentDocument> lstCD = new List<ContentDocument>();
             lstCD = [
-                SELECT id, Title, CreatedDate,CreatedBy.Name
+                SELECT id, Title, CreatedDate,CreatedBy.Name,LastModifiedBy.Name
                 FROM ContentDocument
                 WHERE id IN :cdid
                 ORDER BY LastModifieddate DESC

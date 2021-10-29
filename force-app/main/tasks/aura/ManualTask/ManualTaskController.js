@@ -120,7 +120,16 @@
             component.get('v.parent').setValidity(allValid);
         }
     },
-
+    setReminderChange: function(component, event, helper) {
+        component.set('v.taskConfig.showNumbersAdd', component.get('v.showNumbersAdd'));
+        if (
+            component.get('v.dayRemind') != 0 &&
+            !component.get('v.taskConfig.isRecurrence') &&
+            component.get('v.showNumbersAdd') == 'true'
+        ) {
+            component.set('v.taskConfig.reminderDays', component.get('v.dayRemind'));
+        }
+    },
     onDaysChange: function(component, event, helper) {
         let startDate = component.get('v.taskConfig.startDate');
         let dueDate = component.get('v.taskConfig.endTime');

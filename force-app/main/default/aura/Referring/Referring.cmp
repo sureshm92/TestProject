@@ -195,8 +195,8 @@
                              isTrue="{!!empty(v.pendingPEnrollments) &amp;&amp; v.accessUserLevel != 'Level 2' &amp;&amp; v.accessUserLevel != 'Level 3'}"
                              >
                         <div class="between-panels">
-
-                            {!$Label.c.PG_Ref_L_OR}
+                           
+                             {!$Label.c.PG_Ref_L_OR} 
                         </div>
                         <div class="pe-panel padding" style="margin-bottom: 50px">
                             <c:RRIcon iconName="chart-review-sent" />
@@ -1861,10 +1861,10 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                           <aura:if isTrue="{!v.myStudies}">
-                                  {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                           <aura:if isTrue="{!v.patientVeiwRedirection}">
+                                   {!$Label.c.RH_RP_Back_to_My_Patients}
                                 <aura:set attribute="else">
-                                    {!$Label.c.RH_RP_Back_to_My_Patients}
+                                  {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -1961,10 +1961,10 @@
                             {!$Label.c.BTN_Find_study_sites}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            <aura:if isTrue="{!v.myStudies}">
-                                    {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                            <aura:if isTrue="{!v.patientVeiwRedirection}">
+                                    {!$Label.c.RH_RP_Back_to_My_Patients}
                                 <aura:set attribute="else">
-                                   {!$Label.c.RH_RP_Back_to_My_Patients}
+                                 {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -1989,10 +1989,10 @@
                             {!$Label.c.BTN_Refer_Another_Patient_to_This_Study}
                         </button>
                         <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                            <aura:if isTrue="{!v.myStudies}">
-                                   {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
-                                <aura:set attribute="else">
+                            <aura:if isTrue="{!v.patientVeiwRedirection}">
                                     {!$Label.c.RH_RP_Back_to_My_Patients}
+                                <aura:set attribute="else">
+                                   {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                                 </aura:set>
                             </aura:if>
                         </button>
@@ -2037,10 +2037,10 @@
                         </aura:set>
                     </aura:if>
                     <button class="apollo-btn tertiary" onclick="{!c.doGoHome}">
-                        <aura:if isTrue="{!v.myStudies}">
-                               {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
+                        <aura:if isTrue="{!v.patientVeiwRedirection}">
+                               {!$Label.c.RH_RP_Back_to_My_Patients}
                             <aura:set attribute="else">
-                                 {!$Label.c.RH_RP_Back_to_My_Patients}
+                               {!$Label.c.PG_MRR_BTN_Back_to_My_Studies}
                             </aura:set>
                         </aura:if>
                     </button>
