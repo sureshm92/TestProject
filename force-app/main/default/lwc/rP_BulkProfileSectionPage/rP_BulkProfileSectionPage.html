@@ -60,11 +60,11 @@
         <div class="slds-grid slds-grid_align-center lgc-bg actionBtn lgc-bg slds-hide_large">
             <lightning-button-menu menu-alignment="auto" alternative-text="Show menu" label="Actions"
                 onselect={handleMenuItem}>
-               <!-- <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
+                <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
                     label={label.RH_RP_Export_to_excel} onclick={exportBulkepatient}
                     title={label.RH_RP_Export_downloadable_log}>
                 </lightning-menu-item>
-                <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
+                <!--<lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
                     label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
                     title={label.RH_RP_OutreachEmail} disabled={isaccessLevelthree}>
                 </lightning-menu-item>-->
@@ -153,8 +153,8 @@
         </section>
         <div class="slds-backdrop slds-backdrop_open"></div>
     </template>
-    <!--<template if:true={showSendOutreach}>
+    <template if:true={showSendOutreach}>
        <c-rp_-patient-outreach pe-ids={peIds} onclose={closeOutreachdModal}>
        </c-rp_-patient-outreach>
-   </template>-->
+   </template>
 </template>

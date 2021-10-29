@@ -165,8 +165,7 @@
 }
 .THIS .create-ticket-for {
     height: 29px;
-    /*width: 250px;*/ /*for Finnish language support code changes*/
-    width: max-content;
+    width: max-content;  /*for Finnish language support code changes*/
     color: #000000;
     font-family: 'Proxima Nova';
     font-size: 24px;

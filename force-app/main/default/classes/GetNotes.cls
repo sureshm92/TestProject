@@ -53,4 +53,78 @@ public without sharing class GetNotes {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
     }
+    
+    @AuraEnabled
+    public static List<ContentDocument> getNotesdatarp(Id RecordId) {
+        try {
+          
+            List<ID> cdid = new List<Id>();
+            List<ContentDocumentLink> CDLink = new List<ContentDocumentLink>();
+            CDLink = [
+                SELECT ContentDocumentId, LinkedEntityId, Visibility
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :RecordId
+            ];
+            for (ContentDocumentLink cd : CDLink) {
+                cdid.add(cd.ContentDocumentId);
+            }
+            List<ContentDocument> lstCD = new List<ContentDocument>();
+            lstCD = [
+                SELECT id, Title, CreatedDate,CreatedBy.Name,LastModifiedBy.Name
+                FROM ContentDocument
+                WHERE id IN :cdid
+                ORDER BY LastModifieddate DESC
+            ];
+            
+
+            return lstCD;
+        } catch (Exception e) {
+          throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+     @AuraEnabled
+    public static void CreateNotes(Id RecordId, string notes) {
+        try {
+            if (String.isNotBlank(notes)) {
+                ContentNote cnt = new ContentNote();
+                cnt.Title = notes;
+                insert cnt;
+
+                ContentDocumentLink clnk = new ContentDocumentLink();
+                clnk.LinkedEntityId = RecordId;
+                clnk.ContentDocumentId = cnt.Id;
+                clnk.ShareType = 'V';
+                clnk.Visibility = 'AllUsers';
+                insert clnk;
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    @AuraEnabled
+    public static void UpdNotesSection(Id RecordId, string notes) {
+        try {
+            if (String.isNotBlank(notes)) {
+                ContentNote cnt = new ContentNote();
+                cnt.id = RecordId;
+                cnt.Title = notes;
+                update cnt;
+
+            }
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    @AuraEnabled
+    public static void deleteNotes (Id RecordId) {
+        try {
+                ContentNote cnt = new ContentNote();
+                cnt.id = RecordId;
+                delete cnt;
+            
+        } catch (Exception e) {
+            throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
 }

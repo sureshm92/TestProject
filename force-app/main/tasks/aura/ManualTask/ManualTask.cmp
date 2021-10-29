@@ -397,6 +397,7 @@
                                     aura:id="a_opt"
                                     label="Set Task Reminder"
                                     value="{!v.showNumbersAdd}"
+                                    onchange="{!c.setReminderChange}"
                                     disabled=""
                                 >
                                     <aura:if isTrue="{!v.isEdit}">
