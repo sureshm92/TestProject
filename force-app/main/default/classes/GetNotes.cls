@@ -55,7 +55,7 @@ public without sharing class GetNotes {
     }
     
     @AuraEnabled
-    public static List<ContentDocument> getNotesdatarp(Id RecordId) {
+    public static List<ContentNote> getNotesdatarp(Id RecordId) {
         try {
           
             List<ID> cdid = new List<Id>();
@@ -68,13 +68,9 @@ public without sharing class GetNotes {
             for (ContentDocumentLink cd : CDLink) {
                 cdid.add(cd.ContentDocumentId);
             }
-            List<ContentDocument> lstCD = new List<ContentDocument>();
-            lstCD = [
-                SELECT id, Title, CreatedDate,CreatedBy.Name,LastModifiedBy.Name
-                FROM ContentDocument
-                WHERE id IN :cdid
-                ORDER BY LastModifieddate DESC
-            ];
+            List<ContentNote> lstCD = new List<ContentNote>();
+            lstCD =[SELECT Id,LastModifiedById,LastModifiedDate,Title,LastModifiedBy.Name,CreatedDate,CreatedBy.Name FROM ContentNote where Id IN:cdid 
+                    ORDER BY LastModifieddate DESC];
             
 
             return lstCD;
