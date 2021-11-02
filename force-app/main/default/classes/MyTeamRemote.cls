@@ -1059,6 +1059,11 @@ public without sharing class MyTeamRemote {
         delegateRecord.Referring_Provider__c = parentId;
         delegateRecord.Delegate_Access_Level__c = delegate.trialLevel.delegateLevel;
         insert delegateRecord;
+
+        Contact parentContactUpgrade = new Contact();
+        parentContactUpgrade.Id = delegateContact.Id;
+        parentContactUpgrade.userCommunityDelegateId__c = parentId;
+        update parentContactUpgrade;
     }
 
     public class MyTeamDetail {

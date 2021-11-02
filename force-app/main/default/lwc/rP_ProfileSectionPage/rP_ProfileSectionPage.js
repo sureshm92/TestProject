@@ -33,6 +33,7 @@ import RH_RP_has_been_excluded from '@salesforce/label/c.RH_RP_has_been_excluded
 import RH_RP_included_successfully from '@salesforce/label/c.RH_RP_included_successfully';
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
 import { loadScript } from 'lightning/platformResourceLoader';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
@@ -69,6 +70,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api showRefer = false;
     @api disabledSaveButton = false;
     @api isaccessLevelthree = false;
+    @api isRTL;
 
     label = {
         RH_RP_Exclude,
@@ -95,7 +97,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
         RH_RP_Excluded_Successfully,
         RH_RP_has_been_excluded,
         RH_RP_included_successfully,
-        RH_RP_has_been_included
+        RH_RP_has_been_included,
+        RH_RP_Outreach_Email
     };
 
     showmedicalreview() {
@@ -396,5 +399,13 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
 
     toggleButtons() {
         this.showButtons = !this.showButtons;
+    }
+
+    showSendOutreach = false;
+    openOutreach(){
+        this.showSendOutreach = true;
+    }
+    closeOutreachdModal(){
+        this.showSendOutreach = false;
     }
 }

@@ -251,14 +251,21 @@
     font-weight: bold;
   }
 
+  .slds-table_bordered tbody tr {
+    position: relative;
+  }
+
+  .slds-table_bordered tbody td:first-child {
+    position: absolute;
+    top: 0;
+  }
+ 
    .slds-table_bordered tbody td:nth-of-type(2) {
-    display: inline-flex;
-    padding-left: 0px;
     padding-top: 12px;
   }
 
-  .slds-table_bordered tbody td:nth-of-type(n + 3) {
-    padding-left: 40px;
+    .slds-table_bordered tbody td:nth-of-type(n+2) {
+    margin-left: 28px;
   }
 
   .slds-table_bordered tbody td:last-child {
@@ -315,7 +322,5 @@
   .filterTab .filterIcon {
     position: static;
   }
-
-
 
 }

@@ -100,14 +100,18 @@
                 </aura:if>
                 <!--START : RP Revamp-->
                 <aura:if isTrue="{!v.userMode == 'HCP'}">
-                    <div class="slds-col slds-size--9-of-12" style="margin-left: 10px; margin-top: -18px;">
-                        <img src="{!$Resource.rr_community_icons + '/home.svg'}" style="height: 14px;width: 14px;"
-                            onclick="{!c.doGoHome}" />
-
-                        <p style="margin-left: 18px;margin-top: -18px;font-size:13px;font-weight: bold;">
-                            <lightning:icon iconName="utility:chevronright" size="xx-small" class="greaterThanIcons" />
-                                {!$Label.c.RH_RP_My_Patients}</p>
+                 <aura:if isTrue="{!v.isRTL}">
+                    <div class="slds-col slds-size--9-of-12" style="margin-top: -30px; margin-left: -30px;">
+                        <img src="{!$Resource.rr_community_icons + '/home.svg'}" style="height: 14px;width: 14px;" onclick="{!c.doGoHome}"/>
+                        <p style="margin-right: 18px;margin-top: -19px;font-size:13px;font-weight: bold;"><lightning:icon iconName="utility:chevronleft" size="xx-small" class="lessThanIcons"/> {!$Label.c.RH_RP_My_Patients}</p> 
                     </div>
+                    <aura:set attribute="else">
+                        <div class="slds-col slds-size--9-of-12" style="margin-top: -30px; margin-left: -30px;">
+                            <img src="{!$Resource.rr_community_icons + '/home.svg'}" style="height: 14px;width: 14px;" onclick="{!c.doGoHome}"/>
+                            <p style="margin-left: 18px;margin-top: -19px;font-size:13px;font-weight: bold;"><lightning:icon iconName="utility:chevronright" size="xx-small" class="greaterThanIcons"/> {!$Label.c.RH_RP_My_Patients}</p> 
+                        </div>
+                    </aura:set>    
+                </aura:if>
 
                     <lightning:layout multipleRows="true" class="hcp-block">
                         <lightning:layoutItem size="{!v.layout1}" padding="around-small">
@@ -133,7 +137,8 @@
                                                 peRecordList="{!v.peRecordList}"
                                                 ontablerefreshevent="{!c.refreshFromTablecomponent}"
                                                 onselectrecordevent="{!c.getValueFromProfileSectionPage}"
-                                                bulkPeIds="{!v.bulkPeIds}" />
+                                                bulkPeIds="{!v.bulkPeIds}"
+                                                onselected="{!c.noRecords}" />
                                         </aura:if>
                                     </lightning:tab>
 
@@ -167,7 +172,7 @@
                                             onincludeexcluderefresh="{!c.onExcludeIncluderefreshTable}" aura:id="scroller"/>
                                     </aura:if>
                                     <aura:if isTrue="{!v.showBulkPage}">
-                                        <c:rP_BulkProfileSectionPage isaccessLevelthree="{!v.isaccesslevelthree}"
+                                        <c:rP_BulkProfileSectionPage aura:id="BulkProfile"  isaccessLevelthree="{!v.isaccesslevelthree}" 
                                             delegateid="{!v.currentDelegateId}" peIds="{!v.peIds}" ctpIds="{!v.ctpIds}"
                                             verifyFilterValue="{!v.verifyFilterValue}"
                                             onbulkincludeexcluderefresh="{!c.onBulkExcludeIncluderefreshTable}" />

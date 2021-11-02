@@ -9,6 +9,12 @@
         if(patientVeiwRedirection){
             component.set('v.patientVeiwRedirection',true); 
         }
+        let mystudies = communityService.getUrlParameter('mystudies');
+        if(mystudies == undefined){
+            component.set('v.myStudies', false);
+        }else{
+            component.set('v.myStudies', true); 
+        }
         
         let todayDate = $A.localizationService.formatDate(new Date(), 'YYYY-MM-DD');
         component.set('v.todayDate', todayDate);
@@ -67,6 +73,9 @@
                         initData.trial.Link_to_Pre_screening__c
                     );
                     component.set('v.mrrExist',  initData.trial.Link_to_Medical_Record_Review__c);
+                    if(component.get('v.mrrExist') == undefined){
+                         //component.set('v.patientVeiwRedirection',true);
+                    }
                     component.set('v.searchResult', undefined);
                     component.set('v.mrrResult', 'Pending');
                     component.set('v.searchData', { participantId: '' });
@@ -93,7 +102,7 @@
                     if (!initData.trial.Link_to_Pre_screening__c) {
                         if(!component.get('v.patientVeiwRedirection')){
                             component.set('v.currentState', 'Search PE');
-                            }
+                          }
                         component.set('v.steps', [
                             $A.get('$Label.c.PG_Ref_Step_Discussion'),
                             $A.get('$Label.c.PG_Ref_Step_Site_Selection'),
@@ -104,6 +113,7 @@
                         !initData.trial.Link_to_Medical_Record_Review__c &&
                         initData.trial.Link_to_Pre_screening__c
                     ) {
+                        //let pvr = communityService.getUrlParameter('patientVeiwRedirection');
                         if(!component.get('v.patientVeiwRedirection')){
                             component.set('v.currentState', 'Search PE');
                         }
@@ -217,12 +227,12 @@
         } else {
             component.set('v.currentStep', $A.get('$Label.c.PG_Ref_Step_Contact_Info'));
             let frmpatientVeiw = communityService.getUrlParameter('patientVeiwRedirection');
-            if(frmpatientVeiw){
+            if(component.get('v.patientVeiwRedirection')){
                 helper.checkGuardianAge(component, event, helper);
             }
-        }  
-        let peID = communityService.getUrlParameter('peid');
+        } 
         if(component.get('v.mrrExist') != undefined){
+            let peID = communityService.getUrlParameter('peid');
             communityService.executeAction(
                 component,
                 'saveUpdatedPER',
@@ -276,7 +286,7 @@
     
     doReferrAnotherPatient: function (component,event) {
         let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-        if(patientVeiwRedirection){ 
+        if(component.get('v.patientVeiwRedirection')){ 
             
             communityService.navigateToPage('my-patients');
             window.location.reload();
@@ -291,6 +301,7 @@
     doReferSelectedPE: function (component, event, helper) {
         let peId = event.target.id;
         let pendingList = component.get('v.pendingPEnrollments');
+        let trialId = communityService.getUrlParameter('id');
         for (let i = 0; i < pendingList.length; i++) {
             let pe = pendingList[i];
             if (pe.Id === peId) {
@@ -454,7 +465,7 @@
     doNoLongerInterested: function (component, event, helper) {
         helper.doFailedReferral(component, 'No Longer Interested', function () {
             let patientVeiwRedirection = communityService.getUrlParameter('patientVeiwRedirection');
-            if(patientVeiwRedirection){ 
+            if(component.get('v.patientVeiwRedirection')){ 
                 communityService.navigateToPage('my-patients');
             }else{
                 component.set('v.currentState', 'No Longer Interested');

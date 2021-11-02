@@ -200,6 +200,10 @@
                 component.get('v.peIds')
         );
     },
+    
+    noRecords : function(component, event) {
+      component.find('BulkProfile').noRecords();
+    },
 
     refreshTable : function(component, event) {
         component.set("v.peRecordList",event.getParam('peRecordList'));

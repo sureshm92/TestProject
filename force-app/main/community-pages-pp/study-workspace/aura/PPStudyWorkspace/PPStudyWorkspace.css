@@ -429,4 +429,8 @@
         padding-left: 1rem;
         padding-right: 1rem;
     }
+
+    .THIS .RRTabSet.ts-tab-container .ts-tab-left {
+        padding-bottom: 10px;
+    }
 }

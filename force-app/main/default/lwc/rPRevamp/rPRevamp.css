@@ -323,7 +323,7 @@
         left: -5px;
     }
     .importInfo{
-        padding: 10px 12px 10px 7px;
+        padding: 10px 12px 10px 30px;
     }
 
     .popUpDisplay {
@@ -386,4 +386,17 @@
         font-size: 14px;
         justify-content: flex-start;
     }
+
+    .importInfo {
+        padding: 10px 0;
+    }
+
+    .importInfo ol {
+        padding-left: 10px;
+    }
+
+    .uploadLabel {
+        word-break: break-word;
+    }
+
 }

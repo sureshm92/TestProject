@@ -23,6 +23,7 @@
     <aura:attribute name="isEdit" type="Boolean" />
     <aura:attribute name="oneTimeTaskInProgress" type="Boolean" />
     <aura:attribute name="mcpt" type="Manual_Creation_Panel_Task__c" />
+    <aura:attribute name="isDoneRendering" type="Boolean" default="false" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:handler event="aura:doneRendering" action="{!c.doneRendering}" />
@@ -376,6 +377,8 @@
                         <!-- Reminder Mode -->
                         <aura:if isTrue="{!v.taskConfig.isRecurrence}">
                             <lightning:select
+                                name="a_optRec"
+                                aura:id="a_optRec"
                                 label="Set Task Reminder"
                                 value="{!v.showNumbersAdd}"
                                 disabled="{!and(v.taskConfig.recurrenceFrequency == 'Daily', v.taskConfig.isRecurrence)}"
@@ -390,19 +393,18 @@
                             </lightning:select>
                             <aura:set attribute="else">
                                 <lightning:select
+                                    name="a_opt"
+                                    aura:id="a_opt"
                                     label="Set Task Reminder"
                                     value="{!v.showNumbersAdd}"
-                                    disabled="{!v.isEdit}"
+                                    onchange="{!c.setReminderChange}"
+                                    disabled=""
                                 >
                                     <aura:if isTrue="{!v.isEdit}">
-                                        <aura:if isTrue="{!v.taskConfig.showNumbersAdd == 'true'}">
-                                            <option value="true"
-                                                >Number of days before the Task due date</option
-                                            >
-                                            <aura:set attribute="else">
-                                                <option value="false">Specific Date</option>
-                                            </aura:set>
-                                        </aura:if>
+                                        <option value="false">Specific Date</option>
+                                        <option value="true"
+                                            >Number of days before the Task due date</option
+                                        >
                                         <aura:set attribute="else">
                                             <aura:if isTrue="{!not(empty(v.taskConfig.endTime))}">
                                                 <aura:if

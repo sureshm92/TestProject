@@ -31,14 +31,29 @@ public without sharing class ParametrizedMessageService {
 
         public void setSObject(SObject sobj) {
             resultMessage = null;
+            User userObj;
             if (sobj == null)
                 return;
             if (sourceMessage == null)
                 return;
-            ParametersProviderService.Parameters parameters = ParametersProviderService.getParamsMap(paramProviderName);
+            ParametersProviderService.Parameters parameters = ParametersProviderService.getParamsMap(
+                paramProviderName
+            );
             Map<String, String> paramsMap = parameters.parametersMap;
-            Map<String,String> alternateParamsMap = parameters.parametersAlternateSourceMap;
+            Map<String, String> alternateParamsMap = parameters.parametersAlternateSourceMap;
             Map<String, String> valuesMap = new Map<String, String>();
+
+            if (paramsMap.get('ContactID') != null) {
+                Object contactIdValue = SObjectHelper.getSObjectFieldValue(
+                    sobj,
+                    paramsMap.get('ContactID')
+                );
+                userObj = [
+                    SELECT Id, LocaleSidKey, TimeZoneSidKey
+                    FROM User
+                    WHERE ContactId = :contactIdValue + ''
+                ];
+            }
 
             for (String paramName : paramsMap.keySet()) {
                 String fieldPath = paramsMap.get(paramName);
@@ -47,13 +62,27 @@ public without sharing class ParametrizedMessageService {
                 if (value instanceof Date) {
                     valueStr = UserService.formatDate((Date) value, language);
                 } else if (value instanceof Datetime) {
-                    valueStr = UserService.formatDateTime((Datetime) value, language);
+                    if (userObj == null) {
+                        valueStr = UserService.formatDateTime((Datetime) value, language);
+                    } else {
+                        valueStr = UserService.formatDateTimebyZone(
+                            (Datetime) value,
+                            userObj.LocaleSidKey,
+                            userObj.TimeZoneSidKey
+                        );
+                    }
                 } else {
                     valueStr = (value != null ? value : '') + '';
                 }
                 valuesMap.put(paramName, valueStr);
             }
             resultMessage = sourceMessage;
+            if (valuesMap.get('ShortTaskName') != null) {
+                valuesMap.put(
+                    'ShortTaskName',
+                    valuesMap.get('ShortTaskName').abbreviate(12).removeEnd('.')
+                );
+            }
             for (String parameterName : valuesMap.keySet()) {
                 resultMessage = resultMessage.replace(
                     '##' + parameterName,

@@ -51,15 +51,15 @@ public without sharing class RRChangePasswordController {
     public String communityLogo { get; set; }
     public String resetPassLogo { get; set; }
     public String themeCSS { get; set; }
-    public Boolean isMobileView {get;set;}
-    public Boolean isMobileApp{get;set;}
+    public Boolean isMobileView { get; set; }
+    public Boolean isMobileApp { get; set; }
     public String backgroundStyle { get; set; }
     public String templateName { get; set; }
     public String currentCommunityName { get; set; }
     public String siteName { get; set; }
     public Boolean hasProfilePic { get; set; }
-    public Boolean showPassword {get; set;}
-    public Boolean showNewPassword {get; set;}
+    public Boolean showPassword { get; set; }
+    public Boolean showNewPassword { get; set; }
     //public Boolean showPassword = true;
     public Boolean isRTL { get; set; }
 
@@ -101,7 +101,7 @@ public without sharing class RRChangePasswordController {
         init();
         if (!contact.Is_First_Logon__c)
             translation.Language__c = userVal.LanguageLocaleKey;
-        String rtl_language = System.Label.RTL_Languages;  
+        String rtl_language = System.Label.RTL_Languages;
         if (rtl_language.contains(previousLanguage)) {
             isRTL = true;
         }
@@ -115,21 +115,24 @@ public without sharing class RRChangePasswordController {
                 '/s/cookie-policy?lanCode=' + previousLanguage
             );
         }
-        
-        
+
         Map<String, String> headerlist = ApexPages.currentPage().getHeaders();
-        if(headerList.size()>0){
-            if(headerList.get('User-Agent').contains('Android') || headerList.get('User-Agent').contains('BlackBerry') ||
-                headerList.get('User-Agent').contains('IEMobile') ||headerList.get('User-Agent').contains('iPhone')||headerList.get('User-Agent').contains('iPad')){
+        if (headerList.size() > 0) {
+            if (
+                headerList.get('User-Agent').contains('Android') ||
+                headerList.get('User-Agent').contains('BlackBerry') ||
+                headerList.get('User-Agent').contains('IEMobile') ||
+                headerList.get('User-Agent').contains('iPhone') ||
+                headerList.get('User-Agent').contains('iPad')
+            ) {
                 isMobileView = true;
             }
-            if(headerList.get('User-Agent').contains('SalesforceMobileSDK')){
+            if (headerList.get('User-Agent').contains('SalesforceMobileSDK')) {
                 isMobileApp = true;
             }
         }
     }
-    
-    
+
     private void init() {
         showPassword = true;
         showNewPassword = true;
@@ -306,21 +309,19 @@ public without sharing class RRChangePasswordController {
     public PageReference changePassword() {
         try {
             PageReference pr = Site.changePassword(newPassword, verifyNewPassword, oldPassword);
-			contact cont = new contact();
-            
-			cont.Id = contact.Id;
-			cont.Is_First_Logon__c = false;
+            contact cont = new contact();
+
+            cont.Id = contact.Id;
+            cont.Is_First_Logon__c = false;
             cont.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                 ? CommunityService.IQVIA_NETWORK_NAME
                 : Site.getMasterLabel();
             if (isParticipant) {
-               
-               cont.MailingCountrycode=contact.MailingCountrycode ;
-               cont.MailingStatecode=contact.MailingStatecode ;
-			    
+                cont.MailingCountrycode = contact.MailingCountrycode;
+                cont.MailingStatecode = contact.MailingStatecode;
             }
-			update cont;
-            
+            update cont;
+
             //            if(translation.Language__c != null) {
             //                userVal.LanguageLocaleKey = translation.Language__c;
             update userVal;
@@ -342,14 +343,15 @@ public without sharing class RRChangePasswordController {
                         System.Label.Pswd_ValidationMsg3
                     );
                     failingPageResponse = m.getDetail();
-
                 } else {
-                    if(m.getDetail().contains(System.Label.PP_CantReuseOldPwd) && !Site.getPathPrefix().startsWith('/gsk')){
+                    if (
+                        m.getDetail().contains(System.Label.PP_CantReuseOldPwd) &&
+                        !Site.getPathPrefix().startsWith('/gsk')
+                    ) {
                         failingPageResponse = System.Label.PP_CantReuseOldPwd;
-                    }else{
-                    failingPageResponse = null;
+                    } else {
+                        failingPageResponse = null;
                     }
-
                 }
             }
 
@@ -367,12 +369,11 @@ public without sharing class RRChangePasswordController {
             return null;
         }
     }
-    public void toggleNewPassword(){
+    public void toggleNewPassword() {
         showNewPassword = !showNewPassword;
     }
-    public void togglePassword(){
+    public void togglePassword() {
         showPassword = !showPassword;
-
     }
     public void showProfileAction() {
         isProfileView = true;
@@ -382,6 +383,27 @@ public without sharing class RRChangePasswordController {
     public void checkPasswords() {
         try {
             ApexPages.getMessages().clear(); // Messages can't be cleared this way! Redirect page.
+            Map<String, String> countryCodeByNameMap = new Map<String, String>();
+            Map<String, String> stateCodeByNameMap = new Map<String, String>();
+            List<RH_State_Code_By_Country_Name__mdt> stateCodeByCountryList = [
+                SELECT
+                    RH_Country_Name__r.Country_Name__c,
+                    RH_Country_Name__r.Country_Code__c,
+                    State_Code__c,
+                    State_Name__c
+                FROM RH_State_Code_By_Country_Name__mdt
+            ];
+            for (RH_State_Code_By_Country_Name__mdt objMetadata : stateCodeByCountryList) {
+                if (!String.isBlank(objMetadata.RH_Country_Name__r.Country_Code__c)) {
+                    countryCodeByNameMap.put(
+                        objMetadata.RH_Country_Name__r.Country_Code__c,
+                        objMetadata.RH_Country_Name__r.Country_Name__c
+                    );
+                }
+                if (!String.isBlank(objMetadata.State_Code__c)) {
+                    stateCodeByNameMap.put(objMetadata.State_Code__c, objMetadata.State_Name__c);
+                }
+            }
             if (isParticipant) {
                 participant.Mailing_Country_Code__c = country;
                 participant.Mailing_State_Code__c = state;
@@ -395,10 +417,10 @@ public without sharing class RRChangePasswordController {
                     states.size() < 1;
                 participant.Mailing_Country__c = (noCountry
                     ? null
-                    : CountryStateUtil.getCountryName(participant.Mailing_Country_Code__c));
+                    : countryCodeByNameMap.get(participant.Mailing_Country_Code__c));
                 participant.Mailing_State__c = (noState
                     ? null
-                    : CountryStateUtil.getStateName(participant.Mailing_Country_Code__c,participant.Mailing_State_Code__c));
+                    : stateCodeByNameMap.get(participant.Mailing_State_Code__c));
                 if (isDelegate) {
                     participant.Birth_Year__c = birthYear;
                 }
@@ -436,10 +458,10 @@ public without sharing class RRChangePasswordController {
                     states.size() < 1;
                 contact.MailingCountry = (noCountry
                     ? null
-                    : countryCodeByName.get(contact.MailingCountryCode));
+                    : countryCodeByNameMap.get(contact.MailingCountryCode));
                 contact.MailingState = (noState
                     ? null
-                    : stateCodeByName.get(contact.MailingStateCode));
+                    : stateCodeByNameMap.get(contact.MailingStateCode));
 
                 if (account.Name != oldAccountName && !String.isEmpty(account.Name)) {
                     Account newClinic = new Account(
@@ -471,9 +493,10 @@ public without sharing class RRChangePasswordController {
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :contact.Id
                     ];
+                    RP_Delegate_Relationship__c delgateRelationship = [SELECT id,Delegate__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :contact.Id];
                     if (loginUserPEs.isEmpty() && contact.UserCommunityIsDelegate__c) {
                         contact.Current_Participant_Enrollment__c = null;
-                        contact.userCommunityDelegateId__c = null;
+                        contact.userCommunityDelegateId__c = (delgateRelationship.Delegate__c != contact.Id) ? null : delgateRelationship.Referring_Provider__c;
                         contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                             ? CommunityService.IQVIA_NETWORK_NAME
                             : Site.getMasterLabel();
@@ -770,7 +793,7 @@ public without sharing class RRChangePasswordController {
         }
 
         update userVal.Contact;
-         countries = new List<SelectOption>();
+        countries = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.value, country.label));
             countryCodeByName.put(country.value, country.label);
@@ -844,8 +867,7 @@ public without sharing class RRChangePasswordController {
             isDisabled = true;
             isSaveButtonDisabled = true;
             showErrorMessage = false;
-        }
-        else if (!String.isBlank(participant.Birth_Year__c)) {
+        } else if (!String.isBlank(participant.Birth_Year__c)) {
             isAdult = false;
             birthYear = participant.Birth_Year__c;
             List<Age_of_Majority__mdt> ageOfMajorities = [
