@@ -9964,14 +9964,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>This is your final reminder. Please complete ##SurveyName.</value>
+        <value>This is a reminder that you have not completed ##SurveyName. Please log in to IQVIA Patient Portal to complete your survey.</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>This is a reminder that you have not completed ##SurveyName.</value>
+        <value>This is a reminder that you have not completed ##SurveyName. Please log in to IQVIA Patient Portal to complete your survey.</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17511,7 +17511,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>We would love to hear from you! Please take a few minutes to complete the ##SurveyName</value>
+        <value>You have a new survey awaiting your feedback. Please log in to IQVIA Patient Portal to complete the survey.</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
