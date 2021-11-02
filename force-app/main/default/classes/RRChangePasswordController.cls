@@ -493,9 +493,10 @@ public without sharing class RRChangePasswordController {
                         FROM Participant_Enrollment__c
                         WHERE Participant_Contact__c = :contact.Id
                     ];
+                    RP_Delegate_Relationship__c delgateRelationship = [SELECT id,Delegate__c,Referring_Provider__c FROM RP_Delegate_Relationship__c WHERE Delegate__c = :contact.Id];
                     if (loginUserPEs.isEmpty() && contact.UserCommunityIsDelegate__c) {
                         contact.Current_Participant_Enrollment__c = null;
-                        contact.userCommunityDelegateId__c = null;
+                        contact.userCommunityDelegateId__c = (delgateRelationship.Delegate__c != contact.Id) ? null : delgateRelationship.Referring_Provider__c;
                         contact.Landing_Community__c = Site.getMasterLabel().equals('IQVIA RH')
                             ? CommunityService.IQVIA_NETWORK_NAME
                             : Site.getMasterLabel();
