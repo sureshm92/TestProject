@@ -101,13 +101,17 @@ public without sharing class GetNotes {
     @AuraEnabled
     public static void UpdNotesSection(Id RecordId, string notes) {
         try {
-            if (String.isNotBlank(notes)) {
-                ContentNote cnt = new ContentNote();
-                cnt.id = RecordId;
-                cnt.Title = notes;
-                update cnt;
-
-            }
+             boolean profilechk = GetNotes.checkCurrentusrProfile();
+                if(profilechk){
+                    if (String.isNotBlank(notes)) {
+                        ContentNote cnt = new ContentNote();
+                        cnt.id = RecordId;
+                        cnt.Title = notes;
+                        update cnt;
+                    }
+                }else{
+                   throw new AuraHandledException('You dont have permission to perform the operation.');
+                }
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
         }
@@ -115,12 +119,27 @@ public without sharing class GetNotes {
     @AuraEnabled
     public static void deleteNotes (Id RecordId) {
         try {
-                ContentNote cnt = new ContentNote();
-                cnt.id = RecordId;
-                delete cnt;
-            
+                boolean profilechk = GetNotes.checkCurrentusrProfile();
+                if(profilechk){
+                    ContentNote cnt = new ContentNote();
+                    cnt.id = RecordId;
+                    delete cnt;
+                }else{
+                   throw new AuraHandledException('You dont have permission to perform the operation.');
+                }
+               
         } catch (Exception e) {
             throw new AuraHandledException(e.getMessage() + '\n' + e.getStackTraceString());
+        }
+    }
+    
+    public static boolean checkCurrentusrProfile(){
+        Id profileId=userinfo.getProfileId();
+        String profileName=[Select Id,Name from Profile where Id=:profileId].Name;
+        if(profileName == 'Business Administrator' || profileName == 'System Administrator' ){
+           return true;
+        }else{
+           return false;
         }
     }
 }

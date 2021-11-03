@@ -3,6 +3,7 @@ import getnotesdetails from '@salesforce/apex/GetNotes.getNotesdatarp';
 import CreateNotes from '@salesforce/apex/GetNotes.CreateNotes';
 import UpdateNotes from '@salesforce/apex/GetNotes.UpdNotesSection';
 import delNotes from '@salesforce/apex/GetNotes.deleteNotes';
+import { ShowToastEvent } from 'lightning/platformShowToastEvent';
 
 export default class RecordIdInLWC extends LightningElement {
     @api recordId;
@@ -66,6 +67,13 @@ export default class RecordIdInLWC extends LightningElement {
             //location.reload();
             this.connectedCallback();
         }) .catch((error => {
+            const evt = new ShowToastEvent({
+                title: '',
+                message: 'You dont have permission to perform the operation.',
+                variant: 'error',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
             console.log('Err:'+JSON.stringify(error));
         })); 
         this.isModalOpenEdit = false;
@@ -80,6 +88,13 @@ export default class RecordIdInLWC extends LightningElement {
             //location.reload();
             this.connectedCallback();
         }) .catch((error => {
+            const evt = new ShowToastEvent({
+                title: '',
+                message: 'You dont have permission to perform the operation.',
+                variant: 'error',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
             console.log('Err:'+JSON.stringify(error));
         })); 
         this.isModalOpenDelete = false;
