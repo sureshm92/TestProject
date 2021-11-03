@@ -226,6 +226,7 @@
 .importInfo .header1 {
     position: absolute;
     top: -20px;
+    left: 24px;
     font-size: 24px;
     font-weight: 600;
 }
@@ -237,7 +238,7 @@
     opacity : 0.5;
 }
 .leftMargin{
-    margin: 0px 8px 0px 8px;
+    margin: 0px 8px 0px 0px;
 }
 
 .label-icon-color{
@@ -322,7 +323,7 @@
         left: -5px;
     }
     .importInfo{
-        padding: 10px 12px 10px 7px;
+        padding: 10px 12px 10px 30px;
     }
 
     .popUpDisplay {
@@ -385,4 +386,17 @@
         font-size: 14px;
         justify-content: flex-start;
     }
+
+    .importInfo {
+        padding: 10px 0;
+    }
+
+    .importInfo ol {
+        padding-left: 10px;
+    }
+
+    .uploadLabel {
+        word-break: break-word;
+    }
+
 }

@@ -23,6 +23,8 @@ import RH_RP_Export_downloadable_log from '@salesforce/label/c.RH_RP_Export_down
 import RH_RP_Bulk_Action from '@salesforce/label/c.RH_RP_Bulk_Action';
 import RH_RP_OutreachEmail from '@salesforce/label/c.RH_RP_OutreachEmail';
 import RH_RP_Patients_Selected from '@salesforce/label/c.RH_RP_Patients_Selected';
+import { loadScript } from 'lightning/platformResourceLoader';
+import rrCommunity from '@salesforce/resourceUrl/rr_community_js';
 
 import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included';
 import excludeStatus from '@salesforce/apex/RPRecordReviewLogController.bulkChangeStatusToExcludeFromReferring';
@@ -72,6 +74,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
     @api peList;
     @api isaccessLevelthree = false;
     @api disableExceldownload = false;
+
     
 
     openExclude = false;
@@ -83,7 +86,6 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
 
     connectedCallback() {
         this.totalRecords = this.peIds.length; 
-
         if(this.verifyFilterValue != "Excluded from Referring"){
             this.showExclude = false;
         }
@@ -158,17 +160,27 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         })
     }
     exportBulkepatient(){
-       getExportRecords({participantEnrollmentIds: this.peIds})
-       .then((result) => {
-             this.peList = result;
-       })
-       .then(() => {
-          this.downloadasExcel();
-       })
-       .catch((error) => {
-           this.errors = error;
-           console.log(error);
-       })
+       if(communityService.isMobileSDK()){
+        const evt = new ShowToastEvent({
+            title: '',
+            message: 'Opening this link is only supported using the web browser experience',
+            variant: 'info',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(evt);
+       }else{
+        getExportRecords({participantEnrollmentIds: this.peIds})
+        .then((result) => {
+              this.peList = result;
+        })
+        .then(() => {
+           this.downloadasExcel();
+        })
+        .catch((error) => {
+            this.errors = error;
+            console.log(error);
+        })
+       } 
     }
     downloadasExcel() {  
       let columnHeader = ["Study Code Name","Participant Profile Name", "Patient ID","Participant Status","Participant Status Last Changed Date","Last Added Notes","Outreach Email","Pre-screening 1 Status","Pre-screening 1 Completed by","Pre-screening Date","Referred Date","Referral Completed by","Referral Source","Study Site Name","Investigator Name","Status Change Reason","Last Status Changed Notes","MRN Id"]; 
