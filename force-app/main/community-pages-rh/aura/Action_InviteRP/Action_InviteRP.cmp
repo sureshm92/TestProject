@@ -62,7 +62,7 @@
                             </div>
                             <div class="slds-col slds-size_1-of-2 slds-p-around_medium">
                                 <div class="rr-form-element">
-                                    <div class="label" style="{!if(v.isRTL, 'text-align: right;','')}">{!$Label.c.PG_MRC_RF_Phone}</div>
+                                    <div class="label" style="{!if(v.isRTL, 'text-align: right;margin-bottom: 11px;','margin-bottom: 11px;')}">{!$Label.c.PG_MRC_RF_Phone}</div>
                                     <c:rrInput valueString="{!v.phone}" />
                                 </div>
                             </div>
