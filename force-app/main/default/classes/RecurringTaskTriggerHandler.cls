@@ -31,6 +31,9 @@ public class RecurringTaskTriggerHandler {
                             if(rTask.Next_Due_Date__c > rTask.Recurrence_End_Date__c){
                                 rTask.Next_Due_Date__c = rTask.Recurrence_End_Date__c;
                             }
+                            if(!rTask.Is_Recurrence__c){
+                                rTask.Next_Due_Date__c = rTask.Recurrence_End_Date__c;
+                            }
                         }
                     }
                     if(rTask.Recurrence_Frequency__c != oldRTask.Recurrence_Frequency__c){// change in freq
