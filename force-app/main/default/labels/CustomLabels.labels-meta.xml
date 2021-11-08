@@ -4992,6 +4992,15 @@ Your username is ##UserName.</value>
         <value>&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Thank you for your interest in the ##StudyName. &lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;We are reaching out to you to confirm we received your information. A member of the study team will contact you regarding the next steps in the study process.&lt;/p&gt;&lt;/div&gt;&lt;div style=&quot;color:#333333&quot;&gt;&lt;p color=&quot;#333333&quot;&gt;Your username is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
     </labels>
     <labels>
+        <fullName>Email_Body_Instant_Del_Task_Reminder_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Body Instant Del Task Reminder Type Not Selected</shortDescription>
+        <value>&lt;span style=&quot;color:black;&quot;&gt;You have a new task for ##ParticipantFirstName awaiting your action: ##TaskName&lt;/span&gt;
+
+&lt;div&gt;&lt;span style=&quot;color:black;&quot;&gt;Due Date &amp; Time:&lt;/span&gt; &lt;span style=&quot;color:black;&quot; &gt; ##Taskdate &lt;/span&gt;&lt;/div&gt;</value>
+    </labels>
+    <labels>
         <fullName>Email_Body_Instant_Task_Reminder_Type_Not_Selected</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -6202,6 +6211,13 @@ Please log in to ##CommunityName to view your clinical research trial matches an
         <protected>false</protected>
         <shortDescription>Email Header Your Access Level Has Changed</shortDescription>
         <value>Your access level has changed</value>
+    </labels>
+    <labels>
+        <fullName>Email_Instant_Del_Subject_Reminder_Type_Not_Selected</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Email Instant Del Subject Reminder Type Not Selected</shortDescription>
+        <value>Your patient has a new task</value>
     </labels>
     <labels>
         <fullName>Email_Instant_Header_Reminder_Type_Not_Selected</fullName>
