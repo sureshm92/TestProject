@@ -115,7 +115,6 @@ Validate:
 RUNTEST:
   only:
     refs: 
-    - CICDDEMO1
     - merge_requests
   stage: RUNTEST
   script: 
