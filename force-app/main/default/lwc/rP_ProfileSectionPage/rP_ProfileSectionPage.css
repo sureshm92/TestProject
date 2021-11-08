@@ -7,6 +7,10 @@
   justify-content: flex-end;
 }
 
+.apollo-btn-rtl{
+  margin-right: 15px;
+}
+
 .patientInfo {
   min-width: 9rem; /* 200px; */
 }

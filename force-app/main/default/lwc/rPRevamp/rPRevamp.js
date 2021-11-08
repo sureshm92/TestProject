@@ -93,6 +93,7 @@ export default class RPRevamp extends LightningElement {
     @api recordsToDisplay = [];
     baseUrl;
     filesLoaded = false;
+    @api isMobileapp = false;
 
     get dontshowInstruction() {
         return !this.showInstruction;
@@ -127,6 +128,9 @@ export default class RPRevamp extends LightningElement {
             });
             loadScript(this, xlsxmin).then(() => {
             });
+            if(communityService.isMobileSDK()){
+                this.isMobileapp = true;
+            }
         }
     }
     getDetailsApex() {
@@ -164,7 +168,7 @@ export default class RPRevamp extends LightningElement {
         this.recordsToDisplay = event.detail;
         this.rowNumberOffset = this.recordsToDisplay[0].rowNumber - 1;
     }
-
+   
     openIntructModal() {
         this.isInstrModalOpen = true;
     }
@@ -172,9 +176,28 @@ export default class RPRevamp extends LightningElement {
     closeIntructModal() {
         this.isInstrModalOpen = false;
     }
+    downloadFile() {
+        const evt = new ShowToastEvent({
+            title: '',
+            message: 'Opening this link is only supported using the web browser experience',
+            variant: 'info',
+            mode: 'dismissable'
+        });
+        this.dispatchEvent(evt);
+    }
 
     openUploadModal() {
-        this.isUploadModalOpen = true;
+        if(communityService.isMobileSDK()){
+            const evt = new ShowToastEvent({
+                title: '',
+                message: 'Opening this link is only supported using the web browser experience',
+                variant: 'info',
+                mode: 'dismissable'
+            });
+            this.dispatchEvent(evt);
+        }else{
+            this.isUploadModalOpen = true;
+        } 
     }
     //close model for refresh
     closeUploadModal() {

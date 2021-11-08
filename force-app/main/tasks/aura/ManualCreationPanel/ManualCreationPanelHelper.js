@@ -11,16 +11,24 @@
 
     checkChild: function(component, validity) {
         var currentTab = component.get('v.selectedTab');
+        let manTask = component.find('manTask');
+        let manAdhoc = component.find('manAdhoc');
         if (currentTab === 'task') {
-            validity = validity && component.find('manTask').get('v.isValid');
+            if (manTask) {
+                validity = validity && component.find('manTask').get('v.isValid');
+            }
         } else if (currentTab === 'adHoc') {
-            validity = validity && component.find('manAdhoc').get('v.isValid');
+            if (manAdhoc) {
+                validity = validity && component.find('manAdhoc').get('v.isValid');
+            }
         }
 
         return validity;
     },
     checkChildSave: function(component, validity) {
-        validity = validity && component.find('manTask').get('v.isValidSave');
+        if (component.find('manTask')) {
+            validity = validity && component.find('manTask').get('v.isValidSave');
+        }
         return validity;
     }
 });

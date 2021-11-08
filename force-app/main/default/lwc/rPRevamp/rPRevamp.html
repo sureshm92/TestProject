@@ -129,13 +129,20 @@
                         <img src={instructionsSvgURL} />&nbsp;&nbsp;
                         {BulkImport_Instructions}
                     </button>
-                    <a href={templateFile}>
-                        <button class="slds-button slds-button_neutral leftMargin">
-                            <img src={downloadSvgURL} />&nbsp;&nbsp;
-                            {BulkImport_File_Template}
-                        </button>
-                    </a>
-
+                    <template if:false={isMobileapp}>
+                        <a href={templateFile}>
+                            <button class="slds-button slds-button_neutral leftMargin">
+                                <img src={downloadSvgURL} />&nbsp;&nbsp;
+                                {BulkImport_File_Template}
+                            </button>
+                        </a>
+                    </template>
+                    <template if:true={isMobileapp}>
+                            <button class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
+                                <img src={downloadSvgURL} />&nbsp;&nbsp;
+                                {BulkImport_File_Template}
+                            </button>
+                    </template>
                     <!-- <button type="button" class="slds-button slds-button_neutral leftMargin" onclick={downloadFile}>
                         <img src={downloadSvgURL}/>&nbsp;&nbsp;
                         {BulkImport_File_Template}
@@ -289,10 +296,16 @@
                                     <td class="table-data">
                                         <div>
                                             <template if:true={item.ContentUrl}>
+                                                <template if:false={isMobileapp}>
                                                 <a href={item.ContentUrl} target="_blank">
                                                     <lightning-icon icon-name="utility:download" size="small"
                                                         alternative-text="Download" title="Download"> </lightning-icon>
                                                 </a>
+                                               </template>
+                                               <template if:true={isMobileapp}>
+                                                    <lightning-icon icon-name="utility:download" size="small"
+                                                        alternative-text="Download" title="Download" onclick={downloadFile}> </lightning-icon>
+                                               </template>
                                             </template>
                                         </div>
                                     </td>
