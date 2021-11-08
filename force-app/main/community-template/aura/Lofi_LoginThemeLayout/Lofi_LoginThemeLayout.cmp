@@ -61,8 +61,8 @@
                         <aura:if isTrue="{!v.communityType == 'Janssen'}">
                             <div class="slds-col slds-size--1-of-1">
                                 <span class="janssen-logo slds-align_absolute-center"
-                                      >{!$Label.c.Janssen_Community_Login_Page}</span
-                                    >
+                                    >{!$Label.c.Janssen_Community_Login_Page}</span
+                                >
                             </div>
                         </aura:if>
                         <div class="body-content">
@@ -108,18 +108,18 @@
                                     src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
                                     class="mobile-logo"
                                 />
-                                <div class="header-title-mobile"
-                                    >{!$Label.c.Lofi_Login_PP_Header}</div
-                                >
+                                <div class="header-title-mobile">
+                                    {!$Label.c.Lofi_Login_PP_Header}
+                                </div>
                             </div>
                             <div class="slds-col slds-size--1-of-2 slds-align_absolute-center">
                                 <img
                                     src="{!$Resource.Lofi_Login_Icons + '/IQVIA_Logo_Mobile.png'}"
                                     class="mobile-logo"
                                 />
-                                <div class="header-title-mobile"
-                                    >{!$Label.c.Lofi_Login_RH_Header}</div
-                                >
+                                <div class="header-title-mobile">
+                                    {!$Label.c.Lofi_Login_RH_Header}
+                                </div>
                             </div>
                         </div>
                         <aura:if isTrue="{!v.communityType == 'Janssen'}">
@@ -140,7 +140,7 @@
                     <div class="{!'footer-mobile' + if(v.isRTL ,' align-rtl', '')}">
                         <div
                             class="slds-col slds-size_1-of-1"
-                            style="font-weight: 600; margin-bottom: 1em"
+                            style="{! 'font-weight: 600; margin-bottom: 1em;' + if(v.isMobileApp, 'display:none;', '')}"
                         >
                             <aura:unescapedHtml value="{!$Label.c.Lofi_Optimized_Message}" />
                         </div>
