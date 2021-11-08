@@ -321,8 +321,11 @@ public without sharing class NotificationService {
             datetime gmtDateTime = datetime.now();
             string currentUserDate = gmtDateTime.format('yyyy-MM-dd');
             String userTimeZone = availabilityService.contactLangZoneMap.get(n.Recipient__c);
-            string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone != null? userTimeZone: 'GMT');
-            if (currentUserDate != participantDate && n.StartDate__c != null) {
+            string participantDate = gmtDateTime.format(
+                'yyyy-MM-dd',
+                userTimeZone != null ? userTimeZone : 'GMT'
+            );
+            if (n.StartDate__c != null && currentUserDate != participantDate) {
                 continue;
             }
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
