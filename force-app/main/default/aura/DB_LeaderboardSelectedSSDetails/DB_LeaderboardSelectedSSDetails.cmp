@@ -38,7 +38,7 @@
                         {!v.dashboardTitle}
                     </span>
                     <!--aura:if isTrue="{!v.show}"-->
-                    <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount" style="width: 160px;">
+                    <span class="slds-float_right slds-p-right_medium slds-p-top_medium totalcount" style="width: fit-content;">
                         {!$Label.c.Dashboard_Total_Sites}: {!v.totalSSCount}
                     </span>
                     <!--/aura:if-->
