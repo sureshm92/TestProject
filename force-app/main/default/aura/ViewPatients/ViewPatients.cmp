@@ -106,7 +106,7 @@
                         <p style="margin-right: 18px;margin-top: -19px;font-size:13px;font-weight: bold;"><lightning:icon iconName="utility:chevronleft" size="xx-small" class="lessThanIcons"/> {!$Label.c.RH_RP_My_Patients}</p> 
                     </div>
                     <aura:set attribute="else">
-                        <!-- commented by Imteyaz <div class="slds-col slds-size--9-of-12" style="margin-top: -30px; margin-left: -30px;">
+                        <!-- commented by Imteyaz <div class="slds-col slds-size-9-of-12" style="margin-top: -30px; margin-left: -30px;">
                             <img src="{!$Resource.rr_community_icons + '/home.svg'}" style="height: 14px;width: 14px;" onclick="{!c.doGoHome}"/>
                             <p style="margin-left: 18px;margin-top: -19px;font-size:13px;font-weight: bold;"><lightning:icon iconName="utility:chevronright" size="xx-small" class="greaterThanIcons"/> {!$Label.c.RH_RP_My_Patients}</p> 
                         </div>-->
