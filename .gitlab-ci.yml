@@ -138,6 +138,7 @@ Deploy:
       - echo "Deploy success!"
 RUNTEST:
   only:
+    refs: 
     - CICDDEMO1
     - merge_requests
   stage: RUNTEST
