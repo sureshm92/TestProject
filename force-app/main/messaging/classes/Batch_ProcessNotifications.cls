@@ -16,9 +16,14 @@ public without sharing class Batch_ProcessNotifications extends Batch_ScheduledA
                     From__c,
                     IsDelegate__c,
                     RemindUsing__c,
-                    Task_Id__c
+                    Task_Id__c,
+                    StartDate__c
                 FROM Notification__c
-                WHERE Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING AND (StartDate__c = null or (StartDate__c != null and StartDate__c <= TODAY ) )
+                WHERE
+                    Status__c = :NotificationService.NOTIFICATION_STATUS_PENDING
+                    AND (StartDate__c = NULL
+                    OR (StartDate__c != NULL
+                    AND StartDate__c <= TODAY))
             ]
         );
     }

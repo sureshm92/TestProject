@@ -8,6 +8,12 @@ echo "Step 1 - Move current files to scratch-org-files/original-files"
 sed -i 's/IQVIA_Referral_Hub_C/IQVIA_Referral_Hub1/g' 'force-app/communities/community-iqvia/networks/IQVIA Referral Hub.network-meta.xml'
 sed -i 's/#force-app\/main\/default\/flows/force-app\/main\/default\/flows/g' '.forceignore'
 sed -i 's/#\*\*/\*\*/' '.forceignore'
+if [ "$(ls -A ./scratch-org-files/original-files)" ]
+then
+    rm -rf ./scratch-org-files/original-files
+else
+     echo "Empty directory, continue..."
+fi
 sed -i 's/#force-app\/unpackaged\/main\/default\/staticresources\/os_*/force-app\/unpackaged\/main\/default\/staticresources\/os_*/' '.forceignore'
 sed -i 's/#force-app\/main\/onboarding-tour\/staticresources\/os_*/force-app\/main\/onboarding-tour\/staticresources\/os_*/' '.forceignore'
 mv ./force-app/communities/community-iqvia/experiences ./scratch-org-files/original-files
