@@ -318,15 +318,16 @@ public without sharing class NotificationService {
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
-            datetime gmtDateTime = datetime.now();
-            string currentUserDate = gmtDateTime.format('yyyy-MM-dd');
-            String userTimeZone = availabilityService.contactLangZoneMap.get(n.Recipient__c);
-            string participantDate = gmtDateTime.format(
-                'yyyy-MM-dd',
-                userTimeZone != null ? userTimeZone : 'GMT'
-            );
-            if (n.StartDate__c != null && currentUserDate != participantDate) {
-                continue;
+            if (n.StartDate__c != null) {
+                datetime gmtDateTime = datetime.now();
+                string currentUserDate = gmtDateTime.format('yyyy-MM-dd');
+                String userTimeZone = availabilityService.contactLangZoneMap.get(n.Recipient__c);
+                if (userTimeZone != null) {
+                    string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
+                    if (currentUserDate != participantDate) {
+                        continue;
+                    }
+                }
             }
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
