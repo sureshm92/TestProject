@@ -11,9 +11,16 @@
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:activity"
                         label={BulkImport_Instructions} onclick={openIntructModal}>
                     </lightning-menu-item>
-                    <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
+                    <template if:false={isMobileapp}>
+                        <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
                         label={BulkImport_File_Template} href={templateFile}>
                     </lightning-menu-item>
+                    </template>
+                    <template if:true={isMobileapp}>
+                        <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:download"
+                        label={BulkImport_File_Template} onclick={downloadFile}>
+                    </lightning-menu-item>
+                    </template>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:file"
                         label={BulkImport_Import_Patients} onclick={openUploadModal}>
                     </lightning-menu-item>
@@ -88,14 +95,20 @@
                                 <div>{BulkImport_Uploaded_On} : <lightning-formatted-date-time
                                         value={item.ContentModifiedDate}></lightning-formatted-date-time>
                                 </div>
-                               <div title={BulkImport_Actions}>{BulkImport_Actions} :
-                                    &nbsp; &nbsp;<template if:true={item.ContentUrl}>
-                                        <a href={item.ContentUrl} target="_blank">
-                                            <lightning-icon icon-name="utility:download" size="x-small"
-                                                alternative-text="Download" title="Download"></lightning-icon>
-                                        </a>
-                                    </template>
-                                </div>
+                                    <div title={BulkImport_Actions}>{BulkImport_Actions} :
+                                        &nbsp; &nbsp;<template if:true={item.ContentUrl}>
+                                            <template if:false={isMobileapp}>
+                                                <a href={item.ContentUrl} target="_blank">
+                                                <lightning-icon icon-name="utility:download" size="x-small"
+                                                    alternative-text="Download" title="Download"></lightning-icon>
+                                            </a>
+                                            </template>
+                                            <template if:true={isMobileapp}>
+                                                <lightning-icon icon-name="utility:download" size="small"
+                                                alternative-text="Download" title="Download" onclick={downloadFile}> </lightning-icon>
+                                            </template>
+                                        </template>
+                                    </div>
                             </div>
                         </article>
                     </template>
@@ -302,10 +315,10 @@
                                                         alternative-text="Download" title="Download"> </lightning-icon>
                                                 </a>
                                                </template>
-                                               <template if:true={isMobileapp}>
+                                               <!--<template if:true={isMobileapp}>
                                                     <lightning-icon icon-name="utility:download" size="small"
                                                         alternative-text="Download" title="Download" onclick={downloadFile}> </lightning-icon>
-                                               </template>
+                                               </template>-->
                                             </template>
                                         </div>
                                     </td>
