@@ -5607,7 +5607,7 @@ Your user name is ##UserName.&lt;/p&gt;&lt;/div&gt;</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email_Body_Task_Reminder_Type_Not_Selected Delegate</shortDescription>
-        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of ##ParticipantFirstName&apos;s task:&lt;/span&gt;
+        <value>&lt;span style=&quot;color:black;&quot;&gt;This is an email to remind you of the task for ##ParticipantFirstName:&lt;/span&gt;
 
 &lt;span style=&quot;color:black;&quot;&gt;##TaskName&lt;/span&gt;
 
