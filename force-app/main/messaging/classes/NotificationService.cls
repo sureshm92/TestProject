@@ -337,7 +337,8 @@ public without sharing class NotificationService {
                     if (n.Recipient__c != null) {
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)
+                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c) &&
+                            n.StartDate__c == null
                         )
                             continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
