@@ -179,9 +179,9 @@ export default class RPRevamp extends LightningElement {
     downloadFile() {
         const evt = new ShowToastEvent({
             title: '',
-            message: 'Opening this link is only supported  using the web browser experience',
-            variant: 'info'
-            //mode: 'dismissable'
+            message: 'This feature supports only in web browser experience',
+            variant: 'info',
+            mode: 'dismissable'
         });
         this.dispatchEvent(evt);
     }
@@ -190,7 +190,7 @@ export default class RPRevamp extends LightningElement {
         if(communityService.isMobileSDK()){
             const evt = new ShowToastEvent({  
                 title: '',
-                message: 'Opening this link is only supported using the web browser experience',
+                message: 'This feature supports only in web browser experience',
                 variant: 'info',
                 mode: 'dismissable'
             });
@@ -468,7 +468,7 @@ export default class RPRevamp extends LightningElement {
     }
 
     selectStudy(event) {
-        this.selectedStudy = event.detail.value;
+        this.selectedStudy = event.target.value;
     }
 
     deleteFiles() {
