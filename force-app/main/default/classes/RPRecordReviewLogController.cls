@@ -424,7 +424,6 @@ public without sharing class RPRecordReviewLogController {
                                ];                    
              
              Included = total - Excluded;
-            
              wrapPEcount count = new wrapPEcount();
              count.totalpatients =total;
              count.includedreferring =Included;
@@ -435,6 +434,7 @@ public without sharing class RPRecordReviewLogController {
              count.lastdayper=yesterdaycount;
              count.lastweekper =lastweekcount;
              count.lastmonthper =lastmonthcount;
+           
             
              return count;
           } 
@@ -508,6 +508,7 @@ public without sharing class RPRecordReviewLogController {
         public Integer lastweekper; 
         @AuraEnabled
         public Integer lastdayper; 
+         
         
     } 
     
@@ -549,7 +550,61 @@ public without sharing class RPRecordReviewLogController {
                 );
                 updatePeRecords.add(participantEnrollment);
             }
-            update updatePeRecords;
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+                );
+                
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.CreateNotificationHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+                );
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+                );
+                /* TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+                );*/
+                TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+                );
+            
+               update updatePeRecords;
             return ParticipantEnrollmentService.PART_STATUS_EXCLUDED_FROM_REFERRING;
         } catch (Exception ex) {
             throw new AuraHandledException(ex.getMessage() + '\n' + ex.getStackTraceString());
@@ -681,6 +736,59 @@ public without sharing class RPRecordReviewLogController {
                 );
                 updatePeRecords.add(participantEnrollment);
             }
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentSHTriggerHandler.CreateUsersOrSendNotificationsHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(PETriggerHandler.class);
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.SetSourceTypeHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.PrepareAdditionalFieldsHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateStatusBasedInvitations.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.SendEmailIfSSWasChanged.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckVisitPlanFromStudySiteHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.UpdateParticipantState.class
+            );
+            
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.DeactivateDeceasedUsersHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateVisitsScheduleHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CreateWelcomeToStudyAlertHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.HideSurveyTasks.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                PENotificationTriggerHandler.CreateNotificationHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CompleteEnrollmentTasks.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.StudySiteHistoryHandler.class
+            );
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.CheckReimbursableActivities.class
+            );
+            /* TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.SendFOVtoAPI.class
+            );*/
+            TriggerHandlerExecutor.bypassHandler(
+                ParticipantEnrollmentTriggerHandler.UnenrollorCancelPer.class
+            );
             update updatePeRecords;
             return ParticipantEnrollmentService.PART_STATUS_PENDING_REFERRAL;
         } catch (Exception ex) {
