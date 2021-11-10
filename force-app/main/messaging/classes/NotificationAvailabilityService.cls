@@ -512,7 +512,20 @@ public without sharing class NotificationAvailabilityService {
                 String userTimeZone = contact.Users[0].TimeZoneSidKey;
                 if (userTimeZone != null) {
                     string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
-                    if (triggerDate != participantDate) {
+                    list<String> participantSplitDate = participantDate.split('-');
+                    Date participantDateObj = date.newinstance(
+                        Integer.valueOf(participantSplitDate[0]),
+                        Integer.valueOf(participantSplitDate[1]),
+                        Integer.valueOf(participantSplitDate[2])
+                    );
+                    list<String> triggerSplitDate = triggerDate.split('-');
+                    Date triggerDateObj = date.newinstance(
+                        Integer.valueOf(triggerSplitDate[0]),
+                        Integer.valueOf(triggerSplitDate[1]),
+                        Integer.valueOf(triggerSplitDate[2])
+                    );
+
+                    if (triggerDateObj > participantDateObj) {
                         return false;
                     }
                 }
