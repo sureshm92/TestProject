@@ -90,6 +90,7 @@ public with sharing class Action_SendSMS implements Action {
             SELECT
                 Id,
                 Contact__c,
+                First_Name__c,
                 Phone__c,
                 Phone_Type__c,
                 Alternative_Phone_Number__c,
@@ -155,6 +156,10 @@ public with sharing class Action_SendSMS implements Action {
                 smsChannel.Notification__c + '_title'
             );*/
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
+            message = message.replace(
+                '##PTFirstName',
+                participantMap.get(smsChannel.Notification__r.Recipient__c).First_Name__c
+            );
             if (
                 !String.isBlank(message) &&
                 NotificationService.taskAndVisitReminderTypes.contains(
