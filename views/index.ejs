@@ -96,19 +96,23 @@
                 }
             }
             function createPackage() {
-                var xmlhttp = new XMLHttpRequest();
-                var params = {};
-                params['selectedMetadata'] = metadatRecMap;
-                xmlhttp.open('POST', 'http://localhost:3000/createDeltaPackage', true);
-                xmlhttp.onreadystatechange = function () {
-                    if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
-                        if (!alert('Your package has been created successfuly.!')) {
-                            window.location.reload();
+                if (Object.keys(metadatRecMap).length === 0) {
+                    alert('Please select atleast one component to create delta package.');
+                } else {
+                    var xmlhttp = new XMLHttpRequest();
+                    var params = {};
+                    params['selectedMetadata'] = metadatRecMap;
+                    xmlhttp.open('POST', 'http://localhost:3000/createDeltaPackage', true);
+                    xmlhttp.onreadystatechange = function () {
+                        if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                            if (!alert('Your package has been created successfuly.!')) {
+                                window.location.reload();
+                            }
                         }
-                    }
-                };
-                xmlhttp.setRequestHeader('Content-type', 'application/json');
-                xmlhttp.send(JSON.stringify(params));
+                    };
+                    xmlhttp.setRequestHeader('Content-type', 'application/json');
+                    xmlhttp.send(JSON.stringify(params));
+                }
             }
         </script>
         <main>
