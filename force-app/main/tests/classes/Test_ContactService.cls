@@ -166,24 +166,6 @@ private without sharing class Test_ContactService {
             Adult__c = true,
             Site__c = piAccount.Id
         );
-        TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.CreateContactsForParticipantsHandler.class
-        );
-TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.UpdateContactDetailsFromParticipant.class
-        );
-TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.UpdatePEAndContactLastNameHandler.class
-        );
-TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.class
-        );
-TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.CheckBecomesAdultHandler.class
-        );
-TriggerHandlerExecutor.bypassHandler(
-            ParticipantTriggerHandler.UpdateNameOnPE.class
-        );
         insert participantupdate;
         List<Participant_Enrollment__c> participantPeList = new List<Participant_Enrollment__c>();
         Participant_Enrollment__c pe4 = new Participant_Enrollment__c(
