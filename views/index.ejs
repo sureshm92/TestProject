@@ -1,29 +1,91 @@
 <html lang="en">
+    <head>
+        <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    </head>
     <body>
         <script>
             var metadatRecMap = {};
             function handleMetadataChange() {
                 var xmlhttp = new XMLHttpRequest();
                 var metadataName = document.getElementById('metadataType').value;
-                var select = document.getElementById('metadataList');
-                select.innerHTML = '';
+                var span = document.getElementsByClassName('anchor')[0];
+                span.innerHTML = '';
                 if (metadataName) {
                     var params = {};
                     params['metadataName'] = metadataName;
                     xmlhttp.open('POST', 'http://localhost:3000/getMetadata', true);
-                    xmlhttp.onreadystatechange = function () {
+                    xmlhttp.onreadystatechange = function (event) {
                         if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
                             console.log('response');
-
+                            var search = document.createElement('input');
+                            search.type = 'text';
+                            search.onkeyup = function (event) {
+                                var options = document
+                                    .getElementsByTagName('ul')[0]
+                                    .getElementsByTagName('li');
+                                for (var i = 0; i < options.length; i++) {
+                                    if (
+                                        options[i].textContent
+                                            .toLowerCase()
+                                            .indexOf(event.target.value.toLowerCase()) == -1
+                                    ) {
+                                        options[i].style = 'display:none';
+                                    } else {
+                                        options[i].style = 'display:block';
+                                    }
+                                }
+                            };
+                            span.appendChild(search);
+                            var ul = document.createElement('ul');
+                            span.appendChild(ul);
                             var options = JSON.parse(xmlhttp.responseText);
                             console.log(xmlhttp.responseText);
                             for (let i = 0; i < options.length; i++) {
-                                var option = document.createElement('option');
-                                option.value = options[i];
-                                option.text = options[i];
-                                console.log(options[i]);
-                                select.appendChild(option);
-                                document.getElementById('metadataListDiv').style = 'display:block';
+                                var li = document.createElement('li');
+                                var checkbox = document.createElement('input');
+                                checkbox.type = 'checkbox';
+                                if (metadataName in metadatRecMap) {
+                                    if (metadatRecMap[metadataName].indexOf(options[i]) != -1) {
+                                        checkbox.checked = true;
+                                    } else {
+                                        checkbox.checked = false;
+                                    }
+                                } else {
+                                    checkbox.checked = false;
+                                }
+                                checkbox.onclick = function (event) {
+                                    var metadataName = document.getElementById('metadataType')
+                                        .value;
+                                    if (event.target.checked) {
+                                        if (metadataName in metadatRecMap) {
+                                            if (
+                                                metadatRecMap[metadataName].indexOf(options[i]) ==
+                                                -1
+                                            ) {
+                                                metadatRecMap[metadataName].push(options[i]);
+                                            }
+                                        } else {
+                                            let metadataRecArr = [];
+                                            metadataRecArr.push(options[i]);
+                                            metadatRecMap[metadataName] = metadataRecArr;
+                                        }
+                                    } else {
+                                        if (metadataName in metadatRecMap) {
+                                            let metadataRecArr = metadatRecMap[metadataName];
+                                            let index = metadataRecArr.indexOf(options[i]);
+                                            if (index > -1) {
+                                                metadataRecArr.splice(index, 1);
+                                            }
+                                            if (metadataRecArr.length == 0) {
+                                                delete metadatRecMap[metadataName];
+                                            }
+                                        }
+                                    }
+                                };
+                                li.appendChild(checkbox);
+                                li.classList.add('list-style-none');
+                                li.appendChild(document.createTextNode(options[i]));
+                                ul.appendChild(li);
                             }
                         }
                     };
@@ -45,38 +107,6 @@
                 xmlhttp.setRequestHeader('Content-type', 'application/json');
                 xmlhttp.send(JSON.stringify(params));
             }
-            function getSelectedMetadata() {
-                var select = document.getElementById('metadataList');
-                console.log(typeof metadatRecMap);
-                var metadataName = document.getElementById('metadataType').value;
-                for (let i = 0; i < select.options.length; i++) {
-                    if (select.options[i].selected) {
-                        if (metadataName in metadatRecMap) {
-                            if (
-                                metadatRecMap[metadataName].indexOf(select.options[i].value) == -1
-                            ) {
-                                metadatRecMap[metadataName].push(select.options[i].value);
-                            }
-                        } else {
-                            let metadataRecArr = [];
-                            metadataRecArr.push(select.options[i].value);
-                            metadatRecMap[metadataName] = metadataRecArr;
-                        }
-                    } else {
-                        if (metadataName in metadatRecMap) {
-                            let metadataRecArr = metadatRecMap[metadataName];
-                            let index = metadataRecArr.indexOf(select.options[i].value);
-                            if (index > -1) {
-                                metadataRecArr.splice(index, 1);
-                            }
-                            if (metadataRecArr.length == 0) {
-                                delete metadatRecMap[metadataName];
-                            }
-                        }
-                    }
-                }
-                console.log(metadatRecMap);
-            }
         </script>
         <main>
             <div>
@@ -90,15 +120,11 @@
                     <% } %>
                 </select>
                 <br /><br />
-                <div style="display: none" id="metadataListDiv">
-                    <select id="metadataList" multiple></select>
-
-                    <button type="button" value="Select" onclick="getSelectedMetadata()">
-                        Select
-                    </button>
-                    <br /><br />
-                    <button type="button" value="Submit" onclick="createPackage()">Submit</button>
+                <div id="list1" class="dropdown-check-list" tabindex="100">
+                    <span class="anchor"> </span>
                 </div>
+                <br /><br />
+                <button type="button" value="Submit" onclick="createPackage()">Submit</button>
             </div>
         </main>
     </body>
