@@ -10,7 +10,10 @@ private class Test_Batch_AssignLanguagePreferences {
         TestData.loadTestData();
         TestData td = new TestData();
         TriggerHandlerExecutor.bypassHandler(
-            ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class
+            ContactTriggerHandler.UpdateParticipantAndUserEmailsOnEmailChangeHandler.class            
+        );
+        TriggerHandlerExecutor.bypassHandler(
+            ParticipantTriggerHandler.ChangeUserEmailOnParticipantEmailChangeHandler.afterUpdate.class            
         );
         td.participant.Preferred_Language__c = null;
         td.participant.Language_Preference_Code__c = 'en_US';
