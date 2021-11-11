@@ -382,15 +382,20 @@
     <template if:true={isUploadModalOpen}>
         <c-popup-l-w-c show-modal=true header2=true onclose={closeUploadModal}
             header-value2={BulkImport_Import_Patients} modalsize="small">
-
             <div slot="body" class="processBody">
                 <div class="slds-form-element modalBody">
                     <div class="slds-p-bottom--medium slds-p-top--medium">
                         <div>
                             <div class="fileName"><abbr title="required" class="slds-required">*</abbr>{BulkImport_Select_Study_Here}</div>
-                            <lightning-combobox variant="label-hidden" value={selectedStudy}
+                            <!--<lightning-combobox value={selectedStudy}
                                 placeholder={BulkImport_Select_Study} options={studies} onchange={selectStudy}>
-                            </lightning-combobox>
+                            </lightning-combobox>-->
+                            <select class="slds-select" id="select-01" onchange={selectStudy}>
+                                <option  key={none} value="" selected>Select</option>
+                                <template for:each = {studies} for:item="listViewItem">
+                                   <option key={listViewItem.value}  value={listViewItem.value}>{listViewItem.label}</option>
+                                </template>
+                           </select>
                         </div>
                         <div class="fileName">{BulkImport_File_Template}</div>
                         <div class="fileHolder">

@@ -35,7 +35,8 @@ public without sharing class NotificationAvailabilityService {
                 UserCommunityIsDelegate__c,
                 userCommunityMode__c,
                 Language__c,
-                MailingCountryCode
+                MailingCountryCode,
+                (SELECT TimeZoneSidKey FROM Users)
             FROM Contact
             WHERE Id IN :recipientIds
         ];
@@ -498,5 +499,38 @@ public without sharing class NotificationAvailabilityService {
             }
         }
         return resultMap;
+    }
+
+    public Boolean compareParticipantTimeZone(Notification__c n) {
+        if (n.StartDate__c != null) {
+            Contact contact = contactByIdMap.get(n.Recipient__c);
+            //String triggerDate = n.StartDate__c.format();
+            Datetime notificationstartDateTime = n.StartDate__c;
+            datetime gmtDateTime = datetime.now();
+            string triggerDate = notificationstartDateTime.format('yyyy-MM-dd');
+            if (contact.Users.size() > 0) {
+                String userTimeZone = contact.Users[0].TimeZoneSidKey;
+                if (userTimeZone != null) {
+                    string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
+                    list<String> participantSplitDate = participantDate.split('-');
+                    Date participantDateObj = date.newinstance(
+                        Integer.valueOf(participantSplitDate[0]),
+                        Integer.valueOf(participantSplitDate[1]),
+                        Integer.valueOf(participantSplitDate[2])
+                    );
+                    list<String> triggerSplitDate = triggerDate.split('-');
+                    Date triggerDateObj = date.newinstance(
+                        Integer.valueOf(triggerSplitDate[0]),
+                        Integer.valueOf(triggerSplitDate[1]),
+                        Integer.valueOf(triggerSplitDate[2])
+                    );
+
+                    if (triggerDateObj > participantDateObj) {
+                        return false;
+                    }
+                }
+            }
+        }
+        return true;
     }
 }

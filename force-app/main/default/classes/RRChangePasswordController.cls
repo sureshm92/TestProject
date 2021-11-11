@@ -792,7 +792,34 @@ public without sharing class RRChangePasswordController {
             return;
         }
 
-        update userVal.Contact;
+        update contact;
+        String rtl_language = System.Label.RTL_Languages;
+        if (rtl_language.contains(contact.Language__c)) {
+            isRTL = true;
+        }
+        else{
+            isRTL = false;
+        }
+        if (isRTL) {
+            tcText = tcText.replaceAll(
+                '/s/privacy-policy',
+                '/s/privacy-policy?lanCode=' + contact.Language__c
+            );
+            tcText = tcText.replaceAll(
+                '/s/cookie-policy',
+                '/s/cookie-policy?lanCode=' + contact.Language__c
+            );
+        }
+        else{
+            tcText = tcText.replaceAll(
+                '/s/privacy-policy?lanCode=' + contact.Language__c,
+                '/s/privacy-policy'
+            );
+            tcText = tcText.replaceAll(
+                '/s/cookie-policy?lanCode=' + contact.Language__c,
+                '/s/cookie-policy'
+            );
+        }
         countries = new List<SelectOption>();
         for (LabelValueItem country : CountryStateUtil.getCountries()) {
             countries.add(new SelectOption(country.value, country.label));

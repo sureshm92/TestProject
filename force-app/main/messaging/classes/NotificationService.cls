@@ -318,7 +318,7 @@ public without sharing class NotificationService {
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
-            if (n.StartDate__c != null) {
+            /**if (n.StartDate__c != null) {
                 datetime gmtDateTime = datetime.now();
                 string currentUserDate = gmtDateTime.format('yyyy-MM-dd');
                 String userTimeZone = availabilityService.contactLangZoneMap.get(n.Recipient__c);
@@ -328,6 +328,9 @@ public without sharing class NotificationService {
                         continue;
                     }
                 }
+            } **/
+            if (!availabilityService.compareParticipantTimeZone(n)) {
+                continue;
             }
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
@@ -337,7 +340,8 @@ public without sharing class NotificationService {
                     if (n.Recipient__c != null) {
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)
+                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c) &&
+                            n.StartDate__c == null
                         )
                             continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
