@@ -111,7 +111,6 @@ export default class Paginator extends LightningElement {
     }
     @api
     setRecordsToDisplay() {
-        console.log('this.totalRecords' + this.totalRecords);
 
         if (this.totalRecords == 0) {
             this.showPagination = false;
@@ -124,11 +123,6 @@ export default class Paginator extends LightningElement {
         this.totalPages = Math.ceil(this.totalRecords / this.pageSize);
 
         let begin = (this.pageNumber - 1) * this.recordsPerPage;
-        console.log('this.pageNumber' + this.pageNumber);
-        console.log('this.totalPages' + this.totalPages);
-        console.log('this.recordsPerPage' + this.recordsPerPage);
-        console.log('begin-' + begin);
-        console.log('totalrec-' + this.totalRecords);
         let end = begin + this.recordsPerPage;
         if (this.totalRecords == 0) {
             this.startRecord = this.totalRecords;
@@ -139,8 +133,7 @@ export default class Paginator extends LightningElement {
         }
 
         this.endRecord = end > this.totalRecords ? this.totalRecords : end;
-        console.log(this.startRecord);
-        console.log(this.endRecord);
+    
         this.end = end > this.totalRecords ? true : false;
         this.setPaginationControls();
 
