@@ -102,6 +102,9 @@
                 xmlhttp.open('POST', 'http://localhost:3000/createDeltaPackage', true);
                 xmlhttp.onreadystatechange = function () {
                     if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        if (!alert('Your package has been created successfuly.!')) {
+                            window.location.reload();
+                        }
                     }
                 };
                 xmlhttp.setRequestHeader('Content-type', 'application/json');
@@ -110,8 +113,6 @@
         </script>
         <main>
             <div>
-                <h1>This is great</h1>
-                <p>Welcome to templating using EJS</p>
                 <select id="metadataType" onchange="handleMetadataChange()">
                     <option value="">Select</option>
                     <% var options = helper.metadataOptions; for ( var i = 0; i < options.length;
