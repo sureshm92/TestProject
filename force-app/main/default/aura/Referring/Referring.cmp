@@ -117,6 +117,7 @@
     <aura:attribute name="discussiondocumented" type="Boolean" default = "false" />
     <aura:attribute name="mrrExist" type="Boolean" default = "false" />
     <aura:attribute name="myStudies" type="Boolean" default = "false" />
+    <aura:attribute name="PeID" type="string"/>
     
     <!-- handlers: -->
     <aura:handler event="c:EventCommunityInitialized" action="{!c.doInit}" />
