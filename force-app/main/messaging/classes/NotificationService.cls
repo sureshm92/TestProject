@@ -33,6 +33,11 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
+    static public List<String> instantNotificationTypes = new List<String>{
+        'Message_To_PT_Task_Instant_Del_Type',
+        'Message_To_PT_Task_Instant_Type'
+    };
+
     static public List<String> taskAndVisitReminderTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
@@ -341,7 +346,8 @@ public without sharing class NotificationService {
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
                             availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c) &&
-                            n.StartDate__c == null
+                            (n.StartDate__c == null &&
+                            !instantNotificationTypes.contains(n.Notification_Type__c))
                         )
                             continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {
