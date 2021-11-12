@@ -179,7 +179,7 @@ export default class RPRevamp extends LightningElement {
     downloadFile() {
         const evt = new ShowToastEvent({
             title: '',
-            message: 'This feature supports only in web browser experience',
+            message: 'Opening this link is only supported using the web browser experience',
             variant: 'info',
             mode: 'dismissable'
         });
@@ -190,7 +190,7 @@ export default class RPRevamp extends LightningElement {
         if(communityService.isMobileSDK()){
             const evt = new ShowToastEvent({  
                 title: '',
-                message: 'This feature supports only in web browser experience',
+                message: 'Opening this link is only supported using the web browser experience',
                 variant: 'info',
                 mode: 'dismissable'
             });

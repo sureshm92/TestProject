@@ -70,6 +70,36 @@ public class Test_NoteSection {
             GetNotes.getNotesdata(MO_inprogress.ID);
         } catch (exception e) {
         }
+        try {
+            GetNotes.getNotesdatarp(MO_inprogress.ID);
+        } catch (exception e) {
+        }
+        try {
+            GetNotes.UpdNotesSection(nts.Id,'Test string');
+            GetNotes.deleteNotes(nts.Id);
+            GetNotes.CreateNotes(nts.Id,'Testing');
+        } catch (exception e) {
+        }
+        try{
+            GetNotes.CreateNotes(MO_inprogress.ID,'Testing');
+        }catch (exception e) {
+        }
+        try{
+            GetNotes.UpdNotesSection(MO_inprogress.ID,'Testing');
+        }catch (exception e) {
+        }
+        try{
+            GetNotes.deleteNotes(MO_inprogress.ID);
+        }catch (exception e) {
+        }
+        try{
+            GetNotes.getNotesdata(nts.Id);
+        }catch (exception e) {
+        }
+        try {
+            GetNotes.UpdateNotes(nts.Id, MediaoutreachNotes);
+        } catch (exception e) {
+        }
         Test.stopTest();
     }
 }
