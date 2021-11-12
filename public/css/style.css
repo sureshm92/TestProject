@@ -1,0 +1,8 @@
+.list-style-none {
+    list-style: none;
+}
+.dropdown-check-list {
+    width: 40%;
+    height: 150px;
+    overflow: scroll;
+}
