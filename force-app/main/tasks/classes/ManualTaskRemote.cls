@@ -224,7 +224,7 @@ public with sharing class ManualTaskRemote {
                             Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
                             //Next_Due_Date__c = nextTaskDueDate,
                             Reminder_days_before_due_date__c = taskConfig.reminderDays,
-                            Last_Recurrence_Reminder__c = lastReminderDate,
+                            //Last_Recurrence_Reminder__c = lastReminderDate,
                             Status__c = status,	
                             Reminder_Date__c = nextTaskReminderDate
                         )
