@@ -1,5 +1,7 @@
 <html lang="en">
     <head>
+        <meta name="viewport" content="width=device-width, initial-scale=1" />
+        <link rel="stylesheet" href="/css/bootstrap.min.css" />
         <link rel="stylesheet" type="text/css" href="/css/style.css" />
     </head>
     <body>
@@ -19,6 +21,8 @@
                             console.log('response');
                             var search = document.createElement('input');
                             search.type = 'text';
+                            search.classList.add('search-box');
+                            search.placeholder = 'Search...';
                             search.onkeyup = function (event) {
                                 var options = document
                                     .getElementsByTagName('ul')[0]
@@ -84,6 +88,7 @@
                                 };
                                 li.appendChild(checkbox);
                                 li.classList.add('list-style-none');
+                                ul.classList.add('list-style-pad');
                                 li.appendChild(document.createTextNode(options[i]));
                                 ul.appendChild(li);
                             }
@@ -115,22 +120,36 @@
                 }
             }
         </script>
-        <main>
-            <div>
-                <select id="metadataType" onchange="handleMetadataChange()">
-                    <option value="">Select</option>
-                    <% var options = helper.metadataOptions; for ( var i = 0; i < options.length;
-                    i++ ) { %>
-                    <option value="<%=options[ i ] %>"><%=options[ i ] %></option>
-                    <% } %>
-                </select>
-                <br /><br />
-                <div id="list1" class="dropdown-check-list" tabindex="100">
-                    <span class="anchor"> </span>
+        <div class="pricing-header px-3 py-3 pt-md-5 pb-md-4 mx-auto text-center">
+            <h1 class="display-5">Create Package for the Components</h1>
+        </div>
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-5">
+                    <select
+                        class="form-control"
+                        id="metadataType"
+                        onchange="handleMetadataChange()"
+                    >
+                        <option value="">Select</option>
+                        <% var options = helper.metadataOptions; for ( var i = 0; i <
+                        options.length; i++ ) { %>
+                        <option value="<%=options[ i ] %>"><%=options[ i ] %></option>
+                        <% } %></select
+                    ><br />
+                    <div class="dropdown-check-list" id="list1" tabindex="100">
+                        <span class="anchor"> </span>
+                    </div>
+                    <br />
+                    <button
+                        type="button"
+                        class="btn btn-primary submit-btn-center"
+                        onclick="createPackage()"
+                    >
+                        Submit
+                    </button>
                 </div>
-                <br /><br />
-                <button type="button" value="Submit" onclick="createPackage()">Submit</button>
             </div>
-        </main>
+        </div>
     </body>
 </html>

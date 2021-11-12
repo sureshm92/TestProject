@@ -2,7 +2,20 @@
     list-style: none;
 }
 .dropdown-check-list {
-    width: 40%;
-    height: 150px;
-    overflow: scroll;
+    height: 20rem;
+    overflow: auto;
+    border: 1px solid #d3d3d3;
+}
+input[type='checkbox'] {
+    margin: 0 10px 0 0;
+}
+.list-style-pad {
+    padding: 8px 0px 0 15px;
+}
+.search-box {
+    position: fixed;
+    width: 26.8rem;
+}
+.submit-btn-center {
+    margin-left: 40%;
 }
