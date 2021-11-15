@@ -1669,7 +1669,19 @@ input[type=password]::-ms-clear
     }
 	.rr-min-body-height .rr-min-body-height {
 		min-height: auto !important;
-	}
+    }
+    .forceToastManager--default .toastContent .slds-hyphenate {
+        word-wrap: normal;
+        hyphens: none;
+    }
+
+    .forceToastManager--default .toastClose lightning-primitive-icon {
+        color: #fff!important;
+    }
+    .slds-text-heading_small, .slds-text-heading--small {
+        line-height: var(--lwc-lineHeightHeading,1.25);
+        font-size: 14px !important;
+    }
 
 }
 
