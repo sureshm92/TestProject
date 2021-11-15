@@ -114,7 +114,8 @@
                                     </span>
 
                                     <span class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap">
-                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}"
+                                        style=" word-break: break-word;  width: 11rem;">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>
                                         <lightning:input
