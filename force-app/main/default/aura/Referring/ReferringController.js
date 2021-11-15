@@ -232,7 +232,10 @@
             }
         } 
         if(component.get('v.mrrExist') != undefined){
-            let peID = communityService.getUrlParameter('peid');
+            var peID = communityService.getUrlParameter('peid');
+            if(peID == undefined){
+                peID = component.get('v.PeID');
+            }
             communityService.executeAction(
                 component,
                 'saveUpdatedPER',
@@ -300,6 +303,7 @@
     
     doReferSelectedPE: function (component, event, helper) {
         let peId = event.target.id;
+        component.set('v.PeID',peId);
         let pendingList = component.get('v.pendingPEnrollments');
         let trialId = communityService.getUrlParameter('id');
         for (let i = 0; i < pendingList.length; i++) {

@@ -33,6 +33,11 @@ public without sharing class NotificationService {
         NotificationCatalog.MESSAGE_TO_PT_FOLLOWUP
     };
 
+    static public List<String> instantNotificationTypes = new List<String>{
+        'Message_To_PT_Task_Instant_Del_Type',
+        'Message_To_PT_Task_Instant_Type'
+    };
+
     static public List<String> taskAndVisitReminderTypes = new List<String>{
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_TYPE,
         NotificationCatalog.MESSAGE_TO_PT_TASK_REMINDER_DEL_TYPE,
@@ -318,6 +323,20 @@ public without sharing class NotificationService {
         for (Notification__c n : notifications) {
             //TODO add check contact available time, if not available set status to 'Pending', else set 'Processed'
             //TODO Now 'In Progress'
+            /**if (n.StartDate__c != null) {
+                datetime gmtDateTime = datetime.now();
+                string currentUserDate = gmtDateTime.format('yyyy-MM-dd');
+                String userTimeZone = availabilityService.contactLangZoneMap.get(n.Recipient__c);
+                if (userTimeZone != null) {
+                    string participantDate = gmtDateTime.format('yyyy-MM-dd', userTimeZone);
+                    if (currentUserDate != participantDate) {
+                        continue;
+                    }
+                }
+            } **/
+            if (!availabilityService.compareParticipantTimeZone(n)) {
+                continue;
+            }
             Notification_Type__mdt notificationType = NotificationService.getNotificationType(
                 n.Notification_Type__c
             );
@@ -326,7 +345,9 @@ public without sharing class NotificationService {
                     if (n.Recipient__c != null) {
                         if (
                             !notificationWithoutPermissions.contains(n.Notification_Type__c) &&
-                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c)
+                            availabilityService.isDeferNotification(n.Recipient__c, n.WhatId__c) &&
+                            (n.StartDate__c == null &&
+                            !instantNotificationTypes.contains(n.Notification_Type__c))
                         )
                             continue;
                         if (!notificationTypeFirstEmail.contains(n.Notification_Type__c)) {

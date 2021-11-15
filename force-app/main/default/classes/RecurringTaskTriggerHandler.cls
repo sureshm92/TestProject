@@ -115,6 +115,9 @@ public class RecurringTaskTriggerHandler {
             if(rTask.Recurrence_Frequency__c == 'Yearly'){
                 rTask.Next_Due_Date__c = rTask.Next_Occurence_Date__c.addYears(1).addDays(-1);
             }
+            if(rTask.Next_Due_Date__c >= rTask.Recurrence_End_Date__c){
+                rTask.Next_Due_Date__c = rTask.Recurrence_End_Date__c;
+            }
         }
         public void nextOccDateUpdate(Manual_Creation_Panel_Task__c rTask){
             Date firstRecDate;

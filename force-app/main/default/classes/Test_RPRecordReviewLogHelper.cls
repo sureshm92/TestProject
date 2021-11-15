@@ -57,7 +57,7 @@ public class Test_RPRecordReviewLogHelper {
         }
         Test.startTest();
       
-
+		
         Clinical_Trial_Profile__c clinical = new Clinical_Trial_Profile__c(
             Protocol_ID__c = 'tt123456790',
             Override_Recruitment_Status__c = 'Actively Enrolling',
@@ -119,28 +119,29 @@ public class Test_RPRecordReviewLogHelper {
             YOB__c='2000'
         );
         insert pe;
-
-        set<string> ctpids = new set<string>{clinical.id};
-    
-        RPRecordReviewLogHelper.getStudyDetails(contact_1.id);
-        RPRecordReviewLogHelper.getStudies('HCP',contact_1.id);
-        RPRecordReviewLogHelper.checkNeedsGuardian('US','NY','04','2000');
-       
-        RPRecordReviewLogHelper.checkDelegateAge('US','NY', '2000');
-        RPRecordReviewLogHelper.getMonthWithZero();
-        RPRecordReviewLogHelper.getMonthWithoutZero();
-        RPRecordReviewLogHelper.getYear();
-        RPRecordReviewLogHelper.getYear();
-        //RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
-        RPRecordReviewLogHelper.getStudySiteDetails(ctpids );
-        RPRecordReviewLogHelper.getContact(contact_1.id);
-         try
-        {
-          RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP');
-        }
-        catch (AuraHandledException e)
-        {
-          system.debug('Error handled');
+		System.runAs(user_1) {
+            set<string> ctpids = new set<string>{clinical.id};
+        
+            RPRecordReviewLogHelper.getStudyDetails(contact_1.id);
+            RPRecordReviewLogHelper.getStudies('HCP',contact_1.id);
+            RPRecordReviewLogHelper.checkNeedsGuardian('US','NY','04','2000');
+           
+            RPRecordReviewLogHelper.checkDelegateAge('US','NY', '2000');
+            RPRecordReviewLogHelper.getMonthWithZero();
+            RPRecordReviewLogHelper.getMonthWithoutZero();
+            RPRecordReviewLogHelper.getYear();
+            RPRecordReviewLogHelper.getYear();
+            //RPRecordReviewLogHelper.getSelectedStudySite(contact_1.id,clinical.id);
+            RPRecordReviewLogHelper.getStudySiteDetails(ctpids );
+            RPRecordReviewLogHelper.getContact(contact_1.id);
+             try
+            {
+              RPRecordReviewLogHelper.getHCPInitData(clinical.id,'HCP');
+            }
+            catch (AuraHandledException e)
+            {
+              system.debug('Error handled');
+            }
         }
         Test.stopTest();
         

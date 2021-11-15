@@ -169,14 +169,8 @@ public with sharing class ManualTaskRemote {
                 if(taskConfig.recurrenceFrequency == 'Daily'){
                     taskConfig.reminderDate = null;
                 }
-            }
-            //Manual_Creation_Panel_Task__c manCpt = new Manual_Creation_Panel_Task__c();
+            }            
             
-            //If start date is todays date
-            if(taskConfig.startDate == Date.today()){
-                lastReminderDate = taskConfig.reminderDate;
-             
-            }
             Manual_Creation_Panel_Task__c manualTask = new Manual_Creation_Panel_Task__c();
             ManualTaskFilter mtf = (ManualTaskFilter) JSON.deserialize(filter,ManualTaskFilter.class);
             List<LookupSearchResult> lsr = mtf.areas;//theraputic
@@ -230,7 +224,7 @@ public with sharing class ManualTaskRemote {
                             Recurrence_Frequency__c = taskConfig.recurrenceFrequency,
                             //Next_Due_Date__c = nextTaskDueDate,
                             Reminder_days_before_due_date__c = taskConfig.reminderDays,
-                            Last_Recurrence_Reminder__c = lastReminderDate,
+                            //Last_Recurrence_Reminder__c = lastReminderDate,
                             Status__c = status,	
                             Reminder_Date__c = nextTaskReminderDate
                         )

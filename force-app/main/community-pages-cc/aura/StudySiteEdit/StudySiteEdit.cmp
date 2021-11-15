@@ -61,21 +61,24 @@
                                     </span>
                                 </div>
                                 <div class="slds-col slds-size--1-of-1 slds-large-size--1-of-3 rr-form-element ss-info-details">
-                                    <span>
-                                        <div
-                                            class="input-fields-labels"
-                                            style="display: inline-block"
-                                        >
-                                            {!$Label.c.CC_Phone}
+                                    <span>                                        
+                                        <div class="input-fields-labels" style="display: inline-block">
+                                            <div class="tooltip">
+                                                <div class="textoverlap"> 
+                                                    {!$Label.c.CC_Phone}                                  
+                                                </div> 
+                                                <span>{!$Label.c.CC_Phone}</span>   
+                                            </div>
                                         </div>
-                                        <div class="rr-form-element">
+                                        <div class="rr-form-element" style="margin-top: -2%;">
                                             <lightning:input
-                                                aura:id="PhoneInput"
-                                                value="{!v.studyInformation.sitePhone}"
-                                                onchange="{!c.changeUpdatedStatus}"
-                                            />
+                                                             aura:id="PhoneInput"
+                                                             value="{!v.studyInformation.sitePhone}"
+                                                             onchange="{!c.changeUpdatedStatus}"
+                                                             />
                                         </div>
                                     </span>
+
                                 </div>
 
                                 <div
@@ -111,7 +114,8 @@
                                     </span>
 
                                     <span class="slds-col slds-size--3-of-12 slds-small-size--4-of-8 slds-grid slds-wrap">
-                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}">
+                                        <div class="{!v.isRTL? 'input-fields-labelsRTL':'input-fields-labels'}"
+                                        style=" word-break: break-word;  width: 11rem;">
                                             {!$Label.c.CC_Opt_in_for_Warm_Transfer}
                                         </div>
                                         <lightning:input

@@ -214,6 +214,16 @@
         component.set("v.peRecordList",event.getParam('peRecordList'));
         component.find('table123').getOnExcludeIncluderefresh();
     },
+    
+    onhandleRedirection : function(component, event) {
+        communityService.navigateToPage(
+           'referring?id=' +
+              component.get("v.ctpId") +
+               '&peid=' +
+             component.get("v.peId") +
+                '&patientVeiwRedirection=true'
+       );
+   },
 
     onBulkExcludeIncluderefreshTable : function(component, event) {
         component.set("v.bulkPeIds",event.getParam('bulkPeIds'));

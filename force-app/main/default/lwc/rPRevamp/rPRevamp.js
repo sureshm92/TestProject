@@ -128,13 +128,13 @@ export default class RPRevamp extends LightningElement {
             });
             loadScript(this, xlsxmin).then(() => {
             });
-            if(communityService.isMobileSDK()){
-                this.isMobileapp = true;
-            }
         }
     }
     getDetailsApex() {
         this.nofiles = false;
+        if(communityService.isMobileSDK()){
+            this.isMobileapp = true;
+        }
         fetchFiles({ delegateId: this.userConID })
             .then((result) => {
                 this.contentFiles = result;
@@ -188,7 +188,7 @@ export default class RPRevamp extends LightningElement {
 
     openUploadModal() {
         if(communityService.isMobileSDK()){
-            const evt = new ShowToastEvent({
+            const evt = new ShowToastEvent({  
                 title: '',
                 message: 'Opening this link is only supported using the web browser experience',
                 variant: 'info',
@@ -468,7 +468,7 @@ export default class RPRevamp extends LightningElement {
     }
 
     selectStudy(event) {
-        this.selectedStudy = event.detail.value;
+        this.selectedStudy = event.target.value;
     }
 
     deleteFiles() {

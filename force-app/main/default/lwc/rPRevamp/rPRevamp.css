@@ -266,6 +266,10 @@
     .inprogress {
         padding: unset;
     }
+    .inprogress {
+        top: -17px;
+        right: 7rem;
+      }
 
     .bufferSides{
         float: left;

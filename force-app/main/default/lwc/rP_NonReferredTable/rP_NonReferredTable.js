@@ -262,8 +262,8 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
             const selectedvalue = { 
                 isBulkProfilePage: this.isBulkProfilePage,
             };
-                const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
-                this.dispatchEvent(selectedEvent);   
+            const selectedEvent = new CustomEvent('selectrecordevent', { detail: selectedvalue });
+            this.dispatchEvent(selectedEvent);
         }
     }
     get filterIconClass() {
@@ -280,6 +280,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
         var selectPeId = '';
         this.isSelectAll = false;
         var verifyFilterValue;
+
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
 
@@ -292,6 +293,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 }
                 else{
                     row.isChecked = false;
+                    verifyFilterValue = row.peRec.Participant_Status__c;
                 }
             }
             allRecords.push(row);
@@ -306,6 +308,7 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
                 }
                 else{
                     row.isChecked = false;
+                    verifyFilterValue = row.peRec.Participant_Status__c;
                 }
             }
             
@@ -318,14 +321,17 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
         var peIds = [];
         var ctpIds = [];
+        var perecctpid;
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             if (row.isChecked) {
                 peIds.push(row.peRec.Id);
+                perecctpid = row.peRec.Study_Site__r.Clinical_Trial_Profile__c;
             }
         }
         if(peIds.length == 1){
             selectPeId = peIds[0];
+            ctpId = perecctpid;
         }
         if (peIds.length > 1) {
             this.isBulkProfilePage = true;

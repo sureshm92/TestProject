@@ -27,14 +27,14 @@
                     {label.RH_RP_Export_to_excel}
                 </button>
             </div>
-            <div class="slds-col">
+            <!--<div class="slds-col">
                 <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
                     onclick={openOutreach} title={label.RH_RP_OutreachEmail}>
                     <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email">
                     </lightning-button-icon> &nbsp;
                     {label.RH_RP_Outreach_Email}
                 </button>
-            </div>
+            </div>-->
             <template if:false={showExclude}>
                 <div class="slds-col">
                     <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
@@ -62,12 +62,12 @@
                 onselect={handleMenuItem}>
                 <lightning-menu-item class="label-icon-color" variant="brand-outline" prefix-icon-name="utility:ad_set"
                     label={label.RH_RP_Export_to_excel} onclick={exportBulkepatient}
-                    title={label.RH_RP_Export_downloadable_log}>
+                    title={label.RH_RP_Export_downloadable_log} disabled={disableExceldownload}>
                 </lightning-menu-item>
-                <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
+                <!--<lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
                     label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
                     title={label.RH_RP_OutreachEmail} disabled={isaccessLevelthree}>
-                </lightning-menu-item>
+                </lightning-menu-item>-->
                 <template if:false={showExclude}>
                     <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
                         label={label.RH_RP_Exclude} onclick={openExcludeModal}

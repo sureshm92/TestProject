@@ -4,22 +4,41 @@
  */
 
 public with sharing class Action_SendSMS implements Action {
-    public class Action_SendSMS_Exception extends Exception {
-    }
     private List<Id> notificationIds;
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
     public static final String PHONE_TYPE_MOBILE = 'Mobile';
 
-    public Action_SendSMS(List<Notification__c> notifications) {
-        this.notificationIds = SObjectHelper.toIdsList(notifications);
+    public class Action_SendSMS_Exception extends Exception {
     }
-
     public class MessageParameters {
         public String transactionId;
         public List<String> toNumber;
         public String subject;
         public String messageBody;
+    }
+    class MessagegResponseWrapper {
+        public string applicationId;
+        public string requestId;
+        public List<MsgResult> result;
+    }
+    class MsgResult {
+        public String toNumber;
+        public MsgStatus status;
+    }
+    class MsgStatus {
+        public String deliveryStatus;
+        public String statusCode;
+        public String statusMessage;
+        public String messageId;
+    }
+    class DialingCountryConfig {
+        public List<String> dialCountryCodeList;
+        public Integer characterLimit;
+    }
+
+    public Action_SendSMS(List<Notification__c> notifications) {
+        this.notificationIds = SObjectHelper.toIdsList(notifications);
     }
 
     public void execute() {
@@ -71,6 +90,7 @@ public with sharing class Action_SendSMS implements Action {
             SELECT
                 Id,
                 Contact__c,
+                First_Name__c,
                 Phone__c,
                 Phone_Type__c,
                 Alternative_Phone_Number__c,
@@ -136,6 +156,10 @@ public with sharing class Action_SendSMS implements Action {
                 smsChannel.Notification__c + '_title'
             );*/
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
+            message = message.replace(
+                '##PTFirstName',
+                participantMap.get(smsChannel.Notification__r.Recipient__c).First_Name__c
+            );
             if (
                 !String.isBlank(message) &&
                 NotificationService.taskAndVisitReminderTypes.contains(
@@ -161,12 +185,6 @@ public with sharing class Action_SendSMS implements Action {
             }
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
-                /** phoneNumber =
-                    countryDialCodeMap.get(
-                            smsChannel.Notification__r.Recipient__r.MailingCountryCode
-                        )
-                        .get(0) + phoneNumber.replaceAll('\\D', '');
-                         */
                 phoneNumber =
                     countryDialCodeMap.get(
                             smsChannel.Notification__r.Recipient__r.MailingCountryCode
@@ -254,26 +272,5 @@ public with sharing class Action_SendSMS implements Action {
         } catch (JSONException e) {
             return new MessagegResponseWrapper();
         }
-    }
-
-    class MessagegResponseWrapper {
-        public string applicationId;
-        public string requestId;
-        public List<MsgResult> result;
-    }
-    class MsgResult {
-        public String toNumber;
-        public MsgStatus status;
-    }
-    class MsgStatus {
-        public String deliveryStatus;
-        public String statusCode;
-        public String statusMessage;
-        public String messageId;
-    }
-
-    class DialingCountryConfig {
-        public List<String> dialCountryCodeList;
-        public Integer characterLimit;
     }
 }

@@ -103,6 +103,8 @@
 }
 
 .THIS .textalign2 {
+    width: 8rem;
+    word-break: break-word;
     font-size: 16px;
     font-weight: 500;
     line-height: 19px;
