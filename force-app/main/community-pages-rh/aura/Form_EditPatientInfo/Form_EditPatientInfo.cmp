@@ -119,7 +119,13 @@
                         </div>
                         <aura:set attribute="else">
                             <div class="rr-form-element slds-col slds-size--1-of-1 slds-large-size--2-of-8">
-                                <div class="label">{!$Label.c.PG_AS_F_Middle_name}</div>
+                                <div class="label tooltip">
+                                    <div class="textoverlapMiddleName">
+                                        {!$Label.c.PG_AS_F_Middle_name}
+                                    </div>
+                                     <span>{!$Label.c.PG_AS_F_Middle_name}</span>
+                                </div>
+                               
                                 <lightning:input
                                                  aura:id="ParticipantMiddleName"
                                                  type="text"
