@@ -185,7 +185,7 @@
                                         <c:rP_ProfileSectionPage usermode="{!v.userMode}"
                                             delegateid="{!v.currentDelegateId}" peId="{!v.peId}" ctpId="{!v.ctpId}"
                                             onpatienttabrefresh="{!c.refreshTable}"
-                                            onincludeexcluderefresh="{!c.onExcludeIncluderefreshTable}" aura:id="scroller"/>
+                                            onincludeexcluderefresh="{!c.onExcludeIncluderefreshTable}"  onpgredirection="{!c.onhandleRedirection}" aura:id="scroller"/>
                                     </aura:if>
                                     <aura:if isTrue="{!v.showBulkPage}">
                                         <c:rP_BulkProfileSectionPage aura:id="BulkProfile"  isaccessLevelthree="{!v.isaccesslevelthree}" 

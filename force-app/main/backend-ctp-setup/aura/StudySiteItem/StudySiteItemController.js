@@ -6,8 +6,8 @@
     doInit: function (component, event, helper) {
 //        component.find('spinner').show();
         var options = [];
-        options.push({'label':$A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
-        options.push({'label':$A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
+        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_PE_AND_STUDY_SITE"), 'value': 'option1'});
+        options.push({'label':' ' + $A.get("$Label.c.ASSOCIATE_VISIT_PLAN_TO_STUDY_SITE_ONLY"), 'value': 'option2'});
         component.set('v.options',options);
         if (component.get('v.fromComponent') === 'Incentive' && !component.get('v.initilizedMap')) {
             let assignments = component.get('v.item.assignments');
