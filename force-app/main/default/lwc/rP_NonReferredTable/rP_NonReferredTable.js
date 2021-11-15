@@ -321,14 +321,17 @@ export default class RP_NonReferredTable extends NavigationMixin(LightningElemen
 
         var peIds = [];
         var ctpIds = [];
+        var perecctpid;
         for (var i = 0; i < this.data.length; i++) {
             let row = Object.assign({}, this.data[i]);
             if (row.isChecked) {
                 peIds.push(row.peRec.Id);
+                perecctpid = row.peRec.Study_Site__r.Clinical_Trial_Profile__c;
             }
         }
         if(peIds.length == 1){
             selectPeId = peIds[0];
+            ctpId = perecctpid;
         }
         if (peIds.length > 1) {
             this.isBulkProfilePage = true;

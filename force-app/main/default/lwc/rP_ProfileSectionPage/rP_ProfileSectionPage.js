@@ -71,7 +71,6 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api disabledSaveButton = false;
     @api isaccessLevelthree = false;
     @api isRTL;
-
     label = {
         RH_RP_Exclude,
         RH_RP_Include,
@@ -152,7 +151,13 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     }
 
     doRedirectToReferPatient() {
-        this[NavigationMixin.Navigate]({
+        var pathurl = {peId:this.peId, id:this.ctpId, patientVeiwRedirection:true};
+        const selectedEvent = new CustomEvent('pgredirection', {
+            detail : pathurl
+        });
+        this.dispatchEvent(selectedEvent);
+
+        /**this[NavigationMixin.Navigate]({
             type: 'comm__namedPage',
             attributes: {
                 pageName: 'referring'
@@ -162,7 +167,7 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
                 'id': this.ctpId,
                 'patientVeiwRedirection': true,
             }
-        });
+        }); **/
     }
 
     @api
