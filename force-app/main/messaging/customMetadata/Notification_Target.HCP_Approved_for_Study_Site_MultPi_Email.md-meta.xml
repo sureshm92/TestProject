@@ -15,7 +15,7 @@
         <value xsi:nil="true"/>
     </values>
     <values>
-        <field>Notification_Type__c</field
+        <field>Notification_Type__c</field>
         <value xsi:type="xsd:string">Message_to_HCP_Approved_for_MultiSS_Type</value>
     </values>
     <values>
