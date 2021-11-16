@@ -59,6 +59,8 @@
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;
+    color: #444;
+    font-size: .875rem;
 }
 
 /* ----------------END-----------*/
