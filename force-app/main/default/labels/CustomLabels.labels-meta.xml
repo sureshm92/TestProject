@@ -6955,7 +6955,7 @@ Sincerely,
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Email Subject Task Reminder Type Not Selected Delegate</shortDescription>
-        <value>Your Patient has a task reminder</value>
+        <value>Reminder: Your patient has a task</value>
     </labels>
     <labels>
         <fullName>Email_Subject_Trial_Complete_for_Delegate</fullName>
