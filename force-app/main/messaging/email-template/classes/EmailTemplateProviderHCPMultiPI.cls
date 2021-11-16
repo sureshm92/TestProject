@@ -42,18 +42,21 @@ public without sharing class EmailTemplateProviderHCPMultiPI extends EmailTempla
         }
         String piNames = '';
         for (HCP_Enrollment__c hcpE : hcpEnrollments) {
-            if(partPIIdAndName.containsKey(hcpE.Study_Site__r.Principal_Investigator__r.Id)){
-                String piName = '';
-                Participant__c partPI = partPIIdAndName.get(hcpE.Study_Site__r.Principal_Investigator__r.Id);
-                if(partPI.Salutation__c!=null){
-                    piName = piName==null?partPI.Salutation__c: piName + partPI.Salutation__c;
+            if(piIds.contains(hcpE.Study_Site__r.Principal_Investigator__r.Id)){
+                if(partPIIdAndName.containsKey(hcpE.Study_Site__r.Principal_Investigator__r.Id)){
+                    String piName = '';
+                    Participant__c partPI = partPIIdAndName.get(hcpE.Study_Site__r.Principal_Investigator__r.Id);
+                    if(partPI.Salutation__c!=null){
+                        piName = piName==null?partPI.Salutation__c: piName + partPI.Salutation__c;
+                    }
+                    if(partPI.Full_Name__c !=null){
+                        piName = piName==null?partPI.Full_Name__c: piName + ' ' + partPI.Full_Name__c;
+                    }
+                    piNames += piName + ', ';
+                }else{
+                    piNames += hcpE.Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c + ', ';
                 }
-                if(partPI.Full_Name__c !=null){
-                    piName = piName==null?partPI.Full_Name__c: piName + ' ' + partPI.Full_Name__c;
-                }
-                piNames += piName + ', ';
-            }else{
-                piNames += hcpE.Study_Site__r.Principal_Investigator__r.Salutation_With_Name__c + ', ';
+                piIds.remove(hcpE.Study_Site__r.Principal_Investigator__r.Id);
             }
         }
         return piNames.removeEnd(', ');
