@@ -67,10 +67,12 @@ public without sharing class NotificationTriggerHandler {
         List<Notification__c> notificationsForMassEmail = new List<Notification__c>();
         List<Notification__c> recipientNotifications = new List<Notification__c>();
         for (Notification__c n : newList) {
-            if (n.Recipient__c == null && n.Topic__c != null) {
-                notificationsForMassEmail.add(n);
-            } else if (!System.isBatch()) {
-                recipientNotifications.add(n);
+            if (!NotificationService.instantNotificationTypes.contains(n.Notification_Type__c)) {
+                if (n.Recipient__c == null && n.Topic__c != null) {
+                    notificationsForMassEmail.add(n);
+                } else if (!System.isBatch()) {
+                    recipientNotifications.add(n);
+                }
             }
         }
         //recipient notifications:

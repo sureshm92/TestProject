@@ -34,8 +34,8 @@ public without sharing class NotificationService {
     };
 
     static public List<String> instantNotificationTypes = new List<String>{
-        'Message_To_PT_Task_Instant_Del_Type',
-        'Message_To_PT_Task_Instant_Type'
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_DEL_TYPE,
+        NotificationCatalog.MESSAGE_TO_PT_TASK_INSTANT_TYPE
     };
 
     static public List<String> taskAndVisitReminderTypes = new List<String>{
@@ -369,7 +369,9 @@ public without sharing class NotificationService {
                                         taskMap != null &&
                                         taskMap.containsKey(n.Task_Id__c) &&
                                         (taskMap.get(n.Task_Id__c).Remind_Using_Email__c ||
-                                        taskMap.get(n.Task_Id__c).CreatedByAdmin__c)
+                                        (instantNotificationTypes.contains(
+                                            n.Notification_Type__c
+                                        ) && taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
                                     ) {
                                         emailNotifications.add(n);
                                         sendResultService.setInProgress(n.Id, nt.Target_Type__c);
@@ -416,7 +418,8 @@ public without sharing class NotificationService {
                                 taskMap != null &&
                                 taskMap.containsKey(n.Task_Id__c) &&
                                 (taskMap.get(n.Task_Id__c).Remind_Using_SMS__c ||
-                                taskMap.get(n.Task_Id__c).CreatedByAdmin__c)
+                                (instantNotificationTypes.contains(n.Notification_Type__c) &&
+                                taskMap.get(n.Task_Id__c).CreatedByAdmin__c))
                             ) {
                                 smsNotifications.add(n);
                                 sendResultService.setInProgress(n.Id, nt.Target_Type__c);
