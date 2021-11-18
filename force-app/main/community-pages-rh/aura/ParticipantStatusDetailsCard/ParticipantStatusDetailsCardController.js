@@ -270,6 +270,8 @@
                         obj.createdBy = contactHistory[i].createdBy;
                         obj.title = contactHistory[i].title;
                         obj.string = false;
+                        obj.detail = contactHistory[i].detail;
+                        obj.isAdditionalNote = contactHistory[i].isAdditionalNote;
                         historyList1.push(obj);
                         obj = {};
                     }
@@ -281,6 +283,8 @@
                     obj.createdBy = histories[i].createdBy;
                     obj.title = histories[i].title;
                     obj.string = true;
+                    obj.detail = histories[i].detail;
+                    obj.isAdditionalNote = histories[i].isAdditionalNote;
                     historyList1.push(obj);
                     obj = {}; 
                 }
