@@ -416,8 +416,8 @@
     }
 
     .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
-        width: 20.5rem;
-        margin-top: -2.5rem;
+        width: 25.5rem;
+        margin-top: -1.5rem;
     }
 
     .THIS .logo-block > .slds-align_absolute-center:nth-child(1) img {
@@ -433,7 +433,7 @@
     }
 
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
-        margin-top: -1rem;
+        margin-top: 0rem;
         width: 100%;
     }
 
@@ -527,11 +527,11 @@
     }
 
     .THIS .logo-block > .slds-align_absolute-center.logo-sub-title {
-        margin-top: -2.75rem;
+        margin-top: -1.75rem;
     }
 
     .THIS .logo-block .slds-align_absolute-center.slds-grid {
-        margin-top: -1.5rem;
+        margin-top: 0rem;
     }
 
     .THIS .logo-block > .slds-align_absolute-center.slds-grid.slds-wrap.slds-gutters {
