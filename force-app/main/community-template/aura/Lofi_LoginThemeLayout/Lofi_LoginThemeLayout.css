@@ -178,6 +178,18 @@
     text-align: left;
 }
 
+.THIS .header-title-rtl {
+    color: #005587;
+    font-size: 30px;
+    font-weight: 300;
+    letter-spacing: 0;
+    line-height: 36px;
+    overflow: hidden;
+    margin-top: 1.1em;
+    /* @noflip */
+    text-align: left;
+}
+
 .THIS .header-title-mobile {
     color: #ffffff;
     font-size: 21px;
@@ -281,6 +293,12 @@
     }
 
     .THIS .header-title {
+        /* @noflip */
+        text-align: left;
+        padding-left: 0.75rem;
+        margin-top: 0.875rem;
+    }
+    .THIS .header-title-rtl {
         /* @noflip */
         text-align: left;
         padding-left: 0.75rem;
@@ -428,6 +446,10 @@
         font-size: 1.5rem;
         margin-top: 1.4rem;
     }
+    .THIS .logo-block .header-title-rtl {
+        font-size: 1.5rem;
+        margin-top: 1.4rem;
+    }
 
     .THIS .logo-block .header-subtitle {
         font-size: 0.75rem;
@@ -530,6 +552,11 @@
         padding-left: 0;
     }
 
+    .THIS .logo-block > .slds-align_absolute-center .header-title-rtl {
+        padding-left: 0;
+        line-height: 1.5rem;
+    }
+
     .THIS .body-content {
         margin-top: -1.75rem;
     }
@@ -579,6 +606,9 @@
     }
 
     .THIS .logo-block .header-title {
+        font-size: 1.25rem;
+    }
+    .THIS .logo-block .header-title-rtl {
         font-size: 1.25rem;
     }
 
