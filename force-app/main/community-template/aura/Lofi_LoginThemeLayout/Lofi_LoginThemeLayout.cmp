@@ -42,7 +42,9 @@
                                     src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
                                     class="main-logo"
                                 />
-                                <div class="header-title">{!$Label.c.Lofi_Login_PP_Header}</div>
+                                <div class="{!if(v.isRTL, 'header-title-rtl ', 'header-title')}">
+                                    {!$Label.c.Lofi_Login_PP_Header}
+                                </div>
                                 <div class="header-subtitle">
                                     {!$Label.c.Lofi_Login_PP_Subheader}
                                 </div>
@@ -52,7 +54,9 @@
                                     src="{!$Resource.Lofi_Login_Icons + '/favicon_darkblue_64.svg'}"
                                     class="main-logo"
                                 />
-                                <div class="header-title">{!$Label.c.Lofi_Login_RH_Header}</div>
+                                <div class="{!if(v.isRTL, 'header-title-rtl ', 'header-title')}">
+                                    {!$Label.c.Lofi_Login_RH_Header}
+                                </div>
                                 <div class="header-subtitle">
                                     {!$Label.c.Lofi_Login_RH_Subheader}
                                 </div>
