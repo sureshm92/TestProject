@@ -79,13 +79,13 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                     }
                     Datetime reminderDT_GMT;
                     Datetime reminderDT;
-                    
+
                     if (taskConfig.reminderDate != null) {
                         reminderDT_GMT = Datetime.newInstanceGmt(
                             taskConfig.reminderDate,
                             Datetime.now().timeGmt()
                         );
-                        System.debug('Batch Rem reminderDT_GMT: '+reminderDT_GMT);
+                        System.debug('Batch Rem reminderDT_GMT: ' + reminderDT_GMT);
                         if (isQueueable) {
                             reminderDT = Datetime.newInstanceGmt(taskConfig.reminderDate, remTime)
                                 .addSeconds(-offsetSeconds);
@@ -95,7 +95,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                                 Datetime.now().time()
                             );
                         }
-                        System.debug('Batch Rem reminderDT: '+reminderDT);
+                        System.debug('Batch Rem reminderDT: ' + reminderDT);
                     }
                     String VisibleFor = taskConfig.visibility;
                     if (
@@ -120,6 +120,8 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         Activity_Datetime__c = activityDT,
                         ReminderDateTime = reminderDT,
                         Reminder_Date__c = reminderDT,
+                        Remind_Using_Email__c = reminderDT != null ? true : false,
+                        Remind_Using_SMS__c = reminderDT != null ? true : false,
                         Visible_For__c = VisibleFor,
                         WhatId = whatId,
                         WhoId = user.ContactId,
@@ -182,7 +184,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                 }
             }
             insert tasks;
-            System.debug('Tasklist: '+tasks);
+            System.debug('Tasklist: ' + tasks);
             taskCreated += tasks.size();
         } catch (Exception e) {
             failedContactsWithWhatIds.putAll(whatIdByContactIds);
