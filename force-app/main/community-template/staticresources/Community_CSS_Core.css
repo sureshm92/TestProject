@@ -1680,7 +1680,7 @@ input[type=password]::-ms-clear
     }
     .slds-text-heading_small, .slds-text-heading--small {
         line-height: var(--lwc-lineHeightHeading,1.25);
-        font-size: 14px !important;
+        font-size: 15px !important;
     }
 
 }
