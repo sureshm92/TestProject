@@ -20,6 +20,17 @@ global without sharing class ParagraphController {
             EmailTemplateProvider.PARAM_PREFIX,
             provider.getParameters()
         );
+        if (bodyLabelValue.contains('##ParticipantFirstName')) {
+            Participant__c participant = PatientDelegateService.getParticipantByDelegateContactId(
+                provider.getRecipientId()
+            );
+            if (participant != null) {
+                String pfName = String.isNotBlank(participant.First_Name__c)
+                    ? Matcher.quoteReplacement(participant.First_Name__c)
+                    : participant.First_Name__c;
+                bodyLabelValue = bodyLabelValue.replace('##ParticipantFirstName', pfName);
+            }
+        }
         bodyLabelValue = outputMode.equals('HTML')
             ? bodyLabelValue.replaceAll('\n', '<br/>')
             : bodyLabelValue;
