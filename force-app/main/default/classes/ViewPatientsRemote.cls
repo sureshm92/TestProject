@@ -143,6 +143,7 @@ public without sharing class ViewPatientsRemote {
         'Study_Site__r.Suppress_Participant_Emails__c',
         'Screening_ID__c',
         'Visit_Plan__c',
+        'Visit_Plan__r.Name',    
         'Washout_Run_In_Applies__c',
         'Final_Consent_Date__c',
         'Informed_Consent_Date__c',
