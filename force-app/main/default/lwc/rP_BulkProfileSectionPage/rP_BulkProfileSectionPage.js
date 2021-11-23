@@ -209,7 +209,7 @@ export default class RP_BulkProfileSectionPage extends LightningElement {
         csvIterativeData += newLineCharacter;  
       }  
         let downloadElement = document.createElement('a');
-        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURI(csvIterativeData);
+        downloadElement.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csvIterativeData);
         downloadElement.target = '_self';
         downloadElement.download = 'Patient Records.csv';
         document.body.appendChild(downloadElement);
