@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Active_After_Days__c</fullName>
+    <fullName>Reminder_in_days_before_the_end_date__c</fullName>
     <description>Days</description>
     <externalId>false</externalId>
-    <label>Delay (in days) before survey starts</label>
+    <label>Reminder(in days) before the end date</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
