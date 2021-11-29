@@ -7064,7 +7064,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.IsRecurranceTask__c</field>
+        <field>Task.InitialTaskNotification__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
