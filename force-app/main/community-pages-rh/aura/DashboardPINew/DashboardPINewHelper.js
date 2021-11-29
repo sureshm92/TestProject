@@ -63,6 +63,7 @@
                 var currentData = component.get('v.piData');
                 component.set('v.currentPi', currentData.selectedPi);
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
+                component.find('invitationId').fetchDashboardValues();//RH-5163
                 //var spinner = component.find('mainSpinner');
                 // spinner.hide();
             }
