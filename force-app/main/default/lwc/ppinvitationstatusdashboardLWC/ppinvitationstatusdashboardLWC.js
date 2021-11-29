@@ -40,11 +40,7 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
                     chartAmtData.push(result.Invited);
                     chartAmtData.push(result.NotYetInvited);
                     this.invitedCount = result.Invited;
-                    this.notYetInvitedCount = result.NotYetInvited;
-                 /*   chartAmtData.push(3000);
-                    chartAmtData.push(50);
-                    this.invitedCount = 30000;
-                    this.notYetInvitedCount = 50;*/
+                    this.notYetInvitedCount = result.NotYetInvited;                  
                     
                 } else {
                     chartAmtData.push('0');
@@ -55,6 +51,7 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
                 
             })
             .catch(error => {
+                let chartAmtData = [];            
                 this.error = error;
                 chartAmtData.push('0');
                 chartAmtData.push('0');
@@ -72,7 +69,7 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
             data: {
                 axis:'y',
                 datasets: [
-                    {label:PPInvited,label:PPNotYetInvited,backgroundColor: ["#D8EBF7","#136BA6"],data: chartAmtData}
+                    {label:PPInvited,label:PPNotYetInvited,backgroundColor: ["#D8EBF7","#83C7F4"],data: chartAmtData}
                 ],
                 labels: chartLabel
             },   
@@ -103,7 +100,7 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
                     }
                 },
                 tooltips: {
-                    enabled: true
+                    enabled: false
                 },
             }
         };
