@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">Dear ##PatientFirstName, a new reward certificate from ##StudyName clinical research study is  now available on the IQVIA Patient Portal.</value>
+        <value xsi:type="xsd:string">PT_New_Certificate_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>
@@ -25,5 +25,9 @@
     <values>
         <field>Target_Type__c</field>
         <value xsi:type="xsd:string">SMS</value>
+    </values>
+    <values>
+        <field>Title__c</field>
+        <value xsi:nil="true"/>
     </values>
 </CustomMetadata>
