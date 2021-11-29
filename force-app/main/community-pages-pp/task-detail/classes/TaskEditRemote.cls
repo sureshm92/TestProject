@@ -191,7 +191,7 @@ public without sharing class TaskEditRemote {
             taskToUpsert.ReminderDateTime = newReminderDate;
             taskToUpsert.Is_Reminder_Sent__c = false;
             taskToUpsert.Status = 'Open';
-            taskToUpsert.IsRecurranceTask__c = true;
+            taskToUpsert.InitialTaskNotification__c = true;
 
             upsert taskToUpsert;
         } catch (Exception e) {

@@ -103,7 +103,16 @@ public without sharing class TaskTriggerHandler {
         List<Id> allContactsIds = new List<Id>();
         Set<Id> ownerIds = new Set<Id>();
         List<Task> tasksWithOwner = [
-            SELECT OwnerId, Task_Code__c, Task_Type__c, Survey_Invitation__c, Visible_For__c, WhatId,IsRecurranceTask__c,WhoId,Start_Date__c 
+            SELECT
+                OwnerId,
+                Task_Code__c,
+                Task_Type__c,
+                Survey_Invitation__c,
+                Visible_For__c,
+                WhatId,
+                InitialTaskNotification__c,
+                WhoId,
+                Start_Date__c
             FROM Task
             WHERE Id IN :tasks AND Owner_Contact__c = NULL
         ];
@@ -208,9 +217,11 @@ public without sharing class TaskTriggerHandler {
                     }
                 }
             }
-            if(task.IsRecurranceTask__c && task.Task_Type__c==TaskService.TASK_TYPE_NOT_SELECTED)
-            {
-                if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)){
+            if (
+                task.InitialTaskNotification__c &&
+                task.Task_Type__c == TaskService.TASK_TYPE_NOT_SELECTED
+            ) {
+                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_OWNER)) {
                     notifications.add(
                         new Notification__c(
                             Recipient__c = task.WhoId,
@@ -221,9 +232,9 @@ public without sharing class TaskTriggerHandler {
                         )
                     );  
                 }
-                if(task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)){
+                if (task.Visible_For__c.contains(TaskService.TASK_VISIBILITY_DELEGATES)) {
                     List<Contact> delegates = delegatesByPAContact.get(task.WhoId);
-                    if(delegates!=null && !delegates.isEmpty()) {     
+                    if (delegates != null && !delegates.isEmpty()) {
                         for (Contact delContact : delegates) {
                             notifications.add(
                                 new Notification__c(
