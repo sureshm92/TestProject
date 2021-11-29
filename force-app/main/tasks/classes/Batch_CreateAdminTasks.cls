@@ -127,7 +127,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                         WhoId = user.ContactId,
                         Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
                         CreatedByAdmin__c = true,
-                        IsRecurranceTask__c = true
+                        InitialTaskNotification__c = true
                     );
                     if (
                         participantEnrollmentMap != null &&
@@ -168,7 +168,7 @@ public class Batch_CreateAdminTasks implements Database.Batchable<WhatIdByContac
                             WhoId = contactIds,
                             Task_Type__c = TaskService.TASK_TYPE_NOT_SELECTED,
                             CreatedByAdmin__c = true,
-                            IsRecurranceTask__c = true
+                            InitialTaskNotification__c = true
                         );
                         if (
                             participantEnrollmentMap != null &&
