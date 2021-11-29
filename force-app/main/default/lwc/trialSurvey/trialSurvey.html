@@ -1,0 +1,87 @@
+<!--
+  @description       : TrialSurvey
+  @created by        : Krishna Kumar Mahto
+  @created Date      : 11-25-2021
+-->
+<template>
+        <!-- <c-web-spinner class="main-spinner"></c-web-spinner> -->
+		<template if:true={isModalOpen}>
+        <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open ">
+            <lightning-record-edit-form record-id={recordId} object-api-name="Trial_Survey__c" onsubmit ={handleSubmit}>
+                    <div class="slds-modal__container">
+                        <!-- Modal/Popup Box LWC header here -->
+                        <header class="slds-modal__header">
+                            <button class="slds-button slds-button_icon slds-modal__close slds-button_icon-inverse" title="Close" onclick={closeModal}>
+                                <lightning-icon icon-name="utility:close"
+                                    alternative-text="close"
+                                    variant="inverse"
+                                    size="small" ></lightning-icon>
+                                <span class="slds-assistive-text">Close</span>
+                            </button>
+                            <h2 id="modal-heading-01" class="slds-text-heading_medium slds-hyphenate">{recordTypeName}: Trial Survey</h2>
+                        </header>
+                        <!-- Modal/Popup Box LWC body starts here -->
+                        <div class="slds-modal__content slds-p-around_medium" id="modal-content-id-1">
+                            <lightning-card>
+                                    <div class="slds-grid">
+										 <Template if:true={isrecordtype}>
+												<div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="RecordTypeId"  value={recordTypeId} disabled="true"></lightning-input-field></p></div>
+										</Template>
+										<Template if:false={isrecordtype}>
+												<div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="RecordTypeId"  disabled="true"></lightning-input-field></p></div>
+										</Template>
+										 <Template if:true={isctpId}>
+											<div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Clinical_Trial_Profile__c" value={ctpId} disabled="true"></lightning-input-field></p></div>
+										</Template>
+										<Template if:false={isctpId}>
+											<div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Clinical_Trial_Profile__c" disabled="true"></lightning-input-field></p></div>
+										</Template>
+										</div>
+																
+                                    <div class="slds-grid">
+										<div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Survey__c"></lightning-input-field></p></div>         
+                                        <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Is_Midpoint__c"></lightning-input-field></p></div>
+									</div>
+                                    
+                                    <!-- Modal fields starts here for Status Based Trial Survey -->
+                                    <Template if:true={isStatusBasedTrialSurvey}>
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Active_On_Status__c"></lightning-input-field></p></div> 
+                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Expires_After_Days__c"></lightning-input-field></p></div>                 
+                                        </div>
+                                        <div class="slds-grid">
+                                            <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Active_After_Days__c"></lightning-input-field></p></div> 
+                                        </div>
+                                    </Template>
+                                    <!-- Modal fields starts here for Time Based Trial Survey -->
+                                    <Template if:false={isStatusBasedTrialSurvey}>
+                                            <div class="slds-grid">
+                                                <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Survey_start_date__c"></lightning-input-field></p></div>   
+                                                <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Survey_end_date__c"></lightning-input-field></p></div>               
+                                            </div>
+                                        
+                                    </template>
+                                    <div class="slds-grid">
+                                        <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Reminder_in_days_before_the_end_date__c"></lightning-input-field></p></div>  
+                                        <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Whose_response_needed__c"></lightning-input-field></p></div> 
+                                    </div>
+                                    <div class="slds-grid">
+                                        <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="is_Recurrence_Survey__c" onchange={handleCheckBoxChange}></lightning-input-field></p></div>                  
+                                        <template if:true={isRecurrenceSurvey}> 
+                                            <div class="slds-col  slds-size_1-of-2 slds-p-horizontal--small"><p><lightning-input-field field-name="Recurrence_Frequency__c"></lightning-input-field></p></div>   
+                                        </template>    
+                                    </div>
+                            </lightning-card>
+                        </div>
+                        <!-- Modal/Popup Box LWC footer starts here -->
+                        <footer class="slds-modal__footer">
+                           <!--  <lightning-button class="slds-m-top_small" variant="brand" type="submit" name="update" label="Save"></lightning-button> -->
+                            <button class="slds-button slds-button_neutral" onclick={closeModal} title="Cancel" >Cancel</button>
+                            <button class="slds-button slds-button_brand" type="submit" title="Save">Save</button>
+                        </footer>
+                    </div>
+                </lightning-record-edit-form>
+            </section>
+		</template>
+    <div class="slds-backdrop slds-backdrop_open"></div>
+</template>
