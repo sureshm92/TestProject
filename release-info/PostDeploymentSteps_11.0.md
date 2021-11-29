@@ -1,0 +1,2 @@
+
+1. Go to setup > Object Manager > Search for "Trial Survey" object and click on it > Click on "Buttons, Links, and Actions" from the left panel > Serach for "New" and Click on "Edit" on Right side drop down of "New" > for "Lightning Experience Override" option, select "Lightning component" radio button and on Drop down, Select "c:TrialSurveyContainer" > for "Mobile Overrid" option, select "Lightning component" radio button and on Drop down, Select "c:TrialSurveyContainer"  > click on Save
