@@ -26,8 +26,4 @@
         <field>Target_Type__c</field>
         <value xsi:type="xsd:string">SMS</value>
     </values>
-    <values>
-        <field>Title__c</field>
-        <value xsi:nil="true"/>
-    </values>
 </CustomMetadata>
