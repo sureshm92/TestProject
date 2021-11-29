@@ -7583,11 +7583,6 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.Community_Template_Name__c</field>
-        <readable>true</readable>
-    </fieldPermissions>
-    <fieldPermissions>
-        <editable>true</editable>
         <field>Task.InitialTaskNotification__c</field>
         <readable>true</readable>
     </fieldPermissions>
