@@ -29,9 +29,11 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
         this.fetchDashboardValues();                   
     }
 
+    @api
     fetchDashboardValues() {
         if(this.selectedCTP && this.selectedPI) {
             this.loading = true;
+            this.chartConfiguration = undefined;
             getParticipantCount({ pIid: this.selectedPI,ctpId: this.selectedCTP })
             .then(result => {
                 console.log('result:'+JSON.stringify(result));
@@ -69,7 +71,7 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
             data: {
                 axis:'y',
                 datasets: [
-                    {label:PPInvited,label:PPNotYetInvited,backgroundColor: ["#D8EBF7","#83C7F4"],data: chartAmtData}
+                    {backgroundColor: ["#D8EBF7","#83C7F4"],data: chartAmtData}
                 ],
                 labels: chartLabel
             },   

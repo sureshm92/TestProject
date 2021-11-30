@@ -33,7 +33,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Site DB Participants</shortDescription>
-        <value>Participants</value>
+        <value>Participant(s)</value>
     </labels>
     <labels>
         <fullName>Site_DB_Patient_Portal_Invitation_Status</fullName>

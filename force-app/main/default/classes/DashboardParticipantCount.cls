@@ -54,20 +54,7 @@ public without sharing class DashboardParticipantCount {
                     if(delegateList.size() == 0) { // If no Delegates a participant is not invited
                         notInvitedCount++;
                     } else { // If any of the delegate is invited, Participant is invited
-                        for(Patient_Delegate__c delegate : delegateList) {
-                            Integer delegateCount = 0;
-                            if(delegate.Status__c.equals(DELEGATE_STATUS_ACTIVE)) {
-                                invitedCount++;
-                                break;
-                            } else if(delegate.Status__c.equals(DELEGATE_STATUS_DISCONNECTED)) {
-                                //notInvitedCount++;
-                                delegateCount++;
-                            }
-                            if(delegateCount == delegateList.size()) {
-                                notInvitedCount++;
-                            }
-                        }
-                        
+                        invitedCount++;                        
                     }
 
                 }
