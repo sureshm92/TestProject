@@ -17586,6 +17586,34 @@ communications using the toggles below.</value>
         <value>You have a new survey awaiting your feedback. Please log in to IQVIA Patient Portal to complete the survey.</value>
     </labels>
     <labels>
+        <fullName>PT_Data_Available_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Data Available SMS</shortDescription>
+        <value>Dear ##PatientFirstName, new visit data is available.</value>
+    </labels>
+    <labels>
+        <fullName>PT_Has_not_Login_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Has not Login SMS</shortDescription>
+        <value>Dear ##PTFirstName, we haven&#39;t heard from you in a while. IQVIA Patient Portal</value>
+    </labels>
+    <labels>
+        <fullName>PT_New_Certificate_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT New Certificate SMS</shortDescription>
+        <value>Dear ##PatientFirstName, a new reward certificate from ##StudyName clinical research study is now available on the IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
+        <fullName>PT_New_StdDoc_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT New StdDoc SMS</shortDescription>
+        <value>Dear ##PatientFirstName, new documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.</value>
+    </labels>
+    <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
         <language>en_US</language>
         <protected>true</protected>
