@@ -45,7 +45,6 @@
         <field>Trial_Survey__c.Reminder_Schedule__c</field>
         <readable>true</readable>
     </fieldPermissions>
-        </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Trial_Survey__c.Survey_start_date__c</field>
