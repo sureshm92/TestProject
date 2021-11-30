@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">Dear ##PatientFirstName, new visit data is available.</value>
+        <value xsi:type="xsd:string">PT_Data_Available_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>

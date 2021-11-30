@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">Dear ##PTFirstName, we haven&#39;t heard from you in a while. IQVIA Patient Portal</value>
+        <value xsi:type="xsd:string">PT_Has_not_Login_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>

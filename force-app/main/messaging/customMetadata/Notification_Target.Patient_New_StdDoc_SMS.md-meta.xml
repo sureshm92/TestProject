@@ -12,7 +12,7 @@
     </values>
     <values>
         <field>Message_Body__c</field>
-        <value xsi:type="xsd:string">Dear ##PatientFirstName, new documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal. </value>
+        <value xsi:type="xsd:string">PT_New_StdDoc_SMS</value>
     </values>
     <values>
         <field>Notification_Type__c</field>

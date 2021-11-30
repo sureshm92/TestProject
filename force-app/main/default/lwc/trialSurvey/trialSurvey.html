@@ -7,7 +7,7 @@
         <!-- <c-web-spinner class="main-spinner"></c-web-spinner> -->
 		<template if:true={isModalOpen}>
         <section role="dialog" tabindex="-1" aria-labelledby="modal-heading-01" aria-modal="true" aria-describedby="modal-content-id-1" class="slds-modal slds-fade-in-open ">
-            <lightning-record-edit-form record-id={recordId} object-api-name="Trial_Survey__c" onsubmit ={handleSubmit}>
+            <lightning-record-edit-form record-id={recordId} object-api-name="Trial_Survey__c" onsubmit ={handleSubmit} onsuccess={handleSuccess}>
                     <div class="slds-modal__container">
                         <!-- Modal/Popup Box LWC header here -->
                         <header class="slds-modal__header">
