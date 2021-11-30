@@ -1953,6 +1953,10 @@
         <apexClass>TrialSurveyTriggerHandler</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>TrialSurveyContainerController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>TriggerHandler</apexClass>
         <enabled>true</enabled>
