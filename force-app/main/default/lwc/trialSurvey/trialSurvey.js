@@ -1,5 +1,5 @@
 import { LightningElement, api } from 'lwc';
-//import {ShowToastEvent} from 'lightning/platformShowToastEvent';
+import {ShowToastEvent} from 'lightning/platformShowToastEvent';
 import { NavigationMixin } from 'lightning/navigation';
 import weeklyError from '@salesforce/label/c.weekly_task_error';
 import monthlyError from '@salesforce/label/c.monthly_task_error';
@@ -53,5 +53,11 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 actionName: 'view'
             }
         });
+    }
+    handleSuccess(event) {
+        communityService.showSuccessToast(
+        'Success!',
+        'The Trial Survey has been created successfully. Please nevigate to Trial Survey tab to see the record!'
+        );
     }
 }
