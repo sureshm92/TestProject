@@ -114,9 +114,10 @@ public with sharing class ParticipantTrialBuilder extends TrialBuilder {
                 )
             );
 
+            /**PEH-525*/
             if (
                 participantState.isPremium &&
-                (participantState.showVisits || participantState.ctp.Travel_Vendor_Is_Available__c)
+                (participantState.showVisitsinPreTrial || participantState.ctp.Travel_Vendor_Is_Available__c)
             ) {
                 tabs.add(
                     new TrialDetail.StudyTab(
