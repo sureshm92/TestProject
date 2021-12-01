@@ -41,12 +41,19 @@ public without sharing class DashboardRemoteNew {
     class PIData {
         List<LabelValueItem> delegatePIsPicklist = new List<LabelValueItem>();
         List<LabelValueItem> piCTPPicklist = new List<LabelValueItem>();
+        List<CTPPPEnable> piCTPPPEnablelist = new List<CTPPPEnable>();//RH-5163
         Id selectedCTP;
         Id selectedPi;
         Integer currentStudySitesCount = 10;
         Integer totalPrepareAwaitingContactCount = 0;
         Integer totalTimeWaitingContactCount = 0;
         Integer participantScheduledCount = 0;
+    }
+
+    class CTPPPEnable {//RH-5163
+        String label;
+        String value;
+        Boolean ppEnabled;
     }
 
     class HCPData {
@@ -316,11 +323,12 @@ public without sharing class DashboardRemoteNew {
                     pi_Id = piId;
                 }
 
-                Map<String, String> piCTPMap = new Map<String, String>();
+                //Map<String, String> piCTPMap = new Map<String, String>();
+                Map<String, Clinical_Trial_Profile__c> piCTPMap = new Map<String, Clinical_Trial_Profile__c>();//RH-5163
 
                 String ssQuery =
                     'SELECT Id, Name, Clinical_Trial_Profile__r.Id, Clinical_Trial_Profile__r.Study_Code_Name__c,Clinical_Trial_Profile__r.Name, Clinical_Trial_Profile__r.Study_Sponsor__c,' +
-                    +'Clinical_Trial_Profile__r.CommunityTemplate__c, Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =\'' +
+                    +'Clinical_Trial_Profile__r.CommunityTemplate__c,Clinical_Trial_Profile__r.Patient_Portal_Enabled__c, Principal_Investigator__c FROM Study_Site__c WHERE Principal_Investigator__c =\'' +
                     pi_Id +
                     '\'';
                 if (CommunityTemplateService.TEMPLATE_JANSSEN == communityName) {
@@ -342,14 +350,25 @@ public without sharing class DashboardRemoteNew {
 
                 List<Study_Site__c> related_site_sites = Database.query(ssQuery);
                 for (Study_Site__c ss : related_site_sites) {
-                    piCTPMap.put(
+                    /*piCTPMap.put(
                         ss.Clinical_Trial_Profile__r.Id,
                         ss.Clinical_Trial_Profile__r.Study_Code_Name__c
+                    );*/
+                    //RH-5163
+                    piCTPMap.put(
+                        ss.Clinical_Trial_Profile__r.Id,
+                        ss.Clinical_Trial_Profile__r
                     );
                 }
 
                 for (Id ctp_Id : piCTPMap.keySet()) {
-                    piData.piCTPPicklist.add(new LabelValueItem(piCTPMap.get(ctp_Id), ctp_Id));
+                    piData.piCTPPicklist.add(new LabelValueItem(piCTPMap.get(ctp_Id).Study_Code_Name__c, ctp_Id));
+                    //RH-5163
+                    CTPPPEnable ctpp = new CTPPPEnable();
+                    ctpp.label = piCTPMap.get(ctp_Id).Study_Code_Name__c;
+                    ctpp.value = ctp_id;
+                    ctpp.ppEnabled = piCTPMap.get(ctp_Id).Patient_Portal_Enabled__c;
+                    piData.piCTPPPEnablelist.add(ctpp);
                 }
 
                 for (Id pId : delegatePIsMap.keySet()) {

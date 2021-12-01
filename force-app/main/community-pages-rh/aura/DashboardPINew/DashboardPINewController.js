@@ -9,6 +9,8 @@
         component.set('v.piCTPPicklist', piData.piCTPPicklist);
         component.set('v.currentPi', piData.selectedPi);
         component.set('v.currentStudy', piData.selectedCTP);
+        //RH-5163
+        helper.showPPDashboard(component,helper,piData);
       
       
         setTimeout(function(){
