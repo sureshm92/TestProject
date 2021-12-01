@@ -122,10 +122,16 @@ public without sharing class ParticipantService {
                 ) {
                     participantState.value = ParticipantStates.PARTICIPANT;
                     participantState.showVisits = showVisits();
+                    /**PEH-525 START*/
+                    participantState.showVisitsInPreTrial = participantState.showVisits;
+                    /**PEH-525 END*/
                     participantState.showResults = showResults();
                 } else {
                     participantState.value = ParticipantStates.REFERRAL;
-                    participantState.showVisits = showVisits();
+                    /**PEH-525 START*/
+                    //participantState.showVisits = showVisits();
+                    participantState.showVisitsInPreTrial = showVisits();
+					/**PEH-525 END*/
 
                 }
             }
