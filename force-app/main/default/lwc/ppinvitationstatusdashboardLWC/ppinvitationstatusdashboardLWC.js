@@ -90,7 +90,11 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
                     yAxes: [{                                
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
-                        }
+                        },
+                        ticks:{
+                            fontColor: 'black',
+                            fontSize: 14,                            
+                        },
                     }]
                 },
                 legend: {
