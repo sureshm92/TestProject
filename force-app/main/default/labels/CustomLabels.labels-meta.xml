@@ -789,6 +789,13 @@
         <value>Action Required</value>
     </labels>
     <labels>
+        <fullName>Active_on_status</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Active on status</shortDescription>
+        <value>Active on status filed cannot be blank</value>
+    </labels>
+    <labels>
         <fullName>Action_View_New_Study_Site</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -1632,6 +1639,27 @@
         <protected>false</protected>
         <shortDescription>trialSearch_me</shortDescription>
         <value>Me</value>
+    </labels>
+	<labels>
+        <fullName>ts_end_date_not_blank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ts end date not blank</shortDescription>
+        <value>End date cannot be blank</value>
+    </labels>
+    <labels>
+        <fullName>ts_start_date_not_blank</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ts start date not blank</shortDescription>
+        <value>Start date cannot be blank</value>
+    </labels>
+    <labels>
+        <fullName>ts_success_msg</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>ts success msg</shortDescription>
+        <value>The Trial Survey has been created successfully. Please nevigate to Trial Survey tab to see the record!</value>
     </labels>
     <labels>
         <fullName>cont_study_gender</fullName>
@@ -9478,6 +9506,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set monthly task for these dates.</value>
+    </labels>
+	<labels>
+        <fullName>no_of_days_before_survey_expire</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>no of days before survey expire</shortDescription>
+        <value>Number of days before survey expires cannot be blank</value>
     </labels>
     <labels>
         <fullName>MO_Active</fullName>
@@ -23331,6 +23366,13 @@ communications using the toggles below.</value>
         <shortDescription>empty visits</shortDescription>
         <value>there are no planned visits yet</value>
     </labels>
+	<labels>
+        <fullName>monthly_survey_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>monthly survey error</shortDescription>
+        <value>Cannot create monthly survey for these days</value>
+    </labels>
     <labels>
         <fullName>of</fullName>
         <language>en_US</language>
@@ -23344,6 +23386,13 @@ communications using the toggles below.</value>
         <protected>false</protected>
         <shortDescription>patients</shortDescription>
         <value>patients</value>
+    </labels>
+	<labels>
+        <fullName>reminder_days_for_daily</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>reminder days for daily</shortDescription>
+        <value>Reminder days should be 0 or blank for daily recurrence</value>
     </labels>
     <labels>
         <fullName>search_results</fullName>
@@ -23397,11 +23446,25 @@ communications using the toggles below.</value>
         <shortDescription>configuation table</shortDescription>
         <value>Name</value>
     </labels>
+	<labels>
+        <fullName>weekly_survey_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>weekly survey error</shortDescription>
+        <value>Cannot create weekly survey for these days</value>
+    </labels>
     <labels>
         <fullName>weekly_task_error</fullName>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>weekly task error</shortDescription>
         <value>Cannot set weekly task for these dates.</value>
+    </labels>
+	<labels>
+        <fullName>yearly_survey_error</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>yearly survey error</shortDescription>
+        <value>Cannot create yearly survey for these days</value>
     </labels>
 </CustomLabels>
