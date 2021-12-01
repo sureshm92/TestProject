@@ -39,7 +39,7 @@ public without sharing class DashboardParticipantCount {
             }
 
             if(participantIds.size() > 0) {
-                List<String> validStatus = new List<String>{DELEGATE_STATUS_DISCONNECTED,DELEGATE_STATUS_ACTIVE};
+                List<String> validStatus = new List<String>{DELEGATE_STATUS_ACTIVE};
                 participantList = [
                     SELECT Id,
                     (SELECT Id, Participant__c,Status__c,Primary_Delegate__c 
