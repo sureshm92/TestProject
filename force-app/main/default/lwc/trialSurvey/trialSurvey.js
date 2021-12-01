@@ -106,6 +106,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             }
         } else if (this.recordTypeName == 'Time based') {
             // time based
+            let todaysDate = new Date();
             let startDate = new Date(fields.Survey_start_date__c);
             let endDate = new Date(fields.Survey_end_date__c);
             //startDate = fields.Survey_start_date__c;
@@ -116,6 +117,18 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             }
             if (fields.Survey_end_date__c == '' || fields.Survey_end_date__c == null) {
                 communityService.showErrorToast('', this.labels.endDateNotBlank, 3000);
+                return;
+            }
+            if (startDate < todaysDate) {
+                communityService.showErrorToast('', 'Start date cannot be a past date', 3000);
+                return;
+            }
+            if (endDate < startDate) {
+                communityService.showErrorToast(
+                    '',
+                    'End date cannot be less than start date',
+                    3000
+                );
                 return;
             }
             var diffYear = (endDate.getTime() - startDate.getTime()) / 1000;
