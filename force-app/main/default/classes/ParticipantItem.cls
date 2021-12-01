@@ -55,9 +55,11 @@ public without sharing class ParticipantItem {
         this.participationFlowSteps = PEStatusState.getParticipationFlowStepsLV(
             participantState.pe
         );
+        /**PEH-525 START*/
 
-        this.showVisitsinPreTrial = participantState.showVisits &&
+        this.showVisitsinPreTrial = participantState.showVisitsinPreTrial &&
             pe.Clinical_Trial_Profile__r.Visit_Schedule_Is_Available__c && participantState.value == ParticipantService.ParticipantStates.REFERRAL;
+        /**PEH-525 END*/
         this.showParticipationSteps = PEStatusState.getParticipationFlowSteps(participantState.pe)
             .contains(participantState.pe.Participant_Status__c);
     }
