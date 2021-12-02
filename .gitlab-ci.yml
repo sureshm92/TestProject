@@ -144,5 +144,5 @@ RUNTEST:
     - merge_requests
   stage: RUNTEST
   script: 
-      -sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --classnames "CommunitiesSelfRegConfirmControllerTest" 
+      - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --classnames "CommunitiesSelfRegConfirmControllerTest" 
 
