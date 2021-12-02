@@ -1,5 +1,5 @@
 /**
- * Created by Leonid Bartenev test
+ * Created by Leonid Bartenev
  */
 
 @IsTest
