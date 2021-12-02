@@ -3,6 +3,7 @@ stages:
     - SonarCheck 
     - Validate
     - Deploy
+    - RUNTEST
     
 SonarCheck:
   stage: SonarCheck
@@ -134,3 +135,14 @@ Deploy:
       - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"
       - sfdx force:source:deploy -x package/package.xml -u $CI_COMMIT_REF_NAME -w 60
       - echo "Deploy success!"
+
+RUNTEST:
+  only:
+    - INF10
+  except:
+    - merge_requests
+  
+  stage: RUNTEST
+  script: 
+  - . ./scripts/ci/run-tests.sh INF10
+
