@@ -139,7 +139,7 @@ Deploy:
 RUNTEST:
   only:
     variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF/
+        - $CI_COMMIT_REF_NAME =~ /^INF/
   except:
     - merge_requests
   stage: RUNTEST
