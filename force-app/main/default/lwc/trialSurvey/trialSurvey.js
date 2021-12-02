@@ -52,7 +52,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         const fields = event.detail.fields;
         var frequency;
         let expiryDays;
-        var recType = fields.RecordTypeId;
+        //var recType = fields.RecordTypeId;
         if (fields.Is_Recurrence_Survey__c) {
             frequency = fields.Recurrence_Frequency__c;
         }
@@ -119,11 +119,11 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 communityService.showErrorToast('', this.labels.endDateNotBlank, 3000);
                 return;
             }
-            if (startDate < todaysDate) {
+            if (startDate.getDate() < todaysDate.getDate()) {
                 communityService.showErrorToast('', 'Start date cannot be a past date', 3000);
                 return;
             }
-            if (endDate < startDate) {
+            if (endDate.getDate() < startDate.getDate()) {
                 communityService.showErrorToast(
                     '',
                     'End date cannot be less than start date',
