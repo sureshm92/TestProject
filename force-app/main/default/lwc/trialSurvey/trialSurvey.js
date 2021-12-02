@@ -212,7 +212,6 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
 
     //Dispatch event to Parent aura component to refresh the paga.
     dispatchEventToAura(){
-            alert('Inside LWC dispatch Event');
             const selectedEvent = new CustomEvent('pagerefresh');
             this.dispatchEvent(selectedEvent);
     }
