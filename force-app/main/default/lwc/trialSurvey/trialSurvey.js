@@ -10,13 +10,14 @@ import startDateNotBlank from '@salesforce/label/c.ts_start_date_not_blank';
 import tsSuccessMsg from '@salesforce/label/c.ts_success_msg';
 import endDateNotBlank from '@salesforce/label/c.ts_end_date_not_blank';
 import activeOnStatus from '@salesforce/label/c.Active_on_status';
+import remDateError from '@salesforce/label/c.reminder_greaterthan_one_year_error';
 
 export default class trialSurvey extends NavigationMixin(LightningElement) {
     @api ctpId;
     @api recordId;
     @api recordTypeId;
     @api recordTypeName;
-    @track reminderDisabled;
+    @track reminderDisabled = false;
     isModalOpen = false;
     isctpId = false;
     isrecordtype = false;
@@ -31,7 +32,8 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         startDateNotBlank,
         tsSuccessMsg,
         endDateNotBlank,
-        activeOnStatus
+        activeOnStatus,
+        remDateError
     };
 
     connectedCallback() {
@@ -46,7 +48,20 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             this.isStatusBasedTrialSurvey = true;
         }
     }
-
+    handleFrequencyChange(event) {
+        const inputFields = this.template.querySelectorAll('.remDate');
+        if (inputFields) {
+            inputFields.forEach((field) => {
+                field.reset();
+            });
+        }
+        var remFreq = event.target.value;
+        if (remFreq != 'Daily') {
+            this.reminderDisabled = false;
+        } else {
+            this.reminderDisabled = true;
+        }
+    }
     handleSubmit(event) {
         event.preventDefault(); // stop the form from submitting
         const fields = event.detail.fields;
@@ -60,6 +75,15 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             console.log('rem error');
             if (fields.Reminder_in_days_before_the_end_date__c > 0) {
                 communityService.showErrorToast('', this.labels.reminderDaysError, 3000);
+                return;
+            }
+        }
+        if (
+            fields.Reminder_in_days_before_the_end_date__c != null &&
+            fields.Reminder_in_days_before_the_end_date__c != ''
+        ) {
+            if (fields.Reminder_in_days_before_the_end_date__c > 365) {
+                communityService.showErrorToast('', this.labels.remDateError, 3000);
                 return;
             }
         }
@@ -171,6 +195,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         });
     }
     handleCheckBoxChange(event) {
+        this.reminderDisabled = true;
         this.isRecurrenceSurvey = event.target.value;
     }
     handleSuccess(event) {
