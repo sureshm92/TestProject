@@ -2,14 +2,14 @@ image: ajit2408/studyhub-sfdx
 stages:
     - RUNTEST
     - SonarCheck 
-    - Validate
-    
+        
 RUNTEST:
   only:
     variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF|^master/
-  except:
-    - merge_requests
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^master/
+    refs: 
+        - merge_requests
+
   stage: RUNTEST
   script: 
       - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
@@ -21,10 +21,10 @@ SonarCheck:
   stage: SonarCheck
   allow_failure: true
   only:
-     variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF|^master/
-  except:
-    - merge_requests
+    variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^master/
+    refs: 
+        - merge_requests
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -70,59 +70,4 @@ SonarCheck:
         echo -e "\e[91mSONAR ANALYSIS FAILED\e[0m";
         exit 1 #breaks the build for failure in Step2
        fi	
-  
-Validate:
-  stage: Validate
-  #allow_failure: true
-  only:
-      refs: 
-        - merge_requests
-          #echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-      #variables:
-        #- $CI_MERGE_REQUEST_TARGET_BRANCH_NAME == "CICDDEMO1"
-  artifacts:
-      untracked: true      
-      when: always
-      paths:
-          - results
-          - package/package.xml
-  before_script: 
-      - |
-         # “get_mr_parent” function allows to get parent commit of merge request
-         # only valid for pipelines started in scope of MR.
-         set -x 
-         function get_mr_parent() {
-         
-           git fetch origin $CI_MERGE_REQUEST_TARGET_BRANCH_NAME --depth=2147483647
-           git fetch origin $CI_COMMIT_REF_NAME --depth=2147483647
-         
-           get_parent_command="git merge-base origin/$CI_COMMIT_REF_NAME origin/$CI_MERGE_REQUEST_TARGET_BRANCH_NAME"
-                   
-           PARENT="$(eval $get_parent_command || true)"
-         
-           if [[ -z $PARENT ]]; then
-              git fetch --unshallow --update-head-ok origin '+refs/heads/*:refs/heads/*'  # global var GIT_DEPTH: "2147483647" is about the same
-             PARENT="$(eval $get_parent_command)"
-           fi  
-           
-           echo "[DEBUG] Parent commit for the MR #$CI_MERGE_REQUEST_IID is $PARENT"
-           # git merge --squash FETCH_HEAD
-         }
-         get_mr_parent
-         export PARENT
-         echo 'y' | sfdx plugins:install sfdx-git-delta
-         sfdx sgd:source:delta --to "HEAD" --from $PARENT --output "."
-         echo "--- package.xml generated with added and modified metadata ---"
-         cat package/package.xml
-         #echo "---- Deploying added and modified metadata ----"
-      #- sfdx force:source:deploy -x package/package.xml      
-  script:
-      - mkdir results  
-      - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
-      - sfdx force:source:deploy -x package/package.xml -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -c -w 60 
-      #- sfdx force:apex:test:run -y -u INT --resultformat junit --codecoverage --testlevel RunLocalTests --outputdir results
-      - echo "Validate success!"
-      
-
-
+ 
