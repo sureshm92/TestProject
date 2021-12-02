@@ -138,11 +138,11 @@ Deploy:
 
 RUNTEST:
   only:
-    - INF10
+    variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
   except:
     - merge_requests
-  
   stage: RUNTEST
   script: 
-  - . ./scripts/ci/run-tests.sh INF10
+      -sfdx force:apex:test:run -u TargetOrg -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --classnames "CommunitiesSelfRegConfirmControllerTest" 
 
