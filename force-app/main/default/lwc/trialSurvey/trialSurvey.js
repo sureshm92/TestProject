@@ -10,13 +10,16 @@ import startDateNotBlank from '@salesforce/label/c.ts_start_date_not_blank';
 import tsSuccessMsg from '@salesforce/label/c.ts_success_msg';
 import endDateNotBlank from '@salesforce/label/c.ts_end_date_not_blank';
 import activeOnStatus from '@salesforce/label/c.Active_on_status';
+import remDateError from '@salesforce/label/c.reminder_greaterthan_one_year_error';
+import { loadScript } from 'lightning/platformResourceLoader';
+import momentJs from '@salesforce/resourceUrl/moment_js';
 
 export default class trialSurvey extends NavigationMixin(LightningElement) {
     @api ctpId;
     @api recordId;
     @api recordTypeId;
     @api recordTypeName;
-    @track reminderDisabled;
+    @track reminderDisabled = false;
     isModalOpen = false;
     isctpId = false;
     isrecordtype = false;
@@ -31,7 +34,8 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         startDateNotBlank,
         tsSuccessMsg,
         endDateNotBlank,
-        activeOnStatus
+        activeOnStatus,
+        remDateError
     };
 
     connectedCallback() {
@@ -45,8 +49,24 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         if (this.recordTypeName === 'Status based') {
             this.isStatusBasedTrialSurvey = true;
         }
+        loadScript(this, momentJs).then(() => {
+            console.log('scriptLoaded');
+        });
     }
-
+    handleFrequencyChange(event) {
+        const inputFields = this.template.querySelectorAll('.remDate');
+        if (inputFields) {
+            inputFields.forEach((field) => {
+                field.reset();
+            });
+        }
+        var remFreq = event.target.value;
+        if (remFreq != 'Daily') {
+            this.reminderDisabled = false;
+        } else {
+            this.reminderDisabled = true;
+        }
+    }
     handleSubmit(event) {
         event.preventDefault(); // stop the form from submitting
         const fields = event.detail.fields;
@@ -63,20 +83,28 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 return;
             }
         }
+        if (
+            fields.Reminder_in_days_before_the_end_date__c != null &&
+            fields.Reminder_in_days_before_the_end_date__c != ''
+        ) {
+            if (fields.Reminder_in_days_before_the_end_date__c > 365) {
+                communityService.showErrorToast('', this.labels.remDateError, 3000);
+                return;
+            }
+        }
         expiryDays = fields.Expires_After_Days__c;
         if (this.recordTypeName == 'Status based') {
             // ststus based
             var activeOnStatus = fields.Active_On_Status__c;
             let today = new Date();
-            const dueDate = new Date();
+            let dueDate = new Date();
+            let currentDate = today.toISOString().split('T')[0];
             dueDate.setDate(today.getDate() + parseInt(expiryDays));
-            var diffYear = (dueDate.getTime() - today.getTime()) / 1000;
-            diffYear /= 60 * 60 * 24;
-            let yearsDiff = Math.abs(Math.round(diffYear / 365.25));
+            let newDate = moment(dueDate, 'YYYY-MM-DD');
 
-            var diffMonth = (dueDate.getTime() - today.getTime()) / 1000;
-            diffMonth /= 60 * 60 * 24 * 7 * 4;
-            let monthdiff = Math.abs(Math.round(diffMonth));
+            let yearsDiff = newDate.diff(currentDate, 'years');
+            let monthdiff = newDate.diff(currentDate, 'months');
+            let weekDiff = newDate.diff(currentDate, 'days');
 
             if (activeOnStatus == '' || activeOnStatus == null) {
                 communityService.showErrorToast('', this.labels.activeOnStatus, 3000);
@@ -107,10 +135,11 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         } else if (this.recordTypeName == 'Time based') {
             // time based
             let todaysDate = new Date();
+            let currentDate = todaysDate.toISOString().split('T')[0];
             let startDate = new Date(fields.Survey_start_date__c);
             let endDate = new Date(fields.Survey_end_date__c);
-            //startDate = fields.Survey_start_date__c;
-            //endDate = fields.Survey_end_date__c;
+            let momentEnddate = moment(fields.Survey_end_date__c, 'YYYY-MM-DD');
+
             if (fields.Survey_start_date__c == '' || fields.Survey_start_date__c == null) {
                 communityService.showErrorToast('', this.labels.startDateNotBlank, 3000);
                 return;
@@ -119,11 +148,12 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 communityService.showErrorToast('', this.labels.endDateNotBlank, 3000);
                 return;
             }
-            if (startDate.getDate() < todaysDate.getDate()) {
+
+            if (fields.Survey_start_date__c < currentDate) {
                 communityService.showErrorToast('', 'Start date cannot be a past date', 3000);
                 return;
             }
-            if (endDate.getDate() < startDate.getDate()) {
+            if (fields.Survey_end_date__c < fields.Survey_start_date__c) {
                 communityService.showErrorToast(
                     '',
                     'End date cannot be less than start date',
@@ -131,17 +161,9 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 );
                 return;
             }
-            var diffYear = (endDate.getTime() - startDate.getTime()) / 1000;
-            diffYear /= 60 * 60 * 24;
-            let yearsDiff = Math.abs(Math.round(diffYear / 365.25));
-
-            var diffMonth = (endDate.getTime() - startDate.getTime()) / 1000;
-            diffMonth /= 60 * 60 * 24 * 7 * 4;
-            let monthdiff = Math.abs(Math.round(diffMonth));
-
-            var diffWeek = (endDate.getTime() - startDate.getTime()) / 1000;
-            diffWeek /= 60 * 60 * 24;
-            let weekDiff = Math.abs(Math.round(diffWeek));
+            let yearsDiff = momentEnddate.diff(fields.Survey_start_date__c, 'years');
+            let monthdiff = momentEnddate.diff(fields.Survey_start_date__c, 'months');
+            let weekDiff = momentEnddate.diff(fields.Survey_start_date__c, 'days');
 
             if (frequency == 'Weekly' && weekDiff < 7) {
                 communityService.showErrorToast('', this.labels.weeklyError, 3000);
@@ -171,6 +193,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         });
     }
     handleCheckBoxChange(event) {
+        this.reminderDisabled = true;
         this.isRecurrenceSurvey = event.target.value;
     }
     handleSuccess(event) {
