@@ -12,7 +12,7 @@ SonarCheck:
       refs: 
         - merge_requests
       variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF|^master/
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -139,7 +139,7 @@ Deploy:
 RUNTEST:
   only:
     variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF/
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF/
   except:
     - merge_requests
   stage: RUNTEST
