@@ -3,7 +3,7 @@
     <fullName>Survey_end_date__c</fullName>
     <externalId>false</externalId>
     <label>Survey end date</label>
-    <required>true</required>
+    <required>false</required>
     <trackTrending>false</trackTrending>
     <type>Date</type>
 </CustomField>
