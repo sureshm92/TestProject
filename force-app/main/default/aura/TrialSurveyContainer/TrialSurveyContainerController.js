@@ -22,6 +22,22 @@
             });
         }
         component.find('spinner').hide();
-    }  
+
+        component.set('v.isCallLWCComponent', true);
+        //When refresh happen after cancel/Save button click, the trialSurvey component gets called again internally. 
+        //On Cancel/Save, we are passing current CTP id in URL to nevigate to current CTP page.  
+        //To Avoid the unneccessary call, reading current CTP id from the URL parameter and stopping the trialSurvey LWC call on Cancel/Save button. 
+        var urlpath = window.location.pathname;
+        if(urlpath.indexOf(component.get('v.ctpId'))>-1){
+        	component.set('v.isCallLWCComponent', false);
+         	
+        }
+    },
+
+    //Handle the "refresh" event dispached from trilaSurvey LWC component to refresh the page. 
+    refresh : function(component, event, helper){
+        $A.get('e.force:refreshView').fire();
+        component.set('v.isCallLWCComponent', false);
+     }
     
 })
