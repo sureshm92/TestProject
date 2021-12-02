@@ -2004,6 +2004,11 @@
     <custom>false</custom>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Patient_Delegate__c.isInviteToPP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Api_Callout_Log__c.Comment__c</field>
         <readable>false</readable>
     </fieldPermissions>
