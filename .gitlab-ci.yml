@@ -138,11 +138,11 @@ Deploy:
 
 RUNTEST:
   only:
-    - INF10
+    - INFY
   except:
     - merge_requests
   
   stage: RUNTEST
   script: 
-  - . ./scripts/ci/run-tests.sh INF10
+  - . ./scripts/ci/run-tests.sh INFY
 
