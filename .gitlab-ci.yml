@@ -1,17 +1,30 @@
 image: ajit2408/studyhub-sfdx
 stages:
+    - RUNTEST
     - SonarCheck 
     - Validate
-    - Deploy
     
+RUNTEST:
+  only:
+    variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF|^master/
+  except:
+    - merge_requests
+  stage: RUNTEST
+  script: 
+      - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
+      - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
+      - sfdx force:apex:test:run -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --classnames "CommunitiesSelfRegConfirmControllerTest" 
+
 SonarCheck:
   stage: SonarCheck
   allow_failure: true
   only:
-      refs: 
-        - merge_requests
-      variables:
-        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INT|^INF|^master/
+     variables:
+        - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^INF|^master/
+  except:
+    - merge_requests
   image:
       name: sonarsource/sonar-scanner-cli:latest
       entrypoint: [""]
@@ -26,7 +39,7 @@ SonarCheck:
              ls -ll
              apk upgrade --update-cache --available && apk add openssl curl jq 
              openssl s_client -connect  sonarqube:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
-             sonar-scanner -Dsonar.branch.name=$CI_COMMIT_REF_NAME -Dsonar.exclusions=**/*.js,**/*.xml,**/*.html -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
+             sonar-scanner -Dsonar.branch.name=$CI_MERGE_REQUEST_TARGET_BRANCH_NAME -Dsonar.exclusions=**/*.js,**/*.xml,**/*.html -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/results/test-result-codecoverage.json
              #sonar-scanner -Dsonar.apex.coverage.reportPath=$CI_PROJECT_DIR/tests/apex/test-result-codecoverage.json -Dsonar.branch.name=master
              cat .scannerwork/report-task.txt
              export url=$(cat .scannerwork/report-task.txt | grep ceTaskUrl | cut -c11- ) #URL where report gets stored
@@ -112,25 +125,4 @@ Validate:
       - echo "Validate success!"
       
 
-Deploy:
-    #when: manual
-    stage: Deploy
-    only:
-      variables:
-      - $CI_COMMIT_REF_NAME =~ /^INT|^INF/
-    before_script: 
-      - |
-         set -x
-         echo 'y' | sfdx plugins:install sfdx-git-delta
-         sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
-         echo "--- package.xml generated with added and modified metadata ---"
-         cat package/package.xml
-         #echo "---- Deploying added and modified metadata ----"
-      #- sfdx force:source:deploy -x package/package.xml      
-    script:
-      - ls -ll
-      - echo $CI_COMMIT_REF_NAME
-      - echo "${!CI_COMMIT_REF_NAME}" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"
-      - sfdx force:source:deploy -x package/package.xml -u $CI_COMMIT_REF_NAME -w 60
-      - echo "Deploy success!"
+
