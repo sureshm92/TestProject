@@ -3,7 +3,7 @@
     <fullName>Is_Recurrence_Survey__c</fullName>
     <defaultValue>false</defaultValue>
     <externalId>false</externalId>
-    <label>Is Recurrence Survey</label>
+    <label>Recurring Survey</label>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>
