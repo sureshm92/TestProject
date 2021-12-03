@@ -39,9 +39,14 @@ export default class Pir_participantList extends LightningElement {
     keyCount = 0;
 
     connectedCallback(){        
-       console.log(this.urlStudyId+'>>'+this.urlSiteId);
-       this.fetchList(); 
-    }   
+        if(this.urlStudyId !== null && this.urlSiteId !== null){
+         this.studyIdlist = [];
+         this.studyIdlist.push(this.urlStudyId);
+         this.siteIdlist = [];
+         this.siteIdlist.push(this.urlSiteId);        
+        }
+        this.fetchList(); 
+     }  
     rendered=false;
     renderedCallback(){
         console.log("renderedCallbackinit");
