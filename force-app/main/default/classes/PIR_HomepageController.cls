@@ -109,7 +109,7 @@ public without sharing class PIR_HomepageController {
             Participant__r.Emancipation_in_progress__c
           FROM Participant_Enrollment__c
           WHERE Study_Site__c IN :siteIdlist
-          //   WITH SECURITY_ENFORCED
+          ORDER BY CreatedDate DESC
           LIMIT 10
           OFFSET :offsetLimit
         ];
@@ -187,7 +187,7 @@ public without sharing class PIR_HomepageController {
         Participant__r.Emancipation_in_progress__c
       FROM Participant_Enrollment__c
       WHERE Study_Site__c IN :siteIdlist
-      //   WITH SECURITY_ENFORCED
+      ORDER BY CreatedDate DESC
       LIMIT :limitOfRecords
     ];
 
@@ -213,8 +213,9 @@ public without sharing class PIR_HomepageController {
         Clinical_Trial_Profile__r.Study_Code_Name__c,
         Principal_Investigator__c
       FROM Study_Site__c
-      WHERE Principal_Investigator__c = :piContactId
-      OR ID IN :DelegateService.getDelegatedStudySiteIds()
+      WHERE
+        Principal_Investigator__c = :piContactId
+        OR ID IN :DelegateService.getDelegatedStudySiteIds()
     ];
 
     return studySiteList;
