@@ -23,7 +23,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     isModalOpen = false;
     isctpId = false;
     isrecordtype = false;
-    isStatusBasedTrialSurvey = false;
+    //isStatusBasedTrialSurvey = false;
     isRecurrenceSurvey = false;
     labels = {
         weeklyError,
@@ -46,9 +46,9 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         if (this.recordTypeId !== null) {
             this.isrecordtype = true;
         }
-        if (this.recordTypeName === 'Status based') {
+        /*if (this.recordTypeName === 'Status based') {
             this.isStatusBasedTrialSurvey = true;
-        }
+        }*/
         loadScript(this, momentJs).then(() => {
             console.log('scriptLoaded');
         });
@@ -181,6 +181,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             }
         }
     }
+    //Navigate to current CTP page on click of Save/Cancel button. 
     naviagetOnSuccess(event) {
         this.isModalOpen = false;
         this[NavigationMixin.Navigate]({
@@ -191,6 +192,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 actionName: 'view'
             }
         });
+        this.dispatchEventToAura();
     }
     handleCheckBoxChange(event) {
         this.reminderDisabled = true;
@@ -200,14 +202,17 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         communityService.showSuccessToast('Success!', this.labels.tsSuccessMsg, 3000);
     }
     closeModal(event) {
-        this.isModalOpen = false;
-        this[NavigationMixin.Navigate]({
-            type: 'standard__recordPage',
-            attributes: {
-                recordId: this.ctpId,
-                objectApiName: 'Clinical_Trial_Profile__c',
-                actionName: 'view'
-            }
-        });
+        this.naviagetOnSuccess();
+    }
+
+    //Set RecordTypeName flag
+		get isStatusBasedTrialSurvey(){
+            return (this.recordTypeName === 'Status based' ? true : false); 
+    }
+
+    //Dispatch event to Parent aura component to refresh the paga.
+    dispatchEventToAura(){
+            const selectedEvent = new CustomEvent('pagerefresh');
+            this.dispatchEvent(selectedEvent);
     }
 }
