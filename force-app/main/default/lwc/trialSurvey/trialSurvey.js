@@ -241,6 +241,15 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 actionName: 'view'
             }
         });
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                recordId: this.ctpId,
+                objectApiName: 'Clinical_Trial_Profile__c',
+                relationshipApiName: 'Trial_Surveys__r',
+                actionName: 'view'
+            },
+        });
         this.dispatchEventToAura();
     }
     handleCheckBoxChange(event) {
