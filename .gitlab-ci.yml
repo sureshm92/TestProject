@@ -4,6 +4,10 @@ stages:
     - SonarCheck 
         
 RUNTEST:
+  artifacts:
+     paths:
+      - $CI_PROJECT_DIR/results
+     expire_in: 1 week
   only:
     variables:
         - $CI_MERGE_REQUEST_TARGET_BRANCH_NAME =~ /^master/
@@ -13,10 +17,12 @@ RUNTEST:
   stage: RUNTEST
   script: 
       - echo $CI_MERGE_REQUEST_TARGET_BRANCH_NAME
-      - echo "${!CI_MERGE_REQUEST_TARGET_BRANCH_NAME}" > sfdx-auth-url
-      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -d"
-      - sfdx force:apex:test:run -u $CI_MERGE_REQUEST_TARGET_BRANCH_NAME -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --classnames "CommunitiesSelfRegConfirmControllerTest" 
-
+      - echo $CI_PROJECT_DIR
+      - mkdir $CI_PROJECT_DIR/results/
+      - echo "$INF11" > sfdx-auth-url
+      - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a INF11 -d"
+      - sfdx force:apex:test:run -u INF11 -w 350 --resultformat json --outputdir $CI_PROJECT_DIR/results/ --codecoverage --testlevel RunLocalTests 
+     
 SonarCheck:
   stage: SonarCheck
   allow_failure: true
@@ -36,6 +42,7 @@ SonarCheck:
      - echo "Sonar Analysis"
   script:
      - |
+             ls -ll $CI_PROJECT_DIR/results/
              ls -ll
              apk upgrade --update-cache --available && apk add openssl curl jq 
              openssl s_client -connect  sonarqube:443 | keytool -import -noprompt -alias sonarqbue_test -keystore $JAVA_HOME/lib/security/cacerts -storepass changeit
