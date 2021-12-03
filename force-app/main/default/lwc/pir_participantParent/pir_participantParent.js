@@ -9,7 +9,6 @@ export default class Pir_participantParent extends LightningElement {
 
     selectedPI(event){
         this.selectedPE = event.detail;
-        console.log('pe-parent'+JSON.stringify(this.selectedPE));
         this.template.querySelector("c-pir_participant-header").selectedPE = this.selectedPE;
         this.template.querySelector("c-pir_participant-header").doSelectedPI();
     }

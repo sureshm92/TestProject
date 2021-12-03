@@ -49,10 +49,8 @@ export default class Pir_participantList extends LightningElement {
      }  
     rendered=false;
     renderedCallback(){
-        console.log("renderedCallbackinit");
         if(!this.rendered){
             this.rendered=true;
-            console.log("renderedCallback");
             this.setKeyAction();            
         }
         this.changeSelected();
@@ -88,13 +86,11 @@ export default class Pir_participantList extends LightningElement {
         })
         .catch(error => {
             this.err = error;
-            console.log('Error : '+this.err);
             this.participantList = undefined;
         });
     }
     setKeyAction(){
         this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
-            console.log(1123465);
             var name = event.key;
             var code = event.code;
             this.keyCount++;        
