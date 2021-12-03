@@ -1,0 +1,2 @@
+
+1. Go to setup > Search and click on "All Sites" > Open builder for IQVIA Referral Hub > navigate to page "My Referrals" > the delete any existing components on the page > open page properties and change the page layout to 1 full-width coloumn > now drag "pir_participantParent" to content section of the page > now "Publish the changes". 
