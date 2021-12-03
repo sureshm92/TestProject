@@ -25,6 +25,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     isrecordtype = false;
     //isStatusBasedTrialSurvey = false;
     isRecurrenceSurvey = false;
+    notNumericValue = false;
     labels = {
         weeklyError,
         monthlyError,
@@ -67,12 +68,60 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             this.reminderDisabled = true;
         }
     }
+    isNumberKey(event) {
+        //evt = evt ? evt : window.event;
+        var numbers = /^[0-9]+$/;
+        console.log('change' + event.target.value);
+
+        //this.value = this.value.replace(/[^0-9.]/g, '');
+        if (event.target.value != '' && event.target.value != null) {
+            if (!event.target.value.match(numbers)) {
+                communityService.showErrorToast('', 'You can only enter numeric values', 3000);
+                return;
+            }
+        }
+    }
+    checkIfNumbers(fields) {
+        //const fields = event.detail.fields;
+        var numbers = /^[0-9]+$/;
+        console.log('chaek: ' + fields.Expires_After_Days__c);
+        let expDays = fields.Expires_After_Days__c;
+        let activeAftr = fields.Active_After_Days__c;
+        let remDays = fields.Reminder_in_days_before_the_end_date__c;
+
+        if (expDays != '' && expDays != null) {
+            if (!expDays.match(numbers)) {
+                communityService.showErrorToast('', 'You can only enter numeric values', 3000);
+                return false;
+            }
+        }
+        if (activeAftr != '' && activeAftr != null) {
+            if (!activeAftr.match(numbers)) {
+                communityService.showErrorToast('', 'You can only enter numeric values', 3000);
+                return false;
+            }
+        }
+        if (remDays != '' && remDays != null) {
+            if (!remDays.match(numbers)) {
+                communityService.showErrorToast('', 'You can only enter numeric values', 3000);
+                return false;
+            }
+        }
+        return true;
+    }
     handleSubmit(event) {
         event.preventDefault(); // stop the form from submitting
         const fields = event.detail.fields;
         var frequency;
         let expiryDays;
+        if (!this.checkIfNumbers(fields)) {
+            return;
+        }
         //var recType = fields.RecordTypeId;
+        if (this.notNumericValue) {
+            communityService.showErrorToast('', 'You can only enter numeric values', 3000);
+            return;
+        }
         if (fields.Is_Recurrence_Survey__c) {
             frequency = fields.Recurrence_Frequency__c;
         }
@@ -181,7 +230,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             }
         }
     }
-    //Navigate to current CTP page on click of Save/Cancel button. 
+    //Navigate to current CTP page on click of Save/Cancel button.
     naviagetOnSuccess(event) {
         this.isModalOpen = false;
         this[NavigationMixin.Navigate]({
@@ -192,10 +241,29 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
                 actionName: 'view'
             }
         });
+        this[NavigationMixin.Navigate]({
+            type: 'standard__recordRelationshipPage',
+            attributes: {
+                recordId: this.ctpId,
+                objectApiName: 'Clinical_Trial_Profile__c',
+                relationshipApiName: 'Trial_Surveys__r',
+                actionName: 'view'
+            },
+        });
         this.dispatchEventToAura();
     }
     handleCheckBoxChange(event) {
-        this.reminderDisabled = true;
+        const inputFields = this.template.querySelectorAll('.remDate');
+        if (inputFields) {
+            inputFields.forEach((field) => {
+                field.reset();
+            });
+        }
+        if (event.target.value) {
+            this.reminderDisabled = true;
+        } else {
+            this.reminderDisabled = false;
+        }
         this.isRecurrenceSurvey = event.target.value;
     }
     handleSuccess(event) {
@@ -206,13 +274,13 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     }
 
     //Set RecordTypeName flag
-		get isStatusBasedTrialSurvey(){
-            return (this.recordTypeName === 'Status based' ? true : false); 
+    get isStatusBasedTrialSurvey() {
+        return this.recordTypeName === 'Status based' ? true : false;
     }
 
     //Dispatch event to Parent aura component to refresh the paga.
-    dispatchEventToAura(){
-            const selectedEvent = new CustomEvent('pagerefresh');
-            this.dispatchEvent(selectedEvent);
+    dispatchEventToAura() {
+        const selectedEvent = new CustomEvent('pagerefresh');
+        this.dispatchEvent(selectedEvent);
     }
 }

@@ -17635,6 +17635,20 @@ communications using the toggles below.</value>
         <value>Dear ##PTFirstName, we haven&#39;t heard from you in a while. IQVIA Patient Portal</value>
     </labels>
     <labels>
+        <fullName>PT_Instant_Task_Del_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Instant Task Del SMS</shortDescription>
+        <value>You have a new task awaiting completion: ##ShortTaskName. Due date: ##Taskdate. Please log in to ##CommunityURL to complete your task.</value>
+    </labels>
+    <labels>
+        <fullName>PT_Instant_Task_SMS</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PT Instant Task SMS</shortDescription>
+        <value>You have a new task awaiting completion: ##ShortTaskName. Due date: ##Taskdate. Please log in to ##CommunityURL to complete your task.</value>
+    </labels>
+    <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>

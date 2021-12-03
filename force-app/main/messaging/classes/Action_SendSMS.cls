@@ -183,6 +183,10 @@ public with sharing class Action_SendSMS implements Action {
                     message = message.replace('##CommunityURL', commUrl);
                 }
             }
+            message = message.replace(
+                '##CommunityURL',
+                CommunityService.getCommunityURLFromTemplateName('Default')
+            );
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
                 phoneNumber =

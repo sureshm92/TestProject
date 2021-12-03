@@ -119,6 +119,7 @@
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
                                         <p>
                                             <lightning-input-field
+                                                onchange={isNumberKey}
                                                 required="true"
                                                 field-name="Expires_After_Days__c"
                                             ></lightning-input-field>
@@ -130,6 +131,7 @@
                                         <p>
                                             <lightning-input-field
                                                 field-name="Active_After_Days__c"
+                                                onchange={isNumberKey}
                                             ></lightning-input-field>
                                         </p>
                                     </div>
@@ -162,6 +164,7 @@
                                         <lightning-input-field
                                             class="remDate"
                                             disabled={reminderDisabled}
+                                            onchange={isNumberKey}
                                             field-name="Reminder_in_days_before_the_end_date__c"
                                         ></lightning-input-field>
                                     </p>
