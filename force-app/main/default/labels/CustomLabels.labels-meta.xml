@@ -1659,7 +1659,7 @@
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>ts success msg</shortDescription>
-        <value>The Trial Survey has been created successfully. Please navigate to Trial Survey tab to see the record!</value>
+        <value>The Trial Survey has been created successfully!</value>
     </labels>
     <labels>
         <fullName>cont_study_gender</fullName>
