@@ -1,6 +1,6 @@
 <template>
-    <lightning-card class="slds-card">
-        <div class="siteDBtitle" style="margin-top: -15px;">
+    <div class="slds-card rr-white-panel">
+        <div class="siteDBtitle">
             &nbsp;&nbsp; {label.PPInvitationStatusTitle}
         </div>
         <!-- Spinner to display when waiting for results of search -->
@@ -9,18 +9,22 @@
                 alternative-text="Loading"
                 size="small"
             ></lightning-spinner>
-        </template>
-        <!--<template if:true={chartConfiguration}>
-            <c-chart chart-config={chartConfiguration}></c-chart>
-        </template>-->
-        <div class="slds-grid slds-gutters" if:true={chartConfiguration}>
-            <div class="slds-col slds-size_2-of-3">
+        </template>       
+            
+        <div class="slds-grid layout" if:true={chartConfiguration}>
+
+            <div class="slds-col slds-size_2-of-3 " >
                 <c-chart chart-config={chartConfiguration}></c-chart>
             </div>
+
             <div class="slds-col slds-size_1-of-3 slds-grid_vertical-align-center slds-wrap">
-                <div class="slds-col slds-size_6-of-12 slds-align_absolute-center" style="height:7rem;width:100%">{invitedCount} {label.CountParticipants}</div>
-                <div class="slds-col slds-size_6-of-12 slds-align_absolute-center" style="height:4rem;width:100%">{notYetInvitedCount} {label.CountParticipants}</div>
+                <div class="slds-col slds-size_6-of-12 slds-align_absolute-center" 
+                style="height:7rem;width:auto;text-align:left">{invitedCount} {label.CountParticipants}
             </div>
+                <div class="slds-col slds-size_6-of-12 slds-align_absolute-center" 
+                style="height:4rem;width:auto; text-align:left">{notYetInvitedCount} {label.CountParticipants}</div>
+            </div>
+
         </div>
       
         <footer class="siteDB-footer">
@@ -28,5 +32,5 @@
                 <p class="thick"> {label.SendInvitestoNotYetInvited}</p>
             </div>
           </footer>
-       </lightning-card>
+        </div>
 </template>
