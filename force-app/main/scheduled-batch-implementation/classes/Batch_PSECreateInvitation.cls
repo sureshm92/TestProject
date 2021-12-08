@@ -96,7 +96,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if (surveys != null) {
                 for (Trial_Survey__c ts : surveys) {
-                    if (ts.Active_On_Status__c == pe.Participant_Status__c && ts.Active_After_Days__c <= pe.Days_Since_Last_Status_Change__c) {
+                    if (ts.Active_On_Status__c == pe.Participant_Status__c && (ts.Active_After_Days__c <= pe.Days_Since_Last_Status_Change__c || ts.Active_After_Days__c ==null)) {
                         if (
                             ts.Is_Midpoint__c &&
                             PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
