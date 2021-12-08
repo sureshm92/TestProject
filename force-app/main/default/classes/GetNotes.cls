@@ -136,7 +136,7 @@ public without sharing class GetNotes {
     public static boolean checkCurrentusrProfile(){
         Id profileId=userinfo.getProfileId();
         String profileName=[Select Id,Name from Profile where Id=:profileId].Name;
-        if(profileName == 'Business Administrator' || profileName == 'System Administrator' ){
+        if(profileName == 'Business Administrator'){
            return true;
         }else{
            return false;

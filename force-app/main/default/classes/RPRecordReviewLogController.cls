@@ -433,7 +433,7 @@ public without sharing class RPRecordReviewLogController {
              count.outreachmail =OutreachMailSent;
              count.lastdayper=yesterdaycount;
              count.lastweekper =lastweekcount;
-             count.lastmonthper =lastmonthcount;
+             count.lastmonthper =lastmonthcount;  
            
             
              return count;
@@ -866,22 +866,28 @@ public without sharing class RPRecordReviewLogController {
         try {
             Set<Id> contentDocumentIds = new Set<Id>();
             List<peNoteData> lstofNotes = new List<peNoteData>();
-            for(ContentDocumentLink conDoc : [SELECT ContentDocumentId FROM ContentDocumentLink WHERE LinkedEntityId =: peId]){
-                contentDocumentIds.add(conDoc.ContentDocumentId);
-            }
-            //get all the content notes using contentDocumentIds
-            //List<ContentNote> contentNotes = [SELECT Id, Title, TextPreview,Content,CreatedDate,CreatedBy.Name 
-            //from ContentNote where Id In: contentDocumentIds order by CreatedDate DESC];
-            //return contentNotes;
             
-            List<ContentDocument> ContentDoc = [SELECT Id, Title,description,CreatedDate,CreatedBy.Name,LastModifiedDate,LastModifiedById,CreatedById   
-            from ContentDocument where Id In: contentDocumentIds order by CreatedDate DESC];
+            List<ID> cdid = new List<Id>();
+            List<ContentDocumentLink> CDLink = new List<ContentDocumentLink>();
+            CDLink = [
+                SELECT ContentDocumentId, LinkedEntityId, Visibility
+                FROM ContentDocumentLink
+                WHERE LinkedEntityId = :peId
+            ];
+            for (ContentDocumentLink cd : CDLink) {
+                cdid.add(cd.ContentDocumentId);
+            }
+            List<ContentNote> lstCD = new List<ContentNote>();
+            lstCD =[SELECT Id,LastModifiedById,LastModifiedDate,Title,LastModifiedBy.Name,CreatedDate,CreatedBy.Name FROM ContentNote where Id IN:cdid 
+                    ORDER BY LastModifieddate DESC];
+            
+            
             
             Set<Id> lstusr = new Set<Id>();
             List<User> lstusrRecord = new List<User>();
             Map<Id,String> mapUsrmsk = new Map<Id,String>();
-            for(ContentDocument cd:ContentDoc){
-              lstusr.add(cd.CreatedById);
+            for(ContentNote cn:lstCD){
+              lstusr.add(cn.LastModifiedById);
             }
             lstusrRecord = [select id,Name,IsPortalEnabled,ContactId,Contact.userCommunityMode__c from User where id IN:lstusr];
             
@@ -897,8 +903,8 @@ public without sharing class RPRecordReviewLogController {
                 }
             } 
             
-            for(ContentDocument cds:ContentDoc){
-                  lstofNotes.add(new peNoteData(cds.Title,cds.CreatedDate,mapUsrmsk.get(cds.CreatedById)));
+            for(ContentNote cns:lstCD ){
+                  lstofNotes.add(new peNoteData(cns.Title,cns.LastModifiedDate,mapUsrmsk.get(cns.LastModifiedById)));
             }
            
             return lstofNotes;
