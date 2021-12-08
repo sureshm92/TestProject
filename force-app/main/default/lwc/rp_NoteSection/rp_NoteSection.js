@@ -38,6 +38,7 @@ export default class RecordIdInLWC extends LightningElement {
     closeModal() {
         this.isModalOpen = false;
         this.isModalOpenEdit = false;
+        this.isModalOpenDelete = false;
     }
     handleDataChange(event){
         this.newnote = event.target.value;
