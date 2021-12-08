@@ -96,7 +96,7 @@ export default class Pir_participantList extends LightningElement {
             this.keyCount++;        
             if((name=='ArrowDown' || name=='ArrowUp')){
                 var updateSelected=false;
-                if(name=='ArrowDown' && this.selectedIndex<9){
+                if(name=='ArrowDown' && this.selectedIndex < (this.participantList.length - 1)){
                     this.selectedIndex++;
                     updateSelected=true;
                 }
