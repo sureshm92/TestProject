@@ -10071,14 +10071,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>This is a reminder that you have not completed ##SurveyName. Please log in to IQVIA Patient Portal to complete your survey.</value>
+        <value>This is a reminder that you have not completed ##SurveyName. Please log in to ##ShortCommunityName to complete your survey.</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>This is a reminder that you have not completed ##SurveyName. Please log in to IQVIA Patient Portal to complete your survey.</value>
+        <value>This is a reminder that you have not completed ##SurveyName. Please log in to ##ShortCommunityName to complete your survey.</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17618,7 +17618,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>You have a new survey awaiting your feedback. Please log in to IQVIA Patient Portal to complete the survey.</value>
+        <value>You have a new survey awaiting your feedback. Please log in to ##ShortCommunityName to complete the survey.</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
@@ -17632,7 +17632,7 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Has not Login SMS</shortDescription>
-        <value>Dear ##PTFirstName, we haven&#39;t heard from you in a while. IQVIA Patient Portal</value>
+        <value>Dear ##PTFirstName, we haven&#39;t heard from you in a while. ##ShortCommunityName</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_Del_SMS</fullName>
@@ -17653,14 +17653,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>Dear ##PatientFirstName, a new reward certificate from ##StudyName clinical research study is now available on the IQVIA Patient Portal.</value>
+        <value>Dear ##PatientFirstName, a new reward certificate from ##StudyName clinical research study is now available on the ##ShortCommunityName.</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
-        <value>Dear ##PatientFirstName, new documents from ##StudyName clinical research study are now available on the IQVIA Patient Portal.</value>
+        <value>Dear ##PatientFirstName, new documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
