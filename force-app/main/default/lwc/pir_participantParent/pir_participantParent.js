@@ -6,9 +6,11 @@ export default class Pir_participantParent extends LightningElement {
     @api studyName;
     @api referredBy;
     @api selectedPE;
+    @api isLoaded = false;
 
     selectedPI(event){
         this.selectedPE = event.detail;
+        console.log('pe-parent'+JSON.stringify(this.selectedPE));
         this.template.querySelector("c-pir_participant-header").selectedPE = this.selectedPE;
         this.template.querySelector("c-pir_participant-header").doSelectedPI();
     }
@@ -43,6 +45,9 @@ export default class Pir_participantParent extends LightningElement {
     }
     recCountUpdate(event){
         this.totalRecord = event.detail;
+    }
+    handleSpinner(event){
+        this.isLoaded = event.detail;
     }
     //
 }

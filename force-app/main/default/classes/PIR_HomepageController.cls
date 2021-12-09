@@ -58,7 +58,8 @@ public without sharing class PIR_HomepageController {
     Integer pageNumber,
     Integer totalCount,
     List<Id> studyIdlist,
-    List<Id> siteIdlist
+    List<Id> siteIdlist,
+    String sponsorName 
   ) {
     try {
       if (totalCount == -1) {
@@ -68,11 +69,21 @@ public without sharing class PIR_HomepageController {
         ) {
           studyIdlist = new List<Id>();
           siteIdlist = new List<Id>();
+          string janssen = CommunityTemplateService.TEMPLATE_JANSSEN;
           List<Study_Site__c> studySiteList = getStudySite();
           for (Study_Site__c s : studySiteList) {
-            studyIdlist.add(s.Clinical_Trial_Profile__c);
-            siteIdlist.add(s.Id);
-          }
+               if(sponsorName == janssen){
+                   if(s.Clinical_Trial_Profile__r.CommunityTemplate__c == sponsorName){
+                      studyIdlist.add(s.Clinical_Trial_Profile__c);
+                      siteIdlist.add(s.Id);
+                   }
+               }else{
+                    if(s.Clinical_Trial_Profile__r.CommunityTemplate__c != janssen ){
+                      studyIdlist.add(s.Clinical_Trial_Profile__c);
+                      siteIdlist.add(s.Id);
+                    }
+               }
+            }
         }
         totalCount = [
           SELECT COUNT()
@@ -82,6 +93,31 @@ public without sharing class PIR_HomepageController {
       }
       ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
+      List<String> status = new List<String>();
+      status.add('Received');
+      status.add('Pre-review Passed');
+      status.add('In Wash Out Period');
+      status.add('Successfully Contacted');
+      status.add('Contact Attempted');
+      status.add('Eligibility Passed');
+      status.add('Screening Passed');
+      status.add('Screening In Progress');
+      status.add('Screening Passed');
+      status.add('Screening In Progress - Wash Out Period');
+      status.add('Ready to Screen');
+      status.add('Enrollment Success');
+      status.add('Randomization Success');
+      status.add('Pre-review Failed');
+      status.add('Unable to Reach');
+      status.add('Contacted - Not Suitable');
+      status.add('Eligibility Failed');
+      status.add('Declined Consent');
+      status.add('Unable to Screen');
+      status.add('Withdrew Consent');
+      status.add('Withdrew Consent After Screening');
+      status.add('Enrollment Failed');
+      status.add('Randomization Failed');
+      
 
       if (pageNumber > 200 & pageNumber <= 4500) {
         listViewWrapper = createListViewWrapper(
@@ -89,7 +125,7 @@ public without sharing class PIR_HomepageController {
         );
       } else {
         Integer offsetLimit = (pageNumber - 1) * 10;
-
+      
         List<Participant_Enrollment__c> perList = [
           SELECT
             Id,
@@ -106,9 +142,10 @@ public without sharing class PIR_HomepageController {
             High_Priority__c,
             PerCounter__c,
             Participant__c,
-            Participant__r.Emancipation_in_progress__c
+            Participant__r.Emancipation_in_progress__c,
+            Participant_Status__c
           FROM Participant_Enrollment__c
-          WHERE Study_Site__c IN :siteIdlist
+          WHERE Study_Site__c IN :siteIdlist AND Participant_Status__c IN:status 
           ORDER BY CreatedDate DESC
           LIMIT 10
           OFFSET :offsetLimit
@@ -169,6 +206,31 @@ public without sharing class PIR_HomepageController {
       Integer remainder = math.mod(totalCount, 10);
       j = remainder;
     }
+    List<String> status = new List<String>();
+    status.add('Received');
+    status.add('Pre-review Passed');
+    status.add('In Wash Out Period');
+    status.add('Successfully Contacted');
+    status.add('Contact Attempted');
+    status.add('Eligibility Passed');
+    status.add('Screening Passed');
+    status.add('Screening In Progress');
+    status.add('Screening Passed');
+    status.add('Screening In Progress - Wash Out Period');
+    status.add('Ready to Screen');
+    status.add('Enrollment Success');
+    status.add('Randomization Success');
+    status.add('Pre-review Failed');
+    status.add('Unable to Reach');
+    status.add('Contacted - Not Suitable');
+    status.add('Eligibility Failed');
+    status.add('Declined Consent');
+    status.add('Unable to Screen');
+    status.add('Withdrew Consent');
+    status.add('Withdrew Consent After Screening');
+    status.add('Enrollment Failed');
+    status.add('Randomization Failed');
+      
     List<Participant_Enrollment__c> perList = [
       SELECT
         Id,
@@ -183,10 +245,11 @@ public without sharing class PIR_HomepageController {
         Referral_Source__c,
         HighRisk_Indicator__c,
         High_Priority__c,
-        PerCounter__c,
-        Participant__r.Emancipation_in_progress__c
+        PerCounter__c, Participant_Status__c,
+        Participant__r.Emancipation_in_progress__c,
+        Clinical_Trial_Profile__r.CommunityTemplate__c
       FROM Participant_Enrollment__c
-      WHERE Study_Site__c IN :siteIdlist
+      WHERE Study_Site__c IN :siteIdlist AND  Participant_Status__c IN:status
       ORDER BY CreatedDate DESC
       LIMIT :limitOfRecords
     ];
@@ -211,6 +274,7 @@ public without sharing class PIR_HomepageController {
         Site__r.Name,
         Clinical_Trial_Profile__c,
         Clinical_Trial_Profile__r.Study_Code_Name__c,
+        Clinical_Trial_Profile__r.CommunityTemplate__c,
         Principal_Investigator__c
       FROM Study_Site__c
       WHERE
@@ -316,7 +380,7 @@ public without sharing class PIR_HomepageController {
   }
 
   @AuraEnabled
-  public static Void updateParticipantDataSH(string peId) {
+  public static Datetime updateParticipantDataSH(string peId) {
     try {
       List<Participant_Enrollment__c> PEUpdateList = new List<Participant_Enrollment__c>();
       for (Participant_Enrollment__c pe : [
@@ -341,13 +405,15 @@ public without sharing class PIR_HomepageController {
       if (PEUpdateList != null && !PEUpdateList.isEmpty()) {
         update PEUpdateList;
       }
+      return DateTime.now();
     } catch (Exception e) {
       throw new AuraHandledException(e.getMessage());
     }
   }
 
   @AuraEnabled
-  public static Void createUserForPatientProtal(String peId) {
+  public static Datetime createUserForPatientProtal(String peId) {
+  try {
     Participant_Enrollment__c pe = [
       SELECT
         Id,
@@ -369,7 +435,7 @@ public without sharing class PIR_HomepageController {
         Is_Patient_User_Created__c = true
       );
     }
-    try {
+    
       List<User> returnUsers = new List<User>();
       if (!pe.Participant_Contact__r.Is_Patient_User_Created__c) {
         if (pe.HCP_Contact__c == null) {
@@ -384,7 +450,7 @@ public without sharing class PIR_HomepageController {
               CommunityService.class
             ))
             .createParticipantUsers(
-              new Map<Id, Id>{ pe.Participant_Contact__c => pe.HCP_Contact__c }
+              new Map<Id, Id>{ pe.Participant_Contact__c => pe.HCP_Contact_HCPEnroll__c}
             );
         }
       }
@@ -406,8 +472,11 @@ public without sharing class PIR_HomepageController {
           Datetime.now()
         );
       }
+       return DateTime.now();
     } catch (Exception e) {
-      throw new AuraHandledException(e.getMessage());
+      throw new AuraHandledException(e.getMessage() +
+        '\n' +
+        e.getStackTraceString());
     }
   }
 

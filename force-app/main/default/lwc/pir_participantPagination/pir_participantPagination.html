@@ -1,0 +1,18 @@
+<template>
+    <div class="pg slds-align--absolute-center slds-border--bottom slds-border--left slds-border--right slds-grid slds-p-left--medium slds-wrap">
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_5-of-12 slds-large-order_1 slds-medium-order_1 slds-order_2">
+            <span class="items"> {label.RH_RP_Items} {startRecord}-{endRecord} {label.RH_RP_of} {totalRecords}</span>
+        </div>
+        <div class="slds-col slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_7-of-12 slds-large-order_2 slds-medium-order_2 slds-order_1">
+            <span class="slds-p-right--x-small pre disabled">   
+                <lightning-icon  icon-name="utility:chevronleft" size="xx-small" alternative-text="Previous Page" onclick={previousPage}></lightning-icon>
+            </span>
+            <label class="slds-p-horizontal_x-small" for="pageNum">{label.RH_RP_Page}</label>&nbsp;
+            <input type="number" id="pageNum" value={pageNumber} min="1" max={totalPages} maxlength="4" onchange={handlePageNumberChange} class="customInput" title="Go to a Page"></input>
+            <span class="slds-p-horizontal_x-small">{label.RH_RP_of}<span class="slds-m-horizontal_x-small totalpages" id="totalPages" style="border-bottom:2px dotted;">{totalPages}</span></span>
+            <span class="nxt disabled">
+                <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
+            </span>
+        </div>
+    </div>
+</template>

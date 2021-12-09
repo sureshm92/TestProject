@@ -9,11 +9,10 @@
             </div>
         </div>
         <div class="slds-col slds-size_3-of-12 textBold">
-            <lightning-button label="Filter" title="Filter" icon-name="utility:filterList" class="slds-m-left_xx-small"></lightning-button>
-            <!--button class="slds-button slds-button_neutral slds-m-left_xx-small">
-                <lightning-icon icon-name="utility:filterList" size="small" class="slds-button__icon slds-button__icon_left"></lightning-icon>
-                Button Neutral
-            </button-->
+            <lightning-button label="Filter" title="Filter" icon-name="utility:filterList" class="slds-m-left_xx-small filterTextButton"></lightning-button>
+            <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton">
+                <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
+            </div>
         </div>
         <div class="slds-col slds-size_12-of-12">
             <div class="slds-m-left_x-small slds-m-right--x-small slds-m-top--x-small">
@@ -40,7 +39,7 @@
         </div>
         <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
             <template if:false={participantList}>
-                <div class="" style="height:44vh;position:relative">
+                <div class="overflowSet" style="position:relative">
                     <div role="status" class="slds-spinner slds-spinner_medium">
                       <span class="slds-assistive-text">Loading</span>
                       <div class="slds-spinner__dot-a"></div>
@@ -56,7 +55,7 @@
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>
                             <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>High Risk</span></template>
                         </div>
-                        <div class="slds-text-heading--small">
+                        <div class="slds-text-heading--small breakW">
                             {p.firstName} {p.lastName}
                         </div>
                         <div class="subInfo slds-truncate" >

@@ -1,6 +1,8 @@
 import { LightningElement, api, wire } from 'lwc';
 import getListViewData from '@salesforce/apex/PIR_HomepageController.getListViewData';
 import pirResources from '@salesforce/resourceUrl/pirResources';
+import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
+import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
 
 export default class Pir_participantList extends LightningElement {    
@@ -37,20 +39,32 @@ export default class Pir_participantList extends LightningElement {
     selectedIndex = -1 ;
     @api selectedPE;
     keyCount = 0;
+    @api communityTemplate ='';
 
     connectedCallback(){        
-        if(this.urlStudyId !== null && this.urlSiteId !== null){
-         this.studyIdlist = [];
-         this.studyIdlist.push(this.urlStudyId);
-         this.siteIdlist = [];
-         this.siteIdlist.push(this.urlSiteId);        
-        }
-        this.fetchList(); 
-     }  
+       if(this.urlStudyId !== null && this.urlSiteId !== null){
+        this.studyIdlist = [];
+        this.studyIdlist.push(this.urlStudyId);
+        this.siteIdlist = [];
+        this.siteIdlist.push(this.urlSiteId);        
+       }
+        loadScript(this, RR_COMMUNITY_JS)
+        .then(() => {
+            this.communityTemplate = communityService.getCurrentCommunityTemplateName();
+            console.log('ct-'+this.communityTemplate);
+        }).then(() => {
+            this.fetchList(); 
+        }).catch((error) => {
+             console.log('Error: ' + error);
+        });
+     
+    }   
     rendered=false;
     renderedCallback(){
+        console.log("renderedCallbackinit");
         if(!this.rendered){
             this.rendered=true;
+            console.log("renderedCallback");
             this.setKeyAction();            
         }
         this.changeSelected();
@@ -58,7 +72,7 @@ export default class Pir_participantList extends LightningElement {
 
     @api fetchList(){
         this.participantList=null;
-        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist })
+        getListViewData({pageNumber : this.pageNumber, totalCount : this.totalRecordCount, studyIdlist : this.studyIdlist, siteIdlist : this.siteIdlist, sponsorName  : this.communityTemplate })
         .then(result => {
             this.participantList = result.listViewWrapper;
             if(result.listViewWrapper.length>0){
@@ -86,11 +100,13 @@ export default class Pir_participantList extends LightningElement {
         })
         .catch(error => {
             this.err = error;
+            console.log('Error : '+this.err);
             this.participantList = undefined;
         });
     }
     setKeyAction(){
         this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
+            console.log(1123465);
             var name = event.key;
             var code = event.code;
             this.keyCount++;        

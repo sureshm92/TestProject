@@ -1,0 +1,139 @@
+.destop-top-padding{
+    margin-top:1rem;
+}
+.cursor{
+    cursor: pointer;
+}
+.border-shadow{
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.mrr-alert{
+    text-align: center;
+    padding-top: 106px;
+    min-height: 500px;
+}
+.main-title {
+    font-size: 24px;
+    font-weight: 600;
+    line-height: 48px;
+    color: #595959;
+}
+.mrr-btn{
+    display: block;
+    margin: 20px auto;
+}
+.back-to-my-participant{
+    color: #297dfd;
+    padding: 6px 16px;
+    font-size: 1rem;
+    line-height: 20px;
+    min-width: 100px;
+}
+.mrr-icon-pass{
+    fill: #00c221;
+    height: 64px;
+    width: 64px;
+    display: block;
+    margin: 5px auto;
+}
+.mrr-icon-fail{
+    fill: #e20000;
+    height: 64px;
+    width: 64px;
+    display: block;
+    margin: 5px auto;
+}
+.per-mobile{
+  height: 20px;
+  width: 159px;
+  color: #444444;
+  font-family: "Proxima Nova";
+  font-size: 14px;
+  letter-spacing: 0;
+  line-height: 20px;
+}
+.per-study-details{
+    height: 20px;
+    width: 652px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 20px;
+}
+.per-header-name{
+  height: 28px;
+  width: 652px;
+  color: #000000;
+  font-family: "Proxima Nova";
+  font-size: 20px;
+  font-weight: 600;
+  letter-spacing: 0;
+  line-height: 28px;
+}
+.per-header-Refno{
+    height: 14px;
+    width: 62px;
+    color: #444444;
+    font-family: "Proxima Nova";
+    font-size: 12px;
+    letter-spacing: 0;
+    line-height: 13px;
+}
+.shadowbox{
+    box-shadow: 0 1px 5px silver;
+}
+.header-section{
+   padding-left: 5px;
+}
+.button-section{
+    padding-right:10px;
+}
+@media(max-width:767px){
+    .btn-lrg{
+      width:100%;
+    }
+    .btn-dt{
+        padding-top: 5px;
+        padding-bottom: 5px;
+        height: auto;
+    }
+    .shadowbox-mob{
+        box-shadow:unset;
+    }
+    .header-section-mob{
+        margin-top: 15px;
+    }
+    .button-section{
+        padding-right: unset;
+    }
+}
+@media only screen
+and (min-device-width: 768px)
+and (max-device-width: 1024px)
+and (orientation: portrait)
+and (-webkit-min-device-pixel-ratio: 1) {
+    .ipad-mode{
+        margin-left:30%;
+       
+    }
+    .ipad-mode-btn{
+        margin: 5px 0 0px 5px;
+        line-height: 14px;
+    }
+    .destop-top-padding{
+        margin-top:unset;
+    }
+    
+}
+@media all and (max-width: 73.8125em) {
+    .tabview{
+        zoom: 0.8;
+    }
+}
+@media all and (max-width: 61.25em) {
+    .tabview{
+        zoom: 0.6;
+    }
+}
