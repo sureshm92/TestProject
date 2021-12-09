@@ -48,11 +48,13 @@ public without sharing class ParametrizedMessageService {
                     sobj,
                     paramsMap.get('ContactID')
                 );
-                userObj = [
-                    SELECT Id, LocaleSidKey, TimeZoneSidKey
-                    FROM User
-                    WHERE ContactId = :contactIdValue + ''
-                ];
+                if(contactIdValue!=null){
+                    userObj = [
+                        SELECT Id, LocaleSidKey, TimeZoneSidKey
+                        FROM User
+                        WHERE ContactId = :contactIdValue + ''
+                    ];
+                }
             }
 
             for (String paramName : paramsMap.keySet()) {
