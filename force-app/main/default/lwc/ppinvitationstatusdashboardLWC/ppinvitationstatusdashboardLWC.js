@@ -91,12 +91,18 @@ export default class PpinvitationstatusdashboardLWC extends LightningElement {
                         gridLines: {
                             color: "rgba(0, 0, 0, 0)",
                         },
+                        
                         ticks:{
                             fontColor: 'black',
-                            fontSize: 14,                            
+                            fontSize: 14,
+
                         },
+                        barThickness: 52,
+
                     }]
                 },
+                tooltips: {enabled: false},
+                hover: {mode: null},
                 legend: {
                     display: false,
                     position : 'top',

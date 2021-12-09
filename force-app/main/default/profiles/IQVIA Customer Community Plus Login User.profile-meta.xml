@@ -4,6 +4,10 @@
         <apexClass>DashboardParticipantCount</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 	 <classAccesses>
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
@@ -2536,6 +2540,11 @@
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enrolled_End_Date__c</field>
@@ -2759,6 +2768,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>false</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6749,6 +6763,11 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Cleaned_Study_Key__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
