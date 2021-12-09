@@ -4,6 +4,7 @@ public without sharing class DashboardParticipantCount {
     }
     public static final String DELEGATE_STATUS_ACTIVE = 'Active'; // RH-5163
     public static final String DELEGATE_STATUS_DISCONNECTED = 'Disconnected';// RH-5163
+    public static final String DELEGATE_STATUS_WITHDRAWN = 'Withdrawn';
 
     @AuraEnabled
     public static Map<String,Integer> participantInvitationDashboard(Id pIid,Id ctpId) {
@@ -20,7 +21,8 @@ public without sharing class DashboardParticipantCount {
                 SELECT
                     Id,
                     Invited_To_PP_Date__c,
-                    Participant__c                
+                    Participant__c,
+                	Participant_Contact__r.Is_Patient_User_Created__c
                 FROM Participant_Enrollment__c
                 WHERE Study_Site__c != NULL
                     AND study_Site__r.Clinical_Trial_Profile__c = :ctpId
@@ -31,7 +33,7 @@ public without sharing class DashboardParticipantCount {
             totalCount = perList.size();
             for(Participant_Enrollment__c per : perList) {
 
-                if(per.Invited_To_PP_Date__c != null) { // If Adult and no Delegates
+                if(per.Invited_To_PP_Date__c != null && per.Participant_Contact__r.Is_Patient_User_Created__c) { // If Adult and no Delegates
                     invitedCount++;
                 } else { //If Adult / Minor with Delegates
                     participantIds.add(per.Participant__c);
@@ -39,11 +41,12 @@ public without sharing class DashboardParticipantCount {
             }
 
             if(participantIds.size() > 0) {
-                List<String> validStatus = new List<String>{DELEGATE_STATUS_ACTIVE,DELEGATE_STATUS_DISCONNECTED};
+                List<String> validStatus = new List<String>{DELEGATE_STATUS_ACTIVE,DELEGATE_STATUS_DISCONNECTED,DELEGATE_STATUS_WITHDRAWN};
                 participantList = [
                     SELECT Id,
                     (SELECT Id, Participant__c,Status__c,Primary_Delegate__c 
-                        FROM Participants__r WHERE Status__c IN:validStatus AND isInviteToPP__c = true)
+                     	//FROM Participants__r WHERE Participant_Delegate__r.Contact__r.Is_Patient_User_Created__c = true)   
+                     	FROM Participants__r WHERE Status__c IN:validStatus AND isInviteToPP__c = true)
                     FROM Participant__c
                     WHERE Id IN: participantIds ];
 
