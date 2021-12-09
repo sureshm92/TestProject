@@ -10,16 +10,22 @@
     <aura:attribute name="ctpId" type="Id" />
     <aura:attribute name="recordId" type="Id" />
     <aura:attribute name="recordTypeId" type="Id" />
+    <aura:attribute name="pageReference" type="Object" />
+    <aura:attribute name="isCallLWCComponent" type="Boolean" default="true" />
     
     <ltng:require
         scripts="{!join(',', $Resource.rr_community_js, $Resource.moment_js)}"
         afterScriptsLoaded="{!c.doInit}"
     />
  
+    <aura:handler name="change" value="{!v.pageReference}" action="{!c.doInit}" />
+
     <c:RRSpinner aura:id="spinner" size="medium" />
 	
     <aura:if isTrue="{!or(not(empty(v.recordtypeName)), not(empty(v.recordId)))}"> 
-      	<c:trialSurvey ctpId="{!v.ctpId}" recordId="{!v.recordId}" recordTypeId ="{!v.recordTypeId}" recordTypeName="{!v.recordtypeName}"/>  
+        <aura:if isTrue="{!v.isCallLWCComponent}">
+      	  <c:trialSurvey ctpId="{!v.ctpId}" recordId="{!v.recordId}" recordTypeId ="{!v.recordTypeId}" recordTypeName="{!v.recordtypeName}" onpagerefresh="{!c.refresh}"/> 
+        </aura:if> 
     </aura:if> 
     
 </aura:component>

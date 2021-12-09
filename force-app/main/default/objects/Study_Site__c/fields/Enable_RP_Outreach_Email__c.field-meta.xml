@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Is_Recurrence_Survey__c</fullName>
-    <defaultValue>false</defaultValue>
+    <fullName>Enable_RP_Outreach_Email__c</fullName>
     <externalId>false</externalId>
-    <label>Recurring Survey</label>
+    <formula>Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c</formula>
+    <label>Enable RP Outreach Email</label>
+    <trackHistory>false</trackHistory>
     <trackTrending>false</trackTrending>
     <type>Checkbox</type>
 </CustomField>

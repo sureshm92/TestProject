@@ -18,14 +18,14 @@
                 </lightning-layout-item>
                 <lightning-layout-item padding="around-small" size="4" small-device-size="8" class="actionButtons">
                     <div class="actionButtons slds-show_medium">
-                        <!--<template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>
+                        <template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>
                             <button class="apollo-btn secondary search-more-btn" disabled={isaccessLevelthree}
                             onclick={openOutreach} title={label.RH_RP_OutreachEmail}>
                             <lightning-button-icon variant="bare" class="removeborder" icon-name="utility:email">
                             </lightning-button-icon> &nbsp;
                                 {label.RH_RP_Outreach_Email}
                             </button>
-                        </template>-->
+                        </template>
                         <template if:true={showExclude}>
                             <button class="apollo-btn secondary search-more-btn" onclick={openExcludeModal}
                                 title={label.RH_RP_Exclude_From_Referring} disabled={referbuttonDisable}>
@@ -62,6 +62,12 @@
                     <!-- Imteyaz code for Action button dropdown -->
                     <lightning-button-menu menu-alignment="auto" class="slds-hide_medium" alternative-text="Show menu"
                         label="Actions" onselect={handleMenuItem}>
+                         <template if:true={pe.peRecord.Clinical_Trial_Profile__r.Enable_RP_Outreach_Email__c}>
+                            <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:email"
+                                label={label.RH_RP_Outreach_Email} value="medical-review" onclick={openOutreach}
+                                title={label.RH_RP_OutreachEmail} disabled={isaccessLevelthree}>
+                            </lightning-menu-item>
+                        </template>
                         <template if:true={showExclude}>
                             <lightning-menu-item class="label-icon-color" prefix-icon-name="utility:close"
                                 label={label.RH_RP_Exclude} onclick={openExcludeModal} disabled={referbuttonDisable}>

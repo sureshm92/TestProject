@@ -38,6 +38,7 @@ export default class RecordIdInLWC extends LightningElement {
     closeModal() {
         this.isModalOpen = false;
         this.isModalOpenEdit = false;
+        this.isModalOpenDelete = false;
     }
     handleDataChange(event){
         this.newnote = event.target.value;
@@ -69,7 +70,7 @@ export default class RecordIdInLWC extends LightningElement {
         }) .catch((error => {
             const evt = new ShowToastEvent({
                 title: '',
-                message: 'You dont have permission to perform the operation.',
+                message: 'You don'+'\''+ 't '+'have permission to perform the operation',
                 variant: 'error',
                 mode: 'dismissable'
             });
@@ -90,7 +91,7 @@ export default class RecordIdInLWC extends LightningElement {
         }) .catch((error => {
             const evt = new ShowToastEvent({
                 title: '',
-                message: 'You dont have permission to perform the operation.',
+                message: 'You don'+'\''+ 't '+'have permission to perform the operation',
                 variant: 'error',
                 mode: 'dismissable'
             });
