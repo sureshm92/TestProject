@@ -7656,6 +7656,13 @@ Release 4.0 includes additional details around the screening process, which has 
         <shortDescription>Fulfilled</shortDescription>
         <value>Fulfilled</value>
     </labels>
+     <labels>
+        <fullName>Gather_Share_Know</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Gather Share Know</shortDescription>
+        <value>Gather Share Know</value>
+    </labels>
     <labels>
         <fullName>GMap_Not_Available</fullName>
         <language>en_US</language>
@@ -8797,6 +8804,13 @@ The expected format is REF##### to REF########</value>
         <protected>false</protected>
         <shortDescription>IQVIA intervention required</shortDescription>
         <value>IQVIA intervention required</value>
+    </labels>
+    <labels>
+        <fullName>IQVIA_Patient_Portal</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>IQVIA Patient Portal</shortDescription>
+        <value>IQVIA Patient Portal</value>
     </labels>
     <labels>
         <fullName>IRB_Padding_Info</fullName>
