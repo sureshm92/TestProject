@@ -199,7 +199,7 @@ public with sharing class Action_SendSMS implements Action {
                 shortCommunityName = label.Gather_Share_Know;
             }
             //Replace community Name based on Community Template
-            message = message.replace('##ShortCommunityName', ShortCommunityName);
+            message = message.replace('##ShortCommunityName', shortCommunityName);
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
                 phoneNumber =
