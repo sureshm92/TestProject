@@ -5,16 +5,23 @@
 public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAbstract {
     public Database.QueryLocator start(Database.BatchableContext param1) {
         List<Trial_Survey__c> trialSurveys = [
-            SELECT Active_After_Days__c
+            SELECT Clinical_Trial_Profile__c
             FROM Trial_Survey__c
             WHERE
-                Clinical_Trial_Profile__r.Override_Recruitment_Status__c = :TrialService.STATUS_ACTIVELY_ENROLLING
-                AND Active_After_Days__c != NULL
+                (Active_On_Status__c != NULL
+                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE)
+                OR (Survey_start_date__c != NULL 
+                AND Survey_start_date__c <= TOMORROW 
+                AND Survey_end_date__c != NULL
+                AND Survey_end_date__c > today
+                )
         ];
 
-        Set<Decimal> daysSet = new Set<Decimal>();
-        for (Trial_Survey__c ts : trialSurveys)
-            daysSet.add(ts.Active_After_Days__c);
+        Set<Id> ctpSet = new Set<Id>();
+        for (Trial_Survey__c ts : trialSurveys){
+            ctpSet.add(ts.Clinical_Trial_Profile__c);
+        }
+            
 
         return Database.getQueryLocator(
             [
@@ -24,11 +31,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                     Clinical_Trial_Profile__r.CommunityTemplate__c,
                     Days_After_Enrolled__c,
                     Participant_Contact__c,
+                    Days_Since_Last_Status_Change__c,
                     Participant_Status__c
                 FROM Participant_Enrollment__c
                 WHERE
-                    Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_PARTICIPANT
-                    AND Days_After_Enrolled__c IN :daysSet
+                    Clinical_Trial_Profile__c IN :ctpSet
                     AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = FALSE) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
             ]
         );
@@ -45,6 +52,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 Survey__c,
                 Survey__r.Name,
                 Active_After_Days__c,
+                Active_On_Status__c,
                 Expires_After_Days__c,
                 Is_Midpoint__c,
                 Reminder_Schedule__c,
@@ -88,7 +96,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if (surveys != null) {
                 for (Trial_Survey__c ts : surveys) {
-                    if (ts.Active_After_Days__c == pe.Days_After_Enrolled__c) {
+                    if (ts.Active_On_Status__c == pe.Participant_Status__c && (ts.Active_After_Days__c <= pe.Days_Since_Last_Status_Change__c || ts.Active_After_Days__c ==null)) {
                         if (
                             ts.Is_Midpoint__c &&
                             PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
