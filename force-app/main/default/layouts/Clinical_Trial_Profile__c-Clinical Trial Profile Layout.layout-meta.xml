@@ -29,6 +29,10 @@
             </layoutItems>
             <layoutItems>
                 <behavior>Edit</behavior>
+                <field>Pin_Point_ProjectId__c</field>
+            </layoutItems>
+            <layoutItems>
+                <behavior>Edit</behavior>
                 <field>Suppress_PI_Emails__c</field>
             </layoutItems>
             <layoutItems>
@@ -89,10 +93,6 @@
             <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Study_Content__c</field>
-            </layoutItems>
-            <layoutItems>
-                <behavior>Edit</behavior>
-                <field>Pin_Point_ProjectId__c</field>
             </layoutItems>
             <layoutItems>
                 <emptySpace>true</emptySpace>
@@ -665,6 +665,11 @@
             <sortOrder>10</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
+            <actionName>FeedItem.PollPost</actionName>
+            <actionType>QuickAction</actionType>
+            <sortOrder>11</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
             <actionName>FeedItem.QuestionPost</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>12</sortOrder>
@@ -673,16 +678,6 @@
             <actionName>PrintableView</actionName>
             <actionType>StandardButton</actionType>
             <sortOrder>13</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>Clone</actionName>
-            <actionType>StandardButton</actionType>
-            <sortOrder>14</sortOrder>
-        </platformActionListItems>
-        <platformActionListItems>
-            <actionName>FeedItem.PollPost</actionName>
-            <actionType>QuickAction</actionType>
-            <sortOrder>11</sortOrder>
         </platformActionListItems>
         <platformActionListItems>
             <actionName>Submit</actionName>
@@ -718,6 +713,11 @@
             <actionName>Clinical_Trial_Profile__c.Recourses</actionName>
             <actionType>QuickAction</actionType>
             <sortOrder>21</sortOrder>
+        </platformActionListItems>
+        <platformActionListItems>
+            <actionName>Clone</actionName>
+            <actionType>StandardButton</actionType>
+            <sortOrder>14</sortOrder>
         </platformActionListItems>
     </platformActionList>
     <relatedLists>
@@ -777,7 +777,7 @@
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
     <summaryLayout>
-        <masterLabel>00h55000003JpmZ</masterLabel>
+        <masterLabel>00h1I000002zidv</masterLabel>
         <sizeX>4</sizeX>
         <sizeY>0</sizeY>
         <summaryLayoutStyle>Default</summaryLayoutStyle>
