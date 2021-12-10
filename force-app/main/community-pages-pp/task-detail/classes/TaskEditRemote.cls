@@ -192,9 +192,6 @@ public without sharing class TaskEditRemote {
             taskToUpsert.Is_Reminder_Sent__c = false;
             taskToUpsert.Status = 'Open';
             taskToUpsert.InitialTaskNotification__c = true;
-            taskToUpsert.Originator__c = ParticipantContext.isCurrentDelegate()
-                ? 'Delegate'
-                : 'Participant';
             if (
                 taskToUpsert.Originator__c == 'Delegate' ||
                 taskToUpsert.Originator__c == 'Participant'
