@@ -98,7 +98,7 @@ Validate:
          }
          get_mr_parent
          export PARENT
-         echo 'y' | sfdx plugins:install sfdx-git-delta
+         #echo 'y' | sfdx plugins:install sfdx-git-delta
          sfdx sgd:source:delta --to "HEAD" --from $PARENT --output "."
          echo "--- package.xml generated with added and modified metadata ---"
          cat package/package.xml
@@ -122,7 +122,7 @@ Deploy:
     before_script: 
       - |
          set -x
-         echo 'y' | sfdx plugins:install sfdx-git-delta
+         #echo 'y' | sfdx plugins:install sfdx-git-delta
          sfdx sgd:source:delta --to "HEAD" --from "HEAD^" --output "."
          echo "--- package.xml generated with added and modified metadata ---"
          cat package/package.xml
