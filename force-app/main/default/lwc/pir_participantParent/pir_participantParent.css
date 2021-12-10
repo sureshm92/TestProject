@@ -44,8 +44,7 @@
   .slds-tabs_default__item.slds-active:after, .slds-tabs_default__item.slds-is-active:after, .slds-tabs--default__item.slds-active:after, .slds-tabs--default__item.slds-is-active:after{
       height:6px !important;
   }
- 
-@media (max-device-width: 767px) {
+@media all and (max-width: 47.9375em) { 
     .no-p-mobile{
         padding:0;
     }

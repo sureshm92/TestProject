@@ -61,12 +61,11 @@
         display:none;
     }
 }
-@media all and (max-width: 62.625em) {
-    .overflowSet{height: 237px; }
+@media all and (max-width: 62.625em) {    
     .selected{background:white;}    
 }
 @media all and (max-width: 48em) {
-    .overflowSet{height: 226px; }
+    .overflowSet{height: unset; }
     .filterIconButton{
         height: 40px;
     }
