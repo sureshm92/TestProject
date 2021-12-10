@@ -4,6 +4,10 @@
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>StudySiteInformationController</apexClass>
         <enabled>true</enabled>
