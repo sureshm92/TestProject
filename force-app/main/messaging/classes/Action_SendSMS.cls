@@ -16,6 +16,8 @@ public with sharing class Action_SendSMS implements Action {
         public List<String> toNumber;
         public String subject;
         public String messageBody;
+        public String pinPointProjectId;
+        public Boolean isPlatformLevel;
     }
     class MessagegResponseWrapper {
         public string applicationId;
@@ -129,6 +131,7 @@ public with sharing class Action_SendSMS implements Action {
                 Status__c,
                 CreatedDate,
                 Notification__c,
+                Notification__r.WhatId__c,
                 Notification__r.Recipient__c,
                 Notification__r.Recipient__r.MobilePhone,
                 Notification__r.Recipient__r.Language__c,
@@ -141,6 +144,8 @@ public with sharing class Action_SendSMS implements Action {
                 AND Target_Type__c = :NotificationService.NOTIFICATION_TARGET_TYPE_SMS
         ]) {
             String phoneNumber = smsChannel.Notification__r.Recipient__r.MobilePhone;
+            Boolean isPlatformLevel = true;
+            String pinPoint;
             if (
                 phoneNumber == null &&
                 participantMap.get(smsChannel.Notification__r.Recipient__c) != null
@@ -155,6 +160,101 @@ public with sharing class Action_SendSMS implements Action {
             /*String title = parametrizedMessageService.getMessage(
                 smsChannel.Notification__c + '_title'
             );*/
+            // Pinpoint code
+            try {
+                Id whatId = Id.valueOf(smsChannel.Notification__r.WhatId__c);
+
+                String objType = String.valueOf(whatId.getSobjectType());
+                //Study Level Tasks
+                Notification_Type__mdt messageType = NotificationService.getNotificationType(
+                    smsChannel.Notification__r.Notification_Type__c
+                );
+                if (messageType.IsStudyLevel__c) {
+                    //msgParam.isPlatformLevel = false;
+                    isPlatformLevel = false;
+                    if (objType == 'Participant_Enrollment__c') {
+                        // System.debug(objType);
+                        Participant_Enrollment__c peOBJ = [
+                            SELECT Id, Clinical_Trial_Profile__r.Pin_Point_ProjectId__c
+                            FROM Participant_Enrollment__c
+                            WHERE Id = :whatId
+                        ];
+                        pinPoint = peOBJ.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                    } else if (objType == 'Clinical_Trial_Profile__c') {
+                        Clinical_Trial_Profile__c ctpObj = [
+                            SELECT Pin_Point_ProjectId__c
+                            FROM Clinical_Trial_Profile__c
+                            WHERE Id = :whatId
+                        ];
+                        pinPoint = ctpObj.Pin_Point_ProjectId__c;
+                    } else if (objType == 'Task') {
+                        Task tobj = [SELECT Id, WhatId FROM Task WHERE Id = :whatId];
+
+                        if (
+                            String.valueOf(tobj.whatId.getSobjectType()) ==
+                            'Participant_Enrollment__c'
+                        ) {
+                            Participant_Enrollment__c peOBJ = [
+                                SELECT Id, Clinical_Trial_Profile__r.Pin_Point_ProjectId__c
+                                FROM Participant_Enrollment__c
+                                WHERE Id = :tobj.whatId
+                            ];
+                            pinPoint = peOBJ.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                        }
+                    }
+                } else {
+                    // msgParam.isPlatformLevel = true;
+                    if (objType == 'SurveyInvitation') {
+                        SurveyInvitation siObj = [
+                            SELECT
+                                Id,
+                                Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c
+                            FROM SurveyInvitation
+                            WHERE Id = :whatId
+                        ];
+                        //pinPoint=siObj.Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                        pinPoint = 'dummy';
+                    } else if (objType == 'Task') {
+                        Task tobj = [
+                            SELECT Id, WhatId, Participant_Enrollment_Id__c
+                            FROM Task
+                            WHERE Id = :whatId
+                        ];
+                        if (
+                            String.valueOf(tobj.whatId.getSobjectType()) ==
+                            'Participant_Enrollment__c'
+                        ) {
+                            isPlatformLevel = false;
+                            Participant_Enrollment__c peOBJ = [
+                                SELECT Id, Clinical_Trial_Profile__r.Pin_Point_ProjectId__c
+                                FROM Participant_Enrollment__c
+                                WHERE Id = :tobj.whatId
+                            ];
+                            pinPoint = peOBJ.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                            //  msgParam.isPlatformLevel = false;
+                        } else if (
+                            String.isNotBlank(tobj.Participant_Enrollment_Id__c) &&
+                            String.valueOf(tobj.whatId.getSobjectType()) == 'Participant__c'
+                        ) {
+                            Participant_Enrollment__c peOBJ = [
+                                SELECT Id, Clinical_Trial_Profile__r.Pin_Point_ProjectId__c
+                                FROM Participant_Enrollment__c
+                                WHERE Id = :tobj.Participant_Enrollment_Id__c
+                            ];
+                            pinPoint = peOBJ.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
+                            isPlatformLevel = false;
+                        } else if (
+                            String.valueOf(tobj.whatId.getSobjectType()) == 'Participant__c'
+                        ) {
+                            isPlatformLevel = true;
+                        }
+                    }
+                }
+                // msgParam.pinPointProjectId = pinPoint;
+            } catch (Exception e) {
+                System.debug(e.getMessage());
+            }
+
             String message = parametrizedMessageService.getMessage(smsChannel.Notification__c);
             message = message.replace(
                 '##PTFirstName',
@@ -225,6 +325,9 @@ public with sharing class Action_SendSMS implements Action {
                     );
                 }
                 msgParam.messageBody = message;
+
+                msgParam.isPlatformLevel = isPlatformLevel;
+                msgParam.pinPointProjectId = pinPoint;
                 messageParametersList.add(msgParam);
             }
         }
