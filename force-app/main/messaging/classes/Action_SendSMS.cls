@@ -199,7 +199,16 @@ public with sharing class Action_SendSMS implements Action {
                 '##CommunityURL',
                 CommunityService.getCommunityURLFromTemplateName('Default')
             );
-
+            String communityTemaplteName = taskMap.get(smsChannel.Notification__r.Task_Id__c)
+                .Community_Template_Name__c;
+            String shortCommunityName = '';
+            if (String.isBlank(communityTemaplteName) || communityTemaplteName == 'Default') {
+                shortCommunityName = label.IQVIA_Patient_Portal;
+            } else if (communityTemaplteName == 'GSK') {
+                shortCommunityName = label.Gather_Share_Know;
+            }
+            //Replace community Name based on Community Template
+            message = message.replace('##ShortCommunityName', shortCommunityName);
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
                 phoneNumber =
