@@ -11,7 +11,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public static final String FROM_NUMBER = 'FromNumber';
     public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
     public static final String API_MULESOFT_SMS = 'MulesoftSMS';
-    public static final String PIN_POINT_PROJECT_ID = '5838f992a9ee4c2eb28277035bbfb15e';
+    public static final String PIN_POINT_PROJECT_ID = 'PinpointProjectId';
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
@@ -92,7 +92,12 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         messageWrapper.sourceMetadata.transactionId = msgParam.transactionId;
         messageWrapper.sourceMetadata.sourceIdentifier = apiParamsMap.get(SOURCE_IDENTIFIER)
             .ParamValue__c;
-        messageWrapper.targetMetadata.pinPointProjectId = PIN_POINT_PROJECT_ID;
+        messageWrapper.targetMetadata.pinPointProjectId = msgParam.isPlatformLevel
+            ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
+            : (String.isBlank(msgParam.pinPointProjectId)
+                  ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
+                  : msgParam.pinPointProjectId);
+        // messageWrapper.targetMetadata.pinPointProjectId = '123';
         messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
         messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
             .ParamValue__c;
