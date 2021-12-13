@@ -5,6 +5,10 @@
         <enabled>true</enabled>
     </classAccesses>
     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
+    <classAccesses>
         <apexClass>HumanAPIcontroller</apexClass>
         <enabled>true</enabled>
     </classAccesses>
@@ -2139,6 +2143,21 @@
     <fieldPermissions>
         <editable>false</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

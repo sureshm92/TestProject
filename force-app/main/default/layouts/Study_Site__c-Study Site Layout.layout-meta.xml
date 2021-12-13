@@ -88,6 +88,10 @@
                 <behavior>Edit</behavior>
                 <field>Opt_in_for_warm_transfer__c</field>
             </layoutItems>
+            <layoutItems>
+                <behavior>Readonly</behavior>
+                <field>Enable_RP_Outreach_Email__c</field>
+            </layoutItems>
         </layoutColumns>
         <layoutColumns>
             <layoutItems>
@@ -109,7 +113,7 @@
                 <behavior>Edit</behavior>
                 <field>Suppress_Participant_Emails__c</field>
             </layoutItems>
-             <layoutItems>
+            <layoutItems>
                 <behavior>Edit</behavior>
                 <field>Scheduling_vendors__c</field>
             </layoutItems>
@@ -411,5 +415,5 @@
     <showInteractionLogPanel>false</showInteractionLogPanel>
     <showRunAssignmentRulesCheckbox>false</showRunAssignmentRulesCheckbox>
     <showSubmitAndAttachButton>false</showSubmitAndAttachButton>
-    
+ 
 </Layout>

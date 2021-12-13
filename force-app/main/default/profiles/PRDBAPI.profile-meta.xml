@@ -4,6 +4,10 @@
 	    <apexClass>AccountSettingsController</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>Action</apexClass>
         <enabled>true</enabled>

@@ -491,12 +491,13 @@ global without sharing class ReferHealthcareProviderRemote {
                 Patient_Delegate__c ptDelegateRef = new Patient_Delegate__c();
                 if (lstPatientDelegate.isEmpty()) {
                     ptDelegateRef.Participant__c = participantObj.Id;
-                    ptDelegateRef.Contact__c = newContact.Id;                    
-                    ptDelegateRef.isInviteToPP__c = true;//RH-5163
+                    ptDelegateRef.Contact__c = newContact.Id;
                 } else {
                     ptDelegateRef.ID = lstPatientDelegate[0].ID;
-                    ptDelegateRef.Status__c = DEL_ACTIVE;                    
-                    ptDelegateRef.isInviteToPP__c = true;//RH-5163
+                    ptDelegateRef.Status__c = DEL_ACTIVE;  
+                }
+                if(createUser) { //RH-5163
+                	ptDelegateRef.isInviteToPP__c = true;
                 }
                 upsert ptDelegateRef;
 				delegateContactId = newContact.Id;
@@ -526,7 +527,11 @@ global without sharing class ReferHealthcareProviderRemote {
                         PatientDelegateTriggerHandler.UpdatePermissionSetAssignments.class
                     );
                 }
-                update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE,isInviteToPP__c=true);
+                if(createUser) { //RH-5163
+                	update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE, isInviteToPP__c=true);
+                } else {
+                    update new Patient_Delegate__c(Id = delegateId, Status__c = DEL_ACTIVE);
+                }
             }
 			if(participantObj != null && participantObj.Contact__c != null && (delegateContactId != null || ContactId != null)){
                 participantAndDelIds.add(participantObj.Contact__c);
