@@ -40,7 +40,7 @@
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
 .list-card{ cursor:pointer;}
-.overflowSet{height: 251px; overflow: auto;}
+.overflowSet{height: 47vh; overflow: auto;}
 
 ::-webkit-scrollbar {
     width: 8px;
