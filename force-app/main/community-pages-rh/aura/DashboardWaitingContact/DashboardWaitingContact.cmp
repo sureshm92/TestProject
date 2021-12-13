@@ -2,7 +2,7 @@
  - Created by Alexey Moseev.
  -->
 
-<aura:component description="DashboardWaitingContact" controller="DashboardRemoteNew">
+ <aura:component description="DashboardWaitingContact" controller="DashboardRemoteNew">
     <!-- attributes:-->
     <aura:attribute name="pe" type="Object" description="Participant enrollment item" />
     <aura:attribute name="userMode" type="String" />
@@ -56,6 +56,11 @@
                                     {!$Label.c.PI_DB_PAC_Source_Header}
                                 </div>
                             </th>
+                             <th class="" scope="col">
+                                <div class="slds-truncate" title="StudySite">
+                                    {!$Label.c.PI_DB_PAC_Study_Site_Header}
+                                </div>
+                            </th>
                             <th class="" scope="col">
                                 <div class="slds-truncate" title="Study">
                                     {!$Label.c.PI_DB_PAC_Study_Header}
@@ -93,6 +98,9 @@
                                 </th>
                                 <td>
                                     <div class="slds-truncate">{!item.source}</div>
+                                </td>
+                                <td>
+                                    <div class="slds-truncate">{!item.StudySiteName}</div>
                                 </td>
                                 <td>
                                     <div class="slds-truncate">
