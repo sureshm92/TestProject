@@ -835,6 +835,7 @@ public without sharing class ViewPatientsRemote {
         CsvWrapper wrap = new CsvWrapper();
         List<Participant_Enrollment__c> lstPER = new List<Participant_Enrollment__c>();
         List<Participant_Enrollment__c> lstPERs = new List<Participant_Enrollment__c>();
+        List<WrapRecords> wprc = new List<WrapRecords>();
         String qCountString = 'SELECT COUNT() FROM Participant_Enrollment__c WHERE ';
         String queryString =
             'SELECT Id,Name,PI_Contact__c,PI_Contact__r.Full_Name__c,Non_Enrollment_Reason__c,Medical_Record_Review_Status__c,Medical_Record_Review_Completed_by__c,Medical_Record_Review_Completedby_Name__c,Medical_Record_Review_Completed_Date__c,Referral_Completedby_Name__c,PerCounter__c,Referred_Date__c,Study_Name__c,Participant_Status_Last_Changed_Date__c,Last_Status_Changed_Notes__c,Referral_Completed_by__c,Participant_Name__c,Participant_Contact__c,Referral_Source__c,MRN_Id__c,Patient_ID__c,Referral_ID__c,Study_Hub_Log__c,Study_Hub_Log__r.Response_Status_Code__c,' +
@@ -869,15 +870,25 @@ public without sharing class ViewPatientsRemote {
            FOVTime.add('');
            }
            lstPERs.add(per);
+           String initialVisitScheduleTime = String.ValueOf(
+                per.Initial_visit_scheduled_time__c
+            );
+            if (initialVisitScheduleTime != '' && initialVisitScheduleTime != null) {
+                initialVisitScheduleTime = initialVisitScheduleTime.replace('.000Z', '');
+            }else{
+                initialVisitScheduleTime='';
+            }
+           wprc.add(new WrapRecords(per,initialVisitScheduleTime));
         }
 
 
-        wrap.partList = lstPERs;
-        wrap.initialVisitScheduleTime=FOVTime;
+        //wrap.partList = lstPERs;
+        //wrap.initialVisitScheduleTime=FOVTime;
         wrap.startPos = startPos;
         wrap.endPos = endPos;
         wrap.totalCount = totalCount;
-        wrap.referralsPIsAndMedRevsContacts = referralsPIsAndMedRevsContacts;	
+        wrap.referralsPIsAndMedRevsContacts = referralsPIsAndMedRevsContacts;
+        wrap.partLists = wprc;	
         return wrap;
     }
 
@@ -896,8 +907,24 @@ public without sharing class ViewPatientsRemote {
         public Integer endPos { get; set; }
         @AuraEnabled
         public Integer totalCount { get; set; }
-	@AuraEnabled
+	    @AuraEnabled
         public Set<Id> referralsPIsAndMedRevsContacts { get; set; }	
+        @AuraEnabled
+        public List<WrapRecords> partLists { get; set; }
+    }
+    public class WrapRecords {
+        @AuraEnabled
+        public Participant_Enrollment__c pe { get; set; }
+        @AuraEnabled
+        public String initialVisitScheduleTime { get; set; }
+       
+        public WrapRecords (
+            Participant_Enrollment__c pe,
+            String initialVisitScheduleTime
+        ) {
+            this.pe = pe;
+            this.initialVisitScheduleTime = initialVisitScheduleTime;
+        }
     }
 
     //fix REF-4633
