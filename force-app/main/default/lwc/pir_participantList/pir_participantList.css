@@ -61,9 +61,6 @@
         display:none;
     }
 }
-@media all and (max-width: 62.625em) {    
-    .selected{background:white;}    
-}
 @media all and (max-width: 48em) {
     .overflowSet{height: unset; }
     .filterIconButton{
