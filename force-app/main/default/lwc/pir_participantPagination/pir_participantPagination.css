@@ -1,0 +1,41 @@
+.pg{
+    min-height: 56px;
+    color: #444444;
+    font-size: 14px;
+    letter-spacing: 0;
+    line-height: 24px;    
+    background: #F6F7FB;
+    border-color: #E9E9E9;
+}
+.pg input{
+  color:#000000;
+  box-sizing: border-box;
+  height: 32px;
+  width: 45px;
+  border: 1px solid #D9D9D9;
+  border-radius: 4px;
+  background-color: #FFFFFF;
+  box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
+  text-align: end;
+}
+.pg input:focus-visible {
+  outline: none;
+}
+.pg .slds-icon_container{
+  cursor: pointer;
+}
+.totalpages{
+  color: #0768FD;
+  font-weight: 600;
+}
+.disabled{
+  opacity: .5;
+}
+@media all and (max-width: 63.9375em) {
+  .pg{
+    text-align: center;
+    padding: 10px 0px;
+    background: #F6F7FB;
+  }
+}
+

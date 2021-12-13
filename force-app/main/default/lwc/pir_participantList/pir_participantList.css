@@ -2,6 +2,12 @@
 .keyup:focus-visible {
     outline: none;
 }
+.filterIconButton{
+    height: 32px;
+    width: 82%;
+    background: white;
+    display:none;
+}
 .selected{background: #ECF3FF;}
 .dividerTop{ border-color: #E9E9E9;}
 .textBold{font-weight: 700; }
@@ -20,7 +26,7 @@
 .actionReq{  color: #FF9300; padding-right: 0.5rem; }
 .priority{ color: #9E54B0; padding-right: 0.5rem; }
 .risk{ color: #DF216D; padding-right: 0.5rem;}
-
+.breakW{overflow-wrap: break-word;}
 .flags img{
     height: 11px;
     background-color: rgba(158,84,176,0.08);
@@ -34,7 +40,7 @@
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
 .list-card{ cursor:pointer;}
-.overflowSet{max-height: 43vh; overflow: auto;}
+.overflowSet{height: 251px; overflow: auto;}
 
 ::-webkit-scrollbar {
     width: 8px;
@@ -47,7 +53,24 @@
 ::-webkit-scrollbar-thumb:hover {
     background: #858383;
 }
-@media (max-device-width: 767px) {
-    .overflowSet{max-height: none; }
+@media all and (max-width: 76.25em) {
+    .filterIconButton{
+        display:inline-flex;
+    }
+    .filterTextButton{
+        display:none;
+    }
+}
+@media all and (max-width: 62.625em) {    
+    .selected{background:white;}    
+}
+@media all and (max-width: 48em) {
+    .overflowSet{height: unset; }
+    .filterIconButton{
+        height: 40px;
+    }
+}
+@media all and (max-width: 47.9375em) {
     .selected{background:white;}
+    
 }
