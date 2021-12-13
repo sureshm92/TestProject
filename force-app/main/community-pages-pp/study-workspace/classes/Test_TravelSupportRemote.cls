@@ -11,9 +11,9 @@ private class Test_TravelSupportRemote {
         Test.startTest();
         System.runAs(tData.participantUser) {
             TravelSupportRemote.getAvailableVendorsForSS();
-            TravelSupportRemote.getTravelVendors('1234','1234',false);
+            TravelSupportRemote.getTravelVendors('1234', '1234', false);
             TravelSupportRemote.getCommunityName();
-            TravelSupportRemote.getisTravelSupportEnabled()
+            TravelSupportRemote.getisTravelSupportEnabled();
         }
         Test.stopTest();
     }
