@@ -105,6 +105,8 @@ public without sharing class DashboardRemoteNew {
         public Integer daysAdded;
         @AuraEnabled
         public Boolean isAbleToEdit;
+        @AuraEnabled
+        public String StudySiteName;
 
         public WaitingContactItem(
             String Id,
@@ -113,7 +115,8 @@ public without sharing class DashboardRemoteNew {
             String studyName,
             String studyId,
             Integer daysAdded,
-            Boolean isAbleToEdit
+            Boolean isAbleToEdit,
+            String StudySiteName
         ) {
             this.Id = Id;
             this.name = name;
@@ -122,6 +125,7 @@ public without sharing class DashboardRemoteNew {
             this.studyId = studyId;
             this.daysAdded = daysAdded;
             this.isAbleToEdit = isAbleToEdit;
+            this.StudySiteName = StudySiteName;
         }
 
         public Integer compareTo(Object compareTo) {
@@ -553,6 +557,7 @@ public without sharing class DashboardRemoteNew {
                     Participant__r.First_Name__c,
                     Source_Type__c,
                     Participant__r.Last_Name__c,
+                	Study_Site__r.Name,
                     Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                     Study_Site__r.Clinical_Trial_Profile__c
                 FROM Participant_Enrollment__c
@@ -597,7 +602,8 @@ public without sharing class DashboardRemoteNew {
                             pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                             pe.Study_Site__r.Clinical_Trial_Profile__c,
                             daysAdded,
-                            true
+                            true,
+                            pe.Study_Site__r.Name
                         )
                     );
                 } else {
@@ -616,7 +622,8 @@ public without sharing class DashboardRemoteNew {
                                 pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                 pe.Study_Site__r.Clinical_Trial_Profile__c,
                                 daysAdded,
-                                true
+                                true,
+                                 pe.Study_Site__r.Name
                             )
                         );
                     } else {
@@ -634,7 +641,8 @@ public without sharing class DashboardRemoteNew {
                                 pe.Study_Site__r.Clinical_Trial_Profile__r.Study_Code_Name__c,
                                 pe.Study_Site__r.Clinical_Trial_Profile__c,
                                 daysAdded,
-                                false
+                                false,
+                                 pe.Study_Site__r.Name
                             )
                         );
                     }
