@@ -74,7 +74,8 @@ public without sharing class SurveyService {
             Reminder_Schedule__c = ts.Reminder_Schedule__c,
             SurveyId = ts.Survey__c,
             Survey__c = ts.Survey__c,
-            Trial_Survey__c = ts.Id
+            Trial_Survey__c = ts.Id,
+            IsTrialSurvey__c = true
         );
 
         if (ts.Expires_After_Days__c != null) {
