@@ -73,9 +73,6 @@
         var startPos = component.get('v.startPos');
         var endPos = component.get('v.endPos');
         var totalCount = component.get('v.totalCount');
-        // alert('@@@@@@ startPos   ' +startPos);
-        // alert('@@@@@@ endPos     ' +endPos);
-        // alert('@@@@@@ totalCount ' +totalCount);
         var peFilterData = component.get('v.peFilterDataBackup');
         var studies = [];
         var studySites = [];
@@ -101,10 +98,8 @@
             var state = a.getState(); // get the response state
             if (state == 'SUCCESS') {
                 var temp = a.getReturnValue();
-                //console.log('partlistlength-->'+temp.partList.length);
-                 //console.log('temp--->'+JSON.stringify(temp));
                 component.set('v.totalCount', temp.totalCount);
-                var csvFinalList = temp.partList;
+                var csvFinalList = temp.partLists;
                 var csvtemp = component.get('v.CsvList');
                 var newarr;
                 if (!component.get('v.isFirstTime')) {
@@ -115,15 +110,14 @@
                 }
                 component.set('v.CsvList', newarr);
                 var currentCount = newarr.length;
-
+               
+                
                 var counterLimit = component.get('v.counterLimit');
                 var finaltotalCount = component.get('v.totalCount');
+               
                 if (finaltotalCount > 100000) {
                     finaltotalCount = 100000;
                 }
-                console.log('currentCount ' + currentCount);
-                console.log('finaltotalCount ' + finaltotalCount);
-                console.log('counterLimit ' + counterLimit);
                 if (currentCount < finaltotalCount) {
                     counterLimit = counterLimit + 45000;
                     component.set('v.counterLimit', counterLimit);
@@ -138,8 +132,7 @@
                     helper.exportAllHelper(component, event, helper);
                 } else {
                     spinner.hide();
-                    console.log('in else');
-                    helper.downloadCsvFile(component, event, helper, temp);
+                    helper.downloadCsvFile(component, event, helper, newarr); 
                 }
             }
         });
@@ -147,16 +140,14 @@
     },
 
     downloadCsvFile: function (component, event, helper, objectRecords) {
-        console.time('advf');
         //       component.set('v.CsvList','');
         var spinner = component.find('Spinnerpopup');
         // var spinner = component.find('recordsSpinner');
         spinner.show();
-           //console.log('@@@@@@@@@@@@----------> '+JSON.stringify(objectRecords));
-        //console.log('@@@@@@@@@@@@---> ' + objectRecords.partList.length);
-        //   console.table(objectRecords);
+       
+         
         var csvStringResult, counter, keys, columnDivider, lineDivider;
-        if (objectRecords.partList == null || !objectRecords.partList.length) {
+        if (objectRecords == null || !objectRecords.length) {
             return null;
         }
         columnDivider = ',';
@@ -186,61 +177,61 @@
         csvStringResult = '';
         csvStringResult += header.join(columnDivider);
         csvStringResult += lineDivider;
-        //console.log('@@@@@@ ' + objectRecords.partList.length);
-        for (var i = 0; i < objectRecords.partList.length; i++) {
-             //console.log('objectRecords ' +(objectRecords.partList[i]['Name']));
+       
+        for (var i = 0; i < objectRecords.length; i++) {
+           
 
-            if (objectRecords.partList[i]['Name'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Name'] + '"' + ',';
+            if (objectRecords[i]['pe']['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Name'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['MRN_Id__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['MRN_Id__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['MRN_Id__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['MRN_Id__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Patient_ID__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Patient_ID__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['Patient_ID__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Patient_ID__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords.partList[i]['Referred_Date__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Referred_Date__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['Referred_Date__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Referred_Date__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Study_Code_Name__c'] !== undefined) {
                 csvStringResult +=
                     '"' +
-                    objectRecords.partList[i]['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
+                    objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Study_Code_Name__c'] +
                     '"' +
                     ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Study_Site__r']['Name'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Study_Site__r']['Name'] + '"' + ',';
+            if (objectRecords[i]['pe']['Study_Site__r']['Name'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Study_Site__r']['Name'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['PI_Contact__r']['Full_Name__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['PI_Contact__r']['Full_Name__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['PI_Contact__r']['Full_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Participant_Status__c'] !== undefined) {
-                let pstatus = objectRecords.partList[i]['Participant_Status__c'];
-                if(objectRecords.partList[i]['Participant_Status__c']=='Eligibility Passed' 
-                   && (objectRecords.partList[i]['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
-                       || objectRecords.partList[i]['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
+            if (objectRecords[i]['pe']['Participant_Status__c'] !== undefined) {
+                let pstatus = objectRecords[i]['pe']['Participant_Status__c'];
+                if(objectRecords[i]['pe']['Participant_Status__c']=='Eligibility Passed' 
+                   && (objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Initial_Visit_Required__c'] == true 
+                       || objectRecords[i]['pe']['Clinical_Trial_Profile__r']['Promote_to_SH__c'] == true)){
                     pstatus = 'Sent to Study Hub';
                 }
                 
@@ -248,67 +239,67 @@
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords.partList[i]['Non_Enrollment_Reason__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Non_Enrollment_Reason__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['Non_Enrollment_Reason__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Non_Enrollment_Reason__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Participant_Status_Last_Changed_Date__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['Participant_Status_Last_Changed_Date__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Participant_Status_Last_Changed_Date__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Last_Status_Changed_Notes__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Last_Status_Changed_Notes__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['Last_Status_Changed_Notes__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Last_Status_Changed_Notes__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Medical_Record_Review_Status__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Medical_Record_Review_Status__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['Medical_Record_Review_Status__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Medical_Record_Review_Status__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Medical_Record_Review_Completedby_Name__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completedby_Name__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Medical_Record_Review_Completedby_Name__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            if (objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] !== undefined) {
+            if (objectRecords[i]['pe']['Medical_Record_Review_Completed_Date__c'] !== undefined) {
                 csvStringResult +=
-                    '"' + objectRecords.partList[i]['Medical_Record_Review_Completed_Date__c'] + '"' + ',';
-            } else {
-                csvStringResult += '" "' + ',';
-            }
-
-            if (objectRecords.partList[i]['Referral_Completedby_Name__c'] !== undefined) {
-                csvStringResult +=
-                    '"' + objectRecords.partList[i]['Referral_Completedby_Name__c'] + '"' + ',';
+                    '"' + objectRecords[i]['pe']['Medical_Record_Review_Completed_Date__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
 
-            if (objectRecords.partList[i]['Referral_Source__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Referral_Source__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['Referral_Completedby_Name__c'] !== undefined) {
+                csvStringResult +=
+                    '"' + objectRecords[i]['pe']['Referral_Completedby_Name__c'] + '"' + ',';
+            } else {
+                csvStringResult += '" "' + ',';
+            }
+
+            if (objectRecords[i]['pe']['Referral_Source__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Referral_Source__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
             
-            if (objectRecords.partList[i]['Initial_visit_scheduled_date__c'] !== undefined) {
-                csvStringResult += '"' + objectRecords.partList[i]['Initial_visit_scheduled_date__c'] + '"' + ',';
+            if (objectRecords[i]['pe']['Initial_visit_scheduled_date__c'] !== undefined) {
+                csvStringResult += '"' + objectRecords[i]['pe']['Initial_visit_scheduled_date__c'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
-            //console.log('objectRecords[i] ' +(objectRecords.initialVisitScheduleTime[i]));
+          
             
-            if (objectRecords.initialVisitScheduleTime[i] !== undefined) {
-               csvStringResult += '"' + objectRecords.initialVisitScheduleTime[i] + '"' + ',';
+            if (objectRecords[i]['initialVisitScheduleTime'] !== undefined) {
+               csvStringResult += '"' + objectRecords[i]['initialVisitScheduleTime'] + '"' + ',';
             } else {
                 csvStringResult += '" "' + ',';
             }
