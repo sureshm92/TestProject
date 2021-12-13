@@ -58,7 +58,7 @@
                             </th>
                              <th class="" scope="col">
                                 <div class="slds-truncate" title="StudySite">
-                                    {!$Label.c.PI_DB_PAC_Study_Site_Header}
+                                    {!$Label.c.Help_Study_Site}
                                 </div>
                             </th>
                             <th class="" scope="col">
