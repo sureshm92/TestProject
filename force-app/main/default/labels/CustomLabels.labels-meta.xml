@@ -16479,13 +16479,6 @@ Activate, place on hold, or decline Referring Provider requests to refer to your
         <shortDescription>PI_DB_PAC_Study_Header</shortDescription>
         <value>Study</value>
     </labels>
-	 <labels>
-        <fullName>PI_DB_PAC_Study_Site_Header</fullName>
-        <language>en_US</language>
-        <protected>false</protected>
-        <shortDescription>PI_DB_PAC_Study_Site_Header</shortDescription>
-        <value>Study Site</value>
-    </labels>
     <labels>
         <fullName>PI_Delegate_PI_Info</fullName>
         <language>en_US</language>
