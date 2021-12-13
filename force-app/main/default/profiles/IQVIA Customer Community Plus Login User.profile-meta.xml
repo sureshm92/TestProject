@@ -4,6 +4,10 @@
         <apexClass>DashboardParticipantCount</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
 	 <classAccesses>
         <apexClass>FetchCallDispositions</apexClass>
         <enabled>true</enabled>
@@ -2142,6 +2146,11 @@
     </classAccesses>
     <custom>true</custom>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Patient_Delegate__c.isInviteToPP__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>Account.Account_Name_2__c</field>
         <readable>false</readable>
@@ -2531,6 +2540,11 @@
         <field>Clinical_Trial_Profile__c.Eligibility_Criteria__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
         <field>Clinical_Trial_Profile__c.Enrolled_End_Date__c</field>
@@ -2756,9 +2770,19 @@
         <field>Clinical_Trial_Profile__c.Patient_study_search__c</field>
         <readable>false</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>false</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
+        <readable>false</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Payment_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Pin_Point_ProjectId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -6748,6 +6772,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>false</editable>
+        <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
         <field>Study_Site__c.Enrollment_Actual__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7068,7 +7097,7 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
-        <field>Task.IsRecurranceTask__c</field>
+        <field>Task.InitialTaskNotification__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

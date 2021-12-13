@@ -448,10 +448,14 @@ public without sharing class TaskService {
                         );
 
                     tsc.startDate = userDatetime.dateGMT();
+                    Time eodTime = Time.newInstance(23, 59, 0, 0);
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
                         Integer daysBetween = Date.today().daysBetween(expiryDate);
-                        tsc.activityDate = Datetime.now().addDays(daysBetween);
+                        expiryDate = tsc.startDate.addDays(daysBetween);
+                        Integer offsetSeconds = userTZ.getOffset(expiryDate) / 1000;
+                        tsc.activityDate = Datetime.newInstanceGmt(expiryDate, eodTime)
+                                        .addSeconds(-offsetSeconds);
                     }
 
                     if (inv.Reminder_Schedule__r.First_Reminder_day__c != null) {

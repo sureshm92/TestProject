@@ -3,7 +3,7 @@
     <fullName>Active_After_Days__c</fullName>
     <description>Days</description>
     <externalId>false</externalId>
-    <label>Number of Days Active after Enrollment</label>
+    <label>Delay (in days) before survey starts</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

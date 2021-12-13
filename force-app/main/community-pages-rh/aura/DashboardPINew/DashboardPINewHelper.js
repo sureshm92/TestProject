@@ -28,6 +28,10 @@
                 var currentData = component.get('v.piData');
                 component.set('v.currentStudy', currentData.selectedCTP);
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
+                helper.showPPDashboard(component,helper,responseData);//RH-5163
+                if(component.get('v.isPPDashboard')) { //RH-5163
+                	component.find('invitationId').fetchDashboardValues();
+                }
                 //var spinner = component.find('mainSpinner');
                 // spinner.hide();
             }
@@ -63,7 +67,10 @@
                 var currentData = component.get('v.piData');
                 component.set('v.currentPi', currentData.selectedPi);
                 helper.showParticipantsContactedDashboard(component, helper, responseData);
-                component.find('invitationId').fetchDashboardValues();//RH-5163
+                helper.showPPDashboard(component,helper,responseData);//RH-5163
+                if(component.get('v.isPPDashboard')) { //RH-5163
+                	component.find('invitationId').fetchDashboardValues();
+                }
                 //var spinner = component.find('mainSpinner');
                 // spinner.hide();
             }
@@ -76,5 +83,17 @@
         } else {
             component.set('v.isParticipantDisplay', true);
         }
+    },
+    
+    showPPDashboard: function(component, helper,piData) {
+        let ctppEnableList = piData.piCTPPPEnablelist;
+        component.set('v.isPPDashboard',false);
+        for(let i in piData.piCTPPPEnablelist) {
+            if(piData.piCTPPPEnablelist[i].value === component.get('v.currentStudy') && piData.piCTPPPEnablelist[i].ppEnabled) {
+                component.set('v.isPPDashboard',true);
+                break;
+            } 
+        }
     }
+    
 });

@@ -55,7 +55,7 @@
 }
 .THIS .textoverlap
 {
-    width: 15rem;
+    width: 14rem;
     text-overflow: ellipsis;
     white-space: nowrap;
     overflow: hidden;

@@ -11,9 +11,11 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public static final String FROM_NUMBER = 'FromNumber';
     public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
     public static final String API_MULESOFT_SMS = 'MulesoftSMS';
+    public static final String PIN_POINT_PROJECT_ID = 'PinpointProjectId';
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
+        public TargetMetadata targetMetadata;
         public NotificationMetadata notificationMetadata;
         public NotificationOption notificationOption;
         public PreferredDeliveryPeriod preferredDeliveryPeriod;
@@ -23,6 +25,10 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public class SourceMetadata {
         public String sourceIdentifier; // = 'RH_PP' as per initial design discussion
         public String transactionId;
+    }
+
+    public class TargetMetadata {
+        public String pinPointProjectId;
     }
 
     public class NotificationMetadata {
@@ -76,6 +82,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         logAutoInsert = false;
         //Initialize
         messageWrapper.sourceMetadata = new SourceMetadata();
+        messageWrapper.targetMetadata = new TargetMetadata();
         messageWrapper.notificationMetadata = new NotificationMetadata();
         messageWrapper.notificationOption = new NotificationOption();
         messageWrapper.preferredDeliveryPeriod = new PreferredDeliveryPeriod();
@@ -85,6 +92,12 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         messageWrapper.sourceMetadata.transactionId = msgParam.transactionId;
         messageWrapper.sourceMetadata.sourceIdentifier = apiParamsMap.get(SOURCE_IDENTIFIER)
             .ParamValue__c;
+        messageWrapper.targetMetadata.pinPointProjectId = msgParam.isPlatformLevel
+            ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
+            : (String.isBlank(msgParam.pinPointProjectId)
+                  ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
+                  : msgParam.pinPointProjectId);
+        // messageWrapper.targetMetadata.pinPointProjectId = '123';
         messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
         messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
             .ParamValue__c;

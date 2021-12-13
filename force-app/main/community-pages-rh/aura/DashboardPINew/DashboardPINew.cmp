@@ -10,7 +10,8 @@
     <aura:attribute name="delegatePIPicklistvalues" type="List" />
     <aura:attribute name="currentPi" type="String" />
     <aura:attribute name="currentStudy" type="String" />
-    <aura:attribute name="piCTPPicklist" type="LabelValueItem[]" />
+    <aura:attribute name="piCTPPicklist" type="LabelValueItem[]" />     
+    <aura:attribute name="isPPDashboard" type="Boolean" default="false"/><!--RH-5163-->
     <aura:attribute name="totalSSCount" type="String" />
     <aura:attribute name="usermode" type="String" />
     <aura:attribute name="communityTemplate" type="String" />
@@ -79,18 +80,20 @@
                                                 recordChanged="{!v.isRecordChanged}"
                                                 />
         </div>
-        <!-- site Dashboard Invited and not invited status -->
+        <aura:renderif isTrue="{!v.isPPDashboard}" >
+            <!-- site Dashboard -->
+            <div class="slds-col slds-size--1-of-2">
+                <c:ppinvitationstatusdashboardLWC aura:id="invitationId" selectedCTP="{!v.currentStudy}" selectedPI="{!v.currentPi}"/>
+            </div>
+            <!-- Use below site Dashboard -->
+        </aura:renderif>
+        
         <div class="slds-col slds-size--1-of-2">
-                 <c:ppinvitationstatusdashboardLWC aura:id="invitationId" selectedCTP="{!v.currentStudy}" selectedPI="{!v.currentPi}"/>/>
-        </div>
-        <!-- site Dashboard login and not login status -->
-
-        <div class="slds-col slds-size--1-of-2">
-
-
+            
         </div>
         <!-- End -->
-
+        
+        
         <div class="slds-col slds-large-size_2-of-3 slds-small-size_1-of-1 slds-medium-size_1-of-1">
             <aura:if isTrue="{!v.isRTL}" >
                   
