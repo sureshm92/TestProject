@@ -2723,6 +2723,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Pin_Point_ProjectId__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Prescreen__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7182,6 +7187,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Sponsor_Country_Code__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Sponsor_Country_Code__c.From_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Sponsor_Country_Code__c.Sponsor_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Status_History__c.HCP_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7533,6 +7553,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.ExpireDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.IsTrialSurvey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8591,6 +8616,9 @@
         <layout>Status_History__c-Status History Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
+        <layout>Sponsor_Country_Code__c-Sponsor Country Code Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
         <layout>Study_Incentive_Plan__c-Study Incentive Plan Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
@@ -9357,6 +9385,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Site_Staff__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Sponsor_Country_Code__c</object>
+		<viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>
