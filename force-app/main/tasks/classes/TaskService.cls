@@ -451,7 +451,7 @@ public without sharing class TaskService {
                     Time eodTime = Time.newInstance(23, 59, 0, 0);
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
-                        Integer daysBetween = Date.today().daysBetween(expiryDate);
+                        Integer daysBetween = tsc.startDate.daysBetween(expiryDate);
                         expiryDate = tsc.startDate.addDays(daysBetween);
                         Integer offsetSeconds = userTZ.getOffset(expiryDate) / 1000;
                         tsc.activityDate = Datetime.newInstanceGmt(expiryDate, eodTime)

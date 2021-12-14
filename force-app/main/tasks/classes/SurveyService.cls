@@ -78,11 +78,16 @@ public without sharing class SurveyService {
             IsTrialSurvey__c = true
         );
 
-        if (ts.Expires_After_Days__c != null) {
-            Date today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+            Date today ;
+            if(ts.Expires_After_Days__c != null){
+                today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+            }
+            else{
+                today = ts.Survey_end_date__c;
+            }
             Datetime expiry = Datetime.newInstance(today.year(), today.month(), today.day());
             invitation.ExpireDateTime__c = expiry;
-        }
+       
 
         return invitation;
     }
