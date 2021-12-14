@@ -65,7 +65,7 @@ public without sharing class SurveyService {
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId, Date partDate) {
         SurveyInvitation invitation = new SurveyInvitation(
             CommunityId = communityId,
             Is_Midpoint__c = ts.Is_Midpoint__c,
@@ -79,13 +79,13 @@ public without sharing class SurveyService {
         );
 
             Date today ;
-            if(ts.Expires_After_Days__c != null){
-                today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+        	if(ts.Expires_After_Days__c != null){
+                today = partDate.addDays((Integer) ts.Expires_After_Days__c);
             }
             else{
                 today = ts.Survey_end_date__c;
             }
-            Datetime expiry = Datetime.newInstance(today.year(), today.month(), today.day());
+        	Datetime expiry = Datetime.newInstance(today.year(), today.month(), today.day());
             invitation.ExpireDateTime__c = expiry;
        
 
