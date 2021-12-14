@@ -4,6 +4,13 @@
 
 @IsTest
 private class Test_NotificationService {
+    @TestSetup
+    static void init() {
+        Test.startTest();
+        TestData.loadTestData();
+        TestData.createTCAcceptance();
+        Test.stopTest();
+    }    
     @IsTest
     static void getTopicListOrCreateNewTest() {
         //        List<Account> accounts = new List<Account>();
@@ -58,4 +65,53 @@ private class Test_NotificationService {
         //        }
         //        Test.stopTest();
     }
+    
+    @IsTest
+    static void test_checkHCPNotificationType() {
+        TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ACCEPTED;
+        NotificationService.checkHCPNotificationType(testData.pe, false);
+        
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
+        NotificationService.checkHCPNotificationType(testData.pe, false);
+        
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ON_HOLD;
+        NotificationService.checkHCPNotificationType(testData.pe, false);
+    }
+
+    @IsTest
+    static void test_checkPatientNotificationType() {
+        TestData testData = new TestData();
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ACCEPTED;
+        NotificationService.checkPatientNotificationType(testData.pe, false);
+        
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
+        NotificationService.checkPatientNotificationType(testData.pe, false);
+        
+        testData.pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ON_HOLD;
+        NotificationService.checkPatientNotificationType(testData.pe, false);
+    }
+
+    @IsTest
+    static void test_checkPatientNotificationVTType() {
+        TestData testData = new TestData();
+		Participant_Enrollment__c pe = [SELECT Id,Participant_Status__c,Referral_Source__c,
+                                        Clinical_Trial_Profile__r.Patient_Portal_Enabled__c 
+                                        FROM Participant_Enrollment__c WHERE Id =:testData.pe.Id];
+        pe.Referral_Source__c = 'HCP';
+        
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ACCEPTED;
+        NotificationService.checkPatientNotificationVTType(pe);
+        
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_DECLINED;
+        NotificationService.checkPatientNotificationVTType(pe);
+        
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_REFERRAL_ON_HOLD;
+        NotificationService.checkPatientNotificationVTType(pe);
+
+        pe.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = true;
+        pe.Participant_Status__c = PEStatusState.PE_STATUS_ENROLLMENT_SUCCESS;
+        NotificationService.checkPatientNotificationVTType(pe);        
+    }
+    
 }
