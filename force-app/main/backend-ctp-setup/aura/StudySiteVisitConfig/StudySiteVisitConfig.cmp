@@ -203,7 +203,7 @@
                 <div class="slds-modal__header slds-box">
                         <h3 style="font-size: 1rem;" title="">{!v.popupMessage}</h3>                    
                 </div>
-                <div class="slds-modal__content slds-p-around--medium slds-box">
+                <div class="slds-modal__content slds-p-around--medium slds-box visit-plan">
                             
                             <lightning:radioGroup name="radioGroup"
                                                 label=""
