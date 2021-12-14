@@ -25,13 +25,17 @@
         <div class="slds-grid slds-wrap slds-gutters">
             <div class="slds-col slds-size--1-of-1 slds-large-size_1-of-3">
                 <div class="rr-form-element mrr-fe">
+                    <div class="tooltip">
+                        <legend class="textoverlap" style="margin-top: 4px; margin-bottom:6px;">{!$Label.c.PE_Patient_Id}</legend>
                     <lightning:input
                         type="text"
-                        label="{!$Label.c.PE_Patient_Id}"
+                         variant="label-hidden"
                         value="{!v.searchData.participantId}"
                         disabled="{!!empty(v.searchResult)}"
                         onchange="{!c.doCheckPatientId}"
                     />
+                      <span>{!$Label.c.PE_Patient_Id}</span>
+                  </div>
                     <div class="small-info-text">{!$Label.c.PG_SPE_L_Patient_Id_tip}</div>
                 </div>
             </div>
