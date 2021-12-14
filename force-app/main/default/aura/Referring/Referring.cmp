@@ -716,13 +716,18 @@
                                                  class="slds-grid slds-gutters slds-wrap rr-form-element"
                                                  >
                                                 <div class="slds-col slds-size--1-of-2">
+                                                  <div class="tooltip">
+                                                        <legend class="textoverlap" style="margin-top:4px; margin-bottom:6px;">{!$Label.c.PE_Patient_Id}</legend>
                                                     <lightning:input
                                                                      type="text"
-                                                                     label="{!$Label.c.PE_Patient_Id}"
+                                                                     variant="label-hidden"
+                                                                
                                                                      value="{!v.pEnrollment.Patient_ID__c}"
                                                                      disabled="true"
                                                                      onchange="{!c.doCheckfields}"
                                                                      />
+                                                            <span>{!$Label.c.PE_Patient_Id}</span>                     
+                                                 </div>              
                                                 </div>
                                                 <div
                                                      class="slds-col rr-medium-up-hide"
