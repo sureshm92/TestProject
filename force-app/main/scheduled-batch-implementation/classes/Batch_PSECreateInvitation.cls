@@ -38,6 +38,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE
                 Clinical_Trial_Profile__c IN :ctpSet
                 AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_FAILED
+                AND Participant_Contact__c != null
                 AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = FALSE) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
             ]
         );
