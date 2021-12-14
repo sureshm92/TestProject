@@ -2,9 +2,6 @@ public without sharing class DashboardParticipantCount {
     public DashboardParticipantCount() {
 
     }
-    public static final String DELEGATE_STATUS_ACTIVE = 'Active'; // RH-5163
-    public static final String DELEGATE_STATUS_DISCONNECTED = 'Disconnected';// RH-5163
-    public static final String DELEGATE_STATUS_WITHDRAWN = 'Withdrawn';
 
     @AuraEnabled
     public static Map<String,Integer> participantInvitationDashboard(Id pIid,Id ctpId) {
@@ -40,11 +37,10 @@ public without sharing class DashboardParticipantCount {
             }
 
             if(participantIds.size() > 0) {
-                List<String> validStatus = new List<String>{DELEGATE_STATUS_ACTIVE,DELEGATE_STATUS_DISCONNECTED,DELEGATE_STATUS_WITHDRAWN};
                 participantList = [
                     SELECT Id,
                     (SELECT Id, Participant__c,Status__c,Primary_Delegate__c
-                     	FROM Participants__r WHERE Status__c IN:validStatus AND isInviteToPP__c = true)
+                     	FROM Participants__r WHERE isInviteToPP__c = true)
                     FROM Participant__c
                     WHERE Id IN: participantIds ];
 
