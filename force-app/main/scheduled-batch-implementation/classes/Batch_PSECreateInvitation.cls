@@ -119,7 +119,6 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         Date partDate;
         for (Participant_Enrollment__c pe : enrollments) {
-            System.debug('Survey start date : '+ctpToTSMap.get(pe.Clinical_Trial_Profile__c)[0].Survey_start_date__c);
             if(peContantMap.get(pe) != null && contactTimezone.get(peContantMap.get(pe)) != null){
                 String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', contactTimezone.get(peContantMap.get(pe)).toString());
                 partDate = Date.valueOf(partDateStr);
@@ -127,7 +126,6 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             else{
                 partDate=Date.today();
             }
-            System.debug('Date of Participant : '+partDate);
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if (surveys != null) {
                 for (Trial_Survey__c ts : surveys) {
@@ -144,7 +142,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                             if (invitationMap.get(key) == null) {
                                 newInvitations.add(
                                     SurveyService.getInstance()
-                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id))
+                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate)
                                 );
                             }
                         }
