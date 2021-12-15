@@ -14,7 +14,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
              OR (Survey_start_date__c != NULL 
                  AND Survey_start_date__c <= TOMORROW 
                  AND Survey_end_date__c != NULL
-                 AND Survey_end_date__c >= TOMORROW
+                 AND Survey_end_date__c >= TODAY
                 ))
         ];
         
@@ -89,7 +89,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                  OR (Survey_start_date__c != NULL 
                      AND Survey_start_date__c <= TOMORROW 
                      AND Survey_end_date__c != NULL
-                     AND Survey_end_date__c >= TOMORROW
+                     AND Survey_end_date__c >= TODAY
                     ))
         ];
         
