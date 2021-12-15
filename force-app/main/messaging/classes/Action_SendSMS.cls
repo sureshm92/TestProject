@@ -241,10 +241,10 @@ public with sharing class Action_SendSMS implements Action {
                     String shortCommunityName = '';
                     if (
                         pinPointWrapperObj.isPlatformlevel ||
-                        pinPointWrapperObj.sponsorName == 'Default'
+                        pinPointWrapperObj.ctpTemplate == 'Default'
                     ) {
                         shortCommunityName = label.IQVIA_Patient_Portal;
-                    } else if (pinPointWrapperObj.sponsorName == 'GSK') {
+                    } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
                         shortCommunityName = label.Gather_Share_Know;
                     }
                     //Replace community Name based on Community Template
