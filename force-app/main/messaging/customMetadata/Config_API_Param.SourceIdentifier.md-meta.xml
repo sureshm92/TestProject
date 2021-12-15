@@ -8,6 +8,6 @@
     </values>
     <values>
         <field>ParamValue__c</field>
-        <value xsi:type="xsd:string">RH_PP</value>
+        <value xsi:type="xsd:string">DEV-Unit-Test</value>
     </values>
 </CustomMetadata>

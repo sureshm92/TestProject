@@ -336,8 +336,12 @@ public without sharing class TaskService {
 
         Set<Id> contactIds = new Set<Id>();
          List<Patient_Delegate__c> patientDelegates = new  List<Patient_Delegate__c> ();
-        for (SurveyInvitation inv : surveyInvitation)
-            contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+        for (SurveyInvitation inv : surveyInvitation){
+            if(inv.Participant_Enrollment__r.Participant_Contact__c != null){
+                contactIds.add(inv.Participant_Enrollment__r.Participant_Contact__c);
+            }
+        }
+            
         if(!contactIds.isEmpty()){
               patientDelegates = [
                 SELECT Id, Contact__c, Participant__r.Contact__c
@@ -446,8 +450,7 @@ public without sharing class TaskService {
                             Datetime.now().timeGmt(),  
                             userTZ
                         );
-
-                    tsc.startDate = userDatetime.dateGMT();
+					tsc.startDate = userDatetime.dateGMT();
                     Time eodTime = Time.newInstance(23, 59, 0, 0);
                     if (inv.ExpireDateTime__c != null) {
                         Date expiryDate = inv.ExpireDateTime__c.date();
