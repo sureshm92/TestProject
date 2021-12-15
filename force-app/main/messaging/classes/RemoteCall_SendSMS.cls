@@ -19,7 +19,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         public NotificationMetadata notificationMetadata;
         public NotificationOption notificationOption;
         public PreferredDeliveryPeriod preferredDeliveryPeriod;
-        public Arguments arguments;
+        //public Arguments arguments;
     }
 
     public class SourceMetadata {
@@ -28,16 +28,25 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     }
 
     public class TargetMetadata {
+        public String sponsor;
+        public String study;
         public String pinPointProjectId;
     }
 
     public class NotificationMetadata {
         public String notificationType;
         public String fromNumber;
-        public List<String> toNumber;
+        //public List<String> toNumber;
+        public List<ToNumber> toNumbers;
         public String templateId;
         public String messageBody;
         public String subject;
+        public String templateName;
+        public String templateVersion;
+    }
+
+    public class ToNumber {
+        public String mobNumber;
     }
 
     public class NotificationOption {
@@ -53,7 +62,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         public String timezone; //ISO code
     }
 
-    public class Arguments {
+    /** public class Arguments {
         public List<Argument> argument;
     }
 
@@ -62,7 +71,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         public String value;
         public Boolean isSensitive;
     }
-
+     */
     private MessageWrapper messageWrapper;
 
     public RemoteCall_SendSMS(List<Action_SendSMS.MessageParameters> messageParametersList) {
@@ -84,24 +93,43 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         messageWrapper.sourceMetadata = new SourceMetadata();
         messageWrapper.targetMetadata = new TargetMetadata();
         messageWrapper.notificationMetadata = new NotificationMetadata();
-        messageWrapper.notificationOption = new NotificationOption();
-        messageWrapper.preferredDeliveryPeriod = new PreferredDeliveryPeriod();
-        messageWrapper.arguments = new Arguments();
-        messageWrapper.arguments.argument = new List<Argument>();
+        NotificationOption notificationOptionObj = new NotificationOption();
+        notificationOptionObj.customerResponseRequired = true;
+        notificationOptionObj.blacklistCheckRequired = true;
+        notificationOptionObj.deliveryReceiptStatusRequired = true;
+        notificationOptionObj.optOutCheckRequired = true;
+        messageWrapper.notificationOption = notificationOptionObj;
+        PreferredDeliveryPeriod preferredDeliveryPeriodObj = new PreferredDeliveryPeriod();
+        preferredDeliveryPeriodObj.deliveryEndTime = '';
+        preferredDeliveryPeriodObj.deliveryStartTime = '';
+        preferredDeliveryPeriodObj.timezone = 'GMT';
+        messageWrapper.preferredDeliveryPeriod = preferredDeliveryPeriodObj;
+        // messageWrapper.arguments = new Arguments();
+        //messageWrapper.arguments.argument = new List<Argument>();
         //Assign
         messageWrapper.sourceMetadata.transactionId = msgParam.transactionId;
         messageWrapper.sourceMetadata.sourceIdentifier = apiParamsMap.get(SOURCE_IDENTIFIER)
             .ParamValue__c;
         messageWrapper.targetMetadata.pinPointProjectId = msgParam.isPlatformLevel
             ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
-            : (String.isBlank(msgParam.pinPointProjectId)
-                  ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
-                  : msgParam.pinPointProjectId);
+            : msgParam.pinPointProjectId;
+        messageWrapper.targetMetadata.sponsor = msgParam.isPlatformLevel
+            ? 'iqvia'
+            : msgParam.awsSponsorName;
+        messageWrapper.targetMetadata.study = msgParam.isPlatformLevel ? 'all' : msgParam.awsStudy;
         // messageWrapper.targetMetadata.pinPointProjectId = '123';
         messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
         messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
             .ParamValue__c;
-        messageWrapper.notificationMetadata.toNumber = msgParam.toNumber;
+        //  messageWrapper.notificationMetadata.ToNumber = msgParam.toNumber;
+        ToNumber toNumberObj = new ToNumber();
+        toNumberObj.mobNumber = msgParam.toNumber[0];
+        List<ToNumber> toNumbers = new List<ToNumber>{ toNumberObj };
+        messageWrapper.notificationMetadata.toNumbers = toNumbers;
+        messageWrapper.notificationMetadata.templateName = '';
+        messageWrapper.notificationMetadata.templateVersion = '';
+        messageWrapper.notificationMetadata.subject = '';
+        messageWrapper.notificationMetadata.templateId = '';
         messageWrapper.notificationMetadata.messageBody = msgParam.messageBody;
     }
 
@@ -111,7 +139,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
 
     protected override String buildRequestBody() {
         //System.debug('reqBody:::'+JSON.serializePretty(messageWrapper, true));
-        return JSON.serializePretty(messageWrapper, true);
+        return JSON.serializePretty(messageWrapper, true).replaceAll('mobNumber', 'number');
     }
 
     protected override Object parseResponse(String responseBody) {

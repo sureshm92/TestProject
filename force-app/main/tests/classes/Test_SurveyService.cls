@@ -33,7 +33,7 @@ private class Test_SurveyService {
         insert ts;
 
         SurveyInvitation invitation = SurveyService.getInstance()
-            .generateInvitation(ts, testData.pe.Id, communityId, System.today());
+            .generateInvitation(ts, testData.pe.Id, communityId, System.today(),UserInfo.getTimeZone());
         insert invitation;
 
         SurveyService.getInstance().getSurveyWrapper(invitation.Id);
@@ -89,7 +89,7 @@ private class Test_SurveyService {
             Whose_response_needed__c = 'Patient only'
         );
         insert ts;
-        insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id, communityId,System.today());
+        insert SurveyService.getInstance().generateInvitation(ts, testData.pe.Id, communityId,System.today(),UserInfo.getTimeZone());
 
         SurveyService.getInstance()
             .isInvitationExpired(

@@ -38,6 +38,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE
                 Clinical_Trial_Profile__c IN :ctpSet
                 AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_FAILED
+                AND Participant_Contact__c != null
                 AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = FALSE) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
             ]
         );
@@ -118,9 +119,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         Date partDate;
+        TimeZone usertz;
         for (Participant_Enrollment__c pe : enrollments) {
             if(peContantMap.get(pe) != null && contactTimezone.get(peContantMap.get(pe)) != null){
-                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', contactTimezone.get(peContantMap.get(pe)).toString());
+                usertz = contactTimezone.get(peContantMap.get(pe));
+                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', usertz.toString());
                 partDate = Date.valueOf(partDateStr);
             }
             else{
@@ -142,7 +145,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                             if (invitationMap.get(key) == null) {
                                 newInvitations.add(
                                     SurveyService.getInstance()
-                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate)
+                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
                                 );
                             }
                         }
