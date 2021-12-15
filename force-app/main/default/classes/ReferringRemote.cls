@@ -404,7 +404,7 @@ public without sharing class ReferringRemote {
         enrollment.Show_Referring_Provider__c = true;
         enrollment.Non_Referral_Reason__c='';
         //enrollment.Invited_To_Patient_Portal__c = filterCriteria;
-        if(filterCriteria && participant.Adult__c)//adult added for RH-5266
+        if(filterCriteria && participant.Adult__c && String.isNotBlank(participant.Email__c))//adult added for RH-5266
         {
             enrollment.Invited_To_PP_Date__c = DateTime.now();
         }
