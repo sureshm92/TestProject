@@ -451,7 +451,7 @@ public without sharing class CommunityService {
                 Suffix
             FROM Contact
             WHERE Id = :contactIds
-            FOR UPDATE
+            //FOR UPDATE
             //ORDER BY Name
         ];
     }
@@ -615,20 +615,24 @@ public without sharing class CommunityService {
         }
 
         public void execute(QueueableContext context) {
-            ((CommunityService) ClassFactory.newInstance(CommunityService.class))
-                .createParticipantUsers(contactIdsMap);
+            try {
+                ((CommunityService) ClassFactory.newInstance(CommunityService.class))
+                    .createParticipantUsers(contactIdsMap);
 
-            if (participantContactIds != null && !participantContactIds.isEmpty()) {
-                Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
-                    new List<Id>(participantContactIds)
-                );
-                Set<Id> allContactIds = new Set<Id>(participantContactIds);
-                for (Id partKey : delegatesByParticipant.keySet()) {
-                    for (Id delConId : delegatesByParticipant.get(partKey)) {
-                        allContactIds.add(delConId);
+                if (participantContactIds != null && !participantContactIds.isEmpty()) {
+                    Map<Id, List<Id>> delegatesByParticipant = PatientDelegateService.getDelegateContactIdsByPAContactIs(
+                        new List<Id>(participantContactIds)
+                    );
+                    Set<Id> allContactIds = new Set<Id>(participantContactIds);
+                    for (Id partKey : delegatesByParticipant.keySet()) {
+                        for (Id delConId : delegatesByParticipant.get(partKey)) {
+                            allContactIds.add(delConId);
+                        }
                     }
+                    PatientDelegateService.updatePermissionSets(allContactIds);
                 }
-                PatientDelegateService.updatePermissionSets(allContactIds);
+            } catch(Exception ex) {
+                resetInvitationFlag(contactIdsMap);
             }
         }
     }
@@ -666,5 +670,20 @@ public without sharing class CommunityService {
         dlo.EmailHeader.triggerAutoResponseEmail = true;
         newUser.setOptions(dlo);
         return newUser;
+    }
+
+    public static void resetInvitationFlag(Map<Id, Id> contactIdsMap) {
+
+        List<Participant_Enrollment__c> perList = [
+                            SELECT Id, Invited_To_PP_Date__c,Participant_Contact__c 
+                            FROM Participant_Enrollment__c 
+                            WHERE Participant_Contact__c IN:contactIdsMap.keyset()
+                        ];
+        for(Participant_Enrollment__c per : perList){
+            if(per.Invited_To_PP_Date__c != null) {
+                per.Invited_To_PP_Date__c = null;
+            }
+        }
+        update perList;
     }
 }

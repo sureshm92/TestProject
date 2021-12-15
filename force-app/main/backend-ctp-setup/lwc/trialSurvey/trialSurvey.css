@@ -7,6 +7,7 @@
 }
 
  .slds-modal__content {
+    overflow: initial;
 	margin-top: -16px;
     margin-bottom: -23px;
 }

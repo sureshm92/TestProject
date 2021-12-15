@@ -24,7 +24,7 @@ private class Test_TrialSurveyTriggerHandler {
         insert ts;
 
         SurveyInvitation invitation = SurveyService.getInstance()
-            .generateInvitation(ts, testData.pe.Id, CommunityService.getCommunityId(null));
+            .generateInvitation(ts, testData.pe.Id, CommunityService.getCommunityId(null),System.today(),UserInfo.getTimeZone());
         insert invitation;
         taskSize = TaskService.getInstance()
             .createSurveyTasks(new Map<Id, String>{ invitation.Id => 'Patient only' });

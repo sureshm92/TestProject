@@ -508,7 +508,7 @@ ReferringRemote.checkNeedsGuardian(JSON.serialize(participant))
             Permit_IQVIA_to_contact_about_study__c = true,
             Human_Id__c = ipr.Human_Id__c
         );
-        if(filterCriteria && isAdult){
+        if(filterCriteria && isAdult && String.isNotBlank(ipr.email__c)){
             objPE.Invited_To_PP_Date__c = DateTime.now(); 
         }
         if (ipr.Comorbidities__c == 'True')
