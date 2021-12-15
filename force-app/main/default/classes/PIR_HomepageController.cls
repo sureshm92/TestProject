@@ -62,6 +62,30 @@ public without sharing class PIR_HomepageController {
     String sponsorName 
   ) {
     try {
+      List<String> status = new List<String>();
+      status.add('Received');
+      status.add('Pre-review Passed');
+      status.add('In Wash Out Period');
+      status.add('Successfully Contacted');
+      status.add('Contact Attempted');
+      status.add('Eligibility Passed');
+      status.add('Screening Passed');
+      status.add('Screening In Progress');
+      status.add('Screening Passed');
+      status.add('Screening In Progress - Wash Out Period');
+      status.add('Ready to Screen');
+      status.add('Enrollment Success');
+      status.add('Randomization Success');
+      status.add('Pre-review Failed');
+      status.add('Unable to Reach');
+      status.add('Contacted - Not Suitable');
+      status.add('Eligibility Failed');
+      status.add('Declined Consent');
+      status.add('Unable to Screen');
+      status.add('Withdrew Consent');
+      status.add('Withdrew Consent After Screening');
+      status.add('Enrollment Failed');
+      status.add('Randomization Failed');
       if (totalCount == -1) {
         if (
           (studyIdlist == null || studyIdlist.isEmpty()) &&
@@ -88,35 +112,12 @@ public without sharing class PIR_HomepageController {
         totalCount = [
           SELECT COUNT()
           FROM Participant_Enrollment__c
-          WHERE Study_Site__c IN :siteIdlist
+          WHERE Study_Site__c IN :siteIdlist AND Participant_Status__c IN:status 
         ];
       }
       ListViewReturnWrapper listViewReturnWrapper = new ListViewReturnWrapper();
       List<ListViewWrapper> listViewWrapper = new List<ListViewWrapper>();
-      List<String> status = new List<String>();
-      status.add('Received');
-      status.add('Pre-review Passed');
-      status.add('In Wash Out Period');
-      status.add('Successfully Contacted');
-      status.add('Contact Attempted');
-      status.add('Eligibility Passed');
-      status.add('Screening Passed');
-      status.add('Screening In Progress');
-      status.add('Screening Passed');
-      status.add('Screening In Progress - Wash Out Period');
-      status.add('Ready to Screen');
-      status.add('Enrollment Success');
-      status.add('Randomization Success');
-      status.add('Pre-review Failed');
-      status.add('Unable to Reach');
-      status.add('Contacted - Not Suitable');
-      status.add('Eligibility Failed');
-      status.add('Declined Consent');
-      status.add('Unable to Screen');
-      status.add('Withdrew Consent');
-      status.add('Withdrew Consent After Screening');
-      status.add('Enrollment Failed');
-      status.add('Randomization Failed');
+      
       
 
       if (pageNumber > 200 & pageNumber <= 4500) {
@@ -143,10 +144,15 @@ public without sharing class PIR_HomepageController {
             PerCounter__c,
             Participant__c,
             Participant__r.Emancipation_in_progress__c,
-            Participant_Status__c
+            Participant_Status__c,
+            HCP__c,
+            HCP__r.HCP_Contact__r.Name,
+            PI_Contact__c,
+            PI_Contact__r.Name,
+            Source_Type__c
           FROM Participant_Enrollment__c
           WHERE Study_Site__c IN :siteIdlist AND Participant_Status__c IN:status 
-          ORDER BY CreatedDate DESC
+          ORDER BY PerCounter__c DESC
           LIMIT 10
           OFFSET :offsetLimit
         ];
@@ -177,7 +183,14 @@ public without sharing class PIR_HomepageController {
       wrap.studyName = lst.Clinical_Trial_Profile__r.Study_Code_Name__c;
       wrap.siteName = lst.Study_Site__r.name;
       wrap.participantPhone = lst.Participant__r.Phone__c;
-      wrap.source = lst.Referral_Source__c;
+      if(lst.Referral_Source__c == System.Label.RH_HCP && lst.HCP__c != null)
+      {
+           wrap.source = lst.HCP__r.HCP_Contact__r.Name;
+      }else if(lst.Referral_Source__c == System.Label.RH_PI && lst.PI_Contact__c != null){
+            wrap.source = lst.PI_Contact__r.Name;
+      }else{
+            wrap.source = lst.Source_Type__c;
+      }
       wrap.highPriority = lst.High_Priority__c;
       wrap.highRisk = (String.isNotBlank(lst.HighRisk_Indicator__c) &&
       (lst.HighRisk_Indicator__c.toLowerCase() == 'yes' ||
@@ -201,11 +214,6 @@ public without sharing class PIR_HomepageController {
     List<Id> siteIdlist
   ) {
     Integer limitOfRecords = (pageNumber * 10);
-    Integer j = 10;
-    if (limitOfRecords > totalCount) {
-      Integer remainder = math.mod(totalCount, 10);
-      j = remainder;
-    }
     List<String> status = new List<String>();
     status.add('Received');
     status.add('Pre-review Passed');
@@ -245,17 +253,23 @@ public without sharing class PIR_HomepageController {
         Referral_Source__c,
         HighRisk_Indicator__c,
         High_Priority__c,
-        PerCounter__c, Participant_Status__c,
+        PerCounter__c,
+        Participant__c,
         Participant__r.Emancipation_in_progress__c,
-        Clinical_Trial_Profile__r.CommunityTemplate__c
+        Participant_Status__c,
+        HCP__c,
+        HCP__r.HCP_Contact__r.Name,
+        PI_Contact__c,
+        PI_Contact__r.Name,
+        Source_Type__c
       FROM Participant_Enrollment__c
       WHERE Study_Site__c IN :siteIdlist AND  Participant_Status__c IN:status
-      ORDER BY CreatedDate DESC
+      ORDER BY PerCounter__c DESC
       LIMIT :limitOfRecords
     ];
 
     List<Participant_Enrollment__c> perLimitList = new List<Participant_Enrollment__c>();
-    for (Integer i = (limitOfRecords - j); i < limitOfRecords; i++) {
+    for (Integer i = (limitOfRecords - 10); i < perList.size(); i++) {
       perLimitList.add(perList[i]);
     }
 

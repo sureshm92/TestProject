@@ -40,6 +40,7 @@ export default class Pir_participantList extends LightningElement {
     @api selectedPE;
     keyCount = 0;
     @api communityTemplate ='';
+    backSwap = false;
 
     connectedCallback(){        
        if(this.urlStudyId !== null && this.urlSiteId !== null){
@@ -51,7 +52,6 @@ export default class Pir_participantList extends LightningElement {
         loadScript(this, RR_COMMUNITY_JS)
         .then(() => {
             this.communityTemplate = communityService.getCurrentCommunityTemplateName();
-            console.log('ct-'+this.communityTemplate);
         }).then(() => {
             this.fetchList(); 
         }).catch((error) => {
@@ -61,12 +61,10 @@ export default class Pir_participantList extends LightningElement {
     }   
     rendered=false;
     renderedCallback(){
-        console.log("renderedCallbackinit");
         if(!this.rendered){
             this.rendered=true;
-            console.log("renderedCallback");
             this.setKeyAction();            
-        }
+        }        
         this.changeSelected();
     }
 
@@ -76,8 +74,15 @@ export default class Pir_participantList extends LightningElement {
         .then(result => {
             this.participantList = result.listViewWrapper;
             if(result.listViewWrapper.length>0){
-                this.selectedIndex = 0;
-                this.selectedPE=result.listViewWrapper[0];                
+                if(!this.backSwap){
+                    this.selectedIndex = 0;
+                    this.selectedPE=result.listViewWrapper[0];   
+                }else{
+                    this.backSwap = false;
+                    this.selectedIndex = result.listViewWrapper.length -1;
+                    this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
+                }
+
             }
             for(var i=0 ; i<result.listViewWrapper.length;i++){
                 this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
@@ -105,21 +110,46 @@ export default class Pir_participantList extends LightningElement {
         });
     }
     setKeyAction(){
-        this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
-            console.log(1123465);
+        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {            
             var name = event.key;
-            var code = event.code;
+            this.keyCount++;        
+            if((name=='ArrowDown' || name=='ArrowUp')){
+                event.preventDefault();
+            }
+        }, true);
+        this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
+            event.stopPropagation();
+            var name = event.key;
             this.keyCount++;        
             if((name=='ArrowDown' || name=='ArrowUp')){
                 var updateSelected=false;
-                if(name=='ArrowDown' && this.selectedIndex < (this.participantList.length - 1)){
-                    this.selectedIndex++;
-                    updateSelected=true;
+                if(name=='ArrowDown' ) {
+                    if( this.selectedIndex < (this.participantList.length - 1)){
+                        this.selectedIndex++;
+                        updateSelected=true;
+                    }else if(this.selectedIndex == (this.participantList.length - 1)){
+                        //goto to next page
+                        const pageswap = new CustomEvent("pageswap", {
+                            detail: "next"
+                        });
+                        this.dispatchEvent(pageswap); 
+                    }
                 }
-                if(name=='ArrowUp' && this.selectedIndex>0){
-                    this.selectedIndex--;
-                    updateSelected=true;
-                } 
+                if(name=='ArrowUp') {
+                    if( this.selectedIndex>0){
+                        this.selectedIndex--;
+                        updateSelected=true;
+                    }else if(this.selectedIndex == 0){
+                        //goto to previous page
+                        if(this.pageNumber != 1){
+                            this.backSwap = true;
+                        }
+                        const pageswap = new CustomEvent("pageswap", {
+                            detail: "prev"
+                        });
+                        this.dispatchEvent(pageswap); 
+                    }
+                }
                 if(updateSelected){
                     this.changeSelected();
                 }
@@ -142,6 +172,7 @@ export default class Pir_participantList extends LightningElement {
             for(var j = 0; j < cards.length; j++){
                 if(j==this.selectedIndex){
                     cards[j].classList.add("selected");
+                    cards[j].focus();
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
                     const selectedEvent = new CustomEvent("selectedpevaluechange", {
                         detail: this.selectedPE
@@ -153,5 +184,8 @@ export default class Pir_participantList extends LightningElement {
                 }
             }
         }
+    }
+    get pageLimit(){
+        return this.pageNumber>200;
     }
 }

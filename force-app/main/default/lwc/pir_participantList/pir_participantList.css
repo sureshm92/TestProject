@@ -2,6 +2,9 @@
 .keyup:focus-visible {
     outline: none;
 }
+.list-card:focus-visible {
+    outline: none;
+}
 .filterIconButton{
     height: 32px;
     width: 82%;
@@ -35,7 +38,11 @@
     border-width: 131px;
     padding: 1.5px;
 }
-
+.wait{
+    top: 28vh;
+    position: absolute;
+    width: 100%;
+}
 .flags .actionReq span{ background-color: rgba(255,147,0,0.08); }
 .flags .priority span{ background-color: rgba(158,84,176,0.08); }
 .flags .risk span{ background-color: rgba(223,33,109,0.08); }
