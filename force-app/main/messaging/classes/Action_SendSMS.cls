@@ -463,6 +463,7 @@ public with sharing class Action_SendSMS implements Action {
                 } else {
                     if (objType == 'SurveyInvitation') {
                         if (surveyInvitationMap.get(whatId) != null) {
+                            isPlatformLevel = false;
                             pinPoint = surveyInvitationMap.get(whatId)
                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
                             sponsorName = surveyInvitationMap.get(whatId)
