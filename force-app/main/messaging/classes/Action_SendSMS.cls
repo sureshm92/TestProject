@@ -213,7 +213,7 @@ public with sharing class Action_SendSMS implements Action {
                         .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
-                if (
+                /**if (
                     message.length() >
                     countryDialCodeMap.get(
                             smsChannel.Notification__r.Recipient__r.MailingCountryCode
@@ -227,7 +227,7 @@ public with sharing class Action_SendSMS implements Action {
                             )
                             .characterLimit
                     );
-                }
+                } **/
                 msgParam.messageBody = message;
                 // Pinpoint code Starts
                 PinpointWrapper pinPointWrapperObj = pinPointWrapperMap.get(
