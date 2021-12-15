@@ -138,10 +138,12 @@ Deploy:
 
 RUNTEST:
   only:
-    - INF11
+    variables:
+    - $CI_COMMIT_REF_NAME =~ /^INF|^master/
   except:
     - merge_requests
   
   stage: RUNTEST
   script: 
-  - . ./scripts/ci/run-tests.sh INF11
+  - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat human --codecoverage --testlevel RunLocalTests
+
