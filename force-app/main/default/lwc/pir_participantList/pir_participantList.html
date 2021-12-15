@@ -45,11 +45,16 @@
                       <div class="slds-spinner__dot-a"></div>
                       <div class="slds-spinner__dot-b"></div>
                     </div>
+                    <template if:true={pageLimit}>
+                        <div class="slds-align--absolute-center wait">
+                            Please wait as your page loads 
+                        </div>
+                    </template>
                   </div>
             </template>
             <template if:true={participantList}>
                 <template for:each={participantList} for:item="p"  for:index="index">
-                    <div onclick={handleMouseSelect} key={p.id} data-id={index} class="list-card slds-border--top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
                         <div class="flags">
                             <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>Action Requiered</span></template>
                             <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>

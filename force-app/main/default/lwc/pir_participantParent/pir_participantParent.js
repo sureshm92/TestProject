@@ -36,7 +36,7 @@ export default class Pir_participantParent extends LightningElement {
         }
         
     }
-    //paginalion
+    //pagination
     totalRecord;
     pageChanged(event){
         this.page = event.detail.page;
@@ -48,6 +48,15 @@ export default class Pir_participantParent extends LightningElement {
     }
     handleSpinner(event){
         this.isLoaded = event.detail;
+    }
+    changePage(event){
+        let dir = event.detail;
+        if(dir == 'next'){
+            this.template.querySelector("c-pir_participant-pagination").nextPage();
+        }
+        if(dir == 'prev'){
+            this.template.querySelector("c-pir_participant-pagination").previousPage();
+        }
     }
     //
 }
