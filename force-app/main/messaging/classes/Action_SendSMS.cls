@@ -238,7 +238,20 @@ public with sharing class Action_SendSMS implements Action {
                     msgParam.pinPointProjectId = pinPointWrapperObj.studyPinpoint;
                     msgParam.awsSponsorName = pinPointWrapperObj.sponsorName;
                     msgParam.awsStudy = pinPointWrapperObj.studyName;
-
+                    String shortCommunityName = '';
+                    if (
+                        pinPointWrapperObj.isPlatformlevel ||
+                        pinPointWrapperObj.ctpTemplate == 'Default'
+                    ) {
+                        shortCommunityName = label.IQVIA_Patient_Portal;
+                    } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
+                        shortCommunityName = label.Gather_Share_Know;
+                    }
+                    //Replace community Name based on Community Template
+                    msgParam.messageBody = msgParam.messageBody.replace(
+                        '##ShortCommunityName',
+                        shortCommunityName
+                    );
                     /**  public String awsSponsorName;
                      public String awsStudy; */
                 }
