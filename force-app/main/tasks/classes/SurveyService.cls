@@ -81,12 +81,20 @@ public without sharing class SurveyService {
             Date today ;
         	Time eodTime = Time.newInstance(23, 59, 0, 0);
         	if(ts.Expires_After_Days__c != null){
-                today = partDate.addDays((Integer) ts.Expires_After_Days__c);
+                if(partDate!=null){
+                    today = partDate.addDays((Integer) ts.Expires_After_Days__c);
+                }
+                else{
+                    today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+                }
             }
             else{
                 today = ts.Survey_end_date__c;
             }
-        	Integer offsetSeconds = userTZ.getOffset(today) / 1000;
+        	Integer offsetSeconds = 0;
+            if(userTZ != null){
+                offsetSeconds = userTZ.getOffset(today) / 1000;
+            }
             Datetime expiry = Datetime.newInstanceGmt(today, eodTime)
                 .addSeconds(-offsetSeconds);
         	invitation.ExpireDateTime__c = expiry;
