@@ -29,6 +29,9 @@ export default class Pir_participantPagination extends LightningElement {
     }
     
     calculate(){
+        if(this.totalRecords>45000){  // limit the pagination to 4500 page or 45000 records as same limit is set in the PIR_HomepageController
+            this.totalRecords = 45000;
+        }
         if(this.pageNumber>0){
             this.startRecord = 1 + ((this.pageNumber-1)*10);        
             this.totalPages =  Math.ceil(this.totalRecords / 10);
@@ -76,13 +79,13 @@ export default class Pir_participantPagination extends LightningElement {
         }
         this.calculate();
     }
-    nextPage() {
+    @api nextPage() {
         if(this.pageNumber < this.totalPages){
             this.pageNumber++;
             this.calculate();
         }
     }
-    previousPage() {
+    @api previousPage() {
         if(this.pageNumber > 1){
             this.pageNumber--;
             this.calculate();

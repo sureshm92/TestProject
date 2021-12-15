@@ -17,7 +17,7 @@
         <div class="boxShadow maxheight slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
                 <span>
-                    <c-pir_participant-list onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
+                    <c-pir_participant-list onpageswap={changePage} onmtoggle={mobileViewToggle} onreccountupdate={recCountUpdate} onselectedpevaluechange={selectedPI}></c-pir_participant-list>
                 </span>
             </div>
             <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 D">
@@ -49,10 +49,9 @@
         </div>
         <div class="boxShadow slds-grid slds-col slds-wrap slds-size_1-of-1 slds-medium-size_12-of-12 slds-large-size_12-of-12 bg">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_4-of-12 slds-large-size_4-of-12 L">
-                PAGINATION
-                <!--<template if:true={totalRecord}>
+                <template if:true={totalRecord}>
                     <c-pir_participant-pagination total-records={totalRecord} onpagechange={pageChanged}></c-pir_participant-pagination>
-                </template>-->
+                </template>
             </div>
             <div class="hideMobile slds-col slds-size_1-of-1 slds-medium-size_8-of-12 slds-large-size_8-of-12 slds-align_absolute-center D">
                 SAVE
