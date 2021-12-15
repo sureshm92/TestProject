@@ -65,7 +65,7 @@ public without sharing class TrialMatchLearnMoreLinkPDF {
         try {
             PageReference page = Page.TrialMatchLearnMorePage;
             page.getParameters().put('CTPId', ctpId);
-            Blob content = page.getContent();
+            Blob content = !Test.isRunningTest() ? page.getContent() : Blob.valueOf('Fake content');
             String encoded = EncodingUtil.base64Encode(content);
             return encoded;
         } catch (Exception e) {
