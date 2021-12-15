@@ -451,7 +451,7 @@ public without sharing class CommunityService {
                 Suffix
             FROM Contact
             WHERE Id = :contactIds
-            //FOR UPDATE
+            FOR UPDATE
             //ORDER BY Name
         ];
     }
