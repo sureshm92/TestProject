@@ -145,5 +145,7 @@ RUNTEST:
   
   stage: RUNTEST
   script: 
-  - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat human --codecoverage --testlevel RunLocalTests
-
+    - echo $CI_COMMIT_REF_NAME
+    - echo "${!CI_COMMIT_REF_NAME}" > sfdx-auth-url
+    - "echo 'y' | sfdx force:auth:sfdxurl:store -f sfdx-auth-url -a $CI_COMMIT_REF_NAME -d"  
+    - sfdx force:apex:test:run -u $CI_COMMIT_REF_NAME -w 350 --resultformat human --codecoverage --testlevel RunLocalTests
