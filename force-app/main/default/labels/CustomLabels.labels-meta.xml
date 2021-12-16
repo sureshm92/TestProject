@@ -20668,20 +20668,6 @@ communications using the toggles below.</value>
         <value>Pending Your Action</value>
     </labels>
     <labels>
-        <fullName>SMS_Body_Task_Reminder</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
-        <fullName>SMS_Body_Visit_Task_Reminder</fullName>
-        <language>en_US</language>
-        <protected>true</protected>
-        <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Text STOP to end alerts</value>
-    </labels>
-    <labels>
         <fullName>SS_Add_A_Member</fullName>
         <language>en_US</language>
         <protected>true</protected>
@@ -21293,14 +21279,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>You have an upcoming task ##ShortTaskName;Due Date: ##Taskdate ;Please log in to ##CommunityURL for additional details.</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>You have an upcoming visit for the ##StudyName clinical research study.Visit date:##PlannedDate.Please log in to ##CommunityURL for additional details.</value>
+        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>
