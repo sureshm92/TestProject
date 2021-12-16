@@ -30,6 +30,7 @@
 }
 .disabled{
   opacity: .5;
+  cursor: unset;
 }
 .rightShift{
   justify-content: right;
