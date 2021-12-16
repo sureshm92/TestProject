@@ -19,6 +19,7 @@ public without sharing class ReferralProfileRemote {
         Boolean isSiteEnabledforHAPI = false;
         User userInfo;
         Contact contactInfo; 
+        Boolean isVisitPlanAssigned;
     }
 
     class StatusStep {
@@ -172,6 +173,11 @@ public without sharing class ReferralProfileRemote {
                                                                   Email__c='');
             }  
             initData.visitPlanLVList = StudySiteService.getVisitPlansLVList(pe.Study_Site__c);
+            if(initData.enrollment.Visit_Plan__c!=null){
+                initData.isVisitPlanAssigned = true;
+            }else{
+                initData.isVisitPlanAssigned = false;
+            }
             if (initData.visitPlanLVList.size() == 1) {
                 initData.enrollment.Visit_Plan__c = initData.visitPlanLVList[0].value;
             }
