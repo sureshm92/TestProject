@@ -65,7 +65,7 @@ public without sharing class SurveyService {
         }
     }
 
-    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId, Date partDate) {
+    public SurveyInvitation generateInvitation(Trial_Survey__c ts, Id peId, Id communityId, Date partDate, TimeZone usertz) {
         SurveyInvitation invitation = new SurveyInvitation(
             CommunityId = communityId,
             Is_Midpoint__c = ts.Is_Midpoint__c,
@@ -79,17 +79,26 @@ public without sharing class SurveyService {
         );
 
             Date today ;
+        	Time eodTime = Time.newInstance(23, 59, 0, 0);
         	if(ts.Expires_After_Days__c != null){
-                today = partDate.addDays((Integer) ts.Expires_After_Days__c);
+                if(partDate!=null){
+                    today = partDate.addDays((Integer) ts.Expires_After_Days__c);
+                }
+                else{
+                    today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+                }
             }
             else{
                 today = ts.Survey_end_date__c;
             }
-        	Datetime expiry = Datetime.newInstance(today.year(), today.month(), today.day());
-            invitation.ExpireDateTime__c = expiry;
-       
-
-        return invitation;
+        	Integer offsetSeconds = 0;
+            if(userTZ != null){
+                offsetSeconds = userTZ.getOffset(today) / 1000;
+            }
+            Datetime expiry = Datetime.newInstanceGmt(today, eodTime)
+                .addSeconds(-offsetSeconds);
+        	invitation.ExpireDateTime__c = expiry;
+       return invitation;
     }
 
     public SurveyInvitation generateInvitation(

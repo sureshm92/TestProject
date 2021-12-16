@@ -213,7 +213,7 @@ public with sharing class Action_SendSMS implements Action {
                         .dialCountryCodeList.get(0) + phoneNumber.replaceAll('\\D', '');
                 msgParam.transactionId = smsChannel.Id; //Keeping Send_Result__c Id for 32 char limit
                 msgParam.toNumber = new List<String>{ phoneNumber };
-                if (
+                /**if (
                     message.length() >
                     countryDialCodeMap.get(
                             smsChannel.Notification__r.Recipient__r.MailingCountryCode
@@ -227,7 +227,7 @@ public with sharing class Action_SendSMS implements Action {
                             )
                             .characterLimit
                     );
-                }
+                } **/
                 msgParam.messageBody = message;
                 // Pinpoint code Starts
                 PinpointWrapper pinPointWrapperObj = pinPointWrapperMap.get(
@@ -238,7 +238,20 @@ public with sharing class Action_SendSMS implements Action {
                     msgParam.pinPointProjectId = pinPointWrapperObj.studyPinpoint;
                     msgParam.awsSponsorName = pinPointWrapperObj.sponsorName;
                     msgParam.awsStudy = pinPointWrapperObj.studyName;
-
+                    String shortCommunityName = '';
+                    if (
+                        pinPointWrapperObj.isPlatformlevel ||
+                        pinPointWrapperObj.ctpTemplate == 'Default'
+                    ) {
+                        shortCommunityName = label.IQVIA_Patient_Portal;
+                    } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
+                        shortCommunityName = label.Gather_Share_Know;
+                    }
+                    //Replace community Name based on Community Template
+                    msgParam.messageBody = msgParam.messageBody.replace(
+                        '##ShortCommunityName',
+                        shortCommunityName
+                    );
                     /**  public String awsSponsorName;
                      public String awsStudy; */
                 }
@@ -450,6 +463,7 @@ public with sharing class Action_SendSMS implements Action {
                 } else {
                     if (objType == 'SurveyInvitation') {
                         if (surveyInvitationMap.get(whatId) != null) {
+                            isPlatformLevel = false;
                             pinPoint = surveyInvitationMap.get(whatId)
                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
                             sponsorName = surveyInvitationMap.get(whatId)

@@ -14,7 +14,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
              OR (Survey_start_date__c != NULL 
                  AND Survey_start_date__c <= TOMORROW 
                  AND Survey_end_date__c != NULL
-                 AND Survey_end_date__c >= TOMORROW
+                 AND Survey_end_date__c >= TODAY
                 ))
         ];
         
@@ -89,7 +89,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                  OR (Survey_start_date__c != NULL 
                      AND Survey_start_date__c <= TOMORROW 
                      AND Survey_end_date__c != NULL
-                     AND Survey_end_date__c >= TOMORROW
+                     AND Survey_end_date__c >= TODAY
                     ))
         ];
         
@@ -119,9 +119,11 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         Date partDate;
+        TimeZone usertz;
         for (Participant_Enrollment__c pe : enrollments) {
             if(peContantMap.get(pe) != null && contactTimezone.get(peContantMap.get(pe)) != null){
-                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', contactTimezone.get(peContantMap.get(pe)).toString());
+                usertz = contactTimezone.get(peContantMap.get(pe));
+                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', usertz.toString());
                 partDate = Date.valueOf(partDateStr);
             }
             else{
@@ -143,7 +145,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                             if (invitationMap.get(key) == null) {
                                 newInvitations.add(
                                     SurveyService.getInstance()
-                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate)
+                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
                                 );
                             }
                         }
