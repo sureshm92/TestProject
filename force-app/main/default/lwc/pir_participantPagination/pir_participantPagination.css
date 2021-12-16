@@ -16,7 +16,7 @@
   border-radius: 4px;
   background-color: #FFFFFF;
   box-shadow: 0 2px 4px 0 rgb(0 0 0 / 0%);
-  text-align: end;
+  text-align: center;
 }
 .pg input:focus-visible {
   outline: none;
@@ -30,9 +30,6 @@
 }
 .disabled{
   opacity: .5;
-}
-.customInput{
-  text-align: center;
 }
 .rightShift{
   justify-content: right;
