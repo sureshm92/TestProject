@@ -64,7 +64,7 @@
 }
 .per-header-name{
   height: 28px;
-  width: 652px;
+  display:inline-flex;
   color: #000000;
   font-family: "Proxima Nova";
   font-size: 20px;
@@ -80,15 +80,28 @@
     font-size: 12px;
     letter-spacing: 0;
     line-height: 13px;
+    margin-top:10px;
 }
 .shadowbox{
-    box-shadow: 0 1px 5px silver;
+    box-shadow: 0 2px 3px silver;
 }
 .header-section{
    padding-left: 5px;
 }
 .button-section{
     padding-right:10px;
+}
+.truncate-name{
+    width: 50%;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+.name-id-inline{
+    display:flex;
+}
+.pername{
+    max-width: 11.5em;
 }
 @media(max-width:767px){
     .btn-lrg{
