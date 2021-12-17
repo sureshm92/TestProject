@@ -1,5 +1,5 @@
 /**
- * Created by Leonid test
+ * Created by Leonid
  */
 
 @IsTest
