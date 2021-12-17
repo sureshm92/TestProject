@@ -104,7 +104,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         PreferredDeliveryPeriod preferredDeliveryPeriodObj = new PreferredDeliveryPeriod();
         preferredDeliveryPeriodObj.deliveryEndTime = '';
         preferredDeliveryPeriodObj.deliveryStartTime = '';
-        preferredDeliveryPeriodObj.timezone = 'GMT';
+        preferredDeliveryPeriodObj.timezone = '';
         messageWrapper.preferredDeliveryPeriod = preferredDeliveryPeriodObj;
         // messageWrapper.arguments = new Arguments();
         //messageWrapper.arguments.argument = new List<Argument>();
