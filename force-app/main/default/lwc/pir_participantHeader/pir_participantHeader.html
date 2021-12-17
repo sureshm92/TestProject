@@ -3,15 +3,26 @@
         <div class="slds-grid slds-wrap slds-p-around_x-small">
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 header-section header-section-mob">
                 <template if:true={peId}>
-                    <p class="per-header-name slds-truncate" title={participantName}><b>{firstName}&nbsp;{lastName} </b> <span class="per-header-Refno">&nbsp;({refNumber})</span></p>
-                    <p class="per-mobile slds-truncate">{phoneNumber}</p>
+                    <!--<div class="name-id-inline">
+                        <div class="per-header-name truncate-name" title={participantName}><b>{firstName}&nbsp;{lastName} </b></div>
+                        <div class="per-header-Refno ">&nbsp;({refNumber})</div>
+                    </div>-->
+                    <div class="per-header-name" title={participantName}>
+                        <b class="slds-truncate pername">{firstName}&nbsp;{lastName} </b> 
+                        <span class="per-header-Refno">&nbsp;({refNumber})</span>
+                    </div>
+                    <template if:true={phoneNumber}>
+                       <p class="per-mobile slds-truncate">{phoneNumber}</p>
+                    </template>
                     <p class="per-study-details slds-truncate" title={studySiteName}>{studyName} - {siteName} </p>
-                    <p class="per-study-details slds-truncate">{label.RH_Referred_by} {referredBy} </p>
+                    <p class="per-study-details slds-truncate" title={referredBy}>{label.RH_Referred_by} {referredBy} </p>
                 </template>
             </div>
             <div class="slds-col slds-size_1-of-1 slds-medium-size_6-of-12 slds-large-size_6-of-12 button-section">
                 <div class=" slds-float_right slds-show_medium destop-top-padding tabview slds-gutters_x-small">
-                        <img class="slds-p-around_x-small ipad-mode cursor" onclick={doPrint} src={printIcon} width="32px" >
+                        <template if:true={showPrinticon}>   
+                            <img class="slds-p-around_x-small ipad-mode cursor" onclick={doPrint} src={printIcon} width="32px" >
+                        </template>
                         <template if:true={showPreScreen}>
                             <button class="apollo-btn secondary ipad-mode-btn slds-p-around_x-small"  onclick={doPrescreen}> {label.RH_Pre_screen} </button>
                         </template>
@@ -35,9 +46,6 @@
                     </div>
                 <div class="slds-grid slds-grid_vertical slds-hide_medium">
                     <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small cursor"> <img onclick={doPrint} src={printIcon} width="32px"></div>
-                    <template if:true={showPreScreen}>
-                        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small"><button class="apollo-btn secondary btn-lrg"  onclick={doPrescreen}> {label.RH_Pre_screen} </button></div>
-                    </template>
                     <template if:true={showAction}>
                         <template if:true={showActiondt}>
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small">
@@ -56,6 +64,9 @@
                         <template if:false={showActiondt}>
                             <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small"><button class="apollo-btn primary btn-lrg "  onclick={doAction} title={btnToolTip}>  {showActionlabel} </button></div>
                         </template>
+                    </template>
+                    <template if:true={showPreScreen}>
+                        <div class="slds-col slds-size_1-of-1 slds-align_absolute-center slds-p-vertical_x-small"><button class="apollo-btn secondary btn-lrg"  onclick={doPrescreen}> {label.RH_Pre_screen} </button></div>
                     </template>
                 </div>
             </div>
@@ -88,15 +99,16 @@
                     </div>
                     <div class="main-title">
                         <template if:true={mrrPassed}>
-                            <div class="slds-truncate"> {per.Participant__r.Full_Name__c} </div> &nbsp;{label.PG_MRR_R_Passed}
+                            <div class="slds-truncate"> {per.Participant__r.Full_Name__c}  &nbsp;{label.PG_MRR_R_Passed} </div>
                         </template>
                         <template if:false={mrrPassed}>
-                           <div class="slds-truncate">  {per.Participant__r.Full_Name__c} </div>&nbsp;{label.PG_MRR_R_Failed}
+                           <div class="slds-truncate">  {per.Participant__r.Full_Name__c} &nbsp;{label.PG_MRR_R_Failed} </div>
                         </template>
                     </div>
                     <div>
                         <template if:true={checkAction}>
                             <template if:true={showAction}>
+                                
                                 <template if:false={showActiondt}>
                                     <button class="apollo-btn primary mrr-btn ipad-mode-btn slds-p-around_x-small"  onclick={doAction}> {label.inviteToPP} </button> 
                                 </template> 

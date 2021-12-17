@@ -65,6 +65,7 @@ export default class Pir_participantHeader extends LightningElement {
     @api showPreScreen = false;
     @api participantName = '';
     @api btnToolTip = '';
+    @api showPrinticon = false;
     
 
 
@@ -89,14 +90,13 @@ export default class Pir_participantHeader extends LightningElement {
         this.participantName = this.selectedPE.firstName + ' ' + this.selectedPE.lastName + ' ' +'('+this.selectedPE.refId+')';
         if(this.peId)
         {
+             this.showPrinticon = true;
              getPEData({ peId: this.peId })
              .then((result) => {
                  this.per = result.per;
                  this.isAllowedForSH = result.isAllowedForSH;
                  this.mrrLink = this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c;
-                 if(this.per.Participant__r.Adult__c == true  &&  this.per.Participant__r.Email__c != null)
-                {
-                    if(this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
+                    if(this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c == 'Traditional' && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name && (this.per.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c || this.per.Study_Site__r.Suppress_Participant_Emails__c))
                     {
                         this.showAction = true;
                         this.showActionName = 'PP';
@@ -105,7 +105,7 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showActiondt = false;
                         this.btnToolTip = '';
                     }else if((this.per.Participant_Contact__r.Is_Patient_User_Created__c == false || this.per.Invited_To_PP_Date__c == null) && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name &&
-                              this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c &&
+                              this.per.Participant__r.Adult__c == true && this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && this.per.Participant__r.Adult__c == true  &&  this.per.Participant__r.Email__c != null &&
                               this.per.Study_Site__r.Study_Site_Type__c != 'Virtual' && this.per.Study_Site__r.Study_Site_Type__c != 'Hybrid' && this.per.Participant__r.IsCountry_NOT_Eligible_for_Emails__c == false &&
                               this.per.Permit_IQVIA_to_contact_about_study__c)
                     {
@@ -116,7 +116,7 @@ export default class Pir_participantHeader extends LightningElement {
                             this.showActiondt = false;  
                             this.btnToolTip = ''; 
                     }else if(this.per.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c && this.per.Participant_Contact__r.Is_Patient_User_Created__c == true && this.per.Invited_To_PP_Date__c != undefined && this.per.Invited_To_PP_Date__c != null && this.per.Clinical_Trial_Profile__r.CommunityTemplate__c != this.label.Janssen_Community_Template_Name &&
-                             this.per.Study_Site__r.Study_Site_Type__c != 'Virtual' && this.per.Study_Site__r.Study_Site_Type__c != 'Hybrid')  
+                              this.per.Participant__r.Adult__c == true  &&  this.per.Participant__r.Email__c != null && this.per.Study_Site__r.Study_Site_Type__c != 'Virtual' && this.per.Study_Site__r.Study_Site_Type__c != 'Hybrid')  
                     {
                         this.showAction = true;
                         this.showActionName = 'PP';
@@ -148,10 +148,8 @@ export default class Pir_participantHeader extends LightningElement {
                         }
                     }else{
                         this.showAction = false;
+                        this.showActionName = 'NOPP';
                     }
-                }else{
-                        this.showAction = false;
-                }
                  if(!this.per.MRR_Survey_Results_URL__c && this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c){
                       this.showPreScreen = true;
                  }else{
@@ -192,8 +190,8 @@ export default class Pir_participantHeader extends LightningElement {
         this.mrrResults = false;
     }
 
-    checkAction(){
-        if(this.showActionName == 'PP'){
+    get checkAction(){
+        if(this.showActionName == "PP"){
             return true;
         }else{
             return false;
