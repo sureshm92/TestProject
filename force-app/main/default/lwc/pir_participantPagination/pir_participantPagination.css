@@ -24,6 +24,9 @@
 .pg .slds-icon_container{
   cursor: pointer;
 }
+.pg .disabled .slds-icon_container{
+  cursor: unset;
+}
 .totalpages{
   color: #0768FD;
   font-weight: 600;
