@@ -9,6 +9,7 @@
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
         component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         component.set('v.isFirstPrimaryDelegate',false);
         window.setTimeout(function(){
             var charSize; 
@@ -58,6 +59,10 @@
          console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
          console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
          console.log('doCheckFields');
+         var formData = component.get('v.formData');
+         if(formData.visitPlansLVList.length ===1 && component.get('v.pe').Visit_Plan__c && component.get('v.isVisitPlanAssigned')!= true){
+             component.set('v.isOneVisitPlanAvailableAndSelected',true);
+         }
          var helpText = component.find('helpText');
          var participant = component.get('v.participant');
          // var participantDelegate = component.get('v.participantDelegate');
