@@ -81,6 +81,11 @@
                                 );
                                 returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                             }
+                            
+                            if(returnValue.isVisitPlanAssigned == false){
+                                returnValue.enrollment.Visit_Plan__c = undefined;
+                            }
+                            component.set('v.isVisitPlanAssigned',returnValue.isVisitPlanAssigned);
                             component.set('v.pe', returnValue.enrollment);
                             component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.isSiteEnabledforHAPI', returnValue.isSiteEnabledforHAPI);
@@ -135,6 +140,7 @@
     },
      
     doUpdate: function (component, event, helper) {
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var usermode = communityService.getUserMode();
@@ -278,6 +284,7 @@
         var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
@@ -616,6 +623,7 @@
         let pathWrapper = component.get('v.participantPath');
         var usermode = communityService.getUserMode();
         let pe = component.get('v.pe');
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
