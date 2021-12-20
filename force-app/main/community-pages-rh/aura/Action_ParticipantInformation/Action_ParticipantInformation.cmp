@@ -76,8 +76,8 @@
  <aura:attribute name="isAdultDel" type="Boolean"  />    
  <aura:attribute name="attestAge" type="Boolean"  />
  <aura:attribute name="isBulkImport" type="Boolean"  /> <!--as per 3248 -->
-
-
+ <aura:attribute name="isOneVisitPlanAvailableAndSelected" type="Boolean"  />
+ <aura:attribute name="isVisitPlanAssigned" type="Boolean"  />
 <!-- Event handler -->
 <aura:registerEvent name="callcenter" type="c:CallCenterRefresh" />
 <aura:registerEvent name="FilterKeep" type="c:CardViewFilterKeep"/>
@@ -245,6 +245,7 @@ isListView = "{!v.isListView}"
                                      updateMode="true"
                                      isValid="{!v.isValid}"
                                      BtnClicked="{!v.BtnClicked}"
+                                     isOneVisitPlanAvailableAndSelected = "{!v.isOneVisitPlanAvailableAndSelected}"
                                      isEmailConfrmBtnClick = "{!v.isEmailConfrmBtnClick}"
                                      participantDelegateUseExisiting = "{!v.participantDelegateUseExisiting}"
                                      yob = "{!v.yob}"
@@ -254,6 +255,7 @@ isListView = "{!v.isListView}"
                                      isBulkImport = "{!v.isBulkImport}"
                                      needsDelegate="{!v.needsDelegate}"
 									 parentComponent="{!this}"
+                                     isVisitPlanAssigned="{!v.isVisitPlanAssigned}"
                                      />
              
              <!--1936-->

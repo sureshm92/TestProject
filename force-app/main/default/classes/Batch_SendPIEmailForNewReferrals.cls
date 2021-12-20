@@ -3,7 +3,11 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
     Map<String, List<User>> timezoneUsers = new Map<String, List<User>>();
     DateTime timestarted;
     public Database.QueryLocator start(Database.BatchableContext bc) {
-        timestarted = DateTime.now();
+        if(!test.isRunningTest())
+        	timestarted = DateTime.now();
+        else{
+            timestarted = DateTime.newInstance(2021,10,23,20,10,0);
+        }
         system.debug('^' + UserInfo.getUserId());
         return Database.getQueryLocator(
             [
@@ -22,7 +26,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
         );
     }
     public void execute(Database.BatchableContext bc, List<User> users) {
-        
+    
      List<Messaging.SingleEmailMessage> emailMessages = new List<Messaging.SingleEmailMessage>();
     Notification_Type__mdt notificationType = NotificationService.getNotificationType(
             'PI_Delegates_New_Referral'
@@ -64,7 +68,7 @@ public class Batch_SendPIEmailForNewReferrals extends Batch_ScheduledAbstract {
             Datetime userlocaltime = timestarted.addSeconds(offset / 1000);
             Integer hours = 0;
             Integer minutes = 0;
-            Boolean isQualified = false;
+            Boolean isQualified = false; 
             DateTime currentTime = DateTime.now();
             if (
                 ((userlocaltime.hourgmt() == 7 && userlocaltime.minutegmt() <= 45) ||
