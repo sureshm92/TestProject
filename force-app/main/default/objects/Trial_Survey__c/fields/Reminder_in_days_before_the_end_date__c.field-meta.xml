@@ -3,7 +3,7 @@
     <fullName>Reminder_in_days_before_the_end_date__c</fullName>
     <description>Days</description>
     <externalId>false</externalId>
-    <label>Reminder(in days) before the end date</label>
+    <label>Reminder(in days) before survey expires</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>

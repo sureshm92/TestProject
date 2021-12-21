@@ -24,7 +24,7 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
     isctpId = false;
     isrecordtype = false;
     //isStatusBasedTrialSurvey = false;
-    isRecurrenceSurvey = false;
+    isRecurrenceSurvey = false;    
     notNumericValue = false;
     labels = {
         weeklyError,
@@ -263,6 +263,12 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             this.reminderDisabled = true;
         } else {
             this.reminderDisabled = false;
+        }
+        if(this.recordTypeName == 'Time based'){
+            this.isrecordtype = false;
+        }
+        else{
+            this.isrecordtype = true;
         }
         this.isRecurrenceSurvey = event.target.value;
     }
