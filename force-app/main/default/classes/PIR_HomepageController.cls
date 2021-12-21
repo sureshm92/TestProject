@@ -51,6 +51,8 @@ public without sharing class PIR_HomepageController {
     public Boolean isAllowedForSH;
     @AuraEnabled
     public Datetime sendToSHDate;
+    @AuraEnabled
+    public Boolean preScreenAccess;
   }
 
   @AuraEnabled
@@ -183,6 +185,7 @@ public without sharing class PIR_HomepageController {
       wrap.studyName = lst.Clinical_Trial_Profile__r.Study_Code_Name__c;
       wrap.siteName = lst.Study_Site__r.name;
       wrap.participantPhone = lst.Participant__r.Phone__c;
+
       if(lst.Referral_Source__c == System.Label.RH_HCP && lst.HCP__c != null)
       {
            wrap.source = lst.HCP__r.HCP_Contact__r.Name;
@@ -337,7 +340,35 @@ public without sharing class PIR_HomepageController {
         WHERE Id = :peId
         // WITH SECURITY_ENFORCED
       ];
+      List<Site_Staff__c> piStaffs = new   List<Site_Staff__c>();
+      piStaffs = [
+                    SELECT
+                    Id,
+                    Study_Site__c,
+                    Study_Site__r.Principal_Investigator__c,
+                    Study_Site__r.Clinical_Trial_Profile__c,
+                    Delegate_Level__c,
+                    Clinical_Trial_Profile__c,
+                    Site_Contact__c,
+                    is_Invited__c
+                FROM Site_Staff__c
+                WHERE
+                    Site_Contact__c = :CommunityService.getUserContact().Id
+                    AND Study_Site__c =: pe.Study_Site__c
+                    AND is_Invited__c = TRUE
+                ];  
       PeGetInviteWrapper pegetwrp = new PeGetInviteWrapper();
+      if(!piStaffs.isEmpty()){
+          for (Site_Staff__c siteStaff : piStaffs) {    
+               if(siteStaff.Delegate_Level__c == 'Level 3'){
+                  pegetwrp.preScreenAccess = false;
+               }else{
+                  pegetwrp.preScreenAccess = true;
+               }
+          }
+      }else{
+           pegetwrp.preScreenAccess = true;
+      }    
       pegetwrp.per = pe;
       pegetwrp.isAllowedForSH = ifAllowedForSH(pe, false);
       if (

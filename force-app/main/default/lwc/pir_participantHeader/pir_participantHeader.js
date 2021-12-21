@@ -69,7 +69,7 @@ export default class Pir_participantHeader extends LightningElement {
     
 
 
-    /**connectedCallback() {
+   /**connectedCallback() {
         this.doSelectedPI();
     }**/
 
@@ -150,7 +150,7 @@ export default class Pir_participantHeader extends LightningElement {
                         this.showAction = false;
                         this.showActionName = 'NOPP';
                     }
-                 if(!this.per.MRR_Survey_Results_URL__c && this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c){
+                 if(!this.per.MRR_Survey_Results_URL__c && this.per.Clinical_Trial_Profile__r.Link_to_Medical_Record_Review__c && result.preScreenAccess){
                       this.showPreScreen = true;
                  }else{
                      this.showPreScreen = false;

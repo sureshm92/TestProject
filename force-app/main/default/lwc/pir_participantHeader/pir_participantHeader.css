@@ -1,5 +1,7 @@
 .destop-top-padding{
     margin-top:1rem;
+    display:inline-flex;
+    align-items:center;
 }
 .cursor{
     cursor: pointer;
