@@ -53,6 +53,7 @@ export default class DashboardParticipantCount extends LightningElement {
         this.fetchDashboardValues();        
     }
 
+    @api
     fetchDashboardValues() {
         if(this.selectedCTP && this.selectedPI) {
             this.loading = true;

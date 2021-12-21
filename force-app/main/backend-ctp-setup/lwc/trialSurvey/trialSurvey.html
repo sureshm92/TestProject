@@ -116,15 +116,17 @@
                                             ></lightning-input-field>
                                         </p>
                                     </div>
-                                    <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
-                                        <p>
-                                            <lightning-input-field
-                                                onchange={isNumberKey}
-                                                required="true"
-                                                field-name="Expires_After_Days__c"
-                                            ></lightning-input-field>
-                                        </p>
-                                    </div>
+                                    <template if:false={isRecurrenceSurvey}>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                            <p>
+                                                <lightning-input-field
+                                                    onchange={isNumberKey}
+                                                    required="true"
+                                                    field-name="Expires_After_Days__c"
+                                                ></lightning-input-field>
+                                            </p>
+                                        </div>
+                                    </template>
                                 </div>
                                 <div class="slds-grid">
                                     <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
@@ -196,6 +198,20 @@
                                             ></lightning-input-field>
                                         </p>
                                     </div>
+                                </template>
+                            </div>
+                            <div class="slds-grid">
+                                <template if:true={isRecurrenceSurvey}>
+                                    <template if:true={isrecordtype}>
+                                        <div class="slds-col slds-size_1-of-2 slds-p-horizontal--small">
+                                            <p>
+                                                <lightning-input-field
+                                                    required={isRecurrenceSurvey}
+                                                    field-name="Number_of_occurrences__c"
+                                                ></lightning-input-field>
+                                            </p>
+                                        </div>
+                                    </template>
                                 </template>
                             </div>
                         </lightning-card>
