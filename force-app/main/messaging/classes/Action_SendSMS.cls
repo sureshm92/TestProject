@@ -10,6 +10,8 @@ public with sharing class Action_SendSMS implements Action {
     transient private NotificationResultService sendResultService;
     transient private IntegrationLog__c log;
     public static final String PHONE_TYPE_MOBILE = 'Mobile';
+    public static final String PERMISSION_COMMUNITY_DEFAULT_NAME = 'Community_Default';
+    public static final String PERMISSION_COMMUNITY_GSK_NAME = 'Community_GSK_Pan_Oncology';
 
     public class Action_SendSMS_Exception extends Exception {
     }
@@ -177,7 +179,7 @@ public with sharing class Action_SendSMS implements Action {
                 '##PTFirstName',
                 participantMap.get(smsChannel.Notification__r.Recipient__c).First_Name__c
             );
-            if (
+            /**if (
                 !String.isBlank(message) &&
                 NotificationService.taskAndVisitReminderTypes.contains(
                     smsChannel.Notification__r.Notification_Type__c
@@ -191,7 +193,7 @@ public with sharing class Action_SendSMS implements Action {
                             smsChannel.Notification__r.Task_Id__c
                         )
                         .Community_Template_Name__c;
-                    if (String.isBlank(communityTemaplteName)) {
+                    /** if (String.isBlank(communityTemaplteName)) {
                         communityTemaplteName = 'Default';
                     }
                     String commUrl = CommunityService.getCommunityURLFromTemplateName(
@@ -199,11 +201,12 @@ public with sharing class Action_SendSMS implements Action {
                     );
                     message = message.replace('##CommunityURL', commUrl);
                 }
-            }
-            message = message.replace(
+            } **/
+            /** message = message.replace(
                 '##CommunityURL',
                 CommunityService.getCommunityURLFromTemplateName('Default')
-            );
+            );  */
+
             if (phoneNumber != null) {
                 MessageParameters msgParam = new MessageParameters();
                 phoneNumber =
@@ -239,6 +242,7 @@ public with sharing class Action_SendSMS implements Action {
                     msgParam.awsSponsorName = pinPointWrapperObj.sponsorName;
                     msgParam.awsStudy = pinPointWrapperObj.studyName;
                     String shortCommunityName = '';
+                    String url = '';
                     if (
                         pinPointWrapperObj.isPlatformlevel ||
                         pinPointWrapperObj.ctpTemplate == 'Default'
@@ -247,11 +251,19 @@ public with sharing class Action_SendSMS implements Action {
                     } else if (pinPointWrapperObj.ctpTemplate == 'GSK') {
                         shortCommunityName = label.Gather_Share_Know;
                     }
+                    url = CommunityService.getCommunityURLFromTemplateName(
+                        pinPointWrapperObj.ctpTemplate
+                    );
                     //Replace community Name based on Community Template
                     msgParam.messageBody = msgParam.messageBody.replace(
                         '##ShortCommunityName',
                         shortCommunityName
                     );
+                    message = message.replace(
+                        '##CommunityURL',
+                        CommunityService.getCommunityURLFromTemplateName('Default')
+                    );
+                    msgParam.messageBody = msgParam.messageBody.replace('##CommunityURL', url);
                     /**  public String awsSponsorName;
                      public String awsStudy; */
                 }
@@ -331,6 +343,8 @@ public with sharing class Action_SendSMS implements Action {
         List<Id> ctpIdList = new List<Id>();
         List<Id> taskIdList = new List<Id>();
         List<Id> surveyInvitationIdList = new List<Id>();
+        List<Id> ownerIdList = new List<Id>();
+
         for (Notification__c notificationObj : notificationsList) {
             if (notificationObj.WhatId__c != null) {
                 Id whatId = Id.valueOf(notificationObj.WhatId__c);
@@ -358,6 +372,7 @@ public with sharing class Action_SendSMS implements Action {
                 SELECT
                     Id,
                     WhatId,
+                    OwnerId,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                     Survey_Invitation__r.Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
@@ -372,11 +387,14 @@ public with sharing class Action_SendSMS implements Action {
                 if (String.valueOf(tobj.whatId.getSobjectType()) == 'Participant_Enrollment__c') {
                     peIdList.add(tobj.whatId);
                 }
+                if (String.valueOf(tobj.whatId.getSobjectType()) == 'Participant__c') {
+                    ownerIdList.add(tobj.OwnerId);
+                }
             }
             if (tobj.Survey_Invitation__c != null) {
-                if (tobj.Survey_Invitation__r.IsTrialSurvey__c) {
+                // if (tobj.Survey_Invitation__r.IsTrialSurvey__c) {
                     peIdList.add(tobj.Survey_Invitation__r.Participant_Enrollment__c);
-                }
+                // }
             }
         }
 
@@ -392,6 +410,7 @@ public with sharing class Action_SendSMS implements Action {
                     (
                         SELECT
                             Id,
+                            IsTrialSurvey__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
@@ -418,6 +437,20 @@ public with sharing class Action_SendSMS implements Action {
                 }
             }
         }
+        Map<Id, User> userIdMap = new Map<Id, User>(
+            [
+                SELECT
+                    Id,
+                    (
+                        SELECT PermissionSet.Name
+                        FROM PermissionSetAssignments
+                        WHERE PermissionSet.Name IN :CommunityTemplateService.getAllPermissionSets()
+                    )
+                FROM User
+                WHERE Id IN :ownerIdList
+            ]
+        );
+
         for (Notification__c notObj : notificationsList) {
             if (notObj.WhatId__c != null) {
                 Notification_Type__mdt messageType = NotificationService.getNotificationType(
@@ -463,6 +496,7 @@ public with sharing class Action_SendSMS implements Action {
                 } else {
                     if (objType == 'SurveyInvitation') {
                         if (surveyInvitationMap.get(whatId) != null) {
+                            if (surveyInvitationMap.get(whatId).IsTrialSurvey__c) {
                             isPlatformLevel = false;
                             pinPoint = surveyInvitationMap.get(whatId)
                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c;
@@ -472,6 +506,10 @@ public with sharing class Action_SendSMS implements Action {
                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c;
                             ctpTemplateName = surveyInvitationMap.get(whatId)
                                 .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                            } else {
+                                ctpTemplateName = surveyInvitationMap.get(whatId)
+                                    .Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c;
+                            }
                         }
                     } else if (objType == 'Task') {
                         if (
@@ -487,6 +525,28 @@ public with sharing class Action_SendSMS implements Action {
                                 .Clinical_Trial_Profile__r.Study_AWS__c;
                             ctpTemplateName = peIdMap.get(taskMap.get(whatId).WhatId)
                                 .Clinical_Trial_Profile__r.CommunityTemplate__c;
+                        }
+                        if (
+                            String.valueOf(taskMap.get(whatId).WhatId.getSobjectType()) ==
+                            'Participant__c'
+                        ) {
+                            // System.debug('I am here');
+                            if (
+                                userIdMap.get(taskMap.get(whatId).OwnerId) != null &&
+                                userIdMap.get(taskMap.get(whatId).OwnerId)
+                                    .PermissionSetAssignments != null &&
+                                userIdMap.get(taskMap.get(whatId).OwnerId)
+                                    .PermissionSetAssignments.size() > 0
+                            ) {
+                                String permSetName = userIdMap.get(taskMap.get(whatId).OwnerId)
+                                    .PermissionSetAssignments.get(0)
+                                    .PermissionSet.Name;
+                                if (permSetName == PERMISSION_COMMUNITY_DEFAULT_NAME) {
+                                    ctpTemplateName = 'Default';
+                                } else if (permSetName == PERMISSION_COMMUNITY_GSK_NAME) {
+                                    ctpTemplateName = 'GSK';
+                                }
+                            }
                         }
                     }
                 }
