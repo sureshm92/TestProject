@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
- <labels>
+    <labels>
+        <fullName>Site_DB_View_Participants_Not_Yet_Logged_In</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB View Participants Not Yet Logged In</shortDescription>
+        <value>View Participants Not Yet Logged In</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
