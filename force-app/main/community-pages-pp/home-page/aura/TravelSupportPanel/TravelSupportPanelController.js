@@ -6,7 +6,7 @@
     doInit: function (component, event, helper) {
         if (communityService) {
             component.find('spinner').show();
-            console.log('In init');
+            component.set('v.userLang', communityService.getLanguage());
             //helper.getTravelVendorsRemotely(component, '12345', '12345');
             communityService.executeAction(
                 component,
