@@ -172,7 +172,7 @@ public class TestData {
             Current_Participant_Enrollment__c = pe.Id,
             userCommunityMode__c = CommunityService.USER_MODE_PI,
             userCommunytyType__c = CommunityService.USER_MODE_PI,
-            UserCommunityIsDelegate__c = true,
+            UserCommunityIsDelegate__c = true
         );
         insert delegatecontact;
         Participant__c p = new Participant__c(
