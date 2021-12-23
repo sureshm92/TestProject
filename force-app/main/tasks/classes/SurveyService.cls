@@ -79,18 +79,36 @@ public without sharing class SurveyService {
         );
 
             Date today ;
+            if(partDate!=null){
+                today = partDate;
+            }
+            else{
+                today = System.today();
+            }
         	Time eodTime = Time.newInstance(23, 59, 0, 0);
-        	if(ts.Expires_After_Days__c != null){
-                if(partDate!=null){
-                    today = partDate.addDays((Integer) ts.Expires_After_Days__c);
+            if(ts.Is_Recurrence_Survey__c){
+                if(ts.Recurrence_Frequency__c == 'Weekly'){
+                    today = today.addDays(6);
                 }
-                else{
-                    today = System.today().addDays((Integer) ts.Expires_After_Days__c);
+                else if(ts.Recurrence_Frequency__c == 'Monthly'){
+                    today = today.addMonths(1).addDays(-1);
+                }
+                else if(ts.Recurrence_Frequency__c == 'Yearly'){
+                    today = today.addYears(1).addDays(-1);
+                }
+                if(ts.Survey_end_date__c != null && today>ts.Survey_end_date__c){
+                    today = ts.Survey_end_date__c;
                 }
             }
             else{
-                today = ts.Survey_end_date__c;
+                if(ts.Expires_After_Days__c != null){
+                    today = today.addDays((Integer) ts.Expires_After_Days__c);
+                 }
+                 else{
+                     today = ts.Survey_end_date__c;
+                 }
             }
+        	
         	Integer offsetSeconds = 0;
             if(userTZ != null){
                 offsetSeconds = userTZ.getOffset(today) / 1000;
