@@ -1,6 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomLabels xmlns="http://soap.sforce.com/2006/04/metadata">
- <labels>
+    <labels>
+        <fullName>Site_DB_View_Participants_Not_Yet_Logged_In</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Site DB View Participants Not Yet Logged In</shortDescription>
+        <value>View Participants Not Yet Logged In</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -10085,14 +10092,14 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Final Reminder SMS</shortDescription>
-        <value>This is a reminder that you have not completed ##SurveyName. Please log in to ##ShortCommunityName to complete your survey.</value>
+        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_PT_Survey_Reminder_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>Message PT Survey Reminder SMS</shortDescription>
-        <value>This is a reminder that you have not completed ##SurveyName. Please log in to ##ShortCommunityName to complete your survey.</value>
+        <value>##ShortCommunityName: We notice you have not completed the recent survey. Please log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Message_Studies_Length</fullName>
@@ -17632,49 +17639,49 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Complete BL Survey SMS</shortDescription>
-        <value>You have a new survey awaiting your feedback. Please log in to ##ShortCommunityName to complete the survey.</value>
+        <value>##ShortCommunityName: You have a new survey awaiting your feedback. Log in to complete the survey ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Data_Available_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Data Available SMS</shortDescription>
-        <value>Dear ##PatientFirstName, new visit data is available.</value>
+        <value>##ShortCommunityName: New ##StudyCodeName visit data is available. Please log in to view the latest data ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Has_not_Login_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Has not Login SMS</shortDescription>
-        <value>Dear ##PTFirstName, we haven&#39;t heard from you in a while. ##ShortCommunityName</value>
+        <value>##ShortCommunityName: We haven’t heard from you in a while. Please log in to view the latest study information ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_Del_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task Del SMS</shortDescription>
-        <value>You have a new task awaiting completion: ##ShortTaskName. Due date: ##Taskdate. Please log in to ##CommunityURL to complete your task.</value>
+        <value>##ShortCommunityName: You have a new task  ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_Instant_Task_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT Instant Task SMS</shortDescription>
-        <value>You have a new task awaiting completion: ##ShortTaskName. Due date: ##Taskdate. Please log in to ##CommunityURL to complete your task.</value>
+        <value>##ShortCommunityName: You have a new task ##ShortTaskName to complete, due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_New_Certificate_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New Certificate SMS</shortDescription>
-        <value>Dear ##PatientFirstName, a new reward certificate from ##StudyName clinical research study is now available on the ##ShortCommunityName.</value>
+        <value>##ShortCommunityName: You have a new reward certificate for ##StudyName Study! Log in to see your certificate: ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PT_New_StdDoc_SMS</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>PT New StdDoc SMS</shortDescription>
-        <value>Dear ##PatientFirstName, new documents from ##StudyName clinical research study are now available on the ##ShortCommunityName.</value>
+        <value>##ShortCommunityName: New study documents have been shared with you! Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>PWS_Contact_Card_Name</fullName>
@@ -21279,14 +21286,14 @@ communications using the toggles below.</value>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Task Reminder</shortDescription>
-        <value>You have an upcoming task ##ShortTaskName;Due Date: ##Taskdate ;Please log in to ##CommunityURL for additional details.</value>
+        <value>##ShortCommunityName: Reminder! ##ShortTaskName due on ##Taskdate. Log in to view ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>SMS_Body_Visit_Task_Reminder</fullName>
         <language>en_US</language>
         <protected>true</protected>
         <shortDescription>SMS Body Visit Task Reminder</shortDescription>
-        <value>You have an upcoming visit for the ##StudyName clinical research study.Visit date:##PlannedDate.Please log in to ##CommunityURL for additional details.</value>
+        <value>##ShortCommunityName: You have a ##StudyName visit on ##PlannedDate. Log in for details ##CommunityURL. Text STOP to end alerts</value>
     </labels>
     <labels>
         <fullName>Sodium</fullName>

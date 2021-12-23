@@ -2216,6 +2216,16 @@
         <field>Call_Dispositions__c.IQVIA_intervention_required__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
      <fieldPermissions>
         <editable>true</editable>
         <field>Call_Dispositions__c.Notes__c</field>
@@ -2239,6 +2249,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

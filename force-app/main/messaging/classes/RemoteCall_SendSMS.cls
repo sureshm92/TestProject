@@ -12,6 +12,8 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
     public static final String SOURCE_IDENTIFIER = 'SourceIdentifier';
     public static final String API_MULESOFT_SMS = 'MulesoftSMS';
     public static final String PIN_POINT_PROJECT_ID = 'PinpointProjectId';
+    public static final String PL_SPONSOR = 'Sponsor';
+    public static final String PL_STUDY = 'Study';
 
     public class MessageWrapper {
         public SourceMetadata sourceMetadata;
@@ -102,7 +104,7 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
         PreferredDeliveryPeriod preferredDeliveryPeriodObj = new PreferredDeliveryPeriod();
         preferredDeliveryPeriodObj.deliveryEndTime = '';
         preferredDeliveryPeriodObj.deliveryStartTime = '';
-        preferredDeliveryPeriodObj.timezone = 'GMT';
+        preferredDeliveryPeriodObj.timezone = '';
         messageWrapper.preferredDeliveryPeriod = preferredDeliveryPeriodObj;
         // messageWrapper.arguments = new Arguments();
         //messageWrapper.arguments.argument = new List<Argument>();
@@ -114,13 +116,19 @@ public with sharing class RemoteCall_SendSMS extends RemoteCall {
             ? apiParamsMap.get(PIN_POINT_PROJECT_ID).ParamValue__c
             : msgParam.pinPointProjectId;
         messageWrapper.targetMetadata.sponsor = msgParam.isPlatformLevel
-            ? 'iqvia'
+            ? apiParamsMap.get(PL_SPONSOR).ParamValue__c
             : msgParam.awsSponsorName;
-        messageWrapper.targetMetadata.study = msgParam.isPlatformLevel ? 'all' : msgParam.awsStudy;
+        messageWrapper.targetMetadata.study = msgParam.isPlatformLevel
+            ? apiParamsMap.get(PL_STUDY).ParamValue__c
+            : msgParam.awsStudy;
         // messageWrapper.targetMetadata.pinPointProjectId = '123';
         messageWrapper.notificationMetadata.notificationType = NotificationTypes.TRANSACTIONAL.name();
-        messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
-            .ParamValue__c;
+        //messageWrapper.notificationMetadata.fromNumber = apiParamsMap.get(FROM_NUMBER)
+        //    .ParamValue__c;
+        messageWrapper.notificationMetadata.fromNumber = msgParam.isPlatformLevel
+        ? apiParamsMap.get(FROM_NUMBER).ParamValue__c
+        : Action_SendSMS.countrySponsorFromNoMap.get(msgParam.countrySponsorKey);
+
         //  messageWrapper.notificationMetadata.ToNumber = msgParam.toNumber;
         ToNumber toNumberObj = new ToNumber();
         toNumberObj.mobNumber = msgParam.toNumber[0];
