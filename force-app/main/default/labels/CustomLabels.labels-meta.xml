@@ -23495,4 +23495,25 @@ communications using the toggles below.</value>
         <shortDescription>yearly survey error</shortDescription>
         <value>Cannot create yearly survey for these days</value>
     </labels>
+    <labels>
+        <fullName>BulkImport_No_files_to_display</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>BulkImport No files to display</shortDescription>
+        <value>No files to display</value>
+    </labels>
+    <labels>
+        <fullName>Select_Alternative_Type</fullName>
+        <language>en_US</language>
+      <protected>true</protected>
+      <shortDescription>Select Alternative Type</shortDescription>
+        <value>Select Alternative Type</value>
+    </labels>
+    <labels>
+        <fullName>Primary_Delegate</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Primary Delegate</shortDescription>
+        <value>Primary Delegate</value>
+    </labels>
 </CustomLabels>
