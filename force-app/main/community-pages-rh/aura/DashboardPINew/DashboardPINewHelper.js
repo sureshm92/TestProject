@@ -31,6 +31,7 @@
                 helper.showPPDashboard(component,helper,responseData);//RH-5163
                 if(component.get('v.isPPDashboard')) { //RH-5163
                 	component.find('invitationId').fetchDashboardValues();
+                    component.find('loggedId').fetchDashboardValues();
                 }
                 //var spinner = component.find('mainSpinner');
                 // spinner.hide();
@@ -70,6 +71,7 @@
                 helper.showPPDashboard(component,helper,responseData);//RH-5163
                 if(component.get('v.isPPDashboard')) { //RH-5163
                 	component.find('invitationId').fetchDashboardValues();
+                    component.find('loggedId').fetchDashboardValues();
                 }
                 //var spinner = component.find('mainSpinner');
                 // spinner.hide();
