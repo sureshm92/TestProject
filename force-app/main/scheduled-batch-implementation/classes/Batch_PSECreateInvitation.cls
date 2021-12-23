@@ -146,9 +146,16 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                     String key = '' + pe.Id + ts.Id;
                     if (invitationMap.get(key) != null && ts.Is_Recurrence_Survey__c){
                         List<SurveyInvitation> surveyInvLst = invitationMap.get(key);
+                        Integer offsetSeconds = 0;
+                        Datetime expiryDateTime = surveyInvLst[0].ExpireDateTime__c;
+                        if(userTZ != null){
+                            offsetSeconds = userTZ.getOffset(expiryDateTime) / 1000;
+                        }
+                        expiryDateTime = expiryDateTime.addSeconds(offsetSeconds).addHours(-7);
+                        Date ExpiryDate = expiryDateTime.date();
                         if((surveyInvLst.size() != ts.Number_of_occurrences__c || 
-                            surveyInvLst[0].ExpireDateTime__c.date() != ts.Survey_end_date__c)
-                            && surveyInvLst[0].ExpireDateTime__c.date().addDays(1) == partDate
+                            ExpiryDate != ts.Survey_end_date__c)
+                            && ExpiryDate.addDays(1) == partDate
                             ){
                             newInvitations.add(
                             SurveyService.getInstance()
@@ -182,7 +189,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         List<Participant_Enrollment__c> enrollments
     ) {
         List<SurveyInvitation> surveyInvitation = [
-            SELECT Id, Participant_Enrollment__c, Trial_Survey__c
+            SELECT Id, Participant_Enrollment__c,ExpireDateTime__c, Trial_Survey__c
             FROM SurveyInvitation
             WHERE Participant_Enrollment__c IN :enrollments 
             ORDER By CreatedDate DESC
