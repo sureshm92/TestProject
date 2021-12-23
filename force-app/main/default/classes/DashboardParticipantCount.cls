@@ -181,7 +181,7 @@ public without sharing class DashboardParticipantCount {
                          count++;
                      }                  
                 }
-                if(count > 0 && count == contactIds.size() ) {
+                if(count > 0 && count == contactIds.size() && !perParticipantsinvLoggedIds.contains(participantId)) {
                     notLoggedUser++;
                 }
             }
