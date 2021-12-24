@@ -408,7 +408,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow:component.get('v.PartcipantNoShow')
                 });
                 component.find('spinner').show();
                 actionName1.setCallback(this, $A.getCallback(function(response) {
@@ -424,6 +425,7 @@
 					component.set('v.isFirstPrimaryDelegate',false);
                     component.set('v.attestAge',false);
                     component.set('v.isBulkImport',false);
+                    component.set('v.PartcipantNoShow',false);
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
@@ -454,8 +456,6 @@
             
             let isNotnull=false;
             for(var i=0; i<pathWrapper.steps.length; i++){
-                //console.log(i);
-                //console.log('size-->'+pathWrapper.steps[i]['cardTitle']);
                 if(pathWrapper.steps[i]['cardTitle'] == 'Contact Attempt')
                 {   
                  if(pathWrapper.steps[i]['outcome'] == 'Pre-review Failed' || 
@@ -511,7 +511,7 @@
             $A.enqueueAction(a);
         }
     },
-    doUpdatePatientStatusandValidate: function (component, event, helper) {
+    doUpdatePatientStatusandValidate: function (component, event, helper) { 
         if(component.get('v.validateFOV')){
             //alert('popup');
             let pathWrapper = component.get('v.participantPath');
@@ -692,7 +692,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow :component.get('v.PartcipantNoShow')
                 },
                 function (returnValueJSON) {
                     var returnValue = JSON.parse(returnValueJSON);
@@ -700,6 +701,7 @@
                     component.set('v.participantPath', returnValue.participantPath);
 
                     component.set('v.pe', returnValue.pe);
+                    component.set('v.PartcipantNoShow',false);
                     component.set('v.promoteToSHStatus',(returnValue.participantPath.sendToSH==true)?true:false);
                     component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');
