@@ -1,9 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <CustomField xmlns="http://soap.sforce.com/2006/04/metadata">
-    <fullName>Reminder_in_days_before_the_end_date__c</fullName>
-    <description>Days</description>
+    <fullName>Number_of_occurrences__c</fullName>
+    <description>Count Number of Occurrences</description>
     <externalId>false</externalId>
-    <label>Reminder (in days) before survey expires</label>
+    <label>Number of occurrences</label>
     <precision>18</precision>
     <required>false</required>
     <scale>0</scale>
