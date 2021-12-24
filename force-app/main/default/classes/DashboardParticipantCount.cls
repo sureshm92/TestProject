@@ -107,9 +107,9 @@ public without sharing class DashboardParticipantCount {
 
 				if(per.Invited_To_PP_Date__c != null) { // If Adult and no Delegates
 					invitedParticipantMap.put(per.Participant__c,per.Participant_Contact__c);
-				} else { //If Adult / Minor with Delegates
-					participantIds.add(per.Participant__c);
-				}
+				} //else { //If Adult / Minor with Delegates
+				participantIds.add(per.Participant__c);
+				//}
             }
 				
             if(participantIds.size() > 0) {                
@@ -148,33 +148,54 @@ public without sharing class DashboardParticipantCount {
             
             //Fetch Users Who are LoggedIn
             Set<Id> contactLoggeduserSet = fetchUsersLoggedIn(contactIdSet);
+            Set<Id> perParticipantsinvLoggedIds = new set<Id>();
+            
             
             //Process PER records
-            for(Id contactId:invitedParticipantMap.values()) {
+            for(Id participantId:invitedParticipantMap.keyset()) {
                 //contactIdList.add(contactId);
+                Id contactId = invitedParticipantMap.get(participantId);
                 if(contactLoggeduserSet.contains(contactId)) {
-                    loggeduser++;
-                } else {
-                    notLoggedUser++;
+                    loggeduser++;   
+                    perParticipantsinvLoggedIds.add(participantId);                 
+                }else {
+                    if(!invitedDelegateParticipantMap.containsKey(participantId)) {
+                        notLoggedUser++;
+                    }
                 }
             }
             
             //Process Delegate Records
-            for(List<Id> contactIds:invitedDelegateParticipantMap.values()) {
+            //for(List<Id> contactIds:invitedDelegateParticipantMap.values()) {
+            for(Id participantId : invitedDelegateParticipantMap.keyset()) {
+                List<Id> contactIds = new List<Id>();
+                contactIds = invitedDelegateParticipantMap.get(participantId);
                 Integer count = 0;
                 for(Id contactId:contactIds) {
                     if(contactLoggeduserSet.contains(contactId)) {
-                        loggeduser++;
-                        break;
-                    }else {
-                        count++;
-                    }                  
+                        if(!perParticipantsinvLoggedIds.contains(participantId)) {
+                             loggeduser++;
+                             break;
+                        }
+                     } else {
+                         count++;
+                     }                  
                 }
-                if(count > 0 && count == contactIds.size() ) {
+                if(count > 0 && count == contactIds.size() && !perParticipantsinvLoggedIds.contains(participantId)) {
                     notLoggedUser++;
                 }
             }
-			totalCount = invitedDelegateParticipantMap.keyset().size() + invitedParticipantMap.keySet().size();	
+            List<Id> totalCountIdList = new List<Id>();
+            totalCountIdList.addAll(invitedDelegateParticipantMap.keyset());
+            totalCountIdList.addAll(invitedParticipantMap.keySet());
+            Set<Id> totalCountIdSet;
+            
+            //Convert List to set
+            if(totalCountIdList.size() > 0) {
+                totalCountIdSet = new set<Id>(totalCountIdList);
+            }
+            totalCount = totalCountIdSet.size();
+			//totalCount = invitedDelegateParticipantMap.keyset().size() + invitedParticipantMap.keySet().size();	
 			resList.add(
                 prepareBarItem(
                     '#D8EBF7',
