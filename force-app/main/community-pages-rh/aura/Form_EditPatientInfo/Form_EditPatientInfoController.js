@@ -65,6 +65,9 @@
          }
          var helpText = component.find('helpText');
          var participant = component.get('v.participant');
+         if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+             component.set('v.createUsers',false);
+         }
          // var participantDelegate = component.get('v.participantDelegate');
          var statesByCountryMap = component.get('v.formData.statesByCountryMap');
          var states = statesByCountryMap[participant.Mailing_Country_Code__c];
@@ -560,6 +563,14 @@
                     component.find('spinner').hide(); 
                 });
             }
+        }
+        if( component.get('v.needsGuardian') && 
+           component.get('v.participant.Adult__c') 
+           && (component.get('v.participant.email__c') ==''
+               || !component.get('v.participant.email__c')
+              ) 
+          ){
+            component.set('v.createUsers',false);
         }
         console.log('END doCheckDateOfBith');
     },
