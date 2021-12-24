@@ -408,7 +408,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow:component.get('v.PartcipantNoShow')
                 });
                 component.find('spinner').show();
                 actionName1.setCallback(this, $A.getCallback(function(response) {
@@ -424,6 +425,7 @@
 					component.set('v.isFirstPrimaryDelegate',false);
                     component.set('v.attestAge',false);
                     component.set('v.isBulkImport',false);
+                    component.set('v.PartcipantNoShow',false);
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
@@ -511,7 +513,7 @@
             $A.enqueueAction(a);
         }
     },
-    doUpdatePatientStatusandValidate: function (component, event, helper) {
+    doUpdatePatientStatusandValidate: function (component, event, helper) { 
         if(component.get('v.validateFOV')){
             //alert('popup');
             let pathWrapper = component.get('v.participantPath');
@@ -634,6 +636,7 @@
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
         let steps = component.get('v.participantPath.steps');
+        console.log('>>pathWrapper>>'+JSON.stringify(pathWrapper));
         var notesToBeAdded = false;
         var outcome = null;
         var isIniVisCurrentStep = false;
@@ -692,7 +695,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow :component.get('v.PartcipantNoShow')
                 },
                 function (returnValueJSON) {
                     var returnValue = JSON.parse(returnValueJSON);
@@ -700,6 +704,7 @@
                     component.set('v.participantPath', returnValue.participantPath);
 
                     component.set('v.pe', returnValue.pe);
+                    component.set('v.PartcipantNoShow',false);
                     component.set('v.promoteToSHStatus',(returnValue.participantPath.sendToSH==true)?true:false);
                     component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');

@@ -24,7 +24,7 @@ private class Test_ParticipantInformationRemote {
                 null
             );
             ParticipantInformationRemote.getPrintInformation(
-                testData.pe.Id,
+                testData.pe.Id, 
                 CommunityService.USER_MODE_PI,
                 null
             );
@@ -196,7 +196,7 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 false,
-                null,false
+                null,false,false
             );
         }
         Test.stopTest();
@@ -229,14 +229,14 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 true,
-                null,false
+                null,false,false
             );
             ParticipantInformationRemote.updatePatientStatus(
                 JSON.serialize(path),
                 testData.pe.Id,
                 false,
                 true,
-                null,false
+                null,false,false
             );
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';
