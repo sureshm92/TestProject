@@ -150,7 +150,6 @@ public without sharing class ParticipantInformationRemote {
             participantJSON,
             Participant__c.class
         );
-        system.debug('>>>participantObj>>>' + participantObj);
         DelegateInfo objDelegateInfo = new DelegateInfo();
         objDelegateInfo.particpantEnrollment = pe;
 
@@ -285,10 +284,6 @@ public without sharing class ParticipantInformationRemote {
                             objPateintDel
                         );
                     }
-                    system.debug(
-                        '>>>mapParticipantIdToPatientDelegate before if>>' +
-                        mapParticipantIdToPatientDelegate.values()
-                    );
                     if (!mapParticipantIdToPatientDelegate.containsKey(participantConId)) {
                         mapParticipantIdToPatientDelegate.put(
                             participantConId,
@@ -575,11 +570,6 @@ public without sharing class ParticipantInformationRemote {
                 )
                 .permissionSet;
 
-            system.debug('Participant__c: ' + participant);
-            system.debug('Contact: ' + participantContact);
-            system.debug('List<Participant__c>: ' + delegates);
-            system.debug('List<Id>: ' + doNotContinueIds);
-            system.debug('Boolean: ' + needsInvite);
 
             update participant;
             if (participantContact.Id != null) {
@@ -820,7 +810,6 @@ public without sharing class ParticipantInformationRemote {
                 oldParticipantEnrollment,
                 PartcipantNoShow
             );
-            system.debug('>>>>PESH RETURN111>>'+pesh);
             if (pesh != null && historyToUpdate) {
                 if (
                     oldParticipantEnrollment.Participant_Status__c ==
@@ -1530,7 +1519,6 @@ public without sharing class ParticipantInformationRemote {
         String strDelegateEmail,
         Id participantId
     ) {
-        // system.debug('>>coming in checking details>>'+0/0);
         List<Participant__c> lstdelegateParticipants = [
             SELECT
                 Id,
@@ -1573,8 +1561,6 @@ public without sharing class ParticipantInformationRemote {
                 String.isBlank(objTempParticipant.Birth_Year__c)
                 ? true
                 : false;
-            system.debug('>>>duplicateDelegates>>' + duplicateDelegates);
-            // system.debug('>>>excepton>>'+0/0);
             if (!duplicateDelegates.isEmpty()) {
                 objDelegate.isDuplicate = true;
             } else {

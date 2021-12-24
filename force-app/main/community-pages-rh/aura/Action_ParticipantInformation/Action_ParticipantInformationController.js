@@ -456,8 +456,6 @@
             
             let isNotnull=false;
             for(var i=0; i<pathWrapper.steps.length; i++){
-                //console.log(i);
-                //console.log('size-->'+pathWrapper.steps[i]['cardTitle']);
                 if(pathWrapper.steps[i]['cardTitle'] == 'Contact Attempt')
                 {   
                  if(pathWrapper.steps[i]['outcome'] == 'Pre-review Failed' || 
@@ -636,7 +634,6 @@
         let statusDetailValid = component.get('v.statusDetailValid');
         var isStatusChanged = component.get('v.isStatusChanged');
         let steps = component.get('v.participantPath.steps');
-        console.log('>>pathWrapper>>'+JSON.stringify(pathWrapper));
         var notesToBeAdded = false;
         var outcome = null;
         var isIniVisCurrentStep = false;
