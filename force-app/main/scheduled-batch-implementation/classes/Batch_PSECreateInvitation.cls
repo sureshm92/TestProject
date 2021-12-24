@@ -14,7 +14,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
              OR (Survey_start_date__c != NULL 
                  AND Survey_start_date__c <= TOMORROW 
                  AND Survey_end_date__c != NULL
-                 AND Survey_end_date__c >= TOMORROW
+                 AND Survey_end_date__c >= TODAY
                 ))
         ];
         
@@ -38,6 +38,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                 WHERE
                 Clinical_Trial_Profile__c IN :ctpSet
                 AND Participant_Status__c NOT IN :PEStatusState.PE_STATUS_GROUP_FAILED
+                AND Participant_Contact__c != null
                 AND Participant_Contact__c NOT IN (SELECT ContactId FROM User WHERE IsActive = FALSE) // changed the query to fetch the record for Minor Participants also as the dont have user record. 
             ]
         );
@@ -68,8 +69,12 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             Clinical_Trial_Profile__c,
             Survey__c,
             Survey__r.Name,
+            Is_Recurrence_Survey__c,
+            Recurrence_Frequency__c,
+            Next_Occurrence_Date__c,
             Active_After_Days__c,
             Active_On_Status__c,
+            Number_of_occurrences__c,
             Expires_After_Days__c,
             Is_Midpoint__c,
             Reminder_Schedule__c,
@@ -88,7 +93,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                  OR (Survey_start_date__c != NULL 
                      AND Survey_start_date__c <= TOMORROW 
                      AND Survey_end_date__c != NULL
-                     AND Survey_end_date__c >= TOMORROW
+                     AND Survey_end_date__c >= TODAY
                     ))
         ];
         
@@ -115,12 +120,14 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             networkByPE.put(pe.Id, communitiesMap.get(communityName));
         }
         
-        Map<String, SurveyInvitation> invitationMap = getInvitationMap(enrollments);
+        Map<String, List<SurveyInvitation>> invitationMap = getInvitationMap(enrollments);
         List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
         Date partDate;
+        TimeZone usertz;
         for (Participant_Enrollment__c pe : enrollments) {
             if(peContantMap.get(pe) != null && contactTimezone.get(peContantMap.get(pe)) != null){
-                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', contactTimezone.get(peContantMap.get(pe)).toString());
+                usertz = contactTimezone.get(peContantMap.get(pe));
+                String partDateStr = Datetime.now().format('yyyy-MM-dd hh:mm a zz', usertz.toString());
                 partDate = Date.valueOf(partDateStr);
             }
             else{
@@ -129,23 +136,42 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             List<Trial_Survey__c> surveys = ctpToTSMap.get(pe.Clinical_Trial_Profile__c);
             if (surveys != null) {
                 for (Trial_Survey__c ts : surveys) {
-                    if ((ts.Active_On_Status__c == pe.Participant_Status__c && (ts.Active_After_Days__c <= pe.Days_Since_Last_Status_Change__c || ts.Active_After_Days__c ==null))
-                        || (ts.Survey_start_date__c <= partDate && ts.Survey_end_date__c >=partDate)){
-                            if (
-                                ts.Is_Midpoint__c &&
-                                PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
-                                    pe.Participant_Status__c
-                                )
-                            )
-                                continue;
-                            String key = '' + pe.Id + ts.Id;
-                            if (invitationMap.get(key) == null) {
-                                newInvitations.add(
-                                    SurveyService.getInstance()
-                                    .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate)
-                                );
-                            }
+                    if (
+                        ts.Is_Midpoint__c &&
+                        PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
+                            pe.Participant_Status__c
+                        )
+                    )
+                    continue;
+                    String key = '' + pe.Id + ts.Id;
+                    if (invitationMap.get(key) != null && ts.Is_Recurrence_Survey__c){
+                        List<SurveyInvitation> surveyInvLst = invitationMap.get(key);
+                        Integer offsetSeconds = 0;
+                        Datetime expiryDateTime = surveyInvLst[0].ExpireDateTime__c;
+                        if(userTZ != null){
+                            offsetSeconds = userTZ.getOffset(expiryDateTime) / 1000;
                         }
+                        expiryDateTime = expiryDateTime.addSeconds(offsetSeconds).addHours(-7);
+                        Date ExpiryDate = expiryDateTime.date();
+                        if((surveyInvLst.size() != ts.Number_of_occurrences__c || 
+                            ExpiryDate != ts.Survey_end_date__c)
+                            && ExpiryDate.addDays(1) == partDate
+                            ){
+                            newInvitations.add(
+                            SurveyService.getInstance()
+                            .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
+                            );
+                        }
+                    }
+                    else if ((ts.Active_On_Status__c == pe.Participant_Status__c && (ts.Active_After_Days__c <= pe.Days_Since_Last_Status_Change__c || ts.Active_After_Days__c ==null))
+                        || (ts.Survey_start_date__c <= partDate && ts.Survey_end_date__c >=partDate)){
+                        if (invitationMap.get(key) == null) {
+                            newInvitations.add(
+                                SurveyService.getInstance()
+                                .generateInvitation(ts, pe.Id, networkByPE.get(pe.Id),partDate, usertz)
+                            );
+                        }
+                    }
                 }
             }
         }
@@ -159,22 +185,36 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
         TaskService.getInstance().createSurveyTasks(invitationsVisible);
     }
     
-    private Map<String, SurveyInvitation> getInvitationMap(
+    private Map<String, List<SurveyInvitation>> getInvitationMap(
         List<Participant_Enrollment__c> enrollments
     ) {
         List<SurveyInvitation> surveyInvitation = [
-            SELECT Id, Participant_Enrollment__c, Trial_Survey__c
+            SELECT Id, Participant_Enrollment__c,ExpireDateTime__c, Trial_Survey__c
             FROM SurveyInvitation
-            WHERE Participant_Enrollment__c IN :enrollments
+            WHERE Participant_Enrollment__c IN :enrollments 
+            ORDER By CreatedDate DESC
         ];
         
-        Map<String, SurveyInvitation> invitationMap = new Map<String, SurveyInvitation>();
+        Map<String, List<SurveyInvitation>> invitationMap = new Map<String, List<SurveyInvitation>>();
         for (SurveyInvitation inv : surveyInvitation) {
-            invitationMap.put('' + inv.Participant_Enrollment__c + inv.Trial_Survey__c, inv);
+            List<SurveyInvitation> surveyInvList = invitationMap.get('' + inv.Participant_Enrollment__c + inv.Trial_Survey__c);
+            if (surveyInvList == null) {
+                surveyInvList = new List<SurveyInvitation>();
+                invitationMap.put('' + inv.Participant_Enrollment__c + inv.Trial_Survey__c, surveyInvList);
+            }
+            surveyInvList.add(inv);
         }
         return invitationMap;
     }
     
+    public override void finalAction() {
+        try{
+            
+        }catch (Exception e) {
+            System.debug(e.getMessage());
+        }
+    }
+
     public override Type getType() {
         return Batch_PSECreateInvitation.class;
     }

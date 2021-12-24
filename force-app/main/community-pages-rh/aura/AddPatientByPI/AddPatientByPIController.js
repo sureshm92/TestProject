@@ -93,7 +93,9 @@
 
         let participant = component.get('v.participant');
         component.set('v.needsGuardian', participant.Health_care_proxy_is_needed__c);
-
+        if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+            component.set('v.createUsers',false);
+        }
         if (participant.Health_care_proxy_is_needed__c) {
             helper.setDelegate(component);
             console.log('editForm checkFields');

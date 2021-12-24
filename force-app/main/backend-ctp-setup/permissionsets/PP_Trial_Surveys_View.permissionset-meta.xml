@@ -90,6 +90,11 @@
         <field>Trial_Survey__c.Next_Occurrence_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
+    <fieldPermissions>
+        <editable>false</editable>
+        <field>Trial_Survey__c.Number_of_occurrences__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <hasActivationRequired>false</hasActivationRequired>
     <label>PP: Trial Surveys View</label>
     <license>Salesforce</license>

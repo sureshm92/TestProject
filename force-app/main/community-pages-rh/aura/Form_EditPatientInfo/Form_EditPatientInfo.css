@@ -190,6 +190,12 @@
     font-size : 0.75rem;
 }
 
+.THIS .visit-plan-display
+{
+    width :fit-content; 
+        min-width: 20%; 
+}
+
 @media all and (max-width: 480px){
     .THIS .ap-section > .slds-grid.rr-form-element .slds-form-element__help {
         margin-top: 30px;

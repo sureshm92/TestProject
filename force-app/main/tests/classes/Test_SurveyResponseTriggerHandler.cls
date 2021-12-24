@@ -33,7 +33,7 @@ private class Test_SurveyResponseTriggerHandler {
         insert tsAllSee;
 
         SurveyInvitation invitationAll = SurveyService.getInstance()
-            .generateInvitation(tsAllSee, testData.pe.Id, communityId, System.today());
+            .generateInvitation(tsAllSee, testData.pe.Id, communityId, System.today(), UserInfo.getTimeZone());
         insert invitationAll;
 
         TaskService.getInstance()
@@ -76,7 +76,7 @@ private class Test_SurveyResponseTriggerHandler {
         insert tsOnlyDelegates;
 
         SurveyInvitation invitationDelegates = SurveyService.getInstance()
-            .generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId,System.today());
+            .generateInvitation(tsOnlyDelegates, testData.pe.Id, communityId,System.today(),UserInfo.getTimeZone());
         insert invitationDelegates;
 
         TaskService.getInstance()
