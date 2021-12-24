@@ -35,6 +35,8 @@ import RH_RP_has_been_included from '@salesforce/label/c.RH_RP_has_been_included
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import RH_RP_Outreach_Email from '@salesforce/label/c.RH_RP_Outreach_Email';
 import { loadScript } from 'lightning/platformResourceLoader';
+import RH_RP_Patient from '@salesforce/label/c.Patient';
+import RH_RP_Primary_Delegate from '@salesforce/label/c.Primary_Delegate';
 
 export default class RP_ProfileSectionPage extends NavigationMixin(LightningElement) {
     @api usermode;
@@ -72,6 +74,8 @@ export default class RP_ProfileSectionPage extends NavigationMixin(LightningElem
     @api isaccessLevelthree = false;
     @api isRTL;
     label = {
+        RH_RP_Primary_Delegate,
+        RH_RP_Patient,
         RH_RP_Exclude,
         RH_RP_Include,
         RH_RP_Exclude_From_Referring,

@@ -215,12 +215,12 @@
         <template if:false={medicalReview}>
             <div style="margin-top: 30px;">
                 <lightning-tabset>
-                    <lightning-tab label="Patient">
+                    <lightning-tab label={label.RH_RP_Patient}>
                         <c-rp_-patient-tab patientrecordlist={peRecordList} originalpatientrecord={peRecordList}
                             isaccesslevelthree={isaccessLevelthree} onrefreshpatienttabchange={handlePatientTabChange}
                             states={states} disabledsavebutton={disabledSaveButton}></c-rp_-patient-tab>
                     </lightning-tab>
-                    <lightning-tab label="Primary Delegate">
+                    <lightning-tab label={label.RH_RP_Primary_Delegate}>
                         <c-rp_-delegate-tab delegaterecordlist={delegatepeRecordList}
                             originaldelegaterecordlist={delegatepeRecordList} isaccesslevelthree={isaccessLevelthree}
                             onrefreshdelegatetabchange={handleDelegateChange}> </c-rp_-delegate-tab>
