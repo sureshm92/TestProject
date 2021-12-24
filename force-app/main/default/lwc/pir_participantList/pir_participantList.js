@@ -4,14 +4,20 @@ import pirResources from '@salesforce/resourceUrl/pirResources';
 import RR_COMMUNITY_JS from '@salesforce/resourceUrl/rr_community_js';
 import { loadScript } from 'lightning/platformResourceLoader';
 import { CurrentPageReference } from 'lightning/navigation';
+import RH_RP_No_Item_To_Display from '@salesforce/label/c.RH_RP_No_Item_To_Display';
 
 export default class Pir_participantList extends LightningElement {    
     currentPageReference = null; 
     urlStateParameters = null;
+    @api noRecords = false;
     
     /* Params from Url */
     urlStudyId = null;
     urlSiteId = null;
+
+    label = {
+        RH_RP_No_Item_To_Display
+    };
 
     @wire(CurrentPageReference)
     getStateParameters(currentPageReference) {
@@ -74,6 +80,7 @@ export default class Pir_participantList extends LightningElement {
         .then(result => {
             this.participantList = result.listViewWrapper;
             if(result.listViewWrapper.length>0){
+                this.noRecords = false;
                 if(!this.backSwap){
                     this.selectedIndex = 0;
                     this.selectedPE=result.listViewWrapper[0];   
@@ -83,6 +90,8 @@ export default class Pir_participantList extends LightningElement {
                     this.selectedPE=result.listViewWrapper[result.listViewWrapper.length -1];   
                 }
 
+            }else{
+                this.noRecords = true;
             }
             for(var i=0 ; i<result.listViewWrapper.length;i++){
                 this.peMap.set(result.listViewWrapper[i].id,result.listViewWrapper[i]);
