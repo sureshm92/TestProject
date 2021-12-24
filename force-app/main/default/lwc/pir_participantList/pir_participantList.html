@@ -69,6 +69,9 @@
                     </div>
                 </template>
             </template>
+            <template if:true={noRecords}>
+                <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
+            </template>
         </div>
     </div>
 </template>

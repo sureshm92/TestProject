@@ -5,6 +5,12 @@
 .list-card:focus-visible {
     outline: none;
 }
+.noRecords {
+    margin-left: 5rem;
+    font-family: 'Proxima Nova';
+    font-size: 14px;
+    color: #999;
+}
 .filterIconButton{
     height: 32px;
     width: 82%;

@@ -184,8 +184,12 @@ public without sharing class PIR_HomepageController {
       wrap.refId = lst.Name;
       wrap.studyName = lst.Clinical_Trial_Profile__r.Study_Code_Name__c;
       wrap.siteName = lst.Study_Site__r.name;
-      wrap.participantPhone = lst.Participant__r.Phone__c;
-
+      if(lst.Participant__r.Phone__c != null){
+         wrap.participantPhone = lst.Participant__r.Phone__c;
+      }else{
+          Patient_Delegate__c patientDelegate = [Select Id,Primary_Delegate__c,Contact__c,Contact__r.Phone,Participant__c from Patient_Delegate__c where Participant__c =:lst.Participant__c AND Primary_Delegate__c=True];
+          wrap.participantPhone = patientDelegate.Contact__r.Phone;
+      }
       if(lst.Referral_Source__c == System.Label.RH_HCP && lst.HCP__c != null)
       {
            wrap.source = lst.HCP__r.HCP_Contact__r.Name;
