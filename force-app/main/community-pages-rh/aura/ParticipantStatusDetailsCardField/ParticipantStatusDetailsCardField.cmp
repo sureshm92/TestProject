@@ -14,13 +14,17 @@
     <aura:attribute name="booleanUpdateInProgress" type="Boolean" default="false" />
     <aura:attribute name="errorMessage" type="String" default="" />
     <aura:attribute name="validateFOV" type="Boolean" default="false" /> 
-
+    
+     <aura:attribute name="PartcipantNoShow" type="Boolean" default="false" />
+	
+     <aura:attribute name="InitialVisitCheckbx" type="Boolean" default="false" />
+     
     <aura:method name="checkValidity" action="{!c.doCheckValidity}" access="public" />
 
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!-- <aura:handler name="change" value="{!v.field.value}" action="{!c.onValueChange}"/> -->
-    <!--<aura:handler name="change" value="{!v.booleanValue}" action="{!c.onBooleanValueChange}"/> -->
-    <div class="{!'slds-col form-field ' + v.field.style }">
+    <!--<aura:handler name="change" value="{!v.booleanValue}" action="{!c.onBooleanValueChange}"/>--> 
+    <div class="{!'slds-col form-field ' + v.field.style }"> 
         <aura:if isTrue="{!v.field.type=='text'}">
             <lightning:input
                 aura:id="fieldInput"
@@ -31,35 +35,56 @@
                 required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
                 onblur="{!c.onValueChange}"
             />
-       </aura:if>
+       </aura:if>         
         <aura:if isTrue="{!v.field.type=='picklist'}">
-            <div class="label tooltip">                                        
-                <div class="textoverlap">                   
-                    <aura:if
+            <div class="{!if(v.InitialVisitCheckbx == true, ' slds-grid slds-wrap ','' )}">
+                <div  class="{!if(v.InitialVisitCheckbx == true, ' slds-col slds-size--1-of-2 initial_visitcss','' )}">
+           			 <div class="label tooltip">                                        
+               			 <div class="textoverlap">                   
+                   			 <aura:if
                              isTrue="{!and(empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required))}"
                              ><abbr title="required" class="slds-required">*</abbr></aura:if
                         >{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
                     v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
                     v.field.title)}
-                </div>
+                		</div>
                 <span>{!if(and(!empty(v.field.requiredTitle),and(or(and(v.required,!v.field.dependent),and(v.field.dependent,
                     v.field.dependentActive)), v.field.required)), v.field.requiredTitle,
-                    v.field.title)}</span>
-                
-            </div>
-            
-            <c:rrSelect
-                aura:id="selectList"
-                options="{!v.field.values}"
-                value="{!v.field.value}"
-                placeholder="{!if(v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency),' ',$Label.c.PG_AC_Select)}"
-                disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
-                required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
-                setValueAsSelected="true"
-                errorMessage="{!v.errorMessage}"
-                useSentenceFont="false"
-                onchange="{!c.onValueChange}"
-            />
+                    v.field.title)}</span> 
+
+            		</div> 
+                    
+                  <c:rrSelect
+                        aura:id="selectList"
+                        options="{!v.field.values}"
+                        value="{!v.field.value}"
+                        placeholder="{!if(v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency),' ',$Label.c.PG_AC_Select)}"
+                        disabled="{!v.field.readonly || !v.editable || and(v.field.smartPicklist, v.field.values.length == 1) || and(and(v.field.dependent, !v.field.dependentActive),v.field.strictDependency)}"
+                        required="{!and(or(and(v.required,!v.field.dependent),and(v.field.dependent, v.field.dependentActive)), v.field.required)}"
+                        setValueAsSelected="true"
+                        errorMessage="{!v.errorMessage}"
+                        useSentenceFont="false"
+                        onchange="{!c.onValueChange}"
+                   />
+             </div>
+             <aura:if isTrue="{!v.InitialVisitCheckbx}"> 
+                <div class="slds-col slds-size--1-of-2"> 
+                     <div class="label tooltip">                                        
+                		<div class="textoverlap"> 
+                            {!$Label.c.RH_ParticipantNoshow}
+                     	</div>
+                     </div>  
+                 <lightning:input
+                    aura:id="fieldInput"
+                    label=""
+                    type="checkbox"
+                    checked="{!v.PartcipantNoShow}"
+                    onchange="{!c.onclickNoShowCheck}"
+                    class="checkbox_alignment"
+                />
+              </div>
+        	</aura:if>
+          </div> 
         </aura:if>
         <aura:if isTrue="{!v.field.type=='date'}">               
             	<div class="label2 tooltip">{!v.field.title}                              

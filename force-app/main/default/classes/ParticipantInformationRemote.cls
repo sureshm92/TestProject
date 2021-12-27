@@ -150,7 +150,6 @@ public without sharing class ParticipantInformationRemote {
             participantJSON,
             Participant__c.class
         );
-        system.debug('>>>participantObj>>>' + participantObj);
         DelegateInfo objDelegateInfo = new DelegateInfo();
         objDelegateInfo.particpantEnrollment = pe;
 
@@ -285,10 +284,6 @@ public without sharing class ParticipantInformationRemote {
                             objPateintDel
                         );
                     }
-                    system.debug(
-                        '>>>mapParticipantIdToPatientDelegate before if>>' +
-                        mapParticipantIdToPatientDelegate.values()
-                    );
                     if (!mapParticipantIdToPatientDelegate.containsKey(participantConId)) {
                         mapParticipantIdToPatientDelegate.put(
                             participantConId,
@@ -575,11 +570,6 @@ public without sharing class ParticipantInformationRemote {
                 )
                 .permissionSet;
 
-            system.debug('Participant__c: ' + participant);
-            system.debug('Contact: ' + participantContact);
-            system.debug('List<Participant__c>: ' + delegates);
-            system.debug('List<Id>: ' + doNotContinueIds);
-            system.debug('Boolean: ' + needsInvite);
 
             update participant;
             if (participantContact.Id != null) {
@@ -741,10 +731,11 @@ public without sharing class ParticipantInformationRemote {
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
         String outcome,
-        Boolean sitepreference
+        Boolean sitepreference,
+        Boolean PartcipantNoShow
     ) {
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference,PartcipantNoShow);
     }
 
     @AuraEnabled
@@ -754,10 +745,11 @@ public without sharing class ParticipantInformationRemote {
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
         String outcome,
-        Boolean sitepreference
+        Boolean sitepreference,
+        Boolean PartcipantNoShow
     ) {
         Participant_Enrollment__c pe = new Participant_Enrollment__c(Id = peId);
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference,PartcipantNoShow);
     }
 
     public static String updatePatientStatus(
@@ -766,7 +758,8 @@ public without sharing class ParticipantInformationRemote {
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
         String outcome,
-        Boolean sitepreference
+        Boolean sitepreference,
+        Boolean PartcipantNoShow
     ) {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper = (ParticipantWorkflowService.ParticipantWorkflowWrapper) JSON.deserialize(
@@ -814,7 +807,8 @@ public without sharing class ParticipantInformationRemote {
                 pathWrapper,
                 pe,
                 ctp,
-                oldParticipantEnrollment
+                oldParticipantEnrollment,
+                PartcipantNoShow
             );
             if (pesh != null && historyToUpdate) {
                 if (
@@ -1190,7 +1184,8 @@ public without sharing class ParticipantInformationRemote {
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
         String outcome,
-        Boolean sitepreference
+        Boolean sitepreference,
+        Boolean PartcipantNoShow
     ) {
         try {
             ParticipantWorkflowService.ParticipantWorkflowWrapper pathWrapper = (ParticipantWorkflowService.ParticipantWorkflowWrapper) JSON.deserialize(
@@ -1238,7 +1233,8 @@ public without sharing class ParticipantInformationRemote {
                 pathWrapper,
                 pe,
                 ctp,
-                oldParticipantEnrollment
+                oldParticipantEnrollment,
+                PartcipantNoShow
             );
             if (pesh != null && historyToUpdate) {
                 if (
@@ -1299,7 +1295,7 @@ public without sharing class ParticipantInformationRemote {
             Participant_Enrollment__c.class
         );
         update participant;
-        return updatePatientStatus(pathWrapperJSON, pe, false, false, null,false);
+        return updatePatientStatus(pathWrapperJSON, pe, false, false, null,false,false);
     }
 
     @AuraEnabled
@@ -1505,14 +1501,15 @@ public without sharing class ParticipantInformationRemote {
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
         String outcome,
-        Boolean sitepreference
+        Boolean sitepreference,
+        Boolean PartcipantNoShow
         
     ) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
             peJSON,
             Participant_Enrollment__c.class
         );
-        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference);
+        return updatePatientStatus(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,sitepreference,PartcipantNoShow);
     }
 
     @AuraEnabled
@@ -1522,7 +1519,6 @@ public without sharing class ParticipantInformationRemote {
         String strDelegateEmail,
         Id participantId
     ) {
-        // system.debug('>>coming in checking details>>'+0/0);
         List<Participant__c> lstdelegateParticipants = [
             SELECT
                 Id,
@@ -1565,8 +1561,6 @@ public without sharing class ParticipantInformationRemote {
                 String.isBlank(objTempParticipant.Birth_Year__c)
                 ? true
                 : false;
-            system.debug('>>>duplicateDelegates>>' + duplicateDelegates);
-            // system.debug('>>>excepton>>'+0/0);
             if (!duplicateDelegates.isEmpty()) {
                 objDelegate.isDuplicate = true;
             } else {
@@ -1699,13 +1693,14 @@ public without sharing class ParticipantInformationRemote {
         String pathWrapperJSON,
         Boolean historyToUpdate,
         Boolean notesToBeAdded,
-        String outcome
+        String outcome,
+        Boolean PartcipantNoShow
     ) {
         Participant_Enrollment__c pe = (Participant_Enrollment__c) JSON.deserialize(
             peJSON,
             Participant_Enrollment__c.class
         );
-        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,false);
+        return updatePatientStatusCC(pathWrapperJSON, pe, historyToUpdate, notesToBeAdded, outcome,false,PartcipantNoShow);
     }
 
     public static void updateUserLanguage(String userJSON) {
