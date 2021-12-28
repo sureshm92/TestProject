@@ -187,8 +187,10 @@ public without sharing class PIR_HomepageController {
       if(lst.Participant__r.Phone__c != null){
          wrap.participantPhone = lst.Participant__r.Phone__c;
       }else{
-          Patient_Delegate__c patientDelegate = [Select Id,Primary_Delegate__c,Contact__c,Contact__r.Phone,Participant__c from Patient_Delegate__c where Participant__c =:lst.Participant__c AND Primary_Delegate__c=True];
-          wrap.participantPhone = patientDelegate.Contact__r.Phone;
+        List<Patient_Delegate__c> patientDelegate = new List<Patient_Delegate__c>();
+        patientDelegate = [Select Id,Primary_Delegate__c,Contact__c,Contact__r.Phone,Participant__c from Patient_Delegate__c where Participant__c =:lst.Participant__c AND Primary_Delegate__c=True limit 1];
+        if(patientDelegate != null && !patientDelegate.isEmpty()){
+        wrap.participantPhone = patientDelegate[0].Contact__r.Phone;}else{wrap.participantPhone ='';}
       }
       if(lst.Referral_Source__c == System.Label.RH_HCP && lst.HCP__c != null)
       {
