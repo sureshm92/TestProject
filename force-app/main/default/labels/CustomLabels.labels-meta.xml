@@ -8,6 +8,27 @@
         <value>View Participants Not Yet Logged In</value>
     </labels>
     <labels>
+        <fullName>End_Date_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>End Date Error Message</shortDescription>
+        <value>End Date cannot be before the Start Date</value>
+    </labels>
+    <labels>
+        <fullName>Number_Of_Occurrence_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Number Of Occurrence Error</shortDescription>
+        <value>You can not create this Survey.</value>
+    </labels>
+    <labels>
+        <fullName>Start_Date_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start Date Error Message</shortDescription>
+        <value>Start date cannot be in the past</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
