@@ -10,6 +10,9 @@ import startDateNotBlank from '@salesforce/label/c.ts_start_date_not_blank';
 import tsSuccessMsg from '@salesforce/label/c.ts_success_msg';
 import endDateNotBlank from '@salesforce/label/c.ts_end_date_not_blank';
 import activeOnStatus from '@salesforce/label/c.Active_on_status';
+import startDateError from '@salesforce/label/c.Start_Date_Error_Message';
+import endDateError from '@salesforce/label/c.End_Date_Error_Message';
+import errorOnNumberOfOccurrence from '@salesforce/label/c.Number_Of_Occurrence_Error';
 import remDateError from '@salesforce/label/c.reminder_greaterthan_one_year_error';
 import { loadScript } from 'lightning/platformResourceLoader';
 import momentJs from '@salesforce/resourceUrl/moment_js';
@@ -36,7 +39,11 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         tsSuccessMsg,
         endDateNotBlank,
         activeOnStatus,
-        remDateError
+        remDateError,
+        startDateError, 
+        endDateError,
+        errorOnNumberOfOccurrence
+
     };
 
     connectedCallback() {
@@ -145,6 +152,8 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
         if (this.recordTypeName == 'Status based') {
             // ststus based
             var activeOnStatus = fields.Active_On_Status__c;
+            var numberOfOccurrence = fields.Number_of_occurrences__c;
+            var IsRecurrenceSurvey = fields.Is_Recurrence_Survey__c;
             let today = new Date();
             let dueDate = new Date();
             let currentDate = today.toISOString().split('T')[0];
@@ -157,6 +166,10 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
 
             if (activeOnStatus == '' || activeOnStatus == null) {
                 communityService.showErrorToast('', this.labels.activeOnStatus, 3000);
+                return;
+            }
+            if ( IsRecurrenceSurvey && (numberOfOccurrence == '0' || numberOfOccurrence == '00')) {//updated for bug
+                communityService.showErrorToast('', this.labels.errorOnNumberOfOccurrence, 3000);
                 return;
             }
             if ((expiryDays == '' || expiryDays == null) && !fields.Is_Recurrence_Survey__c) {
@@ -199,13 +212,13 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             }
 
             if (fields.Survey_start_date__c < currentDate) {
-                communityService.showErrorToast('', 'Start date cannot be a past date', 3000);
+                communityService.showErrorToast('', this.labels.startDateError, 3000);
                 return;
             }
             if (fields.Survey_end_date__c < fields.Survey_start_date__c) {
                 communityService.showErrorToast(
                     '',
-                    'End date cannot be less than start date',
+                    this.labels.endDateError,//changed for bug phe-4367
                     3000
                 );
                 return;
