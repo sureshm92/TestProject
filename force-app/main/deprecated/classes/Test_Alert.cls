@@ -1,5 +1,5 @@
 /**
- * Created by mkotenev on 2/21/2019. vmnm
+ * Created by mkotenev on 2/21/2019.
  */
 
 @isTest
