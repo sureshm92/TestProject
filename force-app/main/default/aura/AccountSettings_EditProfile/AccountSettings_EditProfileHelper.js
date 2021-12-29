@@ -62,11 +62,11 @@
                 email.setCustomValidity('');
                 isValid = true;
             } else {
-                email.setCustomValidity('You have entered an invalid format');
+                email.setCustomValidity($A.get('$Label.c.RH_RP_Delegate_Email_Format_Error'));
                 isValid = false;
             }
         } else {
-            email.setCustomValidity('You have entered an invalid format');
+            email.setCustomValidity($A.get('$Label.c.RH_RP_Delegate_Email_Format_Error'));
             isValid = false;
         }
         email.reportValidity();
