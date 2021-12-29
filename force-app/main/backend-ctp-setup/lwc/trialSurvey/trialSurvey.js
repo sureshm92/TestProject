@@ -278,10 +278,10 @@ export default class trialSurvey extends NavigationMixin(LightningElement) {
             this.reminderDisabled = false;
         }
         if(this.recordTypeName == 'Time based'){
-            this.isrecordtype = false;
+            //this.isrecordtype = false;
         }
         else{
-            this.isrecordtype = true;
+           // this.isrecordtype = true;
         }
         this.isRecurrenceSurvey = event.target.value;
     }
