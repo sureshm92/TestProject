@@ -62,6 +62,7 @@ private class Test_BasePPCommunity {
                     'lastName',
                     null
                 );
+                AddPatientByPIRemote.assignParticipantPermissions(testDataInstance.ss.Id,testDataInstance.piContact.Id);
                 AddPatientByPIRemote.saveParticipant(
                     JSON.serialize(participant),
                     JSON.serialize(pe),
@@ -76,6 +77,7 @@ private class Test_BasePPCommunity {
                     false,
                     false
                 );
+                
                 for (Participant_Enrollment__c pe2 : [
                     SELECT Name, Referral_ID__c, Participant_Key__c
                     FROM Participant_Enrollment__c
