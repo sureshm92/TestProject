@@ -180,7 +180,7 @@ public without sharing class AddPatientByPIRemote {
     }
  
     @Future
-    private static void assignParticipantPermissions(String ssId, String contactId) {
+    public static void assignParticipantPermissions(String ssId, String contactId) {
         Action_AssignContactPermissions actionAssignContactPermissions = new Action_AssignContactPermissions();
         Study_Site__c ss = StudySiteService.getStudySiteForPIById(ssId);
         String permissionSetName = CommunityTemplateService.getTemplate(
