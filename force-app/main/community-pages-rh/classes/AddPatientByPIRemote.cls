@@ -250,7 +250,9 @@ public without sharing class AddPatientByPIRemote {
                     if(String.isNotBlank(participant.Nickname__c)){
                         partici.Nickname__c = participant.Nickname__c;
                     }
-                   // partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                    if(String.isNotBlank(participant.Date_of_Birth__c)){
+                    partici.Date_of_Birth__c = participant.Date_of_Birth__c;
+                   }
                    if(String.isNotBlank(participant.Gender__c)){
                     partici.Gender__c = participant.Gender__c;
                    }
