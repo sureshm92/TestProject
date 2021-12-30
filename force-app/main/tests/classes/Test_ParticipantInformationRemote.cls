@@ -24,7 +24,7 @@ private class Test_ParticipantInformationRemote {
                 null
             );
             ParticipantInformationRemote.getPrintInformation(
-                testData.pe.Id,
+                testData.pe.Id, 
                 CommunityService.USER_MODE_PI,
                 null
             );
@@ -153,11 +153,27 @@ private class Test_ParticipantInformationRemote {
         participantDel.Last_Name__c = 'testLastName';
         participantDel.Phone__c = '141241';
         participantDel.Phone_Type__c = 'Home';
+
+        Participant__c participantDel1 = new Participant__c();
+        participantDel1.Email__c = 'Test0198@mail.ru';
+        participantDel1.First_Name__c = 'testName1';
+        participantDel1.Last_Name__c = 'testLastName1';
+        participantDel1.Phone__c = '14124189';
+        
+        participantDel1.Birth_Year__c = '1990';
         Test.startTest();
         System.runAs(testData.piUser){
             try {
                 AddPatientByPIRemote.createParticipantDelegate(
                     JSON.serialize(participantDel),
+                    null,
+                    participant.Id,
+                    JSON.serialize(participant),
+                    true,
+                    null
+                );
+                AddPatientByPIRemote.createParticipantDelegate(
+                    JSON.serialize(participantDel1),
                     null,
                     participant.Id,
                     JSON.serialize(participant),
@@ -196,7 +212,7 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 false,
-                null,false
+                null,false,false
             );
         }
         Test.stopTest();
@@ -229,14 +245,14 @@ private class Test_ParticipantInformationRemote {
                 testData.pe.Id,
                 false,
                 true,
-                null,false
+                null,false,false
             );
             ParticipantInformationRemote.updatePatientStatus(
                 JSON.serialize(path),
                 testData.pe.Id,
                 false,
                 true,
-                null,false
+                null,false,false
             );
             path.steps[path.currentStepInd + 1].state = 'neutral';
             path.steps[path.currentStepInd + 1].title = 'Inital Visit';

@@ -36,7 +36,7 @@ public without sharing class ConversationService {
                 'Participant_Enrollment__r.Participant_Contact__c',
                 'Participant_Enrollment__r.Participant_Status__c',
                 'Participant_Enrollment__r.Study_Site__c',
-                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c',    
+                'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__c',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Name',
                 'Participant_Enrollment__r.Study_Site__r.Principal_Investigator__r.Title',
                 'Participant_Enrollment__r.Study_Site__r.Messages_Are_Available__c'
@@ -120,15 +120,30 @@ public without sharing class ConversationService {
             : enrollment.Participant_Contact__c;
         contactsForSharing.add(headRecipientId);
 
-        List<Conversation__Share> conversationShares = new List<Conversation__Share>();
-        List<User> usersForSharing = [
-            SELECT Id
-            FROM User
-            WHERE ContactId IN :contactsForSharing AND IsActive = TRUE
+        List<Conversation__Share> sharesToInsert = new List<Conversation__Share>();
+        List<Conversation__Share> sharesToDelete = new List<Conversation__Share>();
+        Map<Id, User> usersForSharing = new Map<Id, User>(
+            [SELECT Id FROM User WHERE ContactId IN :contactsForSharing AND IsActive = TRUE]
+        );
+        List<Conversation__Share> existingShares = [
+            SELECT Id, Parent.Participant_Enrollment__c, UserOrGroupId
+            FROM Conversation__Share
+            WHERE RowCause = 'Manual' AND AccessLevel = 'Edit' AND ParentId = :conversationId
         ];
+        if (!existingShares.isEmpty()) {
+            for (Conversation__Share share : existingShares) {
+                //Valid and already Shared, no need to create share records again
+                if (usersForSharing.containsKey(share.UserOrGroupId)) {
+                    usersForSharing.remove(share.UserOrGroupId);
+                } else {
+                    //Invalid, remove share
+                    sharesToDelete.add(share);
+                }
+            }
+        }
         if (!usersForSharing.isEmpty()) {
-            for (User user : usersForSharing) {
-                conversationShares.add(
+            for (User user : usersForSharing.values()) {
+                sharesToInsert.add(
                     new Conversation__Share(
                         AccessLevel = 'Edit',
                         ParentId = conversationId,
@@ -137,7 +152,10 @@ public without sharing class ConversationService {
                 );
             }
 
-            insert conversationShares;
+            insert sharesToInsert;
+        }
+        if (!sharesToDelete.isEmpty()) {
+            delete sharesToDelete;
         }
     }
 

@@ -8,6 +8,27 @@
         <value>View Participants Not Yet Logged In</value>
     </labels>
     <labels>
+        <fullName>End_Date_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>End Date Error Message</shortDescription>
+        <value>End Date cannot be before the Start Date</value>
+    </labels>
+    <labels>
+        <fullName>Number_Of_Occurrence_Error</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Number Of Occurrence Error</shortDescription>
+        <value>You cannot create this Survey.</value>
+    </labels>
+    <labels>
+        <fullName>Start_Date_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Start Date Error Message</shortDescription>
+        <value>Start date cannot be in the past</value>
+    </labels>
+    <labels>
         <fullName>Site_DB_Invited</fullName>
         <language>en_US</language>
         <protected>false</protected>
@@ -18872,6 +18893,13 @@ communications using the toggles below.</value>
         <value>Others</value>
     </labels>
     <labels>
+        <fullName>RH_ParticipantNoshow</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>RH_ParticipantNoshow</shortDescription>
+        <value>Participant No Show</value>
+    </labels>
+    <labels>
         <fullName>RH_PI</fullName>
         <categories>RH</categories>
         <language>en_US</language>
@@ -23523,4 +23551,11 @@ communications using the toggles below.</value>
         <shortDescription>Primary Delegate</shortDescription>
         <value>Primary Delegate</value>
     </labels>
-</CustomLabels><!-- -->
+    <labels>
+        <fullName>PP_required</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>PP required</shortDescription>
+        <value>required</value>
+    </labels>
+</CustomLabels><!-- new required label added -->
