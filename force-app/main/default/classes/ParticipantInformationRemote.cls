@@ -783,6 +783,7 @@ public without sharing class ParticipantInformationRemote {
                 oldParticipantEnrollment
             );
             pe.Site_Communication_Preference__c=sitepreference;
+            pe.ParticipantNoShow__c = PartcipantNoShow;
             update pe;
             if (
                 (oldParticipantEnrollment.Initial_visit_scheduled_date__c == null ||
@@ -1209,6 +1210,7 @@ public without sharing class ParticipantInformationRemote {
                 ctp,
                 oldParticipantEnrollment
             );
+            pe.ParticipantNoShow__c = PartcipantNoShow;
             update pe;
             if (
                 (oldParticipantEnrollment.Initial_visit_scheduled_date__c == null ||

@@ -424,7 +424,8 @@ public with sharing class Action_SendSMS implements Action {
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Pin_Point_ProjectId__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Sponsor_AWS__c,
                             Participant_Enrollment__r.Clinical_Trial_Profile__r.Study_AWS__c,
-                            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c
+                            Participant_Enrollment__r.Clinical_Trial_Profile__r.CommunityTemplate__c,
+                            Participant_Enrollment__r.Study_Site__r.site__r.BillingCountryCode
                         FROM Survey_Invitations__r
                         WHERE Id IN :surveyInvitationIdList
                     )
