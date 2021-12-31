@@ -446,7 +446,7 @@
                         </div>
                     </aura:if>
                     <aura:if
-                        isTrue="{!and(v.ss.Study_Site_Type__c == 'Traditional' , or(v.ss.Suppress_Participant_Emails__c,v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c))}"
+                        isTrue="{!or(and(v.ss.Study_Site_Type__c == 'Traditional' , or(v.ss.Suppress_Participant_Emails__c,v.ss.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c)),and(v.participant.Adult__c,or(!v.participant.Email__c,v.participant.Email__c==''),v.needsGuardian))}"
                     >
                         <div class="slds-grid slds-gutters slds-wrap">
                             <div

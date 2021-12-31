@@ -30,6 +30,7 @@
 .totalpages{
   color: #0768FD;
   font-weight: 600;
+  cursor: pointer;
 }
 .disabled{
   opacity: .5;

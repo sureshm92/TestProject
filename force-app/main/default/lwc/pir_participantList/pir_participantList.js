@@ -44,9 +44,10 @@ export default class Pir_participantList extends LightningElement {
     peCurrentIndexMap = new Map();
     selectedIndex = -1 ;
     @api selectedPE;
-    keyCount = 0;
     @api communityTemplate ='';
     backSwap = false;
+    keypress = false;
+    keyScope = '';
 
     connectedCallback(){        
        if(this.urlStudyId !== null && this.urlSiteId !== null){
@@ -69,9 +70,10 @@ export default class Pir_participantList extends LightningElement {
     renderedCallback(){
         if(!this.rendered){
             this.rendered=true;
-            this.setKeyAction();            
+            this.setKeyAction();  
         }        
-        this.changeSelected();
+        this.keyScope += 'ren';  
+        this.changeSelected();        
     }
 
     @api fetchList(){
@@ -110,7 +112,6 @@ export default class Pir_participantList extends LightningElement {
             if(!this.studyIdlist){
                 this.studyIdlist = result.studyIdlist;
             }
-            //this.setKeyAction();
         })
         .catch(error => {
             this.err = error;
@@ -119,18 +120,13 @@ export default class Pir_participantList extends LightningElement {
         });
     }
     setKeyAction(){
-        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {            
+        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                     
+            this.keyScope = 'down';  
             var name = event.key;
-            this.keyCount++;        
+            this.keypress = true;     
             if((name=='ArrowDown' || name=='ArrowUp')){
                 event.preventDefault();
-            }
-        }, true);
-        this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
-            event.stopPropagation();
-            var name = event.key;
-            this.keyCount++;        
-            if((name=='ArrowDown' || name=='ArrowUp')){
+                event.stopPropagation();
                 var updateSelected=false;
                 if(name=='ArrowDown' ) {
                     if( this.selectedIndex < (this.participantList.length - 1)){
@@ -164,6 +160,17 @@ export default class Pir_participantList extends LightningElement {
                 }
             }
         }, false);
+    
+        this.template.querySelector('.keyup').addEventListener('keyup', (event) => {
+            var name = event.key;
+            if((name=='ArrowDown' || name=='ArrowUp')){
+                const selectedEvent = new CustomEvent("selectedpevaluechange", {
+                    detail: this.selectedPE
+                });
+                this.dispatchEvent(selectedEvent);              
+                this.keypress = false;
+            }
+        }, false);
     }
     handleMouseSelect(event){
         const mToggle = new CustomEvent("mtoggle", {
@@ -176,6 +183,7 @@ export default class Pir_participantList extends LightningElement {
         }
     }
     changeSelected(){
+        this.keyScope += 'chsec';
         if(this.selectedIndex != -1){
             var cards = this.template.querySelectorAll('.list-card');
             for(var j = 0; j < cards.length; j++){
@@ -183,10 +191,12 @@ export default class Pir_participantList extends LightningElement {
                     cards[j].classList.add("selected");
                     cards[j].focus();
                     this.selectedPE= this.peMap.get(this.peCurrentIndexMap.get(j)); 
-                    const selectedEvent = new CustomEvent("selectedpevaluechange", {
-                        detail: this.selectedPE
-                    });
-                    this.dispatchEvent(selectedEvent);   
+                    if((!this.keypress) || this.keyScope == 'downrenchsecrenchsec'){
+                        const selectedEvent = new CustomEvent("selectedpevaluechange", {
+                         detail: this.selectedPE
+                        });
+                        this.dispatchEvent(selectedEvent); 
+                    }
                 }
                 else{
                     cards[j].classList.remove("selected");

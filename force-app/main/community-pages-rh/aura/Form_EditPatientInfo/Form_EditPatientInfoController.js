@@ -9,6 +9,7 @@
         var states = formData.statesByCountryMap['US'];
         component.set('v.statesLVList', states);
         component.set('v.visitPlanAvailable', formData.visitPlansLVList.length > 0);
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         component.set('v.isFirstPrimaryDelegate',false);
         window.setTimeout(function(){
             var charSize; 
@@ -58,8 +59,15 @@
          console.log('pe', JSON.parse(JSON.stringify(component.get('v.pe'))));
          console.log('part', JSON.parse(JSON.stringify(component.get('v.participant'))));
          console.log('doCheckFields');
+         var formData = component.get('v.formData');
+         if(formData.visitPlansLVList.length ===1 && component.get('v.pe').Visit_Plan__c && component.get('v.isVisitPlanAssigned')!= true){
+             component.set('v.isOneVisitPlanAvailableAndSelected',true);
+         }
          var helpText = component.find('helpText');
          var participant = component.get('v.participant');
+         if( component.get('v.needsGuardian') && participant.Adult__c && (participant.email__c ==''|| !participant.email__c) ){
+             component.set('v.createUsers',false);
+         }
          // var participantDelegate = component.get('v.participantDelegate');
          var statesByCountryMap = component.get('v.formData.statesByCountryMap');
          var states = statesByCountryMap[participant.Mailing_Country_Code__c];
@@ -555,6 +563,14 @@
                     component.find('spinner').hide(); 
                 });
             }
+        }
+        if( component.get('v.needsGuardian') && 
+           component.get('v.participant.Adult__c') 
+           && (component.get('v.participant.email__c') ==''
+               || !component.get('v.participant.email__c')
+              ) 
+          ){
+            component.set('v.createUsers',false);
         }
         console.log('END doCheckDateOfBith');
     },
