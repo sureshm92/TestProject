@@ -25,6 +25,7 @@
     <aura:attribute name="isDateTimeFieldsAvailable" type="Boolean" default="false" />
     <!--@krishna Mahto - REF-1390 -->
     <aura:attribute name="sendToSH" type="Boolean" default="true" />
+    <aura:attribute name="PartcipantNoShow" type="Boolean" default="false" />
     <aura:attribute name="StatusDetailCard" type="Integer" />
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <!--
@@ -151,6 +152,7 @@
                                                              todayDate="{!v.todayDate}"
                                                              updateInProgress="{!v.updateInProgress}"
                                                              validateFOV="{!v.validateFOV}"
+                                                             PartcipantNoShow="{!v.PartcipantNoShow}"
                                                              />
                     </aura:iteration>
                 </div>

@@ -31,7 +31,7 @@ public without sharing class ParametrizedMessageService {
 
         public void setSObject(SObject sobj) {
             resultMessage = null;
-            User userObj;
+            list<User> userObj;
             if (sobj == null)
                 return;
             if (sourceMessage == null)
@@ -48,11 +48,13 @@ public without sharing class ParametrizedMessageService {
                     sobj,
                     paramsMap.get('ContactID')
                 );
-                userObj = [
-                    SELECT Id, LocaleSidKey, TimeZoneSidKey
-                    FROM User
-                    WHERE ContactId = :contactIdValue + ''
-                ];
+                if(contactIdValue!=null){
+                    userObj = [
+                        SELECT Id, LocaleSidKey, TimeZoneSidKey
+                        FROM User
+                        WHERE ContactId = :contactIdValue + ''
+                    ];
+                }
             }
 
             for (String paramName : paramsMap.keySet()) {
@@ -62,13 +64,13 @@ public without sharing class ParametrizedMessageService {
                 if (value instanceof Date) {
                     valueStr = UserService.formatDate((Date) value, language);
                 } else if (value instanceof Datetime) {
-                    if (userObj == null) {
+                    if (userObj==null || userObj.size()==0) {
                         valueStr = UserService.formatDateTime((Datetime) value, language);
                     } else {
                         valueStr = UserService.formatDateTimebyZone(
                             (Datetime) value,
-                            userObj.LocaleSidKey,
-                            userObj.TimeZoneSidKey
+                            userObj[0].LocaleSidKey,
+                            userObj[0].TimeZoneSidKey
                         );
                     }
                 } else {

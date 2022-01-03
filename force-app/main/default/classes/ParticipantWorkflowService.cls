@@ -1289,7 +1289,8 @@ public without sharing class ParticipantWorkflowService {
         ParticipantWorkflowWrapper pathWrapper,
         Participant_Enrollment__c pe,
         Clinical_Trial_Profile__c ctp,
-        Participant_Enrollment__c oldParticipantEnrollment
+        Participant_Enrollment__c oldParticipantEnrollment,
+        Boolean PartcipantNoShow
     ) {
         Participant_Enrollment_Status_History__c pesh = new Participant_Enrollment_Status_History__c();
         pesh.ParticipantEnrollment__c = pe.Id;
@@ -1317,15 +1318,21 @@ public without sharing class ParticipantWorkflowService {
                 populatePESHFromLastStep(pathWrapper, pe, pesh);
             }
         }
+        //RH-539
+        if(PartcipantNoShow){
+          pesh.Status__c = 'Unable to Reach';
+        pesh.Non_Enrollment_Reason__c = 'Didn\'t Show For Initial Visit'; 
+        }
         if (
             pesh == null ||
             String.isBlank(pesh.Status__c) ||
             (outcomesMap.get(pesh.Status__c).values()[0].Suppress_Multiple__c &&
             pesh.Status__c == pe.Participant_Status__c)
         )
-            return null;
+          return null;
         {
         }
+       
         return pesh;
     }
 

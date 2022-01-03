@@ -1197,6 +1197,10 @@
         <apexClass>ReferralProfileRemote</apexClass>
         <enabled>true</enabled>
     </classAccesses>
+     <classAccesses>
+        <apexClass>rpPatientOutreachController</apexClass>
+        <enabled>true</enabled>
+    </classAccesses>
     <classAccesses>
         <apexClass>ReferringClinicsFilter</apexClass>
         <enabled>true</enabled>
@@ -2474,6 +2478,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Enable_RP_Outreach_Email__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Enrolled_End_Date__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2692,6 +2701,11 @@
         <field>Clinical_Trial_Profile__c.Patient_Auth_Upload_Required__c</field>
         <readable>true</readable>
     </fieldPermissions>
+     <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Patient_Outreach_Info__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Patient_Portal_Enabled__c</field>
@@ -2705,6 +2719,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Payment_Is_Available__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Pin_Point_ProjectId__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -2829,6 +2848,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Sponsor_AWS__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Sponsor_Pays_for_Referral_Activity__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -2845,6 +2869,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Clinical_Trial_Profile__c.Study_Arms__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Clinical_Trial_Profile__c.Study_AWS__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -5258,6 +5287,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.ParticipantNoShow__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Site_Communication_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7168,6 +7202,21 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Sponsor_Country_Code__c.Country__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Sponsor_Country_Code__c.From_Number__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Sponsor_Country_Code__c.Sponsor_Name__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Status_History__c.HCP_Enrollment__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -7249,6 +7298,11 @@
 	<fieldPermissions>
         <editable>true</editable>
         <field>Study_Site__c.Enable_for_Call_Center_Support__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Study_Site__c.Enable_RP_Outreach_Email__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -7514,6 +7568,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>SurveyInvitation.ExpireDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>SurveyInvitation.IsTrialSurvey__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
@@ -8057,6 +8116,11 @@
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Number_of_occurrences__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
         <editable>false</editable>
         <field>User.First_Logon__c</field>
         <readable>true</readable>
@@ -8570,6 +8634,9 @@
     </layoutAssignments>
     <layoutAssignments>
         <layout>Status_History__c-Status History Layout</layout>
+    </layoutAssignments>
+    <layoutAssignments>
+        <layout>Sponsor_Country_Code__c-Sponsor Country Code Layout</layout>
     </layoutAssignments>
     <layoutAssignments>
         <layout>Study_Incentive_Plan__c-Study Incentive Plan Layout</layout>
@@ -9338,6 +9405,15 @@
         <modifyAllRecords>true</modifyAllRecords>
         <object>Site_Staff__c</object>
         <viewAllRecords>true</viewAllRecords>
+    </objectPermissions>
+    <objectPermissions>
+        <allowCreate>true</allowCreate>
+        <allowDelete>true</allowDelete>
+        <allowEdit>true</allowEdit>
+        <allowRead>true</allowRead>
+        <modifyAllRecords>true</modifyAllRecords>
+        <object>Sponsor_Country_Code__c</object>
+		<viewAllRecords>true</viewAllRecords>
     </objectPermissions>
     <objectPermissions>
         <allowCreate>true</allowCreate>

@@ -48,6 +48,14 @@ private class Test_TrialMatchPageRemote {
             1,
             TrialMatchPageRemote.getMatchCTPs(testData.pe.id).trialmatchctps.size()
         );
+        try{
+            PageReference pageRef = Page.TrialMatchData;
+            Test.setCurrentPage(pageRef);
+            pageRef.getParameters().put('id',testData.pe.id);
+            TrialMatchPageRemote.getBase64TrialMatchData(testData.pe.id);
+        } catch (AuraHandledException e) {
+            System.debug(e.getMessage());
+        }
     }
 
     @IsTest
