@@ -1,9 +1,18 @@
 /**
  * Created by Andrii Kryvolap.
  */
-({
+ ({
     doInit: function (component, event, helper) {
+        
         let field = component.get('v.field');
+        if(field.field == 'Initial_visit_occurred_flag__c')
+        {
+            if(field.value == "false")
+            	component.set('v.InitialVisitCheckbx',true);
+            else 
+                component.set('v.InitialVisitCheckbx',false);
+                
+        }
         if (field.type === 'checkbox') {
             component.set('v.booleanUpdateInProgress', true);
             component.set('v.booleanValue', field.value == 'true');
@@ -20,6 +29,16 @@
         if (field.type === 'date' || field.type === 'time') {
             component.set('v.validateFOV',true);
          }
+        if(field.field == 'Initial_visit_occurred_flag__c')
+        {
+            if(field.value == "false")
+            	component.set('v.InitialVisitCheckbx',true);
+            else {
+                component.set('v.InitialVisitCheckbx',false);
+                component.set('v.PartcipantNoShow',false);
+            }
+                
+        }
         if (!updateInProgress) {
             if (parent !== null && field !== undefined && field.value !== previousValue) {
                 let populateFields =

@@ -147,9 +147,18 @@
     display: inline-block;
     cursor: pointer;
 }
+.THIS .checkbox_alignment{
+    margin: 0.5rem 0px 0px 3.4rem;
+}
+.THIS .initial_visitcss{
+    padding-left: 0rem;
+}
 /* --------END--------------- */
 @media screen and (max-width: 768px) {
     .THIS.form-field {
         min-width: 100%;
     }
+    .THIS .checkbox_alignment{
+    margin: 1rem 0px 0px 3rem;
+}
 }

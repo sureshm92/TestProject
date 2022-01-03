@@ -13,6 +13,7 @@
     <aura:attribute name="NotCCMode" type="Boolean" default="true" access="public" />
     <aura:attribute name="validateFOV" type="Boolean" default="false" /> 
     <aura:attribute name="sitePreference" type="Boolean" default="false" />
+    <aura:attribute name="PartcipantNoShow" type="Boolean" default="false" />
     <!-- Attribute to capture the changes made in child 
     <aura:attribute name="childChanges" type="List" default="[]"/>
     -->
@@ -94,7 +95,7 @@
                                                                                                                         month="short"
                                                                                                                         day="2-digit"
                                                                                                                         timeZone="UTC"
-                                                                                                                        />  
+                                                                                                                        />
                                                         <aura:set attribute="else">        
                                                             {!step.status}&nbsp;<lightning:formattedDateTime
                                                                                                              value="{!step.dateStatus}"
@@ -176,6 +177,7 @@
                                                         validateFOV="{!v.validateFOV}"
                                                         sitePreference="{!v.sitePreference}"
                                                         StatusDetailCard="{!index}"
+                                                        PartcipantNoShow="{!v.PartcipantNoShow}"
                                                         />
                     </div>
                     <aura:set attribute="else">

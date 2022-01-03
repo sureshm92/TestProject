@@ -37,7 +37,7 @@ public without sharing class TrialMatchPageRemote {
         try {
             PageReference page = Page.TrialMatchData;
             page.getParameters().put('id', peId);
-            Blob content = page.getContent();
+            Blob content = !Test.isRunningTest() ? page.getContent() : Blob.valueOf('Fake content');
             String encoded = EncodingUtil.base64Encode(content);
             return encoded;
         } catch (Exception e) {

@@ -862,7 +862,7 @@ public without sharing class ViewPatientsRemote {
         Set<Id> referralsPIsAndMedRevsContacts = new Set<Id>();	
         for(Participant_Enrollment__c per:lstPER ){
 	   referralsPIsAndMedRevsContacts.add(per.Referral_Completed_by__c);
-           String Fovtim =String.ValueOf(per.Initial_visit_scheduled_time__c);
+           String Fovtim = String.ValueOf(per.Initial_visit_scheduled_time__c);
            if(Fovtim  !='' && Fovtim  !=null){
            FOVTime.add(Fovtim.replace('.000Z', ''));
            }else{
