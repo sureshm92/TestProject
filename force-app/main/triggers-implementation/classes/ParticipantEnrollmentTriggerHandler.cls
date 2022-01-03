@@ -53,19 +53,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
         }
     }
 
-    public class CreateStatusBasedInvitations extends TriggerHandler {
-        public override void afterInsert(List<SObject> newList) {
-            createInvitations((List<Participant_Enrollment__c>) newList, null);
-        }
-
-        public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
-            createInvitations(
-                (List<Participant_Enrollment__c>) newList,
-                (Map<Id, Participant_Enrollment__c>) oldMap
-            );
-        }
-    }
-
     public class CompleteEnrollmentTasks extends TriggerHandler {
         public override void afterUpdate(List<SObject> newList, Map<Id, SObject> oldMap) {
             completeTasks(
@@ -388,93 +375,6 @@ public without sharing class ParticipantEnrollmentTriggerHandler {
                 }
                 pe.Participant_Status_Last_Changed_Date__c = Datetime.now();
             }
-        }
-    }
-
-    @TestVisible
-    private static void createInvitations(
-        List<Participant_Enrollment__c> newList,
-        Map<Id, Participant_Enrollment__c> oldMap
-    ) {
-        Map<Id, List<Participant_Enrollment__c>> ctpPE = new Map<Id, List<Participant_Enrollment__c>>();
-        Map<String, Id> communitiesMap = CommunityService.getCommunityIdsMap();
-        Map<Id, String> networkByPE = new Map<Id, String>();
-        for (Participant_Enrollment__c pe : newList) {
-            if (ctpPE.get(pe.Clinical_Trial_Profile__c) == null) {
-                ctpPE.put(pe.Clinical_Trial_Profile__c, new List<Participant_Enrollment__c>());
-            }
-            ctpPE.get(pe.Clinical_Trial_Profile__c).add(pe);
-
-            String communityName = CommunityTemplateService.getTemplate(
-                    ((Clinical_Trial_Profile__c) PETriggerBuffer.getSObject(
-                            pe.Clinical_Trial_Profile__c
-                        ))
-                        .CommunityTemplate__c
-                )
-                .communityName;
-            networkByPE.put(pe.Id, communitiesMap.get(communityName));
-        }
-
-        List<Trial_Survey__c> trialSurveys = [
-            SELECT
-                Id,
-                Clinical_Trial_Profile__c,
-                Is_Midpoint__c,
-                Survey__c,
-                Survey__r.Name,
-                Active_On_Status__c,
-                Expires_After_Days__c,
-                Reminder_Schedule__c,
-                Whose_response_needed__c
-            FROM Trial_Survey__c
-            WHERE
-                Active_On_Status__c != NULL
-                AND Clinical_Trial_Profile__r.Patient_Portal_Enabled__c = TRUE
-                AND Clinical_Trial_Profile__c IN :ctpPE.keySet()
-        ];
-
-        Map<Id, String> trialWhoseResponse = new Map<Id, String>();
-        List<SurveyInvitation> newInvitations = new List<SurveyInvitation>();
-        for (Trial_Survey__c ts : trialSurveys) {
-            trialWhoseResponse.put(ts.Id, ts.Whose_response_needed__c);
-            for (Participant_Enrollment__c enrollment : ctpPE.get(ts.Clinical_Trial_Profile__c)) {
-                Boolean needToAdd = false;
-                if (enrollment.Participant_Status__c == ts.Active_On_Status__c) {
-                    if (
-                        PEStatusState.PE_STATUS_GROUP_COMPLETE.contains(
-                            enrollment.Participant_Status__c
-                        ) && ts.Is_Midpoint__c
-                    )
-                        continue;
-
-                    if (oldMap != null) {
-                        if (
-                            oldMap.get(enrollment.Id).Participant_Status__c !=
-                            enrollment.Participant_Status__c
-                        ) {
-                            needToAdd = true;
-                        }
-                    } else {
-                        needToAdd = true;
-                    }
-                }
-                if (needToAdd) {
-                    newInvitations.add(
-                        SurveyService.getInstance()
-                            .generateInvitation(ts, enrollment.Id, networkByPE.get(enrollment.Id))
-                    );
-                }
-            }
-        }
-
-        if (!newInvitations.isEmpty()) {
-            insert newInvitations;
-            Map<Id, String> invitationsVisible = new Map<Id, String>();
-            for (SurveyInvitation inv : newInvitations) {
-                invitationsVisible.put(inv.Id, trialWhoseResponse.get(inv.Trial_Survey__c));
-            }
-
-            TaskService.getInstance().createSurveyTasks(invitationsVisible);
         }
     }
 

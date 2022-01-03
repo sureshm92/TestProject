@@ -26,10 +26,15 @@ import RH_RP_Delegate_Minor_Error from '@salesforce/label/c.RH_RP_Delegate_Minor
 import RH_RP_Delegate_Successfully_Saved from '@salesforce/label/c.RH_RP_Delegate_Successfully_Saved';
 import icon_chevron_up_white from '@salesforce/resourceUrl/icon_chevron_up_white';
 import RH_RP_Select_Phone_Type from '@salesforce/label/c.RH_RP_Select_Phone_Type';
+import RH_RP_Select_Alternative_Type from '@salesforce/label/c.Select_Alternative_Type';
+import RH_RP_Select_Birth_Year from '@salesforce/label/c.RH_RP_Select_Birth_Year';
 
 
 export default class Rp_DelegateTab extends LightningElement {
     label = {
+        RH_RP_Select_Birth_Year,
+        RH_RP_Select_Alternative_Type,
+        RH_RP_Select_Phone_Type,
         RH_RP_Delegate_First_Name,
         RH_RP_Delegate_Phone_Number,
         RH_RP_Delegate_Phone_Type,
