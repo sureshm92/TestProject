@@ -3,9 +3,9 @@
  */
 
 public without sharing class Action_AssignContactPermissions implements Action {
-     @TestVisible 
+    @TestVisible
     private Map<Id, Set<String>> contactPermissionsMap = new Map<Id, Set<String>>();
-     @TestVisible 
+    @TestVisible
     private Map<Id, Set<String>> contactPermissionsToRemoveMap = new Map<Id, Set<String>>();
 
     public void addPermission(Id contactId, String permissionSet) {
@@ -58,7 +58,7 @@ public without sharing class Action_AssignContactPermissions implements Action {
 
     public void postDML(Action__c dbAction, Execution_History__c executionHistory) {
     }
-     @TestVisible 
+    @TestVisible
     private void cleanReassignedPermissions() {
         //remove permission from remove map if this permission exist in assign map
         Map<Id, Set<String>> resMap = new Map<Id, Set<String>>();
@@ -76,7 +76,7 @@ public without sharing class Action_AssignContactPermissions implements Action {
         }
         contactPermissionsToRemoveMap = resMap;
     }
-     @TestVisible 
+    @TestVisible
     private void insertPermissions() {
         // all permission sets:
         Map<String, Id> permissionIdByNameMap = new Map<String, Id>();
@@ -109,7 +109,7 @@ public without sharing class Action_AssignContactPermissions implements Action {
         if (psaList.size() > 0)
             insert psaList;
     }
-    @TestVisible 
+    @TestVisible
     private void deletePermissions() {
         List<User> users = [
             SELECT Id, ContactId, (SELECT Id, PermissionSet.Name FROM PermissionSetAssignments)

@@ -1,0 +1,77 @@
+<template>
+    <div class="dividerTop slds-border--right slds-grid slds-wrap slds-p-top--medium">
+        <div class="slds-col slds-size_9-of-12">
+            <div class="slds-form-element slds-m-left_x-small">
+                <div class="slds-form-element__control slds-input-has-icon slds-input-has-icon_right">
+                    <lightning-icon icon-name="utility:search" size="x-small" alternative-text="search" title="search" class="dim slds-icon slds-input__icon slds-input__icon_right slds-icon-text-default"></lightning-icon>
+                    <input type="text" id="searchText" placeholder="Search Participants" class="slds-input" />
+                </div>
+            </div>
+        </div>
+        <div class="slds-col slds-size_3-of-12 textBold">
+            <lightning-button label="Filter" title="Filter" icon-name="utility:filterList" class="slds-m-left_xx-small filterTextButton"></lightning-button>
+            <div class="slds-button slds-button_neutral slds-m-left_xx-small filterIconButton">
+                <lightning-icon icon-name="utility:filterList" size="x-small" class="slds-button__icon"></lightning-icon>
+            </div>
+        </div>
+        <div class="slds-col slds-size_12-of-12">
+            <div class="slds-m-left_x-small slds-m-right--x-small slds-m-top--x-small">
+                <span class="textBold">Presets</span>
+                <lightning-combobox name="preset" variant="label-hidden"
+                placeholder="Select"  ></lightning-combobox>
+            </div>
+        </div>
+        <div class="slds-col slds-size_12-of-12 slds-p-bottom--x-large">
+            <div class="slds-grid slds-wrap slds-m-left_x-small slds-m-right--x-small slds-m-top--small">
+                <div class="slds-col slds-size_2-of-12">
+                    <div class="slds-p-top--x-small textBold">Sort By:</div>
+                </div>
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-combobox name="LastAdded" variant="label-hidden"
+                    placeholder="Last Added"  ></lightning-combobox>
+                </div>
+                <div class="slds-col slds-size_2-of-12"></div>
+                <div class="slds-col slds-size_4-of-12">
+                    <lightning-combobox name="Bulk" variant="label-hidden"
+                    placeholder="Actions"  ></lightning-combobox>
+                </div>
+            </div>
+        </div>
+        <div tabindex="0" class="overflowSet keyup dividerTop slds-border--bottom slds-col slds-size_12-of-12">
+            <template if:false={participantList}>
+                <div class="overflowSet" style="position:relative">
+                    <div role="status" class="slds-spinner slds-spinner_medium">
+                      <span class="slds-assistive-text">Loading</span>
+                      <div class="slds-spinner__dot-a"></div>
+                      <div class="slds-spinner__dot-b"></div>
+                    </div>
+                    <template if:true={pageLimit}>
+                        <div class="slds-align--absolute-center wait">
+                            Please wait as your page loads 
+                        </div>
+                    </template>
+                  </div>
+            </template>
+            <template if:true={participantList}>
+                <template for:each={participantList} for:item="p"  for:index="index">
+                    <div onclick={handleMouseSelect} key={p.id} data-id={index} tabindex="0" class="list-card slds-border_top slds-p-bottom--xx-small slds-p-left--x-large slds-p-top--xx-small dividerTop">
+                        <div class="flags">
+                            <template if:true={p.actionReq}><span class=" actionReq"><img src={iconActionReq}/>Action Requiered</span></template>
+                            <template if:true={p.highPriority}><span class="priority"><img src={iconHighPriority}/>High Priority</span></template>
+                            <template if:true={p.highRisk}><span class="risk"><img src={iconHighRisk}/>High Risk</span></template>
+                        </div>
+                        <div class="slds-text-heading--small breakW">
+                            {p.firstName} {p.lastName}
+                        </div>
+                        <div class="subInfo slds-truncate" >
+                            {p.refId} - <span title={p.studyName}>{p.studyName}</span>
+                        </div>
+                    </div>
+                </template>
+            </template>
+            <template if:true={noRecords}>
+                <span class="noRecords">{label.RH_RP_No_Item_To_Display}</span>
+            </template>
+        </div>
+    </div>
+</template>
