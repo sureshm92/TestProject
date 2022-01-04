@@ -14,6 +14,7 @@ Created by Sumit S-->
     <aura:attribute name="CreatedDate" type="String"/>
     <aura:attribute name="containsFile" type="boolean" default="false"/>
     <aura:attribute name="isSiteEnabledforHAPI" type="Boolean" default="false"/>
+    <aura:attribute name="isFromPrint" type="Boolean" default="false"/>
     
     <aura:handler name="init" value="{!this}" action="{!c.doInit}" />
     <aura:if isTrue="{!v.containsFile}">
@@ -53,6 +54,12 @@ Created by Sumit S-->
                             
                         </aura:If>
                     </div>  
+                    <aura:if isTrue="{!v.isFromPrint}">
+                        <div class="slds-col slds-size--1-of-4">
+                            <span>{!v.CreatedDate}</span>
+                        </div>
+                    
+                    <aura:set attribute="else">
                     <div class="slds-col slds-medium-size--4-of-12 slds-show_medium" style="text-align: center;">
                         <!--{!v.medicalHistory.fileDate}-->
                         <!--<lightning:formattedDateTime value="{!item.CreatedDate}" year="numeric" day="2-digit" month="short" hour="2-digit" minute="2-digit"/>-->
@@ -61,6 +68,8 @@ Created by Sumit S-->
                         <span>{!v.CreatedDate}</span>
                         
                     </div>
+                        </aura:set>
+                    </aura:if>
                     <aura:if isTrue="{!v.HideDownloadButton}">
                         <div class="slds-col slds-medium-size--4-of-12 slds-small-size--6-of-12">
                             <span style="float:right;">
@@ -76,10 +85,12 @@ Created by Sumit S-->
                 </div>  
                 
             </div>
+            <aura:if isTrue="{!!v.isFromPrint}">
             <div class="slds-grid slds-hide_medium">
                 <!-- <lightning:formattedDateTime value="{!v.CreatedDate}" year="numeric" day="2-digit" month="short" hour="numeric" minute="numeric" timeZone="UTC"/> -->
                 <span>{!v.CreatedDate}</span>
             </div>
+            </aura:if>
         </aura:iteration>
     </div>
     </aura:if>

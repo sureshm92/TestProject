@@ -357,7 +357,7 @@
             <aura:if isTrue="{!and(v.containsFile , !v.actions.medicalHistory.disabled)}">
                 <div>                        
                     <div  class="header" >{!$Label.c.Tab_Medical_History}</div>
-                    <c:MedicalHistoryView pe="{!v.pe}"  HideDownloadButton="false" />
+                    <c:MedicalHistoryView pe="{!v.pe}" containsFile="{!v.containsFile}" HideDownloadButton="false" isFromPrint ="true"/>
                 </div>
             </aura:if>
 
