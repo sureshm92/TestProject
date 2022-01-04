@@ -57,6 +57,13 @@ public without sharing class ParticipantInformationRemote {
                 userMode,
                 delegateId
             );
+            Id participantid = pi.pe.Participant__c;
+            Integer count= database.countQuery('Select count() from ContentDocumentLink where LinkedEntityId = :participantId');
+            if(count > 0){
+                pi.containsFile = true;
+            }else{
+                pi.containsFile = false;
+            }
             return JSON.serialize(pi);
         } catch (Exception e) {
             return (String) AuraHelper.throwException(e);
