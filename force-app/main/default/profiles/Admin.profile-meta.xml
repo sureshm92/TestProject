@@ -5287,6 +5287,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>Participant_Enrollment__c.ParticipantNoShow__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>Participant_Enrollment__c.Site_Communication_Preference__c</field>
         <readable>true</readable>
     </fieldPermissions>
@@ -8108,6 +8113,11 @@
     <fieldPermissions>
         <editable>true</editable>
         <field>Trial_Survey__c.Next_Occurrence_Date__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
+        <field>Trial_Survey__c.Number_of_occurrences__c</field>
         <readable>true</readable>
     </fieldPermissions>
     <fieldPermissions>

@@ -108,7 +108,7 @@
                             >
                                 <div class="label">
                                     {!$Label.c.Task_Name}
-                                    <abbr title="required" class="slds-required">*</abbr>
+                                    <abbr title="{!$Label.c.PP_required}" class="slds-required">*</abbr>
                                 </div>
                                 <lightning:input
                                     aura:id="taskName"
@@ -137,7 +137,7 @@
                                             {!$Label.c.PP_DueDateandTime}
                                         </aura:set>
                                     </aura:if>
-                                    <abbr title="required" class="slds-required">*</abbr>
+                                    <abbr title="{!$Label.c.PP_required}" class="slds-required">*</abbr>
                                 </div>
                                 <aura:if isTrue="{!v.initData.createdByAdmin}">
                                     <lightning:input

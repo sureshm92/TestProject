@@ -210,7 +210,7 @@
                         </tr>
                     </thead>
                 </table>
-                <div class="slds-p-left--x-small">No files to display</div>
+                <div class="slds-p-left--x-small">{BulkImport_No_files_to_display}</div>
             </div>
         </template>
         <template if:false={nofiles}>
@@ -453,7 +453,7 @@
                     <a href={templateFile}>
                         <button class="slds-button slds-button_neutral leftMargin">
                             <img src={downloadSvgURL} />&nbsp;&nbsp;
-                            File Template
+                            {BulkImport_File_Template}
                         </button>
                     </a>
                     <template if:true={enableImport}>
