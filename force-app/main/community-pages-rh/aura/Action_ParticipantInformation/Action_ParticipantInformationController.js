@@ -81,6 +81,11 @@
                                 );
                                 returnValue.enrollment.HCP__r.HCP_Contact__r = undefined;
                             }
+                            
+                            if(returnValue.isVisitPlanAssigned == false){
+                                returnValue.enrollment.Visit_Plan__c = undefined;
+                            }
+                            component.set('v.isVisitPlanAssigned',returnValue.isVisitPlanAssigned);
                             component.set('v.pe', returnValue.enrollment);
                             component.set('v.containsFile', returnValue.containsFile);//REF-2654
                             component.set('v.isSiteEnabledforHAPI', returnValue.isSiteEnabledforHAPI);
@@ -135,6 +140,7 @@
     },
      
     doUpdate: function (component, event, helper) {
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
         var usermode = communityService.getUserMode();
@@ -278,6 +284,7 @@
         var usermode = communityService.getUserMode();
         var participant = component.get('v.participant');
         var pe = component.get('v.pe');
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
@@ -401,7 +408,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow:component.get('v.PartcipantNoShow')
                 });
                 component.find('spinner').show();
                 actionName1.setCallback(this, $A.getCallback(function(response) {
@@ -417,6 +425,7 @@
 					component.set('v.isFirstPrimaryDelegate',false);
                     component.set('v.attestAge',false);
                     component.set('v.isBulkImport',false);
+                    component.set('v.PartcipantNoShow',false);
                     var comp = component.find('dialog');
                     if (usermode === 'CC') {
                         var cmpEvent = component.getEvent('callcenter');
@@ -447,8 +456,6 @@
             
             let isNotnull=false;
             for(var i=0; i<pathWrapper.steps.length; i++){
-                //console.log(i);
-                //console.log('size-->'+pathWrapper.steps[i]['cardTitle']);
                 if(pathWrapper.steps[i]['cardTitle'] == 'Contact Attempt')
                 {   
                  if(pathWrapper.steps[i]['outcome'] == 'Pre-review Failed' || 
@@ -504,7 +511,7 @@
             $A.enqueueAction(a);
         }
     },
-    doUpdatePatientStatusandValidate: function (component, event, helper) {
+    doUpdatePatientStatusandValidate: function (component, event, helper) { 
         if(component.get('v.validateFOV')){
             //alert('popup');
             let pathWrapper = component.get('v.participantPath');
@@ -616,6 +623,7 @@
         let pathWrapper = component.get('v.participantPath');
         var usermode = communityService.getUserMode();
         let pe = component.get('v.pe');
+        component.set('v.isOneVisitPlanAvailableAndSelected',false);
         //pe.Permit_IQVIA_to_contact_about_study__c = !component.get('v.doNotContact');
         pe.Permit_Mail_Email_contact_for_this_study__c = component.get('v.isEmail');
         pe.Permit_Voice_Text_contact_for_this_study__c = component.get('v.isPhone');
@@ -684,7 +692,8 @@
                     historyToUpdate: isStatusChanged,
                     notesToBeAdded: notesToBeAdded,
                     outcome: outcome,
-                    sitepreference:component.get('v.sitePreference')
+                    sitepreference:component.get('v.sitePreference'),
+                    PartcipantNoShow :component.get('v.PartcipantNoShow')
                 },
                 function (returnValueJSON) {
                     var returnValue = JSON.parse(returnValueJSON);
@@ -692,6 +701,7 @@
                     component.set('v.participantPath', returnValue.participantPath);
 
                     component.set('v.pe', returnValue.pe);
+                    component.set('v.PartcipantNoShow',false);
                     component.set('v.promoteToSHStatus',(returnValue.participantPath.sendToSH==true)?true:false);
                     component.set('v.dateofSH',returnValue.participantPath.sendToSHDate);
                     var callback = component.get('v.callback');

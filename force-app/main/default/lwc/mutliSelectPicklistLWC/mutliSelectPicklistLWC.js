@@ -1,6 +1,10 @@
 import { LightningElement, track, api } from 'lwc';
+import BulkImport_Select_Study from '@salesforce/label/c.BulkImport_Select_Study';
 
 export default class App extends LightningElement {
+    label = {
+                BulkImport_Select_Study
+             }
     @api
     values = [];
 
@@ -91,7 +95,8 @@ export default class App extends LightningElement {
         if (this.selectedvalues.length > 0) {
             return this.selectedvalues.length + ' values are selected';
         } else {
-            return 'Select Study';
+            return this.label.BulkImport_Select_Study;
+            
         }
     }
     handleSelectedPicklist(event) {

@@ -72,6 +72,7 @@ public without sharing class NotificationService {
         List<Notification_Type__mdt> notifTypes = [
             SELECT
                 Id,
+                IsStudyLevel__c,
                 DeveloperName,
                 Recipient_Type__c,
                 Parameters_Provider__r.Source_Object_Type__c,

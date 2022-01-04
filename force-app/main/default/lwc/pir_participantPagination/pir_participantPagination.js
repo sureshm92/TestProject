@@ -91,4 +91,10 @@ export default class Pir_participantPagination extends LightningElement {
             this.calculate();
         }
     }
+    goToLast(){
+        if( this.pageNumber!=this.totalPages){
+            this.pageNumber= this.totalPages;        
+            this.calculate();
+        }
+    }
 }

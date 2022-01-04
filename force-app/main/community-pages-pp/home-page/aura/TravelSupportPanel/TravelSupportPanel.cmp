@@ -11,6 +11,7 @@
     <aura:attribute name="travelWrapper" type="TravelSupportRemote.TravelWrapper[]" />
     <aura:attribute name="initialized" type="Boolean" default="false" />
     <aura:attribute name="isRTL" type="Boolean" />
+    <aura:attribute name="userLang" type="String" />
 
     <c:ExceptionHandlerPopup aura:id="exceptionHandler" />
     <div class="sv-panel rr-white-panel" data-gtm="PNL_TravelSupportPanel">
@@ -39,7 +40,13 @@
                                             iconName="{!travelWrapper.icon}"
                                         />
                                     </div>
-                                    <div style="padding: 0 5px">{!travelWrapper.title}</div>
+                                    <!--
+                                        Use language specific css if required
+                                        <div
+                                            class="text-item' + if(v.userLang == en_US, '', '__' + v.userLang)"
+                                        >
+                                    -->
+                                    <div class="text-item">{!travelWrapper.title}</div>
                                 </td>
                                 <td>
                                     <lightning:formattedDateTime

@@ -154,7 +154,8 @@
                 }
             );
         } else {
-            email.setCustomValidity('You have entered an invalid format');
+            //email.setCustomValidity('You have entered an invalid format');
+            email.setCustomValidity($A.get('$Label.c.RH_RP_Invalid_Email'));
             email.reportValidity();
         }
     },
