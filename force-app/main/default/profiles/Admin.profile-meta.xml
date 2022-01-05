@@ -7602,6 +7602,11 @@
     </fieldPermissions>
     <fieldPermissions>
         <editable>true</editable>
+        <field>SurveyInvitation.ReminderDateTime__c</field>
+        <readable>true</readable>
+    </fieldPermissions>
+    <fieldPermissions>
+        <editable>true</editable>
         <field>SurveyInvitation.Survey__c</field>
         <readable>true</readable>
     </fieldPermissions>
