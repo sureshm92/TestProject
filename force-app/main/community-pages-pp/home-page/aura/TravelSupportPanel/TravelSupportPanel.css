@@ -55,6 +55,9 @@
     height: 49px;
     background-color: #f8f9fb;
 }
+.THIS .text-item .text-item__de {
+    padding-left: 5px;
+}
 
 .THIS .sv-footer .cRRLink.rr-link {
     padding-right: 16px;

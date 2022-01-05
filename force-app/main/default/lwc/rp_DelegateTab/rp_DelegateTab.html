@@ -39,9 +39,9 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree} required="true"
+                                <lightning-combobox disabled={isaccesslevelthree} required="true" 
                                     label={label.RH_RP_Delegate_Birth_Year} name="Birth Year"
-                                    placeholder="Select Birth Year" value={pe.peRecord.Primary_Delegate_YOB__c}
+                                    placeholder={label.RH_RP_Select_Birth_Year} value={pe.peRecord.Primary_Delegate_YOB__c}
                                     options={pe.delegateYearOption} data-value="DelBirthYear" data-id={pe.peRecord.Id}
                                     onchange={changeInputValue} class="col-top">
                                 </lightning-combobox>
@@ -62,7 +62,7 @@
                         </lightning-layout-item>
                         <lightning-layout-item padding="around-small" size="6">
                             <div>
-                                <lightning-combobox disabled={isaccesslevelthree}
+                                <lightning-combobox disabled={isaccesslevelthree} 
                                     label={label.RH_RP_Delegate_Phone_Type} name="Phone Type" required="true"
                                     placeholder={label.RH_RP_Select_Phone_Type} value={pe.peRecord.Primary_Delegate_Phone_Type__c}
                                     options={pe.delegatePhoneTypeList} data-value="DelPhoneType"
@@ -82,7 +82,7 @@
                             <div>
                                 <lightning-combobox disabled={isaccesslevelthree}
                                     label={label.RH_RP_Delegate_Alt_Phone_Type} name="PDAT"
-                                    placeholder={label.RH_RP_Select_Phone_Type}
+                                    placeholder={label.RH_RP_Select_Alternative_Type}
                                     value={pe.peRecord.Primary_Delegate_s_Alt_Phone_Type__c}
                                     options={pe.altDelPhoneTypeList} data-value="PDAT" data-id={pe.peRecord.Id}
                                     onchange={changeInputValue} class="col-top">

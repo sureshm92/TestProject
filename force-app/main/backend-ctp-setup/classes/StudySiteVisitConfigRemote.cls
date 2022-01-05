@@ -14,9 +14,9 @@ public without sharing class StudySiteVisitConfigRemote {
         @AuraEnabled
         public SSVisitConfigSearchResponse searchResponse;
         @AuraEnabled
-        public Map<String,String> studySiteVisitPlan; 
+        public Map<String, String> studySiteVisitPlan;
     }
-    
+
     @AuraEnabled
     public static InitData getInitData(Id ctpId) {
         try {
@@ -31,7 +31,7 @@ public without sharing class StudySiteVisitConfigRemote {
                 initData.filter,
                 new PaginationData(15)
             );
-            initData.studySiteVisitPlan = new Map<String,String>();
+            initData.studySiteVisitPlan = new Map<String, String>();
             return initData;
         } catch (Exception e) {
             return (InitData) AuraHelper.throwException(e);
@@ -39,7 +39,7 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
-    public static CountAndLimit totalPEs(Id ctpId, String filterJSON){
+    public static CountAndLimit totalPEs(Id ctpId, String filterJSON) {
         List<Id> ssIds = new List<Id>();
         Integer count = 0;
         Boolean limitReached = false;
@@ -48,20 +48,26 @@ public without sharing class StudySiteVisitConfigRemote {
             StudySiteFilter.class
         );
         List<Study_Site__c> ssList = SearchService.search(filter);
-        for(Study_Site__c ss: ssList){
+        for (Study_Site__c ss : ssList) {
             ssIds.add(ss.Id);
         }
         Integer limitRows = Limits.getLimitQueryRows() - Limits.getQueryRows();
-        if(ssIds!=null && !ssIds.isEmpty() && ctpId!=null){
+        if (ssIds != null && !ssIds.isEmpty() && ctpId != null) {
             List<Participant_Enrollment__c> totalParticipants = new List<Participant_Enrollment__c>();
-            totalParticipants = [SELECT Id FROM Participant_Enrollment__c 
-                                 WHERE  Clinical_Trial_Profile__c=:ctpId AND Study_Site__c IN :ssIds
-                                 AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED 
-                                 AND Visit_Plan__c =null LIMIT:limitRows];
-            if(totalParticipants.size()>0){
+            totalParticipants = [
+                SELECT Id
+                FROM Participant_Enrollment__c
+                WHERE
+                    Clinical_Trial_Profile__c = :ctpId
+                    AND Study_Site__c IN :ssIds
+                    AND Participant_Status__c IN :PEStatusState.PE_STATUS_GROUP_POST_ENROLLMENT_VISIT_RELATED
+                    AND Visit_Plan__c = NULL
+                LIMIT :limitRows
+            ];
+            if (totalParticipants.size() > 0) {
                 count = totalParticipants.size();
-                if(limitRows == count){
-                    limitReached =  true;
+                if (limitRows == count) {
+                    limitReached = true;
                 }
             }
         }
@@ -70,14 +76,14 @@ public without sharing class StudySiteVisitConfigRemote {
         cl.limitReached = limitReached;
         return cl;
     }
-
-    class CountAndLimit{
+    @TestVisible
+    class CountAndLimit {
         @AuraEnabled
         public Integer count;
         @AuraEnabled
         public Boolean limitReached;
-    } 
-    
+    }
+
     @AuraEnabled
     public static SSVisitConfigSearchResponse getItems(
         String ssItemsJSON,
@@ -97,50 +103,61 @@ public without sharing class StudySiteVisitConfigRemote {
             );
             save(ssItemsJSON);
             saveFilter(filter);
-            Map<String,Object> studySiteVisitPlan = new Map<String,Object>();
-            if(!String.isEmpty(studySiteVisitPlanJSON) && studySiteVisitPlanJSON !='{}'){
-                studySiteVisitPlan =(Map<String,Object>)JSON.deserializeUntyped(studySiteVisitPlanJSON);                
-            }            
+            Map<String, Object> studySiteVisitPlan = new Map<String, Object>();
+            if (!String.isEmpty(studySiteVisitPlanJSON) && studySiteVisitPlanJSON != '{}') {
+                studySiteVisitPlan = (Map<String, Object>) JSON.deserializeUntyped(
+                    studySiteVisitPlanJSON
+                );
+            }
             updatePEsAndStartBatch(studySiteVisitPlan, ctpId);
             return new SSVisitConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
             return (SSVisitConfigSearchResponse) AuraHelper.throwException(e);
         }
     }
-	@TestVisible
-    private static void updatePEsAndStartBatch(Map<String,Object> studySiteVisitPlan, Id ctpId){
-        if(studySiteVisitPlan != null && !studySiteVisitPlan.isEmpty() && ctpId !=null){
+    @TestVisible
+    private static void updatePEsAndStartBatch(Map<String, Object> studySiteVisitPlan, Id ctpId) {
+        if (studySiteVisitPlan != null && !studySiteVisitPlan.isEmpty() && ctpId != null) {
             List<Study_Site__c> ssList = new List<Study_Site__c>();
-            for(String ssId:studySiteVisitPlan.keySet()){
+            for (String ssId : studySiteVisitPlan.keySet()) {
                 Study_Site__c ss = new Study_Site__c();
                 ss.Id = Id.valueOf(ssId);
                 ss.Is_Patient_Visit_Batch_Running__c = true;
                 ssList.add(ss);
             }
-            if(!ssList.isEmpty()){
+            if (!ssList.isEmpty()) {
                 update ssList;
-				Database.executeBatch(new Batch_UpdateVisitPlanCreatePatientVisits(studySiteVisitPlan,ctpId), 400);                
+                Database.executeBatch(
+                    new Batch_UpdateVisitPlanCreatePatientVisits(studySiteVisitPlan, ctpId),
+                    400
+                );
             }
-            
         }
     }
 
-	@TestVisible
-    private static void updatePEsAndStartBatch(Id visitPlanId,List<Id> ssIds, Id ctpId){
-        if(visitPlanId != null && ctpId !=null){
-            Map<String,Object> studySiteVisitPlan = new Map<String,Object>();
-            List<Study_Site__c> ssList = [SELECT Id,Is_Patient_Visit_Batch_Running__c 
-                                          FROM Study_Site__c WHERE Clinical_Trial_Profile__c =:ctpId 
-                                          AND Is_Patient_Visit_Batch_Running__c = false AND Id IN:ssIds];
-            for(Study_Site__c ss:ssList){
+    @TestVisible
+    private static void updatePEsAndStartBatch(Id visitPlanId, List<Id> ssIds, Id ctpId) {
+        if (visitPlanId != null && ctpId != null) {
+            Map<String, Object> studySiteVisitPlan = new Map<String, Object>();
+            List<Study_Site__c> ssList = [
+                SELECT Id, Is_Patient_Visit_Batch_Running__c
+                FROM Study_Site__c
+                WHERE
+                    Clinical_Trial_Profile__c = :ctpId
+                    AND Is_Patient_Visit_Batch_Running__c = FALSE
+                    AND Id IN :ssIds
+            ];
+            for (Study_Site__c ss : ssList) {
                 ss.Is_Patient_Visit_Batch_Running__c = true;
-                studySiteVisitPlan.put(ss.Id,visitPlanId);
+                studySiteVisitPlan.put(ss.Id, visitPlanId);
             }
-            if(!ssList.isEmpty()){
+            if (!ssList.isEmpty()) {
                 update ssList;
-				Database.executeBatch(new Batch_UpdateVisitPlanCreatePatientVisits(studySiteVisitPlan,ctpId), 400);                
+                Database.executeBatch(
+                    new Batch_UpdateVisitPlanCreatePatientVisits(studySiteVisitPlan, ctpId),
+                    400
+                );
             }
-            
         }
     }
 
@@ -176,22 +193,27 @@ public without sharing class StudySiteVisitConfigRemote {
             List<Id> ssIds = new List<Id>();
             for (StudySiteItem ssItem : allSSItems) {
                 ssIds.add(ssItem.ss.Id);
-                for (ValueStateItem assigment : ssItem.assignments){
+                for (ValueStateItem assigment : ssItem.assignments) {
                     ssId1.add(ssItem.ss.Id);
-                    if(ssIdsWithoutChangetoVisitPlan==null || ssIdsWithoutChangetoVisitPlan.isEmpty() 
-                       || !ssIdsWithoutChangetoVisitPlan.contains(ssItem.ss.Id)){
+                    if (
+                        ssIdsWithoutChangetoVisitPlan == null ||
+                        ssIdsWithoutChangetoVisitPlan.isEmpty() ||
+                        !ssIdsWithoutChangetoVisitPlan.contains(ssItem.ss.Id)
+                    ) {
                         assigment.state = state;
-                           ssId2.add(ssItem.ss.Id);
+                        ssId2.add(ssItem.ss.Id);
                     }
                 }
             }
             save(allSSItems);
-            Map<String,Object> studySiteVisitPlan = new Map<String,Object>();
-            if(!String.isEmpty(studySiteVisitPlanJSON) && studySiteVisitPlanJSON !='{}'){
-                studySiteVisitPlan =(Map<String,Object>)JSON.deserializeUntyped(studySiteVisitPlanJSON);                
+            Map<String, Object> studySiteVisitPlan = new Map<String, Object>();
+            if (!String.isEmpty(studySiteVisitPlanJSON) && studySiteVisitPlanJSON != '{}') {
+                studySiteVisitPlan = (Map<String, Object>) JSON.deserializeUntyped(
+                    studySiteVisitPlanJSON
+                );
             }
-            if(state && runBatch){
-                updatePEsAndStartBatch(visitPlanId,ssIds, ctpId);
+            if (state && runBatch) {
+                updatePEsAndStartBatch(visitPlanId, ssIds, ctpId);
             }
             return new SSVisitConfigSearchResponse(filter, pagination);
         } catch (Exception e) {
@@ -200,29 +222,41 @@ public without sharing class StudySiteVisitConfigRemote {
     }
 
     @AuraEnabled
-    public static List<Id> getLatestBatchStatusForStudySites(List<Id> ssIdsWithoutChangetoVisitPlan){
+    public static List<Id> getLatestBatchStatusForStudySites(
+        List<Id> ssIdsWithoutChangetoVisitPlan
+    ) {
         List<Id> result = new List<Id>();
-        result.addAll(new Map<Id,Study_Site__c>([SELECT Id FROM Study_Site__c WHERE Is_Patient_Visit_Batch_Running__c = true AND Id IN :ssIdsWithoutChangetoVisitPlan]).keySet());
+        result.addAll(
+            new Map<Id, Study_Site__c>(
+                    [
+                        SELECT Id
+                        FROM Study_Site__c
+                        WHERE
+                            Is_Patient_Visit_Batch_Running__c = TRUE
+                            AND Id IN :ssIdsWithoutChangetoVisitPlan
+                    ]
+                )
+                .keySet()
+        );
         return result;
     }
 
     @AuraEnabled
-    public static List<Id> getLatestBatchStatusForStudy(Id ctpId, String filterJSON){
+    public static List<Id> getLatestBatchStatusForStudy(Id ctpId, String filterJSON) {
         List<Id> result = new List<Id>();
         StudySiteFilter filter = (StudySiteFilter) JSON.deserialize(
             filterJSON,
             StudySiteFilter.class
         );
         List<Study_Site__c> ssList = SearchService.search(filter);
-        for(Study_Site__c ss: ssList){
-            if(ss.Is_Patient_Visit_Batch_Running__c == true){
+        for (Study_Site__c ss : ssList) {
+            if (ss.Is_Patient_Visit_Batch_Running__c == true) {
                 result.add(ss.Id);
             }
         }
         return result;
     }
 
-    
     @AuraEnabled
     public static SSVisitConfigSearchResponse deleteVisitPlan(
         String planId,

@@ -52,7 +52,8 @@
                 pe.Study_Site__r.Study_Site_Type__c != 'Hybrid' &&
                 pe.Study_Site__r.Clinical_Trial_Profile__r.Suppress_Participant_Emails__c ==
                     false &&
-                pe.Study_Site__r.Suppress_Participant_Emails__c == false &&
+                pe.Study_Site__r.Suppress_Participant_Emails__c == false &&                
+                pe.Study_Site__r.Clinical_Trial_Profile__r.CommunityTemplate__c != 'Janssen' && //RH-5163
                 pe.Study_Site__r.Clinical_Trial_Profile__r.Patient_Portal_Enabled__c == true
             ) {
                 isDelegateInvited = true;

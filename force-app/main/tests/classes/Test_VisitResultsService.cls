@@ -39,25 +39,25 @@ private class Test_VisitResultsService {
         update testData.participant;
         System.runAs(testData.participantUser) {
             List<Visit_Result_Type_Sharing__c> vrslist = new List<Visit_Result_Type_Sharing__c>();
-        Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
-            Clinical_Trial_Profile__c = testData.ctp.Id,
-            Include_Countries__c = true,
-            Type__c = 'WBC_Count',
-            Sharing_Countries__c = 'US',
-            Custom_Tooltip__c='Test 123 Custom Tool tip'
-        );
+            Visit_Result_Type_Sharing__c vrts = new Visit_Result_Type_Sharing__c(
+                Clinical_Trial_Profile__c = testData.ctp.Id,
+                Include_Countries__c = true,
+                Type__c = 'WBC_Count',
+                Sharing_Countries__c = 'US',
+                Custom_Tooltip__c = 'Test 123 Custom Tool tip'
+            );
             vrslist.add(vrts);
             Visit_Result_Type_Sharing__c vrts1 = new Visit_Result_Type_Sharing__c(
-            Clinical_Trial_Profile__c = testData.ctp.Id,
-            Include_Countries__c = false,
-            Type__c = 'WBC_Count',
-            Sharing_Countries__c = 'UK',
-            Custom_Tooltip__c='Test Custom Tool tip'
-        );
+                Clinical_Trial_Profile__c = testData.ctp.Id,
+                Include_Countries__c = false,
+                Type__c = 'WBC_Count',
+                Sharing_Countries__c = 'UK',
+                Custom_Tooltip__c = 'Test Custom Tool tip'
+            );
             vrslist.add(vrts1);
-        insert vrslist;
+            insert vrslist;
         }
-		testData.ss.Visit_Results_Sharing__c = true;
+        testData.ss.Visit_Results_Sharing__c = true;
         update testData.ss;
 
         Visit_Plan__c vp = new Visit_Plan__c(Name = 'Test Plan');
@@ -268,6 +268,7 @@ private class Test_VisitResultsService {
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         visits.add(new Visit__c(Visit_Plan__c = vp.Id));
+        visits.add(new Visit__c(Visit_Plan__c = vp.Id));
         insert visits;
 
         testData.updatePEStatusEnrollmentSuccess();
@@ -313,6 +314,14 @@ private class Test_VisitResultsService {
                 Visit_Number__c = 4
             )
         );
+        patientVisits.add(
+            new Patient_Visit__c(
+                Participant_Enrollment__c = testData.pe.Id,
+                Status__c = 'Pending',
+                Visit__c = visits.get(5).Id,
+                Visit_Number__c = 5
+            )
+        );
         insert patientVisits;
 
         List<Visit_Result__c> visitResults = new List<Visit_Result__c>();
@@ -337,6 +346,7 @@ private class Test_VisitResultsService {
                 Result_Type__c = 'Calcium'
             )
         );
+
         insert visitResults;
 
         System.runAs(testData.participantUser) {
@@ -356,7 +366,8 @@ private class Test_VisitResultsService {
             );
             System.assertEquals(1, container.wrappers.size());
         }
-
+        update visits;
+        delete visits;
         Test.stopTest();
     }
 }

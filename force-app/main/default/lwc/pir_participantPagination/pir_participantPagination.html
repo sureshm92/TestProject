@@ -9,7 +9,7 @@
             </span>
             <label class="slds-p-horizontal_x-small" for="pageNum">{label.RH_RP_Page}</label>&nbsp;
             <input type="number" id="pageNum" value={pageNumber} min="1" max={totalPages} maxlength="4" onchange={handlePageNumberChange} class="customInput" title="Go to a Page"></input>
-            <span class="slds-p-horizontal_x-small">{label.RH_RP_of}<span class="slds-m-horizontal_x-small totalpages" id="totalPages" style="border-bottom:2px dotted;">{totalPages}</span></span>
+            <span class="slds-p-horizontal_x-small">{label.RH_RP_of}<span class="slds-m-horizontal_x-small totalpages" id="totalPages" style="border-bottom:2px dotted;" onclick={goToLast}>{totalPages}</span></span>
             <span class="nxt disabled">
                 <lightning-icon icon-name="utility:chevronright" size="xx-small" alternative-text="Next Page" onclick={nextPage}></lightning-icon>
             </span>
