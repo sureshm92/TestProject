@@ -12,6 +12,8 @@
  <aura:attribute name="delay_days" type="String" />
  <aura:attribute name="study_guid" type="String" />
  <aura:attribute name="study_version_guid" type="String" />
+ <aura:attribute name="study_guid_error" type="String" />
+ <aura:attribute name="study_version_guid_error" type="String" />
  <aura:attribute name="user_has_permission" type="String" default="Edit" />
  <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
@@ -231,7 +233,7 @@
                                                  type="text" 
                                                  variant="label-hidden" 
                                                  required="true"
-												 messageWhenValueMissing ="Please enter Study GUID."
+												 messageWhenValueMissing ="{!v.study_guid_error}"
                                                  value="{!v.ctp.Study_GUID__c}"
                                                  > 
                                 </lightning:input>
@@ -243,8 +245,8 @@
                                                 type="text" 
                                                 variant="label-hidden" 
                                                 required="true"
-												messageWhenValueMissing ="Please enter Study Version GUID."  
-                                                value="{!v.ctp.	Study_Version_GUID__c}"
+												messageWhenValueMissing ="{!v.study_version_guid_error}"
+                                                value="{!v.ctp.Study_Version_GUID__c}"
                                                 > 
                                 </lightning:input>
                             </div>    

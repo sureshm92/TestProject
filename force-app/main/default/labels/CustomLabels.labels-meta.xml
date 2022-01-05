@@ -21227,6 +21227,20 @@ communications using the toggles below.</value>
         <value>Study Info</value>
     </labels>
     <labels>
+        <fullName>Study_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_GUID_Error_Message</shortDescription>
+        <value>Please enter Study GUID.</value>
+    </labels>
+    <labels>
+        <fullName>Study_Version_GUID_Error_Message</fullName>
+        <language>en_US</language>
+        <protected>true</protected>
+        <shortDescription>Study_Version_GUID_Error_Message</shortDescription>
+        <value>Please enter Study Version GUID.</value>
+    </labels>
+    <labels>
         <fullName>Summary_View</fullName>
         <language>en_US</language>
         <protected>true</protected>

@@ -20,6 +20,8 @@
                 component.find('spinner').hide();
             }
         );
+        component.set('v.study_guid_error',$A.get("$Label.c.Study_GUID_Error_Message"));
+        component.set('v.study_version_guid_error',$A.get("$Label.c.Study_Version_GUID_Error_Message"));
     },
 
     savePostEnrollment: function (component, event, helper) {

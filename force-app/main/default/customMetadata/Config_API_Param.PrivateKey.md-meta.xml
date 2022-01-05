@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>PrivateKey</label>
+    <protected>false</protected>
+    <values>
+        <field>ConfigAPI__c</field>
+        <value xsi:type="xsd:string">ECOAIntegration</value>
+    </values>
+    <values>
+        <field>ParamValue__c</field>
+        <value xsi:type="xsd:string">-----BEGIN PRIVATE KEY----- MIGHAgEAMBMGByqGSM49AgEGCCqGSM49AwEHBG0wawIBAQQgrXf4CnCb4/j/1g5b ONf8lTQgipltuYGg7Ww3mW6GER6hRANCAAQmNuXZDazKKRjHZlXrT0mMaszuK/Z/ N70w2NMHBoOmzfVW/U66aY5oTDlm32P24PCGdFq9j74lRC+8ML0ou2bU -----END PRIVATE KEY-----</value>
+    </values>
+</CustomMetadata>
