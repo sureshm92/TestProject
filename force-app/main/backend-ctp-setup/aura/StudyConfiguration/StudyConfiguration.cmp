@@ -10,6 +10,8 @@
  <!-- attributes: -->
  <aura:attribute name="ctp" type="Object" />
  <aura:attribute name="delay_days" type="String" />
+ <aura:attribute name="study_guid" type="String" />
+ <aura:attribute name="study_version_guid" type="String" />
  <aura:attribute name="user_has_permission" type="String" default="Edit" />
  <aura:attribute name="noVisitPlansMessage" type="Boolean" default="true" />
 
@@ -208,6 +210,56 @@
                                                />
                          </div>
                      </aura:if>
+                     <!-- eCOA toggle starts-->
+                     <div class="global-element">
+                        <lightning:input
+                            type="toggle"
+                            label="eCOA"
+                            name="eCOAToggle"
+                            onchange="{!c.saveCTP}"
+                            checked="{!v.ctp.ECOA_Is_Avaialble__c}"
+                            variant="label-hidden"
+                        />
+                        <div style="margin-left: 10px">eCOA</div>
+                     </div>
+                     <aura:if isTrue="{!v.ctp.ECOA_Is_Avaialble__c}">
+                        <div style="margin-left: 20px" class="global-element">
+                            <div style="margin-bottom: 10px">Study GUID</div>
+                            <div style="margin-left: 10px; margin-right: 10px" >
+                                <lightning:input 
+                                                 aura:id="studyGUID"
+                                                 type="text" 
+                                                 variant="label-hidden" 
+                                                 required="true"
+												 messageWhenValueMissing ="Please enter Study GUID."
+                                                 value="{!v.ctp.Study_GUID__c}"
+                                                 > 
+                                </lightning:input>
+                            </div>
+                            <div style="margin-bottom: 10px">Study Version GUID</div>
+                            <div style="margin-left: 10px; margin-right: 10px" >
+                                <lightning:input 
+                                                aura:id="studyVersionGUID"
+                                                type="text" 
+                                                variant="label-hidden" 
+                                                required="true"
+												messageWhenValueMissing ="Please enter Study Version GUID."  
+                                                value="{!v.ctp.	Study_Version_GUID__c}"
+                                                > 
+                                </lightning:input>
+                            </div>    
+                            <lightning:buttonIcon
+                                              class="delay-save"
+                                              variant="bare"
+                                              name="saveECOAGUIDs"
+                                              alternativeText="Save"
+                                              iconName="utility:save"
+                                              onclick="{!c.saveCTP}"
+                                              size="large"
+                                              />
+                        </div>
+                     </aura:if>
+                     <!-- eCOA toggle ends-->
                  </div>
              </div>
              <aura:if isTrue="{!v.user_has_permission == 'View'}">
