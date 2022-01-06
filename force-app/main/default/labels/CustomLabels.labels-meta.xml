@@ -10226,7 +10226,7 @@ The expected format is REF##### to REF########</value>
         <language>en_US</language>
         <protected>false</protected>
         <shortDescription>Navigation_eDiary</shortDescription>
-        <value>eDiary</value>
+        <value>eDiaries</value>
     </labels>
     <labels>
         <fullName>Navigation_Help</fullName>
