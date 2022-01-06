@@ -78,6 +78,7 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
             Expires_After_Days__c,
             Is_Midpoint__c,
             Reminder_Schedule__c,
+            Reminder_in_days_before_the_end_date__c,
             Survey_start_date__c,
             Survey_end_date__c,
             Whose_response_needed__c
@@ -153,8 +154,8 @@ public without sharing class Batch_PSECreateInvitation extends Batch_ScheduledAb
                         }
                         expiryDateTime = expiryDateTime.addSeconds(offsetSeconds).addHours(-7);
                         Date ExpiryDate = expiryDateTime.date();
-                        if((surveyInvLst.size() != ts.Number_of_occurrences__c || 
-                            ExpiryDate != ts.Survey_end_date__c)
+                        if(((ts.Number_of_occurrences__c != null && surveyInvLst.size() != ts.Number_of_occurrences__c) || 
+                            (ts.Survey_end_date__c != null && ExpiryDate != ts.Survey_end_date__c))
                             && ExpiryDate.addDays(1) == partDate
                             ){
                             newInvitations.add(

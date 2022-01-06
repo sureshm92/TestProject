@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<CustomMetadata xmlns="http://soap.sforce.com/2006/04/metadata" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+    <label>IssuerGuid</label>
+    <protected>false</protected>
+    <values>
+        <field>ConfigAPI__c</field>
+        <value xsi:type="xsd:string">ECOAIntegration</value>
+    </values>
+    <values>
+        <field>ParamValue__c</field>
+        <value xsi:type="xsd:string">issuer_f76acd0e-5f7c-4cfd-828f-8d4f4852c969</value>
+    </values>
+</CustomMetadata>
