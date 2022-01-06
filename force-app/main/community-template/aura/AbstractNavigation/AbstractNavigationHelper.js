@@ -159,6 +159,12 @@
         }
         if (communityService.getCurrentCommunityMode().hasPastStudies)
             participantTabs.push(this.allPagesMap['past-studies']);
+         //set eDiary tab visibility for Participants. 
+        if (communityService.getEDiaryVisible()) {
+            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') { 
+                participantTabs.push(this.allPagesMap['e-diaries']);
+            }
+        }
         if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
             
@@ -167,12 +173,6 @@
             //PEH-2288: Check from the currentCommunityMode
             if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 participantTabs.push(this.allPagesMap['trial-match']);
-            }
-        }
-        //set eDiary tab visibility for Participants. 
-        if (communityService.getEDiaryVisible()) {
-            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') { 
-                participantTabs.push(this.allPagesMap['e-diaries']);
             }
         }
 
