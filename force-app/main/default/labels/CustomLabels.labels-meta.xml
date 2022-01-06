@@ -10222,6 +10222,13 @@ The expected format is REF##### to REF########</value>
         <value>Dashboard</value>
     </labels>
     <labels>
+        <fullName>Navigation_eDiary</fullName>
+        <language>en_US</language>
+        <protected>false</protected>
+        <shortDescription>Navigation_eDiary</shortDescription>
+        <value>eDiary</value>
+    </labels>
+    <labels>
         <fullName>Navigation_Help</fullName>
         <language>en_US</language>
         <protected>false</protected>
