@@ -79,13 +79,13 @@ public without sharing class SurveyService {
         );
 
             Date today ;
-            Date endDate ;
             if(partDate!=null){
                 today = partDate;
             }
             else{
                 today = System.today();
             }
+            Date endDate = today;
         	Time eodTime = Time.newInstance(23, 59, 0, 0);
             if(ts.Is_Recurrence_Survey__c){
                 if(ts.Recurrence_Frequency__c == 'Weekly'){
