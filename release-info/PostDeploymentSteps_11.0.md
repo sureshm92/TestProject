@@ -11,3 +11,8 @@ for(Patient_Delegate__c pd: pdList) {
      }
 }
 database.update(pdList);
+
+3. Go to Setup – all Sites – click on builder beside IQVIA Referral Hub  to open community builder– click on publish button present at the top right corner without doing anychanges– again click on publish button on the popup. 
+4. Go to Setup – all Sites – click on builder beside GSK Community to open community builder  – click on publish button present at the top right corner without doing anychanges – again click on publish button on the popup. 
+
+
