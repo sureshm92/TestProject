@@ -28,6 +28,7 @@ window.communityService = (function () {
     let subDomain;
     let messagesVisible;
     let trialMatchVisible;
+    let eDiaryVisible;
     let currentCSSTheme = 'Community_CSS_Stub';
     let isDummy;
     let sponsorName;
@@ -56,6 +57,7 @@ window.communityService = (function () {
                 isTCAcceptedFlag = communityData.isTCAccepted;
                 messagesVisible = communityData.messagesVisible;
                 trialMatchVisible = communityData.trialMatchVisible;
+                eDiaryVisible = communityData.eDiaryVisible;
                 language = communityData.language;
                 participantState = communityData.state;
                 baseUrl = communityData.baseUrl;
@@ -216,6 +218,14 @@ window.communityService = (function () {
 
         setTrialMatchVisible : function(visible) {
             trialMatchVisible = visible;
+        },
+        
+        getEDiaryVisible : function () {
+            return eDiaryVisible;
+        },
+
+        setEDiaryVisible : function(visible) {
+            eDiaryVisible = visible;
         },
 
         setThemeCSS: function(){

@@ -130,6 +130,12 @@
                 icon: 'icon-envelope'
             },
 
+            'e-diaries': {
+                page: 'e-diaries',
+                label: $A.get('$Label.c.Navigation_eDiary'),
+                icon: 'icon-envelope'
+            },
+
             'trial-match': {
                 page: 'trial-match',
                 label: $A.get('$Label.c.Trial_Match'),
@@ -155,11 +161,18 @@
             participantTabs.push(this.allPagesMap['past-studies']);
         if (communityService.getMessagesVisible()) {
             participantTabs.push(this.allPagesMap['messages']);
+            
         }
         if (communityService.getTrialMatchVisible()) {
             //PEH-2288: Check from the currentCommunityMode
             if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') {
                 participantTabs.push(this.allPagesMap['trial-match']);
+            }
+        }
+        //set eDiary tab visibility for Participants. 
+        if (communityService.getEDiaryVisible()) {
+            if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') { 
+                participantTabs.push(this.allPagesMap['e-diaries']);
             }
         }
 
