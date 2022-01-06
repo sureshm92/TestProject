@@ -130,8 +130,8 @@
                 icon: 'icon-envelope'
             },
 
-            eDiary: {
-                page: 'ediary',
+            'e-diaries': {
+                page: 'e-diaries',
                 label: $A.get('$Label.c.Navigation_eDiary'),
                 icon: 'icon-envelope'
             },
@@ -172,7 +172,7 @@
         //set eDiary tab visibility for Participants. 
         if (communityService.getEDiaryVisible()) {
             if (communityService.getCurrentCommunityMode().participantState === 'PARTICIPANT') { 
-                participantTabs.push(this.allPagesMap['eDiary']);
+                participantTabs.push(this.allPagesMap['e-diaries']);
             }
         }
 
