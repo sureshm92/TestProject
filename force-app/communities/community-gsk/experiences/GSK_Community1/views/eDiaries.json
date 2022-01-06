@@ -1,0 +1,41 @@
+{
+  "appPageId" : "bba5a031-1171-48c8-a781-59cc257aaa94",
+  "componentName" : "siteforce:sldsTwoCol48Layout",
+  "id" : "8135643c-302f-47ab-a0c3-3c45b52aadda",
+  "label" : "eDiaries",
+  "regions" : [ {
+    "id" : "f4b8ae2e-c534-4c74-93d4-2cc87b678ee1",
+    "regionName" : "header",
+    "type" : "region"
+  }, {
+    "id" : "7a30831d-6ddb-4946-9969-756f87f20df6",
+    "regionName" : "sidebar",
+    "type" : "region"
+  }, {
+    "id" : "bf7ac62f-9c89-46e1-aa27-31290c20336b",
+    "regionName" : "content",
+    "type" : "region"
+  }, {
+    "id" : "12864f70-516b-450a-be4e-9e049f86f5a9",
+    "regionName" : "footer",
+    "type" : "region"
+  }, {
+    "components" : [ {
+      "componentAttributes" : {
+        "customHeadTags" : "",
+        "description" : "",
+        "title" : "eDiaries"
+      },
+      "componentName" : "forceCommunity:seoAssistant",
+      "id" : "1f30bc43-6280-44d7-abd4-eebd7532cac5",
+      "renditionMap" : { },
+      "type" : "component"
+    } ],
+    "id" : "a4da6982-31ca-47d8-96dc-fd1b21397172",
+    "regionName" : "sfdcHiddenRegion",
+    "type" : "region"
+  } ],
+  "themeLayoutType" : "Inner",
+  "type" : "view",
+  "viewType" : "custom-e-diaries"
+}
