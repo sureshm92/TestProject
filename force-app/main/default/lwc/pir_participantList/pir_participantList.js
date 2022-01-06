@@ -120,11 +120,11 @@ export default class Pir_participantList extends LightningElement {
         });
     }
     setKeyAction(){
-        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {                     
-            this.keyScope = 'down';  
-            var name = event.key;
-            this.keypress = true;     
+        this.template.querySelector('.keyup').addEventListener('keydown', (event) => {     
+            var name = event.key;    
             if((name=='ArrowDown' || name=='ArrowUp')){
+                this.keypress = true;                 
+                this.keyScope = 'down';  
                 event.preventDefault();
                 event.stopPropagation();
                 var updateSelected=false;
